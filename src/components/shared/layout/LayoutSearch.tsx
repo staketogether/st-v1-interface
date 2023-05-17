@@ -61,7 +61,7 @@ export default function LayoutSearch() {
         {isOpen && (
           <DropdownMenu isOpen={isOpen || isHovered || search.length}>
             {communitiesSearch.map(address => (
-              <Link href={`/stake/${address}`} key={address}>
+              <Link href={`/stake/deposit/${address}`} key={address}>
                 <DropdownMenuItem key={address}>
                   <EnsAvatar address={address} />
                   <EnsName address={address} />
@@ -139,7 +139,6 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
     box-shadow: ${({ theme }) => theme.shadow[100]};
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    margin-top: -1px;
   `,
   DropdownMenuItem: styled.div`
     display: grid;

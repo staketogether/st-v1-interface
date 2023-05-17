@@ -3,46 +3,42 @@ import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 
 import { useDebounce } from 'usehooks-ts'
-import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
-import useStake from '../../hooks/contracts/useStake'
+import useCethBalanceOf from '../../hooks/contracts/useCethBalanceOf'
+import useUnstake from '../../hooks/contracts/useUnstake'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 
-interface StakeFormStakeProps {
+interface StakeFormWithdrawProps {
   accountAddress: `0x${string}`
   communityAddress: `0x${string}`
 }
 
-export default function StakeFormStake({ communityAddress, accountAddress }: StakeFormStakeProps) {
-  const { ceth, eth, fee } = globalConfig
-
+export default function StakeFormWithdraw({ communityAddress, accountAddress }: StakeFormWithdrawProps) {
+  const { ceth, eth } = globalConfig
   const { t } = useTranslation()
 
-  const ethBalance = useEthBalanceOf(accountAddress)
+  const cethBalance = useCethBalanceOf(accountAddress)
+
   const [label, setLabel] = useState<string>('')
   const [amount, setAmount] = useState<string>('')
   const debouncedAmount = useDebounce(amount, 500)
-  const stakeAmount = debouncedAmount || '0'
+  const unstakeAmount = debouncedAmount || '0'
 
-  const { stake, isSuccess, isLoading } = useStake(stakeAmount, accountAddress, communityAddress)
-
-  const delegationFee = truncateEther(fee.account.mul(100).toString())
-  const protocolFee = truncateEther(fee.protocol.mul(100).toString())
+  const { unstake, isLoading, isSuccess } = useUnstake(unstakeAmount, accountAddress, communityAddress)
 
   const disabled = !communityAddress || !accountAddress
 
   useEffect(() => {
     const getLabel = () => {
       if (isLoading) {
-        return t('action')
+        return 'UnStaking...'
       }
-      return t('stake')
+      return 'Unstake'
     }
 
     setLabel(getLabel())
-  }, [accountAddress, communityAddress, isLoading, t])
+  }, [accountAddress, communityAddress, isLoading])
 
   useEffect(() => {
     if (isSuccess) {
@@ -56,24 +52,24 @@ export default function StakeFormStake({ communityAddress, accountAddress }: Sta
         <StakeFormInput
           value={amount}
           onChange={value => setAmount(value)}
-          balance={ethBalance}
-          symbol={eth.symbol}
+          balance={cethBalance}
+          symbol={ceth.symbol}
           disabled={disabled}
         />
         <StakeButton
           isLoading={isLoading}
-          onClick={stake}
+          onClick={unstake}
           label={label}
           amount={amount}
           disabled={disabled}
         />
       </StakeContainer>
       <StakeInfo>
-        <span>{`${t('youReceive')} ${amount || '0'} ${ceth.symbol}`}</span>
-        <div>
-          <span>{`${t('delegation')} ${delegationFee}%`}</span>
-          <span>{`${t('fee')} ${protocolFee}%`}</span>
-        </div>
+        <span>{`${t('youReceive')} ${amount || '0'} ${eth.symbol}`}</span>
+        {/* <div>
+          <span>{`Delegation ${delegationFee}%`}</span>
+          <span>{`Fee ${protocolFee}%`}</span>
+        </div> */}
       </StakeInfo>
     </>
   )
@@ -95,7 +91,6 @@ const { StakeContainer, StakeInfo } = {
     }
     > span,
     > div > span {
-      font-weight: 400;
       font-size: ${({ theme }) => theme.font.size[14]};
       line-height: 13px;
       display: flex;

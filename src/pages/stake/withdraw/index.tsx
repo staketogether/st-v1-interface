@@ -1,12 +1,14 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import ExploreList from '../components/explore/ExploreList'
-import LayoutTemplate from '../components/shared/layout/LayoutTemplate'
+import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
+import StakeForm from '../../../components/stake/StakeForm'
+import StakeModalCommunities from '../../../components/stake/StakeModalCommunities'
 
-export default function Explore() {
+export default function Unstake() {
   return (
     <LayoutTemplate>
-      <ExploreList />
+      <StakeForm type='withdraw' />
+      <StakeModalCommunities type='withdraw' />
     </LayoutTemplate>
   )
 }

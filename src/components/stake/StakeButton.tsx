@@ -39,7 +39,6 @@ const { Stake } = {
     background: ${({ theme, unstake }) => (unstake ? theme.color.purple[500] : theme.color.blue[100])};
     height: 100%;
     > span {
-      font-weight: 500;
       font-size: ${({ theme }) => theme.font.size[18]};
       line-height: 22px;
       color: ${({ theme }) => theme.color.white};
@@ -49,7 +48,6 @@ const { Stake } = {
     &:focus {
       background: ${({ theme, unstake }) => (unstake ? theme.color.purple[500] : theme.color.blue[100])};
       > span {
-        font-weight: 500;
         font-size: ${({ theme }) => theme.font.size[18]};
         line-height: 22px;
         color: ${({ theme }) => theme.color.white};

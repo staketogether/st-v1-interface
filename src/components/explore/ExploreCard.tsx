@@ -21,7 +21,7 @@ export default function ExploreCard({ address }: ExploreCardProps) {
   const { t } = useTranslation()
 
   return (
-    <Card onClick={() => router.push(`/stake/${address}`)}>
+    <Card onClick={() => router.push(`/stake/deposit/${address}`)}>
       <CardHeader>
         <EnsAvatar address={address} />
         <EnsName address={address} />

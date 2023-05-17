@@ -58,7 +58,6 @@ const { Container, InputContainer, MaxValue, ValuesInDollar } = {
     display: flex;
     justify-content: space-between;
     > span {
-      font-weight: 400;
       font-size: ${({ theme }) => theme.font.size[14]};
       line-height: 13px;
       display: flex;
@@ -74,7 +73,7 @@ const { Container, InputContainer, MaxValue, ValuesInDollar } = {
       outline: none;
 
       padding: 0;
-      font-weight: 500;
+
       font-size: ${({ theme }) => theme.font.size[24]};
       line-height: 29px;
       display: flex;
@@ -96,7 +95,6 @@ const { Container, InputContainer, MaxValue, ValuesInDollar } = {
     margin-top: 4px;
 
     > span {
-      font-weight: 500;
       font-size: ${({ theme }) => theme.font.size[14]};
       line-height: 22px;
       color: ${({ theme }) => theme.color.blue[300]};

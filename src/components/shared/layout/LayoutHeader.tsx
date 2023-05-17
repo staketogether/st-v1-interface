@@ -15,14 +15,14 @@ export default function LayoutHeader() {
   return (
     <Container>
       <MenuContainer>
-        <Logo href='/'>
+        <Logo href='/explore'>
           <Image src={stIcon} alt={app.name} width={40} height={32} />
         </Logo>
         <Menu>
-          <Link href='/'>
+          <Link href='/explore'>
             <MenuButton className={`${isActive('explore') ? 'active' : ''}`}>{t('explore')}</MenuButton>
           </Link>
-          <Link href='/stake'>
+          <Link href='/stake/deposit'>
             <MenuButton className={`${isActive('stake') || isActive('unstake') ? 'active' : ''}`}>
               {t('stake')}
             </MenuButton>
@@ -42,13 +42,13 @@ export default function LayoutHeader() {
 const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, MenuButton } = {
   Container: styled.header`
     display: grid;
-    grid-template-columns: 1fr 300px 1fr;
+    grid-template-columns: 1fr 470px 1fr;
     gap: ${({ theme }) => theme.size[32]};
   `,
   MenuContainer: styled.div`
     display: grid;
     grid-template-columns: 40px 1fr;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     gap: ${({ theme }) => theme.size[32]};
   `,
@@ -66,7 +66,7 @@ const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, 
   Menu: styled.nav`
     display: flex;
     justify-content: flex-start;
-    gap: ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[8]};
   `,
   Logo: styled(Link)`
     width: 40px;
@@ -85,11 +85,11 @@ const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, 
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
     }
 
     &.active {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
       color: ${({ theme }) => theme.color.secondary};
     }
   `

@@ -1,11 +1,12 @@
 import shareIcon from '@assets/icons/share.svg'
 import { notification } from 'antd'
-import { useTranslation } from 'next-i18next'
+
 import Image from 'next/image'
 import styled from 'styled-components'
+import useTranslation from '../../hooks/useTranslation'
 
 export function ShareButton() {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation()
   const openNotification = () => {
     navigator.clipboard.writeText(window.location.href)
     notification.open({
@@ -33,7 +34,7 @@ const { Container, Title } = {
   Title: styled.span`
     color: ${({ theme }) => theme.color.purple[400]};
     font-style: normal;
-    font-weight: 400;
+
     font-size: 11px;
     line-height: 13px;
   `

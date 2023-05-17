@@ -51,11 +51,11 @@ const { CethBalance, ConnectedButton, EnsAddress } = {
     padding-right: ${({ theme }) => theme.size[12]};
 
     &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
     }
 
     &.active {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
       color: ${({ theme }) => theme.color.secondary};
     }
   `,

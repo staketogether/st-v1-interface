@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
+import useActiveRoute from '../../hooks/useActiveRoute'
+import useTranslation from '../../hooks/useTranslation'
 import StakeSelectCommunity from './StakeSelectCommunity'
 
 interface StakeSwitchActionsProps {
@@ -8,20 +10,32 @@ interface StakeSwitchActionsProps {
 
 export default function StakeSwitchActions({ communityAddress }: StakeSwitchActionsProps) {
   const router = useRouter()
+  const { isActive } = useActiveRoute()
+  const { t } = useTranslation()
 
-  function handleSwitch(type: 'stake' | 'unstake') {
+  function handleSwitch(type: 'deposit' | 'withdraw') {
     if (communityAddress) {
-      router.push(`/${type}/${communityAddress}`)
+      router.push(`/stake/${type}/${communityAddress}`)
     } else {
-      router.push(`/${type}`)
+      router.push(`/stake/${type}`)
     }
   }
 
   return (
     <Container>
       <Tabs>
-        <StakeTab onClick={() => handleSwitch('stake')}>Stake</StakeTab>
-        <StakeTab onClick={() => handleSwitch('unstake')}>Unstake</StakeTab>
+        <StakeTab
+          className={`${isActive('deposit') ? 'active' : ''}`}
+          onClick={() => handleSwitch('deposit')}
+        >
+          {t('deposit')}
+        </StakeTab>
+        <StakeTab
+          className={`${isActive('withdraw') ? 'active' : ''}`}
+          onClick={() => handleSwitch('withdraw')}
+        >
+          {t('withdraw')}
+        </StakeTab>
       </Tabs>
       <StakeSelectCommunity communityAddress={communityAddress} />
     </Container>
@@ -36,23 +50,30 @@ const { Container, Tabs, StakeTab } = {
   `,
   Tabs: styled.div`
     display: flex;
-    gap: 5px;
+    gap: ${({ theme }) => theme.size[8]};
   `,
   StakeTab: styled.button`
     border: none;
-    height: 24px;
-    width: 91px;
+    height: 32px;
     display: flex;
     align-items: center;
-    background: ${({ theme }) => theme.color.purple[100]};
-    justify-content: center;
-    border-radius: ${({ theme }) => theme.size[16]};
-    > span {
-      color: ${({ theme }) => theme.color.blue[300]};
 
-      font-weight: 500;
-      font-size: ${({ theme }) => theme.font.size[14]};
-      line-height: 17px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
+    border: none;
+    border-radius: ${({ theme }) => theme.size[16]};
+    padding: 0 ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
+
+    &.active {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      color: ${({ theme }) => theme.color.secondary};
     }
   `
 }

@@ -10,7 +10,7 @@ import EnsAvatarServer from '../shared/ens/EnsAvatar'
 import EnsNameCommunity from '../shared/ens/EnsName'
 
 type StakeModalCommunitiesProps = {
-  type: 'stake' | 'unstake'
+  type: 'deposit' | 'withdraw'
 }
 
 export default function StakeModalCommunities({ type }: StakeModalCommunitiesProps) {
@@ -84,7 +84,6 @@ const { ModalWrapper, InputSearch, Community } = {
       color: ${({ theme }) => theme.color.blue[300]};
     }
     > input {
-      font-weight: 400;
       font-size: 14px !important;
       line-height: 22px;
       color: ${({ theme }) => theme.color.blue[300]};

@@ -29,9 +29,9 @@ const { DefaultAvatar, Avatar } = {
     border-radius: 100%;
     width: 24px;
     height: 24px;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
   `,
   Avatar: styled(Image)`
     border-radius: 100%;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
   `
 }

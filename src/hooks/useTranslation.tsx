@@ -4,7 +4,7 @@ export default function useTranslation() {
   const { t } = i18next.useTranslation('common')
 
   const translation = (key: string) => {
-    if (t(`default.${key}`) == key) {
+    if (t(key) == key) {
       console.warn('missing translation key', key)
       throw new Error(`key:[${key}] was not found in the translation file`)
     }

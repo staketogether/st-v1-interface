@@ -2,15 +2,17 @@ import { Divider } from 'antd'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useReceivedDelegationsOf from '../../hooks/contracts/useReceivedDelegationsOf'
+import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import EnsAvatar from '../shared/ens/EnsAvatar'
-import { default as EnsName, default as EnsNameCommunity } from '../shared/ens/EnsName'
+import { default as EnsName } from '../shared/ens/EnsName'
 
 interface StakeStatsProps {
   communityAddress: `0x${string}`
 }
 
 export default function StakeStats({ communityAddress }: StakeStatsProps) {
+  const { t } = useTranslation()
   const { ceth } = globalConfig
   const { receivedDelegations, totalAmountReceived, totalDelegationsReceived } =
     useReceivedDelegationsOf(communityAddress)
@@ -18,19 +20,15 @@ export default function StakeStats({ communityAddress }: StakeStatsProps) {
   return (
     <Container>
       <StatsContainer>
-        <Header>
-          <span>Community Stats</span>
-          <EnsNameCommunity address={communityAddress} />
-        </Header>
         <Stats>
           <StatsWrapper>
-            <span>Delegated</span>
+            <span>{t('delegated')}</span>
             <span>
               <span>{`${truncateEther(totalAmountReceived)} ${ceth.symbol}`}</span>
             </span>
           </StatsWrapper>
           <StatsWrapper>
-            <span>Members</span>
+            <span>{t('members')}</span>
             <span>{totalDelegationsReceived}</span>
           </StatsWrapper>
         </Stats>
@@ -54,29 +52,23 @@ export default function StakeStats({ communityAddress }: StakeStatsProps) {
   )
 }
 
-const { Container, StatsContainer, Stats, StatsWrapper, Header, Delegation } = {
+const { Container, StatsContainer, Stats, StatsWrapper, Delegation } = {
   Container: styled.div`
-    padding: 16px;
-    background: rgba(255, 255, 255, 0.3);
-    border: 1px solid ${({ theme }) => theme.color.gray[200]};
-    border-radius: ${({ theme }) => theme.size[16]};
-    display: flex;
-    flex-direction: column;
-  `,
-  Header: styled.header`
-    display: flex;
-    justify-content: space-between;
-
-    font-weight: 500;
+    display: grid;
+    grid-template-columns: 1fr;
     font-size: ${({ theme }) => theme.font.size[14]};
-    line-height: 17px;
-    color: ${({ theme }) => theme.color.purple[600]};
-    text-align: center;
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[500]};
+    border: none;
+    border-radius: ${({ theme }) => theme.size[16]};
+    padding: ${({ theme }) => theme.size[24]};
+    transition: background-color 0.1s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
   `,
   StatsContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.size[24]};
   `,
   Stats: styled.div`
     display: flex;
@@ -87,9 +79,8 @@ const { Container, StatsContainer, Stats, StatsWrapper, Header, Delegation } = {
     display: flex;
     justify-content: space-between;
     > span {
-      font-weight: 500;
       font-size: ${({ theme }) => theme.font.size[14]};
-      line-height: 15px;
+
       > span {
         color: ${({ theme }) => theme.color.purple[600]};
       }

@@ -23,7 +23,6 @@ const { Container } = {
     display: grid;
     justify-content: center;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    max-width: ${({ theme }) => theme.breakpoints.lg};
+    gap: ${props => props.theme.size[24]};
   `
 }

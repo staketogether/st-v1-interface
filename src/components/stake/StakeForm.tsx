@@ -1,14 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components'
 import { useAccount } from 'wagmi'
-import { ShareButton } from '../shared/ShareButton'
-import StakeFormStake from './StakeFormStake'
-import StakeFormUnstake from './StakeFormUnstake'
 import StakeStats from './StakeStats'
 import StakeSwitchActions from './StakeSwitchAction'
 
 interface StakeFormProps {
   communityAddress?: `0x${string}`
-  type: 'stake' | 'unstake'
+  type: 'deposit' | 'withdraw'
 }
 
 export default function StakeForm({ communityAddress, type }: StakeFormProps) {
@@ -18,15 +16,14 @@ export default function StakeForm({ communityAddress, type }: StakeFormProps) {
 
   return (
     <Container>
-      <ShareButton />
       <Form>
         <StakeSwitchActions communityAddress={communityAddress} />
-        {type === 'stake' && address && communityAddress && (
-          <StakeFormStake accountAddress={address} communityAddress={communityAddress} />
-        )}
-        {type === 'unstake' && address && communityAddress && (
-          <StakeFormUnstake accountAddress={address} communityAddress={communityAddress} />
-        )}
+        {/* {type === 'stake' && address && communityAddress && (
+          <StakeFormDeposit accountAddress={address} communityAddress={communityAddress} />
+        )} */}
+        {/* {type === 'unstake' && address && communityAddress && (
+          <StakeFormWithdraw accountAddress={address} communityAddress={communityAddress} />
+        )} */}
         {/* {address && !communityAddress && <div> Put Unstake Empty Form Here</div>}
         {address && !communityAddress && <div> Put Unstake Empty Form Here</div>}
         {!address && <div> PutSelect Community Here</div>}
@@ -41,20 +38,23 @@ const { Container, Form } = {
   Container: styled.div`
     display: grid;
     justify-content: center;
-    > h1 {
-      font-weight: 500;
-      font-size: ${({ theme }) => theme.font.size[16]};
-      color: ${({ theme }) => theme.color.black};
-    }
+    gap: ${({ theme }) => theme.size[24]};
   `,
   Form: styled.div`
-    padding: 16px;
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid ${({ theme }) => theme.color.gray[200]};
     border-radius: ${({ theme }) => theme.size[16]};
     display: grid;
-    grid-template-columns: minmax(320px, 448px);
+    grid-template-columns: minmax(320px, 420px);
     grid-template-rows: 26px 136px 14px;
-    gap: 24px;
+    gap: ${({ theme }) => theme.size[24]};
+    padding: ${({ theme }) => theme.size[24]};
+
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[500]};
+    border: none;
+    border-radius: ${({ theme }) => theme.size[16]};
+
+    transition: background-color 0.1s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
   `
 }

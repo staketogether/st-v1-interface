@@ -17,7 +17,6 @@ const { Container } = {
     align-items: center;
     justify-content: center;
     > span {
-      font-weight: 400;
       font-size: ${({ theme }) => theme.font.size[14]};
       line-height: 22px;
       text-align: center;

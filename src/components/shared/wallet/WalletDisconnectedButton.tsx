@@ -27,11 +27,11 @@ const { DisconnectedButton } = {
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
     }
 
     &.active {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
       color: ${({ theme }) => theme.color.secondary};
     }
   `

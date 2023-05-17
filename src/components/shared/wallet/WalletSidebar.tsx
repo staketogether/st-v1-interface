@@ -1,10 +1,11 @@
 import { DoubleRightOutlined, LogoutOutlined } from '@ant-design/icons'
 import { Divider, Drawer } from 'antd'
-import { useTranslation } from 'next-i18next'
+
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import { globalConfig } from '../../../config/global'
 import useSentDelegationsOf from '../../../hooks/contracts/useSentDelegationsOf'
+import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { truncateEther } from '../../../services/truncateEther'
 import EnsAvatar from '../ens/EnsAvatar'
@@ -111,9 +112,7 @@ const {
       justify-content: space-between;
 
       span {
-        font-weight: 500;
         font-size: ${({ theme }) => theme.font.size[14]};
-        line-height: 15px;
         color: ${({ theme }) => theme.color.blue[300]};
       }
     }
