@@ -14,16 +14,25 @@ export default function WalletButtonDisconnected() {
 const { DisconnectedButton } = {
   DisconnectedButton: styled.button`
     display: grid;
-    grid-template-columns: auto;
     align-items: center;
-    border: none;
-
-    padding-left: 16px;
-    padding-right: 8px;
+    width: auto;
     height: 32px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
+    border: none;
     border-radius: ${({ theme }) => theme.size[16]};
+    padding: 0 ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background-color: ${({ theme }) => theme.color.white};
-    color: ${({ theme }) => theme.color.purple[600]};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+    }
+
+    &.active {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      color: ${({ theme }) => theme.color.secondary};
+    }
   `
 }

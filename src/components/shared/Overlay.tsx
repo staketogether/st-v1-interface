@@ -10,7 +10,6 @@ export default function Overlay({ onClick }: OverlayProps) {
 
 const { Background } = {
   Background: styled.div`
-    background: rgb(143, 152, 214);
     background: linear-gradient(180deg, rgba(143, 152, 214, 0.4) 0%, rgba(143, 152, 214, 0.8) 10%);
     position: fixed;
     top: 0;
