@@ -34,31 +34,42 @@ const { CethBalance, ConnectedButton, EnsAddress } = {
   ConnectedButton: styled.button`
     display: grid;
     grid-template-columns: auto auto;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[16]};
     align-items: center;
-    padding-left: 16px;
-    padding-right: 8px;
+
+    width: auto;
     height: 32px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
+    border: none;
     border-radius: ${({ theme }) => theme.size[16]};
+    padding: 0 ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background-color: ${({ theme }) => theme.color.white};
-    color: ${({ theme }) => theme.color.purple[600]};
-    border: 1px solid ${({ theme }) => theme.color.gray[100]};
+
+    padding-right: ${({ theme }) => theme.size[12]};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+    }
+
+    &.active {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      color: ${({ theme }) => theme.color.secondary};
+    }
   `,
   CethBalance: styled.div`
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
     justify-content: flex-start;
     gap: 4px;
-    font-weight: 400;
     font-size: ${({ theme }) => theme.font.size[14]};
-    line-height: 17px;
 
     > span:first-child {
-      color: ${({ theme }) => theme.color.blue[300]};
+      color: ${({ theme }) => theme.color.secondary};
     }
     > span:last-child {
-      color: ${({ theme }) => theme.color.purple[600]};
+      color: ${({ theme }) => theme.color.secondary};
     }
   `,
   EnsAddress: styled.div`

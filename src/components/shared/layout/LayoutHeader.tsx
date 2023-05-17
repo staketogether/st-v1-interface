@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
-import stIcon from '../../../../public/assets/st-icon.svg'
+import stIcon from '../../../../public/assets/st-icon.png'
 import { globalConfig } from '../../../config/global'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useTranslation from '../../../hooks/useTranslation'
@@ -16,17 +16,17 @@ export default function LayoutHeader() {
     <Container>
       <MenuContainer>
         <Logo href='/'>
-          <Image src={stIcon as string} alt={app.name} width={40} height={32} />
+          <Image src={stIcon} alt={app.name} width={40} height={32} />
         </Logo>
         <Menu>
-          <MenuLink href='/'>
+          <Link href='/'>
             <MenuButton className={`${isActive('explore') ? 'active' : ''}`}>{t('explore')}</MenuButton>
-          </MenuLink>
-          <MenuLink href='/stake'>
+          </Link>
+          <Link href='/stake'>
             <MenuButton className={`${isActive('stake') || isActive('unstake') ? 'active' : ''}`}>
               {t('stake')}
             </MenuButton>
-          </MenuLink>
+          </Link>
         </Menu>
       </MenuContainer>
       <SearchContainer>
@@ -39,78 +39,58 @@ export default function LayoutHeader() {
   )
 }
 
-const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, MenuLink, MenuButton } = {
+const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, MenuButton } = {
   Container: styled.header`
     display: grid;
-    align-items: center;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      'menu menu wallet'
-      'search search search';
-    gap: ${({ theme }) => theme.size[24]};
-    @media (min-width: 768px) {
-      grid-template-columns: 1fr 482px 1fr;
-      grid-template-areas: 'menu search wallet';
-      gap: 0;
-    }
+    grid-template-columns: 2fr 2fr 2fr;
+    gap: ${({ theme }) => theme.size[32]};
   `,
   MenuContainer: styled.div`
-    grid-area: menu;
     display: grid;
     grid-template-columns: 40px 1fr;
+    justify-content: flex-start;
     align-items: center;
+    gap: ${({ theme }) => theme.size[32]};
   `,
   SearchContainer: styled.div`
-    grid-area: search;
+    display: grid;
+    grid-template-columns: 318px;
+    align-items: center;
+    justify-content: center;
   `,
   WalletContainer: styled.div`
-    grid-area: wallet;
-    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   `,
   Menu: styled.nav`
     display: flex;
-    align-items: center;
-    justify-self: center;
-    gap: 16px;
-
-    a {
-      text-decoration: none;
-    }
+    justify-content: flex-start;
+    gap: ${({ theme }) => theme.size[16]};
   `,
-  MenuLink: styled(Link)``,
-  MenuButton: styled.button<{ active?: boolean }>`
-    border: none;
-    display: flex;
+  Logo: styled(Link)`
+    width: 40px;
     height: 32px;
-    padding: 0px 16px;
-    align-items: center;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    background: ${({ theme }) => theme.color.white};
-    justify-content: center;
+  `,
+  MenuButton: styled.button`
+    width: auto;
+    height: 32px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
+    border: none;
     border-radius: ${({ theme }) => theme.size[16]};
-    transition: 0.6s;
-    cursor: pointer;
+    padding: 0 ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
 
     &:hover {
-      background: ${({ theme }) => theme.color.purple[100]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
     }
 
     &.active {
-      background: ${({ theme }) => theme.color.purple[100]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      color: ${({ theme }) => theme.color.secondary};
     }
-
-    > span {
-      color: ${({ theme }) => theme.color.blue[300]};
-      font-weight: 500;
-      font-size: ${({ theme }) => theme.font.size[14]};
-      line-height: 17px;
-    }
-  `,
-  Logo: styled(Link)`
-    font-size: ${({ theme }) => theme.font.size[24]};
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
   `
 }

@@ -7,6 +7,7 @@ import useCommunities from '../../../hooks/useCommunities'
 import useTranslation from '../../../hooks/useTranslation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
+import Overlay from '../Overlay'
 
 export default function LayoutSearch() {
   const [isOpen, setIsOpen] = useState(false)
@@ -46,31 +47,31 @@ export default function LayoutSearch() {
   }
 
   return (
-    <Container>
-      <InputSearch
-        type='text'
-        value={search}
-        placeholder={t('searchCommunity')}
-        onChange={e => onChange(e.target.value)}
-        onClick={handleButtonClick}
-      />
-      {isOpen && (
-        <DropdownMenu
-          isOpen={isOpen || isHovered || search.length}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          {communitiesSearch.map(address => (
-            <Link href={`/stake/${address}`} key={address}>
-              <DropdownMenuItem key={address}>
-                <EnsAvatar address={address} />
-                <EnsName address={address} />
-              </DropdownMenuItem>
-            </Link>
-          ))}
-        </DropdownMenu>
-      )}
-    </Container>
+    <>
+      {isOpen && <Overlay onClick={() => setIsOpen(false)} />}
+      <Container onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <InputSearch
+          type='text'
+          value={search}
+          placeholder={t('searchCommunity')}
+          onChange={e => onChange(e.target.value)}
+          onClick={handleButtonClick}
+          className={`${isOpen ? 'active' : ''}`}
+        />
+        {isOpen && (
+          <DropdownMenu isOpen={isOpen || isHovered || search.length}>
+            {communitiesSearch.map(address => (
+              <Link href={`/stake/${address}`} key={address}>
+                <DropdownMenuItem key={address}>
+                  <EnsAvatar address={address} />
+                  <EnsName address={address} />
+                </DropdownMenuItem>
+              </Link>
+            ))}
+          </DropdownMenu>
+        )}
+      </Container>
+    </>
   )
 }
 
@@ -82,29 +83,41 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
     grid-template-columns: 1fr;
     gap: 16px;
     height: 32px;
-    align-items: center;
-    background: ${({ theme }) => theme.color.gray[200]};
-    border-radius: ${({ theme }) => theme.size[16]};
   `,
   InputSearch: styled.input`
     display: grid;
     grid-template-columns: 1fr;
 
-    border-radius: ${({ theme }) => theme.size[16]};
+    width: auto;
     height: 32px;
-    width: 100%;
-    border: none;
-    padding: 0 16px;
-
-    background: ${({ theme }) => theme.color.purple[100]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    font-weight: 400;
     font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.blue[300]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
+    border: none;
+    border-radius: ${({ theme }) => theme.size[16]};
+    padding: 0 16px;
+    transition: background-color 0.1s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    padding-top: 0;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
+
+    &:focus {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      color: ${({ theme }) => theme.color.primary};
+      border: none;
+      outline: none;
+    }
+
+    &.active {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
 
     &::-webkit-input-placeholder {
-      color: ${({ theme }) => theme.color.blue[300]};
+      color: ${({ theme }) => theme.color.blue[400]};
     }
   `,
   DropdownMenu: styled.div<{ isOpen: boolean }>`
@@ -112,19 +125,35 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
     cursor: pointer;
     width: 100%;
     height: auto;
-    top: 110%;
-    z-index: 1;
+    top: 100%;
+    z-index: 2;
     display: ${props => (props.isOpen ? 'grid' : 'none')};
-    background: ${({ theme }) => theme.color.purple[100]};
+
     border-radius: ${({ theme }) => theme.size[16]};
-    padding: 16px;
-    gap: 8px;
+    padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[16]};
     grid-template-columns: 1fr;
+
+    background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    transition: background-color 0.2s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-top: -1px;
   `,
   DropdownMenuItem: styled.div`
     display: grid;
     grid-template-columns: 24px 1fr;
     gap: 8px;
     text-decoration: none;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    border: none;
+    transition: background-color 0s ease;
+    border-radius: ${({ theme }) => theme.size[16]};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
   `
 }

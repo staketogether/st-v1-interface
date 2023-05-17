@@ -33,7 +33,7 @@ const { Container, Wrapper, Content, Body } = {
     width: 100%;
     display: grid;
     grid-template-columns: minmax(320px, 1280px);
-    justify-content: center;
+
     place-items: start center;
   `,
   Content: styled.div`
@@ -46,5 +46,6 @@ const { Container, Wrapper, Content, Body } = {
     display: grid;
     grid-template-columns: minmax(320px, 1280px);
     justify-content: center;
+    place-items: center;
   `
 }

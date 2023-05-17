@@ -21,7 +21,9 @@ const { Container } = {
   Container: styled.div`
     width: 100%;
     display: grid;
+    justify-content: center;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    max-width: ${({ theme }) => theme.breakpoints.lg};
   `
 }

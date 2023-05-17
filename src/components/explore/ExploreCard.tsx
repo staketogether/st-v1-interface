@@ -1,4 +1,3 @@
-import { CheckCircleFilled } from '@ant-design/icons'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
@@ -23,15 +22,10 @@ export default function ExploreCard({ address }: ExploreCardProps) {
 
   return (
     <Card onClick={() => router.push(`/stake/${address}`)}>
-      <header>
+      <CardHeader>
         <EnsAvatar address={address} />
-        <div>
-          <CheckCircleFilled
-            style={{ color: '#39A0FF', fontSize: '12px', paddingTop: 1, paddingRight: 4 }}
-          />
-          <EnsName address={address} />
-        </div>
-      </header>
+        <EnsName address={address} />
+      </CardHeader>
       <CardInfo>
         <div>
           <div>{t('members')}</div>
@@ -39,64 +33,74 @@ export default function ExploreCard({ address }: ExploreCardProps) {
         </div>
         <div>
           <div>{t('delegated')}</div>
-          <div>{`${truncateEther(totalAmountReceived)} ${ceth.symbol}`}</div>
+          <div>
+            {truncateEther(totalAmountReceived)}
+            <span>{ceth.symbol}</span>
+          </div>
         </div>
       </CardInfo>
     </Card>
   )
 }
 
-const { Card, CardInfo } = {
+const { Card, CardInfo, CardHeader } = {
   Card: styled.div`
-    border-radius: ${props => props.theme.size[16]};
-    width: 100%;
-    background: rgba(255, 255, 255, 0.4);
-    padding: ${props => props.theme.size[16]};
-    display: flex;
+    display: grid;
     flex-direction: column;
-    gap: 18px;
-    padding: ${props => props.theme.size[24]};
+    gap: ${({ theme }) => theme.size[12]};
+
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
+    border: none;
+    border-radius: ${({ theme }) => theme.size[16]};
+    padding: ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+    }
+
+    &.active {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      color: ${({ theme }) => theme.color.secondary};
+    }
+
     cursor: pointer;
-    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-    box-shadow: ${props => props.theme.size[24]};
+  `,
+  CardHeader: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    header {
+    div {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      div {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        > div {
-          font-weight: 500;
-          font-size: ${props => props.theme.font.size[14]};
-          line-height: 17px;
-          color: ${props => props.theme.color.black};
-        }
-      }
+      align-items: end;
+      justify-content: flex-end;
     }
   `,
   CardInfo: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: ${({ theme }) => theme.size[8]};
     div {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: ${({ theme }) => theme.size[4]};
+
       > div:first-child {
-        font-weight: 400;
         font-size: ${({ theme }) => theme.font.size[14]};
-        line-height: 17px;
-        color: ${({ theme }) => theme.color.blue[200]};
+        color: ${({ theme }) => theme.color.primary};
       }
       > div:last-child {
-        font-weight: 500;
         font-size: ${({ theme }) => theme.font.size[14]};
-        line-height: 17px;
-        color: ${({ theme }) => theme.color.blue[200]};
+        color: ${({ theme }) => theme.color.secondary};
+
+        span {
+          color: ${({ theme }) => theme.color.secondary};
+        }
       }
     }
   `

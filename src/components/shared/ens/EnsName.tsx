@@ -26,14 +26,12 @@ export default function EnsName({ address }: EnsNameProps) {
 
 const { Text } = {
   Text: styled.span`
-    font-weight: 500;
-    line-height: 24px;
     font-size: ${({ theme }) => theme.font.size[14]};
-    display: flex;
-    align-items: center;
     color: ${({ theme }) => theme.color.black};
     border: 0;
     padding: 0;
     margin: 0;
+    display: grid;
+    align-items: center;
   `
 }
