@@ -42,7 +42,7 @@ export default function LayoutHeader() {
 const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, MenuButton } = {
   Container: styled.header`
     display: grid;
-    grid-template-columns: 2fr 2fr 2fr;
+    grid-template-columns: 1fr 300px 1fr;
     gap: ${({ theme }) => theme.size[32]};
   `,
   MenuContainer: styled.div`
@@ -54,7 +54,7 @@ const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, 
   `,
   SearchContainer: styled.div`
     display: grid;
-    grid-template-columns: 318px;
+    grid-template-columns: 1fr;
     align-items: center;
     justify-content: center;
   `,

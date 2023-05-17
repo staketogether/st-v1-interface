@@ -32,19 +32,19 @@ const { Container, Wrapper, Content, Body } = {
   Wrapper: styled.div`
     width: 100%;
     display: grid;
-    grid-template-columns: minmax(320px, 1280px);
-
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
+    justify-content: center;
     place-items: start center;
   `,
   Content: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, 1280px);
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
     padding: ${props => props.theme.size[24]};
     gap: 48px;
   `,
   Body: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, 1280px);
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
     justify-content: center;
     place-items: center;
   `
