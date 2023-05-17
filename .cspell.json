@@ -1,0 +1,33 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/vscode-extension/**",
+    "**/.git/**",
+    ".vscode",
+    "report",
+    "**.mock.**",
+    "./src/abi",
+    "src/types/Contracts.ts"
+  ],
+  "words": [
+    "antd",
+    "Antd",
+    "bignumber",
+    "hookz",
+    "Icap",
+    "jazzicon",
+    "Jazzicon",
+    "plusplus",
+    "rainbowkit",
+    "swr's",
+    "Unstake",
+    "wagmi",
+    "fabricio",
+    "bankless",
+    "zeroparalelo",
+    "CETH",
+    "usehooks"
+  ]
+}

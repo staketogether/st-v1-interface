@@ -1,0 +1,65 @@
+name: Rules Validator
+
+on:
+  push:
+    branches:
+      - '**'
+jobs:
+  validate_build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Check Branch
+        run: echo ${GITHUB_REF#refs/heads/}
+
+      - name: Create .env file
+        run: |
+          touch .env
+          echo NEXT_PUBLIC_APP_NAME="Stake Together" >> .env
+          echo NEXT_PUBLIC_CHAIN_ID=5 >> .env          
+          echo NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY=1 >> .env
+          echo NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY=1 >> .env
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Check text Formatting
+        run: pnpm prettier
+
+      - name: Check text Grammar
+        run: pnpm cspell
+
+      - name: Check Lint Rules
+        run: pnpm lint
+
+      - name: Perform Build
+        run: pnpm build

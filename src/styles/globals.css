@@ -1,0 +1,8 @@
+@import 'reset.css';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: __Montserrat_35bac4, __Montserrat_Fallback_35bac4 !important;
+}
