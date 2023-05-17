@@ -1,6 +1,6 @@
 # Stake Together Interface
 
-An open source interface for Stake Together -- a protocol for decentralized Ethereum Staking.
+An open source interface for Stake Together -- a protocol for Decentralized Ethereum Staking.
 
 ## Contributions
 
