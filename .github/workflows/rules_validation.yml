@@ -44,7 +44,6 @@ jobs:
       - name: Create .env file
         run: |
           touch .env
-          echo NEXT_PUBLIC_APP_NAME="Stake Together" >> .env
           echo NEXT_PUBLIC_CHAIN_ID=5 >> .env          
           echo NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY=1 >> .env
           echo NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY=1 >> .env
