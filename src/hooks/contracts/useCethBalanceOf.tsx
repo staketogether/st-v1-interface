@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
-import { useCethBalanceOf as useCethBalanceOfContract } from '../../types/Contracts'
+import { useStakeTogetherBalanceOf } from '../../types/Contracts'
 
-export default function useCethBalanceOf(address?: `0x${string}`) {
+export default function useCethBalanceOf(address: `0x${string}`) {
   const { contracts } = chainConfig()
 
   const [balance, setBalance] = useState<string>('0')
 
-  const cethReq = useCethBalanceOfContract({
+  const cethReq = useStakeTogetherBalanceOf({
     address: contracts.StakeTogether,
-    args: [address as `0x${string}`],
+    args: [address],
     enabled: !!address,
     watch: true
   })
