@@ -59,7 +59,7 @@ const { Container, SelectCommunity, CommunitySelected } = {
     }
     span:last-child {
       font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.primary};
+      color: ${({ theme }) => theme.color.black};
       display: flex;
       align-items: center;
     }

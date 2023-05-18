@@ -67,7 +67,7 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
     border-radius: ${({ theme }) => theme.size[16]};
     background: ${({ theme }) => theme.color.whiteAlpha[800]};
     padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
   `,
   BalanceInfo: styled.div`
     display: flex;
