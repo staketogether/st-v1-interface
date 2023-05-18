@@ -31,9 +31,9 @@ const configs: ChainConfig[] = [
       `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`
     ),
     contracts: {
-      Oracle: '0xdfBC02F7d9422a2Aea051d8dD82D6834cfa52124',
-      Validator: '0x48a6D53A0b5335ccFD8970dbCe1B38b2beb59987',
-      StakeTogether: '0xdFe0E9Fb22e3CAd5dd7605f592717CbAC39057CD'
+      Oracle: '0x86898d8Ee30D9B61e41d8e849D2FBaE366AE89Be',
+      Validator: '0x8b6BE0Df988C96718e297671E435905BB9629619',
+      StakeTogether: '0x7CB94c48701d789be410Cf2d3ae7A86c1dF4184B'
     }
   },
   {

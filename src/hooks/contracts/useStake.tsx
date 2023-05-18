@@ -12,9 +12,12 @@ export default function useStake(
 
   const stakeAmountRule = ethers.BigNumber.isBigNumber(stakeAmount) && BigNumber.from(stakeAmount).gt(0)
 
+  // Todo! Implement Referral
+  const referral = '0x0000000000000000000000000000000000000000'
+
   const { config } = usePrepareStakeTogetherStake({
     address: contracts.StakeTogether,
-    args: [communityAddress],
+    args: [communityAddress, referral],
     overrides: {
       from: accountAddress,
       value: ethers.utils.parseEther(stakeAmount)
