@@ -56,7 +56,7 @@ const { CethBalance, ConnectedButton, EnsAddress } = {
 
     &.active {
       background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-      color: ${({ theme }) => theme.color.secondary};
+      color: ${({ theme }) => theme.color.primary};
     }
   `,
   CethBalance: styled.div`
@@ -66,7 +66,7 @@ const { CethBalance, ConnectedButton, EnsAddress } = {
     font-size: ${({ theme }) => theme.font.size[14]};
 
     > span:first-child {
-      color: ${({ theme }) => theme.color.secondary};
+      color: ${({ theme }) => theme.color.primary};
     }
     > span:last-child {
       color: ${({ theme }) => theme.color.secondary};

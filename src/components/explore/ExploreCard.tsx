@@ -96,7 +96,7 @@ const { Card, CardInfo, CardHeader } = {
       }
       > div:last-child {
         font-size: ${({ theme }) => theme.font.size[14]};
-        color: ${({ theme }) => theme.color.secondary};
+        color: ${({ theme }) => theme.color.primary};
 
         span {
           color: ${({ theme }) => theme.color.secondary};

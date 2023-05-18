@@ -1,4 +1,3 @@
-import { Divider } from 'antd'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useReceivedDelegationsOf from '../../hooks/contracts/useReceivedDelegationsOf'
@@ -24,7 +23,8 @@ export default function StakeStats({ communityAddress }: StakeStatsProps) {
           <StatsWrapper>
             <span>{t('delegated')}</span>
             <span>
-              <span>{`${truncateEther(totalAmountReceived)} ${ceth.symbol}`}</span>
+              {`${truncateEther(totalAmountReceived)}`}
+              <span>{ceth.symbol}</span>
             </span>
           </StatsWrapper>
           <StatsWrapper>
@@ -33,26 +33,28 @@ export default function StakeStats({ communityAddress }: StakeStatsProps) {
           </StatsWrapper>
         </Stats>
       </StatsContainer>
-
-      <div>
-        <Divider style={{ border: '1px solid #B0B5F2' }} />
-        {receivedDelegations.map(delegation => (
-          <Delegation key={delegation.account}>
-            <div>
-              <EnsAvatar address={delegation.account as `0x${string}`} />
-              <EnsName address={delegation.account as `0x${string}`} />
-            </div>
-            <div>
-              <span>{`${truncateEther(delegation.amount.toString())} ${ceth.symbol}`}</span>
-            </div>
-          </Delegation>
-        ))}
-      </div>
+      {receivedDelegations.length && (
+        <DelegationsContainer>
+          {receivedDelegations.map(delegation => (
+            <Delegation key={delegation.account}>
+              <div>
+                <EnsAvatar address={delegation.account as `0x${string}`} />
+                <EnsName address={delegation.account as `0x${string}`} />
+              </div>
+              <div>
+                <span>
+                  {`${truncateEther(delegation.amount.toString())}`} <span>{ceth.symbol}</span>
+                </span>
+              </div>
+            </Delegation>
+          ))}
+        </DelegationsContainer>
+      )}
     </Container>
   )
 }
 
-const { Container, StatsContainer, Stats, StatsWrapper, Delegation } = {
+const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer, Delegation } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
@@ -64,32 +66,44 @@ const { Container, StatsContainer, Stats, StatsWrapper, Delegation } = {
     padding: ${({ theme }) => theme.size[24]};
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
+    gap: ${({ theme }) => theme.size[16]};
   `,
   StatsContainer: styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[8]};
   `,
   Stats: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: ${({ theme }) => theme.size[8]};
   `,
   StatsWrapper: styled.div`
     display: flex;
     justify-content: space-between;
-    > span {
+    > span:nth-child(2) {
       font-size: ${({ theme }) => theme.font.size[14]};
+      color: ${({ theme }) => theme.color.primary};
+      display: flex;
+      gap: 4px;
 
       > span {
-        color: ${({ theme }) => theme.color.purple[600]};
+        color: ${({ theme }) => theme.color.secondary};
       }
     }
   `,
+  DelegationsContainer: styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.size[8]};
+    border-top: 1px solid ${({ theme }) => theme.color.blue[100]};
+    padding-top: ${({ theme }) => theme.size[16]};
+  `,
   Delegation: styled.div`
     display: grid;
-    grid-template-columns: 3fr auto;
+    grid-template-columns: 2fr auto;
     align-items: center;
+    gap: 8px;
 
     > div:nth-child(1) {
       display: grid;
@@ -100,6 +114,13 @@ const { Container, StatsContainer, Stats, StatsWrapper, Delegation } = {
     > div:nth-child(2) {
       display: grid;
       font-size: ${({ theme }) => theme.font.size[14]};
+      color: ${({ theme }) => theme.color.primary};
+
+      > span:nth-child(1) {
+        > span {
+          color: ${({ theme }) => theme.color.secondary};
+        }
+      }
     }
   `
 }

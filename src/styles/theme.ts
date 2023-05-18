@@ -32,7 +32,7 @@ export const lightTheme: Theme = {
   },
   color: {
     primary: '#283B8A',
-    secondary: '#8365D3',
+    secondary: '#7154B7',
     transparent: 'transparent',
     current: 'currentColor',
     black: '#000000',
