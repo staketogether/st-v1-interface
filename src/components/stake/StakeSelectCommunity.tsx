@@ -68,14 +68,14 @@ const { Container, SelectCommunity, CommunitySelected } = {
     padding: 0 8px;
     display: grid;
     grid-template-columns: auto auto;
-    gap: 8px;
+    gap: ${({ theme }) => theme.size[12]};
     cursor: default;
   `,
   CommunitySelected: styled.div`
     padding: 0 8px;
     display: grid;
     grid-template-columns: auto auto;
-    gap: 8px;
+    gap: ${({ theme }) => theme.size[12]};
     cursor: default;
   `
 }
