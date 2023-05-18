@@ -106,7 +106,7 @@ const {
   InfoContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
     div {
       width: 100%;
       display: flex;
