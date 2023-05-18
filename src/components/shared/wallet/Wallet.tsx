@@ -1,26 +1,26 @@
 import { useEffect, useState } from 'react'
-import { useAccount } from 'wagmi'
+import useConnectedAccount from '../../../hooks/useConnectedAccount'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletDisconnectedButton from './WalletDisconnectedButton'
 import WalletSidebar from './WalletSidebar'
 
 export default function Wallet() {
-  const { address, isConnected } = useAccount()
+  const { account, accountIsConnected } = useConnectedAccount()
 
   const [wallet, setWallet] = useState(<WalletDisconnectedButton />)
 
   useEffect(() => {
-    if (isConnected && address) {
+    if (accountIsConnected && account) {
       setWallet(
         <>
-          <WalletConnectedButton address={address} />
-          <WalletSidebar address={address} />
+          <WalletConnectedButton address={account} />
+          <WalletSidebar address={account} />
         </>
       )
     } else {
       setWallet(<WalletDisconnectedButton />)
     }
-  }, [address, isConnected])
+  }, [account, accountIsConnected])
 
   return wallet
 }

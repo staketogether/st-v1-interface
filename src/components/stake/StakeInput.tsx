@@ -17,7 +17,10 @@ export default function StakeFormInput({ value, onChange, symbol, balance, disab
   const { price } = useEthToUsdPrice(value)
 
   function handleChange(value: string) {
-    onChange(value)
+    const regex = /^(\d+(\.\d*)?|\.\d+)$/
+    if (!value || regex.test(value)) {
+      onChange(value)
+    }
   }
 
   return (
@@ -31,74 +34,74 @@ export default function StakeFormInput({ value, onChange, symbol, balance, disab
           placeholder='0'
         />
         <MaxValue disabled={disabled} onClick={() => handleChange(truncateEther(balance))}>
-          Max
+          {t('max')}
         </MaxValue>
       </InputContainer>
-      <ValuesInDollar>
-        <span>{value && `${price} USD`}</span>
+      <BalanceInfo>
+        <span>{value && price && `${price} ${t('usd')}`}</span>
         <span>
           {t('balance')}: {truncateEther(balance)} {symbol}
         </span>
-      </ValuesInDollar>
+      </BalanceInfo>
     </Container>
   )
 }
 
-const { Container, InputContainer, MaxValue, ValuesInDollar } = {
+const { Container, InputContainer, MaxValue, BalanceInfo } = {
   Container: styled.div`
-    display: flex;
-    padding: 7px 11px;
-    border: 1px solid #e1e1e1;
+    display: grid;
+    grid-template-columns: 1fr;
     border-radius: ${({ theme }) => theme.size[16]};
-    gap: 8px;
-    background: ${({ theme }) => theme.color.white};
-    flex-direction: column;
+    background: ${({ theme }) => theme.color.whiteAlpha[800]};
+    padding: ${({ theme }) => theme.size[8]} ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[8]};
   `,
-  ValuesInDollar: styled.div`
+  BalanceInfo: styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
     > span {
       font-size: ${({ theme }) => theme.font.size[14]};
       line-height: 13px;
       display: flex;
-      color: ${({ theme }) => theme.color.purple[600]};
+      color: ${({ theme }) => theme.color.blue[300]};
     }
   `,
   InputContainer: styled.div`
     display: flex;
     align-items: center;
+
     > input {
+      display: flex;
       width: 100%;
       border: none;
       outline: none;
-
-      padding: 0;
-
-      font-size: ${({ theme }) => theme.font.size[24]};
-      line-height: 29px;
-      display: flex;
-      box-shadow: none !important;
+      background: none;
       color: ${({ theme }) => theme.color.black};
+      font-size: ${({ theme }) => theme.font.size[24]};
+
+      &::-webkit-input-placeholder {
+        color: ${({ theme }) => theme.color.blue[300]};
+      }
     }
   `,
   MaxValue: styled.button`
     border: none;
-    padding-left: 8px;
-    padding-right: 8px;
-    height: 24px;
+    padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[16]};
     border-radius: ${({ theme }) => theme.size[16]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background-color: ${({ theme }) => theme.color.white};
-    color: ${({ theme }) => theme.color.purple[600]};
-    border-radius: 8px;
-    margin-bottom: 4px;
-    margin-top: 4px;
+    background-color: ${({ theme }) => theme.color.blue[100]};
+    color: ${({ theme }) => theme.color.white};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.blue[300]};
+    }
 
     > span {
       font-size: ${({ theme }) => theme.font.size[14]};
-      line-height: 22px;
       color: ${({ theme }) => theme.color.blue[300]};
-      text-align: left;
+      display: grid;
+      align-items: center;
     }
   `
 }

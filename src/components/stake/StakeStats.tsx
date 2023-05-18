@@ -81,6 +81,8 @@ const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer, De
   StatsWrapper: styled.div`
     display: flex;
     justify-content: space-between;
+    height: 20px;
+    align-items: center;
     > span:nth-child(2) {
       font-size: ${({ theme }) => theme.font.size[14]};
       color: ${({ theme }) => theme.color.primary};

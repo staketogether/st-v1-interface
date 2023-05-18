@@ -5,6 +5,7 @@
   "delegations": "Delegations",
   "balance": "Balance",
   "selectCommunity": "Select a Community",
+  "max": "Max",
   "action": "Staking...",
   "youReceive": "You receive",
   "delegation": "Delegation",
@@ -17,5 +18,6 @@
   "copyClipboard": "Copy to clipboard",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
-  "footer": "All rights reserved."
+  "footer": "All rights reserved.",
+  "usd": "USD"
 }

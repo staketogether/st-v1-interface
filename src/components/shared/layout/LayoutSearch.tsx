@@ -117,7 +117,7 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
     }
 
     &::-webkit-input-placeholder {
-      color: ${({ theme }) => theme.color.blue[400]};
+      color: ${({ theme }) => theme.color.blue[300]};
     }
   `,
   DropdownMenu: styled.div<{ isOpen: boolean }>`

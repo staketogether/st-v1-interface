@@ -1,6 +1,6 @@
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import styled from 'styled-components'
-import { useAccount } from 'wagmi'
+import useConnectedAccount from '../../hooks/useConnectedAccount'
 
 interface StakeButtonProps {
   onClick: () => void
@@ -11,18 +11,18 @@ interface StakeButtonProps {
 }
 
 export default function StakeButton({ onClick, label, amount, disabled }: StakeButtonProps) {
-  const { isConnected } = useAccount()
+  const { accountIsConnected } = useConnectedAccount()
   const { openConnectModal } = useConnectModal()
 
   return (
     <>
-      {isConnected && amount && (
+      {accountIsConnected && amount && (
         <Stake onClick={onClick} disabled={disabled}>
           {label}
         </Stake>
       )}
-      {isConnected && !amount && <Stake onClick={openConnectModal}>{label}</Stake>}
-      {!isConnected && (
+      {accountIsConnected && !amount && <Stake onClick={openConnectModal}>{label}</Stake>}
+      {!accountIsConnected && (
         <Stake onClick={onClick} disabled={disabled}>
           {label}
         </Stake>
@@ -32,26 +32,18 @@ export default function StakeButton({ onClick, label, amount, disabled }: StakeB
 }
 
 const { Stake } = {
-  Stake: styled.button<{ unstake?: boolean }>`
+  Stake: styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
-    border-radius: ${props => props.theme.size[64]};
-    background: ${({ theme, unstake }) => (unstake ? theme.color.purple[500] : theme.color.blue[100])};
-    height: 100%;
-    > span {
-      font-size: ${({ theme }) => theme.font.size[18]};
-      line-height: 22px;
-      color: ${({ theme }) => theme.color.white};
-    }
-    &:hover,
-    &:active,
-    &:focus {
-      background: ${({ theme, unstake }) => (unstake ? theme.color.purple[500] : theme.color.blue[100])};
-      > span {
-        font-size: ${({ theme }) => theme.font.size[18]};
-        line-height: 22px;
-        color: ${({ theme }) => theme.color.white};
-      }
+    border-radius: ${props => props.theme.size[16]};
+    background: ${({ theme }) => theme.color.blue[400]};
+    transition: background-color 0.2s ease;
+    height: 48px;
+
+    font-size: ${({ theme }) => theme.font.size[16]};
+
+    &:hover {
+      background: ${({ theme }) => theme.color.blue[600]};
     }
   `
 }
