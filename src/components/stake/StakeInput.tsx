@@ -9,9 +9,17 @@ interface StakeInputProps {
   balance: string
   symbol: string
   disabled?: boolean
+  purple?: boolean
 }
 
-export default function StakeFormInput({ value, onChange, symbol, balance, disabled }: StakeInputProps) {
+export default function StakeFormInput({
+  value,
+  onChange,
+  symbol,
+  balance,
+  disabled,
+  purple
+}: StakeInputProps) {
   const { t } = useTranslation()
 
   const { price } = useEthToUsdPrice(value)
@@ -32,8 +40,13 @@ export default function StakeFormInput({ value, onChange, symbol, balance, disab
           value={value}
           onChange={e => handleChange(e.target.value)}
           placeholder='0'
+          className={purple ? 'purple' : ''}
         />
-        <MaxValue disabled={disabled} onClick={() => handleChange(truncateEther(balance))}>
+        <MaxValue
+          className={purple ? 'purple' : ''}
+          disabled={disabled}
+          onClick={() => handleChange(truncateEther(balance))}
+        >
           {t('max')}
         </MaxValue>
       </InputContainer>
@@ -53,7 +66,7 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
     grid-template-columns: 1fr;
     border-radius: ${({ theme }) => theme.size[16]};
     background: ${({ theme }) => theme.color.whiteAlpha[800]};
-    padding: ${({ theme }) => theme.size[8]} ${({ theme }) => theme.size[16]};
+    padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
     gap: ${({ theme }) => theme.size[8]};
   `,
   BalanceInfo: styled.div`
@@ -83,6 +96,12 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
       &::-webkit-input-placeholder {
         color: ${({ theme }) => theme.color.blue[300]};
       }
+
+      &.purple {
+        &::-webkit-input-placeholder {
+          color: ${({ theme }) => theme.color.purple[300]};
+        }
+      }
     }
   `,
   MaxValue: styled.button`
@@ -95,6 +114,14 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
 
     &:hover {
       background-color: ${({ theme }) => theme.color.blue[300]};
+    }
+
+    &.purple {
+      background-color: ${({ theme }) => theme.color.purple[300]};
+
+      &:hover {
+        background-color: ${({ theme }) => theme.color.purple[400]};
+      }
     }
 
     > span {

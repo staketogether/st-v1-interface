@@ -1,33 +1,18 @@
-import { useConnectModal } from '@rainbow-me/rainbowkit'
 import styled from 'styled-components'
-import useConnectedAccount from '../../hooks/useConnectedAccount'
 
 interface StakeButtonProps {
   onClick: () => void
   label: string
-  amount: string
   isLoading: boolean
   disabled?: boolean
+  purple?: boolean
 }
 
-export default function StakeButton({ onClick, label, amount, disabled }: StakeButtonProps) {
-  const { accountIsConnected } = useConnectedAccount()
-  const { openConnectModal } = useConnectModal()
-
+export default function StakeButton({ onClick, label, disabled, purple }: StakeButtonProps) {
   return (
-    <>
-      {accountIsConnected && amount && (
-        <Stake onClick={onClick} disabled={disabled}>
-          {label}
-        </Stake>
-      )}
-      {accountIsConnected && !amount && <Stake onClick={openConnectModal}>{label}</Stake>}
-      {!accountIsConnected && (
-        <Stake onClick={onClick} disabled={disabled}>
-          {label}
-        </Stake>
-      )}
-    </>
+    <Stake className={purple ? 'purple' : ''} onClick={onClick} disabled={disabled}>
+      {label}
+    </Stake>
   )
 }
 
@@ -44,6 +29,13 @@ const { Stake } = {
 
     &:hover {
       background: ${({ theme }) => theme.color.blue[600]};
+    }
+
+    &.purple {
+      background: ${({ theme }) => theme.color.purple[700]};
+      &:hover {
+        background: ${({ theme }) => theme.color.purple[900]};
+      }
     }
   `
 }

@@ -23,8 +23,9 @@ export const globalConfig = {
     name: process.env.APP_NAME as string
   },
   fee: {
-    account: utils.parseEther('0.03'),
-    protocol: utils.parseEther('0.06')
+    delegation: utils.parseEther('0.03'),
+    protocol: utils.parseEther('0.03'),
+    operator: utils.parseEther('0.03')
   },
   eth: {
     name: 'Ether',

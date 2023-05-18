@@ -2,6 +2,7 @@
 import styled from 'styled-components'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import StakeFormDeposit from './StakeFormDeposit'
+import StakeFormWithdraw from './StakeFormWithdraw'
 import StakeStats from './StakeStats'
 import StakeSwitchActions from './StakeSwitchAction'
 
@@ -22,9 +23,9 @@ export default function StakeForm({ communityAddress, type }: StakeFormProps) {
         {type === 'deposit' && account && communityAddress && (
           <StakeFormDeposit accountAddress={account} communityAddress={communityAddress} />
         )}
-        {/* {type === 'unstake' && address && communityAddress && (
-          <StakeFormWithdraw accountAddress={address} communityAddress={communityAddress} />
-        )} */}
+        {type === 'withdraw' && account && communityAddress && (
+          <StakeFormWithdraw accountAddress={account} communityAddress={communityAddress} />
+        )}
         {/* {address && !communityAddress && <div> Put Unstake Empty Form Here</div>}
         {address && !communityAddress && <div> Put Unstake Empty Form Here</div>}
         {!address && <div> PutSelect Community Here</div>}

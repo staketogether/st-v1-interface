@@ -31,7 +31,7 @@ export default function StakeSwitchActions({ communityAddress }: StakeSwitchActi
           {t('deposit')}
         </StakeTab>
         <StakeTab
-          className={`${isActive('withdraw') ? 'active' : ''}`}
+          className={`${isActive('withdraw') ? 'active' : ''} purple`}
           onClick={() => handleSwitch('withdraw')}
         >
           {t('withdraw')}

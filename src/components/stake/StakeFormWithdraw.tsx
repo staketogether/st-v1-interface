@@ -15,7 +15,7 @@ interface StakeFormWithdrawProps {
 }
 
 export default function StakeFormWithdraw({ communityAddress, accountAddress }: StakeFormWithdrawProps) {
-  const { ceth, eth } = globalConfig
+  const { eth, ceth } = globalConfig
   const { t } = useTranslation()
 
   const cethBalance = useCethBalanceOf(accountAddress)
@@ -55,22 +55,20 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
           balance={cethBalance}
           symbol={ceth.symbol}
           disabled={disabled}
+          purple
         />
-        <StakeButton
-          isLoading={isLoading}
-          onClick={unstake}
-          label={label}
-          amount={amount}
-          disabled={disabled}
-        />
+        <StakeButton isLoading={isLoading} onClick={unstake} label={label} disabled={disabled} purple />
+        <StakeInfo>
+          <span>
+            {`${t('youReceive')} ${amount || '0'}`}
+            <span>{`${eth.symbol}`}</span>
+          </span>
+          {/* <div>
+            <span>{`${t('delegation')} ${delegationFee}%`}</span>
+            <span>{`${t('fee')} ${protocolFee}%`}</span>
+          </div> */}
+        </StakeInfo>
       </StakeContainer>
-      <StakeInfo>
-        <span>{`${t('youReceive')} ${amount || '0'} ${eth.symbol}`}</span>
-        {/* <div>
-          <span>{`Delegation ${delegationFee}%`}</span>
-          <span>{`Fee ${protocolFee}%`}</span>
-        </div> */}
-      </StakeInfo>
     </>
   )
 }
@@ -78,28 +76,25 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
 const { StakeContainer, StakeInfo } = {
   StakeContainer: styled.div`
     display: grid;
-    grid-template-rows: 76px 48px;
-    gap: 16px;
+    gap: ${({ theme }) => theme.size[16]};
   `,
   StakeInfo: styled.div`
     display: flex;
     justify-content: space-between;
-    padding: 0px 12px;
+    padding: 0px ${({ theme }) => theme.size[12]};
+
+    > span {
+      height: 14px;
+      display: flex;
+      gap: 4px;
+
+      > span {
+      }
+    }
+
     > div {
       display: flex;
-      gap: 8px;
-    }
-    > span,
-    > div > span {
-      font-size: ${({ theme }) => theme.font.size[14]};
-      line-height: 13px;
-      display: flex;
-      align-items: center;
-      > span {
-        color: ${({ theme }) => theme.color.blue[300]};
-      }
-
-      color: ${({ theme }) => theme.color.purple[600]};
+      gap: ${({ theme }) => theme.size[8]};
     }
   `
 }

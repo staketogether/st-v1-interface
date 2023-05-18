@@ -28,8 +28,8 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
 
   const { stake, isSuccess, isLoading } = useStake(stakeAmount, accountAddress, communityAddress)
 
-  const delegationFee = truncateEther(fee.account.mul(100).toString())
-  const protocolFee = truncateEther(fee.protocol.mul(100).toString())
+  const delegationFee = truncateEther(fee.delegation.mul(100).toString())
+  const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
 
   const disabled = !communityAddress || !accountAddress
 
@@ -60,17 +60,11 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
           symbol={eth.symbol}
           disabled={disabled}
         />
-        <StakeButton
-          isLoading={isLoading}
-          onClick={stake}
-          label={label}
-          amount={amount}
-          disabled={disabled}
-        />
+        <StakeButton isLoading={isLoading} onClick={stake} label={label} disabled={disabled} />
         <StakeInfo>
           <span>
-            {amount && `${t('youReceive')} ${amount || '0'}`}
-            <span>{amount && `${ceth.symbol}`}</span>
+            {`${t('youReceive')} ${amount || '0'}`}
+            <span>{`${ceth.symbol}`}</span>
           </span>
           <div>
             <span>{`${t('delegation')} ${delegationFee}%`}</span>
@@ -91,6 +85,16 @@ const { StakeContainer, StakeInfo } = {
     display: flex;
     justify-content: space-between;
     padding: 0px ${({ theme }) => theme.size[12]};
+
+    > span {
+      height: 14px;
+      display: flex;
+      gap: 4px;
+
+      > span {
+      }
+    }
+
     > div {
       display: flex;
       gap: ${({ theme }) => theme.size[8]};
