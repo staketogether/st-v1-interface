@@ -49,7 +49,9 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
       <InfoContainer>
         <div>
           <span>{t('staked')}</span>
-          <span>{`${truncateEther(totalAmountSent.toString())} ${ceth.symbol}`}</span>
+          <span>
+            {`${truncateEther(totalAmountSent.toString())}`} <span>{ceth.symbol}</span>
+          </span>
         </div>
         <div>
           <span>{t('delegations')}</span>
@@ -60,13 +62,16 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
       <InfoContainer>
         {sentDelegations.map((sentDelegation, index) => (
           <div key={index}>
-            <span>
+            <div>
               <div>
                 <EnsAvatar address={sentDelegation.account} />
                 <EnsName address={sentDelegation.account} />
               </div>
+            </div>
+            <span>
+              {`${truncateEther(sentDelegation.amount.toString())}`}
+              <span>{ceth.symbol}</span>
             </span>
-            <span>{`${truncateEther(sentDelegation.amount.toString())} ${ceth.symbol}`}</span>
           </div>
         ))}
       </InfoContainer>
@@ -84,49 +89,70 @@ const {
   LogoutButton
 } = {
   DrawerContainer: styled(Drawer)`
+    background-color: ${({ theme }) => theme.color.whiteAlpha[700]} !important;
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
     }
     .ant-drawer-body {
-      padding: 32px 22px !important;
       display: flex;
       flex-direction: column;
-      gap: 24px;
-      background: rgba(255, 255, 255, 0.3);
-      border: 1px solid #c3c3e4;
+      gap: ${({ theme }) => theme.size[24]};
     }
   `,
   HeaderContainer: styled.div`
     display: grid;
-    grid-template-columns: 32px auto 32px;
-    gap: 16px;
+    grid-template-columns: auto 32px;
+    gap: ${({ theme }) => theme.size[16]};
   `,
   InfoContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: ${({ theme }) => theme.size[8]};
     div {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
 
+      div {
+        display: flex;
+        justify-content: flex-start;
+        gap: ${({ theme }) => theme.size[8]};
+
+        span {
+          color: ${({ theme }) => theme.color.black};
+        }
+      }
+
       span {
+        display: flex;
+        gap: ${({ theme }) => theme.size[4]};
         font-size: ${({ theme }) => theme.font.size[14]};
-        color: ${({ theme }) => theme.color.blue[300]};
+        color: ${({ theme }) => theme.color.primary};
+
+        > span {
+          color: ${({ theme }) => theme.color.secondary};
+        }
       }
     }
   `,
   ClosedSidebarButton: styled.button`
+    position: absolute;
+    left: -44px;
     width: 32px;
     height: 32px;
     border: 0;
     border-radius: ${({ theme }) => theme.size[16]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background-color: ${({ theme }) => theme.color.white};
+    background: ${({ theme }) => theme.color.whiteAlpha[700]};
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: ${({ theme }) => theme.color.whiteAlpha[900]};
+    }
   `,
   CloseSidebar: styled(DoubleRightOutlined)`
-    color: ${({ theme }) => theme.color.purple[600]};
+    color: ${({ theme }) => theme.color.primary};
   `,
   LogoutButton: styled.button`
     width: 32px;
@@ -134,9 +160,14 @@ const {
     border: 0;
     border-radius: ${({ theme }) => theme.size[16]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background-color: ${({ theme }) => theme.color.white};
+    background: ${({ theme }) => theme.color.whiteAlpha[700]};
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: ${({ theme }) => theme.color.whiteAlpha[900]};
+    }
   `,
   Logout: styled(LogoutOutlined)`
-    color: ${({ theme }) => theme.color.purple[600]};
+    color: ${({ theme }) => theme.color.primary};
   `
 }
