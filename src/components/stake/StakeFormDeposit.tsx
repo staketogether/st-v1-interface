@@ -36,7 +36,7 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
   useEffect(() => {
     const getLabel = () => {
       if (isLoading) {
-        return t('action')
+        return t('processing')
       }
       return t('stake')
     }

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 
 import { useDebounce } from 'usehooks-ts'
-import useCethBalanceOf from '../../hooks/contracts/useCethBalanceOf'
+import useReceivedDelegationsOf from '../../hooks/contracts/useReceivedDelegationOf'
 import useUnstake from '../../hooks/contracts/useUnstake'
 import useTranslation from '../../hooks/useTranslation'
 import StakeButton from './StakeButton'
@@ -18,7 +18,9 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
   const { eth, ceth } = globalConfig
   const { t } = useTranslation()
 
-  const cethBalance = useCethBalanceOf(accountAddress)
+  const delegation = useReceivedDelegationsOf(communityAddress, accountAddress)
+
+  const cethBalance = delegation.totalAmountReceived
 
   const [label, setLabel] = useState<string>('')
   const [amount, setAmount] = useState<string>('')
@@ -32,13 +34,13 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
   useEffect(() => {
     const getLabel = () => {
       if (isLoading) {
-        return 'UnStaking...'
+        return t('processing')
       }
-      return 'Unstake'
+      return t('unstake')
     }
 
     setLabel(getLabel())
-  }, [accountAddress, communityAddress, isLoading])
+  }, [accountAddress, communityAddress, isLoading, t])
 
   useEffect(() => {
     if (isSuccess) {

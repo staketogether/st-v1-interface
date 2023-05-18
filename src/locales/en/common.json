@@ -1,6 +1,9 @@
 {
   "explore": "Explore",
   "stake": "Stake",
+  "processing": "Processing...",
+  "staked": "Staked",
+  "unstake": "Unstake",
   "members": "Members",
   "delegations": "Delegations",
   "balance": "Balance",
@@ -10,7 +13,6 @@
   "youReceive": "You receive",
   "delegation": "Delegation",
   "fee": "Fee",
-  "staked": "Staked",
   "delegated": "Delegated",
   "wallet": "Connect Wallet",
   "searchCommunity": "Search For Communities",
