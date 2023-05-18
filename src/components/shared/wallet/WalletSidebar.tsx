@@ -114,7 +114,8 @@ const {
       justify-content: space-between;
 
       div {
-        display: flex;
+        display: grid;
+        grid-template-columns: 24px auto;
         justify-content: flex-start;
         gap: ${({ theme }) => theme.size[8]};
 
