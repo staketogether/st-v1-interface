@@ -89,7 +89,6 @@ const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, 
     }
 
     &.active {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
       color: ${({ theme }) => theme.color.secondary};
     }
   `

@@ -60,7 +60,7 @@ const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer, De
     grid-template-columns: 1fr;
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[500]};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     padding: ${({ theme }) => theme.size[24]};

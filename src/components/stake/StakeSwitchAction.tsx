@@ -23,6 +23,7 @@ export default function StakeSwitchActions({ communityAddress }: StakeSwitchActi
 
   return (
     <Container>
+      <StakeSelectCommunity communityAddress={communityAddress} />
       <Tabs>
         <StakeTab
           className={`${isActive('deposit') ? 'active' : ''}`}
@@ -37,7 +38,6 @@ export default function StakeSwitchActions({ communityAddress }: StakeSwitchActi
           {t('withdraw')}
         </StakeTab>
       </Tabs>
-      <StakeSelectCommunity communityAddress={communityAddress} />
     </Container>
   )
 }
@@ -45,12 +45,13 @@ export default function StakeSwitchActions({ communityAddress }: StakeSwitchActi
 const { Container, Tabs, StakeTab } = {
   Container: styled.div`
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: auto;
+    grid-template-columns: auto 1fr;
+    gap: ${({ theme }) => theme.size[8]};
   `,
   Tabs: styled.div`
     display: flex;
     gap: ${({ theme }) => theme.size[8]};
+    justify-content: flex-end;
   `,
   StakeTab: styled.button`
     border: none;
@@ -58,9 +59,9 @@ const { Container, Tabs, StakeTab } = {
     display: flex;
     align-items: center;
 
-    font-size: ${({ theme }) => theme.font.size[14]};
+    font-size: ${({ theme }) => theme.font.size[12]};
     color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     padding: 0 ${({ theme }) => theme.size[16]};
@@ -72,7 +73,6 @@ const { Container, Tabs, StakeTab } = {
     }
 
     &.active {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
       color: ${({ theme }) => theme.color.secondary};
     }
   `

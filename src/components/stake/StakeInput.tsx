@@ -73,8 +73,9 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     > span {
-      font-size: ${({ theme }) => theme.font.size[14]};
+      font-size: ${({ theme }) => theme.size[12]};
       line-height: 13px;
       display: flex;
       color: ${({ theme }) => theme.color.blue[300]};
@@ -124,11 +125,6 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
       }
     }
 
-    > span {
-      font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.blue[300]};
-      display: grid;
-      align-items: center;
-    }
+    font-size: ${({ theme }) => theme.font.size[12]};
   `
 }

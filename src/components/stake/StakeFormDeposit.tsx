@@ -85,9 +85,10 @@ const { StakeContainer, StakeInfo } = {
     display: flex;
     justify-content: space-between;
     padding: 0px ${({ theme }) => theme.size[12]};
+    font-size: ${({ theme }) => theme.size[12]};
 
     > span {
-      height: 14px;
+      height: 12px;
       display: flex;
       gap: 4px;
 

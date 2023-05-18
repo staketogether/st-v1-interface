@@ -46,8 +46,9 @@ const { Container, SelectCommunity, CommunitySelected } = {
     background-color: ${({ theme }) => theme.color.transparent};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
-    padding: 0 ${({ theme }) => theme.size[12]};
+
     transition: background-color 0.1s ease;
+
     cursor: default;
 
     span:first-child {
@@ -65,14 +66,12 @@ const { Container, SelectCommunity, CommunitySelected } = {
     }
   `,
   SelectCommunity: styled.div`
-    padding: 0 8px;
     display: grid;
     grid-template-columns: auto auto;
     gap: ${({ theme }) => theme.size[12]};
     cursor: default;
   `,
   CommunitySelected: styled.div`
-    padding: 0 8px;
     display: grid;
     grid-template-columns: auto auto;
     gap: ${({ theme }) => theme.size[12]};

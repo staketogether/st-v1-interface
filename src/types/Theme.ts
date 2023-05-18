@@ -23,6 +23,7 @@ export default interface Theme {
   }
   font: {
     size: {
+      12: string
       14: string
       16: string
       18: string
