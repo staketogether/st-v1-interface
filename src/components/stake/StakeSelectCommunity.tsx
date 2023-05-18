@@ -1,7 +1,5 @@
-import { DownOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import useModalCommunity from '../../hooks/useModalCommunities'
 
 import useTranslation from '../../hooks/useTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
@@ -13,12 +11,10 @@ interface StakeSelectCommunityProps {
 
 export default function StakeSelectCommunity({ communityAddress }: StakeSelectCommunityProps) {
   const { t } = useTranslation()
-  const { setOpenModal } = useModalCommunity()
 
   const [select, setSelect] = useState(
     <SelectCommunity>
       <span>{t('selectCommunity')}</span>
-      <DownOutlined />
     </SelectCommunity>
   )
 
@@ -28,13 +24,12 @@ export default function StakeSelectCommunity({ communityAddress }: StakeSelectCo
         <CommunitySelected>
           <EnsAvatar address={communityAddress} />
           <EnsName address={communityAddress} />
-          <DownOutlined />
         </CommunitySelected>
       )
     }
   }, [communityAddress])
 
-  return <Container onClick={() => setOpenModal(true)}>{select}</Container>
+  return <Container>{select}</Container>
 }
 
 const { Container, SelectCommunity, CommunitySelected } = {
@@ -48,21 +43,12 @@ const { Container, SelectCommunity, CommunitySelected } = {
 
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
+    background-color: ${({ theme }) => theme.color.transparent};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
-    padding: 0 ${({ theme }) => theme.size[4]};
+    padding: 0 ${({ theme }) => theme.size[12]};
     transition: background-color 0.1s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-    }
-
-    &.active {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-      color: ${({ theme }) => theme.color.secondary};
-    }
+    cursor: default;
 
     span:first-child {
       align-self: flex-start;
@@ -83,11 +69,13 @@ const { Container, SelectCommunity, CommunitySelected } = {
     display: grid;
     grid-template-columns: auto auto;
     gap: 8px;
+    cursor: default;
   `,
   CommunitySelected: styled.div`
     padding: 0 8px;
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
     gap: 8px;
+    cursor: default;
   `
 }

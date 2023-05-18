@@ -1,5 +1,5 @@
 import { DoubleRightOutlined, LogoutOutlined } from '@ant-design/icons'
-import { Divider, Drawer } from 'antd'
+import { Drawer } from 'antd'
 
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
@@ -58,7 +58,6 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           <span>{totalDelegationsSent.toString()}</span>
         </div>
       </InfoContainer>
-      <Divider style={{ margin: 0, border: '1px solid #B0B5F2' }} />
       <InfoContainer>
         {sentDelegations.map((sentDelegation, index) => (
           <div key={index}>
@@ -134,6 +133,11 @@ const {
           color: ${({ theme }) => theme.color.secondary};
         }
       }
+    }
+
+    &:last-of-type {
+      padding-top: ${({ theme }) => theme.size[24]};
+      border-top: 1px solid ${({ theme }) => theme.color.blue[100]};
     }
   `,
   ClosedSidebarButton: styled.button`
