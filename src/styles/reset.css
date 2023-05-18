@@ -148,8 +148,6 @@ body {
   text-rendering: optimizeLegibility;
   height: 100%;
   color: #373b8a;
-  background: rgb(143, 152, 214);
-  background: linear-gradient(180deg, rgba(143, 152, 214, 0.2) 0%, rgba(143, 152, 214, 1) 50%);
 }
 
 button {
