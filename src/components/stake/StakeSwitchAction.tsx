@@ -59,7 +59,7 @@ const { Container, Tabs, StakeTab } = {
     display: flex;
     align-items: center;
 
-    font-size: ${({ theme }) => theme.font.size[12]};
+    font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
     background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
     border: none;
