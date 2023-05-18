@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from 'styled-components'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import StakeFormDeposit from './StakeFormDeposit'

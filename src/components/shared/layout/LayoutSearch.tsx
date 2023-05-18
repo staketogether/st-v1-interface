@@ -68,6 +68,15 @@ export default function LayoutSearch() {
                 </DropdownMenuItem>
               </Link>
             ))}
+            {/* Todo! Implement */}
+            {!communitiesSearch.length && (
+              <Link href={`/stake/deposit/${'0x123'}`} key={'0x123'}>
+                <DropdownMenuItem key={'0x123'}>
+                  <EnsAvatar address={'0x123'} />
+                  <EnsName address={'0xWIP: Implement  Search'} />
+                </DropdownMenuItem>
+              </Link>
+            )}
           </DropdownMenu>
         )}
       </Container>
