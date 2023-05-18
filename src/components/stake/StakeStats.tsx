@@ -33,7 +33,7 @@ export default function StakeStats({ communityAddress }: StakeStatsProps) {
           </StatsWrapper>
         </Stats>
       </StatsContainer>
-      {receivedDelegations.length && (
+      {receivedDelegations.length > 0 && (
         <DelegationsContainer>
           {receivedDelegations.map(delegation => (
             <Delegation key={delegation.account}>
