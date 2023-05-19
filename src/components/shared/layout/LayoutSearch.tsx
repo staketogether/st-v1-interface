@@ -4,6 +4,7 @@ import { useState } from 'react'
 import styled from 'styled-components'
 
 import useCommunities from '../../../hooks/useCommunities'
+import useSearchCommunities from '../../../hooks/useSearchCommunities'
 import useTranslation from '../../../hooks/useTranslation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
@@ -11,72 +12,84 @@ import Overlay from '../Overlay'
 
 export default function LayoutSearch() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
-  const [search, setSearch] = useState<string>('')
+  const [text, setText] = useState<string>('')
   const { t } = useTranslation()
 
   const { communities } = useCommunities()
+  const { searchCommunities, isLoading } = useSearchCommunities(communities)
 
   const options = {
     includeScore: true,
-    keys: ['address', 'name']
+    keys: [
+      {
+        name: 'address',
+        weight: 1
+      },
+      {
+        name: 'name',
+        weight: 2
+      }
+    ],
+    threshold: 0.3
   }
 
-  const fuse = new Fuse([], options)
+  const fuse = new Fuse(searchCommunities, options)
 
-  const result = fuse.search(search)
-
-  const communitiesSearch = search.length ? result.map(community => community.item) : communities
+  const result = fuse.search(text).map(community => community.item)
 
   const handleButtonClick = () => {
     setIsOpen(!isOpen)
   }
 
-  const handleMouseEnter = () => {
-    setIsHovered(true)
-  }
-
   const handleMouseLeave = () => {
-    setIsHovered(false)
     setIsOpen(false)
   }
 
   const onChange = (text: string) => {
-    setSearch(text)
+    setText(text)
     setIsOpen(true)
   }
 
   return (
     <>
       {isOpen && <Overlay onClick={() => setIsOpen(false)} />}
-      <Container onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <Container onMouseLeave={handleMouseLeave}>
         <InputSearch
           type='text'
-          value={search}
+          value={text}
           placeholder={t('searchCommunity')}
           onChange={e => onChange(e.target.value)}
           onClick={handleButtonClick}
           className={`${isOpen ? 'active' : ''}`}
         />
         {isOpen && (
-          <DropdownMenu isOpen={isOpen || isHovered || search.length}>
-            {communitiesSearch.map(address => (
-              <Link href={`/stake/deposit/${address}`} key={address}>
-                <DropdownMenuItem key={address}>
-                  <EnsAvatar address={address} />
-                  <EnsName address={address} />
-                </DropdownMenuItem>
-              </Link>
-            ))}
-            {/* Todo! Implement */}
-            {!communitiesSearch.length && (
-              <Link href={`/stake/deposit/${'0x123'}`} key={'0x123'}>
-                <DropdownMenuItem key={'0x123'}>
-                  <EnsAvatar address={'0x123'} />
-                  <EnsName address={'0xWIP: Implement  Search'} />
-                </DropdownMenuItem>
-              </Link>
+          <DropdownMenu isOpen>
+            {!isLoading &&
+              text.length > 0 &&
+              result.length > 0 &&
+              result.map(community => (
+                <Link href={`/stake/deposit/${community.address}`} key={community.address}>
+                  <DropdownMenuItem key={community.address}>
+                    <EnsAvatar address={community.address} />
+                    <EnsName address={community.address} />
+                  </DropdownMenuItem>
+                </Link>
+              ))}
+
+            {!isLoading &&
+              text.length === 0 &&
+              communities.map(address => (
+                <Link href={`/stake/deposit/${address}`} key={address}>
+                  <DropdownMenuItem key={address}>
+                    <EnsAvatar address={address} />
+                    <EnsName address={address} />
+                  </DropdownMenuItem>
+                </Link>
+              ))}
+            {!isLoading && text.length > 0 && result.length === 0 && (
+              <NotFound>{t('emptyCommunity')}</NotFound>
             )}
+            {isLoading && text.length > 0 && <Loading>{t('loading')}</Loading>}
           </DropdownMenu>
         )}
       </Container>
@@ -84,7 +97,7 @@ export default function LayoutSearch() {
   )
 }
 
-const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
+const { Container, DropdownMenu, InputSearch, DropdownMenuItem, NotFound, Loading } = {
   Container: styled.div`
     width: 100%;
     position: relative;
@@ -121,6 +134,7 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
     }
 
     &.active {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
@@ -140,7 +154,7 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
 
     border-radius: ${({ theme }) => theme.size[16]};
     padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
-    gap: ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[12]};
     grid-template-columns: 1fr;
 
     background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
@@ -151,17 +165,25 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
   `,
   DropdownMenuItem: styled.div`
     display: grid;
-    grid-template-columns: 24px 1fr;
-    gap: 8px;
+    grid-template-columns: 24px auto;
+    align-items: center;
     text-decoration: none;
+    gap: ${({ theme }) => theme.size[8]};
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
     border: none;
     transition: background-color 0s ease;
-    border-radius: ${({ theme }) => theme.size[16]};
-
-    &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-    }
+  `,
+  NotFound: styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  Loading: styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.secondary};
   `
 }

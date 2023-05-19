@@ -15,11 +15,12 @@
   "fee": "Fee",
   "delegated": "Delegated",
   "wallet": "Connect Wallet",
-  "searchCommunity": "Search For Communities",
-  "emptyCommunity": "community not found",
+  "searchCommunity": "Search for communities",
+  "emptyCommunity": "Community not found",
   "copyClipboard": "Copy to clipboard",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
   "footer": "All rights reserved.",
-  "usd": "USD"
+  "usd": "USD",
+  "loading": "Loading..."
 }
