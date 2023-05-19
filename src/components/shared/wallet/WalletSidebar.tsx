@@ -1,9 +1,11 @@
 import { DoubleRightOutlined, LogoutOutlined } from '@ant-design/icons'
 import { Drawer } from 'antd'
 
+import { BigNumber } from 'ethers'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import { globalConfig } from '../../../config/global'
+import useCethBalanceOf from '../../../hooks/contracts/useCethBalanceOf'
 import useSentDelegationsOf from '../../../hooks/contracts/useSentDelegationsOf'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
@@ -23,6 +25,26 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
 
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
   const { sentDelegations, totalAmountSent, totalDelegationsSent } = useSentDelegationsOf(address)
+  const { cethBalance } = useCethBalanceOf(address)
+
+  console.log('CETH', cethBalance.toString())
+  console.log('TotalAmountSent', totalAmountSent.toString())
+
+  const cethBalanceBN = BigNumber.from(cethBalance)
+  const totalAmountSentBN = BigNumber.from(totalAmountSent)
+
+  // Todo!: Fix Precision (Basis Points)
+  const pnl = BigNumber.from(cethBalance).gt(0)
+    ? cethBalanceBN.sub(totalAmountSentBN).mul(100).div(totalAmountSent)
+    : BigNumber.from(0)
+
+  console.log(`PNL: ${pnl.toString()} (${pnl.toString()}%)`)
+
+  const rewards = BigNumber.from(cethBalance).gt(0)
+    ? BigNumber.from(cethBalance).sub(BigNumber.from(totalAmountSent))
+    : BigNumber.from(0)
+
+  console.log('PNL', pnl.toString())
 
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -46,9 +68,39 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           <Logout />
         </LogoutButton>
       </HeaderContainer>
-      <InfoContainer>
+      <InfoHeader>
         <div>
-          <span>{t('staked')}</span>
+          <span>PNL</span>
+          {pnl.gt(0) && <span>{`⇡ ${pnl.toString()}`} %</span>}
+          {pnl.eq(0) && <span>{`${pnl.toString()}`} %</span>}
+          {pnl.lt(0) && <span>{`⇣ ${pnl.toString()}`} %</span>}
+        </div>
+        <div>
+          <span>{t('balance')}</span>
+          <span>
+            {`${truncateEther(cethBalance.toString())}`} <span>{ceth.symbol}</span>
+          </span>
+        </div>
+        <div>
+          <span>Rewards</span>
+          {rewards.gt(0) && (
+            <span>
+              {`⇡ ${truncateEther(rewards.toString())}`} <span>{ceth.symbol}</span>
+            </span>
+          )}
+          {rewards.eq(0) && (
+            <span>
+              {` ${truncateEther(rewards.toString())}`} <span>{ceth.symbol}</span>
+            </span>
+          )}
+          {rewards.lt(0) && (
+            <span>
+              {`⇣ ${truncateEther(rewards.toString())}`} <span>{ceth.symbol}</span>
+            </span>
+          )}
+        </div>
+        <div>
+          <span>{t('delegated')}</span>
           <span>
             {`${truncateEther(totalAmountSent.toString())}`} <span>{ceth.symbol}</span>
           </span>
@@ -57,7 +109,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           <span>{t('delegations')}</span>
           <span>{totalDelegationsSent.toString()}</span>
         </div>
-      </InfoContainer>
+      </InfoHeader>
       <InfoContainer>
         {sentDelegations.map((sentDelegation, index) => (
           <div key={index}>
@@ -82,6 +134,7 @@ const {
   DrawerContainer,
   HeaderContainer,
   InfoContainer,
+  InfoHeader,
   CloseSidebar,
   ClosedSidebarButton,
   Logout,
@@ -103,6 +156,42 @@ const {
     grid-template-columns: auto 32px;
     gap: ${({ theme }) => theme.size[16]};
   `,
+  InfoHeader: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[16]};
+    div {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      div {
+        display: grid;
+        grid-template-columns: 24px auto;
+        justify-content: flex-start;
+        gap: ${({ theme }) => theme.size[12]};
+
+        span {
+          color: ${({ theme }) => theme.color.black};
+        }
+      }
+
+      span {
+        display: flex;
+        gap: ${({ theme }) => theme.size[4]};
+
+        > span {
+          color: ${({ theme }) => theme.color.secondary};
+        }
+      }
+    }
+
+    &:last-of-type {
+      padding-top: ${({ theme }) => theme.size[24]};
+      border-top: 1px solid ${({ theme }) => theme.color.blue[100]};
+    }
+  `,
   InfoContainer: styled.div`
     display: flex;
     flex-direction: column;
@@ -117,7 +206,7 @@ const {
         display: grid;
         grid-template-columns: 24px auto;
         justify-content: flex-start;
-        gap: ${({ theme }) => theme.size[8]};
+        gap: ${({ theme }) => theme.size[12]};
 
         span {
           color: ${({ theme }) => theme.color.black};
@@ -127,8 +216,6 @@ const {
       span {
         display: flex;
         gap: ${({ theme }) => theme.size[4]};
-        font-size: ${({ theme }) => theme.font.size[14]};
-        color: ${({ theme }) => theme.color.primary};
 
         > span {
           color: ${({ theme }) => theme.color.secondary};

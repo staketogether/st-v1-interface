@@ -13,7 +13,7 @@ export type WalletConnectedButtonProps = {
 
 export default function WalletConnectedButton({ address }: WalletConnectedButtonProps) {
   const { ceth } = globalConfig
-  const cethBalance = useCethBalanceOf(address)
+  const { cethBalance } = useCethBalanceOf(address)
   const { setOpenSidebar } = useWalletSidebar()
 
   return (
