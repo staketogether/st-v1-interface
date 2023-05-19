@@ -5,8 +5,8 @@ export type ChainConfig = {
   name: string
   provider: ethers.providers.JsonRpcProvider
   contracts: {
-    Oracle: `0x${string}`
-    Validator: `0x${string}`
+    STOracle: `0x${string}`
+    STValidator: `0x${string}`
     StakeTogether: `0x${string}`
   }
 }
@@ -19,8 +19,8 @@ const configs: ChainConfig[] = [
       `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY}`
     ),
     contracts: {
-      Oracle: '0x',
-      Validator: '0x',
+      STOracle: '0x',
+      STValidator: '0x',
       StakeTogether: '0x'
     }
   },
@@ -31,9 +31,9 @@ const configs: ChainConfig[] = [
       `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`
     ),
     contracts: {
-      Oracle: '0x86898d8Ee30D9B61e41d8e849D2FBaE366AE89Be',
-      Validator: '0x8b6BE0Df988C96718e297671E435905BB9629619',
-      StakeTogether: '0x7CB94c48701d789be410Cf2d3ae7A86c1dF4184B'
+      STOracle: '0xBA9B794d8a030FbF68e16c235b674a63AaA2E316',
+      STValidator: '0xa9cd0c0FEd3eb4b2a0A5c406195e66cAa45723d2',
+      StakeTogether: '0xBfc55782BaF7a11EcF7b05A54733Ed15df3273AA'
     }
   },
   {
@@ -41,8 +41,8 @@ const configs: ChainConfig[] = [
     name: 'localhost',
     provider: new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`),
     contracts: {
-      Oracle: '0xb36c1ae8e5076b55569Dd399Ea79D96E60E4E322',
-      Validator: '0x9c63686aE146B45A2368ABc9AecE4203A3559f35',
+      STOracle: '0xb36c1ae8e5076b55569Dd399Ea79D96E60E4E322',
+      STValidator: '0x9c63686aE146B45A2368ABc9AecE4203A3559f35',
       StakeTogether: '0x27c85150D755D383A4f86d0aeD8232815674771f'
     }
   }
