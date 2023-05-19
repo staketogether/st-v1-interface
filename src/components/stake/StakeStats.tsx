@@ -71,12 +71,12 @@ const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer, De
   StatsContainer: styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
   `,
   Stats: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
   `,
   StatsWrapper: styled.div`
     display: flex;
