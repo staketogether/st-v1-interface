@@ -1,32 +1,21 @@
 import { useEffect, useState } from 'react'
-import { useEnsAvatar, useEnsName } from 'wagmi'
-import chainConfig from '../config/chain'
+import getEns from '../services/getEns'
 
 export default function useEns(address: `0x${string}`) {
-  const { chainId } = chainConfig()
-
   const [name, setName] = useState<string | undefined>(undefined)
   const [avatar, setAvatar] = useState<string | undefined>(undefined)
 
-  const ensAvatar = useEnsAvatar({
-    address,
-    chainId,
-    cacheTime: 3000
-  })
-
-  const ensName = useEnsName({
-    address,
-    chainId,
-    cacheTime: 3000
-  })
-
   useEffect(() => {
-    setAvatar(ensAvatar.data?.toString())
-  }, [ensAvatar.data])
+    const getEnsData = async () => {
+      const ens = await getEns(address)
 
-  useEffect(() => {
-    setName(ensName.data?.toString())
-  }, [ensName.data])
+      setAvatar(ens.avatar)
+
+      setName(ens.name)
+    }
+
+    getEnsData()
+  }, [address])
 
   return { address, name, avatar }
 }
