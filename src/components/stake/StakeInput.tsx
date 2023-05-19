@@ -68,6 +68,7 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
     background: ${({ theme }) => theme.color.whiteAlpha[800]};
     padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
     gap: ${({ theme }) => theme.size[12]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
   `,
   BalanceInfo: styled.div`
     display: flex;

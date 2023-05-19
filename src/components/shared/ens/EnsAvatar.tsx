@@ -5,20 +5,29 @@ import useEns from '../../../hooks/useEns'
 
 type EnsAvatarProps = {
   address: `0x${string}`
+  large?: boolean
 }
 
-export default function EnsAvatar({ address }: EnsAvatarProps) {
+export default function EnsAvatar({ address, large }: EnsAvatarProps) {
   const { avatar } = useEns(address)
 
-  const [avatarEl, setAvatarEl] = useState(<DefaultAvatar />)
+  const [avatarEl, setAvatarEl] = useState(<DefaultAvatar className={large ? 'large' : ''} />)
 
   useEffect(() => {
     if (avatar) {
-      setAvatarEl(<Avatar width={24} height={24} src={avatar} alt={address} />)
+      setAvatarEl(
+        <Avatar
+          width={large ? 26 : 24}
+          height={large ? 26 : 24}
+          src={avatar}
+          alt={address}
+          className={large ? 'large' : ''}
+        />
+      )
     } else {
-      setAvatarEl(<DefaultAvatar />)
+      setAvatarEl(<DefaultAvatar className={large ? 'large' : ''} />)
     }
-  }, [address, avatar])
+  }, [address, avatar, large])
 
   return avatarEl
 }
@@ -29,9 +38,19 @@ const { DefaultAvatar, Avatar } = {
     border-radius: 100%;
     width: 24px;
     height: 24px;
+
+    &.large {
+      width: 26px;
+      height: 26px;
+    }
   `,
   Avatar: styled(Image)`
     border-radius: 100%;
     box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    &.large {
+      width: 26px;
+      height: 26px;
+    }
   `
 }

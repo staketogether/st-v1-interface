@@ -22,8 +22,8 @@ export default function StakeSelectCommunity({ communityAddress }: StakeSelectCo
     if (communityAddress) {
       setSelect(
         <CommunitySelected>
-          <EnsAvatar address={communityAddress} />
-          <EnsName address={communityAddress} />
+          <EnsAvatar large address={communityAddress} />
+          <EnsName large address={communityAddress} />
         </CommunitySelected>
       )
     }

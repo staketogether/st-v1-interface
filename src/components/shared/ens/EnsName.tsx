@@ -6,20 +6,23 @@ import truncateAddress from '../../../services/truncateAddress'
 
 type EnsNameProps = {
   address: `0x${string}`
+  large?: boolean
 }
 
-export default function EnsName({ address }: EnsNameProps) {
+export default function EnsName({ address, large }: EnsNameProps) {
   const { name } = useEns(address)
 
-  const [nameEl, setNameEl] = useState(<Text>{truncateAddress(address)}</Text>)
+  const text = <Text className={large ? 'large' : ''}>{truncateAddress(address)}</Text>
+
+  const [nameEl, setNameEl] = useState(text)
 
   useEffect(() => {
     if (name) {
-      setNameEl(<Text>{name}</Text>)
+      setNameEl(<Text className={large ? 'large' : ''}>{name}</Text>)
     } else {
-      setNameEl(<Text>{truncateAddress(address)}</Text>)
+      setNameEl(<Text className={large ? 'large' : ''}>{truncateAddress(address)}</Text>)
     }
-  }, [address, name])
+  }, [address, large, name])
 
   return nameEl
 }
@@ -33,5 +36,9 @@ const { Text } = {
     margin: 0;
     display: grid;
     align-items: center;
+
+    &.large {
+      font-size: ${({ theme }) => theme.font.size[15]};
+    }
   `
 }

@@ -25,6 +25,7 @@ export const lightTheme: Theme = {
     size: {
       12: '1.2rem',
       14: '1.4rem',
+      15: '1.5rem',
       16: '1.6rem',
       18: '1.8rem',
       22: '2.2rem',

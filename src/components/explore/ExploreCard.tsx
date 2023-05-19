@@ -23,20 +23,20 @@ export default function ExploreCard({ address }: ExploreCardProps) {
   return (
     <Card onClick={() => router.push(`/stake/deposit/${address}`)}>
       <CardHeader>
-        <EnsAvatar address={address} />
-        <EnsName address={address} />
+        <EnsAvatar large address={address} />
+        <EnsName large address={address} />
       </CardHeader>
       <CardInfo>
-        <div>
-          <div>{t('members')}</div>
-          <div>{totalDelegationsReceived}</div>
-        </div>
         <div>
           <div>{t('delegated')}</div>
           <div>
             {truncateEther(totalAmountReceived)}
             <span>{ceth.symbol}</span>
           </div>
+        </div>
+        <div>
+          <div>{t('members')}</div>
+          <div>{totalDelegationsReceived}</div>
         </div>
       </CardInfo>
     </Card>
@@ -83,7 +83,7 @@ const { Card, CardInfo, CardHeader } = {
   CardInfo: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
     div {
       display: flex;
       align-items: center;
