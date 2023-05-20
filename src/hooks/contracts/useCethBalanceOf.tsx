@@ -5,7 +5,7 @@ import { useStakeTogetherBalanceOf } from '../../types/Contracts'
 export default function useCethBalanceOf(address: `0x${string}`) {
   const { contracts } = chainConfig()
 
-  const [cethBalance, setCethBalance] = useState<string>('0')
+  const [balance, setBalance] = useState<string>('0')
 
   const cethReq = useStakeTogetherBalanceOf({
     address: contracts.StakeTogether,
@@ -14,9 +14,11 @@ export default function useCethBalanceOf(address: `0x${string}`) {
     watch: true
   })
 
-  useEffect(() => {
-    setCethBalance(cethReq.data?.toString() || '0')
-  }, [cethBalance, cethReq.data])
+  const cethBalance = cethReq.data?.toString() || '0'
 
-  return { cethBalance, isLoading: cethReq.isLoading }
+  useEffect(() => {
+    setBalance(cethBalance)
+  }, [cethBalance])
+
+  return balance
 }
