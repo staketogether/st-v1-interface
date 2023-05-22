@@ -67,8 +67,8 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
             <span>{`${ceth.symbol}`}</span>
           </span>
           <div>
-            <span>{`${t('delegation')} ${delegationFee}%`}</span>
-            <span>{`${t('fee')} ${protocolFee}%`}</span>
+            <span>{`${t('delegation')}: ${delegationFee}%`}</span>
+            <span>{`${t('fee')}: ${protocolFee}%`}</span>
           </div>
         </StakeInfo>
       </StakeContainer>

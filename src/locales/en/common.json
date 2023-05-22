@@ -1,6 +1,8 @@
 {
   "explore": "Explore",
   "stake": "Stake",
+  "rewards": "Rewards",
+  "delegates": "Delegates",
   "processing": "Processing...",
   "staked": "Staked",
   "unstake": "Unstake",
@@ -22,5 +24,7 @@
   "withdraw": "Withdraw",
   "footer": "All rights reserved.",
   "usd": "USD",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "apr": "APR",
+  "pnl": "PNL"
 }

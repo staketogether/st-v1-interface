@@ -145,7 +145,7 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem, NotFound, Loadin
   `,
   DropdownMenu: styled.div<{ isOpen: boolean }>`
     position: absolute;
-    cursor: pointer;
+
     width: 100%;
     height: auto;
     top: 100%;
@@ -179,6 +179,7 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem, NotFound, Loadin
     grid-template-columns: 1fr;
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
+    cursor: default;
   `,
   Loading: styled.div`
     display: grid;

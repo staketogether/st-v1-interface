@@ -21,6 +21,21 @@ export default function StakeStats({ communityAddress }: StakeStatsProps) {
       <StatsContainer>
         <Stats>
           <StatsWrapper>
+            <span>{t('apr')}</span>
+            <span>{`5.0%`}</span>
+          </StatsWrapper>
+          <StatsWrapper>
+            <span>{t('pnl')}</span>
+            <span>⇡ 45.3%</span>
+          </StatsWrapper>
+          <StatsWrapper>
+            <span>{t('rewards')}</span>
+            <span>
+              {`0.001`}
+              <span>{ceth.symbol}</span>
+            </span>
+          </StatsWrapper>
+          <StatsWrapper>
             <span>{t('delegated')}</span>
             <span>
               {`${truncateEther(totalAmountReceived)}`}
@@ -76,7 +91,7 @@ const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer, De
   Stats: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
+    gap: ${({ theme }) => theme.size[8]};
   `,
   StatsWrapper: styled.div`
     display: flex;

@@ -28,6 +28,13 @@ export default function ExploreCard({ address }: ExploreCardProps) {
       </CardHeader>
       <CardInfo>
         <div>
+          <div>{t('rewards')}</div>
+          <div>
+            123.45
+            <span>{ceth.symbol}</span>
+          </div>
+        </div>
+        <div>
           <div>{t('delegated')}</div>
           <div>
             {truncateEther(totalAmountReceived)}

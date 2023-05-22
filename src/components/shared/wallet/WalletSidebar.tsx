@@ -48,7 +48,21 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
       </HeaderContainer>
       <InfoContainer>
         <div>
-          <span>{t('staked')}</span>
+          <span>{t('apr')}</span>
+          <span>{`5.0%`}</span>
+        </div>
+        <div>
+          <span>{t('pnl')}</span>
+          <span>{`⇡ 45.3%`}</span>
+        </div>
+        <div>
+          <span>{t('rewards')}</span>
+          <span>
+            {`${truncateEther(totalAmountSent.toString())}`} <span>{ceth.symbol}</span>
+          </span>
+        </div>
+        <div>
+          <span>{t('delegated')}</span>
           <span>
             {`${truncateEther(totalAmountSent.toString())}`} <span>{ceth.symbol}</span>
           </span>
