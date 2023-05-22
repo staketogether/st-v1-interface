@@ -26,5 +26,6 @@
   "usd": "USD",
   "loading": "Loading...",
   "apr": "APR",
-  "pnl": "PNL"
+  "pnl": "PNL",
+  "rewardsFee": "Rewards Fee"
 }

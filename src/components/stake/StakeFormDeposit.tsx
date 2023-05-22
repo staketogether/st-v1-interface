@@ -68,7 +68,7 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
           </span>
           <div>
             <span>{`${t('delegation')}: ${delegationFee}%`}</span>
-            <span>{`${t('fee')}: ${protocolFee}%`}</span>
+            <span>{`${t('rewardsFee')}: ${protocolFee}%`}</span>
           </div>
         </StakeInfo>
       </StakeContainer>

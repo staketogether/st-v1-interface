@@ -21,14 +21,6 @@ export default function StakeStats({ communityAddress }: StakeStatsProps) {
       <StatsContainer>
         <Stats>
           <StatsWrapper>
-            <span>{t('apr')}</span>
-            <span>{`5.0%`}</span>
-          </StatsWrapper>
-          <StatsWrapper>
-            <span>{t('pnl')}</span>
-            <span>⇡ 45.3%</span>
-          </StatsWrapper>
-          <StatsWrapper>
             <span>{t('rewards')}</span>
             <span>
               {`0.001`}
