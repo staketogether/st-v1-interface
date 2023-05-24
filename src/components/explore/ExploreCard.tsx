@@ -4,41 +4,40 @@ import { globalConfig } from '../../config/global'
 import useReceivedDelegationsOf from '../../hooks/contracts/useReceivedDelegationsOf'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
+import { Community } from '../../types/Community'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 
 type ExploreCardProps = {
-  address: `0x${string}`
+  community: Community
 }
 
-export default function ExploreCard({ address }: ExploreCardProps) {
+export default function ExploreCard({ community }: ExploreCardProps) {
   const router = useRouter()
   const { ceth } = globalConfig
 
-  const { totalDelegationsReceived, totalAmountReceived } = useReceivedDelegationsOf(address)
-
-  const communityRewards = '0'
+  const { totalDelegationsReceived } = useReceivedDelegationsOf(community.address)
 
   const { t } = useTranslation()
 
   return (
-    <Card onClick={() => router.push(`/stake/deposit/${address}`)}>
+    <Card onClick={() => router.push(`/stake/deposit/${community.address}`)}>
       <CardHeader>
-        <EnsAvatar large address={address} />
-        <EnsName large address={address} />
+        <EnsAvatar large address={community.address} />
+        <EnsName large address={community.address} />
       </CardHeader>
       <CardInfo>
         <div>
           <div>{t('rewards')}</div>
           <div>
-            {truncateEther(communityRewards)}
+            {truncateEther(community.rewardsAmount.toString())}
             <span>{ceth.symbol}</span>
           </div>
         </div>
         <div>
           <div>{t('delegated')}</div>
           <div>
-            {truncateEther(totalAmountReceived)}
+            {truncateEther(community.delegatedAmount.toString())}
             <span>{ceth.symbol}</span>
           </div>
         </div>

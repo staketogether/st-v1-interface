@@ -12,7 +12,7 @@ export default function ExploreList({ communities }: ExploreListProps) {
     <Container>
       {!communities && <div>No Communities</div>}
       {communities.map(community => (
-        <ExploreCard address={community.address} key={community.address} />
+        <ExploreCard community={community} key={community.address} />
       ))}
     </Container>
   )
