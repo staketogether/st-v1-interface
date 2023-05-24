@@ -3,20 +3,25 @@ import Link from 'next/link'
 import { useState } from 'react'
 import styled from 'styled-components'
 
-import useCommunities from '../../../hooks/useCommunities'
+import useCommunities from '../../../hooks/subgraphs/useCommunities'
 import useSearchCommunities from '../../../hooks/useSearchCommunities'
 import useTranslation from '../../../hooks/useTranslation'
+import Overlay from '../Overlay'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
-import Overlay from '../Overlay'
 
 export default function LayoutSearch() {
   const [isOpen, setIsOpen] = useState(false)
   const [text, setText] = useState<string>('')
   const { t } = useTranslation()
 
-  const { communities } = useCommunities()
-  const { searchCommunities, isLoading } = useSearchCommunities(communities)
+  const communitiesData = useCommunities()
+
+  const communities = communitiesData.communities.map(community => community.address)
+
+  const { searchCommunities } = useSearchCommunities(communities)
+
+  const isLoading = false
 
   const options = {
     includeScore: true,

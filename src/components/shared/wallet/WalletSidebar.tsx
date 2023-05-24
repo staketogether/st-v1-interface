@@ -4,7 +4,7 @@ import { Drawer } from 'antd'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import { globalConfig } from '../../../config/global'
-import useAccountRewards from '../../../hooks/contracts/useAccountRewards'
+
 import useSentDelegationsOf from '../../../hooks/contracts/useSentDelegationsOf'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
@@ -24,7 +24,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
 
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
   const { sentDelegations, totalAmountSent, totalDelegationsSent } = useSentDelegationsOf(address)
-  const accountRewards = useAccountRewards(address)
+  const accountRewards = '0'
 
   function disconnectWallet() {
     setOpenSidebar(false)

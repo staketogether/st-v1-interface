@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import styled from 'styled-components'
 
-import useCommunities from '../../hooks/useCommunities'
+import useCommunities from '../../hooks/subgraphs/useCommunities'
 import useModalCommunity from '../../hooks/useModalCommunities'
 import useTranslation from '../../hooks/useTranslation'
 import EnsAvatarServer from '../shared/ens/EnsAvatar'
@@ -15,7 +15,7 @@ type StakeModalCommunitiesProps = {
 
 export default function StakeModalCommunities({ type }: StakeModalCommunitiesProps) {
   const { t } = useTranslation()
-  const { communities, communitiesIsSuccess } = useCommunities()
+  const { communities, communitiesIsLoading } = useCommunities()
   const { openModal, setOpenModal } = useModalCommunity()
   const [search, setSearch] = useState<string>('')
   const router = useRouter()
@@ -37,14 +37,14 @@ export default function StakeModalCommunities({ type }: StakeModalCommunitiesPro
         placeholder={t('searchCommunity')}
         onChange={e => setSearch(e.target.value)}
       />
-      {communitiesIsSuccess &&
+      {!communitiesIsLoading &&
         communities &&
-        communities.map(address => (
-          <div key={address}>
-            <a onClick={() => handleClick(address)}>
+        communities.map(community => (
+          <div key={community.address}>
+            <a onClick={() => handleClick(community.address)}>
               <Community>
-                <EnsAvatarServer address={address} />
-                <EnsNameCommunity address={address} />
+                <EnsAvatarServer address={community.address} />
+                <EnsNameCommunity address={community.address} />
               </Community>
             </a>
           </div>

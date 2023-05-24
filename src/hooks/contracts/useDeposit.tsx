@@ -1,33 +1,33 @@
 import { BigNumber, ethers } from 'ethers'
 import { useWaitForTransaction } from 'wagmi'
 import chainConfig from '../../config/chain'
-import { usePrepareStakeTogetherStake, useStakeTogetherStake } from '../../types/Contracts'
+import { usePrepareStakeTogetherDeposit, useStakeTogetherDeposit } from '../../types/Contracts'
 
-export default function useStake(
-  stakeAmount: string,
+export default function useDeposit(
+  depositAmount: string,
   accountAddress: `0x${string}`,
   communityAddress: `0x${string}`
 ) {
   const { contracts } = chainConfig()
 
-  const stakeAmountRule = ethers.BigNumber.isBigNumber(stakeAmount) && BigNumber.from(stakeAmount).gt(0)
+  const depositRule = ethers.BigNumber.isBigNumber(depositAmount) && BigNumber.from(depositAmount).gt(0)
 
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
 
-  const { config } = usePrepareStakeTogetherStake({
+  const { config } = usePrepareStakeTogetherDeposit({
     address: contracts.StakeTogether,
     args: [communityAddress, referral],
     overrides: {
       from: accountAddress,
-      value: ethers.utils.parseEther(stakeAmount)
+      value: ethers.utils.parseEther(depositAmount)
     },
-    enabled: !stakeAmountRule
+    enabled: !depositRule
   })
 
-  const tx = useStakeTogetherStake(config)
+  const tx = useStakeTogetherDeposit(config)
 
-  const stake = () => {
+  const deposit = () => {
     tx.write?.()
   }
 
@@ -35,5 +35,5 @@ export default function useStake(
     hash: tx.data?.hash
   })
 
-  return { stake, isLoading, isSuccess }
+  return { deposit, isLoading, isSuccess }
 }

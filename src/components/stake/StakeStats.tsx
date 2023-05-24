@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
-import useCommunityRewards from '../../hooks/contracts/useCommunityRewards'
+
 import useReceivedDelegationsOf from '../../hooks/contracts/useReceivedDelegationsOf'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
@@ -17,7 +17,7 @@ export default function StakeStats({ communityAddress }: StakeStatsProps) {
   const { receivedDelegations, totalAmountReceived, totalDelegationsReceived } =
     useReceivedDelegationsOf(communityAddress)
 
-  const communityRewards = useCommunityRewards(communityAddress)
+  const communityRewards = '0'
 
   return (
     <Container>

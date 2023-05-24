@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
-import useCommunityRewards from '../../hooks/contracts/useCommunityRewards'
 import useReceivedDelegationsOf from '../../hooks/contracts/useReceivedDelegationsOf'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
@@ -18,7 +17,7 @@ export default function ExploreCard({ address }: ExploreCardProps) {
 
   const { totalDelegationsReceived, totalAmountReceived } = useReceivedDelegationsOf(address)
 
-  const communityRewards = useCommunityRewards(address)
+  const communityRewards = '0'
 
   const { t } = useTranslation()
 

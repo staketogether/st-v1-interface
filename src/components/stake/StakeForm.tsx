@@ -12,9 +12,7 @@ interface StakeFormProps {
 
 export default function StakeForm({ communityAddress, type }: StakeFormProps) {
   const { account } = useConnectedAccount()
-
   // Move Form State Control to Here
-
   return (
     <Container>
       <Form>

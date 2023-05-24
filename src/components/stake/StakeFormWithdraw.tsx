@@ -4,7 +4,8 @@ import { globalConfig } from '../../config/global'
 
 import { useDebounce } from 'usehooks-ts'
 import useReceivedDelegationsOf from '../../hooks/contracts/useReceivedDelegationOf'
-import useUnstake from '../../hooks/contracts/useUnstake'
+
+import useWithdraw from '../../hooks/contracts/useWithdraw'
 import useTranslation from '../../hooks/useTranslation'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
@@ -27,7 +28,7 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
   const debouncedAmount = useDebounce(amount, 500)
   const unstakeAmount = debouncedAmount || '0'
 
-  const { unstake, isLoading, isSuccess } = useUnstake(unstakeAmount, accountAddress, communityAddress)
+  const { withdraw, isLoading, isSuccess } = useWithdraw(unstakeAmount, accountAddress, communityAddress)
 
   const disabled = !communityAddress || !accountAddress
 
@@ -59,7 +60,7 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
           disabled={disabled}
           purple
         />
-        <StakeButton isLoading={isLoading} onClick={unstake} label={label} disabled={disabled} purple />
+        <StakeButton isLoading={isLoading} onClick={withdraw} label={label} disabled={disabled} purple />
         <StakeInfo>
           <span>
             {`${t('youReceive')} ${amount || '0'}`}

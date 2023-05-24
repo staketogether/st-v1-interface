@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 
 import { useDebounce } from 'usehooks-ts'
+import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
-import useStake from '../../hooks/contracts/useStake'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
@@ -26,7 +26,7 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
   const debouncedAmount = useDebounce(amount, 500)
   const stakeAmount = debouncedAmount || '0'
 
-  const { stake, isSuccess, isLoading } = useStake(stakeAmount, accountAddress, communityAddress)
+  const { deposit, isSuccess, isLoading } = useDeposit(stakeAmount, accountAddress, communityAddress)
 
   const delegationFee = truncateEther(fee.delegation.mul(100).toString())
   const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
@@ -60,7 +60,7 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
           symbol={eth.symbol}
           disabled={disabled}
         />
-        <StakeButton isLoading={isLoading} onClick={stake} label={label} disabled={disabled} />
+        <StakeButton isLoading={isLoading} onClick={deposit} label={label} disabled={disabled} />
         <StakeInfo>
           <span>
             {`${t('youReceive')} ${amount || '0'}`}

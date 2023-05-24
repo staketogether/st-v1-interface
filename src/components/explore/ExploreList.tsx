@@ -1,18 +1,19 @@
 import styled from 'styled-components'
 
-import useCommunities from '../../hooks/useCommunities'
+import { Community } from '../../types/Community'
 import ExploreCard from './ExploreCard'
 
-export default function ExploreList() {
-  const { communities, communitiesIsLoading, communitiesIsSuccess } = useCommunities()
+type ExploreListProps = {
+  communities: Community[]
+}
 
+export default function ExploreList({ communities }: ExploreListProps) {
   return (
     <Container>
-      {communitiesIsLoading && <div>Loading...</div>}
-      {communitiesIsSuccess && !communities && <div>No Communities</div>}
-      {communitiesIsSuccess &&
-        communities &&
-        communities.map(address => <ExploreCard address={address} key={address} />)}
+      {!communities && <div>No Communities</div>}
+      {communities.map(community => (
+        <ExploreCard address={community.address} key={community.address} />
+      ))}
     </Container>
   )
 }

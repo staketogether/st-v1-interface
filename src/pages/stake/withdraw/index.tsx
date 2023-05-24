@@ -3,20 +3,35 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
 import StakeForm from '../../../components/stake/StakeForm'
 import StakeModalCommunities from '../../../components/stake/StakeModalCommunities'
+import { apolloClient } from '../../../config/apollo'
+import { queryCommunity } from '../../../queries/queryCommunity'
+import { Community } from '../../../types/Community'
 
-export default function Unstake() {
+type UnstakeProps = {
+  community?: Community
+}
+
+export default function Unstake({ community }: UnstakeProps) {
   return (
     <LayoutTemplate>
-      <StakeForm type='withdraw' />
+      <StakeForm type='withdraw' communityAddress={community?.address} />
       <StakeModalCommunities type='withdraw' />
     </LayoutTemplate>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
+  const params = context?.params as { address: `0x${string}` } | undefined
+
+  const { data } = await apolloClient.query<{ community: Community } | undefined>({
+    query: queryCommunity,
+    variables: { id: params?.address || '' }
+  })
+
   return {
     props: {
-      ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en']))
+      ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
+      community: data?.community
     }
   }
 }
