@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
-import useReceivedDelegationsOf from '../../hooks/contracts/useReceivedDelegationsOf'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Community } from '../../types/Community'
@@ -15,8 +14,6 @@ type ExploreCardProps = {
 export default function ExploreCard({ community }: ExploreCardProps) {
   const router = useRouter()
   const { ceth } = globalConfig
-
-  const { totalDelegationsReceived } = useReceivedDelegationsOf(community.address)
 
   const { t } = useTranslation()
 
@@ -43,7 +40,7 @@ export default function ExploreCard({ community }: ExploreCardProps) {
         </div>
         <div>
           <div>{t('members')}</div>
-          <div>{totalDelegationsReceived}</div>
+          <div>{community.delegates.length}</div>
         </div>
       </CardInfo>
     </Card>
