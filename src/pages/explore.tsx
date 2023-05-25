@@ -23,8 +23,6 @@ export const getServerSideProps: GetServerSideProps = async context => {
     query: queryCommunitiesDelegations
   })
 
-  console.log('DATA', data)
-
   const communities = data.communities || []
 
   return {

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { queryCommunities } from '../../queries/queryCommunities'
 import { Community } from '../../types/Community'
 
-export default function useSearchCommunities() {
+export default function useCommunities() {
   const [communities, setCommunities] = useState<Community[]>([])
   const [communitiesIsLoading, setCommunitiesIsLoading] = useState<boolean>(false)
 

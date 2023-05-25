@@ -4,7 +4,8 @@ import { useState } from 'react'
 import styled from 'styled-components'
 
 import useCommunities from '../../../hooks/subgraphs/useCommunities'
-import useSearchCommunities from '../../../hooks/useSearchCommunities'
+
+import useSearchCommunities from '../../../hooks/subgraphs/useSearchCommunities'
 import useTranslation from '../../../hooks/useTranslation'
 import Overlay from '../Overlay'
 import EnsAvatar from '../ens/EnsAvatar'
@@ -15,13 +16,8 @@ export default function LayoutSearch() {
   const [text, setText] = useState<string>('')
   const { t } = useTranslation()
 
-  const communitiesData = useCommunities()
-
-  const communities = communitiesData.communities.map(community => community.address)
-
-  const { searchCommunities } = useSearchCommunities(communities)
-
-  const isLoading = false
+  const { communities, communitiesIsLoading } = useCommunities()
+  const { searchCommunities } = useSearchCommunities()
 
   const options = {
     includeScore: true,
@@ -69,7 +65,7 @@ export default function LayoutSearch() {
         />
         {isOpen && (
           <DropdownMenu isOpen>
-            {!isLoading &&
+            {!communitiesIsLoading &&
               text.length > 0 &&
               result.length > 0 &&
               result.map(community => (
@@ -81,20 +77,20 @@ export default function LayoutSearch() {
                 </Link>
               ))}
 
-            {!isLoading &&
+            {!communitiesIsLoading &&
               text.length === 0 &&
-              communities.map(address => (
-                <Link href={`/stake/deposit/${address}`} key={address}>
-                  <DropdownMenuItem key={address}>
-                    <EnsAvatar address={address} />
-                    <EnsName address={address} />
+              communities.map(community => (
+                <Link href={`/stake/deposit/${community.address}`} key={community.address}>
+                  <DropdownMenuItem key={community.address}>
+                    <EnsAvatar address={community.address} />
+                    <EnsName address={community.address} />
                   </DropdownMenuItem>
                 </Link>
               ))}
-            {!isLoading && text.length > 0 && result.length === 0 && (
+            {!communitiesIsLoading && text.length > 0 && result.length === 0 && (
               <NotFound>{t('emptyCommunity')}</NotFound>
             )}
-            {isLoading && text.length > 0 && <Loading>{t('loading')}</Loading>}
+            {communitiesIsLoading && text.length > 0 && <Loading>{t('loading')}</Loading>}
           </DropdownMenu>
         )}
       </Container>
