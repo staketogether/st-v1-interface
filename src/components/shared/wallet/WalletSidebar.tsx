@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import { globalConfig } from '../../../config/global'
 
-import useSentDelegationsOf from '../../../hooks/contracts/useSentDelegationsOf'
+import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { truncateEther } from '../../../services/truncateEther'
@@ -23,8 +23,10 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { t } = useTranslation()
 
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
-  const { sentDelegations, totalAmountSent, totalDelegationsSent } = useSentDelegationsOf(address)
+
   const accountRewards = '0'
+
+  const { account, accountDelegatedAmount, accountTotalDelegates } = useStAccount(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -58,25 +60,25 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         <div>
           <span>{t('delegated')}</span>
           <span>
-            {`${truncateEther(totalAmountSent.toString())}`} <span>{ceth.symbol}</span>
+            {`${truncateEther(accountDelegatedAmount)}`} <span>{ceth.symbol}</span>
           </span>
         </div>
         <div>
           <span>{t('delegations')}</span>
-          <span>{totalDelegationsSent.toString()}</span>
+          <span>{accountTotalDelegates}</span>
         </div>
       </InfoContainer>
       <InfoContainer>
-        {sentDelegations.map((sentDelegation, index) => (
+        {account?.delegates.map((delegate, index) => (
           <div key={index}>
             <div>
               <div>
-                <EnsAvatar address={sentDelegation.account} />
-                <EnsName address={sentDelegation.account} />
+                <EnsAvatar address={delegate.delegated.address} />
+                <EnsName address={delegate.delegated.address} />
               </div>
             </div>
             <span>
-              {`${truncateEther(sentDelegation.amount.toString())}`}
+              {`${truncateEther(delegate.delegated.delegatedAmount.toString())}`}
               <span>{ceth.symbol}</span>
             </span>
           </div>

@@ -1,7 +1,7 @@
 import chainConfig from '../config/chain'
-import { Community } from '../types/Community'
+import { ENSCommunity } from '../types/Community'
 
-export default async function getSearchCommunities(addresses: `0x${string}`[]): Promise<Community[]> {
+export default async function getSearchCommunities(addresses: `0x${string}`[]): Promise<ENSCommunity[]> {
   const { provider } = chainConfig()
 
   const getCommunityEns = async (address: `0x${string}`) => {

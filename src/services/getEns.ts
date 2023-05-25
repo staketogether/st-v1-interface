@@ -1,7 +1,7 @@
 import chainConfig from '../config/chain'
-import { Community } from '../types/Community'
+import { ENSCommunity } from '../types/Community'
 
-export default async function getEns(address: `0x${string}`): Promise<Community> {
+export default async function getEns(address: `0x${string}`): Promise<ENSCommunity> {
   const { provider } = chainConfig()
 
   const empty = {

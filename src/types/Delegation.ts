@@ -11,8 +11,9 @@ export type Delegation = {
   id: string
   st: string
 
-  delegator: Account[]
-  delegated: Community[]
+  delegator: Account
+  delegated: Community
+
   shares: BigNumber
   amount: BigNumber
 

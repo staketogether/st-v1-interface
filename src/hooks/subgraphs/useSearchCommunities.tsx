@@ -2,10 +2,10 @@ import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import { queryCommunities } from '../../queries/queryCommunities'
 import getSearchCommunities from '../../services/getSearchCommunities'
-import { Community } from '../../types/Community'
+import { Community, ENSCommunity } from '../../types/Community'
 
 export default function useSearchCommunities() {
-  const [searchCommunities, setSearchCommunities] = useState<Community[]>([])
+  const [searchCommunities, setSearchCommunities] = useState<ENSCommunity[]>([])
   const [searchCommunitiesIsLoading, setSearchCommunitiesIsLoading] = useState<boolean>(false)
 
   const { data, loading } = useQuery<{ communities: Community[] }>(queryCommunities)

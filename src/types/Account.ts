@@ -8,7 +8,7 @@ export type Account = {
   address: `0x${string}`
   shares: BigNumber
   amount: BigNumber
-  delegated: Delegation[]
+  delegates: Delegation[]
 
   blockNumber: BigNumber
   blockTimestamp: BigNumber
