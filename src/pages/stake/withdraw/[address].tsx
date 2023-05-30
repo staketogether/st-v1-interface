@@ -10,7 +10,7 @@ type UnstakeCommunityProps = {
   community?: Community
 }
 
-export default function UnstakeCommunity({ community }: UnstakeCommunityProps) {
+export default function WithdrawCommunity({ community }: UnstakeCommunityProps) {
   return (
     <LayoutTemplate>
       <StakeForm community={community} type='withdraw' />

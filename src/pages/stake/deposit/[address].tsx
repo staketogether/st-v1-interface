@@ -10,7 +10,7 @@ type StakeCommunityProps = {
   community?: Community
 }
 
-export default function StakeCommunity({ community }: StakeCommunityProps) {
+export default function DepositCommunity({ community }: StakeCommunityProps) {
   return (
     <LayoutTemplate>
       <StakeForm community={community} type='deposit' />
