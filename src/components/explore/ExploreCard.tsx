@@ -27,20 +27,20 @@ export default function ExploreCard({ community }: ExploreCardProps) {
         <div>
           <div>{t('rewards')}</div>
           <div>
-            {truncateEther(community.rewardsAmount.toString())}
+            {truncateEther(community.rewardsShares.toString())}
             <span>{ceth.symbol}</span>
           </div>
         </div>
         <div>
           <div>{t('delegated')}</div>
           <div>
-            {truncateEther(community.delegatedAmount.toString())}
+            {truncateEther(community.delegatedShares.toString())}
             <span>{ceth.symbol}</span>
           </div>
         </div>
         <div>
           <div>{t('members')}</div>
-          <div>{community.delegates.length}</div>
+          <div>{0}</div>
         </div>
       </CardInfo>
     </Card>

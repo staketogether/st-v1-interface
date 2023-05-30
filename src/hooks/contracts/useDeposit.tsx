@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from 'ethers'
 import { useWaitForTransaction } from 'wagmi'
 import chainConfig from '../../config/chain'
-import { usePrepareStakeTogetherDeposit, useStakeTogetherDeposit } from '../../types/Contracts'
+import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
 
 export default function useDeposit(
   depositAmount: string,
@@ -15,7 +15,7 @@ export default function useDeposit(
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
 
-  const { config } = usePrepareStakeTogetherDeposit({
+  const { config } = usePrepareStakeTogetherDepositPool({
     address: contracts.StakeTogether,
     args: [communityAddress, referral],
     overrides: {
@@ -25,7 +25,7 @@ export default function useDeposit(
     enabled: !depositRule
   })
 
-  const tx = useStakeTogetherDeposit(config)
+  const tx = useStakeTogetherDepositPool(config)
 
   const deposit = () => {
     tx.write?.()

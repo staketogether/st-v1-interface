@@ -24,9 +24,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
 
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
-  const accountRewards = '0'
-
-  const { account, accountDelegatedAmount, accountTotalDelegates } = useStAccount(address)
+  const { account, accountRewards, accountDelegatedAmount, accountTotalDelegates } = useStAccount(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -69,16 +67,16 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         </div>
       </InfoContainer>
       <InfoContainer>
-        {account?.delegates.map((delegate, index) => (
+        {account?.delegations.map((delegation, index) => (
           <div key={index}>
             <div>
               <div>
-                <EnsAvatar address={delegate.delegated.address} />
-                <EnsName address={delegate.delegated.address} />
+                <EnsAvatar address={delegation.delegated.address} />
+                <EnsName address={delegation.delegated.address} />
               </div>
             </div>
             <span>
-              {`${truncateEther(delegate.delegated.delegatedAmount.toString())}`}
+              {`${truncateEther(delegation.delegationShares.toString())}`}
               <span>{ceth.symbol}</span>
             </span>
           </div>
