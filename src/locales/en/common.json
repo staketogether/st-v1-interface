@@ -1,4 +1,5 @@
 {
+  "stakeTogether": "Stake Together",
   "explore": "Explore",
   "stake": "Stake",
   "rewards": "Rewards",
@@ -31,5 +32,13 @@
   "titles": {
     "explore": "Explore Pools",
     "stake": "Stake Ether"
+  },
+  "eth": {
+    "name": "Ether",
+    "symbol": "ETH"
+  },
+  "lsd": {
+    "name": "Pool Ether",
+    "symbol": "PETH"
   }
 }

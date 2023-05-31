@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { AiOutlineCodeSandbox, AiOutlineTeam } from 'react-icons/ai'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
-import { globalConfig } from '../../../config/global'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useTranslation from '../../../hooks/useTranslation'
 import Wallet from '../wallet/Wallet'
@@ -11,13 +10,13 @@ import LayoutSearch from './LayoutSearch'
 
 export default function LayoutHeader() {
   const { t } = useTranslation()
-  const { app } = globalConfig
+
   const { isActive } = useActiveRoute()
   return (
     <Container>
       <MenuContainer>
         <Logo href='/explore'>
-          <Image src={stIcon} alt={app.name} width={40} height={32} />
+          <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
         </Logo>
         <Menu>
           <Link href='/explore'>

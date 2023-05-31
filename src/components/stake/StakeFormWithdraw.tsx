@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { globalConfig } from '../../config/global'
 
 import { useDebounce } from 'usehooks-ts'
 import useReceivedDelegationsOf from '../../hooks/contracts/useReceivedDelegationOf'
@@ -16,7 +15,6 @@ interface StakeFormWithdrawProps {
 }
 
 export default function StakeFormWithdraw({ communityAddress, accountAddress }: StakeFormWithdrawProps) {
-  const { eth, ceth } = globalConfig
   const { t } = useTranslation()
 
   const delegation = useReceivedDelegationsOf(communityAddress, accountAddress)
@@ -56,7 +54,7 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
           value={amount}
           onChange={value => setAmount(value)}
           balance={cethBalance}
-          symbol={ceth.symbol}
+          symbol={t('lsd.symbol')}
           disabled={disabled}
           purple
         />
@@ -64,7 +62,7 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
         <StakeInfo>
           <span>
             {`${t('youReceive')} ${amount || '0'}`}
-            <span>{`${eth.symbol}`}</span>
+            <span>{`${t('eth.symbol')}`}</span>
           </span>
           {/* <div>
             <span>{`${t('delegation')} ${delegationFee}%`}</span>

@@ -2,7 +2,6 @@ import { Drawer } from 'antd'
 
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
-import { globalConfig } from '../../../config/global'
 
 import { AiOutlineLogout, AiOutlineRight } from 'react-icons/ai'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
@@ -18,7 +17,6 @@ export type WalletSidebarProps = {
 }
 
 export default function WalletSidebar({ address }: WalletSidebarProps) {
-  const { ceth } = globalConfig
   const { disconnect } = useDisconnect()
   const { t } = useTranslation()
 
@@ -52,13 +50,13 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         <div>
           <span>{t('rewards')}</span>
           <span>
-            {truncateEther(accountRewards)} <span>{ceth.symbol}</span>
+            {truncateEther(accountRewards)} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('delegated')}</span>
           <span>
-            {`${truncateEther(accountDelegatedAmount)}`} <span>{ceth.symbol}</span>
+            {`${truncateEther(accountDelegatedAmount)}`} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
@@ -77,7 +75,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             </div>
             <span>
               {`${truncateEther(delegation.delegationShares.toString())}`}
-              <span>{ceth.symbol}</span>
+              <span>{t('lsd.symbol')}</span>
             </span>
           </div>
         ))}

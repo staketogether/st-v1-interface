@@ -16,7 +16,7 @@ interface StakeFormDepositProps {
 }
 
 export default function StakeFormDeposit({ communityAddress, accountAddress }: StakeFormDepositProps) {
-  const { ceth, eth, fee } = globalConfig
+  const { fee } = globalConfig
 
   const { t } = useTranslation()
 
@@ -57,14 +57,14 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
           value={amount}
           onChange={value => setAmount(value)}
           balance={ethBalance}
-          symbol={eth.symbol}
+          symbol={t('eth.symbol')}
           disabled={disabled}
         />
         <StakeButton isLoading={isLoading} onClick={deposit} label={label} disabled={disabled} />
         <StakeInfo>
           <span>
             {`${t('youReceive')} ${amount || '0'}`}
-            <span>{`${ceth.symbol}`}</span>
+            <span>{`${t('lsd.symbol')}`}</span>
           </span>
           <div>
             <span>{`${t('delegation')}: ${delegationFee}%`}</span>

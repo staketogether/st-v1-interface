@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-import { globalConfig } from '../../../config/global'
 import useCethBalanceOf from '../../../hooks/contracts/useCethBalanceOf'
+import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { truncateEther } from '../../../services/truncateEther'
 import EnsAvatar from '../ens/EnsAvatar'
@@ -12,15 +12,16 @@ export type WalletConnectedButtonProps = {
 }
 
 export default function WalletConnectedButton({ address }: WalletConnectedButtonProps) {
-  const { ceth } = globalConfig
   const cethBalance = useCethBalanceOf(address)
   const { setOpenSidebar } = useWalletSidebar()
+
+  const { t } = useTranslation()
 
   return (
     <ConnectedButton onClick={() => setOpenSidebar(true)}>
       <CethBalance>
         <span>{truncateEther(cethBalance)}</span>
-        <span>{ceth.symbol}</span>
+        <span>{t('lsd.symbol')}</span>
       </CethBalance>
       <EnsAddress>
         <EnsName address={address} />

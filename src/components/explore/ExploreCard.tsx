@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router'
 import { AiOutlineCheck } from 'react-icons/ai'
 import styled from 'styled-components'
-import { globalConfig } from '../../config/global'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Community } from '../../types/Community'
@@ -14,7 +13,6 @@ type ExploreCardProps = {
 
 export default function ExploreCard({ community }: ExploreCardProps) {
   const router = useRouter()
-  const { ceth } = globalConfig
 
   const { t } = useTranslation()
 
@@ -32,14 +30,14 @@ export default function ExploreCard({ community }: ExploreCardProps) {
           <div>{t('rewards')}</div>
           <div>
             {truncateEther(community.rewardsShares.toString())}
-            <span>{ceth.symbol}</span>
+            <span>{t('lsd.symbol')}</span>
           </div>
         </div>
         <div>
           <div>{t('delegated')}</div>
           <div>
             {truncateEther(community.delegatedShares.toString())}
-            <span>{ceth.symbol}</span>
+            <span>{t('lsd.symbol')}</span>
           </div>
         </div>
         <div>

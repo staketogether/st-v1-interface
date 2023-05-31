@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { globalConfig } from '../../config/global'
 
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
@@ -13,7 +12,6 @@ interface StakeStatsProps {
 
 export default function StakeStats({ community }: StakeStatsProps) {
   const { t } = useTranslation()
-  const { ceth } = globalConfig
 
   const receivedDelegations: Delegation[] = []
 
@@ -25,14 +23,14 @@ export default function StakeStats({ community }: StakeStatsProps) {
             <span>{t('rewards')}</span>
             <span>
               {truncateEther(community.rewardsShares.toString())}
-              <span>{ceth.symbol}</span>
+              <span>{t('lsd.symbol')}</span>
             </span>
           </StatsWrapper>
           <StatsWrapper>
             <span>{t('delegated')}</span>
             <span>
               {`${truncateEther(community.delegatedShares.toString())}`}
-              <span>{ceth.symbol}</span>
+              <span>{t('lsd.symbol')}</span>
             </span>
           </StatsWrapper>
           <StatsWrapper>
@@ -51,7 +49,8 @@ export default function StakeStats({ community }: StakeStatsProps) {
               </div>
               <div>
                 <span>
-                  {`${truncateEther(delegation.delegationShares.toString())}`} <span>{ceth.symbol}</span>
+                  {`${truncateEther(delegation.delegationShares.toString())}`}{' '}
+                  <span>{t('lsd.symbol')}</span>
                 </span>
               </div>
             </Delegation>
