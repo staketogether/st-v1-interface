@@ -7,8 +7,10 @@ import { Account } from '../../types/Account'
 export default function useStAccount(address: `0x${string}`) {
   const [account, setAccount] = useState<Account | undefined>(undefined)
   const [accountIsLoading, setAccountIsLoading] = useState<boolean>(false)
-  const [accountTotalDelegates, setAccountTotalDelegates] = useState<number>(0)
-  const [accountDelegatedAmount, setAccountDelegatedAmount] = useState<string>('0')
+  const [accountTotalDelegations, setAccountTotalDelegations] = useState<number>(0)
+  const [accountDelegationAmount, setAccountDelegationAmount] = useState<string>('0')
+  const [accountRewards, setAccountRewards] = useState<string>('0')
+  const [accountBalance, setAccountBalance] = useState<string>('0')
 
   const { data, loading } = useQuery<{ account: Account }>(queryAccount, {
     variables: { id: address.toLowerCase() }
@@ -17,16 +19,16 @@ export default function useStAccount(address: `0x${string}`) {
   useEffect(() => {
     const account = data?.account
     setAccount(account)
-    setAccountTotalDelegates(account?.delegates.length || 0)
+    setAccountTotalDelegations(account?.delegations.length || 0)
 
-    if (data?.account) {
+    if (account) {
       let amount = BigNumber.from('0')
-
-      account?.delegates.forEach(delegate => {
-        amount = amount.add(delegate.delegated.delegatedAmount)
+      account?.delegations.forEach(delegation => {
+        amount = amount.add(delegation.delegated.delegatedShares)
       })
-
-      setAccountDelegatedAmount(amount.toString())
+      setAccountDelegationAmount(amount.toString())
+      setAccountBalance(account.shares.toString())
+      setAccountRewards(account.rewardsShares.toString())
     }
   }, [data])
 
@@ -34,5 +36,12 @@ export default function useStAccount(address: `0x${string}`) {
     setAccountIsLoading(loading)
   }, [loading, setAccountIsLoading])
 
-  return { account, accountDelegatedAmount, accountTotalDelegates, accountIsLoading }
+  return {
+    account,
+    accountBalance,
+    accountRewards,
+    accountDelegatedAmount: accountDelegationAmount,
+    accountTotalDelegates: accountTotalDelegations,
+    accountIsLoading
+  }
 }

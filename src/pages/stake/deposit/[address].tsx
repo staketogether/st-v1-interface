@@ -1,9 +1,10 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import LayoutHead from '../../../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
 import StakeForm from '../../../components/stake/StakeForm'
-import StakeModalCommunities from '../../../components/stake/StakeModalCommunities'
 import { apolloClient } from '../../../config/apollo'
+import useTranslation from '../../../hooks/useTranslation'
 import { queryCommunity } from '../../../queries/queryCommunity'
 import { Community } from '../../../types/Community'
 
@@ -11,11 +12,13 @@ type StakeCommunityProps = {
   community?: Community
 }
 
-export default function StakeCommunity({ community }: StakeCommunityProps) {
+export default function DepositCommunity({ community }: StakeCommunityProps) {
+  const { t } = useTranslation()
+
   return (
     <LayoutTemplate>
-      <StakeForm communityAddress={community?.address} type='deposit' />
-      <StakeModalCommunities type='deposit' />
+      <LayoutHead text={t('titles.stake')} />
+      <StakeForm community={community} type='deposit' />
     </LayoutTemplate>
   )
 }

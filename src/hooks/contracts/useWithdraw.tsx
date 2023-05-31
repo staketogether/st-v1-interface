@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from 'ethers'
 import { useWaitForTransaction } from 'wagmi'
 import chainConfig from '../../config/chain'
-import { usePrepareStakeTogetherWithdraw, useStakeTogetherWithdraw } from '../../types/Contracts'
+import { usePrepareStakeTogetherWithdrawPool, useStakeTogetherWithdrawPool } from '../../types/Contracts'
 
 export default function useWithdraw(
   withdrawAmount: string,
@@ -13,7 +13,7 @@ export default function useWithdraw(
   const withdrawRule =
     ethers.BigNumber.isBigNumber(withdrawAmount) && BigNumber.from(withdrawAmount).gt(0)
 
-  const { config } = usePrepareStakeTogetherWithdraw({
+  const { config } = usePrepareStakeTogetherWithdrawPool({
     address: contracts.StakeTogether,
     args: [ethers.utils.parseEther(withdrawAmount), communityAddress],
     overrides: {
@@ -22,7 +22,7 @@ export default function useWithdraw(
     enabled: !withdrawRule
   })
 
-  const tx = useStakeTogetherWithdraw(config)
+  const tx = useStakeTogetherWithdrawPool(config)
 
   const withdraw = () => {
     tx.write?.()

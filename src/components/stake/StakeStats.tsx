@@ -1,23 +1,21 @@
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 
-import useReceivedDelegationsOf from '../../hooks/contracts/useReceivedDelegationsOf'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
+import { Community } from '../../types/Community'
+import { Delegation } from '../../types/Delegation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import { default as EnsName } from '../shared/ens/EnsName'
-
 interface StakeStatsProps {
-  communityAddress: `0x${string}`
+  community: Community
 }
 
-export default function StakeStats({ communityAddress }: StakeStatsProps) {
+export default function StakeStats({ community }: StakeStatsProps) {
   const { t } = useTranslation()
   const { ceth } = globalConfig
-  const { receivedDelegations, totalAmountReceived, totalDelegationsReceived } =
-    useReceivedDelegationsOf(communityAddress)
 
-  const communityRewards = '0'
+  const receivedDelegations: Delegation[] = []
 
   return (
     <Container>
@@ -26,34 +24,34 @@ export default function StakeStats({ communityAddress }: StakeStatsProps) {
           <StatsWrapper>
             <span>{t('rewards')}</span>
             <span>
-              {truncateEther(communityRewards)}
+              {truncateEther(community.rewardsShares.toString())}
               <span>{ceth.symbol}</span>
             </span>
           </StatsWrapper>
           <StatsWrapper>
             <span>{t('delegated')}</span>
             <span>
-              {`${truncateEther(totalAmountReceived)}`}
+              {`${truncateEther(community.delegatedShares.toString())}`}
               <span>{ceth.symbol}</span>
             </span>
           </StatsWrapper>
           <StatsWrapper>
             <span>{t('members')}</span>
-            <span>{totalDelegationsReceived}</span>
+            <span>{0}</span>
           </StatsWrapper>
         </Stats>
       </StatsContainer>
       {receivedDelegations.length > 0 && (
         <DelegationsContainer>
           {receivedDelegations.map(delegation => (
-            <Delegation key={delegation.account}>
+            <Delegation key={delegation.delegate.address}>
               <div>
-                <EnsAvatar address={delegation.account as `0x${string}`} />
-                <EnsName address={delegation.account as `0x${string}`} />
+                <EnsAvatar address={delegation.delegate.address} />
+                <EnsName address={delegation.delegate.address} />
               </div>
               <div>
                 <span>
-                  {`${truncateEther(delegation.amount.toString())}`} <span>{ceth.symbol}</span>
+                  {`${truncateEther(delegation.delegationShares.toString())}`} <span>{ceth.symbol}</span>
                 </span>
               </div>
             </Delegation>

@@ -1,20 +1,19 @@
 import { BigNumber } from 'ethers'
+import { Account } from './Account'
 import { Delegation } from './Delegation'
 
 export type Community = {
+  id: string
+
+  account: Account
+
   address: `0x${string}`
-
   active: boolean
+
   delegatedShares: BigNumber
-  delegatedAmount: BigNumber
-  delegates: Delegation[]
-
   rewardsShares: BigNumber
-  rewardsAmount: BigNumber
 
-  blockNumber: BigNumber
-  blockTimestamp: BigNumber
-  transactionHash: string
+  delegations: Delegation[]
 } & ENSCommunity
 
 export type ENSCommunity = {

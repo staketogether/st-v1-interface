@@ -2,15 +2,10 @@ import { gql } from '@apollo/client'
 
 export const queryCommunitiesDelegations = gql`
   query CommunitiesDelegations {
-    communities {
+    communities(orderBy: rewardsShares, orderDirection: desc, where: { active: true }) {
       address
-      delegatedAmount
-      rewardsAmount
-      delegates {
-        delegator {
-          id
-        }
-      }
+      delegatedShares
+      rewardsShares
     }
   }
 `

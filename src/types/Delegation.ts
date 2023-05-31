@@ -11,13 +11,8 @@ export type Delegation = {
   id: string
   st: string
 
-  delegator: Account
+  delegate: Account
   delegated: Community
 
-  shares: BigNumber
-  amount: BigNumber
-
-  blockNumber: BigNumber
-  blockTimestamp: BigNumber
-  transactionHash: string
+  delegationShares: BigNumber
 }

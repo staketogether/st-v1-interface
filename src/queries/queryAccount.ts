@@ -1,13 +1,16 @@
 import { gql } from '@apollo/client'
 
 export const queryAccount = gql`
-  query Account($id: String) {
+  query Account($id: ID!) {
     account(id: $id) {
       address
-      delegates(where: { delegator: $id }, orderBy: shares) {
+      sharesEther
+      rewardsSharesEther
+      delegations {
+        id
+        delegationShares
         delegated {
           address
-          delegatedAmount
         }
       }
     }

@@ -6,11 +6,9 @@ export type Account = {
   st: string
 
   address: `0x${string}`
-  shares: BigNumber
-  amount: BigNumber
-  delegates: Delegation[]
 
-  blockNumber: BigNumber
-  blockTimestamp: BigNumber
-  transactionHash: string
+  shares: BigNumber
+  rewardsShares: BigNumber
+
+  delegations: Delegation[]
 }

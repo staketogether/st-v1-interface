@@ -10,7 +10,6 @@ export type ChainConfig = {
   }
   contracts: {
     STOracle: `0x${string}`
-    STValidator: `0x${string}`
     StakeTogether: `0x${string}`
   }
 }
@@ -24,7 +23,6 @@ const configs: ChainConfig[] = [
     ),
     contracts: {
       STOracle: '0x',
-      STValidator: '0x',
       StakeTogether: '0x'
     },
     subgraphs: {
@@ -39,13 +37,12 @@ const configs: ChainConfig[] = [
       `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`
     ),
     contracts: {
-      STOracle: '0x6f0Ac11a4853aFfFe55124d490F675196FCA4d77',
-      STValidator: '0xfCB3C7bc76abc884bD7f2A288b2E1542B678165F',
-      StakeTogether: '0x5FA43a35AF0d89C695ba89aae742c38A35dE6592'
+      STOracle: '0xAf5B0acfd0c71A442869412F76084a1b7ccF85d3',
+      StakeTogether: '0x1D61e1e9a2C3DF39cfe668318ca0701db0CEDc60'
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-goerli/version/latest',
-      ENS: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'
+      ENS: ''
     }
   },
   {
@@ -54,7 +51,6 @@ const configs: ChainConfig[] = [
     provider: new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`),
     contracts: {
       STOracle: '0xb36c1ae8e5076b55569Dd399Ea79D96E60E4E322',
-      STValidator: '0x9c63686aE146B45A2368ABc9AecE4203A3559f35',
       StakeTogether: '0x27c85150D755D383A4f86d0aeD8232815674771f'
     },
     subgraphs: {
