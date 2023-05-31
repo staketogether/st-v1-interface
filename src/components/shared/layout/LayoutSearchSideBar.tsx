@@ -52,20 +52,21 @@ export default function LayoutSearchSideBar() {
       onClose={() => searchModalVar(false)}
       mask={true}
       open={searchModal}
-      closeIcon={<ArrowLeftOutlined />}
-      title={t('searchCommunity')}
     >
       <Container>
-        <InputSearchContainer>
-          <SearchIcon />
-          <InputSearch
-            type='text'
-            value={text}
-            placeholder={t('searchCommunity')}
-            onChange={e => onChange(e.target.value)}
-            className={`${searchModal ? 'active' : ''}`}
-          />
-        </InputSearchContainer>
+        <Header>
+          <CloseIcon />
+          <InputSearchContainer>
+            <SearchIcon />
+            <InputSearch
+              type='text'
+              value={text}
+              placeholder={t('searchCommunity')}
+              onChange={e => onChange(e.target.value)}
+              className={`${searchModal ? 'active' : ''}`}
+            />
+          </InputSearchContainer>
+        </Header>
         {searchModal && (
           <DropdownMenu isOpen>
             {!communitiesIsLoading &&
@@ -106,17 +107,19 @@ const {
   InputSearchContainer,
   SearchIcon,
   Container,
+  Header,
   DropdownMenu,
   InputSearch,
   DropdownMenuItem,
   NotFound,
-  Loading
+  Loading,
+  CloseIcon
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.color.whiteAlpha[800]} !important;
 
-    .ant-drawer-title {
-      color: ${({ theme }) => theme.color.blue[300]};
+    .ant-drawer-header.ant-drawer-header-close-only {
+      display: none;
     }
 
     .ant-drawer-body {
@@ -135,6 +138,15 @@ const {
     gap: 16px;
     height: 32px;
   `,
+  Header: styled.header`
+    display: flex;
+    gap: ${({ theme }) => theme.size[16]};
+    align-items: center;
+  `,
+  CloseIcon: styled(ArrowLeftOutlined)`
+    font-size: 18px;
+    color: ${({ theme }) => theme.color.blue[300]};
+  `,
   InputSearchContainer: styled.div`
     width: 100%;
     position: relative;
@@ -144,7 +156,7 @@ const {
     top: 50%;
     left: 10px;
     transform: translateY(-50%);
-    color: #ccc;
+    color: ${({ theme }) => theme.color.blue[300]};
   `,
   InputSearch: styled.input`
     width: 100% !important;
@@ -198,13 +210,8 @@ const {
     gap: ${({ theme }) => theme.size[8]};
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    transition: background-color 0s ease;
 
-    border-radius: ${({ theme }) => theme.size[16]};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-    transition: background-color 0.2s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[16]};
+    padding: ${({ theme }) => theme.size[4]} 0px;
   `,
   NotFound: styled.div`
     display: grid;
