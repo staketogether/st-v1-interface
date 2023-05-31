@@ -10,8 +10,10 @@ export default function useEthToUsdPrice(eth: string) {
 
   useEffect(() => {
     const fetchPrice = async () => {
+      const ethAmount = eth.length > 0 ? ethers.utils.parseEther(eth) : BigNumber.from(0)
+
       try {
-        if (eth && BigNumber.from(eth).gt(0)) {
+        if (ethAmount.gt(0)) {
           const response = await axios.get<{
             ethereum: {
               usd: number
@@ -19,8 +21,6 @@ export default function useEthToUsdPrice(eth: string) {
           }>('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
 
           const price = response.data.ethereum.usd as number
-
-          const ethAmount = eth
 
           const usdAmount = ethers.utils.parseEther(price.toString()).mul(ethAmount)
 
