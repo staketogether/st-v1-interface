@@ -9,8 +9,8 @@ import Wallet from '../wallet/Wallet'
 import LayoutSearch from './LayoutSearch'
 
 export default function LayoutHeader() {
-  const { t } = useTranslation()
   const { app } = globalConfig
+  const { t } = useTranslation()
   const { isActive } = useActiveRoute()
   return (
     <Container>

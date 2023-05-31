@@ -5,9 +5,11 @@ import stIcon from '../../../../public/assets/st-icon.png'
 import { globalConfig } from '../../../config/global'
 import Wallet from '../wallet/Wallet'
 import { SearchOutlined } from '@ant-design/icons'
+import LayoutSearchSideBar, { searchModalVar } from './LayoutSearchSideBar'
 
 export default function LayoutHeaderMobile() {
   const { app } = globalConfig
+
   return (
     <Container>
       <Content>
@@ -15,12 +17,13 @@ export default function LayoutHeaderMobile() {
           <Image src={stIcon} alt={app.name} width={40} height={32} />
         </Logo>
         <WalletContainer>
-          <Button>
+          <Button onClick={() => searchModalVar(true)}>
             <SearchOutlined />
           </Button>
           <Wallet />
         </WalletContainer>
       </Content>
+      <LayoutSearchSideBar />
     </Container>
   )
 }

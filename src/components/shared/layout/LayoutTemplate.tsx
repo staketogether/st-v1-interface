@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
+import LayoutMenuMobile from './LayoutMenuMobile'
 
 interface LayoutTemplateProps {
   children: ReactNode
@@ -17,6 +18,7 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
           <Body>{children}</Body>
         </Content>
       </Wrapper>
+      <LayoutMenuMobile />
       <LayoutFooter />
     </Container>
   )
