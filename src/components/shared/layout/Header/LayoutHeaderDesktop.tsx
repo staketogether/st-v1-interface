@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
-import stIcon from '../../../../public/assets/st-icon.png'
-import { globalConfig } from '../../../config/global'
-import useActiveRoute from '../../../hooks/useActiveRoute'
-import useTranslation from '../../../hooks/useTranslation'
-import Wallet from '../wallet/Wallet'
-import LayoutSearch from './LayoutSearch'
+import stIcon from '../../../../../public/assets/st-icon.png'
+import { globalConfig } from '../../../../config/global'
+import useActiveRoute from '../../../../hooks/useActiveRoute'
+import useTranslation from '../../../../hooks/useTranslation'
+import Wallet from '../../wallet/Wallet'
+import LayoutSearch from '../LayoutSearch'
 
 export default function LayoutHeader() {
   const { t } = useTranslation()
@@ -41,16 +41,26 @@ export default function LayoutHeader() {
 
 const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, MenuButton } = {
   Container: styled.header`
-    display: grid;
-    grid-template-columns: 1fr 470px 1fr;
-    gap: ${({ theme }) => theme.size[32]};
+    display: none;
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      display: grid;
+      grid-template-columns: auto minmax(350px, 470px) auto;
+      gap: 32px;
+    }
+    @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+      grid-template-columns: 1fr 470px 1fr;
+      gap: ${({ theme }) => theme.size[32]};
+    }
   `,
   MenuContainer: styled.div`
     display: grid;
-    grid-template-columns: 40px 1fr;
-    justify-content: center;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[32]};
+    grid-template-columns: auto;
+    @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+      grid-template-columns: 40px 1fr;
+      justify-content: center;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[32]};
+    }
   `,
   SearchContainer: styled.div`
     display: grid;
@@ -64,9 +74,12 @@ const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, 
     justify-content: flex-end;
   `,
   Menu: styled.nav`
-    display: flex;
-    justify-content: flex-start;
-    gap: ${({ theme }) => theme.size[8]};
+    display: none;
+    @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+      display: flex;
+      justify-content: flex-start;
+      gap: ${({ theme }) => theme.size[8]};
+    }
   `,
   Logo: styled(Link)`
     width: 40px;

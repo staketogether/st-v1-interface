@@ -13,7 +13,7 @@ export default function Wallet() {
     if (accountIsConnected && account) {
       setWallet(
         <>
-          <WalletConnectedButton address={account} />
+          <WalletConnectedButton address={account} showBalance={false} />
           <WalletSidebar address={account} />
         </>
       )
