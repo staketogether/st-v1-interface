@@ -17,7 +17,8 @@ export default function useWithdraw(
     address: contracts.StakeTogether,
     args: [ethers.utils.parseEther(withdrawAmount), communityAddress],
     overrides: {
-      from: accountAddress
+      from: accountAddress,
+      gasLimit: BigNumber.from('90000')
     },
     enabled: !withdrawRule
   })
