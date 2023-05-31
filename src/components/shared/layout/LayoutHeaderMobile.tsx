@@ -2,23 +2,22 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
-import { globalConfig } from '../../../config/global'
 import Wallet from '../wallet/Wallet'
-import { SearchOutlined } from '@ant-design/icons'
 import LayoutSearchSideBar, { searchModalVar } from './LayoutSearchSideBar'
+import useTranslation from '@/hooks/useTranslation'
+import { AiOutlineSearch } from 'react-icons/ai'
 
 export default function LayoutHeaderMobile() {
-  const { app } = globalConfig
-
+  const { t } = useTranslation()
   return (
     <Container>
       <Content>
         <Logo href='/explore'>
-          <Image src={stIcon} alt={app.name} width={40} height={32} />
+          <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
         </Logo>
         <WalletContainer>
           <Button onClick={() => searchModalVar(true)}>
-            <SearchOutlined />
+            <AiOutlineSearch />
           </Button>
           <Wallet />
         </WalletContainer>
@@ -32,7 +31,7 @@ const { Container, Content, WalletContainer, Logo, Button } = {
   Container: styled.header`
     display: grid;
     gap: ${({ theme }) => theme.size[24]};
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: none;
     }
   `,

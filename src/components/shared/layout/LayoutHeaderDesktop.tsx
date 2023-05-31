@@ -45,24 +45,20 @@ export default function LayoutHeader() {
 const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, MenuButton } = {
   Container: styled.header`
     display: none;
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: grid;
-      grid-template-columns: auto minmax(350px, 470px) auto;
-      gap: 32px;
-    }
-    @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
-      grid-template-columns: 1fr 470px 1fr;
+      grid-template-columns: 1fr minMax(330px, 470px) 1fr;
       gap: ${({ theme }) => theme.size[32]};
     }
   `,
   MenuContainer: styled.div`
     display: grid;
     grid-template-columns: auto;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 40px 1fr;
+    gap: ${({ theme }) => theme.size[32]};
     @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
-      grid-template-columns: 40px 1fr;
-      justify-content: center;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[32]};
     }
   `,
   SearchContainer: styled.div`
@@ -78,7 +74,7 @@ const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, 
   `,
   Menu: styled.nav`
     display: none;
-    @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       display: flex;
       justify-content: flex-start;
       gap: ${({ theme }) => theme.size[8]};

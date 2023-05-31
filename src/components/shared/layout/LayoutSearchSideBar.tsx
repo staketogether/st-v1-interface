@@ -11,7 +11,7 @@ import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
 import { makeVar, useReactiveVar } from '@apollo/client'
 import { Drawer } from 'antd'
-import { ArrowLeftOutlined, SearchOutlined } from '@ant-design/icons'
+import { AiOutlineArrowLeft, AiOutlineSearch } from 'react-icons/ai'
 
 export const searchModalVar = makeVar(false)
 export default function LayoutSearchSideBar() {
@@ -143,7 +143,7 @@ const {
     gap: ${({ theme }) => theme.size[16]};
     align-items: center;
   `,
-  CloseIcon: styled(ArrowLeftOutlined)`
+  CloseIcon: styled(AiOutlineArrowLeft)`
     font-size: 18px;
     color: ${({ theme }) => theme.color.blue[300]};
   `,
@@ -151,7 +151,7 @@ const {
     width: 100%;
     position: relative;
   `,
-  SearchIcon: styled(SearchOutlined)`
+  SearchIcon: styled(AiOutlineSearch)`
     position: absolute;
     top: 50%;
     left: 10px;
