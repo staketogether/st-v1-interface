@@ -36,7 +36,7 @@ export default function StakeStats({ community }: StakeStatsProps) {
             </span>
           </StatsWrapper>
           <StatsWrapper>
-            <span>{t('members')}</span>
+            <span>{t('stakers')}</span>
             <span>{0}</span>
           </StatsWrapper>
         </Stats>

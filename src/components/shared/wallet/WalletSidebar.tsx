@@ -1,10 +1,10 @@
-import { DoubleRightOutlined, LogoutOutlined } from '@ant-design/icons'
 import { Drawer } from 'antd'
 
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import { globalConfig } from '../../../config/global'
 
+import { AiOutlineLogout, AiOutlineRight } from 'react-icons/ai'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
@@ -41,11 +41,11 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
     >
       <HeaderContainer>
         <ClosedSidebarButton onClick={() => setOpenSidebar(false)}>
-          <CloseSidebar />
+          <CloseSidebar fontSize={14} />
         </ClosedSidebarButton>
         <WalletConnectedButton address={address} />
         <LogoutButton onClick={() => disconnectWallet()}>
-          <Logout />
+          <Logout fontSize={14} />
         </LogoutButton>
       </HeaderContainer>
       <InfoContainer>
@@ -159,12 +159,13 @@ const {
     box-shadow: ${({ theme }) => theme.shadow[100]};
     background: ${({ theme }) => theme.color.whiteAlpha[700]};
     transition: background 0.2s ease;
+    line-height: 36px;
 
     &:hover {
       background: ${({ theme }) => theme.color.whiteAlpha[900]};
     }
   `,
-  CloseSidebar: styled(DoubleRightOutlined)`
+  CloseSidebar: styled(AiOutlineRight)`
     color: ${({ theme }) => theme.color.primary};
   `,
   LogoutButton: styled.button`
@@ -175,12 +176,13 @@ const {
     box-shadow: ${({ theme }) => theme.shadow[100]};
     background: ${({ theme }) => theme.color.whiteAlpha[700]};
     transition: background 0.2s ease;
+    line-height: 36px;
 
     &:hover {
       background: ${({ theme }) => theme.color.whiteAlpha[900]};
     }
   `,
-  Logout: styled(LogoutOutlined)`
+  Logout: styled(AiOutlineLogout)`
     color: ${({ theme }) => theme.color.primary};
   `
 }

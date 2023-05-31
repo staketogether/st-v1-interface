@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import useCommunities from '../../../hooks/subgraphs/useCommunities'
 
+import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai'
 import useSearchCommunities from '../../../hooks/subgraphs/useSearchCommunities'
 import useTranslation from '../../../hooks/useTranslation'
 import Overlay from '../Overlay'
@@ -51,18 +52,31 @@ export default function LayoutSearch() {
     setIsOpen(true)
   }
 
+  const clearText = () => {
+    setText('')
+  }
+
   return (
     <>
       {isOpen && <Overlay onClick={() => setIsOpen(false)} />}
       <Container onMouseLeave={handleMouseLeave}>
-        <InputSearch
-          type='text'
-          value={text}
-          placeholder={t('searchCommunity')}
-          onChange={e => onChange(e.target.value)}
-          onClick={handleButtonClick}
-          className={`${isOpen ? 'active' : ''}`}
-        />
+        <InputSearchArea className={`${isOpen ? 'active' : ''}`}>
+          <button>
+            <AiOutlineSearch fontSize={16} />
+          </button>
+          <InputSearch
+            type='text'
+            value={text}
+            placeholder={t('searchCommunity')}
+            onChange={e => onChange(e.target.value)}
+            onClick={handleButtonClick}
+          />
+          {text && text.length > 0 && (
+            <button onClick={clearText}>
+              <AiOutlineClose fontSize={16} />
+            </button>
+          )}
+        </InputSearchArea>
         {isOpen && (
           <DropdownMenu isOpen>
             {!communitiesIsLoading &&
@@ -98,7 +112,7 @@ export default function LayoutSearch() {
   )
 }
 
-const { Container, DropdownMenu, InputSearch, DropdownMenuItem, NotFound, Loading } = {
+const { Container, DropdownMenu, InputSearchArea, InputSearch, DropdownMenuItem, NotFound, Loading } = {
   Container: styled.div`
     width: 100%;
     position: relative;
@@ -107,21 +121,18 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem, NotFound, Loadin
     gap: 16px;
     height: 32px;
   `,
-  InputSearch: styled.input`
+  InputSearchArea: styled.div`
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: auto 1fr auto;
+    gap: ${({ theme }) => theme.size[4]};
+    align-items: center;
 
-    width: auto;
-    height: 32px;
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
     background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
-    padding: 0 16px;
+    padding: 0 ${({ theme }) => theme.size[8]};
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    padding-top: 0;
 
     &:hover {
       background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
@@ -132,6 +143,62 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem, NotFound, Loadin
       color: ${({ theme }) => theme.color.primary};
       border: none;
       outline: none;
+    }
+
+    &.active {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+
+      button:first-of-type {
+        color: ${({ theme }) => theme.color.secondary};
+      }
+    }
+
+    button {
+      padding: ${({ theme }) => theme.size[4]};
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      background-color: ${({ theme }) => theme.color.transparent};
+      border: none;
+      color: ${({ theme }) => theme.color.primary};
+
+      &:hover {
+        color: ${({ theme }) => theme.color.secondary};
+      }
+    }
+  `,
+  InputSearch: styled.input`
+    display: grid;
+    grid-template-columns: 1fr;
+
+    background-color: ${({ theme }) => theme.color.transparent};
+    border: none;
+
+    padding: 0 ${({ theme }) => theme.size[4]};
+    transition: background-color 0.1s ease;
+
+    width: auto;
+    height: 32px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+
+    padding-top: 0;
+
+    &:focus {
+      color: ${({ theme }) => theme.color.primary};
+    }
+
+    &:focus {
+      background-color: ${({ theme }) => theme.color.transparent};
+      color: ${({ theme }) => theme.color.primary};
+      border: none;
+      outline: none;
+    }
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.transparent};
     }
 
     &.active {
@@ -174,6 +241,12 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem, NotFound, Loadin
     color: ${({ theme }) => theme.color.primary};
     border: none;
     transition: background-color 0s ease;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      border-radius: ${({ theme }) => theme.size[16]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+    }
   `,
   NotFound: styled.div`
     display: grid;

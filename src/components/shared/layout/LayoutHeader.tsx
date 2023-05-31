@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { AiOutlineCodeSandbox, AiOutlineTeam } from 'react-icons/ai'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import { globalConfig } from '../../../config/global'
@@ -20,11 +21,14 @@ export default function LayoutHeader() {
         </Logo>
         <Menu>
           <Link href='/explore'>
-            <MenuButton className={`${isActive('explore') ? 'active' : ''}`}>{t('explore')}</MenuButton>
+            <MenuButton className={`${isActive('explore') ? 'active' : ''}`}>
+              <AiOutlineTeam size={16} />
+              {t('explore')}
+            </MenuButton>
           </Link>
           <Link href='/stake/deposit'>
             <MenuButton className={`${isActive('stake') || isActive('unstake') ? 'active' : ''}`}>
-              {t('stake')}
+              <AiOutlineCodeSandbox size={16} /> {t('stake')}
             </MenuButton>
           </Link>
         </Menu>
@@ -73,6 +77,10 @@ const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, 
     height: 32px;
   `,
   MenuButton: styled.button`
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: ${({ theme }) => theme.size[4]};
+    align-items: center;
     width: auto;
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};

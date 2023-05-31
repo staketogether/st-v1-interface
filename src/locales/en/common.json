@@ -6,10 +6,10 @@
   "processing": "Processing...",
   "staked": "Staked",
   "unstake": "Unstake",
-  "members": "Members",
+  "stakers": "Stakers",
   "delegations": "Delegations",
   "balance": "Balance",
-  "selectCommunity": "Select a Community",
+  "selectCommunity": "Select a Pool",
   "max": "Max",
   "action": "Staking...",
   "youReceive": "You receive",
@@ -17,8 +17,8 @@
   "fee": "Fee",
   "delegated": "Delegated",
   "wallet": "Connect Wallet",
-  "searchCommunity": "Search for communities",
-  "emptyCommunity": "Community not found",
+  "searchCommunity": "Search Pools",
+  "emptyCommunity": "Pool not found",
   "copyClipboard": "Copy to clipboard",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
@@ -29,7 +29,7 @@
   "pnl": "PNL",
   "rewardsFee": "Rewards Fee",
   "titles": {
-    "explore": "Explore Communities",
+    "explore": "Explore Pools",
     "stake": "Stake Ether"
   }
 }
