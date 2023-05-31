@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import { AiOutlineCheck } from 'react-icons/ai'
 import useTranslation from '../../hooks/useTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
@@ -23,7 +24,10 @@ export default function StakeSelectCommunity({ communityAddress }: StakeSelectCo
       setSelect(
         <CommunitySelected>
           <EnsAvatar large address={communityAddress} />
-          <EnsName large address={communityAddress} />
+          <Verified>
+            <EnsName large address={communityAddress} />
+            <AiOutlineCheck fontSize={14} />
+          </Verified>
         </CommunitySelected>
       )
     }
@@ -32,7 +36,7 @@ export default function StakeSelectCommunity({ communityAddress }: StakeSelectCo
   return <Container>{select}</Container>
 }
 
-const { Container, SelectCommunity, CommunitySelected } = {
+const { Container, SelectCommunity, CommunitySelected, Verified } = {
   Container: styled.button`
     display: grid;
     grid-template-columns: 1fr;
@@ -54,7 +58,7 @@ const { Container, SelectCommunity, CommunitySelected } = {
     span:first-child {
       align-self: flex-start;
 
-      font-size: ${({ theme }) => theme.font.size[14]};
+      font-size: ${({ theme }) => theme.font.size[15]};
 
       color: ${({ theme }) => theme.color.black};
     }
@@ -74,7 +78,14 @@ const { Container, SelectCommunity, CommunitySelected } = {
   CommunitySelected: styled.div`
     display: grid;
     grid-template-columns: auto auto;
+    align-items: center;
     gap: ${({ theme }) => theme.size[12]};
     cursor: default;
+  `,
+  Verified: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+    color: ${({ theme }) => theme.color.whatsapp[600]};
   `
 }

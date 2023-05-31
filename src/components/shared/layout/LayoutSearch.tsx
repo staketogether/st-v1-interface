@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import useCommunities from '../../../hooks/subgraphs/useCommunities'
 
-import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai'
+import { AiOutlineClose, AiOutlineSearch, AiOutlineWarning } from 'react-icons/ai'
 import useSearchCommunities from '../../../hooks/subgraphs/useSearchCommunities'
 import useTranslation from '../../../hooks/useTranslation'
 import Overlay from '../Overlay'
@@ -102,7 +102,10 @@ export default function LayoutSearch() {
                 </Link>
               ))}
             {!communitiesIsLoading && text.length > 0 && result.length === 0 && (
-              <NotFound>{t('emptyCommunity')}</NotFound>
+              <NotFound>
+                <AiOutlineWarning fontSize={14} />
+                <div>{t('emptyCommunity')}</div>
+              </NotFound>
             )}
             {communitiesIsLoading && text.length > 0 && <Loading>{t('loading')}</Loading>}
           </DropdownMenu>
@@ -250,7 +253,8 @@ const { Container, DropdownMenu, InputSearchArea, InputSearch, DropdownMenuItem,
   `,
   NotFound: styled.div`
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 16px 1fr;
+    gap: 8px;
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
     cursor: default;

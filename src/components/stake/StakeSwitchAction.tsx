@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { AiOutlineVerticalAlignBottom, AiOutlineVerticalAlignTop } from 'react-icons/ai'
 import styled from 'styled-components'
 import useActiveRoute from '../../hooks/useActiveRoute'
 import useTranslation from '../../hooks/useTranslation'
@@ -29,12 +30,14 @@ export default function StakeSwitchActions({ communityAddress }: StakeSwitchActi
           className={`${isActive('deposit') ? 'active' : ''}`}
           onClick={() => handleSwitch('deposit')}
         >
+          <AiOutlineVerticalAlignBottom />
           {t('deposit')}
         </StakeTab>
         <StakeTab
           className={`${isActive('withdraw') ? 'active' : ''} purple`}
           onClick={() => handleSwitch('withdraw')}
         >
+          <AiOutlineVerticalAlignTop />
           {t('withdraw')}
         </StakeTab>
       </Tabs>
@@ -58,6 +61,7 @@ const { Container, Tabs, StakeTab } = {
     height: 32px;
     display: flex;
     align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
 
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
