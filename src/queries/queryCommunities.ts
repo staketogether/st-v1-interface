@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 
 export const queryCommunities = gql`
   query Communities {
-    communities {
+    communities(orderBy: rewardsShares, orderDirection: desc, where: { active: true }) {
       address
     }
   }

@@ -51,9 +51,8 @@ const { Container, Wrapper, Content, Body } = {
   Body: styled.div`
     display: grid;
     grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
+    gap: ${props => props.theme.size[32]};
     justify-content: center;
     place-items: center;
-    /* Todo! Temp, remove later */
-    min-width: ${({ theme }) => theme.breakpoints.lg};
   `
 }

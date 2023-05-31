@@ -27,5 +27,9 @@
   "loading": "Loading...",
   "apr": "APR",
   "pnl": "PNL",
-  "rewardsFee": "Rewards Fee"
+  "rewardsFee": "Rewards Fee",
+  "titles": {
+    "explore": "Explore Communities",
+    "stake": "Stake Ether"
+  }
 }
