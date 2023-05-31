@@ -1,30 +1,33 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { AiOutlineCodeSandbox, AiOutlineTeam } from 'react-icons/ai'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
-import { globalConfig } from '../../../config/global'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useTranslation from '../../../hooks/useTranslation'
 import Wallet from '../wallet/Wallet'
 import LayoutSearch from './LayoutSearch'
 
 export default function LayoutHeader() {
-  const { app } = globalConfig
   const { t } = useTranslation()
+
   const { isActive } = useActiveRoute()
   return (
     <Container>
       <MenuContainer>
         <Logo href='/explore'>
-          <Image src={stIcon} alt={app.name} width={40} height={32} />
+          <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
         </Logo>
         <Menu>
           <Link href='/explore'>
-            <MenuButton className={`${isActive('explore') ? 'active' : ''}`}>{t('explore')}</MenuButton>
+            <MenuButton className={`${isActive('explore') ? 'active' : ''}`}>
+              <AiOutlineTeam size={16} />
+              {t('explore')}
+            </MenuButton>
           </Link>
           <Link href='/stake/deposit'>
             <MenuButton className={`${isActive('stake') || isActive('unstake') ? 'active' : ''}`}>
-              {t('stake')}
+              <AiOutlineCodeSandbox size={16} /> {t('stake')}
             </MenuButton>
           </Link>
         </Menu>
@@ -86,6 +89,10 @@ const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, 
     height: 32px;
   `,
   MenuButton: styled.button`
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: ${({ theme }) => theme.size[4]};
+    align-items: center;
     width: auto;
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};

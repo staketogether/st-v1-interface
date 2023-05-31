@@ -20,7 +20,8 @@ export default function useDeposit(
     args: [communityAddress, referral],
     overrides: {
       from: accountAddress,
-      value: ethers.utils.parseEther(depositAmount)
+      value: ethers.utils.parseEther(depositAmount),
+      gasLimit: BigNumber.from('90000')
     },
     enabled: !depositRule
   })

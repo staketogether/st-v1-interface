@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
+import { AiOutlineCheck } from 'react-icons/ai'
 import styled from 'styled-components'
-import { globalConfig } from '../../config/global'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Community } from '../../types/Community'
@@ -13,7 +13,6 @@ type ExploreCardProps = {
 
 export default function ExploreCard({ community }: ExploreCardProps) {
   const router = useRouter()
-  const { ceth } = globalConfig
 
   const { t } = useTranslation()
 
@@ -21,25 +20,28 @@ export default function ExploreCard({ community }: ExploreCardProps) {
     <Card onClick={() => router.push(`/stake/deposit/${community.address}`)}>
       <CardHeader>
         <EnsAvatar large address={community.address} />
-        <EnsName large address={community.address} />
+        <Verified>
+          <AiOutlineCheck fontSize={14} />
+          <EnsName large address={community.address} />
+        </Verified>
       </CardHeader>
       <CardInfo>
         <div>
           <div>{t('rewards')}</div>
           <div>
             {truncateEther(community.rewardsShares.toString())}
-            <span>{ceth.symbol}</span>
+            <span>{t('lsd.symbol')}</span>
           </div>
         </div>
         <div>
           <div>{t('delegated')}</div>
           <div>
             {truncateEther(community.delegatedShares.toString())}
-            <span>{ceth.symbol}</span>
+            <span>{t('lsd.symbol')}</span>
           </div>
         </div>
         <div>
-          <div>{t('members')}</div>
+          <div>{t('stakers')}</div>
           <div>{0}</div>
         </div>
       </CardInfo>
@@ -47,7 +49,7 @@ export default function ExploreCard({ community }: ExploreCardProps) {
   )
 }
 
-const { Card, CardInfo, CardHeader } = {
+const { Card, CardInfo, CardHeader, Verified } = {
   Card: styled.div`
     display: grid;
     flex-direction: column;
@@ -107,5 +109,11 @@ const { Card, CardInfo, CardHeader } = {
         }
       }
     }
+  `,
+  Verified: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+    color: ${({ theme }) => theme.color.whatsapp[600]};
   `
 }

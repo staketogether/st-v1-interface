@@ -51,7 +51,7 @@ export default function StakeFormInput({
         </MaxValue>
       </InputContainer>
       <BalanceInfo>
-        <span>{value && price && `${price} ${t('usd')}`}</span>
+        <span>{value && price && `${truncateEther(price.toString())} ${t('usd')}`}</span>
         <span>
           {t('balance')}: {truncateEther(balance)} {symbol}
         </span>

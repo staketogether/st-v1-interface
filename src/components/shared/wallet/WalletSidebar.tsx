@@ -1,9 +1,7 @@
-import { DoubleRightOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons'
 import { Drawer } from 'antd'
-
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
-import { globalConfig } from '../../../config/global'
+import { AiOutlineLogout, AiOutlineRight, AiFillSetting } from 'react-icons/ai'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
@@ -18,7 +16,6 @@ export type WalletSidebarProps = {
 }
 
 export default function WalletSidebar({ address }: WalletSidebarProps) {
-  const { ceth } = globalConfig
   const { disconnect } = useDisconnect()
   const { t } = useTranslation()
   const cethBalance = useCethBalanceOf(address)
@@ -41,15 +38,15 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
     >
       <HeaderContainer>
         <ClosedSidebarButton onClick={() => setOpenSidebar(false)}>
-          <CloseSidebar />
+          <CloseSidebar fontSize={14} />
         </ClosedSidebarButton>
         <WalletConnectedButton address={address} showBalance={false} />
         <div>
           <Button>
-            <SettingOutlined />
+            <AiFillSetting />
           </Button>
           <Button onClick={() => disconnectWallet()}>
-            <Logout />
+            <Logout fontSize={14} />
           </Button>
         </div>
       </HeaderContainer>
@@ -57,19 +54,19 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         <div>
           <span>{t('balance')}</span>
           <span>
-            {truncateEther(cethBalance)} <span>{ceth.symbol}</span>
+            {truncateEther(cethBalance)} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('rewards')}</span>
           <span>
-            {truncateEther(accountRewards)} <span>{ceth.symbol}</span>
+            {truncateEther(accountRewards)} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('delegated')}</span>
           <span>
-            {`${truncateEther(accountDelegatedAmount)}`} <span>{ceth.symbol}</span>
+            {`${truncateEther(accountDelegatedAmount)}`} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
@@ -89,7 +86,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             </div>
             <span>
               {`${truncateEther(delegation.delegationShares.toString())}`}
-              <span>{ceth.symbol}</span>
+              <span>{t('lsd.symbol')}</span>
             </span>
           </div>
         ))}
@@ -217,12 +214,13 @@ const {
     box-shadow: ${({ theme }) => theme.shadow[100]};
     background: ${({ theme }) => theme.color.whiteAlpha[700]};
     transition: background 0.2s ease;
+    line-height: 36px;
 
     &:hover {
       background: ${({ theme }) => theme.color.whiteAlpha[900]};
     }
   `,
-  CloseSidebar: styled(DoubleRightOutlined)`
+  CloseSidebar: styled(AiOutlineRight)`
     color: ${({ theme }) => theme.color.primary};
   `,
   Button: styled.button`
@@ -233,6 +231,7 @@ const {
     box-shadow: ${({ theme }) => theme.shadow[100]};
     background: ${({ theme }) => theme.color.whiteAlpha[700]};
     transition: background 0.2s ease;
+    line-height: 36px;
 
     &:hover {
       background: ${({ theme }) => theme.color.whiteAlpha[900]};
@@ -242,7 +241,7 @@ const {
       margin-left: auto;
     }
   `,
-  Logout: styled(LogoutOutlined)`
+  Logout: styled(AiOutlineLogout)`
     color: ${({ theme }) => theme.color.primary};
   `
 }
