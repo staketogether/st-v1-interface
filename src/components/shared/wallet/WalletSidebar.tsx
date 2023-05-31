@@ -116,14 +116,13 @@ const {
     }
 
     .ant-drawer-body {
-      width: 328px;
+      width: calc(100vw - 80px);
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[24]};
-      padding: ${({ theme }) => theme.size[12]};
-      @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+      padding: ${({ theme }) => theme.size[24]};
+      @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
         width: 378px;
-        padding: ${({ theme }) => theme.size[24]};
       }
     }
   `,
@@ -133,7 +132,7 @@ const {
     > div {
       margin-left: auto;
       display: flex;
-      gap: ${({ theme }) => theme.size[8]};
+      gap: ${({ theme }) => theme.size[4]};
     }
   `,
   InfoContainer: styled.div`

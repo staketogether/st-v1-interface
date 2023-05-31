@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
-import stIcon from '../../../../../public/assets/st-icon.png'
-import { globalConfig } from '../../../../config/global'
-import useActiveRoute from '../../../../hooks/useActiveRoute'
-import useTranslation from '../../../../hooks/useTranslation'
-import Wallet from '../../wallet/Wallet'
-import LayoutSearch from '../LayoutSearch'
+import stIcon from '../../../../public/assets/st-icon.png'
+import { globalConfig } from '../../../config/global'
+import useActiveRoute from '../../../hooks/useActiveRoute'
+import useTranslation from '../../../hooks/useTranslation'
+import Wallet from '../wallet/Wallet'
+import LayoutSearch from './LayoutSearch'
 
 export default function LayoutHeader() {
   const { t } = useTranslation()

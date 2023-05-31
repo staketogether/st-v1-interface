@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 import styled from 'styled-components'
 import LayoutFooter from './LayoutFooter'
-import LayoutHeaderDesktop from './Header/LayoutHeaderDesktop'
-import LayoutHeaderMobile from './Header/LayoutHeaderMobile'
+import LayoutHeaderDesktop from './LayoutHeaderDesktop'
+import LayoutHeaderMobile from './LayoutHeaderMobile'
 
 interface LayoutTemplateProps {
   children: ReactNode

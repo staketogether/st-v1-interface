@@ -64,16 +64,18 @@ const { CethBalance, ConnectedButton, EnsAddress } = {
     }
   `,
   CethBalance: styled.div`
-    display: flex;
-    justify-content: flex-start;
+    display: none;
     gap: 4px;
     font-size: ${({ theme }) => theme.font.size[14]};
-
     > span:first-child {
       color: ${({ theme }) => theme.color.primary};
     }
     > span:last-child {
       color: ${({ theme }) => theme.color.secondary};
+    }
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      display: flex;
+      justify-content: flex-start;
     }
   `,
   EnsAddress: styled.div`
