@@ -13,7 +13,7 @@ import { makeVar, useReactiveVar } from '@apollo/client'
 import { Drawer } from 'antd'
 import { ArrowLeftOutlined, SearchOutlined } from '@ant-design/icons'
 
-export const searchModalVar = makeVar(true)
+export const searchModalVar = makeVar(false)
 export default function LayoutSearchSideBar() {
   const searchModal = useReactiveVar(searchModalVar)
   const [text, setText] = useState<string>('')
@@ -55,7 +55,7 @@ export default function LayoutSearchSideBar() {
     >
       <Container>
         <Header>
-          <CloseIcon />
+          <CloseIcon onClick={() => searchModalVar(false)} />
           <InputSearchContainer>
             <SearchIcon />
             <InputSearch
