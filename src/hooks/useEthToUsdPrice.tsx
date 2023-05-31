@@ -1,12 +1,14 @@
 import axios from 'axios'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import { truncateEther } from '../services/truncateEther'
 
 export default function useEthToUsdPrice(eth: string) {
-  const [price, setPrice] = useState<string | undefined>(undefined)
+  const [price, setPrice] = useState<BigNumber | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<unknown>(null)
+
+  const ETH_ADDRESS = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+  const USDC_ADDRESS = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
 
   useEffect(() => {
     const fetchPrice = async () => {
@@ -14,19 +16,17 @@ export default function useEthToUsdPrice(eth: string) {
 
       try {
         if (ethAmount.gt(0)) {
-          const response = await axios.get<{
-            ethereum: {
-              usd: number
+          const response = await axios.get('https://api.1inch.io/v5.0/1/quote', {
+            params: {
+              fromTokenAddress: ETH_ADDRESS,
+              toTokenAddress: USDC_ADDRESS,
+              amount: ethAmount.toString()
             }
-          }>('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd')
+          })
 
-          const price = response.data.ethereum.usd as number
+          const price = ethers.utils.parseUnits(response.data.toTokenAmount, 12)
 
-          const usdAmount = ethers.utils.parseEther(price.toString()).mul(ethAmount)
-
-          const usdAmountFixed = truncateEther(usdAmount.toString())
-
-          setPrice(usdAmountFixed)
+          setPrice(price)
         } else {
           setPrice(undefined)
         }
