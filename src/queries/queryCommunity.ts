@@ -7,6 +7,13 @@ export const queryCommunity = gql`
       delegatedShares
       rewardsShares
       receivedDelegationsCount
+
+      delegations {
+        delegationShares
+        delegate {
+          address
+        }
+      }
     }
   }
 `
