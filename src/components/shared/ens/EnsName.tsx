@@ -3,10 +3,12 @@ import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import useEns from '../../../hooks/useEns'
 import truncateAddress from '../../../services/truncateAddress'
+import truncateText from '../../../services/truncateText'
 
 type EnsNameProps = {
   address: `0x${string}`
   large?: boolean
+  slice?: number
 }
 
 export default function EnsName({ address, large }: EnsNameProps) {
@@ -18,7 +20,7 @@ export default function EnsName({ address, large }: EnsNameProps) {
 
   useEffect(() => {
     if (name) {
-      setNameEl(<Text className={large ? 'large' : ''}>{name}</Text>)
+      setNameEl(<Text className={large ? 'large' : ''}>{truncateText(name)}</Text>)
     } else {
       setNameEl(<Text className={large ? 'large' : ''}>{truncateAddress(address)}</Text>)
     }

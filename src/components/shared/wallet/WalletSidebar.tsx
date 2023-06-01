@@ -1,7 +1,7 @@
 import useCethBalanceOf from '@/hooks/contracts/useCethBalanceOf'
 import useStAccountDelegations from '@/hooks/subgraphs/useStAccountDelegations'
 import { Drawer } from 'antd'
-import { AiFillSetting, AiOutlineLogout, AiOutlineRight } from 'react-icons/ai'
+import { AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
@@ -44,7 +44,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         <WalletConnectedButton address={address} showBalance={false} />
         <div>
           <Button>
-            <SettingIcon />
+            <SettingIcon fontSize={16} />
           </Button>
           <Button onClick={() => disconnectWallet()}>
             <Logout fontSize={14} />
@@ -64,13 +64,13 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             {truncateEther(accountRewardsBalance.toString())} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
+      </InfoContainer>
+
+      <ContainerCommunitiesDelegated>
         <div>
           <span>{t('delegations')}</span>
           <span>{accountSentDelegationsCount}</span>
         </div>
-      </InfoContainer>
-
-      <ContainerCommunitiesDelegated>
         {delegations.length === 0 && (
           <div>
             <span>{t('noDelegations')}</span>
@@ -157,7 +157,7 @@ const {
 
     &::after {
       content: '';
-      margin-top: ${({ theme }) => theme.size[24]};
+      margin-top: ${({ theme }) => theme.size[12]};
       border-top: 1px solid ${({ theme }) => theme.color.blue[100]};
     }
   `,
@@ -165,6 +165,11 @@ const {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[12]};
+
+    div:first-of-type {
+      margin-bottom: ${({ theme }) => theme.size[8]};
+    }
+
     div {
       width: 100%;
       display: flex;
@@ -210,13 +215,16 @@ const {
       background: ${({ theme }) => theme.color.whiteAlpha[900]};
     }
   `,
-  SettingIcon: styled(AiFillSetting)`
+  SettingIcon: styled(AiOutlineSetting)`
     color: ${({ theme }) => theme.color.primary};
   `,
   CloseSidebar: styled(AiOutlineRight)`
     color: ${({ theme }) => theme.color.primary};
   `,
   Button: styled.button`
+    display: grid;
+    align-items: center;
+    justify-content: center;
     width: 32px;
     height: 32px;
     border: 0;
