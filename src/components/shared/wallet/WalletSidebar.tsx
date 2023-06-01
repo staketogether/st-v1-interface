@@ -9,7 +9,8 @@ import { truncateEther } from '../../../services/truncateEther'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
 import WalletConnectedButton from './WalletConnectedButton'
-import useStAccountDelegations from "@/hooks/subgraphs/useStAccountDelegations";
+import useCethBalanceOf from "@/hooks/contracts/useCethBalanceOf"
+import useStAccountDelegations from "@/hooks/subgraphs/useStAccountDelegations"
 
 export type WalletSidebarProps = {
   address: `0x${string}`
@@ -19,8 +20,9 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { disconnect } = useDisconnect()
   const { t } = useTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
+  const accountBalance = useCethBalanceOf(address)
 
-  const { accountSentDelegationsCount, accountRewardShares, accountBalance } = useStAccount(address)
+  const { accountSentDelegationsCount, accountRewardShares } = useStAccount(address)
   const { delegations } = useStAccountDelegations(address)
 
   function disconnectWallet() {
