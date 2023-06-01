@@ -42,7 +42,7 @@ export default function ExploreCard({ community }: ExploreCardProps) {
         </div>
         <div>
           <div>{t('stakers')}</div>
-          <div>{0}</div>
+          <div>{community.receivedDelegationsCount}</div>
         </div>
       </CardInfo>
     </Card>

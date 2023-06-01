@@ -17,6 +17,7 @@
   "delegation": "Delegation",
   "fee": "Fee",
   "delegated": "Delegated",
+  "delegatedAmount": "Delegated Amount",
   "wallet": "Connect Wallet",
   "searchCommunity": "Search Pools",
   "emptyCommunity": "Pool not found",
@@ -40,5 +41,6 @@
   "lsd": {
     "name": "Pool Ether",
     "symbol": "PETH"
-  }
+  },
+  "noDelegations": "No delegations found"
 }
