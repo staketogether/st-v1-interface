@@ -9,7 +9,6 @@ import { truncateEther } from '../../../services/truncateEther'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
 import WalletConnectedButton from './WalletConnectedButton'
-import useCethBalanceOf from '@/hooks/contracts/useCethBalanceOf'
 import useStAccountDelegations from "@/hooks/subgraphs/useStAccountDelegations";
 
 export type WalletSidebarProps = {
@@ -19,10 +18,9 @@ export type WalletSidebarProps = {
 export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { disconnect } = useDisconnect()
   const { t } = useTranslation()
-  const cethBalance = useCethBalanceOf(address)
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
-  const { account } = useStAccount(address)
+  const { accountSentDelegationsCount, accountRewardShares, accountBalance } = useStAccount(address)
   const { delegations } = useStAccountDelegations(address)
 
   function disconnectWallet() {
@@ -56,24 +54,24 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         <div>
           <span>{t('balance')}</span>
           <span>
-            {truncateEther(cethBalance)} <span>{t('lsd.symbol')}</span>
+            {truncateEther(accountBalance)} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('rewards')}</span>
           <span>
-            {account?.rewardsShares && truncateEther(account.rewardsShares.toString())} <span>{t('lsd.symbol')}</span>
+            {truncateEther(accountRewardShares.toString())} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('delegatedAmount')}</span>
           <span>
-            0 <span>{t('lsd.symbol')}</span>
+            {accountBalance} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('delegations')}</span>
-          <span>{account?.sentDelegationsCount || 0}</span>
+          <span>{accountSentDelegationsCount}</span>
         </div>
       </InfoContainer>
 

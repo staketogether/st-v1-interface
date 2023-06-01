@@ -21,7 +21,7 @@ export default function useDeposit(
     overrides: {
       from: accountAddress,
       value: ethers.utils.parseEther(depositAmount),
-      gasLimit: BigNumber.from('90000')
+      gasLimit: BigNumber.from('100000')
     },
     enabled: !depositRule
   })
