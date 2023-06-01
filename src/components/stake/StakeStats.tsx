@@ -3,17 +3,17 @@ import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Community } from '../../types/Community'
-import { Delegation } from '../../types/Delegation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import { default as EnsName } from '../shared/ens/EnsName'
+import useCommunityDelegations from "@/hooks/subgraphs/useCommunityDelegations";
 interface StakeStatsProps {
   community: Community
 }
 
 export default function StakeStats({ community }: StakeStatsProps) {
   const { t } = useTranslation()
-
-  const receivedDelegations: Delegation[] = []
+  const { delegations } = useCommunityDelegations(community.id)
+  console.log(community, delegations)
 
   return (
     <Container>
@@ -39,9 +39,9 @@ export default function StakeStats({ community }: StakeStatsProps) {
           </StatsWrapper>
         </Stats>
       </StatsContainer>
-      {receivedDelegations.length > 0 && (
+      {delegations.length > 0 && (
         <DelegationsContainer>
-          {receivedDelegations.map(delegation => (
+          {delegations.map(delegation => (
             <Delegation key={delegation.delegate.address}>
               <div>
                 <EnsAvatar address={delegation.delegate.address} />
