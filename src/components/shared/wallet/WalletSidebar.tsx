@@ -42,14 +42,14 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           <CloseSidebar fontSize={14} />
         </ClosedSidebarButton>
         <WalletConnectedButton address={address} showBalance={false} />
-        <div>
+        <Actions>
           <Button>
             <SettingIcon fontSize={16} />
           </Button>
           <Button onClick={() => disconnectWallet()}>
             <Logout fontSize={14} />
           </Button>
-        </div>
+        </Actions>
       </HeaderContainer>
       <InfoContainer>
         <div>
@@ -93,7 +93,8 @@ const {
   Logout,
   Button,
   SettingIcon,
-  ContainerCommunitiesDelegated
+  ContainerCommunitiesDelegated,
+  Actions
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.color.whiteAlpha[700]} !important;
@@ -115,12 +116,8 @@ const {
   `,
   HeaderContainer: styled.div`
     display: flex;
-    align-items: center;
-    > div {
-      margin-left: auto;
-      display: flex;
-      gap: ${({ theme }) => theme.size[4]};
-    }
+    justify-content: space-between;
+    gap: ${({ theme }) => theme.size[16]};
   `,
   InfoContainer: styled.div`
     display: flex;
@@ -244,5 +241,10 @@ const {
   `,
   Logout: styled(AiOutlineLogout)`
     color: ${({ theme }) => theme.color.primary};
+  `,
+  Actions: styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: ${({ theme }) => theme.size[8]};
   `
 }
