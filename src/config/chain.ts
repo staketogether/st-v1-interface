@@ -38,7 +38,7 @@ const configs: ChainConfig[] = [
     ),
     contracts: {
       STOracle: '0xAf5B0acfd0c71A442869412F76084a1b7ccF85d3',
-      StakeTogether: '0x1D61e1e9a2C3DF39cfe668318ca0701db0CEDc60'
+      StakeTogether: '0x29Ee01d70c7bfDe0D85877Df5F8AF7D14fa509AB'
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-goerli/version/latest',
@@ -50,7 +50,7 @@ const configs: ChainConfig[] = [
     name: 'localhost',
     provider: new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`),
     contracts: {
-      STOracle: '0xb36c1ae8e5076b55569Dd399Ea79D96E60E4E322',
+      STOracle: '0x5D553864900780be550fA2Af918ABF4F83715A8a',
       StakeTogether: '0x27c85150D755D383A4f86d0aeD8232815674771f'
     },
     subgraphs: {
