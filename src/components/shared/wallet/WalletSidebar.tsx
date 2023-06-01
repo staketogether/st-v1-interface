@@ -10,6 +10,7 @@ import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
 import WalletConnectedButton from './WalletConnectedButton'
 import useCethBalanceOf from '@/hooks/contracts/useCethBalanceOf'
+import useStAccountDelegations from "@/hooks/subgraphs/useAccountDelegations";
 
 export type WalletSidebarProps = {
   address: `0x${string}`
@@ -21,7 +22,8 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
   const cethBalance = useCethBalanceOf(address)
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
-  const { account, accountRewards, accountDelegatedAmount, accountTotalDelegates } = useStAccount(address)
+  const { account } = useStAccount(address)
+  const { delegations } = useStAccountDelegations(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -60,23 +62,23 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         <div>
           <span>{t('rewards')}</span>
           <span>
-            {truncateEther(accountRewards)} <span>{t('lsd.symbol')}</span>
+            {account?.rewardsShares && truncateEther(account.rewardsShares.toString())} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('delegated')}</span>
           <span>
-            {`${truncateEther(accountDelegatedAmount)}`} <span>{t('lsd.symbol')}</span>
+            0 <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('delegations')}</span>
-          <span>{accountTotalDelegates}</span>
+          <span>{account?.sentDelegationsCount}</span>
         </div>
       </InfoContainer>
 
       <ContainerCommunitiesDelegated>
-        {account?.delegations.map((delegation, index) => (
+        {delegations.map((delegation, index) => (
           <div key={index}>
             <div>
               <div>

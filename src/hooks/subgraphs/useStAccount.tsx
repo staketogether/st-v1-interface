@@ -7,9 +7,13 @@ import { Account } from '../../types/Account'
 export default function useStAccount(address: `0x${string}`) {
   const [account, setAccount] = useState<Account | undefined>(undefined)
   const [accountIsLoading, setAccountIsLoading] = useState<boolean>(false)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [accountTotalDelegations, setAccountTotalDelegations] = useState<number>(0)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [accountDelegationAmount, setAccountDelegationAmount] = useState<string>('0')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [accountRewards, setAccountRewards] = useState<string>('0')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [accountBalance, setAccountBalance] = useState<string>('0')
 
   const { data, loading } = useQuery<{ account: Account }>(queryAccount, {
@@ -19,7 +23,7 @@ export default function useStAccount(address: `0x${string}`) {
   useEffect(() => {
     const account = data?.account
     setAccount(account)
-    setAccountTotalDelegations(account?.delegations.length || 0)
+    setAccountTotalDelegations(account?.sentDelegationsCount || 0)
 
     if (account) {
       let amount = BigNumber.from('0')
@@ -38,10 +42,6 @@ export default function useStAccount(address: `0x${string}`) {
 
   return {
     account,
-    accountBalance,
-    accountRewards,
-    accountDelegatedAmount: accountDelegationAmount,
-    accountTotalDelegates: accountTotalDelegations,
     accountIsLoading
   }
 }
