@@ -5,6 +5,7 @@ import { AiOutlineCheck } from 'react-icons/ai'
 import useTranslation from '../../hooks/useTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
+import { searchVar } from '../shared/layout/LayoutSearch'
 
 interface StakeSelectCommunityProps {
   communityAddress?: `0x${string}`
@@ -14,9 +15,7 @@ export default function StakeSelectCommunity({ communityAddress }: StakeSelectCo
   const { t } = useTranslation()
 
   const [select, setSelect] = useState(
-    <SelectCommunity>
-      <span>{t('selectCommunity')}</span>
-    </SelectCommunity>
+    <Button onClick={() => searchVar(true)}>{t('selectCommunity')}</Button>
   )
 
   useEffect(() => {
@@ -36,7 +35,7 @@ export default function StakeSelectCommunity({ communityAddress }: StakeSelectCo
   return <Container>{select}</Container>
 }
 
-const { Container, SelectCommunity, CommunitySelected, Verified } = {
+const { Container, CommunitySelected, Verified, Button } = {
   Container: styled.button`
     display: grid;
     grid-template-columns: 1fr;
@@ -69,12 +68,6 @@ const { Container, SelectCommunity, CommunitySelected, Verified } = {
       align-items: center;
     }
   `,
-  SelectCommunity: styled.div`
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: ${({ theme }) => theme.size[12]};
-    cursor: default;
-  `,
   CommunitySelected: styled.div`
     display: grid;
     grid-template-columns: auto auto;
@@ -87,5 +80,24 @@ const { Container, SelectCommunity, CommunitySelected, Verified } = {
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
     color: ${({ theme }) => theme.color.whatsapp[600]};
+  `,
+  Button: styled.button`
+    height: 32px;
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
+
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
+    border: none;
+    border-radius: ${({ theme }) => theme.size[16]};
+    padding: 0 ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
   `
 }

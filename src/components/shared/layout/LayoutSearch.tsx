@@ -11,9 +11,11 @@ import useTranslation from '../../../hooks/useTranslation'
 import Overlay from '../Overlay'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
+import { makeVar, useReactiveVar } from '@apollo/client'
 
+export const searchVar = makeVar(false)
 export default function LayoutSearch() {
-  const [isOpen, setIsOpen] = useState(false)
+  const isOpen = useReactiveVar(searchVar)
   const [text, setText] = useState<string>('')
   const { t } = useTranslation()
 
@@ -40,16 +42,16 @@ export default function LayoutSearch() {
   const result = fuse.search(text).map(community => community.item)
 
   const handleButtonClick = () => {
-    setIsOpen(!isOpen)
+    searchVar(!isOpen)
   }
 
   const handleMouseLeave = () => {
-    setIsOpen(false)
+    searchVar(false)
   }
 
   const onChange = (text: string) => {
     setText(text)
-    setIsOpen(true)
+    searchVar(true)
   }
 
   const clearText = () => {
@@ -58,7 +60,7 @@ export default function LayoutSearch() {
 
   return (
     <>
-      {isOpen && <Overlay onClick={() => setIsOpen(false)} />}
+      {isOpen && <Overlay onClick={() => searchVar(false)} />}
       <Container onMouseLeave={handleMouseLeave}>
         <InputSearchArea className={`${isOpen ? 'active' : ''}`}>
           <button>
