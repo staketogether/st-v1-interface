@@ -1,16 +1,15 @@
 import useCethBalanceOf from '@/hooks/contracts/useCethBalanceOf'
 import useStAccountDelegations from '@/hooks/subgraphs/useStAccountDelegations'
 import { Drawer } from 'antd'
-import { AiFillSetting, AiOutlineLogout, AiOutlineRight } from 'react-icons/ai'
+import { AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { truncateEther } from '../../../services/truncateEther'
-import EnsAvatar from '../ens/EnsAvatar'
-import EnsName from '../ens/EnsName'
 import WalletConnectedButton from './WalletConnectedButton'
+import WalletSentDelegation from './WalletSentDelegation'
 
 export type WalletSidebarProps = {
   address: `0x${string}`
@@ -43,14 +42,14 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           <CloseSidebar fontSize={14} />
         </ClosedSidebarButton>
         <WalletConnectedButton address={address} showBalance={false} />
-        <div>
+        <Actions>
           <Button>
-            <SettingIcon />
+            <SettingIcon fontSize={16} />
           </Button>
           <Button onClick={() => disconnectWallet()}>
             <Logout fontSize={14} />
           </Button>
-        </div>
+        </Actions>
       </HeaderContainer>
       <InfoContainer>
         <div>
@@ -65,37 +64,20 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             {truncateEther(accountRewardsBalance.toString())} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
-        <div>
-          <span>{t('delegatedAmount')}</span>
-          <span>
-            {truncateEther(accountBalance.toString())} <span>{t('lsd.symbol')}</span>
-          </span>
-        </div>
+      </InfoContainer>
+
+      <ContainerCommunitiesDelegated>
         <div>
           <span>{t('delegations')}</span>
           <span>{accountSentDelegationsCount}</span>
         </div>
-      </InfoContainer>
-
-      <ContainerCommunitiesDelegated>
         {delegations.length === 0 && (
           <div>
             <span>{t('noDelegations')}</span>
           </div>
         )}
         {delegations.map((delegation, index) => (
-          <div key={index}>
-            <div>
-              <div>
-                <EnsAvatar address={delegation.delegated.address} />
-                <EnsName address={delegation.delegated.address} />
-              </div>
-            </div>
-            <span>
-              {`${truncateEther(delegation.delegationShares.toString())}`}
-              <span>{t('lsd.symbol')}</span>
-            </span>
-          </div>
+          <WalletSentDelegation key={index} delegation={delegation} />
         ))}
       </ContainerCommunitiesDelegated>
     </DrawerContainer>
@@ -111,7 +93,8 @@ const {
   Logout,
   Button,
   SettingIcon,
-  ContainerCommunitiesDelegated
+  ContainerCommunitiesDelegated,
+  Actions
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.color.whiteAlpha[700]} !important;
@@ -133,12 +116,8 @@ const {
   `,
   HeaderContainer: styled.div`
     display: flex;
-    align-items: center;
-    > div {
-      margin-left: auto;
-      display: flex;
-      gap: ${({ theme }) => theme.size[4]};
-    }
+    justify-content: space-between;
+    gap: ${({ theme }) => theme.size[16]};
   `,
   InfoContainer: styled.div`
     display: flex;
@@ -175,7 +154,7 @@ const {
 
     &::after {
       content: '';
-      margin-top: ${({ theme }) => theme.size[24]};
+      margin-top: ${({ theme }) => theme.size[12]};
       border-top: 1px solid ${({ theme }) => theme.color.blue[100]};
     }
   `,
@@ -183,6 +162,11 @@ const {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[12]};
+
+    div:first-of-type {
+      margin-bottom: ${({ theme }) => theme.size[8]};
+    }
+
     div {
       width: 100%;
       display: flex;
@@ -228,13 +212,16 @@ const {
       background: ${({ theme }) => theme.color.whiteAlpha[900]};
     }
   `,
-  SettingIcon: styled(AiFillSetting)`
+  SettingIcon: styled(AiOutlineSetting)`
     color: ${({ theme }) => theme.color.primary};
   `,
   CloseSidebar: styled(AiOutlineRight)`
     color: ${({ theme }) => theme.color.primary};
   `,
   Button: styled.button`
+    display: grid;
+    align-items: center;
+    justify-content: center;
     width: 32px;
     height: 32px;
     border: 0;
@@ -254,5 +241,10 @@ const {
   `,
   Logout: styled(AiOutlineLogout)`
     color: ${({ theme }) => theme.color.primary};
+  `,
+  Actions: styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: ${({ theme }) => theme.size[8]};
   `
 }
