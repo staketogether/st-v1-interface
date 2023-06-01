@@ -30,7 +30,7 @@ export default function WalletConnectedButton({
         </CethBalance>
       )}
       <EnsAddress>
-        <EnsName address={address} />
+        <EnsName address={address} slice={16} />
         <EnsAvatar address={address} />
       </EnsAddress>
     </ConnectedButton>

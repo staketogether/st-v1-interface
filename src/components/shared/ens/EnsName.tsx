@@ -11,7 +11,7 @@ type EnsNameProps = {
   slice?: number
 }
 
-export default function EnsName({ address, large }: EnsNameProps) {
+export default function EnsName({ address, large, slice }: EnsNameProps) {
   const { name } = useEns(address)
 
   const text = <Text className={large ? 'large' : ''}>{truncateAddress(address)}</Text>
@@ -20,11 +20,11 @@ export default function EnsName({ address, large }: EnsNameProps) {
 
   useEffect(() => {
     if (name) {
-      setNameEl(<Text className={large ? 'large' : ''}>{truncateText(name)}</Text>)
+      setNameEl(<Text className={large ? 'large' : ''}>{slice ? truncateText(name, slice) : name}</Text>)
     } else {
       setNameEl(<Text className={large ? 'large' : ''}>{truncateAddress(address)}</Text>)
     }
-  }, [address, large, name])
+  }, [address, large, name, slice])
 
   return nameEl
 }
