@@ -28,7 +28,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   const { data } = await apolloClient.query<{ community: Community } | undefined>({
     query: queryCommunity,
-    variables: { id: params?.address || '' }
+    variables: { id: params?.address.toLowerCase() || '' }
   })
 
   return {
