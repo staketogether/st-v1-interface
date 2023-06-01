@@ -3,9 +3,7 @@ import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Community } from '../../types/Community'
-import { Delegation } from '../../types/Delegation'
-import EnsAvatar from '../shared/ens/EnsAvatar'
-import { default as EnsName } from '../shared/ens/EnsName'
+import StakeReceivedDelegation from './StakeReceivedDelegation'
 interface StakeStatsProps {
   community: Community
 }
@@ -13,19 +11,10 @@ interface StakeStatsProps {
 export default function StakeStats({ community }: StakeStatsProps) {
   const { t } = useTranslation()
 
-  const receivedDelegations: Delegation[] = []
-
   return (
     <Container>
       <StatsContainer>
         <Stats>
-          <StatsWrapper>
-            <span>{t('rewards')}</span>
-            <span>
-              {truncateEther(community.rewardsShares.toString())}
-              <span>{t('lsd.symbol')}</span>
-            </span>
-          </StatsWrapper>
           <StatsWrapper>
             <span>{t('delegated')}</span>
             <span>
@@ -34,26 +23,23 @@ export default function StakeStats({ community }: StakeStatsProps) {
             </span>
           </StatsWrapper>
           <StatsWrapper>
-            <span>{t('members')}</span>
-            <span>{community.receivedDelegationsCount}</span>
+            <span>{t('rewards')}</span>
+            <span>
+              {truncateEther(community.rewardsShares.toString())}
+              <span>{t('lsd.symbol')}</span>
+            </span>
           </StatsWrapper>
         </Stats>
       </StatsContainer>
-      {receivedDelegations.length > 0 && (
+
+      {community.delegations.length > 0 && (
         <DelegationsContainer>
-          {receivedDelegations.map(delegation => (
-            <Delegation key={delegation.delegate.address}>
-              <div>
-                <EnsAvatar address={delegation.delegate.address} />
-                <EnsName address={delegation.delegate.address} />
-              </div>
-              <div>
-                <span>
-                  {`${truncateEther(delegation.delegationShares.toString())}`}{' '}
-                  <span>{t('lsd.symbol')}</span>
-                </span>
-              </div>
-            </Delegation>
+          <StatsWrapper>
+            <span>{t('members')}</span>
+            <span>{community.receivedDelegationsCount}</span>
+          </StatsWrapper>
+          {community.delegations.map(delegation => (
+            <StakeReceivedDelegation key={delegation.delegate.address} delegation={delegation} />
           ))}
         </DelegationsContainer>
       )}
@@ -61,7 +47,7 @@ export default function StakeStats({ community }: StakeStatsProps) {
   )
 }
 
-const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer, Delegation } = {
+const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
@@ -107,29 +93,9 @@ const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer, De
     gap: ${({ theme }) => theme.size[12]};
     border-top: 1px solid ${({ theme }) => theme.color.blue[100]};
     padding-top: ${({ theme }) => theme.size[16]};
-  `,
-  Delegation: styled.div`
-    display: grid;
-    grid-template-columns: 2fr auto;
-    align-items: center;
-    gap: 8px;
 
-    > div:nth-child(1) {
-      display: grid;
-      grid-template-columns: 24px auto;
-      gap: 8px;
-    }
-
-    > div:nth-child(2) {
-      display: grid;
-      font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.primary};
-
-      > span:nth-child(1) {
-        > span {
-          color: ${({ theme }) => theme.color.secondary};
-        }
-      }
+    > div:first-of-type {
+      margin-bottom: ${({ theme }) => theme.size[4]};
     }
   `
 }
