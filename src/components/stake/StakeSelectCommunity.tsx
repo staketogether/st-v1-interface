@@ -6,6 +6,8 @@ import useTranslation from '../../hooks/useTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 import { searchVar } from '../shared/layout/LayoutSearch'
+import useResizeView from '@/hooks/useResizeView'
+import { searchModalVar } from '../shared/layout/LayoutSearchSideBar'
 
 interface StakeSelectCommunityProps {
   communityAddress?: `0x${string}`
@@ -13,8 +15,16 @@ interface StakeSelectCommunityProps {
 
 export default function StakeSelectCommunity({ communityAddress }: StakeSelectCommunityProps) {
   const { t } = useTranslation()
-
+  const { screenWidth, breakpoints } = useResizeView()
   const [select, setSelect] = useState(<SelectCommunity>{t('selectCommunity')}</SelectCommunity>)
+
+  const handleSearchCommunity = () => {
+    if (screenWidth >= breakpoints.lg) {
+      searchVar(true)
+      return
+    }
+    searchModalVar(true)
+  }
 
   useEffect(() => {
     if (communityAddress) {
@@ -30,7 +40,7 @@ export default function StakeSelectCommunity({ communityAddress }: StakeSelectCo
     }
   }, [communityAddress])
 
-  return <Container onClick={() => searchVar(true)}>{select}</Container>
+  return <Container onClick={handleSearchCommunity}>{select}</Container>
 }
 
 const { Container, SelectCommunity, CommunitySelected, Verified } = {

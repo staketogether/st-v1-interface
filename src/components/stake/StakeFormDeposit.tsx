@@ -11,6 +11,8 @@ import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { searchVar } from '../shared/layout/LayoutSearch'
+import useResizeView from '@/hooks/useResizeView'
+import { searchModalVar } from '../shared/layout/LayoutSearchSideBar'
 
 interface StakeFormDepositProps {
   accountAddress?: `0x${string}`
@@ -38,6 +40,7 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
   const disabled = !communityAddress || !accountAddress
 
   const { openConnectModal } = useConnectModal()
+  const { screenWidth, breakpoints } = useResizeView()
 
   useEffect(() => {
     const getLabel = () => {
@@ -68,8 +71,11 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
       return
     }
     if (!communityAddress) {
-      searchVar(true)
-      return
+      if (screenWidth >= breakpoints.lg) {
+        searchVar(true)
+        return
+      }
+      searchModalVar(true)
     }
     deposit()
   }

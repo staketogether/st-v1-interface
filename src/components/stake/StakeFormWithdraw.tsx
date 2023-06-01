@@ -10,6 +10,8 @@ import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { searchVar } from '../shared/layout/LayoutSearch'
+import useResizeView from '@/hooks/useResizeView'
+import { searchModalVar } from '../shared/layout/LayoutSearchSideBar'
 
 interface StakeFormWithdrawProps {
   accountAddress?: `0x${string}`
@@ -36,6 +38,7 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
 
   const disabled = !communityAddress || !accountAddress
   const { openConnectModal } = useConnectModal()
+  const { screenWidth, breakpoints } = useResizeView()
 
   useEffect(() => {
     const getLabel = () => {
@@ -66,8 +69,11 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
       return
     }
     if (!communityAddress) {
-      searchVar(true)
-      return
+      if (screenWidth >= breakpoints.lg) {
+        searchVar(true)
+        return
+      }
+      searchModalVar(true)
     }
     withdraw()
   }
