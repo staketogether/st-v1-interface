@@ -1,19 +1,18 @@
 import { gql } from '@apollo/client'
 
 export const queryAccountDelegations = gql`
-  query Communities($account: String!) {
+  query AccountDelegations($account: String!) {
     delegations(where: { delegate: $account }) {
-      address
-      shares
+      delegationShares
       delegate {
         address
+        shares
         sentDelegationsCount
+        rewardsShares
       }
       delegated {
         address
         delegatedShares
-        rewardsShares
-        delegatedBalance
         receivedDelegationsCount
       }
     }
