@@ -43,7 +43,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         <WalletConnectedButton address={address} showBalance={false} />
         <div>
           <Button>
-            <AiFillSetting />
+            <SettingIcon />
           </Button>
           <Button onClick={() => disconnectWallet()}>
             <Logout fontSize={14} />
@@ -103,6 +103,7 @@ const {
   ClosedSidebarButton,
   Logout,
   Button,
+  SettingIcon,
   ContainerCommunitiesDelegated
 } = {
   DrawerContainer: styled(Drawer)`
@@ -219,6 +220,9 @@ const {
     &:hover {
       background: ${({ theme }) => theme.color.whiteAlpha[900]};
     }
+  `,
+  SettingIcon: styled(AiFillSetting)`
+    color: ${({ theme }) => theme.color.primary};
   `,
   CloseSidebar: styled(AiOutlineRight)`
     color: ${({ theme }) => theme.color.primary};

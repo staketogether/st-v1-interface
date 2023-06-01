@@ -17,7 +17,7 @@ export default function LayoutHeaderMobile() {
         </Logo>
         <WalletContainer>
           <Button onClick={() => searchModalVar(true)}>
-            <AiOutlineSearch />
+            <SearchIcon />
           </Button>
           <Wallet />
         </WalletContainer>
@@ -27,7 +27,7 @@ export default function LayoutHeaderMobile() {
   )
 }
 
-const { Container, Content, WalletContainer, Logo, Button } = {
+const { Container, Content, WalletContainer, Logo, Button, SearchIcon } = {
   Container: styled.header`
     display: grid;
     gap: ${({ theme }) => theme.size[24]};
@@ -58,5 +58,10 @@ const { Container, Content, WalletContainer, Logo, Button } = {
     box-shadow: ${({ theme }) => theme.shadow[100]};
     background: ${({ theme }) => theme.color.whiteAlpha[700]};
     transition: background 0.2s ease;
+    display: grid;
+    place-items: center;
+  `,
+  SearchIcon: styled(AiOutlineSearch)`
+    color: ${({ theme }) => theme.color.primary};
   `
 }

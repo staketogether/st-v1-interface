@@ -145,7 +145,7 @@ const {
   `,
   CloseIcon: styled(AiOutlineArrowLeft)`
     font-size: 18px;
-    color: ${({ theme }) => theme.color.blue[300]};
+    color: ${({ theme }) => theme.color.primary};
   `,
   InputSearchContainer: styled.div`
     width: 100%;
@@ -156,7 +156,7 @@ const {
     top: 50%;
     left: 10px;
     transform: translateY(-50%);
-    color: ${({ theme }) => theme.color.blue[300]};
+    color: ${({ theme }) => theme.color.primary};
   `,
   InputSearch: styled.input`
     width: 100% !important;
@@ -192,7 +192,7 @@ const {
     }
 
     &::-webkit-input-placeholder {
-      color: ${({ theme }) => theme.color.blue[300]};
+      color: ${({ theme }) => theme.color.primary};
     }
   `,
   DropdownMenu: styled.div<{ isOpen: boolean }>`
