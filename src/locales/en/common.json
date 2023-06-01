@@ -7,7 +7,7 @@
   "processing": "Processing...",
   "staked": "Staked",
   "unstake": "Unstake",
-  "stakers": "Stakers",
+  "members": "Members",
   "delegations": "Delegations",
   "balance": "Balance",
   "selectCommunity": "Select a Pool",
@@ -17,6 +17,7 @@
   "delegation": "Delegation",
   "fee": "Fee",
   "delegated": "Delegated",
+  "delegatedAmount": "Delegated Amount",
   "wallet": "Connect Wallet",
   "searchCommunity": "Search Pools",
   "emptyCommunity": "Pool not found",
@@ -38,7 +39,8 @@
     "symbol": "ETH"
   },
   "lsd": {
-    "name": "Pool Ether",
-    "symbol": "PETH"
-  }
+    "name": "Community Ether",
+    "symbol": "CETH"
+  },
+  "noDelegations": "No delegations found"
 }

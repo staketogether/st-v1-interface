@@ -4,16 +4,13 @@ import { Delegation } from './Delegation'
 
 export type Community = {
   id: string
-
   account: Account
-
-  address: `0x${string}`
   active: boolean
-
   delegatedShares: BigNumber
   rewardsShares: BigNumber
-
+  delegatedBalance: BigNumber
   delegations: Delegation[]
+  receivedDelegationsCount: number
 } & ENSCommunity
 
 export type ENSCommunity = {

@@ -4,8 +4,8 @@ export const queryAccount = gql`
   query Account($id: ID!) {
     account(id: $id) {
       address
-      sharesEther
-      rewardsSharesEther
+      shares
+      sentDelegationsCount
       delegations {
         id
         delegationShares

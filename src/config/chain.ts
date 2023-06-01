@@ -37,8 +37,8 @@ const configs: ChainConfig[] = [
       `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`
     ),
     contracts: {
-      STOracle: '0xAf5B0acfd0c71A442869412F76084a1b7ccF85d3',
-      StakeTogether: '0x1D61e1e9a2C3DF39cfe668318ca0701db0CEDc60'
+      STOracle: '0xEB75Bd8cb45145cf22092DbE256D6c7520DfC5a3',
+      StakeTogether: '0xCdD86DB078eD468a6931617D0A85D06Cd34bedcA'
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-goerli/version/latest',
@@ -50,7 +50,7 @@ const configs: ChainConfig[] = [
     name: 'localhost',
     provider: new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`),
     contracts: {
-      STOracle: '0xb36c1ae8e5076b55569Dd399Ea79D96E60E4E322',
+      STOracle: '0x5D553864900780be550fA2Af918ABF4F83715A8a',
       StakeTogether: '0x27c85150D755D383A4f86d0aeD8232815674771f'
     },
     subgraphs: {

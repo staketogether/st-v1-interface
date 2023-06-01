@@ -6,6 +6,7 @@ export const queryCommunitiesDelegations = gql`
       address
       delegatedShares
       rewardsShares
+      receivedDelegationsCount
     }
   }
 `

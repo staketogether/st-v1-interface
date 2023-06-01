@@ -3,14 +3,15 @@ import { BigNumber } from 'ethers'
 import { useEffect, useState } from 'react'
 import { queryAccount } from '../../queries/queryAccount'
 import { Account } from '../../types/Account'
+import usePooledEthByShares from '../contracts/usePooledEthByShares'
 
 export default function useStAccount(address: `0x${string}`) {
   const [account, setAccount] = useState<Account | undefined>(undefined)
   const [accountIsLoading, setAccountIsLoading] = useState<boolean>(false)
-  const [accountTotalDelegations, setAccountTotalDelegations] = useState<number>(0)
-  const [accountDelegationAmount, setAccountDelegationAmount] = useState<string>('0')
-  const [accountRewards, setAccountRewards] = useState<string>('0')
-  const [accountBalance, setAccountBalance] = useState<string>('0')
+  const [accountSentDelegationsCount, setAccountSentDelegationsCount] = useState<number>(0)
+
+  const accountBalance = usePooledEthByShares(account?.rewardsShares || BigNumber.from(0))
+  const accountRewardsBalance = usePooledEthByShares(account?.rewardsShares || BigNumber.from(0))
 
   const { data, loading } = useQuery<{ account: Account }>(queryAccount, {
     variables: { id: address.toLowerCase() }
@@ -19,17 +20,7 @@ export default function useStAccount(address: `0x${string}`) {
   useEffect(() => {
     const account = data?.account
     setAccount(account)
-    setAccountTotalDelegations(account?.delegations.length || 0)
-
-    if (account) {
-      let amount = BigNumber.from('0')
-      account?.delegations.forEach(delegation => {
-        amount = amount.add(delegation.delegated.delegatedShares)
-      })
-      setAccountDelegationAmount(amount.toString())
-      setAccountBalance(account.shares.toString())
-      setAccountRewards(account.rewardsShares.toString())
-    }
+    setAccountSentDelegationsCount(account?.sentDelegationsCount || 0)
   }, [data])
 
   useEffect(() => {
@@ -39,9 +30,8 @@ export default function useStAccount(address: `0x${string}`) {
   return {
     account,
     accountBalance,
-    accountRewards,
-    accountDelegatedAmount: accountDelegationAmount,
-    accountTotalDelegates: accountTotalDelegations,
+    accountRewardsBalance,
+    accountSentDelegationsCount,
     accountIsLoading
   }
 }

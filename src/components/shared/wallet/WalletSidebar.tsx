@@ -1,7 +1,9 @@
+import useCethBalanceOf from '@/hooks/contracts/useCethBalanceOf'
+import useStAccountDelegations from '@/hooks/subgraphs/useStAccountDelegations'
 import { Drawer } from 'antd'
+import { AiFillSetting, AiOutlineLogout, AiOutlineRight } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
-import { AiOutlineLogout, AiOutlineRight, AiFillSetting } from 'react-icons/ai'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
@@ -9,7 +11,6 @@ import { truncateEther } from '../../../services/truncateEther'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
 import WalletConnectedButton from './WalletConnectedButton'
-import useCethBalanceOf from '@/hooks/contracts/useCethBalanceOf'
 
 export type WalletSidebarProps = {
   address: `0x${string}`
@@ -18,10 +19,11 @@ export type WalletSidebarProps = {
 export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { disconnect } = useDisconnect()
   const { t } = useTranslation()
-  const cethBalance = useCethBalanceOf(address)
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
+  const accountBalance = useCethBalanceOf(address)
 
-  const { account, accountRewards, accountDelegatedAmount, accountTotalDelegates } = useStAccount(address)
+  const { accountSentDelegationsCount, accountRewardsBalance } = useStAccount(address)
+  const { delegations } = useStAccountDelegations(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -54,29 +56,34 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         <div>
           <span>{t('balance')}</span>
           <span>
-            {truncateEther(cethBalance)} <span>{t('lsd.symbol')}</span>
+            {truncateEther(accountBalance)} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('rewards')}</span>
           <span>
-            {truncateEther(accountRewards)} <span>{t('lsd.symbol')}</span>
+            {truncateEther(accountRewardsBalance.toString())} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
-          <span>{t('delegated')}</span>
+          <span>{t('delegatedAmount')}</span>
           <span>
-            {`${truncateEther(accountDelegatedAmount)}`} <span>{t('lsd.symbol')}</span>
+            {truncateEther(accountBalance.toString())} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('delegations')}</span>
-          <span>{accountTotalDelegates}</span>
+          <span>{accountSentDelegationsCount}</span>
         </div>
       </InfoContainer>
 
       <ContainerCommunitiesDelegated>
-        {account?.delegations.map((delegation, index) => (
+        {delegations.length === 0 && (
+          <div>
+            <span>{t('noDelegations')}</span>
+          </div>
+        )}
+        {delegations.map((delegation, index) => (
           <div key={index}>
             <div>
               <div>
