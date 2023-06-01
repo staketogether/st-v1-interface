@@ -10,7 +10,7 @@ import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
 import WalletConnectedButton from './WalletConnectedButton'
 import useCethBalanceOf from '@/hooks/contracts/useCethBalanceOf'
-import useStAccountDelegations from "@/hooks/subgraphs/useAccountDelegations";
+import useStAccountDelegations from "@/hooks/subgraphs/useStAccountDelegations";
 
 export type WalletSidebarProps = {
   address: `0x${string}`
@@ -66,18 +66,23 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           </span>
         </div>
         <div>
-          <span>{t('delegated')}</span>
+          <span>{t('delegatedAmount')}</span>
           <span>
             0 <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('delegations')}</span>
-          <span>{account?.sentDelegationsCount}</span>
+          <span>{account?.sentDelegationsCount || 0}</span>
         </div>
       </InfoContainer>
 
       <ContainerCommunitiesDelegated>
+        {delegations.length === 0 && (
+          <div>
+            <span>{t('noDelegations')}</span>
+          </div>
+        )}
         {delegations.map((delegation, index) => (
           <div key={index}>
             <div>

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Delegation } from "@/types/Delegation";
 import { queryAccountDelegations } from "@/queries/queryAccountDelegations";
 
-export default function useAccountDelegations(account: string) {
+export default function useStAccountDelegations(account: string) {
   const [delegations, setDelegations] = useState<Delegation[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
