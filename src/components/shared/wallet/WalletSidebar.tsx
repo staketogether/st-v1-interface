@@ -1,5 +1,4 @@
 import useCethBalanceOf from '@/hooks/contracts/useCethBalanceOf'
-import useStAccountDelegations from '@/hooks/subgraphs/useStAccountDelegations'
 import { Drawer } from 'antd'
 import { AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import styled from 'styled-components'
@@ -21,8 +20,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
   const accountBalance = useCethBalanceOf(address)
 
-  const { accountSentDelegationsCount, accountRewardsBalance } = useStAccount(address)
-  const { delegations } = useStAccountDelegations(address)
+  const { accountSentDelegationsCount, accountRewardsBalance, accountDelegations } = useStAccount(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -71,12 +69,12 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           <span>{t('delegations')}</span>
           <span>{accountSentDelegationsCount}</span>
         </div>
-        {delegations.length === 0 && (
+        {accountDelegations.length === 0 && (
           <div>
             <span>{t('noDelegations')}</span>
           </div>
         )}
-        {delegations.map((delegation, index) => (
+        {accountDelegations.map((delegation, index) => (
           <WalletSentDelegation key={index} delegation={delegation} />
         ))}
       </ContainerCommunitiesDelegated>
