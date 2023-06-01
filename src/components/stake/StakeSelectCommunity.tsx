@@ -14,9 +14,7 @@ interface StakeSelectCommunityProps {
 export default function StakeSelectCommunity({ communityAddress }: StakeSelectCommunityProps) {
   const { t } = useTranslation()
 
-  const [select, setSelect] = useState(
-    <Button onClick={() => searchVar(true)}>{t('selectCommunity')}</Button>
-  )
+  const [select, setSelect] = useState(<SelectCommunity>{t('selectCommunity')}</SelectCommunity>)
 
   useEffect(() => {
     if (communityAddress) {
@@ -32,10 +30,10 @@ export default function StakeSelectCommunity({ communityAddress }: StakeSelectCo
     }
   }, [communityAddress])
 
-  return <Container>{select}</Container>
+  return <Container onClick={() => searchVar(true)}>{select}</Container>
 }
 
-const { Container, CommunitySelected, Verified, Button } = {
+const { Container, SelectCommunity, CommunitySelected, Verified } = {
   Container: styled.button`
     display: grid;
     grid-template-columns: 1fr;
@@ -52,8 +50,6 @@ const { Container, CommunitySelected, Verified, Button } = {
 
     transition: background-color 0.1s ease;
 
-    cursor: default;
-
     span:first-child {
       align-self: flex-start;
 
@@ -68,6 +64,25 @@ const { Container, CommunitySelected, Verified, Button } = {
       align-items: center;
     }
   `,
+  SelectCommunity: styled.div`
+    cursor: pointer;
+    height: 32px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
+    border: none;
+    border-radius: ${({ theme }) => theme.size[16]};
+    padding: 0 ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    display: grid;
+    place-items: center;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
+  `,
   CommunitySelected: styled.div`
     display: grid;
     grid-template-columns: auto auto;
@@ -80,24 +95,5 @@ const { Container, CommunitySelected, Verified, Button } = {
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
     color: ${({ theme }) => theme.color.whatsapp[600]};
-  `,
-  Button: styled.button`
-    height: 32px;
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[4]};
-
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
-    border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
-    padding: 0 ${({ theme }) => theme.size[16]};
-    transition: background-color 0.1s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-    }
   `
 }

@@ -8,16 +8,18 @@ import useWithdraw from '../../hooks/contracts/useWithdraw'
 import useTranslation from '../../hooks/useTranslation'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { searchVar } from '../shared/layout/LayoutSearch'
 
 interface StakeFormWithdrawProps {
-  accountAddress: `0x${string}`
-  communityAddress: `0x${string}`
+  accountAddress?: `0x${string}`
+  communityAddress?: `0x${string}`
 }
 
 export default function StakeFormWithdraw({ communityAddress, accountAddress }: StakeFormWithdrawProps) {
   const { t } = useTranslation()
 
-  const delegation = useReceivedDelegationsOf(communityAddress, accountAddress)
+  const delegation = useReceivedDelegationsOf(communityAddress || '0x', accountAddress || '0x')
 
   const cethBalance = delegation.totalAmountReceived
 
@@ -26,16 +28,27 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
   const debouncedAmount = useDebounce(amount, 500)
   const unstakeAmount = debouncedAmount || '0'
 
-  const { withdraw, isLoading, isSuccess } = useWithdraw(unstakeAmount, accountAddress, communityAddress)
+  const { withdraw, isLoading, isSuccess } = useWithdraw(
+    unstakeAmount,
+    accountAddress || '0x',
+    communityAddress || '0x'
+  )
 
   const disabled = !communityAddress || !accountAddress
+  const { openConnectModal } = useConnectModal()
 
   useEffect(() => {
     const getLabel = () => {
+      if (!accountAddress) {
+        return t('withdrawButton.wallet')
+      }
+      if (!communityAddress) {
+        return t('withdrawButton.selectCommunity')
+      }
       if (isLoading) {
         return t('processing')
       }
-      return t('unstake')
+      return t('withdrawButton.withdraw')
     }
 
     setLabel(getLabel())
@@ -46,6 +59,18 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
       setAmount('')
     }
   }, [isSuccess])
+
+  const handleWithdraw = () => {
+    if (!accountAddress && openConnectModal) {
+      openConnectModal()
+      return
+    }
+    if (!communityAddress) {
+      searchVar(true)
+      return
+    }
+    withdraw()
+  }
 
   return (
     <>
@@ -58,7 +83,7 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
           disabled={disabled}
           purple
         />
-        <StakeButton isLoading={isLoading} onClick={withdraw} label={label} disabled={disabled} purple />
+        <StakeButton isLoading={isLoading} onClick={handleWithdraw} label={label} purple />
         <StakeInfo>
           <span>
             {`${t('youReceive')} ${amount || '0'}`}

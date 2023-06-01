@@ -74,7 +74,7 @@ export default function LayoutSearchSideBar() {
               result.length > 0 &&
               result.map(community => (
                 <Link href={`/stake/deposit/${community.address}`} key={community.address}>
-                  <DropdownMenuItem key={community.address}>
+                  <DropdownMenuItem key={community.address} onClick={() => searchModalVar(false)}>
                     <EnsAvatar address={community.address} />
                     <EnsName address={community.address} />
                   </DropdownMenuItem>
@@ -85,7 +85,7 @@ export default function LayoutSearchSideBar() {
               text.length === 0 &&
               communities.map(community => (
                 <Link href={`/stake/deposit/${community.address}`} key={community.address}>
-                  <DropdownMenuItem key={community.address}>
+                  <DropdownMenuItem key={community.address} onClick={() => searchModalVar(false)}>
                     <EnsAvatar address={community.address} />
                     <EnsName address={community.address} />
                   </DropdownMenuItem>
