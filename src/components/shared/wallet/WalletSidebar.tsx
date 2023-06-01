@@ -8,9 +8,8 @@ import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { truncateEther } from '../../../services/truncateEther'
-import EnsAvatar from '../ens/EnsAvatar'
-import EnsName from '../ens/EnsName'
 import WalletConnectedButton from './WalletConnectedButton'
+import WalletSentDelegation from './WalletSentDelegation'
 
 export type WalletSidebarProps = {
   address: `0x${string}`
@@ -66,12 +65,6 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           </span>
         </div>
         <div>
-          <span>{t('delegatedAmount')}</span>
-          <span>
-            {truncateEther(accountBalance.toString())} <span>{t('lsd.symbol')}</span>
-          </span>
-        </div>
-        <div>
           <span>{t('delegations')}</span>
           <span>{accountSentDelegationsCount}</span>
         </div>
@@ -84,18 +77,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           </div>
         )}
         {delegations.map((delegation, index) => (
-          <div key={index}>
-            <div>
-              <div>
-                <EnsAvatar address={delegation.delegated.address} />
-                <EnsName address={delegation.delegated.address} />
-              </div>
-            </div>
-            <span>
-              {`${truncateEther(delegation.delegationShares.toString())}`}
-              <span>{t('lsd.symbol')}</span>
-            </span>
-          </div>
+          <WalletSentDelegation key={index} delegation={delegation} />
         ))}
       </ContainerCommunitiesDelegated>
     </DrawerContainer>
