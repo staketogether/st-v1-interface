@@ -8,7 +8,7 @@ export const queryCommunity = gql`
       rewardsShares
       receivedDelegationsCount
 
-      delegations {
+      delegations(orderBy: delegationShares, orderDirection: desc) {
         delegationShares
         delegate {
           address
