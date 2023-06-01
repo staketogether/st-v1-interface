@@ -8,6 +8,21 @@ export const queryCommunity = gql`
       delegatedShares
       rewardsShares
       receivedDelegationsCount
+      delegations {
+        id
+        delegationShares
+        delegate {
+          address
+          shares
+          sentDelegationsCount
+          rewardsShares
+        }
+        delegated {
+          address
+          delegatedShares
+          receivedDelegationsCount
+        }
+      }
     }
   }
 `

@@ -5,15 +5,12 @@ import { truncateEther } from '../../services/truncateEther'
 import { Community } from '../../types/Community'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import { default as EnsName } from '../shared/ens/EnsName'
-import useCommunityDelegations from "@/hooks/subgraphs/useCommunityDelegations";
 interface StakeStatsProps {
   community: Community
 }
 
 export default function StakeStats({ community }: StakeStatsProps) {
   const { t } = useTranslation()
-  const { delegations } = useCommunityDelegations(community.id)
-  console.log(community, delegations)
 
   return (
     <Container>
@@ -39,9 +36,9 @@ export default function StakeStats({ community }: StakeStatsProps) {
           </StatsWrapper>
         </Stats>
       </StatsContainer>
-      {delegations.length > 0 && (
+      {community.delegations.length > 0 && (
         <DelegationsContainer>
-          {delegations.map(delegation => (
+          {community.delegations.map(delegation => (
             <Delegation key={delegation.delegate.address}>
               <div>
                 <EnsAvatar address={delegation.delegate.address} />
