@@ -9,9 +9,13 @@ import EnsName from '../ens/EnsName'
 
 export type WalletConnectedButtonProps = {
   address: `0x${string}`
+  showBalance?: boolean
 }
 
-export default function WalletConnectedButton({ address }: WalletConnectedButtonProps) {
+export default function WalletConnectedButton({
+  address,
+  showBalance = true
+}: WalletConnectedButtonProps) {
   const cethBalance = useCethBalanceOf(address)
   const { setOpenSidebar } = useWalletSidebar()
 
@@ -19,10 +23,12 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
 
   return (
     <ConnectedButton onClick={() => setOpenSidebar(true)}>
-      <CethBalance>
-        <span>{truncateEther(cethBalance)}</span>
-        <span>{t('lsd.symbol')}</span>
-      </CethBalance>
+      {showBalance && (
+        <CethBalance>
+          <span>{truncateEther(cethBalance)}</span>
+          <span>{t('lsd.symbol')}</span>
+        </CethBalance>
+      )}
       <EnsAddress>
         <EnsName address={address} />
         <EnsAvatar address={address} />
@@ -33,11 +39,9 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
 
 const { CethBalance, ConnectedButton, EnsAddress } = {
   ConnectedButton: styled.button`
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
     gap: ${({ theme }) => theme.size[16]};
     align-items: center;
-
     width: auto;
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
@@ -61,16 +65,18 @@ const { CethBalance, ConnectedButton, EnsAddress } = {
     }
   `,
   CethBalance: styled.div`
-    display: flex;
-    justify-content: flex-start;
+    display: none;
     gap: 4px;
     font-size: ${({ theme }) => theme.font.size[14]};
-
     > span:first-child {
       color: ${({ theme }) => theme.color.primary};
     }
     > span:last-child {
       color: ${({ theme }) => theme.color.secondary};
+    }
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      display: flex;
+      justify-content: flex-start;
     }
   `,
   EnsAddress: styled.div`

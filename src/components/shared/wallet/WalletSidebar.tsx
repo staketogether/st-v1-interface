@@ -1,9 +1,7 @@
 import { Drawer } from 'antd'
-
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
-
-import { AiOutlineLogout, AiOutlineRight } from 'react-icons/ai'
+import { AiOutlineLogout, AiOutlineRight, AiFillSetting } from 'react-icons/ai'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
@@ -11,6 +9,7 @@ import { truncateEther } from '../../../services/truncateEther'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
 import WalletConnectedButton from './WalletConnectedButton'
+import useCethBalanceOf from '@/hooks/contracts/useCethBalanceOf'
 
 export type WalletSidebarProps = {
   address: `0x${string}`
@@ -19,7 +18,7 @@ export type WalletSidebarProps = {
 export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { disconnect } = useDisconnect()
   const { t } = useTranslation()
-
+  const cethBalance = useCethBalanceOf(address)
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
   const { account, accountRewards, accountDelegatedAmount, accountTotalDelegates } = useStAccount(address)
@@ -41,12 +40,23 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         <ClosedSidebarButton onClick={() => setOpenSidebar(false)}>
           <CloseSidebar fontSize={14} />
         </ClosedSidebarButton>
-        <WalletConnectedButton address={address} />
-        <LogoutButton onClick={() => disconnectWallet()}>
-          <Logout fontSize={14} />
-        </LogoutButton>
+        <WalletConnectedButton address={address} showBalance={false} />
+        <div>
+          <Button>
+            <SettingIcon />
+          </Button>
+          <Button onClick={() => disconnectWallet()}>
+            <Logout fontSize={14} />
+          </Button>
+        </div>
       </HeaderContainer>
       <InfoContainer>
+        <div>
+          <span>{t('balance')}</span>
+          <span>
+            {truncateEther(cethBalance)} <span>{t('lsd.symbol')}</span>
+          </span>
+        </div>
         <div>
           <span>{t('rewards')}</span>
           <span>
@@ -64,7 +74,8 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           <span>{accountTotalDelegates}</span>
         </div>
       </InfoContainer>
-      <InfoContainer>
+
+      <ContainerCommunitiesDelegated>
         {account?.delegations.map((delegation, index) => (
           <div key={index}>
             <div>
@@ -79,7 +90,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             </span>
           </div>
         ))}
-      </InfoContainer>
+      </ContainerCommunitiesDelegated>
     </DrawerContainer>
   )
 }
@@ -91,23 +102,36 @@ const {
   CloseSidebar,
   ClosedSidebarButton,
   Logout,
-  LogoutButton
+  Button,
+  SettingIcon,
+  ContainerCommunitiesDelegated
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.color.whiteAlpha[700]} !important;
+
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
     }
+
     .ant-drawer-body {
+      width: calc(100vw - 80px);
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[24]};
+      padding: ${({ theme }) => theme.size[24]};
+      @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+        width: 378px;
+      }
     }
   `,
   HeaderContainer: styled.div`
-    display: grid;
-    grid-template-columns: auto 32px;
-    gap: ${({ theme }) => theme.size[16]};
+    display: flex;
+    align-items: center;
+    > div {
+      margin-left: auto;
+      display: flex;
+      gap: ${({ theme }) => theme.size[4]};
+    }
   `,
   InfoContainer: styled.div`
     display: flex;
@@ -142,9 +166,43 @@ const {
       }
     }
 
-    &:last-of-type {
-      padding-top: ${({ theme }) => theme.size[24]};
+    &::after {
+      content: '';
+      margin-top: ${({ theme }) => theme.size[24]};
       border-top: 1px solid ${({ theme }) => theme.color.blue[100]};
+    }
+  `,
+  ContainerCommunitiesDelegated: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[12]};
+    div {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      div {
+        display: grid;
+        grid-template-columns: 24px auto;
+        justify-content: flex-start;
+        gap: ${({ theme }) => theme.size[8]};
+
+        span {
+          color: ${({ theme }) => theme.color.black};
+        }
+      }
+
+      span {
+        display: flex;
+        gap: ${({ theme }) => theme.size[4]};
+        font-size: ${({ theme }) => theme.font.size[14]};
+        color: ${({ theme }) => theme.color.primary};
+
+        > span {
+          color: ${({ theme }) => theme.color.secondary};
+        }
+      }
     }
   `,
   ClosedSidebarButton: styled.button`
@@ -163,10 +221,13 @@ const {
       background: ${({ theme }) => theme.color.whiteAlpha[900]};
     }
   `,
+  SettingIcon: styled(AiFillSetting)`
+    color: ${({ theme }) => theme.color.primary};
+  `,
   CloseSidebar: styled(AiOutlineRight)`
     color: ${({ theme }) => theme.color.primary};
   `,
-  LogoutButton: styled.button`
+  Button: styled.button`
     width: 32px;
     height: 32px;
     border: 0;
@@ -178,6 +239,10 @@ const {
 
     &:hover {
       background: ${({ theme }) => theme.color.whiteAlpha[900]};
+    }
+
+    &:first-of-type {
+      margin-left: auto;
     }
   `,
   Logout: styled(AiOutlineLogout)`

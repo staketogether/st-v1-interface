@@ -184,3 +184,7 @@ input::-webkit-inner-spin-button {
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+.ant-drawer-content-wrapper {
+  width: auto !important;
+}
