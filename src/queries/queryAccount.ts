@@ -6,7 +6,7 @@ export const queryAccount = gql`
       address
       shares
       sentDelegationsCount
-      delegations {
+      delegations(orderBy: delegationShares, orderDirection: desc) {
         id
         delegationShares
         delegated {
