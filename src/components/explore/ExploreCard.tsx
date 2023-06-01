@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { AiOutlineCheck } from 'react-icons/ai'
 import styled from 'styled-components'
+import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Community } from '../../types/Community'
@@ -16,6 +17,9 @@ export default function ExploreCard({ community }: ExploreCardProps) {
 
   const { t } = useTranslation()
 
+  const rewardsShares = usePooledEthByShares(community.rewardsShares)
+  const delegatedShares = usePooledEthByShares(community.delegatedShares)
+
   return (
     <Card onClick={() => router.push(`/stake/deposit/${community.address}`)}>
       <CardHeader>
@@ -29,19 +33,19 @@ export default function ExploreCard({ community }: ExploreCardProps) {
         <div>
           <div>{t('rewards')}</div>
           <div>
-            {truncateEther(community.rewardsShares.toString())}
+            {truncateEther(rewardsShares.toString())}
             <span>{t('lsd.symbol')}</span>
           </div>
         </div>
         <div>
           <div>{t('delegated')}</div>
           <div>
-            {truncateEther(community.delegatedShares.toString())}
+            {truncateEther(delegatedShares.toString())}
             <span>{t('lsd.symbol')}</span>
           </div>
         </div>
         <div>
-          <div>{t('stakers')}</div>
+          <div>{t('members')}</div>
           <div>{community.receivedDelegationsCount}</div>
         </div>
       </CardInfo>

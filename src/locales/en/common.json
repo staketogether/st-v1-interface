@@ -7,7 +7,7 @@
   "processing": "Processing...",
   "staked": "Staked",
   "unstake": "Unstake",
-  "stakers": "Stakers",
+  "members": "Members",
   "delegations": "Delegations",
   "balance": "Balance",
   "selectCommunity": "Select a Pool",
@@ -39,8 +39,8 @@
     "symbol": "ETH"
   },
   "lsd": {
-    "name": "Pool Ether",
-    "symbol": "PETH"
+    "name": "Community Ether",
+    "symbol": "CETH"
   },
   "noDelegations": "No delegations found"
 }
