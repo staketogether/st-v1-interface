@@ -1,7 +1,9 @@
+import useCethBalanceOf from '@/hooks/contracts/useCethBalanceOf'
+import useStAccountDelegations from '@/hooks/subgraphs/useStAccountDelegations'
 import { Drawer } from 'antd'
+import { AiFillSetting, AiOutlineLogout, AiOutlineRight } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
-import { AiOutlineLogout, AiOutlineRight, AiFillSetting } from 'react-icons/ai'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
@@ -9,8 +11,6 @@ import { truncateEther } from '../../../services/truncateEther'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
 import WalletConnectedButton from './WalletConnectedButton'
-import useCethBalanceOf from "@/hooks/contracts/useCethBalanceOf"
-import useStAccountDelegations from "@/hooks/subgraphs/useStAccountDelegations"
 
 export type WalletSidebarProps = {
   address: `0x${string}`
@@ -22,7 +22,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
   const accountBalance = useCethBalanceOf(address)
 
-  const { accountSentDelegationsCount, accountRewardShares } = useStAccount(address)
+  const { accountSentDelegationsCount, accountRewardsBalance } = useStAccount(address)
   const { delegations } = useStAccountDelegations(address)
 
   function disconnectWallet() {
@@ -62,13 +62,13 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         <div>
           <span>{t('rewards')}</span>
           <span>
-            {truncateEther(accountRewardShares.toString())} <span>{t('lsd.symbol')}</span>
+            {truncateEther(accountRewardsBalance.toString())} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('delegatedAmount')}</span>
           <span>
-            {accountBalance} <span>{t('lsd.symbol')}</span>
+            {truncateEther(accountBalance.toString())} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
