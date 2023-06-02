@@ -22,7 +22,9 @@ export default function StakeControl({ community, type }: StakeControlProps) {
         {hasAccountAndCommunity && (
           <StakeForm type={type} accountAddress={account} communityAddress={community.address} />
         )}
-        {!hasAccountAndCommunity && <StakeFormEmpty type={type} accountAddress={account} />}
+        {!hasAccountAndCommunity && (
+          <StakeFormEmpty type={type} accountAddress={account} communityAddress={community?.address} />
+        )}
       </Form>
       {community?.address && <StakeStats community={community} />}
     </Container>
