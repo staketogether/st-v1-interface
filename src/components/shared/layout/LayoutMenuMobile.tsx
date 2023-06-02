@@ -1,9 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import Link from 'next/link'
-import { useTranslation } from 'next-i18next'
 import useActiveRoute from '@/hooks/useActiveRoute'
-import { AiOutlineCodeSandbox, AiOutlineTeam } from 'react-icons/ai'
+import { useTranslation } from 'next-i18next'
+import Link from 'next/link'
+import { AiOutlineCluster, AiOutlineCodeSandbox } from 'react-icons/ai'
+import styled from 'styled-components'
 function LayoutMenuMobile() {
   const { t } = useTranslation()
   const { isActive } = useActiveRoute()
@@ -11,7 +10,7 @@ function LayoutMenuMobile() {
     <Container>
       <NextLink href='/explore'>
         <MenuButton className={`${isActive('explore') ? 'active' : ''}`}>
-          <AiOutlineTeam size={16} />
+          <AiOutlineCluster size={16} />
           {t('explore')}
         </MenuButton>
       </NextLink>
