@@ -10,8 +10,7 @@ export default function useCethBalanceOf(address: `0x${string}`) {
   const cethReq = useStakeTogetherBalanceOf({
     address: contracts.StakeTogether,
     args: [address],
-    enabled: !!address,
-    watch: true
+    enabled: !!address
   })
 
   const cethBalance = cethReq.data?.toString() || '0'

@@ -9,7 +9,6 @@ export default function useEthBalanceOf(address?: `0x${string}`) {
 
   const { data } = useBalance({
     address,
-    watch: true,
     chainId
   })
 

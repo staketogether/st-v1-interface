@@ -10,8 +10,7 @@ export default function usePooledEthByShares(sharesAmount: BigNumber) {
 
   const pooledEthBySharesReq = useStakeTogetherPooledEthByShares({
     address: contracts.StakeTogether,
-    args: [sharesAmount],
-    watch: true
+    args: [sharesAmount]
   })
 
   const pooledEthByShares = pooledEthBySharesReq.data?.toString() || '0'
