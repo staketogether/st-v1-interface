@@ -90,12 +90,12 @@ const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer } =
   DelegationsContainer: styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.size[12]};
+    gap: ${({ theme }) => theme.size[8]};
     border-top: 1px solid ${({ theme }) => theme.color.blue[100]};
     padding-top: ${({ theme }) => theme.size[16]};
 
     > div:first-of-type {
-      margin-bottom: ${({ theme }) => theme.size[4]};
+      margin-bottom: ${({ theme }) => theme.size[8]};
     }
   `
 }
