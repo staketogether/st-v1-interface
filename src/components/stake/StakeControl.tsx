@@ -15,6 +15,8 @@ export default function StakeControl({ community, type }: StakeControlProps) {
   const { account } = useConnectedAccount()
   const hasAccountAndCommunity = account && community?.address
 
+  console.log('community', community)
+
   return (
     <Container>
       <Form>

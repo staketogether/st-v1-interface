@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Community } from '../../types/Community'
@@ -11,6 +12,9 @@ interface StakeStatsProps {
 export default function StakeStats({ community }: StakeStatsProps) {
   const { t } = useTranslation()
 
+  const rewardsShares = usePooledEthByShares(community.rewardsShares)
+  const delegatedShares = usePooledEthByShares(community.delegatedShares)
+
   return (
     <Container>
       <StatsContainer>
@@ -18,14 +22,14 @@ export default function StakeStats({ community }: StakeStatsProps) {
           <StatsWrapper>
             <span>{t('delegated')}</span>
             <span>
-              {`${truncateEther(community.delegatedShares.toString(), 6)}`}
+              {`${truncateEther(delegatedShares.toString(), 6)}`}
               <span>{t('lsd.symbol')}</span>
             </span>
           </StatsWrapper>
           <StatsWrapper>
             <span>{t('rewards')}</span>
             <span>
-              {truncateEther(community.rewardsShares.toString(), 6)}
+              {truncateEther(rewardsShares.toString(), 6)}
               <span>{t('lsd.symbol')}</span>
             </span>
           </StatsWrapper>
