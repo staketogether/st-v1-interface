@@ -27,6 +27,7 @@ export default function StakeFormInput({
   function handleChange(value: string) {
     const regex = /^(\d+(\.\d*)?|\.\d+)$/
     if (!value || regex.test(value)) {
+      if (value.length > 20) return
       onChange(value)
     }
   }
@@ -45,7 +46,7 @@ export default function StakeFormInput({
         <MaxValue
           className={purple ? 'purple' : ''}
           disabled={disabled}
-          onClick={() => handleChange(truncateEther(balance))}
+          onClick={() => handleChange(truncateEther(balance, 6))}
         >
           {t('max')}
         </MaxValue>

@@ -23,7 +23,7 @@ export function StakeForm({ type, accountAddress, communityAddress }: StakeFormP
   const ethBalance = useEthBalanceOf(accountAddress)
 
   const [amount, setAmount] = useState<string>('')
-  const debouncedAmount = useDebounce(amount, 500)
+  const debouncedAmount = useDebounce(amount, 1000)
 
   const inputAmount = debouncedAmount || '0'
 
