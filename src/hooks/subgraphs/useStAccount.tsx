@@ -6,7 +6,7 @@ import { Account } from '../../types/Account'
 import { Delegation } from '../../types/Delegation'
 import usePooledEthByShares from '../contracts/usePooledEthByShares'
 
-export default function useStAccount(address: `0x${string}`) {
+export default function useStAccount(address: `0x${string}` | undefined) {
   const [account, setAccount] = useState<Account | undefined>(undefined)
   const [accountIsLoading, setAccountIsLoading] = useState<boolean>(false)
   const [accountSentDelegationsCount, setAccountSentDelegationsCount] = useState<number>(0)
@@ -16,7 +16,8 @@ export default function useStAccount(address: `0x${string}`) {
   const accountRewardsBalance = usePooledEthByShares(account?.rewardsShares || BigNumber.from(0))
 
   const { data, loading } = useQuery<{ account: Account }>(queryAccount, {
-    variables: { id: address.toLowerCase() }
+    variables: { id: address?.toLowerCase() },
+    skip: !address
   })
 
   useEffect(() => {

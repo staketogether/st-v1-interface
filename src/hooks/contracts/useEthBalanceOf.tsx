@@ -7,7 +7,7 @@ export default function useEthBalanceOf(address?: `0x${string}`) {
 
   const [balance, setBalance] = useState<string>('0')
 
-  const { data } = useBalance({
+  const { data, refetch } = useBalance({
     address,
     chainId
   })
@@ -18,5 +18,5 @@ export default function useEthBalanceOf(address?: `0x${string}`) {
     setBalance(ethBalance)
   }, [ethBalance])
 
-  return balance
+  return { balance, refetch }
 }

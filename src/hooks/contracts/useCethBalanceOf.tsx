@@ -7,17 +7,17 @@ export default function useCethBalanceOf(address: `0x${string}`) {
 
   const [balance, setBalance] = useState<string>('0')
 
-  const cethReq = useStakeTogetherBalanceOf({
+  const { data, refetch } = useStakeTogetherBalanceOf({
     address: contracts.StakeTogether,
     args: [address],
     enabled: !!address
   })
 
-  const cethBalance = cethReq.data?.toString() || '0'
+  const cethBalance = data?.toString() || '0'
 
   useEffect(() => {
     setBalance(cethBalance)
   }, [cethBalance])
 
-  return balance
+  return { balance, refetch }
 }

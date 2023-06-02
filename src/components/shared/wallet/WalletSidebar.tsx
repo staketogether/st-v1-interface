@@ -18,7 +18,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { disconnect } = useDisconnect()
   const { t } = useTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
-  const accountBalance = useCethBalanceOf(address)
+  const { balance: accountBalance } = useCethBalanceOf(address)
 
   const { accountSentDelegationsCount, accountRewardsBalance, accountDelegations } = useStAccount(address)
 

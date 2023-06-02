@@ -9,29 +9,37 @@ import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
+import { Community } from '@/types/Community'
+import { useCommunityCache } from '@/services/useCommunityCache'
+import { Account } from "@/types/Account";
+import { useAccountCache } from "@/services/useAccountCache";
+import { BigNumber } from "ethers";
 
 interface StakeFormDepositProps {
-  accountAddress: `0x${string}`
-  communityAddress: `0x${string}`
+  account?: Account
+  walletAddress: `0x${string}`
+  community: Community
 }
 
-export default function StakeFormDeposit({ communityAddress, accountAddress }: StakeFormDepositProps) {
+export default function StakeFormDeposit({ community, account, walletAddress }: StakeFormDepositProps) {
   const { fee } = globalConfig
 
   const { t } = useTranslation()
 
-  const ethBalance = useEthBalanceOf(accountAddress)
+  const { balance: accountBalance } = useEthBalanceOf(walletAddress)
+  const { addStake: withdrawCommunityStake } = useCommunityCache()
+  const { addStake: withdrawAccountStake } = useAccountCache()
   const [label, setLabel] = useState<string>('')
   const [amount, setAmount] = useState<string>('')
   const debouncedAmount = useDebounce(amount, 500)
   const stakeAmount = debouncedAmount || '0'
 
-  const { deposit, isSuccess, isLoading } = useDeposit(stakeAmount, accountAddress, communityAddress)
+  const { deposit, isSuccess, isLoading } = useDeposit(stakeAmount, walletAddress, community.address)
 
   const delegationFee = truncateEther(fee.delegation.mul(100).toString())
   const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
 
-  const disabled = !communityAddress || !accountAddress
+  const disabled = !community || !walletAddress
 
   useEffect(() => {
     const getLabel = () => {
@@ -42,13 +50,25 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
     }
 
     setLabel(getLabel())
-  }, [accountAddress, communityAddress, isLoading, t])
+  }, [account, community, isLoading, t])
 
   useEffect(() => {
     if (isSuccess) {
+      const virtualAccount: Account = account || {
+        id: walletAddress.toLowerCase(),
+        address: walletAddress.toLowerCase() as `0x${string}`,
+        shares: BigNumber.from(0),
+        sentDelegationsCount: 1,
+        balance: BigNumber.from(0),
+        rewardsShares: BigNumber.from(0),
+        delegations: [],
+      }
+
+      withdrawCommunityStake(community, walletAddress, stakeAmount)
+      withdrawAccountStake(community, virtualAccount, stakeAmount)
       setAmount('')
     }
-  }, [isSuccess])
+  }, [account, community, isSuccess, stakeAmount, walletAddress, withdrawAccountStake, withdrawCommunityStake])
 
   return (
     <>
@@ -56,7 +76,7 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
         <StakeFormInput
           value={amount}
           onChange={value => setAmount(value)}
-          balance={ethBalance}
+          balance={accountBalance}
           symbol={t('eth.symbol')}
           disabled={disabled}
         />

@@ -12,11 +12,8 @@ export type WalletConnectedButtonProps = {
   showBalance?: boolean
 }
 
-export default function WalletConnectedButton({
-  address,
-  showBalance = true
-}: WalletConnectedButtonProps) {
-  const cethBalance = useCethBalanceOf(address)
+export default function WalletConnectedButton({ address, showBalance = true }: WalletConnectedButtonProps) {
+  const { balance: cethBalance } = useCethBalanceOf(address)
   const { setOpenSidebar } = useWalletSidebar()
 
   const { t } = useTranslation()

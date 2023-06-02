@@ -5,6 +5,7 @@ import StakeFormDeposit from './StakeFormDeposit'
 import StakeFormWithdraw from './StakeFormWithdraw'
 import StakeStats from './StakeStats'
 import StakeSwitchActions from './StakeSwitchAction'
+import useStAccount from "@/hooks/subgraphs/useStAccount";
 
 interface StakeFormProps {
   community?: Community
@@ -12,22 +13,23 @@ interface StakeFormProps {
 }
 
 export default function StakeForm({ community, type }: StakeFormProps) {
-  const { account } = useConnectedAccount()
+  const { account: walletAddress } = useConnectedAccount()
+  const { account } = useStAccount(walletAddress)
   // Move Form State Control to Here
   return (
     <Container>
       <Form>
         <StakeSwitchActions communityAddress={community?.address} />
-        {type === 'deposit' && account && community?.address && (
-          <StakeFormDeposit accountAddress={account} communityAddress={community?.address} />
+        {type === 'deposit' && walletAddress && community?.address && (
+          <StakeFormDeposit account={account} walletAddress={walletAddress} community={community} />
         )}
-        {type === 'withdraw' && account && community?.address && (
-          <StakeFormWithdraw accountAddress={account} communityAddress={community.address} />
+        {type === 'withdraw' && walletAddress && community?.address && (
+          <StakeFormWithdraw stAcccount={account} walletAddress={walletAddress} community={community} />
         )}
-        {type === 'deposit' && !account && <div>WIP: Connect Wallet Deposit</div>}
-        {type === 'withdraw' && !account && <div>WIP: Connect Wallet Withdraw</div>}
-        {type === 'deposit' && account && !community?.address && <div>WIP: Select Community Deposit</div>}
-        {type === 'withdraw' && account && !community?.address && (
+        {type === 'deposit' && !walletAddress && <div>WIP: Connect Wallet Deposit</div>}
+        {type === 'withdraw' && !walletAddress && <div>WIP: Connect Wallet Withdraw</div>}
+        {type === 'deposit' && walletAddress && !community?.address && <div>WIP: Select Community Deposit</div>}
+        {type === 'withdraw' && walletAddress && !community?.address && (
           <div>WIP: Select Community Withdraw</div>
         )}
       </Form>

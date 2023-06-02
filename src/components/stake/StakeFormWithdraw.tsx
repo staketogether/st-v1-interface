@@ -8,25 +8,32 @@ import useWithdraw from '../../hooks/contracts/useWithdraw'
 import useTranslation from '../../hooks/useTranslation'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
+import { Account } from "@/types/Account";
+import { Community } from "@/types/Community";
+import { useCommunityCache } from "@/services/useCommunityCache";
+import { useAccountCache } from "@/services/useAccountCache";
 
 interface StakeFormWithdrawProps {
-  accountAddress: `0x${string}`
-  communityAddress: `0x${string}`
+  walletAddress: `0x${string}`
+  stAcccount?: Account
+  community: Community
 }
 
-export default function StakeFormWithdraw({ communityAddress, accountAddress }: StakeFormWithdrawProps) {
+export default function StakeFormWithdraw({ community, stAcccount, walletAddress }: StakeFormWithdrawProps) {
   const { t } = useTranslation()
 
-  const cethBalance = useCethBalanceOf(accountAddress)
+  const { balance: accountBalance, refetch: refetchAccountBalance } = useCethBalanceOf(walletAddress)
+  const { withdrawStake: withdrawCommunityStake } = useCommunityCache()
+  const { withdrawStake: withdrawAccountStake } = useAccountCache()
 
   const [label, setLabel] = useState<string>('')
   const [amount, setAmount] = useState<string>('')
   const debouncedAmount = useDebounce(amount, 500)
   const unstakeAmount = debouncedAmount || '0'
 
-  const { withdraw, isLoading, isSuccess } = useWithdraw(unstakeAmount, accountAddress, communityAddress)
+  const { withdraw, isLoading, isSuccess } = useWithdraw(unstakeAmount, walletAddress, community.address)
 
-  const disabled = !communityAddress || !accountAddress
+  const disabled = !community || !stAcccount
 
   useEffect(() => {
     const getLabel = () => {
@@ -37,13 +44,16 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
     }
 
     setLabel(getLabel())
-  }, [accountAddress, communityAddress, isLoading, t])
+  }, [stAcccount, community, isLoading, t])
 
   useEffect(() => {
     if (isSuccess) {
+      refetchAccountBalance()
+      withdrawCommunityStake(community, walletAddress, unstakeAmount)
+      stAcccount && withdrawAccountStake(community, stAcccount, unstakeAmount)
       setAmount('')
     }
-  }, [isSuccess])
+  }, [stAcccount, community, isSuccess, refetchAccountBalance, unstakeAmount, walletAddress, withdrawAccountStake, withdrawCommunityStake])
 
   return (
     <>
@@ -51,7 +61,7 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
         <StakeFormInput
           value={amount}
           onChange={value => setAmount(value)}
-          balance={cethBalance}
+          balance={accountBalance}
           symbol={t('lsd.symbol')}
           disabled={disabled}
           purple
