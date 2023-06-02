@@ -36,28 +36,26 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
   }, [isSuccess])
 
   return (
-    <>
-      <StakeContainer>
-        <StakeFormInput
-          value={amount}
-          onChange={value => setAmount(value)}
-          balance={ethBalance}
-          symbol={t('eth.symbol')}
-          disabled={isLoading}
-        />
-        <StakeButton isLoading={isLoading} onClick={deposit} label={t('depositButton.deposit')} />
-        <StakeInfo>
-          <span>
-            {`${t('youReceive')} ${amount || '0'}`}
-            <span>{`${t('lsd.symbol')}`}</span>
-          </span>
-          <div>
-            <span>{`${t('delegation')}: ${delegationFee}%`}</span>
-            <span>{`${t('rewardsFee')}: ${protocolFee}%`}</span>
-          </div>
-        </StakeInfo>
-      </StakeContainer>
-    </>
+    <StakeContainer>
+      <StakeFormInput
+        value={amount}
+        onChange={value => setAmount(value)}
+        balance={ethBalance}
+        symbol={t('eth.symbol')}
+        disabled={isLoading}
+      />
+      <StakeButton isLoading={isLoading} onClick={deposit} label={t('depositButton.deposit')} />
+      <StakeInfo>
+        <span>
+          {`${t('youReceive')} ${amount || '0'}`}
+          <span>{`${t('lsd.symbol')}`}</span>
+        </span>
+        <div>
+          <span>{`${t('delegation')}: ${delegationFee}%`}</span>
+          <span>{`${t('rewardsFee')}: ${protocolFee}%`}</span>
+        </div>
+      </StakeInfo>
+    </StakeContainer>
   )
 }
 

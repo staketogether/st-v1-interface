@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 
+import useResizeView from '@/hooks/useResizeView'
+import useSearchDrawer from '@/hooks/useSearchDrawer'
+import useSearchHeader from '@/hooks/useSearchHeader'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
-import useResizeView from '@/hooks/useResizeView'
-import useSearchDrawer from '@/hooks/useSearchDrawer'
-import useSearchHeader from '@/hooks/useSearchHeader'
 
 interface StakeFormDepositProps {
   accountAddress?: `0x${string}`
@@ -60,28 +60,26 @@ export default function StakeFormEmpty({ communityAddress, accountAddress }: Sta
   }
 
   return (
-    <>
-      <StakeContainer>
-        <StakeFormInput
-          value={amount}
-          onChange={value => setAmount(value)}
-          balance={ethBalance}
-          symbol={t('eth.symbol')}
-          disabled={true}
-        />
-        <StakeButton isLoading={false} onClick={handleOnClickButton} label={label} />
-        <StakeInfo>
-          <span>
-            {`${t('youReceive')} ${amount || '0'}`}
-            <span>{`${t('lsd.symbol')}`}</span>
-          </span>
-          <div>
-            <span>{`${t('delegation')}: ${delegationFee}%`}</span>
-            <span>{`${t('rewardsFee')}: ${protocolFee}%`}</span>
-          </div>
-        </StakeInfo>
-      </StakeContainer>
-    </>
+    <StakeContainer>
+      <StakeFormInput
+        value={amount}
+        onChange={value => setAmount(value)}
+        balance={ethBalance}
+        symbol={t('eth.symbol')}
+        disabled={true}
+      />
+      <StakeButton isLoading={false} onClick={handleOnClickButton} label={label} />
+      <StakeInfo>
+        <span>
+          {`${t('youReceive')} ${amount || '0'}`}
+          <span>{`${t('lsd.symbol')}`}</span>
+        </span>
+        <div>
+          <span>{`${t('delegation')}: ${delegationFee}%`}</span>
+          <span>{`${t('rewardsFee')}: ${protocolFee}%`}</span>
+        </div>
+      </StakeInfo>
+    </StakeContainer>
   )
 }
 

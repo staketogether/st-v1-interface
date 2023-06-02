@@ -35,30 +35,23 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
   }, [isSuccess])
 
   return (
-    <>
-      <StakeContainer>
-        <StakeFormInput
-          value={amount}
-          onChange={value => setAmount(value)}
-          balance={cethBalance}
-          symbol={t('lsd.symbol')}
-          disabled={isLoading}
-          purple
-        />
-        <StakeButton
-          isLoading={isLoading}
-          onClick={withdraw}
-          label={t('withdrawButton.withdraw')}
-          purple
-        />
-        <StakeInfo>
-          <span>
-            {`${t('youReceive')} ${amount || '0'}`}
-            <span>{`${t('eth.symbol')}`}</span>
-          </span>
-        </StakeInfo>
-      </StakeContainer>
-    </>
+    <StakeContainer>
+      <StakeFormInput
+        value={amount}
+        onChange={value => setAmount(value)}
+        balance={cethBalance}
+        symbol={t('lsd.symbol')}
+        disabled={isLoading}
+        purple
+      />
+      <StakeButton isLoading={isLoading} onClick={withdraw} label={t('withdrawButton.withdraw')} purple />
+      <StakeInfo>
+        <span>
+          {`${t('youReceive')} ${amount || '0'}`}
+          <span>{`${t('eth.symbol')}`}</span>
+        </span>
+      </StakeInfo>
+    </StakeContainer>
   )
 }
 

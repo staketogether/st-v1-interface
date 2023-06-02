@@ -1,13 +1,13 @@
+import useResizeView from '@/hooks/useResizeView'
+import useSearchDrawer from '@/hooks/useSearchDrawer'
+import useSearchHeader from '@/hooks/useSearchHeader'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useCethBalanceOf from '../../hooks/contracts/useCethBalanceOf'
 import useTranslation from '../../hooks/useTranslation'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
-import useResizeView from '@/hooks/useResizeView'
-import useSearchDrawer from '@/hooks/useSearchDrawer'
-import useSearchHeader from '@/hooks/useSearchHeader'
 
 interface StakeFormWithdrawEmptyProps {
   accountAddress?: `0x${string}`
@@ -59,25 +59,23 @@ export default function StakeFormWithdrawEmpty({
   }
 
   return (
-    <>
-      <StakeContainer>
-        <StakeFormInput
-          value={amount}
-          onChange={value => setAmount(value)}
-          balance={cethBalance}
-          symbol={t('lsd.symbol')}
-          disabled={disabled}
-          purple
-        />
-        <StakeButton isLoading={false} onClick={handleOnClickButton} label={label} purple />
-        <StakeInfo>
-          <span>
-            {`${t('youReceive')} ${amount || '0'}`}
-            <span>{`${t('eth.symbol')}`}</span>
-          </span>
-        </StakeInfo>
-      </StakeContainer>
-    </>
+    <StakeContainer>
+      <StakeFormInput
+        value={amount}
+        onChange={value => setAmount(value)}
+        balance={cethBalance}
+        symbol={t('lsd.symbol')}
+        disabled={disabled}
+        purple
+      />
+      <StakeButton isLoading={false} onClick={handleOnClickButton} label={label} purple />
+      <StakeInfo>
+        <span>
+          {`${t('youReceive')} ${amount || '0'}`}
+          <span>{`${t('eth.symbol')}`}</span>
+        </span>
+      </StakeInfo>
+    </StakeContainer>
   )
 }
 

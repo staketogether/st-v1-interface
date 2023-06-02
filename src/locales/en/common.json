@@ -44,13 +44,13 @@
   },
   "depositButton": {
     "deposit": "Deposit",
-    "wallet": "Connect Wallet Deposit",
-    "selectCommunity": "Select Community Deposit"
+    "wallet": "First Connect the Wallet ",
+    "selectCommunity": "Now Select a Pool"
   },
-   "withdrawButton": {
+  "withdrawButton": {
     "withdraw": "Withdraw",
-    "wallet": "Connect Wallet for Withdraw",
-    "selectCommunity": "Select Community Withdraw"
+    "wallet": "First Connect the Wallet",
+    "selectCommunity": "Now Select a Pool"
   },
   "noDelegations": "No delegations found"
 }
