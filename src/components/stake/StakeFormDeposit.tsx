@@ -10,9 +10,9 @@ import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 import { Community } from '@/types/Community'
-import { useCommunityCache } from '@/services/useCommunityCache'
+import { useCommunityCache } from '@/hooks/cache/useCommunityCache'
 import { Account } from "@/types/Account";
-import { useAccountCache } from "@/services/useAccountCache";
+import { useAccountCache } from "@/hooks/cache/useAccountCache";
 import { BigNumber } from "ethers";
 
 interface StakeFormDepositProps {

@@ -3,6 +3,7 @@ import { Account } from './Account'
 import { Delegation } from './Delegation'
 
 export type Community = {
+  __typename: 'Community'
   id: string
   account: Account
   active: boolean

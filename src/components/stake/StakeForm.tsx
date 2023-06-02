@@ -24,7 +24,7 @@ export default function StakeForm({ community, type }: StakeFormProps) {
           <StakeFormDeposit account={account} walletAddress={walletAddress} community={community} />
         )}
         {type === 'withdraw' && walletAddress && community?.address && (
-          <StakeFormWithdraw stAcccount={account} walletAddress={walletAddress} community={community} />
+          <StakeFormWithdraw stAccount={account} walletAddress={walletAddress} community={community} />
         )}
         {type === 'deposit' && !walletAddress && <div>WIP: Connect Wallet Deposit</div>}
         {type === 'withdraw' && !walletAddress && <div>WIP: Connect Wallet Withdraw</div>}

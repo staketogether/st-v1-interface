@@ -10,21 +10,17 @@ import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 import { Account } from "@/types/Account";
 import { Community } from "@/types/Community";
-import { useCommunityCache } from "@/services/useCommunityCache";
-import { useAccountCache } from "@/services/useAccountCache";
 
 interface StakeFormWithdrawProps {
   walletAddress: `0x${string}`
-  stAcccount?: Account
+  stAccount?: Account
   community: Community
 }
 
-export default function StakeFormWithdraw({ community, stAcccount, walletAddress }: StakeFormWithdrawProps) {
+export default function StakeFormWithdraw({ community, stAccount, walletAddress }: StakeFormWithdrawProps) {
   const { t } = useTranslation()
 
   const { balance: accountBalance, refetch: refetchAccountBalance } = useCethBalanceOf(walletAddress)
-  const { withdrawStake: withdrawCommunityStake } = useCommunityCache()
-  const { withdrawStake: withdrawAccountStake } = useAccountCache()
 
   const [label, setLabel] = useState<string>('')
   const [amount, setAmount] = useState<string>('')
@@ -33,7 +29,7 @@ export default function StakeFormWithdraw({ community, stAcccount, walletAddress
 
   const { withdraw, isLoading, isSuccess } = useWithdraw(unstakeAmount, walletAddress, community.address)
 
-  const disabled = !community || !stAcccount
+  const disabled = !community || !stAccount
 
   useEffect(() => {
     const getLabel = () => {
@@ -44,16 +40,14 @@ export default function StakeFormWithdraw({ community, stAcccount, walletAddress
     }
 
     setLabel(getLabel())
-  }, [stAcccount, community, isLoading, t])
+  }, [stAccount, community, isLoading, t])
 
   useEffect(() => {
     if (isSuccess) {
       refetchAccountBalance()
-      withdrawCommunityStake(community, walletAddress, unstakeAmount)
-      stAcccount && withdrawAccountStake(community, stAcccount, unstakeAmount)
       setAmount('')
     }
-  }, [stAcccount, community, isSuccess, refetchAccountBalance, unstakeAmount, walletAddress, withdrawAccountStake, withdrawCommunityStake])
+  }, [isSuccess, refetchAccountBalance])
 
   return (
     <>
