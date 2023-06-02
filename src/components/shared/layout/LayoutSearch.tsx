@@ -2,20 +2,17 @@ import Fuse from 'fuse.js'
 import Link from 'next/link'
 import { useState } from 'react'
 import styled from 'styled-components'
-
 import useCommunities from '../../../hooks/subgraphs/useCommunities'
-
 import { AiOutlineClose, AiOutlineSearch, AiOutlineWarning } from 'react-icons/ai'
 import useSearchCommunities from '../../../hooks/subgraphs/useSearchCommunities'
 import useTranslation from '../../../hooks/useTranslation'
 import Overlay from '../Overlay'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
-import { makeVar, useReactiveVar } from '@apollo/client'
+import useSearchHeader from '@/hooks/useSearchHeader'
 
-export const searchVar = makeVar(false)
 export default function LayoutSearch() {
-  const isOpen = useReactiveVar(searchVar)
+  const { isOpen, setOpenSearchHeader } = useSearchHeader()
   const [text, setText] = useState<string>('')
   const { t } = useTranslation()
 
@@ -42,16 +39,16 @@ export default function LayoutSearch() {
   const result = fuse.search(text).map(community => community.item)
 
   const handleButtonClick = () => {
-    searchVar(!isOpen)
+    setOpenSearchHeader(!isOpen)
   }
 
   const handleMouseLeave = () => {
-    searchVar(false)
+    setOpenSearchHeader(false)
   }
 
   const onChange = (text: string) => {
     setText(text)
-    searchVar(true)
+    setOpenSearchHeader(true)
   }
 
   const clearText = () => {
@@ -60,7 +57,7 @@ export default function LayoutSearch() {
 
   return (
     <>
-      {isOpen && <Overlay onClick={() => searchVar(false)} />}
+      {isOpen && <Overlay onClick={() => setOpenSearchHeader(false)} />}
       <Container onMouseLeave={handleMouseLeave}>
         <InputSearchArea className={`${isOpen ? 'active' : ''}`}>
           <button>
@@ -86,7 +83,7 @@ export default function LayoutSearch() {
               result.length > 0 &&
               result.map(community => (
                 <Link href={`/stake/deposit/${community.address}`} key={community.address}>
-                  <DropdownMenuItem key={community.address} onClick={() => searchVar(false)}>
+                  <DropdownMenuItem key={community.address} onClick={() => setOpenSearchHeader(false)}>
                     <EnsAvatar address={community.address} />
                     <EnsName address={community.address} />
                   </DropdownMenuItem>
@@ -97,7 +94,7 @@ export default function LayoutSearch() {
               text.length === 0 &&
               communities.map(community => (
                 <Link href={`/stake/deposit/${community.address}`} key={community.address}>
-                  <DropdownMenuItem key={community.address} onClick={() => searchVar(false)}>
+                  <DropdownMenuItem key={community.address} onClick={() => setOpenSearchHeader(false)}>
                     <EnsAvatar address={community.address} />
                     <EnsName address={community.address} />
                   </DropdownMenuItem>

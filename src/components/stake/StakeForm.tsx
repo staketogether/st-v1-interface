@@ -5,6 +5,8 @@ import StakeFormDeposit from './StakeFormDeposit'
 import StakeFormWithdraw from './StakeFormWithdraw'
 import StakeStats from './StakeStats'
 import StakeSwitchActions from './StakeSwitchAction'
+import StakeFormEmpty from './StakeFormEmpty'
+import StakeFormWithdrawEmpty from './StakeFormWithdrawEmpty'
 
 interface StakeFormProps {
   community?: Community
@@ -13,16 +15,21 @@ interface StakeFormProps {
 
 export default function StakeForm({ community, type }: StakeFormProps) {
   const { account } = useConnectedAccount()
-  // Move Form State Control to Here
   return (
     <Container>
       <Form>
         <StakeSwitchActions communityAddress={community?.address} />
-        {type === 'deposit' && (
+        {type === 'deposit' && account && community?.address && (
           <StakeFormDeposit accountAddress={account} communityAddress={community?.address} />
         )}
-        {type === 'withdraw' && (
+        {type === 'deposit' && (!account || !community?.address) && (
+          <StakeFormEmpty accountAddress={account} communityAddress={community?.address} />
+        )}
+        {type === 'withdraw' && account && community?.address && (
           <StakeFormWithdraw accountAddress={account} communityAddress={community?.address} />
+        )}
+        {type === 'withdraw' && (!account || !community?.address) && (
+          <StakeFormWithdrawEmpty accountAddress={account} communityAddress={community?.address} />
         )}
       </Form>
       {community?.address && <StakeStats community={community} />}

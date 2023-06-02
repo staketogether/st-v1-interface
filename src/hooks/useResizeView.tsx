@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { lightTheme } from '../styles/theme'
 
 function useResizeView() {
-  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth)
+  const [screenWidth, setScreenWidth] = useState<number>(
+    typeof window === 'undefined' ? 0 : window.innerWidth
+  )
 
   const sm = Number(lightTheme.breakpoints.sm.replace('px', ''))
   const md = Number(lightTheme.breakpoints.md.replace('px', ''))

@@ -5,9 +5,9 @@ import { AiOutlineCheck } from 'react-icons/ai'
 import useTranslation from '../../hooks/useTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
-import { searchVar } from '../shared/layout/LayoutSearch'
 import useResizeView from '@/hooks/useResizeView'
-import { searchModalVar } from '../shared/layout/LayoutSearchSideBar'
+import useSearchDrawer from '@/hooks/useSearchDrawer'
+import useSearchHeader from '@/hooks/useSearchHeader'
 
 interface StakeSelectCommunityProps {
   communityAddress?: `0x${string}`
@@ -17,13 +17,14 @@ export default function StakeSelectCommunity({ communityAddress }: StakeSelectCo
   const { t } = useTranslation()
   const { screenWidth, breakpoints } = useResizeView()
   const [select, setSelect] = useState(<SelectCommunity>{t('selectCommunity')}</SelectCommunity>)
-
+  const { setOpenSearchDrawer } = useSearchDrawer()
+  const { setOpenSearchHeader } = useSearchHeader()
   const handleSearchCommunity = () => {
     if (screenWidth >= breakpoints.lg) {
-      searchVar(true)
+      setOpenSearchHeader(true)
       return
     }
-    searchModalVar(true)
+    setOpenSearchDrawer(true)
   }
 
   useEffect(() => {

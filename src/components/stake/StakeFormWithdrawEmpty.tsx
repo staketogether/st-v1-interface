@@ -1,40 +1,63 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-
-import { useDebounce } from 'usehooks-ts'
-
 import useCethBalanceOf from '../../hooks/contracts/useCethBalanceOf'
-import useWithdraw from '../../hooks/contracts/useWithdraw'
 import useTranslation from '../../hooks/useTranslation'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
+import useResizeView from '@/hooks/useResizeView'
+import useSearchDrawer from '@/hooks/useSearchDrawer'
+import useSearchHeader from '@/hooks/useSearchHeader'
 
-interface StakeFormWithdrawProps {
-  accountAddress: `0x${string}`
-  communityAddress: `0x${string}`
+interface StakeFormWithdrawEmptyProps {
+  accountAddress?: `0x${string}`
+  communityAddress?: `0x${string}`
 }
 
-export default function StakeFormWithdraw({ communityAddress, accountAddress }: StakeFormWithdrawProps) {
+export default function StakeFormWithdrawEmpty({
+  communityAddress,
+  accountAddress
+}: StakeFormWithdrawEmptyProps) {
   const { t } = useTranslation()
 
   const cethBalance = useCethBalanceOf(accountAddress || '0x')
+  const { setOpenSearchDrawer } = useSearchDrawer()
+  const { setOpenSearchHeader } = useSearchHeader()
+
+  const [label, setLabel] = useState<string>('')
   const [amount, setAmount] = useState<string>('')
-  const debouncedAmount = useDebounce(amount, 500)
-  const unstakeAmount = debouncedAmount || '0'
-
-  const { withdraw, isLoading, isSuccess } = useWithdraw(
-    unstakeAmount,
-    accountAddress || '0x',
-    communityAddress || '0x'
-  )
-
-  useEffect(() => {
-    if (isSuccess) {
-      setAmount('')
-    }
-  }, [isSuccess])
 
   const disabled = !communityAddress || !accountAddress
+  const { openConnectModal } = useConnectModal()
+  const { screenWidth, breakpoints } = useResizeView()
+
+  useEffect(() => {
+    const getLabel = () => {
+      if (!accountAddress) {
+        return t('withdrawButton.wallet')
+      }
+
+      return t('withdrawButton.selectCommunity')
+    }
+
+    setLabel(getLabel())
+  }, [accountAddress, communityAddress, t])
+
+  const handleOnClickButton = () => {
+    if (!accountAddress && openConnectModal) {
+      openConnectModal()
+      return
+    }
+    if (!communityAddress) {
+      if (screenWidth >= breakpoints.lg) {
+        setOpenSearchHeader(true)
+        return
+      }
+      setOpenSearchDrawer(true)
+      return
+    }
+  }
+
   return (
     <>
       <StakeContainer>
@@ -46,12 +69,7 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
           disabled={disabled}
           purple
         />
-        <StakeButton
-          isLoading={isLoading}
-          onClick={withdraw}
-          label={t('withdrawButton.withdraw')}
-          purple
-        />
+        <StakeButton isLoading={false} onClick={handleOnClickButton} label={label} purple />
         <StakeInfo>
           <span>
             {`${t('youReceive')} ${amount || '0'}`}
