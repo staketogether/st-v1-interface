@@ -1,60 +1,44 @@
+import { useState } from 'react'
+import styled from 'styled-components'
+import { globalConfig } from '../../config/global'
+
 import useResizeView from '@/hooks/useResizeView'
 import useSearchDrawer from '@/hooks/useSearchDrawer'
 import useSearchHeader from '@/hooks/useSearchHeader'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
-import { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import useCethBalanceOf from '../../hooks/contracts/useCethBalanceOf'
+import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useTranslation from '../../hooks/useTranslation'
+import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 
-interface StakeFormWithdrawEmptyProps {
-  accountAddress?: `0x${string}`
+interface StakeFormDepositEmptyCommunityProps {
+  accountAddress: `0x${string}`
   communityAddress?: `0x${string}`
 }
 
-export default function StakeFormWithdrawEmpty({
+export default function StakeFormDepositEmptyCommunity({
   communityAddress,
   accountAddress
-}: StakeFormWithdrawEmptyProps) {
+}: StakeFormDepositEmptyCommunityProps) {
   const { t } = useTranslation()
-
-  const cethBalance = useCethBalanceOf(accountAddress || '0x')
+  const ethBalance = useEthBalanceOf(accountAddress)
   const { setOpenSearchDrawer } = useSearchDrawer()
   const { setOpenSearchHeader } = useSearchHeader()
-
-  const [label, setLabel] = useState<string>('')
-  const [amount, setAmount] = useState<string>('')
-
-  const disabled = !communityAddress || !accountAddress
-  const { openConnectModal } = useConnectModal()
   const { screenWidth, breakpoints } = useResizeView()
 
-  useEffect(() => {
-    const getLabel = () => {
-      if (!accountAddress) {
-        return t('withdrawButton.wallet')
-      }
+  const [amount, setAmount] = useState<string>('')
 
-      return t('withdrawButton.selectCommunity')
-    }
-
-    setLabel(getLabel())
-  }, [accountAddress, communityAddress, t])
+  const { fee } = globalConfig
+  const delegationFee = truncateEther(fee.delegation.mul(100).toString())
+  const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
 
   const handleOnClickButton = () => {
-    if (!accountAddress && openConnectModal) {
-      openConnectModal()
-      return
-    }
     if (!communityAddress) {
       if (screenWidth >= breakpoints.lg) {
         setOpenSearchHeader(true)
         return
       }
       setOpenSearchDrawer(true)
-      return
     }
   }
 
@@ -63,17 +47,24 @@ export default function StakeFormWithdrawEmpty({
       <StakeFormInput
         value={amount}
         onChange={value => setAmount(value)}
-        balance={cethBalance}
-        symbol={t('lsd.symbol')}
-        disabled={disabled}
-        purple
+        balance={ethBalance}
+        symbol={t('eth.symbol')}
+        disabled={true}
       />
-      <StakeButton isLoading={false} onClick={handleOnClickButton} label={label} purple />
+      <StakeButton
+        isLoading={false}
+        onClick={handleOnClickButton}
+        label={t('depositButton.selectCommunity')}
+      />
       <StakeInfo>
         <span>
           {`${t('youReceive')} ${amount || '0'}`}
-          <span>{`${t('eth.symbol')}`}</span>
+          <span>{`${t('lsd.symbol')}`}</span>
         </span>
+        <div>
+          <span>{`${t('delegation')}: ${delegationFee}%`}</span>
+          <span>{`${t('rewardsFee')}: ${protocolFee}%`}</span>
+        </div>
       </StakeInfo>
     </StakeContainer>
   )

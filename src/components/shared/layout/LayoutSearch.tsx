@@ -10,12 +10,14 @@ import Overlay from '../Overlay'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
 import useSearchHeader from '@/hooks/useSearchHeader'
+import { useRouter } from 'next/router'
 
 export default function LayoutSearch() {
   const { isOpen, setOpenSearchHeader } = useSearchHeader()
   const [text, setText] = useState<string>('')
   const { t } = useTranslation()
-
+  const router = useRouter()
+  const pathname = router.pathname
   const { communities, communitiesIsLoading } = useCommunities()
   const { searchCommunities } = useSearchCommunities()
 
@@ -82,7 +84,10 @@ export default function LayoutSearch() {
               text.length > 0 &&
               result.length > 0 &&
               result.map(community => (
-                <Link href={`/stake/deposit/${community.address}`} key={community.address}>
+                <Link
+                  href={`${pathname.replace('[address]', '')}/${community.address}`}
+                  key={community.address}
+                >
                   <DropdownMenuItem key={community.address} onClick={() => setOpenSearchHeader(false)}>
                     <EnsAvatar address={community.address} />
                     <EnsName address={community.address} />
@@ -93,7 +98,10 @@ export default function LayoutSearch() {
             {!communitiesIsLoading &&
               text.length === 0 &&
               communities.map(community => (
-                <Link href={`/stake/deposit/${community.address}`} key={community.address}>
+                <Link
+                  href={`${pathname.replace('[address]', '')}/${community.address}`}
+                  key={community.address}
+                >
                   <DropdownMenuItem key={community.address} onClick={() => setOpenSearchHeader(false)}>
                     <EnsAvatar address={community.address} />
                     <EnsName address={community.address} />

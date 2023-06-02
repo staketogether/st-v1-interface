@@ -1,10 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
-
-import useResizeView from '@/hooks/useResizeView'
-import useSearchDrawer from '@/hooks/useSearchDrawer'
-import useSearchHeader from '@/hooks/useSearchHeader'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useTranslation from '../../hooks/useTranslation'
@@ -12,50 +8,27 @@ import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 
-interface StakeFormDepositProps {
+interface StakeFormDepositEmptyAccountProps {
   accountAddress?: `0x${string}`
-  communityAddress?: `0x${string}`
 }
 
-export default function StakeFormEmpty({ communityAddress, accountAddress }: StakeFormDepositProps) {
-  const { fee } = globalConfig
+export default function StakeFormDepositEmptyAccount({
+  accountAddress
+}: StakeFormDepositEmptyAccountProps) {
   const { t } = useTranslation()
   const ethBalance = useEthBalanceOf(accountAddress)
-  const [label, setLabel] = useState<string>('')
+  const { openConnectModal } = useConnectModal()
+
   const [amount, setAmount] = useState<string>('')
 
-  const { setOpenSearchDrawer } = useSearchDrawer()
-  const { setOpenSearchHeader } = useSearchHeader()
-
+  const { fee } = globalConfig
   const delegationFee = truncateEther(fee.delegation.mul(100).toString())
   const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
-
-  const { openConnectModal } = useConnectModal()
-  const { screenWidth, breakpoints } = useResizeView()
-
-  useEffect(() => {
-    const getLabel = () => {
-      if (!accountAddress) {
-        return t('depositButton.wallet')
-      }
-
-      return t('depositButton.selectCommunity')
-    }
-
-    setLabel(getLabel())
-  }, [accountAddress, communityAddress, t])
 
   const handleOnClickButton = () => {
     if (!accountAddress && openConnectModal) {
       openConnectModal()
       return
-    }
-    if (!communityAddress) {
-      if (screenWidth >= breakpoints.lg) {
-        setOpenSearchHeader(true)
-        return
-      }
-      setOpenSearchDrawer(true)
     }
   }
 
@@ -68,7 +41,7 @@ export default function StakeFormEmpty({ communityAddress, accountAddress }: Sta
         symbol={t('eth.symbol')}
         disabled={true}
       />
-      <StakeButton isLoading={false} onClick={handleOnClickButton} label={label} />
+      <StakeButton isLoading={false} onClick={handleOnClickButton} label={t('depositButton.wallet')} />
       <StakeInfo>
         <span>
           {`${t('youReceive')} ${amount || '0'}`}

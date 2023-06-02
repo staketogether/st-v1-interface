@@ -1,34 +1,41 @@
-import { useEffect, useState } from 'react'
+import useResizeView from '@/hooks/useResizeView'
+import useSearchDrawer from '@/hooks/useSearchDrawer'
+import useSearchHeader from '@/hooks/useSearchHeader'
+import { useState } from 'react'
 import styled from 'styled-components'
-
-import { useDebounce } from 'usehooks-ts'
-
 import useCethBalanceOf from '../../hooks/contracts/useCethBalanceOf'
-import useWithdraw from '../../hooks/contracts/useWithdraw'
 import useTranslation from '../../hooks/useTranslation'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 
-interface StakeFormWithdrawProps {
+interface StakeFormWithdrawEmptyCommunityProps {
   accountAddress: `0x${string}`
-  communityAddress: `0x${string}`
+  communityAddress?: `0x${string}`
 }
 
-export default function StakeFormWithdraw({ communityAddress, accountAddress }: StakeFormWithdrawProps) {
+export default function StakeFormWithdrawEmptyCommunity({
+  communityAddress,
+  accountAddress
+}: StakeFormWithdrawEmptyCommunityProps) {
   const { t } = useTranslation()
-
   const cethBalance = useCethBalanceOf(accountAddress)
+  const { setOpenSearchDrawer } = useSearchDrawer()
+  const { setOpenSearchHeader } = useSearchHeader()
+  const { screenWidth, breakpoints } = useResizeView()
+
   const [amount, setAmount] = useState<string>('')
-  const debouncedAmount = useDebounce(amount, 500)
-  const unstakeAmount = debouncedAmount || '0'
 
-  const { withdraw, isLoading, isSuccess } = useWithdraw(unstakeAmount, accountAddress, communityAddress)
+  const disabled = !communityAddress || !accountAddress
 
-  useEffect(() => {
-    if (isSuccess) {
-      setAmount('')
+  const handleOnClickButton = () => {
+    if (!communityAddress) {
+      if (screenWidth >= breakpoints.lg) {
+        setOpenSearchHeader(true)
+        return
+      }
+      setOpenSearchDrawer(true)
     }
-  }, [isSuccess])
+  }
 
   return (
     <StakeContainer>
@@ -37,10 +44,15 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
         onChange={value => setAmount(value)}
         balance={cethBalance}
         symbol={t('lsd.symbol')}
-        disabled={isLoading}
+        disabled={disabled}
         purple
       />
-      <StakeButton isLoading={isLoading} onClick={withdraw} label={t('withdrawButton.withdraw')} purple />
+      <StakeButton
+        isLoading={false}
+        onClick={handleOnClickButton}
+        label={t('withdrawButton.selectCommunity')}
+        purple
+      />
       <StakeInfo>
         <span>
           {`${t('youReceive')} ${amount || '0'}`}

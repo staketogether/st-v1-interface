@@ -12,12 +12,14 @@ import useSearchCommunities from '../../../hooks/subgraphs/useSearchCommunities'
 import useTranslation from '../../../hooks/useTranslation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
+import { useRouter } from 'next/router'
 
 export default function LayoutSearchDrawer() {
   const { isOpen, setOpenSearchDrawer } = useSearchDrawer()
   const [text, setText] = useState<string>('')
   const { t } = useTranslation()
-
+  const router = useRouter()
+  const pathname = router.pathname
   const { communities, communitiesIsLoading } = useCommunities()
   const { searchCommunities } = useSearchCommunities()
 
@@ -72,7 +74,10 @@ export default function LayoutSearchDrawer() {
               text.length > 0 &&
               result.length > 0 &&
               result.map(community => (
-                <Link href={`/stake/deposit/${community.address}`} key={community.address}>
+                <Link
+                  href={`${pathname.replace('[address]', '')}/${community.address}`}
+                  key={community.address}
+                >
                   <DropdownMenuItem key={community.address} onClick={() => setOpenSearchDrawer(false)}>
                     <EnsAvatar address={community.address} />
                     <EnsName address={community.address} />
@@ -83,7 +88,10 @@ export default function LayoutSearchDrawer() {
             {!communitiesIsLoading &&
               text.length === 0 &&
               communities.map(community => (
-                <Link href={`/stake/deposit/${community.address}`} key={community.address}>
+                <Link
+                  href={`${pathname.replace('[address]', '')}/${community.address}`}
+                  key={community.address}
+                >
                   <DropdownMenuItem key={community.address} onClick={() => setOpenSearchDrawer(false)}>
                     <EnsAvatar address={community.address} />
                     <EnsName address={community.address} />

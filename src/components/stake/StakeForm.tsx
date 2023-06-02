@@ -5,8 +5,10 @@ import StakeFormDeposit from './StakeFormDeposit'
 import StakeFormWithdraw from './StakeFormWithdraw'
 import StakeStats from './StakeStats'
 import StakeSwitchActions from './StakeSwitchAction'
-import StakeFormEmpty from './StakeFormEmpty'
-import StakeFormWithdrawEmpty from './StakeFormWithdrawEmpty'
+import StakeFormWithdrawEmptyAccount from './StakeFormWithdrawEmptyAccount'
+import StakeFormWithdrawEmptyCommunity from './StakeFormWithdrawEmptyCommunity'
+import StakeFormDepositEmptyAccount from './StakeFormDepositEmptyAccount'
+import StakeFormDepositEmptyCommunity from './StakeFormDepositEmptyCommunity'
 
 interface StakeFormProps {
   community?: Community
@@ -15,21 +17,43 @@ interface StakeFormProps {
 
 export default function StakeForm({ community, type }: StakeFormProps) {
   const { account } = useConnectedAccount()
+  const hasAccountAndCommunity = account && community?.address
+  const emptyAccountAndEmptyCommunity = !account && !community?.address
+  const hasAccountAndEmptyCommunity = account && !community?.address
+  const emptyCommunityAndHasAccount = community?.address && !account
   return (
     <Container>
       <Form>
         <StakeSwitchActions communityAddress={community?.address} />
-        {type === 'deposit' && account && community?.address && (
+        {type === 'deposit' && hasAccountAndCommunity && (
           <StakeFormDeposit accountAddress={account} communityAddress={community?.address} />
         )}
-        {type === 'deposit' && (!account || !community?.address) && (
-          <StakeFormEmpty accountAddress={account} communityAddress={community?.address} />
+        {type === 'deposit' && emptyAccountAndEmptyCommunity && (
+          <StakeFormDepositEmptyAccount accountAddress={account} />
         )}
-        {type === 'withdraw' && account && community?.address && (
+        {type === 'deposit' && emptyCommunityAndHasAccount && (
+          <StakeFormDepositEmptyAccount accountAddress={account} />
+        )}
+        {type === 'deposit' && hasAccountAndEmptyCommunity && (
+          <StakeFormDepositEmptyCommunity
+            accountAddress={account}
+            communityAddress={community?.address}
+          />
+        )}
+        {type === 'withdraw' && hasAccountAndCommunity && (
           <StakeFormWithdraw accountAddress={account} communityAddress={community?.address} />
         )}
-        {type === 'withdraw' && (!account || !community?.address) && (
-          <StakeFormWithdrawEmpty accountAddress={account} communityAddress={community?.address} />
+        {type === 'withdraw' && emptyAccountAndEmptyCommunity && (
+          <StakeFormWithdrawEmptyAccount accountAddress={account} />
+        )}
+        {type === 'withdraw' && emptyCommunityAndHasAccount && (
+          <StakeFormWithdrawEmptyAccount accountAddress={account} />
+        )}
+        {type === 'withdraw' && hasAccountAndEmptyCommunity && (
+          <StakeFormWithdrawEmptyCommunity
+            accountAddress={account}
+            communityAddress={community?.address}
+          />
         )}
       </Form>
       {community?.address && <StakeStats community={community} />}
