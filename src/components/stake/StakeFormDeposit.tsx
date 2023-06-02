@@ -43,6 +43,7 @@ export default function StakeFormDeposit({ communityAddress, accountAddress }: S
           onChange={value => setAmount(value)}
           balance={ethBalance}
           symbol={t('eth.symbol')}
+          disabled={isLoading}
         />
         <StakeButton isLoading={isLoading} onClick={deposit} label={t('depositButton.deposit')} />
         <StakeInfo>

@@ -34,7 +34,6 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
     }
   }, [isSuccess])
 
-  const disabled = !communityAddress || !accountAddress
   return (
     <>
       <StakeContainer>
@@ -43,7 +42,7 @@ export default function StakeFormWithdraw({ communityAddress, accountAddress }: 
           onChange={value => setAmount(value)}
           balance={cethBalance}
           symbol={t('lsd.symbol')}
-          disabled={disabled}
+          disabled={isLoading}
           purple
         />
         <StakeButton
