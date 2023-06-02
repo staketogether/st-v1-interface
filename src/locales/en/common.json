@@ -47,7 +47,7 @@
     "withdraw": "Withdraw Ether",
     "inputAmount": "Input Amount",
     "connectWallet": "Connect Wallet",
-    "selectPool": "SelectPool"
+    "selectPool": "Select Pool"
   },
   "noDelegations": "No delegations found"
 }

@@ -1,0 +1,53 @@
+{
+  "stakeTogether":  "Stake Together",
+  "explore": "Explorar",
+  "stake": "Invertir",
+  "rewards": "Recompensas",
+  "delegates": "Delegados",
+  "processing": "Procesando...",
+  "staked": "Invertido",
+  "unstake": "Desinvertir",
+  "members": "Miembros",
+  "delegations": "Delegaciones",
+  "balance": "Balance",
+  "selectCommunity": "Seleccionar una Piscina",
+  "max": "Máximo",
+  "action": "Invertiendo...",
+  "youReceive": "Recibes",
+  "delegation": "Delegación",
+  "fee": "Tarifa",
+  "delegated": "Delegado",
+  "delegatedAmount": "Cantidad Delegada",
+  "wallet": "Conectar Cartera",
+  "searchCommunity": "Buscar Piscinas",
+  "emptyCommunity": "Piscina no encontrada",
+  "copyClipboard": "Copiar al portapapeles",
+  "deposit": "Depósito",
+  "withdraw": "Retirar",
+  "footer": "Todos los derechos reservados.",
+  "usd": "USD",
+  "loading": "Cargando...",
+  "apr": "APR",
+  "pnl": "PNL",
+  "rewardsFee": "Tarifa de Recompensas",
+  "titles": {
+    "explore": "Explorar Piscinas",
+    "stake": "Invertir Ether"
+  },
+  "eth": {
+    "name": "Ether",
+    "symbol": "ETH"
+  },
+  "lsd": {
+    "name": "Ether de la Comunidad",
+    "symbol": "CETH"
+  },
+  "form": {
+    "deposit": "Depositar Ether",
+    "withdraw": "Retirar Ether",
+    "inputAmount": "Introducir Cantidad",
+    "connectWallet": "Conectar Cartera",
+    "selectPool": "Seleccionar Piscina"
+  },
+  "noDelegations": "No se encontraron delegaciones"
+}

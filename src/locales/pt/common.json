@@ -1,0 +1,53 @@
+{
+  "stakeTogether":  "Stake Together",
+  "explore": "Explorar",
+  "stake": "Investir",
+  "rewards": "Recompensas",
+  "delegates": "Delegados",
+  "processing": "Processando...",
+  "staked": "Investido",
+  "unstake": "Desinvestir",
+  "members": "Membros",
+  "delegations": "Delegações",
+  "balance": "Saldo",
+  "selectCommunity": "Selecionar um Pool",
+  "max": "Máximo",
+  "action": "Investindo...",
+  "youReceive": "Você recebe",
+  "delegation": "Delegação",
+  "fee": "Taxa",
+  "delegated": "Delegado",
+  "delegatedAmount": "Quantidade Delegada",
+  "wallet": "Conectar Carteira",
+  "searchCommunity": "Pesquisar Pools",
+  "emptyCommunity": "Pool não encontrado",
+  "copyClipboard": "Copiar para a área de transferência",
+  "deposit": "Depósito",
+  "withdraw": "Retirar",
+  "footer": "Todos os direitos reservados.",
+  "usd": "USD",
+  "loading": "Carregando...",
+  "apr": "APR",
+  "pnl": "PNL",
+  "rewardsFee": "Taxa de Recompensas",
+  "titles": {
+    "explore": "Explorar Pools",
+    "stake": "Investir Ether"
+  },
+  "eth": {
+    "name": "Ether",
+    "symbol": "ETH"
+  },
+  "lsd": {
+    "name": "Ether da Comunidade",
+    "symbol": "CETH"
+  },
+  "form": {
+    "deposit": "Depositar Ether",
+    "withdraw": "Retirar Ether",
+    "inputAmount": "Inserir Quantidade",
+    "connectWallet": "Conectar Carteira",
+    "selectPool": "Selecionar Pool"
+  },
+  "noDelegations": "Nenhuma delegação encontrada"
+}

@@ -51,7 +51,7 @@ export function StakeFormEmpty({ type, accountAddress, communityAddress }: Stake
 
   const action = !accountAddress ? connectAccount : selectCommunity
 
-  const actionLabel = !accountAddress ? t('form.connectWallet') : t('form.selectCommunity')
+  const actionLabel = !accountAddress ? t('form.connectWallet') : t('form.selectPool')
 
   return (
     <StakeContainer>
