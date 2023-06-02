@@ -2,37 +2,44 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 
-import useResizeView from '@/hooks/useResizeView'
-import useSearchDrawer from '@/hooks/useSearchDrawer'
-import useSearchHeader from '@/hooks/useSearchHeader'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
+import useResizeView from '../../hooks/useResizeView'
+import useSearchDrawer from '../../hooks/useSearchDrawer'
+import useSearchHeader from '../../hooks/useSearchHeader'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 
-interface StakeFormDepositEmptyCommunityProps {
-  accountAddress: `0x${string}`
+type StakeFormProps = {
+  type: 'deposit' | 'withdraw'
+  accountAddress?: `0x${string}`
   communityAddress?: `0x${string}`
 }
 
-export default function StakeFormDepositEmptyCommunity({
-  communityAddress,
-  accountAddress
-}: StakeFormDepositEmptyCommunityProps) {
+export function StakeFormEmpty({ type, accountAddress, communityAddress }: StakeFormProps) {
+  const { fee } = globalConfig
   const { t } = useTranslation()
   const ethBalance = useEthBalanceOf(accountAddress)
+
+  const [amount, setAmount] = useState<string>('0')
+  const delegationFee = truncateEther(fee.delegation.mul(100).toString())
+  const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
+
+  const { openConnectModal } = useConnectModal()
   const { setOpenSearchDrawer } = useSearchDrawer()
   const { setOpenSearchHeader } = useSearchHeader()
   const { screenWidth, breakpoints } = useResizeView()
 
-  const [amount, setAmount] = useState<string>('')
+  const connectAccount = () => {
+    if (!accountAddress && openConnectModal) {
+      openConnectModal()
+      return
+    }
+  }
 
-  const { fee } = globalConfig
-  const delegationFee = truncateEther(fee.delegation.mul(100).toString())
-  const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
-
-  const handleOnClickButton = () => {
+  const selectCommunity = () => {
     if (!communityAddress) {
       if (screenWidth >= breakpoints.lg) {
         setOpenSearchHeader(true)
@@ -42,6 +49,10 @@ export default function StakeFormDepositEmptyCommunity({
     }
   }
 
+  const action = !accountAddress ? connectAccount : selectCommunity
+
+  const actionLabel = !accountAddress ? t('form.connectWallet') : t('form.selectCommunity')
+
   return (
     <StakeContainer>
       <StakeFormInput
@@ -50,21 +61,20 @@ export default function StakeFormDepositEmptyCommunity({
         balance={ethBalance}
         symbol={t('eth.symbol')}
         disabled={true}
+        purple={type === 'withdraw'}
       />
-      <StakeButton
-        isLoading={false}
-        onClick={handleOnClickButton}
-        label={t('depositButton.selectCommunity')}
-      />
+      <StakeButton isLoading={true} onClick={action} label={actionLabel} purple={type === 'withdraw'} />
       <StakeInfo>
         <span>
           {`${t('youReceive')} ${amount || '0'}`}
-          <span>{`${t('lsd.symbol')}`}</span>
+          <span>{`${type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')}`}</span>
         </span>
-        <div>
-          <span>{`${t('delegation')}: ${delegationFee}%`}</span>
-          <span>{`${t('rewardsFee')}: ${protocolFee}%`}</span>
-        </div>
+        {type === 'deposit' && (
+          <div>
+            <span>{`${t('delegation')}: ${delegationFee}%`}</span>
+            <span>{`${t('rewardsFee')}: ${protocolFee}%`}</span>
+          </div>
+        )}
       </StakeInfo>
     </StakeContainer>
   )

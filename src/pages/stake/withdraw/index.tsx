@@ -2,7 +2,7 @@ import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LayoutHead from '../../../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
-import StakeForm from '../../../components/stake/StakeForm'
+import StakeControl from '../../../components/stake/StakeControl'
 import { apolloClient } from '../../../config/apollo'
 import useTranslation from '../../../hooks/useTranslation'
 import { queryCommunity } from '../../../queries/queryCommunity'
@@ -18,7 +18,7 @@ export default function Withdraw({ community }: UnstakeProps) {
   return (
     <LayoutTemplate>
       <LayoutHead text={t('titles.stake')} />
-      <StakeForm community={community} type='withdraw' />
+      <StakeControl community={community} type='withdraw' />
     </LayoutTemplate>
   )
 }

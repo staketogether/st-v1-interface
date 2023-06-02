@@ -1,84 +1,118 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import useConnectedAccount from '../../hooks/useConnectedAccount'
-import { Community } from '../../types/Community'
-import StakeFormDeposit from './StakeFormDeposit'
-import StakeFormWithdraw from './StakeFormWithdraw'
-import StakeStats from './StakeStats'
-import StakeSwitchActions from './StakeSwitchAction'
-import StakeFormWithdrawEmptyAccount from './StakeFormWithdrawEmptyAccount'
-import StakeFormWithdrawEmptyCommunity from './StakeFormWithdrawEmptyCommunity'
-import StakeFormDepositEmptyAccount from './StakeFormDepositEmptyAccount'
-import StakeFormDepositEmptyCommunity from './StakeFormDepositEmptyCommunity'
+import { globalConfig } from '../../config/global'
 
-interface StakeFormProps {
-  community?: Community
+import { useDebounce } from 'usehooks-ts'
+import useDeposit from '../../hooks/contracts/useDeposit'
+import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
+import useWithdraw from '../../hooks/contracts/useWithdraw'
+import useTranslation from '../../hooks/useTranslation'
+import { truncateEther } from '../../services/truncateEther'
+import StakeButton from './StakeButton'
+import StakeFormInput from './StakeInput'
+
+type StakeFormProps = {
   type: 'deposit' | 'withdraw'
+  accountAddress: `0x${string}`
+  communityAddress: `0x${string}`
 }
 
-export default function StakeForm({ community, type }: StakeFormProps) {
-  const { account } = useConnectedAccount()
-  const hasAccountAndCommunity = account && community?.address
-  const emptyAccountAndEmptyCommunity = !account && !community?.address
-  const hasAccountAndEmptyCommunity = account && !community?.address
-  const emptyCommunityAndHasAccount = community?.address && !account
+export function StakeForm({ type, accountAddress, communityAddress }: StakeFormProps) {
+  const { fee } = globalConfig
+  const { t } = useTranslation()
+  const ethBalance = useEthBalanceOf(accountAddress)
+
+  const [amount, setAmount] = useState<string>('')
+  const debouncedAmount = useDebounce(amount, 500)
+
+  const inputAmount = debouncedAmount || '0'
+
+  const {
+    deposit,
+    isSuccess: depositSuccess,
+    isLoading: depositLoading
+  } = useDeposit(inputAmount, accountAddress, communityAddress)
+
+  const {
+    withdraw,
+    isLoading: withdrawLoading,
+    isSuccess: withdrawSuccess
+  } = useWithdraw(inputAmount, accountAddress, communityAddress)
+
+  const delegationFee = truncateEther(fee.delegation.mul(100).toString())
+  const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
+
+  const isLoading = depositLoading || withdrawLoading
+  const isSuccess = depositSuccess || withdrawSuccess
+  const action = type === 'deposit' ? deposit : withdraw
+  const actionLabel =
+    amount.length > 0
+      ? type === 'deposit'
+        ? t('form.deposit')
+        : t('form.withdraw')
+      : t('form.inputAmount')
+
+  useEffect(() => {
+    if (isSuccess) {
+      setAmount('')
+    }
+  }, [isSuccess])
+
   return (
-    <Container>
-      <Form>
-        <StakeSwitchActions communityAddress={community?.address} />
-        {type === 'deposit' && hasAccountAndCommunity && (
-          <StakeFormDeposit accountAddress={account} communityAddress={community?.address} />
+    <StakeContainer>
+      <StakeFormInput
+        value={amount}
+        onChange={value => setAmount(value)}
+        balance={ethBalance}
+        symbol={t('eth.symbol')}
+        disabled={isLoading}
+        purple={type === 'withdraw'}
+      />
+      <StakeButton
+        isLoading={isLoading}
+        onClick={action}
+        label={actionLabel}
+        purple={type === 'withdraw'}
+      />
+      <StakeInfo>
+        <span>
+          {`${t('youReceive')} ${amount || '0'}`}
+          <span>{`${type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')}`}</span>
+        </span>
+        {type === 'deposit' && (
+          <div>
+            <span>{`${t('delegation')}: ${delegationFee}%`}</span>
+            <span>{`${t('rewardsFee')}: ${protocolFee}%`}</span>
+          </div>
         )}
-        {type === 'deposit' && emptyAccountAndEmptyCommunity && (
-          <StakeFormDepositEmptyAccount accountAddress={account} />
-        )}
-        {type === 'deposit' && emptyCommunityAndHasAccount && (
-          <StakeFormDepositEmptyAccount accountAddress={account} />
-        )}
-        {type === 'deposit' && hasAccountAndEmptyCommunity && (
-          <StakeFormDepositEmptyCommunity
-            accountAddress={account}
-            communityAddress={community?.address}
-          />
-        )}
-        {type === 'withdraw' && hasAccountAndCommunity && (
-          <StakeFormWithdraw accountAddress={account} communityAddress={community?.address} />
-        )}
-        {type === 'withdraw' && emptyAccountAndEmptyCommunity && (
-          <StakeFormWithdrawEmptyAccount accountAddress={account} />
-        )}
-        {type === 'withdraw' && emptyCommunityAndHasAccount && (
-          <StakeFormWithdrawEmptyAccount accountAddress={account} />
-        )}
-        {type === 'withdraw' && hasAccountAndEmptyCommunity && (
-          <StakeFormWithdrawEmptyCommunity
-            accountAddress={account}
-            communityAddress={community?.address}
-          />
-        )}
-      </Form>
-      {community?.address && <StakeStats community={community} />}
-    </Container>
+      </StakeInfo>
+    </StakeContainer>
   )
 }
 
-const { Container, Form } = {
-  Container: styled.div`
+const { StakeContainer, StakeInfo } = {
+  StakeContainer: styled.div`
     display: grid;
-    justify-content: center;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[16]};
   `,
-  Form: styled.div`
-    display: grid;
-    grid-template-columns: minmax(320px, 420px);
-    padding: ${({ theme }) => theme.size[24]};
-    gap: ${({ theme }) => theme.size[24]};
+  StakeInfo: styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 0px ${({ theme }) => theme.size[12]};
+    font-size: ${({ theme }) => theme.size[12]};
 
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
-    border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
-    transition: background-color 0.2s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
+    > span {
+      height: 12px;
+      display: flex;
+      gap: 4px;
+
+      > span {
+      }
+    }
+
+    > div {
+      display: flex;
+      gap: ${({ theme }) => theme.size[8]};
+    }
   `
 }
