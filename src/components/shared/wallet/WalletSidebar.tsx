@@ -9,7 +9,7 @@ import { truncateEther } from '../../../services/truncateEther'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletSentDelegation from './WalletSentDelegation'
 
-export type WalletSidebarProps = {
+type WalletSidebarProps = {
   address: `0x${string}`
 }
 

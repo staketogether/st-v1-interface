@@ -24,7 +24,7 @@ export function StakeFormEmpty({ type, accountAddress, communityAddress }: Stake
   const ethBalance = useEthBalanceOf(accountAddress)
 
   const [amount, setAmount] = useState<string>('0')
-  const delegationFee = truncateEther(fee.delegation.mul(100).toString())
+  const delegationFee = truncateEther(fee.community.mul(100).toString())
   const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
 
   const { openConnectModal } = useConnectModal()

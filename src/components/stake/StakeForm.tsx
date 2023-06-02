@@ -39,7 +39,7 @@ export function StakeForm({ type, accountAddress, communityAddress }: StakeFormP
     isSuccess: withdrawSuccess
   } = useWithdraw(inputAmount, accountAddress, communityAddress)
 
-  const delegationFee = truncateEther(fee.delegation.mul(100).toString())
+  const delegationFee = truncateEther(fee.community.mul(100).toString())
   const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
 
   const isLoading = depositLoading || withdrawLoading

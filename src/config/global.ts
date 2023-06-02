@@ -1,15 +1,16 @@
 import { BigNumber, utils } from 'ethers'
 
-export interface GlobalConfig {
+interface GlobalConfig {
   fee: {
-    account: BigNumber
+    community: BigNumber
     protocol: BigNumber
+    operator: BigNumber
   }
 }
 
-export const globalConfig = {
+export const globalConfig: GlobalConfig = {
   fee: {
-    delegation: utils.parseEther('0.03'),
+    community: utils.parseEther('0.03'),
     protocol: utils.parseEther('0.03'),
     operator: utils.parseEther('0.03')
   }

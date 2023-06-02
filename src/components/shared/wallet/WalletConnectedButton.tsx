@@ -7,7 +7,7 @@ import { truncateEther } from '../../../services/truncateEther'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
 
-export type WalletConnectedButtonProps = {
+type WalletConnectedButtonProps = {
   address: `0x${string}`
   showBalance?: boolean
 }
