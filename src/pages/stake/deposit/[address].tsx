@@ -3,17 +3,17 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LayoutHead from '../../../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
 import StakeControl from '../../../components/stake/StakeControl'
-import { apolloClient } from '../../../config/apollo'
+import useCommunity from '../../../hooks/subgraphs/useCommunity'
 import useTranslation from '../../../hooks/useTranslation'
-import { queryCommunity } from '../../../queries/queryCommunity'
-import { Community } from '../../../types/Community'
 
-type StakeCommunityProps = {
-  community?: Community
+type DepositCommunityProps = {
+  communityAddress: string
 }
 
-export default function DepositCommunity({ community }: StakeCommunityProps) {
+export default function Deposit({ communityAddress }: DepositCommunityProps) {
   const { t } = useTranslation()
+
+  const { community } = useCommunity(communityAddress)
 
   return (
     <LayoutTemplate>
@@ -26,15 +26,15 @@ export default function DepositCommunity({ community }: StakeCommunityProps) {
 export const getServerSideProps: GetServerSideProps = async context => {
   const params = context?.params as { address: `0x${string}` } | undefined
 
-  const { data } = await apolloClient.query<{ community: Community } | undefined>({
-    query: queryCommunity,
-    variables: { id: params?.address.toLowerCase() || '' }
-  })
+  // const { data } = await apolloClient.query<{ community: Community } | undefined>({
+  //   query: queryCommunity,
+  //   variables: { id: params?.address || '' }
+  // })
 
   return {
     props: {
       ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
-      community: data?.community
+      communityAddress: params?.address || ''
     }
   }
 }

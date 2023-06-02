@@ -5,7 +5,6 @@ import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/queryAccount'
 import { queryCommunity } from '../../queries/queryCommunity'
-import { Community } from '../../types/Community' // Import your Community type
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
 
 export default function useDeposit(
@@ -48,32 +47,11 @@ export default function useDeposit(
         variables: { id: accountAddress.toLowerCase() },
         fetchPolicy: 'network-only'
       })
-
-      apolloClient
-        .query({
-          query: queryCommunity,
-          variables: { id: communityAddress.toLowerCase() },
-          fetchPolicy: 'network-only'
-        })
-        .then(({ data }) => {
-          const existingCommunity = apolloClient.readQuery<{ community: Community }>({
-            query: queryCommunity,
-            variables: { id: communityAddress.toLowerCase() }
-          })
-          if (existingCommunity && data?.community) {
-            apolloClient.writeQuery({
-              query: queryCommunity,
-              data: {
-                community: {
-                  ...existingCommunity.community,
-                  ...data.community,
-                  delegations: data.community.delegations
-                }
-              },
-              variables: { id: communityAddress.toLowerCase() }
-            })
-          }
-        })
+      apolloClient.query({
+        query: queryCommunity,
+        variables: { id: communityAddress.toLowerCase() },
+        fetchPolicy: 'network-only'
+      })
     }
   }, [accountAddress, communityAddress, isSuccess])
 

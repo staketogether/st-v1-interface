@@ -63,7 +63,7 @@ export function StakeFormEmpty({ type, accountAddress, communityAddress }: Stake
         disabled={true}
         purple={type === 'withdraw'}
       />
-      <StakeButton isLoading={true} onClick={action} label={actionLabel} purple={type === 'withdraw'} />
+      <StakeButton isLoading={false} onClick={action} label={actionLabel} purple={type === 'withdraw'} />
       <StakeInfo>
         <span>
           {`${t('youReceive')} ${amount || '0'}`}
