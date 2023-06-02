@@ -23,7 +23,7 @@ export default function StakeReceivedDelegation({ delegation }: StakeReceivedDel
       </div>
       <div>
         <span>
-          {`${truncateEther(delegationAmount.toString())} `}
+          {`${truncateEther(delegationAmount.toString(), 6)} `}
           <span>{t('lsd.symbol')}</span>
         </span>
       </div>
