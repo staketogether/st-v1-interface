@@ -5,13 +5,13 @@ import styled from 'styled-components'
 
 import useCommunities from '../../../hooks/subgraphs/useCommunities'
 
+import useSearchDrawer from '@/hooks/useSearchDrawer'
+import { Drawer } from 'antd'
+import { AiOutlineArrowLeft, AiOutlineSearch } from 'react-icons/ai'
 import useSearchCommunities from '../../../hooks/subgraphs/useSearchCommunities'
 import useTranslation from '../../../hooks/useTranslation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
-import { Drawer } from 'antd'
-import { AiOutlineArrowLeft, AiOutlineSearch } from 'react-icons/ai'
-import useSearchDrawer from '@/hooks/useSearchDrawer'
 
 export default function LayoutSearchDrawer() {
   const { isOpen, setOpenSearchDrawer } = useSearchDrawer()
