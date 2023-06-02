@@ -23,7 +23,7 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
         </div>
       </div>
       <span>
-        {`${truncateEther(delegationAmount.toString())}`}
+        {`${truncateEther(delegationAmount.toString(), 6)}`}
         <span>{t('lsd.symbol')}</span>
       </span>
     </div>

@@ -18,14 +18,14 @@ export default function StakeStats({ community }: StakeStatsProps) {
           <StatsWrapper>
             <span>{t('delegated')}</span>
             <span>
-              {`${truncateEther(community.delegatedShares.toString())}`}
+              {`${truncateEther(community.delegatedShares.toString(), 6)}`}
               <span>{t('lsd.symbol')}</span>
             </span>
           </StatsWrapper>
           <StatsWrapper>
             <span>{t('rewards')}</span>
             <span>
-              {truncateEther(community.rewardsShares.toString())}
+              {truncateEther(community.rewardsShares.toString(), 6)}
               <span>{t('lsd.symbol')}</span>
             </span>
           </StatsWrapper>

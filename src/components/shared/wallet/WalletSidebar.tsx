@@ -53,13 +53,13 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         <div>
           <span>{t('balance')}</span>
           <span>
-            {truncateEther(accountBalance)} <span>{t('lsd.symbol')}</span>
+            {truncateEther(accountBalance, 6)} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
           <span>{t('rewards')}</span>
           <span>
-            {truncateEther(accountRewardsBalance.toString())} <span>{t('lsd.symbol')}</span>
+            {truncateEther(accountRewardsBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
       </InfoContainer>
