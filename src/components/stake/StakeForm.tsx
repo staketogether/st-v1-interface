@@ -43,6 +43,7 @@ export function StakeForm({ type, accountAddress, communityAddress }: StakeFormP
   const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
 
   const isLoading = depositLoading || withdrawLoading
+
   const isSuccess = depositSuccess || withdrawSuccess
   const action = type === 'deposit' ? deposit : withdraw
   const actionLabel =

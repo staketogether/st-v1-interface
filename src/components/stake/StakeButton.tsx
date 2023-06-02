@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import useTranslation from '../../hooks/useTranslation'
 
 interface StakeButtonProps {
   onClick: () => void
@@ -8,10 +9,12 @@ interface StakeButtonProps {
   purple?: boolean
 }
 
-export default function StakeButton({ onClick, label, disabled, purple }: StakeButtonProps) {
+export default function StakeButton({ onClick, label, disabled, isLoading, purple }: StakeButtonProps) {
+  const { t } = useTranslation()
+
   return (
     <Stake className={purple ? 'purple' : ''} onClick={onClick} disabled={disabled}>
-      {label}
+      {isLoading ? t('processing') : label}
     </Stake>
   )
 }
