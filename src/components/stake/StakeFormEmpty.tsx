@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 
-import { useDebounce } from 'usehooks-ts'
-import useDeposit from '../../hooks/contracts/useDeposit'
+import { useConnectModal } from '@rainbow-me/rainbowkit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
-import useWithdraw from '../../hooks/contracts/useWithdraw'
+import useResizeView from '../../hooks/useResizeView'
+import useSearchDrawer from '../../hooks/useSearchDrawer'
+import useSearchHeader from '../../hooks/useSearchHeader'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
@@ -13,50 +14,44 @@ import StakeFormInput from './StakeInput'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
-  accountAddress: `0x${string}`
-  communityAddress: `0x${string}`
+  accountAddress?: `0x${string}`
+  communityAddress?: `0x${string}`
 }
 
-export function StakeForm({ type, accountAddress, communityAddress }: StakeFormProps) {
+export function StakeFormEmpty({ type, accountAddress, communityAddress }: StakeFormProps) {
   const { fee } = globalConfig
   const { t } = useTranslation()
   const ethBalance = useEthBalanceOf(accountAddress)
 
-  const [amount, setAmount] = useState<string>('')
-  const debouncedAmount = useDebounce(amount, 500)
-
-  const inputAmount = debouncedAmount || '0'
-
-  const {
-    deposit,
-    isSuccess: depositSuccess,
-    isLoading: depositLoading
-  } = useDeposit(inputAmount, accountAddress, communityAddress)
-
-  const {
-    withdraw,
-    isLoading: withdrawLoading,
-    isSuccess: withdrawSuccess
-  } = useWithdraw(inputAmount, accountAddress, communityAddress)
-
+  const [amount, setAmount] = useState<string>('0')
   const delegationFee = truncateEther(fee.delegation.mul(100).toString())
   const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
 
-  const isLoading = depositLoading || withdrawLoading
-  const isSuccess = depositSuccess || withdrawSuccess
-  const action = type === 'deposit' ? deposit : withdraw
-  const actionLabel =
-    amount.length > 0
-      ? type === 'deposit'
-        ? t('form.deposit')
-        : t('form.withdraw')
-      : t('form.inputAmount')
+  const { openConnectModal } = useConnectModal()
+  const { setOpenSearchDrawer } = useSearchDrawer()
+  const { setOpenSearchHeader } = useSearchHeader()
+  const { screenWidth, breakpoints } = useResizeView()
 
-  useEffect(() => {
-    if (isSuccess) {
-      setAmount('')
+  const connectAccount = () => {
+    if (!accountAddress && openConnectModal) {
+      openConnectModal()
+      return
     }
-  }, [isSuccess])
+  }
+
+  const selectCommunity = () => {
+    if (!communityAddress) {
+      if (screenWidth >= breakpoints.lg) {
+        setOpenSearchHeader(true)
+        return
+      }
+      setOpenSearchDrawer(true)
+    }
+  }
+
+  const action = !accountAddress ? connectAccount : selectCommunity
+
+  const actionLabel = !accountAddress ? t('form.connectWallet') : t('form.selectCommunity')
 
   return (
     <StakeContainer>
@@ -65,15 +60,10 @@ export function StakeForm({ type, accountAddress, communityAddress }: StakeFormP
         onChange={value => setAmount(value)}
         balance={ethBalance}
         symbol={t('eth.symbol')}
-        disabled={isLoading}
+        disabled={true}
         purple={type === 'withdraw'}
       />
-      <StakeButton
-        isLoading={isLoading}
-        onClick={action}
-        label={actionLabel}
-        purple={type === 'withdraw'}
-      />
+      <StakeButton isLoading={true} onClick={action} label={actionLabel} purple={type === 'withdraw'} />
       <StakeInfo>
         <span>
           {`${t('youReceive')} ${amount || '0'}`}

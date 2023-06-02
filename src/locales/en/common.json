@@ -42,5 +42,12 @@
     "name": "Community Ether",
     "symbol": "CETH"
   },
+  "form": {
+    "deposit": "Deposit Ether",
+    "withdraw": "Withdraw Ether",
+    "inputAmount": "Input Amount",
+    "connectWallet": "Connect Wallet",
+    "selectPool": "SelectPool"
+  },
   "noDelegations": "No delegations found"
 }

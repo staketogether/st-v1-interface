@@ -2,21 +2,22 @@ import Fuse from 'fuse.js'
 import Link from 'next/link'
 import { useState } from 'react'
 import styled from 'styled-components'
-
 import useCommunities from '../../../hooks/subgraphs/useCommunities'
-
 import { AiOutlineClose, AiOutlineSearch, AiOutlineWarning } from 'react-icons/ai'
 import useSearchCommunities from '../../../hooks/subgraphs/useSearchCommunities'
 import useTranslation from '../../../hooks/useTranslation'
 import Overlay from '../Overlay'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
+import useSearchHeader from '@/hooks/useSearchHeader'
+import { useRouter } from 'next/router'
 
 export default function LayoutSearch() {
-  const [isOpen, setIsOpen] = useState(false)
+  const { isOpen, setOpenSearchHeader } = useSearchHeader()
   const [text, setText] = useState<string>('')
   const { t } = useTranslation()
-
+  const router = useRouter()
+  const pathname = router.pathname
   const { communities, communitiesIsLoading } = useCommunities()
   const { searchCommunities } = useSearchCommunities()
 
@@ -40,16 +41,16 @@ export default function LayoutSearch() {
   const result = fuse.search(text).map(community => community.item)
 
   const handleButtonClick = () => {
-    setIsOpen(!isOpen)
+    setOpenSearchHeader(!isOpen)
   }
 
   const handleMouseLeave = () => {
-    setIsOpen(false)
+    setOpenSearchHeader(false)
   }
 
   const onChange = (text: string) => {
     setText(text)
-    setIsOpen(true)
+    setOpenSearchHeader(true)
   }
 
   const clearText = () => {
@@ -58,7 +59,7 @@ export default function LayoutSearch() {
 
   return (
     <>
-      {isOpen && <Overlay onClick={() => setIsOpen(false)} />}
+      {isOpen && <Overlay onClick={() => setOpenSearchHeader(false)} />}
       <Container onMouseLeave={handleMouseLeave}>
         <InputSearchArea className={`${isOpen ? 'active' : ''}`}>
           <button>
@@ -83,8 +84,11 @@ export default function LayoutSearch() {
               text.length > 0 &&
               result.length > 0 &&
               result.map(community => (
-                <Link href={`/stake/deposit/${community.address}`} key={community.address}>
-                  <DropdownMenuItem key={community.address}>
+                <Link
+                  href={`${pathname.replace('[address]', '')}/${community.address}`}
+                  key={community.address}
+                >
+                  <DropdownMenuItem key={community.address} onClick={() => setOpenSearchHeader(false)}>
                     <EnsAvatar address={community.address} />
                     <EnsName address={community.address} />
                   </DropdownMenuItem>
@@ -94,8 +98,11 @@ export default function LayoutSearch() {
             {!communitiesIsLoading &&
               text.length === 0 &&
               communities.map(community => (
-                <Link href={`/stake/deposit/${community.address}`} key={community.address}>
-                  <DropdownMenuItem key={community.address}>
+                <Link
+                  href={`${pathname.replace('[address]', '')}/${community.address}`}
+                  key={community.address}
+                >
+                  <DropdownMenuItem key={community.address} onClick={() => setOpenSearchHeader(false)}>
                     <EnsAvatar address={community.address} />
                     <EnsName address={community.address} />
                   </DropdownMenuItem>

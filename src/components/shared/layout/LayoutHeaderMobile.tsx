@@ -1,13 +1,15 @@
+import useSearchDrawer from '@/hooks/useSearchDrawer'
+import useTranslation from '@/hooks/useTranslation'
 import Image from 'next/image'
 import Link from 'next/link'
+import { AiOutlineSearch } from 'react-icons/ai'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import Wallet from '../wallet/Wallet'
-import LayoutSearchSideBar, { searchModalVar } from './LayoutSearchSideBar'
-import useTranslation from '@/hooks/useTranslation'
-import { AiOutlineSearch } from 'react-icons/ai'
+import LayoutSearchDrawer from './LayoutSearchDrawer'
 
 export default function LayoutHeaderMobile() {
+  const { setOpenSearchDrawer } = useSearchDrawer()
   const { t } = useTranslation()
   return (
     <Container>
@@ -16,13 +18,13 @@ export default function LayoutHeaderMobile() {
           <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
         </Logo>
         <WalletContainer>
-          <Button onClick={() => searchModalVar(true)}>
+          <Button onClick={() => setOpenSearchDrawer(true)}>
             <SearchIcon />
           </Button>
           <Wallet />
         </WalletContainer>
       </Content>
-      <LayoutSearchSideBar />
+      <LayoutSearchDrawer />
     </Container>
   )
 }

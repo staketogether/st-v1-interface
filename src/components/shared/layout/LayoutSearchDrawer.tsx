@@ -5,20 +5,21 @@ import styled from 'styled-components'
 
 import useCommunities from '../../../hooks/subgraphs/useCommunities'
 
+import useSearchDrawer from '@/hooks/useSearchDrawer'
+import { Drawer } from 'antd'
+import { AiOutlineArrowLeft, AiOutlineSearch } from 'react-icons/ai'
 import useSearchCommunities from '../../../hooks/subgraphs/useSearchCommunities'
 import useTranslation from '../../../hooks/useTranslation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
-import { makeVar, useReactiveVar } from '@apollo/client'
-import { Drawer } from 'antd'
-import { AiOutlineArrowLeft, AiOutlineSearch } from 'react-icons/ai'
+import { useRouter } from 'next/router'
 
-export const searchModalVar = makeVar(false)
-export default function LayoutSearchSideBar() {
-  const searchModal = useReactiveVar(searchModalVar)
+export default function LayoutSearchDrawer() {
+  const { isOpen, setOpenSearchDrawer } = useSearchDrawer()
   const [text, setText] = useState<string>('')
   const { t } = useTranslation()
-
+  const router = useRouter()
+  const pathname = router.pathname
   const { communities, communitiesIsLoading } = useCommunities()
   const { searchCommunities } = useSearchCommunities()
 
@@ -49,13 +50,13 @@ export default function LayoutSearchSideBar() {
     <DrawerContainer
       placement='right'
       size='default'
-      onClose={() => searchModalVar(false)}
+      onClose={() => setOpenSearchDrawer(false)}
       mask={true}
-      open={searchModal}
+      open={isOpen}
     >
       <Container>
         <Header>
-          <CloseIcon onClick={() => searchModalVar(false)} />
+          <CloseIcon onClick={() => setOpenSearchDrawer(false)} />
           <InputSearchContainer>
             <SearchIcon />
             <InputSearch
@@ -63,18 +64,21 @@ export default function LayoutSearchSideBar() {
               value={text}
               placeholder={t('searchCommunity')}
               onChange={e => onChange(e.target.value)}
-              className={`${searchModal ? 'active' : ''}`}
+              className={`${isOpen ? 'active' : ''}`}
             />
           </InputSearchContainer>
         </Header>
-        {searchModal && (
+        {isOpen && (
           <DropdownMenu isOpen>
             {!communitiesIsLoading &&
               text.length > 0 &&
               result.length > 0 &&
               result.map(community => (
-                <Link href={`/stake/deposit/${community.address}`} key={community.address}>
-                  <DropdownMenuItem key={community.address}>
+                <Link
+                  href={`${pathname.replace('[address]', '')}/${community.address}`}
+                  key={community.address}
+                >
+                  <DropdownMenuItem key={community.address} onClick={() => setOpenSearchDrawer(false)}>
                     <EnsAvatar address={community.address} />
                     <EnsName address={community.address} />
                   </DropdownMenuItem>
@@ -84,8 +88,11 @@ export default function LayoutSearchSideBar() {
             {!communitiesIsLoading &&
               text.length === 0 &&
               communities.map(community => (
-                <Link href={`/stake/deposit/${community.address}`} key={community.address}>
-                  <DropdownMenuItem key={community.address}>
+                <Link
+                  href={`${pathname.replace('[address]', '')}/${community.address}`}
+                  key={community.address}
+                >
+                  <DropdownMenuItem key={community.address} onClick={() => setOpenSearchDrawer(false)}>
                     <EnsAvatar address={community.address} />
                     <EnsName address={community.address} />
                   </DropdownMenuItem>

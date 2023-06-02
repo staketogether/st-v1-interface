@@ -5,6 +5,9 @@ import { AiOutlineCheck } from 'react-icons/ai'
 import useTranslation from '../../hooks/useTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
+import useResizeView from '@/hooks/useResizeView'
+import useSearchDrawer from '@/hooks/useSearchDrawer'
+import useSearchHeader from '@/hooks/useSearchHeader'
 
 interface StakeSelectCommunityProps {
   communityAddress?: `0x${string}`
@@ -12,12 +15,17 @@ interface StakeSelectCommunityProps {
 
 export default function StakeSelectCommunity({ communityAddress }: StakeSelectCommunityProps) {
   const { t } = useTranslation()
-
-  const [select, setSelect] = useState(
-    <SelectCommunity>
-      <span>{t('selectCommunity')}</span>
-    </SelectCommunity>
-  )
+  const { screenWidth, breakpoints } = useResizeView()
+  const [select, setSelect] = useState(<SelectCommunity>{t('selectCommunity')}</SelectCommunity>)
+  const { setOpenSearchDrawer } = useSearchDrawer()
+  const { setOpenSearchHeader } = useSearchHeader()
+  const handleSearchCommunity = () => {
+    if (screenWidth >= breakpoints.lg) {
+      setOpenSearchHeader(true)
+      return
+    }
+    setOpenSearchDrawer(true)
+  }
 
   useEffect(() => {
     if (communityAddress) {
@@ -33,7 +41,7 @@ export default function StakeSelectCommunity({ communityAddress }: StakeSelectCo
     }
   }, [communityAddress])
 
-  return <Container>{select}</Container>
+  return <Container onClick={handleSearchCommunity}>{select}</Container>
 }
 
 const { Container, SelectCommunity, CommunitySelected, Verified } = {
@@ -53,8 +61,6 @@ const { Container, SelectCommunity, CommunitySelected, Verified } = {
 
     transition: background-color 0.1s ease;
 
-    cursor: default;
-
     span:first-child {
       align-self: flex-start;
 
@@ -70,10 +76,23 @@ const { Container, SelectCommunity, CommunitySelected, Verified } = {
     }
   `,
   SelectCommunity: styled.div`
+    cursor: pointer;
+    height: 32px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
+    border: none;
+    border-radius: ${({ theme }) => theme.size[16]};
+    padding: 0 ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
     display: grid;
-    grid-template-columns: auto auto;
-    gap: ${({ theme }) => theme.size[12]};
-    cursor: default;
+    place-items: center;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
   `,
   CommunitySelected: styled.div`
     display: grid;
