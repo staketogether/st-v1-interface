@@ -25,7 +25,7 @@ export const useCommunityCache = () => {
 
       if (hasThisMember) {
         community.delegations.forEach((delegation) => {
-          console.log('community delegation', delegation, ethers.utils.parseUnits(stakeAmount))
+          console.log('community delegation', delegation.delegationShares.toString(), ethers.utils.parseUnits(stakeAmount).toString())
           delegations.push({
             __typename: 'Delegation',
             id: delegation.id,
@@ -34,7 +34,7 @@ export const useCommunityCache = () => {
               id: accountAddress.toLowerCase(),
               address: accountAddress.toLowerCase()
             },
-            delegationShares: delegation.delegate.address === accountAddress ? BigNumber.from(delegation.delegationShares).add(ethers.utils.parseUnits(stakeAmount)) : delegation.delegationShares,
+            delegationShares: delegation.delegate.address === accountAddress.toLowerCase() ? BigNumber.from(delegation.delegationShares).add(ethers.utils.parseUnits(stakeAmount)) : delegation.delegationShares,
           })
         })
       } else {
