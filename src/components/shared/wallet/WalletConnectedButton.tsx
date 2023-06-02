@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import useCethBalanceOf from '../../../hooks/contracts/useCethBalanceOf'
+import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { truncateEther } from '../../../services/truncateEther'
@@ -16,16 +16,16 @@ export default function WalletConnectedButton({
   address,
   showBalance = true
 }: WalletConnectedButtonProps) {
-  const cethBalance = useCethBalanceOf(address)
   const { setOpenSidebar } = useWalletSidebar()
-
   const { t } = useTranslation()
+
+  const { accountBalance } = useStAccount(address)
 
   return (
     <ConnectedButton onClick={() => setOpenSidebar(true)}>
       {showBalance && (
         <CethBalance>
-          <span>{truncateEther(cethBalance)}</span>
+          <span>{truncateEther(accountBalance.toString())}</span>
           <span>{t('lsd.symbol')}</span>
         </CethBalance>
       )}

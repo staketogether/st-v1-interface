@@ -52,6 +52,8 @@ export function StakeForm({ type, accountAddress, communityAddress }: StakeFormP
         : t('form.withdraw')
       : t('form.inputAmount')
 
+  const coinLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
+
   useEffect(() => {
     if (isSuccess) {
       setAmount('')
@@ -77,7 +79,7 @@ export function StakeForm({ type, accountAddress, communityAddress }: StakeFormP
       <StakeInfo>
         <span>
           {`${t('youReceive')} ${amount || '0'}`}
-          <span>{`${type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')}`}</span>
+          <span>{`${coinLabel}`}</span>
         </span>
         {type === 'deposit' && (
           <div>

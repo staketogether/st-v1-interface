@@ -1,4 +1,3 @@
-import useCethBalanceOf from '@/hooks/contracts/useCethBalanceOf'
 import { Drawer } from 'antd'
 import { AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import styled from 'styled-components'
@@ -18,9 +17,9 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { disconnect } = useDisconnect()
   const { t } = useTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
-  const accountBalance = useCethBalanceOf(address)
 
-  const { accountSentDelegationsCount, accountRewardsBalance, accountDelegations } = useStAccount(address)
+  const { accountSentDelegationsCount, accountRewardsBalance, accountDelegations, accountBalance } =
+    useStAccount(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -53,7 +52,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         <div>
           <span>{t('balance')}</span>
           <span>
-            {truncateEther(accountBalance, 6)} <span>{t('lsd.symbol')}</span>
+            {truncateEther(accountBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
           </span>
         </div>
         <div>
