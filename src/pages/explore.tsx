@@ -4,13 +4,17 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import ExploreList from '../components/explore/ExploreList'
 import LayoutHead from '../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../components/shared/layout/LayoutTemplate'
-import useCommunities from '../hooks/subgraphs/useCommunities'
+import { apolloClient } from '../config/apollo'
 import useTranslation from '../hooks/useTranslation'
+import { queryCommunities } from '../queries/queryCommunities'
+import { Community } from '../types/Community'
 
-export default function Explore() {
+type ExploreProps = {
+  communities: Community[]
+}
+
+export default function Explore({ communities }: ExploreProps) {
   const { t } = useTranslation()
-
-  const { communities } = useCommunities()
 
   return (
     <LayoutTemplate>
@@ -21,16 +25,17 @@ export default function Explore() {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  // const { data } = await apolloClient.query<{ communities: Community[] }>({
-  //   query: queryCommunitiesDelegations
-  // })
+  const { data } = await apolloClient.query<{ communities: Community[] }>({
+    query: queryCommunities,
+    fetchPolicy: 'network-only'
+  })
 
-  // const communities: Community[] = data.communities
+  const communities: Community[] = data.communities
 
   return {
     props: {
-      ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en']))
-      // communities
+      ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
+      communities
     }
   }
 }
