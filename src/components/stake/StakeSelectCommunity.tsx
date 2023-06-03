@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { AiOutlineCheck } from 'react-icons/ai'
-import useTranslation from '../../hooks/useTranslation'
-import EnsAvatar from '../shared/ens/EnsAvatar'
-import EnsName from '../shared/ens/EnsName'
 import useResizeView from '@/hooks/useResizeView'
 import useSearchDrawer from '@/hooks/useSearchDrawer'
 import useSearchHeader from '@/hooks/useSearchHeader'
+import { AiOutlineCheck, AiOutlineFire } from 'react-icons/ai'
+import useTranslation from '../../hooks/useTranslation'
+import EnsAvatar from '../shared/ens/EnsAvatar'
+import EnsName from '../shared/ens/EnsName'
 
 interface StakeSelectCommunityProps {
   communityAddress?: `0x${string}`
@@ -16,7 +16,12 @@ interface StakeSelectCommunityProps {
 export default function StakeSelectCommunity({ communityAddress }: StakeSelectCommunityProps) {
   const { t } = useTranslation()
   const { screenWidth, breakpoints } = useResizeView()
-  const [select, setSelect] = useState(<SelectCommunity>{t('selectCommunity')}</SelectCommunity>)
+  const [select, setSelect] = useState(
+    <SelectCommunity>
+      <AiOutlineFire fontSize={14} />
+      {t('selectPool')}
+    </SelectCommunity>
+  )
   const { setOpenSearchDrawer } = useSearchDrawer()
   const { setOpenSearchHeader } = useSearchHeader()
   const handleSearchCommunity = () => {
@@ -87,8 +92,9 @@ const { Container, SelectCommunity, CommunitySelected, Verified } = {
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
-    display: grid;
+    display: flex;
     place-items: center;
+    gap: ${({ theme }) => theme.size[4]};
 
     &:hover {
       background-color: ${({ theme }) => theme.color.whiteAlpha[800]};

@@ -39,7 +39,7 @@ export function StakeFormEmpty({ type, accountAddress, communityAddress }: Stake
     }
   }
 
-  const selectCommunity = () => {
+  const selectPool = () => {
     if (!communityAddress) {
       if (screenWidth >= breakpoints.lg) {
         setOpenSearchHeader(true)
@@ -49,7 +49,7 @@ export function StakeFormEmpty({ type, accountAddress, communityAddress }: Stake
     }
   }
 
-  const action = !accountAddress ? connectAccount : selectCommunity
+  const action = !accountAddress ? connectAccount : selectPool
 
   const actionLabel = !accountAddress ? t('form.connectWallet') : t('form.selectPool')
 

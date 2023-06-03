@@ -10,7 +10,7 @@
   "members": "Members",
   "delegations": "Delegations",
   "balance": "Balance",
-  "selectCommunity": "Select a Pool",
+  "selectPool": "Select Pool",
   "max": "Max",
   "action": "Staking...",
   "youReceive": "You receive",

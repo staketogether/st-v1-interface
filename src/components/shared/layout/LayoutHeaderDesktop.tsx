@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { AiOutlineCluster, AiOutlineCodeSandbox } from 'react-icons/ai'
+import { AiOutlineCodeSandbox, AiOutlineFire } from 'react-icons/ai'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -21,7 +21,7 @@ export default function LayoutHeader() {
         <Menu>
           <Link href='/explore'>
             <MenuButton className={`${isActive('explore') ? 'active' : ''}`}>
-              <AiOutlineCluster size={16} />
+              <AiOutlineFire size={16} />
               {t('explore')}
             </MenuButton>
           </Link>
