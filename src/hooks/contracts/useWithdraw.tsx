@@ -39,15 +39,8 @@ export default function useWithdraw(
 
   useEffect(() => {
     if (isSuccess) {
-      apolloClient.query({
-        query: queryAccount,
-        variables: { id: accountAddress.toLowerCase() },
-        fetchPolicy: 'network-only'
-      })
-      apolloClient.query({
-        query: queryCommunity,
-        variables: { id: communityAddress.toLowerCase() },
-        fetchPolicy: 'network-only'
+      apolloClient.refetchQueries({
+        include: [queryAccount, queryCommunity]
       })
     }
   }, [accountAddress, communityAddress, isSuccess])
