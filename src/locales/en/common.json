@@ -32,7 +32,8 @@
   "rewardsFee": "Rewards Fee",
   "titles": {
     "explore": "Explore Pools",
-    "stake": "Stake Ether"
+    "stake": "Stake Ether",
+    "poolStats": "Pool Stats"
   },
   "eth": {
     "name": "Ether",

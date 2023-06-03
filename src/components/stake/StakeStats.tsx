@@ -1,19 +1,20 @@
 import styled from 'styled-components'
 
+import { BigNumber } from 'ethers'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Community } from '../../types/Community'
 import StakeReceivedDelegation from './StakeReceivedDelegation'
 interface StakeStatsProps {
-  community: Community
+  community?: Community
 }
 
 export default function StakeStats({ community }: StakeStatsProps) {
   const { t } = useTranslation()
 
-  const rewardsShares = usePooledEthByShares(community.rewardsShares)
-  const delegatedShares = usePooledEthByShares(community.delegatedShares)
+  const rewardsShares = usePooledEthByShares(community ? community.rewardsShares : BigNumber.from(0))
+  const delegatedShares = usePooledEthByShares(community ? community.delegatedShares : BigNumber.from(0))
 
   return (
     <Container>
@@ -36,7 +37,7 @@ export default function StakeStats({ community }: StakeStatsProps) {
         </Stats>
       </StatsContainer>
 
-      {community.delegations.length > 0 && (
+      {community && community.delegations.length > 0 && (
         <DelegationsContainer>
           <StatsWrapper>
             <span>{t('members')}</span>
