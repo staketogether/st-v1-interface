@@ -148,6 +148,7 @@ body {
   text-rendering: optimizeLegibility;
   height: 100%;
   color: #373b8a;
+  min-width: 375px;
 }
 
 button {

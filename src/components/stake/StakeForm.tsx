@@ -39,19 +39,13 @@ export function StakeForm({ type, accountAddress, communityAddress }: StakeFormP
     isSuccess: withdrawSuccess
   } = useWithdraw(inputAmount, accountAddress, communityAddress)
 
-  const delegationFee = truncateEther(fee.community.mul(100).toString())
-  const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
+  const rewardsFee = truncateEther(fee.protocol.mul(100).toString())
 
   const isLoading = depositLoading || withdrawLoading
 
   const isSuccess = depositSuccess || withdrawSuccess
   const action = type === 'deposit' ? deposit : withdraw
-  const actionLabel =
-    amount.length > 0
-      ? type === 'deposit'
-        ? t('form.deposit')
-        : t('form.withdraw')
-      : t('form.inputAmount')
+  const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
 
   const coinLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
@@ -84,8 +78,7 @@ export function StakeForm({ type, accountAddress, communityAddress }: StakeFormP
         </span>
         {type === 'deposit' && (
           <div>
-            <span>{`${t('delegation')}: ${delegationFee}%`}</span>
-            <span>{`${t('rewardsFee')}: ${protocolFee}%`}</span>
+            <span>{`${t('rewardsFee')}: ${rewardsFee}%`}</span>
           </div>
         )}
       </StakeInfo>

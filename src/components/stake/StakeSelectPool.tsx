@@ -9,11 +9,11 @@ import useTranslation from '../../hooks/useTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 
-interface StakeSelectCommunityProps {
+interface StakeSelectPoolProps {
   communityAddress?: `0x${string}`
 }
 
-export default function StakeSelectCommunity({ communityAddress }: StakeSelectCommunityProps) {
+export default function StakeSelectPool({ communityAddress }: StakeSelectPoolProps) {
   const { t } = useTranslation()
   const { screenWidth, breakpoints } = useResizeView()
   const [select, setSelect] = useState(

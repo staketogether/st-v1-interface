@@ -23,9 +23,8 @@ export function StakeFormEmpty({ type, accountAddress, communityAddress }: Stake
   const { t } = useTranslation()
   const ethBalance = useEthBalanceOf(accountAddress)
 
-  const [amount, setAmount] = useState<string>('0')
-  const delegationFee = truncateEther(fee.community.mul(100).toString())
-  const protocolFee = truncateEther(fee.operator.add(fee.protocol).mul(100).toString())
+  const [amount, setAmount] = useState<string>('')
+  const rewardsFee = truncateEther(fee.protocol.mul(100).toString())
 
   const { openConnectModal } = useConnectModal()
   const { setOpenSearchDrawer } = useSearchDrawer()
@@ -71,8 +70,7 @@ export function StakeFormEmpty({ type, accountAddress, communityAddress }: Stake
         </span>
         {type === 'deposit' && (
           <div>
-            <span>{`${t('delegation')}: ${delegationFee}%`}</span>
-            <span>{`${t('rewardsFee')}: ${protocolFee}%`}</span>
+            <span>{`${t('rewardsFee')}: ${rewardsFee}%`}</span>
           </div>
         )}
       </StakeInfo>
@@ -90,6 +88,8 @@ const { StakeContainer, StakeInfo } = {
     justify-content: space-between;
     padding: 0px ${({ theme }) => theme.size[12]};
     font-size: ${({ theme }) => theme.size[12]};
+
+    color: ${({ theme }) => theme.color.blue[300]};
 
     > span {
       height: 12px;

@@ -3,7 +3,7 @@ import { AiOutlineVerticalAlignBottom, AiOutlineVerticalAlignTop } from 'react-i
 import styled from 'styled-components'
 import useActiveRoute from '../../hooks/useActiveRoute'
 import useTranslation from '../../hooks/useTranslation'
-import StakeSelectCommunity from './StakeSelectCommunity'
+import StakeSelectPool from './StakeSelectPool'
 
 interface StakeSwitchActionsProps {
   communityAddress?: `0x${string}`
@@ -24,21 +24,21 @@ export default function StakeSwitchActions({ communityAddress }: StakeSwitchActi
 
   return (
     <Container>
-      <StakeSelectCommunity communityAddress={communityAddress} />
+      <StakeSelectPool communityAddress={communityAddress} />
       <Tabs>
         <StakeTab
           className={`${isActive('deposit') ? 'active' : ''}`}
           onClick={() => handleSwitch('deposit')}
         >
           <AiOutlineVerticalAlignBottom />
-          {t('deposit')}
+          <span>{t('deposit')}</span>
         </StakeTab>
         <StakeTab
           className={`${isActive('withdraw') ? 'active' : ''} purple`}
           onClick={() => handleSwitch('withdraw')}
         >
           <AiOutlineVerticalAlignTop />
-          {t('withdraw')}
+          <span>{t('withdraw')}</span>
         </StakeTab>
       </Tabs>
     </Container>
@@ -78,6 +78,16 @@ const { Container, Tabs, StakeTab } = {
 
     &.active {
       color: ${({ theme }) => theme.color.secondary};
+    }
+
+    span {
+      display: none;
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      span {
+        display: block;
+      }
     }
   `
 }
