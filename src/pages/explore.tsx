@@ -10,7 +10,7 @@ import useTranslation from '../hooks/useTranslation'
 export default function Explore() {
   const { t } = useTranslation()
 
-  const { communities } = useCommunities(true)
+  const { communities } = useCommunities()
 
   return (
     <LayoutTemplate>
