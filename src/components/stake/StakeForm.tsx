@@ -6,6 +6,7 @@ import { useDebounce } from 'usehooks-ts'
 import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useWithdraw from '../../hooks/contracts/useWithdraw'
+import useStAccount from '../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
@@ -20,7 +21,8 @@ type StakeFormProps = {
 export function StakeForm({ type, accountAddress, communityAddress }: StakeFormProps) {
   const { fee } = globalConfig
   const { t } = useTranslation()
-  const ethBalance = useEthBalanceOf(accountAddress)
+  const { accountBalance } = useStAccount(accountAddress)
+  const cethBalance = useEthBalanceOf(accountAddress)
 
   const [amount, setAmount] = useState<string>('')
   const debouncedAmount = useDebounce(amount, 1000)
@@ -42,12 +44,13 @@ export function StakeForm({ type, accountAddress, communityAddress }: StakeFormP
   const rewardsFee = truncateEther(fee.protocol.mul(100).toString())
 
   const isLoading = depositLoading || withdrawLoading
-
   const isSuccess = depositSuccess || withdrawSuccess
+
+  const balance = type === 'deposit' ? cethBalance : accountBalance.toString()
   const action = type === 'deposit' ? deposit : withdraw
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
-
-  const coinLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
+  const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
+  const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
   useEffect(() => {
     if (isSuccess) {
@@ -60,8 +63,8 @@ export function StakeForm({ type, accountAddress, communityAddress }: StakeFormP
       <StakeFormInput
         value={amount}
         onChange={value => setAmount(value)}
-        balance={ethBalance}
-        symbol={t('eth.symbol')}
+        balance={balance}
+        symbol={balanceLabel}
         disabled={isLoading}
         purple={type === 'withdraw'}
       />
@@ -74,7 +77,7 @@ export function StakeForm({ type, accountAddress, communityAddress }: StakeFormP
       <StakeInfo>
         <span>
           {`${t('youReceive')} ${amount || '0'}`}
-          <span>{`${coinLabel}`}</span>
+          <span>{`${receiveLabel}`}</span>
         </span>
         {type === 'deposit' && (
           <div>
