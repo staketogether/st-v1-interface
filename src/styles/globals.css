@@ -15,7 +15,3 @@
   ) !important;
   transition: background-color 0.2s ease !important;
 }
-
-html {
-  background: linear-gradient(180deg, rgba(143, 152, 214, 0.2) 0%, rgba(143, 152, 214, 1) 50%);
-}
