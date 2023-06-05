@@ -33,12 +33,15 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   if (params?.address) {
     const ens = await getEns(params?.address)
-    return {
-      props: {
-        ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
-        poolAddress: params?.address || '',
-        name: ens.name,
-        avatar: ens.avatar
+
+    if (ens) {
+      return {
+        props: {
+          ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
+          poolAddress: params?.address || '',
+          name: ens.name ? ens.name : undefined,
+          avatar: ens.avatar ? ens.avatar : undefined
+        }
       }
     }
   }
