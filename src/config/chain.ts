@@ -44,20 +44,20 @@ const configs: ChainConfig[] = [
       StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-goerli/version/latest',
       ENS: ''
     }
-  },
-  {
-    chainId: 31337,
-    name: 'localhost',
-    provider: new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`),
-    contracts: {
-      STOracle: '0x5D553864900780be550fA2Af918ABF4F83715A8a',
-      StakeTogether: '0x27c85150D755D383A4f86d0aeD8232815674771f'
-    },
-    subgraphs: {
-      StakeTogether: '',
-      ENS: ''
-    }
   }
+  // {
+  //   chainId: 31337,
+  //   name: 'localhost',
+  //   provider: new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`),
+  //   contracts: {
+  //     STOracle: '0x5D553864900780be550fA2Af918ABF4F83715A8a',
+  //     StakeTogether: '0x27c85150D755D383A4f86d0aeD8232815674771f'
+  //   },
+  //   subgraphs: {
+  //     StakeTogether: '',
+  //     ENS: ''
+  //   }
+  // }
 ]
 
 export default function chainConfig(): ChainConfig {
