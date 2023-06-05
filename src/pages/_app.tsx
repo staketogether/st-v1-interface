@@ -38,4 +38,15 @@ const App = ({ Component, pageProps }: AppProps) => {
   )
 }
 
+export function reportWebVitals(metric: {id: string, name: string, startTime: number, value: number, label: string}) {
+  const { id, name, value, label } = metric
+  window.gtag('event', name, {
+    event_category:
+      label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
+    value: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
+    event_label: id, // id unique to current page load
+    non_interaction: true, // avoids affecting bounce rate.
+  })
+}
+
 export default appWithTranslation(App)
