@@ -2,9 +2,9 @@ import Script from 'next/script'
 
 export const Hotjar = () => {
   return (
-    <Script id='hotjar' strategy='lazyOnload'>
+    <Script id='hotjar' strategy='afterInteractive'>
       {`
-            (function(h,o,t,j,a,r){
+       (function(h,o,t,j,a,r){
                 h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
                 h._hjSettings={hjid:${process.env.NEXT_PUBLIC_HOTJAR_ID},hjsv:6};
                 a=o.getElementsByTagName('head')[0];
