@@ -7,9 +7,6 @@ const nextConfig = {
   experimental: {
     appDir: false
   },
-  httpAgentOptions: {
-    keepAlive: true
-  },
   swcMinify: true,
   reactStrictMode: true,
   compiler: {
