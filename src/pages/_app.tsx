@@ -2,7 +2,7 @@ import { ApolloProvider } from '@apollo/client'
 import { RainbowKitProvider, lightTheme as lightThemeRainbow } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { appWithTranslation } from 'next-i18next'
-import type { AppProps } from 'next/app'
+import type { AppProps, NextWebVitalsMetric } from "next/app";
 import { Montserrat } from 'next/font/google'
 
 import { ThemeProvider } from 'styled-components'
@@ -40,7 +40,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   )
 }
 
-export function reportWebVitals(metric: {id: string, name: string, startTime: number, value: number, label: string}) {
+export function reportWebVitals(metric: NextWebVitalsMetric) {
   const { id, name, value, label } = metric
 
   if (window.gtag === undefined) {
