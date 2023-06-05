@@ -15,21 +15,21 @@ export type ChainConfig = {
 }
 
 const configs: ChainConfig[] = [
-  {
-    chainId: 1,
-    name: 'mainnet',
-    provider: new ethers.providers.JsonRpcProvider(
-      `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY}`
-    ),
-    contracts: {
-      STOracle: '0x',
-      StakeTogether: '0x'
-    },
-    subgraphs: {
-      StakeTogether: '',
-      ENS: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'
-    }
-  },
+  // {
+  //   chainId: 1,
+  //   name: 'mainnet',
+  //   provider: new ethers.providers.JsonRpcProvider(
+  //     `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY}`
+  //   ),
+  //   contracts: {
+  //     STOracle: '0x',
+  //     StakeTogether: '0x'
+  //   },
+  //   subgraphs: {
+  //     StakeTogether: '',
+  //     ENS: 'https://api.thegraph.com/subgraphs/name/ensdomains/ens'
+  //   }
+  // },
   {
     chainId: 5,
     name: 'goerli',
