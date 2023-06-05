@@ -2,9 +2,8 @@ import Script from 'next/script'
 
 export const Hotjar = () => {
   return (
-    <>
-      <Script id='google-analytics' strategy='afterInteractive'>
-        {`
+    <Script id='hotjar' strategy='lazyOnload'>
+      {`
             (function(h,o,t,j,a,r){
                 h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
                 h._hjSettings={hjid:${process.env.NEXT_PUBLIC_HOTJAR_ID},hjsv:6};
@@ -14,7 +13,6 @@ export const Hotjar = () => {
                 a.appendChild(r);
             })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
         `}
-      </Script>
-    </>
+    </Script>
   )
 }

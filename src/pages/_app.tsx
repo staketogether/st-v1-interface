@@ -31,9 +31,9 @@ const App = ({ Component, pageProps }: AppProps) => {
               modalSize='compact'
               showRecentTransactions
             >
+              <Component {...pageProps} />
               <Analytics />
               <Hotjar />
-              <Component {...pageProps} />
             </RainbowKitProvider>
           </WagmiConfig>
         </ThemeProvider>
