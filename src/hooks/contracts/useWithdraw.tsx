@@ -50,7 +50,7 @@ export default function useWithdraw(
       })
       if (notify) {
         notification.success({
-          message: `${t('notifications.withdrawSuccess')} ${withdrawAmount}} ${t('eth.symbol')}`,
+          message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,
           placement: 'topRight'
         })
         setNotify(false)
