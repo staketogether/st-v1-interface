@@ -12,6 +12,7 @@ import validEnv from '../config/env'
 import { chains, wagmiClient } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
+import { Analytics } from "@/components/shared/Analytics";
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -29,6 +30,7 @@ const App = ({ Component, pageProps }: AppProps) => {
               modalSize='compact'
               showRecentTransactions
             >
+              <Analytics />
               <Component {...pageProps} />
             </RainbowKitProvider>
           </WagmiConfig>
