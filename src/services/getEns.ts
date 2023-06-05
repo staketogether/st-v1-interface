@@ -1,6 +1,6 @@
 import chainConfig from '../config/chain'
 
-export async function getEns(address: `0x${string}`) {
+export async function getEns(address: `0x${string}`, avatar?: boolean) {
   const { provider } = chainConfig()
 
   const empty = {
@@ -20,9 +20,21 @@ export async function getEns(address: `0x${string}`) {
     return empty
   }
 
+  const name = resolver && resolver.name ? resolver.name : undefined
+
+  if (avatar) {
+    const avatar = await provider.getAvatar(ensResolverAddress)
+
+    return {
+      address,
+      name,
+      avatar: avatar ? avatar : undefined
+    }
+  }
+
   return {
     address,
-    name: resolver && resolver.name ? resolver.name : undefined,
+    name,
     avatar: undefined
   }
 }
