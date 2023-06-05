@@ -20,6 +20,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.15",
     "@rainbow-me/rainbowkit": "^0.12.14",
+    "@sentry/nextjs": "^7.54.0",
     "@wagmi/cli": "^0.1.15",
     "antd": "^5.5.2",
     "axios": "^1.4.0",
