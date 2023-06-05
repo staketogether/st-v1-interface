@@ -40,6 +40,11 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 export function reportWebVitals(metric: {id: string, name: string, startTime: number, value: number, label: string}) {
   const { id, name, value, label } = metric
+
+  if (window.gtag === undefined) {
+    return
+  }
+  
   window.gtag('event', name, {
     event_category:
       label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
