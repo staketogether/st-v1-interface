@@ -5,10 +5,11 @@ import { appWithTranslation } from 'next-i18next'
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
 import { Montserrat } from 'next/font/google'
 
-import { Analytics } from '@/components/shared/Analytics'
+import { Analytics } from '@/components/shared/scripts/Analytics'
 import { ThemeProvider } from 'styled-components'
 import { WagmiConfig } from 'wagmi'
-import { Hotjar } from '../components/shared/Hotjar'
+import { Hotjar } from '../components/shared/scripts/Hotjar'
+import { TawkTo } from '../components/shared/scripts/Tawkto'
 import { apolloClient } from '../config/apollo'
 import validEnv from '../config/env'
 import { chains, wagmiClient } from '../config/wagmi'
@@ -33,6 +34,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             >
               <Analytics />
               <Hotjar />
+              <TawkTo />
               <Component {...pageProps} />
             </RainbowKitProvider>
           </WagmiConfig>
