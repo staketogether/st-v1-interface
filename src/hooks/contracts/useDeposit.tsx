@@ -1,3 +1,4 @@
+import { notification } from 'antd'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect } from 'react'
 import { useWaitForTransaction } from 'wagmi'
@@ -6,6 +7,7 @@ import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
+import useTranslation from '../useTranslation'
 
 export default function useDeposit(
   depositAmount: string,
@@ -25,7 +27,7 @@ export default function useDeposit(
     overrides: {
       from: accountAddress,
       value: ethers.utils.parseEther(depositAmount),
-      gasLimit: BigNumber.from('200000')
+      gasLimit: BigNumber.from('300000')
     },
     enabled: !depositRule
   })
@@ -36,17 +38,35 @@ export default function useDeposit(
     tx.write?.()
   }
 
-  const { isLoading, isSuccess } = useWaitForTransaction({
+  const { isLoading, isSuccess, isError } = useWaitForTransaction({
     hash: tx.data?.hash
   })
+
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (isSuccess) {
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool]
       })
+      notification.success({
+        message: `${t('notifications.depositSuccess')}: ${depositAmount} ${t('lsd.symbol')}`,
+        placement: 'topRight'
+      })
     }
-  }, [accountAddress, poolAddress, isSuccess])
+  }, [accountAddress, poolAddress, t, depositAmount, isLoading, isSuccess])
+
+  useEffect(() => {
+    if (isError) {
+      apolloClient.refetchQueries({
+        include: [queryAccount, queryPool]
+      })
+      notification.error({
+        message: `${t('notifications.depositError')}: ${depositAmount} ${t('lsd.symbol')}`,
+        placement: 'topRight'
+      })
+    }
+  }, [accountAddress, poolAddress, t, depositAmount, isLoading, isError])
 
   return { deposit, isLoading, isSuccess }
 }
