@@ -11,6 +11,7 @@ import validEnv from '../config/env'
 import { chains, wagmiClient } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
+import { GoogleAnalytics } from "nextjs-google-analytics";
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -28,6 +29,7 @@ const App = ({ Component, pageProps }: AppProps) => {
               modalSize='compact'
               showRecentTransactions
             >
+              <GoogleAnalytics trackPageViews />
               <Component {...pageProps} />
             </RainbowKitProvider>
           </WagmiConfig>
