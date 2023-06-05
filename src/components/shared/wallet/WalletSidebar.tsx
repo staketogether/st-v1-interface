@@ -63,7 +63,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         </div>
       </InfoContainer>
 
-      <ContainerCommunitiesDelegated>
+      <ContainerPoolsDelegated>
         <div>
           <span>{t('delegations')}</span>
           <span>{accountSentDelegationsCount}</span>
@@ -76,7 +76,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
         {accountDelegations.map((delegation, index) => (
           <WalletSentDelegation key={index} delegation={delegation} />
         ))}
-      </ContainerCommunitiesDelegated>
+      </ContainerPoolsDelegated>
     </DrawerContainer>
   )
 }
@@ -90,7 +90,7 @@ const {
   Logout,
   Button,
   SettingIcon,
-  ContainerCommunitiesDelegated,
+  ContainerPoolsDelegated,
   Actions
 } = {
   DrawerContainer: styled(Drawer)`
@@ -155,7 +155,7 @@ const {
       border-top: 1px solid ${({ theme }) => theme.color.blue[100]};
     }
   `,
-  ContainerCommunitiesDelegated: styled.div`
+  ContainerPoolsDelegated: styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[12]};

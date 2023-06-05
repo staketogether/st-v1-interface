@@ -19,8 +19,8 @@
   "delegated": "Delegated",
   "delegatedAmount": "Delegated Amount",
   "wallet": "Connect Wallet",
-  "searchCommunity": "Search Pools",
-  "emptyCommunity": "Pool not found",
+  "searchPool": "Search Pools",
+  "emptyPool": "Pool not found",
   "copyClipboard": "Copy to clipboard",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
@@ -40,8 +40,8 @@
     "symbol": "ETH"
   },
   "lsd": {
-    "name": "Community Ether",
-    "symbol": "CETH"
+    "name": "ST Staked Ether",
+    "symbol": "SETH"
   },
   "form": {
     "deposit": "Deposit Ether",
@@ -50,5 +50,5 @@
     "connectWallet": "Connect Wallet",
     "selectPool": "Select Pool"
   },
-  "noDelegations": "No delegations found"
+  "noDelegations": "Stake to delegate rewards"
 }

@@ -3,16 +3,17 @@ import Link from 'next/link'
 import { useState } from 'react'
 import styled from 'styled-components'
 
-import useCommunities from '../../../hooks/subgraphs/useCommunities'
+import usePools from '../../../hooks/subgraphs/usePools'
 
 import useSearchDrawer from '@/hooks/useSearchDrawer'
 import { Drawer } from 'antd'
+import { useRouter } from 'next/router'
 import { AiOutlineArrowLeft, AiOutlineSearch } from 'react-icons/ai'
-import useSearchCommunities from '../../../hooks/subgraphs/useSearchCommunities'
+
+import useSearchPools from '../../../hooks/subgraphs/useSearchPools'
 import useTranslation from '../../../hooks/useTranslation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
-import { useRouter } from 'next/router'
 
 export default function LayoutSearchDrawer() {
   const { isOpen, setOpenSearchDrawer } = useSearchDrawer()
@@ -20,8 +21,8 @@ export default function LayoutSearchDrawer() {
   const { t } = useTranslation()
   const router = useRouter()
   const pathname = router.pathname
-  const { communities, communitiesIsLoading } = useCommunities()
-  const { searchCommunities } = useSearchCommunities()
+  const { pools, poolsIsLoading } = usePools()
+  const { searchPools } = useSearchPools()
 
   const options = {
     includeScore: true,
@@ -38,9 +39,9 @@ export default function LayoutSearchDrawer() {
     threshold: 0.3
   }
 
-  const fuse = new Fuse(searchCommunities, options)
+  const fuse = new Fuse(searchPools, options)
 
-  const result = fuse.search(text).map(community => community.item)
+  const result = fuse.search(text).map(pool => pool.item)
 
   const onChange = (text: string) => {
     setText(text)
@@ -62,7 +63,7 @@ export default function LayoutSearchDrawer() {
             <InputSearch
               type='text'
               value={text}
-              placeholder={t('searchCommunity')}
+              placeholder={t('searchPool')}
               onChange={e => onChange(e.target.value)}
               className={`${isOpen ? 'active' : ''}`}
             />
@@ -70,38 +71,32 @@ export default function LayoutSearchDrawer() {
         </Header>
         {isOpen && (
           <DropdownMenu isOpen>
-            {!communitiesIsLoading &&
+            {!poolsIsLoading &&
               text.length > 0 &&
               result.length > 0 &&
-              result.map(community => (
-                <Link
-                  href={`${pathname.replace('[address]', '')}/${community.address}`}
-                  key={community.address}
-                >
-                  <DropdownMenuItem key={community.address} onClick={() => setOpenSearchDrawer(false)}>
-                    <EnsAvatar address={community.address} />
-                    <EnsName address={community.address} />
+              result.map(pool => (
+                <Link href={`${pathname.replace('[address]', '')}/${pool.address}`} key={pool.address}>
+                  <DropdownMenuItem key={pool.address} onClick={() => setOpenSearchDrawer(false)}>
+                    <EnsAvatar address={pool.address} />
+                    <EnsName address={pool.address} />
                   </DropdownMenuItem>
                 </Link>
               ))}
 
-            {!communitiesIsLoading &&
+            {!poolsIsLoading &&
               text.length === 0 &&
-              communities.map(community => (
-                <Link
-                  href={`${pathname.replace('[address]', '')}/${community.address}`}
-                  key={community.address}
-                >
-                  <DropdownMenuItem key={community.address} onClick={() => setOpenSearchDrawer(false)}>
-                    <EnsAvatar address={community.address} />
-                    <EnsName address={community.address} />
+              pools.map(pool => (
+                <Link href={`${pathname.replace('[address]', '')}/${pool.address}`} key={pool.address}>
+                  <DropdownMenuItem key={pool.address} onClick={() => setOpenSearchDrawer(false)}>
+                    <EnsAvatar address={pool.address} />
+                    <EnsName address={pool.address} />
                   </DropdownMenuItem>
                 </Link>
               ))}
-            {!communitiesIsLoading && text.length > 0 && result.length === 0 && (
-              <NotFound>{t('emptyCommunity')}</NotFound>
+            {!poolsIsLoading && text.length > 0 && result.length === 0 && (
+              <NotFound>{t('emptyPool')}</NotFound>
             )}
-            {communitiesIsLoading && text.length > 0 && <Loading>{t('loading')}</Loading>}
+            {poolsIsLoading && text.length > 0 && <Loading>{t('loading')}</Loading>}
           </DropdownMenu>
         )}
       </Container>

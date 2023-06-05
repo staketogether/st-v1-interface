@@ -4,13 +4,13 @@ import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/queryAccount'
-import { queryCommunity } from '../../queries/queryCommunity'
+import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
 
 export default function useDeposit(
   depositAmount: string,
   accountAddress: `0x${string}`,
-  communityAddress: `0x${string}`
+  poolAddress: `0x${string}`
 ) {
   const { contracts } = chainConfig()
 
@@ -21,7 +21,7 @@ export default function useDeposit(
 
   const { config } = usePrepareStakeTogetherDepositPool({
     address: contracts.StakeTogether,
-    args: [communityAddress, referral],
+    args: [poolAddress, referral],
     overrides: {
       from: accountAddress,
       value: ethers.utils.parseEther(depositAmount),
@@ -43,10 +43,10 @@ export default function useDeposit(
   useEffect(() => {
     if (isSuccess) {
       apolloClient.refetchQueries({
-        include: [queryAccount, queryCommunity]
+        include: [queryAccount, queryPool]
       })
     }
-  }, [accountAddress, communityAddress, isSuccess])
+  }, [accountAddress, poolAddress, isSuccess])
 
   return { deposit, isLoading, isSuccess }
 }

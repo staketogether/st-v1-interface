@@ -4,13 +4,13 @@ import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/queryAccount'
-import { queryCommunity } from '../../queries/queryCommunity'
+import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherWithdrawPool, useStakeTogetherWithdrawPool } from '../../types/Contracts'
 
 export default function useWithdraw(
   withdrawAmount: string,
   accountAddress: `0x${string}`,
-  communityAddress: `0x${string}`
+  poolAddress: `0x${string}`
 ) {
   const { contracts } = chainConfig()
 
@@ -19,7 +19,7 @@ export default function useWithdraw(
 
   const { config } = usePrepareStakeTogetherWithdrawPool({
     address: contracts.StakeTogether,
-    args: [ethers.utils.parseEther(withdrawAmount), communityAddress],
+    args: [ethers.utils.parseEther(withdrawAmount), poolAddress],
     overrides: {
       from: accountAddress,
       gasLimit: BigNumber.from('200000')
@@ -40,10 +40,10 @@ export default function useWithdraw(
   useEffect(() => {
     if (isSuccess) {
       apolloClient.refetchQueries({
-        include: [queryAccount, queryCommunity]
+        include: [queryAccount, queryPool]
       })
     }
-  }, [accountAddress, communityAddress, isSuccess])
+  }, [accountAddress, poolAddress, isSuccess])
 
   return { withdraw, isLoading, isSuccess }
 }

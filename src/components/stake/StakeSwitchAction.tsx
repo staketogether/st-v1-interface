@@ -6,17 +6,17 @@ import useTranslation from '../../hooks/useTranslation'
 import StakeSelectPool from './StakeSelectPool'
 
 interface StakeSwitchActionsProps {
-  communityAddress?: `0x${string}`
+  poolAddress?: `0x${string}`
 }
 
-export default function StakeSwitchActions({ communityAddress }: StakeSwitchActionsProps) {
+export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsProps) {
   const router = useRouter()
   const { isActive } = useActiveRoute()
   const { t } = useTranslation()
 
   function handleSwitch(type: 'deposit' | 'withdraw') {
-    if (communityAddress) {
-      router.push(`/stake/${type}/${communityAddress}`)
+    if (poolAddress) {
+      router.push(`/stake/${type}/${poolAddress}`)
     } else {
       router.push(`/stake/${type}`)
     }
@@ -24,7 +24,7 @@ export default function StakeSwitchActions({ communityAddress }: StakeSwitchActi
 
   return (
     <Container>
-      <StakeSelectPool communityAddress={communityAddress} />
+      <StakeSelectPool poolAddress={poolAddress} />
       <Tabs>
         <StakeTab
           className={`${isActive('deposit') ? 'active' : ''}`}

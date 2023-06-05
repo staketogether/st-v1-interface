@@ -15,10 +15,10 @@ import StakeFormInput from './StakeInput'
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
   accountAddress?: `0x${string}`
-  communityAddress?: `0x${string}`
+  poolAddress?: `0x${string}`
 }
 
-export function StakeFormEmpty({ type, accountAddress, communityAddress }: StakeFormProps) {
+export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { fee } = globalConfig
   const { t } = useTranslation()
   const ethBalance = useEthBalanceOf(accountAddress)
@@ -39,7 +39,7 @@ export function StakeFormEmpty({ type, accountAddress, communityAddress }: Stake
   }
 
   const selectPool = () => {
-    if (!communityAddress) {
+    if (!poolAddress) {
       if (screenWidth >= breakpoints.lg) {
         setOpenSearchHeader(true)
         return

@@ -1,10 +1,10 @@
 import { BigNumber } from 'ethers'
 import { Account } from './Account'
-import { Community } from './Community'
+import { Pool } from './Pool'
 
 export type Delegation = {
   id: string
   delegate: Account
-  delegated: Community
+  delegated: Pool
   delegationShares: BigNumber
 }

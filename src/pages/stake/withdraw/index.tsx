@@ -11,7 +11,7 @@ export default function Withdraw() {
   return (
     <LayoutTemplate>
       <LayoutHead text={t('titles.stake')} />
-      <StakeControl community={undefined} type='withdraw' />
+      <StakeControl pool={undefined} type='withdraw' />
     </LayoutTemplate>
   )
 }

@@ -1,18 +1,18 @@
 import styled from 'styled-components'
 
-import { Community } from '../../types/Community'
+import { Pool } from '../../types/Pool'
 import ExploreCard from './ExploreCard'
 
 type ExploreListProps = {
-  communities: Community[]
+  pools: Pool[]
 }
 
-export default function ExploreList({ communities }: ExploreListProps) {
+export default function ExploreList({ pools }: ExploreListProps) {
   return (
     <Container>
-      {!communities && <div>No Communities</div>}
-      {communities.map(community => (
-        <ExploreCard community={community} key={community.address} />
+      {!pools && <div>No Pools</div>}
+      {pools.map(pool => (
+        <ExploreCard pool={pool} key={pool.address} />
       ))}
     </Container>
   )

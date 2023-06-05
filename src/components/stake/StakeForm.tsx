@@ -15,10 +15,10 @@ import StakeFormInput from './StakeInput'
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
   accountAddress: `0x${string}`
-  communityAddress: `0x${string}`
+  poolAddress: `0x${string}`
 }
 
-export function StakeForm({ type, accountAddress, communityAddress }: StakeFormProps) {
+export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { fee } = globalConfig
   const { t } = useTranslation()
   const { accountBalance } = useStAccount(accountAddress)
@@ -33,13 +33,13 @@ export function StakeForm({ type, accountAddress, communityAddress }: StakeFormP
     deposit,
     isSuccess: depositSuccess,
     isLoading: depositLoading
-  } = useDeposit(inputAmount, accountAddress, communityAddress)
+  } = useDeposit(inputAmount, accountAddress, poolAddress)
 
   const {
     withdraw,
     isLoading: withdrawLoading,
     isSuccess: withdrawSuccess
-  } = useWithdraw(inputAmount, accountAddress, communityAddress)
+  } = useWithdraw(inputAmount, accountAddress, poolAddress)
 
   const rewardsFee = truncateEther(fee.protocol.mul(100).toString())
 

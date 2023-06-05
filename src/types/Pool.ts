@@ -2,7 +2,7 @@ import { BigNumber } from 'ethers'
 import { Account } from './Account'
 import { Delegation } from './Delegation'
 
-export type Community = {
+export type Pool = {
   id: string
   account: Account
   active: boolean
@@ -11,9 +11,9 @@ export type Community = {
   delegatedBalance: BigNumber
   delegations: Delegation[]
   receivedDelegationsCount: number
-} & ENSCommunity
+} & ENSPool
 
-export type ENSCommunity = {
+export type ENSPool = {
   address: `0x${string}`
   name?: string
   avatar?: string

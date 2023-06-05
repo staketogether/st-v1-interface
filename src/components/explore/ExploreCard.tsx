@@ -4,29 +4,29 @@ import styled from 'styled-components'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
-import { Community } from '../../types/Community'
+import { Pool } from '../../types/Pool'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 
 type ExploreCardProps = {
-  community: Community
+  pool: Pool
 }
 
-export default function ExploreCard({ community }: ExploreCardProps) {
+export default function ExploreCard({ pool }: ExploreCardProps) {
   const router = useRouter()
 
   const { t } = useTranslation()
 
-  const rewardsShares = usePooledEthByShares(community.rewardsShares)
-  const delegatedShares = usePooledEthByShares(community.delegatedShares)
+  const rewardsShares = usePooledEthByShares(pool.rewardsShares)
+  const delegatedShares = usePooledEthByShares(pool.delegatedShares)
 
   return (
-    <Card onClick={() => router.push(`/stake/deposit/${community.address}`)}>
+    <Card onClick={() => router.push(`/stake/deposit/${pool.address}`)}>
       <CardHeader>
-        <EnsAvatar large address={community.address} />
+        <EnsAvatar large address={pool.address} />
         <Verified>
           <AiOutlineCheck fontSize={14} />
-          <EnsName large address={community.address} />
+          <EnsName large address={pool.address} />
         </Verified>
       </CardHeader>
       <CardInfo>
@@ -47,7 +47,7 @@ export default function ExploreCard({ community }: ExploreCardProps) {
 
         <div>
           <div>{t('members')}</div>
-          <div>{community.receivedDelegationsCount}</div>
+          <div>{pool.receivedDelegationsCount}</div>
         </div>
       </CardInfo>
     </Card>
