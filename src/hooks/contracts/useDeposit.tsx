@@ -1,6 +1,6 @@
 import { notification } from 'antd'
 import { BigNumber, ethers } from 'ethers'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
@@ -15,6 +15,7 @@ export default function useDeposit(
   poolAddress: `0x${string}`
 ) {
   const { contracts } = chainConfig()
+  const [notify, setNotify] = useState(false)
 
   const depositRule = ethers.BigNumber.isBigNumber(depositAmount) && BigNumber.from(depositAmount).gt(0)
 
@@ -36,6 +37,7 @@ export default function useDeposit(
 
   const deposit = () => {
     tx.write?.()
+    setNotify(true)
   }
 
   const { isLoading, isSuccess, isError } = useWaitForTransaction({
@@ -49,24 +51,30 @@ export default function useDeposit(
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool]
       })
-      notification.success({
-        message: `${t('notifications.depositSuccess')}: ${depositAmount} ${t('lsd.symbol')}`,
-        placement: 'topRight'
-      })
+      if (notify) {
+        notification.success({
+          message: `${t('notifications.depositSuccess')}: ${depositAmount} ${t('lsd.symbol')}`,
+          placement: 'topRight'
+        })
+        setNotify(false)
+      }
     }
-  }, [accountAddress, poolAddress, t, depositAmount, isLoading, isSuccess])
+  }, [accountAddress, depositAmount, isSuccess, notify, poolAddress, t])
 
   useEffect(() => {
     if (isError) {
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool]
       })
-      notification.error({
-        message: `${t('notifications.depositError')}: ${depositAmount} ${t('lsd.symbol')}`,
-        placement: 'topRight'
-      })
+      if (notify) {
+        notification.error({
+          message: `${t('notifications.depositError')}: ${depositAmount} ${t('lsd.symbol')}`,
+          placement: 'topRight'
+        })
+        setNotify(false)
+      }
     }
-  }, [accountAddress, poolAddress, t, depositAmount, isLoading, isError])
+  }, [accountAddress, depositAmount, isError, notify, poolAddress, t])
 
   return { deposit, isLoading, isSuccess }
 }

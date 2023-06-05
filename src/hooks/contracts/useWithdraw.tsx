@@ -1,6 +1,6 @@
 import { notification } from 'antd'
 import { BigNumber, ethers } from 'ethers'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
@@ -15,6 +15,7 @@ export default function useWithdraw(
   poolAddress: `0x${string}`
 ) {
   const { contracts } = chainConfig()
+  const [notify, setNotify] = useState(false)
 
   const withdrawRule =
     ethers.BigNumber.isBigNumber(withdrawAmount) && BigNumber.from(withdrawAmount).gt(0)
@@ -33,6 +34,7 @@ export default function useWithdraw(
 
   const withdraw = () => {
     tx.write?.()
+    setNotify(true)
   }
 
   const { isLoading, isSuccess, isError } = useWaitForTransaction({
@@ -46,21 +48,27 @@ export default function useWithdraw(
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool]
       })
-      notification.success({
-        message: `${t('notifications.withdrawSuccess')} ${withdrawAmount}} ${t('eth.symbol')}`,
-        placement: 'topRight'
-      })
+      if (notify) {
+        notification.success({
+          message: `${t('notifications.withdrawSuccess')} ${withdrawAmount}} ${t('eth.symbol')}`,
+          placement: 'topRight'
+        })
+        setNotify(false)
+      }
     }
-  }, [accountAddress, poolAddress, t, withdrawAmount, isLoading, isSuccess])
+  }, [accountAddress, isSuccess, notify, t, withdrawAmount])
 
   useEffect(() => {
     if (isError) {
-      notification.success({
-        message: `${t('notifications.withdrawError')} ${withdrawAmount}} ${t('eth.symbol')}`,
-        placement: 'topRight'
-      })
+      if (notify) {
+        notification.error({
+          message: `${t('notifications.withdrawError')} ${withdrawAmount} ${t('eth.symbol')}`,
+          placement: 'topRight'
+        })
+        setNotify(false)
+      }
     }
-  }, [accountAddress, poolAddress, t, withdrawAmount, isLoading, isError])
+  }, [accountAddress, isError, notify, poolAddress, t, withdrawAmount])
 
   return { withdraw, isLoading, isSuccess }
 }
