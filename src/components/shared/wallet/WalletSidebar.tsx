@@ -53,7 +53,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
       </HeaderContainer>
       <InfoContainer>
         <div>
-          <span>{`${t('ethereum')} ${t('balance')}`}</span>
+          <span>{`${t('eth.name')} ${t('balance')}`}</span>
           <span>
             {truncateEther(ethBalance.toString(), 6)} <span>{t('eth.symbol')}</span>
           </span>

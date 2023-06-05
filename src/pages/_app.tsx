@@ -8,6 +8,7 @@ import { Montserrat } from 'next/font/google'
 import { Analytics } from '@/components/shared/Analytics'
 import { ThemeProvider } from 'styled-components'
 import { WagmiConfig } from 'wagmi'
+import { Hotjar } from '../components/shared/Hotjar'
 import { apolloClient } from '../config/apollo'
 import validEnv from '../config/env'
 import { chains, wagmiClient } from '../config/wagmi'
@@ -31,6 +32,7 @@ const App = ({ Component, pageProps }: AppProps) => {
               showRecentTransactions
             >
               <Analytics />
+              <Hotjar />
               <Component {...pageProps} />
             </RainbowKitProvider>
           </WagmiConfig>
