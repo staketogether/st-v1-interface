@@ -50,5 +50,11 @@
     "connectWallet": "Connect Wallet",
     "selectPool": "Select Pool"
   },
-  "noDelegations": "Stake to delegate rewards"
+  "noDelegations": "Stake to delegate rewards",
+  "notifications": {
+    "depositSuccess": "Successful Received",
+    "depositError": "Fail to Deposit",
+    "withdrawSuccess": "Successful Received",
+    "withdrawError": "Fail to Withdraw"
+  }
 }
