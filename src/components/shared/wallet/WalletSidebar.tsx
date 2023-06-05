@@ -2,6 +2,7 @@ import { Drawer } from 'antd'
 import { AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
+import useEthBalanceOf from '../../../hooks/contracts/useEthBalanceOf'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
@@ -17,6 +18,8 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { disconnect } = useDisconnect()
   const { t } = useTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
+
+  const ethBalance = useEthBalanceOf(address)
 
   const { accountSentDelegationsCount, accountRewardsBalance, accountDelegations, accountBalance } =
     useStAccount(address)
@@ -50,7 +53,13 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
       </HeaderContainer>
       <InfoContainer>
         <div>
-          <span>{t('balance')}</span>
+          <span>{`${t('ethereum')} ${t('balance')}`}</span>
+          <span>
+            {truncateEther(ethBalance.toString(), 6)} <span>{t('eth.symbol')}</span>
+          </span>
+        </div>
+        <div>
+          <span>{`${t('staked')} ${t('balance')}`}</span>
           <span>
             {truncateEther(accountBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
           </span>
