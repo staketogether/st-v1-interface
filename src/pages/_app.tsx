@@ -2,9 +2,10 @@ import { ApolloProvider } from '@apollo/client'
 import { RainbowKitProvider, lightTheme as lightThemeRainbow } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { appWithTranslation } from 'next-i18next'
-import type { AppProps, NextWebVitalsMetric } from "next/app";
+import type { AppProps, NextWebVitalsMetric } from 'next/app'
 import { Montserrat } from 'next/font/google'
 
+import { Analytics } from '@/components/shared/Analytics'
 import { ThemeProvider } from 'styled-components'
 import { WagmiConfig } from 'wagmi'
 import { apolloClient } from '../config/apollo'
@@ -12,7 +13,6 @@ import validEnv from '../config/env'
 import { chains, wagmiClient } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
-import { Analytics } from "@/components/shared/Analytics";
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -46,13 +46,12 @@ export function reportWebVitals(metric: NextWebVitalsMetric) {
   if (window.gtag === undefined) {
     return
   }
-  
+
   window.gtag('event', name, {
-    event_category:
-      label === 'web-vital' ? 'Web Vitals' : 'Next.js custom metric',
-    value: Math.round(name === 'CLS' ? value * 1000 : value), // values must be integers
-    event_label: id, // id unique to current page load
-    non_interaction: true, // avoids affecting bounce rate.
+    event_category: label === 'web-vital' ? 'Web Vitals' : 'Next.js Custom Metric',
+    value: Math.round(name === 'CLS' ? value * 1000 : value),
+    event_label: id,
+    non_interaction: true
   })
 }
 
