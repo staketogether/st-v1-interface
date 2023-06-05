@@ -4,17 +4,17 @@ import { BigNumber } from 'ethers'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
-import { Community } from '../../types/Community'
+import { Pool } from '../../types/Pool'
 import StakeReceivedDelegation from './StakeReceivedDelegation'
 interface StakeStatsProps {
-  community?: Community
+  pool?: Pool
 }
 
-export default function StakeStats({ community }: StakeStatsProps) {
+export default function StakeStats({ pool }: StakeStatsProps) {
   const { t } = useTranslation()
 
-  const rewardsShares = usePooledEthByShares(community ? community.rewardsShares : BigNumber.from(0))
-  const delegatedShares = usePooledEthByShares(community ? community.delegatedShares : BigNumber.from(0))
+  const rewardsShares = usePooledEthByShares(pool ? pool.rewardsShares : BigNumber.from(0))
+  const delegatedShares = usePooledEthByShares(pool ? pool.delegatedShares : BigNumber.from(0))
 
   return (
     <Container>
@@ -37,13 +37,13 @@ export default function StakeStats({ community }: StakeStatsProps) {
         </Stats>
       </StatsContainer>
 
-      {community && community.delegations.length > 0 && (
+      {pool && pool.delegations.length > 0 && (
         <DelegationsContainer>
           <StatsWrapper>
             <span>{t('members')}</span>
-            <span>{community.receivedDelegationsCount}</span>
+            <span>{pool.receivedDelegationsCount}</span>
           </StatsWrapper>
-          {community.delegations.map(delegation => (
+          {pool.delegations.map(delegation => (
             <StakeReceivedDelegation key={delegation.delegate.address} delegation={delegation} />
           ))}
         </DelegationsContainer>

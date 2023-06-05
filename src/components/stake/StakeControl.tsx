@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import useTranslation from '../../hooks/useTranslation'
-import { Community } from '../../types/Community'
+import { Pool } from '../../types/Pool'
 import LayoutHead from '../shared/layout/LayoutHead'
 import { StakeForm } from './StakeForm'
 import { StakeFormEmpty } from './StakeFormEmpty'
@@ -9,30 +9,30 @@ import StakeStats from './StakeStats'
 import StakeSwitchActions from './StakeSwitchAction'
 
 interface StakeControlProps {
-  community?: Community
+  pool?: Pool
   type: 'deposit' | 'withdraw'
 }
 
-export default function StakeControl({ community, type }: StakeControlProps) {
+export default function StakeControl({ pool, type }: StakeControlProps) {
   const { account } = useConnectedAccount()
-  const hasAccountAndCommunity = account && community?.address
+  const hasAccountAndPool = account && pool?.address
   const { t } = useTranslation()
 
   return (
     <Container>
       <Form>
-        <StakeSwitchActions communityAddress={community?.address} />
-        {hasAccountAndCommunity && (
-          <StakeForm type={type} accountAddress={account} communityAddress={community.address} />
+        <StakeSwitchActions poolAddress={pool?.address} />
+        {hasAccountAndPool && (
+          <StakeForm type={type} accountAddress={account} poolAddress={pool.address} />
         )}
-        {!hasAccountAndCommunity && (
-          <StakeFormEmpty type={type} accountAddress={account} communityAddress={community?.address} />
+        {!hasAccountAndPool && (
+          <StakeFormEmpty type={type} accountAddress={account} poolAddress={pool?.address} />
         )}
       </Form>
       <Title>
         <LayoutHead text={t('titles.poolStats')} />
       </Title>
-      <StakeStats community={community} />
+      <StakeStats pool={pool} />
     </Container>
   )
 }

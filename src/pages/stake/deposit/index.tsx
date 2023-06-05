@@ -11,7 +11,7 @@ export default function Deposit() {
   return (
     <LayoutTemplate>
       <LayoutHead text={t('titles.stake')} />
-      <StakeControl community={undefined} type='deposit' />
+      <StakeControl pool={undefined} type='deposit' />
     </LayoutTemplate>
   )
 }

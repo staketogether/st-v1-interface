@@ -3,22 +3,22 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LayoutHead from '../../../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
 import StakeControl from '../../../components/stake/StakeControl'
-import useCommunity from '../../../hooks/subgraphs/useCommunity'
+import usePool from '../../../hooks/subgraphs/usePool'
 import useTranslation from '../../../hooks/useTranslation'
 
-type UnstakeCommunityProps = {
-  communityAddress: string
+type UnstakePoolProps = {
+  poolAddress: string
 }
 
-export default function WithdrawCommunity({ communityAddress }: UnstakeCommunityProps) {
+export default function WithdrawPool({ poolAddress }: UnstakePoolProps) {
   const { t } = useTranslation()
 
-  const { community } = useCommunity(communityAddress)
+  const { pool } = usePool(poolAddress)
 
   return (
     <LayoutTemplate>
       <LayoutHead text={t('titles.stake')} />
-      <StakeControl community={community} type='withdraw' />
+      <StakeControl pool={pool} type='withdraw' />
     </LayoutTemplate>
   )
 }
@@ -26,15 +26,15 @@ export default function WithdrawCommunity({ communityAddress }: UnstakeCommunity
 export const getServerSideProps: GetServerSideProps = async context => {
   const params = context?.params as { address: `0x${string}` } | undefined
 
-  // const { data } = await apolloClient.query<{ community: Community } | undefined>({
-  //   query: queryCommunity,
+  // const { data } = await apolloClient.query<{ pool: Pool } | undefined>({
+  //   query: queryPool,
   //   variables: { id: params?.address || '' }
   // })
 
   return {
     props: {
       ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
-      communityAddress: params?.address || ''
+      poolAddress: params?.address || ''
     }
   }
 }

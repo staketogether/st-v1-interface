@@ -6,36 +6,36 @@ import LayoutHead from '../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../components/shared/layout/LayoutTemplate'
 import { apolloClient } from '../config/apollo'
 import useTranslation from '../hooks/useTranslation'
-import { queryCommunities } from '../queries/queryCommunities'
-import { Community } from '../types/Community'
+import { queryPools } from '../queries/queryPools'
+import { Pool } from '../types/Pool'
 
 type ExploreProps = {
-  communities: Community[]
+  pools: Pool[]
 }
 
-export default function Explore({ communities }: ExploreProps) {
+export default function Explore({ pools }: ExploreProps) {
   const { t } = useTranslation()
 
   return (
     <LayoutTemplate>
       <LayoutHead text={t('titles.explore')} />
-      <ExploreList communities={communities} />
+      <ExploreList pools={pools} />
     </LayoutTemplate>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const { data } = await apolloClient.query<{ communities: Community[] }>({
-    query: queryCommunities,
+  const { data } = await apolloClient.query<{ pools: Pool[] }>({
+    query: queryPools,
     fetchPolicy: 'network-only'
   })
 
-  const communities: Community[] = data.communities
+  const pools: Pool[] = data.pools
 
   return {
     props: {
       ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
-      communities
+      pools
     }
   }
 }

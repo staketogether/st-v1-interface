@@ -10,21 +10,21 @@ import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 
 interface StakeSelectPoolProps {
-  communityAddress?: `0x${string}`
+  poolAddress?: `0x${string}`
 }
 
-export default function StakeSelectPool({ communityAddress }: StakeSelectPoolProps) {
+export default function StakeSelectPool({ poolAddress }: StakeSelectPoolProps) {
   const { t } = useTranslation()
   const { screenWidth, breakpoints } = useResizeView()
   const [select, setSelect] = useState(
-    <SelectCommunity>
+    <SelectPool>
       <AiOutlineFire fontSize={14} />
       {t('selectPool')}
-    </SelectCommunity>
+    </SelectPool>
   )
   const { setOpenSearchDrawer } = useSearchDrawer()
   const { setOpenSearchHeader } = useSearchHeader()
-  const handleSearchCommunity = () => {
+  const handleSearchPool = () => {
     if (screenWidth >= breakpoints.lg) {
       setOpenSearchHeader(true)
       return
@@ -33,23 +33,23 @@ export default function StakeSelectPool({ communityAddress }: StakeSelectPoolPro
   }
 
   useEffect(() => {
-    if (communityAddress) {
+    if (poolAddress) {
       setSelect(
-        <CommunitySelected>
-          <EnsAvatar large address={communityAddress} />
+        <PoolSelected>
+          <EnsAvatar large address={poolAddress} />
           <Verified>
-            <EnsName large address={communityAddress} />
+            <EnsName large address={poolAddress} />
             <AiOutlineCheck fontSize={14} />
           </Verified>
-        </CommunitySelected>
+        </PoolSelected>
       )
     }
-  }, [communityAddress])
+  }, [poolAddress])
 
-  return <Container onClick={handleSearchCommunity}>{select}</Container>
+  return <Container onClick={handleSearchPool}>{select}</Container>
 }
 
-const { Container, SelectCommunity, CommunitySelected, Verified } = {
+const { Container, SelectPool, PoolSelected, Verified } = {
   Container: styled.button`
     display: grid;
     grid-template-columns: 1fr;
@@ -80,7 +80,7 @@ const { Container, SelectCommunity, CommunitySelected, Verified } = {
       align-items: center;
     }
   `,
-  SelectCommunity: styled.div`
+  SelectPool: styled.div`
     cursor: pointer;
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
@@ -100,7 +100,7 @@ const { Container, SelectCommunity, CommunitySelected, Verified } = {
       background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
     }
   `,
-  CommunitySelected: styled.div`
+  PoolSelected: styled.div`
     display: grid;
     grid-template-columns: auto auto;
     align-items: center;

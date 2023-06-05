@@ -1,10 +1,10 @@
 import chainConfig from '../config/chain'
-import { ENSCommunity } from '../types/Community'
+import { ENSPool } from '../types/Pool'
 
-export default async function getSearchCommunities(addresses: `0x${string}`[]): Promise<ENSCommunity[]> {
+export default async function getSearchPools(addresses: `0x${string}`[]): Promise<ENSPool[]> {
   const { provider } = chainConfig()
 
-  const getCommunityEns = async (address: `0x${string}`) => {
+  const getPoolEns = async (address: `0x${string}`) => {
     const empty = {
       address,
       name: undefined,
@@ -29,9 +29,9 @@ export default async function getSearchCommunities(addresses: `0x${string}`[]): 
     }
   }
 
-  const communitiesPromises = addresses.map(async address => getCommunityEns(address))
+  const poolsPromises = addresses.map(async address => getPoolEns(address))
 
-  const communities = await Promise.all(communitiesPromises)
+  const pools = await Promise.all(poolsPromises)
 
-  return communities
+  return pools
 }

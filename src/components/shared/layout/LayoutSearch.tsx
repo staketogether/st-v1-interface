@@ -1,16 +1,17 @@
+import useSearchHeader from '@/hooks/useSearchHeader'
 import Fuse from 'fuse.js'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
-import styled from 'styled-components'
-import useCommunities from '../../../hooks/subgraphs/useCommunities'
 import { AiOutlineClose, AiOutlineSearch, AiOutlineWarning } from 'react-icons/ai'
-import useSearchCommunities from '../../../hooks/subgraphs/useSearchCommunities'
+import styled from 'styled-components'
+import usePools from '../../../hooks/subgraphs/usePools'
+
+import useSearchPools from '../../../hooks/subgraphs/useSearchPools'
 import useTranslation from '../../../hooks/useTranslation'
 import Overlay from '../Overlay'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
-import useSearchHeader from '@/hooks/useSearchHeader'
-import { useRouter } from 'next/router'
 
 export default function LayoutSearch() {
   const { isOpen, setOpenSearchHeader } = useSearchHeader()
@@ -18,8 +19,8 @@ export default function LayoutSearch() {
   const { t } = useTranslation()
   const router = useRouter()
   const pathname = router.pathname
-  const { communities, communitiesIsLoading } = useCommunities()
-  const { searchCommunities } = useSearchCommunities()
+  const { pools, poolsIsLoading } = usePools()
+  const { searchPools } = useSearchPools()
 
   const options = {
     includeScore: true,
@@ -36,9 +37,9 @@ export default function LayoutSearch() {
     threshold: 0.3
   }
 
-  const fuse = new Fuse(searchCommunities, options)
+  const fuse = new Fuse(searchPools, options)
 
-  const result = fuse.search(text).map(community => community.item)
+  const result = fuse.search(text).map(pool => pool.item)
 
   const handleButtonClick = () => {
     setOpenSearchHeader(!isOpen)
@@ -68,7 +69,7 @@ export default function LayoutSearch() {
           <InputSearch
             type='text'
             value={text}
-            placeholder={t('searchCommunity')}
+            placeholder={t('searchPool')}
             onChange={e => onChange(e.target.value)}
             onClick={handleButtonClick}
           />
@@ -80,41 +81,35 @@ export default function LayoutSearch() {
         </InputSearchArea>
         {isOpen && (
           <DropdownMenu isOpen>
-            {!communitiesIsLoading &&
+            {!poolsIsLoading &&
               text.length > 0 &&
               result.length > 0 &&
-              result.map(community => (
-                <Link
-                  href={`${pathname.replace('[address]', '')}/${community.address}`}
-                  key={community.address}
-                >
-                  <DropdownMenuItem key={community.address} onClick={() => setOpenSearchHeader(false)}>
-                    <EnsAvatar address={community.address} />
-                    <EnsName address={community.address} />
+              result.map(pool => (
+                <Link href={`${pathname.replace('[address]', '')}/${pool.address}`} key={pool.address}>
+                  <DropdownMenuItem key={pool.address} onClick={() => setOpenSearchHeader(false)}>
+                    <EnsAvatar address={pool.address} />
+                    <EnsName address={pool.address} />
                   </DropdownMenuItem>
                 </Link>
               ))}
 
-            {!communitiesIsLoading &&
+            {!poolsIsLoading &&
               text.length === 0 &&
-              communities.map(community => (
-                <Link
-                  href={`${pathname.replace('[address]', '')}/${community.address}`}
-                  key={community.address}
-                >
-                  <DropdownMenuItem key={community.address} onClick={() => setOpenSearchHeader(false)}>
-                    <EnsAvatar address={community.address} />
-                    <EnsName address={community.address} />
+              pools.map(pool => (
+                <Link href={`${pathname.replace('[address]', '')}/${pool.address}`} key={pool.address}>
+                  <DropdownMenuItem key={pool.address} onClick={() => setOpenSearchHeader(false)}>
+                    <EnsAvatar address={pool.address} />
+                    <EnsName address={pool.address} />
                   </DropdownMenuItem>
                 </Link>
               ))}
-            {!communitiesIsLoading && text.length > 0 && result.length === 0 && (
+            {!poolsIsLoading && text.length > 0 && result.length === 0 && (
               <NotFound>
                 <AiOutlineWarning fontSize={14} />
-                <div>{t('emptyCommunity')}</div>
+                <div>{t('emptyPool')}</div>
               </NotFound>
             )}
-            {communitiesIsLoading && text.length > 0 && <Loading>{t('loading')}</Loading>}
+            {poolsIsLoading && text.length > 0 && <Loading>{t('loading')}</Loading>}
           </DropdownMenu>
         )}
       </Container>
