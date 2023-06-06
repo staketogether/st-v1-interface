@@ -28,7 +28,6 @@ export default function Deposit({ poolAddress, name, avatar }: DepositPoolProps)
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  context.res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=600')
   const params = context?.params as { address: `0x${string}` } | undefined
 
   // if (params?.address) {

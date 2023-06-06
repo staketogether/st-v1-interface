@@ -27,8 +27,6 @@ export default function Explore({ pools }: ExploreProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  context.res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=600')
-
   const { data } = await apolloClient.query<{ pools: Pool[] }>({
     query: queryPools,
     fetchPolicy: 'network-only'
