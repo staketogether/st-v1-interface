@@ -13,18 +13,17 @@
   "selectPool": "Select Pool",
   "max": "Max",
   "action": "Staking...",
-  "youReceive": "You receive",
+  "youReceive": "You Receive",
   "delegation": "Delegation",
   "fee": "Fee",
   "delegated": "Delegated",
   "delegatedAmount": "Delegated Amount",
   "wallet": "Connect Wallet",
   "searchPool": "Search Pools",
-  "emptyPool": "Pool not found",
-  "copyClipboard": "Copy to clipboard",
+  "emptyPool": "Pool Not Found",
+  "copyClipboard": "Copy to Clipboard",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
-  "footer": "All rights reserved.",
   "usd": "USD",
   "loading": "Loading...",
   "apr": "APR",
@@ -33,7 +32,7 @@
   "titles": {
     "explore": "Explore Pools",
     "stake": "Stake Ether",
-    "poolStats": "Pool Stats"
+    "poolStats": "Pool Statistics"
   },
   "eth": {
     "name": "Ether",
@@ -46,19 +45,27 @@
   "form": {
     "deposit": "Deposit Ether",
     "withdraw": "Withdraw Ether",
-    "inputAmount": "Input Amount",
+    "inputAmount": "Enter Amount",
     "connectWallet": "Connect Wallet",
     "selectPool": "Select Pool"
   },
-  "noDelegations": "Stake to delegate rewards",
+  "noDelegations": "No Delegations",
   "notifications": {
-    "depositSuccess": "Successful Received",
-    "depositError": "Fail to Deposit",
-    "withdrawSuccess": "Successful Received",
-    "withdrawError": "Fail to Withdraw"
+    "depositSuccess": "Deposit Successful",
+    "depositError": "Failed to Deposit",
+    "withdrawSuccess": "Withdrawal Successful",
+    "withdrawError": "Failed to Withdraw"
   },
-   "settings": {
+  "settings": {
     "title": "Settings",
     "locale": "Language"
+  },
+  "footer": {
+    "powered": "Powered by",
+    "dvt": "DVT on SSV.Network"
+  },
+  "sidebar": {
+    "etherBalance": "Ether Balance",
+    "stakedBalance": "Staked Balance"
   }
 }

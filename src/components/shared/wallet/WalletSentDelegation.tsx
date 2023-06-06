@@ -1,3 +1,4 @@
+import styled from 'styled-components'
 import usePooledEthByShares from '../../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../../hooks/useTranslation'
 import { truncateEther } from '../../../services/truncateEther'
@@ -15,7 +16,7 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
   const delegationAmount = usePooledEthByShares(delegation.delegationShares)
 
   return (
-    <div>
+    <Container>
       <div>
         <div>
           <EnsAvatar address={delegation.delegated.address} />
@@ -26,6 +27,36 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
         {`${truncateEther(delegationAmount.toString(), 6)}`}
         <span>{t('lsd.symbol')}</span>
       </span>
-    </div>
+    </Container>
   )
+}
+
+const { Container } = {
+  Container: styled.div`
+    display: flex;
+    grid-template-columns: 1fr auto;
+
+    > div {
+      display: flex;
+      > div {
+        display: flex;
+        gap: ${({ theme }) => theme.size[8]};
+      }
+
+      > span {
+        color: ${({ theme }) => theme.color.black};
+      }
+    }
+
+    > span {
+      display: flex;
+      gap: ${({ theme }) => theme.size[4]};
+      font-size: ${({ theme }) => theme.font.size[14]};
+      color: ${({ theme }) => theme.color.primary};
+
+      > span {
+        color: ${({ theme }) => theme.color.secondary};
+      }
+    }
+  `
 }

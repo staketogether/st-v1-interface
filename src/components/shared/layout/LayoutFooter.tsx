@@ -1,14 +1,17 @@
 import Link from 'next/link'
 import styled from 'styled-components'
+import useTranslation from '../../../hooks/useTranslation'
 
 export default function LayoutFooter() {
+  const { t } = useTranslation()
+
   const date = new Date()
   return (
     <Container>
       <span>
-        © {date.getFullYear()} Stake Together | Powered by
+        © {date.getFullYear()} Stake Together | {t('footer.powered')}
         <Link href='https://ssv.network/tech/#ssv-dvt-at-hight-level' target='_blank'>
-          {`DVT on SSV.Network`}
+          {t('footer.dvt')}
         </Link>
       </span>
     </Container>

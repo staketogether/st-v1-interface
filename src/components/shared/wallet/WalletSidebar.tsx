@@ -1,4 +1,5 @@
 import { Drawer } from 'antd'
+import { useState } from 'react'
 import { AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
@@ -9,7 +10,6 @@ import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { truncateEther } from '../../../services/truncateEther'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletSentDelegation from './WalletSentDelegation'
-import { useState } from 'react'
 import WalletSlideBarSettings from './WalletSlideBarSettings'
 
 type WalletSidebarProps = {
@@ -60,13 +60,13 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           </HeaderContainer>
           <InfoContainer>
             <div>
-              <span>{`${t('eth.name')} ${t('balance')}`}</span>
+              <span>{`${t('sidebar.etherBalance')}`}</span>
               <span>
                 {truncateEther(ethBalance.toString(), 6)} <span>{t('eth.symbol')}</span>
               </span>
             </div>
             <div>
-              <span>{`${t('staked')} ${t('balance')}`}</span>
+              <span>{`${t('sidebar.stakedBalance')}`}</span>
               <span>
                 {truncateEther(accountBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
               </span>
@@ -178,37 +178,14 @@ const {
     flex-direction: column;
     gap: ${({ theme }) => theme.size[12]};
 
-    div:first-of-type {
+    > div:first-of-type {
       margin-bottom: ${({ theme }) => theme.size[8]};
     }
 
-    div {
-      width: 100%;
+    > div {
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      div {
-        display: grid;
-        grid-template-columns: 24px auto;
-        justify-content: flex-start;
-        gap: ${({ theme }) => theme.size[8]};
-
-        span {
-          color: ${({ theme }) => theme.color.black};
-        }
-      }
-
-      span {
-        display: flex;
-        gap: ${({ theme }) => theme.size[4]};
-        font-size: ${({ theme }) => theme.font.size[14]};
-        color: ${({ theme }) => theme.color.primary};
-
-        > span {
-          color: ${({ theme }) => theme.color.secondary};
-        }
-      }
     }
   `,
   ClosedSidebarButton: styled.button`

@@ -5,26 +5,25 @@
   "rewards": "Recompensas",
   "delegates": "Delegados",
   "processing": "Processando...",
-  "staked": "Stake realizado",
-  "unstake": "Retirar stake",
+  "staked": "Apostado",
+  "unstake": "Desfazer Stake",
   "members": "Membros",
   "delegations": "Delegações",
   "balance": "Saldo",
   "selectPool": "Selecionar Pool",
-  "max": "Máximo",
-  "action": "Realizando staking...",
-  "youReceive": "Você recebe",
+  "max": "Max",
+  "action": "Depositando...",
+  "youReceive": "Você Recebe",
   "delegation": "Delegação",
   "fee": "Taxa",
   "delegated": "Delegado",
   "delegatedAmount": "Quantidade Delegada",
   "wallet": "Conectar Carteira",
-  "searchPool": "Buscar Pools",
+  "searchPool": "Pesquisar Pools",
   "emptyPool": "Pool não encontrado",
-  "copyClipboard": "Copiar para área de transferência",
+  "copyClipboard": "Copiar para Área de Transferência",
   "deposit": "Depositar",
   "withdraw": "Sacar",
-  "footer": "Todos os direitos reservados.",
   "usd": "USD",
   "loading": "Carregando...",
   "apr": "APR",
@@ -40,7 +39,7 @@
     "symbol": "ETH"
   },
   "lsd": {
-    "name": "Ether com Stake (ST)",
+    "name": "ST Staked Ether",
     "symbol": "SETH"
   },
   "form": {
@@ -50,15 +49,23 @@
     "connectWallet": "Conectar Carteira",
     "selectPool": "Selecionar Pool"
   },
-  "noDelegations": "Faça stake para delegar recompensas",
+  "noDelegations": "Sem Delegações",
   "notifications": {
-    "depositSuccess": "Recebido com sucesso",
-    "depositError": "Falha ao depositar",
-    "withdrawSuccess": "Recebido com sucesso",
-    "withdrawError": "Falha ao sacar"
+    "depositSuccess": "Depósito Bem-Sucedido",
+    "depositError": "Falha ao Depositar",
+    "withdrawSuccess": "Saque Bem-Sucedido",
+    "withdrawError": "Falha ao Sacar"
   },
   "settings": {
-    "title": "Ajustar",
-    "locale": "Linguagem"
+    "title": "Configurações",
+    "locale": "Idioma"
+  },
+  "footer": {
+    "powered": "Potencializado por",
+    "dvt": "DVT na SSV.Network"
+  },
+  "sidebar": {
+    "etherBalance": "Saldo de Ether",
+    "stakedBalance": "Saldo em Stake"
   }
 }
