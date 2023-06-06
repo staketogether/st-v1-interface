@@ -1,16 +1,13 @@
 import { Analytics } from '@/components/shared/scripts/Analytics'
 import chainConfig from '@/config/chain'
-import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import { ApolloProvider } from '@apollo/client'
 import { RainbowKitProvider, lightTheme as lightThemeRainbow } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
-import mixpanel from 'mixpanel-browser'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
 import { Montserrat } from 'next/font/google'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 import { ThemeProvider } from 'styled-components'
 import { WagmiConfig } from 'wagmi'
 import { Hotjar } from '../components/shared/scripts/Hotjar'
@@ -25,34 +22,34 @@ const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
   const router = useRouter()
-  const { init: initMixpanel, registerPageView, isInitialized: hasMixpanelInit } = useMixpanelAnalytics()
+  // const { init: initMixpanel, registerPageView, isInitialized: hasMixpanelInit } = useMixpanelAnalytics()
   const { account } = useConnectedAccount()
   const chain = chainConfig()
 
-  useEffect(() => {
-    if (hasMixpanelInit) {
-      return
-    }
+  // useEffect(() => {
+  //   if (hasMixpanelInit) {
+  //     return
+  //   }
 
-    initMixpanel()
-  }, [initMixpanel, hasMixpanelInit])
+  //   initMixpanel()
+  // }, [initMixpanel, hasMixpanelInit])
 
-  useEffect(() => {
-    if (!hasMixpanelInit || !account) {
-      return
-    }
+  // useEffect(() => {
+  //   if (!hasMixpanelInit || !account) {
+  //     return
+  //   }
 
-    router.events.on('routeChangeComplete', () => {
-      mixpanel.track('Page View', {
-        path: window.location.pathname,
-        referrer: window.document.referrer,
-        walletAddress: !account ? account : 'Not Connected',
-        chainId: chain.chainId
-      })
-    })
+  //   router.events.on('routeChangeComplete', () => {
+  //     mixpanel.track('Page View', {
+  //       path: window.location.pathname,
+  //       referrer: window.document.referrer,
+  //       walletAddress: !account ? account : 'Not Connected',
+  //       chainId: chain.chainId
+  //     })
+  //   })
 
-    registerPageView(account, chain.chainId)
-  }, [account, chain.chainId, hasMixpanelInit, registerPageView, router.events])
+  //   registerPageView(account, chain.chainId)
+  // }, [account, chain.chainId, hasMixpanelInit, registerPageView, router.events])
 
   return (
     <div className={montserrat.className}>
