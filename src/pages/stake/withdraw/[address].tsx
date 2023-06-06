@@ -6,7 +6,6 @@ import { MetaPool } from '../../../components/shared/meta/MetaPool'
 import StakeControl from '../../../components/stake/StakeControl'
 import usePool from '../../../hooks/subgraphs/usePool'
 import useTranslation from '../../../hooks/useTranslation'
-import { getEns } from '../../../services/getEns'
 
 type UnstakePoolProps = {
   poolAddress: string
@@ -31,20 +30,20 @@ export default function WithdrawPool({ poolAddress, name, avatar }: UnstakePoolP
 export const getServerSideProps: GetServerSideProps = async context => {
   const params = context?.params as { address: `0x${string}` } | undefined
 
-  if (params?.address) {
-    const ens = await getEns(params?.address, true)
+  // if (params?.address) {
+  //   const ens = await getEns(params?.address, true)
 
-    if (ens) {
-      return {
-        props: {
-          ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
-          poolAddress: params?.address || '',
-          name: ens.name ? ens.name : '',
-          avatar: ens.avatar ? ens.avatar : ''
-        }
-      }
-    }
-  }
+  //   if (ens) {
+  //     return {
+  //       props: {
+  //         ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
+  //         poolAddress: params?.address || '',
+  //         name: ens.name ? ens.name : '',
+  //         avatar: ens.avatar ? ens.avatar : ''
+  //       }
+  //     }
+  //   }
+  // }
 
   return {
     props: {
