@@ -8,14 +8,16 @@ import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
+import { useMixpanelAnalytics } from "@/hooks/analytics/useMixpanelAnalytics";
 
 export default function useDeposit(
   depositAmount: string,
   accountAddress: `0x${string}`,
   poolAddress: `0x${string}`
 ) {
-  const { contracts } = chainConfig()
+  const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
+  const { registerDeposit } = useMixpanelAnalytics()
 
   const depositRule = ethers.BigNumber.isBigNumber(depositAmount) && BigNumber.from(depositAmount).gt(0)
 
@@ -51,6 +53,7 @@ export default function useDeposit(
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool]
       })
+      registerDeposit(accountAddress, chainId, depositAmount)
       if (notify) {
         notification.success({
           message: `${t('notifications.depositSuccess')}: ${depositAmount} ${t('lsd.symbol')}`,
@@ -59,7 +62,7 @@ export default function useDeposit(
         setNotify(false)
       }
     }
-  }, [accountAddress, depositAmount, isSuccess, notify, poolAddress, t])
+  }, [accountAddress, chainId, depositAmount, isSuccess, notify, poolAddress, registerDeposit, t])
 
   useEffect(() => {
     if (isError) {

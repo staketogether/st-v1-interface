@@ -14,12 +14,47 @@ import validEnv from '../config/env'
 import { chains, wagmiClient } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
+import { useMixpanelAnalytics } from "@/hooks/analytics/useMixpanelAnalytics";
+import { useRouter } from "next/router";
+import mixpanel from "mixpanel-browser";
+import { useEffect } from "react";
+import useConnectedAccount from "@/hooks/useConnectedAccount";
+import chainConfig from "@/config/chain";
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
+  const router = useRouter()
+  const { init: initMixpanel, registerPageView, isInitialized: hasMixpanelInit } = useMixpanelAnalytics()
+  const { account } = useConnectedAccount()
+  const chain = chainConfig()
+  
+  useEffect(() => {
+    if (hasMixpanelInit) {
+      return
+    }
+    
+    initMixpanel()
+  }, [initMixpanel, hasMixpanelInit])
+  
+  useEffect(() => {
+    if (!hasMixpanelInit || !account) {
+      return
+    }
 
+    router.events.on('routeChangeComplete', () => {
+      mixpanel.track('Page View', {
+        path: window.location.pathname,
+        referrer: window.document.referrer,
+        walletAddress: !account ? account : 'Not Connected',
+        chainId: chain.chainId
+      })
+    })
+    
+    registerPageView(account, chain.chainId)
+  }, [account, chain.chainId, hasMixpanelInit, registerPageView, router.events])
+  
   return (
     <div className={montserrat.className}>
       <ApolloProvider client={apolloClient}>
