@@ -9,12 +9,15 @@ import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { truncateEther } from '../../../services/truncateEther'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletSentDelegation from './WalletSentDelegation'
+import { useState } from 'react'
+import WalletSlideBarSettings from './WalletSlideBarSettings'
 
 type WalletSidebarProps = {
   address: `0x${string}`
 }
 
 export default function WalletSidebar({ address }: WalletSidebarProps) {
+  const [isSettingsActive, setIsSettingsActive] = useState(false)
   const { disconnect } = useDisconnect()
   const { t } = useTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
@@ -37,55 +40,61 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
       mask={true}
       open={openSidebar}
     >
-      <HeaderContainer>
-        <ClosedSidebarButton onClick={() => setOpenSidebar(false)}>
-          <CloseSidebar fontSize={14} />
-        </ClosedSidebarButton>
-        <WalletConnectedButton address={address} showBalance={false} />
-        <Actions>
-          <Button>
-            <SettingIcon fontSize={16} />
-          </Button>
-          <Button onClick={() => disconnectWallet()}>
-            <Logout fontSize={14} />
-          </Button>
-        </Actions>
-      </HeaderContainer>
-      <InfoContainer>
-        <div>
-          <span>{`${t('eth.name')} ${t('balance')}`}</span>
-          <span>
-            {truncateEther(ethBalance.toString(), 6)} <span>{t('eth.symbol')}</span>
-          </span>
-        </div>
-        <div>
-          <span>{`${t('staked')} ${t('balance')}`}</span>
-          <span>
-            {truncateEther(accountBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
-          </span>
-        </div>
-        <div>
-          <span>{t('rewards')}</span>
-          <span>
-            {truncateEther(accountRewardsBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
-          </span>
-        </div>
-      </InfoContainer>
+      {isSettingsActive ? (
+        <WalletSlideBarSettings setIsSettingsActive={setIsSettingsActive} />
+      ) : (
+        <>
+          <HeaderContainer>
+            <ClosedSidebarButton onClick={() => setOpenSidebar(false)}>
+              <CloseSidebar fontSize={14} />
+            </ClosedSidebarButton>
+            <WalletConnectedButton address={address} showBalance={false} />
+            <Actions>
+              <Button onClick={() => setIsSettingsActive(true)}>
+                <SettingIcon fontSize={16} />
+              </Button>
+              <Button onClick={() => disconnectWallet()}>
+                <Logout fontSize={14} />
+              </Button>
+            </Actions>
+          </HeaderContainer>
+          <InfoContainer>
+            <div>
+              <span>{`${t('eth.name')} ${t('balance')}`}</span>
+              <span>
+                {truncateEther(ethBalance.toString(), 6)} <span>{t('eth.symbol')}</span>
+              </span>
+            </div>
+            <div>
+              <span>{`${t('staked')} ${t('balance')}`}</span>
+              <span>
+                {truncateEther(accountBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
+              </span>
+            </div>
+            <div>
+              <span>{t('rewards')}</span>
+              <span>
+                {truncateEther(accountRewardsBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
+              </span>
+            </div>
+          </InfoContainer>
 
-      <ContainerPoolsDelegated>
-        <div>
-          <span>{t('delegations')}</span>
-          <span>{accountSentDelegationsCount}</span>
-        </div>
-        {accountDelegations.length === 0 && (
-          <div>
-            <span>{t('noDelegations')}</span>
-          </div>
-        )}
-        {accountDelegations.map((delegation, index) => (
-          <WalletSentDelegation key={index} delegation={delegation} />
-        ))}
-      </ContainerPoolsDelegated>
+          <ContainerPoolsDelegated>
+            <div>
+              <span>{t('delegations')}</span>
+              <span>{accountSentDelegationsCount}</span>
+            </div>
+            {accountDelegations.length === 0 && (
+              <div>
+                <span>{t('noDelegations')}</span>
+              </div>
+            )}
+            {accountDelegations.map((delegation, index) => (
+              <WalletSentDelegation key={index} delegation={delegation} />
+            ))}
+          </ContainerPoolsDelegated>
+        </>
+      )}
     </DrawerContainer>
   )
 }
@@ -103,7 +112,7 @@ const {
   Actions
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: ${({ theme }) => theme.color.whiteAlpha[700]} !important;
+    background-color: ${({ theme }) => theme.color.whiteAlpha[900]} !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
