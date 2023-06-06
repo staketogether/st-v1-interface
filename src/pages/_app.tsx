@@ -1,11 +1,10 @@
+import { Analytics } from '@/components/shared/scripts/Analytics'
 import { ApolloProvider } from '@apollo/client'
 import { RainbowKitProvider, lightTheme as lightThemeRainbow } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
 import { Montserrat } from 'next/font/google'
-
-import { Analytics } from '@/components/shared/scripts/Analytics'
 import { ThemeProvider } from 'styled-components'
 import { WagmiConfig } from 'wagmi'
 import { Hotjar } from '../components/shared/scripts/Hotjar'
