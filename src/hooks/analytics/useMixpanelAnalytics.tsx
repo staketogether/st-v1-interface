@@ -1,5 +1,5 @@
-import mixpanel from "mixpanel-browser";
-import { useState } from "react";
+import mixpanel from 'mixpanel-browser'
+import { useState } from 'react'
 
 export const useMixpanelAnalytics = () => {
   const [isInitialized, setIsInitialized] = useState(false)
@@ -7,7 +7,10 @@ export const useMixpanelAnalytics = () => {
   return {
     isInitialized,
     init: () => {
-      mixpanel.init(`${process.env.NEXT_PUBLIC_MIXPANEL_ID}`, { debug: true, persistence: 'localStorage' })
+      mixpanel.init(`${process.env.NEXT_PUBLIC_MIXPANEL_ID}`, {
+        debug: true,
+        persistence: 'localStorage'
+      })
       setIsInitialized(true)
     },
     registerPageView: (account: string, chainId: number) => {
@@ -22,7 +25,7 @@ export const useMixpanelAnalytics = () => {
       mixpanel.track('Wallet Connected', {
         walletAddress: account,
         chainId: chainId,
-        path: window.location.pathname,
+        path: window.location.pathname
       })
     },
     registerDeposit: (account: string, chainId: number, amount: string) => {
@@ -30,7 +33,7 @@ export const useMixpanelAnalytics = () => {
         walletAddress: account,
         chainId: chainId,
         amount: amount,
-        path: window.location.pathname,
+        path: window.location.pathname
       })
     },
     registerWithdraw: (account: string, chainId: number, amount: string) => {
@@ -38,7 +41,7 @@ export const useMixpanelAnalytics = () => {
         walletAddress: account,
         chainId: chainId,
         amount: amount,
-        path: window.location.pathname,
+        path: window.location.pathname
       })
     }
   }

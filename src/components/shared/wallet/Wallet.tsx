@@ -1,10 +1,10 @@
+import chainConfig from '@/config/chain'
+import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { useEffect, useState } from 'react'
 import useConnectedAccount from '../../../hooks/useConnectedAccount'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletDisconnectedButton from './WalletDisconnectedButton'
 import WalletSidebar from './WalletSidebar'
-import { useMixpanelAnalytics } from "@/hooks/analytics/useMixpanelAnalytics";
-import chainConfig from "@/config/chain";
 
 export default function Wallet() {
   const { account, accountIsConnected } = useConnectedAccount()
@@ -25,7 +25,7 @@ export default function Wallet() {
     } else {
       setWallet(<WalletDisconnectedButton />)
     }
-  }, [account, accountIsConnected])
+  }, [account, accountIsConnected, chain.chainId, registerConnectWallet])
 
   return wallet
 }
