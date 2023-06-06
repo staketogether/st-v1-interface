@@ -37,8 +37,8 @@ const configs: ChainConfig[] = [
       `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`
     ),
     contracts: {
-      STOracle: '0xef70e3030e859c216e1a0F0ba16615151573852B',
-      StakeTogether: '0xC34bAB05746f4Ba8dfB489a0c2A8cdC2C34eDA74'
+      STOracle: '0x39952aFfa9a4731f304ba40793Cc8D2Da994531E',
+      StakeTogether: '0x1B09577Cb94906c0f2119A1C61919F6f055CBC74'
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-goerli/version/latest',
