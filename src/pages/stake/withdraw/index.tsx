@@ -19,6 +19,8 @@ export default function Withdraw() {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
+  context.res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=600')
+
   return {
     props: {
       ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en']))
