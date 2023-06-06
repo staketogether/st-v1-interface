@@ -7,23 +7,21 @@ import { ENSPool, Pool } from '../../types/Pool'
 
 export default function useSearchPools() {
   const [searchPools, setSearchPools] = useState<ENSPool[]>([])
-  const [searchPoolsIsLoading, setSearchPoolsIsLoading] = useState<boolean>(false)
+  const [searchLoading, setSearchLoading] = useState<boolean>(true)
 
-  const { data, loading } = useQuery<{ pools: Pool[] }>(queryPools)
+  const { data } = useQuery<{ pools: Pool[] }>(queryPools)
 
   useEffect(() => {
     const getEnsPools = async () => {
+      setSearchLoading(true)
       const addresses = data?.pools.map(pool => pool.address) || []
       const pools = await getSearchPools(addresses)
       setSearchPools(pools)
+      setSearchLoading(false)
     }
 
     getEnsPools()
   }, [data])
 
-  useEffect(() => {
-    setSearchPoolsIsLoading(loading)
-  }, [loading])
-
-  return { searchPools, searchPoolsIsLoading }
+  return { searchPools, searchLoading }
 }

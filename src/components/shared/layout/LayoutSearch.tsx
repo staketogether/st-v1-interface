@@ -20,7 +20,7 @@ export default function LayoutSearch() {
   const router = useRouter()
   const pathname = router.pathname
   const { pools, poolsIsLoading } = usePools()
-  const { searchPools } = useSearchPools()
+  const { searchPools, searchLoading } = useSearchPools()
 
   const options = {
     includeScore: true,
@@ -103,13 +103,13 @@ export default function LayoutSearch() {
                   </DropdownMenuItem>
                 </Link>
               ))}
-            {!poolsIsLoading && text.length > 0 && result.length === 0 && (
+            {!poolsIsLoading && !searchLoading && text.length > 0 && result.length === 0 && (
               <NotFound>
                 <AiOutlineWarning fontSize={14} />
                 <div>{t('emptyPool')}</div>
               </NotFound>
             )}
-            {poolsIsLoading && text.length > 0 && <Loading>{t('loading')}</Loading>}
+            {(poolsIsLoading || searchLoading) && text.length > 0 && <Loading>{t('loading')}</Loading>}
           </DropdownMenu>
         )}
       </Container>
