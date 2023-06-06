@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
           ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
           poolAddress: params?.address || '',
           name: ens.name ? ens.name : '',
-          avatar: ens.avatar ? `${url}/_next/image?url${ens.avatar}` : ''
+          avatar: ens.avatar ? `${url}/_next/image?url${ens.avatar}&q=75` : ''
         }
       }
     }
