@@ -1,49 +1,60 @@
 import { useRouter } from 'next/router'
+import { AiOutlineCheck } from 'react-icons/ai'
 import styled from 'styled-components'
-import { globalConfig } from '../../config/global'
-import useReceivedDelegationsOf from '../../hooks/contracts/useReceivedDelegationsOf'
-
+import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
+import { Pool } from '../../types/Pool'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 
 type ExploreCardProps = {
-  address: `0x${string}`
+  pool: Pool
 }
 
-export default function ExploreCard({ address }: ExploreCardProps) {
+export default function ExploreCard({ pool }: ExploreCardProps) {
   const router = useRouter()
-  const { ceth } = globalConfig
-
-  const { totalDelegationsReceived, totalAmountReceived } = useReceivedDelegationsOf(address)
 
   const { t } = useTranslation()
 
+  const rewardsShares = usePooledEthByShares(pool.rewardsShares)
+  const delegatedShares = usePooledEthByShares(pool.delegatedShares)
+
   return (
-    <Card onClick={() => router.push(`/stake/deposit/${address}`)}>
+    <Card onClick={() => router.push(`stake/deposit/${pool.address}`)}>
       <CardHeader>
-        <EnsAvatar address={address} />
-        <EnsName address={address} />
+        <EnsAvatar large address={pool.address} />
+        <Verified>
+          <AiOutlineCheck fontSize={14} />
+          <EnsName large address={pool.address} />
+        </Verified>
       </CardHeader>
       <CardInfo>
         <div>
-          <div>{t('members')}</div>
-          <div>{totalDelegationsReceived}</div>
-        </div>
-        <div>
           <div>{t('delegated')}</div>
           <div>
-            {truncateEther(totalAmountReceived)}
-            <span>{ceth.symbol}</span>
+            {truncateEther(delegatedShares.toString(), 6)}
+            <span>{t('lsd.symbol')}</span>
           </div>
+        </div>
+        <div>
+          <div>{t('rewards')}</div>
+          <div>
+            {truncateEther(rewardsShares.toString(), 6)}
+            <span>{t('lsd.symbol')}</span>
+          </div>
+        </div>
+
+        <div>
+          <div>{t('members')}</div>
+          <div>{pool.receivedDelegationsCount}</div>
         </div>
       </CardInfo>
     </Card>
   )
 }
 
-const { Card, CardInfo, CardHeader } = {
+const { Card, CardInfo, CardHeader, Verified } = {
   Card: styled.div`
     display: grid;
     flex-direction: column;
@@ -83,7 +94,7 @@ const { Card, CardInfo, CardHeader } = {
   CardInfo: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
     div {
       display: flex;
       align-items: center;
@@ -103,5 +114,11 @@ const { Card, CardInfo, CardHeader } = {
         }
       }
     }
+  `,
+  Verified: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+    color: ${({ theme }) => theme.color.whatsapp[600]};
   `
 }

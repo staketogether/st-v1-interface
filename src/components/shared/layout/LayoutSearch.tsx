@@ -1,82 +1,115 @@
+import useSearchHeader from '@/hooks/useSearchHeader'
 import Fuse from 'fuse.js'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { AiOutlineClose, AiOutlineSearch, AiOutlineWarning } from 'react-icons/ai'
 import styled from 'styled-components'
+import usePools from '../../../hooks/subgraphs/usePools'
 
-import useCommunities from '../../../hooks/useCommunities'
+import useSearchPools from '../../../hooks/subgraphs/useSearchPools'
 import useTranslation from '../../../hooks/useTranslation'
+import Overlay from '../Overlay'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
-import Overlay from '../Overlay'
 
 export default function LayoutSearch() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
-  const [search, setSearch] = useState<string>('')
+  const { isOpen, setOpenSearchHeader } = useSearchHeader()
+  const [text, setText] = useState<string>('')
   const { t } = useTranslation()
-
-  const { communities } = useCommunities()
+  const router = useRouter()
+  const pathname = router.pathname
+  const { pools, poolsIsLoading } = usePools()
+  const { searchPools, searchLoading } = useSearchPools()
 
   const options = {
     includeScore: true,
-    keys: ['address', 'name']
+    keys: [
+      {
+        name: 'address',
+        weight: 1
+      },
+      {
+        name: 'name',
+        weight: 2
+      }
+    ],
+    threshold: 0.3
   }
 
-  const fuse = new Fuse([], options)
+  const fuse = new Fuse(searchPools, options)
 
-  const result = fuse.search(search)
-
-  const communitiesSearch = search.length ? result.map(community => community.item) : communities
+  const result = fuse.search(text).map(pool => pool.item)
 
   const handleButtonClick = () => {
-    setIsOpen(!isOpen)
-  }
-
-  const handleMouseEnter = () => {
-    setIsHovered(true)
+    setOpenSearchHeader(!isOpen)
   }
 
   const handleMouseLeave = () => {
-    setIsHovered(false)
-    setIsOpen(false)
+    setOpenSearchHeader(false)
   }
 
   const onChange = (text: string) => {
-    setSearch(text)
-    setIsOpen(true)
+    setText(text)
+    setOpenSearchHeader(true)
+  }
+
+  const clearText = () => {
+    setText('')
   }
 
   return (
     <>
-      {isOpen && <Overlay onClick={() => setIsOpen(false)} />}
-      <Container onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-        <InputSearch
-          type='text'
-          value={search}
-          placeholder={t('searchCommunity')}
-          onChange={e => onChange(e.target.value)}
-          onClick={handleButtonClick}
-          className={`${isOpen ? 'active' : ''}`}
-        />
+      {isOpen && <Overlay onClick={() => setOpenSearchHeader(false)} />}
+      <Container onMouseLeave={handleMouseLeave}>
+        <InputSearchArea className={`${isOpen ? 'active' : ''}`}>
+          <button>
+            <AiOutlineSearch fontSize={16} />
+          </button>
+          <InputSearch
+            type='text'
+            value={text}
+            placeholder={t('searchPool')}
+            onChange={e => onChange(e.target.value)}
+            onClick={handleButtonClick}
+          />
+          {text && text.length > 0 && (
+            <button onClick={clearText}>
+              <AiOutlineClose fontSize={16} />
+            </button>
+          )}
+        </InputSearchArea>
         {isOpen && (
-          <DropdownMenu isOpen={isOpen || isHovered || search.length}>
-            {communitiesSearch.map(address => (
-              <Link href={`/stake/deposit/${address}`} key={address}>
-                <DropdownMenuItem key={address}>
-                  <EnsAvatar address={address} />
-                  <EnsName address={address} />
-                </DropdownMenuItem>
-              </Link>
-            ))}
-            {/* Todo! Implement */}
-            {!communitiesSearch.length && (
-              <Link href={`/stake/deposit/${'0x123'}`} key={'0x123'}>
-                <DropdownMenuItem key={'0x123'}>
-                  <EnsAvatar address={'0x123'} />
-                  <EnsName address={'0xWIP: Implement  Search'} />
-                </DropdownMenuItem>
-              </Link>
+          <DropdownMenu isOpen>
+            {!poolsIsLoading &&
+              text.length > 0 &&
+              result.length > 0 &&
+              result.map(pool => (
+                <Link href={`${pathname.replace('[address]', '')}/${pool.address}`} key={pool.address}>
+                  <DropdownMenuItem key={pool.address} onClick={() => setOpenSearchHeader(false)}>
+                    <EnsAvatar address={pool.address} />
+                    <EnsName address={pool.address} />
+                  </DropdownMenuItem>
+                </Link>
+              ))}
+
+            {!poolsIsLoading &&
+              text.length === 0 &&
+              pools.map(pool => (
+                <Link href={`${pathname.replace('[address]', '')}/${pool.address}`} key={pool.address}>
+                  <DropdownMenuItem key={pool.address} onClick={() => setOpenSearchHeader(false)}>
+                    <EnsAvatar address={pool.address} />
+                    <EnsName address={pool.address} />
+                  </DropdownMenuItem>
+                </Link>
+              ))}
+            {!poolsIsLoading && !searchLoading && text.length > 0 && result.length === 0 && (
+              <NotFound>
+                <AiOutlineWarning fontSize={14} />
+                <div>{t('emptyPool')}</div>
+              </NotFound>
             )}
+            {(poolsIsLoading || searchLoading) && text.length > 0 && <Loading>{t('loading')}</Loading>}
           </DropdownMenu>
         )}
       </Container>
@@ -84,7 +117,7 @@ export default function LayoutSearch() {
   )
 }
 
-const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
+const { Container, DropdownMenu, InputSearchArea, InputSearch, DropdownMenuItem, NotFound, Loading } = {
   Container: styled.div`
     width: 100%;
     position: relative;
@@ -93,21 +126,18 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
     gap: 16px;
     height: 32px;
   `,
-  InputSearch: styled.input`
+  InputSearchArea: styled.div`
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: auto 1fr auto;
+    gap: ${({ theme }) => theme.size[4]};
+    align-items: center;
 
-    width: auto;
-    height: 32px;
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
     background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
-    padding: 0 16px;
+    padding: 0 ${({ theme }) => theme.size[8]};
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    padding-top: 0;
 
     &:hover {
       background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
@@ -121,6 +151,63 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
     }
 
     &.active {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+
+      button:first-of-type {
+        color: ${({ theme }) => theme.color.secondary};
+      }
+    }
+
+    button {
+      padding: ${({ theme }) => theme.size[4]};
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      background-color: ${({ theme }) => theme.color.transparent};
+      border: none;
+      color: ${({ theme }) => theme.color.primary};
+
+      &:hover {
+        color: ${({ theme }) => theme.color.secondary};
+      }
+    }
+  `,
+  InputSearch: styled.input`
+    display: grid;
+    grid-template-columns: 1fr;
+
+    background-color: ${({ theme }) => theme.color.transparent};
+    border: none;
+
+    padding: 0 ${({ theme }) => theme.size[4]};
+    transition: background-color 0.1s ease;
+
+    width: auto;
+    height: 32px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+
+    padding-top: 0;
+
+    &:focus {
+      color: ${({ theme }) => theme.color.primary};
+    }
+
+    &:focus {
+      background-color: ${({ theme }) => theme.color.transparent};
+      color: ${({ theme }) => theme.color.primary};
+      border: none;
+      outline: none;
+    }
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.transparent};
+    }
+
+    &.active {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
     }
@@ -131,7 +218,7 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
   `,
   DropdownMenu: styled.div<{ isOpen: boolean }>`
     position: absolute;
-    cursor: pointer;
+
     width: 100%;
     height: auto;
     top: 100%;
@@ -140,7 +227,7 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
 
     border-radius: ${({ theme }) => theme.size[16]};
     padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
-    gap: ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[12]};
     grid-template-columns: 1fr;
 
     background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
@@ -151,17 +238,33 @@ const { Container, DropdownMenu, InputSearch, DropdownMenuItem } = {
   `,
   DropdownMenuItem: styled.div`
     display: grid;
-    grid-template-columns: 24px 1fr;
-    gap: 8px;
+    grid-template-columns: 24px auto;
+    align-items: center;
     text-decoration: none;
+    gap: ${({ theme }) => theme.size[8]};
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
     border: none;
     transition: background-color 0s ease;
-    border-radius: ${({ theme }) => theme.size[16]};
 
     &:hover {
       background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      border-radius: ${({ theme }) => theme.size[16]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
     }
+  `,
+  NotFound: styled.div`
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: 8px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    cursor: default;
+  `,
+  Loading: styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.secondary};
   `
 }

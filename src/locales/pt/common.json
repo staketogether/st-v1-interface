@@ -1,0 +1,71 @@
+{
+  "stakeTogether": "Stake Together",
+  "explore": "Explorar",
+  "stake": "Stake",
+  "rewards": "Recompensas",
+  "delegates": "Delegados",
+  "processing": "Processando...",
+  "staked": "Apostado",
+  "unstake": "Desfazer Stake",
+  "members": "Membros",
+  "delegations": "Delegações",
+  "balance": "Saldo",
+  "selectPool": "Selecionar Pool",
+  "max": "Max",
+  "action": "Depositando...",
+  "youReceive": "Você Recebe",
+  "delegation": "Delegação",
+  "fee": "Taxa",
+  "delegated": "Delegado",
+  "delegatedAmount": "Quantidade Delegada",
+  "wallet": "Conectar Carteira",
+  "searchPool": "Pesquisar Pools",
+  "emptyPool": "Pool não encontrado",
+  "copyClipboard": "Copiar para Área de Transferência",
+  "deposit": "Depositar",
+  "withdraw": "Sacar",
+  "usd": "USD",
+  "loading": "Carregando...",
+  "apr": "APR",
+  "pnl": "PNL",
+  "rewardsFee": "Taxa de Recompensas",
+  "titles": {
+    "explore": "Explorar Pools",
+    "stake": "Stake de Ether",
+    "poolStats": "Estatísticas da Pool"
+  },
+  "eth": {
+    "name": "Ether",
+    "symbol": "ETH"
+  },
+  "lsd": {
+    "name": "ST Staked Ether",
+    "symbol": "SETH"
+  },
+  "form": {
+    "deposit": "Depositar Ether",
+    "withdraw": "Sacar Ether",
+    "inputAmount": "Informe a Quantidade",
+    "connectWallet": "Conectar Carteira",
+    "selectPool": "Selecionar Pool"
+  },
+  "noDelegations": "Sem Delegações",
+  "notifications": {
+    "depositSuccess": "Depósito Bem-Sucedido",
+    "depositError": "Falha ao Depositar",
+    "withdrawSuccess": "Saque Bem-Sucedido",
+    "withdrawError": "Falha ao Sacar"
+  },
+  "settings": {
+    "title": "Configurações",
+    "locale": "Idioma"
+  },
+  "footer": {
+    "powered": "Potencializado por",
+    "dvt": "DVT na SSV.Network"
+  },
+  "sidebar": {
+    "etherBalance": "Saldo de Ether",
+    "stakedBalance": "Saldo em Stake"
+  }
+}

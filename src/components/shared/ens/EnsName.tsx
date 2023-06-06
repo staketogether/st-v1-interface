@@ -3,23 +3,28 @@ import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import useEns from '../../../hooks/useEns'
 import truncateAddress from '../../../services/truncateAddress'
+import truncateText from '../../../services/truncateText'
 
 type EnsNameProps = {
   address: `0x${string}`
+  large?: boolean
+  slice?: number
 }
 
-export default function EnsName({ address }: EnsNameProps) {
+export default function EnsName({ address, large, slice }: EnsNameProps) {
   const { name } = useEns(address)
 
-  const [nameEl, setNameEl] = useState(<Text>{truncateAddress(address)}</Text>)
+  const text = <Text className={large ? 'large' : ''}>{truncateAddress(address)}</Text>
+
+  const [nameEl, setNameEl] = useState(text)
 
   useEffect(() => {
     if (name) {
-      setNameEl(<Text>{name}</Text>)
+      setNameEl(<Text className={large ? 'large' : ''}>{slice ? truncateText(name, slice) : name}</Text>)
     } else {
-      setNameEl(<Text>{truncateAddress(address)}</Text>)
+      setNameEl(<Text className={large ? 'large' : ''}>{truncateAddress(address)}</Text>)
     }
-  }, [address, name])
+  }, [address, large, name, slice])
 
   return nameEl
 }
@@ -33,5 +38,9 @@ const { Text } = {
     margin: 0;
     display: grid;
     align-items: center;
+
+    &.large {
+      font-size: ${({ theme }) => theme.font.size[15]};
+    }
   `
 }

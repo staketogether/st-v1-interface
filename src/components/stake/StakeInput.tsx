@@ -27,12 +27,13 @@ export default function StakeFormInput({
   function handleChange(value: string) {
     const regex = /^(\d+(\.\d*)?|\.\d+)$/
     if (!value || regex.test(value)) {
+      if (value.length > 20) return
       onChange(value)
     }
   }
 
   return (
-    <Container>
+    <Container className={disabled ? 'disabled' : ''}>
       <InputContainer>
         <input
           disabled={disabled}
@@ -45,15 +46,15 @@ export default function StakeFormInput({
         <MaxValue
           className={purple ? 'purple' : ''}
           disabled={disabled}
-          onClick={() => handleChange(truncateEther(balance))}
+          onClick={() => handleChange(truncateEther(balance, 6))}
         >
           {t('max')}
         </MaxValue>
       </InputContainer>
       <BalanceInfo>
-        <span>{value && price && `${price} ${t('usd')}`}</span>
+        <span>{value && price && `${truncateEther(price.toString(), 2)} ${t('usd')}`}</span>
         <span>
-          {t('balance')}: {truncateEther(balance)} {symbol}
+          {t('balance')}: {truncateEther(balance, 6)} {symbol}
         </span>
       </BalanceInfo>
     </Container>
@@ -68,6 +69,11 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
     background: ${({ theme }) => theme.color.whiteAlpha[800]};
     padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
     gap: ${({ theme }) => theme.size[12]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    &.disabled {
+      background: ${({ theme }) => theme.color.blackAlpha[100]};
+    }
   `,
   BalanceInfo: styled.div`
     display: flex;

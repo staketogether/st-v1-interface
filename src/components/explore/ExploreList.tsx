@@ -1,18 +1,19 @@
 import styled from 'styled-components'
 
-import useCommunities from '../../hooks/useCommunities'
+import { Pool } from '../../types/Pool'
 import ExploreCard from './ExploreCard'
 
-export default function ExploreList() {
-  const { communities, communitiesIsLoading, communitiesIsSuccess } = useCommunities()
+type ExploreListProps = {
+  pools: Pool[]
+}
 
+export default function ExploreList({ pools }: ExploreListProps) {
   return (
     <Container>
-      {communitiesIsLoading && <div>Loading...</div>}
-      {communitiesIsSuccess && !communities && <div>No Communities</div>}
-      {communitiesIsSuccess &&
-        communities &&
-        communities.map(address => <ExploreCard address={address} key={address} />)}
+      {!pools && <div>No Pools</div>}
+      {pools.map(pool => (
+        <ExploreCard pool={pool} key={pool.address} />
+      ))}
     </Container>
   )
 }
@@ -22,7 +23,13 @@ const { Container } = {
     width: 100%;
     display: grid;
     justify-content: center;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     gap: ${props => props.theme.size[24]};
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      grid-template-columns: repeat(3, 1fr);
+    }
   `
 }

@@ -1,58 +1,117 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import useConnectedAccount from '../../hooks/useConnectedAccount'
-import StakeFormDeposit from './StakeFormDeposit'
-import StakeFormWithdraw from './StakeFormWithdraw'
-import StakeStats from './StakeStats'
-import StakeSwitchActions from './StakeSwitchAction'
+import { globalConfig } from '../../config/global'
 
-interface StakeFormProps {
-  communityAddress?: `0x${string}`
+import { useDebounce } from 'usehooks-ts'
+import useDeposit from '../../hooks/contracts/useDeposit'
+import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
+import useWithdraw from '../../hooks/contracts/useWithdraw'
+import useStAccount from '../../hooks/subgraphs/useStAccount'
+import useTranslation from '../../hooks/useTranslation'
+import { truncateEther } from '../../services/truncateEther'
+import StakeButton from './StakeButton'
+import StakeFormInput from './StakeInput'
+
+type StakeFormProps = {
   type: 'deposit' | 'withdraw'
+  accountAddress: `0x${string}`
+  poolAddress: `0x${string}`
 }
 
-export default function StakeForm({ communityAddress, type }: StakeFormProps) {
-  const { account } = useConnectedAccount()
+export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
+  const { fee } = globalConfig
+  const { t } = useTranslation()
+  const { accountBalance } = useStAccount(accountAddress)
+  const cethBalance = useEthBalanceOf(accountAddress)
 
-  // Move Form State Control to Here
+  const [amount, setAmount] = useState<string>('')
+  const debouncedAmount = useDebounce(amount, 1000)
+
+  const inputAmount = debouncedAmount || '0'
+
+  const {
+    deposit,
+    isSuccess: depositSuccess,
+    isLoading: depositLoading
+  } = useDeposit(inputAmount, accountAddress, poolAddress)
+
+  const {
+    withdraw,
+    isLoading: withdrawLoading,
+    isSuccess: withdrawSuccess
+  } = useWithdraw(inputAmount, accountAddress, poolAddress)
+
+  const rewardsFee = truncateEther(fee.protocol.mul(100).toString())
+
+  const isLoading = depositLoading || withdrawLoading
+  const isSuccess = depositSuccess || withdrawSuccess
+
+  const balance = type === 'deposit' ? cethBalance : accountBalance.toString()
+  const action = type === 'deposit' ? deposit : withdraw
+  const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
+  const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
+  const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
+
+  useEffect(() => {
+    if (isSuccess) {
+      setAmount('')
+    }
+  }, [isSuccess])
 
   return (
-    <Container>
-      <Form>
-        <StakeSwitchActions communityAddress={communityAddress} />
-        {type === 'deposit' && account && communityAddress && (
-          <StakeFormDeposit accountAddress={account} communityAddress={communityAddress} />
+    <StakeContainer>
+      <StakeFormInput
+        value={amount}
+        onChange={value => setAmount(value)}
+        balance={balance}
+        symbol={balanceLabel}
+        disabled={isLoading}
+        purple={type === 'withdraw'}
+      />
+      <StakeButton
+        isLoading={isLoading}
+        onClick={action}
+        label={actionLabel}
+        purple={type === 'withdraw'}
+      />
+      <StakeInfo>
+        <span>
+          {`${t('youReceive')} ${amount || '0'}`}
+          <span>{`${receiveLabel}`}</span>
+        </span>
+        {type === 'deposit' && (
+          <div>
+            <span>{`${t('rewardsFee')}: ${rewardsFee}%`}</span>
+          </div>
         )}
-        {type === 'withdraw' && account && communityAddress && (
-          <StakeFormWithdraw accountAddress={account} communityAddress={communityAddress} />
-        )}
-        {type === 'deposit' && !account && <div>WIP: Connect Wallet Deposit</div>}
-        {type === 'withdraw' && !account && <div>WIP: Connect Wallet Withdraw</div>}
-        {type === 'deposit' && account && !communityAddress && <div>WIP: Select Community Deposit</div>}
-        {type === 'withdraw' && account && !communityAddress && <div>WIP: Select Community Withdraw</div>}
-      </Form>
-      {communityAddress && <StakeStats communityAddress={communityAddress} />}
-    </Container>
+      </StakeInfo>
+    </StakeContainer>
   )
 }
 
-const { Container, Form } = {
-  Container: styled.div`
+const { StakeContainer, StakeInfo } = {
+  StakeContainer: styled.div`
     display: grid;
-    justify-content: center;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[16]};
   `,
-  Form: styled.div`
-    display: grid;
-    grid-template-columns: minmax(320px, 420px);
-    padding: ${({ theme }) => theme.size[24]};
-    gap: ${({ theme }) => theme.size[24]};
+  StakeInfo: styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 0px ${({ theme }) => theme.size[12]};
+    font-size: ${({ theme }) => theme.size[12]};
 
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
-    border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
-    transition: background-color 0.2s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
+    > span {
+      height: 12px;
+      display: flex;
+      gap: 4px;
+
+      > span {
+      }
+    }
+
+    > div {
+      display: flex;
+      gap: ${({ theme }) => theme.size[8]};
+    }
   `
 }

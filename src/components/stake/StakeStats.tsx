@@ -1,20 +1,20 @@
 import styled from 'styled-components'
-import { globalConfig } from '../../config/global'
-import useReceivedDelegationsOf from '../../hooks/contracts/useReceivedDelegationsOf'
+
+import { BigNumber } from 'ethers'
+import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
-import EnsAvatar from '../shared/ens/EnsAvatar'
-import { default as EnsName } from '../shared/ens/EnsName'
-
+import { Pool } from '../../types/Pool'
+import StakeReceivedDelegation from './StakeReceivedDelegation'
 interface StakeStatsProps {
-  communityAddress: `0x${string}`
+  pool?: Pool
 }
 
-export default function StakeStats({ communityAddress }: StakeStatsProps) {
+export default function StakeStats({ pool }: StakeStatsProps) {
   const { t } = useTranslation()
-  const { ceth } = globalConfig
-  const { receivedDelegations, totalAmountReceived, totalDelegationsReceived } =
-    useReceivedDelegationsOf(communityAddress)
+
+  const rewardsShares = usePooledEthByShares(pool ? pool.rewardsShares : BigNumber.from(0))
+  const delegatedShares = usePooledEthByShares(pool ? pool.delegatedShares : BigNumber.from(0))
 
   return (
     <Container>
@@ -23,30 +23,28 @@ export default function StakeStats({ communityAddress }: StakeStatsProps) {
           <StatsWrapper>
             <span>{t('delegated')}</span>
             <span>
-              {`${truncateEther(totalAmountReceived)}`}
-              <span>{ceth.symbol}</span>
+              {`${truncateEther(delegatedShares.toString(), 6)}`}
+              <span>{t('lsd.symbol')}</span>
             </span>
           </StatsWrapper>
           <StatsWrapper>
-            <span>{t('members')}</span>
-            <span>{totalDelegationsReceived}</span>
+            <span>{t('rewards')}</span>
+            <span>
+              {truncateEther(rewardsShares.toString(), 6)}
+              <span>{t('lsd.symbol')}</span>
+            </span>
           </StatsWrapper>
         </Stats>
       </StatsContainer>
-      {receivedDelegations.length > 0 && (
+
+      {pool && pool.delegations.length > 0 && (
         <DelegationsContainer>
-          {receivedDelegations.map(delegation => (
-            <Delegation key={delegation.account}>
-              <div>
-                <EnsAvatar address={delegation.account as `0x${string}`} />
-                <EnsName address={delegation.account as `0x${string}`} />
-              </div>
-              <div>
-                <span>
-                  {`${truncateEther(delegation.amount.toString())}`} <span>{ceth.symbol}</span>
-                </span>
-              </div>
-            </Delegation>
+          <StatsWrapper>
+            <span>{t('members')}</span>
+            <span>{pool.receivedDelegationsCount}</span>
+          </StatsWrapper>
+          {pool.delegations.map(delegation => (
+            <StakeReceivedDelegation key={delegation.delegate.address} delegation={delegation} />
           ))}
         </DelegationsContainer>
       )}
@@ -54,7 +52,7 @@ export default function StakeStats({ communityAddress }: StakeStatsProps) {
   )
 }
 
-const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer, Delegation } = {
+const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
@@ -71,7 +69,7 @@ const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer, De
   StatsContainer: styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
   `,
   Stats: styled.div`
     display: flex;
@@ -97,32 +95,12 @@ const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer, De
   DelegationsContainer: styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
     border-top: 1px solid ${({ theme }) => theme.color.blue[100]};
     padding-top: ${({ theme }) => theme.size[16]};
-  `,
-  Delegation: styled.div`
-    display: grid;
-    grid-template-columns: 2fr auto;
-    align-items: center;
-    gap: 8px;
 
-    > div:nth-child(1) {
-      display: grid;
-      grid-template-columns: 24px auto;
-      gap: 8px;
-    }
-
-    > div:nth-child(2) {
-      display: grid;
-      font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.primary};
-
-      > span:nth-child(1) {
-        > span {
-          color: ${({ theme }) => theme.color.secondary};
-        }
-      }
+    > div:first-of-type {
+      margin-bottom: ${({ theme }) => theme.size[8]};
     }
   `
 }

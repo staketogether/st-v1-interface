@@ -1,14 +1,19 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import LayoutHead from '../../../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
-import StakeForm from '../../../components/stake/StakeForm'
-import StakeModalCommunities from '../../../components/stake/StakeModalCommunities'
+import { MetaPool } from '../../../components/shared/meta/MetaPool'
+import StakeControl from '../../../components/stake/StakeControl'
+import useTranslation from '../../../hooks/useTranslation'
 
-export default function Unstake() {
+export default function Withdraw() {
+  const { t } = useTranslation()
+
   return (
     <LayoutTemplate>
-      <StakeForm type='withdraw' />
-      <StakeModalCommunities type='withdraw' />
+      <MetaPool />
+      <LayoutHead text={t('titles.stake')} />
+      <StakeControl pool={undefined} type='withdraw' />
     </LayoutTemplate>
   )
 }

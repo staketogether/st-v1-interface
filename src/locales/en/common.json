@@ -1,25 +1,71 @@
 {
+  "stakeTogether": "Stake Together",
   "explore": "Explore",
   "stake": "Stake",
+  "rewards": "Rewards",
+  "delegates": "Delegates",
   "processing": "Processing...",
   "staked": "Staked",
   "unstake": "Unstake",
   "members": "Members",
   "delegations": "Delegations",
   "balance": "Balance",
-  "selectCommunity": "Select a Community",
+  "selectPool": "Select Pool",
   "max": "Max",
   "action": "Staking...",
-  "youReceive": "You receive",
+  "youReceive": "You Receive",
   "delegation": "Delegation",
   "fee": "Fee",
   "delegated": "Delegated",
+  "delegatedAmount": "Delegated Amount",
   "wallet": "Connect Wallet",
-  "searchCommunity": "Search For Communities",
-  "emptyCommunity": "community not found",
-  "copyClipboard": "Copy to clipboard",
+  "searchPool": "Search Pools",
+  "emptyPool": "Pool Not Found",
+  "copyClipboard": "Copy to Clipboard",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
-  "footer": "All rights reserved.",
-  "usd": "USD"
+  "usd": "USD",
+  "loading": "Loading...",
+  "apr": "APR",
+  "pnl": "PNL",
+  "rewardsFee": "Rewards Fee",
+  "titles": {
+    "explore": "Explore Pools",
+    "stake": "Stake Ether",
+    "poolStats": "Pool Statistics"
+  },
+  "eth": {
+    "name": "Ether",
+    "symbol": "ETH"
+  },
+  "lsd": {
+    "name": "ST Staked Ether",
+    "symbol": "SETH"
+  },
+  "form": {
+    "deposit": "Deposit Ether",
+    "withdraw": "Withdraw Ether",
+    "inputAmount": "Enter Amount",
+    "connectWallet": "Connect Wallet",
+    "selectPool": "Select Pool"
+  },
+  "noDelegations": "No Delegations",
+  "notifications": {
+    "depositSuccess": "Deposit Successful",
+    "depositError": "Failed to Deposit",
+    "withdrawSuccess": "Withdrawal Successful",
+    "withdrawError": "Failed to Withdraw"
+  },
+  "settings": {
+    "title": "Settings",
+    "locale": "Language"
+  },
+  "footer": {
+    "powered": "Powered by",
+    "dvt": "DVT on SSV.Network"
+  },
+  "sidebar": {
+    "etherBalance": "Ether Balance",
+    "stakedBalance": "Staked Balance"
+  }
 }

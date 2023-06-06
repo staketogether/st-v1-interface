@@ -1,21 +1,22 @@
 import { useRouter } from 'next/router'
+import { AiOutlineVerticalAlignBottom, AiOutlineVerticalAlignTop } from 'react-icons/ai'
 import styled from 'styled-components'
 import useActiveRoute from '../../hooks/useActiveRoute'
 import useTranslation from '../../hooks/useTranslation'
-import StakeSelectCommunity from './StakeSelectCommunity'
+import StakeSelectPool from './StakeSelectPool'
 
 interface StakeSwitchActionsProps {
-  communityAddress?: `0x${string}`
+  poolAddress?: `0x${string}`
 }
 
-export default function StakeSwitchActions({ communityAddress }: StakeSwitchActionsProps) {
+export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsProps) {
   const router = useRouter()
   const { isActive } = useActiveRoute()
   const { t } = useTranslation()
 
   function handleSwitch(type: 'deposit' | 'withdraw') {
-    if (communityAddress) {
-      router.push(`/stake/${type}/${communityAddress}`)
+    if (poolAddress) {
+      router.push(`/stake/${type}/${poolAddress}`)
     } else {
       router.push(`/stake/${type}`)
     }
@@ -23,19 +24,21 @@ export default function StakeSwitchActions({ communityAddress }: StakeSwitchActi
 
   return (
     <Container>
-      <StakeSelectCommunity communityAddress={communityAddress} />
+      <StakeSelectPool poolAddress={poolAddress} />
       <Tabs>
         <StakeTab
           className={`${isActive('deposit') ? 'active' : ''}`}
           onClick={() => handleSwitch('deposit')}
         >
-          {t('deposit')}
+          <AiOutlineVerticalAlignBottom />
+          <span>{t('deposit')}</span>
         </StakeTab>
         <StakeTab
           className={`${isActive('withdraw') ? 'active' : ''} purple`}
           onClick={() => handleSwitch('withdraw')}
         >
-          {t('withdraw')}
+          <AiOutlineVerticalAlignTop />
+          <span>{t('withdraw')}</span>
         </StakeTab>
       </Tabs>
     </Container>
@@ -58,6 +61,7 @@ const { Container, Tabs, StakeTab } = {
     height: 32px;
     display: flex;
     align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
 
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
@@ -74,6 +78,16 @@ const { Container, Tabs, StakeTab } = {
 
     &.active {
       color: ${({ theme }) => theme.color.secondary};
+    }
+
+    span {
+      display: none;
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      span {
+        display: block;
+      }
     }
   `
 }

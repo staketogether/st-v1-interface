@@ -11,13 +11,13 @@ export default function useEns(address: `0x${string}`) {
   const ensAvatar = useEnsAvatar({
     address,
     chainId,
-    cacheTime: 3000
+    cacheTime: 60000
   })
 
   const ensName = useEnsName({
     address,
     chainId,
-    cacheTime: 3000
+    cacheTime: 60000
   })
 
   useEffect(() => {
