@@ -28,7 +28,7 @@ Sentry.init({
     }),
     new Sentry.BrowserTracing({
       // Set `tracePropagationTargets` to control for which URLs distributed tracing should be enabled
-      tracePropagationTargets: ['localhost', /^\//, /^https:\/\/beta.staketogether\.app/]
+      tracePropagationTargets: [/^https:\/\/alpha.staketogether\.app/]
       // Add additional custom options here
     })
   ]
