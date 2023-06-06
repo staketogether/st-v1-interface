@@ -50,7 +50,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             </ClosedSidebarButton>
             <WalletConnectedButton address={address} showBalance={false} />
             <Actions>
-              <Button>
+              <Button onClick={() => setIsSettingsActive(true)}>
                 <SettingIcon fontSize={16} />
               </Button>
               <Button onClick={() => disconnectWallet()}>
