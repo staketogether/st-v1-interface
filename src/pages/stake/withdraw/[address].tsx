@@ -4,6 +4,7 @@ import LayoutHead from '../../../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
 import { MetaPool } from '../../../components/shared/meta/MetaPool'
 import StakeControl from '../../../components/stake/StakeControl'
+import { globalConfig } from '../../../config/global'
 import usePool from '../../../hooks/subgraphs/usePool'
 import useTranslation from '../../../hooks/useTranslation'
 import { getEns } from '../../../services/getEns'
@@ -33,6 +34,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   if (params?.address) {
     const ens = await getEns(params?.address, true)
+    const { url } = globalConfig
 
     if (ens) {
       return {
@@ -40,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
           ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
           poolAddress: params?.address || '',
           name: ens.name ? ens.name : '',
-          avatar: ens.avatar ? `/_next/image?url${ens.avatar}` : ''
+          avatar: ens.avatar ? `${url}/_next/image?url${ens.avatar}` : ''
         }
       }
     }
