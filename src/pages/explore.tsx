@@ -1,9 +1,10 @@
-import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
+import { GetServerSideProps } from 'next'
 import ExploreList from '../components/explore/ExploreList'
 import LayoutHead from '../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../components/shared/layout/LayoutTemplate'
+import { MetaExplore } from '../components/shared/meta/MetaExplore'
 import { apolloClient } from '../config/apollo'
 import useTranslation from '../hooks/useTranslation'
 import { queryPools } from '../queries/queryPools'
@@ -18,6 +19,7 @@ export default function Explore({ pools }: ExploreProps) {
 
   return (
     <LayoutTemplate>
+      <MetaExplore />
       <LayoutHead text={t('titles.explore')} />
       <ExploreList pools={pools} />
     </LayoutTemplate>
@@ -25,6 +27,8 @@ export default function Explore({ pools }: ExploreProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
+  context.res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=600')
+
   const { data } = await apolloClient.query<{ pools: Pool[] }>({
     query: queryPools,
     fetchPolicy: 'network-only'

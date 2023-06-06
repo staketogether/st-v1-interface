@@ -21,7 +21,7 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
   const delegatedShares = usePooledEthByShares(pool.delegatedShares)
 
   return (
-    <Card onClick={() => router.push(`/stake/deposit/${pool.address}`)}>
+    <Card onClick={() => router.push(`stake/deposit/${pool.address}`)}>
       <CardHeader>
         <EnsAvatar large address={pool.address} />
         <Verified>
