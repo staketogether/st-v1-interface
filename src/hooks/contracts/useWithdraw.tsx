@@ -8,14 +8,16 @@ import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherWithdrawPool, useStakeTogetherWithdrawPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
+import { useMixpanelAnalytics } from "@/hooks/analytics/useMixpanelAnalytics";
 
 export default function useWithdraw(
   withdrawAmount: string,
   accountAddress: `0x${string}`,
   poolAddress: `0x${string}`
 ) {
-  const { contracts } = chainConfig()
+  const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
+  const { registerWithdraw } = useMixpanelAnalytics()
 
   const withdrawRule =
     ethers.BigNumber.isBigNumber(withdrawAmount) && BigNumber.from(withdrawAmount).gt(0)
@@ -48,6 +50,7 @@ export default function useWithdraw(
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool]
       })
+      registerWithdraw(accountAddress, chainId, withdrawAmount)
       if (notify) {
         notification.success({
           message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,
@@ -56,7 +59,7 @@ export default function useWithdraw(
         setNotify(false)
       }
     }
-  }, [accountAddress, isSuccess, notify, t, withdrawAmount])
+  }, [accountAddress, chainId, isSuccess, notify, registerWithdraw, t, withdrawAmount])
 
   useEffect(() => {
     if (isError) {
