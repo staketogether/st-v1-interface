@@ -47,6 +47,7 @@ jobs:
           echo NEXT_PUBLIC_CHAIN_ID=5 >> .env          
           echo NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY=1 >> .env
           echo NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY=1 >> .env
+          echo NEXT_PUBLIC_SENTRY_DSN=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }} >> .env
 
       - name: Install dependencies
         run: pnpm install
