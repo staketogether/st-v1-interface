@@ -8,7 +8,7 @@ interface GlobalConfig {
 }
 
 export const globalConfig: GlobalConfig = {
-  url: 'https://beta.staketogether.app',
+  url: 'https://alpha.staketogether.app',
   fee: {
     protocol: utils.parseEther('0.09')
   }
