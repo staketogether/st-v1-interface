@@ -1,5 +1,5 @@
 import { Drawer } from 'antd'
-import { AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
+import { AiOutlineArrowLeft, AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
@@ -8,12 +8,16 @@ import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { truncateEther } from '../../../services/truncateEther'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletSentDelegation from './WalletSentDelegation'
+import { useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 type WalletSidebarProps = {
   address: `0x${string}`
 }
 
 export default function WalletSidebar({ address }: WalletSidebarProps) {
+  const [isSettingsActive, setIsSettingsActive] = useState(false)
   const { disconnect } = useDisconnect()
   const { t } = useTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
@@ -34,49 +38,54 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
       mask={true}
       open={openSidebar}
     >
-      <HeaderContainer>
-        <ClosedSidebarButton onClick={() => setOpenSidebar(false)}>
-          <CloseSidebar fontSize={14} />
-        </ClosedSidebarButton>
-        <WalletConnectedButton address={address} showBalance={false} />
-        <Actions>
-          <Button>
-            <SettingIcon fontSize={16} />
-          </Button>
-          <Button onClick={() => disconnectWallet()}>
-            <Logout fontSize={14} />
-          </Button>
-        </Actions>
-      </HeaderContainer>
-      <InfoContainer>
-        <div>
-          <span>{t('balance')}</span>
-          <span>
-            {truncateEther(accountBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
-          </span>
-        </div>
-        <div>
-          <span>{t('rewards')}</span>
-          <span>
-            {truncateEther(accountRewardsBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
-          </span>
-        </div>
-      </InfoContainer>
-
-      <ContainerPoolsDelegated>
-        <div>
-          <span>{t('delegations')}</span>
-          <span>{accountSentDelegationsCount}</span>
-        </div>
-        {accountDelegations.length === 0 && (
-          <div>
-            <span>{t('noDelegations')}</span>
-          </div>
-        )}
-        {accountDelegations.map((delegation, index) => (
-          <WalletSentDelegation key={index} delegation={delegation} />
-        ))}
-      </ContainerPoolsDelegated>
+      {isSettingsActive ? (
+        <WalletSlideBarSettings setIsSettingsActive={setIsSettingsActive} />
+      ) : (
+        <>
+          <HeaderContainer>
+            <ClosedSidebarButton onClick={() => setOpenSidebar(false)}>
+              <CloseSidebar fontSize={14} />
+            </ClosedSidebarButton>
+            <WalletConnectedButton address={address} showBalance={false} />
+            <Actions>
+              <Button onClick={() => setIsSettingsActive(true)}>
+                <SettingIcon fontSize={16} />
+              </Button>
+              <Button onClick={() => disconnectWallet()}>
+                <Logout fontSize={14} />
+              </Button>
+            </Actions>
+          </HeaderContainer>
+          <InfoContainer>
+            <div>
+              <span>{t('balance')}</span>
+              <span>
+                {truncateEther(accountBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
+              </span>
+            </div>
+            <div>
+              <span>{t('rewards')}</span>
+              <span>
+                {truncateEther(accountRewardsBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
+              </span>
+            </div>
+          </InfoContainer>
+          <ContainerPoolsDelegated>
+            <div>
+              <span>{t('delegations')}</span>
+              <span>{accountSentDelegationsCount}</span>
+            </div>
+            {accountDelegations.length === 0 && (
+              <div>
+                <span>{t('noDelegations')}</span>
+              </div>
+            )}
+            {accountDelegations.map((delegation, index) => (
+              <WalletSentDelegation key={index} delegation={delegation} />
+            ))}
+          </ContainerPoolsDelegated>
+        </>
+      )}
     </DrawerContainer>
   )
 }
@@ -94,7 +103,7 @@ const {
   Actions
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: ${({ theme }) => theme.color.whiteAlpha[700]} !important;
+    background-color: ${({ theme }) => theme.color.whiteAlpha[900]} !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
@@ -243,5 +252,61 @@ const {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: ${({ theme }) => theme.size[8]};
+  `
+}
+
+type WalletSlideBarSettingsProps = {
+  setIsSettingsActive: (value: boolean) => void
+}
+
+function WalletSlideBarSettings({ setIsSettingsActive }: WalletSlideBarSettingsProps) {
+  const { t } = useTranslation()
+  const router = useRouter()
+  console.log(router)
+  return (
+    <>
+      <Header>
+        <CloseIcon onClick={() => setIsSettingsActive(false)} />
+        <span>{t('settings.title')}</span>
+      </Header>
+      <LocaleContainer>
+        <h1>{t('settings.locale')}</h1>
+        <Link href='' className={`${router.locale === 'pt' ? 'active' : ''}`} locale='pt'>
+          <span>Português</span>
+        </Link>
+        <Link href='' locale='en' className={`${router.locale === 'en' ? 'active' : ''}`}>
+          <span>English</span>
+        </Link>
+      </LocaleContainer>
+    </>
+  )
+}
+
+const { Header, CloseIcon, LocaleContainer } = {
+  CloseIcon: styled(AiOutlineArrowLeft)`
+    font-size: 18px;
+    color: ${({ theme }) => theme.color.primary};
+    cursor: pointer;
+  `,
+  Header: styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[16]};
+  `,
+  LocaleContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[12]};
+    > h1 {
+      margin-bottom: ${({ theme }) => theme.size[8]};
+    }
+    a {
+      color: ${({ theme }) => theme.color.primary};
+      &hover,
+      &.active {
+        color: ${({ theme }) => theme.color.secondary};
+      }
+    }
   `
 }
