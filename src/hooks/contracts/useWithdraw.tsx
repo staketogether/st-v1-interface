@@ -59,7 +59,7 @@ export default function useWithdraw(
         setNotify(false)
       }
     }
-  }, [accountAddress, chainId, isSuccess, notify, registerWithdraw, t, withdrawAmount])
+  }, [accountAddress, chainId, isSuccess, notify, poolAddress, registerWithdraw, t, withdrawAmount])
 
   useEffect(() => {
     if (isError) {
