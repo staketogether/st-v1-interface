@@ -11,6 +11,7 @@ import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
+import { ethers } from 'ethers'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -52,6 +53,11 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
   const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
+  const balanceBigNumber = ethers.utils.parseEther(truncateEther(balance, 6))
+  const AmountBigNumber = ethers.utils.parseEther(amount || '0')
+  const insufficientFunds = AmountBigNumber.gt(balanceBigNumber)
+  const errorLabel = (insufficientFunds && t('form.insufficientFunds')) || ''
+
   useEffect(() => {
     if (isSuccess) {
       setAmount('')
@@ -67,12 +73,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         symbol={balanceLabel}
         disabled={isLoading}
         purple={type === 'withdraw'}
+        hasError={insufficientFunds}
       />
       <StakeButton
         isLoading={isLoading}
         onClick={action}
-        label={actionLabel}
+        label={insufficientFunds ? errorLabel : actionLabel}
         purple={type === 'withdraw'}
+        disabled={insufficientFunds}
       />
       <StakeInfo>
         <span>

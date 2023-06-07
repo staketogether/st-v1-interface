@@ -8,7 +8,7 @@ import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherWithdrawPool, useStakeTogetherWithdrawPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import { useMixpanelAnalytics } from "@/hooks/analytics/useMixpanelAnalytics";
+import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 
 export default function useWithdraw(
   withdrawAmount: string,
