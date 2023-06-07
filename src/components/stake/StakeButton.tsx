@@ -39,10 +39,6 @@ const { Stake } = {
       opacity: 0.4;
     }
 
-    &.error {
-      background: ${({ theme }) => theme.color.red[400]};
-    }
-
     &.purple {
       background: ${({ theme }) => theme.color.purple[700]};
       &:hover {
