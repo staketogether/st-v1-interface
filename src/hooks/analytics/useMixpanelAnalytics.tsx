@@ -10,7 +10,7 @@ export const useMixpanelAnalytics = () => {
     }
 
     mixpanel.init(`${process.env.NEXT_PUBLIC_MIXPANEL_ID}`, {
-      debug: process.env.VERCEL_ENV !== 'production',
+      debug: false,
       persistence: 'localStorage'
     })
     setIsInitialized(true)
