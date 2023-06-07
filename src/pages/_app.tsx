@@ -13,40 +13,40 @@ import validEnv from '../config/env'
 import { chains, wagmiClient } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
+import useConnectedAccount from "@/hooks/useConnectedAccount";
+import { useRouter } from "next/router";
+import chainConfig from "@/config/chain";
+import { useEffect } from "react";
+import { useMixpanelAnalytics } from "@/hooks/analytics/useMixpanelAnalytics";
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
-  // const router = useRouter()
-  // // const { init: initMixpanel, registerPageView, isInitialized: hasMixpanelInit } = useMixpanelAnalytics()
-  // const { account } = useConnectedAccount()
-  // const chain = chainConfig()
+  const router = useRouter()
+  const { init: initMixpanel, registerPageView, isInitialized: hasMixpanelInit } = useMixpanelAnalytics()
+  const { account } = useConnectedAccount()
+  const chain = chainConfig()
 
-  // useEffect(() => {
-  //   if (hasMixpanelInit) {
-  //     return
-  //   }
+  useEffect(() => {
+    if (hasMixpanelInit) {
+      return
+    }
 
-  //   initMixpanel()
-  // }, [initMixpanel, hasMixpanelInit])
+    initMixpanel()
+  }, [initMixpanel, hasMixpanelInit])
 
-  // useEffect(() => {
-  //   if (!hasMixpanelInit || !account) {
-  //     return
-  //   }
+  useEffect(() => {
+    if (!hasMixpanelInit || !account) {
+      return
+    }
 
-  //   router.events.on('routeChangeComplete', () => {
-  //     mixpanel.track('Page View', {
-  //       path: window.location.pathname,
-  //       referrer: window.document.referrer,
-  //       walletAddress: !account ? account : 'Not Connected',
-  //       chainId: chain.chainId
-  //     })
-  //   })
+    router.events.on('routeChangeComplete', () => {
+      registerPageView(account, chain.chainId)
+    })
 
-  //   registerPageView(account, chain.chainId)
-  // }, [account, chain.chainId, hasMixpanelInit, registerPageView, router.events])
+
+  }, [account, chain.chainId, hasMixpanelInit, registerPageView, router.events])
 
   return (
     <div className={montserrat.className}>

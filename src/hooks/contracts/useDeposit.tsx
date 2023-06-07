@@ -49,11 +49,11 @@ export default function useDeposit(
   const { t } = useTranslation()
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && depositAmount !== '0') {
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool]
       })
-      registerDeposit(accountAddress, chainId, depositAmount)
+      registerDeposit(accountAddress, chainId, poolAddress, depositAmount)
       if (notify) {
         notification.success({
           message: `${t('notifications.depositSuccess')}: ${depositAmount} ${t('lsd.symbol')}`,
