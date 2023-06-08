@@ -32,6 +32,9 @@
     "members",
     "gtag",
     "Hotjar",
-    "TawkTo"
+    "TawkTo",
+    "Wagmi",
+    "wagmi",
+    "pageview"
   ]
 }
