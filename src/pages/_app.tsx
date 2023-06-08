@@ -13,11 +13,11 @@ import validEnv from '../config/env'
 import { chains, wagmiClient } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
-import useConnectedAccount from "@/hooks/useConnectedAccount";
-import { useRouter } from "next/router";
-import chainConfig from "@/config/chain";
-import { useEffect } from "react";
-import { useMixpanelAnalytics } from "@/hooks/analytics/useMixpanelAnalytics";
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import { useRouter } from 'next/router'
+import chainConfig from '@/config/chain'
+import { useEffect } from 'react'
+import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -44,8 +44,6 @@ const App = ({ Component, pageProps }: AppProps) => {
     router.events.on('routeChangeComplete', () => {
       registerPageView(account, chain.chainId)
     })
-
-
   }, [account, chain.chainId, hasMixpanelInit, registerPageView, router.events])
 
   return (
