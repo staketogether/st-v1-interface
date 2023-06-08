@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 
+import { ethers } from 'ethers'
 import { useDebounce } from 'usehooks-ts'
 import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
@@ -11,7 +12,6 @@ import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
-import { ethers } from 'ethers'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
