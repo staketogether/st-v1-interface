@@ -1,3 +1,4 @@
+import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { notification } from 'antd'
 import { BigNumber, ethers } from 'ethers'
 import { useEffect, useState } from 'react'
@@ -8,7 +9,6 @@ import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import { useMixpanelAnalytics } from "@/hooks/analytics/useMixpanelAnalytics";
 
 export default function useDeposit(
   depositAmount: string,
