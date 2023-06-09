@@ -14,4 +14,7 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
     throw new Error('NEXT_PUBLIC_GA_MEASUREMENT_ID not found in env')
   }
+  if (!process.env.NEXT_PUBLIC_MIXPANEL_ID) {
+    throw new Error('NEXT_PUBLIC_MIXPANEL_ID not found in env')
+  }
 }
