@@ -1,10 +1,10 @@
+import usePooledEthByShares from '@/hooks/usePooledEthByShares'
 import { useQuery } from '@apollo/client'
 import { BigNumber } from 'ethers'
 import { useEffect, useState } from 'react'
 import { queryAccount } from '../../queries/queryAccount'
 import { Account } from '../../types/Account'
 import { Delegation } from '../../types/Delegation'
-import usePooledEthByShares from '@/hooks/usePooledEthByShares'
 
 export default function useStAccount(address: `0x${string}`) {
   const [account, setAccount] = useState<Account | undefined>(undefined)
@@ -27,7 +27,7 @@ export default function useStAccount(address: `0x${string}`) {
     setAccountDelegations(account?.delegations || [])
     setAccountSentDelegationsCount(account?.sentDelegationsCount || 0)
     setAccountBalance(BigNumber.from(balance))
-    setAccountRewardsBalance(BigNumber.from(balance).sub(originalBalance) || BigNumber.from(0))
+    setAccountRewardsBalance(BigNumber.from(balance).sub(originalBalance).add(1))
   }, [balance, data])
 
   useEffect(() => {

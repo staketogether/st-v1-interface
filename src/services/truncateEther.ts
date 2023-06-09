@@ -5,7 +5,7 @@ export function truncateEther(wei: string, maxDecimals = 4): string {
     return ''
   }
 
-  const updatedWei = BigNumber.from(wei).add(1).toString()
+  const updatedWei = BigNumber.from(wei).toString()
   const formatEther = ethers.utils.formatEther(updatedWei)
   const [whole, decimal] = formatEther.split('.')
   const truncatedDecimal = decimal ? decimal.slice(0, maxDecimals) : ''
