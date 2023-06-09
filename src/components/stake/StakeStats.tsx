@@ -13,8 +13,8 @@ interface StakeStatsProps {
 export default function StakeStats({ pool }: StakeStatsProps) {
   const { t } = useTranslation()
 
-  const rewardsShares = usePooledEthByShares(pool ? pool.rewardsShares : BigNumber.from(0))
-  const delegatedShares = usePooledEthByShares(pool ? pool.delegatedShares : BigNumber.from(0))
+  const { balance: rewardsShares } = usePooledEthByShares(pool ? pool.rewardsShares : '0')
+  const { balance: delegatedShares } = usePooledEthByShares(pool ? pool.delegatedShares : '0')
 
   return (
     <Container>

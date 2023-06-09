@@ -13,7 +13,7 @@ type StakeReceivedDelegationProps = {
 export default function StakeReceivedDelegation({ delegation }: StakeReceivedDelegationProps) {
   const { t } = useTranslation()
 
-  const delegationAmount = usePooledEthByShares(delegation.delegationShares)
+  const { balance: delegationAmount } = usePooledEthByShares(delegation.delegationShares)
 
   return (
     <DelegationItem>

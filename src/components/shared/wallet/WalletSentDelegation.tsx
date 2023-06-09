@@ -13,7 +13,7 @@ type WalletSentDelegationProps = {
 export default function WalletSentDelegation({ delegation }: WalletSentDelegationProps) {
   const { t } = useTranslation()
 
-  const delegationAmount = usePooledEthByShares(delegation.delegationShares)
+  const { balance: delegationAmount } = usePooledEthByShares(delegation.delegationShares)
 
   return (
     <Container>

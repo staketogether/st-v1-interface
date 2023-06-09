@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import { Account } from './Account'
 import { Delegation } from './Delegation'
 
@@ -6,9 +5,8 @@ export type Pool = {
   id: string
   account: Account
   active: boolean
-  delegatedShares: BigNumber
-  rewardsShares: BigNumber
-  delegatedBalance: BigNumber
+  delegatedShares: string
+  rewardsShares: string
   delegations: Delegation[]
   receivedDelegationsCount: number
 } & ENSPool
