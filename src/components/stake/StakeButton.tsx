@@ -13,7 +13,7 @@ export default function StakeButton({ onClick, label, disabled, isLoading, purpl
   const { t } = useTranslation()
 
   return (
-    <Stake className={purple ? 'purple' : ''} onClick={onClick} disabled={disabled}>
+    <Stake className={`${purple ? 'purple' : ''}`} onClick={onClick} disabled={disabled}>
       {isLoading ? t('processing') : label}
     </Stake>
   )
@@ -32,6 +32,11 @@ const { Stake } = {
 
     &:hover {
       background: ${({ theme }) => theme.color.blue[600]};
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
     }
 
     &.purple {

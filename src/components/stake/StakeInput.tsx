@@ -10,6 +10,7 @@ interface StakeInputProps {
   symbol: string
   disabled?: boolean
   purple?: boolean
+  hasError?: boolean
 }
 
 export default function StakeFormInput({
@@ -18,7 +19,8 @@ export default function StakeFormInput({
   symbol,
   balance,
   disabled,
-  purple
+  purple,
+  hasError
 }: StakeInputProps) {
   const { t } = useTranslation()
 
@@ -33,7 +35,7 @@ export default function StakeFormInput({
   }
 
   return (
-    <Container className={disabled ? 'disabled' : ''}>
+    <Container className={`${disabled ? 'disabled' : ''} ${hasError ? 'error' : ''}`}>
       <InputContainer>
         <input
           disabled={disabled}
@@ -41,7 +43,7 @@ export default function StakeFormInput({
           value={value}
           onChange={e => handleChange(e.target.value)}
           placeholder='0'
-          className={purple ? 'purple' : ''}
+          className={`${purple ? 'purple' : ''} ${hasError ? 'error' : ''}`}
         />
         <MaxValue
           className={purple ? 'purple' : ''}
@@ -52,8 +54,10 @@ export default function StakeFormInput({
         </MaxValue>
       </InputContainer>
       <BalanceInfo>
-        <span>{value && price && `${truncateEther(price.toString(), 2)} ${t('usd')}`}</span>
-        <span>
+        <span className={`${hasError ? 'error' : ''}`}>
+          {value && price && `${truncateEther(price.toString(), 2)} ${t('usd')}`}
+        </span>
+        <span className={`${hasError ? 'error' : ''}`}>
           {t('balance')}: {truncateEther(balance, 6)} {symbol}
         </span>
       </BalanceInfo>
@@ -74,6 +78,10 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
     &.disabled {
       background: ${({ theme }) => theme.color.blackAlpha[100]};
     }
+
+    &.error {
+      border: 1px solid ${({ theme }) => theme.color.red[400]};
+    }
   `,
   BalanceInfo: styled.div`
     display: flex;
@@ -85,6 +93,10 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
       line-height: 13px;
       display: flex;
       color: ${({ theme }) => theme.color.blue[300]};
+
+      &.error {
+        color: ${({ theme }) => theme.color.red[400]};
+      }
     }
   `,
   InputContainer: styled.div`
@@ -102,6 +114,10 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
 
       &::-webkit-input-placeholder {
         color: ${({ theme }) => theme.color.blue[300]};
+      }
+
+      &.error {
+        color: ${({ theme }) => theme.color.red[400]};
       }
 
       &.purple {
