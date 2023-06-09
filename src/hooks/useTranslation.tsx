@@ -7,7 +7,6 @@ export default function useTranslation() {
   const translation = useCallback(
     (key: string) => {
       if (t(key) == key) {
-        console.warn('missing translation key', key)
         throw new Error(`key:[${key}] was not found in the translation file`)
       }
 
