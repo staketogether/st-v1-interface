@@ -1,11 +1,10 @@
 import styled from 'styled-components'
-
-import { BigNumber } from 'ethers'
-import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
+import usePooledEthByShares from '../../hooks/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Pool } from '../../types/Pool'
 import StakeReceivedDelegation from './StakeReceivedDelegation'
+
 interface StakeStatsProps {
   pool?: Pool
 }
@@ -13,8 +12,8 @@ interface StakeStatsProps {
 export default function StakeStats({ pool }: StakeStatsProps) {
   const { t } = useTranslation()
 
-  const rewardsShares = usePooledEthByShares(pool ? pool.rewardsShares : BigNumber.from(0))
-  const delegatedShares = usePooledEthByShares(pool ? pool.delegatedShares : BigNumber.from(0))
+  const { balance: rewardsShares } = usePooledEthByShares(pool ? pool.rewardsShares : '0')
+  const { balance: delegatedShares } = usePooledEthByShares(pool ? pool.delegatedShares : '0')
 
   return (
     <Container>

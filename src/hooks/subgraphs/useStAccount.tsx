@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { queryAccount } from '../../queries/queryAccount'
 import { Account } from '../../types/Account'
 import { Delegation } from '../../types/Delegation'
+import usePooledEthByShares from '@/hooks/usePooledEthByShares'
 
 export default function useStAccount(address: `0x${string}`) {
   const [account, setAccount] = useState<Account | undefined>(undefined)
@@ -17,14 +18,17 @@ export default function useStAccount(address: `0x${string}`) {
     variables: { id: address.toLowerCase() }
   })
 
+  const { balance } = usePooledEthByShares(account?.shares)
+
   useEffect(() => {
     const account = data?.account
+    const originalBalance = BigNumber.from(account?.originalBalance || '0')
     setAccount(account)
     setAccountDelegations(account?.delegations || [])
     setAccountSentDelegationsCount(account?.sentDelegationsCount || 0)
-    setAccountBalance(account?.currentBalance || BigNumber.from(0))
-    setAccountRewardsBalance(account?.rewardsBalance || BigNumber.from(0))
-  }, [data])
+    setAccountBalance(BigNumber.from(balance))
+    setAccountRewardsBalance(BigNumber.from(balance).sub(originalBalance) || BigNumber.from(0))
+  }, [balance, data])
 
   useEffect(() => {
     setAccountIsLoading(loading)

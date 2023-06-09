@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
+import usePooledEthByShares from '../../hooks/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Delegation } from '../../types/Delegation'
@@ -13,7 +13,7 @@ type StakeReceivedDelegationProps = {
 export default function StakeReceivedDelegation({ delegation }: StakeReceivedDelegationProps) {
   const { t } = useTranslation()
 
-  const delegationAmount = usePooledEthByShares(delegation.delegationShares)
+  const { balance: delegationAmount } = usePooledEthByShares(delegation.delegationShares)
 
   return (
     <DelegationItem>
