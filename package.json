@@ -47,7 +47,6 @@
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
     "@types/mixpanel-browser": "^2.38.1",
-    "@types/nprogress": "^0.2.0",
     "@types/react": "^18.2.7",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
