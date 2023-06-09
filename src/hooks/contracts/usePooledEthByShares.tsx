@@ -1,23 +1,33 @@
 import { BigNumber } from 'ethers'
-import { useEffect, useState } from 'react'
-import chainConfig from '../../config/chain'
-import { useStakeTogetherPooledEthByShares } from '../../types/Contracts'
+import { useMemo } from 'react'
+import { useQuery } from '@apollo/client'
+import { queryPooledEthByShares } from '@/queries/queryPooledEthByShares'
+import { truncateEther } from '@/services/truncateEther'
 
-export default function usePooledEthByShares(sharesAmount: BigNumber) {
-  const { contracts } = chainConfig()
+interface PooledEthBySharesCalcInfoData {
+  totalShares: BigNumber
+  totalPooledEther: BigNumber
+}
 
-  const [balance, setBalance] = useState<string>('0')
+export default function usePooledEthByShares(sharesAmount: string) {
 
-  const pooledEthBySharesReq = useStakeTogetherPooledEthByShares({
-    address: contracts.StakeTogether,
-    args: [sharesAmount]
+  const { data } = useQuery<{ stakeTogether: PooledEthBySharesCalcInfoData }>(queryPooledEthByShares, {
+    nextFetchPolicy: 'cache-first'
   })
 
-  const pooledEthByShares = pooledEthBySharesReq.data?.toString() || '0'
+  const balance = useMemo(() => {
+    if (!sharesAmount || !data?.stakeTogether) {
+      return BigNumber.from('0')
+    }
 
-  useEffect(() => {
-    setBalance(pooledEthByShares)
-  }, [pooledEthByShares])
+    const { totalPooledEther, totalShares } = data.stakeTogether
+
+    const sharesAmountBN = BigNumber.from(sharesAmount)
+    const totalSharesBN = BigNumber.from(totalShares)
+    const totalPooledEtherBN = BigNumber.from(totalPooledEther)
+
+    return sharesAmountBN.mul(totalPooledEtherBN).div(totalSharesBN)
+  }, [data, sharesAmount])
 
   return balance
 }
