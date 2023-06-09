@@ -18,6 +18,7 @@ import { useRouter } from 'next/router'
 import chainConfig from '@/config/chain'
 import { useEffect } from 'react'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
+import NextNProgress from 'nextjs-progressbar'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -59,6 +60,10 @@ const App = ({ Component, pageProps }: AppProps) => {
             >
               <Analytics />
               <Hotjar />
+              <NextNProgress
+                color={lightTheme.color.purple[800]}
+                options={{ easing: 'ease', speed: 500 }}
+              />
               <Component {...pageProps} />
             </RainbowKitProvider>
           </WagmiConfig>
