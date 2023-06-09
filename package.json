@@ -32,7 +32,7 @@
     "mixpanel-browser": "^2.47.0",
     "next": "13.3.1",
     "next-i18next": "^13.2.2",
-    "nprogress": "^0.2.0",
+    "nextjs-progressbar": "^0.0.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.3.1",

@@ -14,12 +14,12 @@ import { chains, wagmiClient } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
-import { Router, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import chainConfig from '@/config/chain'
 import { useEffect } from 'react'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
-import NProgress from 'nprogress'
-import '../styles/nprogressStayle.css'
+import NextNProgress from 'nextjs-progressbar'
+
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -47,10 +47,6 @@ const App = ({ Component, pageProps }: AppProps) => {
     })
   }, [account, chain.chainId, hasMixpanelInit, registerPageView, router.events])
 
-  Router.events.on('routeChangeStart', () => NProgress.start())
-  Router.events.on('routeChangeComplete', () => NProgress.done())
-  Router.events.on('routeChangeError', () => NProgress.done())
-
   return (
     <div className={montserrat.className}>
       <ApolloProvider client={apolloClient}>
@@ -64,6 +60,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             >
               <Analytics />
               <Hotjar />
+              <NextNProgress color='#7154b7' options={{ easing: 'ease', speed: 500 }} />
               <Component {...pageProps} />
             </RainbowKitProvider>
           </WagmiConfig>
