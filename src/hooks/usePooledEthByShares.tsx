@@ -1,8 +1,7 @@
 import { BigNumber } from 'ethers'
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { queryPooledEthByShares } from '@/queries/queryPooledEthByShares'
-import { truncateEther } from '@/services/truncateEther'
 
 interface PooledEthBySharesCalcInfoData {
   totalShares: BigNumber
@@ -12,9 +11,12 @@ interface PooledEthBySharesCalcInfoData {
 export default function usePooledEthByShares(sharesAmount: string) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const { data, loading: queryLoading } = useQuery<{ stakeTogether: PooledEthBySharesCalcInfoData }>(queryPooledEthByShares, {
-    nextFetchPolicy: 'cache-first'
-  })
+  const { data, loading: queryLoading } = useQuery<{ stakeTogether: PooledEthBySharesCalcInfoData }>(
+    queryPooledEthByShares,
+    {
+      nextFetchPolicy: 'cache-first'
+    }
+  )
 
   const balance = useMemo(() => {
     setIsLoading(true)

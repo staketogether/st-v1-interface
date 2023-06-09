@@ -1,11 +1,10 @@
 import styled from 'styled-components'
-
-import { BigNumber } from 'ethers'
 import usePooledEthByShares from '../../hooks/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Pool } from '../../types/Pool'
 import StakeReceivedDelegation from './StakeReceivedDelegation'
+
 interface StakeStatsProps {
   pool?: Pool
 }
