@@ -1,7 +1,7 @@
 {
   "stakeTogether": "Stake Together",
   "explore": "Explorar",
-  "stake": "Stake",
+  "stake": "Depositar",
   "rewards": "Recompensas",
   "delegates": "Delegados",
   "processing": "Processando...",
@@ -47,7 +47,8 @@
     "withdraw": "Sacar Ether",
     "inputAmount": "Informe a Quantidade",
     "connectWallet": "Conectar Carteira",
-    "selectPool": "Selecionar Pool"
+    "selectPool": "Selecionar Pool",
+    "insufficientFunds": "Saldo insuficientes"
   },
   "noDelegations": "Sem Delegações",
   "notifications": {
