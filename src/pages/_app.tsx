@@ -60,10 +60,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             >
               <Analytics />
               <Hotjar />
-              <NextNProgress
-                color={lightTheme.color.purple[800]}
-                options={{ easing: 'ease', speed: 500 }}
-              />
+              <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
               <Component {...pageProps} />
             </RainbowKitProvider>
           </WagmiConfig>
