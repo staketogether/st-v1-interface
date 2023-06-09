@@ -5,8 +5,7 @@ export const queryAccount = gql`
     account(id: $id) {
       address
       shares
-      currentBalance
-      rewardsBalance
+      originalBalance
       sentDelegationsCount
       delegations(orderBy: delegationShares, orderDirection: desc) {
         id

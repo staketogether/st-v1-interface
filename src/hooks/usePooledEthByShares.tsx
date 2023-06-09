@@ -8,7 +8,7 @@ interface PooledEthBySharesCalcInfoData {
   totalPooledEther: BigNumber
 }
 
-export default function usePooledEthByShares(sharesAmount: string) {
+export default function usePooledEthByShares(sharesAmount?: string) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const { data, loading: queryLoading } = useQuery<{ stakeTogether: PooledEthBySharesCalcInfoData }>(
@@ -21,6 +21,7 @@ export default function usePooledEthByShares(sharesAmount: string) {
   const balance = useMemo(() => {
     setIsLoading(true)
     if (!sharesAmount || !data?.stakeTogether) {
+      setIsLoading(false)
       return BigNumber.from('0')
     }
 
