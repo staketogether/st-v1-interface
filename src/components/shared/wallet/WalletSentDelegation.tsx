@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import usePooledEthByShares from '../../../hooks/contracts/usePooledEthByShares'
+import usePooledEthByShares from '../../../hooks/usePooledEthByShares'
 import useTranslation from '../../../hooks/useTranslation'
 import { truncateEther } from '../../../services/truncateEther'
 import { Delegation } from '../../../types/Delegation'

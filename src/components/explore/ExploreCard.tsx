@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { AiOutlineCheck } from 'react-icons/ai'
 import styled from 'styled-components'
-import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
+import usePooledEthByShares from '../../hooks/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Pool } from '../../types/Pool'
