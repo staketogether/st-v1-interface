@@ -13,11 +13,12 @@ import validEnv from '../config/env'
 import { chains, wagmiClient } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
-import useConnectedAccount from "@/hooks/useConnectedAccount";
-import { useRouter } from "next/router";
-import chainConfig from "@/config/chain";
-import { useEffect } from "react";
-import { useMixpanelAnalytics } from "@/hooks/analytics/useMixpanelAnalytics";
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import chainConfig from '@/config/chain'
+import NextNProgress from 'nextjs-progressbar'
+import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -44,8 +45,6 @@ const App = ({ Component, pageProps }: AppProps) => {
     router.events.on('routeChangeComplete', () => {
       registerPageView(account, chain.chainId)
     })
-
-
   }, [account, chain.chainId, hasMixpanelInit, registerPageView, router.events])
 
   return (
@@ -61,6 +60,10 @@ const App = ({ Component, pageProps }: AppProps) => {
             >
               <Analytics />
               <Hotjar />
+              <NextNProgress
+                color={lightTheme.color.purple[800]}
+                options={{ easing: 'ease', speed: 500 }}
+              />
               <Component {...pageProps} />
             </RainbowKitProvider>
           </WagmiConfig>
