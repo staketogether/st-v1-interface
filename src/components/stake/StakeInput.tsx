@@ -74,13 +74,15 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
     padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
     gap: ${({ theme }) => theme.size[12]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
+    border: 1px solid ${({ theme }) => theme.color.white};
 
     &.disabled {
+      border: 1px solid ${({ theme }) => theme.color.transparent};
       background: ${({ theme }) => theme.color.blackAlpha[100]};
     }
 
     &.error {
-      border: 1px solid ${({ theme }) => theme.color.red[400]};
+      border: 1px solid ${({ theme }) => theme.color.red[100]};
     }
   `,
   BalanceInfo: styled.div`
@@ -95,7 +97,7 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
       color: ${({ theme }) => theme.color.blue[300]};
 
       &.error {
-        color: ${({ theme }) => theme.color.red[400]};
+        color: ${({ theme }) => theme.color.red[300]};
       }
     }
   `,
@@ -117,7 +119,7 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
       }
 
       &.error {
-        color: ${({ theme }) => theme.color.red[400]};
+        color: ${({ theme }) => theme.color.red[300]};
       }
 
       &.purple {
