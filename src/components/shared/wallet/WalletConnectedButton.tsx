@@ -6,6 +6,9 @@ import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { truncateEther } from '../../../services/truncateEther'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
+import { AiOutlineSwap } from 'react-icons/ai'
+import { useNetwork, useSwitchNetwork } from 'wagmi'
+import chainConfig from '@/config/chain'
 
 type WalletConnectedButtonProps = {
   address: `0x${string}`
@@ -19,25 +22,49 @@ export default function WalletConnectedButton({
   const { setOpenSidebar } = useWalletSidebar()
   const { t } = useTranslation()
 
+  const chain = chainConfig()
+
   const { accountBalance } = useStAccount(address)
+  const { chain: walletChainId } = useNetwork()
+  const isNetworkWrong = chain.chainId !== walletChainId?.id
+  const { switchNetworkAsync } = useSwitchNetwork({
+    chainId: chain.chainId
+  })
+
+  const handleActionButton = () => {
+    if (isNetworkWrong && switchNetworkAsync) {
+      switchNetworkAsync()
+      return
+    }
+    setOpenSidebar(true)
+  }
 
   return (
-    <ConnectedButton onClick={() => setOpenSidebar(true)}>
-      {showBalance && (
-        <CethBalance>
-          <span>{truncateEther(accountBalance.toString())}</span>
-          <span>{t('lsd.symbol')}</span>
-        </CethBalance>
+    <ConnectedButton onClick={handleActionButton} className={`${isNetworkWrong ? 'wrongNetwork' : ''}`}>
+      {isNetworkWrong ? (
+        <NetworkWrong>
+          <AiOutlineSwap />
+          <span>{t('wrongNetwork')}</span>
+        </NetworkWrong>
+      ) : (
+        <>
+          {showBalance && (
+            <CethBalance>
+              <span>{truncateEther(accountBalance.toString())}</span>
+              <span>{t('lsd.symbol')}</span>
+            </CethBalance>
+          )}
+          <EnsAddress>
+            <EnsName address={address} slice={16} />
+            <EnsAvatar address={address} />
+          </EnsAddress>
+        </>
       )}
-      <EnsAddress>
-        <EnsName address={address} slice={16} />
-        <EnsAvatar address={address} />
-      </EnsAddress>
     </ConnectedButton>
   )
 }
 
-const { CethBalance, ConnectedButton, EnsAddress } = {
+const { CethBalance, ConnectedButton, EnsAddress, NetworkWrong } = {
   ConnectedButton: styled.button`
     display: flex;
     gap: ${({ theme }) => theme.size[16]};
@@ -59,14 +86,14 @@ const { CethBalance, ConnectedButton, EnsAddress } = {
       background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
     }
 
-    &.active {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-      color: ${({ theme }) => theme.color.primary};
+    &.wrongNetwork {
+      background-color: ${({ theme }) => theme.color.red[400]};
+      color: ${({ theme }) => theme.color.white};
     }
   `,
   CethBalance: styled.div`
     display: none;
-    gap: 4px;
+    gap: ${({ theme }) => theme.size[4]};
     font-size: ${({ theme }) => theme.font.size[14]};
     > span:first-child {
       color: ${({ theme }) => theme.color.primary};
@@ -84,5 +111,10 @@ const { CethBalance, ConnectedButton, EnsAddress } = {
     grid-template-columns: auto 24px;
     gap: 8px;
     justify-content: flex-end;
+  `,
+  NetworkWrong: styled.div`
+    display: flex;
+    gap: ${({ theme }) => theme.size[8]};
+    align-items: center;
   `
 }

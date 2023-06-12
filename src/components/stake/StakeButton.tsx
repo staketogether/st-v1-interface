@@ -30,6 +30,11 @@ const { Stake } = {
 
     font-size: ${({ theme }) => theme.font.size[16]};
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: ${({ theme }) => theme.size[8]};
+
     &:hover {
       background: ${({ theme }) => theme.color.blue[600]};
     }
@@ -44,6 +49,10 @@ const { Stake } = {
       &:hover {
         background: ${({ theme }) => theme.color.purple[900]};
       }
+    }
+
+    &.wrong {
+      background-color: ${({ theme }) => theme.color.red[400]};
     }
   `
 }
