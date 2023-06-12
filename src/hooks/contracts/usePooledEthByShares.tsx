@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import chainConfig from '../../config/chain'
 import { useStakeTogetherPooledEthByShares } from '../../types/Contracts'
 
