@@ -34,10 +34,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   }, [initMixpanel])
 
   useEffect(() => {
-    if (!account) {
-      return
-    }
-
     router.events.on('routeChangeComplete', () => {
       registerPageView(chain.chainId)
     })
