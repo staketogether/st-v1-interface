@@ -25,7 +25,7 @@ const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
   const router = useRouter()
-  const { init: initMixpanel, registerPageView, isInitialized: hasMixpanelInit } = useMixpanelAnalytics()
+  const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
   const { account } = useConnectedAccount()
   const chain = chainConfig()
 

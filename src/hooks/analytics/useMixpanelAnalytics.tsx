@@ -86,7 +86,6 @@ export const useMixpanelAnalytics = () => {
   )
 
   return {
-    isInitialized,
     init,
     registerPageView,
     registerConnectWallet,
