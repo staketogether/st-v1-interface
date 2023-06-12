@@ -1,6 +1,6 @@
 import { Analytics } from '@/components/shared/scripts/Analytics'
 import { ApolloProvider } from '@apollo/client'
-import { RainbowKitProvider, lightTheme as lightThemeRainbow } from '@rainbow-me/rainbowkit'
+import { lightTheme as lightThemeRainbow, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
@@ -13,7 +13,6 @@ import validEnv from '../config/env'
 import { chains, wagmiClient } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
 import chainConfig from '@/config/chain'
 import NextNProgress from 'nextjs-progressbar'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
@@ -26,7 +25,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
   const router = useRouter()
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
-  const { account } = useConnectedAccount()
   const chain = chainConfig()
 
   useEffect(() => {
