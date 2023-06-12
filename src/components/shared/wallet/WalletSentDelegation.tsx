@@ -5,6 +5,7 @@ import { truncateEther } from '../../../services/truncateEther'
 import { Delegation } from '../../../types/Delegation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
+import Link from 'next/link'
 
 type WalletSentDelegationProps = {
   delegation: Delegation
@@ -16,7 +17,7 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
   const { balance: delegationAmount } = usePooledEthByShares(delegation.delegationShares)
 
   return (
-    <Container>
+    <Container href={`/stake/deposit/${delegation.delegated.address}`}>
       <div>
         <div>
           <EnsAvatar address={delegation.delegated.address} />
@@ -32,9 +33,10 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
 }
 
 const { Container } = {
-  Container: styled.div`
-    display: flex;
+  Container: styled(Link)`
+    display: grid;
     grid-template-columns: 1fr auto;
+    align-items: center;
 
     > div {
       display: flex;
