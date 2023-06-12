@@ -33,7 +33,7 @@ export const useMixpanelAnalytics = () => {
   )
 
   const registerPageView = useCallback(
-    (account: string, chainId: number) => {
+    (chainId: number) => {
       if (!isInitialized) {
         init()
         return
@@ -42,7 +42,6 @@ export const useMixpanelAnalytics = () => {
       mixpanel.track('Page View', {
         path: window.location.pathname,
         referrer: window.document.referrer,
-        walletAddress: account,
         chainId: chainId
       })
     },

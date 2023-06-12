@@ -39,9 +39,9 @@ const App = ({ Component, pageProps }: AppProps) => {
     }
 
     router.events.on('routeChangeComplete', () => {
-      registerPageView(account, chain.chainId)
+      registerPageView(chain.chainId)
     })
-  }, [account, chain.chainId, registerPageView, router.events])
+  }, [chain.chainId, registerPageView, router.events])
 
   return (
     <div className={montserrat.className}>
