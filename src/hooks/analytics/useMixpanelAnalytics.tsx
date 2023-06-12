@@ -19,6 +19,7 @@ export const useMixpanelAnalytics = () => {
   const registerConnectWallet = useCallback(
     (account: string, chainId: number) => {
       if (!isInitialized) {
+        init()
         return
       }
 
@@ -28,12 +29,13 @@ export const useMixpanelAnalytics = () => {
         path: window.location.pathname
       })
     },
-    [isInitialized]
+    [init, isInitialized]
   )
 
   const registerPageView = useCallback(
     (account: string, chainId: number) => {
       if (!isInitialized) {
+        init()
         return
       }
 
@@ -44,12 +46,13 @@ export const useMixpanelAnalytics = () => {
         chainId: chainId
       })
     },
-    [isInitialized]
+    [init, isInitialized]
   )
 
   const registerDeposit = useCallback(
     (walletAddress: string, chainId: number, poolAddress: string, amount: string) => {
       if (!isInitialized) {
+        init()
         return
       }
 
@@ -61,12 +64,13 @@ export const useMixpanelAnalytics = () => {
         path: window.location.pathname
       })
     },
-    [isInitialized]
+    [init, isInitialized]
   )
 
   const registerWithdraw = useCallback(
     (walletAddress: string, chainId: number, poolAddress: string, amount: string) => {
       if (!isInitialized) {
+        init()
         return
       }
 
@@ -78,7 +82,7 @@ export const useMixpanelAnalytics = () => {
         path: window.location.pathname
       })
     },
-    [isInitialized]
+    [init, isInitialized]
   )
 
   return {

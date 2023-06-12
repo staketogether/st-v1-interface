@@ -30,22 +30,18 @@ const App = ({ Component, pageProps }: AppProps) => {
   const chain = chainConfig()
 
   useEffect(() => {
-    if (hasMixpanelInit) {
-      return
-    }
-
     initMixpanel()
-  }, [initMixpanel, hasMixpanelInit])
+  }, [initMixpanel])
 
   useEffect(() => {
-    if (!hasMixpanelInit || !account) {
+    if (!account) {
       return
     }
 
     router.events.on('routeChangeComplete', () => {
       registerPageView(account, chain.chainId)
     })
-  }, [account, chain.chainId, hasMixpanelInit, registerPageView, router.events])
+  }, [account, chain.chainId, registerPageView, router.events])
 
   return (
     <div className={montserrat.className}>
