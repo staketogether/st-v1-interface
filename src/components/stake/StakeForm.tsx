@@ -99,7 +99,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
     }
-    if (insufficientFunds || insufficientWithdrawalLiquidity) {
+    if (insufficientFunds || insufficientWithdrawalLiquidity || insufficientMinDeposit) {
       return errorLabel
     }
     return actionLabel
