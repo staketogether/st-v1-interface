@@ -1,5 +1,7 @@
 import { ReactNode } from 'react'
 import styled from 'styled-components'
+import { GoogleTag } from '../scripts/GoogleTag'
+import { Hotjar } from '../scripts/Hotjar'
 import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
@@ -11,6 +13,8 @@ interface LayoutTemplateProps {
 export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   return (
     <Container>
+      <GoogleTag />
+      <Hotjar />
       <Wrapper>
         <Content>
           <LayoutHeaderDesktop />

@@ -1,6 +1,6 @@
 import Script from 'next/script'
 
-export const Analytics = () => {
+export const GoogleTag = () => {
   return (
     <>
       <Script
@@ -10,8 +10,9 @@ export const Analytics = () => {
       <Script id='google-analytics' strategy='afterInteractive'>
         {`
           window.dataLayer = window.dataLayer || [];
-          function gtag(){window.dataLayer.push(arguments);}
+          function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
+        
           gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
         `}
       </Script>

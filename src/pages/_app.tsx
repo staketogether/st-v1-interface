@@ -1,23 +1,21 @@
-import { Analytics } from '@/components/shared/scripts/Analytics'
+import chainConfig from '@/config/chain'
+import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { ApolloProvider } from '@apollo/client'
 import { lightTheme as lightThemeRainbow, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
 import { Montserrat } from 'next/font/google'
+import { useRouter } from 'next/router'
+import NextNProgress from 'nextjs-progressbar'
+import { useEffect } from 'react'
 import { ThemeProvider } from 'styled-components'
 import { WagmiConfig } from 'wagmi'
-import { Hotjar } from '../components/shared/scripts/Hotjar'
 import { apolloClient } from '../config/apollo'
 import validEnv from '../config/env'
 import { chains, wagmiClient } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
-import chainConfig from '@/config/chain'
-import NextNProgress from 'nextjs-progressbar'
-import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -48,8 +46,6 @@ const App = ({ Component, pageProps }: AppProps) => {
               modalSize='compact'
               showRecentTransactions
             >
-              <Analytics />
-              <Hotjar />
               <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
               <Component {...pageProps} />
             </RainbowKitProvider>
