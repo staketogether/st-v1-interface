@@ -69,11 +69,11 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
   }
 
   const handleLabelButton = () => {
-    if (isWrongNetwork) {
-      return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
-    }
     if (!accountAddress) {
       return t('form.connectWallet')
+    }
+    if (isWrongNetwork) {
+      return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
     }
     return t('form.selectPool')
   }
