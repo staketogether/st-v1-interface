@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
-export const queryDelegatedShares = gql`
-  query DelegatedShares($id: ID!) {
+export const queryDelegationShares = gql`
+  query DelegationShares($id: ID!) {
     delegation(id: $id) {
       delegationShares
     }

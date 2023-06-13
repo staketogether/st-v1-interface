@@ -13,7 +13,7 @@ import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 import chainConfig from '@/config/chain'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
-import useDelegatedShares from '@/hooks/subgraphs/useDelegatedShares'
+import useDelegationShares from '@/hooks/subgraphs/useDelegationShares'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -25,7 +25,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const { fee } = globalConfig
   const { t } = useTranslation()
   const cethBalance = useEthBalanceOf(accountAddress)
-  const { delegationShares } = useDelegatedShares(accountAddress, poolAddress)
+  const { delegationShares } = useDelegationShares(accountAddress, poolAddress)
 
   const [amount, setAmount] = useState<string>('')
   const debouncedAmount = useDebounce(amount, 1000)

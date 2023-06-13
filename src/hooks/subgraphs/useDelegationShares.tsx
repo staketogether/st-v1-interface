@@ -1,12 +1,12 @@
+import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 import { useQuery } from '@apollo/client'
-import { queryDelegatedShares } from '@/queries/queryDelegatedShares'
 
-export default function useDelegatedShares(
+export default function useDelegationShares(
   walletAddress: `0x${string}`,
   communityDelegate: `0x${string}`
 ) {
   const { data, loading } = useQuery<{ delegation?: { delegationShares?: string } }>(
-    queryDelegatedShares,
+    queryDelegationShares,
     {
       variables: { id: `${walletAddress.toLocaleLowerCase()}-${communityDelegate.toLocaleLowerCase()}` }
     }
