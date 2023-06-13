@@ -1,6 +1,6 @@
 import { Analytics } from '@/components/shared/scripts/Analytics'
 import { ApolloProvider } from '@apollo/client'
-import { RainbowKitProvider, lightTheme as lightThemeRainbow } from '@rainbow-me/rainbowkit'
+import { lightTheme as lightThemeRainbow, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps, NextWebVitalsMetric } from 'next/app'
@@ -13,7 +13,6 @@ import validEnv from '../config/env'
 import { chains, wagmiClient } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
 import chainConfig from '@/config/chain'
 import NextNProgress from 'nextjs-progressbar'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
@@ -25,27 +24,18 @@ const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
   const router = useRouter()
-  const { init: initMixpanel, registerPageView, isInitialized: hasMixpanelInit } = useMixpanelAnalytics()
-  const { account } = useConnectedAccount()
+  const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
   const chain = chainConfig()
 
   useEffect(() => {
-    if (hasMixpanelInit) {
-      return
-    }
-
     initMixpanel()
-  }, [initMixpanel, hasMixpanelInit])
+  }, [initMixpanel])
 
   useEffect(() => {
-    if (!hasMixpanelInit || !account) {
-      return
-    }
-
     router.events.on('routeChangeComplete', () => {
-      registerPageView(account, chain.chainId)
+      registerPageView(chain.chainId)
     })
-  }, [account, chain.chainId, hasMixpanelInit, registerPageView, router.events])
+  }, [chain.chainId, registerPageView, router.events])
 
   return (
     <div className={montserrat.className}>
