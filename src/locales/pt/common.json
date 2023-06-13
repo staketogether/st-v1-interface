@@ -29,6 +29,8 @@
   "apr": "APR",
   "pnl": "PNL",
   "rewardsFee": "Taxa de Recompensas",
+  "wrongNetwork": "Rede Errada",
+  "switch": "Trocar para",
   "titles": {
     "explore": "Explorar Pools",
     "stake": "Stake de Ether",
