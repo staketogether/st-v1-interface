@@ -10,7 +10,6 @@ export default function Wallet() {
   const { account, accountIsConnected } = useConnectedAccount()
   const { registerConnectWallet } = useMixpanelAnalytics()
   const chain = chainConfig()
-
   const [wallet, setWallet] = useState(<WalletDisconnectedButton />)
 
   useEffect(() => {

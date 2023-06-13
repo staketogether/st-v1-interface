@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router'
 import { AiOutlineCheck } from 'react-icons/ai'
 import styled from 'styled-components'
-import usePooledEthByShares from '../../hooks/usePooledEthByShares'
+import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Pool } from '../../types/Pool'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
+import { BigNumber } from 'ethers'
 
 type ExploreCardProps = {
   pool: Pool
@@ -17,8 +18,8 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
 
   const { t } = useTranslation()
 
-  const { balance: rewardsShares } = usePooledEthByShares(pool.rewardsShares)
-  const { balance: delegatedShares } = usePooledEthByShares(pool.delegatedShares)
+  const rewardsShares = usePooledEthByShares(BigNumber.from(pool.rewardsShares))
+  const delegatedShares = usePooledEthByShares(BigNumber.from(pool.delegatedShares))
 
   return (
     <Card onClick={() => router.push(`stake/deposit/${pool.address}`)}>
