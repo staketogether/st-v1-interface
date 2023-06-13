@@ -12,6 +12,7 @@ import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
+import { useWithdrawalLiquidityBalance } from '@/hooks/contracts/useWithdrawalLiquidityBalance'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -24,6 +25,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const { t } = useTranslation()
   const { accountBalance } = useStAccount(accountAddress)
   const cethBalance = useEthBalanceOf(accountAddress)
+  const { withdrawalLiquidityBalance } = useWithdrawalLiquidityBalance()
 
   const [amount, setAmount] = useState<string>('')
   const debouncedAmount = useDebounce(amount, 1000)
@@ -54,9 +56,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
   const balanceBigNumber = ethers.utils.parseEther(truncateEther(balance, 6))
-  const AmountBigNumber = ethers.utils.parseEther(amount || '0')
-  const insufficientFunds = AmountBigNumber.gt(balanceBigNumber)
-  const errorLabel = (insufficientFunds && t('form.insufficientFunds')) || ''
+  const amountBigNumber = ethers.utils.parseEther(amount || '0')
+  const insufficientFunds = amountBigNumber.gt(balanceBigNumber)
+  const insufficientWithdrawalLiquidity =
+    type === 'withdraw' && amountBigNumber.gt(withdrawalLiquidityBalance)
+  const errorLabel =
+    (insufficientFunds && t('form.insufficientFunds')) ||
+    (insufficientWithdrawalLiquidity && t('form.insufficientLiquidity')) ||
+    ''
 
   useEffect(() => {
     if (isSuccess) {
@@ -73,14 +80,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         symbol={balanceLabel}
         disabled={isLoading}
         purple={type === 'withdraw'}
-        hasError={insufficientFunds}
+        hasError={insufficientFunds || insufficientWithdrawalLiquidity}
       />
       <StakeButton
         isLoading={isLoading}
         onClick={action}
-        label={insufficientFunds ? errorLabel : actionLabel}
+        label={insufficientFunds || insufficientWithdrawalLiquidity ? errorLabel : actionLabel}
         purple={type === 'withdraw'}
-        disabled={insufficientFunds}
+        disabled={insufficientFunds || insufficientWithdrawalLiquidity}
       />
       <StakeInfo>
         <span>
