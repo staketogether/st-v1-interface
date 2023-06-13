@@ -14,6 +14,7 @@ import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 import chainConfig from '@/config/chain'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
+import { useWithdrawalLiquidityBalance } from '@/hooks/contracts/useWithdrawalLiquidityBalance'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -26,6 +27,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const { t } = useTranslation()
   const { accountBalance } = useStAccount(accountAddress)
   const cethBalance = useEthBalanceOf(accountAddress)
+  const { withdrawalLiquidityBalance } = useWithdrawalLiquidityBalance()
 
   const [amount, setAmount] = useState<string>('')
   const debouncedAmount = useDebounce(amount, 1000)
@@ -55,9 +57,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
   const balanceBigNumber = ethers.utils.parseEther(truncateEther(balance, 6))
-  const AmountBigNumber = ethers.utils.parseEther(amount || '0')
-  const insufficientFunds = AmountBigNumber.gt(balanceBigNumber)
-  const errorLabel = (insufficientFunds && t('form.insufficientFunds')) || ''
+  const amountBigNumber = ethers.utils.parseEther(amount || '0')
+  const insufficientFunds = amountBigNumber.gt(balanceBigNumber)
+  const insufficientWithdrawalLiquidity =
+    type === 'withdraw' && amountBigNumber.gt(withdrawalLiquidityBalance)
+  const errorLabel =
+    (insufficientFunds && t('form.insufficientFunds')) ||
+    (insufficientWithdrawalLiquidity && t('form.insufficientLiquidity')) ||
+    ''
 
   const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
@@ -87,7 +94,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
     }
-    if (insufficientFunds) {
+    if (insufficientFunds || insufficientWithdrawalLiquidity) {
       return errorLabel
     }
     return actionLabel
@@ -102,14 +109,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         symbol={balanceLabel}
         disabled={isWrongNetwork || isLoading}
         purple={type === 'withdraw'}
-        hasError={insufficientFunds}
+        hasError={insufficientFunds || insufficientWithdrawalLiquidity}
       />
       <StakeButton
         isLoading={isLoading}
         onClick={handleActionButton}
         label={handleLabelButton()}
         purple={type === 'withdraw'}
-        disabled={insufficientFunds}
+        disabled={insufficientFunds || insufficientWithdrawalLiquidity}
       />
       <StakeInfo>
         <span>
