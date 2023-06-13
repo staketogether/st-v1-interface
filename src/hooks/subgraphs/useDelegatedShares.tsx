@@ -11,6 +11,6 @@ export default function useDelegatedShares(
       variables: { id: `${walletAddress.toLocaleLowerCase()}-${communityDelegate.toLocaleLowerCase()}` }
     }
   )
-  console.log('data', data)
+
   return { delegationShares: data?.delegation?.delegationShares || '0', loading }
 }

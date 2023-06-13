@@ -48,7 +48,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const isLoading = depositLoading || withdrawLoading
   const isSuccess = depositSuccess || withdrawSuccess
-  console.log('delegationShares', delegationShares)
+
   const balance = type === 'deposit' ? cethBalance : delegationShares
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
