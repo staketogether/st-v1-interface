@@ -31,5 +31,6 @@ Sentry.init({
       tracePropagationTargets: [/^https:\/\/alpha.staketogether\.app/]
       // Add additional custom options here
     })
-  ]
+  ],
+  allowUrls: [/https?:\/\/(([^.]+)\.)?staketogether\.app\//]
 })

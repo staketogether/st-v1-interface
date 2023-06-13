@@ -12,6 +12,8 @@ import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
+import chainConfig from '@/config/chain'
+import { useNetwork, useSwitchNetwork } from 'wagmi'
 import { useWithdrawalLiquidityBalance } from '@/hooks/contracts/useWithdrawalLiquidityBalance'
 
 type StakeFormProps = {
@@ -50,7 +52,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const isSuccess = depositSuccess || withdrawSuccess
 
   const balance = type === 'deposit' ? cethBalance : accountBalance.toString()
-  const action = type === 'deposit' ? deposit : withdraw
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
   const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
@@ -65,11 +66,39 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     (insufficientWithdrawalLiquidity && t('form.insufficientLiquidity')) ||
     ''
 
+  const chain = chainConfig()
+  const { chain: walletChainId } = useNetwork()
+  const isWrongNetwork = chain.chainId !== walletChainId?.id
+  const { switchNetworkAsync } = useSwitchNetwork({
+    chainId: chain.chainId
+  })
+
   useEffect(() => {
     if (isSuccess) {
       setAmount('')
     }
   }, [isSuccess])
+
+  const handleActionButton = () => {
+    if (isWrongNetwork && switchNetworkAsync) {
+      switchNetworkAsync()
+      return
+    }
+    if (type === 'deposit') {
+      return deposit()
+    }
+    withdraw()
+  }
+
+  const handleLabelButton = () => {
+    if (isWrongNetwork) {
+      return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
+    }
+    if (insufficientFunds || insufficientWithdrawalLiquidity) {
+      return errorLabel
+    }
+    return actionLabel
+  }
 
   return (
     <StakeContainer>
@@ -78,14 +107,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         onChange={value => setAmount(value)}
         balance={balance}
         symbol={balanceLabel}
-        disabled={isLoading}
+        disabled={isWrongNetwork || isLoading}
         purple={type === 'withdraw'}
         hasError={insufficientFunds || insufficientWithdrawalLiquidity}
       />
       <StakeButton
         isLoading={isLoading}
-        onClick={action}
-        label={insufficientFunds || insufficientWithdrawalLiquidity ? errorLabel : actionLabel}
+        onClick={handleActionButton}
+        label={handleLabelButton()}
         purple={type === 'withdraw'}
         disabled={insufficientFunds || insufficientWithdrawalLiquidity}
       />
