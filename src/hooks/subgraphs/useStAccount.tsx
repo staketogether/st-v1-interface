@@ -1,4 +1,4 @@
-import usePooledEthByShares from '@/hooks/usePooledEthByShares'
+import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
 import { useQuery } from '@apollo/client'
 import { BigNumber } from 'ethers'
 import { useEffect, useState } from 'react'
@@ -18,7 +18,7 @@ export default function useStAccount(address: `0x${string}`) {
     variables: { id: address.toLowerCase() }
   })
 
-  const { balance } = usePooledEthByShares(account?.shares)
+  const balance = usePooledEthByShares(BigNumber.from(account?.shares || '0'))
 
   useEffect(() => {
     const account = data?.account

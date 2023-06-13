@@ -1,10 +1,11 @@
 import styled from 'styled-components'
-import usePooledEthByShares from '../../hooks/usePooledEthByShares'
+import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Delegation } from '../../types/Delegation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
+import { BigNumber } from 'ethers'
 
 type StakeReceivedDelegationProps = {
   delegation: Delegation
@@ -13,7 +14,7 @@ type StakeReceivedDelegationProps = {
 export default function StakeReceivedDelegation({ delegation }: StakeReceivedDelegationProps) {
   const { t } = useTranslation()
 
-  const { balance: delegationAmount } = usePooledEthByShares(delegation.delegationShares)
+  const delegationAmount = usePooledEthByShares(BigNumber.from(delegation.delegationShares))
 
   return (
     <DelegationItem>
