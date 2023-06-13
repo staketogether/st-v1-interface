@@ -7,13 +7,13 @@ import { useDebounce } from 'usehooks-ts'
 import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useWithdraw from '../../hooks/contracts/useWithdraw'
-import useStAccount from '../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 import chainConfig from '@/config/chain'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
+import useDelegationShares from '@/hooks/subgraphs/useDelegationShares'
 import { useMinDepositAmount } from '@/hooks/contracts/useMinDepositAmount'
 import { useWithdrawalLiquidityBalance } from '@/hooks/contracts/useWithdrawalLiquidityBalance'
 
@@ -26,8 +26,8 @@ type StakeFormProps = {
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { fee } = globalConfig
   const { t } = useTranslation()
-  const { accountBalance } = useStAccount(accountAddress)
   const cethBalance = useEthBalanceOf(accountAddress)
+  const { delegationShares } = useDelegationShares(accountAddress, poolAddress)
   const { withdrawalLiquidityBalance } = useWithdrawalLiquidityBalance()
 
   const { minDepositAmount } = useMinDepositAmount()
@@ -54,7 +54,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const isLoading = depositLoading || withdrawLoading
   const isSuccess = depositSuccess || withdrawSuccess
 
-  const balance = type === 'deposit' ? cethBalance : accountBalance.toString()
+  const balance = type === 'deposit' ? cethBalance : delegationShares
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
   const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
