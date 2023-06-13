@@ -14,6 +14,7 @@ import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 import chainConfig from '@/config/chain'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
+import { useMinDepositAmount } from '@/hooks/contracts/useMinDepositAmount'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -26,6 +27,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const { t } = useTranslation()
   const { accountBalance } = useStAccount(accountAddress)
   const cethBalance = useEthBalanceOf(accountAddress)
+
+  const { minDepositAmount } = useMinDepositAmount()
 
   const [amount, setAmount] = useState<string>('')
   const debouncedAmount = useDebounce(amount, 1000)
@@ -57,7 +60,11 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const balanceBigNumber = ethers.utils.parseEther(truncateEther(balance, 6))
   const AmountBigNumber = ethers.utils.parseEther(amount || '0')
   const insufficientFunds = AmountBigNumber.gt(balanceBigNumber)
-  const errorLabel = (insufficientFunds && t('form.insufficientFunds')) || ''
+  const insufficientMinDeposit = type === 'deposit' && AmountBigNumber.lt(minDepositAmount)
+  const errorLabel =
+    (insufficientFunds && t('form.insufficientFunds')) ||
+    (insufficientMinDeposit && t('form.insufficientMinDeposit')) ||
+    ''
 
   const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
@@ -102,14 +109,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         symbol={balanceLabel}
         disabled={isWrongNetwork || isLoading}
         purple={type === 'withdraw'}
-        hasError={insufficientFunds}
+        hasError={insufficientFunds || insufficientMinDeposit}
       />
       <StakeButton
         isLoading={isLoading}
         onClick={handleActionButton}
         label={handleLabelButton()}
         purple={type === 'withdraw'}
-        disabled={insufficientFunds}
+        disabled={insufficientFunds || insufficientMinDeposit}
       />
       <StakeInfo>
         <span>

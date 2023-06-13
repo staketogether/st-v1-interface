@@ -50,7 +50,8 @@
     "inputAmount": "Enter Amount",
     "connectWallet": "Connect Wallet",
     "selectPool": "Select Pool",
-    "insufficientFunds": "Insufficient funds"
+    "insufficientFunds": "Insufficient funds",
+    "insufficientMinDeposit": "Insufficient minimum deposit value"
   },
   "noDelegations": "No Delegations",
   "notifications": {
