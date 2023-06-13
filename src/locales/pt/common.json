@@ -50,7 +50,9 @@
     "inputAmount": "Informe a Quantidade",
     "connectWallet": "Conectar Carteira",
     "selectPool": "Selecionar Pool",
-    "insufficientFunds": "Saldo insuficientes"
+    "insufficientFunds": "Saldo insuficiente",
+    "insufficientMinDeposit": "Valor mínimo de depósito insuficiente",
+    "insufficientLiquidity": "Liquidez insuficiente para saque"
   },
   "noDelegations": "Sem Delegações",
   "notifications": {
