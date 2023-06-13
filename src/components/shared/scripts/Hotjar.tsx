@@ -2,7 +2,7 @@ import Script from 'next/script'
 
 export const Hotjar = () => {
   return (
-    <Script id='hotjar'>
+    <Script id='hotjar' strategy='afterInteractive'>
       {`
        (function(h,o,t,j,a,r){
                 h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
