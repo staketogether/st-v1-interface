@@ -26,13 +26,13 @@ export default function WalletConnectedButton({
 
   const { accountBalance } = useStAccount(address)
   const { chain: walletChainId } = useNetwork()
-  const isNetworkWrong = chain.chainId !== walletChainId?.id
+  const isWrongNetwork = chain.chainId !== walletChainId?.id
   const { switchNetworkAsync } = useSwitchNetwork({
     chainId: chain.chainId
   })
 
   const handleActionButton = () => {
-    if (isNetworkWrong && switchNetworkAsync) {
+    if (isWrongNetwork && switchNetworkAsync) {
       switchNetworkAsync()
       return
     }
@@ -40,8 +40,8 @@ export default function WalletConnectedButton({
   }
 
   return (
-    <ConnectedButton onClick={handleActionButton} className={`${isNetworkWrong ? 'wrongNetwork' : ''}`}>
-      {isNetworkWrong ? (
+    <ConnectedButton onClick={handleActionButton} className={`${isWrongNetwork ? 'wrongNetwork' : ''}`}>
+      {isWrongNetwork ? (
         <NetworkWrong>
           <AiOutlineSwap />
           <span>{t('wrongNetwork')}</span>

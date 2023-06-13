@@ -61,7 +61,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
-  const isNetworkWrong = chain.chainId !== walletChainId?.id
+  const isWrongNetwork = chain.chainId !== walletChainId?.id
   const { switchNetworkAsync } = useSwitchNetwork({
     chainId: chain.chainId
   })
@@ -73,19 +73,19 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   }, [isSuccess])
 
   const handleActionButton = () => {
-    if (isNetworkWrong && switchNetworkAsync) {
+    if (isWrongNetwork && switchNetworkAsync) {
       switchNetworkAsync()
       return
     }
     if (type === 'deposit') {
-      return deposit
+      return deposit()
     }
-    withdraw
+    withdraw()
   }
 
   const handleLabelButton = () => {
-    if (isNetworkWrong && switchNetworkAsync) {
-      return `${t('switch')} ${chain.name}`
+    if (isWrongNetwork) {
+      return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
     }
     if (insufficientFunds) {
       return errorLabel
@@ -100,7 +100,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         onChange={value => setAmount(value)}
         balance={balance}
         symbol={balanceLabel}
-        disabled={isNetworkWrong || isLoading}
+        disabled={isWrongNetwork || isLoading}
         purple={type === 'withdraw'}
         hasError={insufficientFunds}
       />

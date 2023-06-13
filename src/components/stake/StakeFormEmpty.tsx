@@ -11,6 +11,8 @@ import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
+import chainConfig from '@/config/chain'
+import { useNetwork, useSwitchNetwork } from 'wagmi'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -48,9 +50,33 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
     }
   }
 
-  const action = !accountAddress ? connectAccount : selectPool
+  const chain = chainConfig()
+  const { chain: walletChainId } = useNetwork()
+  const isWrongNetwork = chain.chainId !== walletChainId?.id
+  const { switchNetworkAsync } = useSwitchNetwork({
+    chainId: chain.chainId
+  })
 
-  const actionLabel = !accountAddress ? t('form.connectWallet') : t('form.selectPool')
+  const handleActionButton = () => {
+    if (isWrongNetwork && switchNetworkAsync) {
+      switchNetworkAsync()
+      return
+    }
+    if (!accountAddress) {
+      return connectAccount()
+    }
+    selectPool()
+  }
+
+  const handleLabelButton = () => {
+    if (isWrongNetwork) {
+      return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
+    }
+    if (!accountAddress) {
+      return t('form.connectWallet')
+    }
+    return t('form.selectPool')
+  }
 
   return (
     <StakeContainer>
@@ -62,7 +88,12 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
         disabled={true}
         purple={type === 'withdraw'}
       />
-      <StakeButton isLoading={false} onClick={action} label={actionLabel} purple={type === 'withdraw'} />
+      <StakeButton
+        isLoading={false}
+        onClick={handleActionButton}
+        label={handleLabelButton()}
+        purple={type === 'withdraw'}
+      />
       <StakeInfo>
         <span>
           {`${t('youReceive')} ${amount || '0'}`}
