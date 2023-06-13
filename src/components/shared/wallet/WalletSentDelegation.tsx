@@ -5,6 +5,7 @@ import { truncateEther } from '../../../services/truncateEther'
 import { Delegation } from '../../../types/Delegation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
+import Link from 'next/link'
 import { BigNumber } from 'ethers'
 
 type WalletSentDelegationProps = {
@@ -17,7 +18,7 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
   const delegationAmount = usePooledEthByShares(BigNumber.from(delegation.delegationShares))
 
   return (
-    <Container>
+    <Container href={`/stake/deposit/${delegation.delegated.address}`}>
       <div>
         <div>
           <EnsAvatar address={delegation.delegated.address} />
@@ -33,9 +34,12 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
 }
 
 const { Container } = {
-  Container: styled.div`
-    display: flex;
+  Container: styled(Link)`
+    display: grid;
     grid-template-columns: 1fr auto;
+    align-items: center;
+    border-radius: ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
 
     > div {
       display: flex;
@@ -58,6 +62,10 @@ const { Container } = {
       > span {
         color: ${({ theme }) => theme.color.secondary};
       }
+    }
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
     }
   `
 }
