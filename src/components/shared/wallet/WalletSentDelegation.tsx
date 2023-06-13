@@ -38,6 +38,8 @@ const { Container } = {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
+    border-radius: ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
 
     > div {
       display: flex;
@@ -60,6 +62,10 @@ const { Container } = {
       > span {
         color: ${({ theme }) => theme.color.secondary};
       }
+    }
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
     }
   `
 }
