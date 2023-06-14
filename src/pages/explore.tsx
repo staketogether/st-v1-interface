@@ -29,7 +29,7 @@ export default function Explore({ pools }: ExploreProps) {
 export const getServerSideProps: GetServerSideProps = async context => {
   const { data } = await apolloClient.query<{ pools: Pool[] }>({
     query: queryPools,
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'no-cache'
   })
 
   const pools: Pool[] = data.pools
