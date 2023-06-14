@@ -11,6 +11,7 @@ import NextNProgress from 'nextjs-progressbar'
 import { useEffect } from 'react'
 import { ThemeProvider } from 'styled-components'
 import { WagmiConfig } from 'wagmi'
+import { Cloudflare } from '../components/shared/scripts/Cloudflare'
 import { GoogleTag } from '../components/shared/scripts/GoogleTag'
 import { Hotjar } from '../components/shared/scripts/Hotjar'
 import { apolloClient } from '../config/apollo'
@@ -41,6 +42,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <div className={montserrat.className}>
       <GoogleTag />
       <Hotjar />
+      <Cloudflare />
       <ApolloProvider client={apolloClient}>
         <ThemeProvider theme={lightTheme}>
           <WagmiConfig client={wagmiClient}>
