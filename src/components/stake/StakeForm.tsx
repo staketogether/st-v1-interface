@@ -68,8 +68,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     type === 'withdraw' && amountBigNumber.gt(withdrawalLiquidityBalance) && amount.length > 0
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
-    (insufficientMinDeposit && t('form.insufficientMinDeposit')) ||
-    (insufficientWithdrawalLiquidity && t('form.insufficientLiquidity')) ||
+    (insufficientMinDeposit &&
+      `${t('form.insufficientMinDeposit')} ${truncateEther(minDepositAmount.toString())} ${t(
+        'eth.symbol'
+      )}`) ||
+    (insufficientWithdrawalLiquidity &&
+      `${t('form.insufficientLiquidity')} ${truncateEther(withdrawalLiquidityBalance.toString())} ${t(
+        'lsd.symbol'
+      )}`) ||
     ''
 
   const chain = chainConfig()
