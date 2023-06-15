@@ -2,8 +2,13 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 
+import chainConfig from '@/config/chain'
+import { useMinDepositAmount } from '@/hooks/contracts/useMinDepositAmount'
+import { useWithdrawalLiquidityBalance } from '@/hooks/contracts/useWithdrawalLiquidityBalance'
+import useDelegationShares from '@/hooks/subgraphs/useDelegationShares'
 import { ethers } from 'ethers'
 import { useDebounce } from 'usehooks-ts'
+import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useWithdraw from '../../hooks/contracts/useWithdraw'
@@ -11,11 +16,6 @@ import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
-import chainConfig from '@/config/chain'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
-import useDelegationShares from '@/hooks/subgraphs/useDelegationShares'
-import { useMinDepositAmount } from '@/hooks/contracts/useMinDepositAmount'
-import { useWithdrawalLiquidityBalance } from '@/hooks/contracts/useWithdrawalLiquidityBalance'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -59,12 +59,13 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
   const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
-  const balanceBigNumber = ethers.utils.parseEther(truncateEther(balance, 6))
+  const balanceBigNumber = ethers.utils.parseEther(balance)
   const amountBigNumber = ethers.utils.parseEther(amount || '0')
   const insufficientFunds = amountBigNumber.gt(balanceBigNumber)
-  const insufficientMinDeposit = type === 'deposit' && amountBigNumber.lt(minDepositAmount)
+  const insufficientMinDeposit =
+    type === 'deposit' && amountBigNumber.lt(minDepositAmount) && amount.length > 0
   const insufficientWithdrawalLiquidity =
-    type === 'withdraw' && amountBigNumber.gt(withdrawalLiquidityBalance)
+    type === 'withdraw' && amountBigNumber.gt(withdrawalLiquidityBalance) && amount.length > 0
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
     (insufficientMinDeposit && t('form.insufficientMinDeposit')) ||
