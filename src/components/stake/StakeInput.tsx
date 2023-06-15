@@ -48,7 +48,7 @@ export default function StakeFormInput({
         <MaxValue
           className={purple ? 'purple' : ''}
           disabled={disabled}
-          onClick={() => handleChange(truncateEther(balance, 6))}
+          onClick={() => handleChange(truncateEther(balance, 18))}
         >
           {t('max')}
         </MaxValue>
