@@ -2,11 +2,13 @@ import styled from 'styled-components'
 import useEthToUsdPrice from '../../hooks/useEthToUsdPrice'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface StakeInputProps {
   value: string
   onChange: (value: string) => void
   balance: string
+  balanceLoading: boolean
   symbol: string
   type: 'deposit' | 'withdraw'
   disabled?: boolean
@@ -19,6 +21,7 @@ export default function StakeFormInput({
   onChange,
   symbol,
   balance,
+  balanceLoading,
   type,
   disabled,
   purple,
@@ -60,7 +63,9 @@ export default function StakeFormInput({
           {value && price && `${truncateEther(price.toString(), 2)} ${t('usd')}`}
         </span>
         <span className={`${hasError ? 'error' : ''}`}>
-          {type === 'deposit' ? t('balance') : t('poolBalance')}: {truncateEther(balance, 6)} {symbol}
+          {type === 'deposit' ? t('balance') : t('poolBalance')}:{' '}
+          {balanceLoading ? <SkeletonLoading width={60} height={12} /> : truncateEther(balance, 6)}{' '}
+          {symbol}
         </span>
       </BalanceInfo>
     </Container>

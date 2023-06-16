@@ -18,7 +18,7 @@ export default function useStAccount(address: `0x${string}`) {
     variables: { id: address.toLowerCase() }
   })
 
-  const balance = usePooledEthByShares(BigNumber.from(account?.shares || '0'))
+  const { pooledEthByShares: balance } = usePooledEthByShares(BigNumber.from(account?.shares || '0'))
 
   useEffect(() => {
     const account = data?.account

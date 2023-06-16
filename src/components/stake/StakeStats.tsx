@@ -6,29 +6,39 @@ import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import usePool from '../../hooks/subgraphs/usePool'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
-import { Pool } from '../../types/Pool'
+
 import Loading from '../shared/icons/Loading'
 import StakeReceivedDelegation from './StakeReceivedDelegation'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface StakeStatsProps {
-  pool?: Pool
+  poolAddress: `0x${string}` | undefined
 }
 
-export default function StakeStats({ pool }: StakeStatsProps) {
+export default function StakeStats({ poolAddress }: StakeStatsProps) {
   const { t } = useTranslation()
 
   const [skip, setSkip] = useState(0)
 
-  const { pool: poolData, fetchMore, loading } = usePool(pool?.address, { first: 10, skip: 0 })
+  const {
+    pool: poolData,
+    fetchMore,
+    loadMoreLoading: loadMoreLoadingPoolData,
+    initialLoading
+  } = usePool(poolAddress, { first: 10, skip: 0 })
 
-  const rewardsShares = usePooledEthByShares(BigNumber.from(poolData ? poolData.rewardsShares : '0'))
-  const delegatedShares = usePooledEthByShares(BigNumber.from(poolData ? poolData.delegatedShares : '0'))
+  const { pooledEthByShares: rewardsShares, loading: isRewardsSharesLoading } = usePooledEthByShares(
+    BigNumber.from(poolData ? poolData.rewardsShares : '0')
+  )
+  const { pooledEthByShares: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
+    BigNumber.from(poolData ? poolData.delegatedShares : '0')
+  )
 
   const handleLoadMore = () => {
-    if (pool?.address) {
+    if (poolAddress) {
       const newSkip = skip + 10
       setSkip(newSkip)
-      fetchMore({ id: pool.address, first: 10, skip: newSkip })
+      fetchMore({ id: poolAddress, first: 10, skip: newSkip })
     }
   }
 
@@ -39,20 +49,41 @@ export default function StakeStats({ pool }: StakeStatsProps) {
           <StatsWrapper>
             <span>{t('delegated')}</span>
             <span>
-              {`${truncateEther(delegatedShares.toString(), 6)}`}
+              {delegatedSharesLoading || initialLoading ? (
+                <SkeletonLoading width={80} />
+              ) : (
+                `${truncateEther(delegatedShares.toString(), 6)}`
+              )}
               <span>{t('lsd.symbol')}</span>
             </span>
           </StatsWrapper>
           <StatsWrapper>
             <span>{t('rewards')}</span>
             <span>
-              {truncateEther(rewardsShares.toString(), 6)}
+              {isRewardsSharesLoading || initialLoading ? (
+                <SkeletonLoading width={80} />
+              ) : (
+                truncateEther(rewardsShares.toString(), 6)
+              )}
               <span>{t('lsd.symbol')}</span>
             </span>
           </StatsWrapper>
         </Stats>
       </StatsContainer>
-      {poolData && poolData.delegations.length > 0 && (
+      {initialLoading && (
+        <DelegationsContainer>
+          <StatsWrapper>
+            <span>{t('members')}</span>
+            <SkeletonLoading width={40} height={14} />
+          </StatsWrapper>
+          <SkeletonLoading height={24} />
+          <SkeletonLoading height={24} />
+          <SkeletonLoading height={24} />
+          <SkeletonLoading height={24} />
+          <SkeletonLoading height={24} />
+        </DelegationsContainer>
+      )}
+      {!initialLoading && poolData && poolData.delegations.length > 0 && (
         <DelegationsContainer>
           <StatsWrapper>
             <span>{t('members')}</span>
@@ -67,8 +98,8 @@ export default function StakeStats({ pool }: StakeStatsProps) {
           ))}
           {poolData?.address && poolData.delegations.length < poolData.receivedDelegationsCount && (
             <LoadMoreButton onClick={handleLoadMore}>
-              {loading && <Loading />}
-              {!loading && <AiOutlineUsergroupAdd />}
+              {loadMoreLoadingPoolData && <Loading />}
+              {!loadMoreLoadingPoolData && <AiOutlineUsergroupAdd />}
               {t('loadMore')}
             </LoadMoreButton>
           )}

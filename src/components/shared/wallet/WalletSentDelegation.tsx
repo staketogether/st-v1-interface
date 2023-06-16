@@ -15,7 +15,9 @@ type WalletSentDelegationProps = {
 export default function WalletSentDelegation({ delegation }: WalletSentDelegationProps) {
   const { t } = useTranslation()
 
-  const delegationAmount = usePooledEthByShares(BigNumber.from(delegation.delegationShares))
+  const { pooledEthByShares: delegationAmount } = usePooledEthByShares(
+    BigNumber.from(delegation.delegationShares)
+  )
 
   return (
     <Container href={`/stake/deposit/${delegation.delegated.address}`}>

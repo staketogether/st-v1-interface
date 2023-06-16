@@ -32,5 +32,10 @@ export default function usePool(address?: string, delegations?: { first: number;
     })
   }
 
-  return { pool: data?.pool, loading: loadingFetchMore || poolLoading, fetchMore: loadMore }
+  return {
+    pool: data?.pool,
+    loadMoreLoading: loadingFetchMore || poolLoading,
+    initialLoading: poolLoading,
+    fetchMore: loadMore
+  }
 }
