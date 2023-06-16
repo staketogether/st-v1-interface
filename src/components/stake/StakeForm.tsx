@@ -123,6 +123,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         disabled={isWrongNetwork || isLoading}
         purple={type === 'withdraw'}
         hasError={insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity}
+        type={type}
       />
       <StakeButton
         isLoading={isLoading}

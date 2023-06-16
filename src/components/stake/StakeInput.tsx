@@ -8,6 +8,7 @@ interface StakeInputProps {
   onChange: (value: string) => void
   balance: string
   symbol: string
+  type: 'deposit' | 'withdraw'
   disabled?: boolean
   purple?: boolean
   hasError?: boolean
@@ -18,6 +19,7 @@ export default function StakeFormInput({
   onChange,
   symbol,
   balance,
+  type,
   disabled,
   purple,
   hasError
@@ -58,7 +60,7 @@ export default function StakeFormInput({
           {value && price && `${truncateEther(price.toString(), 2)} ${t('usd')}`}
         </span>
         <span className={`${hasError ? 'error' : ''}`}>
-          {t('balance')}: {truncateEther(balance, 6)} {symbol}
+          {type === 'deposit' ? t('ethBalance') : t('poolBalance')}: {truncateEther(balance, 6)} {symbol}
         </span>
       </BalanceInfo>
     </Container>

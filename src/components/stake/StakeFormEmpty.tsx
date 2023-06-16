@@ -2,7 +2,9 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 
+import chainConfig from '@/config/chain'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useResizeView from '../../hooks/useResizeView'
 import useSearchDrawer from '../../hooks/useSearchDrawer'
@@ -11,8 +13,6 @@ import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
-import chainConfig from '@/config/chain'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -87,6 +87,7 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
         symbol={t('eth.symbol')}
         disabled={true}
         purple={type === 'withdraw'}
+        type={type}
       />
       <StakeButton
         isLoading={false}
