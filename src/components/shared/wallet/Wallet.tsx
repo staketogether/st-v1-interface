@@ -19,7 +19,7 @@ export default function Wallet() {
 
   return accountIsConnected && account ? (
     <>
-      <WalletConnectedButton address={account} />
+      <WalletConnectedButton address={account} showBalance={false} />
       <WalletSidebar address={account} />
     </>
   ) : (

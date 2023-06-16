@@ -78,7 +78,6 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
               </span>
             </div>
           </InfoContainer>
-
           <ContainerPoolsDelegated>
             <div>
               <span>{t('delegations')}</span>
