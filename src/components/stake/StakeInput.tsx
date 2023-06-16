@@ -29,7 +29,7 @@ export default function StakeFormInput({
   function handleChange(value: string) {
     const regex = /^(\d+(\.\d*)?|\.\d+)$/
     if (!value || regex.test(value)) {
-      if (value.length > 20) return
+      if (value.length > 19 + value.split('.')[0].length) return
       onChange(value)
     }
   }

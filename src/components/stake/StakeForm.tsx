@@ -26,7 +26,7 @@ type StakeFormProps = {
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { fee } = globalConfig
   const { t } = useTranslation()
-  const cethBalance = useEthBalanceOf(accountAddress)
+  const ethBalance = useEthBalanceOf(accountAddress)
   const { delegationShares } = useDelegationShares(accountAddress, poolAddress)
   const { withdrawalLiquidityBalance } = useWithdrawalLiquidityBalance()
 
@@ -54,18 +54,19 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const isLoading = depositLoading || withdrawLoading
   const isSuccess = depositSuccess || withdrawSuccess
 
-  const balance = type === 'deposit' ? cethBalance : delegationShares
+  const balance = type === 'deposit' ? ethBalance : delegationShares
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
   const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
-  const balanceBigNumber = ethers.utils.parseEther(balance)
   const amountBigNumber = ethers.utils.parseEther(amount || '0')
-  const insufficientFunds = amountBigNumber.gt(balanceBigNumber)
+
+  const insufficientFunds = amountBigNumber.gt(balance)
   const insufficientMinDeposit =
     type === 'deposit' && amountBigNumber.lt(minDepositAmount) && amount.length > 0
   const insufficientWithdrawalLiquidity =
     type === 'withdraw' && amountBigNumber.gt(withdrawalLiquidityBalance) && amount.length > 0
+
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
     (insufficientMinDeposit &&
