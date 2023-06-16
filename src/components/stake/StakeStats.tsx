@@ -58,8 +58,12 @@ export default function StakeStats({ pool }: StakeStatsProps) {
             <span>{t('members')}</span>
             <span>{poolData.receivedDelegationsCount}</span>
           </StatsWrapper>
-          {poolData.delegations.map(delegation => (
-            <StakeReceivedDelegation key={delegation.delegate.address} delegation={delegation} />
+          {poolData.delegations.map((delegation, index) => (
+            <StakeReceivedDelegation
+              key={delegation.delegate.address}
+              delegation={delegation}
+              rank={index + 1}
+            />
           ))}
           {poolData?.address && poolData.delegations.length < poolData.receivedDelegationsCount && (
             <LoadMoreButton onClick={handleLoadMore}>
