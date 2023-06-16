@@ -1,11 +1,10 @@
 import { useQuery } from '@apollo/client'
-import { useEffect, useState } from 'react'
 import { queryPool } from '../../queries/queryPool'
 import { Pool } from '../../types/Pool'
+import { useState } from 'react'
 
 export default function usePool(address?: string, delegations?: { first: number; skip: number }) {
-  const [pool, setPool] = useState<Pool | undefined>(undefined)
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loadingFetchMore, setLoadingFetchMore] = useState<boolean>(false)
 
   const {
     data,
@@ -17,9 +16,11 @@ export default function usePool(address?: string, delegations?: { first: number;
   })
 
   const loadMore = (variables: { id: string; first: number; skip: number }) => {
+    setLoadingFetchMore(true)
     fetchMore({
       variables,
       updateQuery: (prev, { fetchMoreResult }) => {
+        setLoadingFetchMore(false)
         if (!fetchMoreResult) return prev
         return {
           pool: {
@@ -31,13 +32,5 @@ export default function usePool(address?: string, delegations?: { first: number;
     })
   }
 
-  useEffect(() => {
-    setPool(data?.pool)
-  }, [data])
-
-  useEffect(() => {
-    setLoading(poolLoading)
-  }, [poolLoading, setLoading])
-
-  return { pool, loading, fetchMore: loadMore }
+  return { pool: data?.pool, loading: loadingFetchMore || poolLoading, fetchMore: loadMore }
 }
