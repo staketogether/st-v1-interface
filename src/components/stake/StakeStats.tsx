@@ -1,10 +1,14 @@
+import { BigNumber } from 'ethers'
+import { useState } from 'react'
+import { AiOutlineUsergroupAdd } from 'react-icons/ai'
 import styled from 'styled-components'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
+import usePool from '../../hooks/subgraphs/usePool'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import { Pool } from '../../types/Pool'
+import Loading from '../shared/icons/Loading'
 import StakeReceivedDelegation from './StakeReceivedDelegation'
-import { BigNumber } from 'ethers'
 
 interface StakeStatsProps {
   pool?: Pool
@@ -13,8 +17,20 @@ interface StakeStatsProps {
 export default function StakeStats({ pool }: StakeStatsProps) {
   const { t } = useTranslation()
 
-  const rewardsShares = usePooledEthByShares(BigNumber.from(pool ? pool.rewardsShares : '0'))
-  const delegatedShares = usePooledEthByShares(BigNumber.from(pool ? pool.delegatedShares : '0'))
+  const [skip, setSkip] = useState(0)
+
+  const { pool: poolData, fetchMore, loading } = usePool(pool?.address, { first: 10, skip: 0 })
+
+  const rewardsShares = usePooledEthByShares(BigNumber.from(poolData ? poolData.rewardsShares : '0'))
+  const delegatedShares = usePooledEthByShares(BigNumber.from(poolData ? poolData.delegatedShares : '0'))
+
+  const handleLoadMore = () => {
+    if (pool?.address) {
+      const newSkip = skip + 10
+      setSkip(newSkip)
+      fetchMore({ id: pool.address, first: 10, skip: newSkip })
+    }
+  }
 
   return (
     <Container>
@@ -36,23 +52,29 @@ export default function StakeStats({ pool }: StakeStatsProps) {
           </StatsWrapper>
         </Stats>
       </StatsContainer>
-
-      {pool && pool.delegations.length > 0 && (
+      {poolData && poolData.delegations.length > 0 && (
         <DelegationsContainer>
           <StatsWrapper>
             <span>{t('members')}</span>
-            <span>{pool.receivedDelegationsCount}</span>
+            <span>{poolData.receivedDelegationsCount}</span>
           </StatsWrapper>
-          {pool.delegations.map(delegation => (
+          {poolData.delegations.map(delegation => (
             <StakeReceivedDelegation key={delegation.delegate.address} delegation={delegation} />
           ))}
+          {poolData?.address && poolData.delegations.length < poolData.receivedDelegationsCount && (
+            <LoadMoreButton onClick={handleLoadMore}>
+              {loading && <Loading />}
+              {!loading && <AiOutlineUsergroupAdd />}
+              {t('loadMore')}
+            </LoadMoreButton>
+          )}
         </DelegationsContainer>
       )}
     </Container>
   )
 }
 
-const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer } = {
+const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer, LoadMoreButton } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
@@ -101,6 +123,30 @@ const { Container, StatsContainer, Stats, StatsWrapper, DelegationsContainer } =
 
     > div:first-of-type {
       margin-bottom: ${({ theme }) => theme.size[8]};
+    }
+  `,
+  LoadMoreButton: styled.button`
+    display: flex;
+    gap: ${({ theme }) => theme.size[4]};
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 32px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
+    border: none;
+    border-radius: ${({ theme }) => theme.size[16]};
+    padding: 0 ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
+
+    &.active {
+      color: ${({ theme }) => theme.color.secondary};
     }
   `
 }

@@ -16,7 +16,7 @@ type UnstakePoolProps = {
 export default function WithdrawPool({ poolAddress, name, avatar }: UnstakePoolProps) {
   const { t } = useTranslation()
 
-  const { pool } = usePool(poolAddress)
+  const { pool } = usePool(poolAddress, { first: 10, skip: 0 })
 
   return (
     <LayoutTemplate>

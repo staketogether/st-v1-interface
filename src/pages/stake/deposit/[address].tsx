@@ -16,7 +16,7 @@ type DepositPoolProps = {
 export default function Deposit({ poolAddress, name, avatar }: DepositPoolProps) {
   const { t } = useTranslation()
 
-  const { pool } = usePool(poolAddress)
+  const { pool } = usePool(poolAddress, { first: 10, skip: 0 })
 
   return (
     <LayoutTemplate>
