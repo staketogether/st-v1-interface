@@ -60,7 +60,7 @@ export default function StakeFormInput({
           {value && price && `${truncateEther(price.toString(), 2)} ${t('usd')}`}
         </span>
         <span className={`${hasError ? 'error' : ''}`}>
-          {type === 'deposit' ? t('ethBalance') : t('poolBalance')}: {truncateEther(balance, 6)} {symbol}
+          {type === 'deposit' ? t('balance') : t('poolBalance')}: {truncateEther(balance, 6)} {symbol}
         </span>
       </BalanceInfo>
     </Container>
