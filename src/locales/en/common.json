@@ -34,6 +34,7 @@
   "rewardsFee": "Rewards Fee",
   "wrongNetwork": "Wrong Network",
   "switch": "Switch to",
+  "analytics": "Analytics",
   "titles": {
     "explore": "Explore Pools",
     "stake": "Stake Ether",
@@ -76,5 +77,6 @@
   "sidebar": {
     "etherBalance": "Ether Balance",
     "stakedBalance": "Staked Balance"
-  }
+  },
+  "soon": "Coming Soon"
 }

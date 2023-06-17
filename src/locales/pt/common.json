@@ -34,6 +34,7 @@
   "rewardsFee": "Taxa de Recompensas",
   "wrongNetwork": "Rede Errada",
   "switch": "Trocar para",
+  "analytics": "Análises",
   "titles": {
     "explore": "Explorar Pools",
     "stake": "Stake de Ether",
@@ -76,5 +77,6 @@
   "sidebar": {
     "etherBalance": "Saldo de Ether",
     "stakedBalance": "Saldo em Stake"
-  }
+  },
+  "soon": "Em Breve"
 }

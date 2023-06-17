@@ -120,6 +120,7 @@ export default function LayoutSearch() {
 const { Container, DropdownMenu, InputSearchArea, InputSearch, DropdownMenuItem, NotFound, Loading } = {
   Container: styled.div`
     width: 100%;
+    max-width: 240px;
     position: relative;
     display: grid;
     grid-template-columns: 1fr;
