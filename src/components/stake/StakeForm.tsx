@@ -27,7 +27,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const { fee } = globalConfig
   const { t } = useTranslation()
   const { balance: ethBalance, isLoading: balanceLoading } = useEthBalanceOf(accountAddress)
-  const { delegationShares, loading: delegationSharesLoading } = useDelegationShares(
+  const { delegationSharesFormatted, loading: delegationSharesLoading } = useDelegationShares(
     accountAddress,
     poolAddress
   )
@@ -57,7 +57,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const isLoading = depositLoading || withdrawLoading
   const isSuccess = depositSuccess || withdrawSuccess
 
-  const balance = type === 'deposit' ? ethBalance : delegationShares
+  const balance = type === 'deposit' ? ethBalance : delegationSharesFormatted
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
   const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
