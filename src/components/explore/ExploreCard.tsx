@@ -1,3 +1,4 @@
+import { BigNumber } from 'ethers'
 import { useRouter } from 'next/router'
 import { AiOutlineCheck } from 'react-icons/ai'
 import styled from 'styled-components'
@@ -7,7 +8,6 @@ import { truncateEther } from '../../services/truncateEther'
 import { Pool } from '../../types/Pool'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
-import { BigNumber } from 'ethers'
 
 type ExploreCardProps = {
   pool: Pool
@@ -32,7 +32,7 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
       </CardHeader>
       <CardInfo>
         <div>
-          <div>{t('delegated')}</div>
+          <div>{t('staked')}</div>
           <div>
             {truncateEther(delegatedShares.toString(), 6)}
             <span>{t('lsd.symbol')}</span>

@@ -37,7 +37,7 @@ export default function StakeStats({ pool }: StakeStatsProps) {
       <StatsContainer>
         <Stats>
           <StatsWrapper>
-            <span>{t('delegated')}</span>
+            <span>{t('staked')}</span>
             <span>
               {`${truncateEther(delegatedShares.toString(), 6)}`}
               <span>{t('lsd.symbol')}</span>

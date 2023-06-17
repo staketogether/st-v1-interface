@@ -58,6 +58,7 @@
     "insufficientLiquidity": "Available Liquidity for"
   },
   "noDelegations": "No Delegations",
+  "noStake": "You not staked yet",
   "notifications": {
     "depositSuccess": "Deposit Successful",
     "depositError": "Failed to Deposit",

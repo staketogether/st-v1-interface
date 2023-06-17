@@ -80,12 +80,12 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           </InfoContainer>
           <ContainerPoolsDelegated>
             <div>
-              <span>{t('delegations')}</span>
+              <span>{t('staked')}</span>
               <span>{accountSentDelegationsCount}</span>
             </div>
             {accountDelegations.length === 0 && (
               <div>
-                <span>{t('noDelegations')}</span>
+                <span>{t('noStake')}</span>
               </div>
             )}
             {accountDelegations.map((delegation, index) => (

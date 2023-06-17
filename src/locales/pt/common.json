@@ -58,6 +58,7 @@
     "insufficientLiquidity": "Liquidez insuficiente para saque"
   },
   "noDelegations": "Sem Delegações",
+  "noStake": "Você ainda não fez Stake",
   "notifications": {
     "depositSuccess": "Depósito Bem-Sucedido",
     "depositError": "Falha ao Depositar",
