@@ -8,6 +8,7 @@ import { truncateEther } from '../../services/truncateEther'
 import { Pool } from '../../types/Pool'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 type ExploreCardProps = {
   pool: Pool
@@ -18,8 +19,12 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
 
   const { t } = useTranslation()
 
-  const { balance: rewardsShares } = usePooledEthByShares(BigNumber.from(pool.rewardsShares))
-  const { balance: delegatedShares } = usePooledEthByShares(BigNumber.from(pool.delegatedShares))
+  const { balance: rewardsShares, loading: rewardsSharesLoading } = usePooledEthByShares(
+    BigNumber.from(pool.rewardsShares)
+  )
+  const { balance: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
+    BigNumber.from(pool.delegatedShares)
+  )
 
   return (
     <Card onClick={() => router.push(`stake/deposit/${pool.address}`)}>
@@ -33,17 +38,25 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
       <CardInfo>
         <div>
           <div>{t('staked')}</div>
-          <div>
-            {truncateEther(delegatedShares.toString(), 6)}
-            <span>{t('lsd.symbol')}</span>
-          </div>
+          {delegatedSharesLoading ? (
+            <SkeletonLoading width={80} />
+          ) : (
+            <div>
+              {truncateEther(delegatedShares.toString(), 6)}
+              <span>{t('lsd.symbol')}</span>
+            </div>
+          )}
         </div>
         <div>
           <div>{t('rewards')}</div>
-          <div>
-            {truncateEther(rewardsShares.toString(), 6)}
-            <span>{t('lsd.symbol')}</span>
-          </div>
+          {rewardsSharesLoading ? (
+            <SkeletonLoading width={80} />
+          ) : (
+            <div>
+              {truncateEther(rewardsShares.toString(), 6)}
+              <span>{t('lsd.symbol')}</span>
+            </div>
+          )}
         </div>
 
         <div>
