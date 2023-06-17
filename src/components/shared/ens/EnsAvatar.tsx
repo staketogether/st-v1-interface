@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import styled from 'styled-components'
 import useEns from '../../../hooks/useEns'
+import SkeletonLoading from '../icons/SkeletonLoading'
 
 type EnsAvatarProps = {
   address: `0x${string}`
@@ -8,7 +9,11 @@ type EnsAvatarProps = {
 }
 
 export default function EnsAvatar({ address, large }: EnsAvatarProps) {
-  const { avatar } = useEns(address)
+  const { avatar, avatarLoading } = useEns(address)
+
+  if (avatarLoading) {
+    return <SkeletonLoading borderRadius='50%' width={large ? 26 : 24} height={large ? 26 : 24} />
+  }
 
   return avatar ? (
     <Avatar

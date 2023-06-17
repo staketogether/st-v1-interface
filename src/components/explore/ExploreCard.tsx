@@ -18,10 +18,8 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
 
   const { t } = useTranslation()
 
-  const { pooledEthByShares: rewardsShares } = usePooledEthByShares(BigNumber.from(pool.rewardsShares))
-  const { pooledEthByShares: delegatedShares } = usePooledEthByShares(
-    BigNumber.from(pool.delegatedShares)
-  )
+  const { balance: rewardsShares } = usePooledEthByShares(BigNumber.from(pool.rewardsShares))
+  const { balance: delegatedShares } = usePooledEthByShares(BigNumber.from(pool.delegatedShares))
 
   return (
     <Card onClick={() => router.push(`stake/deposit/${pool.address}`)}>

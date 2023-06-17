@@ -64,8 +64,8 @@ export default function StakeFormInput({
         </span>
         <span className={`${hasError ? 'error' : ''}`}>
           {type === 'deposit' ? t('balance') : t('poolBalance')}:{' '}
-          {balanceLoading ? <SkeletonLoading width={60} height={12} /> : truncateEther(balance, 6)}{' '}
-          {symbol}
+          {balanceLoading ? <SkeletonLoading width={90} height={12} /> : truncateEther(balance, 6)}{' '}
+          {!balanceLoading && symbol}
         </span>
       </BalanceInfo>
     </Container>

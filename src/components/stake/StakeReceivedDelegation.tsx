@@ -6,6 +6,7 @@ import { truncateEther } from '../../services/truncateEther'
 import { Delegation } from '../../types/Delegation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 type StakeReceivedDelegationProps = {
   delegation: Delegation
@@ -15,7 +16,7 @@ type StakeReceivedDelegationProps = {
 export default function StakeReceivedDelegation({ delegation, rank }: StakeReceivedDelegationProps) {
   const { t } = useTranslation()
 
-  const { pooledEthByShares: delegationAmount } = usePooledEthByShares(
+  const { balance: delegationAmount, loading } = usePooledEthByShares(
     BigNumber.from(delegation.delegationShares)
   )
 
@@ -28,8 +29,14 @@ export default function StakeReceivedDelegation({ delegation, rank }: StakeRecei
       </div>
       <div>
         <span>
-          {`${truncateEther(delegationAmount.toString(), 6)} `}
-          <span>{t('lsd.symbol')}</span>
+          {loading ? (
+            <SkeletonLoading width={90} height={14} />
+          ) : (
+            <>
+              {`${truncateEther(delegationAmount.toString(), 6)} `}
+              <span>{t('lsd.symbol')}</span>
+            </>
+          )}
         </span>
       </div>
     </DelegationItem>

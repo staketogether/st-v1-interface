@@ -27,10 +27,10 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
     initialLoading
   } = usePool(poolAddress, { first: 10, skip: 0 })
 
-  const { pooledEthByShares: rewardsShares, loading: isRewardsSharesLoading } = usePooledEthByShares(
+  const { balance: rewardsShares, loading: isRewardsSharesLoading } = usePooledEthByShares(
     BigNumber.from(poolData ? poolData.rewardsShares : '0')
   )
-  const { pooledEthByShares: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
+  const { balance: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
     BigNumber.from(poolData ? poolData.delegatedShares : '0')
   )
 
@@ -49,7 +49,7 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
           <StatsWrapper>
             <span>{t('staked')}</span>
             <span>
-              {delegatedSharesLoading || initialLoading ? (
+              {!!(delegatedSharesLoading || initialLoading) && poolAddress ? (
                 <SkeletonLoading width={80} />
               ) : (
                 `${truncateEther(delegatedShares.toString(), 6)}`
@@ -60,7 +60,7 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
           <StatsWrapper>
             <span>{t('rewards')}</span>
             <span>
-              {isRewardsSharesLoading || initialLoading ? (
+              {!!(isRewardsSharesLoading || initialLoading) && poolAddress ? (
                 <SkeletonLoading width={80} />
               ) : (
                 truncateEther(rewardsShares.toString(), 6)
@@ -76,8 +76,6 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
             <span>{t('members')}</span>
             <SkeletonLoading width={40} height={14} />
           </StatsWrapper>
-          <SkeletonLoading height={24} />
-          <SkeletonLoading height={24} />
           <SkeletonLoading height={24} />
           <SkeletonLoading height={24} />
           <SkeletonLoading height={24} />

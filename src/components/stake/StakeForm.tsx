@@ -27,7 +27,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const { fee } = globalConfig
   const { t } = useTranslation()
   const { balance: ethBalance, isLoading: balanceLoading } = useEthBalanceOf(accountAddress)
-  const { delegationShares } = useDelegationShares(accountAddress, poolAddress)
+  const { delegationShares, loading: delegationSharesLoading } = useDelegationShares(
+    accountAddress,
+    poolAddress
+  )
   const { withdrawalLiquidityBalance } = useWithdrawalLiquidityBalance()
 
   const { minDepositAmount } = useMinDepositAmount()
@@ -120,7 +123,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         onChange={value => setAmount(value)}
         balance={balance}
         symbol={balanceLabel}
-        balanceLoading={balanceLoading}
+        balanceLoading={balanceLoading || delegationSharesLoading}
         disabled={isWrongNetwork || isLoading}
         purple={type === 'withdraw'}
         hasError={insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity}
