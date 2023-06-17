@@ -107,7 +107,8 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
     }
 
     &:disabled {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[200]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
+      color: ${({ theme }) => theme.color.blackAlpha[600]};
     }
   `
 }

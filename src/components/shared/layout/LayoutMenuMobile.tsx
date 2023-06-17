@@ -1,7 +1,7 @@
 import useActiveRoute from '@/hooks/useActiveRoute'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
-import { AiOutlineCodeSandbox, AiOutlineFire } from 'react-icons/ai'
+import { AiOutlineBarChart, AiOutlineCodeSandbox, AiOutlineFire } from 'react-icons/ai'
 import styled from 'styled-components'
 function LayoutMenuMobile() {
   const { t } = useTranslation()
@@ -18,6 +18,11 @@ function LayoutMenuMobile() {
         <MenuButton className={`${isActive('stake') || isActive('unstake') ? 'active' : ''}`}>
           <AiOutlineCodeSandbox size={16} />
           {t('stake')}
+        </MenuButton>
+      </NextLink>
+      <NextLink href='#'>
+        <MenuButton disabled>
+          <AiOutlineBarChart size={16} /> {t('analytics')}
         </MenuButton>
       </NextLink>
     </Container>
@@ -37,7 +42,7 @@ const { Container, NextLink, MenuButton } = {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[8]};
     border-top: 1px solid ${({ theme }) => theme.color.blackAlpha[500]};
     @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
       display: none;
@@ -47,12 +52,6 @@ const { Container, NextLink, MenuButton } = {
     display: flex;
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
-    &:first-of-type::after {
-      content: '|';
-      font-size: ${({ theme }) => theme.font.size[16]};
-      margin-left: ${({ theme }) => theme.size[24]};
-      color: ${({ theme }) => theme.color.blackAlpha[500]};
-    }
   `,
   MenuButton: styled.button`
     width: auto;
@@ -73,6 +72,11 @@ const { Container, NextLink, MenuButton } = {
 
     &.active {
       color: ${({ theme }) => theme.color.secondary};
+    }
+
+    &:disabled {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
+      color: ${({ theme }) => theme.color.blackAlpha[600]};
     }
   `
 }
