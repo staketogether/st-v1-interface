@@ -4,22 +4,18 @@ import { useStakeTogetherPooledEthByShares } from '../../types/Contracts'
 import { useEffect, useState } from 'react'
 
 export default function usePooledEthByShares(sharesAmount: BigNumber) {
-  const [pooledEthByShares, setPooledEthByShares] = useState('0')
   const { contracts } = chainConfig()
 
-  const { data, isFetching } = useStakeTogetherPooledEthByShares({
+  const [balance, setBalance] = useState<string>('0')
+
+  const pooledEthBySharesReq = useStakeTogetherPooledEthByShares({
     address: contracts.StakeTogether,
     args: [sharesAmount]
   })
 
   useEffect(() => {
-    if (data) {
-      setPooledEthByShares(data.toString())
-    }
-  }, [data])
+    setBalance(pooledEthBySharesReq.data?.toString() || '0')
+  }, [pooledEthBySharesReq.data])
 
-  return {
-    pooledEthByShares,
-    loading: isFetching
-  }
+  return { balance, loading: pooledEthBySharesReq.isFetching }
 }

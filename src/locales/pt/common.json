@@ -34,6 +34,7 @@
   "rewardsFee": "Taxa de Recompensas",
   "wrongNetwork": "Rede Errada",
   "switch": "Trocar para",
+  "analytics": "Análises",
   "titles": {
     "explore": "Explorar Pools",
     "stake": "Stake de Ether",
@@ -58,6 +59,7 @@
     "insufficientLiquidity": "Liquidez insuficiente para saque"
   },
   "noDelegations": "Sem Delegações",
+  "noStake": "Você ainda não fez Stake",
   "notifications": {
     "depositSuccess": "Depósito Bem-Sucedido",
     "depositError": "Falha ao Depositar",
@@ -75,5 +77,6 @@
   "sidebar": {
     "etherBalance": "Saldo de Ether",
     "stakedBalance": "Saldo em Stake"
-  }
+  },
+  "soon": "Em Breve"
 }

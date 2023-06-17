@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { AiOutlineCodeSandbox, AiOutlineFire } from 'react-icons/ai'
+import { AiOutlineBarChart, AiOutlineCodeSandbox, AiOutlineFire } from 'react-icons/ai'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -30,24 +30,27 @@ export default function LayoutHeader() {
               <AiOutlineCodeSandbox size={16} /> {t('stake')}
             </MenuButton>
           </Link>
+          <Link href='#' title={t('soon')}>
+            <MenuButton disabled>
+              <AiOutlineBarChart size={16} /> {t('analytics')}
+            </MenuButton>
+          </Link>
         </Menu>
       </MenuContainer>
-      <SearchContainer>
-        <LayoutSearch />
-      </SearchContainer>
       <WalletContainer>
+        <LayoutSearch />
         <Wallet />
       </WalletContainer>
     </Container>
   )
 }
 
-const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, MenuButton } = {
+const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
   Container: styled.header`
     display: none;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: grid;
-      grid-template-columns: 1fr minMax(330px, 470px) 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: ${({ theme }) => theme.size[32]};
     }
   `,
@@ -61,23 +64,18 @@ const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, 
     @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
     }
   `,
-  SearchContainer: styled.div`
-    display: grid;
-    grid-template-columns: 1fr;
-    align-items: center;
-    justify-content: center;
-  `,
   WalletContainer: styled.div`
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    gap: ${({ theme }) => theme.size[16]};
   `,
   Menu: styled.nav`
     display: none;
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       display: flex;
       justify-content: flex-start;
-      gap: ${({ theme }) => theme.size[8]};
+      gap: ${({ theme }) => theme.size[16]};
     }
   `,
   Logo: styled(Link)`
@@ -106,6 +104,11 @@ const { Container, MenuContainer, SearchContainer, WalletContainer, Logo, Menu, 
 
     &.active {
       color: ${({ theme }) => theme.color.secondary};
+    }
+
+    &:disabled {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
+      color: ${({ theme }) => theme.color.blackAlpha[600]};
     }
   `
 }

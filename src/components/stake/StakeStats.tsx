@@ -47,7 +47,7 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
       <StatsContainer>
         <Stats>
           <StatsWrapper>
-            <span>{t('delegated')}</span>
+            <span>{t('staked')}</span>
             <span>
               {delegatedSharesLoading || initialLoading ? (
                 <SkeletonLoading width={80} />
