@@ -52,9 +52,11 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
               {!!(delegatedSharesLoading || initialLoading) && poolAddress ? (
                 <SkeletonLoading width={80} />
               ) : (
-                `${truncateEther(delegatedShares.toString(), 6)}`
+                <>
+                  {`${truncateEther(delegatedShares.toString(), 6)}`}
+                  <span>{t('lsd.symbol')}</span>
+                </>
               )}
-              <span>{t('lsd.symbol')}</span>
             </span>
           </StatsWrapper>
           <StatsWrapper>
@@ -63,9 +65,11 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
               {!!(isRewardsSharesLoading || initialLoading) && poolAddress ? (
                 <SkeletonLoading width={80} />
               ) : (
-                truncateEther(rewardsShares.toString(), 6)
+                <>
+                  {truncateEther(rewardsShares.toString(), 6)}
+                  <span>{t('lsd.symbol')}</span>
+                </>
               )}
-              <span>{t('lsd.symbol')}</span>
             </span>
           </StatsWrapper>
         </Stats>
@@ -76,9 +80,9 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
             <span>{t('members')}</span>
             <SkeletonLoading width={40} height={14} />
           </StatsWrapper>
-          <SkeletonLoading height={24} />
-          <SkeletonLoading height={24} />
-          <SkeletonLoading height={24} />
+          <SkeletonLoading height={14} />
+          <SkeletonLoading height={14} />
+          <SkeletonLoading height={14} />
         </DelegationsContainer>
       )}
       {!initialLoading && poolData && poolData.delegations.length > 0 && (
