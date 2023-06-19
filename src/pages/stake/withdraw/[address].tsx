@@ -4,11 +4,10 @@ import LayoutHead from '../../../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
 import { MetaPool } from '../../../components/shared/meta/MetaPool'
 import StakeControl from '../../../components/stake/StakeControl'
-import usePool from '../../../hooks/subgraphs/usePool'
 import useTranslation from '../../../hooks/useTranslation'
 
 type UnstakePoolProps = {
-  poolAddress: string
+  poolAddress: `0x${string}`
   name?: string
   avatar?: string
 }
@@ -16,13 +15,11 @@ type UnstakePoolProps = {
 export default function WithdrawPool({ poolAddress, name, avatar }: UnstakePoolProps) {
   const { t } = useTranslation()
 
-  const { pool } = usePool(poolAddress, { first: 10, skip: 0 })
-
   return (
     <LayoutTemplate>
       <MetaPool name={name} avatar={avatar} />
       <LayoutHead text={t('titles.stake')} />
-      <StakeControl pool={pool} type='withdraw' />
+      <StakeControl poolAddress={poolAddress} type='withdraw' />
     </LayoutTemplate>
   )
 }

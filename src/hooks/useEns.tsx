@@ -28,5 +28,5 @@ export default function useEns(address: `0x${string}`) {
     setName(ensName.data?.toString())
   }, [ensName.data])
 
-  return { address, name, avatar }
+  return { address, name, avatar, avatarLoading: ensAvatar.isFetching, nameLoading: ensName.isFetching }
 }

@@ -23,7 +23,7 @@ type StakeFormProps = {
 export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { fee } = globalConfig
   const { t } = useTranslation()
-  const ethBalance = useEthBalanceOf(accountAddress)
+  const { balance: ethBalance, isLoading } = useEthBalanceOf(accountAddress)
 
   const [amount, setAmount] = useState<string>('')
   const rewardsFee = truncateEther(fee.protocol.mul(100).toString())
@@ -86,6 +86,7 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
         balance={ethBalance}
         symbol={t('eth.symbol')}
         disabled={true}
+        balanceLoading={isLoading}
         purple={type === 'withdraw'}
         type={type}
       />

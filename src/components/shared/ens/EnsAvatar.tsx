@@ -1,7 +1,7 @@
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useEns from '../../../hooks/useEns'
+import SkeletonLoading from '../icons/SkeletonLoading'
 
 type EnsAvatarProps = {
   address: `0x${string}`
@@ -9,27 +9,23 @@ type EnsAvatarProps = {
 }
 
 export default function EnsAvatar({ address, large }: EnsAvatarProps) {
-  const { avatar } = useEns(address)
+  const { avatar, avatarLoading } = useEns(address)
 
-  const [avatarEl, setAvatarEl] = useState(<DefaultAvatar className={large ? 'large' : ''} />)
+  if (avatarLoading) {
+    return <SkeletonLoading borderRadius='50%' width={large ? 26 : 24} height={large ? 26 : 24} />
+  }
 
-  useEffect(() => {
-    if (avatar) {
-      setAvatarEl(
-        <Avatar
-          width={large ? 26 : 24}
-          height={large ? 26 : 24}
-          src={avatar}
-          alt={address}
-          className={large ? 'large' : ''}
-        />
-      )
-    } else {
-      setAvatarEl(<DefaultAvatar className={large ? 'large' : ''} />)
-    }
-  }, [address, avatar, large])
-
-  return avatarEl
+  return avatar ? (
+    <Avatar
+      width={large ? 26 : 24}
+      height={large ? 26 : 24}
+      src={avatar}
+      alt={address}
+      className={large ? 'large' : ''}
+    />
+  ) : (
+    <DefaultAvatar className={large ? 'large' : ''} />
+  )
 }
 
 const { DefaultAvatar, Avatar } = {

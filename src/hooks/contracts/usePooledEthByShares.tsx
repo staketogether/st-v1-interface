@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers'
-import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
 import { useStakeTogetherPooledEthByShares } from '../../types/Contracts'
+import { useEffect, useState } from 'react'
 
 export default function usePooledEthByShares(sharesAmount: BigNumber) {
   const { contracts } = chainConfig()
@@ -17,5 +17,5 @@ export default function usePooledEthByShares(sharesAmount: BigNumber) {
     setBalance(pooledEthBySharesReq.data?.toString() || '0')
   }, [pooledEthBySharesReq.data])
 
-  return balance
+  return { balance, loading: pooledEthBySharesReq.isFetching }
 }

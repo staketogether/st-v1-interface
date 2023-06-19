@@ -26,8 +26,11 @@ type StakeFormProps = {
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { fee } = globalConfig
   const { t } = useTranslation()
-  const ethBalance = useEthBalanceOf(accountAddress)
-  const { delegationShares } = useDelegationShares(accountAddress, poolAddress)
+  const { balance: ethBalance, isLoading: balanceLoading } = useEthBalanceOf(accountAddress)
+  const { delegationSharesFormatted, loading: delegationSharesLoading } = useDelegationShares(
+    accountAddress,
+    poolAddress
+  )
   const { withdrawalLiquidityBalance } = useWithdrawalLiquidityBalance()
 
   const { minDepositAmount } = useMinDepositAmount()
@@ -54,7 +57,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const isLoading = depositLoading || withdrawLoading
   const isSuccess = depositSuccess || withdrawSuccess
 
-  const balance = type === 'deposit' ? ethBalance : delegationShares
+  const balance = type === 'deposit' ? ethBalance : delegationSharesFormatted
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
   const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
@@ -120,6 +123,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         onChange={value => setAmount(value)}
         balance={balance}
         symbol={balanceLabel}
+        balanceLoading={balanceLoading || delegationSharesLoading}
         disabled={isWrongNetwork || isLoading}
         purple={type === 'withdraw'}
         hasError={insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity}

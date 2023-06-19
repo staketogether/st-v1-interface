@@ -13,7 +13,7 @@ export default function Deposit() {
     <LayoutTemplate>
       <MetaPool />
       <LayoutHead text={t('titles.stake')} />
-      <StakeControl pool={undefined} type='deposit' />
+      <StakeControl poolAddress={undefined} type='deposit' />
     </LayoutTemplate>
   )
 }

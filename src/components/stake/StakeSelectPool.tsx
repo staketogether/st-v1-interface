@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-
 import useResizeView from '@/hooks/useResizeView'
 import useSearchDrawer from '@/hooks/useSearchDrawer'
 import useSearchHeader from '@/hooks/useSearchHeader'
@@ -16,12 +14,7 @@ interface StakeSelectPoolProps {
 export default function StakeSelectPool({ poolAddress }: StakeSelectPoolProps) {
   const { t } = useTranslation()
   const { screenWidth, breakpoints } = useResizeView()
-  const [select, setSelect] = useState(
-    <SelectPool>
-      <AiOutlineFire fontSize={14} />
-      {t('selectPool')}
-    </SelectPool>
-  )
+
   const { setOpenSearchDrawer } = useSearchDrawer()
   const { setOpenSearchHeader } = useSearchHeader()
   const handleSearchPool = () => {
@@ -32,9 +25,9 @@ export default function StakeSelectPool({ poolAddress }: StakeSelectPoolProps) {
     setOpenSearchDrawer(true)
   }
 
-  useEffect(() => {
-    if (poolAddress) {
-      setSelect(
+  return (
+    <Container onClick={handleSearchPool}>
+      {poolAddress ? (
         <PoolSelected>
           <EnsAvatar large address={poolAddress} />
           <Verified>
@@ -42,11 +35,14 @@ export default function StakeSelectPool({ poolAddress }: StakeSelectPoolProps) {
             <AiOutlineCheck fontSize={14} />
           </Verified>
         </PoolSelected>
-      )
-    }
-  }, [poolAddress])
-
-  return <Container onClick={handleSearchPool}>{select}</Container>
+      ) : (
+        <SelectPool>
+          <AiOutlineFire fontSize={14} />
+          {t('selectPool')}
+        </SelectPool>
+      )}
+    </Container>
+  )
 }
 
 const { Container, SelectPool, PoolSelected, Verified } = {

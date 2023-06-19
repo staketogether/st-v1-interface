@@ -13,7 +13,7 @@ export default function Withdraw() {
     <LayoutTemplate>
       <MetaPool />
       <LayoutHead text={t('titles.stake')} />
-      <StakeControl pool={undefined} type='withdraw' />
+      <StakeControl poolAddress={undefined} type='withdraw' />
     </LayoutTemplate>
   )
 }

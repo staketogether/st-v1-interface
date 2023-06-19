@@ -22,7 +22,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { t } = useTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
-  const ethBalance = useEthBalanceOf(address)
+  const { balance: ethBalance } = useEthBalanceOf(address)
 
   const { accountSentDelegationsCount, accountRewardsBalance, accountDelegations, accountBalance } =
     useStAccount(address)
