@@ -35,6 +35,7 @@
   "wrongNetwork": "Wrong Network",
   "switch": "Switch to",
   "analytics": "Analytics",
+  "success": "Success",
   "titles": {
     "explore": "Explore Pools",
     "stake": "Stake Ether",
@@ -77,6 +78,18 @@
   "sidebar": {
     "etherBalance": "Ether Balance",
     "stakedBalance": "Staked Balance"
+  },
+  "confirmStakeModal": {
+    "reviewStake": "Review Stake",
+    "reviewWithdraw": "Review Withdraw",
+    "youPay": "You Pay",
+    "youReceive": "You Receive",
+    "exchangeRate": "Exchange rate",
+    "networkFee": "Network fee",
+    "confirmStake": "Confirm Stake",
+    "transactionSubmitted": "Transaction submitted",
+    "proceedInYourWallet": "Proceed in your wallet",
+    "viewOnExplorer":"View on Explorer"
   },
   "soon": "Coming Soon"
 }

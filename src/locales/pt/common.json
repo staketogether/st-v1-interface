@@ -35,6 +35,7 @@
   "wrongNetwork": "Rede Errada",
   "switch": "Trocar para",
   "analytics": "Análises",
+  "success": "Sucesso",
   "titles": {
     "explore": "Explorar Pools",
     "stake": "Stake de Ether",
@@ -77,6 +78,18 @@
   "sidebar": {
     "etherBalance": "Saldo de Ether",
     "stakedBalance": "Saldo em Stake"
+  },
+ "confirmStakeModal": {
+    "reviewStake": "Revisar Aposta",
+    "reviewWithdraw": "Revisar Saque",
+    "youPay": "Você Paga",
+    "youReceive": "Você Recebe",
+    "exchangeRate": "Taxa de Câmbio",
+    "networkFee": "Taxa de Rede",
+    "confirmStake": "Confirme a Aposta",
+    "transactionSubmitted": "Transação submetida",
+    "proceedInYourWallet": "Continue na sua carteira",
+    "viewOnExplorer":"Ver no Explorer"
   },
   "soon": "Em Breve"
 }

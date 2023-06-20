@@ -1,6 +1,6 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { notification } from 'antd'
-import { BigNumber, ethers } from 'ethers'
+import { BigNumber, ethers, utils } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
@@ -17,7 +17,10 @@ export default function useDeposit(
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
+  const [estimateGas, setEstimateGas] = useState<string | undefined>(undefined)
+  const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const { registerDeposit } = useMixpanelAnalytics()
+  const { provider } = chainConfig()
 
   const depositRule = ethers.BigNumber.isBigNumber(depositAmount) && BigNumber.from(depositAmount).gt(0)
 
@@ -38,6 +41,7 @@ export default function useDeposit(
   const tx = useStakeTogetherDepositPool(config)
 
   const deposit = () => {
+    setAwaitWalletAction(true)
     tx.write?.()
     setNotify(true)
   }
@@ -47,6 +51,29 @@ export default function useDeposit(
   })
 
   const { t } = useTranslation()
+
+  useEffect(() => {
+    if (tx.error) {
+      setAwaitWalletAction(false)
+    }
+  }, [tx.error])
+
+  useEffect(() => {
+    const getEstimateGasPrice = async () => {
+      try {
+        if (config) {
+          const gasPrice = await provider.estimateGas(config)
+          const valueFormatted = utils.formatUnits(gasPrice, 'gwei')
+          setEstimateGas(valueFormatted)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    if (config) {
+      getEstimateGasPrice()
+    }
+  }, [config, provider])
 
   useEffect(() => {
     if (isSuccess && depositAmount !== '0') {
@@ -79,5 +106,11 @@ export default function useDeposit(
     }
   }, [accountAddress, depositAmount, isError, notify, poolAddress, t])
 
-  return { deposit, isLoading, isSuccess }
+  return {
+    deposit,
+    isLoading,
+    isSuccess,
+    estimateGas,
+    awaitWalletAction: awaitWalletAction
+  }
 }

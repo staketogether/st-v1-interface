@@ -1,6 +1,6 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { notification } from 'antd'
-import { BigNumber, ethers } from 'ethers'
+import { BigNumber, ethers, utils } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
@@ -18,7 +18,8 @@ export default function useWithdraw(
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
   const { registerWithdraw } = useMixpanelAnalytics()
-
+  const [estimateGas, setEstimateGas] = useState<string | undefined>(undefined)
+  const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const withdrawRule =
     ethers.BigNumber.isBigNumber(withdrawAmount) && BigNumber.from(withdrawAmount).gt(0)
 
@@ -33,8 +34,10 @@ export default function useWithdraw(
   })
 
   const tx = useStakeTogetherWithdrawPool(config)
+  const { provider } = chainConfig()
 
   const withdraw = () => {
+    setAwaitWalletAction(true)
     tx.write?.()
     setNotify(true)
   }
@@ -44,6 +47,29 @@ export default function useWithdraw(
   })
 
   const { t } = useTranslation()
+
+  useEffect(() => {
+    if (tx.error) {
+      setAwaitWalletAction(false)
+    }
+  }, [tx.error])
+
+  useEffect(() => {
+    const getEstimateGasPrice = async () => {
+      try {
+        if (config) {
+          const gasPrice = await provider.estimateGas(config)
+          const valueFormatted = utils.formatUnits(gasPrice, 'gwei')
+          setEstimateGas(valueFormatted)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    if (config) {
+      getEstimateGasPrice()
+    }
+  }, [config, provider])
 
   useEffect(() => {
     if (isSuccess && withdrawAmount !== '0') {
@@ -73,5 +99,5 @@ export default function useWithdraw(
     }
   }, [accountAddress, isError, notify, poolAddress, t, withdrawAmount])
 
-  return { withdraw, isLoading, isSuccess }
+  return { withdraw, estimateGas, isLoading, isSuccess, awaitWalletAction }
 }
