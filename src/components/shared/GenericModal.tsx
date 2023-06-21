@@ -3,9 +3,9 @@ import styled from 'styled-components'
 
 type GenericModal = {
   isOpen: boolean
-  showCloseIcon?: boolean
   children: ReactNode
   onClose: () => void
+  showCloseIcon: boolean
   width?: number
   title: string | ReactNode
 }

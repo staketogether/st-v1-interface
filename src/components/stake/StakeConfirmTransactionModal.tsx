@@ -16,7 +16,9 @@ type StakeConfirmModalProps = {
   walletActionLoading: boolean
   transactionLoading: boolean
   transactionIsSuccess: boolean
+  txHash: string | undefined
   onClick: () => void
+  onClose: () => void
 }
 
 function StakeConfirmModal({
@@ -28,20 +30,20 @@ function StakeConfirmModal({
   transactionLoading,
   walletActionLoading,
   transactionIsSuccess,
-  onClick
+  txHash,
+  onClick,
+  onClose
 }: StakeConfirmModalProps) {
-  const { isOpen, setOpenStakeConfirmModal } = useStakeConfirmModal()
+  const { isOpen } = useStakeConfirmModal()
   const { t } = useTranslation()
   const isWithdraw = type === 'withdraw'
+  console.log('txHash', txHash)
   return (
     <GenericModal
-      title={
-        walletActionLoading ? undefined : (
-          <Header className={isWithdraw ? 'purple' : ''}>{titleModal}</Header>
-        )
-      }
+      title={walletActionLoading ? undefined : <Header>{titleModal}</Header>}
       isOpen={isOpen}
-      onClose={() => setOpenStakeConfirmModal(false)}
+      onClose={onClose}
+      showCloseIcon={!(walletActionLoading || transactionLoading) || transactionIsSuccess}
     >
       {walletActionLoading || transactionLoading ? (
         <StakeTransactionLoading
@@ -50,25 +52,26 @@ function StakeConfirmModal({
           amount={amount}
           transactionIsSuccess={transactionIsSuccess}
           type={type}
+          txHash={txHash}
         />
       ) : (
         <>
           {isWithdraw ? (
             <>
-              <ContainerPayment className='purple'>
+              <ContainerPayment>
                 <span>{t('confirmStakeModal.youPay')}</span>
                 <div>
                   <span>
-                    {amount} <span>SETH</span>
+                    {amount} <span className={'purple'}>SETH</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
               </ContainerPayment>
-              <ContainerPayment className='purple'>
+              <ContainerPayment>
                 <span>{t('confirmStakeModal.youReceive')}</span>
                 <div>
                   <span>
-                    {amount} <span>ETH</span>{' '}
+                    {amount} <span className={'purple'}>ETH</span>{' '}
                   </span>
                   <Image src={ethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -80,7 +83,7 @@ function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youPay')}</span>
                 <div>
                   <span>
-                    {amount} <span>ETH</span>
+                    {amount} <span className={'purple'}>ETH</span>
                   </span>
                   <Image src={ethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -89,37 +92,37 @@ function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youReceive')}</span>
                 <div>
                   <span>
-                    {amount} <span>SETH</span>{' '}
+                    {amount} <span className={'purple'}>SETH</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
               </ContainerPayment>
             </>
           )}
-          <Divider className={isWithdraw ? 'purple' : ''} />
+          <Divider />
           <ContainerInfoReview>
-            <InfoReview className={isWithdraw ? 'purple' : ''}>
+            <InfoReview>
               <span>{t('confirmStakeModal.exchangeRate')}</span>
               <span>
                 {isWithdraw ? (
                   <>
-                    {amount} <span>SET</span> = {amount} <span>ETH</span>
+                    {amount} <span className={'purple'}>SETH</span> = {amount}
+                    <span className={'purple'}>ETH</span>
                   </>
                 ) : (
                   <>
-                    {amount} <span>ETH</span> = {amount} <span>SETH</span>
+                    {amount} <span className={'purple'}>ETH</span> = {amount}
+                    <span className={'purple'}>SETH</span>
                   </>
                 )}
               </span>
             </InfoReview>
-            <InfoReview className={isWithdraw ? 'purple' : ''}>
+            <InfoReview>
               <span>{t('confirmStakeModal.networkFee')}</span>
               <span>{`${estimateGas}`}</span>
             </InfoReview>
           </ContainerInfoReview>
-          <Stake className={isWithdraw ? 'purple' : ''} onClick={onClick}>
-            {transactionLoading ? t('processing') : labelButton}
-          </Stake>
+          <Stake onClick={onClick}>{transactionLoading ? t('processing') : labelButton}</Stake>
         </>
       )}
     </GenericModal>
@@ -132,15 +135,16 @@ const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Stak
   Header: styled.div`
     display: grid;
     place-items: center;
-    &.purple {
-      color: ${({ theme }) => theme.color.secondary};
-    }
   `,
   ContainerPayment: styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
-
+    span {
+      &.purple {
+        color: ${({ theme }) => theme.color.secondary};
+      }
+    }
     > span {
       font-size: ${({ theme }) => theme.font.size[14]};
       color: ${({ theme }) => theme.color.blue[100]};
@@ -157,28 +161,12 @@ const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Stak
         }
       }
     }
-    &.purple {
-      > span {
-        color: ${({ theme }) => theme.color.purple[300]};
-      }
-      > div {
-        > span {
-          color: ${({ theme }) => theme.color.secondary};
-          > span {
-            color: ${({ theme }) => theme.color.secondary};
-          }
-        }
-      }
-    }
   `,
   Divider: styled.div`
     width: 100%;
     height: 1px;
     background-color: ${({ theme }) => theme.color.primary};
     border-radius: 12px;
-    &.purple {
-      background-color: ${({ theme }) => theme.color.secondary};
-    }
   `,
   ContainerInfoReview: styled.div`
     display: flex;
@@ -194,14 +182,6 @@ const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Stak
       color: ${({ theme }) => theme.color.primary};
       > span {
         color: ${({ theme }) => theme.color.primary};
-      }
-    }
-    &.purple {
-      span {
-        color: ${({ theme }) => theme.color.secondary};
-        > span {
-          color: ${({ theme }) => theme.color.secondary};
-        }
       }
     }
   `,
@@ -227,13 +207,6 @@ const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Stak
     &:disabled {
       cursor: not-allowed;
       opacity: 0.4;
-    }
-
-    &.purple {
-      background: ${({ theme }) => theme.color.purple[700]};
-      &:hover {
-        background: ${({ theme }) => theme.color.purple[900]};
-      }
     }
   `
 }

@@ -1,9 +1,15 @@
 import { ethers } from 'ethers'
 
+interface BlockExplorerConfig {
+  name: string
+  baseUrl: string
+}
+
 export type ChainConfig = {
   chainId: number
   name: string
   provider: ethers.providers.JsonRpcProvider
+  blockExplorer: BlockExplorerConfig
   subgraphs: {
     StakeTogether: string
     ENS: string
@@ -36,6 +42,10 @@ const configs: ChainConfig[] = [
     provider: new ethers.providers.JsonRpcProvider(
       `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`
     ),
+    blockExplorer: {
+      name: 'Etherscan',
+      baseUrl: 'https://goerli.etherscan.io'
+    },
     contracts: {
       STOracle: '0x39952aFfa9a4731f304ba40793Cc8D2Da994531E',
       StakeTogether: '0x1B09577Cb94906c0f2119A1C61919F6f055CBC74'

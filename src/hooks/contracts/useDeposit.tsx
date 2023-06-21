@@ -9,6 +9,7 @@ import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
+import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 
 export default function useDeposit(
   depositAmount: string,
@@ -19,6 +20,7 @@ export default function useDeposit(
   const [notify, setNotify] = useState(false)
   const [estimateGas, setEstimateGas] = useState<string | undefined>(undefined)
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
+  const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const { registerDeposit } = useMixpanelAnalytics()
   const { provider } = chainConfig()
 
@@ -38,7 +40,17 @@ export default function useDeposit(
     enabled: !depositRule
   })
 
-  const tx = useStakeTogetherDepositPool(config)
+  const tx = useStakeTogetherDepositPool({
+    ...config,
+    onSuccess: data => {
+      if (data?.hash) {
+        setTxHash(data?.hash)
+      }
+    },
+    onError: () => {
+      setAwaitWalletAction(false)
+    }
+  })
 
   const deposit = () => {
     setAwaitWalletAction(true)
@@ -47,16 +59,15 @@ export default function useDeposit(
   }
 
   const { isLoading, isSuccess, isError } = useWaitForTransaction({
-    hash: tx.data?.hash
+    hash: txHash
   })
 
   const { t } = useTranslation()
 
-  useEffect(() => {
-    if (tx.error) {
-      setAwaitWalletAction(false)
-    }
-  }, [tx.error])
+  const resetState = () => {
+    setAwaitWalletAction(false)
+    setTxHash(undefined)
+  }
 
   useEffect(() => {
     const getEstimateGasPrice = async () => {
@@ -78,7 +89,7 @@ export default function useDeposit(
   useEffect(() => {
     if (isSuccess && depositAmount !== '0') {
       apolloClient.refetchQueries({
-        include: [queryAccount, queryPool]
+        include: [queryAccount, queryPool, queryDelegationShares]
       })
       registerDeposit(accountAddress, chainId, poolAddress, depositAmount)
       if (notify) {
@@ -111,6 +122,8 @@ export default function useDeposit(
     isLoading,
     isSuccess,
     estimateGas,
-    awaitWalletAction: awaitWalletAction
+    awaitWalletAction,
+    txHash,
+    resetState
   }
 }
