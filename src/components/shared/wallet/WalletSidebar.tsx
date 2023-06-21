@@ -73,7 +73,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             </div>
             <div>
               <span>{t('rewards')}</span>
-              <span>
+              <span className={`${accountBalance.gt('0') ? 'positive' : 'negative'}`}>
                 {truncateEther(accountRewardsBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
               </span>
             </div>
@@ -143,23 +143,17 @@ const {
       align-items: center;
       justify-content: space-between;
 
-      div {
-        display: grid;
-        grid-template-columns: 24px auto;
-        justify-content: flex-start;
-        gap: ${({ theme }) => theme.size[8]};
-
-        span {
-          color: ${({ theme }) => theme.color.black};
-        }
-      }
-
       span {
         display: flex;
         gap: ${({ theme }) => theme.size[4]};
         font-size: ${({ theme }) => theme.font.size[14]};
         color: ${({ theme }) => theme.color.primary};
-
+        &.positive {
+          color: ${({ theme }) => theme.color.green[400]};
+        }
+        &.negative {
+          color: ${({ theme }) => theme.color.red[400]};
+        }
         > span {
           color: ${({ theme }) => theme.color.secondary};
         }

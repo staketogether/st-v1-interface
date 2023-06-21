@@ -52,7 +52,7 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
           {rewardsSharesLoading ? (
             <SkeletonLoading width={80} />
           ) : (
-            <div>
+            <div className={`${BigNumber.from(rewardsShares).gt('0') ? 'positive' : 'negative'}`}>
               {truncateEther(rewardsShares.toString(), 6)}
               <span>{t('lsd.symbol')}</span>
             </div>
@@ -119,10 +119,16 @@ const { Card, CardInfo, CardHeader, Verified } = {
         font-size: ${({ theme }) => theme.font.size[14]};
         color: ${({ theme }) => theme.color.primary};
       }
+
       > div:last-child {
         font-size: ${({ theme }) => theme.font.size[14]};
         color: ${({ theme }) => theme.color.primary};
-
+        &.positive {
+          color: ${({ theme }) => theme.color.green[400]};
+        }
+        &.negative {
+          color: ${({ theme }) => theme.color.red[400]};
+        }
         span {
           color: ${({ theme }) => theme.color.secondary};
         }
