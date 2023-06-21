@@ -79,7 +79,7 @@
     "etherBalance": "Saldo de Ether",
     "stakedBalance": "Saldo em Stake"
   },
- "confirmStakeModal": {
+  "confirmStakeModal": {
     "reviewStake": "Revisar Aposta",
     "reviewWithdraw": "Revisar Saque",
     "youPay": "Você Paga",
