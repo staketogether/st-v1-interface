@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier:write": "./node_modules/prettier/bin-prettier.js --write ./src/**/*.*",
+    "prettier:write": "./node_modules/prettier/bin-prettier.js --write './src/**/*.*'",
     "prettier": "./node_modules/prettier/bin-prettier.js --check './src/**/*.*'",
     "cspell": "./node_modules/cspell/bin.js src/**/*.* --show-context",
     "test": "jest --watch",
