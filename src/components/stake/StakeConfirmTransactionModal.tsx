@@ -37,7 +37,6 @@ function StakeConfirmModal({
   const { isOpen } = useStakeConfirmModal()
   const { t } = useTranslation()
   const isWithdraw = type === 'withdraw'
-  console.log('txHash', txHash)
   return (
     <GenericModal
       title={walletActionLoading ? undefined : <Header>{titleModal}</Header>}
