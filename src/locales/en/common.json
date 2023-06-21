@@ -91,5 +91,9 @@
     "proceedInYourWallet": "Proceed in your wallet",
     "viewOnExplorer": "View on Explorer"
   },
-  "soon": "Coming Soon"
+  "soon": "Coming Soon",
+   "addSethToWallet": {
+    "add": "Add",
+    "yourWallet": "to your wallet."
+  }
 }

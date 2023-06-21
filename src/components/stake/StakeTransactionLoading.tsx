@@ -6,6 +6,7 @@ import ethIcon from '@assets/icons/eth-icon.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
 import { AiFillCheckCircle, AiOutlineArrowRight } from 'react-icons/ai'
 import chainConfig from '@/config/chain'
+import useAddSETToWallet from '@/hooks/useAddToWallet'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -27,7 +28,7 @@ function StakeTransactionLoading({
   const { t } = useTranslation()
   const chain = chainConfig()
   const isWithdraw = type === 'withdraw'
-
+  const { addToWalletAction } = useAddSETToWallet()
   return (
     <Container>
       {transactionIsSuccess ? <SuccessIcon size={47} /> : <LoadingIcon size={36} />}
@@ -71,6 +72,13 @@ function StakeTransactionLoading({
           )}
         </ResumeStake>
       </div>
+      {!isWithdraw && transactionIsSuccess && (
+        <AddAssetInWalletButton onClick={addToWalletAction}>
+          <span>{t('addSethToWallet.add')} </span>
+          <Image src={sethIcon} alt={t('stakeTogether')} width={16} height={16} />
+          <span>{t('addSethToWallet.yourWallet')}</span>
+        </AddAssetInWalletButton>
+      )}
       <DescriptionAction>
         {walletActionLoading && !transactionIsSuccess && !transactionLoading && (
           <span>{t('confirmStakeModal.proceedInYourWallet')}</span>
@@ -91,7 +99,15 @@ function StakeTransactionLoading({
 
 export default StakeTransactionLoading
 
-const { Container, DescriptionAction, ResumeStake, TitleModal, LoadingIcon, SuccessIcon } = {
+const {
+  Container,
+  DescriptionAction,
+  ResumeStake,
+  TitleModal,
+  LoadingIcon,
+  SuccessIcon,
+  AddAssetInWalletButton
+} = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -137,5 +153,15 @@ const { Container, DescriptionAction, ResumeStake, TitleModal, LoadingIcon, Succ
   `,
   SuccessIcon: styled(AiFillCheckCircle)`
     color: ${({ theme }) => theme.color.green[300]};
+  `,
+  AddAssetInWalletButton: styled.button`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+    padding: ${({ theme }) => theme.font.size[12]} ${({ theme }) => theme.font.size[16]};
+    border-radius: ${({ theme }) => theme.font.size[16]};
+    background: ${({ theme }) => theme.color.blackAlpha[100]};
+    border: none;
   `
 }

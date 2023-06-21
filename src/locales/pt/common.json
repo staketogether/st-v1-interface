@@ -91,5 +91,9 @@
     "proceedInYourWallet": "Continue na sua carteira",
     "viewOnExplorer": "Ver no Explorer"
   },
-  "soon": "Em Breve"
+  "soon": "Em Breve",
+  "addSethToWallet": {
+    "add": "Adicione",
+    "yourWallet": "em sua carteira"
+  }
 }
