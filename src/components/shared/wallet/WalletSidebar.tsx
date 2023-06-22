@@ -11,6 +11,7 @@ import { truncateEther } from '../../../services/truncateEther'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletSentDelegation from './WalletSentDelegation'
 import WalletSlideBarSettings from './WalletSlideBarSettings'
+import { BigNumber } from 'ethers'
 
 type WalletSidebarProps = {
   address: `0x${string}`
@@ -73,7 +74,11 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             </div>
             <div>
               <span>{t('rewards')}</span>
-              <span className={`${accountBalance.gt('0') ? 'positive' : 'negative'}`}>
+              <span
+                className={`${BigNumber.from(accountRewardsBalance).gt('0') && 'positive'} ${
+                  BigNumber.from(accountRewardsBalance).lt('0') && 'negative'
+                }`}
+              >
                 {truncateEther(accountRewardsBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
               </span>
             </div>

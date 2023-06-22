@@ -52,7 +52,11 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
           {rewardsSharesLoading ? (
             <SkeletonLoading width={80} />
           ) : (
-            <div className={`${BigNumber.from(rewardsShares).gt('0') ? 'positive' : 'negative'}`}>
+            <div
+              className={`${BigNumber.from(rewardsShares).gt('0') && 'positive'} ${
+                BigNumber.from(rewardsShares).lt('0') && 'negative'
+              }`}
+            >
               {truncateEther(rewardsShares.toString(), 6)}
               <span>{t('lsd.symbol')}</span>
             </div>
