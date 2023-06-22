@@ -166,7 +166,7 @@ const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Butt
   Divider: styled.div`
     width: 100%;
     height: 1px;
-    background-color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.blue[100]};
     border-radius: 12px;
   `,
   ContainerInfoReview: styled.div`
