@@ -10,7 +10,7 @@ export default function useAddSethToWallet() {
     if (connector && isConnected) {
       connector.watchAsset?.({
         address: contracts.StakeTogether,
-        symbol: t('seth'),
+        symbol: t('lsd.symbol'),
         image: '/assets/icons/seth-icon.svg',
         decimals: 18
       })

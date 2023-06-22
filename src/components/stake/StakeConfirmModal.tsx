@@ -6,6 +6,7 @@ import ethIcon from '@assets/icons/eth-icon.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import StakeTransactionLoading from './StakeTransactionLoading'
+import { truncateEthDecimal } from '@/services/truncateEther'
 
 type StakeConfirmModalProps = {
   amount: string
@@ -48,7 +49,7 @@ export default function StakeConfirmModal({
         <StakeTransactionLoading
           walletActionLoading={walletActionLoading}
           transactionLoading={transactionLoading}
-          amount={amount}
+          amount={truncateEthDecimal(amount, 6)}
           transactionIsSuccess={transactionIsSuccess}
           type={type}
           txHash={txHash}
@@ -59,10 +60,9 @@ export default function StakeConfirmModal({
             <>
               <ContainerPayment>
                 <span>{t('confirmStakeModal.youPay')}</span>
-                {t('seth')}
                 <div>
                   <span>
-                    {amount} <span className={'purple'}></span>
+                    {truncateEthDecimal(amount, 6)} <span className={'purple'}> {t('lsd.symbol')}</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -71,7 +71,7 @@ export default function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youReceive')}</span>
                 <div>
                   <span>
-                    {amount} <span className={'purple'}>ETH</span>{' '}
+                    {truncateEthDecimal(amount, 6)} <span className={'purple'}>{t('eth.symbol')}</span>{' '}
                   </span>
                   <Image src={ethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -80,10 +80,10 @@ export default function StakeConfirmModal({
           ) : (
             <>
               <ContainerPayment>
-                <span>{t('confirmStakeModal.youPay')}</span>
+                <span>{t('confirmStakeModal.youPay')}:</span>
                 <div>
                   <span>
-                    {amount} <span className={'purple'}>ETH</span>
+                    {truncateEthDecimal(amount, 6)} <span className={'purple'}>{t('eth.symbol')}</span>
                   </span>
                   <Image src={ethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -92,7 +92,7 @@ export default function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youReceive')}</span>
                 <div>
                   <span>
-                    {amount} <span className={'purple'}>{t('seth')}</span>
+                    {truncateEthDecimal(amount, 6)} <span className={'purple'}>{t('lsd.symbol')}</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -102,34 +102,37 @@ export default function StakeConfirmModal({
           <Divider />
           <ContainerInfoReview>
             <InfoReview>
-              <span>{t('confirmStakeModal.exchangeRate')}</span>
-              <span>
+              <span className={``}>{t('confirmStakeModal.exchangeRate')}:</span>
+              <div>
                 {isWithdraw ? (
                   <>
-                    {amount} <span className={'purple'}>{t('seth')}</span> = {amount}
-                    <span className={'purple'}>ETH</span>
+                    {truncateEthDecimal(amount, 6)}
+                    <span className={`purple`}> {t('lsd.symbol')}</span>={' '}
+                    {truncateEthDecimal(amount.toString(), 6)}
+                    <span className={`purple`}> {t('eth.symbol')}</span>
                   </>
                 ) : (
                   <>
-                    {amount} <span className={'purple'}>ETH</span> = {amount}
-                    <span className={'purple'}>{t('seth')}</span>
+                    {truncateEthDecimal(amount, 6)}
+                    <span className={`purple`}> {t('eth.symbol')}</span>= {truncateEthDecimal(amount, 6)}
+                    <span className={`purple`}> {t('lsd.symbol')}</span>
                   </>
                 )}
-              </span>
+              </div>
             </InfoReview>
             <InfoReview>
-              <span>{t('confirmStakeModal.networkFee')}</span>
+              <span>{t('confirmStakeModal.networkFee')}:</span>
               <span>{`${estimateGas}`}</span>
             </InfoReview>
           </ContainerInfoReview>
-          <Stake onClick={onClick}>{transactionLoading ? t('processing') : labelButton}</Stake>
+          <Button onClick={onClick}>{transactionLoading ? t('processing') : labelButton}</Button>
         </>
       )}
     </Modal>
   )
 }
 
-const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Stake } = {
+const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Button } = {
   Header: styled.div`
     display: grid;
     place-items: center;
@@ -145,7 +148,7 @@ const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Stak
     }
     > span {
       font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.blue[100]};
+      color: ${({ theme }) => theme.color.blue[500]};
     }
     > div {
       display: grid;
@@ -172,18 +175,19 @@ const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Stak
     gap: ${({ theme }) => theme.size[12]};
   `,
   InfoReview: styled.div`
-    display: grid;
-    grid-template-columns: 1fr auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
     span {
       font-size: ${({ theme }) => theme.font.size[14]};
       color: ${({ theme }) => theme.color.primary};
-      > span {
-        color: ${({ theme }) => theme.color.primary};
+      &.purple {
+        color: ${({ theme }) => theme.color.secondary};
       }
     }
   `,
-  Stake: styled.button`
+  Button: styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     border-radius: ${props => props.theme.size[16]};

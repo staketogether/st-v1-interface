@@ -45,7 +45,6 @@
     "name": "Ether",
     "symbol": "ETH"
   },
-  "seth": "SETH",
   "lsd": {
     "name": "ST Staked Ether",
     "symbol": "SETH"
@@ -81,13 +80,14 @@
     "stakedBalance": "Saldo em Stake"
   },
   "confirmStakeModal": {
-    "reviewStake": "Revisar Aposta",
+    "reviewDeposit": "Revisar o Deposito",
     "reviewWithdraw": "Revisar Saque",
     "youPay": "Você Paga",
     "youReceive": "Você Recebe",
     "exchangeRate": "Taxa de Câmbio",
     "networkFee": "Taxa de Rede",
-    "confirmStake": "Confirme a Aposta",
+    "confirmDeposit": "Confirme o Deposito",
+    "confirmWithdraw": "Confirme o Saque",
     "transactionSubmitted": "Transação submetida",
     "proceedInYourWallet": "Continue na sua carteira",
     "viewOnExplorer": "Ver no Explorer"

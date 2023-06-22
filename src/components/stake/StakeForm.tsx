@@ -13,7 +13,7 @@ import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useWithdraw from '../../hooks/contracts/useWithdraw'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateEther } from '../../services/truncateEther'
+import { truncateEther, truncateEthDecimal } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 import StakeConfirmModal from './StakeConfirmModal'
@@ -101,7 +101,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       )}`) ||
     ''
   const titleConfirmStakeModal =
-    type === 'deposit' ? t('confirmStakeModal.reviewStake') : t('confirmStakeModal.reviewWithdraw')
+    type === 'deposit' ? t('confirmStakeModal.reviewDeposit') : t('confirmStakeModal.reviewWithdraw')
   const walletActionLoading = type === 'deposit' ? depositAwaitWalletAction : withdrawAwaitWalletAction
 
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
@@ -174,7 +174,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         />
         <StakeInfo>
           <span>
-            {`${t('youReceive')} ${amount || '0'}`}
+            {`${t('youReceive')} ${truncateEthDecimal(amount, 6) || '0'}`}
             <span>{`${receiveLabel}`}</span>
           </span>
           {type === 'deposit' && (

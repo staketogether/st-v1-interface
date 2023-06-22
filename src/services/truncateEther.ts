@@ -1,5 +1,13 @@
 import { BigNumber, ethers } from 'ethers'
 
+function formatDecimalsValue(value: string, decimals: number) {
+  const [whole, decimal] = value.split('.')
+  const truncatedDecimal = decimal ? decimal.slice(0, decimals) : ''
+  const noTrailingZeros = truncatedDecimal.replace(/0+$/, '')
+  const formattedValue = noTrailingZeros ? `${whole}.${noTrailingZeros}` : whole
+  return formattedValue
+}
+
 export function truncateEther(wei: string, maxDecimals = 4): string {
   if (!wei) {
     return ''
@@ -7,9 +15,12 @@ export function truncateEther(wei: string, maxDecimals = 4): string {
 
   const updatedWei = BigNumber.from(wei).toString()
   const formatEther = ethers.utils.formatEther(updatedWei)
-  const [whole, decimal] = formatEther.split('.')
-  const truncatedDecimal = decimal ? decimal.slice(0, maxDecimals) : ''
-  const noTrailingZeros = truncatedDecimal.replace(/0+$/, '')
-  const formattedValue = noTrailingZeros ? `${whole}.${noTrailingZeros}` : whole
-  return formattedValue
+  return formatDecimalsValue(formatEther, maxDecimals)
+}
+
+export function truncateEthDecimal(eth: string, maxDecimals = 4): string {
+  if (!eth) {
+    return ''
+  }
+  return formatDecimalsValue(eth, maxDecimals)
 }

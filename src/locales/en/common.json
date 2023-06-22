@@ -45,7 +45,6 @@
     "name": "Ether",
     "symbol": "ETH"
   },
-  "seth": "SETH",
   "lsd": {
     "name": "ST Staked Ether",
     "symbol": "SETH"
@@ -81,13 +80,14 @@
     "stakedBalance": "Staked Balance"
   },
   "confirmStakeModal": {
-    "reviewStake": "Review Stake",
+    "reviewDeposit": "Review Deposit",
     "reviewWithdraw": "Review Withdraw",
     "youPay": "You Pay",
     "youReceive": "You Receive",
     "exchangeRate": "Exchange rate",
     "networkFee": "Network fee",
-    "confirmStake": "Confirm Stake",
+    "confirmDeposit": "Confirm Deposit",
+    "confirmWithdraw": "Confirm Withdraw",
     "transactionSubmitted": "Transaction submitted",
     "proceedInYourWallet": "Proceed in your wallet",
     "viewOnExplorer": "View on Explorer"

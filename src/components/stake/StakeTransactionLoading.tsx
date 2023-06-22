@@ -34,7 +34,9 @@ export default function StakeTransactionLoading({
       {transactionIsSuccess ? <SuccessIcon size={47} /> : <LoadingIcon size={36} />}
       <div>
         {walletActionLoading && !transactionLoading && !transactionIsSuccess && (
-          <TitleModal>{t('confirmStakeModal.confirmStake')}</TitleModal>
+          <TitleModal>
+            {isWithdraw ? t('confirmStakeModal.confirmWithdraw') : t('confirmStakeModal.confirmDeposit')}
+          </TitleModal>
         )}
         {transactionLoading && !transactionIsSuccess && (
           <TitleModal>{t('confirmStakeModal.transactionSubmitted')}</TitleModal>
@@ -44,13 +46,13 @@ export default function StakeTransactionLoading({
           {isWithdraw ? (
             <>
               <div>
-                <Image src={sethIcon} alt={t('stakeTogether')} width={16} height={16} />
+                <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={16} />
                 <span>{`${amount}`}</span>
-                <span className={'purple'}>{t('seth')}</span>
+                <span className={'purple'}>{t('lsd.symbol')}</span>
               </div>
               <AiOutlineArrowRight />
               <div>
-                <Image src={ethIcon} alt={t('stakeTogether')} width={16} height={16} />
+                <Image src={ethIcon} alt={t('stakeTogether')} width={18} height={16} />
                 <span>{`${amount}`}</span>
                 <span className={'purple'}> ETH</span>
               </div>
@@ -58,15 +60,15 @@ export default function StakeTransactionLoading({
           ) : (
             <>
               <div>
-                <Image src={ethIcon} alt={t('stakeTogether')} width={16} height={16} />
+                <Image src={ethIcon} alt={t('stakeTogether')} width={18} height={16} />
                 <span>{`${amount}`}</span>
                 <span className={'purple'}> ETH</span>
               </div>
               <AiOutlineArrowRight />
               <div>
-                <Image src={sethIcon} alt={t('stakeTogether')} width={16} height={16} />
+                <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={16} />
                 <span>{`${amount}`}</span>
-                <span className={'purple'}> {t('seth')}</span>
+                <span className={'purple'}> {t('lsd.symbol')}</span>
               </div>
             </>
           )}
@@ -133,21 +135,28 @@ const {
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
-    padding: ${({ theme }) => theme.font.size[12]} ${({ theme }) => theme.font.size[16]};
+    padding: ${({ theme }) => theme.font.size[18]} ${({ theme }) => theme.font.size[22]};
     border-radius: ${({ theme }) => theme.font.size[16]};
     background: ${({ theme }) => theme.color.blackAlpha[100]};
     div {
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.size[4]};
+      > span {
+        font-size: ${({ theme }) => theme.font.size[16]};
+      }
     }
   `,
   DescriptionAction: styled.span`
     font-size: ${({ theme }) => theme.font.size[12]};
-    color: ${({ theme }) => theme.color.blue[100]};
+    color: ${({ theme }) => theme.color.blue[500]};
+    a {
+      text-decoration: none;
+      color: ${({ theme }) => theme.color.blue[500]};
+    }
   `,
   LoadingIcon: styled(Loading)`
-    color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.color.secondary};
   `,
   SuccessIcon: styled(AiFillCheckCircle)`
     color: ${({ theme }) => theme.color.green[300]};
@@ -160,6 +169,7 @@ const {
     padding: ${({ theme }) => theme.font.size[12]} ${({ theme }) => theme.font.size[16]};
     border-radius: ${({ theme }) => theme.font.size[16]};
     background: ${({ theme }) => theme.color.blackAlpha[100]};
+    color: ${({ theme }) => theme.color.primary};
     border: none;
   `
 }

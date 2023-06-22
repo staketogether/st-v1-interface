@@ -43,13 +43,14 @@ const { CloseModalButton, ModalWrapper, ModalBackground } = {
   `,
   ModalWrapper: styled.div<{ width: number }>`
     width: ${props => `${props.width}px`};
-    background-color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
     padding: ${({ theme }) => theme.size[24]};
     border-radius: ${({ theme }) => theme.size[16]};
     position: relative;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
+    margin-top: 158px;
     header {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -69,6 +70,6 @@ const { CloseModalButton, ModalWrapper, ModalBackground } = {
     transition: background-color 0.2s ease;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
   `
 }
