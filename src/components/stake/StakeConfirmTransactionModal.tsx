@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import GenericModal from '../shared/GenericModal'
+import Modal from '../shared/Modal'
 import useTranslation from '@/hooks/useTranslation'
 import styled from 'styled-components'
 import ethIcon from '@assets/icons/eth-icon.svg'
@@ -38,7 +38,7 @@ function StakeConfirmModal({
   const { t } = useTranslation()
   const isWithdraw = type === 'withdraw'
   return (
-    <GenericModal
+    <Modal
       title={walletActionLoading ? undefined : <Header>{titleModal}</Header>}
       isOpen={isOpen}
       onClose={onClose}
@@ -124,7 +124,7 @@ function StakeConfirmModal({
           <Stake onClick={onClick}>{transactionLoading ? t('processing') : labelButton}</Stake>
         </>
       )}
-    </GenericModal>
+    </Modal>
   )
 }
 

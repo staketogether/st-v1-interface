@@ -10,7 +10,7 @@ type GenericModal = {
   title: string | ReactNode
 }
 
-export default function GenericModal({
+export default function Modal({
   showCloseIcon = true,
   isOpen,
   children,

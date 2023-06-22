@@ -6,7 +6,7 @@ import ethIcon from '@assets/icons/eth-icon.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
 import { AiFillCheckCircle, AiOutlineArrowRight } from 'react-icons/ai'
 import chainConfig from '@/config/chain'
-import useAddSETToWallet from '@/hooks/useAddToWallet'
+import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -28,7 +28,7 @@ function StakeTransactionLoading({
   const { t } = useTranslation()
   const chain = chainConfig()
   const isWithdraw = type === 'withdraw'
-  const { addToWalletAction } = useAddSETToWallet()
+  const { addToWalletAction } = useAddSethToWallet()
   return (
     <Container>
       {transactionIsSuccess ? <SuccessIcon size={47} /> : <LoadingIcon size={36} />}

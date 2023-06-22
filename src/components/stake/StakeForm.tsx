@@ -132,7 +132,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     setOpenStakeConfirmModal(true)
   }
 
-  const handleModalActionButton = () => {
+  const handleStakeConfirmation = () => {
     if (type === 'deposit') {
       return deposit()
     }
@@ -194,7 +194,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         titleModal={titleConfirmStakeModal}
         type={type}
         labelButton={handleLabelButton()}
-        onClick={handleModalActionButton}
+        onClick={handleStakeConfirmation}
         estimateGas={estimateGas}
         transactionLoading={isLoading}
         walletActionLoading={walletActionLoading}

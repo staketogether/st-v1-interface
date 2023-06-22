@@ -1,7 +1,7 @@
 import { useAccount } from 'wagmi'
 import chainConfig from '@/config/chain'
 
-export default function useAddSETToWallet() {
+export default function useAddSethToWallet() {
   const { connector, isConnected } = useAccount()
   const { contracts } = chainConfig()
   const addToWalletAction = () => {
@@ -9,8 +9,7 @@ export default function useAddSETToWallet() {
       connector.watchAsset?.({
         address: contracts.StakeTogether,
         symbol: 'SETH',
-        //TODO: add SETH icon url
-        image: 'sethIcon',
+        image: '/assets/icons/seth-icon.svg',
         decimals: 18
       })
     }
