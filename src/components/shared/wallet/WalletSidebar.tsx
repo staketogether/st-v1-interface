@@ -32,7 +32,8 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
     setOpenSidebar(false)
     disconnect()
   }
-
+  const rewardsIsPositive = BigNumber.from(accountRewardsBalance).gt('0')
+  const rewardsIsNegative = BigNumber.from(accountRewardsBalance).lt('0')
   return (
     <DrawerContainer
       placement='right'
@@ -74,11 +75,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             </div>
             <div>
               <span>{t('rewards')}</span>
-              <span
-                className={`${BigNumber.from(accountRewardsBalance).gt('0') && 'positive'} ${
-                  BigNumber.from(accountRewardsBalance).lt('0') && 'negative'
-                }`}
-              >
+              <span className={`${rewardsIsPositive && 'positive'} ${rewardsIsNegative && 'negative'}`}>
                 {truncateEther(accountRewardsBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
               </span>
             </div>

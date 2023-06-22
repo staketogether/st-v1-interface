@@ -25,7 +25,8 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
   const { balance: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
     BigNumber.from(pool.delegatedShares)
   )
-
+  const rewardsIsPositive = BigNumber.from(rewardsShares).gt('0')
+  const rewardsIsNegative = BigNumber.from(rewardsShares).lt('0')
   return (
     <Card onClick={() => router.push(`stake/deposit/${pool.address}`)}>
       <CardHeader>
@@ -52,11 +53,7 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
           {rewardsSharesLoading ? (
             <SkeletonLoading width={80} />
           ) : (
-            <div
-              className={`${BigNumber.from(rewardsShares).gt('0') && 'positive'} ${
-                BigNumber.from(rewardsShares).lt('0') && 'negative'
-              }`}
-            >
+            <div className={`${rewardsIsPositive && 'positive'} ${rewardsIsNegative && 'negative'}`}>
               {truncateEther(rewardsShares.toString(), 6)}
               <span>{t('lsd.symbol')}</span>
             </div>
