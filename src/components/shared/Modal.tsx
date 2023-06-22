@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 
-type GenericModal = {
+type ModalProps = {
   isOpen: boolean
   children: ReactNode
   onClose: () => void
@@ -17,7 +17,7 @@ export default function Modal({
   onClose,
   width = 418,
   title
-}: GenericModal) {
+}: ModalProps) {
   if (!isOpen) {
     return null
   }

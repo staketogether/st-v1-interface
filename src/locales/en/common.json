@@ -45,6 +45,7 @@
     "name": "Ether",
     "symbol": "ETH"
   },
+  "seth": "SETH",
   "lsd": {
     "name": "ST Staked Ether",
     "symbol": "SETH"

@@ -1,7 +1,6 @@
 import { ethers } from 'ethers'
 
 interface BlockExplorerConfig {
-  name: string
   baseUrl: string
 }
 
@@ -43,7 +42,6 @@ const configs: ChainConfig[] = [
       `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`
     ),
     blockExplorer: {
-      name: 'Etherscan',
       baseUrl: 'https://goerli.etherscan.io'
     },
     contracts: {

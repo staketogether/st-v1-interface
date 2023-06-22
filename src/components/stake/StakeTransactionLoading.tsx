@@ -17,7 +17,7 @@ type StakeTransactionLoadingProps = {
   type: 'deposit' | 'withdraw'
 }
 
-function StakeTransactionLoading({
+export default function StakeTransactionLoading({
   walletActionLoading,
   transactionLoading,
   amount,
@@ -46,7 +46,7 @@ function StakeTransactionLoading({
               <div>
                 <Image src={sethIcon} alt={t('stakeTogether')} width={16} height={16} />
                 <span>{`${amount}`}</span>
-                <span className={'purple'}>SETH</span>
+                <span className={'purple'}>{t('seth')}</span>
               </div>
               <AiOutlineArrowRight />
               <div>
@@ -66,7 +66,7 @@ function StakeTransactionLoading({
               <div>
                 <Image src={sethIcon} alt={t('stakeTogether')} width={16} height={16} />
                 <span>{`${amount}`}</span>
-                <span className={'purple'}> SETH</span>
+                <span className={'purple'}> {t('seth')}</span>
               </div>
             </>
           )}
@@ -96,8 +96,6 @@ function StakeTransactionLoading({
     </Container>
   )
 }
-
-export default StakeTransactionLoading
 
 const {
   Container,

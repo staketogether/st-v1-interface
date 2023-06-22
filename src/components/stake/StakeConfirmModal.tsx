@@ -21,7 +21,7 @@ type StakeConfirmModalProps = {
   onClose: () => void
 }
 
-function StakeConfirmModal({
+export default function StakeConfirmModal({
   amount,
   titleModal,
   type,
@@ -59,9 +59,10 @@ function StakeConfirmModal({
             <>
               <ContainerPayment>
                 <span>{t('confirmStakeModal.youPay')}</span>
+                {t('seth')}
                 <div>
                   <span>
-                    {amount} <span className={'purple'}>SETH</span>
+                    {amount} <span className={'purple'}></span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -91,7 +92,7 @@ function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youReceive')}</span>
                 <div>
                   <span>
-                    {amount} <span className={'purple'}>SETH</span>
+                    {amount} <span className={'purple'}>{t('seth')}</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -105,13 +106,13 @@ function StakeConfirmModal({
               <span>
                 {isWithdraw ? (
                   <>
-                    {amount} <span className={'purple'}>SETH</span> = {amount}
+                    {amount} <span className={'purple'}>{t('seth')}</span> = {amount}
                     <span className={'purple'}>ETH</span>
                   </>
                 ) : (
                   <>
                     {amount} <span className={'purple'}>ETH</span> = {amount}
-                    <span className={'purple'}>SETH</span>
+                    <span className={'purple'}>{t('seth')}</span>
                   </>
                 )}
               </span>
@@ -127,8 +128,6 @@ function StakeConfirmModal({
     </Modal>
   )
 }
-
-export default StakeConfirmModal
 
 const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Stake } = {
   Header: styled.div`

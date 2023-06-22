@@ -71,14 +71,10 @@ export default function useDeposit(
 
   useEffect(() => {
     const getEstimateGasPrice = async () => {
-      try {
-        if (config) {
-          const gasPrice = await provider.estimateGas(config)
-          const valueFormatted = utils.formatUnits(gasPrice, 'gwei')
-          setEstimateGas(valueFormatted)
-        }
-      } catch (error) {
-        console.error(error)
+      if (config) {
+        const gasPrice = await provider.estimateGas(config)
+        const valueFormatted = utils.formatUnits(gasPrice, 'gwei')
+        setEstimateGas(valueFormatted)
       }
     }
     if (config) {

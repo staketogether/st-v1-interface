@@ -16,7 +16,7 @@ import useTranslation from '../../hooks/useTranslation'
 import { truncateEther } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
-import StakeConfirmModal from './StakeConfirmTransactionModal'
+import StakeConfirmModal from './StakeConfirmModal'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 
 type StakeFormProps = {
@@ -120,14 +120,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     chainId: chain.chainId
   })
 
-  const handleActionButton = () => {
+  const openStakeConfirmation = () => {
     if (isWrongNetwork && switchNetworkAsync) {
-      try {
-        switchNetworkAsync()
-        return
-      } catch (error) {
-        console.error('Error switch network:', error)
-      }
+      switchNetworkAsync()
+      return
     }
     setOpenStakeConfirmModal(true)
   }
@@ -166,7 +162,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         />
         <StakeButton
           isLoading={isLoading}
-          onClick={handleActionButton}
+          onClick={openStakeConfirmation}
           label={handleLabelButton()}
           purple={type === 'withdraw'}
           disabled={
