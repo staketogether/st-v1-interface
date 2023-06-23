@@ -35,6 +35,7 @@
   "wrongNetwork": "Wrong Network",
   "switch": "Switch to",
   "analytics": "Analytics",
+  "success": "Success",
   "titles": {
     "explore": "Explore Pools",
     "stake": "Stake Ether",
@@ -78,5 +79,24 @@
     "etherBalance": "Ether Balance",
     "stakedBalance": "Staked Balance"
   },
-  "soon": "Coming Soon"
+  "confirmStakeModal": {
+    "reviewDeposit": "Review Deposit",
+    "reviewWithdraw": "Review Withdraw",
+    "youPay": "You Pay",
+    "youReceive": "You Receive",
+    "exchangeRate": "Exchange rate",
+    "networkFee": "Network fee",
+    "confirmDeposit": "Confirm Deposit",
+    "confirmWithdraw": "Confirm Withdraw",
+    "transactionSubmitted": "Transaction submitted",
+    "proceedInYourWallet": "Proceed in your wallet",
+    "viewOnExplorer": "View on Explorer",
+    "withdrawSuccessful": "Withdraw Successful",
+    "depositSuccessful": "Deposit Successful"
+  },
+  "soon": "Coming Soon",
+  "addSethToWallet": {
+    "add": "Add",
+    "yourWallet": "to wallet"
+  }
 }

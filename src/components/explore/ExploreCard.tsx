@@ -1,10 +1,10 @@
+import { truncateWei } from '@/services/truncate'
 import { BigNumber } from 'ethers'
 import { useRouter } from 'next/router'
 import { AiOutlineCheck } from 'react-icons/ai'
 import styled from 'styled-components'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateEther } from '../../services/truncateEther'
 import { Pool } from '../../types/Pool'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
@@ -43,7 +43,7 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
             <SkeletonLoading width={80} />
           ) : (
             <div>
-              {truncateEther(delegatedShares.toString(), 6)}
+              {truncateWei(delegatedShares.toString(), 6)}
               <span>{t('lsd.symbol')}</span>
             </div>
           )}
@@ -54,7 +54,7 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
             <SkeletonLoading width={80} />
           ) : (
             <div className={`${rewardsIsPositive && 'positive'} ${rewardsIsNegative && 'negative'}`}>
-              {truncateEther(rewardsShares.toString(), 6)}
+              {truncateWei(rewardsShares.toString(), 6)}
               <span>{t('lsd.symbol')}</span>
             </div>
           )}
@@ -102,8 +102,7 @@ const { Card, CardInfo, CardHeader, Verified } = {
 
     div {
       display: flex;
-      align-items: end;
-      justify-content: flex-end;
+      align-items: center;
     }
   `,
   CardInfo: styled.div`

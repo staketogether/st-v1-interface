@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 import { useEffect, useState } from 'react'
 import useEns from '../../../hooks/useEns'
-import truncateAddress from '../../../services/truncateAddress'
-import truncateText from '../../../services/truncateText'
+
+import { truncateAddress, truncateText } from '../../../services/truncate'
 import SkeletonLoading from '../icons/SkeletonLoading'
 
 type EnsNameProps = {

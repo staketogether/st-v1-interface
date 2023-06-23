@@ -1,6 +1,6 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { notification } from 'antd'
-import { BigNumber, ethers } from 'ethers'
+import { BigNumber, ethers, utils } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
@@ -9,6 +9,7 @@ import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
+import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 
 export default function useDeposit(
   depositAmount: string,
@@ -17,7 +18,11 @@ export default function useDeposit(
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
+  const [estimateGas, setEstimateGas] = useState<string | undefined>(undefined)
+  const [awaitWalletAction, setAwaitWalletAction] = useState(false)
+  const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const { registerDeposit } = useMixpanelAnalytics()
+  const { provider } = chainConfig()
 
   const depositRule = ethers.BigNumber.isBigNumber(depositAmount) && BigNumber.from(depositAmount).gt(0)
 
@@ -35,23 +40,52 @@ export default function useDeposit(
     enabled: !depositRule
   })
 
-  const tx = useStakeTogetherDepositPool(config)
+  const tx = useStakeTogetherDepositPool({
+    ...config,
+    onSuccess: data => {
+      if (data?.hash) {
+        setTxHash(data?.hash)
+      }
+    },
+    onError: () => {
+      setAwaitWalletAction(false)
+    }
+  })
 
   const deposit = () => {
+    setAwaitWalletAction(true)
     tx.write?.()
     setNotify(true)
   }
 
   const { isLoading, isSuccess, isError } = useWaitForTransaction({
-    hash: tx.data?.hash
+    hash: txHash
   })
 
   const { t } = useTranslation()
 
+  const resetState = () => {
+    setAwaitWalletAction(false)
+    setTxHash(undefined)
+  }
+
+  useEffect(() => {
+    const getEstimateGasPrice = async () => {
+      if (config) {
+        const gasPrice = await provider.estimateGas(config)
+        const valueFormatted = utils.formatUnits(gasPrice, 'gwei')
+        setEstimateGas(valueFormatted)
+      }
+    }
+    if (config) {
+      getEstimateGasPrice()
+    }
+  }, [config, provider])
+
   useEffect(() => {
     if (isSuccess && depositAmount !== '0') {
       apolloClient.refetchQueries({
-        include: [queryAccount, queryPool]
+        include: [queryAccount, queryPool, queryDelegationShares]
       })
       registerDeposit(accountAddress, chainId, poolAddress, depositAmount)
       if (notify) {
@@ -79,5 +113,13 @@ export default function useDeposit(
     }
   }, [accountAddress, depositAmount, isError, notify, poolAddress, t])
 
-  return { deposit, isLoading, isSuccess }
+  return {
+    deposit,
+    isLoading,
+    isSuccess,
+    estimateGas,
+    awaitWalletAction,
+    txHash,
+    resetState
+  }
 }

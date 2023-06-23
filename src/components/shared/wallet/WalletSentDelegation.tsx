@@ -1,12 +1,12 @@
+import { BigNumber } from 'ethers'
+import Link from 'next/link'
 import styled from 'styled-components'
 import usePooledEthByShares from '../../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../../hooks/useTranslation'
-import { truncateEther } from '../../../services/truncateEther'
+import { truncateWei } from '../../../services/truncate'
 import { Delegation } from '../../../types/Delegation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
-import Link from 'next/link'
-import { BigNumber } from 'ethers'
 
 type WalletSentDelegationProps = {
   delegation: Delegation
@@ -26,7 +26,7 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
         </div>
       </div>
       <span>
-        {`${truncateEther(delegationAmount.toString(), 6)}`}
+        {`${truncateWei(delegationAmount.toString(), 6)}`}
         <span>{t('lsd.symbol')}</span>
       </span>
     </Container>

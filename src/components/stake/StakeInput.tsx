@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import useEthToUsdPrice from '../../hooks/useEthToUsdPrice'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateEther } from '../../services/truncateEther'
+import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface StakeInputProps {
@@ -53,18 +53,18 @@ export default function StakeFormInput({
         <MaxValue
           className={purple ? 'purple' : ''}
           disabled={disabled}
-          onClick={() => handleChange(truncateEther(balance, 18))}
+          onClick={() => handleChange(truncateWei(balance, 18))}
         >
           {t('max')}
         </MaxValue>
       </InputContainer>
       <BalanceInfo>
         <span className={`${hasError ? 'error' : ''}`}>
-          {value && price && `${truncateEther(price.toString(), 2)} ${t('usd')}`}
+          {value && price && `${truncateWei(price.toString(), 2)} ${t('usd')}`}
         </span>
         <span className={`${hasError ? 'error' : ''}`}>
           {type === 'deposit' ? t('balance') : t('poolBalance')}:{' '}
-          {balanceLoading ? <SkeletonLoading width={90} height={12} /> : truncateEther(balance, 6)}{' '}
+          {balanceLoading ? <SkeletonLoading width={90} height={12} /> : truncateWei(balance, 6)}{' '}
           {!balanceLoading && symbol}
         </span>
       </BalanceInfo>
