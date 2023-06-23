@@ -2,7 +2,7 @@ import { BigNumber } from 'ethers'
 import styled from 'styled-components'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateEther } from '../../services/truncateEther'
+import { truncateWei } from '../../services/truncateEther'
 import { Delegation } from '../../types/Delegation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
@@ -33,7 +33,7 @@ export default function StakeReceivedDelegation({ delegation, rank }: StakeRecei
             <SkeletonLoading width={90} height={14} />
           ) : (
             <>
-              {`${truncateEther(delegationAmount.toString(), 6)} `}
+              {`${truncateWei(delegationAmount.toString(), 6)} `}
               <span>{t('lsd.symbol')}</span>
             </>
           )}

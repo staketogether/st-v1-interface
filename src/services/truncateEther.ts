@@ -1,6 +1,6 @@
 import { BigNumber, ethers } from 'ethers'
 
-function formatDecimalsValue(value: string, decimals: number) {
+function sliceString(value: string, decimals: number) {
   const [whole, decimal] = value.split('.')
   const truncatedDecimal = decimal ? decimal.slice(0, decimals) : ''
   const noTrailingZeros = truncatedDecimal.replace(/0+$/, '')
@@ -8,19 +8,18 @@ function formatDecimalsValue(value: string, decimals: number) {
   return formattedValue
 }
 
-export function truncateEther(wei: string, maxDecimals = 4): string {
+export function truncateWei(wei: string, maxDecimals = 4): string {
   if (!wei) {
     return ''
   }
-
   const updatedWei = BigNumber.from(wei).toString()
-  const formatEther = ethers.utils.formatEther(updatedWei)
-  return formatDecimalsValue(formatEther, maxDecimals)
+  const formatWei = ethers.utils.formatEther(updatedWei)
+  return sliceString(formatWei, maxDecimals)
 }
 
-export function truncateEthDecimal(eth: string, maxDecimals = 4): string {
-  if (!eth) {
+export function truncateDecimal(value: string, maxDecimals = 4): string {
+  if (!value) {
     return ''
   }
-  return formatDecimalsValue(eth, maxDecimals)
+  return sliceString(value, maxDecimals)
 }

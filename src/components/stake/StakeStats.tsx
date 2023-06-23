@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import usePool from '../../hooks/subgraphs/usePool'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateEther } from '../../services/truncateEther'
+import { truncateWei } from '../../services/truncateEther'
 
 import Loading from '../shared/icons/Loading'
 import StakeReceivedDelegation from './StakeReceivedDelegation'
@@ -53,7 +53,7 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
                 <SkeletonLoading width={80} />
               ) : (
                 <>
-                  {`${truncateEther(delegatedShares.toString(), 6)}`}
+                  {`${truncateWei(delegatedShares.toString(), 6)}`}
                   <span>{t('lsd.symbol')}</span>
                 </>
               )}
@@ -66,7 +66,7 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
                 <SkeletonLoading width={80} />
               ) : (
                 <>
-                  {truncateEther(rewardsShares.toString(), 6)}
+                  {truncateWei(rewardsShares.toString(), 6)}
                   <span>{t('lsd.symbol')}</span>
                 </>
               )}

@@ -6,7 +6,7 @@ import ethIcon from '@assets/icons/eth-icon.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import StakeTransactionLoading from './StakeTransactionLoading'
-import { truncateEthDecimal } from '@/services/truncateEther'
+import { truncateDecimal } from '@/services/truncateEther'
 
 type StakeConfirmModalProps = {
   amount: string
@@ -49,7 +49,7 @@ export default function StakeConfirmModal({
         <StakeTransactionLoading
           walletActionLoading={walletActionLoading}
           transactionLoading={transactionLoading}
-          amount={truncateEthDecimal(amount, 6)}
+          amount={truncateDecimal(amount, 6)}
           transactionIsSuccess={transactionIsSuccess}
           type={type}
           txHash={txHash}
@@ -62,7 +62,7 @@ export default function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youPay')}</span>
                 <div>
                   <span>
-                    {truncateEthDecimal(amount, 6)} <span className={'purple'}> {t('lsd.symbol')}</span>
+                    {truncateDecimal(amount, 6)} <span className={'purple'}> {t('lsd.symbol')}</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -71,7 +71,7 @@ export default function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youReceive')}</span>
                 <div>
                   <span>
-                    {truncateEthDecimal(amount, 6)} <span className={'purple'}>{t('eth.symbol')}</span>{' '}
+                    {truncateDecimal(amount, 6)} <span className={'purple'}>{t('eth.symbol')}</span>{' '}
                   </span>
                   <Image src={ethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -83,7 +83,7 @@ export default function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youPay')}:</span>
                 <div>
                   <span>
-                    {truncateEthDecimal(amount, 6)} <span className={'purple'}>{t('eth.symbol')}</span>
+                    {truncateDecimal(amount, 6)} <span className={'purple'}>{t('eth.symbol')}</span>
                   </span>
                   <Image src={ethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -92,7 +92,7 @@ export default function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youReceive')}</span>
                 <div>
                   <span>
-                    {truncateEthDecimal(amount, 6)} <span className={'purple'}>{t('lsd.symbol')}</span>
+                    {truncateDecimal(amount, 6)} <span className={'purple'}>{t('lsd.symbol')}</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -106,15 +106,15 @@ export default function StakeConfirmModal({
               <div>
                 {isWithdraw ? (
                   <>
-                    {truncateEthDecimal(amount, 6)}
+                    {truncateDecimal(amount, 6)}
                     <span className={`purple`}> {t('lsd.symbol')}</span>={' '}
-                    {truncateEthDecimal(amount.toString(), 6)}
+                    {truncateDecimal(amount.toString(), 6)}
                     <span className={`purple`}> {t('eth.symbol')}</span>
                   </>
                 ) : (
                   <>
-                    {truncateEthDecimal(amount, 6)}
-                    <span className={`purple`}> {t('eth.symbol')}</span>= {truncateEthDecimal(amount, 6)}
+                    {truncateDecimal(amount, 6)}
+                    <span className={`purple`}> {t('eth.symbol')}</span>= {truncateDecimal(amount, 6)}
                     <span className={`purple`}> {t('lsd.symbol')}</span>
                   </>
                 )}

@@ -7,7 +7,7 @@ import useEthBalanceOf from '../../../hooks/contracts/useEthBalanceOf'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
-import { truncateEther } from '../../../services/truncateEther'
+import { truncateWei } from '../../../services/truncateEther'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletSentDelegation from './WalletSentDelegation'
 import WalletSlideBarSettings from './WalletSlideBarSettings'
@@ -62,19 +62,19 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             <div>
               <span>{`${t('sidebar.etherBalance')}`}</span>
               <span>
-                {truncateEther(ethBalance.toString(), 6)} <span>{t('eth.symbol')}</span>
+                {truncateWei(ethBalance.toString(), 6)} <span>{t('eth.symbol')}</span>
               </span>
             </div>
             <div>
               <span>{`${t('sidebar.stakedBalance')}`}</span>
               <span>
-                {truncateEther(accountBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
+                {truncateWei(accountBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
               </span>
             </div>
             <div>
               <span>{t('rewards')}</span>
               <span>
-                {truncateEther(accountRewardsBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
+                {truncateWei(accountRewardsBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
               </span>
             </div>
           </InfoContainer>

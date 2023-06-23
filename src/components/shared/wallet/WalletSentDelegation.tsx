@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import usePooledEthByShares from '../../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../../hooks/useTranslation'
-import { truncateEther } from '../../../services/truncateEther'
+import { truncateWei } from '../../../services/truncateEther'
 import { Delegation } from '../../../types/Delegation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
@@ -26,7 +26,7 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
         </div>
       </div>
       <span>
-        {`${truncateEther(delegationAmount.toString(), 6)}`}
+        {`${truncateWei(delegationAmount.toString(), 6)}`}
         <span>{t('lsd.symbol')}</span>
       </span>
     </Container>

@@ -13,7 +13,7 @@ import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useWithdraw from '../../hooks/contracts/useWithdraw'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateEther, truncateEthDecimal } from '../../services/truncateEther'
+import { truncateWei } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 import StakeConfirmModal from './StakeConfirmModal'
@@ -66,7 +66,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     txHash: withdrawTxHash
   } = useWithdraw(inputAmount, accountAddress, poolAddress)
 
-  const rewardsFee = truncateEther(fee.protocol.mul(100).toString())
+  const rewardsFee = truncateWei(fee.protocol.mul(100).toString())
 
   const isLoading = depositLoading || withdrawLoading
   const isSuccess = depositSuccess || withdrawSuccess
@@ -92,11 +92,11 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
     (insufficientMinDeposit &&
-      `${t('form.insufficientMinDeposit')} ${truncateEther(minDepositAmount.toString())} ${t(
+      `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount.toString())} ${t(
         'eth.symbol'
       )}`) ||
     (insufficientWithdrawalLiquidity &&
-      `${t('form.insufficientLiquidity')} ${truncateEther(withdrawalLiquidityBalance.toString())} ${t(
+      `${t('form.insufficientLiquidity')} ${truncateWei(withdrawalLiquidityBalance.toString())} ${t(
         'lsd.symbol'
       )}`) ||
     ''
@@ -174,7 +174,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         />
         <StakeInfo>
           <span>
-            {`${t('youReceive')} ${truncateEthDecimal(amount, 6) || '0'}`}
+            {`${t('youReceive')} ${amount || '0'}`}
             <span>{`${receiveLabel}`}</span>
           </span>
           {type === 'deposit' && (

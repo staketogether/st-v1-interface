@@ -10,7 +10,7 @@ import useResizeView from '../../hooks/useResizeView'
 import useSearchDrawer from '../../hooks/useSearchDrawer'
 import useSearchHeader from '../../hooks/useSearchHeader'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateEther } from '../../services/truncateEther'
+import { truncateWei } from '../../services/truncateEther'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 
@@ -26,7 +26,7 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
   const { balance: ethBalance, isLoading } = useEthBalanceOf(accountAddress)
 
   const [amount, setAmount] = useState<string>('')
-  const rewardsFee = truncateEther(fee.protocol.mul(100).toString())
+  const rewardsFee = truncateWei(fee.protocol.mul(100).toString())
 
   const { openConnectModal } = useConnectModal()
   const { setOpenSearchDrawer } = useSearchDrawer()
