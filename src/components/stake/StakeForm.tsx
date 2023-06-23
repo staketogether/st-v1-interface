@@ -6,6 +6,7 @@ import chainConfig from '@/config/chain'
 import { useMinDepositAmount } from '@/hooks/contracts/useMinDepositAmount'
 import { useWithdrawalLiquidityBalance } from '@/hooks/contracts/useWithdrawalLiquidityBalance'
 import useDelegationShares from '@/hooks/subgraphs/useDelegationShares'
+import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import { ethers } from 'ethers'
 import { useDebounce } from 'usehooks-ts'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
@@ -13,8 +14,9 @@ import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useWithdraw from '../../hooks/contracts/useWithdraw'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateEther } from '../../services/truncateEther'
+import { truncateWei } from '../../services/truncate'
 import StakeButton from './StakeButton'
+import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 
 type StakeFormProps = {
@@ -26,7 +28,11 @@ type StakeFormProps = {
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { fee } = globalConfig
   const { t } = useTranslation()
-  const { balance: ethBalance, isLoading: balanceLoading } = useEthBalanceOf(accountAddress)
+  const {
+    balance: ethBalance,
+    isLoading: balanceLoading,
+    refetch: refetchEthBalance
+  } = useEthBalanceOf(accountAddress)
   const { delegationSharesFormatted, loading: delegationSharesLoading } = useDelegationShares(
     accountAddress,
     poolAddress
@@ -43,16 +49,24 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const {
     deposit,
     isSuccess: depositSuccess,
-    isLoading: depositLoading
+    isLoading: depositLoading,
+    estimateGas: depositEstimateGas,
+    awaitWalletAction: depositAwaitWalletAction,
+    resetState: depositResetState,
+    txHash: depositTxHash
   } = useDeposit(inputAmount, accountAddress, poolAddress)
 
   const {
     withdraw,
     isLoading: withdrawLoading,
-    isSuccess: withdrawSuccess
+    isSuccess: withdrawSuccess,
+    estimateGas: withdrawEstimateGas,
+    awaitWalletAction: withdrawAwaitWalletAction,
+    resetState: withdrawResetState,
+    txHash: withdrawTxHash
   } = useWithdraw(inputAmount, accountAddress, poolAddress)
 
-  const rewardsFee = truncateEther(fee.protocol.mul(100).toString())
+  const rewardsFee = truncateWei(fee.protocol.mul(100).toString())
 
   const isLoading = depositLoading || withdrawLoading
   const isSuccess = depositSuccess || withdrawSuccess
@@ -62,6 +76,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
   const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
+  const estimateGas = type === 'deposit' ? depositEstimateGas : withdrawEstimateGas
+  const txHash = type === 'deposit' ? depositTxHash : withdrawTxHash
+  const resetState = type === 'deposit' ? depositResetState : withdrawResetState
+
   const amountBigNumber = ethers.utils.parseEther(amount || '0')
 
   const insufficientFunds = amountBigNumber.gt(balance)
@@ -69,18 +87,31 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     type === 'deposit' && amountBigNumber.lt(minDepositAmount) && amount.length > 0
   const insufficientWithdrawalLiquidity =
     type === 'withdraw' && amountBigNumber.gt(withdrawalLiquidityBalance) && amount.length > 0
+  const amountIsEmpty = amountBigNumber.isZero() || !amount
 
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
     (insufficientMinDeposit &&
-      `${t('form.insufficientMinDeposit')} ${truncateEther(minDepositAmount.toString())} ${t(
+      `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount.toString())} ${t(
         'eth.symbol'
       )}`) ||
     (insufficientWithdrawalLiquidity &&
-      `${t('form.insufficientLiquidity')} ${truncateEther(withdrawalLiquidityBalance.toString())} ${t(
+      `${t('form.insufficientLiquidity')} ${truncateWei(withdrawalLiquidityBalance.toString())} ${t(
         'lsd.symbol'
       )}`) ||
     ''
+  const titleConfirmStakeModal =
+    type === 'deposit' ? t('confirmStakeModal.reviewDeposit') : t('confirmStakeModal.reviewWithdraw')
+  const walletActionLoading = type === 'deposit' ? depositAwaitWalletAction : withdrawAwaitWalletAction
+
+  const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
+  useEffect(() => {
+    if (isSuccess && !isOpenStakeConfirmModal) {
+      resetState()
+      setAmount('')
+      refetchEthBalance()
+    }
+  }, [isOpenStakeConfirmModal, isSuccess, refetchEthBalance, resetState])
 
   const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
@@ -89,17 +120,15 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     chainId: chain.chainId
   })
 
-  useEffect(() => {
-    if (isSuccess) {
-      setAmount('')
-    }
-  }, [isSuccess])
-
-  const handleActionButton = () => {
+  const openStakeConfirmation = () => {
     if (isWrongNetwork && switchNetworkAsync) {
       switchNetworkAsync()
       return
     }
+    setOpenStakeConfirmModal(true)
+  }
+
+  const handleStakeConfirmation = () => {
     if (type === 'deposit') {
       return deposit()
     }
@@ -113,41 +142,62 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     if (insufficientFunds || insufficientWithdrawalLiquidity || insufficientMinDeposit) {
       return errorLabel
     }
+
     return actionLabel
   }
 
   return (
-    <StakeContainer>
-      <StakeFormInput
-        value={amount}
-        onChange={value => setAmount(value)}
-        balance={balance}
-        symbol={balanceLabel}
-        balanceLoading={balanceLoading || delegationSharesLoading}
-        disabled={isWrongNetwork || isLoading}
-        purple={type === 'withdraw'}
-        hasError={insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity}
+    <>
+      <StakeContainer>
+        <StakeFormInput
+          value={amount}
+          onChange={value => setAmount(value)}
+          balance={balance}
+          symbol={balanceLabel}
+          balanceLoading={balanceLoading || delegationSharesLoading}
+          disabled={isWrongNetwork || isLoading}
+          purple={type === 'withdraw'}
+          hasError={insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity}
+          type={type}
+        />
+        <StakeButton
+          isLoading={isLoading}
+          onClick={openStakeConfirmation}
+          label={handleLabelButton()}
+          purple={type === 'withdraw'}
+          disabled={
+            insufficientFunds ||
+            insufficientMinDeposit ||
+            insufficientWithdrawalLiquidity ||
+            amountIsEmpty
+          }
+        />
+        <StakeInfo>
+          <span>
+            {`${t('youReceive')} ${amount || '0'}`}
+            <span>{`${receiveLabel}`}</span>
+          </span>
+          {type === 'deposit' && (
+            <div>
+              <span>{`${t('rewardsFee')}: ${rewardsFee}%`}</span>
+            </div>
+          )}
+        </StakeInfo>
+      </StakeContainer>
+      <StakeConfirmModal
+        amount={amount}
+        txHash={txHash}
+        titleModal={titleConfirmStakeModal}
         type={type}
+        labelButton={handleLabelButton()}
+        onClick={handleStakeConfirmation}
+        estimateGas={estimateGas}
+        transactionLoading={isLoading}
+        walletActionLoading={walletActionLoading}
+        transactionIsSuccess={isSuccess}
+        onClose={() => setOpenStakeConfirmModal(false)}
       />
-      <StakeButton
-        isLoading={isLoading}
-        onClick={handleActionButton}
-        label={handleLabelButton()}
-        purple={type === 'withdraw'}
-        disabled={insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity}
-      />
-      <StakeInfo>
-        <span>
-          {`${t('youReceive')} ${amount || '0'}`}
-          <span>{`${receiveLabel}`}</span>
-        </span>
-        {type === 'deposit' && (
-          <div>
-            <span>{`${t('rewardsFee')}: ${rewardsFee}%`}</span>
-          </div>
-        )}
-      </StakeInfo>
-    </StakeContainer>
+    </>
   )
 }
 

@@ -1,8 +1,14 @@
 import { AiOutlineLoading } from 'react-icons/ai'
 import styled, { keyframes } from 'styled-components'
 
-export default function Loading() {
-  return <LoadingIcon />
+type LoadingProps = {
+  size?: number
+  color?: string
+  className?: string
+}
+
+export default function Loading({ size, className, color }: LoadingProps) {
+  return <LoadingIcon size={size || undefined} color={color} className={className} />
 }
 
 const rotate = keyframes`

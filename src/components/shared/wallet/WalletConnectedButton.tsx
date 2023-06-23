@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 
+import chainConfig from '@/config/chain'
+import { AiOutlineSwap } from 'react-icons/ai'
+import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
-import { truncateEther } from '../../../services/truncateEther'
+import { truncateWei } from '../../../services/truncate'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
-import { AiOutlineSwap } from 'react-icons/ai'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
-import chainConfig from '@/config/chain'
 
 type WalletConnectedButtonProps = {
   address: `0x${string}`
@@ -50,7 +50,7 @@ export default function WalletConnectedButton({
         <>
           {showBalance && (
             <CethBalance>
-              <span>{truncateEther(accountBalance.toString())}</span>
+              <span>{truncateWei(accountBalance.toString())}</span>
               <span>{t('lsd.symbol')}</span>
             </CethBalance>
           )}
