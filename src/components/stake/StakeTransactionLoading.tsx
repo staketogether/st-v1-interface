@@ -1,12 +1,12 @@
-import Image from 'next/image'
-import useTranslation from '@/hooks/useTranslation'
-import styled from 'styled-components'
-import Loading from '../shared/icons/Loading'
-import ethIcon from '@assets/icons/eth-icon.svg'
-import sethIcon from '@assets/icons/seth-icon.svg'
-import { AiFillCheckCircle, AiOutlineArrowRight } from 'react-icons/ai'
 import chainConfig from '@/config/chain'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
+import useTranslation from '@/hooks/useTranslation'
+import ethIcon from '@assets/icons/eth-icon.svg'
+import sethIcon from '@assets/icons/seth-icon.svg'
+import Image from 'next/image'
+import { AiFillCheckCircle, AiOutlineArrowRight } from 'react-icons/ai'
+import styled from 'styled-components'
+import Loading from '../shared/icons/Loading'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -125,7 +125,7 @@ const {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: ${({ theme }) => theme.size[12]};
+      gap: ${({ theme }) => theme.size[16]};
     }
     span {
       &.purple {
