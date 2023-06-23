@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 
 type ModalProps = {
@@ -74,7 +74,7 @@ const { ModalWrapper, ModalBackground, CloseButton } = {
     border: 0;
     border-radius: ${({ theme }) => theme.size[16]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background: ${({ theme }) => theme.color.whiteAlpha[700]};
+    background: ${({ theme }) => theme.color.whiteAlpha[600]};
     transition: background 0.2s ease;
     display: flex;
     align-items: center;
@@ -90,6 +90,10 @@ const { ModalWrapper, ModalBackground, CloseButton } = {
       color: ${({ theme }) => theme.color.blue[500]};
       margin-bottom: 3px;
       font-weight: 100;
+    }
+
+    &:hover {
+      background: ${({ theme }) => theme.color.whiteAlpha[800]};
     }
   `
 }

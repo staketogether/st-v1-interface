@@ -80,7 +80,7 @@ export default function StakeConfirmModal({
           ) : (
             <>
               <ContainerPayment>
-                <span>{t('confirmStakeModal.youPay')}:</span>
+                <span>{t('confirmStakeModal.youPay')}</span>
                 <div>
                   <span>
                     {truncateDecimal(amount, 6)} <span className={'purple'}>{t('eth.symbol')}</span>
@@ -102,7 +102,7 @@ export default function StakeConfirmModal({
           <Divider />
           <ContainerInfoReview>
             <InfoReview>
-              <span className={``}>{t('confirmStakeModal.exchangeRate')}:</span>
+              <span>{t('confirmStakeModal.exchangeRate')}</span>
               <div>
                 {isWithdraw ? (
                   <>
@@ -121,7 +121,7 @@ export default function StakeConfirmModal({
               </div>
             </InfoReview>
             <InfoReview>
-              <span>{t('confirmStakeModal.networkFee')}:</span>
+              <span>{t('confirmStakeModal.networkFee')}</span>
               <span>{`${estimateGas}`}</span>
             </InfoReview>
           </ContainerInfoReview>
