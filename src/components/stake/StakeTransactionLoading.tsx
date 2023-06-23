@@ -41,18 +41,24 @@ export default function StakeTransactionLoading({
         {transactionLoading && !transactionIsSuccess && (
           <TitleModal>{t('confirmStakeModal.transactionSubmitted')}</TitleModal>
         )}
-        {transactionIsSuccess && <TitleModal>{t('success')}</TitleModal>}
+        {transactionIsSuccess && (
+          <TitleModal>
+            {isWithdraw
+              ? t('confirmStakeModal.withdrawSuccessful')
+              : t('confirmStakeModal.depositSuccessful')}
+          </TitleModal>
+        )}
         <ResumeStake>
           {isWithdraw ? (
             <>
               <div>
-                <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={16} />
+                <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={18} />
                 <span>{`${amount}`}</span>
                 <span className={'purple'}>{t('lsd.symbol')}</span>
               </div>
               <AiOutlineArrowRight />
               <div>
-                <Image src={ethIcon} alt={t('stakeTogether')} width={18} height={16} />
+                <Image src={ethIcon} alt={t('stakeTogether')} width={18} height={18} />
                 <span>{`${amount}`}</span>
                 <span className={'purple'}> ETH</span>
               </div>
@@ -60,13 +66,13 @@ export default function StakeTransactionLoading({
           ) : (
             <>
               <div>
-                <Image src={ethIcon} alt={t('stakeTogether')} width={18} height={16} />
+                <Image src={ethIcon} alt={t('stakeTogether')} width={18} height={18} />
                 <span>{`${amount}`}</span>
                 <span className={'purple'}> ETH</span>
               </div>
               <AiOutlineArrowRight />
               <div>
-                <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={16} />
+                <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={18} />
                 <span>{`${amount}`}</span>
                 <span className={'purple'}> {t('lsd.symbol')}</span>
               </div>
@@ -77,7 +83,7 @@ export default function StakeTransactionLoading({
       {!isWithdraw && transactionIsSuccess && (
         <AddAssetInWalletButton onClick={addToWalletAction}>
           <span>{t('addSethToWallet.add')} </span>
-          <Image src={sethIcon} alt={t('stakeTogether')} width={16} height={16} />
+          <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={18} />
           <span>{t('addSethToWallet.yourWallet')}</span>
         </AddAssetInWalletButton>
       )}
@@ -135,7 +141,7 @@ const {
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
-    padding: ${({ theme }) => theme.font.size[18]} ${({ theme }) => theme.font.size[22]};
+    padding: ${({ theme }) => theme.size[16]} ${({ theme }) => theme.size[16]};
     border-radius: ${({ theme }) => theme.font.size[16]};
     background: ${({ theme }) => theme.color.blackAlpha[100]};
     div {
@@ -162,14 +168,28 @@ const {
     color: ${({ theme }) => theme.color.green[300]};
   `,
   AddAssetInWalletButton: styled.button`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
-    padding: ${({ theme }) => theme.font.size[12]} ${({ theme }) => theme.font.size[16]};
-    border-radius: ${({ theme }) => theme.font.size[16]};
-    background: ${({ theme }) => theme.color.blackAlpha[100]};
-    color: ${({ theme }) => theme.color.primary};
     border: none;
+    color: ${({ theme }) => theme.color.white};
+    border-radius: ${props => props.theme.size[16]};
+    background: ${({ theme }) => theme.color.blue[400]};
+    transition: background-color 0.2s ease;
+    height: 48px;
+    padding: 0px ${({ theme }) => theme.size[16]};
+
+    font-size: ${({ theme }) => theme.font.size[16]};
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: ${({ theme }) => theme.size[8]};
+
+    &:hover {
+      background: ${({ theme }) => theme.color.blue[600]};
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
   `
 }

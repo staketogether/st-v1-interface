@@ -90,7 +90,9 @@
     "confirmWithdraw": "Confirme o Saque",
     "transactionSubmitted": "Transação submetida",
     "proceedInYourWallet": "Continue na sua carteira",
-    "viewOnExplorer": "Ver no Explorer"
+    "viewOnExplorer": "Ver no Explorer",
+    "withdrawSuccessful": "Saque realizado com sucesso",
+    "depositSuccessful": "Depósito realizado com sucesso"
   },
   "soon": "Em Breve",
   "addSethToWallet": {

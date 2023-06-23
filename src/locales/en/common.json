@@ -90,7 +90,9 @@
     "confirmWithdraw": "Confirm Withdraw",
     "transactionSubmitted": "Transaction submitted",
     "proceedInYourWallet": "Proceed in your wallet",
-    "viewOnExplorer": "View on Explorer"
+    "viewOnExplorer": "View on Explorer",
+     "withdrawSuccessful": "Withdraw Successful",
+    "depositSuccessful": "Deposit Successful"
   },
   "soon": "Coming Soon",
   "addSethToWallet": {

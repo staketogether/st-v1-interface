@@ -125,7 +125,7 @@ export default function StakeConfirmModal({
               <span>{`${estimateGas}`}</span>
             </InfoReview>
           </ContainerInfoReview>
-          <Button onClick={onClick}>{transactionLoading ? t('processing') : labelButton}</Button>
+          <Button onClick={onClick}>{labelButton}</Button>
         </>
       )}
     </Modal>

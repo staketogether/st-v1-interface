@@ -53,6 +53,7 @@ export const { DelegationItem } = {
     > div:nth-child(2) {
       display: grid;
       grid-template-columns: 24px auto;
+      align-items: center;
       gap: 8px;
     }
 
