@@ -23,3 +23,26 @@ export function truncateDecimal(value: string, maxDecimals = 4): string {
   }
   return sliceString(value, maxDecimals)
 }
+
+export function truncateText(text: string, chars = 16): string {
+  if (!text) {
+    return ''
+  }
+
+  return `${text.slice(0, chars)}${text.length > chars ? '...' : ''}`
+}
+
+export function truncateAddress(address: string): string {
+  const charsToShow = 6
+  if (!address) {
+    return ''
+  }
+
+  if (address.length <= charsToShow * 2 + 2) {
+    return address
+  }
+
+  const start = address.slice(0, charsToShow)
+  const end = address.slice(-charsToShow)
+  return `${start}...${end}`
+}
