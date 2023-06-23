@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 
+import chainConfig from '@/config/chain'
+import { AiOutlineSwap } from 'react-icons/ai'
+import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
-import { truncateWei } from '../../../services/truncateEther'
+import { truncateWei } from '../../../services/truncate'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
-import { AiOutlineSwap } from 'react-icons/ai'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
-import chainConfig from '@/config/chain'
 
 type WalletConnectedButtonProps = {
   address: `0x${string}`

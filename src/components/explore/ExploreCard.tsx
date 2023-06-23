@@ -1,3 +1,4 @@
+import { truncateWei } from '@/services/truncate'
 import { BigNumber } from 'ethers'
 import { useRouter } from 'next/router'
 import { AiOutlineCheck } from 'react-icons/ai'
@@ -8,7 +9,6 @@ import { Pool } from '../../types/Pool'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import { truncateWei } from '@/services/truncateEther'
 
 type ExploreCardProps = {
   pool: Pool

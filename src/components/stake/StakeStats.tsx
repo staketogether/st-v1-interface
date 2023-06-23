@@ -5,11 +5,11 @@ import styled from 'styled-components'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import usePool from '../../hooks/subgraphs/usePool'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateWei } from '../../services/truncateEther'
+import { truncateWei } from '../../services/truncate'
 
 import Loading from '../shared/icons/Loading'
-import StakeReceivedDelegation from './StakeReceivedDelegation'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import StakeReceivedDelegation from './StakeReceivedDelegation'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}` | undefined

@@ -1,12 +1,12 @@
-import Image from 'next/image'
-import Modal from '../shared/Modal'
+import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useTranslation from '@/hooks/useTranslation'
-import styled from 'styled-components'
+import { truncateDecimal } from '@/services/truncate'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
-import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
+import Image from 'next/image'
+import styled from 'styled-components'
+import Modal from '../shared/Modal'
 import StakeTransactionLoading from './StakeTransactionLoading'
-import { truncateDecimal } from '@/services/truncateEther'
 
 type StakeConfirmModalProps = {
   amount: string

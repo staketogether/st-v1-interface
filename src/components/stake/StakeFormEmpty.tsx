@@ -10,7 +10,7 @@ import useResizeView from '../../hooks/useResizeView'
 import useSearchDrawer from '../../hooks/useSearchDrawer'
 import useSearchHeader from '../../hooks/useSearchHeader'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateWei } from '../../services/truncateEther'
+import { truncateWei } from '../../services/truncate'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
 

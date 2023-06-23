@@ -1,12 +1,12 @@
+import { BigNumber } from 'ethers'
+import Link from 'next/link'
 import styled from 'styled-components'
 import usePooledEthByShares from '../../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../../hooks/useTranslation'
-import { truncateWei } from '../../../services/truncateEther'
+import { truncateWei } from '../../../services/truncate'
 import { Delegation } from '../../../types/Delegation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
-import Link from 'next/link'
-import { BigNumber } from 'ethers'
 
 type WalletSentDelegationProps = {
   delegation: Delegation

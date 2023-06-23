@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import useEthToUsdPrice from '../../hooks/useEthToUsdPrice'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateWei } from '../../services/truncateEther'
+import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface StakeInputProps {
