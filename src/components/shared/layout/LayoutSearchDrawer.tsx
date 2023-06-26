@@ -47,6 +47,13 @@ export default function LayoutSearchDrawer() {
     setText(text)
   }
 
+  const handleRedirectPool = (address: string) => {
+    if (pathname.includes('explore')) {
+      return `stake/deposit/${address}`
+    }
+    return `${pathname.replace('[address]', '')}/${address}`
+  }
+
   return (
     <DrawerContainer
       placement='right'
@@ -75,7 +82,7 @@ export default function LayoutSearchDrawer() {
               text.length > 0 &&
               result.length > 0 &&
               result.map(pool => (
-                <Link href={`${pathname.replace('[address]', '')}/${pool.address}`} key={pool.address}>
+                <Link href={handleRedirectPool(pool.address)} key={pool.address}>
                   <DropdownMenuItem key={pool.address} onClick={() => setOpenSearchDrawer(false)}>
                     <EnsAvatar address={pool.address} />
                     <EnsName address={pool.address} />
@@ -86,7 +93,7 @@ export default function LayoutSearchDrawer() {
             {!poolsIsLoading &&
               text.length === 0 &&
               pools.map(pool => (
-                <Link href={`${pathname.replace('[address]', '')}/${pool.address}`} key={pool.address}>
+                <Link href={handleRedirectPool(pool.address)} key={pool.address}>
                   <DropdownMenuItem key={pool.address} onClick={() => setOpenSearchDrawer(false)}>
                     <EnsAvatar address={pool.address} />
                     <EnsName address={pool.address} />
