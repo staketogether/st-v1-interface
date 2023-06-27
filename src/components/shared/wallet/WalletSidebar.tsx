@@ -74,7 +74,8 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             <div>
               <span>{t('rewards')}</span>
               <span>
-                {truncateWei(accountRewardsBalance, 6)} <span>{t('lsd.symbol')}</span>
+                {accountRewardsBalance > 0 ? truncateWei(accountRewardsBalance, 6) : '0'}
+                <span>{t('lsd.symbol')}</span>
               </span>
             </div>
           </InfoContainer>

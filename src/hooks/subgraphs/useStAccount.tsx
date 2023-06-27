@@ -22,7 +22,7 @@ export default function useStAccount(address: `0x${string}`) {
   useEffect(() => {
     const account = data?.account
     const originalBalance = BigInt(account?.originalBalance || 0n)
-    const rewards = balance - originalBalance
+    const rewards = balance - originalBalance + 1n
     setAccount(account)
     setAccountDelegations(account?.delegations || [])
     setAccountSentDelegationsCount(BigInt(account?.sentDelegationsCount || 0n))
