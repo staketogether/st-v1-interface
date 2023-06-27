@@ -25,7 +25,7 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
         </div>
       </div>
       <span>
-        {`${truncateWei(delegationAmount, 6)}`}
+        {delegationAmount > 0 ? truncateWei(delegationAmount, 6) : '0'}
         <span>{t('lsd.symbol')}</span>
       </span>
     </Container>

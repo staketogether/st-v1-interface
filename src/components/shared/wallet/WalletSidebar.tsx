@@ -62,7 +62,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             <div>
               <span>{`${t('sidebar.etherBalance')}`}</span>
               <span>
-                {truncateWei(ethBalance, 6)} <span>{t('eth.symbol')}</span>
+                {ethBalance > 0 ? truncateWei(ethBalance, 6) : '0'} <span>{t('eth.symbol')}</span>
               </span>
             </div>
             <div>
@@ -82,7 +82,10 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
           <ContainerPoolsDelegated>
             <div>
               <span>{t('staked')}</span>
-              <span>{accountSentDelegationsCount.toString()}</span>
+              <span>
+                {accountSentDelegationsCount > 0 ? accountSentDelegationsCount.toString() : '0'}{' '}
+                <span>{t('lsd.symbol')}</span>
+              </span>
             </div>
             {accountDelegations.length === 0 && (
               <div>
@@ -186,6 +189,10 @@ const {
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+
+    div > span:nth-child(2) > span {
+      color: ${({ theme }) => theme.color.secondary};
     }
   `,
   ClosedSidebarButton: styled.button`
