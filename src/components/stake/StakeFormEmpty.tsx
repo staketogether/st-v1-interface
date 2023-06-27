@@ -32,11 +32,11 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
   const { setOpenSearchHeader } = useSearchHeader()
   const { screenWidth, breakpoints } = useResizeView()
 
-  const { connect } = useConnect()
+  const { connect, connectors } = useConnect()
 
   const connectAccount = () => {
     if (!accountAddress && connect) {
-      connect()
+      connect({ connector: connectors[0] })
       return
     }
   }
