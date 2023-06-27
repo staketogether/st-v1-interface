@@ -1,12 +1,11 @@
-import { publicProvider } from '@wagmi/core/providers/public'
 import { goerli, localhost } from 'viem/chains'
 import { configureChains, createConfig, mainnet } from 'wagmi'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet, goerli, localhost],
-  [publicProvider()],
-  { rank: true, retryCount: 3 }
+  [],
+  { retryCount: 3 }
 )
 
 const config = createConfig({
