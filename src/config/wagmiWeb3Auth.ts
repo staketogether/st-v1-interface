@@ -66,13 +66,33 @@ export default function Web3AuthConnectorInstance(chain: Chain) {
   })
   web3AuthInstance.addPlugin(torusPlugin)
 
-  return new Web3AuthConnector({
-    chains: [chain],
-    options: {
-      web3AuthInstance,
-      loginParams: {
-        loginProvider: 'google'
+  return [
+    new Web3AuthConnector({
+      chains: [chain],
+      options: {
+        web3AuthInstance,
+        loginParams: {
+          loginProvider: 'facebook'
+        }
       }
-    }
-  })
+    }),
+    new Web3AuthConnector({
+      chains: [chain],
+      options: {
+        web3AuthInstance,
+        loginParams: {
+          loginProvider: 'google'
+        }
+      }
+    }),
+    new Web3AuthConnector({
+      chains: [chain],
+      options: {
+        web3AuthInstance,
+        loginParams: {
+          loginProvider: 'apple'
+        }
+      }
+    })
+  ]
 }

@@ -37,7 +37,7 @@ const currentChain = () => {
 }
 
 const connectors = [
-  Web3AuthConnectorInstance(currentChain()),
+  ...Web3AuthConnectorInstance(currentChain()),
   new MetaMaskConnector({ chains }),
   new WalletConnectConnector({
     chains,
