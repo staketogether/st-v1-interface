@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { AiOutlineUsergroupAdd } from 'react-icons/ai'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import usePool from '../../hooks/subgraphs/usePool'
 import useTranslation from '../../hooks/useTranslation'

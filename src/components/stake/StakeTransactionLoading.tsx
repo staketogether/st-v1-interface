@@ -5,7 +5,7 @@ import ethIcon from '@assets/icons/eth-icon.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
 import { AiFillCheckCircle, AiOutlineArrowRight } from 'react-icons/ai'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import Loading from '../shared/icons/Loading'
 
 type StakeTransactionLoadingProps = {

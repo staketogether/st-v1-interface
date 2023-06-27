@@ -1,4 +1,4 @@
-import { keyframes, styled } from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 type SkeletonLoadingProps = {
   className?: string

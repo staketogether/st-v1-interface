@@ -1,7 +1,7 @@
 import Fuse from 'fuse.js'
 import Link from 'next/link'
 import { ChangeEvent, useState } from 'react'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 
 import usePools from '../../../hooks/subgraphs/usePools'
 

@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 
 type WalletSlideBarSettingsProps = {
   setIsSettingsActive: (value: boolean) => void

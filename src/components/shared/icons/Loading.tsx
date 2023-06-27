@@ -1,5 +1,5 @@
 import { AiOutlineLoading } from 'react-icons/ai'
-import { keyframes, styled } from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 type LoadingProps = {
   size?: number

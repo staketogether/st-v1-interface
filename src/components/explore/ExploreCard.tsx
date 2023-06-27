@@ -1,7 +1,7 @@
 import { truncateWei } from '@/services/truncate'
 import { useRouter } from 'next/router'
 import { AiOutlineCheck } from 'react-icons/ai'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { Pool } from '../../types/Pool'

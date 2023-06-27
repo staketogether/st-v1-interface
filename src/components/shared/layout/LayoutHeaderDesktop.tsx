@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { AiOutlineBarChart, AiOutlineCodeSandbox, AiOutlineFire } from 'react-icons/ai'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useTranslation from '../../../hooks/useTranslation'

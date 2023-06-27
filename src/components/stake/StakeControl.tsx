@@ -1,4 +1,4 @@
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import useTranslation from '../../hooks/useTranslation'
 import LayoutHead from '../shared/layout/LayoutHead'

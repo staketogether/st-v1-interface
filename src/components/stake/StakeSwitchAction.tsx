@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { AiOutlineVerticalAlignBottom, AiOutlineVerticalAlignTop } from 'react-icons/ai'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import useActiveRoute from '../../hooks/useActiveRoute'
 import useTranslation from '../../hooks/useTranslation'
 import StakeSelectPool from './StakeSelectPool'

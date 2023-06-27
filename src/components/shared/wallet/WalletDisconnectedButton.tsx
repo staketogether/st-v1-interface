@@ -1,5 +1,5 @@
 import { AiOutlineWallet } from 'react-icons/ai'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import { useConnect } from 'wagmi'
 import useTranslation from '../../../hooks/useTranslation'
 
