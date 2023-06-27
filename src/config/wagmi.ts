@@ -1,6 +1,7 @@
 import { goerli, localhost } from 'viem/chains'
 import { configureChains, createConfig, mainnet } from 'wagmi'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { publicProvider } from 'wagmi/providers/public'
 import chainConfig from './chain'
 
 const selectChainConfig = () => {
@@ -21,10 +22,14 @@ const selectChainConfig = () => {
   throw new Error('Chain not supported')
 }
 
-const { chains, publicClient, webSocketPublicClient } = configureChains([selectChainConfig()], [], {
-  rank: true,
-  retryCount: 3
-})
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [selectChainConfig()],
+  [publicProvider()],
+  {
+    rank: true,
+    retryCount: 3
+  }
+)
 
 const config = createConfig({
   autoConnect: true,
