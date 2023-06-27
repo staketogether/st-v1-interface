@@ -1,33 +1,15 @@
 import { goerli, localhost } from 'viem/chains'
 import { configureChains, createConfig, mainnet } from 'wagmi'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
-import chainConfig from './chain'
-
-const selectChainConfig = () => {
-  const { chainId } = chainConfig()
-
-  if (chainId === 1) {
-    return mainnet
-  }
-
-  if (chainId === 5) {
-    return goerli
-  }
-
-  if (chainId === 31337) {
-    return localhost
-  }
-
-  throw new Error('Chain not supported')
-}
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [selectChainConfig()],
-  [publicProvider()],
+  [mainnet, goerli, localhost],
+  [alchemyProvider({ apiKey: String(process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY) }), publicProvider()],
   {
     rank: true,
-    retryCount: 3
+    retryCount: 5
   }
 )
 
