@@ -20,4 +20,7 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_CLOUDFLARE_TOKEN) {
     throw new Error('NEXT_PUBLIC_CLOUDFLARE_TOKEN not found in env')
   }
+  if (!process.env.NEXT_PUBLIC_WEB3_AUTH_ID) {
+    throw new Error('NEXT_PUBLIC_WEB3_AUTH_ID not found in env')
+  }
 }

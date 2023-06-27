@@ -11,7 +11,7 @@ export default function WalletButtonDisconnected() {
   return (
     <DisconnectedButton
       onClick={() => {
-        connect({ connector: connectors[0] })
+        connect({ connector: connectors[1] })
       }}
     >
       <AiOutlineWallet fontSize={16} />
