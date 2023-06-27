@@ -1,6 +1,9 @@
 import { goerli, localhost } from 'viem/chains'
 import { configureChains, createConfig, mainnet } from 'wagmi'
+import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
+import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 import chainConfig from './chain'
@@ -33,7 +36,30 @@ const currentChain = () => {
   throw new Error('Chain not supported')
 }
 
-const connectors = [new MetaMaskConnector({ chains }), Web3AuthConnectorInstance(currentChain())]
+const connectors = [
+  Web3AuthConnectorInstance(currentChain()),
+  new MetaMaskConnector({ chains }),
+  new WalletConnectConnector({
+    chains,
+    options: {
+      projectId: String(process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY),
+      showQrModal: true
+    }
+  }),
+  new CoinbaseWalletConnector({
+    chains,
+    options: {
+      appName: 'Stake Together'
+    }
+  }),
+  new InjectedConnector({
+    chains,
+    options: {
+      name: 'Injected',
+      shimDisconnect: true
+    }
+  })
+]
 
 const config = createConfig({
   autoConnect: true,
