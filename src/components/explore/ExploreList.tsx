@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 import { Pool } from '../../types/Pool'
 import ExploreCard from './ExploreCard'

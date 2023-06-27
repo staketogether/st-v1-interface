@@ -1,7 +1,7 @@
 import { Drawer } from 'antd'
 import { useState } from 'react'
 import { AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../../hooks/contracts/useEthBalanceOf'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'

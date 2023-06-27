@@ -2,14 +2,14 @@ import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
-import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
+import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 
 import { ethers } from 'ethers'
-import { stakeTogetherABI } from '../../types/Contracts'
+import { usePrepareStakeTogetherWithdrawPool, useStakeTogetherWithdrawPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
 
 export default function useWithdraw(
@@ -29,10 +29,8 @@ export default function useWithdraw(
 
   const withdrawRule = enabled && amount > 0n
 
-  const { config } = usePrepareContractWrite({
+  const { config } = usePrepareStakeTogetherWithdrawPool({
     address: contracts.StakeTogether,
-    abi: stakeTogetherABI,
-    functionName: 'withdrawPool',
     args: [amount, poolAddress],
     account: accountAddress,
     gas: 300000n,
@@ -41,7 +39,7 @@ export default function useWithdraw(
 
   console.log('GAS ESTIMATE', config)
 
-  const tx = useContractWrite({
+  const tx = useStakeTogetherWithdrawPool({
     ...config,
     onSuccess: data => {
       if (data?.hash) {

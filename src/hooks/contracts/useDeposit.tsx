@@ -3,12 +3,12 @@ import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
+import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
-import { stakeTogetherABI } from '../../types/Contracts'
+import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
 
 export default function useDeposit(
@@ -31,10 +31,8 @@ export default function useDeposit(
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
 
-  const { config } = usePrepareContractWrite({
+  const { config } = usePrepareStakeTogetherDepositPool({
     address: contracts.StakeTogether,
-    abi: stakeTogetherABI,
-    functionName: 'depositPool',
     args: [poolAddress, referral],
     account: accountAddress,
     gas: 300000n,
@@ -44,7 +42,7 @@ export default function useDeposit(
 
   console.log('GAS ESTIMATE', config)
 
-  const tx = useContractWrite({
+  const tx = useStakeTogetherDepositPool({
     ...config,
     onSuccess: data => {
       if (data?.hash) {

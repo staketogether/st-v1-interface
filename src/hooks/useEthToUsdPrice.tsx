@@ -3,7 +3,7 @@ import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 
 export default function useEthToUsdPrice(eth: string) {
-  const [price, setPrice] = useState<bigint | undefined>(undefined)
+  const [price, setPrice] = useState<string | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<unknown>(null)
 
@@ -26,7 +26,7 @@ export default function useEthToUsdPrice(eth: string) {
 
           const price = ethers.parseUnits(response.data.toTokenAmount, 12)
 
-          setPrice(price)
+          setPrice(price.toString())
         } else {
           setPrice(undefined)
         }

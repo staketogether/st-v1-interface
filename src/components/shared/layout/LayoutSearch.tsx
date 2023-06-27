@@ -2,9 +2,9 @@ import useSearchHeader from '@/hooks/useSearchHeader'
 import Fuse from 'fuse.js'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { AiOutlineClose, AiOutlineSearch, AiOutlineWarning } from 'react-icons/ai'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import usePools from '../../../hooks/subgraphs/usePools'
 
 import useSearchPools from '../../../hooks/subgraphs/useSearchPools'
@@ -77,7 +77,7 @@ export default function LayoutSearch() {
             type='text'
             value={text}
             placeholder={t('searchPool')}
-            onChange={e => onChange(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
             onClick={handleButtonClick}
           />
           {text && text.length > 0 && (

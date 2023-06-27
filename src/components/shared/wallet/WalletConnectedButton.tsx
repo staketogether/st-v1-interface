@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 import chainConfig from '@/config/chain'
 import { AiOutlineSwap } from 'react-icons/ai'
