@@ -27,10 +27,10 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
   } = usePool(poolAddress, { first: 10, skip: 0 })
 
   const { balance: rewardsShares, loading: isRewardsSharesLoading } = usePooledEthByShares(
-    poolData ? poolData.rewardsShares : 0n
+    poolData ? poolData.rewardsShares : '0'
   )
   const { balance: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
-    poolData ? poolData.delegatedShares : 0n
+    poolData ? poolData.delegatedShares : '0'
   )
 
   const handleLoadMore = () => {

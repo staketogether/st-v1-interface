@@ -2,8 +2,8 @@ import axios from 'axios'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 
-export default function useEthToUsdPrice(ethAmount: string) {
-  const [price, setPrice] = useState<string | undefined>(undefined)
+export default function useEthToUsdPrice(eth: string) {
+  const [price, setPrice] = useState<bigint | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<unknown>(null)
 
@@ -12,19 +12,21 @@ export default function useEthToUsdPrice(ethAmount: string) {
 
   useEffect(() => {
     const fetchPrice = async () => {
+      const ethAmount = eth.length > 0 ? ethers.parseEther(eth) : 0n
+
       try {
-        if (BigInt(ethAmount) > 0n) {
+        if (ethAmount > 0n) {
           const response = await axios.get('https://api.1inch.io/v5.0/1/quote', {
             params: {
               fromTokenAddress: ETH_ADDRESS,
               toTokenAddress: USDC_ADDRESS,
-              amount: ethAmount
+              amount: ethAmount.toString()
             }
           })
 
           const price = ethers.parseUnits(response.data.toTokenAmount, 12)
 
-          setPrice(price.toString())
+          setPrice(price)
         } else {
           setPrice(undefined)
         }
@@ -38,7 +40,7 @@ export default function useEthToUsdPrice(ethAmount: string) {
     }
 
     fetchPrice()
-  }, [ethAmount])
+  }, [eth])
 
   return { price, loading, error }
 }

@@ -1,6 +1,7 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 import { notification } from 'antd'
+import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
@@ -11,9 +12,10 @@ import { stakeTogetherABI } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
 
 export default function useDeposit(
-  depositAmount: bigint,
+  depositAmount: string,
   accountAddress: `0x${string}`,
-  poolAddress: `0x${string}`
+  poolAddress: `0x${string}`,
+  enabled: boolean
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
@@ -22,7 +24,9 @@ export default function useDeposit(
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const { registerDeposit } = useMixpanelAnalytics()
 
-  const depositRule = depositAmount > 0n
+  const amount = ethers.parseUnits(depositAmount, 18)
+
+  const depositRule = enabled && amount > 0n
 
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
@@ -34,8 +38,8 @@ export default function useDeposit(
     args: [poolAddress, referral],
     account: accountAddress,
     gas: 300000n,
-    enabled: !depositRule,
-    value: depositAmount
+    enabled: depositRule,
+    value: amount
   })
 
   console.log('GAS ESTIMATE', config)

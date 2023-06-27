@@ -8,13 +8,15 @@ import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 
+import { ethers } from 'ethers'
 import { stakeTogetherABI } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
 
 export default function useWithdraw(
-  withdrawAmount: bigint,
+  withdrawAmount: string,
   accountAddress: `0x${string}`,
-  poolAddress: `0x${string}`
+  poolAddress: `0x${string}`,
+  enabled: boolean
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
@@ -22,16 +24,19 @@ export default function useWithdraw(
 
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
-  const withdrawRule = withdrawAmount > 0n
+
+  const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
+
+  const withdrawRule = enabled && amount > 0n
 
   const { config } = usePrepareContractWrite({
     address: contracts.StakeTogether,
     abi: stakeTogetherABI,
     functionName: 'withdrawPool',
-    args: [withdrawAmount, poolAddress],
+    args: [amount, poolAddress],
     account: accountAddress,
     gas: 300000n,
-    enabled: !withdrawRule
+    enabled: withdrawRule
   })
 
   console.log('GAS ESTIMATE', config)

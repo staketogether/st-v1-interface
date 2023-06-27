@@ -6,7 +6,7 @@ export default function useDelegationShares(
   walletAddress: `0x${string}`,
   communityDelegate: `0x${string}`
 ) {
-  const { data, loading } = useQuery<{ delegation?: { delegationShares?: bigint } }>(
+  const { data, loading } = useQuery<{ delegation?: { delegationShares?: string } }>(
     queryDelegationShares,
     {
       variables: { id: `${walletAddress.toLocaleLowerCase()}-${communityDelegate.toLocaleLowerCase()}` }
@@ -14,7 +14,7 @@ export default function useDelegationShares(
   )
 
   const { balance: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
-    data && data.delegation?.delegationShares ? data.delegation?.delegationShares : 0n
+    data && data.delegation?.delegationShares ? data.delegation?.delegationShares : '0'
   )
 
   return {

@@ -17,15 +17,15 @@ export default function useStAccount(address: `0x${string}`) {
     variables: { id: address.toLowerCase() }
   })
 
-  const { balance } = usePooledEthByShares(account?.shares || 0n)
+  const { balance } = usePooledEthByShares(account?.shares || '0')
 
   useEffect(() => {
     const account = data?.account
-    const originalBalance = account?.originalBalance || 0n
+    const originalBalance = BigInt(account?.originalBalance || 0n)
     const rewards = balance - originalBalance
     setAccount(account)
     setAccountDelegations(account?.delegations || [])
-    setAccountSentDelegationsCount(account?.sentDelegationsCount || 0n)
+    setAccountSentDelegationsCount(BigInt(account?.sentDelegationsCount || 0n))
     setAccountBalance(balance)
     setAccountRewardsBalance(rewards)
   }, [balance, data])

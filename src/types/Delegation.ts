@@ -5,5 +5,5 @@ export type Delegation = {
   id: string
   delegate: Account
   delegated: Pool
-  delegationShares: bigint
+  delegationShares: string
 }

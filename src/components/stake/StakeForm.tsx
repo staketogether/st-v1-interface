@@ -54,7 +54,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     awaitWalletAction: depositAwaitWalletAction,
     resetState: depositResetState,
     txHash: depositTxHash
-  } = useDeposit(BigInt(inputAmount), accountAddress, poolAddress)
+  } = useDeposit(inputAmount, accountAddress, poolAddress, type === 'deposit')
 
   const {
     withdraw,
@@ -64,7 +64,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     awaitWalletAction: withdrawAwaitWalletAction,
     resetState: withdrawResetState,
     txHash: withdrawTxHash
-  } = useWithdraw(BigInt(inputAmount), accountAddress, poolAddress)
+  } = useWithdraw(inputAmount, accountAddress, poolAddress, type === 'withdraw')
 
   const rewardsFee = truncateWei(fee.protocol * 100n)
 
