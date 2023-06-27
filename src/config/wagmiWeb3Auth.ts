@@ -5,6 +5,7 @@ import { Web3AuthNoModal } from '@web3auth/no-modal'
 import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
 import { TorusWalletConnectorPlugin } from '@web3auth/torus-wallet-connector-plugin'
 import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
+// eslint-disable-next-line import/named
 import { Chain } from 'wagmi'
 
 const name = 'Stake Together'
