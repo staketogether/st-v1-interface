@@ -1,8 +1,6 @@
-import { configureChains } from '@wagmi/core'
-import { goerli, mainnet } from '@wagmi/core/chains'
 import { publicProvider } from '@wagmi/core/providers/public'
-import { localhost } from 'viem/chains'
-import { createConfig } from 'wagmi'
+import { goerli, localhost } from 'viem/chains'
+import { configureChains, createConfig, mainnet } from 'wagmi'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
