@@ -54,7 +54,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     awaitWalletAction: depositAwaitWalletAction,
     resetState: depositResetState,
     txHash: depositTxHash
-  } = useDeposit(inputAmount, accountAddress, poolAddress)
+  } = useDeposit(BigInt(inputAmount), accountAddress, poolAddress)
 
   const {
     withdraw,
@@ -64,9 +64,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     awaitWalletAction: withdrawAwaitWalletAction,
     resetState: withdrawResetState,
     txHash: withdrawTxHash
-  } = useWithdraw(inputAmount, accountAddress, poolAddress)
+  } = useWithdraw(BigInt(inputAmount), accountAddress, poolAddress)
 
-  const rewardsFee = truncateWei(fee.protocol.mul(100).toString())
+  const rewardsFee = truncateWei(fee.protocol * 100n)
 
   const isLoading = depositLoading || withdrawLoading
   const isSuccess = depositSuccess || withdrawSuccess
@@ -80,23 +80,21 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const txHash = type === 'deposit' ? depositTxHash : withdrawTxHash
   const resetState = type === 'deposit' ? depositResetState : withdrawResetState
 
-  const amountBigNumber = ethers.utils.parseEther(amount || '0')
+  const amountBigNumber = ethers.parseEther(amount || '0')
 
-  const insufficientFunds = amountBigNumber.gt(balance)
+  const insufficientFunds = amountBigNumber > balance
   const insufficientMinDeposit =
-    type === 'deposit' && amountBigNumber.lt(minDepositAmount) && amount.length > 0
+    type === 'deposit' && amountBigNumber < minDepositAmount && amount.length > 0
   const insufficientWithdrawalLiquidity =
-    type === 'withdraw' && amountBigNumber.gt(withdrawalLiquidityBalance) && amount.length > 0
-  const amountIsEmpty = amountBigNumber.isZero() || !amount
+    type === 'withdraw' && amountBigNumber > withdrawalLiquidityBalance && amount.length > 0
+  const amountIsEmpty = amountBigNumber === 0n || !amount
 
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
     (insufficientMinDeposit &&
-      `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount.toString())} ${t(
-        'eth.symbol'
-      )}`) ||
+      `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
     (insufficientWithdrawalLiquidity &&
-      `${t('form.insufficientLiquidity')} ${truncateWei(withdrawalLiquidityBalance.toString())} ${t(
+      `${t('form.insufficientLiquidity')} ${truncateWei(withdrawalLiquidityBalance)} ${t(
         'lsd.symbol'
       )}`) ||
     ''

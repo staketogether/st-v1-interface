@@ -1,67 +1,21 @@
-import { connectorsForWallets } from '@rainbow-me/rainbowkit'
-import { metaMaskWallet } from '@rainbow-me/rainbowkit/wallets'
-import { configureChains, createClient, goerli, mainnet } from 'wagmi'
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
-import chainConfig from './chain'
+import { configureChains } from '@wagmi/core'
+import { goerli, mainnet } from '@wagmi/core/chains'
+import { publicProvider } from '@wagmi/core/providers/public'
+import { localhost } from 'viem/chains'
+import { createConfig } from 'wagmi'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 
-const wagmiChain = () => {
-  const { chainId } = chainConfig()
-
-  const localhost = {
-    id: 31337,
-    name: 'Hardhat',
-    network: 'localhost',
-    nativeCurrency: {
-      name: 'Hardhat Ether',
-      symbol: 'HETH',
-      decimals: 18
-    },
-    rpcUrls: {
-      default: {
-        http: ['http://localhost:8545']
-      },
-      public: {
-        http: ['http://localhost:8545']
-      }
-    }
-  }
-
-  if (chainId === 1) {
-    return mainnet
-  }
-
-  if (chainId === 5) {
-    return goerli
-  }
-
-  if (chainId === 31337) {
-    return localhost
-  }
-
-  throw new Error('Chain not supported')
-}
-
-const { chains, provider } = configureChains(
-  [wagmiChain()],
-  [
-    jsonRpcProvider({
-      rpc: () => ({
-        http: chainConfig().provider.connection.url
-      })
-    })
-  ]
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [mainnet, goerli, localhost],
+  [publicProvider()],
+  { rank: true, retryCount: 3 }
 )
 
-const connectors = connectorsForWallets([
-  {
-    groupName: 'Recommended',
-    wallets: [metaMaskWallet({ chains })]
-  }
-])
-
-export { chains }
-export const wagmiClient = createClient({
+const config = createConfig({
   autoConnect: true,
-  connectors,
-  provider
+  connectors: [new MetaMaskConnector({ chains })],
+  publicClient,
+  webSocketPublicClient
 })
+
+export { chains, config }

@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 
 import chainConfig from '@/config/chain'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
+
+import { useConnect, useNetwork, useSwitchNetwork } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useResizeView from '../../hooks/useResizeView'
 import useSearchDrawer from '../../hooks/useSearchDrawer'
@@ -26,16 +26,17 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
   const { balance: ethBalance, isLoading } = useEthBalanceOf(accountAddress)
 
   const [amount, setAmount] = useState<string>('')
-  const rewardsFee = truncateWei(fee.protocol.mul(100).toString())
+  const rewardsFee = truncateWei(fee.protocol * 100n)
 
-  const { openConnectModal } = useConnectModal()
   const { setOpenSearchDrawer } = useSearchDrawer()
   const { setOpenSearchHeader } = useSearchHeader()
   const { screenWidth, breakpoints } = useResizeView()
 
+  const { connect } = useConnect()
+
   const connectAccount = () => {
-    if (!accountAddress && openConnectModal) {
-      openConnectModal()
+    if (!accountAddress && connect) {
+      connect()
       return
     }
   }

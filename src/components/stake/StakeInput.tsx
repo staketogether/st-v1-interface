@@ -7,7 +7,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 interface StakeInputProps {
   value: string
   onChange: (value: string) => void
-  balance: string
+  balance: bigint
   balanceLoading: boolean
   symbol: string
   type: 'deposit' | 'withdraw'
@@ -60,7 +60,7 @@ export default function StakeFormInput({
       </InputContainer>
       <BalanceInfo>
         <span className={`${hasError ? 'error' : ''}`}>
-          {value && price && `${truncateWei(price.toString(), 2)} ${t('usd')}`}
+          {value && price && `${truncateWei(BigInt(price), 2)} ${t('usd')}`}
         </span>
         <span className={`${hasError ? 'error' : ''}`}>
           {type === 'deposit' ? t('balance') : t('poolBalance')}:{' '}

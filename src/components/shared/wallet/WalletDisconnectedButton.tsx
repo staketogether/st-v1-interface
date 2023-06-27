@@ -1,16 +1,19 @@
-import { useConnectModal } from '@rainbow-me/rainbowkit'
-
 import { AiOutlineWallet } from 'react-icons/ai'
 import styled from 'styled-components'
+import { useConnect } from 'wagmi'
 import useTranslation from '../../../hooks/useTranslation'
 
 export default function WalletButtonDisconnected() {
   const { t } = useTranslation()
 
-  const { openConnectModal } = useConnectModal()
+  const { connect, connectors } = useConnect()
 
   return (
-    <DisconnectedButton onClick={openConnectModal}>
+    <DisconnectedButton
+      onClick={() => {
+        connect({ connector: connectors[0] })
+      }}
+    >
       <AiOutlineWallet fontSize={16} />
       {t('wallet')}
     </DisconnectedButton>

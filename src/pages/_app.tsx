@@ -1,8 +1,6 @@
 import chainConfig from '@/config/chain'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { ApolloProvider } from '@apollo/client'
-import { lightTheme as lightThemeRainbow, RainbowKitProvider } from '@rainbow-me/rainbowkit'
-import '@rainbow-me/rainbowkit/styles.css'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import { Montserrat } from 'next/font/google'
@@ -16,7 +14,7 @@ import { GoogleTag } from '../components/shared/scripts/GoogleTag'
 import { Hotjar } from '../components/shared/scripts/Hotjar'
 import { apolloClient } from '../config/apollo'
 import validEnv from '../config/env'
-import { chains, wagmiClient } from '../config/wagmi'
+import { config } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
 
@@ -45,16 +43,9 @@ const App = ({ Component, pageProps }: AppProps) => {
       <Cloudflare />
       <ApolloProvider client={apolloClient}>
         <ThemeProvider theme={lightTheme}>
-          <WagmiConfig client={wagmiClient}>
-            <RainbowKitProvider
-              chains={chains}
-              theme={lightThemeRainbow()}
-              modalSize='compact'
-              showRecentTransactions
-            >
-              <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
-              <Component {...pageProps} />
-            </RainbowKitProvider>
+          <WagmiConfig config={config}>
+            <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
+            <Component {...pageProps} />
           </WagmiConfig>
         </ThemeProvider>
       </ApolloProvider>

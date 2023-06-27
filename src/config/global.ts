@@ -1,15 +1,13 @@
-import { BigNumber, utils } from 'ethers'
-
 interface GlobalConfig {
   url: string
   fee: {
-    protocol: BigNumber
+    protocol: bigint
   }
 }
 
 export const globalConfig: GlobalConfig = {
   url: 'https://alpha.staketogether.app',
   fee: {
-    protocol: utils.parseEther('0.09')
+    protocol: 90000000000000000n
   }
 }

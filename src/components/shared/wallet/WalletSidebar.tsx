@@ -62,26 +62,26 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             <div>
               <span>{`${t('sidebar.etherBalance')}`}</span>
               <span>
-                {truncateWei(ethBalance.toString(), 6)} <span>{t('eth.symbol')}</span>
+                {truncateWei(ethBalance, 6)} <span>{t('eth.symbol')}</span>
               </span>
             </div>
             <div>
               <span>{`${t('sidebar.stakedBalance')}`}</span>
               <span>
-                {truncateWei(accountBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
+                {truncateWei(accountBalance, 6)} <span>{t('lsd.symbol')}</span>
               </span>
             </div>
             <div>
               <span>{t('rewards')}</span>
               <span>
-                {truncateWei(accountRewardsBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
+                {truncateWei(accountRewardsBalance, 6)} <span>{t('lsd.symbol')}</span>
               </span>
             </div>
           </InfoContainer>
           <ContainerPoolsDelegated>
             <div>
               <span>{t('staked')}</span>
-              <span>{accountSentDelegationsCount}</span>
+              <span>{accountSentDelegationsCount.toString()}</span>
             </div>
             {accountDelegations.length === 0 && (
               <div>

@@ -1,5 +1,4 @@
 import { truncateWei } from '@/services/truncate'
-import { BigNumber } from 'ethers'
 import { useRouter } from 'next/router'
 import { AiOutlineCheck } from 'react-icons/ai'
 import styled from 'styled-components'
@@ -20,10 +19,10 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
   const { t } = useTranslation()
 
   const { balance: rewardsShares, loading: rewardsSharesLoading } = usePooledEthByShares(
-    BigNumber.from(pool.rewardsShares)
+    pool.rewardsShares
   )
   const { balance: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
-    BigNumber.from(pool.delegatedShares)
+    pool.delegatedShares
   )
 
   return (
@@ -42,7 +41,7 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
             <SkeletonLoading width={80} />
           ) : (
             <div>
-              {truncateWei(delegatedShares.toString(), 6)}
+              {truncateWei(delegatedShares, 6)}
               <span>{t('lsd.symbol')}</span>
             </div>
           )}
@@ -53,7 +52,7 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
             <SkeletonLoading width={80} />
           ) : (
             <div>
-              {truncateWei(rewardsShares.toString(), 6)}
+              {truncateWei(rewardsShares, 6)}
               <span>{t('lsd.symbol')}</span>
             </div>
           )}
@@ -61,7 +60,7 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
 
         <div>
           <div>{t('members')}</div>
-          <div>{pool.receivedDelegationsCount}</div>
+          <div>{pool.receivedDelegationsCount.toString()}</div>
         </div>
       </CardInfo>
     </Card>
