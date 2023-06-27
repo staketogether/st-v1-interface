@@ -20,6 +20,9 @@ dependencies:
   axios:
     specifier: ^1.4.0
     version: 1.4.0
+  eslint:
+    specifier: ^8.43.0
+    version: 8.43.0
   eslint-import-resolver-typescript:
     specifier: ^3.5.5
     version: 3.5.5(@typescript-eslint/parser@5.60.1)(eslint-import-resolver-node@0.3.7)(eslint-plugin-import@2.27.5)(eslint@8.43.0)
@@ -103,9 +106,6 @@ devDependencies:
   cspell:
     specifier: ^6.31.1
     version: 6.31.1
-  eslint:
-    specifier: 8.43.0
-    version: 8.43.0
   eslint-config-next:
     specifier: ^13.4.7
     version: 13.4.7(eslint@8.43.0)(typescript@5.0.4)
