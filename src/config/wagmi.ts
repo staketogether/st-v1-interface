@@ -1,22 +1,12 @@
-import { goerli, localhost } from 'viem/chains'
+import { goerli } from 'viem/chains'
 import { configureChains, createConfig, mainnet } from 'wagmi'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
-import { publicProvider } from 'wagmi/providers/public'
 import chainConfig from './chain'
 import Web3AuthConnectorInstance from './web3Auth'
-
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet, goerli, localhost],
-  [alchemyProvider({ apiKey: String(process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY) }), publicProvider()],
-  {
-    rank: true,
-    retryCount: 5
-  }
-)
 
 const currentChain = () => {
   const { chainId } = chainConfig()
@@ -35,6 +25,14 @@ const currentChain = () => {
 
   throw new Error('Chain not supported')
 }
+
+const { chains, publicClient } = configureChains(
+  [mainnet, goerli],
+  [alchemyProvider({ apiKey: String(process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY) })],
+  {
+    retryCount: 5
+  }
+)
 
 const connectors = [
   ...Web3AuthConnectorInstance(currentChain()),
@@ -64,8 +62,7 @@ const connectors = [
 const config = createConfig({
   autoConnect: true,
   connectors,
-  publicClient,
-  webSocketPublicClient
+  publicClient
 })
 
 export { chains, config, currentChain }
