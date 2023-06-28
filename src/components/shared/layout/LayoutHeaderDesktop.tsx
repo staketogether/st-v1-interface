@@ -84,7 +84,7 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
   `,
   MenuButton: styled.button`
     display: grid;
-    grid-template-columns: 16px 1fr;
+    grid-template-columns: 24px 1fr;
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
     width: auto;

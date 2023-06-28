@@ -65,5 +65,7 @@ const { Container, Content, WalletContainer, Logo, Button, SearchIcon } = {
   `,
   SearchIcon: styled(AiOutlineSearch)`
     color: ${({ theme }) => theme.color.primary};
+    width: 16px;
+    height: 16px;
   `
 }
