@@ -10,7 +10,7 @@ function sliceString(value: string, decimals: number) {
 
 export function truncateWei(wei: bigint, maxDecimals = 4): string {
   if (!wei) {
-    return ''
+    return '0'
   }
   const formatWei = ethers.formatEther(wei)
   return sliceString(formatWei, maxDecimals)

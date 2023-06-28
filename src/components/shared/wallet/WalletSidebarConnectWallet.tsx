@@ -20,7 +20,7 @@ export default function WalletSidebarConnectWallet() {
   const { connect, connectors } = useConnect()
   const { t } = useTranslation()
   const { openSidebarConnectWallet, setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
-  console.log(connectors)
+
   const handleConnectorImage = (walletName: string) => {
     switch (walletName) {
       case 'MetaMask':

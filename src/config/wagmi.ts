@@ -8,32 +8,32 @@ import { publicProvider } from 'wagmi/providers/public'
 import chainConfig from './chain'
 import Web3AuthConnectorInstance from './web3Auth'
 
+const currentChain = () => {
+  const { chainId } = chainConfig()
+
+  if (chainId === 1) {
+    return mainnet
+  }
+
+  if (chainId === 5) {
+    return goerli
+  }
+
+  if (chainId === 31337) {
+    return localhost
+  }
+
+  throw new Error('Chain not supported')
+}
+
 const { chains, publicClient } = configureChains(
-  [mainnet, goerli, localhost],
+  [currentChain()],
   [alchemyProvider({ apiKey: String(process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY) }), publicProvider()],
   {
     rank: true,
     retryCount: 5
   }
 )
-
-const currentChain = () => {
-  const { chainId } = chainConfig()
-
-  if (chainId === 1) {
-    return chains[0]
-  }
-
-  if (chainId === 5) {
-    return chains[1]
-  }
-
-  if (chainId === 31337) {
-    return chains[2]
-  }
-
-  throw new Error('Chain not supported')
-}
 
 const connectors = [
   ...Web3AuthConnectorInstance(currentChain()),

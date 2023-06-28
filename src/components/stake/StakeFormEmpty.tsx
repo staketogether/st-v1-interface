@@ -25,7 +25,6 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
   const { fee } = globalConfig
   const { t } = useTranslation()
   const { balance: ethBalance, isLoading } = useEthBalanceOf(accountAddress)
-
   const [amount, setAmount] = useState<string>('')
   const rewardsFee = truncateWei(fee.protocol * 100n)
 
