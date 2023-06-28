@@ -34,7 +34,7 @@ export default function Web3AuthConnectorInstance(chain: Chain) {
     privateKeyProvider,
     adapterSettings: {
       network: 'cyan',
-      uxMode: 'redirect',
+      uxMode: 'popup',
       whiteLabel: {
         name,
         logoLight: iconUrl,
