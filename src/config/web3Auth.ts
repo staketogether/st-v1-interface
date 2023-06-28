@@ -12,12 +12,10 @@ const name = 'Stake Together'
 const iconUrl = 'https://web3auth.io/docs/contents/logo-ethereum.png'
 
 export default function Web3AuthConnectorInstance(chain: Chain) {
-  // Create Web3Auth Instance
-
   const chainConfig = {
     chainNamespace: CHAIN_NAMESPACES.EIP155,
     chainId: '0x' + chain.id.toString(16),
-    rpcTarget: chain.rpcUrls.default.http[0], // This is the public RPC we have added, please pass on your own endpoint while creating an app
+    rpcTarget: chain.rpcUrls.default.http[0],
     displayName: chain.name,
     tickerName: chain.nativeCurrency?.name,
     ticker: chain.nativeCurrency?.symbol,
@@ -25,14 +23,13 @@ export default function Web3AuthConnectorInstance(chain: Chain) {
   }
 
   const web3AuthInstance = new Web3AuthNoModal({
-    clientId: 'BI1JuYitIhnwecPHguzy0BOF-ZwOM7muZAb309WziUax6q0w1goJCAInokicVdxNFA22_hwBCjnKitSBx3C9MZI',
+    clientId: String(process.env.NEXT_PUBLIC_WEB3_AUTH_ID),
     chainConfig,
     web3AuthNetwork: 'cyan'
   })
 
   const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } })
 
-  // Add openlogin adapter for customisations
   const openloginAdapterInstance = new OpenloginAdapter({
     privateKeyProvider,
     adapterSettings: {
@@ -43,13 +40,12 @@ export default function Web3AuthConnectorInstance(chain: Chain) {
         logoLight: iconUrl,
         logoDark: iconUrl,
         defaultLanguage: 'en',
-        dark: true // whether to enable dark mode. defaultValue: false
+        dark: true
       }
     }
   })
   web3AuthInstance.configureAdapter(openloginAdapterInstance)
 
-  // Add Torus Wallet Plugin (optional)
   const torusPlugin = new TorusWalletConnectorPlugin({
     torusWalletOpts: {
       buttonPosition: 'bottom-left'

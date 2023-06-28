@@ -7,7 +7,7 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 import chainConfig from './chain'
-import Web3AuthConnectorInstance from './wagmiWeb3Auth'
+import Web3AuthConnectorInstance from './web3Auth'
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [mainnet, goerli, localhost],
