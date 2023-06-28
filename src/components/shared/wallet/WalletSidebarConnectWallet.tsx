@@ -187,7 +187,7 @@ const {
       box-shadow: ${({ theme }) => theme.shadow[100]};
       transition: background 0.2s ease;
       font-weight: 400;
-      border-radius: ${({ theme }) => theme.size[12]};
+      border-radius: ${({ theme }) => theme.size[24]};
       &:hover {
         background: ${({ theme }) => theme.color.whiteAlpha[900]};
       }

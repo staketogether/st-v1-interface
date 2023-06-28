@@ -69,13 +69,14 @@ const { Header, CloseIcon, LocaleContainer } = {
       width: 100%;
       display: flex;
       align-items: center;
+      height: 44px;
       gap: ${({ theme }) => theme.size[16]};
-      padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
+      padding: ${({ theme }) => theme.size[16]} ${({ theme }) => theme.size[16]};
       background: ${({ theme }) => theme.color.whiteAlpha[600]};
       box-shadow: ${({ theme }) => theme.shadow[100]};
       transition: background 0.2s ease;
       font-weight: 400;
-      border-radius: ${({ theme }) => theme.size[12]};
+      border-radius: ${({ theme }) => theme.size[24]};
       &:hover {
         background: ${({ theme }) => theme.color.whiteAlpha[900]};
       }
