@@ -180,7 +180,7 @@ const {
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     padding: 0 16px;
-    padding-left: 30px;
+    padding-left: 32px;
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
     padding-top: 0;

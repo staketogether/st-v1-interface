@@ -1,19 +1,19 @@
+import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import { capitalize } from '@/services/truncate'
+import appleIcon from '@assets/icons/wallets/Apple.svg'
+import coinbase from '@assets/icons/wallets/CoinbaseWallet.svg'
+import facebook from '@assets/icons/wallets/Facebook.svg'
+import google from '@assets/icons/wallets/Google.svg'
+import metamask from '@assets/icons/wallets/Metamask.svg'
+import walletConnect from '@assets/icons/wallets/WalletConnect.svg'
 import { Drawer } from 'antd'
+import Image from 'next/image'
 import { useState } from 'react'
 import { AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import styled from 'styled-components'
+import { useConnect } from 'wagmi'
 import useTranslation from '../../../hooks/useTranslation'
 import WalletSlideBarSettings from './WalletSlideBarSettings'
-import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import { useConnect } from 'wagmi'
-import { capitalize } from '@/services/truncate'
-import appleIcon from '@assets/icons/wallets/Apple.svg'
-import metamask from '@assets/icons/wallets/Metamask.svg'
-import walletConnect from '@assets/icons/wallets/WalletConnect.svg'
-import google from '@assets/icons/wallets/Google.svg'
-import coinbase from '@assets/icons/wallets/CoinbaseWallet.svg'
-import facebook from '@assets/icons/wallets/Facebook.svg'
-import Image from 'next/image'
 
 export default function WalletSidebarConnectWallet() {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
@@ -24,17 +24,17 @@ export default function WalletSidebarConnectWallet() {
   const handleConnectorImage = (walletName: string) => {
     switch (walletName) {
       case 'MetaMask':
-        return <Image src={metamask} alt={'metamask'} width={32} height={32} />
+        return <Image src={metamask} alt={'metamask'} width={28} height={28} />
       case 'WalletConnect':
-        return <Image src={walletConnect} alt={'walletConnect'} width={32} height={32} />
+        return <Image src={walletConnect} alt={'walletConnect'} width={28} height={28} />
       case 'Coinbase Wallet':
-        return <Image src={coinbase} alt={'coinBaseWallet'} width={32} height={32} />
+        return <Image src={coinbase} alt={'coinbase'} width={28} height={28} />
       case 'Facebook':
-        return <Image src={facebook} alt={'coinBaseWallet'} width={32} height={32} />
+        return <Image src={facebook} alt={'facebook'} width={28} height={28} />
       case 'Google':
-        return <Image src={google} alt={'coinBaseWallet'} width={32} height={32} />
+        return <Image src={google} alt={'google'} width={28} height={28} />
       case 'Apple':
-        return <Image src={appleIcon} alt={'coinBaseWallet'} width={32} height={32} />
+        return <Image src={appleIcon} alt={'apple'} width={28} height={28} />
       default:
         break
     }
@@ -67,9 +67,8 @@ export default function WalletSidebarConnectWallet() {
             {connectors.map((connector, index) => {
               const walletName =
                 connector.id === 'web3auth'
-                  ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    capitalize(connector.loginParams.loginProvider)
+                  ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    capitalize((connector as any).loginParams.loginProvider)
                   : connector.name
               return (
                 <div key={connector.id + index} onClick={() => connect({ connector })}>
@@ -96,7 +95,7 @@ const {
   ContainerWalletConnect
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: ${({ theme }) => theme.color.whiteAlpha[900]} !important;
+    background-color: ${({ theme }) => theme.color.whiteAlpha[800]} !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
@@ -118,7 +117,6 @@ const {
     justify-content: space-between;
     gap: ${({ theme }) => theme.size[16]};
   `,
-
   ClosedSidebarButton: styled.button`
     position: absolute;
     left: -44px;
@@ -170,26 +168,33 @@ const {
 
     h2 {
       font-size: ${({ theme }) => theme.font.size[16]};
+      font-weight: 400;
       color: ${({ theme }) => theme.color.primary};
     }
   `,
   ContainerWalletConnect: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: ${({ theme }) => theme.size[8]};
     div {
       cursor: pointer;
       width: 100%;
       display: flex;
       align-items: center;
-      gap: ${({ theme }) => theme.size[12]};
-      padding: ${({ theme }) => theme.size[16]};
-      background: ${({ theme }) => theme.color.blackAlpha[50]};
+      gap: ${({ theme }) => theme.size[16]};
+      padding: ${({ theme }) => theme.size[8]};
+      background: ${({ theme }) => theme.color.whiteAlpha[600]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
       transition: background 0.2s ease;
-      font-weight: 500;
-      border-radius: 8px;
+      font-weight: 400;
+      border-radius: ${({ theme }) => theme.size[12]};
       &:hover {
-        background: ${({ theme }) => theme.color.blackAlpha[200]};
+        background: ${({ theme }) => theme.color.whiteAlpha[900]};
+      }
+
+      img {
+        box-shadow: ${({ theme }) => theme.shadow[100]};
+        border-radius: 100%;
       }
     }
   `

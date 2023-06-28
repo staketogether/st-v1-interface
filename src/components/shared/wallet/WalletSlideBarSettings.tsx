@@ -19,10 +19,10 @@ export default function WalletSlideBarSettings({ setIsSettingsActive }: WalletSl
     <>
       <Header>
         <CloseIcon onClick={() => setIsSettingsActive(false)} />
-        <span>{t('settings.title')}</span>
+        <h2>{t('settings.title')}</h2>
       </Header>
       <LocaleContainer>
-        <h1>{t('settings.locale')}</h1>
+        <h3>{t('settings.locale')}</h3>
         <div onClick={() => changeLocale('en')} className={`${router.locale === 'en' ? 'active' : ''}`}>
           <span>English</span>
         </div>
@@ -46,23 +46,43 @@ const { Header, CloseIcon, LocaleContainer } = {
     align-items: center;
     gap: ${({ theme }) => theme.size[16]};
     padding-top: ${({ theme }) => theme.size[8]};
+
+    h2 {
+      font-size: ${({ theme }) => theme.font.size[16]};
+      font-weight: 400;
+    }
   `,
   LocaleContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
-    > h1 {
-      margin-bottom: ${({ theme }) => theme.size[8]};
-    }
-    > div {
-      color: ${({ theme }) => theme.color.primary};
-      cursor: pointer;
+    gap: ${({ theme }) => theme.size[8]};
 
-      &.active,
+    h3 {
+      font-weight: 400;
+      font-size: ${({ theme }) => theme.font.size[15]};
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+
+    div {
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[16]};
+      padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
+      background: ${({ theme }) => theme.color.whiteAlpha[600]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+      transition: background 0.2s ease;
+      font-weight: 400;
+      border-radius: ${({ theme }) => theme.size[12]};
       &:hover {
-        span {
-          color: ${({ theme }) => theme.color.secondary};
-        }
+        background: ${({ theme }) => theme.color.whiteAlpha[900]};
+      }
+
+      img {
+        box-shadow: ${({ theme }) => theme.shadow[100]};
+        border-radius: 100%;
       }
     }
   `
