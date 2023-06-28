@@ -67,7 +67,9 @@ export default function WalletSidebarConnectWallet() {
             {connectors.map((connector, index) => {
               const walletName =
                 connector.id === 'web3auth'
-                  ? capitalize(connector.loginParams.loginProvider)
+                  ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    capitalize(connector.loginParams.loginProvider)
                   : connector.name
               return (
                 <div key={connector.id + index} onClick={() => connect({ connector })}>
