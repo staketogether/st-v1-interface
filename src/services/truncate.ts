@@ -45,3 +45,7 @@ export function truncateAddress(address: string): string {
   const end = address.slice(-charsToShow)
   return `${start}...${end}`
 }
+
+export function capitalize(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1)
+}

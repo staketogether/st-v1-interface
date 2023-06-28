@@ -20,7 +20,6 @@
   "fee": "Taxa",
   "delegated": "Delegado",
   "delegatedAmount": "Quantidade Delegada",
-  "wallet": "Conectar Carteira",
   "searchPool": "Pesquisar Pools",
   "emptyPool": "Pool não encontrado",
   "copyClipboard": "Copiar para Área de Transferência",
@@ -98,5 +97,9 @@
   "addSethToWallet": {
     "add": "Adicione",
     "yourWallet": "em sua carteira"
-  }
+  },
+  "connectWalletSideBar": {
+    "connectButton": "Entrar",
+    "title": "Entrar com"
+  } 
 }

@@ -4,7 +4,7 @@ import { globalConfig } from '../../config/global'
 
 import chainConfig from '@/config/chain'
 
-import { useConnect, useNetwork, useSwitchNetwork } from 'wagmi'
+import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useResizeView from '../../hooks/useResizeView'
 import useSearchDrawer from '../../hooks/useSearchDrawer'
@@ -13,6 +13,7 @@ import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
+import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -31,12 +32,11 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
   const { setOpenSearchDrawer } = useSearchDrawer()
   const { setOpenSearchHeader } = useSearchHeader()
   const { screenWidth, breakpoints } = useResizeView()
-
-  const { connect, connectors } = useConnect()
+  const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
   const connectAccount = () => {
-    if (!accountAddress && connect) {
-      connect({ connector: connectors[0] })
+    if (!accountAddress) {
+      setOpenSidebarConnectWallet(true)
       return
     }
   }

@@ -1,7 +1,6 @@
 import { goerli, localhost } from 'viem/chains'
 import { configureChains, createConfig, mainnet } from 'wagmi'
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
-import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
@@ -9,7 +8,7 @@ import { publicProvider } from 'wagmi/providers/public'
 import chainConfig from './chain'
 import Web3AuthConnectorInstance from './web3Auth'
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
+const { chains, publicClient } = configureChains(
   [mainnet, goerli, localhost],
   [alchemyProvider({ apiKey: String(process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY) }), publicProvider()],
   {
@@ -51,21 +50,20 @@ const connectors = [
     options: {
       appName: 'Stake Together'
     }
-  }),
-  new InjectedConnector({
-    chains,
-    options: {
-      name: 'Injected',
-      shimDisconnect: true
-    }
   })
+  // new InjectedConnector({
+  //   chains,
+  //   options: {
+  //     name: 'Injected',
+  //     shimDisconnect: true
+  //   }
+  // })
 ]
 
 const config = createConfig({
   autoConnect: true,
   connectors,
-  publicClient,
-  webSocketPublicClient
+  publicClient
 })
 
 export { chains, config, currentChain }
