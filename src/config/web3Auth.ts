@@ -52,9 +52,18 @@ export default function Web3AuthConnectorInstance(chains: Chain[]) {
     },
     walletInitOptions: {
       whiteLabel: {
-        theme: { isDark: false, colors: { primary: '#283B8A' } },
+        theme: {
+          isDark: false,
+          colors: {
+            primary: '#283B8A',
+            torusBrand1: '#283B8A'
+          }
+        },
         logoDark: iconUrl,
-        logoLight: iconUrl
+        logoLight: iconUrl,
+        featuredBillboardHide: true,
+        disclaimerHide: true,
+        defaultLanguage: 'en'
       },
       useWalletConnect: true,
       enableLogging: true
