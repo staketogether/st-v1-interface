@@ -28,7 +28,7 @@ export default function ExploreCard({ pool }: ExploreCardProps) {
   return (
     <Card onClick={() => router.push(`stake/deposit/${pool.address}`)}>
       <CardHeader>
-        <EnsAvatar large address={pool.address} />
+        <EnsAvatar size={26} address={pool.address} />
         <Verified>
           <AiOutlineCheck fontSize={14} />
           <EnsName large address={pool.address} />

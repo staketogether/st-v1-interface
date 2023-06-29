@@ -29,7 +29,7 @@ export default function StakeSelectPool({ poolAddress }: StakeSelectPoolProps) {
     <Container onClick={handleSearchPool}>
       {poolAddress ? (
         <PoolSelected>
-          <EnsAvatar large address={poolAddress} />
+          <EnsAvatar size={26} address={poolAddress} />
           <Verified>
             <EnsName large address={poolAddress} />
             <AiOutlineCheck fontSize={14} />

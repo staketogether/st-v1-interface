@@ -5,48 +5,36 @@ import SkeletonLoading from '../icons/SkeletonLoading'
 
 type EnsAvatarProps = {
   address: `0x${string}`
-  large?: boolean
+  size?: number
 }
 
-export default function EnsAvatar({ address, large }: EnsAvatarProps) {
+export default function EnsAvatar({ address, size = 24 }: EnsAvatarProps) {
   const { avatar, avatarLoading } = useEns(address)
 
   if (avatarLoading) {
-    return <SkeletonLoading borderRadius='50%' width={large ? 26 : 24} height={large ? 26 : 24} />
+    return <SkeletonLoading borderRadius='50%' width={size} height={size} />
   }
 
   return avatar ? (
-    <Avatar
-      width={large ? 26 : 24}
-      height={large ? 26 : 24}
-      src={avatar}
-      alt={address}
-      className={large ? 'large' : ''}
-    />
+    <Avatar width={size} height={size} src={avatar} alt={address} size={size} />
   ) : (
-    <DefaultAvatar className={large ? 'large' : ''} />
+    <DefaultAvatar size={size} />
   )
 }
 
 const { DefaultAvatar, Avatar } = {
-  DefaultAvatar: styled.div`
+  DefaultAvatar: styled.div<{ size: number }>`
     background-color: ${({ theme }) => theme.color.blue[200]};
     border-radius: 100%;
-    width: 24px;
-    height: 24px;
 
-    &.large {
-      width: 26px;
-      height: 26px;
-    }
+    width: ${props => `${props.size}px`};
+    height: ${props => `${props.size}px`};
   `,
-  Avatar: styled(Image)`
+  Avatar: styled(Image)<{ size: number }>`
     border-radius: 100%;
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
-    &.large {
-      width: 26px;
-      height: 26px;
-    }
+    width: ${props => `${props.size}px`};
+    height: ${props => `${props.size}px`};
   `
 }

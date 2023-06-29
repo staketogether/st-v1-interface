@@ -5,7 +5,7 @@ type ModalProps = {
   isOpen: boolean
   children: ReactNode
   onClose: () => void
-  showCloseIcon: boolean
+  showCloseIcon?: boolean
   width?: number
   title: string | ReactNode
 }

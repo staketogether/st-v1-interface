@@ -101,5 +101,11 @@
   "connectWalletSideBar": {
     "connectButton": "Sign In",
     "title": "Sign In"
+  },
+  "BuyEth": {
+    "button": "Buy ETH",
+    "modalTitle": "Caim Faucet ETH",
+    "modalButton": "Claim Faucet",
+    "inputPlaceHolder": "type here"
   }
 }
