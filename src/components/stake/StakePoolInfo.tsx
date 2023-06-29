@@ -1,3 +1,7 @@
+import StakePoolAbout from '@/components/stake/StakePoolAbout'
+import StakePoolActions from '@/components/stake/StakePoolActions'
+import StakePoolMembers from '@/components/stake/StakePoolMembers'
+import { Divider } from 'antd'
 import { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
@@ -5,10 +9,6 @@ import usePool from '../../hooks/subgraphs/usePool'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import StakePoolMembers from '@/components/stake/StakePoolMembers'
-import { Divider } from 'antd'
-import StakePoolActions from '@/components/stake/StakePoolActions'
-import StakePoolAbout from '@/components/stake/StakePoolAbout'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}` | undefined
@@ -113,7 +113,7 @@ const { Container, StatsContainer, Stats, StatsBox } = {
     padding: ${({ theme }) => theme.size[24]};
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    gap: ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[8]};
   `,
   StatsContainer: styled.div`
     display: grid;
@@ -143,6 +143,7 @@ const { Container, StatsContainer, Stats, StatsBox } = {
 
       &:nth-child(1) {
         font-size: ${({ theme }) => theme.font.size[12]};
+        color: ${({ theme }) => theme.color.blue[300]};
       }
 
       &:nth-child(2) {

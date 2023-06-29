@@ -72,6 +72,10 @@ const { Container, DelegationsContainer, LoadMoreButton } = {
     > div:first-of-type {
       margin-bottom: ${({ theme }) => theme.size[8]};
     }
+
+    > button {
+      margin-top: ${({ theme }) => theme.size[8]};
+    }
   `,
   LoadMoreButton: styled.button`
     display: flex;

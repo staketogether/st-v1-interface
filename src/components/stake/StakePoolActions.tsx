@@ -1,8 +1,8 @@
+import { Tooltip } from 'antd'
+import { useEffect, useState } from 'react'
 import { AiOutlineAreaChart, AiOutlineInfoCircle, AiOutlineUser } from 'react-icons/ai'
 import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
-import { useEffect, useState } from 'react'
-import { Tooltip } from 'antd'
 
 interface StakePoolActionsProps {
   onActiveTabChange: (activeTab: 'members' | 'about') => void
@@ -48,6 +48,7 @@ const { Container, Tabs, StakeButton } = {
     display: grid;
     grid-template-columns: auto;
     gap: ${({ theme }) => theme.size[8]};
+    margin-bottom: ${({ theme }) => theme.size[12]};
   `,
   Tabs: styled.div`
     display: flex;

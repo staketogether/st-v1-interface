@@ -21,7 +21,7 @@ export default function EnsAvatar({ address, large, larger }: EnsAvatarProps) {
   }
 
   if (larger) {
-    return <Avatar src={avatar} alt={address} width={40} height={40} />
+    return <Avatar src={avatar} alt={address} width={32} height={32} />
   }
 
   if (large) {
