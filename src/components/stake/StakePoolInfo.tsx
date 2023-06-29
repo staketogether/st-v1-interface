@@ -9,6 +9,10 @@ import { truncateWei } from '../../services/truncate'
 import Loading from '../shared/icons/Loading'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeReceivedDelegation from './StakeReceivedDelegation'
+import StakePoolMembers from '@/components/stake/StakePoolMembers'
+import { Divider } from 'antd'
+import StakePoolActions from '@/components/stake/StakePoolActions'
+import StakePoolAbout from '@/components/stake/StakePoolAbout'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}` | undefined
@@ -17,6 +21,7 @@ interface StakeStatsProps {
 export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
   const { t } = useTranslation()
   const theme = useTheme()
+  const [activeTab, setActiveTab] = useState<'members' | 'about'>('members')
 
   const [skip, setSkip] = useState(0)
 
@@ -47,29 +52,26 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
       <StatsContainer>
         <Stats>
           <StatsBox>
-            <span>{t('staked')}</span>
-            <span>
-              {!!(delegatedSharesLoading || initialLoading) && poolAddress ? (
-                <SkeletonLoading width={80} />
-              ) : (
-                <>
-                  <span style={{ color: theme.color.green[600] }}>{`${truncateWei(
-                    delegatedShares,
-                    6
-                  )}`}</span>{' '}
-                  <span style={{ color: theme.color.secondary }}>{t('lsd.symbol')}</span>
-                </>
-              )}
-            </span>
-          </StatsBox>
-          <StatsBox>
             <span>{t('rewards')}</span>
             <span>
               {!!(isRewardsSharesLoading || initialLoading) && poolAddress ? (
                 <SkeletonLoading width={80} />
               ) : (
                 <>
-                  {truncateWei(rewardsShares, 6)}{' '}
+                  <span style={{ color: theme.color.green[600] }}>{truncateWei(rewardsShares, 6)}</span>{' '}
+                  <span style={{ color: theme.color.secondary }}>{t('lsd.symbol')}</span>
+                </>
+              )}
+            </span>
+          </StatsBox>
+          <StatsBox>
+            <span>{t('staked')}</span>
+            <span>
+              {!!(delegatedSharesLoading || initialLoading) && poolAddress ? (
+                <SkeletonLoading width={80} />
+              ) : (
+                <>
+                  <span>{`${truncateWei(delegatedShares, 6)}`}</span>{' '}
                   <span style={{ color: theme.color.secondary }}>{t('lsd.symbol')}</span>
                 </>
               )}
@@ -87,36 +89,23 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
           </StatsBox>
         </Stats>
       </StatsContainer>
-      {initialLoading && (
-        <DelegationsContainer>
-          <SkeletonLoading height={14} />
-          <SkeletonLoading height={14} />
-          <SkeletonLoading height={14} />
-        </DelegationsContainer>
+      <Divider style={{ margin: `${theme.size['12']} 0`, color: theme.color.blue[100] }} />
+      <StakePoolActions onActiveTabChange={tab => setActiveTab(tab)} />
+      {activeTab === 'members' && (
+        <StakePoolMembers
+          delegations={poolData?.delegations}
+          initialLoading={initialLoading}
+          loadMoreLoading={loadMoreLoadingPoolData}
+          onLoadMore={handleLoadMore}
+          totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
+        />
       )}
-      {!initialLoading && poolData && poolData.delegations.length > 0 && (
-        <DelegationsContainer>
-          {poolData.delegations.map((delegation, index) => (
-            <StakeReceivedDelegation
-              key={delegation.delegate.address}
-              delegation={delegation}
-              rank={index + 1}
-            />
-          ))}
-          {poolData?.address && poolData.delegations.length < poolData.receivedDelegationsCount && (
-            <LoadMoreButton onClick={handleLoadMore}>
-              {loadMoreLoadingPoolData && <Loading />}
-              {!loadMoreLoadingPoolData && <AiOutlineUsergroupAdd />}
-              {t('loadMore')}
-            </LoadMoreButton>
-          )}
-        </DelegationsContainer>
-      )}
+      {activeTab === 'about' && <StakePoolAbout poolAddress={poolAddress} />}
     </Container>
   )
 }
 
-const { Container, StatsContainer, Stats, StatsBox, DelegationsContainer, LoadMoreButton } = {
+const { Container, StatsContainer, Stats, StatsBox } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
@@ -159,41 +148,6 @@ const { Container, StatsContainer, Stats, StatsBox, DelegationsContainer, LoadMo
       &:nth-child(1) {
         font-size: ${({ theme }) => theme.font.size[12]};
       }
-    }
-  `,
-  DelegationsContainer: styled.div`
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.size[12]};
-    border-top: 1px solid ${({ theme }) => theme.color.blue[100]};
-    padding-top: ${({ theme }) => theme.size[16]};
-
-    > div:first-of-type {
-      margin-bottom: ${({ theme }) => theme.size[8]};
-    }
-  `,
-  LoadMoreButton: styled.button`
-    display: flex;
-    gap: ${({ theme }) => theme.size[4]};
-    align-items: center;
-    justify-content: center;
-    width: auto;
-    height: 32px;
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
-    border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
-    padding: 0 ${({ theme }) => theme.size[16]};
-    transition: background-color 0.1s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-    }
-
-    &.active {
-      color: ${({ theme }) => theme.color.secondary};
     }
   `
 }

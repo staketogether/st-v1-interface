@@ -33,7 +33,9 @@
   "rewardsFee": "Taxa de Recompensas",
   "wrongNetwork": "Rede Errada",
   "switch": "Trocar para",
-  "analytics": "Análises",
+  "about": "Sobre",
+  "analytics": "Análise",
+  "activities": "Atividades",
   "success": "Sucesso",
   "titles": {
     "explore": "Explorar Pools",

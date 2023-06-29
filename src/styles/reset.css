@@ -163,6 +163,7 @@ input::-webkit-inner-spin-button {
 }
 
 ::-webkit-scrollbar {
+  height: 8px;
   width: 8px;
 }
 
