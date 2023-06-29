@@ -1,5 +1,4 @@
 // Web3Auth Libraries
-import ethIcon from '@assets/icons/eth-icon.svg'
 import { CHAIN_NAMESPACES } from '@web3auth/base'
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider'
 import { Web3AuthNoModal } from '@web3auth/no-modal'
@@ -9,7 +8,7 @@ import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
 // eslint-disable-next-line import/named
 import { Chain } from 'wagmi'
 const name = 'Stake Together'
-const iconUrl = ethIcon
+const iconUrl = `${process.env.NEXT_PUBLIC_URL}/assets/icons/wallet.png`
 
 export default function Web3AuthConnectorInstance(chains: Chain[]) {
   const chainConfig = {
@@ -40,7 +39,7 @@ export default function Web3AuthConnectorInstance(chains: Chain[]) {
         logoLight: iconUrl,
         logoDark: iconUrl,
         defaultLanguage: 'en',
-        dark: true
+        dark: false
       }
     }
   })
@@ -48,7 +47,8 @@ export default function Web3AuthConnectorInstance(chains: Chain[]) {
 
   const torusPlugin = new TorusWalletConnectorPlugin({
     torusWalletOpts: {
-      buttonPosition: 'bottom-left'
+      buttonPosition: 'bottom-left',
+      buttonSize: 48
     },
     walletInitOptions: {
       whiteLabel: {
@@ -68,7 +68,7 @@ export default function Web3AuthConnectorInstance(chains: Chain[]) {
       options: {
         web3AuthInstance,
         loginParams: {
-          loginProvider: 'facebook'
+          loginProvider: 'google'
         }
       }
     }),
@@ -77,7 +77,7 @@ export default function Web3AuthConnectorInstance(chains: Chain[]) {
       options: {
         web3AuthInstance,
         loginParams: {
-          loginProvider: 'google'
+          loginProvider: 'facebook'
         }
       }
     }),
