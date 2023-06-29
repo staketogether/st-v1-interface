@@ -99,6 +99,11 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             <AiFillCreditCard />
             {t('BuyEth.button')}
           </BuyCryptoButton>
+          <SwitchActionsBar>
+            <ActionTab className='active'>Pools</ActionTab>
+            <ActionTab disabled>Analytics</ActionTab>
+            <ActionTab disabled>Activities</ActionTab>
+          </SwitchActionsBar>
           <ContainerPoolsDelegated>
             <div>
               <span>{t('staked')}</span>
@@ -134,8 +139,10 @@ const {
   SettingIcon,
   ContainerPoolsDelegated,
   Actions,
+  SwitchActionsBar,
   HeaderUserContainer,
-  BuyCryptoButton
+  BuyCryptoButton,
+  ActionTab
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.color.whiteAlpha[900]} !important;
@@ -307,6 +314,50 @@ const {
     &:disabled {
       cursor: not-allowed;
       opacity: 0.4;
+    }
+  `,
+  SwitchActionsBar: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+  `,
+  ActionTab: styled.button`
+    border: none;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
+
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
+    border: none;
+    border-radius: ${({ theme }) => theme.size[16]};
+    padding: 0 ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
+
+    &.active {
+      color: ${({ theme }) => theme.color.secondary};
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+
+    span {
+      display: none;
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      span {
+        display: block;
+      }
     }
   `
 }
