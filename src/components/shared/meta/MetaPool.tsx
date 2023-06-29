@@ -1,12 +1,12 @@
 import Head from 'next/head'
 import { globalConfig } from '../../../config/global'
 
-type MetaTagsProps = {
+type MetaPoolProps = {
   name?: string
   avatar?: string
 }
 
-export default function MetaTags({ name, avatar }: MetaTagsProps) {
+export default function MetaPool({ name, avatar }: MetaPoolProps) {
   const { url } = globalConfig
 
   return (
