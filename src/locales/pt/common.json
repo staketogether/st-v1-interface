@@ -5,7 +5,7 @@
   "rewards": "Recompensas",
   "delegates": "Delegados",
   "processing": "Processando...",
-  "staked": "Apostado",
+  "staked": "Em Stake",
   "unstake": "Desfazer Stake",
   "members": "Membros",
   "delegations": "Delegações para Pools",
@@ -101,5 +101,5 @@
   "connectWalletSideBar": {
     "connectButton": "Entrar",
     "title": "Entrar com"
-  } 
+  }
 }
