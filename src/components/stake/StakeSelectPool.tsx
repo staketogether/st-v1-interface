@@ -108,5 +108,13 @@ const { Container, SelectPool, PoolSelected, Verified } = {
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
     color: ${({ theme }) => theme.color.whatsapp[600]};
+
+    > span {
+      width: 124px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+    }
   `
 }

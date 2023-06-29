@@ -1,29 +1,33 @@
+import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { AiOutlineWallet } from 'react-icons/ai'
 import styled from 'styled-components'
-import { useConnect } from 'wagmi'
 import useTranslation from '../../../hooks/useTranslation'
+import WalletSidebarConnectWallet from './WalletSidebarConnectWallet'
 
 export default function WalletButtonDisconnected() {
   const { t } = useTranslation()
 
-  const { connect, connectors } = useConnect()
+  const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
   return (
-    <DisconnectedButton
-      onClick={() => {
-        connect({ connector: connectors[0] })
-      }}
-    >
-      <AiOutlineWallet fontSize={16} />
-      {t('wallet')}
-    </DisconnectedButton>
+    <>
+      <DisconnectedButton
+        onClick={() => {
+          setOpenSidebarConnectWallet(true)
+        }}
+      >
+        <AiOutlineWallet fontSize={16} />
+        {t('connectWalletSideBar.connectButton')}
+      </DisconnectedButton>
+      <WalletSidebarConnectWallet />
+    </>
   )
 }
 
 const { DisconnectedButton } = {
   DisconnectedButton: styled.button`
     display: grid;
-    grid-template-columns: 16px auto;
+    grid-template-columns: 24px auto;
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
     width: auto;

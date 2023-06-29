@@ -1,4 +1,5 @@
 // Web3Auth Libraries
+import ethIcon from '@assets/icons/eth-icon.svg'
 import { CHAIN_NAMESPACES } from '@web3auth/base'
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider'
 import { Web3AuthNoModal } from '@web3auth/no-modal'
@@ -7,19 +8,20 @@ import { TorusWalletConnectorPlugin } from '@web3auth/torus-wallet-connector-plu
 import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
 // eslint-disable-next-line import/named
 import { Chain } from 'wagmi'
-
 const name = 'Stake Together'
-const iconUrl = 'https://web3auth.io/docs/contents/logo-ethereum.png'
+const iconUrl = ethIcon
 
-export default function Web3AuthConnectorInstance(chain: Chain) {
+export default function Web3AuthConnectorInstance(chains: Chain[]) {
+  // Create Web3Auth Instance
+
   const chainConfig = {
     chainNamespace: CHAIN_NAMESPACES.EIP155,
-    chainId: '0x' + chain.id.toString(16),
-    rpcTarget: chain.rpcUrls.default.http[0],
-    displayName: chain.name,
-    tickerName: chain.nativeCurrency?.name,
-    ticker: chain.nativeCurrency?.symbol,
-    blockExplorer: chain.blockExplorers?.default.url[0] as string
+    chainId: '0x' + chains[0].id.toString(16),
+    rpcTarget: chains[0].rpcUrls.default.http[0], // This is the public RPC we have added, please pass on your own endpoint while creating an app
+    displayName: chains[0].name,
+    tickerName: chains[0].nativeCurrency?.name,
+    ticker: chains[0].nativeCurrency?.symbol,
+    blockExplorer: chains[0].blockExplorers?.default.url[0] as string
   }
 
   const web3AuthInstance = new Web3AuthNoModal({
@@ -64,7 +66,7 @@ export default function Web3AuthConnectorInstance(chain: Chain) {
 
   return [
     new Web3AuthConnector({
-      chains: [chain],
+      chains: chains,
       options: {
         web3AuthInstance,
         loginParams: {
@@ -73,7 +75,7 @@ export default function Web3AuthConnectorInstance(chain: Chain) {
       }
     }),
     new Web3AuthConnector({
-      chains: [chain],
+      chains: chains,
       options: {
         web3AuthInstance,
         loginParams: {
@@ -82,7 +84,7 @@ export default function Web3AuthConnectorInstance(chain: Chain) {
       }
     }),
     new Web3AuthConnector({
-      chains: [chain],
+      chains: chains,
       options: {
         web3AuthInstance,
         loginParams: {

@@ -10,7 +10,7 @@ function sliceString(value: string, decimals: number) {
 
 export function truncateWei(wei: bigint, maxDecimals = 4): string {
   if (!wei) {
-    return ''
+    return '0'
   }
   const formatWei = ethers.formatEther(wei)
   return sliceString(formatWei, maxDecimals)
@@ -44,4 +44,8 @@ export function truncateAddress(address: string): string {
   const start = address.slice(0, charsToShow)
   const end = address.slice(-charsToShow)
   return `${start}...${end}`
+}
+
+export function capitalize(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1)
 }

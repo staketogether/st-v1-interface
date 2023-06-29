@@ -20,7 +20,6 @@
   "fee": "Fee",
   "delegated": "Delegated",
   "delegatedAmount": "Delegated Amount",
-  "wallet": "Connect Wallet",
   "searchPool": "Search Pools",
   "emptyPool": "Pool Not Found",
   "copyClipboard": "Copy to Clipboard",
@@ -98,5 +97,9 @@
   "addSethToWallet": {
     "add": "Add",
     "yourWallet": "to wallet"
+  },
+  "connectWalletSideBar": {
+    "connectButton": "Sign In",
+    "title": "Sign In"
   }
 }
