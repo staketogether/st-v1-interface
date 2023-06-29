@@ -1,10 +1,10 @@
-import { Delegation } from '@/types/Delegation'
-import styled from 'styled-components'
-import StakeReceivedDelegation from '@/components/stake/StakeReceivedDelegation'
-import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import Loading from '@/components/shared/icons/Loading'
+import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
+import StakeReceivedDelegation from '@/components/stake/StakeReceivedDelegation'
+import { Delegation } from '@/types/Delegation'
 import { AiOutlineUsergroupAdd } from 'react-icons/ai'
-import { t } from 'i18next'
+import styled from 'styled-components'
+import useTranslation from '../../hooks/useTranslation'
 
 interface StakeMembersProps {
   initialLoading: boolean
@@ -21,6 +21,8 @@ export default function StakePoolMembers({
   onLoadMore,
   initialLoading
 }: StakeMembersProps) {
+  const { t } = useTranslation()
+
   return (
     <Container>
       {initialLoading && (

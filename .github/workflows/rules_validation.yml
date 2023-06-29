@@ -52,6 +52,8 @@ jobs:
           echo NEXT_PUBLIC_HOTJAR_ID=1 >> .env
           echo NEXT_PUBLIC_MIXPANEL_ID=1 >> .env
           echo NEXT_PUBLIC_SENTRY_DSN=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }} >> .env
+          echo NEXT_PUBLIC_WEB3_AUTH_ID=1 >> .env
+          echo NEXT_PUBLIC_WALLET_CONNECT=1 >> .env
 
       - name: Install dependencies
         run: pnpm install

@@ -1,3 +1,4 @@
+import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
 import {
   AiOutlinePlus,
@@ -8,7 +9,6 @@ import {
 import styled from 'styled-components'
 import useActiveRoute from '../../hooks/useActiveRoute'
 import useTranslation from '../../hooks/useTranslation'
-import { Tooltip } from 'antd'
 
 interface StakeSwitchActionsProps {
   poolAddress?: `0x${string}`
@@ -56,7 +56,6 @@ export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsPr
       <Tooltip trigger='click' title={t('copyClipboard')}>
         <StakeButton onClick={copyToClipboard}>
           <AiOutlineShareAlt />
-          <span>{t('share')}</span>
         </StakeButton>
       </Tooltip>
     </Container>
