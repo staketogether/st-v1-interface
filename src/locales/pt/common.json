@@ -101,5 +101,6 @@
   "connectWalletSideBar": {
     "connectButton": "Entrar",
     "title": "Entrar com"
-  }
+  },
+  "buyEth": "Obter Ether"
 }

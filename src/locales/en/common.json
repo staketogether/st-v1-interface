@@ -101,5 +101,6 @@
   "connectWalletSideBar": {
     "connectButton": "Sign In",
     "title": "Sign In"
-  }
+  },
+  "buyEth": "Buy Ether"
 }

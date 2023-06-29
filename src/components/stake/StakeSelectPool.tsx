@@ -29,10 +29,10 @@ export default function StakeSelectPool({ poolAddress }: StakeSelectPoolProps) {
     <Container onClick={handleSearchPool}>
       {poolAddress ? (
         <PoolSelected>
-          <EnsAvatar large address={poolAddress} />
+          <EnsAvatar larger address={poolAddress} />
           <Verified>
-            <EnsName large address={poolAddress} />
-            <AiOutlineCheck fontSize={14} />
+            <EnsName larger address={poolAddress} />
+            <AiOutlineCheck fontSize={22} />
           </Verified>
         </PoolSelected>
       ) : (
@@ -110,7 +110,6 @@ const { Container, SelectPool, PoolSelected, Verified } = {
     color: ${({ theme }) => theme.color.whatsapp[600]};
 
     > span {
-      width: 124px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;

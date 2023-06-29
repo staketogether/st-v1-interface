@@ -4,7 +4,7 @@ import useTranslation from '../../hooks/useTranslation'
 import LayoutHead from '../shared/layout/LayoutHead'
 import { StakeForm } from './StakeForm'
 import { StakeFormEmpty } from './StakeFormEmpty'
-import StakeStats from './StakeStats'
+import StakePoolInfo from './StakePoolInfo'
 import StakeSwitchActions from './StakeSwitchAction'
 
 interface StakeControlProps {
@@ -15,7 +15,6 @@ interface StakeControlProps {
 export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { account } = useConnectedAccount()
   const hasAccountAndPool = account && poolAddress
-  const { t } = useTranslation()
 
   return (
     <Container>
@@ -28,10 +27,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
           <StakeFormEmpty type={type} accountAddress={account} poolAddress={poolAddress} />
         )}
       </Form>
-      <Title>
-        <LayoutHead text={t('titles.poolStats')} />
-      </Title>
-      <StakeStats poolAddress={poolAddress} />
+      <StakePoolInfo poolAddress={poolAddress} />
     </Container>
   )
 }

@@ -6,7 +6,7 @@ type MetaPoolProps = {
   avatar?: string
 }
 
-export function MetaPool({ name, avatar }: MetaPoolProps) {
+export function Metatags({ name, avatar }: MetaPoolProps) {
   const { url } = globalConfig
 
   return (

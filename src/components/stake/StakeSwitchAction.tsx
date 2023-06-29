@@ -1,5 +1,10 @@
 import { useRouter } from 'next/router'
-import { AiOutlineVerticalAlignBottom, AiOutlineVerticalAlignTop } from 'react-icons/ai'
+import {
+  AiOutlinePlus,
+  AiOutlineShareAlt,
+  AiOutlineVerticalAlignBottom,
+  AiOutlineVerticalAlignTop
+} from 'react-icons/ai'
 import styled from 'styled-components'
 import useActiveRoute from '../../hooks/useActiveRoute'
 import useTranslation from '../../hooks/useTranslation'
@@ -24,31 +29,37 @@ export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsPr
 
   return (
     <Container>
-      <StakeSelectPool poolAddress={poolAddress} />
       <Tabs>
-        <StakeTab
+        <StakeButton
           className={`${isActive('deposit') ? 'active' : ''}`}
           onClick={() => handleSwitch('deposit')}
         >
           <AiOutlineVerticalAlignBottom />
           <span>{t('deposit')}</span>
-        </StakeTab>
-        <StakeTab
+        </StakeButton>
+        <StakeButton
           className={`${isActive('withdraw') ? 'active' : ''} purple`}
           onClick={() => handleSwitch('withdraw')}
         >
           <AiOutlineVerticalAlignTop />
           <span>{t('withdraw')}</span>
-        </StakeTab>
+        </StakeButton>
+        <StakeButton>
+          <AiOutlinePlus />
+          <span>{t('buyEth')}</span>
+        </StakeButton>
       </Tabs>
+      <StakeButton>
+        <AiOutlineShareAlt />
+      </StakeButton>
     </Container>
   )
 }
 
-const { Container, Tabs, StakeTab } = {
+const { Container, Tabs, StakeButton } = {
   Container: styled.div`
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto auto;
     gap: ${({ theme }) => theme.size[8]};
   `,
   Tabs: styled.div`
@@ -56,7 +67,7 @@ const { Container, Tabs, StakeTab } = {
     gap: ${({ theme }) => theme.size[8]};
     justify-content: flex-end;
   `,
-  StakeTab: styled.button`
+  StakeButton: styled.button`
     border: none;
     height: 32px;
     display: flex;
