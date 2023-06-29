@@ -23,6 +23,7 @@
   "searchPool": "Search Pools",
   "emptyPool": "Pool Not Found",
   "copyClipboard": "Copy to Clipboard",
+  "copiedToClipboard": "Copied to Clipboard",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
   "usd": "USD",
@@ -33,6 +34,8 @@
   "rewardsFee": "Rewards Fee",
   "wrongNetwork": "Wrong Network",
   "switch": "Switch to",
+  "about": "About",
+  "activities": "Activities",
   "analytics": "Analytics",
   "success": "Success",
   "titles": {
@@ -101,5 +104,6 @@
   "connectWalletSideBar": {
     "connectButton": "Sign In",
     "title": "Sign In"
-  }
+  },
+  "buyEth": "Buy Ether"
 }

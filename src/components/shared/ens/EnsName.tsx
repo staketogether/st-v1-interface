@@ -9,10 +9,11 @@ import SkeletonLoading from '../icons/SkeletonLoading'
 type EnsNameProps = {
   address: `0x${string}`
   large?: boolean
+  larger?: boolean
   slice?: number
 }
 
-export default function EnsName({ address, large, slice }: EnsNameProps) {
+export default function EnsName({ address, large, larger, slice }: EnsNameProps) {
   const { name, nameLoading } = useEns(address)
 
   const text = <Text className={large ? 'large' : ''}>{truncateAddress(address)}</Text>
@@ -20,20 +21,32 @@ export default function EnsName({ address, large, slice }: EnsNameProps) {
   const [nameEl, setNameEl] = useState(text)
 
   useEffect(() => {
-    if (nameLoading) {
-      setNameEl(<SkeletonLoading width={140} height={large ? 15 : 14} />)
+    if (nameLoading && !larger && !large) {
+      setNameEl(<SkeletonLoading width={140} height={14} />)
+    } else if (nameLoading && large) {
+      setNameEl(<SkeletonLoading width={140} height={15} />)
+    } else if (nameLoading && larger) {
+      setNameEl(<SkeletonLoading width={140} height={22} />)
     } else if (name) {
-      setNameEl(<Text className={large ? 'large' : ''}>{slice ? truncateText(name, slice) : name}</Text>)
+      setNameEl(
+        <Text large={large} larger={larger}>
+          {slice ? truncateText(name, slice) : name}
+        </Text>
+      )
     } else {
-      setNameEl(<Text className={large ? 'large' : ''}>{truncateAddress(address)}</Text>)
+      setNameEl(
+        <Text large={large} larger={larger}>
+          {truncateAddress(address)}
+        </Text>
+      )
     }
-  }, [address, large, name, nameLoading, slice])
+  }, [address, large, larger, name, nameLoading, slice])
 
   return nameEl
 }
 
 const { Text } = {
-  Text: styled.span`
+  Text: styled.span<{ large?: boolean; larger?: boolean }>`
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.black};
     border: 0;
@@ -42,8 +55,19 @@ const { Text } = {
     display: grid;
     align-items: center;
 
-    &.large {
-      font-size: ${({ theme }) => theme.font.size[15]};
-    }
+    ${({ large, theme }) =>
+      large &&
+      `
+      font-size: ${theme.font.size[15]};
+    `}
+
+    ${({ larger, theme }) => {
+      return (
+        larger &&
+        `
+      font-size: ${theme.font.size[22]} !important;
+    `
+      )
+    }}
   `
 }

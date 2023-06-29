@@ -1,10 +1,9 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import LayoutHead from '../../../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
-import { MetaPool } from '../../../components/shared/meta/MetaPool'
+import { Metatags } from '../../../components/shared/meta/Metatags'
 import StakeControl from '../../../components/stake/StakeControl'
-import useTranslation from '../../../hooks/useTranslation'
+import StakeTitle from '@/components/stake/StakeSelectPool'
 
 type DepositPoolProps = {
   poolAddress: `0x${string}`
@@ -13,12 +12,10 @@ type DepositPoolProps = {
 }
 
 export default function Deposit({ poolAddress, name, avatar }: DepositPoolProps) {
-  const { t } = useTranslation()
-
   return (
     <LayoutTemplate>
-      <MetaPool name={name} avatar={avatar} />
-      <LayoutHead text={t('titles.stake')} />
+      <Metatags name={name} avatar={avatar} />
+      <StakeTitle poolAddress={poolAddress} />
       <StakeControl poolAddress={poolAddress} type='deposit' />
     </LayoutTemplate>
   )
