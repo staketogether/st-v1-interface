@@ -1,6 +1,6 @@
 import Fuse from 'fuse.js'
 import Link from 'next/link'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import styled from 'styled-components'
 
 import usePools from '../../../hooks/subgraphs/usePools'
@@ -71,7 +71,7 @@ export default function LayoutSearchDrawer() {
               type='text'
               value={text}
               placeholder={t('searchPool')}
-              onChange={e => onChange(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
               className={`${isOpen ? 'active' : ''}`}
             />
           </InputSearchContainer>
@@ -180,7 +180,7 @@ const {
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     padding: 0 16px;
-    padding-left: 30px;
+    padding-left: 32px;
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
     padding-top: 0;

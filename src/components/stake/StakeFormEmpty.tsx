@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 
 import chainConfig from '@/config/chain'
-import { useConnectModal } from '@rainbow-me/rainbowkit'
+
 import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useResizeView from '../../hooks/useResizeView'
@@ -13,6 +13,7 @@ import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
 import StakeButton from './StakeButton'
 import StakeFormInput from './StakeInput'
+import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -24,18 +25,17 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
   const { fee } = globalConfig
   const { t } = useTranslation()
   const { balance: ethBalance, isLoading } = useEthBalanceOf(accountAddress)
-
   const [amount, setAmount] = useState<string>('')
-  const rewardsFee = truncateWei(fee.protocol.mul(100).toString())
+  const rewardsFee = truncateWei(fee.protocol * 100n)
 
-  const { openConnectModal } = useConnectModal()
   const { setOpenSearchDrawer } = useSearchDrawer()
   const { setOpenSearchHeader } = useSearchHeader()
   const { screenWidth, breakpoints } = useResizeView()
+  const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
   const connectAccount = () => {
-    if (!accountAddress && openConnectModal) {
-      openConnectModal()
+    if (!accountAddress) {
+      setOpenSidebarConnectWallet(true)
       return
     }
   }
@@ -70,7 +70,7 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
 
   const handleLabelButton = () => {
     if (!accountAddress) {
-      return t('form.connectWallet')
+      return t('connectWalletSideBar.connectButton')
     }
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`

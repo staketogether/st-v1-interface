@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import Link from 'next/link'
 import styled from 'styled-components'
 import usePooledEthByShares from '../../../hooks/contracts/usePooledEthByShares'
@@ -15,7 +14,7 @@ type WalletSentDelegationProps = {
 export default function WalletSentDelegation({ delegation }: WalletSentDelegationProps) {
   const { t } = useTranslation()
 
-  const { balance: delegationAmount } = usePooledEthByShares(BigNumber.from(delegation.delegationShares))
+  const { balance: delegationAmount } = usePooledEthByShares(delegation.delegationShares)
 
   return (
     <Container href={`/stake/deposit/${delegation.delegated.address}`}>
@@ -26,7 +25,7 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
         </div>
       </div>
       <span>
-        {`${truncateWei(delegationAmount.toString(), 6)}`}
+        {delegationAmount > 0 ? truncateWei(delegationAmount, 6) : '0'}
         <span>{t('lsd.symbol')}</span>
       </span>
     </Container>

@@ -7,7 +7,7 @@ interface BlockExplorerConfig {
 export type ChainConfig = {
   chainId: number
   name: string
-  provider: ethers.providers.JsonRpcProvider
+  provider: ethers.JsonRpcProvider
   blockExplorer: BlockExplorerConfig
   subgraphs: {
     StakeTogether: string
@@ -38,7 +38,7 @@ const configs: ChainConfig[] = [
   {
     chainId: 5,
     name: 'goerli',
-    provider: new ethers.providers.JsonRpcProvider(
+    provider: new ethers.JsonRpcProvider(
       `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`
     ),
     blockExplorer: {

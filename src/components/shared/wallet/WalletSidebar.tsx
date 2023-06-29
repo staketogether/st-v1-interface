@@ -62,26 +62,30 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
             <div>
               <span>{`${t('sidebar.etherBalance')}`}</span>
               <span>
-                {truncateWei(ethBalance.toString(), 6)} <span>{t('eth.symbol')}</span>
+                {ethBalance > 0 ? truncateWei(ethBalance, 6) : '0'} <span>{t('eth.symbol')}</span>
               </span>
             </div>
             <div>
               <span>{`${t('sidebar.stakedBalance')}`}</span>
               <span>
-                {truncateWei(accountBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
+                {truncateWei(accountBalance, 6)} <span>{t('lsd.symbol')}</span>
               </span>
             </div>
             <div>
               <span>{t('rewards')}</span>
               <span>
-                {truncateWei(accountRewardsBalance.toString(), 6)} <span>{t('lsd.symbol')}</span>
+                {accountRewardsBalance > 0 ? truncateWei(accountRewardsBalance, 6) : '0'}
+                <span>{t('lsd.symbol')}</span>
               </span>
             </div>
           </InfoContainer>
           <ContainerPoolsDelegated>
             <div>
               <span>{t('staked')}</span>
-              <span>{accountSentDelegationsCount}</span>
+              <span>
+                {accountSentDelegationsCount > 0 ? accountSentDelegationsCount.toString() : '0'}{' '}
+                <span>{t('lsd.symbol')}</span>
+              </span>
             </div>
             {accountDelegations.length === 0 && (
               <div>
@@ -185,6 +189,10 @@ const {
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+
+    div > span:nth-child(2) > span {
+      color: ${({ theme }) => theme.color.secondary};
     }
   `,
   ClosedSidebarButton: styled.button`

@@ -1,6 +1,7 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
+import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 import { notification } from 'antd'
-import { BigNumber, ethers, utils } from 'ethers'
+import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
@@ -9,22 +10,23 @@ import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 
 export default function useDeposit(
   depositAmount: string,
   accountAddress: `0x${string}`,
-  poolAddress: `0x${string}`
+  poolAddress: `0x${string}`,
+  enabled: boolean
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
-  const [estimateGas, setEstimateGas] = useState<string | undefined>(undefined)
+
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const { registerDeposit } = useMixpanelAnalytics()
-  const { provider } = chainConfig()
 
-  const depositRule = ethers.BigNumber.isBigNumber(depositAmount) && BigNumber.from(depositAmount).gt(0)
+  const amount = ethers.parseUnits(depositAmount, 18)
+
+  const depositRule = enabled && amount > 0n
 
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
@@ -32,13 +34,13 @@ export default function useDeposit(
   const { config } = usePrepareStakeTogetherDepositPool({
     address: contracts.StakeTogether,
     args: [poolAddress, referral],
-    overrides: {
-      from: accountAddress,
-      value: ethers.utils.parseEther(depositAmount),
-      gasLimit: BigNumber.from('300000')
-    },
-    enabled: !depositRule
+    account: accountAddress,
+    gas: 300000n,
+    enabled: depositRule,
+    value: amount
   })
+
+  console.log('GAS ESTIMATE', config)
 
   const tx = useStakeTogetherDepositPool({
     ...config,
@@ -70,24 +72,11 @@ export default function useDeposit(
   }
 
   useEffect(() => {
-    const getEstimateGasPrice = async () => {
-      if (config) {
-        const gasPrice = await provider.estimateGas(config)
-        const valueFormatted = utils.formatUnits(gasPrice, 'gwei')
-        setEstimateGas(valueFormatted)
-      }
-    }
-    if (config) {
-      getEstimateGasPrice()
-    }
-  }, [config, provider])
-
-  useEffect(() => {
-    if (isSuccess && depositAmount !== '0') {
+    if (isSuccess && depositAmount) {
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool, queryDelegationShares]
       })
-      registerDeposit(accountAddress, chainId, poolAddress, depositAmount)
+      registerDeposit(accountAddress, chainId, poolAddress, depositAmount.toString())
       if (notify) {
         notification.success({
           message: `${t('notifications.depositSuccess')}: ${depositAmount} ${t('lsd.symbol')}`,
@@ -117,7 +106,7 @@ export default function useDeposit(
     deposit,
     isLoading,
     isSuccess,
-    estimateGas,
+    estimateGas: '0',
     awaitWalletAction,
     txHash,
     resetState

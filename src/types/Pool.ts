@@ -8,7 +8,7 @@ export type Pool = {
   delegatedShares: string
   rewardsShares: string
   delegations: Delegation[]
-  receivedDelegationsCount: number
+  receivedDelegationsCount: bigint
 } & ENSPool
 
 export type ENSPool = {

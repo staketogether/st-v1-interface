@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import { useState } from 'react'
 import { AiOutlineUsergroupAdd } from 'react-icons/ai'
 import styled from 'styled-components'
@@ -28,10 +27,10 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
   } = usePool(poolAddress, { first: 10, skip: 0 })
 
   const { balance: rewardsShares, loading: isRewardsSharesLoading } = usePooledEthByShares(
-    BigNumber.from(poolData ? poolData.rewardsShares : '0')
+    poolData ? poolData.rewardsShares : '0'
   )
   const { balance: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
-    BigNumber.from(poolData ? poolData.delegatedShares : '0')
+    poolData ? poolData.delegatedShares : '0'
   )
 
   const handleLoadMore = () => {
@@ -53,7 +52,7 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
                 <SkeletonLoading width={80} />
               ) : (
                 <>
-                  {`${truncateWei(delegatedShares.toString(), 6)}`}
+                  {`${truncateWei(delegatedShares, 6)}`}
                   <span>{t('lsd.symbol')}</span>
                 </>
               )}
@@ -66,7 +65,7 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
                 <SkeletonLoading width={80} />
               ) : (
                 <>
-                  {truncateWei(rewardsShares.toString(), 6)}
+                  {truncateWei(rewardsShares, 6)}
                   <span>{t('lsd.symbol')}</span>
                 </>
               )}
@@ -89,7 +88,7 @@ export default function StakeStats({ poolAddress }: StakeStatsProps) {
         <DelegationsContainer>
           <StatsWrapper>
             <span>{t('members')}</span>
-            <span>{poolData.receivedDelegationsCount}</span>
+            <span>{poolData.receivedDelegationsCount.toString()}</span>
           </StatsWrapper>
           {poolData.delegations.map((delegation, index) => (
             <StakeReceivedDelegation

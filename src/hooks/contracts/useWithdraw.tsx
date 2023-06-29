@@ -1,39 +1,43 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
+import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 import { notification } from 'antd'
-import { BigNumber, ethers, utils } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
+
+import { ethers } from 'ethers'
 import { usePrepareStakeTogetherWithdrawPool, useStakeTogetherWithdrawPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 
 export default function useWithdraw(
   withdrawAmount: string,
   accountAddress: `0x${string}`,
-  poolAddress: `0x${string}`
+  poolAddress: `0x${string}`,
+  enabled: boolean
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
   const { registerWithdraw } = useMixpanelAnalytics()
-  const [estimateGas, setEstimateGas] = useState<string | undefined>(undefined)
+
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
-  const withdrawRule =
-    ethers.BigNumber.isBigNumber(withdrawAmount) && BigNumber.from(withdrawAmount).gt(0)
+
+  const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
+
+  const withdrawRule = enabled && amount > 0n
 
   const { config } = usePrepareStakeTogetherWithdrawPool({
     address: contracts.StakeTogether,
-    args: [ethers.utils.parseEther(withdrawAmount), poolAddress],
-    overrides: {
-      from: accountAddress,
-      gasLimit: BigNumber.from('300000')
-    },
-    enabled: !withdrawRule
+    args: [amount, poolAddress],
+    account: accountAddress,
+    gas: 300000n,
+    enabled: withdrawRule
   })
+
+  console.log('GAS ESTIMATE', config)
 
   const tx = useStakeTogetherWithdrawPool({
     ...config,
@@ -46,8 +50,6 @@ export default function useWithdraw(
       setAwaitWalletAction(false)
     }
   })
-
-  const { provider } = chainConfig()
 
   const withdraw = () => {
     setAwaitWalletAction(true)
@@ -67,24 +69,11 @@ export default function useWithdraw(
   }
 
   useEffect(() => {
-    const getEstimateGasPrice = async () => {
-      if (config) {
-        const gasPrice = await provider.estimateGas(config)
-        const valueFormatted = utils.formatUnits(gasPrice, 'gwei')
-        setEstimateGas(valueFormatted)
-      }
-    }
-    if (config) {
-      getEstimateGasPrice()
-    }
-  }, [config, provider])
-
-  useEffect(() => {
-    if (isSuccess && withdrawAmount !== '0') {
+    if (isSuccess && withdrawAmount) {
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool, queryDelegationShares]
       })
-      registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount)
+      registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString())
       if (notify) {
         notification.success({
           message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,
@@ -107,5 +96,5 @@ export default function useWithdraw(
     }
   }, [accountAddress, isError, notify, poolAddress, t, withdrawAmount])
 
-  return { withdraw, estimateGas, isLoading, isSuccess, awaitWalletAction, resetState, txHash }
+  return { withdraw, estimateGas: '0', isLoading, isSuccess, awaitWalletAction, resetState, txHash }
 }

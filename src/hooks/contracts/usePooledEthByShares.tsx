@@ -1,21 +1,20 @@
-import { BigNumber } from 'ethers'
+import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
 import { useStakeTogetherPooledEthByShares } from '../../types/Contracts'
-import { useEffect, useState } from 'react'
 
-export default function usePooledEthByShares(sharesAmount: BigNumber) {
+export default function usePooledEthByShares(sharesAmount: string) {
   const { contracts } = chainConfig()
 
-  const [balance, setBalance] = useState<string>('0')
+  const [balance, setBalance] = useState<bigint>(0n)
 
-  const pooledEthBySharesReq = useStakeTogetherPooledEthByShares({
+  const { data, isLoading } = useStakeTogetherPooledEthByShares({
     address: contracts.StakeTogether,
-    args: [sharesAmount]
+    args: [BigInt(sharesAmount)]
   })
 
   useEffect(() => {
-    setBalance(pooledEthBySharesReq.data?.toString() || '0')
-  }, [pooledEthBySharesReq.data])
+    setBalance(data || 0n)
+  }, [data])
 
-  return { balance, loading: pooledEthBySharesReq.isFetching }
+  return { balance, loading: isLoading }
 }

@@ -1,8 +1,8 @@
-import styled from 'styled-components'
 import useResizeView from '@/hooks/useResizeView'
 import useSearchDrawer from '@/hooks/useSearchDrawer'
 import useSearchHeader from '@/hooks/useSearchHeader'
 import { AiOutlineCheck, AiOutlineFire } from 'react-icons/ai'
+import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
@@ -108,5 +108,13 @@ const { Container, SelectPool, PoolSelected, Verified } = {
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
     color: ${({ theme }) => theme.color.whatsapp[600]};
+
+    > span {
+      width: 124px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+    }
   `
 }

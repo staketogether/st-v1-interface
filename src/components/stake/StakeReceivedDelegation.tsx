@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import styled from 'styled-components'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
@@ -16,9 +15,7 @@ type StakeReceivedDelegationProps = {
 export default function StakeReceivedDelegation({ delegation, rank }: StakeReceivedDelegationProps) {
   const { t } = useTranslation()
 
-  const { balance: delegationAmount, loading } = usePooledEthByShares(
-    BigNumber.from(delegation.delegationShares)
-  )
+  const { balance: delegationAmount, loading } = usePooledEthByShares(delegation.delegationShares)
 
   return (
     <DelegationItem>
@@ -33,7 +30,7 @@ export default function StakeReceivedDelegation({ delegation, rank }: StakeRecei
             <SkeletonLoading width={90} height={14} />
           ) : (
             <>
-              {`${truncateWei(delegationAmount.toString(), 6)} `}
+              {`${truncateWei(delegationAmount, 6)} `}
               <span>{t('lsd.symbol')}</span>
             </>
           )}

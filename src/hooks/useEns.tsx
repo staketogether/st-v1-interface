@@ -8,25 +8,25 @@ export default function useEns(address: `0x${string}`) {
   const [name, setName] = useState<string | undefined>(undefined)
   const [avatar, setAvatar] = useState<string | undefined>(undefined)
 
-  const ensAvatar = useEnsAvatar({
-    address,
-    chainId,
-    cacheTime: 60000
-  })
-
   const ensName = useEnsName({
     address,
     chainId,
     cacheTime: 60000
   })
 
-  useEffect(() => {
-    setAvatar(ensAvatar.data?.toString())
-  }, [ensAvatar.data])
+  const ensAvatar = useEnsAvatar({
+    name,
+    chainId,
+    cacheTime: 60000
+  })
 
   useEffect(() => {
     setName(ensName.data?.toString())
   }, [ensName.data])
+
+  useEffect(() => {
+    setAvatar(ensAvatar.data?.toString())
+  }, [ensAvatar.data])
 
   return { address, name, avatar, avatarLoading: ensAvatar.isFetching, nameLoading: ensName.isFetching }
 }

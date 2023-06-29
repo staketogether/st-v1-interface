@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from 'ethers'
+import { ethers } from 'ethers'
 
 function sliceString(value: string, decimals: number) {
   const [whole, decimal] = value.split('.')
@@ -8,12 +8,11 @@ function sliceString(value: string, decimals: number) {
   return formattedValue
 }
 
-export function truncateWei(wei: string, maxDecimals = 4): string {
+export function truncateWei(wei: bigint, maxDecimals = 4): string {
   if (!wei) {
-    return ''
+    return '0'
   }
-  const updatedWei = BigNumber.from(wei).toString()
-  const formatWei = ethers.utils.formatEther(updatedWei)
+  const formatWei = ethers.formatEther(wei)
   return sliceString(formatWei, maxDecimals)
 }
 
@@ -45,4 +44,8 @@ export function truncateAddress(address: string): string {
   const start = address.slice(0, charsToShow)
   const end = address.slice(-charsToShow)
   return `${start}...${end}`
+}
+
+export function capitalize(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1)
 }

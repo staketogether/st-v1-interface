@@ -6,5 +6,5 @@ export type Account = {
   shares: string
   originalBalance: string
   delegations: Delegation[]
-  sentDelegationsCount: number
+  sentDelegationsCount: bigint
 }

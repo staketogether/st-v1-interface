@@ -50,7 +50,7 @@ export default function WalletConnectedButton({
         <>
           {showBalance && (
             <CethBalance>
-              <span>{truncateWei(accountBalance.toString())}</span>
+              <span>{truncateWei(accountBalance)}</span>
               <span>{t('lsd.symbol')}</span>
             </CethBalance>
           )}
