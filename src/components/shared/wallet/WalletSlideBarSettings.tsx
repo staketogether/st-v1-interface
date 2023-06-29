@@ -18,7 +18,9 @@ export default function WalletSlideBarSettings({ setIsSettingsActive }: WalletSl
   return (
     <>
       <Header>
-        <CloseIcon onClick={() => setIsSettingsActive(false)} />
+        <Button onClick={() => setIsSettingsActive(false)}>
+          <CloseIcon />
+        </Button>
         <h2>{t('settings.title')}</h2>
       </Header>
       <LocaleContainer>
@@ -34,18 +36,40 @@ export default function WalletSlideBarSettings({ setIsSettingsActive }: WalletSl
   )
 }
 
-const { Header, CloseIcon, LocaleContainer } = {
+const { Header, CloseIcon, LocaleContainer, Button } = {
   CloseIcon: styled(AiOutlineArrowLeft)`
     font-size: 18px;
     color: ${({ theme }) => theme.color.primary};
     cursor: pointer;
   `,
+  Button: styled.button`
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: ${({ theme }) => theme.size[16]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    background: ${({ theme }) => theme.color.whiteAlpha[700]};
+    transition: background 0.2s ease;
+    line-height: 36px;
+
+    &:hover {
+      background: ${({ theme }) => theme.color.whiteAlpha[900]};
+    }
+
+    &:first-of-type {
+      margin-left: auto;
+    }
+  `,
   Header: styled.div`
     width: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: 32px 1fr;
     align-items: center;
+
     gap: ${({ theme }) => theme.size[16]};
-    padding-top: ${({ theme }) => theme.size[8]};
 
     h2 {
       font-size: ${({ theme }) => theme.font.size[16]};

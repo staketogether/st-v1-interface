@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { AiOutlineBarChart, AiOutlineCodeSandbox, AiOutlineFire } from 'react-icons/ai'
+import { AiOutlineBarChart, AiOutlineCodeSandbox } from 'react-icons/ai'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -20,14 +20,12 @@ export default function LayoutHeader() {
         </Logo>
         <Menu>
           <Link href='/explore'>
-            <MenuButton className={`${isActive('explore') ? 'active' : ''}`}>
-              <AiOutlineFire size={16} />
-              {t('explore')}
-            </MenuButton>
-          </Link>
-          <Link href='/stake/deposit'>
-            <MenuButton className={`${isActive('stake') || isActive('unstake') ? 'active' : ''}`}>
-              <AiOutlineCodeSandbox size={16} /> {t('stake')}
+            <MenuButton
+              className={`${
+                isActive('explore') || isActive('stake') || isActive('unstake') ? 'active' : ''
+              }`}
+            >
+              <AiOutlineCodeSandbox size={16} /> {t('explore')}
             </MenuButton>
           </Link>
           <Link href='#' title={t('soon')}>
