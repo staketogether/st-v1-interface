@@ -38,7 +38,7 @@ const { DefaultAvatar, Avatar } = {
     width: 24px;
     height: 24px;
 
-    ${({ larger }) => larger && `width: 40px; height: 40px;`}
+    ${({ larger }) => larger && `width: 32px; height: 32px;`}
     ${({ large }) => large && `width: 26px; height: 26px;`}
   `,
   Avatar: styled(Image)`
