@@ -58,7 +58,7 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
                 <SkeletonLoading width={80} />
               ) : (
                 <>
-                  <span style={{ color: theme.color.green[600] }}>{truncateWei(rewardsShares, 6)}</span>{' '}
+                  <span style={{ color: theme.color.green[600] }}>{truncateWei(rewardsShares, 6)}</span>
                   <span style={{ color: theme.color.secondary }}>{t('lsd.symbol')}</span>
                 </>
               )}
@@ -71,7 +71,7 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
                 <SkeletonLoading width={80} />
               ) : (
                 <>
-                  <span>{`${truncateWei(delegatedShares, 6)}`}</span>{' '}
+                  <span>{`${truncateWei(delegatedShares, 6)}`}</span>
                   <span style={{ color: theme.color.secondary }}>{t('lsd.symbol')}</span>
                 </>
               )}
@@ -147,6 +147,15 @@ const { Container, StatsContainer, Stats, StatsBox } = {
 
       &:nth-child(1) {
         font-size: ${({ theme }) => theme.font.size[12]};
+      }
+
+      &:nth-child(2) {
+        display: flex;
+        gap: ${({ theme }) => theme.size[4]};
+
+        @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+          font-size: ${({ theme }) => theme.font.size[12]};
+        }
       }
     }
   `
