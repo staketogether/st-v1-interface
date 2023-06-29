@@ -8,7 +8,7 @@ import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
 // eslint-disable-next-line import/named
 import { Chain } from 'wagmi'
 const name = 'Stake Together'
-const iconUrl = `${process.env.NEXT_PUBLIC_URL}/assets/icons/wallet.png`
+const iconUrl = 'https://images.toruswallet.io/web3auth-logo-white.svg'
 
 export default function Web3AuthConnectorInstance(chains: Chain[]) {
   const chainConfig = {

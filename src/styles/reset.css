@@ -189,3 +189,7 @@ input::-webkit-inner-spin-button {
 .ant-drawer-content-wrapper {
   width: auto !important;
 }
+
+.torus-widget__btn {
+  background: #283b8a !important;
+}
