@@ -23,6 +23,7 @@
   "searchPool": "Search Pools",
   "emptyPool": "Pool Not Found",
   "copyClipboard": "Copy to Clipboard",
+  "copiedToClipboard": "Copied to Clipboard",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
   "usd": "USD",

@@ -53,7 +53,7 @@ export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsPr
           <span>{t('buyEth')}</span>
         </StakeButton>
       </Tabs>
-      <Tooltip trigger='click' title={t('copyClipboard')}>
+      <Tooltip trigger='click' title={t('copiedToClipboard')}>
         <StakeButton onClick={copyToClipboard}>
           <AiOutlineShareAlt />
         </StakeButton>
@@ -64,9 +64,8 @@ export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsPr
 
 const { Container, Tabs, StakeButton } = {
   Container: styled.div`
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: ${({ theme }) => theme.size[8]};
+    display: flex;
+    justify-content: space-between;
   `,
   Tabs: styled.div`
     display: flex;
