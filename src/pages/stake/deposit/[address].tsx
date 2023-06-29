@@ -2,8 +2,8 @@ import StakeTitle from '@/components/stake/StakeSelectPool'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
-import MetaTags from '../../../components/shared/meta/MetaTags'
 import StakeControl from '../../../components/stake/StakeControl'
+import MetaTags from '@/components/shared/meta/Metatags'
 
 type DepositPoolProps = {
   poolAddress: `0x${string}`
