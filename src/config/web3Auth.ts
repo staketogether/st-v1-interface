@@ -48,7 +48,7 @@ export default function Web3AuthConnectorInstance(chains: Chain[]) {
   const torusPlugin = new TorusWalletConnectorPlugin({
     torusWalletOpts: {
       buttonPosition: 'bottom-left',
-      buttonSize: 32
+      buttonSize: 40
     },
     walletInitOptions: {
       whiteLabel: {
