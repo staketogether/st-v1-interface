@@ -50,7 +50,7 @@ export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsPr
         </StakeButton>
         <StakeButton>
           <AiOutlinePlus />
-          <span>{t('buyEth')}</span>
+          <span>{t('BuyEth.button')}</span>
         </StakeButton>
       </Tabs>
       <Tooltip trigger='click' title={t('copiedToClipboard')}>

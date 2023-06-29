@@ -4,8 +4,8 @@ import useSearchHeader from '@/hooks/useSearchHeader'
 import { AiOutlineCheck, AiOutlineFire } from 'react-icons/ai'
 import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
-import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
+import EnsAvatar from '../shared/ens/EnsAvatar'
 
 interface StakeSelectPoolProps {
   poolAddress?: `0x${string}`
@@ -29,7 +29,7 @@ export default function StakeSelectPool({ poolAddress }: StakeSelectPoolProps) {
     <Container onClick={handleSearchPool}>
       {poolAddress ? (
         <PoolSelected>
-          <EnsAvatar larger address={poolAddress} />
+          <EnsAvatar size={40} address={poolAddress} />
           <Verified>
             <EnsName larger address={poolAddress} />
             <AiOutlineCheck fontSize={22} />

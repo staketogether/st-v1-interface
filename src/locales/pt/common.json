@@ -105,5 +105,10 @@
     "connectButton": "Entrar",
     "title": "Entrar com"
   },
-  "buyEth": "Obter Ether"
+  "BuyEth": {
+    "button": "Pegar Faucet ETH",
+    "modalTitle": "Pegar Faucet ETH",
+    "modalButton": "Pegar Faucet ETH",
+    "inputPlaceHolder": "Digite aqui"
+  }
 }

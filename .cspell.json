@@ -12,9 +12,6 @@
     "src/types/Contracts.ts"
   ],
   "words": [
-    "viem",
-    "Openlogin",
-    "openlogin",
     "antd",
     "Antd",
     "bankless",
@@ -28,7 +25,10 @@
     "jazzicon",
     "Jazzicon",
     "members",
+    "Metatags",
     "nextjs",
+    "openlogin",
+    "Openlogin",
     "pageview",
     "plusplus",
     "Português",
@@ -37,10 +37,7 @@
     "TawkTo",
     "Unstake",
     "usehooks",
-    "members",
-    "gtag",
-    "Hotjar",
-    "TawkTo",
+    "viem",
     "wagmi"
   ]
 }

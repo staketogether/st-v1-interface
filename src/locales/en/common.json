@@ -105,5 +105,10 @@
     "connectButton": "Sign In",
     "title": "Sign In"
   },
-  "buyEth": "Buy Ether"
+  "BuyEth": {
+    "button": "Buy ETH",
+    "modalTitle": "Caim Faucet ETH",
+    "modalButton": "Claim Faucet",
+    "inputPlaceHolder": "type here"
+  }
 }
