@@ -6,7 +6,7 @@ type MetaTagsProps = {
   avatar?: string
 }
 
-export function MetaTags({ name, avatar }: MetaTagsProps) {
+export default function MetaTags({ name, avatar }: MetaTagsProps) {
   const { url } = globalConfig
 
   return (
