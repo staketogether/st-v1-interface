@@ -1,14 +1,4 @@
-import {
-  AiOutlineAccountBook,
-  AiOutlineAreaChart,
-  AiOutlineInfo,
-  AiOutlineInfoCircle,
-  AiOutlineSwap,
-  AiOutlineSwitcher,
-  AiOutlineUser,
-  AiOutlineVerticalAlignBottom,
-  AiOutlineVerticalAlignTop
-} from 'react-icons/ai'
+import { AiOutlineAreaChart, AiOutlineInfoCircle, AiOutlineUser } from 'react-icons/ai'
 import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
 import { useEffect, useState } from 'react'

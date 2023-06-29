@@ -1,10 +1,8 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import LayoutHead from '../../../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
 import { Metatags } from '../../../components/shared/meta/Metatags'
 import StakeControl from '../../../components/stake/StakeControl'
-import useTranslation from '../../../hooks/useTranslation'
 import StakeTitle from '@/components/stake/StakeSelectPool'
 
 type UnstakePoolProps = {
@@ -14,8 +12,6 @@ type UnstakePoolProps = {
 }
 
 export default function WithdrawPool({ poolAddress, name, avatar }: UnstakePoolProps) {
-  const { t } = useTranslation()
-
   return (
     <LayoutTemplate>
       <Metatags name={name} avatar={avatar} />
