@@ -12,12 +12,10 @@ const name = 'Stake Together'
 const iconUrl = ethIcon
 
 export default function Web3AuthConnectorInstance(chains: Chain[]) {
-  // Create Web3Auth Instance
-
   const chainConfig = {
     chainNamespace: CHAIN_NAMESPACES.EIP155,
     chainId: '0x' + chains[0].id.toString(16),
-    rpcTarget: chains[0].rpcUrls.default.http[0], // This is the public RPC we have added, please pass on your own endpoint while creating an app
+    rpcTarget: chains[0].rpcUrls.default.http[0],
     displayName: chains[0].name,
     tickerName: chains[0].nativeCurrency?.name,
     ticker: chains[0].nativeCurrency?.symbol,
