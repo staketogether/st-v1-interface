@@ -1,9 +1,14 @@
+import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
-import { AiOutlineVerticalAlignBottom, AiOutlineVerticalAlignTop } from 'react-icons/ai'
+import {
+  AiOutlinePlus,
+  AiOutlineShareAlt,
+  AiOutlineVerticalAlignBottom,
+  AiOutlineVerticalAlignTop
+} from 'react-icons/ai'
 import styled from 'styled-components'
 import useActiveRoute from '../../hooks/useActiveRoute'
 import useTranslation from '../../hooks/useTranslation'
-import StakeSelectPool from './StakeSelectPool'
 
 interface StakeSwitchActionsProps {
   poolAddress?: `0x${string}`
@@ -22,41 +27,52 @@ export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsPr
     }
   }
 
+  function copyToClipboard() {
+    navigator.clipboard.writeText(window.location.toString())
+  }
+
   return (
     <Container>
-      <StakeSelectPool poolAddress={poolAddress} />
       <Tabs>
-        <StakeTab
+        <StakeButton
           className={`${isActive('deposit') ? 'active' : ''}`}
           onClick={() => handleSwitch('deposit')}
         >
           <AiOutlineVerticalAlignBottom />
           <span>{t('deposit')}</span>
-        </StakeTab>
-        <StakeTab
+        </StakeButton>
+        <StakeButton
           className={`${isActive('withdraw') ? 'active' : ''} purple`}
           onClick={() => handleSwitch('withdraw')}
         >
           <AiOutlineVerticalAlignTop />
           <span>{t('withdraw')}</span>
-        </StakeTab>
+        </StakeButton>
+        <StakeButton>
+          <AiOutlinePlus />
+          <span>{t('buyEth')}</span>
+        </StakeButton>
       </Tabs>
+      <Tooltip trigger='click' title={t('copiedToClipboard')}>
+        <StakeButton onClick={copyToClipboard}>
+          <AiOutlineShareAlt />
+        </StakeButton>
+      </Tooltip>
     </Container>
   )
 }
 
-const { Container, Tabs, StakeTab } = {
+const { Container, Tabs, StakeButton } = {
   Container: styled.div`
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: ${({ theme }) => theme.size[8]};
+    display: flex;
+    justify-content: space-between;
   `,
   Tabs: styled.div`
     display: flex;
     gap: ${({ theme }) => theme.size[8]};
     justify-content: flex-end;
   `,
-  StakeTab: styled.button`
+  StakeButton: styled.button`
     border: none;
     height: 32px;
     display: flex;

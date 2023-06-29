@@ -4,8 +4,8 @@ import useSearchHeader from '@/hooks/useSearchHeader'
 import { AiOutlineCheck, AiOutlineFire } from 'react-icons/ai'
 import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
-import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
+import EnsAvatar from '../shared/ens/EnsAvatar'
 
 interface StakeSelectPoolProps {
   poolAddress?: `0x${string}`
@@ -31,8 +31,8 @@ export default function StakeSelectPool({ poolAddress }: StakeSelectPoolProps) {
         <PoolSelected>
           <EnsAvatar size={26} address={poolAddress} />
           <Verified>
-            <EnsName large address={poolAddress} />
-            <AiOutlineCheck fontSize={14} />
+            <EnsName larger address={poolAddress} />
+            <AiOutlineCheck fontSize={22} />
           </Verified>
         </PoolSelected>
       ) : (
@@ -110,7 +110,6 @@ const { Container, SelectPool, PoolSelected, Verified } = {
     color: ${({ theme }) => theme.color.whatsapp[600]};
 
     > span {
-      width: 124px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
