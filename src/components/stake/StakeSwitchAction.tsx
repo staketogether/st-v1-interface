@@ -8,7 +8,7 @@ import {
 import styled from 'styled-components'
 import useActiveRoute from '../../hooks/useActiveRoute'
 import useTranslation from '../../hooks/useTranslation'
-import StakeSelectPool from './StakeSelectPool'
+import { Tooltip } from 'antd'
 
 interface StakeSwitchActionsProps {
   poolAddress?: `0x${string}`
@@ -25,6 +25,10 @@ export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsPr
     } else {
       router.push(`/stake/${type}`)
     }
+  }
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText(window.location.toString())
   }
 
   return (
@@ -49,9 +53,12 @@ export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsPr
           <span>{t('buyEth')}</span>
         </StakeButton>
       </Tabs>
-      <StakeButton>
-        <AiOutlineShareAlt />
-      </StakeButton>
+      <Tooltip trigger='click' title={t('copyClipboard')}>
+        <StakeButton onClick={copyToClipboard}>
+          <AiOutlineShareAlt />
+          <span>{t('share')}</span>
+        </StakeButton>
+      </Tooltip>
     </Container>
   )
 }
