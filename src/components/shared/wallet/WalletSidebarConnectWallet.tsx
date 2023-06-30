@@ -1,44 +1,20 @@
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { capitalize } from '@/services/truncate'
-import appleIcon from '@assets/icons/wallets/Apple.svg'
-import coinbase from '@assets/icons/wallets/CoinbaseWallet.svg'
-import facebook from '@assets/icons/wallets/Facebook.svg'
-import google from '@assets/icons/wallets/Google.svg'
-import metamask from '@assets/icons/wallets/Metamask.svg'
-import walletConnect from '@assets/icons/wallets/WalletConnect.svg'
 import { Drawer } from 'antd'
-import Image from 'next/image'
 import { useState } from 'react'
 import { AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
 import useTranslation from '../../../hooks/useTranslation'
 import WalletSlideBarSettings from './WalletSlideBarSettings'
+import useGetWalletImage from '@/hooks/useGetWalletImage'
 
 export default function WalletSidebarConnectWallet() {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const { connect, connectors } = useConnect()
   const { t } = useTranslation()
   const { openSidebarConnectWallet, setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
-
-  const handleConnectorImage = (walletName: string) => {
-    switch (walletName) {
-      case 'MetaMask':
-        return <Image src={metamask} alt={'metamask'} width={28} height={28} />
-      case 'WalletConnect':
-        return <Image src={walletConnect} alt={'walletConnect'} width={28} height={28} />
-      case 'Coinbase Wallet':
-        return <Image src={coinbase} alt={'coinbase'} width={28} height={28} />
-      case 'Facebook':
-        return <Image src={facebook} alt={'facebook'} width={28} height={28} />
-      case 'Google':
-        return <Image src={google} alt={'google'} width={28} height={28} />
-      case 'Apple':
-        return <Image src={appleIcon} alt={'apple'} width={28} height={28} />
-      default:
-        break
-    }
-  }
+  const handleConnectorImage = useGetWalletImage()
 
   return (
     <DrawerContainer

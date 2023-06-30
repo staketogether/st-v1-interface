@@ -110,5 +110,7 @@
     "modalTitle": "Caim Faucet ETH",
     "modalButton": "Claim Faucet",
     "inputPlaceHolder": "type here"
-  }
+  },
+  "copyBoard": "Copied! Ready to paste"
+
 }

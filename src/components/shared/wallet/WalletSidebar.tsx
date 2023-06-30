@@ -1,17 +1,22 @@
-import { Drawer } from 'antd'
+import { Drawer, notification } from 'antd'
 import { useState } from 'react'
 import { AiFillCreditCard, AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
+import { FiCopy } from 'react-icons/fi'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../../hooks/contracts/useEthBalanceOf'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
-import { truncateAddress, truncateWei } from '../../../services/truncate'
+import { capitalize, truncateAddress, truncateText, truncateWei } from '../../../services/truncate'
 import WalletSentDelegation from './WalletSentDelegation'
 import WalletSlideBarSettings from './WalletSlideBarSettings'
 import EnsAvatar from '../ens/EnsAvatar'
-import EnsName from '../ens/EnsName'
+import useEns from '@/hooks/useEns'
+import SkeletonLoading from '../icons/SkeletonLoading'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import Image from 'next/image'
+import useGetWalletImage from '@/hooks/useGetWalletImage'
 
 type WalletSidebarProps = {
   address: `0x${string}`
@@ -24,6 +29,10 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
   const { balance: ethBalance } = useEthBalanceOf(address)
+  const { name, nameLoading } = useEns(address)
+
+  const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
+  const handleWalletImage = useGetWalletImage()
 
   const { accountSentDelegationsCount, accountRewardsBalance, accountDelegations, accountBalance } =
     useStAccount(address)
@@ -33,7 +42,15 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
     disconnect()
   }
 
-  const rewardsIsPositive = accountRewardsBalance > 0
+  function copyToClipboard(value: string) {
+    navigator.clipboard.writeText(value)
+    notification.success({
+      message: `${t('copyBoard')}`,
+      placement: 'topRight'
+    })
+  }
+
+  const rewardsIsPositive = accountRewardsBalance > 1n
   const rewardsIsNegative = accountRewardsBalance < 0
 
   return (
@@ -53,10 +70,42 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
               <CloseSidebar fontSize={14} />
             </ClosedSidebarButton>
             <HeaderUserContainer>
-              <EnsAvatar address={address} size={32} />
+              <Web3AuthProfileContainer>
+                {web3AuthUserInfo && web3AuthUserInfo.profileImage ? (
+                  <>
+                    <Web3AuthProfileImage
+                      src={web3AuthUserInfo.profileImage}
+                      alt={t('stakeTogether')}
+                      width={40}
+                      height={40}
+                    />
+                    <WarperWallet>
+                      {handleWalletImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}
+                    </WarperWallet>
+                  </>
+                ) : (
+                  <>
+                    <WarperWallet>{handleWalletImage(walletConnected, 16)}</WarperWallet>
+                    <EnsAvatar address={address} size={40} />
+                  </>
+                )}
+              </Web3AuthProfileContainer>
               <div>
-                <EnsName address={address} slice={16} />
-                <span>{truncateAddress(address)}</span>
+                {web3AuthUserInfo && (
+                  <span onClick={() => copyToClipboard(web3AuthUserInfo.verifierId)}>
+                    {truncateText(web3AuthUserInfo.verifierId, 20)}
+                    <CopyIcon />
+                  </span>
+                )}
+                {nameLoading && <SkeletonLoading width={140} height={14} />}
+                {!nameLoading && name && !web3AuthUserInfo && (
+                  <span onClick={() => copyToClipboard(name)}>
+                    {truncateText(name, 16)} <CopyIcon />
+                  </span>
+                )}
+                <span onClick={() => copyToClipboard(address)}>
+                  {truncateAddress(address)} <CopyIcon />
+                </span>
               </div>
             </HeaderUserContainer>
             <Actions>
@@ -142,7 +191,11 @@ const {
   SwitchActionsBar,
   HeaderUserContainer,
   BuyCryptoButton,
-  ActionTab
+  ActionTab,
+  Web3AuthProfileImage,
+  Web3AuthProfileContainer,
+  WarperWallet,
+  CopyIcon
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.color.whiteAlpha[900]} !important;
@@ -175,6 +228,17 @@ const {
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[4]};
+      span {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[4]};
+        cursor: pointer;
+        &:hover {
+          svg {
+            display: block;
+          }
+        }
+      }
     }
   `,
   InfoContainer: styled.div`
@@ -359,5 +423,24 @@ const {
         display: block;
       }
     }
+  `,
+  Web3AuthProfileContainer: styled.div`
+    position: relative;
+  `,
+  WarperWallet: styled.div`
+    position: absolute;
+    top: 27px;
+    left: 26px;
+    border-radius: 50%;
+    img {
+      border-radius: 50%;
+    }
+  `,
+  Web3AuthProfileImage: styled(Image)`
+    border-radius: 50%;
+  `,
+  CopyIcon: styled(FiCopy)`
+    font-size: ${({ theme }) => theme.font.size[12]};
+    display: none;
   `
 }
