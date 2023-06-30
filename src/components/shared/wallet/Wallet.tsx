@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import useConnectedAccount from '../../../hooks/useConnectedAccount'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletDisconnectedButton from './WalletDisconnectedButton'
-import WalletSidebar from './WalletSidebar'
+import WalletSidebarConnected from './WalletSidebarConnected'
 
 export default function Wallet() {
   const { account, accountIsConnected } = useConnectedAccount()
@@ -20,7 +20,7 @@ export default function Wallet() {
   return accountIsConnected && account ? (
     <>
       <WalletConnectedButton address={account} showBalance={false} />
-      <WalletSidebar address={account} />
+      <WalletSidebarConnected address={account} />
     </>
   ) : (
     <WalletDisconnectedButton />

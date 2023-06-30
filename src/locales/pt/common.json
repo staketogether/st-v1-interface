@@ -106,9 +106,9 @@
     "title": "Entrar com"
   },
   "BuyEth": {
-    "button": "Pegar Faucet ETH",
-    "modalTitle": "Pegar Faucet ETH",
-    "modalButton": "Pegar Faucet ETH",
+    "button": "Pegar ETH",
+    "modalTitle": "Pegar ETH",
+    "modalButton": "Pegar ETH",
     "inputPlaceHolder": "Digite aqui"
   }
 }

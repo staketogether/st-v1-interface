@@ -6,15 +6,19 @@ export default function usePooledEthByShares(sharesAmount: string) {
   const { contracts } = chainConfig()
 
   const [balance, setBalance] = useState<bigint>(0n)
+  const [loading, setLoading] = useState<boolean>(false)
 
-  const { data, isLoading } = useStakeTogetherPooledEthByShares({
+  const { isLoading } = useStakeTogetherPooledEthByShares({
     address: contracts.StakeTogether,
-    args: [BigInt(sharesAmount)]
+    args: [BigInt(sharesAmount)],
+    onSuccess: data => {
+      setBalance(data || 0n)
+    }
   })
 
   useEffect(() => {
-    setBalance(data || 0n)
-  }, [data])
+    setLoading(isLoading)
+  }, [isLoading])
 
-  return { balance, loading: isLoading }
+  return { balance, loading }
 }
