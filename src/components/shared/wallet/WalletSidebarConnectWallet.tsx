@@ -7,14 +7,14 @@ import styled from 'styled-components'
 import { useConnect } from 'wagmi'
 import useTranslation from '../../../hooks/useTranslation'
 import WalletSlideBarSettings from './WalletSlideBarSettings'
-import useGetWalletImage from '@/hooks/useGetWalletImage'
+import useWalletProviderImage from '@/hooks/useGetWalletImage'
 
 export default function WalletSidebarConnectWallet() {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const { connect, connectors } = useConnect()
   const { t } = useTranslation()
   const { openSidebarConnectWallet, setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
-  const handleConnectorImage = useGetWalletImage()
+  const handleConnectorImage = useWalletProviderImage()
 
   return (
     <DrawerContainer

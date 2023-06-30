@@ -6,8 +6,8 @@ import metamask from '@assets/icons/wallets/Metamask.svg'
 import walletConnect from '@assets/icons/wallets/WalletConnect.svg'
 import Image from 'next/image'
 
-export default function useGetWalletImage() {
-  const handleWalletImage = (walletName: string, size = 28) => {
+export default function useWalletProviderImage() {
+  const handleWalletProviderImage = (walletName: string, size = 28) => {
     switch (walletName) {
       case 'MetaMask':
         return <Image src={metamask} alt={'metamask'} width={size} height={size} />
@@ -25,5 +25,5 @@ export default function useGetWalletImage() {
         break
     }
   }
-  return handleWalletImage
+  return handleWalletProviderImage
 }

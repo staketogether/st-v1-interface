@@ -16,7 +16,7 @@ import useEns from '@/hooks/useEns'
 import SkeletonLoading from '../icons/SkeletonLoading'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import Image from 'next/image'
-import useGetWalletImage from '@/hooks/useGetWalletImage'
+import useWalletProviderImage from '@/hooks/useGetWalletImage'
 
 type WalletSidebarProps = {
   address: `0x${string}`
@@ -32,7 +32,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
   const { name, nameLoading } = useEns(address)
 
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
-  const handleWalletImage = useGetWalletImage()
+  const handleWalletProviderImage = useWalletProviderImage()
 
   const { accountSentDelegationsCount, accountRewardsBalance, accountDelegations, accountBalance } =
     useStAccount(address)
@@ -45,7 +45,7 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
   function copyToClipboard(value: string) {
     navigator.clipboard.writeText(value)
     notification.success({
-      message: `${t('copyBoard')}`,
+      message: `${t('copiedToClipboard')}`,
       placement: 'topRight'
     })
   }
@@ -80,12 +80,12 @@ export default function WalletSidebar({ address }: WalletSidebarProps) {
                       height={40}
                     />
                     <WarperWallet>
-                      {handleWalletImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}
+                      {handleWalletProviderImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}
                     </WarperWallet>
                   </>
                 ) : (
                   <>
-                    <WarperWallet>{handleWalletImage(walletConnected, 16)}</WarperWallet>
+                    <WarperWallet>{handleWalletProviderImage(walletConnected, 16)}</WarperWallet>
                     <EnsAvatar address={address} size={40} />
                   </>
                 )}

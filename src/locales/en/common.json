@@ -107,9 +107,8 @@
   },
   "BuyEth": {
     "button": "Buy ETH",
-    "modalTitle": "Caim Faucet ETH",
-    "modalButton": "Claim Faucet",
+    "modalTitle": "Claim ETH",
+    "modalButton": "Claim ETH",
     "inputPlaceHolder": "type here"
-  },
-  "copyBoard": "Copied! Ready to paste"
+  }
 }
