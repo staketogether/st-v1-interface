@@ -261,9 +261,12 @@ const {
     background: ${({ theme }) => theme.color.whiteAlpha[800]};
     border-radius: ${({ theme }) => theme.size[12]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
+    span {
+      font-weight: 500;
+    }
     > span:first-child {
-      font-size: ${({ theme }) => theme.font.size[14]};
-      font-weight: 300;
+      font-size: ${({ theme }) => theme.font.size[12]};
+      color: ${({ theme }) => theme.color.blue[300]};
     }
     div {
       display: flex;
@@ -273,7 +276,7 @@ const {
         color: ${({ theme }) => theme.color.primary};
       }
       span {
-        font-size: ${({ theme }) => theme.font.size[18]};
+        font-size: ${({ theme }) => theme.font.size[14]};
         &.symbol {
           color: ${({ theme }) => theme.color.secondary};
         }

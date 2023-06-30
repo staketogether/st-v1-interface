@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import useConnectedAccount from '../../../hooks/useConnectedAccount'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletDisconnectedButton from './WalletDisconnectedButton'
-import WalletSidebarConnected from './WalletSidebar'
+import WalletSidebarConnected from './WalletSidebarConnected'
 
 export default function Wallet() {
   const { account, accountIsConnected } = useConnectedAccount()
