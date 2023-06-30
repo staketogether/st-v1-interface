@@ -1,4 +1,4 @@
-import { Drawer, notification } from 'antd'
+import { Drawer, Tooltip, notification } from 'antd'
 import { useState } from 'react'
 import { AiFillCreditCard, AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import { FiCopy } from 'react-icons/fi'
@@ -150,8 +150,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           </BuyCryptoButton>
           <SwitchActionsBar>
             <ActionTab className='active'>Pools</ActionTab>
-            <ActionTab disabled>Analytics</ActionTab>
-            <ActionTab disabled>Activities</ActionTab>
+            <Tooltip title={t('soon')}>
+              <ActionTab className='disabled'>Analytics</ActionTab>
+            </Tooltip>
+            <Tooltip title={t('soon')}>
+              <ActionTab className='disabled'>Activities</ActionTab>
+            </Tooltip>
           </SwitchActionsBar>
           <ContainerPoolsDelegated>
             <div>
@@ -412,9 +416,12 @@ const {
       color: ${({ theme }) => theme.color.secondary};
     }
 
-    &:disabled {
+    &.disabled {
+      opacity: 0.5;
       cursor: not-allowed;
-      opacity: 0.4;
+      &:hover {
+        background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
+      }
     }
 
     span {
