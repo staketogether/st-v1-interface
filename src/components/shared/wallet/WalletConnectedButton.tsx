@@ -8,7 +8,10 @@ import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { truncateWei } from '../../../services/truncate'
 import EnsAvatar from '../ens/EnsAvatar'
-import EnsName from '../ens/EnsName'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import Image from 'next/image'
+import useEns from '@/hooks/useEns'
+import WalletName from './WalletName'
 
 type WalletConnectedButtonProps = {
   address: `0x${string}`
@@ -30,6 +33,8 @@ export default function WalletConnectedButton({
   const { switchNetworkAsync } = useSwitchNetwork({
     chainId: chain.chainId
   })
+  const { web3AuthUserInfo } = useConnectedAccount()
+  const { name: ensName, nameLoading: ensLoading } = useEns(address)
 
   const handleActionButton = () => {
     if (isWrongNetwork && switchNetworkAsync) {
@@ -55,8 +60,22 @@ export default function WalletConnectedButton({
             </CethBalance>
           )}
           <EnsAddress>
-            <EnsName address={address} slice={16} />
-            <EnsAvatar address={address} />
+            <WalletName
+              walletAddress={address}
+              web3AuthUserInfo={web3AuthUserInfo}
+              ensName={ensName}
+              ensLoading={ensLoading}
+            />
+            {web3AuthUserInfo ? (
+              <Web3AuthProfileImage
+                src={web3AuthUserInfo.profileImage}
+                alt={t('stakeTogether')}
+                width={24}
+                height={24}
+              />
+            ) : (
+              <EnsAvatar address={address} />
+            )}
           </EnsAddress>
         </>
       )}
@@ -64,7 +83,7 @@ export default function WalletConnectedButton({
   )
 }
 
-const { CethBalance, ConnectedButton, EnsAddress, NetworkWrong } = {
+const { CethBalance, ConnectedButton, EnsAddress, NetworkWrong, Web3AuthProfileImage } = {
   ConnectedButton: styled.button`
     display: flex;
     gap: ${({ theme }) => theme.size[16]};
@@ -109,12 +128,16 @@ const { CethBalance, ConnectedButton, EnsAddress, NetworkWrong } = {
   EnsAddress: styled.div`
     display: grid;
     grid-template-columns: auto 24px;
-    gap: 8px;
     justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
   `,
   NetworkWrong: styled.div`
     display: flex;
     gap: ${({ theme }) => theme.size[8]};
     align-items: center;
+  `,
+  Web3AuthProfileImage: styled(Image)`
+    border-radius: 50%;
   `
 }

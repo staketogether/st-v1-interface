@@ -11,13 +11,19 @@ export default function useConnectedAccount() {
 
   useEffect(() => {
     const getUserInfo = async () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      if (connector && connector.name === 'Web3Auth' && connector.web3AuthInstance) {
+      if (
+        connector &&
+        connector.name === 'Web3Auth' &&
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const { web3AuthInstance } = connector
-        const user = await web3AuthInstance.getUserInfo()
+        connector.web3AuthInstance &&
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        connector.web3AuthInstance.getUserInfo
+      ) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const user = await connector.web3AuthInstance.getUserInfo()
         if (user) {
           setWeb3AuthUserInfo(user)
         }
