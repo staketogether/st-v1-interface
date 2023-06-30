@@ -2,7 +2,7 @@ import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet
 import { AiOutlineWallet } from 'react-icons/ai'
 import styled from 'styled-components'
 import useTranslation from '../../../hooks/useTranslation'
-import WalletSidebarConnectWallet from './WalletSidebarConnectWallet'
+import WalletSidebarDisconnected from './WalletSidebarConnectWallet'
 
 export default function WalletButtonDisconnected() {
   const { t } = useTranslation()
@@ -19,7 +19,7 @@ export default function WalletButtonDisconnected() {
         <AiOutlineWallet fontSize={16} />
         {t('connectWalletSideBar.connectButton')}
       </DisconnectedButton>
-      <WalletSidebarConnectWallet />
+      <WalletSidebarDisconnected />
     </>
   )
 }

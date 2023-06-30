@@ -7,9 +7,9 @@ import styled from 'styled-components'
 import { useConnect } from 'wagmi'
 import useTranslation from '../../../hooks/useTranslation'
 import WalletSlideBarSettings from './WalletSlideBarSettings'
-import useWalletProviderImage from '@/hooks/useGetWalletImage'
+import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 
-export default function WalletSidebarConnectWallet() {
+export default function WalletSidebarDisconnected() {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const { connect, connectors } = useConnect()
   const { t } = useTranslation()

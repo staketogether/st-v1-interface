@@ -16,13 +16,13 @@ import useEns from '@/hooks/useEns'
 import SkeletonLoading from '../icons/SkeletonLoading'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import Image from 'next/image'
-import useWalletProviderImage from '@/hooks/useGetWalletImage'
+import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 
-type WalletSidebarProps = {
+type WalletSidebarConnectedProps = {
   address: `0x${string}`
 }
 
-export default function WalletSidebar({ address }: WalletSidebarProps) {
+export default function WalletSidebarConnected({ address }: WalletSidebarConnectedProps) {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const { disconnect } = useDisconnect()
   const { t } = useTranslation()
