@@ -1,6 +1,5 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import LayoutTemplate from '../components/shared/layout/LayoutTemplate'
 import { apolloClient } from '../config/apollo'
 import { queryBlock } from '../queries/queryBlock'
 
@@ -9,11 +8,7 @@ type HealthCheckProps = {
 }
 
 export default function HealthCheck({ blockNumber }: HealthCheckProps) {
-  return (
-    <LayoutTemplate>
-      <div>{blockNumber}</div>
-    </LayoutTemplate>
-  )
+  return <div>{blockNumber}</div>
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
