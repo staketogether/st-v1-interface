@@ -9,6 +9,7 @@ export type ChainConfig = {
   name: string
   provider: ethers.JsonRpcProvider
   blockExplorer: BlockExplorerConfig
+  alchemyApiUrl: string
   subgraphs: {
     StakeTogether: string
     ENS: string
@@ -44,6 +45,7 @@ const configs: ChainConfig[] = [
     blockExplorer: {
       baseUrl: 'https://goerli.etherscan.io'
     },
+    alchemyApiUrl: `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`,
     contracts: {
       STOracle: '0x39952aFfa9a4731f304ba40793Cc8D2Da994531E',
       StakeTogether: '0x1B09577Cb94906c0f2119A1C61919F6f055CBC74'
