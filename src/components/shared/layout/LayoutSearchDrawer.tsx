@@ -48,7 +48,7 @@ export default function LayoutSearchDrawer() {
   }
 
   const handleRedirectPool = (address: string) => {
-    if (pathname.includes('explore')) {
+    if (pathname.includes('pools')) {
       return `stake/deposit/${address}`
     }
     return `${pathname.replace('[address]', '')}/${address}`

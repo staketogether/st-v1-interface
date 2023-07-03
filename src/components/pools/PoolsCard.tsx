@@ -9,11 +9,11 @@ import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
-type ExploreCardProps = {
+type PoolsCardProps = {
   pool: Pool
 }
 
-export default function ExploreCard({ pool }: ExploreCardProps) {
+export default function PoolsCard({ pool }: PoolsCardProps) {
   const router = useRouter()
 
   const { t } = useTranslation()

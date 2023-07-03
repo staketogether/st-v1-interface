@@ -32,6 +32,7 @@
     "eslint": "^8.43.0",
     "eslint-import-resolver-typescript": "^3.5.5",
     "ethers": "^6.6.1",
+    "firebase-admin": "^11.9.0",
     "fuse.js": "^6.6.2",
     "graphql": "^16.7.1",
     "i18next": "^22.5.0",

@@ -25,7 +25,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/explore',
+        destination: '/pools',
         permanent: true
       }
     ]
