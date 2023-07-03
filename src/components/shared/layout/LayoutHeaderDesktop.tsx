@@ -15,17 +15,17 @@ export default function LayoutHeader() {
   return (
     <Container>
       <MenuContainer>
-        <Logo href='/explore'>
+        <Logo href='/pools'>
           <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
         </Logo>
         <Menu>
-          <Link href='/explore'>
+          <Link href='/pools'>
             <MenuButton
               className={`${
-                isActive('explore') || isActive('stake') || isActive('unstake') ? 'active' : ''
+                isActive('pools') || isActive('stake') || isActive('unstake') ? 'active' : ''
               }`}
             >
-              <AiOutlineCodeSandbox size={16} /> {t('explore')}
+              <AiOutlineCodeSandbox size={16} /> {t('pools')}
             </MenuButton>
           </Link>
           <Link href='#' title={t('soon')}>

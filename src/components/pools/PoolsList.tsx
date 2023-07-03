@@ -1,18 +1,18 @@
 import styled from 'styled-components'
 
 import { Pool } from '../../types/Pool'
-import ExploreCard from './ExploreCard'
+import PoolsCard from './PoolsCard'
 
-type ExploreListProps = {
+type PoolsListProps = {
   pools: Pool[]
 }
 
-export default function ExploreList({ pools }: ExploreListProps) {
+export default function PoolsList({ pools }: PoolsListProps) {
   return (
     <Container>
       {!pools && <div>No Pools</div>}
       {pools.map(pool => (
-        <ExploreCard pool={pool} key={pool.address} />
+        <PoolsCard pool={pool} key={pool.address} />
       ))}
     </Container>
   )

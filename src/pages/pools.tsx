@@ -1,27 +1,28 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import { GetServerSideProps } from 'next'
-import ExploreList from '../components/explore/ExploreList'
+import PoolsList from '../components/pools/PoolsList'
 import LayoutHead from '../components/shared/layout/LayoutHead'
 import LayoutTemplate from '../components/shared/layout/LayoutTemplate'
-import { MetaExplore } from '../components/shared/meta/MetaExplore'
+
+import { MetaPools } from '../components/shared/meta/MetaPools'
 import { apolloClient } from '../config/apollo'
 import useTranslation from '../hooks/useTranslation'
 import { queryPools } from '../queries/queryPools'
 import { Pool } from '../types/Pool'
 
-type ExploreProps = {
+type PoolsProps = {
   pools: Pool[]
 }
 
-export default function Explore({ pools }: ExploreProps) {
+export default function Pools({ pools }: PoolsProps) {
   const { t } = useTranslation()
 
   return (
     <LayoutTemplate>
-      <MetaExplore />
-      <LayoutHead text={t('titles.explore')} />
-      <ExploreList pools={pools} />
+      <MetaPools />
+      <LayoutHead text={t('titles.pools')} />
+      <PoolsList pools={pools} />
     </LayoutTemplate>
   )
 }

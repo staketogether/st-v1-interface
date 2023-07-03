@@ -1,6 +1,6 @@
 {
   "stakeTogether": "Stake Together",
-  "explore": "Explorar",
+  "pools": "Piscinas",
   "stake": "Depositar",
   "rewards": "Recompensas",
   "delegates": "Delegados",
@@ -39,7 +39,7 @@
   "activities": "Atividades",
   "success": "Sucesso",
   "titles": {
-    "explore": "Explorar Pools",
+    "pools": "Piscinas",
     "stake": "Stake de Ether",
     "poolStats": "Estatísticas da Pool"
   },

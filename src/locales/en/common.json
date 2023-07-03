@@ -1,6 +1,6 @@
 {
   "stakeTogether": "Stake Together",
-  "explore": "Explore",
+  "pools": "Pools",
   "stake": "Stake",
   "rewards": "Rewards",
   "delegates": "Delegates",
@@ -39,7 +39,7 @@
   "analytics": "Analytics",
   "success": "Success",
   "titles": {
-    "explore": "Explore Pools",
+    "pools": "Pools",
     "stake": "Stake Ether",
     "poolStats": "Pool Statistics"
   },

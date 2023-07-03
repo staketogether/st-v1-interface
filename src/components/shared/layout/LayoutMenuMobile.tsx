@@ -8,12 +8,12 @@ function LayoutMenuMobile() {
   const { isActive } = useActiveRoute()
   return (
     <Container>
-      <NextLink href='/explore'>
+      <NextLink href='/pools'>
         <MenuButton
-          className={`${isActive('explore') || isActive('stake') || isActive('unstake') ? 'active' : ''}`}
+          className={`${isActive('pools') || isActive('stake') || isActive('unstake') ? 'active' : ''}`}
         >
           <AiOutlineCodeSandbox size={16} />
-          {t('explore')}
+          {t('pools')}
         </MenuButton>
       </NextLink>
       <NextLink href='#'>
