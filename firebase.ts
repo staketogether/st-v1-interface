@@ -16,12 +16,14 @@ const clientEmail = process.env.NEXT_PUBLIC_FIREBASE_CREDENTIALS_CLIENT_EMAIL;
 const privateKey = process.env.NEXT_PUBLIC_FIREBASE_CREDENTIALS_PRIVATE_KEY.replace(/\\n/g, '\n');
 const projectId = process.env.NEXT_PUBLIC_FIREBASE_CREDENTIALS_PROJECT_ID;
 
-admin.initializeApp({
-    credential: admin.credential.cert({
-        clientEmail,
-        privateKey,
-        projectId,
-    })
-  });
+if (!admin.apps.length) {
+    admin.initializeApp({
+        credential: admin.credential.cert({
+            clientEmail,
+            privateKey,
+            projectId,
+        })
+      });
+}
 
 export const firestore = admin.firestore();

@@ -7,6 +7,7 @@ export interface CreatorPasscode {
     ethLimit: string;
     amountToSend: string;
     accountsDistributed: string[];
+    ipsUsed: string[];
 }
 
 export const creatorPasscodeConverter = {
@@ -21,6 +22,7 @@ export const creatorPasscodeConverter = {
             chainId: data.chainId,
             ethLimit: data.ethLimit,
             amountToSend: data.amountToSend,
+            ipsUsed: data.ipsUsed,
             accountsDistributed: data.accountsDistributed
         };
     }

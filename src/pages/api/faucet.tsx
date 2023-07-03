@@ -23,6 +23,9 @@ export default async function handler(req, res) {
 
   const { address, passcode } = req.body
 
+  const userIp =
+    (req.headers['x-forwarded-for'] || '').split(',').pop().trim() || req.socket.remoteAddress
+
   if (!address) {
     return res.status(400).json({ message: 'Address is required' })
   }
@@ -49,7 +52,9 @@ export default async function handler(req, res) {
     Number(foundPasscode.amountToSend) * foundPasscode.accountsDistributed.length <
     Number(foundPasscode.ethLimit)
 
-  if (!canSendEth) {
+  const faucetWalletBalance = await chain.provider.getBalance(faucetWallet.address)
+
+  if (!canSendEth || faucetWalletBalance === 0n) {
     return res.status(400).json({ message: 'Faucet is empty' })
   }
 
@@ -68,7 +73,8 @@ export default async function handler(req, res) {
     .collection('creators')
     .doc(foundPasscode.id)
     .update({
-      accountsDistributed: [...foundPasscode.accountsDistributed, address]
+      accountsDistributed: [...foundPasscode.accountsDistributed, address],
+      ipsUsed: [...foundPasscode.ipsUsed, userIp]
     })
 
   return res.status(200).json({ transactionHash: transaction.hash })
