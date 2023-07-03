@@ -1,6 +1,7 @@
 import chainConfig from '@/config/chain'
-import axios from 'axios'
+import { creatorPasscodeConverter } from '@/types/CreatorPasscode'
 import { ethers } from 'ethers'
+import { firestore } from '../../../firebase'
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -16,7 +17,12 @@ export default async function handler(req, res) {
   }
 
   const chain = chainConfig()
-  const correctPasscode = process.env.NEXT_PUBLIC_FAUCET_PASSCODE
+  const creatorPasscodes = (
+    await firestore.collection('creators').withConverter(creatorPasscodeConverter).get()
+  ).docs.map(doc => {
+    return { id: doc.id, ...doc.data() }
+  })
+
   const faucetWallet = new ethers.Wallet(process.env.NEXT_PUBLIC_FAUCET_PRIVATE_KEY, chain.provider)
 
   const { address, passcode } = req.body
@@ -33,15 +39,25 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: 'Invalid address' })
   }
 
-  if (passcode !== correctPasscode) {
+  if (creatorPasscodes.length === 0) {
+    return res.status(500).json({ message: 'No passcodes found' })
+  }
+
+  const foundPasscode = creatorPasscodes.find(creator => creator.passcode === passcode)
+
+  if (foundPasscode === undefined) {
     return res.status(400).json({ message: 'Invalid passcode' })
   }
 
-  const hasAlreadySendFaucet = await hasSentEtherToAddress(
-    faucetWallet.address,
-    address,
-    chain.alchemyApiUrl
-  )
+  const canSendEth =
+    Number(foundPasscode.amountToSend) * foundPasscode.accountsDistributed.length <
+    Number(foundPasscode.ethLimit)
+
+  if (!canSendEth) {
+    return res.status(400).json({ message: 'Faucet is empty' })
+  }
+
+  const hasAlreadySendFaucet = foundPasscode.accountsDistributed.includes(address)
 
   if (hasAlreadySendFaucet) {
     return res.status(400).json({ message: 'Address has already received faucet' })
@@ -49,33 +65,15 @@ export default async function handler(req, res) {
 
   const transaction = await faucetWallet.sendTransaction({
     to: address,
-    value: ethers.parseEther(process.env.NEXT_PUBLIC_FAUCET_AMOUNT)
+    value: ethers.parseEther(foundPasscode.amountToSend)
   })
 
+  firestore
+    .collection('creators')
+    .doc(foundPasscode.id)
+    .update({
+      accountsDistributed: [...foundPasscode.accountsDistributed, address]
+    })
+
   return res.status(200).json({ transactionHash: transaction.hash })
-}
-
-async function hasSentEtherToAddress(
-  senderAddress: string,
-  targetAddress: string,
-  alchemyApiUrl: string
-) {
-  const params = {
-    id: '1',
-    jsonrpc: '2.0',
-    method: 'alchemy_getAssetTransfers',
-    params: [
-      {
-        fromAddress: senderAddress,
-        toAddress: targetAddress,
-        category: ['external']
-      }
-    ]
-  }
-
-  const response = await axios.post(alchemyApiUrl, params)
-
-  const transactions = response.data.result?.transfers
-
-  return transactions.length > 0
 }
