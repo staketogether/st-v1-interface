@@ -8,12 +8,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Method not allowed' })
   }
 
-  if (
-    !process.env.NEXT_PUBLIC_FAUCET_PRIVATE_KEY ||
-    !process.env.NEXT_PUBLIC_FAUCET_AMOUNT ||
-    !process.env.NEXT_PUBLIC_FAUCET_PASSCODE
-  ) {
-    return res.status(500).json({ message: 'Faucet is not configured' })
+  if (!process.env.NEXT_PUBLIC_FAUCET_PRIVATE_KEY) {
+    return res.status(500).json({ message: 'Faucet wallet is not configured' })
   }
 
   const chain = chainConfig()
