@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { globalConfig } from '../../../config/global'
 
-export function MetaExplore() {
+export function MetaPools() {
   const { url } = globalConfig
 
   return (
