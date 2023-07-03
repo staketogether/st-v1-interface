@@ -1,5 +1,7 @@
 import admin from 'firebase-admin';
 
-admin.initializeApp();
+if (!admin.instanceId) {
+  admin.initializeApp();
+}
 
 export const firestore = admin.firestore();
