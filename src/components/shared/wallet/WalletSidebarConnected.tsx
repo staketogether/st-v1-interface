@@ -17,6 +17,8 @@ import SkeletonLoading from '../icons/SkeletonLoading'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import Image from 'next/image'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
+import useWalletByEthModal from '@/hooks/useWalletByEthModal'
+import WalletByEthModal from './WalletByEthModal'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -33,6 +35,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
   const handleWalletProviderImage = useWalletProviderImage()
+  const { setOpenModal } = useWalletByEthModal()
 
   const { accountSentDelegationsCount, accountRewardsBalance, accountDelegations, accountBalance } =
     useStAccount(address)
@@ -144,7 +147,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               </ContainerData>
             </div>
           </InfoContainer>
-          <BuyCryptoButton disabled>
+          <BuyCryptoButton onClick={() => setOpenModal(true)}>
             <AiFillCreditCard />
             {t('BuyEth.button')}
           </BuyCryptoButton>
@@ -176,6 +179,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           </ContainerPoolsDelegated>
         </>
       )}
+      <WalletByEthModal />
     </DrawerContainer>
   )
 }

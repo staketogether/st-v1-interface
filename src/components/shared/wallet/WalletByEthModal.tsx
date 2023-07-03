@@ -3,12 +3,14 @@ import Modal from '../Modal'
 import styled from 'styled-components'
 import { useState } from 'react'
 import useTranslation from '@/hooks/useTranslation'
-
+import Image from 'next/image'
 export default function WalletByEthModal() {
+  const [timestamp] = useState(Date.now())
   const [code, setCode] = useState('')
   const { openModal, setOpenModal } = useWalletByEthModal()
   const { t } = useTranslation()
-  // const { getFaucet, isLoading } = useGetFaucet(code, accountAddress, !code)
+
+  const ethGifTime = `/assets/gifs/getEth2.gif?t=${timestamp}`
 
   return (
     <Modal
@@ -21,7 +23,7 @@ export default function WalletByEthModal() {
       onClose={() => setOpenModal(false)}
     >
       <Container>
-        <div>img</div>
+        <Image src={ethGifTime} alt={t('stakeTogether')} width={250} height={250} />
         <InputContainer
           type='text'
           value={code}
