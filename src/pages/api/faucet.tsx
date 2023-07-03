@@ -3,6 +3,7 @@ import { creatorPasscodeConverter } from '@/types/CreatorPasscode'
 import { ethers } from 'ethers'
 import { firestore } from '../../../firebase'
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' })
