@@ -16,28 +16,41 @@ type GetFaucetParams = {
 export default function useGetFaucet(handleSuccess?: () => void, handleError?: () => void) {
   const [data, setData] = useState<FaucetData | null>(null)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [errorApi, setErrorApi] = useState(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { t } = useTranslation()
+  const resetStates = useCallback(() => {
+    setErrorMessage('')
+    setTxHash(undefined)
+    setData(null)
+    setErrorApi(false)
+  }, [])
+
   const getFaucet = useCallback(
     async ({ address, passcode }: GetFaucetParams) => {
       setIsLoading(true)
-
+      resetStates()
       try {
         const response = await axios.post<FaucetData>('/api/faucet', { address, passcode })
         setData(response.data)
         setIsLoading(false)
       } catch (error) {
         handleError && handleError()
+        setErrorApi(true)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        setErrorMessage(error?.response?.data?.message)
         notification.error({
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          message: `${error?.response?.data?.message}`,
+          message: `${t(`getFaucetErrorMessages.${error?.response?.data?.message}`)}`,
           placement: 'topRight'
         })
         setIsLoading(false)
       }
     },
-    [handleError]
+    [handleError, resetStates, t]
   )
 
   useEffect(() => {
@@ -64,8 +77,17 @@ export default function useGetFaucet(handleSuccess?: () => void, handleError?: (
     }
   })
 
-  console.log('txLoading', txLoading)
-  console.log('isLoading', isLoading)
+  useEffect(() => {
+    return () => {
+      resetStates()
+    }
+  }, [resetStates])
 
-  return { getFaucet, isSuccess, isError, isLoading: txLoading || isLoading }
+  return {
+    getFaucet,
+    isSuccess,
+    isError: isError || errorApi,
+    errorMessage,
+    isLoading: txLoading || isLoading
+  }
 }

@@ -109,6 +109,15 @@
     "button": "Buy ETH",
     "modalTitle": "Claim ETH",
     "modalButton": "Claim ETH",
-    "inputPlaceHolder": "type here"
+    "inputPlaceHolder": "type here the code"
+  },
+  "getFaucetErrorMessages": {
+    "addressIsRequired" : "Address is required",
+    "passcodeIsRequired" : "Passcode is required",
+    "invalidAddress" : "Invalid address",
+    "noPasscodes" : "No passcodes found",
+    "invalidPasscode" : "Invalid passcode",
+    "faucetIsEmpty": "Faucet is empty",
+    "addressHasAlready": "Address has already received faucet"
   }
 }

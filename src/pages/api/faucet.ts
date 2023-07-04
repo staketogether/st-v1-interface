@@ -29,25 +29,25 @@ export default async function handler(req, res) {
     (req.headers['x-forwarded-for'] || '').split(',').pop().trim() || req.socket.remoteAddress
 
   if (!address) {
-    return res.status(400).json({ message: 'Address is required' })
+    return res.status(400).json({ message: 'addressIsRequired' })
   }
 
   if (!passcode) {
-    return res.status(400).json({ message: 'Passcode is required' })
+    return res.status(400).json({ message: 'passcodeIsRequired' })
   }
 
   if (!ethers.isAddress(address)) {
-    return res.status(400).json({ message: 'Invalid address' })
+    return res.status(400).json({ message: 'invalidAddress' })
   }
 
   if (creatorPasscodes.length === 0) {
-    return res.status(500).json({ message: 'No passcodes found' })
+    return res.status(500).json({ message: 'noPasscodes' })
   }
 
   const foundPasscode = creatorPasscodes.find(creator => creator.passcode === passcode)
 
   if (foundPasscode === undefined) {
-    return res.status(400).json({ message: 'Invalid passcode' })
+    return res.status(400).json({ message: 'invalidPasscode' })
   }
 
   const canSendEth =
@@ -57,13 +57,13 @@ export default async function handler(req, res) {
   const faucetWalletBalance = await chain.provider.getBalance(faucetWallet.address)
 
   if (!canSendEth || faucetWalletBalance === 0n) {
-    return res.status(400).json({ message: 'Faucet is empty' })
+    return res.status(400).json({ message: 'faucetIsEmpty' })
   }
 
   const hasAlreadySendFaucet = foundPasscode.accountsDistributed.includes(address)
 
   if (hasAlreadySendFaucet) {
-    return res.status(400).json({ message: 'Address has already received faucet' })
+    return res.status(400).json({ message: 'addressHasAlready' })
   }
 
   const transaction = await faucetWallet.sendTransaction({

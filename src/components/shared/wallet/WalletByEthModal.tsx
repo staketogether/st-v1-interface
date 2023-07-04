@@ -1,7 +1,7 @@
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import Modal from '../Modal'
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import useTranslation from '@/hooks/useTranslation'
 import Image, { StaticImageData } from 'next/image'
 import Loading from '../icons/Loading'
@@ -16,6 +16,8 @@ type WalletByEthModalProps = {
 export default function WalletByEthModal({ walletAddress, onBuyEthIsSuccess }: WalletByEthModalProps) {
   const [code, setCode] = useState('')
   const [image, setImage] = useState<string | StaticImageData>(walletImage)
+  const [getFaucetError, setGetFaucetError] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
   const { openModal, setOpenModal } = useWalletByEthModal()
   const { t } = useTranslation()
   const ethGifSuccess = `/assets/gifs/getEth.gif`
@@ -23,14 +25,17 @@ export default function WalletByEthModal({ walletAddress, onBuyEthIsSuccess }: W
   const handleSuccess = () => {
     onBuyEthIsSuccess && onBuyEthIsSuccess()
     setImage(ethGifSuccess)
-    setCode('')
+    setIsSuccess(true)
   }
 
-  const handleError = () => {
-    setCode('')
-  }
-  const { getFaucet, isLoading } = useGetFaucet(handleSuccess, handleError)
+  const { getFaucet, isLoading, isError, errorMessage } = useGetFaucet(handleSuccess)
+
+  useEffect(() => {
+    setGetFaucetError(isError)
+  }, [isError])
+
   const handleGetFaucet = () => {
+    setIsSuccess(false)
     const params = {
       address: walletAddress,
       passcode: code
@@ -38,9 +43,24 @@ export default function WalletByEthModal({ walletAddress, onBuyEthIsSuccess }: W
     getFaucet(params)
   }
 
-  useEffect(() => {
+  const resetStates = useCallback(() => {
     setImage(walletImage)
-  }, [walletAddress])
+    setGetFaucetError(false)
+    setIsSuccess(false)
+    setCode('')
+  }, [])
+
+  useEffect(() => {
+    resetStates()
+  }, [resetStates, walletAddress])
+
+  useEffect(() => {
+    if (!openModal) {
+      resetStates()
+    }
+  }, [openModal, resetStates])
+
+  const disabledButton = !code || isLoading
 
   return (
     <Modal
@@ -53,14 +73,21 @@ export default function WalletByEthModal({ walletAddress, onBuyEthIsSuccess }: W
       onClose={() => setOpenModal(false)}
     >
       <Container>
-        <Image src={image} alt={t('stakeTogether')} width={250} height={250} />
-        <InputContainer
-          type='text'
-          value={code}
-          onChange={e => setCode(e.target.value)}
-          placeholder={t('BuyEth.inputPlaceHolder')}
-        />
-        <BuyCryptoButton onClick={handleGetFaucet} disabled={isLoading}>
+        <Image src={image} alt={t('stakeTogether')} width={230} height={230} />
+        <InputContainer className={`${getFaucetError ? 'error' : ''} ${isSuccess ? 'success' : ''}`}>
+          <input
+            type='text'
+            onClick={() => (getFaucetError || isSuccess) && resetStates()}
+            value={code}
+            onChange={e => setCode(e.target.value)}
+            placeholder={t('BuyEth.inputPlaceHolder')}
+          />
+          {getFaucetError && errorMessage && (
+            <span className='error'>{t(`getFaucetErrorMessages.${errorMessage}`)}</span>
+          )}
+          {isSuccess && <span className='success'>{t(`notifications.depositSuccess`)}</span>}
+        </InputContainer>
+        <BuyCryptoButton onClick={handleGetFaucet} disabled={disabledButton}>
           {t('BuyEth.modalButton')}
           {isLoading && <Loading />}
         </BuyCryptoButton>
@@ -84,24 +111,46 @@ const { Container, Header, InputContainer, BuyCryptoButton } = {
     align-items: center;
     font-size: ${({ theme }) => theme.font.size[18]};
   `,
-  InputContainer: styled.input`
+  InputContainer: styled.div`
     display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[4]};
     width: 100%;
-    border: none;
-    outline: none;
-    background: ${({ theme }) => theme.color.whiteAlpha[800]};
-    border-radius: ${({ theme }) => theme.size[16]};
-    padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
-    text-align: center;
-    color: ${({ theme }) => theme.color.black};
-    font-size: ${({ theme }) => theme.font.size[16]};
+
+    span {
+      font-size: ${({ theme }) => theme.font.size[12]};
+      text-align: center;
+    }
+
+    input {
+      border: none;
+      outline: none;
+      background: ${({ theme }) => theme.color.whiteAlpha[800]};
+      border-radius: ${({ theme }) => theme.size[16]};
+      padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
+      text-align: center;
+      color: ${({ theme }) => theme.color.black};
+      font-size: ${({ theme }) => theme.font.size[16]};
+
+      &::placeholder {
+        text-align: center;
+      }
+    }
 
     &.error {
       color: ${({ theme }) => theme.color.red[300]};
+      input {
+        border: 1px solid ${({ theme }) => theme.color.red[300]};
+        color: ${({ theme }) => theme.color.red[300]};
+      }
     }
 
-    &::placeholder {
-      text-align: center;
+    &.success {
+      color: ${({ theme }) => theme.color.green[600]};
+      input {
+        border: 1px solid ${({ theme }) => theme.color.green[600]};
+        color: ${({ theme }) => theme.color.green[600]};
+      }
     }
   `,
   BuyCryptoButton: styled.button`
