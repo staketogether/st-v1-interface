@@ -106,11 +106,14 @@
     "connectButton": "Sign In",
     "title": "Sign In"
   },
-  "BuyEth": {
-    "button": "Buy ETH",
-    "modalTitle": "Claim ETH",
-    "modalButton": "Claim ETH",
-    "inputPlaceHolder": "type here the code"
+  "buyEth": {
+    "button": "Get ETH",
+    "modalTitle": "ETH Goerli Faucet",
+    "modalButton": "Get",
+    "altImage": "Wallet Icon",
+    "labelInput": "Enter the redemption code below:",
+    "inputPlaceHolder": "Enter code here",
+    "successMessage": "You have redeemed"
   },
   "getFaucetErrorMessages": {
     "addressIsRequired": "Address is required",
