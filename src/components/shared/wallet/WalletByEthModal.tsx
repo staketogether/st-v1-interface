@@ -1,16 +1,46 @@
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import Modal from '../Modal'
 import styled from 'styled-components'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useTranslation from '@/hooks/useTranslation'
-import Image from 'next/image'
-export default function WalletByEthModal() {
-  const [timestamp] = useState(Date.now())
+import Image, { StaticImageData } from 'next/image'
+import Loading from '../icons/Loading'
+import useGetFaucet from '@/hooks/useGetFaucet'
+import walletImage from '@assets/images/buy-eth-modal/walletImage.jpg'
+
+type WalletByEthModalProps = {
+  walletAddress: `0x${string}`
+  onBuyEthIsSuccess?: () => void
+}
+
+export default function WalletByEthModal({ walletAddress, onBuyEthIsSuccess }: WalletByEthModalProps) {
   const [code, setCode] = useState('')
+  const [image, setImage] = useState<string | StaticImageData>(walletImage)
   const { openModal, setOpenModal } = useWalletByEthModal()
   const { t } = useTranslation()
+  const ethGifSuccess = `/assets/gifs/getEth.gif`
 
-  const ethGifTime = `/assets/gifs/getEth2.gif?t=${timestamp}`
+  const handleSuccess = () => {
+    onBuyEthIsSuccess && onBuyEthIsSuccess()
+    setImage(ethGifSuccess)
+    setCode('')
+  }
+
+  const handleError = () => {
+    setCode('')
+  }
+  const { getFaucet, isLoading } = useGetFaucet(handleSuccess, handleError)
+  const handleGetFaucet = () => {
+    const params = {
+      address: walletAddress,
+      passcode: code
+    }
+    getFaucet(params)
+  }
+
+  useEffect(() => {
+    setImage(walletImage)
+  }, [walletAddress])
 
   return (
     <Modal
@@ -23,14 +53,17 @@ export default function WalletByEthModal() {
       onClose={() => setOpenModal(false)}
     >
       <Container>
-        <Image src={ethGifTime} alt={t('stakeTogether')} width={250} height={250} />
+        <Image src={image} alt={t('stakeTogether')} width={250} height={250} />
         <InputContainer
           type='text'
           value={code}
           onChange={e => setCode(e.target.value)}
           placeholder={t('BuyEth.inputPlaceHolder')}
         />
-        <BuyCryptoButton>{t('BuyEth.modalButton')}</BuyCryptoButton>
+        <BuyCryptoButton onClick={handleGetFaucet} disabled={isLoading}>
+          {t('BuyEth.modalButton')}
+          {isLoading && <Loading />}
+        </BuyCryptoButton>
       </Container>
     </Modal>
   )

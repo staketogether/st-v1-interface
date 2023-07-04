@@ -30,7 +30,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { t } = useTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
-  const { balance: ethBalance } = useEthBalanceOf(address)
+  const { balance: ethBalance, refetch } = useEthBalanceOf(address)
   const { name, nameLoading } = useEns(address)
 
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
@@ -55,6 +55,10 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const rewardsIsPositive = accountRewardsBalance > 1n
   const rewardsIsNegative = accountRewardsBalance < 0
+
+  const onBuyEthIsSuccess = () => {
+    refetch()
+  }
 
   return (
     <DrawerContainer
@@ -179,7 +183,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           </ContainerPoolsDelegated>
         </>
       )}
-      <WalletByEthModal />
+      <WalletByEthModal walletAddress={address} onBuyEthIsSuccess={onBuyEthIsSuccess} />
     </DrawerContainer>
   )
 }
