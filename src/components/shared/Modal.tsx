@@ -22,7 +22,8 @@ export default function Modal({
     return null
   }
   return (
-    <ModalBackground>
+    <>
+      <Overlay />
       <ModalWrapper width={width}>
         {title && <header>{title}</header>}
         {showCloseIcon && (
@@ -32,21 +33,27 @@ export default function Modal({
         )}
         {children}
       </ModalWrapper>
-    </ModalBackground>
+    </>
   )
 }
 
-const { ModalWrapper, ModalBackground, CloseButton } = {
+const { ModalWrapper, Overlay, CloseButton } = {
   ModalWrapper: styled.div<{ width: number }>`
+    position: fixed;
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+
     width: ${props => `${props.width}px`};
     background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
     padding: ${({ theme }) => theme.size[24]};
     border-radius: ${({ theme }) => theme.size[16]};
-    position: relative;
+
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
-    margin-top: 158px;
+
     header {
       display: grid;
       grid-template-columns: 1fr auto;
@@ -56,7 +63,7 @@ const { ModalWrapper, ModalBackground, CloseButton } = {
       font-weight: 500;
     }
   `,
-  ModalBackground: styled.div`
+  Overlay: styled.div`
     position: fixed;
     top: 0;
     left: 0;
@@ -67,6 +74,7 @@ const { ModalWrapper, ModalBackground, CloseButton } = {
     display: flex;
     justify-content: center;
     align-items: start;
+    z-index: 9998;
   `,
   CloseButton: styled.button`
     width: 32px;
