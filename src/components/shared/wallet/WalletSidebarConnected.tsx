@@ -18,7 +18,7 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import Image from 'next/image'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
-import WalletByEthModal from './WalletByEthModal'
+import WalletBuyEthModal from './WalletBuyEthModal'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -153,7 +153,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           </InfoContainer>
           <BuyCryptoButton onClick={() => setOpenModal(true)}>
             <AiFillCreditCard />
-            {t('BuyEth.button')}
+            {t('buyEth.button')}
           </BuyCryptoButton>
           <SwitchActionsBar>
             <ActionTab className='active'>Pools</ActionTab>
@@ -183,7 +183,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           </ContainerPoolsDelegated>
         </>
       )}
-      <WalletByEthModal walletAddress={address} onBuyEthIsSuccess={onBuyEthIsSuccess} />
+      <WalletBuyEthModal walletAddress={address} onBuyEthIsSuccess={onBuyEthIsSuccess} />
     </DrawerContainer>
   )
 }

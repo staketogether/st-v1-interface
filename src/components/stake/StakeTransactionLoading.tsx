@@ -97,7 +97,7 @@ export default function StakeTransactionLoading({
             target='_blank'
             rel='noopener noreferrer'
           >
-            <span>{t('confirmStakeModal.viewOnExplorer')}</span>
+            <span>{t('viewOnExplorer')}</span>
           </a>
         )}
       </DescriptionAction>

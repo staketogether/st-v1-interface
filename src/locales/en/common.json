@@ -38,6 +38,8 @@
   "activities": "Activities",
   "analytics": "Analytics",
   "success": "Success",
+  "viewOnExplorer": "View on Explorer",
+   "try": "try again",
   "titles": {
     "pools": "Pools",
     "stake": "Stake Ether",
@@ -92,7 +94,6 @@
     "confirmWithdraw": "Confirm Withdraw",
     "transactionSubmitted": "Transaction submitted",
     "proceedInYourWallet": "Proceed in your wallet",
-    "viewOnExplorer": "View on Explorer",
     "withdrawSuccessful": "Withdraw Successful",
     "depositSuccessful": "Deposit Successful"
   },
@@ -117,7 +118,7 @@
     "invalidAddress": "Invalid address",
     "noPasscodes": "No passcodes found",
     "invalidPasscode": "Invalid passcode",
-    "faucetIsEmpty": "Faucet is empty",
-    "addressHasAlready": "Address has already received faucet"
+    "faucetIsEmpty": "No more ETH available",
+    "addressHasAlready": "Your wallet has already received ETH"
   }
 }

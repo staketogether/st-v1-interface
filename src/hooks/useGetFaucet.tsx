@@ -44,7 +44,7 @@ export default function useGetFaucet(handleSuccess?: () => void, handleError?: (
         notification.error({
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          message: `${t(`getFaucetErrorMessages.${error?.response?.data?.message}`)}`,
+          message: `${t(`${error?.response?.data?.message}`)}`,
           placement: 'topRight'
         })
         setIsLoading(false)
@@ -86,6 +86,7 @@ export default function useGetFaucet(handleSuccess?: () => void, handleError?: (
   return {
     getFaucet,
     isSuccess,
+    txHash,
     isError: isError || errorApi,
     errorMessage,
     isLoading: txLoading || isLoading

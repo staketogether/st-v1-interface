@@ -38,6 +38,8 @@
   "analytics": "Análise",
   "activities": "Atividades",
   "success": "Sucesso",
+   "viewOnExplorer": "Ver no Explorer",
+   "try": "Tentar novamente",
   "titles": {
     "pools": "Piscinas",
     "stake": "Stake de Ether",
@@ -92,7 +94,6 @@
     "confirmWithdraw": "Confirme o Saque",
     "transactionSubmitted": "Transação submetida",
     "proceedInYourWallet": "Continue na sua carteira",
-    "viewOnExplorer": "Ver no Explorer",
     "withdrawSuccessful": "Saque realizado com sucesso",
     "depositSuccessful": "Depósito realizado com sucesso"
   },
@@ -105,11 +106,14 @@
     "connectButton": "Entrar",
     "title": "Entrar com"
   },
-  "BuyEth": {
+  "buyEth": {
     "button": "Pegar ETH",
-    "modalTitle": "Pegar ETH",
-    "modalButton": "Pegar ETH",
-    "inputPlaceHolder": "Digite aqui o código"
+    "modalTitle": "Faucet ETH Goerli",
+    "modalButton": "Pegar",
+    "altImage": "Icon Carteira",
+    "labelInput": "Digite abaixo o código de resgate:",
+    "inputPlaceHolder": "Digite o código aqui",
+    "successMessage": "Você resgatou"
   },
   "getFaucetErrorMessages": {
     "addressIsRequired": "Endereço é obrigatório",
