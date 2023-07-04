@@ -38,8 +38,8 @@
   "analytics": "Análise",
   "activities": "Atividades",
   "success": "Sucesso",
-   "viewOnExplorer": "Ver no Explorer",
-   "try": "Tentar novamente",
+  "viewOnExplorer": "Ver no Explorer",
+  "try": "Tentar novamente",
   "titles": {
     "pools": "Piscinas",
     "stake": "Stake de Ether",
