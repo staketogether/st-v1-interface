@@ -1,14 +1,14 @@
-import useWalletByEthModal from '@/hooks/useWalletByEthModal'
-import Modal from '../Modal'
-import styled from 'styled-components'
-import React, { useCallback, useEffect, useState } from 'react'
-import useTranslation from '@/hooks/useTranslation'
-import Image, { StaticImageData } from 'next/image'
-import Loading from '../icons/Loading'
-import useGetFaucet from '@/hooks/useGetFaucet'
-import walletImage from '@assets/images/buy-eth-modal/walletImage.jpg'
-import { AiFillCloseCircle } from 'react-icons/ai'
 import chainConfig from '@/config/chain'
+import useGetFaucet from '@/hooks/useGetFaucet'
+import useTranslation from '@/hooks/useTranslation'
+import useWalletByEthModal from '@/hooks/useWalletByEthModal'
+import walletImage from '@assets/images/buy-eth-modal/walletImage.jpg'
+import Image, { StaticImageData } from 'next/image'
+import { useCallback, useEffect, useState } from 'react'
+import { AiFillCloseCircle } from 'react-icons/ai'
+import styled from 'styled-components'
+import Modal from '../Modal'
+import Loading from '../icons/Loading'
 
 type WalletBuyEthModalProps = {
   walletAddress: `0x${string}`
@@ -86,7 +86,7 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
           <>
             {!isSuccess && (
               <MessageTitle>
-                {t('buyEth.messageTitleInit')} <span className='green'>{t('buyEth.free')}</span>
+                {t('buyEth.messageTitleInit')} <span className='green'>{`${t('buyEth.free')} `}</span>
                 {t('buyEth.messageTitleFinish')}
               </MessageTitle>
             )}
@@ -157,9 +157,10 @@ const {
   `,
   MessageTitle: styled.span`
     font-size: ${({ theme }) => theme.font.size[16]};
-    color: ${({ theme }) => theme.color.blackAlpha[500]};
-    font-weight: 300;
+    color: ${({ theme }) => theme.color.blackAlpha[600]};
+    font-weight: 400;
     text-align: center;
+    line-height: 22px;
     span {
       &.green {
         color: ${({ theme }) => theme.color.green[600]};
@@ -170,8 +171,8 @@ const {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: ${({ theme }) => theme.font.size[18]};
-    color: ${({ theme }) => theme.color.blackAlpha[500]};
+    font-size: ${({ theme }) => theme.font.size[22]};
+    color: ${({ theme }) => theme.color.primary};
   `,
   InputContainer: styled.div`
     width: 100%;
