@@ -114,7 +114,7 @@
     "labelInput": "Digite abaixo o código de resgate:",
     "inputPlaceHolder": "Digite o código aqui",
     "successMessage": "Você resgatou",
-    "messageTitleInit": "A compra de ETH é", 
+    "messageTitleInit": "A compra de ETH é",
     "messageTitleFinish": " na rede goerli para efetuar testes na aplicação.",
     "free": "gratuita"
   },

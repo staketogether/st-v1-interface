@@ -114,7 +114,7 @@
     "labelInput": "Enter the redemption code below:",
     "inputPlaceHolder": "Enter code here",
     "successMessage": "You have redeemed",
-    "messageTitleInit": "The purchase of ETH is", 
+    "messageTitleInit": "The purchase of ETH is",
     "messageTitleFinish": "on the Goerli network for conducting tests on the application",
     "free": "free"
   },
