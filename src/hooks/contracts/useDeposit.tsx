@@ -40,8 +40,6 @@ export default function useDeposit(
     value: amount
   })
 
-  // console.log('GAS ESTIMATE', config)
-
   const tx = useStakeTogetherDepositPool({
     ...config,
     onSuccess: data => {
