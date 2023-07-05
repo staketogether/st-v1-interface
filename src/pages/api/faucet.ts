@@ -80,5 +80,5 @@ export default async function handler(req, res) {
       ipsUsed: [...foundPasscode.ipsUsed, userIp]
     })
 
-  return res.status(200).json({ transactionHash: transaction.hash })
+  return res.status(200).json({ transactionHash: transaction.hash, amount: foundPasscode.amountToSend })
 }

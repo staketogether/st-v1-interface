@@ -30,7 +30,7 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
     setIsSuccess(true)
   }
   const chain = chainConfig()
-  const { getFaucet, txHash, isLoading, isError, errorMessage } = useGetFaucet(handleSuccess)
+  const { getFaucet, txHash, isLoading, isError, errorMessage, amount } = useGetFaucet(handleSuccess)
 
   useEffect(() => {
     setGetFaucetError(isError)
@@ -84,10 +84,12 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
           <ErrorIcon />
         ) : (
           <>
-            <MessageTitle>
-              {t('buyEth.messageTitleInit')} <span className='green'>{t('buyEth.free')}</span>
-              {t('buyEth.messageTitleFinish')}
-            </MessageTitle>
+            {!isSuccess && (
+              <MessageTitle>
+                {t('buyEth.messageTitleInit')} <span className='green'>{t('buyEth.free')}</span>
+                {t('buyEth.messageTitleFinish')}
+              </MessageTitle>
+            )}
             <Image src={image} alt={t('buyEth.altImage')} width={280} height={280} />
           </>
         )}
@@ -111,7 +113,7 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
           <>
             {isSuccess && (
               <Message>
-                {`${t('buyEth.successMessage')}`} <span className='secondary'> 0.005 ETH </span>
+                {`${t('buyEth.successMessage')}`} <span className='secondary'> {`${amount} ETH`}</span>
                 Goerli!
               </Message>
             )}

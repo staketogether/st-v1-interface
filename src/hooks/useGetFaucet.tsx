@@ -4,6 +4,7 @@ import { useWaitForTransaction } from 'wagmi'
 
 type FaucetData = {
   transactionHash: `0x${string}`
+  amount: string
 }
 
 type GetFaucetParams = {
@@ -14,6 +15,7 @@ type GetFaucetParams = {
 export default function useGetFaucet(handleSuccess?: () => void, handleError?: () => void) {
   const [data, setData] = useState<FaucetData | null>(null)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
+  const [amount, setAmount] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [errorApi, setErrorApi] = useState(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -48,6 +50,7 @@ export default function useGetFaucet(handleSuccess?: () => void, handleError?: (
   useEffect(() => {
     if (data) {
       setTxHash(data.transactionHash)
+      setAmount(data.amount)
     }
   }, [data])
 
@@ -77,6 +80,7 @@ export default function useGetFaucet(handleSuccess?: () => void, handleError?: (
     txHash,
     isError: isError || errorApi,
     errorMessage,
+    amount,
     isLoading: txLoading || isLoading
   }
 }
