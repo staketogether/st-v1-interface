@@ -26,7 +26,7 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_WALLET_CONNECT) {
     throw new Error('NEXT_PUBLIC_WALLET_CONNECT not found in env')
   }
-  if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
-    throw new Error('NEXT_PUBLIC_RECAPTCHA_SITE_KEY not found in env')
-  }
+  // if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+  //   throw new Error('NEXT_PUBLIC_RECAPTCHA_SITE_KEY not found in env')
+  // }
 }
