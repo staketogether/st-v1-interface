@@ -113,7 +113,7 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
           <>
             {isSuccess && (
               <Message>
-                {`${t('buyEth.successMessage')}`} <span className='secondary'> {`${amount} ETH`}</span>
+                {`${t('buyEth.successMessage')}`} <span className='secondary'> {`${amount} ETH `}</span>
                 Goerli!
               </Message>
             )}
