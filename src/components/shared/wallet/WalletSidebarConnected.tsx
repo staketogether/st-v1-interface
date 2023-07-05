@@ -37,8 +37,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const handleWalletProviderImage = useWalletProviderImage()
   const { setOpenModal } = useWalletByEthModal()
 
-  const { accountSentDelegationsCount, accountRewardsBalance, accountDelegations, accountBalance } =
-    useStAccount(address)
+  const { accountRewardsBalance, accountDelegations, accountBalance } = useStAccount(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)
