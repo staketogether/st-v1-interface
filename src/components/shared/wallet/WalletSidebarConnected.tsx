@@ -1,4 +1,9 @@
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useEns from '@/hooks/useEns'
+import useWalletByEthModal from '@/hooks/useWalletByEthModal'
+import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import { Drawer, Tooltip, notification } from 'antd'
+import Image from 'next/image'
 import { useState } from 'react'
 import { AiFillCreditCard, AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import { FiCopy } from 'react-icons/fi'
@@ -9,14 +14,11 @@ import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../../services/truncate'
+import EnsAvatar from '../ens/EnsAvatar'
+import SkeletonLoading from '../icons/SkeletonLoading'
+import WalletBuyEthModal from './WalletBuyEthModal'
 import WalletSentDelegation from './WalletSentDelegation'
 import WalletSlideBarSettings from './WalletSlideBarSettings'
-import EnsAvatar from '../ens/EnsAvatar'
-import useEns from '@/hooks/useEns'
-import SkeletonLoading from '../icons/SkeletonLoading'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
-import Image from 'next/image'
-import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -28,14 +30,14 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { t } = useTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
-  const { balance: ethBalance } = useEthBalanceOf(address)
+  const { balance: ethBalance, refetch } = useEthBalanceOf(address)
   const { name, nameLoading } = useEns(address)
 
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
   const handleWalletProviderImage = useWalletProviderImage()
+  const { setOpenModal } = useWalletByEthModal()
 
-  const { accountSentDelegationsCount, accountRewardsBalance, accountDelegations, accountBalance } =
-    useStAccount(address)
+  const { accountRewardsBalance, accountDelegations, accountBalance } = useStAccount(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -52,6 +54,10 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const rewardsIsPositive = accountRewardsBalance > 1n
   const rewardsIsNegative = accountRewardsBalance < 0
+
+  const onBuyEthIsSuccess = () => {
+    refetch()
+  }
 
   return (
     <DrawerContainer
@@ -144,9 +150,9 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               </ContainerData>
             </div>
           </InfoContainer>
-          <BuyCryptoButton disabled>
+          <BuyCryptoButton onClick={() => setOpenModal(true)}>
             <AiFillCreditCard />
-            {t('BuyEth.button')}
+            {t('buyEth.button')}
           </BuyCryptoButton>
           <SwitchActionsBar>
             <ActionTab className='active'>Pools</ActionTab>
@@ -158,13 +164,13 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             </Tooltip>
           </SwitchActionsBar>
           <ContainerPoolsDelegated>
-            <div>
+            {/* <div>
               <span>{t('staked')}</span>
               <span>
                 {accountSentDelegationsCount > 0 ? accountSentDelegationsCount.toString() : '0'}{' '}
                 <span className='symbol'>{t('lsd.symbol')}</span>
               </span>
-            </div>
+            </div> */}
             {accountDelegations.length === 0 && (
               <div>
                 <span>{t('noStake')}</span>
@@ -176,6 +182,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           </ContainerPoolsDelegated>
         </>
       )}
+      <WalletBuyEthModal walletAddress={address} onBuyEthIsSuccess={onBuyEthIsSuccess} />
     </DrawerContainer>
   )
 }

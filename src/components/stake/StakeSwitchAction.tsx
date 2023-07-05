@@ -9,6 +9,7 @@ import {
 import styled from 'styled-components'
 import useActiveRoute from '../../hooks/useActiveRoute'
 import useTranslation from '../../hooks/useTranslation'
+import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 
 interface StakeSwitchActionsProps {
   poolAddress?: `0x${string}`
@@ -31,6 +32,8 @@ export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsPr
     navigator.clipboard.writeText(window.location.toString())
   }
 
+  const { setOpenModal } = useWalletByEthModal()
+
   return (
     <Container>
       <Tabs>
@@ -48,9 +51,9 @@ export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsPr
           <AiOutlineVerticalAlignTop />
           <span>{t('withdraw')}</span>
         </StakeButton>
-        <StakeButton>
+        <StakeButton onClick={() => setOpenModal(true)}>
           <AiOutlinePlus />
-          <span>{t('BuyEth.button')}</span>
+          <span>{t('buyEth.button')}</span>
         </StakeButton>
       </Tabs>
       <Tooltip trigger='click' title={t('copiedToClipboard')}>

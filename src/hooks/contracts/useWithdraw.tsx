@@ -37,8 +37,6 @@ export default function useWithdraw(
     enabled: withdrawRule
   })
 
-  console.log('GAS ESTIMATE', config)
-
   const tx = useStakeTogetherWithdrawPool({
     ...config,
     onSuccess: data => {

@@ -6,7 +6,7 @@ export default function useDelegationShares(
   walletAddress: `0x${string}`,
   communityDelegate: `0x${string}`
 ) {
-  const { data, loading } = useQuery<{ delegation?: { delegationShares?: string } }>(
+  const { data, loading, refetch } = useQuery<{ delegation?: { delegationShares?: string } }>(
     queryDelegationShares,
     {
       variables: { id: `${walletAddress.toLocaleLowerCase()}-${communityDelegate.toLocaleLowerCase()}` }
@@ -20,6 +20,7 @@ export default function useDelegationShares(
   return {
     delegationShares: data?.delegation?.delegationShares || '0',
     delegationSharesFormatted: delegatedShares,
-    loading: loading || delegatedSharesLoading
+    loading: loading || delegatedSharesLoading,
+    refetch
   }
 }

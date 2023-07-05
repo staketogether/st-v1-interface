@@ -18,6 +18,7 @@ import { truncateWei } from '../../services/truncate'
 import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
+import WalletBuyEthModal from '../shared/wallet/WalletBuyEthModal'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -33,10 +34,11 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     isLoading: balanceLoading,
     refetch: refetchEthBalance
   } = useEthBalanceOf(accountAddress)
-  const { delegationSharesFormatted, loading: delegationSharesLoading } = useDelegationShares(
-    accountAddress,
-    poolAddress
-  )
+  const {
+    delegationSharesFormatted,
+    loading: delegationSharesLoading,
+    refetch: delegationSharesRefetch
+  } = useDelegationShares(accountAddress, poolAddress)
   const { withdrawalLiquidityBalance } = useWithdrawalLiquidityBalance()
 
   const { minDepositAmount } = useMinDepositAmount()
@@ -144,6 +146,11 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     return actionLabel
   }
 
+  const handleBuyEthSuccess = () => {
+    delegationSharesRefetch()
+    refetchEthBalance()
+  }
+
   return (
     <>
       <StakeContainer>
@@ -195,6 +202,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         transactionIsSuccess={isSuccess}
         onClose={() => setOpenStakeConfirmModal(false)}
       />
+      <WalletBuyEthModal walletAddress={accountAddress} onBuyEthIsSuccess={handleBuyEthSuccess} />
     </>
   )
 }
@@ -214,9 +222,6 @@ const { StakeContainer, StakeInfo } = {
       height: 12px;
       display: flex;
       gap: 4px;
-
-      > span {
-      }
     }
 
     > div {

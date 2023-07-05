@@ -38,6 +38,8 @@
   "analytics": "Análise",
   "activities": "Atividades",
   "success": "Sucesso",
+  "viewOnExplorer": "Ver no Explorer",
+  "try": "Tentar novamente",
   "titles": {
     "pools": "Piscinas",
     "stake": "Stake de Ether",
@@ -92,7 +94,6 @@
     "confirmWithdraw": "Confirme o Saque",
     "transactionSubmitted": "Transação submetida",
     "proceedInYourWallet": "Continue na sua carteira",
-    "viewOnExplorer": "Ver no Explorer",
     "withdrawSuccessful": "Saque realizado com sucesso",
     "depositSuccessful": "Depósito realizado com sucesso"
   },
@@ -105,10 +106,25 @@
     "connectButton": "Entrar",
     "title": "Entrar com"
   },
-  "BuyEth": {
-    "button": "Pegar ETH",
-    "modalTitle": "Pegar ETH",
-    "modalButton": "Pegar ETH",
-    "inputPlaceHolder": "Digite aqui"
+  "buyEth": {
+    "button": "Comprar ETH",
+    "modalTitle": "Comprar ETH",
+    "modalButton": "Comprar ETH",
+    "altImage": "Icon Carteira",
+    "labelInput": "Digite abaixo o código de resgate:",
+    "inputPlaceHolder": "Digite o código aqui",
+    "successMessage": "Você resgatou",
+    "messageTitleInit": "Compre ETH",
+    "messageTitleFinish": "com um código na rede goerli e teste o protoloco",
+    "free": "gratuitamente"
+  },
+  "getFaucetErrorMessages": {
+    "addressIsRequired": "Endereço é obrigatório",
+    "passcodeIsRequired": "Código de acesso é obrigatório",
+    "invalidAddress": "Endereço inválido",
+    "noPasscodes": "Nenhum código de acesso encontrado",
+    "invalidPasscode": "Código de acesso inválido",
+    "faucetIsEmpty": "Não temos mais ETH",
+    "addressHasAlready": "Sua carteira já recebeu ETH"
   }
 }
