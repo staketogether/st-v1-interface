@@ -114,9 +114,9 @@
     "labelInput": "Digite abaixo o código de resgate:",
     "inputPlaceHolder": "Digite o código aqui",
     "successMessage": "Você resgatou",
-    "messageTitleInit": "A compra de ETH é",
-    "messageTitleFinish": " na rede goerli para efetuar testes na aplicação.",
-    "free": "gratuita"
+    "messageTitleInit": "Compre ETH",
+    "messageTitleFinish": "com um código na rede goerli e teste o protoloco",
+    "free": "gratuitamente"
   },
   "getFaucetErrorMessages": {
     "addressIsRequired": "Endereço é obrigatório",
