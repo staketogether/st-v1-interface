@@ -25,12 +25,14 @@ export default function Modal({
     <>
       <Overlay />
       <ModalWrapper width={width}>
-        {title && <header>{title}</header>}
-        {showCloseIcon && (
-          <CloseButton onClick={onClose}>
-            <span>x</span>
-          </CloseButton>
-        )}
+        <header>
+          {title && title}
+          {showCloseIcon && (
+            <CloseButton onClick={onClose}>
+              <span>x</span>
+            </CloseButton>
+          )}
+        </header>
         {children}
       </ModalWrapper>
     </>
@@ -88,10 +90,6 @@ const { ModalWrapper, Overlay, CloseButton } = {
     align-items: center;
     justify-content: center;
     margin-left: auto;
-
-    position: absolute;
-    left: 87%;
-    top: 4%;
 
     span {
       font-size: ${({ theme }) => theme.font.size[18]};

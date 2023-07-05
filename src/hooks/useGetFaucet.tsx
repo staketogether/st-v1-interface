@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import { useWaitForTransaction } from 'wagmi'
-import { notification } from 'antd'
-import useTranslation from './useTranslation'
 
 type FaucetData = {
   transactionHash: `0x${string}`
@@ -19,7 +17,7 @@ export default function useGetFaucet(handleSuccess?: () => void, handleError?: (
   const [errorMessage, setErrorMessage] = useState('')
   const [errorApi, setErrorApi] = useState(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const { t } = useTranslation()
+
   const resetStates = useCallback(() => {
     setErrorMessage('')
     setTxHash(undefined)
@@ -41,16 +39,10 @@ export default function useGetFaucet(handleSuccess?: () => void, handleError?: (
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         setErrorMessage(error?.response?.data?.message)
-        notification.error({
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          message: `${t(`${error?.response?.data?.message}`)}`,
-          placement: 'topRight'
-        })
         setIsLoading(false)
       }
     },
-    [handleError, resetStates, t]
+    [handleError, resetStates]
   )
 
   useEffect(() => {
@@ -67,10 +59,6 @@ export default function useGetFaucet(handleSuccess?: () => void, handleError?: (
     hash: txHash,
     onSuccess: () => {
       handleSuccess && handleSuccess()
-      notification.success({
-        message: `${t('notifications.depositSuccess')}`,
-        placement: 'topRight'
-      })
     },
     onError: () => {
       handleError && handleError()

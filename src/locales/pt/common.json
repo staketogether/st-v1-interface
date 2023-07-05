@@ -107,13 +107,16 @@
     "title": "Entrar com"
   },
   "buyEth": {
-    "button": "Pegar ETH",
-    "modalTitle": "Faucet ETH Goerli",
-    "modalButton": "Pegar",
+    "button": "Comprar ETH",
+    "modalTitle": "Comprar ETH",
+    "modalButton": "Comprar ETH",
     "altImage": "Icon Carteira",
     "labelInput": "Digite abaixo o código de resgate:",
     "inputPlaceHolder": "Digite o código aqui",
-    "successMessage": "Você resgatou"
+    "successMessage": "Você resgatou",
+    "messageTitleInit": "A compra de ETH é", 
+    "messageTitleFinish": " na rede goerli para efetuar testes na aplicação.",
+    "free": "gratuita"
   },
   "getFaucetErrorMessages": {
     "addressIsRequired": "Endereço é obrigatório",

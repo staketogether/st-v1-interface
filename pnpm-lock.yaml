@@ -77,6 +77,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  react-google-recaptcha:
+    specifier: ^3.1.0
+    version: 3.1.0(react@18.2.0)
   react-i18next:
     specifier: ^12.3.1
     version: 12.3.1(i18next@22.5.1)(react-dom@18.2.0)(react@18.2.0)
@@ -118,6 +121,9 @@ devDependencies:
   '@types/react':
     specifier: ^18.2.14
     version: 18.2.14
+  '@types/react-google-recaptcha':
+    specifier: ^2.1.5
+    version: 2.1.5
   '@types/styled-components':
     specifier: ^5.1.26
     version: 5.1.26
@@ -2907,6 +2913,12 @@ packages:
   /@types/range-parser@1.2.4:
     resolution: {integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==}
     dev: false
+
+  /@types/react-google-recaptcha@2.1.5:
+    resolution: {integrity: sha512-iWTjmVttlNgp0teyh7eBXqNOQzVq2RWNiFROWjraOptRnb1OcHJehQnji0sjqIRAk9K0z8stjyhU+OLpPb0N6w==}
+    dependencies:
+      '@types/react': 18.2.14
+    dev: true
 
   /@types/react@18.2.14:
     resolution: {integrity: sha512-A0zjq+QN/O0Kpe30hA1GidzyFjatVvrpIvWLxD+xv67Vt91TWWgco9IvrJBkeyHm1trGaFS/FSGqPlhyeZRm0g==}
@@ -9494,6 +9506,16 @@ packages:
       strip-json-comments: 2.0.1
     dev: false
 
+  /react-async-script@1.2.0(react@18.2.0):
+    resolution: {integrity: sha512-bCpkbm9JiAuMGhkqoAiC0lLkb40DJ0HOEJIku+9JDjxX3Rcs+ztEOG13wbrOskt3n2DTrjshhaQ/iay+SnGg5Q==}
+    peerDependencies:
+      react: '>=16.4.1'
+    dependencies:
+      hoist-non-react-statics: 3.3.2
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
   /react-dom@18.2.0(react@18.2.0):
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -9502,6 +9524,16 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-google-recaptcha@3.1.0(react@18.2.0):
+    resolution: {integrity: sha512-cYW2/DWas8nEKZGD7SCu9BSuVz8iOcOLHChHyi7upUuVhkpkhYG/6N3KDiTQ3XAiZ2UAZkfvYKMfAHOzBOcGEg==}
+    peerDependencies:
+      react: '>=16.4.1'
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-async-script: 1.2.0(react@18.2.0)
+    dev: false
 
   /react-i18next@12.3.1(i18next@22.5.1)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-5v8E2XjZDFzK7K87eSwC7AJcAkcLt5xYZ4+yTPDAW1i7C93oOY1dnr4BaQM7un4Hm+GmghuiPvevWwlca5PwDA==}

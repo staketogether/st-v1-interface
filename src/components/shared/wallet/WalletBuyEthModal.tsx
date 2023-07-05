@@ -1,7 +1,7 @@
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import Modal from '../Modal'
 import styled from 'styled-components'
-import { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import useTranslation from '@/hooks/useTranslation'
 import Image, { StaticImageData } from 'next/image'
 import Loading from '../icons/Loading'
@@ -36,7 +36,7 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
     setGetFaucetError(isError)
   }, [isError])
 
-  const handleGetFaucet = () => {
+  const handleGetFaucet = async () => {
     setIsSuccess(false)
     const params = {
       address: walletAddress,
@@ -65,27 +65,40 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
   const disabledButton = !code || isLoading
 
   return (
-    <Modal title={undefined} isOpen={openModal} onClose={() => setOpenModal(false)}>
+    <Modal
+      title={
+        <>
+          {!isSuccess && !getFaucetError && (
+            <Header>
+              <span>{t('buyEth.modalTitle')}</span>
+            </Header>
+          )}
+        </>
+      }
+      isOpen={openModal}
+      onClose={() => setOpenModal(false)}
+    >
       <Container>
-        {!isSuccess && !getFaucetError && (
-          <Header>
-            <span>{t('buyEth.modalTitle')}</span>
-          </Header>
-        )}
+        {/* <ReCAPTCHA sitekey={recaptchakey} size='invisible' ref={recaptchaRef} /> */}
         {getFaucetError ? (
           <ErrorIcon />
         ) : (
-          <Image src={image} alt={t('buyEth.altImage')} width={320} height={280} />
+          <>
+            <MessageTitle>
+              {t('buyEth.messageTitleInit')} <span className='green'>{t('buyEth.free')}</span>
+              {t('buyEth.messageTitleFinish')}
+            </MessageTitle>
+            <Image src={image} alt={t('buyEth.altImage')} width={280} height={280} />
+          </>
         )}
         {!isSuccess && !getFaucetError ? (
           <div style={{ width: '100%' }}>
             <InputContainer className={`${getFaucetError ? 'error' : ''} ${isSuccess ? 'success' : ''}`}>
-              <label>{t('buyEth.labelInput')}</label>
               <input
                 type='text'
                 onClick={() => (getFaucetError || isSuccess) && resetStates()}
                 value={code}
-                onChange={e => setCode(e.target.value)}
+                onChange={e => setCode(e.target.value.toLocaleUpperCase())}
                 placeholder={t('buyEth.inputPlaceHolder')}
               />
             </InputContainer>
@@ -122,14 +135,34 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
   )
 }
 
-const { Container, Header, InputContainer, BuyCryptoButton, ErrorIcon, Message, FeedBackActionButton } = {
+const {
+  Container,
+  Header,
+  InputContainer,
+  BuyCryptoButton,
+  ErrorIcon,
+  Message,
+  FeedBackActionButton,
+  MessageTitle
+} = {
   Container: styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[16]};
+  `,
+  MessageTitle: styled.span`
+    font-size: ${({ theme }) => theme.font.size[16]};
+    color: ${({ theme }) => theme.color.blackAlpha[500]};
+    font-weight: 300;
+    text-align: center;
+    span {
+      &.green {
+        color: ${({ theme }) => theme.color.green[600]};
+      }
+    }
   `,
   Header: styled.div`
     display: flex;
@@ -145,13 +178,6 @@ const { Container, Header, InputContainer, BuyCryptoButton, ErrorIcon, Message, 
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
     margin-bottom: ${({ theme }) => theme.size[16]};
-
-    label {
-      font-size: ${({ theme }) => theme.font.size[16]};
-      color: ${({ theme }) => theme.color.blackAlpha[500]};
-      text-align: center;
-      font-weight: 500;
-    }
 
     input {
       width: 100%;

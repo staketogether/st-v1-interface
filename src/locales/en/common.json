@@ -107,13 +107,16 @@
     "title": "Sign In"
   },
   "buyEth": {
-    "button": "Get ETH",
-    "modalTitle": "ETH Goerli Faucet",
-    "modalButton": "Get",
+    "button": "Buy ETH",
+    "modalTitle": "Buy ETH",
+    "modalButton": "Buy ETH",
     "altImage": "Wallet Icon",
     "labelInput": "Enter the redemption code below:",
     "inputPlaceHolder": "Enter code here",
-    "successMessage": "You have redeemed"
+    "successMessage": "You have redeemed",
+    "messageTitleInit": "The purchase of ETH is", 
+    "messageTitleFinish": "on the Goerli network for conducting tests on the application",
+    "free": "free"
   },
   "getFaucetErrorMessages": {
     "addressIsRequired": "Address is required",
