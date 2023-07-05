@@ -54,6 +54,7 @@ jobs:
           echo NEXT_PUBLIC_SENTRY_DSN=${{ secrets.NEXT_PUBLIC_SENTRY_DSN }} >> .env
           echo NEXT_PUBLIC_WEB3_AUTH_ID=1 >> .env
           echo NEXT_PUBLIC_WALLET_CONNECT=1 >> .env
+          echo NEXT_PUBLIC_WEB3_AUTH_ID=1 >> .env
           echo NEXT_PUBLIC_FIREBASE_CREDENTIALS_CLIENT_EMAIL=1 >> .env
           echo NEXT_PUBLIC_FIREBASE_CREDENTIALS_PRIVATE_KEY=1 >> .env
           echo NEXT_PUBLIC_FIREBASE_CREDENTIALS_PROJECT_ID=1 >> .env
