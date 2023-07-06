@@ -151,6 +151,16 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     refetchEthBalance()
   }
 
+  function convertYouReceiveValue(amountInEther: string): string {
+    if (!amountInEther) {
+      return '0'
+    }
+    const etherAsBigInt = BigInt(Math.round(parseFloat(amountInEther) * Number(10 ** 18))) - BigInt(1)
+
+    console.log(etherAsBigInt)
+    return truncateWei(etherAsBigInt, 7)
+  }
+
   return (
     <>
       <StakeContainer>
@@ -179,7 +189,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         />
         <StakeInfo>
           <span>
-            {`${t('youReceive')} ${amount || '0'}`}
+            {`${t('youReceive')} ${convertYouReceiveValue(amount) || '0'}`}
             <span>{`${receiveLabel}`}</span>
           </span>
           {type === 'deposit' && (
