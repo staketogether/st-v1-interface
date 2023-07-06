@@ -55,7 +55,5 @@ export function convertYouReceiveValue(amountInEther: string): string {
     return '0'
   }
   const etherAsBigInt = BigInt(Math.round(parseFloat(amountInEther) * Number(10 ** 18))) - BigInt(1)
-
-  console.log(etherAsBigInt)
   return truncateWei(etherAsBigInt, 7)
 }
