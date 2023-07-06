@@ -19,6 +19,7 @@ import SkeletonLoading from '../icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
 import WalletSentDelegation from './WalletSentDelegation'
 import WalletSlideBarSettings from './WalletSlideBarSettings'
+import AddSethButton from '../AddSethButton'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -150,10 +151,13 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               </ContainerData>
             </div>
           </InfoContainer>
-          <BuyCryptoButton onClick={() => setOpenModal(true)}>
-            <AiFillCreditCard />
-            {t('buyEth.button')}
-          </BuyCryptoButton>
+          <ActionContainer>
+            <BuyCryptoButton onClick={() => setOpenModal(true)}>
+              <AiFillCreditCard />
+              {t('buyEth.button')}
+            </BuyCryptoButton>
+            <AddSethInYourWalletButton />
+          </ActionContainer>
           <SwitchActionsBar>
             <ActionTab className='active'>Pools</ActionTab>
             <Tooltip title={t('soon')}>
@@ -202,11 +206,13 @@ const {
   SwitchActionsBar,
   HeaderUserContainer,
   BuyCryptoButton,
+  ActionContainer,
   ActionTab,
   Web3AuthProfileImage,
   Web3AuthProfileContainer,
   WarperWallet,
-  CopyIcon
+  CopyIcon,
+  AddSethInYourWalletButton
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.color.whiteAlpha[900]} !important;
@@ -459,5 +465,14 @@ const {
   CopyIcon: styled(FiCopy)`
     font-size: ${({ theme }) => theme.font.size[12]};
     display: none;
+  `,
+  AddSethInYourWalletButton: styled(AddSethButton)`
+    height: 41px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+  `,
+  ActionContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[8]};
   `
 }

@@ -1,5 +1,4 @@
 import chainConfig from '@/config/chain'
-import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useTranslation from '@/hooks/useTranslation'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
@@ -7,6 +6,7 @@ import Image from 'next/image'
 import { AiFillCheckCircle, AiOutlineArrowRight } from 'react-icons/ai'
 import styled from 'styled-components'
 import Loading from '../shared/icons/Loading'
+import AddSethButton from '../shared/AddSethButton'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -28,7 +28,7 @@ export default function StakeTransactionLoading({
   const { t } = useTranslation()
   const chain = chainConfig()
   const isWithdraw = type === 'withdraw'
-  const { addToWalletAction } = useAddSethToWallet()
+
   return (
     <Container>
       {transactionIsSuccess ? <SuccessIcon size={47} /> : <LoadingIcon size={36} />}
@@ -80,13 +80,7 @@ export default function StakeTransactionLoading({
           )}
         </ResumeStake>
       </div>
-      {!isWithdraw && transactionIsSuccess && (
-        <AddAssetInWalletButton onClick={addToWalletAction}>
-          <span>{t('addSethToWallet.add')} </span>
-          <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={18} />
-          <span>{t('addSethToWallet.yourWallet')}</span>
-        </AddAssetInWalletButton>
-      )}
+      {!isWithdraw && transactionIsSuccess && <AddSethButton />}
       <DescriptionAction>
         {walletActionLoading && !transactionIsSuccess && !transactionLoading && (
           <span>{t('confirmStakeModal.proceedInYourWallet')}</span>
@@ -105,15 +99,7 @@ export default function StakeTransactionLoading({
   )
 }
 
-const {
-  Container,
-  DescriptionAction,
-  ResumeStake,
-  TitleModal,
-  LoadingIcon,
-  SuccessIcon,
-  AddAssetInWalletButton
-} = {
+const { Container, DescriptionAction, ResumeStake, TitleModal, LoadingIcon, SuccessIcon } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -166,30 +152,5 @@ const {
   `,
   SuccessIcon: styled(AiFillCheckCircle)`
     color: ${({ theme }) => theme.color.green[300]};
-  `,
-  AddAssetInWalletButton: styled.button`
-    border: none;
-    color: ${({ theme }) => theme.color.white};
-    border-radius: ${props => props.theme.size[16]};
-    background: ${({ theme }) => theme.color.blue[400]};
-    transition: background-color 0.2s ease;
-    height: 48px;
-    padding: 0px ${({ theme }) => theme.size[16]};
-
-    font-size: ${({ theme }) => theme.font.size[16]};
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: ${({ theme }) => theme.size[8]};
-
-    &:hover {
-      background: ${({ theme }) => theme.color.blue[600]};
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.4;
-    }
   `
 }
