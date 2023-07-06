@@ -14,7 +14,7 @@ import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useWithdraw from '../../hooks/contracts/useWithdraw'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateWei } from '../../services/truncate'
+import { convertYouReceiveValue, truncateWei } from '../../services/truncate'
 import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
@@ -149,16 +149,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const handleBuyEthSuccess = () => {
     delegationSharesRefetch()
     refetchEthBalance()
-  }
-
-  function convertYouReceiveValue(amountInEther: string): string {
-    if (!amountInEther) {
-      return '0'
-    }
-    const etherAsBigInt = BigInt(Math.round(parseFloat(amountInEther) * Number(10 ** 18))) - BigInt(1)
-
-    console.log(etherAsBigInt)
-    return truncateWei(etherAsBigInt, 7)
   }
 
   return (
