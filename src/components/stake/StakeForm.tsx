@@ -179,7 +179,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         />
         <StakeInfo>
           <span>
-            {`${t('youReceive')} ${convertYouReceiveValue(amount) || '0'}`}
+            {`${t('youReceive')} ${type === 'deposit' ? convertYouReceiveValue(amount) || '0' : amount}`}
             <span>{`${receiveLabel}`}</span>
           </span>
           {type === 'deposit' && (

@@ -93,7 +93,7 @@ export default function StakeConfirmModal({
                 <div>
                   <span>
                     {convertYouReceiveValue(truncateDecimal(amount, 6))}
-                    <span className={'purple'}>{t('lsd.symbol')}</span>
+                    <span className={'purple'}> {t('lsd.symbol')}</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -108,14 +108,14 @@ export default function StakeConfirmModal({
                 {isWithdraw ? (
                   <>
                     {truncateDecimal(amount, 6)}
-                    <span className={`purple`}> {t('lsd.symbol')}</span>={' '}
+                    <span className={`purple`}> {t('lsd.symbol')}</span> ={' '}
                     {truncateDecimal(amount.toString(), 6)}
                     <span className={`purple`}> {t('eth.symbol')}</span>
                   </>
                 ) : (
                   <>
                     {truncateDecimal(amount, 6)}
-                    <span className={`purple`}> {t('eth.symbol')}</span>={' '}
+                    <span className={`purple`}> {t('eth.symbol')}</span> ={' '}
                     {convertYouReceiveValue(truncateDecimal(amount, 6))}
                     <span className={`purple`}> {t('lsd.symbol')}</span>
                   </>
