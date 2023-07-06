@@ -4,11 +4,12 @@ import useTranslation from '@/hooks/useTranslation'
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import walletImage from '@assets/images/buy-eth-modal/walletImage.jpg'
 import Image, { StaticImageData } from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import styled from 'styled-components'
 import Modal from '../Modal'
 import Loading from '../icons/Loading'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 type WalletBuyEthModalProps = {
   walletAddress: `0x${string}`
@@ -23,7 +24,9 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
   const { openModal, setOpenModal } = useWalletByEthModal()
   const { t } = useTranslation()
   const ethGifSuccess = `/assets/gifs/getEth.gif`
-
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
+  const recaptchakey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string
+  console.log('recaptchaRef', recaptchaRef)
   const handleSuccess = () => {
     onBuyEthIsSuccess && onBuyEthIsSuccess()
     setImage(ethGifSuccess)
@@ -36,14 +39,20 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
     setGetFaucetError(isError)
   }, [isError])
 
-  const handleGetFaucet = async () => {
-    setIsSuccess(false)
-    const params = {
-      address: walletAddress,
-      passcode: code
+  const handleGetFaucet = useCallback(async () => {
+    if (recaptchaRef) {
+      const token = await recaptchaRef?.current?.execute()
+      console.log(token)
+      if (token) {
+        setIsSuccess(false)
+        const params = {
+          address: walletAddress,
+          passcode: code
+        }
+        getFaucet(params)
+      }
     }
-    getFaucet(params)
-  }
+  }, [code, getFaucet, walletAddress])
 
   const resetStates = useCallback(() => {
     setImage(walletImage)
@@ -79,7 +88,6 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
       onClose={() => setOpenModal(false)}
     >
       <Container>
-        {/* <ReCAPTCHA sitekey={recaptchakey} size='invisible' ref={recaptchaRef} /> */}
         {getFaucetError ? (
           <ErrorIcon />
         ) : (
@@ -104,6 +112,12 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
                 placeholder={t('buyEth.inputPlaceHolder')}
               />
             </InputContainer>
+            <ReCAPTCHA
+              sitekey={recaptchakey}
+              size='invisible'
+              ref={recaptchaRef}
+              style={{ display: 'inline-block' }}
+            />
             <BuyCryptoButton onClick={handleGetFaucet} disabled={disabledButton}>
               {t('buyEth.modalButton')}
               {isLoading && <Loading />}
