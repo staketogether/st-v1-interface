@@ -13,9 +13,10 @@ import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 
 interface StakeSwitchActionsProps {
   poolAddress?: `0x${string}`
+  accountAddress?: `0x${string}`
 }
 
-export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsProps) {
+export default function StakeSwitchActions({ poolAddress, accountAddress }: StakeSwitchActionsProps) {
   const router = useRouter()
   const { isActive } = useActiveRoute()
   const { t } = useTranslation()
@@ -51,10 +52,12 @@ export default function StakeSwitchActions({ poolAddress }: StakeSwitchActionsPr
           <AiOutlineVerticalAlignTop />
           <span>{t('withdraw')}</span>
         </StakeButton>
-        <StakeButton onClick={() => setOpenModal(true)}>
-          <AiOutlinePlus />
-          <span>{t('buyEth.button')}</span>
-        </StakeButton>
+        {accountAddress && (
+          <StakeButton onClick={() => setOpenModal(true)}>
+            <AiOutlinePlus />
+            <span>{t('buyEth.button')}</span>
+          </StakeButton>
+        )}
       </Tabs>
       <Tooltip trigger='click' title={t('copiedToClipboard')}>
         <StakeButton onClick={copyToClipboard}>
