@@ -26,7 +26,7 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
   const ethGifSuccess = `/assets/gifs/getEth.gif`
   const recaptchaRef = useRef<ReCAPTCHA>(null)
   const recaptchakey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string
-  console.log('recaptchaRef', recaptchaRef)
+
   const handleSuccess = () => {
     onBuyEthIsSuccess && onBuyEthIsSuccess()
     setImage(ethGifSuccess)
@@ -42,7 +42,6 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
   const handleGetFaucet = useCallback(async () => {
     if (recaptchaRef) {
       const token = await recaptchaRef?.current?.execute()
-      console.log(token)
       if (token) {
         setIsSuccess(false)
         const params = {
