@@ -11,6 +11,7 @@ import { queryPool } from '../../queries/queryPool'
 import { ethers } from 'ethers'
 import { usePrepareStakeTogetherWithdrawPool, useStakeTogetherWithdrawPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
+import useEstimateGas from '../useEstimateGas'
 
 export default function useWithdraw(
   withdrawAmount: string,
@@ -48,6 +49,8 @@ export default function useWithdraw(
       setAwaitWalletAction(false)
     }
   })
+
+  const { estimateGas } = useEstimateGas(tx as ethers.TransactionRequest)
 
   const withdraw = () => {
     setAwaitWalletAction(true)
@@ -94,5 +97,5 @@ export default function useWithdraw(
     }
   }, [accountAddress, isError, notify, poolAddress, t, withdrawAmount])
 
-  return { withdraw, estimateGas: '0', isLoading, isSuccess, awaitWalletAction, resetState, txHash }
+  return { withdraw, estimateGas, isLoading, isSuccess, awaitWalletAction, resetState, txHash }
 }
