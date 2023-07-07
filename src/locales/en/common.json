@@ -107,9 +107,9 @@
     "title": "Sign In"
   },
   "buyEth": {
-    "button": "Buy ETH",
-    "modalTitle": "Buy ETH",
-    "modalButton": "Buy ETH",
+    "button": "Get ETH",
+    "modalTitle": "Get ETH",
+    "modalButton": "Get ETH",
     "altImage": "Wallet Icon",
     "labelInput": "Enter the redemption code below:",
     "inputPlaceHolder": "Enter code here",
