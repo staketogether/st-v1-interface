@@ -159,12 +159,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             <AddSethInYourWalletButton />
           </ActionContainer>
           <SwitchActionsBar>
-            <ActionTab className='active'>Pools</ActionTab>
+            <ActionTab className='active'>{t('pools')}</ActionTab>
             <Tooltip title={t('soon')}>
-              <ActionTab className='disabled'>Analytics</ActionTab>
+              <ActionTab className='disabled'>{t('analytics')}</ActionTab>
             </Tooltip>
             <Tooltip title={t('soon')}>
-              <ActionTab className='disabled'>Activities</ActionTab>
+              <ActionTab className='disabled'>{t('activities')}</ActionTab>
             </Tooltip>
           </SwitchActionsBar>
           <ContainerPoolsDelegated>
