@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import Modal from '../Modal'
 import Loading from '../icons/Loading'
 import ReCAPTCHA from 'react-google-recaptcha'
+import { globalConfig } from '@/config/global'
 
 type WalletBuyEthModalProps = {
   walletAddress: `0x${string}`
@@ -25,8 +26,7 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
   const { t } = useTranslation()
   const ethGifSuccess = `/assets/gifs/getEth.gif`
   const recaptchaRef = useRef<ReCAPTCHA>(null)
-  const recaptchakey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string
-
+  const { recaptchakey } = globalConfig
   const handleSuccess = () => {
     onBuyEthIsSuccess && onBuyEthIsSuccess()
     setImage(ethGifSuccess)
