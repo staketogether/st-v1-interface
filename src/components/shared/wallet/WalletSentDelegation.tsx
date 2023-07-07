@@ -6,6 +6,7 @@ import { truncateWei } from '../../../services/truncate'
 import { Delegation } from '../../../types/Delegation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
+import useWalletSidebar from '@/hooks/useWalletSidebar'
 
 type WalletSentDelegationProps = {
   delegation: Delegation
@@ -15,9 +16,13 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
   const { t } = useTranslation()
 
   const { balance: delegationAmount } = usePooledEthByShares(delegation.delegationShares)
+  const { setOpenSidebar } = useWalletSidebar()
 
   return (
-    <Container href={`/stake/deposit/${delegation.delegated.address}`}>
+    <Container
+      href={`/stake/deposit/${delegation.delegated.address}`}
+      onClick={() => setOpenSidebar(false)}
+    >
       <div>
         <div>
           <EnsAvatar address={delegation.delegated.address} />
