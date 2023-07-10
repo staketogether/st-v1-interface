@@ -14,11 +14,13 @@ import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useWithdraw from '../../hooks/contracts/useWithdraw'
 import useTranslation from '../../hooks/useTranslation'
-import { convertYouReceiveValue, truncateWei } from '../../services/truncate'
+import { truncateWei } from '../../services/truncate'
 import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import WalletBuyEthModal from '../shared/wallet/WalletBuyEthModal'
+import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
+import usePooledShareByEth from '@/hooks/contracts/usePooledShareByEth'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -40,10 +42,13 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     refetch: delegationSharesRefetch
   } = useDelegationShares(accountAddress, poolAddress)
   const { withdrawalLiquidityBalance } = useWithdrawalLiquidityBalance()
-
   const { minDepositAmount } = useMinDepositAmount()
 
   const [amount, setAmount] = useState<string>('')
+  const { balance: ethByShare } = usePooledEthByShares(
+    ethers.parseUnits(amount || '0', 'ether').toString()
+  )
+  const { balance: shareByEth } = usePooledShareByEth(ethByShare)
   const debouncedAmount = useDebounce(amount, 1000)
 
   const inputAmount = debouncedAmount || '0'
@@ -179,7 +184,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         />
         <StakeInfo>
           <span>
-            {`${t('youReceive')} ${type === 'deposit' ? convertYouReceiveValue(amount) || '0' : amount}`}
+            {`${t('youReceive')} ${type === 'deposit' ? truncateWei(shareByEth, 4) || '0' : amount}`}
             <span>{`${receiveLabel}`}</span>
           </span>
           {type === 'deposit' && (

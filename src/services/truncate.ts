@@ -49,11 +49,3 @@ export function truncateAddress(address: string): string {
 export function capitalize(text: string) {
   return text.charAt(0).toUpperCase() + text.slice(1)
 }
-
-export function convertYouReceiveValue(amountInEther: string): string {
-  if (!amountInEther) {
-    return '0'
-  }
-  const etherAsBigInt = BigInt(Math.round(parseFloat(amountInEther) * Number(10 ** 18))) - BigInt(1)
-  return truncateWei(etherAsBigInt, 7)
-}

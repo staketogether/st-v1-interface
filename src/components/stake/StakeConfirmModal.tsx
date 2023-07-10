@@ -1,6 +1,6 @@
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useTranslation from '@/hooks/useTranslation'
-import { convertYouReceiveValue, truncateDecimal } from '@/services/truncate'
+import { truncateDecimal } from '@/services/truncate'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
@@ -92,7 +92,7 @@ export default function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youReceive')}</span>
                 <div>
                   <span>
-                    {convertYouReceiveValue(truncateDecimal(amount, 6))}
+                    {truncateDecimal(amount, 6)}
                     <span className={'purple'}> {t('lsd.symbol')}</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
@@ -115,8 +115,7 @@ export default function StakeConfirmModal({
                 ) : (
                   <>
                     {truncateDecimal(amount, 6)}
-                    <span className={`purple`}> {t('eth.symbol')}</span> ={' '}
-                    {convertYouReceiveValue(truncateDecimal(amount, 6))}
+                    <span className={`purple`}> {t('eth.symbol')}</span> = {truncateDecimal(amount, 6)}
                     <span className={`purple`}> {t('lsd.symbol')}</span>
                   </>
                 )}
