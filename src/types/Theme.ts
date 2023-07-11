@@ -30,6 +30,7 @@ export default interface Theme {
       18: string
       22: string
       24: string
+      32: string
     }
   }
   color: {
