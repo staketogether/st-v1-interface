@@ -17,7 +17,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   return (
     <Container>
       <Form>
-        <StakeSwitchActions poolAddress={poolAddress} />
+        <StakeSwitchActions poolAddress={poolAddress} accountAddress={account} />
         {hasAccountAndPool && (
           <StakeForm type={type} accountAddress={account} poolAddress={poolAddress} />
         )}
