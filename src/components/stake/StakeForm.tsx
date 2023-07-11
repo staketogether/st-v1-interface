@@ -20,7 +20,7 @@ import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import WalletBuyEthModal from '../shared/wallet/WalletBuyEthModal'
 import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
-import usePooledShareByEth from '@/hooks/contracts/usePooledShareByEth'
+import usePooledShareByEth from '@/hooks/contracts/useSharesByPooledEth'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
