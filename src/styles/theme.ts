@@ -29,7 +29,8 @@ export const lightTheme: Theme = {
       16: '1.6rem',
       18: '1.8rem',
       22: '2.2rem',
-      24: '2.4rem'
+      24: '2.4rem',
+      32: '3.2rem'
     }
   },
   color: {

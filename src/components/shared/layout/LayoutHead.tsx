@@ -13,13 +13,15 @@ export default function LayoutHead({ text }: LayoutHeadProps) {
 }
 
 const { Head, Title } = {
-  Head: styled.div`
+  Head: styled.header`
     display: grid;
     grid-template-columns: 1fr;
   `,
   Title: styled.h1`
-    font-size: ${({ theme }) => theme.font.size[22]};
-    font-weight: 400;
+    font-size: ${({ theme }) => theme.font.size[32]};
     color: ${({ theme }) => theme.color.primary};
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
   `
 }
