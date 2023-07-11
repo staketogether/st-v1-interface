@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
 import { useStakeTogetherGetSharesByPooledEth } from '../../types/Contracts'
 
-export default function usePooledShareByEth(sharesAmount: bigint) {
+export default function useSharesByPooledEth(shareAmount: bigint) {
   const { contracts } = chainConfig()
 
   const [balance, setBalance] = useState<bigint>(0n)
@@ -10,7 +10,7 @@ export default function usePooledShareByEth(sharesAmount: bigint) {
 
   const { isLoading } = useStakeTogetherGetSharesByPooledEth({
     address: contracts.StakeTogether,
-    args: [BigInt(sharesAmount)],
+    args: [shareAmount],
     onSuccess: data => {
       setBalance(data || 0n)
     }
