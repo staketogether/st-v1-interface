@@ -15,7 +15,7 @@ export default function Deposit({ poolAddress, name, avatar }: DepositPoolProps)
   return (
     <LayoutTemplate>
       <MetaPool name={name} avatar={avatar} />
-      <StakeTitle poolAddress={poolAddress} />
+      <StakeTitle />
       <StakeControl poolAddress={poolAddress} type='deposit' />
     </LayoutTemplate>
   )
