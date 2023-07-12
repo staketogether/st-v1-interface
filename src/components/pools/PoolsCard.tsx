@@ -21,6 +21,7 @@ export default function PoolsCard({ pool }: PoolsCardProps) {
   const { balance: rewardsShares, loading: rewardsSharesLoading } = usePooledEthByShares(
     pool.rewardsShares
   )
+
   const { balance: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
     pool.delegatedShares
   )
