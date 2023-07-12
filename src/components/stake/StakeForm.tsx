@@ -23,6 +23,8 @@ import stIcon from '@assets/icons/staked-icon.svg'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import { AiOutlineCreditCard } from 'react-icons/ai'
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
+import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
+import usePooledShareByEth from '@/hooks/contracts/useSharesByPooledEth'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -44,10 +46,11 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     refetch: delegationSharesRefetch
   } = useDelegationShares(accountAddress, poolAddress)
   const { withdrawalLiquidityBalance } = useWithdrawalLiquidityBalance()
-
   const { minDepositAmount } = useMinDepositAmount()
 
   const [amount, setAmount] = useState<string>('')
+  const { balance: ethByShare } = usePooledEthByShares(ethers.parseUnits(amount || '0', 'ether').toString())
+  const { balance: shareByEth } = usePooledShareByEth(ethByShare)
   const debouncedAmount = useDebounce(amount, 1000)
 
   const { setOpenModal: openByEthModal } = useWalletByEthModal()
@@ -219,7 +222,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         <StakeInfo>
           <div>
             <span>{`${t('youReceive')} `}</span>
-            <span>{`${amount || '0'} ${receiveSymbol}`}</span>
+            <span>{` ${type === 'deposit' ? truncateWei(shareByEth, 4) || '0' : amount}`}</span>
           </div>
           {type === 'deposit' && (
             <div>
