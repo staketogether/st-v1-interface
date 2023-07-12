@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 
 export default function useEstimateGas(tx?: ethers.TransactionRequest) {
+  console.log(tx)
   const [estimateGas, setEstimateGas] = useState('0')
   const { provider } = chainConfig()
   useEffect(() => {

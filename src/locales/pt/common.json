@@ -41,6 +41,7 @@
   "viewOnExplorer": "Ver no Explorer",
   "try": "Tentar novamente",
   "availableToStake": "Disponivel para stake",
+   "entryFee": "Taxa de entrada",
   "titles": {
     "pools": "Pools",
     "stake": "Stake de Ether",

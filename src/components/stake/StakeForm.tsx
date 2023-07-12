@@ -25,6 +25,7 @@ import { AiOutlineCreditCard } from 'react-icons/ai'
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
 import usePooledShareByEth from '@/hooks/contracts/useSharesByPooledEth'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -160,45 +161,47 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   return (
     <>
       <StakeContainer>
-        {delegationSharesFormatted > 0 && (
-          <CardInfo>
-            <div>
-              <div>
-                <Image src={stIcon} width={24} height={24} alt='staked Icon' />
-              </div>
-              <div>
-                <h4>{t('staked')}</h4>
-                <span className='purple'>{truncateWei(delegationSharesFormatted, 6)} SETH</span>
-              </div>
-            </div>
-            <div>
-              <h4>{t('rewards')}</h4>
-              <span className='green'>
-                +0.54321 <span className='purple'> SETH</span>
-              </span>
-            </div>
-          </CardInfo>
-        )}
         <CardInfo>
           <div>
             <div>
-              <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
+              <Image src={stIcon} width={24} height={24} alt='staked Icon' />
             </div>
             <div>
-              <h4>{t('availableToStake')}</h4>
-              <span className='purple'>{truncateWei(ethBalance, 6)} ETH</span>
+              <h4>{t('staked')}</h4>
+              {delegationSharesLoading ? (
+                <SkeletonLoading height={20} width={120} />
+              ) : (
+                <span className='purple'>{truncateWei(delegationSharesFormatted, 6)} SETH</span>
+              )}
             </div>
           </div>
           <div>
-            <BuyEthButton
-              onClick={() => openByEthModal(true)}
-              className={`${type === 'withdraw' ? 'purple' : ''}`}
-            >
-              <AiOutlineCreditCard />
-              {t('buyEth.button')}
-            </BuyEthButton>
+            <h4>{t('rewards')}</h4>
+            <span className='green'>
+              +0.54321 <span className='purple'> SETH</span>
+            </span>
           </div>
         </CardInfo>
+
+        {type === 'deposit' && (
+          <CardInfo>
+            <div>
+              <div>
+                <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
+              </div>
+              <div>
+                <h4>{t('availableToStake')}</h4>
+                <span className='purple'>{truncateWei(ethBalance, 6)} ETH</span>
+              </div>
+            </div>
+            <div>
+              <BuyEthButton onClick={() => openByEthModal(true)}>
+                <AiOutlineCreditCard />
+                {t('buyEth.button')}
+              </BuyEthButton>
+            </div>
+          </CardInfo>
+        )}
         <StakeFormInput
           value={amount}
           onChange={value => setAmount(value)}
@@ -222,7 +225,19 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         <StakeInfo>
           <div>
             <span>{`${t('youReceive')} `}</span>
-            <span>{` ${type === 'deposit' ? truncateWei(shareByEth, 4) || '0' : amount}`}</span>
+            <span>{` ${
+              type === 'deposit' ? truncateWei(shareByEth, 4) || '0' : amount
+            } ${receiveSymbol}`}</span>
+          </div>
+          <div>
+            <span>{t('confirmStakeModal.exchangeRate')}</span>
+            <span>
+              1 <span>SETH</span> = 1 <span>ETH</span>
+            </span>
+          </div>
+          <div>
+            <span>{t('confirmStakeModal.networkFee')}</span>
+            <span>{estimateGas}</span>
           </div>
           {type === 'deposit' && (
             <div>
@@ -230,6 +245,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               <span>{`${rewardsFee}%`}</span>
             </div>
           )}
+          <div>
+            <span>{`${t('entryFee')} `}</span>
+            <span>0.3%</span>
+          </div>
         </StakeInfo>
       </StakeContainer>
       <StakeConfirmModal
@@ -313,6 +332,15 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton } = {
     padding: 0px ${({ theme }) => theme.size[12]};
     font-size: ${({ theme }) => theme.size[12]};
 
+    > div:first-child {
+      padding: 8px 0px;
+      border-bottom: 1px solid ${({ theme }) => theme.color.blue[50]};
+      > span:nth-child(2) {
+        font-weight: 500;
+        color: ${({ theme }) => theme.color.secondary};
+      }
+    }
+
     > div {
       width: 100%;
       display: flex;
@@ -329,7 +357,10 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton } = {
       }
       > span:nth-child(2) {
         font-weight: 500;
-        color: ${({ theme }) => theme.color.secondary};
+        color: ${({ theme }) => theme.color.primary};
+        > span {
+          color: ${({ theme }) => theme.color.secondary};
+        }
       }
     }
   `,
@@ -356,13 +387,6 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton } = {
 
     &:hover {
       background: ${({ theme }) => theme.color.blue[600]};
-    }
-
-    &.purple {
-      background: ${({ theme }) => theme.color.purple[700]};
-      &:hover {
-        background: ${({ theme }) => theme.color.purple[900]};
-      }
     }
   `
 }
