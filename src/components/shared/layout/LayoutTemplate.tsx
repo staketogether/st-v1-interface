@@ -32,7 +32,7 @@ const { Container, Wrapper, Content, Body } = {
     grid-template-rows: 1fr 60px;
     gap: 24px;
     min-height: 100vh;
-    background: linear-gradient(180deg, rgba(143, 152, 214, 0.2) 0%, rgba(143, 152, 214, 1) 50%);
+    background: ${({ theme }) => theme.color.blue[100]};
   `,
   Wrapper: styled.div`
     width: 100%;
