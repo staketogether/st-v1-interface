@@ -19,6 +19,8 @@ import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import WalletBuyEthModal from '../shared/wallet/WalletBuyEthModal'
+import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
+import usePooledShareByEth from '@/hooks/contracts/useSharesByPooledEth'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -40,10 +42,13 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     refetch: delegationSharesRefetch
   } = useDelegationShares(accountAddress, poolAddress)
   const { withdrawalLiquidityBalance } = useWithdrawalLiquidityBalance()
-
   const { minDepositAmount } = useMinDepositAmount()
 
   const [amount, setAmount] = useState<string>('')
+  const { balance: ethByShare } = usePooledEthByShares(
+    ethers.parseUnits(amount || '0', 'ether').toString()
+  )
+  const { balance: shareByEth } = usePooledShareByEth(ethByShare)
   const debouncedAmount = useDebounce(amount, 1000)
 
   const inputAmount = debouncedAmount || '0'
@@ -179,7 +184,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         />
         <StakeInfo>
           <span>
-            {`${t('youReceive')} ${amount || '0'}`}
+            {`${t('youReceive')} ${type === 'deposit' ? truncateWei(shareByEth, 4) || '0' : amount}`}
             <span>{`${receiveLabel}`}</span>
           </span>
           {type === 'deposit' && (
