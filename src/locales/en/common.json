@@ -42,6 +42,7 @@
   "try": "try again",
   "availableToStake": "Available to stake",
   "entryFee": "Entry fee",
+  "amount": "amount",
   "titles": {
     "pools": "Pools",
     "stake": "Stake Ether",

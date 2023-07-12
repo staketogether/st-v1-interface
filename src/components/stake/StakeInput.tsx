@@ -3,7 +3,9 @@ import useEthToUsdPrice from '../../hooks/useEthToUsdPrice'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-
+import Image from 'next/image'
+import ethIcon from '@assets/icons/eth-icon.svg'
+import stIcon from '@assets/icons/staked-icon.svg'
 interface StakeInputProps {
   value: string
   onChange: (value: string) => void
@@ -40,56 +42,88 @@ export default function StakeFormInput({
   }
 
   return (
-    <Container className={`${disabled ? 'disabled' : ''} ${hasError ? 'error' : ''}`}>
-      <InputContainer>
-        <input
-          disabled={disabled}
-          type='text'
-          value={value}
-          onChange={e => handleChange(e.target.value)}
-          placeholder='0'
-          className={`${purple ? 'purple' : ''} ${hasError ? 'error' : ''}`}
-        />
-        <MaxValue
-          className={purple ? 'purple' : ''}
-          disabled={disabled}
-          onClick={() => handleChange(truncateWei(balance, 18))}
-        >
-          {t('max')}
-        </MaxValue>
-      </InputContainer>
-      <BalanceInfo>
-        <span className={`${hasError ? 'error' : ''}`}>
-          {value && price && `${truncateWei(BigInt(price), 2)} ${t('usd')}`}
-        </span>
-        <span className={`${hasError ? 'error' : ''}`}>
-          {type === 'deposit' ? t('balance') : t('poolBalance')}:{' '}
-          {balanceLoading ? <SkeletonLoading width={90} height={12} /> : truncateWei(balance, 6)}{' '}
-          {!balanceLoading && symbol}
-        </span>
-      </BalanceInfo>
+    <Container>
+      {type === 'deposit' ? (
+        <h3>{`${t('eth.symbol')} ${t('amount')}`}</h3>
+      ) : (
+        <h3 className='purple'>{`${t('lsd.symbol')} ${t('amount')}`}</h3>
+      )}
+      <div className={`${disabled ? 'disabled' : ''} ${hasError ? 'error' : ''}`}>
+        <InputContainer>
+          <div>
+            {type === 'deposit' ? (
+              <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
+            ) : (
+              <Image src={stIcon} width={24} height={24} alt='staked Icon' />
+            )}
+
+            <input
+              disabled={disabled}
+              type='text'
+              value={value}
+              onChange={e => handleChange(e.target.value)}
+              placeholder='0'
+              className={`${purple ? 'purple' : ''} ${hasError ? 'error' : ''}`}
+            />
+          </div>
+          <MaxValue
+            className={purple ? 'purple' : ''}
+            disabled={disabled}
+            onClick={() => handleChange(truncateWei(balance, 18))}
+          >
+            {t('max')}
+          </MaxValue>
+        </InputContainer>
+        <BalanceInfo>
+          <span className={`${hasError ? 'error' : ''}`}>
+            {value && price && `${truncateWei(BigInt(price), 2)} ${t('usd')}`}
+          </span>
+          <span className={`${hasError ? 'error' : ''}`}>
+            {type === 'deposit' ? t('balance') : t('poolBalance')}:{' '}
+            {balanceLoading ? <SkeletonLoading width={90} height={12} /> : truncateWei(balance, 6)}{' '}
+            {!balanceLoading && symbol}
+          </span>
+        </BalanceInfo>
+      </div>
     </Container>
   )
 }
 
 const { Container, InputContainer, MaxValue, BalanceInfo } = {
-  Container: styled.div`
-    display: grid;
-    grid-template-columns: 1fr;
-    border-radius: ${({ theme }) => theme.size[16]};
-    background: ${({ theme }) => theme.color.whiteAlpha[800]};
-    padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
-    gap: ${({ theme }) => theme.size[12]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    border: 1px solid ${({ theme }) => theme.color.white};
-
-    &.disabled {
-      border: 1px solid ${({ theme }) => theme.color.transparent};
-      background: ${({ theme }) => theme.color.blackAlpha[100]};
+  Container: styled.section`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[4]};
+    h3 {
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      color: ${({ theme }) => theme.color.blue[400]};
+      &.purple {
+        color: ${({ theme }) => theme.color.secondary};
+      }
     }
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[4]};
 
-    &.error {
-      border: 1px solid ${({ theme }) => theme.color.red[100]};
+      border-radius: ${({ theme }) => theme.size[16]};
+      background: ${({ theme }) => theme.color.whiteAlpha[800]};
+      padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
+      gap: ${({ theme }) => theme.size[12]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+      border: 1px solid ${({ theme }) => theme.color.white};
+
+      &.disabled {
+        border: 1px solid ${({ theme }) => theme.color.transparent};
+        background: ${({ theme }) => theme.color.blackAlpha[100]};
+      }
+
+      &.error {
+        border: 1px solid ${({ theme }) => theme.color.red[100]};
+      }
     }
   `,
   BalanceInfo: styled.div`
@@ -111,27 +145,32 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
   InputContainer: styled.div`
     display: flex;
     align-items: center;
-
-    > input {
+    justify-content: space-between;
+    div {
       display: flex;
-      width: 100%;
-      border: none;
-      outline: none;
-      background: none;
-      color: ${({ theme }) => theme.color.black};
-      font-size: ${({ theme }) => theme.font.size[24]};
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
+      > input {
+        display: flex;
+        width: 100%;
+        border: none;
+        outline: none;
+        background: none;
+        color: ${({ theme }) => theme.color.black};
+        font-size: ${({ theme }) => theme.font.size[24]};
 
-      &::-webkit-input-placeholder {
-        color: ${({ theme }) => theme.color.blue[300]};
-      }
-
-      &.error {
-        color: ${({ theme }) => theme.color.red[300]};
-      }
-
-      &.purple {
         &::-webkit-input-placeholder {
-          color: ${({ theme }) => theme.color.purple[300]};
+          color: ${({ theme }) => theme.color.blue[300]};
+        }
+
+        &.error {
+          color: ${({ theme }) => theme.color.red[300]};
+        }
+
+        &.purple {
+          &::-webkit-input-placeholder {
+            color: ${({ theme }) => theme.color.purple[300]};
+          }
         }
       }
     }

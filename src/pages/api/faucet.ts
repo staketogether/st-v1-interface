@@ -25,8 +25,7 @@ export default async function handler(req, res) {
 
   const { address, passcode } = req.body
 
-  const userIp =
-    (req.headers['x-forwarded-for'] || '').split(',').pop().trim() || req.socket.remoteAddress
+  const userIp = (req.headers['x-forwarded-for'] || '').split(',').pop().trim() || req.socket.remoteAddress
 
   if (!address) {
     return res.status(400).json({ message: 'getFaucetErrorMessages.addressIsRequired' })
