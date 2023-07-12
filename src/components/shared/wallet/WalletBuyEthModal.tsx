@@ -41,7 +41,7 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
 
   const handleGetFaucet = useCallback(async () => {
     if (recaptchaRef) {
-      const token = await recaptchaRef?.current?.execute()
+      const token = await recaptchaRef?.current?.executeAsync()
       if (token) {
         setIsSuccess(false)
         const params = {
