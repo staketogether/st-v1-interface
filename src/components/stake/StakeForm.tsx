@@ -4,6 +4,8 @@ import { globalConfig } from '../../config/global'
 
 import chainConfig from '@/config/chain'
 import { useMinDepositAmount } from '@/hooks/contracts/useMinDepositAmount'
+import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
+import usePooledShareByEth from '@/hooks/contracts/useSharesByPooledEth'
 import { useWithdrawalLiquidityBalance } from '@/hooks/contracts/useWithdrawalLiquidityBalance'
 import useDelegationShares from '@/hooks/subgraphs/useDelegationShares'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
@@ -15,12 +17,10 @@ import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useWithdraw from '../../hooks/contracts/useWithdraw'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
+import WalletBuyEthModal from '../shared/wallet/WalletBuyEthModal'
 import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
-import WalletBuyEthModal from '../shared/wallet/WalletBuyEthModal'
-import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
-import usePooledShareByEth from '@/hooks/contracts/useSharesByPooledEth'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -165,22 +165,17 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           balance={balance}
           symbol={balanceLabel}
           balanceLoading={balanceLoading || delegationSharesLoading}
-          disabled={isWrongNetwork || isLoading}
+          disabled={isWrongNetwork || isLoading || type === 'withdraw'}
           purple={type === 'withdraw'}
           hasError={insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity}
           type={type}
         />
         <StakeButton
           isLoading={isLoading}
-          onClick={openStakeConfirmation}
-          label={handleLabelButton()}
+          onClick={() => null}
+          label={t('upgradingLiquidity')}
           purple={type === 'withdraw'}
-          disabled={
-            insufficientFunds ||
-            insufficientMinDeposit ||
-            insufficientWithdrawalLiquidity ||
-            amountIsEmpty
-          }
+          disabled={true}
         />
         <StakeInfo>
           <span>
