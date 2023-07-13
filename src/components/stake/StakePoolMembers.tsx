@@ -69,10 +69,6 @@ const { Container, DelegationsContainer, LoadMoreButton } = {
     grid-template-columns: 1fr;
     gap: ${({ theme }) => theme.size[12]};
 
-    > div:first-of-type {
-      margin-bottom: ${({ theme }) => theme.size[8]};
-    }
-
     > button {
       margin-top: ${({ theme }) => theme.size[8]};
     }
