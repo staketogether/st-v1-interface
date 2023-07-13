@@ -145,10 +145,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
     }
 
-    if (type === 'withdraw') {
-      return t('upgradingLiquidity')
-    }
-
     if (insufficientFunds || insufficientWithdrawalLiquidity || insufficientMinDeposit) {
       return errorLabel
     }
@@ -170,7 +166,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           balance={balance}
           symbol={balanceLabel}
           balanceLoading={balanceLoading || delegationSharesLoading}
-          disabled={type === 'withdraw' || isWrongNetwork || isLoading}
+          disabled={isWrongNetwork || isLoading}
           purple={type === 'withdraw'}
           hasError={insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity}
           type={type}
@@ -181,7 +177,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           label={handleLabelButton()}
           purple={type === 'withdraw'}
           disabled={
-            type === 'withdraw' ||
             insufficientFunds ||
             insufficientMinDeposit ||
             insufficientWithdrawalLiquidity ||
