@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 
 export default function StakeWithdrawSwitchType() {
@@ -15,7 +14,7 @@ export default function StakeWithdrawSwitchType() {
   )
 }
 
-const { Container, Card, RateInfo, Time } = {
+const { Container, Card } = {
   Container: styled.div`
     display: flex;
     gap: 8px;
@@ -41,46 +40,6 @@ const { Container, Card, RateInfo, Time } = {
         font-style: normal;
         font-weight: 400;
         line-height: normal;
-      }
-    }
-  `,
-  RateInfo: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    > div {
-      display: flex;
-      justify-content: space-between;
-      span {
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-      }
-      > span:nth-child(1) {
-        color: ${({ theme }) => theme.color.blackAlpha[500]};
-      }
-      > span:nth-child(2) {
-        color: ${({ theme }) => theme.color.primary};
-      }
-    }
-  `,
-  Time: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    > div {
-      display: flex;
-      flex-direction: column;
-      span {
-        font-size: 12px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        color: ${({ theme }) => theme.color.blackAlpha[500]};
-      }
-      > span:nth-child(2) {
-        color: ${({ theme }) => theme.color.secondary};
       }
     }
   `

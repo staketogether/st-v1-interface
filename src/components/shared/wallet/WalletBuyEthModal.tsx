@@ -1,16 +1,16 @@
 import chainConfig from '@/config/chain'
+import { globalConfig } from '@/config/global'
 import useGetFaucet from '@/hooks/useGetFaucet'
 import useTranslation from '@/hooks/useTranslation'
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import walletImage from '@assets/images/buy-eth-modal/walletImage.jpg'
 import Image, { StaticImageData } from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { ReCAPTCHA } from 'react-google-recaptcha'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import styled from 'styled-components'
 import Modal from '../Modal'
 import Loading from '../icons/Loading'
-import ReCAPTCHA from 'react-google-recaptcha'
-import { globalConfig } from '@/config/global'
 
 type WalletBuyEthModalProps = {
   walletAddress: `0x${string}`
