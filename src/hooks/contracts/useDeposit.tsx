@@ -14,9 +14,9 @@ import useEstimateGas from '../useEstimateGas'
 
 export default function useDeposit(
   depositAmount: string,
-  accountAddress: `0x${string}`,
   poolAddress: `0x${string}`,
-  enabled: boolean
+  enabled: boolean,
+  accountAddress?: `0x${string}`
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
@@ -73,7 +73,7 @@ export default function useDeposit(
   }
 
   useEffect(() => {
-    if (isSuccess && depositAmount) {
+    if (isSuccess && depositAmount && accountAddress) {
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool, queryDelegationShares]
       })

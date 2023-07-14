@@ -15,9 +15,9 @@ import useEstimateGas from '../useEstimateGas'
 
 export default function useWithdraw(
   withdrawAmount: string,
-  accountAddress: `0x${string}`,
   poolAddress: `0x${string}`,
-  enabled: boolean
+  enabled: boolean,
+  accountAddress?: `0x${string}`
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)

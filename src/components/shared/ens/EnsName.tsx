@@ -11,9 +11,10 @@ type EnsNameProps = {
   large?: boolean
   larger?: boolean
   slice?: number
+  color?: string
 }
 
-export default function EnsName({ address, large, larger, slice }: EnsNameProps) {
+export default function EnsName({ address, large, larger, slice, color }: EnsNameProps) {
   const { name, nameLoading } = useEns(address)
 
   const text = <Text className={large ? 'large' : ''}>{truncateAddress(address)}</Text>
@@ -29,13 +30,13 @@ export default function EnsName({ address, large, larger, slice }: EnsNameProps)
       setNameEl(<SkeletonLoading width={140} height={22} />)
     } else if (name) {
       setNameEl(
-        <Text large={large} larger={larger}>
+        <Text color={color} large={large} larger={larger}>
           {slice ? truncateText(name, slice) : name}
         </Text>
       )
     } else {
       setNameEl(
-        <Text large={large} larger={larger}>
+        <Text color={color} large={large} larger={larger}>
           {truncateAddress(address)}
         </Text>
       )
@@ -46,9 +47,9 @@ export default function EnsName({ address, large, larger, slice }: EnsNameProps)
 }
 
 const { Text } = {
-  Text: styled.span<{ large?: boolean; larger?: boolean }>`
+  Text: styled.span<{ large?: boolean; larger?: boolean; color?: string }>`
     font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme, color }) => color || theme.color.black};
     border: 0;
     padding: 0;
     margin: 0;

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import StakePoolInfo from './StakePoolInfo'
 import StakeSwitchActions from './StakeSwitchAction'
@@ -6,19 +6,18 @@ import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 import { AiFillCheckCircle, AiOutlineShareAlt } from 'react-icons/ai'
 import { StakeForm } from './StakeForm'
-import { StakeFormEmpty } from './StakeFormEmpty'
 import { Tooltip } from 'antd'
 import useTranslation from '@/hooks/useTranslation'
 
 interface StakeControlProps {
-  poolAddress: `0x${string}` | undefined
+  poolAddress: `0x${string}`
   type: 'deposit' | 'withdraw'
 }
 
 export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { t } = useTranslation()
   const { account } = useConnectedAccount()
-  const hasAccountAndPool = account && poolAddress
+  const theme = useTheme()
 
   function copyToClipboard() {
     navigator.clipboard.writeText(window.location.toString())
@@ -27,12 +26,12 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   return (
     <Container>
       <Form>
-        {hasAccountAndPool && (
+        {poolAddress && (
           <header>
             <div>
               <EnsAvatar size={32} address={poolAddress} />
               <Verified>
-                <EnsName larger address={poolAddress} />
+                <EnsName color={theme.color.primary} larger address={poolAddress} />
                 <VerifiedIcon fontSize={16} />
               </Verified>
             </div>
@@ -44,10 +43,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
           </header>
         )}
         <StakeSwitchActions poolAddress={poolAddress} />
-        {hasAccountAndPool && <StakeForm type={type} accountAddress={account} poolAddress={poolAddress} />}
-        {!hasAccountAndPool && (
-          <StakeFormEmpty type={type} accountAddress={account} poolAddress={poolAddress} />
-        )}
+        <StakeForm type={type} accountAddress={account} poolAddress={poolAddress} />
       </Form>
       <StakePoolInfo poolAddress={poolAddress} />
     </Container>
@@ -74,7 +70,6 @@ const { Container, Form, Verified, VerifiedIcon, ShareButton, ShareIcon } = {
     > header {
       padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[8]};
       font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.primary};
       border: none;
       transition: background-color 0.1s ease;
       display: flex;
@@ -82,7 +77,7 @@ const { Container, Form, Verified, VerifiedIcon, ShareButton, ShareIcon } = {
       > div {
         display: flex;
         align-items: center;
-        gap: ${({ theme }) => theme.size[4]};
+        gap: ${({ theme }) => theme.size[8]};
       }
     }
   `,
