@@ -1,11 +1,11 @@
+import ethIcon from '@assets/icons/eth-icon.svg'
+import stIcon from '@assets/icons/staked-icon.svg'
+import Image from 'next/image'
 import styled from 'styled-components'
 import useEthToUsdPrice from '../../hooks/useEthToUsdPrice'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import Image from 'next/image'
-import ethIcon from '@assets/icons/eth-icon.svg'
-import stIcon from '@assets/icons/staked-icon.svg'
 interface StakeInputProps {
   value: string
   onChange: (value: string) => void

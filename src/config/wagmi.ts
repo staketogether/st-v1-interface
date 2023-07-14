@@ -21,7 +21,7 @@ const connectors = [
   new WalletConnectConnector({
     chains,
     options: {
-      projectId: String(process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY),
+      projectId: String(process.env.NEXT_PUBLIC_WALLET_CONNECT),
       showQrModal: true
     }
   }),
