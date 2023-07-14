@@ -18,10 +18,7 @@ type WalletConnectedButtonProps = {
   showBalance?: boolean
 }
 
-export default function WalletConnectedButton({
-  address,
-  showBalance = true
-}: WalletConnectedButtonProps) {
+export default function WalletConnectedButton({ address, showBalance = true }: WalletConnectedButtonProps) {
   const { setOpenSidebar } = useWalletSidebar()
   const { t } = useTranslation()
 

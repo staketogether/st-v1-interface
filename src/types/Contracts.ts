@@ -4136,10 +4136,7 @@ export function useRewardsTotalBatchReportsForBlock<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link rewardsABI}__.
  */
-export function useRewardsWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined
->(
+export function useRewardsWrite<TFunctionName extends string, TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
         PrepareWriteContractResult<typeof rewardsABI, string>['request']['abi'],
@@ -4644,10 +4641,7 @@ export function useRewardsBatchConsensusRejectEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link rewardsABI}__ and `eventName` set to `"EtherReceived"`.
  */
 export function useRewardsEtherReceivedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof rewardsABI, 'EtherReceived'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof rewardsABI, 'EtherReceived'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: rewardsABI,
@@ -4660,10 +4654,7 @@ export function useRewardsEtherReceivedEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link rewardsABI}__ and `eventName` set to `"ExecuteBatchReport"`.
  */
 export function useRewardsExecuteBatchReportEvent(
-  config: Omit<
-    UseContractEventConfig<typeof rewardsABI, 'ExecuteBatchReport'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof rewardsABI, 'ExecuteBatchReport'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: rewardsABI,
@@ -4736,10 +4727,7 @@ export function useRewardsPausedEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link rewardsABI}__ and `eventName` set to `"PenalizeOracle"`.
  */
 export function useRewardsPenalizeOracleEvent(
-  config: Omit<
-    UseContractEventConfig<typeof rewardsABI, 'PenalizeOracle'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof rewardsABI, 'PenalizeOracle'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: rewardsABI,
@@ -4781,10 +4769,7 @@ export function useRewardsRemoveOracleEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link rewardsABI}__ and `eventName` set to `"ReportExecuted"`.
  */
 export function useRewardsReportExecutedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof rewardsABI, 'ReportExecuted'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof rewardsABI, 'ReportExecuted'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: rewardsABI,
@@ -4813,10 +4798,7 @@ export function useRewardsSetBlockReportGrowthLimitEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link rewardsABI}__ and `eventName` set to `"SetBunkerMode"`.
  */
 export function useRewardsSetBunkerModeEvent(
-  config: Omit<
-    UseContractEventConfig<typeof rewardsABI, 'SetBunkerMode'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof rewardsABI, 'SetBunkerMode'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: rewardsABI,
@@ -4845,10 +4827,7 @@ export function useRewardsSetOraclePenalizeLimitEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link rewardsABI}__ and `eventName` set to `"SetOracleQuorum"`.
  */
 export function useRewardsSetOracleQuorumEvent(
-  config: Omit<
-    UseContractEventConfig<typeof rewardsABI, 'SetOracleQuorum'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof rewardsABI, 'SetOracleQuorum'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: rewardsABI,
@@ -4861,10 +4840,7 @@ export function useRewardsSetOracleQuorumEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link rewardsABI}__ and `eventName` set to `"SetReportFrequency"`.
  */
 export function useRewardsSetReportFrequencyEvent(
-  config: Omit<
-    UseContractEventConfig<typeof rewardsABI, 'SetReportFrequency'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof rewardsABI, 'SetReportFrequency'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: rewardsABI,
@@ -4893,10 +4869,7 @@ export function useRewardsSetReportGrowthLimitEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link rewardsABI}__ and `eventName` set to `"SetStakeTogether"`.
  */
 export function useRewardsSetStakeTogetherEvent(
-  config: Omit<
-    UseContractEventConfig<typeof rewardsABI, 'SetStakeTogether'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof rewardsABI, 'SetStakeTogether'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: rewardsABI,
@@ -4973,10 +4946,7 @@ export function useRewardsSingleConsensusRejectEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link rewardsABI}__ and `eventName` set to `"SubmitBatchReport"`.
  */
 export function useRewardsSubmitBatchReportEvent(
-  config: Omit<
-    UseContractEventConfig<typeof rewardsABI, 'SubmitBatchReport'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof rewardsABI, 'SubmitBatchReport'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: rewardsABI,
@@ -4989,10 +4959,7 @@ export function useRewardsSubmitBatchReportEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link rewardsABI}__ and `eventName` set to `"SubmitSingleReport"`.
  */
 export function useRewardsSubmitSingleReportEvent(
-  config: Omit<
-    UseContractEventConfig<typeof rewardsABI, 'SubmitSingleReport'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof rewardsABI, 'SubmitSingleReport'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: rewardsABI,
@@ -5019,12 +4986,7 @@ export function useRewardsUnpausedEvent(
 export function useStakeTogetherRead<
   TFunctionName extends string,
   TSelectData = ReadContractResult<typeof stakeTogetherABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
-) {
+>(config: Omit<UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
   return useContractRead({ abi: stakeTogetherABI, ...config } as UseContractReadConfig<
     typeof stakeTogetherABI,
     TFunctionName,
@@ -6760,10 +6722,7 @@ export function useStakeTogetherSetStakeTogetherFee<TMode extends WriteContractM
 export function useStakeTogetherSetStakeTogetherFeeAddress<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof stakeTogetherABI,
-          'setStakeTogetherFeeAddress'
-        >['request']['abi'],
+        PrepareWriteContractResult<typeof stakeTogetherABI, 'setStakeTogetherFeeAddress'>['request']['abi'],
         'setStakeTogetherFeeAddress',
         TMode
       > & { functionName?: 'setStakeTogetherFeeAddress' }
@@ -6829,10 +6788,7 @@ export function useStakeTogetherSetValidatorFeeAddress<TMode extends WriteContra
 export function useStakeTogetherSetValidatorModuleAddress<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof stakeTogetherABI,
-          'setValidatorModuleAddress'
-        >['request']['abi'],
+        PrepareWriteContractResult<typeof stakeTogetherABI, 'setValidatorModuleAddress'>['request']['abi'],
         'setValidatorModuleAddress',
         TMode
       > & { functionName?: 'setValidatorModuleAddress' }
@@ -7882,10 +7838,7 @@ export function useStakeTogetherEvent<TEventName extends string>(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"AddPool"`.
  */
 export function useStakeTogetherAddPoolEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'AddPool'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'AddPool'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -7898,10 +7851,7 @@ export function useStakeTogetherAddPoolEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"Approval"`.
  */
 export function useStakeTogetherApprovalEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'Approval'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'Approval'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -7914,10 +7864,7 @@ export function useStakeTogetherApprovalEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"Bootstrap"`.
  */
 export function useStakeTogetherBootstrapEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'Bootstrap'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'Bootstrap'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -7946,10 +7893,7 @@ export function useStakeTogetherBurnPoolSharesEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"BurnShares"`.
  */
 export function useStakeTogetherBurnSharesEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'BurnShares'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'BurnShares'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -8010,10 +7954,7 @@ export function useStakeTogetherDepositLiquidityBufferEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"DepositPool"`.
  */
 export function useStakeTogetherDepositPoolEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'DepositPool'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'DepositPool'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -8074,10 +8015,7 @@ export function useStakeTogetherEtherReceivedEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"MintLoss"`.
  */
 export function useStakeTogetherMintLossEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'MintLoss'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'MintLoss'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -8106,10 +8044,7 @@ export function useStakeTogetherMintPoolSharesEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"MintRewards"`.
  */
 export function useStakeTogetherMintRewardsEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'MintRewards'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'MintRewards'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -8122,10 +8057,7 @@ export function useStakeTogetherMintRewardsEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"MintShares"`.
  */
 export function useStakeTogetherMintSharesEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'MintShares'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'MintShares'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -8167,10 +8099,7 @@ export function useStakeTogetherPausedEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"RemovePool"`.
  */
 export function useStakeTogetherRemovePoolEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'RemovePool'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'RemovePool'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -8247,10 +8176,7 @@ export function useStakeTogetherSetLiquidityFeeAddressEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"SetMaxPools"`.
  */
 export function useStakeTogetherSetMaxPoolsEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'SetMaxPools'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'SetMaxPools'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -8343,10 +8269,7 @@ export function useStakeTogetherSetOperatorFeeAddressEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"SetPoolFee"`.
  */
 export function useStakeTogetherSetPoolFeeEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'SetPoolFee'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'SetPoolFee'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -8375,10 +8298,7 @@ export function useStakeTogetherSetPoolModuleAddressEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"SetPoolSize"`.
  */
 export function useStakeTogetherSetPoolSizeEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'SetPoolSize'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'SetPoolSize'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -8535,10 +8455,7 @@ export function useStakeTogetherSetWithdrawalLimitEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"Transfer"`.
  */
 export function useStakeTogetherTransferEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'Transfer'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'Transfer'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -8583,10 +8500,7 @@ export function useStakeTogetherTransferSharesEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"Unpaused"`.
  */
 export function useStakeTogetherUnpausedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'Unpaused'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'Unpaused'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -8631,10 +8545,7 @@ export function useStakeTogetherWithdrawLiquidityBufferEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"WithdrawPool"`.
  */
 export function useStakeTogetherWithdrawPoolEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'WithdrawPool'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'WithdrawPool'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
@@ -10088,10 +9999,7 @@ export function usePrepareSethWrite<TFunctionName extends string>(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link sethABI}__ and `functionName` set to `"addPool"`.
  */
 export function usePrepareSethAddPool(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof sethABI, 'addPool'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof sethABI, 'addPool'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: sethABI,
@@ -10104,10 +10012,7 @@ export function usePrepareSethAddPool(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link sethABI}__ and `functionName` set to `"approve"`.
  */
 export function usePrepareSethApprove(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof sethABI, 'approve'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof sethABI, 'approve'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: sethABI,
@@ -10152,10 +10057,7 @@ export function usePrepareSethIncreaseAllowance(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link sethABI}__ and `functionName` set to `"mintLoss"`.
  */
 export function usePrepareSethMintLoss(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof sethABI, 'mintLoss'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof sethABI, 'mintLoss'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: sethABI,
@@ -10168,10 +10070,7 @@ export function usePrepareSethMintLoss(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link sethABI}__ and `functionName` set to `"mintRewards"`.
  */
 export function usePrepareSethMintRewards(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof sethABI, 'mintRewards'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof sethABI, 'mintRewards'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: sethABI,
@@ -10197,10 +10096,7 @@ export function usePrepareSethPause(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link sethABI}__ and `functionName` set to `"permit"`.
  */
 export function usePrepareSethPermit(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof sethABI, 'permit'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof sethABI, 'permit'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: sethABI,
@@ -10213,10 +10109,7 @@ export function usePrepareSethPermit(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link sethABI}__ and `functionName` set to `"removePool"`.
  */
 export function usePrepareSethRemovePool(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof sethABI, 'removePool'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof sethABI, 'removePool'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: sethABI,
@@ -10261,10 +10154,7 @@ export function usePrepareSethSetLiquidityFeeAddress(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link sethABI}__ and `functionName` set to `"setMaxPools"`.
  */
 export function usePrepareSethSetMaxPools(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof sethABI, 'setMaxPools'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof sethABI, 'setMaxPools'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: sethABI,
@@ -10325,10 +10215,7 @@ export function usePrepareSethSetOperatorFeeAddress(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link sethABI}__ and `functionName` set to `"setPoolFee"`.
  */
 export function usePrepareSethSetPoolFee(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof sethABI, 'setPoolFee'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof sethABI, 'setPoolFee'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: sethABI,
@@ -10453,10 +10340,7 @@ export function usePrepareSethSetValidatorModuleAddress(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link sethABI}__ and `functionName` set to `"transfer"`.
  */
 export function usePrepareSethTransfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof sethABI, 'transfer'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof sethABI, 'transfer'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: sethABI,
@@ -10549,10 +10433,7 @@ export function usePrepareSethTransferSharesFrom(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link sethABI}__ and `functionName` set to `"unpause"`.
  */
 export function usePrepareSethUnpause(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof sethABI, 'unpause'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof sethABI, 'unpause'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: sethABI,
@@ -10567,10 +10448,7 @@ export function usePrepareSethUnpause(
 export function useSethEvent<TEventName extends string>(
   config: Omit<UseContractEventConfig<typeof sethABI, TEventName>, 'abi'> = {} as any
 ) {
-  return useContractEvent({ abi: sethABI, ...config } as UseContractEventConfig<
-    typeof sethABI,
-    TEventName
-  >)
+  return useContractEvent({ abi: sethABI, ...config } as UseContractEventConfig<typeof sethABI, TEventName>)
 }
 
 /**
@@ -10638,10 +10516,7 @@ export function useSethBurnSharesEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link sethABI}__ and `eventName` set to `"EIP712DomainChanged"`.
  */
 export function useSethEip712DomainChangedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof sethABI, 'EIP712DomainChanged'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof sethABI, 'EIP712DomainChanged'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: sethABI,
@@ -10703,10 +10578,7 @@ export function useSethMintSharesEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link sethABI}__ and `eventName` set to `"OwnershipTransferred"`.
  */
 export function useSethOwnershipTransferredEvent(
-  config: Omit<
-    UseContractEventConfig<typeof sethABI, 'OwnershipTransferred'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof sethABI, 'OwnershipTransferred'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: sethABI,
@@ -10784,10 +10656,7 @@ export function useSethSetNewPoolFeeEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link sethABI}__ and `eventName` set to `"SetNewPoolFeeAddress"`.
  */
 export function useSethSetNewPoolFeeAddressEvent(
-  config: Omit<
-    UseContractEventConfig<typeof sethABI, 'SetNewPoolFeeAddress'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof sethABI, 'SetNewPoolFeeAddress'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: sethABI,
@@ -10813,10 +10682,7 @@ export function useSethSetOperatorFeeEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link sethABI}__ and `eventName` set to `"SetOperatorFeeAddress"`.
  */
 export function useSethSetOperatorFeeAddressEvent(
-  config: Omit<
-    UseContractEventConfig<typeof sethABI, 'SetOperatorFeeAddress'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof sethABI, 'SetOperatorFeeAddress'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: sethABI,
@@ -10841,10 +10707,7 @@ export function useSethSetPoolFeeEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link sethABI}__ and `eventName` set to `"SetPoolModuleAddress"`.
  */
 export function useSethSetPoolModuleAddressEvent(
-  config: Omit<
-    UseContractEventConfig<typeof sethABI, 'SetPoolModuleAddress'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof sethABI, 'SetPoolModuleAddress'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: sethABI,
@@ -10857,10 +10720,7 @@ export function useSethSetPoolModuleAddressEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link sethABI}__ and `eventName` set to `"SetStakeTogetherFee"`.
  */
 export function useSethSetStakeTogetherFeeEvent(
-  config: Omit<
-    UseContractEventConfig<typeof sethABI, 'SetStakeTogetherFee'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof sethABI, 'SetStakeTogetherFee'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: sethABI,
@@ -10946,10 +10806,7 @@ export function useSethTransferEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link sethABI}__ and `eventName` set to `"TransferPoolShares"`.
  */
 export function useSethTransferPoolSharesEvent(
-  config: Omit<
-    UseContractEventConfig<typeof sethABI, 'TransferPoolShares'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof sethABI, 'TransferPoolShares'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: sethABI,
@@ -10990,10 +10847,7 @@ export function useIDepositContractRead<
   TFunctionName extends string,
   TSelectData = ReadContractResult<typeof iDepositContractABI, TFunctionName>
 >(
-  config: Omit<
-    UseContractReadConfig<typeof iDepositContractABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
+  config: Omit<UseContractReadConfig<typeof iDepositContractABI, TFunctionName, TSelectData>, 'abi'> = {} as any
 ) {
   return useContractRead({ abi: iDepositContractABI, ...config } as UseContractReadConfig<
     typeof iDepositContractABI,
@@ -11089,10 +10943,7 @@ export function useIDepositContractDeposit<TMode extends WriteContractMode = und
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iDepositContractABI}__.
  */
 export function usePrepareIDepositContractWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iDepositContractABI, TFunctionName>,
-    'abi'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof iDepositContractABI, TFunctionName>, 'abi'> = {} as any
 ) {
   return usePrepareContractWrite({ abi: iDepositContractABI, ...config } as UsePrepareContractWriteConfig<
     typeof iDepositContractABI,
@@ -11180,10 +11031,7 @@ export function useOwnableOwner<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ownableABI}__.
  */
-export function useOwnableWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined
->(
+export function useOwnableWrite<TFunctionName extends string, TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
         PrepareWriteContractResult<typeof ownableABI, string>['request']['abi'],
@@ -11319,9 +11167,7 @@ export function useOwnableOwnershipTransferredEvent(
 export function useIerc5267Read<
   TFunctionName extends string,
   TSelectData = ReadContractResult<typeof ierc5267ABI, TFunctionName>
->(
-  config: Omit<UseContractReadConfig<typeof ierc5267ABI, TFunctionName, TSelectData>, 'abi'> = {} as any
-) {
+>(config: Omit<UseContractReadConfig<typeof ierc5267ABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
   return useContractRead({ abi: ierc5267ABI, ...config } as UseContractReadConfig<
     typeof ierc5267ABI,
     TFunctionName,
@@ -11382,9 +11228,7 @@ export function useIerc5267Eip712DomainChangedEvent(
 export function usePausableRead<
   TFunctionName extends string,
   TSelectData = ReadContractResult<typeof pausableABI, TFunctionName>
->(
-  config: Omit<UseContractReadConfig<typeof pausableABI, TFunctionName, TSelectData>, 'abi'> = {} as any
-) {
+>(config: Omit<UseContractReadConfig<typeof pausableABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
   return useContractRead({ abi: pausableABI, ...config } as UseContractReadConfig<
     typeof pausableABI,
     TFunctionName,
@@ -11719,10 +11563,7 @@ export function usePrepareErc20Write<TFunctionName extends string>(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"approve"`.
  */
 export function usePrepareErc20Approve(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20ABI, 'approve'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof erc20ABI, 'approve'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: erc20ABI,
@@ -11767,10 +11608,7 @@ export function usePrepareErc20IncreaseAllowance(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"transfer"`.
  */
 export function usePrepareErc20Transfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20ABI, 'transfer'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof erc20ABI, 'transfer'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: erc20ABI,
@@ -11801,10 +11639,7 @@ export function usePrepareErc20TransferFrom(
 export function useErc20Event<TEventName extends string>(
   config: Omit<UseContractEventConfig<typeof erc20ABI, TEventName>, 'abi'> = {} as any
 ) {
-  return useContractEvent({ abi: erc20ABI, ...config } as UseContractEventConfig<
-    typeof erc20ABI,
-    TEventName
-  >)
+  return useContractEvent({ abi: erc20ABI, ...config } as UseContractEventConfig<typeof erc20ABI, TEventName>)
 }
 
 /**
@@ -12001,10 +11836,7 @@ export function usePrepareIerc20Write<TFunctionName extends string>(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20ABI}__ and `functionName` set to `"approve"`.
  */
 export function usePrepareIerc20Approve(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ierc20ABI, 'approve'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof ierc20ABI, 'approve'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: ierc20ABI,
@@ -12017,10 +11849,7 @@ export function usePrepareIerc20Approve(
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20ABI}__ and `functionName` set to `"transfer"`.
  */
 export function usePrepareIerc20Transfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ierc20ABI, 'transfer'>,
-    'abi' | 'functionName'
-  > = {} as any
+  config: Omit<UsePrepareContractWriteConfig<typeof ierc20ABI, 'transfer'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
     abi: ierc20ABI,
@@ -12051,10 +11880,7 @@ export function usePrepareIerc20TransferFrom(
 export function useIerc20Event<TEventName extends string>(
   config: Omit<UseContractEventConfig<typeof ierc20ABI, TEventName>, 'abi'> = {} as any
 ) {
-  return useContractEvent({ abi: ierc20ABI, ...config } as UseContractEventConfig<
-    typeof ierc20ABI,
-    TEventName
-  >)
+  return useContractEvent({ abi: ierc20ABI, ...config } as UseContractEventConfig<typeof ierc20ABI, TEventName>)
 }
 
 /**
@@ -12120,20 +11946,14 @@ export function useEip712Eip712Domain<
 export function useEip712Event<TEventName extends string>(
   config: Omit<UseContractEventConfig<typeof eip712ABI, TEventName>, 'abi'> = {} as any
 ) {
-  return useContractEvent({ abi: eip712ABI, ...config } as UseContractEventConfig<
-    typeof eip712ABI,
-    TEventName
-  >)
+  return useContractEvent({ abi: eip712ABI, ...config } as UseContractEventConfig<typeof eip712ABI, TEventName>)
 }
 
 /**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link eip712ABI}__ and `eventName` set to `"EIP712DomainChanged"`.
  */
 export function useEip712Eip712DomainChangedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof eip712ABI, 'EIP712DomainChanged'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof eip712ABI, 'EIP712DomainChanged'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: eip712ABI,
@@ -12148,12 +11968,7 @@ export function useEip712Eip712DomainChangedEvent(
 export function useErc20BurnableRead<
   TFunctionName extends string,
   TSelectData = ReadContractResult<typeof erc20BurnableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof erc20BurnableABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
-) {
+>(config: Omit<UseContractReadConfig<typeof erc20BurnableABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
   return useContractRead({ abi: erc20BurnableABI, ...config } as UseContractReadConfig<
     typeof erc20BurnableABI,
     TFunctionName,
@@ -12592,10 +12407,7 @@ export function useErc20BurnableEvent<TEventName extends string>(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc20BurnableABI}__ and `eventName` set to `"Approval"`.
  */
 export function useErc20BurnableApprovalEvent(
-  config: Omit<
-    UseContractEventConfig<typeof erc20BurnableABI, 'Approval'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof erc20BurnableABI, 'Approval'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: erc20BurnableABI,
@@ -12608,10 +12420,7 @@ export function useErc20BurnableApprovalEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc20BurnableABI}__ and `eventName` set to `"Transfer"`.
  */
 export function useErc20BurnableTransferEvent(
-  config: Omit<
-    UseContractEventConfig<typeof erc20BurnableABI, 'Transfer'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof erc20BurnableABI, 'Transfer'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: erc20BurnableABI,
@@ -12626,12 +12435,7 @@ export function useErc20BurnableTransferEvent(
 export function useIerc20PermitRead<
   TFunctionName extends string,
   TSelectData = ReadContractResult<typeof ierc20PermitABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20PermitABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
-) {
+>(config: Omit<UseContractReadConfig<typeof ierc20PermitABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
   return useContractRead({ abi: ierc20PermitABI, ...config } as UseContractReadConfig<
     typeof ierc20PermitABI,
     TFunctionName,
@@ -12680,10 +12484,7 @@ export function useIerc20PermitNonces<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20PermitABI}__.
  */
-export function useIerc20PermitWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined
->(
+export function useIerc20PermitWrite<TFunctionName extends string, TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
         PrepareWriteContractResult<typeof ierc20PermitABI, string>['request']['abi'],
@@ -12756,12 +12557,7 @@ export function usePrepareIerc20PermitPermit(
 export function useErc20PermitRead<
   TFunctionName extends string,
   TSelectData = ReadContractResult<typeof erc20PermitABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof erc20PermitABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
-) {
+>(config: Omit<UseContractReadConfig<typeof erc20PermitABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
   return useContractRead({ abi: erc20PermitABI, ...config } as UseContractReadConfig<
     typeof erc20PermitABI,
     TFunctionName,
@@ -12943,10 +12739,7 @@ export function useErc20PermitTotalSupply<
 /**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20PermitABI}__.
  */
-export function useErc20PermitWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined
->(
+export function useErc20PermitWrite<TFunctionName extends string, TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
         PrepareWriteContractResult<typeof erc20PermitABI, string>['request']['abi'],
@@ -13264,10 +13057,7 @@ export function useIerc20MetadataRead<
   TFunctionName extends string,
   TSelectData = ReadContractResult<typeof ierc20MetadataABI, TFunctionName>
 >(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
+  config: Omit<UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>, 'abi'> = {} as any
 ) {
   return useContractRead({ abi: ierc20MetadataABI, ...config } as UseContractReadConfig<
     typeof ierc20MetadataABI,
@@ -13555,10 +13345,7 @@ export function useIerc20MetadataEvent<TEventName extends string>(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20MetadataABI}__ and `eventName` set to `"Approval"`.
  */
 export function useIerc20MetadataApprovalEvent(
-  config: Omit<
-    UseContractEventConfig<typeof ierc20MetadataABI, 'Approval'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof ierc20MetadataABI, 'Approval'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: ierc20MetadataABI,
@@ -13571,10 +13358,7 @@ export function useIerc20MetadataApprovalEvent(
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20MetadataABI}__ and `eventName` set to `"Transfer"`.
  */
 export function useIerc20MetadataTransferEvent(
-  config: Omit<
-    UseContractEventConfig<typeof ierc20MetadataABI, 'Transfer'>,
-    'abi' | 'eventName'
-  > = {} as any
+  config: Omit<UseContractEventConfig<typeof ierc20MetadataABI, 'Transfer'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
     abi: ierc20MetadataABI,

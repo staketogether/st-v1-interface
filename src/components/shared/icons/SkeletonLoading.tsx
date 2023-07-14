@@ -7,12 +7,7 @@ type SkeletonLoadingProps = {
   borderRadius?: string
 }
 
-export default function SkeletonLoading({
-  className,
-  height,
-  width,
-  borderRadius
-}: SkeletonLoadingProps) {
+export default function SkeletonLoading({ className, height, width, borderRadius }: SkeletonLoadingProps) {
   return <Container className={className} height={height} width={width} borderRadius={borderRadius} />
 }
 

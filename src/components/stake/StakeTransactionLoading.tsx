@@ -43,9 +43,7 @@ export default function StakeTransactionLoading({
         )}
         {transactionIsSuccess && (
           <TitleModal>
-            {isWithdraw
-              ? t('confirmStakeModal.withdrawSuccessful')
-              : t('confirmStakeModal.depositSuccessful')}
+            {isWithdraw ? t('confirmStakeModal.withdrawSuccessful') : t('confirmStakeModal.depositSuccessful')}
           </TitleModal>
         )}
         <ResumeStake>
@@ -92,11 +90,7 @@ export default function StakeTransactionLoading({
           <span>{t('confirmStakeModal.proceedInYourWallet')}</span>
         )}
         {transactionIsSuccess && (
-          <a
-            href={`${chain.blockExplorer.baseUrl}/tx/${txHash}`}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
+          <a href={`${chain.blockExplorer.baseUrl}/tx/${txHash}`} target='_blank' rel='noopener noreferrer'>
             <span>{t('viewOnExplorer')}</span>
           </a>
         )}

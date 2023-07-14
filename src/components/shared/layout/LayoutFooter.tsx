@@ -10,8 +10,7 @@ export default function LayoutFooter() {
   return (
     <Container>
       <span>
-        {`Pre-Alpha v${packageData.version} | ©`} {date.getFullYear()} Stake Together |{' '}
-        {t('footer.powered')}
+        {`Pre-Alpha v${packageData.version} | ©`} {date.getFullYear()} Stake Together | {t('footer.powered')}
         <Link href='https://ssv.network/tech/#ssv-dvt-at-hight-level' target='_blank'>
           {t('footer.dvt')}
         </Link>

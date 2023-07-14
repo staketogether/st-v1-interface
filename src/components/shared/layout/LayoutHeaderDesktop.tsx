@@ -21,9 +21,7 @@ export default function LayoutHeader() {
         <Menu>
           <Link href='/pools'>
             <MenuButton
-              className={`${
-                isActive('pools') || isActive('stake') || isActive('unstake') ? 'active' : ''
-              }`}
+              className={`${isActive('pools') || isActive('stake') || isActive('unstake') ? 'active' : ''}`}
             >
               <AiOutlineCodeSandbox size={16} /> {t('pools')}
             </MenuButton>

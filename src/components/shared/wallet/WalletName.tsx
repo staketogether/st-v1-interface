@@ -11,18 +11,10 @@ type WalletNameProps = {
   className?: string
 }
 
-function WalletName({
-  className,
-  walletAddress,
-  web3AuthUserInfo,
-  ensName,
-  ensLoading
-}: WalletNameProps) {
+function WalletName({ className, walletAddress, web3AuthUserInfo, ensName, ensLoading }: WalletNameProps) {
   return (
     <>
-      {web3AuthUserInfo && (
-        <span className={className}>{truncateText(web3AuthUserInfo.verifierId, 15)}</span>
-      )}
+      {web3AuthUserInfo && <span className={className}>{truncateText(web3AuthUserInfo.verifierId, 15)}</span>}
       {!web3AuthUserInfo && ensLoading && <SkeletonLoading width={100} height={14} />}
       {!web3AuthUserInfo && !ensLoading && ensName && (
         <span className={className}>{truncateText(ensName, 16)}</span>

@@ -12,10 +12,7 @@ export function MetaPools() {
       <meta property='og:type' content='website' />
       <meta property='og:url' content={url} />
       <meta property='og:title' content='Stake Together - Ethereum Staking for Communities' />
-      <meta
-        property='og:description'
-        content='Growth your Community, Earn Ethereum doing Stake Together'
-      />
+      <meta property='og:description' content='Growth your Community, Earn Ethereum doing Stake Together' />
       <meta property='og:image' content={`${url}/assets/images/st_meta.jpg`} />
       <meta property='twitter:card' content='summary_large_image' />
       <meta property='twitter:url' content={url} />

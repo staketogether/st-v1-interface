@@ -17,10 +17,7 @@ export default function MetaPool({ name, avatar }: MetaPoolProps) {
       <meta property='og:type' content='website' />
       <meta property='og:url' content={url} />
       <meta property='og:title' content={`Stake Together - ${name ? name : ''} Pool`} />
-      <meta
-        property='og:description'
-        content='Growth your Community, Earn Ethereum doing Stake Together'
-      />
+      <meta property='og:description' content='Growth your Community, Earn Ethereum doing Stake Together' />
       <meta property='og:image' content={avatar || `${url}/assets/images/st_meta.jpg`} />
       <meta property='twitter:card' content='summary_large_image' />
       <meta property='twitter:url' content={url} />

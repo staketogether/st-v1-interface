@@ -100,9 +100,7 @@ export default function LayoutSearchDrawer() {
                   </DropdownMenuItem>
                 </Link>
               ))}
-            {!poolsIsLoading && text.length > 0 && result.length === 0 && (
-              <NotFound>{t('emptyPool')}</NotFound>
-            )}
+            {!poolsIsLoading && text.length > 0 && result.length === 0 && <NotFound>{t('emptyPool')}</NotFound>}
             {poolsIsLoading && text.length > 0 && <Loading>{t('loading')}</Loading>}
           </DropdownMenu>
         )}

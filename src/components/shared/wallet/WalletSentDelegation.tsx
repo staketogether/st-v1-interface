@@ -19,10 +19,7 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
   const { setOpenSidebar } = useWalletSidebar()
 
   return (
-    <Container
-      href={`/stake/deposit/${delegation.delegated.address}`}
-      onClick={() => setOpenSidebar(false)}
-    >
+    <Container href={`/stake/deposit/${delegation.delegated.address}`} onClick={() => setOpenSidebar(false)}>
       <div>
         <div>
           <EnsAvatar address={delegation.delegated.address} />
