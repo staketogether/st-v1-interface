@@ -42,7 +42,7 @@
   "try": "Tentar novamente",
   "availableToStake": "Disponivel para stake",
   "entryFee": "Taxa de entrada",
-  "amount": "Quantidade",
+
   "titles": {
     "pools": "Pools",
     "stake": "Stake de Ether",
@@ -64,7 +64,8 @@
     "selectPool": "Selecionar Pool",
     "insufficientFunds": "Saldo insuficiente",
     "insufficientMinDeposit": "Valor mínimo de depósito insuficiente",
-    "insufficientLiquidity": "Liquidez insuficiente para saque"
+    "insufficientLiquidity": "Liquidez insuficiente para saque",
+    "amount": "Quantidade"
   },
   "noDelegations": "Sem Delegações",
   "noStake": "Você ainda não fez Stake",

@@ -64,7 +64,8 @@
     "selectPool": "Select Pool",
     "insufficientFunds": "Insufficient Funds",
     "insufficientMinDeposit": "Minimum Deposit is",
-    "insufficientLiquidity": "Available Liquidity for"
+    "insufficientLiquidity": "Available Liquidity for",
+    "amount": "amount"
   },
   "noDelegations": "No Delegations",
   "noStake": "You not staked yet",

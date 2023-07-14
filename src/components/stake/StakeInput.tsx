@@ -44,9 +44,9 @@ export default function StakeFormInput({
   return (
     <Container>
       {type === 'deposit' ? (
-        <h3>{`${t('eth.symbol')} ${t('amount')}`}</h3>
+        <h3>{`${t('eth.symbol')} ${t('form.amount')}`}</h3>
       ) : (
-        <h3 className='purple'>{`${t('lsd.symbol')} ${t('amount')}`}</h3>
+        <h3 className='purple'>{`${t('lsd.symbol')} ${t('form.amount')}`}</h3>
       )}
       <div className={`${disabled ? 'disabled' : ''} ${hasError ? 'error' : ''}`}>
         <InputContainer>
