@@ -11,7 +11,7 @@ import stIcon from '@assets/icons/staked-icon.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { AiOutlineCreditCard } from 'react-icons/ai'
+import { AiOutlineCreditCard, AiOutlineQuestionCircle } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
@@ -26,7 +26,8 @@ import WalletBuyEthModal from '../shared/wallet/WalletBuyEthModal'
 import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
-import useWalletSidebarConnectWallet from "@/hooks/useWalletSidebarConnectWallet";
+import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import { Tooltip } from 'antd'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -167,6 +168,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     refetchEthBalance()
   }
 
+  const rewardsIsPositive = delegationSharesEth > 0
+  const rewardsIsZero = delegationSharesEth === 0n
+  const rewardsIsNegative = delegationSharesEth < 0
+
   return (
     <>
       <StakeContainer>
@@ -180,17 +185,29 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               {delegationSharesLoading ? (
                 <SkeletonLoading height={20} width={120} />
               ) : (
-                <span className='purple'>{truncateWei(BigInt(delegationShares), 6)} {t('lsd.symbol')}</span>
+                <span className='purple'>
+                  {truncateWei(BigInt(delegationShares), 6)} {t('lsd.symbol')}
+                </span>
               )}
             </div>
           </div>
-          {/*<div>
-            <h4>{t('rewards')}</h4>
+          <div>
+            <header>
+              <h4>{t('rewards')} </h4>
+              <Tooltip title={t('rewardsTooltip')}>
+                <QuestionIcon />
+              </Tooltip>
+            </header>
             {delegationSharesLoading && <SkeletonLoading height={20} width={120} />}
-            {!delegationSharesLoading && (<span className='green'>
-              +{truncateWei(delegationSharesEth, 5)} <span className='purple'> {t('lsd.symbol')}</span>
-            </span>)}
-          </div>*/}
+            {!delegationSharesLoading && (
+              <span className={`${rewardsIsPositive && 'positive'} ${rewardsIsPositive && 'negative'}`}>
+                {rewardsIsPositive && `+${truncateWei(delegationSharesEth, 5)} `}
+                {rewardsIsZero && `${truncateWei(delegationSharesEth, 5)} `}
+                {rewardsIsNegative && `-${truncateWei(delegationSharesEth, 5)} `}
+                {t('lsd.symbol')}
+              </span>
+            )}
+          </div>
         </CardInfo>
 
         {type === 'deposit' && (
@@ -224,17 +241,23 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           type={type}
         />
         {!accountAddress && (
-          <StakeButton onClick={() => setOpenSidebarConnectWallet(true)} label={t('connectWalletSideBar.connectButton')} isLoading={openSidebarConnectWallet} />
+          <StakeButton
+            onClick={() => setOpenSidebarConnectWallet(true)}
+            label={t('connectWalletSideBar.connectButton')}
+            isLoading={openSidebarConnectWallet}
+          />
         )}
-        {accountAddress && (<StakeButton
-          isLoading={isLoading}
-          onClick={openStakeConfirmation}
-          label={handleLabelButton()}
-          purple={type === 'withdraw'}
-          disabled={
-            insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity || amountIsEmpty
-          }
-        />)}
+        {accountAddress && (
+          <StakeButton
+            isLoading={isLoading}
+            onClick={openStakeConfirmation}
+            label={handleLabelButton()}
+            purple={type === 'withdraw'}
+            disabled={
+              insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity || amountIsEmpty
+            }
+          />
+        )}
         <StakeInfo>
           <div>
             <span>{`${t('youReceive')} `}</span>
@@ -284,12 +307,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         transactionIsSuccess={isSuccess}
         onClose={() => setOpenStakeConfirmModal(false)}
       />
-      {accountAddress && <WalletBuyEthModal walletAddress={accountAddress} onBuyEthIsSuccess={handleBuyEthSuccess}/>}
+      {accountAddress && (
+        <WalletBuyEthModal walletAddress={accountAddress} onBuyEthIsSuccess={handleBuyEthSuccess} />
+      )}
     </>
   )
 }
 
-const { StakeContainer, StakeInfo, CardInfo, BuyEthButton } = {
+const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, QuestionIcon } = {
   StakeContainer: styled.div`
     display: grid;
     gap: ${({ theme }) => theme.size[16]};
@@ -311,12 +336,19 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton } = {
       line-height: normal;
       color: ${({ theme }) => theme.color.blue[400]};
     }
+
     span {
       font-size: 16px;
       font-style: normal;
       font-weight: 500;
       line-height: normal;
       color: ${({ theme }) => theme.color.primary};
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[4]};
     }
 
     > div:nth-child(1) {
@@ -335,11 +367,12 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton } = {
     > div:nth-child(2) {
       display: flex;
       flex-direction: column;
-      gap: ${({ theme }) => theme.size[4]};
-      align-items: center;
       justify-content: center;
-      .green {
-        color: ${({ theme }) => theme.color.green[500]};
+      gap: ${({ theme }) => theme.size[4]};
+      span {
+        &.positive {
+          color: ${({ theme }) => theme.color.green[500]};
+        }
       }
     }
   `,
@@ -407,10 +440,16 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton } = {
     &:hover {
       background: ${({ theme }) => theme.color.blue[600]};
     }
-    
+
     &:disabled {
       background: ${({ theme }) => theme.color.blue[50]};
       cursor: not-allowed;
     }
+  `,
+  QuestionIcon: styled(AiOutlineQuestionCircle)`
+    width: 12px;
+    height: 12px;
+    color: ${({ theme }) => theme.color.blackAlpha[500]};
+    cursor: pointer;
   `
 }
