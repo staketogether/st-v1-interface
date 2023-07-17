@@ -41,7 +41,7 @@ export default function EnsName({ address, large, larger, slice, color }: EnsNam
         </Text>
       )
     }
-  }, [address, large, larger, name, nameLoading, slice])
+  }, [address, color, large, larger, name, nameLoading, slice])
 
   return nameEl
 }
