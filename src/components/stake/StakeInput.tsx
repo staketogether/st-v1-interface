@@ -186,7 +186,7 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
     &:hover {
       background-color: ${({ theme }) => theme.color.blue[300]};
     }
-    
+
     &:disabled {
       background-color: ${({ theme }) => theme.color.blue[100]};
       cursor: not-allowed;
@@ -198,7 +198,7 @@ const { Container, InputContainer, MaxValue, BalanceInfo } = {
       &:hover {
         background-color: ${({ theme }) => theme.color.purple[400]};
       }
-      
+
       &:disabled {
         background-color: ${({ theme }) => theme.color.purple[200]};
         cursor: not-allowed;
