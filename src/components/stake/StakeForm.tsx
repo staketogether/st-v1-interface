@@ -168,9 +168,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     refetchEthBalance()
   }
 
-  // const rewardsIsPositive = delegationSharesEth > 0
+  // const rewardsIsPositive = delegationSharesEth > 0n
   // const rewardsIsZero = delegationSharesEth === 0n
-  // const rewardsIsNegative = delegationSharesEth < 0
+  // const rewardsIsNegative = delegationSharesEth < 0n
 
   return (
     <>
