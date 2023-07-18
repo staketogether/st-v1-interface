@@ -70,11 +70,13 @@ export default function useWithdraw(
   }
 
   useEffect(() => {
-    if (isSuccess && withdrawAmount) {
+    if (isSuccess && withdrawAmount && accountAddress) {
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool, queryDelegationShares]
       })
+
       registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString())
+
       if (notify) {
         notification.success({
           message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,

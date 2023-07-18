@@ -54,7 +54,9 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
                 <SkeletonLoading width={80} />
               ) : (
                 <>
-                  <span style={{ color: theme.color.green[400] }}>+ {truncateWei(rewardsShares, 5)} {t('lsd.symbol')}</span>
+                  <span style={{ color: theme.color.green[400] }}>
+                    + {truncateWei(rewardsShares, 5)} {t('lsd.symbol')}
+                  </span>
                 </>
               )}
             </span>
