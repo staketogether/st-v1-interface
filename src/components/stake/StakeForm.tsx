@@ -168,9 +168,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     refetchEthBalance()
   }
 
-  const rewardsIsPositive = delegationSharesEth > 0
-  const rewardsIsZero = delegationSharesEth === 0n
-  const rewardsIsNegative = delegationSharesEth < 0
+  // const rewardsIsPositive = delegationSharesEth > 0
+  // const rewardsIsZero = delegationSharesEth === 0n
+  // const rewardsIsNegative = delegationSharesEth < 0
 
   return (
     <>
@@ -202,7 +202,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
                 <QuestionIcon />
               </Tooltip>
             </header>
-            {delegationSharesLoading && <SkeletonLoading height={20} width={120} />}
+            {/* {delegationSharesLoading && <SkeletonLoading height={20} width={120} />}
             {!delegationSharesLoading && (
               <div>
                 <span className={`${rewardsIsPositive && 'positive'} ${rewardsIsPositive && 'negative'}`}>
@@ -212,7 +212,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
                 </span>
                 <span className='purple'>{t('lsd.symbol')}</span>
               </div>
-            )}
+            )} */}
           </CardInfoData>
         </CardInfo>
 
