@@ -8,4 +8,6 @@ export type PoolDetail = {
   instagram?: string
   linkedin?: string
   twitter?: string
+  contract?: string
+  discord?: string
 }

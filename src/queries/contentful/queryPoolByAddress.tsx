@@ -13,6 +13,8 @@ export const queryPoolByAddress = gql`
         instagram
         linkedin
         twitter
+        contract
+        discord
       }
     }
   }
