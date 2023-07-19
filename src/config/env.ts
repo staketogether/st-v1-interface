@@ -29,4 +29,10 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
     throw new Error('NEXT_PUBLIC_RECAPTCHA_SITE_KEY not found in env')
   }
+  if (!process.env.NEXT_PUBLIC_CONTENTFUL_TOKEN) {
+    throw new Error('NEXT_PUBLIC_CONTENTFUL_TOKEN not found in env')
+  }
+  if (!process.env.NEXT_PUBLIC_CONTENTFUL_SPACE) {
+    throw new Error('NEXT_PUBLIC_CONTENTFUL_SPACE not found in env')
+  }
 }

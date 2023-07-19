@@ -13,6 +13,7 @@ export type ChainConfig = {
   subgraphs: {
     StakeTogether: string
     ENS: string
+    contentful: string
   }
   contracts: {
     STOracle: `0x${string}`
@@ -52,7 +53,8 @@ const configs: ChainConfig[] = [
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-goerli/version/latest',
-      ENS: ''
+      ENS: '',
+      contentful: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/master`
     }
   }
   // {

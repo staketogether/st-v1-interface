@@ -44,6 +44,7 @@
   "entryFee": "Entry fee",
   "amount": "amount",
   "rewardsTooltip": "Your rewards balance is automatically converted into your staked balance.",
+  "poolDetail": "Pool Detail",
   "titles": {
     "pools": "Pools",
     "stake": "Stake Ether",

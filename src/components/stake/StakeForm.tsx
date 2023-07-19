@@ -11,7 +11,7 @@ import stIcon from '@assets/icons/staked-icon.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { AiOutlineCreditCard, AiOutlineQuestionCircle } from 'react-icons/ai'
+import { AiOutlineCreditCard } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
@@ -27,7 +27,6 @@ import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import { Tooltip } from 'antd'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -195,14 +194,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             </CardInfoData>
           </div>
 
-          <CardInfoData>
-            <header>
+          {/* <CardInfoData> */}
+          {/* <header>
               <h4>{t('rewards')} </h4>
               <Tooltip title={t('rewardsTooltip')}>
                 <QuestionIcon />
               </Tooltip>
-            </header>
-            {/* {delegationSharesLoading && <SkeletonLoading height={20} width={120} />}
+            </header> */}
+          {/* {delegationSharesLoading && <SkeletonLoading height={20} width={120} />}
             {!delegationSharesLoading && (
               <div>
                 <span className={`${rewardsIsPositive && 'positive'} ${rewardsIsPositive && 'negative'}`}>
@@ -213,7 +212,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
                 <span className='purple'>{t('lsd.symbol')}</span>
               </div>
             )} */}
-          </CardInfoData>
+          {/* </CardInfoData> */}
         </CardInfo>
 
         {type === 'deposit' && (
@@ -325,7 +324,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   )
 }
 
-const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, QuestionIcon, CardInfoData } = {
+const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, CardInfoData } = {
   StakeContainer: styled.div`
     display: grid;
     gap: ${({ theme }) => theme.size[16]};
@@ -453,11 +452,11 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, QuestionIcon, CardInf
       background: ${({ theme }) => theme.color.blue[50]};
       cursor: not-allowed;
     }
-  `,
-  QuestionIcon: styled(AiOutlineQuestionCircle)`
-    width: 12px;
-    height: 12px;
-    color: ${({ theme }) => theme.color.blackAlpha[500]};
-    cursor: pointer;
   `
+  // QuestionIcon: styled(AiOutlineQuestionCircle)`
+  //   width: 12px;
+  //   height: 12px;
+  //   color: ${({ theme }) => theme.color.blackAlpha[500]};
+  //   cursor: pointer;
+  // `
 }
