@@ -15,7 +15,7 @@ export default function usePoolDetailByAddress(poolAddress: `0x${string}` | unde
     client: contentfulClient,
     skip: !poolAddress
   })
-  console.log(data?.poolCollection.items[0])
+
   useEffect(() => {
     setPoolDetail(data?.poolCollection.items[0] || null)
   }, [data])
