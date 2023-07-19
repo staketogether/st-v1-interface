@@ -88,6 +88,7 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
       </StatsContainer>
       <StakePoolInfoSwitchAction activeTab={activeTab} setActiveTab={value => setActiveTab(value)} />
       <TabContainer>
+        {activeTab === 'about' && <StakePoolAbout poolAddress={poolAddress} />}
         {activeTab === 'members' && (
           <StakePoolMembers
             delegations={poolData?.delegations}
@@ -97,7 +98,6 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
             totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
           />
         )}
-        {activeTab === 'about' && <StakePoolAbout poolAddress={poolAddress} />}
       </TabContainer>
     </Container>
   )
