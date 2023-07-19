@@ -104,6 +104,9 @@ const {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[16]};
+    > iframe {
+      border-radius: ${({ theme }) => theme.size[12]};
+    }
 
     > h1 {
       font-size: 18px;
