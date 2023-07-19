@@ -43,6 +43,7 @@
   "availableToStake": "Disponivel para stake",
   "entryFee": "Taxa de entrada",
   "rewardsTooltip": "O saldo de suas recompensas é automaticamente convertido em seu saldo de stake.",
+  "poolDetail": "Detalhes da Pool",
   "titles": {
     "pools": "Pools",
     "stake": "Stake de Ether",

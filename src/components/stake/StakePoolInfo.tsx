@@ -1,7 +1,5 @@
 import StakePoolAbout from '@/components/stake/StakePoolAbout'
-import StakePoolActions from '@/components/stake/StakePoolActions'
 import StakePoolMembers from '@/components/stake/StakePoolMembers'
-import { Divider } from 'antd'
 import { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
@@ -9,6 +7,7 @@ import usePool from '../../hooks/subgraphs/usePool'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import StakePoolInfoSwitchAction from './StakePoolInfoSwitchAction'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}` | undefined
@@ -17,7 +16,7 @@ interface StakeStatsProps {
 export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
   const { t } = useTranslation()
   const theme = useTheme()
-  const [activeTab, setActiveTab] = useState<'members' | 'about'>('members')
+  const [activeTab, setActiveTab] = useState<'members' | 'about'>('about')
 
   const [skip, setSkip] = useState(0)
 
@@ -45,65 +44,67 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
 
   return (
     <Container>
+      <header>
+        <h1>{t('poolDetail')}</h1>
+      </header>
       <StatsContainer>
-        <Stats>
-          <StatsBox>
-            <span>{t('rewards')}</span>
-            <span>
-              {!!(isRewardsSharesLoading || initialLoading) && poolAddress ? (
-                <SkeletonLoading width={80} />
-              ) : (
-                <>
-                  <span style={{ color: theme.color.green[400] }}>
-                    + {truncateWei(rewardsShares, 5)} {t('lsd.symbol')}
-                  </span>
-                </>
-              )}
-            </span>
-          </StatsBox>
-          <StatsBox>
-            <span>{t('staked')}</span>
-            <span>
-              {!!(delegatedSharesLoading || initialLoading) && poolAddress ? (
-                <SkeletonLoading width={80} />
-              ) : (
-                <>
-                  <span>{`${truncateWei(delegatedShares, 6)}`}</span>
-                  <span style={{ color: theme.color.secondary }}>{t('lsd.symbol')}</span>
-                </>
-              )}
-            </span>
-          </StatsBox>
-          <StatsBox>
-            <span>{t('members')}</span>
-            <span>
-              {initialLoading && poolAddress ? (
-                <SkeletonLoading width={80} />
-              ) : (
-                <>{poolData?.receivedDelegationsCount.toString()}</>
-              )}
-            </span>
-          </StatsBox>
-        </Stats>
+        <StatsBox>
+          <span>{t('rewards')}</span>
+          <span>
+            {!!(isRewardsSharesLoading || initialLoading) && poolAddress ? (
+              <SkeletonLoading width={80} />
+            ) : (
+              <>
+                <span style={{ color: theme.color.green[400] }}>
+                  + {truncateWei(rewardsShares, 5)} {t('lsd.symbol')}
+                </span>
+              </>
+            )}
+          </span>
+        </StatsBox>
+        <StatsBox>
+          <span>{t('staked')}</span>
+          <span>
+            {!!(delegatedSharesLoading || initialLoading) && poolAddress ? (
+              <SkeletonLoading width={80} />
+            ) : (
+              <>
+                <span>{`${truncateWei(delegatedShares, 6)}`}</span>
+                <span style={{ color: theme.color.secondary }}>{t('lsd.symbol')}</span>
+              </>
+            )}
+          </span>
+        </StatsBox>
+        <StatsBox>
+          <span>{t('members')}</span>
+          <span>
+            {initialLoading && poolAddress ? (
+              <SkeletonLoading width={80} />
+            ) : (
+              <>{poolData?.receivedDelegationsCount.toString()}</>
+            )}
+          </span>
+        </StatsBox>
       </StatsContainer>
-      <Divider style={{ margin: `${theme.size['12']} 0`, color: theme.color.blue[100] }} />
-      <StakePoolActions onActiveTabChange={tab => setActiveTab(tab)} />
-      {activeTab === 'members' && (
-        <StakePoolMembers
-          delegations={poolData?.delegations}
-          initialLoading={initialLoading}
-          loadMoreLoading={loadMoreLoadingPoolData}
-          onLoadMore={handleLoadMore}
-          totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
-        />
-      )}
-      {activeTab === 'about' && <StakePoolAbout poolAddress={poolAddress} />}
+      <StakePoolInfoSwitchAction activeTab={activeTab} setActiveTab={value => setActiveTab(value)} />
+      <TabContainer>
+        {activeTab === 'about' && <StakePoolAbout poolAddress={poolAddress} />}
+        {activeTab === 'members' && (
+          <StakePoolMembers
+            delegations={poolData?.delegations}
+            initialLoading={initialLoading}
+            loadMoreLoading={loadMoreLoadingPoolData}
+            onLoadMore={handleLoadMore}
+            totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
+          />
+        )}
+      </TabContainer>
     </Container>
   )
 }
 
-const { Container, StatsContainer, Stats, StatsBox } = {
-  Container: styled.div`
+const { Container, StatsContainer, StatsBox, TabContainer } = {
+  Container: styled.section`
     display: grid;
     grid-template-columns: 1fr;
     font-size: ${({ theme }) => theme.font.size[14]};
@@ -111,20 +112,27 @@ const { Container, StatsContainer, Stats, StatsBox } = {
     background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
-    padding: ${({ theme }) => theme.size[24]};
+
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[16]};
+
+    header {
+      padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]} 0;
+      h1 {
+        color: ${({ theme }) => theme.color.blue[400]};
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+      }
+    }
   `,
   StatsContainer: styled.div`
     display: grid;
-    grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.size[12]};
-  `,
-  Stats: styled.div`
-    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: ${({ theme }) => theme.size[8]};
+    padding: 0 ${({ theme }) => theme.size[24]};
   `,
   StatsBox: styled.div`
     display: flex;
@@ -133,15 +141,13 @@ const { Container, StatsContainer, Stats, StatsBox } = {
     justify-content: center;
     gap: ${({ theme }) => theme.size[8]};
     align-items: center;
-    background-color: ${({ theme }) => theme.color.whiteAlpha[400]};
+    background-color: ${({ theme }) => theme.color.white};
     border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[12]};
     transition: background-color 0.2s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     > span {
-      font-weight: 500;
-
       &:nth-child(1) {
         font-size: ${({ theme }) => theme.font.size[12]};
         color: ${({ theme }) => theme.color.blue[300]};
@@ -150,11 +156,12 @@ const { Container, StatsContainer, Stats, StatsBox } = {
       &:nth-child(2) {
         display: flex;
         gap: ${({ theme }) => theme.size[4]};
-
-        @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-          font-size: ${({ theme }) => theme.font.size[12]};
-        }
+        font-size: ${({ theme }) => theme.font.size[14]};
       }
     }
+  `,
+  TabContainer: styled.div`
+    padding: ${({ theme }) => theme.size[24]};
+    padding-top: ${({ theme }) => theme.size[8]};
   `
 }
