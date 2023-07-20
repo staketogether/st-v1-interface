@@ -60,12 +60,12 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: 'getFaucetErrorMessages.faucetIsEmpty' })
   }
 
-  // const hasAlreadySendFaucet =
-  //   foundPasscode.accountsDistributed.includes(address) || foundPasscode.ipsUsed.includes(userIp)
+  const hasAlreadySendFaucet =
+    foundPasscode.accountsDistributed.includes(address) || foundPasscode.ipsUsed.includes(userIp)
 
-  // if (hasAlreadySendFaucet) {
-  //   return res.status(400).json({ message: 'getFaucetErrorMessages.addressHasAlready' })
-  // }
+  if (hasAlreadySendFaucet) {
+    return res.status(400).json({ message: 'getFaucetErrorMessages.addressHasAlready' })
+  }
 
   const transaction = await faucetWallet.sendTransaction({
     to: address,
