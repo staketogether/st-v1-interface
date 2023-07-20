@@ -1,12 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { AiOutlineBarChart, AiOutlineCodeSandbox } from 'react-icons/ai'
+import { AiOutlineBarChart, AiOutlineDeploymentUnit } from 'react-icons/ai'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useTranslation from '../../../hooks/useTranslation'
 import Wallet from '../wallet/Wallet'
 import LayoutSearch from './LayoutSearch'
+import LayoutNetworkInfoButton from './LayoutNetworkInfoButton'
 
 export default function LayoutHeader() {
   const { t } = useTranslation()
@@ -23,7 +24,7 @@ export default function LayoutHeader() {
             <MenuButton
               className={`${isActive('pools') || isActive('stake') || isActive('unstake') ? 'active' : ''}`}
             >
-              <AiOutlineCodeSandbox size={16} /> {t('pools')}
+              <AiOutlineDeploymentUnit size={16} /> {t('pools')}
             </MenuButton>
           </Link>
           <Link href='#' title={t('soon')}>
@@ -33,22 +34,30 @@ export default function LayoutHeader() {
           </Link>
         </Menu>
       </MenuContainer>
-      <WalletContainer>
+      <LayoutSearchContainer>
         <LayoutSearch />
+      </LayoutSearchContainer>
+      <WalletContainer>
+        <LayoutNetworkInfoButton />
         <Wallet />
       </WalletContainer>
     </Container>
   )
 }
 
-const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
+const { Container, MenuContainer, LayoutSearchContainer, WalletContainer, Logo, Menu, MenuButton } = {
   Container: styled.header`
     display: none;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: ${({ theme }) => theme.size[32]};
     }
+  `,
+  LayoutSearchContainer: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
   `,
   MenuContainer: styled.div`
     display: grid;
@@ -64,7 +73,7 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[8]};
   `,
   Menu: styled.nav`
     display: none;
