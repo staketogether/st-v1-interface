@@ -56,7 +56,6 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
       key: 'withdraw',
       label: t('withdraw'),
       icon: <WithdrawIcon />,
-      tooltip: t('soon'),
       children: stakeForm,
       color: 'purple'
     }
