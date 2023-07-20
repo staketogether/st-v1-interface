@@ -2,10 +2,18 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
-import { Drawer, Tooltip, notification } from 'antd'
+import { Drawer, notification } from 'antd'
 import Image from 'next/image'
 import { useState } from 'react'
-import { AiFillCreditCard, AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
+import {
+  AiFillCreditCard,
+  AiOutlineBarChart,
+  AiOutlineLineChart,
+  AiOutlineLogout,
+  AiOutlinePieChart,
+  AiOutlineRight,
+  AiOutlineSetting
+} from 'react-icons/ai'
 import { FiCopy } from 'react-icons/fi'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
@@ -17,8 +25,9 @@ import { capitalize, truncateAddress, truncateText, truncateWei } from '../../..
 import EnsAvatar from '../ens/EnsAvatar'
 import SkeletonLoading from '../icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
-import WalletSentDelegation from './WalletSentDelegation'
 import WalletSlideBarSettings from './WalletSlideBarSettings'
+import Tabs, { TabsItems } from '../Tabs'
+import WalletSideBarPoolsDelegated from './WalletSideBarPoolsDelegated'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -58,6 +67,31 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const onBuyEthIsSuccess = () => {
     refetch()
   }
+
+  const tabsItems: TabsItems[] = [
+    {
+      key: 'pools',
+      label: t('pools'),
+      icon: <PoolsIcon />,
+      children: <WalletSideBarPoolsDelegated accountDelegations={accountDelegations} />
+    },
+    {
+      key: 'analytics',
+      label: t('analytics'),
+      icon: <Analytics />,
+      disabled: true,
+      tooltip: t('soon'),
+      children: <></>
+    },
+    {
+      key: 'activities',
+      label: t('activities'),
+      icon: <Activities />,
+      disabled: true,
+      tooltip: t('soon'),
+      children: <></>
+    }
+  ]
 
   return (
     <DrawerContainer
@@ -154,32 +188,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             <AiFillCreditCard />
             {t('buyEth.button')}
           </BuyCryptoButton>
-          <SwitchActionsBar>
-            <ActionTab className='active'>{t('pools')}</ActionTab>
-            <Tooltip title={t('soon')}>
-              <ActionTab className='disabled'>{t('analytics')}</ActionTab>
-            </Tooltip>
-            <Tooltip title={t('soon')}>
-              <ActionTab className='disabled'>{t('activities')}</ActionTab>
-            </Tooltip>
-          </SwitchActionsBar>
-          <ContainerPoolsDelegated>
-            {/* <div>
-              <span>{t('staked')}</span>
-              <span>
-                {accountSentDelegationsCount > 0 ? accountSentDelegationsCount.toString() : '0'}{' '}
-                <span className='symbol'>{t('lsd.symbol')}</span>
-              </span>
-            </div> */}
-            {accountDelegations.length === 0 && (
-              <div>
-                <span>{t('noStake')}</span>
-              </div>
-            )}
-            {accountDelegations.map((delegation, index) => (
-              <WalletSentDelegation key={index} delegation={delegation} />
-            ))}
-          </ContainerPoolsDelegated>
+          <Tabs items={tabsItems} size='small' defaultActiveKey='pools' />
         </>
       )}
       <WalletBuyEthModal walletAddress={address} onBuyEthIsSuccess={onBuyEthIsSuccess} />
@@ -197,16 +206,16 @@ const {
   Logout,
   Button,
   SettingIcon,
-  ContainerPoolsDelegated,
   Actions,
-  SwitchActionsBar,
   HeaderUserContainer,
   BuyCryptoButton,
-  ActionTab,
   Web3AuthProfileImage,
   Web3AuthProfileContainer,
   WarperWallet,
-  CopyIcon
+  CopyIcon,
+  PoolsIcon,
+  Analytics,
+  Activities
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.color.whiteAlpha[900]} !important;
@@ -300,25 +309,7 @@ const {
       }
     }
   `,
-  ContainerPoolsDelegated: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
 
-    > div:first-of-type {
-      margin-bottom: ${({ theme }) => theme.size[8]};
-    }
-
-    > div {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    div > span:nth-child(2) > span {
-      color: ${({ theme }) => theme.color.secondary};
-    }
-  `,
   ClosedSidebarButton: styled.button`
     position: absolute;
     left: -44px;
@@ -394,53 +385,6 @@ const {
       opacity: 0.4;
     }
   `,
-  SwitchActionsBar: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
-  `,
-  ActionTab: styled.button`
-    border: none;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[4]};
-
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
-    border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
-    padding: 0 ${({ theme }) => theme.size[16]};
-    transition: background-color 0.1s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-    }
-
-    &.active {
-      color: ${({ theme }) => theme.color.secondary};
-    }
-
-    &.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      &:hover {
-        background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
-      }
-    }
-
-    span {
-      display: none;
-    }
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      span {
-        display: block;
-      }
-    }
-  `,
   Web3AuthProfileContainer: styled.div`
     position: relative;
   `,
@@ -459,5 +403,14 @@ const {
   CopyIcon: styled(FiCopy)`
     font-size: ${({ theme }) => theme.font.size[12]};
     display: none;
+  `,
+  PoolsIcon: styled(AiOutlinePieChart)`
+    font-size: 16px;
+  `,
+  Analytics: styled(AiOutlineBarChart)`
+    font-size: 16px;
+  `,
+  Activities: styled(AiOutlineLineChart)`
+    font-size: 16px;
   `
 }
