@@ -1,13 +1,15 @@
 import styled, { useTheme } from 'styled-components'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import StakePoolInfo from './StakePoolInfo'
-import StakeSwitchActions from './StakeSwitchAction'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
-import { AiFillCheckCircle, AiOutlineShareAlt } from 'react-icons/ai'
+import { AiFillCheckCircle, AiOutlineDownload, AiOutlineShareAlt, AiOutlineUpload } from 'react-icons/ai'
 import { StakeForm } from './StakeForm'
 import { Tooltip } from 'antd'
 import useTranslation from '@/hooks/useTranslation'
+import Tabs, { TabsItems } from '../shared/Tabs'
+import useActiveRoute from '@/hooks/useActiveRoute'
+import { useRouter } from 'next/router'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -16,12 +18,50 @@ interface StakeControlProps {
 
 export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { t } = useTranslation()
+  const { isActive } = useActiveRoute()
+  const router = useRouter()
+
+  const handleSwitch = (type: string) => {
+    if (poolAddress) {
+      router.push(`/stake/${type}/${poolAddress}`)
+      router.push(
+        {
+          pathname: `/stake/${type}/${poolAddress}`
+        },
+        undefined,
+        { shallow: true }
+      )
+    } else {
+      router.push(`/stake/${type}`)
+    }
+  }
+
   const { account } = useConnectedAccount()
   const theme = useTheme()
 
   function copyToClipboard() {
     navigator.clipboard.writeText(window.location.toString())
   }
+
+  const stakeForm = <StakeForm type={type} accountAddress={account} poolAddress={poolAddress} />
+
+  const tabsItems: TabsItems[] = [
+    {
+      key: 'deposit',
+      label: t('pools'),
+      icon: <DepositIcon />,
+      children: stakeForm
+    },
+    {
+      key: 'withdraw',
+      label: t('withdraw'),
+      icon: <WithdrawIcon />,
+      children: stakeForm,
+      color: 'purple'
+    }
+  ]
+
+  const activeTab = isActive('deposit') ? 'deposit' : 'withdraw'
 
   return (
     <Container>
@@ -42,15 +82,19 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
             </Tooltip>
           </header>
         )}
-        <StakeSwitchActions poolAddress={poolAddress} />
-        <StakeForm type={type} accountAddress={account} poolAddress={poolAddress} />
+        <Tabs
+          items={tabsItems}
+          size='large'
+          defaultActiveKey={activeTab}
+          onChangeActiveTab={value => handleSwitch(value as string)}
+        />
       </Form>
       <StakePoolInfo poolAddress={poolAddress} />
     </Container>
   )
 }
 
-const { Container, Form, Verified, VerifiedIcon, ShareButton, ShareIcon } = {
+const { Container, Form, DepositIcon, Verified, WithdrawIcon, VerifiedIcon, ShareButton, ShareIcon } = {
   Container: styled.div`
     display: grid;
     justify-content: center;
@@ -117,5 +161,11 @@ const { Container, Form, Verified, VerifiedIcon, ShareButton, ShareIcon } = {
   `,
   ShareIcon: styled(AiOutlineShareAlt)`
     font-size: ${({ theme }) => theme.font.size[16]};
+  `,
+  DepositIcon: styled(AiOutlineDownload)`
+    font-size: 16px;
+  `,
+  WithdrawIcon: styled(AiOutlineUpload)`
+    font-size: 16px;
   `
 }

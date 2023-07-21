@@ -7,7 +7,8 @@ import usePool from '../../hooks/subgraphs/usePool'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import StakePoolInfoSwitchAction from './StakePoolInfoSwitchAction'
+import Tabs, { TabsItems } from '../shared/Tabs'
+import { AiOutlineAreaChart, AiOutlineInfoCircle, AiOutlineUser } from 'react-icons/ai'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}` | undefined
@@ -16,7 +17,6 @@ interface StakeStatsProps {
 export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
   const { t } = useTranslation()
   const theme = useTheme()
-  const [activeTab, setActiveTab] = useState<'members' | 'about'>('about')
 
   const [skip, setSkip] = useState(0)
 
@@ -41,6 +41,37 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
       fetchMore({ id: poolAddress, first: 10, skip: newSkip })
     }
   }
+
+  const tabsItems: TabsItems[] = [
+    {
+      key: 'about',
+      label: t('about'),
+      icon: <AboutIcon />,
+      children: <StakePoolAbout poolAddress={poolAddress} />
+    },
+    {
+      key: 'members',
+      label: t('members'),
+      icon: <MembersIcon />,
+      children: (
+        <StakePoolMembers
+          delegations={poolData?.delegations}
+          initialLoading={initialLoading}
+          loadMoreLoading={loadMoreLoadingPoolData}
+          onLoadMore={handleLoadMore}
+          totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
+        />
+      )
+    },
+    {
+      key: 'analytics',
+      label: t('analytics'),
+      icon: <AnalyticsIcon />,
+      children: <></>,
+      disabled: true,
+      tooltip: t('soon')
+    }
+  ]
 
   return (
     <Container>
@@ -86,24 +117,12 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
           </span>
         </StatsBox>
       </StatsContainer>
-      <StakePoolInfoSwitchAction activeTab={activeTab} setActiveTab={value => setActiveTab(value)} />
-      <TabContainer>
-        {activeTab === 'about' && <StakePoolAbout poolAddress={poolAddress} />}
-        {activeTab === 'members' && (
-          <StakePoolMembers
-            delegations={poolData?.delegations}
-            initialLoading={initialLoading}
-            loadMoreLoading={loadMoreLoadingPoolData}
-            onLoadMore={handleLoadMore}
-            totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
-          />
-        )}
-      </TabContainer>
+      <Tabs items={tabsItems} size='middle' />
     </Container>
   )
 }
 
-const { Container, StatsContainer, StatsBox, TabContainer } = {
+const { Container, StatsContainer, StatsBox, AboutIcon, MembersIcon, AnalyticsIcon } = {
   Container: styled.section`
     display: grid;
     grid-template-columns: 1fr;
@@ -160,8 +179,13 @@ const { Container, StatsContainer, StatsBox, TabContainer } = {
       }
     }
   `,
-  TabContainer: styled.div`
-    padding: ${({ theme }) => theme.size[24]};
-    padding-top: ${({ theme }) => theme.size[8]};
+  AboutIcon: styled(AiOutlineInfoCircle)`
+    font-size: 16px;
+  `,
+  MembersIcon: styled(AiOutlineUser)`
+    font-size: 16px;
+  `,
+  AnalyticsIcon: styled(AiOutlineAreaChart)`
+    font-size: 16px;
   `
 }
