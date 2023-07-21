@@ -11,7 +11,7 @@ export default function useEstimateGas(tx?: ethers.TransactionRequest) {
       setEstimateGas(ethers.formatUnits(amountGat, 'gwei'))
     }
 
-    if (tx && tx?.data) {
+    if (tx) {
       estimateGas()
     }
   }, [provider, tx])

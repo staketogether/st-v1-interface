@@ -1,6 +1,6 @@
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useTranslation from '@/hooks/useTranslation'
-import { truncateDecimal } from '@/services/truncate'
+import { truncateDecimal, truncateWei } from '@/services/truncate'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
@@ -10,6 +10,10 @@ import StakeTransactionLoading from './StakeTransactionLoading'
 
 type StakeConfirmModalProps = {
   amount: string
+  ethToSethRatio: bigint
+  sethToEthRatio: bigint
+  shareByEth: bigint
+  ethByShare: bigint
   type: 'deposit' | 'withdraw'
   titleModal: string
   labelButton: string
@@ -31,6 +35,10 @@ export default function StakeConfirmModal({
   transactionLoading,
   walletActionLoading,
   transactionIsSuccess,
+  sethToEthRatio,
+  ethToSethRatio,
+  shareByEth,
+  ethByShare,
   txHash,
   onClick,
   onClose
@@ -50,6 +58,8 @@ export default function StakeConfirmModal({
           walletActionLoading={walletActionLoading}
           transactionLoading={transactionLoading}
           amount={truncateDecimal(amount, 6)}
+          ethByShare={ethByShare}
+          shareByEth={shareByEth}
           transactionIsSuccess={transactionIsSuccess}
           type={type}
           txHash={txHash}
@@ -71,7 +81,7 @@ export default function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youReceive')}</span>
                 <div>
                   <span>
-                    {truncateDecimal(amount, 6)} <span className={'purple'}>{t('eth.symbol')}</span>{' '}
+                    {truncateWei(ethByShare, 6)} <span className={'purple'}>{t('eth.symbol')}</span>{' '}
                   </span>
                   <Image src={ethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -92,7 +102,7 @@ export default function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youReceive')}</span>
                 <div>
                   <span>
-                    {truncateDecimal(amount, 6)}
+                    {truncateWei(shareByEth, 6)}
                     <span className={'purple'}> {t('lsd.symbol')}</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
@@ -107,15 +117,12 @@ export default function StakeConfirmModal({
               <div>
                 {isWithdraw ? (
                   <>
-                    {truncateDecimal(amount, 6)}
-                    <span className={`purple`}> {t('lsd.symbol')}</span> ={' '}
-                    {truncateDecimal(amount.toString(), 6)}
+                    1<span className={`purple`}> {t('lsd.symbol')}</span> = {truncateWei(sethToEthRatio, 6)}
                     <span className={`purple`}> {t('eth.symbol')}</span>
                   </>
                 ) : (
                   <>
-                    {truncateDecimal(amount, 6)}
-                    <span className={`purple`}> {t('eth.symbol')}</span> = {truncateDecimal(amount, 6)}
+                    1<span className={`purple`}> {t('eth.symbol')}</span> = {truncateWei(ethToSethRatio, 6)}
                     <span className={`purple`}> {t('lsd.symbol')}</span>
                   </>
                 )}

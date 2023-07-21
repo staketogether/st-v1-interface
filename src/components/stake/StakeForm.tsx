@@ -272,7 +272,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           <div>
             <span>{`${t('youReceive')} `}</span>
             <span>{` ${
-              type === 'deposit' ? truncateWei(shareByEth, 4) || '0' : amount
+              type === 'deposit' ? truncateWei(shareByEth, 4) || '0' : truncateWei(ethByShare, 4)
             } ${receiveSymbol}`}</span>
           </div>
           <div>
@@ -306,11 +306,15 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       </StakeContainer>
       <StakeConfirmModal
         amount={amount}
+        shareByEth={shareByEth}
+        ethByShare={ethByShare}
         txHash={txHash}
         titleModal={titleConfirmStakeModal}
         type={type}
         labelButton={handleLabelButton()}
         onClick={handleStakeConfirmation}
+        sethToEthRatio={sethToEthRatio}
+        ethToSethRatio={ethToSethRatio}
         estimateGas={estimateGas}
         transactionLoading={isLoading}
         walletActionLoading={walletActionLoading}
