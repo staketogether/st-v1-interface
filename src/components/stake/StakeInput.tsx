@@ -34,6 +34,9 @@ export default function StakeFormInput({
   const { price } = useEthToUsdPrice(value)
 
   function handleChange(value: string) {
+    if (value.includes(',')) {
+      value = value.replace(',', '.')
+    }
     const regex = /^(\d+(\.\d*)?|\.\d+)$/
     if (!value || regex.test(value)) {
       if (value.length > 19 + value.split('.')[0].length) return

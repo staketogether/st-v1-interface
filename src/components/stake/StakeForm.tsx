@@ -434,7 +434,7 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, CardInfoData } = {
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     padding: 0px 12px;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     gap: 8px;
@@ -451,6 +451,10 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, CardInfoData } = {
     &:disabled {
       background: ${({ theme }) => theme.color.blue[50]};
       cursor: not-allowed;
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      display: flex;
     }
   `
   // QuestionIcon: styled(AiOutlineQuestionCircle)`

@@ -5,7 +5,7 @@ export const useNetworkGasPrice = () => {
   const [networkGasPrice, setNetworkGasPrice] = useState('0')
   const [loading, setLoading] = useState(false)
   const { data, refetch, isLoading } = useFeeData()
-
+  console.log('data', data)
   useEffect(() => {
     if (data?.formatted.gasPrice) {
       setNetworkGasPrice(data?.formatted.gasPrice)
