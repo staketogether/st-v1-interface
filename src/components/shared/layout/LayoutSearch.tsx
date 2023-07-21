@@ -127,7 +127,7 @@ export default function LayoutSearch() {
 const { Container, DropdownMenu, InputSearchArea, InputSearch, DropdownMenuItem, NotFound, Loading } = {
   Container: styled.div`
     width: 100%;
-    max-width: 240px;
+    max-width: 280px;
     position: relative;
     display: grid;
     grid-template-columns: 1fr;
@@ -140,7 +140,7 @@ const { Container, DropdownMenu, InputSearchArea, InputSearch, DropdownMenuItem,
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
 
-    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
+    background-color: ${({ theme }) => theme.color.white};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     padding: 0 ${({ theme }) => theme.size[8]};

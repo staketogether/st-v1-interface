@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import Wallet from '../wallet/Wallet'
 import LayoutSearchDrawer from './LayoutSearchDrawer'
+import LayoutNetworkInfoButton from './LayoutNetworkInfoButton'
 
 export default function LayoutHeaderMobile() {
   const { setOpenSearchDrawer } = useSearchDrawer()
@@ -18,6 +19,7 @@ export default function LayoutHeaderMobile() {
           <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
         </Logo>
         <WalletContainer>
+          <LayoutNetworkInfoButton />
           <Button onClick={() => setOpenSearchDrawer(true)}>
             <SearchIcon />
           </Button>

@@ -1,6 +1,6 @@
 {
   "stakeTogether": "Stake Together",
-  "pools": "Pools",
+  "pools": "Projetos",
   "stake": "Depositar",
   "rewards": "Recompensas",
   "delegates": "Delegados",
@@ -45,7 +45,7 @@
   "rewardsTooltip": "O saldo de suas recompensas é automaticamente convertido em seu saldo de stake.",
   "poolDetail": "Detalhes da Pool",
   "titles": {
-    "pools": "Pools",
+    "pools": "Projetos",
     "stake": "Stake de Ether",
     "poolStats": "Estatísticas da Pool"
   },
@@ -131,5 +131,8 @@
     "invalidPasscode": "Código de acesso inválido",
     "faucetIsEmpty": "Não temos mais ETH",
     "addressHasAlready": "Sua carteira já recebeu ETH"
+  },
+  "gas": {
+    "alt": "Preço do gás da rede"
   }
 }

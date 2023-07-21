@@ -132,5 +132,8 @@
     "invalidPasscode": "Invalid passcode",
     "faucetIsEmpty": "No more ETH available",
     "addressHasAlready": "Your wallet has already received ETH"
+  },
+  "gas": {
+    "alt": "Network gas price"
   }
 }
