@@ -78,7 +78,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     {
       key: 'analytics',
       label: t('analytics'),
-      icon: <Analytics />,
+      icon: <AnalyticsIcon />,
       disabled: true,
       tooltip: t('soon'),
       children: <></>
@@ -86,7 +86,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     {
       key: 'activities',
       label: t('activities'),
-      icon: <Activities />,
+      icon: <ActivitiesIcon />,
       disabled: true,
       tooltip: t('soon'),
       children: <></>
@@ -214,8 +214,8 @@ const {
   WarperWallet,
   CopyIcon,
   PoolsIcon,
-  Analytics,
-  Activities
+  AnalyticsIcon,
+  ActivitiesIcon
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.color.whiteAlpha[900]} !important;
@@ -407,10 +407,10 @@ const {
   PoolsIcon: styled(AiOutlinePieChart)`
     font-size: 16px;
   `,
-  Analytics: styled(AiOutlineBarChart)`
+  AnalyticsIcon: styled(AiOutlineBarChart)`
     font-size: 16px;
   `,
-  Activities: styled(AiOutlineLineChart)`
+  ActivitiesIcon: styled(AiOutlineLineChart)`
     font-size: 16px;
   `
 }
