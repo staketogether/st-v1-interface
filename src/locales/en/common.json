@@ -133,7 +133,7 @@
     "faucetIsEmpty": "No more ETH available",
     "addressHasAlready": "Your wallet has already received ETH"
   },
-  "imageAlt": {
-    "gas": "network gas price"
+  "gas": {
+    "alt": "Network gas price"
   }
 }

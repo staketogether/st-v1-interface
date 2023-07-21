@@ -15,7 +15,7 @@ export default function LayoutNetworkInfoButton() {
   return (
     <NetworkButton>
       <GasContainer>
-        <Image src={gasIcon} alt={t('imageAlt.gas')} width={16} height={16} />
+        <Image src={gasIcon} alt={t('gas.alt')} width={16} height={16} />
         {loading ? (
           <SkeletonLoading height={15} width={25} />
         ) : (

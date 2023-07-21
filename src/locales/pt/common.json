@@ -132,7 +132,7 @@
     "faucetIsEmpty": "Não temos mais ETH",
     "addressHasAlready": "Sua carteira já recebeu ETH"
   },
-  "imageAlt": {
-    "gas": "preço do gas da rede"
+  "gas": {
+    "alt": "Preço do gás da rede"
   }
 }
