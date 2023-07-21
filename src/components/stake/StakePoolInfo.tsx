@@ -47,9 +47,7 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
       key: 'about',
       label: t('about'),
       icon: <AboutIcon />,
-      tooltip: t('soon'),
-      children: <StakePoolAbout poolAddress={poolAddress} />,
-      color: 'purple'
+      children: <StakePoolAbout poolAddress={poolAddress} />
     },
     {
       key: 'members',
@@ -70,7 +68,8 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
       label: t('analytics'),
       icon: <AnalyticsIcon />,
       children: <></>,
-      disabled: true
+      disabled: true,
+      tooltip: t('soon')
     }
   ]
 
