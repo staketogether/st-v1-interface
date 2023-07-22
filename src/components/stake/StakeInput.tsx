@@ -16,6 +16,7 @@ interface StakeInputProps {
   disabled?: boolean
   purple?: boolean
   hasError?: boolean
+  estimateGas: bigint
 }
 
 export default function StakeFormInput({
@@ -27,7 +28,8 @@ export default function StakeFormInput({
   type,
   disabled,
   purple,
-  hasError
+  hasError,
+  estimateGas
 }: StakeInputProps) {
   const { t } = useTranslation()
 
@@ -42,6 +44,13 @@ export default function StakeFormInput({
       if (value.length > 19 + value.split('.')[0].length) return
       onChange(value)
     }
+  }
+
+  const handleMaxValue = () => {
+    const aux = Number(estimateGas) * 5
+    const maxBalance = balance - (estimateGas + BigInt(aux))
+    console.log(truncateWei(estimateGas + BigInt(aux), 18))
+    onChange(truncateWei(maxBalance, 18))
   }
 
   return (
@@ -69,11 +78,7 @@ export default function StakeFormInput({
               className={`${purple ? 'purple' : ''} ${hasError ? 'error' : ''}`}
             />
           </div>
-          <MaxValue
-            className={purple ? 'purple' : ''}
-            disabled={disabled}
-            onClick={() => handleChange(truncateWei(balance, 18))}
-          >
+          <MaxValue className={purple ? 'purple' : ''} disabled={disabled} onClick={handleMaxValue}>
             {t('max')}
           </MaxValue>
         </InputContainer>

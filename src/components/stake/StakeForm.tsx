@@ -98,6 +98,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const receiveSymbol = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
   const estimateGas = type === 'deposit' ? depositEstimateGas : withdrawEstimateGas
+  const estimateGasInGwei = ethers.formatUnits(estimateGas, 'gwei')
   const txHash = type === 'deposit' ? depositTxHash : withdrawTxHash
   const resetState = type === 'deposit' ? depositResetState : withdrawResetState
 
@@ -244,6 +245,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           onChange={value => setAmount(value)}
           balance={balance}
           symbol={balanceLabel}
+          estimateGas={estimateGas}
           balanceLoading={balanceLoading || delegationSharesLoading}
           disabled={isWrongNetwork || isLoading || !accountAddress}
           purple={type === 'withdraw'}
@@ -290,7 +292,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           </div>
           <div>
             <span>{t('confirmStakeModal.networkFee')}</span>
-            <span>{estimateGas}</span>
+            <span>{estimateGasInGwei}</span>
           </div>
           {type === 'deposit' && (
             <div>
@@ -315,7 +317,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         onClick={handleStakeConfirmation}
         sethToEthRatio={sethToEthRatio}
         ethToSethRatio={ethToSethRatio}
-        estimateGas={estimateGas}
+        estimateGas={estimateGasInGwei}
         transactionLoading={isLoading}
         walletActionLoading={walletActionLoading}
         transactionIsSuccess={isSuccess}
