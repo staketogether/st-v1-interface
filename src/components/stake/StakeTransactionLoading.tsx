@@ -14,7 +14,6 @@ type StakeTransactionLoadingProps = {
   transactionLoading: boolean
   amount: string
   ethByShare: bigint
-  shareByEth: bigint
   transactionIsSuccess: boolean
   txHash: string | undefined
   type: 'deposit' | 'withdraw'
@@ -24,7 +23,6 @@ export default function StakeTransactionLoading({
   walletActionLoading,
   transactionLoading,
   amount,
-  shareByEth,
   ethByShare,
   transactionIsSuccess,
   txHash,
@@ -76,7 +74,7 @@ export default function StakeTransactionLoading({
               <AiOutlineArrowRight />
               <div>
                 <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={18} />
-                <span>{`${truncateWei(shareByEth, 6)}`}</span>
+                <span>{`${truncateWei(ethByShare, 6)}`}</span>
                 <span className={'purple'}> {t('lsd.symbol')}</span>
               </div>
             </>

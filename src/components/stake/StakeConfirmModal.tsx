@@ -12,7 +12,6 @@ type StakeConfirmModalProps = {
   amount: string
   ethToSethRatio: bigint
   sethToEthRatio: bigint
-  shareByEth: bigint
   ethByShare: bigint
   type: 'deposit' | 'withdraw'
   titleModal: string
@@ -37,7 +36,6 @@ export default function StakeConfirmModal({
   transactionIsSuccess,
   sethToEthRatio,
   ethToSethRatio,
-  shareByEth,
   ethByShare,
   txHash,
   onClick,
@@ -59,7 +57,6 @@ export default function StakeConfirmModal({
           transactionLoading={transactionLoading}
           amount={truncateDecimal(amount, 6)}
           ethByShare={ethByShare}
-          shareByEth={shareByEth}
           transactionIsSuccess={transactionIsSuccess}
           type={type}
           txHash={txHash}
@@ -102,7 +99,7 @@ export default function StakeConfirmModal({
                 <span>{t('confirmStakeModal.youReceive')}</span>
                 <div>
                   <span>
-                    {truncateWei(shareByEth, 6)}
+                    {truncateWei(ethByShare, 6)}
                     <span className={'purple'}> {t('lsd.symbol')}</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
