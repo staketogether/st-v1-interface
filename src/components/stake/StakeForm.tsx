@@ -314,8 +314,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         type={type}
         labelButton={handleLabelButton()}
         onClick={handleStakeConfirmation}
-        sethToEthRatio={ethRatio}
-        ethToSethRatio={ethRatio}
+        ethRatio={ethRatio}
         estimateGas={estimateGasInGwei}
         transactionLoading={isLoading}
         walletActionLoading={walletActionLoading}

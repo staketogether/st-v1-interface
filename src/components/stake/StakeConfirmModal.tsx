@@ -10,8 +10,7 @@ import StakeTransactionLoading from './StakeTransactionLoading'
 
 type StakeConfirmModalProps = {
   amount: string
-  ethToSethRatio: bigint
-  sethToEthRatio: bigint
+  ethRatio: bigint
   ethByShare: bigint
   type: 'deposit' | 'withdraw'
   titleModal: string
@@ -34,8 +33,7 @@ export default function StakeConfirmModal({
   transactionLoading,
   walletActionLoading,
   transactionIsSuccess,
-  sethToEthRatio,
-  ethToSethRatio,
+  ethRatio,
   ethByShare,
   txHash,
   onClick,
@@ -114,12 +112,12 @@ export default function StakeConfirmModal({
               <div>
                 {isWithdraw ? (
                   <>
-                    1<span className={`purple`}> {t('lsd.symbol')}</span> = {truncateWei(sethToEthRatio, 6)}
+                    1<span className={`purple`}> {t('lsd.symbol')}</span> = {truncateWei(ethRatio, 6)}
                     <span className={`purple`}> {t('eth.symbol')}</span>
                   </>
                 ) : (
                   <>
-                    1<span className={`purple`}> {t('eth.symbol')}</span> = {truncateWei(ethToSethRatio, 6)}
+                    1<span className={`purple`}> {t('eth.symbol')}</span> = {truncateWei(ethRatio, 6)}
                     <span className={`purple`}> {t('lsd.symbol')}</span>
                   </>
                 )}
