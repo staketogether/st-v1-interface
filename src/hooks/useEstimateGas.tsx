@@ -7,9 +7,13 @@ export default function useEstimateGas(tx?: ethers.TransactionRequest) {
   const { provider } = chainConfig()
   useEffect(() => {
     const estimateGas = async () => {
-      const gasEstimate = await provider.estimateGas(tx as ethers.TransactionRequest)
-      const gasLimit = gasEstimate + gasEstimate / BigInt(5)
-      setEstimateGas(gasLimit)
+      try {
+        const gasEstimate = await provider.estimateGas(tx as ethers.TransactionRequest)
+        const gasLimit = gasEstimate + gasEstimate / BigInt(5)
+        setEstimateGas(gasLimit)
+      } catch (error) {
+        console.error('Error estimate Gas:', error)
+      }
     }
 
     if (tx) {
