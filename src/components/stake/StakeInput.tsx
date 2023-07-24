@@ -6,7 +6,7 @@ import useEthToUsdPrice from '../../hooks/useEthToUsdPrice'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import { ethers } from 'ethers'
+
 interface StakeInputProps {
   value: string
   onChange: (value: string) => void
@@ -17,7 +17,6 @@ interface StakeInputProps {
   disabled?: boolean
   purple?: boolean
   hasError?: boolean
-  estimateGas: bigint
 }
 
 export default function StakeFormInput({
@@ -29,8 +28,7 @@ export default function StakeFormInput({
   type,
   disabled,
   purple,
-  hasError,
-  estimateGas
+  hasError
 }: StakeInputProps) {
   const { t } = useTranslation()
 
@@ -45,11 +43,6 @@ export default function StakeFormInput({
       if (value.length > 19 + value.split('.')[0].length) return
       onChange(value)
     }
-  }
-
-  const handleMaxValue = () => {
-    const aux = ethers.formatUnits(estimateGas, 'ether')
-    console.log(aux)
   }
 
   return (
@@ -77,7 +70,11 @@ export default function StakeFormInput({
               className={`${purple ? 'purple' : ''} ${hasError ? 'error' : ''}`}
             />
           </div>
-          <MaxValue className={purple ? 'purple' : ''} disabled={disabled} onClick={handleMaxValue}>
+          <MaxValue
+            className={purple ? 'purple' : ''}
+            disabled={disabled}
+            onClick={() => handleChange(truncateWei(balance, 18))}
+          >
             {t('max')}
           </MaxValue>
         </InputContainer>
