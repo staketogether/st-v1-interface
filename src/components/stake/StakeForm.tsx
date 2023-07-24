@@ -58,10 +58,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const [amount, setAmount] = useState<string>('')
 
   const { balance: sharesRatio } = usePooledShareByEth(BigInt('1000000000000000000'))
-  const { balance: ethRatio } = usePooledEthByShares(sharesRatio.toString())
+  const { balance: ratioEthByShare } = usePooledEthByShares(sharesRatio.toString())
 
   const { balance: sharesByEth } = usePooledShareByEth(ethers.parseEther(amount || '0'))
-  const { balance: ethByShare } = usePooledEthByShares(sharesByEth.toString())
+  const { balance: amountEthByShare } = usePooledEthByShares(sharesByEth.toString())
 
   const debouncedAmount = useDebounce(amount, 1000)
 
@@ -274,18 +274,18 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         <StakeInfo>
           <div>
             <span>{`${t('youReceive')} `}</span>
-            <span>{` ${truncateWei(ethByShare, 18) || '0'} ${operationSymbol}`}</span>
+            <span>{` ${truncateWei(amountEthByShare, 18) || '0'} ${operationSymbol}`}</span>
           </div>
           <div>
             <span>{t('confirmStakeModal.exchangeRate')}</span>
             {type === 'deposit' && (
               <span>
-                1 <span>{t('eth.symbol')}</span> = {truncateWei(ethRatio)} <span>{t('lsd.symbol')}</span>
+                1 <span>{t('eth.symbol')}</span> = {truncateWei(ratioEthByShare)} <span>{t('lsd.symbol')}</span>
               </span>
             )}
             {type === 'withdraw' && (
               <span>
-                1 <span>{t('lsd.symbol')}</span> = {truncateWei(ethRatio)} <span>{t('eth.symbol')}</span>
+                1 <span>{t('lsd.symbol')}</span> = {truncateWei(ratioEthByShare)} <span>{t('eth.symbol')}</span>
               </span>
             )}
           </div>
@@ -307,13 +307,13 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       </StakeContainer>
       <StakeConfirmModal
         amount={amount}
-        ethByShare={ethByShare}
+        amountEthByShare={amountEthByShare}
         txHash={txHash}
         titleModal={titleConfirmStakeModal}
         type={type}
         labelButton={handleLabelButton()}
         onClick={handleStakeConfirmation}
-        ethRatio={ethRatio}
+        ethRatio={ratioEthByShare}
         estimateGas={estimateGasInGwei}
         transactionLoading={isLoading}
         walletActionLoading={walletActionLoading}
