@@ -247,7 +247,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           onChange={value => setAmount(value)}
           balance={balance}
           symbol={balanceLabel}
-          estimateGas={estimateGas}
           balanceLoading={balanceLoading || delegationSharesLoading}
           disabled={isWrongNetwork || isLoading || !accountAddress}
           purple={type === 'withdraw'}
