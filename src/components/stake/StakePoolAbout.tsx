@@ -27,7 +27,7 @@ export default function StakePoolAbout({ poolAddress }: StakePoolAboutProps) {
 
       {!loading && videoId && (
         <iframe
-          width='420'
+          width='100%'
           height='237'
           src={`https://www.youtube.com/embed/${videoId}`}
           title='community video'

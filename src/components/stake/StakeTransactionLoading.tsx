@@ -7,11 +7,13 @@ import Image from 'next/image'
 import { AiFillCheckCircle, AiOutlineArrowRight } from 'react-icons/ai'
 import styled from 'styled-components'
 import Loading from '../shared/icons/Loading'
+import { truncateWei } from '@/services/truncate'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
   transactionLoading: boolean
   amount: string
+  amountEthByShare: bigint
   transactionIsSuccess: boolean
   txHash: string | undefined
   type: 'deposit' | 'withdraw'
@@ -21,6 +23,7 @@ export default function StakeTransactionLoading({
   walletActionLoading,
   transactionLoading,
   amount,
+  amountEthByShare,
   transactionIsSuccess,
   txHash,
   type
@@ -57,7 +60,7 @@ export default function StakeTransactionLoading({
               <AiOutlineArrowRight />
               <div>
                 <Image src={ethIcon} alt={t('stakeTogether')} width={18} height={18} />
-                <span>{`${amount}`}</span>
+                <span>{`${truncateWei(amountEthByShare, 6)}`}</span>
                 <span className={'purple'}> ETH</span>
               </div>
             </>
@@ -71,7 +74,7 @@ export default function StakeTransactionLoading({
               <AiOutlineArrowRight />
               <div>
                 <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={18} />
-                <span>{`${amount}`}</span>
+                <span>{`${truncateWei(amountEthByShare, 6)}`}</span>
                 <span className={'purple'}> {t('lsd.symbol')}</span>
               </div>
             </>

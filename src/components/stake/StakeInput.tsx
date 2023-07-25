@@ -1,11 +1,12 @@
 import ethIcon from '@assets/icons/eth-icon.svg'
-import stIcon from '@assets/icons/staked-icon.svg'
+import stIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
 import styled from 'styled-components'
 import useEthToUsdPrice from '../../hooks/useEthToUsdPrice'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+
 interface StakeInputProps {
   value: string
   onChange: (value: string) => void
@@ -34,6 +35,9 @@ export default function StakeFormInput({
   const { price } = useEthToUsdPrice(value)
 
   function handleChange(value: string) {
+    if (value.includes(',')) {
+      value = value.replace(',', '.')
+    }
     const regex = /^(\d+(\.\d*)?|\.\d+)$/
     if (!value || regex.test(value)) {
       if (value.length > 19 + value.split('.')[0].length) return

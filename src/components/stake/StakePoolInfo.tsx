@@ -149,9 +149,14 @@ const { Container, StatsContainer, StatsBox, AboutIcon, MembersIcon, AnalyticsIc
   `,
   StatsContainer: styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     gap: ${({ theme }) => theme.size[8]};
     padding: 0 ${({ theme }) => theme.size[24]};
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr;
+    }
   `,
   StatsBox: styled.div`
     display: flex;

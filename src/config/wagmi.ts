@@ -7,7 +7,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 import Web3AuthConnectorInstance from './web3Auth'
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
+const { chains, publicClient } = configureChains(
   [goerli],
   [alchemyProvider({ apiKey: String(process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY) }), publicProvider()],
   {
@@ -36,8 +36,7 @@ const connectors = [
 const config = createConfig({
   autoConnect: true,
   connectors,
-  publicClient,
-  webSocketPublicClient
+  publicClient
 })
 
 export { chains, config }

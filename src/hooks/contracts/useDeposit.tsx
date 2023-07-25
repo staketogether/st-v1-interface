@@ -36,7 +36,6 @@ export default function useDeposit(
     address: contracts.StakeTogether,
     args: [poolAddress, referral],
     account: accountAddress,
-    gas: 300000n,
     enabled: depositRule,
     value: amount
   })

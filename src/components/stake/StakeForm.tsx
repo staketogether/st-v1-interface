@@ -7,7 +7,7 @@ import useDelegationShares from '@/hooks/subgraphs/useDelegationShares'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import ethIcon from '@assets/icons/eth-icon.svg'
-import stIcon from '@assets/icons/staked-icon.svg'
+import stIcon from '@assets/icons/seth-icon.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -45,9 +45,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
-  const { balance: sethToEthRatio } = usePooledEthByShares(ethers.parseEther('1').toString())
-  const { balance: ethToSethRatio } = usePooledShareByEth(ethers.parseEther('1'))
-
   const {
     delegationSharesEth,
     delegationShares,
@@ -59,8 +56,13 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const { minDepositAmount } = useMinDepositAmount()
 
   const [amount, setAmount] = useState<string>('')
-  const { balance: ethByShare } = usePooledEthByShares(ethers.parseUnits(amount || '0', 'ether').toString())
-  const { balance: shareByEth } = usePooledShareByEth(ethByShare)
+
+  const { balance: sharesRatio } = usePooledShareByEth(BigInt('1000000000000000000'))
+  const { balance: ratioEthByShare } = usePooledEthByShares(sharesRatio.toString())
+
+  const { balance: sharesByEth } = usePooledShareByEth(ethers.parseEther(amount || '0'))
+  const { balance: amountEthByShare } = usePooledEthByShares(sharesByEth.toString())
+
   const debouncedAmount = useDebounce(amount, 1000)
 
   const { setOpenModal: openByEthModal } = useWalletByEthModal()
@@ -95,9 +97,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const balance = type === 'deposit' ? ethBalance : delegationSharesEth
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
-  const receiveSymbol = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
+  const operationSymbol = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
   const estimateGas = type === 'deposit' ? depositEstimateGas : withdrawEstimateGas
+  const estimateGasInGwei = ethers.formatUnits(estimateGas, 'gwei')
   const txHash = type === 'deposit' ? depositTxHash : withdrawTxHash
   const resetState = type === 'deposit' ? depositResetState : withdrawResetState
 
@@ -271,26 +274,24 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         <StakeInfo>
           <div>
             <span>{`${t('youReceive')} `}</span>
-            <span>{` ${
-              type === 'deposit' ? truncateWei(shareByEth, 4) || '0' : amount
-            } ${receiveSymbol}`}</span>
+            <span>{` ${truncateWei(amountEthByShare, 18) || '0'} ${operationSymbol}`}</span>
           </div>
           <div>
             <span>{t('confirmStakeModal.exchangeRate')}</span>
             {type === 'deposit' && (
               <span>
-                1 <span>{t('eth.symbol')}</span> = {truncateWei(ethToSethRatio)} <span>{t('lsd.symbol')}</span>
+                1 <span>{t('eth.symbol')}</span> = {truncateWei(ratioEthByShare)} <span>{t('lsd.symbol')}</span>
               </span>
             )}
             {type === 'withdraw' && (
               <span>
-                1 <span>{t('lsd.symbol')}</span> = {truncateWei(sethToEthRatio)} <span>{t('eth.symbol')}</span>
+                1 <span>{t('lsd.symbol')}</span> = {truncateWei(ratioEthByShare)} <span>{t('eth.symbol')}</span>
               </span>
             )}
           </div>
           <div>
             <span>{t('confirmStakeModal.networkFee')}</span>
-            <span>{estimateGas}</span>
+            <span>{estimateGasInGwei}</span>
           </div>
           {type === 'deposit' && (
             <div>
@@ -306,12 +307,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       </StakeContainer>
       <StakeConfirmModal
         amount={amount}
+        amountEthByShare={amountEthByShare}
         txHash={txHash}
         titleModal={titleConfirmStakeModal}
         type={type}
         labelButton={handleLabelButton()}
         onClick={handleStakeConfirmation}
-        estimateGas={estimateGas}
+        ethRatio={ratioEthByShare}
+        estimateGas={estimateGasInGwei}
         transactionLoading={isLoading}
         walletActionLoading={walletActionLoading}
         transactionIsSuccess={isSuccess}
@@ -434,7 +437,7 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, CardInfoData } = {
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     padding: 0px 12px;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     gap: 8px;
@@ -451,6 +454,10 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, CardInfoData } = {
     &:disabled {
       background: ${({ theme }) => theme.color.blue[50]};
       cursor: not-allowed;
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      display: flex;
     }
   `
   // QuestionIcon: styled(AiOutlineQuestionCircle)`
