@@ -27,6 +27,8 @@ import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import { WithdrawType } from '@/types/Withdraw'
+import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -56,6 +58,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const { minDepositAmount } = useMinDepositAmount()
 
   const [amount, setAmount] = useState<string>('')
+  const [withdrawTypeSelected, setWithdrawTypeSelected] = useState(WithdrawType.POOL)
 
   const { balance: sharesRatio } = usePooledShareByEth(BigInt('1000000000000000000'))
   const { balance: ratioEthByShare } = usePooledEthByShares(sharesRatio.toString())
@@ -241,6 +244,12 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               </BuyEthButton>
             </CardInfoData>
           </CardInfo>
+        )}
+        {type === 'withdraw' && (
+          <StakeWithdrawSwitchTypes
+            withdrawTypeSelected={withdrawTypeSelected}
+            selectWithdrawType={setWithdrawTypeSelected}
+          />
         )}
         <StakeFormInput
           value={amount}
