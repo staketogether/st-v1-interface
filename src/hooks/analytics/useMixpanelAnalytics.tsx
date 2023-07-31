@@ -1,3 +1,4 @@
+import { WithdrawType } from '@/types/Withdraw'
 import mixpanel from 'mixpanel-browser'
 import { useCallback, useState } from 'react'
 
@@ -67,7 +68,13 @@ export const useMixpanelAnalytics = () => {
   )
 
   const registerWithdraw = useCallback(
-    (walletAddress: string, chainId: number, poolAddress: string, amount: string) => {
+    (
+      walletAddress: string,
+      chainId: number,
+      poolAddress: string,
+      amount: string,
+      withdrawType: WithdrawType
+    ) => {
       if (!isInitialized) {
         init()
         return
@@ -78,7 +85,8 @@ export const useMixpanelAnalytics = () => {
         chainId,
         amount,
         poolAddress,
-        path: window.location.pathname
+        path: window.location.pathname,
+        withdrawType
       })
     },
     [init, isInitialized]

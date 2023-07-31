@@ -66,8 +66,9 @@ const { Text } = {
       return (
         larger &&
         `
-      font-size: ${theme.font.size[22]} !important;
-    `
+          height: 30px;
+          font-size: ${theme.font.size[22]} !important;
+        `
       )
     }}
   `

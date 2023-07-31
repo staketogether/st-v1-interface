@@ -9,11 +9,15 @@ import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 
 import { ethers } from 'ethers'
-import { usePrepareStakeTogetherWithdrawPool, useStakeTogetherWithdrawPool } from '../../types/Contracts'
+import {
+  usePrepareStakeTogetherWithdrawValidator,
+  useStakeTogetherWithdrawValidator
+} from '../../types/Contracts'
 import useTranslation from '../useTranslation'
 import useEstimateGas from '../useEstimateGas'
+import { WithdrawType } from '@/types/Withdraw'
 
-export default function useWithdraw(
+export default function useWithdrawValidator(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
@@ -30,7 +34,7 @@ export default function useWithdraw(
 
   const withdrawRule = enabled && amount > 0n
 
-  const { config } = usePrepareStakeTogetherWithdrawPool({
+  const { config } = usePrepareStakeTogetherWithdrawValidator({
     address: contracts.StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
@@ -38,7 +42,7 @@ export default function useWithdraw(
     enabled: withdrawRule
   })
 
-  const tx = useStakeTogetherWithdrawPool({
+  const tx = useStakeTogetherWithdrawValidator({
     ...config,
     onSuccess: data => {
       if (data?.hash) {
@@ -52,7 +56,7 @@ export default function useWithdraw(
 
   const { estimateGas } = useEstimateGas(tx as ethers.TransactionRequest)
 
-  const withdraw = () => {
+  const withdrawValidator = () => {
     setAwaitWalletAction(true)
     tx.write?.()
     setNotify(true)
@@ -75,7 +79,7 @@ export default function useWithdraw(
         include: [queryAccount, queryPool, queryDelegationShares]
       })
 
-      registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString())
+      registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.VALIDATORS)
 
       if (notify) {
         notification.success({
@@ -99,5 +103,5 @@ export default function useWithdraw(
     }
   }, [accountAddress, isError, notify, poolAddress, t, withdrawAmount])
 
-  return { withdraw, estimateGas, isLoading, isSuccess, awaitWalletAction, resetState, txHash }
+  return { withdrawValidator, estimateGas, isLoading, isSuccess, awaitWalletAction, resetState, txHash }
 }

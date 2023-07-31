@@ -11,13 +11,15 @@ export default function useDelegationShares(walletAddress?: `0x${string}`, commu
     }
   )
 
-  const { balance: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
+  const { loading: delegatedSharesLoading } = usePooledEthByShares(
     data && data.delegation?.delegationShares ? data.delegation?.delegationShares : '0'
   )
 
+  //TODO: trocar a integração quando o thegraph estiver ok
   return {
     delegationShares: data?.delegation?.delegationShares || '0',
-    delegationSharesEth: delegatedShares,
+    // delegationSharesEth: delegatedShares,
+    delegationSharesEth: 106313078370738671n,
     loading: loading || delegatedSharesLoading,
     refetch
   }

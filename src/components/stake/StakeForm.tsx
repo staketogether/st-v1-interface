@@ -1,8 +1,6 @@
 import chainConfig from '@/config/chain'
-import { useMinDepositAmount } from '@/hooks/contracts/useMinDepositAmount'
 import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
 import usePooledShareByEth from '@/hooks/contracts/useSharesByPooledEth'
-import { useWithdrawalLiquidityBalance } from '@/hooks/contracts/useWithdrawalLiquidityBalance'
 import useDelegationShares from '@/hooks/subgraphs/useDelegationShares'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
@@ -10,7 +8,7 @@ import ethIcon from '@assets/icons/eth-icon.svg'
 import stIcon from '@assets/icons/seth-icon.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { AiOutlineCreditCard } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
@@ -18,7 +16,7 @@ import { useNetwork, useSwitchNetwork } from 'wagmi'
 import { globalConfig } from '../../config/global'
 import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
-import useWithdraw from '../../hooks/contracts/useWithdraw'
+import useWithdrawPool from '../../hooks/contracts/useWithdrawPool'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
@@ -27,6 +25,14 @@ import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import { WithdrawType } from '@/types/Withdraw'
+import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
+import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
+import useWithdrawLiquidity from '@/hooks/contracts/useWithdrawLiquidity'
+import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
+import { useWithdrawLiquidityBalance } from '@/hooks/contracts/useWithdrawLiquidityBalance'
+import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValidatorBalance'
+import useContractConfig from '@/hooks/contracts/useContractConfig'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -37,6 +43,9 @@ type StakeFormProps = {
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { fee } = globalConfig
   const { t } = useTranslation()
+  const { contractConfig } = useContractConfig()
+  const minDepositAmount = contractConfig?.minDepositAmount || 0n
+
   const {
     balance: ethBalance,
     isLoading: balanceLoading,
@@ -47,13 +56,47 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const {
     delegationSharesEth,
-    delegationShares,
     loading: delegationSharesLoading,
     refetch: delegationSharesRefetch
   } = useDelegationShares(accountAddress, poolAddress)
 
-  const { withdrawalLiquidityBalance } = useWithdrawalLiquidityBalance()
-  const { minDepositAmount } = useMinDepositAmount()
+  const [withdrawTypeSelected, setWithdrawTypeSelected] = useState(WithdrawType.POOL)
+  const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
+    useWithdrawPoolBalance()
+  const { withdrawLiquidityBalance, refetch: withdrawLiquidityBalanceRefetch } = useWithdrawLiquidityBalance()
+  const {
+    withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
+    refetch: withdrawValidatorsBalanceRefetch
+  } = useWithdrawValidatorBalance()
+
+  const handleWithdrawLiquidity = () => {
+    switch (withdrawTypeSelected) {
+      case WithdrawType.LIQUIDITY:
+        return withdrawLiquidityBalance
+      case WithdrawType.VALIDATORS:
+        return withdrawLiquidityValidatorsBalance
+
+      default:
+        return withdrawLiquidityPoolBalance
+    }
+  }
+
+  const handleWithdrawBalanceRefetch = useCallback(() => {
+    switch (withdrawTypeSelected) {
+      case WithdrawType.LIQUIDITY:
+        return withdrawLiquidityBalanceRefetch()
+      case WithdrawType.VALIDATORS:
+        return withdrawValidatorsBalanceRefetch()
+
+      default:
+        return withdrawPoolBalanceRefetch()
+    }
+  }, [
+    withdrawLiquidityBalanceRefetch,
+    withdrawPoolBalanceRefetch,
+    withdrawValidatorsBalanceRefetch,
+    withdrawTypeSelected
+  ])
 
   const [amount, setAmount] = useState<string>('')
 
@@ -80,48 +123,123 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   } = useDeposit(inputAmount, poolAddress, type === 'deposit', accountAddress)
 
   const {
-    withdraw,
-    isLoading: withdrawLoading,
-    isSuccess: withdrawSuccess,
-    estimateGas: withdrawEstimateGas,
-    awaitWalletAction: withdrawAwaitWalletAction,
-    resetState: withdrawResetState,
-    txHash: withdrawTxHash
-  } = useWithdraw(inputAmount, poolAddress, type === 'withdraw', accountAddress)
+    withdrawPool,
+    isLoading: withdrawPoolLoading,
+    isSuccess: withdrawPoolSuccess,
+    estimateGas: withdrawPoolEstimateGas,
+    awaitWalletAction: withdrawPoolAwaitWalletAction,
+    resetState: withdrawPoolResetState,
+    txHash: withdrawPoolTxHash
+  } = useWithdrawPool(
+    inputAmount,
+    poolAddress,
+    type === 'withdraw' && withdrawTypeSelected === WithdrawType.POOL,
+    accountAddress
+  )
+
+  const {
+    withdrawLiquidity,
+    isLoading: withdrawLiquidityLoading,
+    isSuccess: withdrawLiquiditySuccess,
+    estimateGas: withdrawLiquidityEstimateGas,
+    awaitWalletAction: withdrawLiquidityAwaitWalletAction,
+    resetState: withdrawLiquidityResetState,
+    txHash: withdrawLiquidityTxHash
+  } = useWithdrawLiquidity(
+    inputAmount,
+    poolAddress,
+    type === 'withdraw' && withdrawTypeSelected === WithdrawType.LIQUIDITY,
+    accountAddress
+  )
+
+  const {
+    withdrawValidator,
+    isLoading: withdrawValidatorLoading,
+    isSuccess: withdrawValidatorSuccess,
+    estimateGas: withdrawValidatorEstimateGas,
+    awaitWalletAction: withdrawValidatorAwaitWalletAction,
+    resetState: withdrawValidatorResetState,
+    txHash: withdrawValidatorTxHash
+  } = useWithdrawValidator(
+    inputAmount,
+    poolAddress,
+    type === 'withdraw' && withdrawTypeSelected === WithdrawType.VALIDATORS,
+    accountAddress
+  )
+
+  const handleWithdraw = () => {
+    switch (withdrawTypeSelected) {
+      case WithdrawType.LIQUIDITY:
+        return {
+          withdraw: withdrawLiquidity,
+          withdrawLoading: withdrawLiquidityLoading,
+          withdrawSuccess: withdrawLiquiditySuccess,
+          withdrawEstimateGas: withdrawLiquidityEstimateGas,
+          withdrawAwaitWalletAction: withdrawLiquidityAwaitWalletAction,
+          withdrawResetState: withdrawLiquidityResetState,
+          withdrawTxHash: withdrawLiquidityTxHash
+        }
+      case WithdrawType.VALIDATORS:
+        return {
+          withdraw: withdrawValidator,
+          withdrawLoading: withdrawValidatorLoading,
+          withdrawSuccess: withdrawValidatorSuccess,
+          withdrawEstimateGas: withdrawValidatorEstimateGas,
+          withdrawAwaitWalletAction: withdrawValidatorAwaitWalletAction,
+          withdrawResetState: withdrawValidatorResetState,
+          withdrawTxHash: withdrawValidatorTxHash
+        }
+
+      default:
+        return {
+          withdraw: withdrawPool,
+          withdrawLoading: withdrawPoolLoading,
+          withdrawSuccess: withdrawPoolSuccess,
+          withdrawEstimateGas: withdrawPoolEstimateGas,
+          withdrawAwaitWalletAction: withdrawPoolAwaitWalletAction,
+          withdrawResetState: withdrawPoolResetState,
+          withdrawTxHash: withdrawPoolTxHash
+        }
+    }
+  }
+
+  const withdrawData = handleWithdraw()
 
   const rewardsFee = truncateWei(fee.protocol * 100n)
 
-  const isLoading = depositLoading || withdrawLoading
-  const isSuccess = depositSuccess || withdrawSuccess
+  const isLoading = depositLoading || withdrawData.withdrawLoading
+  const isSuccess = depositSuccess || withdrawData.withdrawSuccess
 
   const balance = type === 'deposit' ? ethBalance : delegationSharesEth
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
   const operationSymbol = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
-  const estimateGas = type === 'deposit' ? depositEstimateGas : withdrawEstimateGas
+  const estimateGas = type === 'deposit' ? depositEstimateGas : withdrawData.withdrawEstimateGas
   const estimateGasInGwei = ethers.formatUnits(estimateGas, 'gwei')
-  const txHash = type === 'deposit' ? depositTxHash : withdrawTxHash
-  const resetState = type === 'deposit' ? depositResetState : withdrawResetState
+  const txHash = type === 'deposit' ? depositTxHash : withdrawData.withdrawTxHash
+  const resetState = type === 'deposit' ? depositResetState : withdrawData.withdrawResetState
 
   const amountBigNumber = ethers.parseEther(amount || '0')
 
-  const insufficientFunds = amountBigNumber > balance
   const insufficientMinDeposit = type === 'deposit' && amountBigNumber < minDepositAmount && amount.length > 0
-  const insufficientWithdrawalLiquidity =
-    type === 'withdraw' && amountBigNumber > withdrawalLiquidityBalance && amount.length > 0
+
+  const insufficientFunds = amountBigNumber > balance
+  const insufficientWithdrawalBalance =
+    type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
   const amountIsEmpty = amountBigNumber === 0n || !amount
 
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
     (insufficientMinDeposit &&
       `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
-    (insufficientWithdrawalLiquidity &&
-      `${t('form.insufficientLiquidity')} ${truncateWei(withdrawalLiquidityBalance)} ${t('lsd.symbol')}`) ||
+    (insufficientWithdrawalBalance &&
+      `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
     ''
   const titleConfirmStakeModal =
     type === 'deposit' ? t('confirmStakeModal.reviewDeposit') : t('confirmStakeModal.reviewWithdraw')
-  const walletActionLoading = type === 'deposit' ? depositAwaitWalletAction : withdrawAwaitWalletAction
+  const walletActionLoading =
+    type === 'deposit' ? depositAwaitWalletAction : withdrawData.withdrawAwaitWalletAction
 
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   useEffect(() => {
@@ -129,8 +247,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       resetState()
       setAmount('')
       refetchEthBalance()
+      handleWithdrawBalanceRefetch()
     }
-  }, [isOpenStakeConfirmModal, isSuccess, refetchEthBalance, resetState])
+  }, [handleWithdrawBalanceRefetch, isOpenStakeConfirmModal, isSuccess, refetchEthBalance, resetState])
 
   const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
@@ -151,14 +270,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     if (type === 'deposit') {
       return deposit()
     }
-    withdraw()
+    withdrawData.withdraw()
   }
 
   const handleLabelButton = () => {
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
     }
-    if (insufficientFunds || insufficientWithdrawalLiquidity || insufficientMinDeposit) {
+    if (insufficientFunds || insufficientWithdrawalBalance || insufficientMinDeposit) {
       return errorLabel
     }
 
@@ -190,7 +309,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
                 <SkeletonLoading height={20} width={120} />
               ) : (
                 <div>
-                  <span>{truncateWei(BigInt(delegationShares), 6)}</span>
+                  <span>{truncateWei(BigInt(delegationSharesEth), 6)}</span>
                   <span className='purple'>{t('lsd.symbol')}</span>
                 </div>
               )}
@@ -242,6 +361,15 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             </CardInfoData>
           </CardInfo>
         )}
+        {type === 'withdraw' && (
+          <StakeWithdrawSwitchTypes
+            liquidityPoolBalance={withdrawLiquidityPoolBalance}
+            liquidityLiquidityBalance={withdrawLiquidityBalance}
+            liquidityValidatorsBalance={withdrawLiquidityValidatorsBalance}
+            withdrawTypeSelected={withdrawTypeSelected}
+            selectWithdrawType={setWithdrawTypeSelected}
+          />
+        )}
         <StakeFormInput
           value={amount}
           onChange={value => setAmount(value)}
@@ -250,7 +378,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           balanceLoading={balanceLoading || delegationSharesLoading}
           disabled={isWrongNetwork || isLoading || !accountAddress}
           purple={type === 'withdraw'}
-          hasError={insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity}
+          hasError={insufficientFunds || insufficientWithdrawalBalance || insufficientMinDeposit}
           type={type}
         />
         {!accountAddress && (
@@ -267,7 +395,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             label={handleLabelButton()}
             purple={type === 'withdraw'}
             disabled={
-              insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity || amountIsEmpty
+              insufficientFunds || insufficientWithdrawalBalance || amountIsEmpty || insufficientMinDeposit
             }
           />
         )}

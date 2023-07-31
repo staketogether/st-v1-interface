@@ -48,7 +48,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const tabsItems: TabsItems[] = [
     {
       key: 'deposit',
-      label: t('pools'),
+      label: t('deposit'),
       icon: <DepositIcon />,
       children: stakeForm
     },
