@@ -57,11 +57,13 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   } = useDelegationShares(accountAddress, poolAddress)
 
   const [withdrawTypeSelected, setWithdrawTypeSelected] = useState(WithdrawType.POOL)
-  const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawLiquidityPoolBalanceRefetch } =
+  const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
     useWithdrawPoolBalance()
-  const { withdrawLiquidityBalance, refetch: liquidityLiquidityBalanceRefetch } = useWithdrawLiquidityBalance()
-  const { withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance, refetch: liquidityValidatorsRefetch } =
-    useWithdrawValidatorBalance()
+  const { withdrawLiquidityBalance, refetch: withdrawLiquidityBalanceRefetch } = useWithdrawLiquidityBalance()
+  const {
+    withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
+    refetch: withdrawValidatorsBalanceRefetch
+  } = useWithdrawValidatorBalance()
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
@@ -78,17 +80,17 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const handleWithdrawBalanceRefetch = useCallback(() => {
     switch (withdrawTypeSelected) {
       case WithdrawType.LIQUIDITY:
-        return liquidityLiquidityBalanceRefetch()
+        return withdrawLiquidityBalanceRefetch()
       case WithdrawType.VALIDATORS:
-        return liquidityValidatorsRefetch()
+        return withdrawValidatorsBalanceRefetch()
 
       default:
-        return withdrawLiquidityPoolBalanceRefetch()
+        return withdrawPoolBalanceRefetch()
     }
   }, [
-    liquidityLiquidityBalanceRefetch,
-    withdrawLiquidityPoolBalanceRefetch,
-    liquidityValidatorsRefetch,
+    withdrawLiquidityBalanceRefetch,
+    withdrawPoolBalanceRefetch,
+    withdrawValidatorsBalanceRefetch,
     withdrawTypeSelected
   ])
 
