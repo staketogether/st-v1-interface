@@ -28,10 +28,10 @@ import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet
 import { WithdrawType } from '@/types/Withdraw'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
-import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValidatorBalance'
 import useWithdrawLiquidity from '@/hooks/contracts/useWithdrawLiquidity'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
 import { useWithdrawLiquidityBalance } from '@/hooks/contracts/useWithdrawLiquidityBalance'
+import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValidatorBalance'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
