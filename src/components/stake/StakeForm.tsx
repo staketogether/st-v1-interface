@@ -32,6 +32,7 @@ import useWithdrawLiquidity from '@/hooks/contracts/useWithdrawLiquidity'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
 import { useWithdrawLiquidityBalance } from '@/hooks/contracts/useWithdrawLiquidityBalance'
 import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValidatorBalance'
+import useContractConfig from '@/hooks/contracts/useContractConfig'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -42,6 +43,7 @@ type StakeFormProps = {
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { fee } = globalConfig
   const { t } = useTranslation()
+  useContractConfig()
   const {
     balance: ethBalance,
     isLoading: balanceLoading,
@@ -219,13 +221,13 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const amountBigNumber = ethers.parseEther(amount || '0')
 
   const insufficientFunds = amountBigNumber > balance
-  const insufficientWithdrawalLiquidity =
+  const insufficientWithdrawalBalance =
     type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
   const amountIsEmpty = amountBigNumber === 0n || !amount
 
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
-    (insufficientWithdrawalLiquidity &&
+    (insufficientWithdrawalBalance &&
       `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
     ''
   const titleConfirmStakeModal =
@@ -269,7 +271,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
     }
-    if (insufficientFunds || insufficientWithdrawalLiquidity) {
+    if (insufficientFunds || insufficientWithdrawalBalance) {
       return errorLabel
     }
 
@@ -370,7 +372,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           balanceLoading={balanceLoading || delegationSharesLoading}
           disabled={isWrongNetwork || isLoading || !accountAddress}
           purple={type === 'withdraw'}
-          hasError={insufficientFunds || insufficientWithdrawalLiquidity}
+          hasError={insufficientFunds || insufficientWithdrawalBalance}
           type={type}
         />
         {!accountAddress && (
@@ -386,7 +388,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             onClick={openStakeConfirmation}
             label={handleLabelButton()}
             purple={type === 'withdraw'}
-            disabled={insufficientFunds || insufficientWithdrawalLiquidity || amountIsEmpty}
+            disabled={insufficientFunds || insufficientWithdrawalBalance || amountIsEmpty}
           />
         )}
         <StakeInfo>
