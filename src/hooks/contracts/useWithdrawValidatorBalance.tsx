@@ -2,7 +2,7 @@ import chainConfig from '@/config/chain'
 import { useStakeTogetherBeaconBalance } from '@/types/Contracts'
 import { useEffect, useState } from 'react'
 
-export const useWithdrawLiquidityValidatorsBalance = () => {
+export const useWithdrawValidatorBalance = () => {
   const [liquidityValidatorsBalance, setLiquidityValidatorsBalance] = useState(0n)
   const { contracts } = chainConfig()
 

@@ -28,7 +28,7 @@ import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet
 import { WithdrawType } from '@/types/Withdraw'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
-import { useWithdrawLiquidityValidatorsBalance } from '@/hooks/contracts/useWithdrawValidatorsBalance'
+import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValidatorBalance'
 import useWithdrawLiquidity from '@/hooks/contracts/useWithdrawLiquidity'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
 import { useWithdrawLiquidityBalance } from '@/hooks/contracts/useWithdrawLiquidityBalance'
@@ -61,7 +61,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     useWithdrawPoolBalance()
   const { withdrawLiquidityBalance, refetch: liquidityLiquidityBalanceRefetch } = useWithdrawLiquidityBalance()
   const { withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance, refetch: liquidityValidatorsRefetch } =
-    useWithdrawLiquidityValidatorsBalance()
+    useWithdrawValidatorBalance()
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
