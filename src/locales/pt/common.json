@@ -132,12 +132,12 @@
     "faucetIsEmpty": "Não temos mais ETH",
     "addressHasAlready": "Sua carteira já recebeu ETH"
   },
-    "withdrawCardsType": {
+  "withdrawCardsType": {
     "pool": "Pool",
     "lendingPool": "Pools de Empréstimo",
     "validators": "Validadores",
     "rate": "Taxa",
-    "bestRate" : "Melhor Taxa",
+    "bestRate": "Melhor Taxa",
     "liquidity": "Liquidez",
     "waitingTime": "Tempo de Espera",
     "instantly": "Imediatamente"

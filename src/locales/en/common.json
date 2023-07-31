@@ -133,11 +133,11 @@
     "faucetIsEmpty": "No more ETH available",
     "addressHasAlready": "Your wallet has already received ETH"
   },
-    "withdrawCardsType": {
+  "withdrawCardsType": {
     "pool": "Pool",
     "lendingPool": "Lending Pool",
     "validators": "Validators",
-    "bestRate" : "Best Rate",
+    "bestRate": "Best Rate",
     "rate": "Rate",
     "liquidity": "Liquidity",
     "waitingTime": "Waiting Time",
