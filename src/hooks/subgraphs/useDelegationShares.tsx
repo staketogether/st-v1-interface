@@ -11,7 +11,7 @@ export default function useDelegationShares(walletAddress?: `0x${string}`, commu
     }
   )
 
-  const { balance: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
+  const { loading: delegatedSharesLoading } = usePooledEthByShares(
     data && data.delegation?.delegationShares ? data.delegation?.delegationShares : '0'
   )
 
