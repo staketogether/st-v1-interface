@@ -18,6 +18,7 @@ export type ChainConfig = {
   contracts: {
     STOracle: `0x${string}`
     StakeTogether: `0x${string}`
+    Liquidity: `0x${string}`
   }
 }
 
@@ -49,7 +50,8 @@ const configs: ChainConfig[] = [
     alchemyApiUrl: `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`,
     contracts: {
       STOracle: '0x39952aFfa9a4731f304ba40793Cc8D2Da994531E',
-      StakeTogether: '0x1B09577Cb94906c0f2119A1C61919F6f055CBC74'
+      StakeTogether: '0x8502601151A56be3c6Cf3ADD33ACaA58A6aBA0A8',
+      Liquidity: '0x70650bDce546855460810bF3214b40498242DaD0'
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-goerli/version/latest',

@@ -1,5 +1,5 @@
 export enum WithdrawType {
   POOL = 'pool',
-  LENDINGPOOL = 'lendingPool',
+  LIQUIDITY = 'liquidity',
   VALIDATORS = 'validators'
 }

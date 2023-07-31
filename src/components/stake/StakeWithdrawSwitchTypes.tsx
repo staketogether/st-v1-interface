@@ -8,18 +8,24 @@ import {
 } from 'react-icons/ai'
 import useTranslation from '@/hooks/useTranslation'
 import { WithdrawType } from '@/types/Withdraw'
+import { truncateWei } from '@/services/truncate'
 
 type StakeWithdrawSwitchTypesProps = {
   withdrawTypeSelected: WithdrawType
   selectWithdrawType: (value: WithdrawType) => void
+  liquidityPoolBalance: bigint
+  liquidityValidatorsBalance: bigint
+  liquidityLiquidityBalance: bigint
 }
 
 export default function StakeWithdrawSwitchTypes({
   withdrawTypeSelected,
+  liquidityPoolBalance,
+  liquidityValidatorsBalance,
+  liquidityLiquidityBalance,
   selectWithdrawType
 }: StakeWithdrawSwitchTypesProps) {
   const { t } = useTranslation()
-
   const handleActiveType = (type: WithdrawType) => {
     return type === withdrawTypeSelected
   }
@@ -41,7 +47,7 @@ export default function StakeWithdrawSwitchTypes({
           </div>
           <div>
             <span>{t('withdrawCardsType.liquidity')}</span>
-            <span>31 ETH</span>
+            <span>{`${truncateWei(liquidityPoolBalance, 4)} ETH`}</span>
           </div>
         </RateInfo>
         <Time>
@@ -53,8 +59,8 @@ export default function StakeWithdrawSwitchTypes({
         </Time>
       </Card>
       <Card
-        className={`${handleActiveType(WithdrawType.LENDINGPOOL) ? 'active' : ''}`}
-        onClick={() => selectWithdrawType(WithdrawType.LENDINGPOOL)}
+        className={`${handleActiveType(WithdrawType.LIQUIDITY) ? 'active' : ''} disabled`}
+        onClick={() => selectWithdrawType(WithdrawType.LIQUIDITY)}
       >
         <header>
           <h4>{t('withdrawCardsType.lendingPool')}</h4>
@@ -67,7 +73,7 @@ export default function StakeWithdrawSwitchTypes({
           </div>
           <div>
             <span>{t('withdrawCardsType.liquidity')}</span>
-            <span>300 ETH</span>
+            <span>{`${truncateWei(liquidityLiquidityBalance, 4)} ETH`}</span>
           </div>
         </RateInfo>
         <Time>
@@ -93,7 +99,7 @@ export default function StakeWithdrawSwitchTypes({
           </div>
           <div>
             <span>{t('withdrawCardsType.liquidity')}</span>
-            <span>3000ETH</span>
+            <span>{`${truncateWei(liquidityValidatorsBalance, 4)} ETH`}</span>
           </div>
         </RateInfo>
         <Time>
@@ -142,6 +148,10 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, LendingPoolIcon, V
     &:hover,
     &.active {
       border: 2px solid ${({ theme }) => theme.color.secondary};
+    }
+
+    &.disabled {
+      cursor: not-allowed;
     }
   `,
   RateInfo: styled.div`
