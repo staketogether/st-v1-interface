@@ -2,23 +2,24 @@ import chainConfig from '@/config/chain'
 import { useEffect, useState } from 'react'
 import { useBalance } from 'wagmi'
 
-export const useWithdrawLiquidityLiquidity = () => {
+export const useWithdrawPoolBalance = () => {
   const { chainId, contracts } = chainConfig()
-  const [liquidityBalance, setLiquidityBalance] = useState(0n)
+  const [liquidityPoolBalance, setLiquidityPoolBalance] = useState(0n)
 
   const { data, isFetching, refetch } = useBalance({
-    address: contracts.Liquidity,
+    address: contracts.StakeTogether,
     chainId
   })
 
   useEffect(() => {
     if (data) {
-      setLiquidityBalance(data.value)
+      setLiquidityPoolBalance(data.value)
     }
   }, [data])
 
+  //TODO RE-VISITAR ESSE HOOk
   return {
-    liquidityLiquidityBalance: liquidityBalance || 0n,
+    withdrawPoolBalance: liquidityPoolBalance || 0n,
     isLoading: isFetching,
     refetch
   }

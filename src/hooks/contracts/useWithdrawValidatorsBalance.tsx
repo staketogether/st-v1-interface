@@ -18,7 +18,7 @@ export const useWithdrawLiquidityValidatorsBalance = () => {
 
   //TODO RE-VISITAR ESSE HOOk
   return {
-    liquidityValidatorsBalance: liquidityValidatorsBalance || 0n,
+    withdrawValidatorsBalance: liquidityValidatorsBalance || 0n,
     isLoading: isFetching,
     refetch
   }

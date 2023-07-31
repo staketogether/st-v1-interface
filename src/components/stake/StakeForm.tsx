@@ -27,11 +27,11 @@ import StakeFormInput from './StakeInput'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { WithdrawType } from '@/types/Withdraw'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
-import { useWithdrawLiquidityPoolBalance } from '@/hooks/contracts/useWithdrawLiquidityPoolBalance'
-import { useWithdrawLiquidityValidatorsBalance } from '@/hooks/contracts/useWithdrawLiquidityValidatorsBalance'
+import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
+import { useWithdrawLiquidityValidatorsBalance } from '@/hooks/contracts/useWithdrawValidatorsBalance'
 import useWithdrawLiquidity from '@/hooks/contracts/useWithdrawLiquidity'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
-import { useWithdrawLiquidityLiquidity } from '@/hooks/contracts/useWithdrawLiquidityLiquidity'
+import { useWithdrawLiquidityBalance } from '@/hooks/contracts/useWithdrawLiquidityBalance'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -57,41 +57,37 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   } = useDelegationShares(accountAddress, poolAddress)
 
   const [withdrawTypeSelected, setWithdrawTypeSelected] = useState(WithdrawType.POOL)
-  const { liquidityPoolBalance, refetch: liquidityPoolBalanceRefetch } = useWithdrawLiquidityPoolBalance()
-  const { liquidityLiquidityBalance, refetch: liquidityLiquidityBalanceRefetch } =
-    useWithdrawLiquidityLiquidity()
-  const { liquidityValidatorsBalance, refetch: liquidityValidatorsRefetch } =
+  const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawLiquidityPoolBalanceRefetch } =
+    useWithdrawPoolBalance()
+  const { withdrawLiquidityBalance, refetch: liquidityLiquidityBalanceRefetch } = useWithdrawLiquidityBalance()
+  const { withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance, refetch: liquidityValidatorsRefetch } =
     useWithdrawLiquidityValidatorsBalance()
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
-      case WithdrawType.POOL:
-        return liquidityPoolBalance
       case WithdrawType.LIQUIDITY:
-        return liquidityLiquidityBalance
+        return withdrawLiquidityBalance
       case WithdrawType.VALIDATORS:
-        return liquidityValidatorsBalance
+        return withdrawLiquidityValidatorsBalance
 
       default:
-        return liquidityPoolBalance
+        return withdrawLiquidityPoolBalance
     }
   }
 
-  const handleWithdrawLiquidityRefetch = useCallback(() => {
+  const handleWithdrawBalanceRefetch = useCallback(() => {
     switch (withdrawTypeSelected) {
-      case WithdrawType.POOL:
-        return liquidityPoolBalanceRefetch()
       case WithdrawType.LIQUIDITY:
         return liquidityLiquidityBalanceRefetch()
       case WithdrawType.VALIDATORS:
         return liquidityValidatorsRefetch()
 
       default:
-        return liquidityPoolBalanceRefetch()
+        return withdrawLiquidityPoolBalanceRefetch()
     }
   }, [
     liquidityLiquidityBalanceRefetch,
-    liquidityPoolBalanceRefetch,
+    withdrawLiquidityPoolBalanceRefetch,
     liquidityValidatorsRefetch,
     withdrawTypeSelected
   ])
@@ -167,16 +163,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const handleWithdraw = () => {
     switch (withdrawTypeSelected) {
-      case WithdrawType.POOL:
-        return {
-          withdraw: withdrawPool,
-          withdrawLoading: withdrawPoolLoading,
-          withdrawSuccess: withdrawPoolSuccess,
-          withdrawEstimateGas: withdrawPoolEstimateGas,
-          withdrawAwaitWalletAction: withdrawPoolAwaitWalletAction,
-          withdrawResetState: withdrawPoolResetState,
-          withdrawTxHash: withdrawPoolTxHash
-        }
       case WithdrawType.LIQUIDITY:
         return {
           withdraw: withdrawLiquidity,
@@ -251,9 +237,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       resetState()
       setAmount('')
       refetchEthBalance()
-      handleWithdrawLiquidityRefetch()
+      handleWithdrawBalanceRefetch()
     }
-  }, [handleWithdrawLiquidityRefetch, isOpenStakeConfirmModal, isSuccess, refetchEthBalance, resetState])
+  }, [handleWithdrawBalanceRefetch, isOpenStakeConfirmModal, isSuccess, refetchEthBalance, resetState])
 
   const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
@@ -367,9 +353,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         )}
         {type === 'withdraw' && (
           <StakeWithdrawSwitchTypes
-            liquidityPoolBalance={liquidityPoolBalance}
-            liquidityLiquidityBalance={liquidityLiquidityBalance}
-            liquidityValidatorsBalance={liquidityValidatorsBalance}
+            liquidityPoolBalance={withdrawLiquidityPoolBalance}
+            liquidityLiquidityBalance={withdrawLiquidityBalance}
+            liquidityValidatorsBalance={withdrawLiquidityValidatorsBalance}
             withdrawTypeSelected={withdrawTypeSelected}
             selectWithdrawType={setWithdrawTypeSelected}
           />
