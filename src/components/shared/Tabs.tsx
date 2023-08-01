@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Tooltip } from 'antd'
 import { ReactNode, useState } from 'react'
+import useResizeView from '@/hooks/useResizeView'
 
 export type ItemsKey = number | string
 
@@ -33,11 +34,13 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, size 
     }
   }
 
+  const { screenWidth } = useResizeView()
+
   const activeChildren = items.find(item => item.key === activeKey)
 
   return (
     <Container>
-      <TabsContainer className={`${size}`}>
+      <TabsContainer className={`${size}`} width={screenWidth}>
         {items.map(item => {
           if (item.tooltip) {
             return (
@@ -83,15 +86,23 @@ const { Container, TabItem, TabsContainer } = {
     display: flex;
     flex-direction: column;
   `,
-  TabsContainer: styled.div`
+  TabsContainer: styled.div<{ width: number }>`
+    width: ${props => (props.width >= 468 ? '100%' : `${props.width - 24}px`)};
     border-bottom: 1px solid ${({ theme }) => theme.color.blue[50]};
     display: flex;
+
     align-items: center;
-    gap: ${({ theme }) => theme.size[32]};
+    gap: ${({ theme }) => theme.size[24]};
+
+    overflow-y: auto;
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
 
     &.middle {
       padding: 0px ${({ theme }) => theme.size[24]};
     }
+
     &.large {
       padding: 0px ${({ theme }) => theme.size[24]};
     }
@@ -100,8 +111,10 @@ const { Container, TabItem, TabsContainer } = {
     cursor: pointer;
 
     display: flex;
+    width: 100%;
     gap: ${({ theme }) => theme.size[8]};
     align-items: center;
+    justify-content: center;
 
     font-style: normal;
     font-weight: 400;
