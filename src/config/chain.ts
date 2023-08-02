@@ -54,7 +54,7 @@ const configs: ChainConfig[] = [
       Liquidity: '0x70650bDce546855460810bF3214b40498242DaD0'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-goerli/version/latest',
+      StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-v2-goerli/version/latest',
       ENS: '',
       contentful: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/master`
     }
