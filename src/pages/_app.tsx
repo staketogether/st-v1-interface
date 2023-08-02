@@ -9,6 +9,7 @@ import NextNProgress from 'nextjs-progressbar'
 import { useEffect } from 'react'
 import { ThemeProvider } from 'styled-components'
 import { WagmiConfig } from 'wagmi'
+import V2Modal from '../components/shared/V2Modal'
 import { Cloudflare } from '../components/shared/scripts/Cloudflare'
 import { GoogleTag } from '../components/shared/scripts/GoogleTag'
 import { Hotjar } from '../components/shared/scripts/Hotjar'
@@ -45,6 +46,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         <ThemeProvider theme={lightTheme}>
           <WagmiConfig config={config}>
             <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
+            <V2Modal />
             <Component {...pageProps} />
           </WagmiConfig>
         </ThemeProvider>
