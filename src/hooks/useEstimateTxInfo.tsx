@@ -47,7 +47,7 @@ const useEstimateTxInfo = ({ account, contractAddress, abi, functionName, args, 
     setEstimatedGas(estimatedGas)
     const estimatedCost = estimatedGas * networkGasPriceGwei
     // Add 20% to the estimated cost
-    setEstimatedCost(estimatedCost)
+    setEstimatedCost(estimatedCost * 6n / 5n)
     setLoading(false)
   }, [contractAddress, functionName, args, abi, account, skip, value, gasPriceLoading, networkGasPriceGwei])
 
