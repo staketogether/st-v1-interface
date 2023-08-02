@@ -103,7 +103,7 @@ const { Container, SafeButton, Form, DepositIcon, WithdrawIcon, SafeIcon, PoolDa
       h1 {
         font-size: ${({ theme }) => theme.font.size[32]};
         font-style: normal;
-        font-weight: 500;
+        font-weight: 600;
         color: ${({ theme }) => theme.color.primary};
       }
 
