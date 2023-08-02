@@ -2,12 +2,10 @@ import { truncateWei } from '@/services/truncate'
 import { useRouter } from 'next/router'
 import { AiOutlineCheck } from 'react-icons/ai'
 import styled from 'styled-components'
-import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { Pool } from '../../types/Pool'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 type PoolsCardProps = {
   pool: Pool
@@ -17,12 +15,6 @@ export default function PoolsCard({ pool }: PoolsCardProps) {
   const router = useRouter()
 
   const { t } = useTranslation()
-
-  const { balance: rewardsShares, loading: rewardsSharesLoading } = usePooledEthByShares(pool.rewardsShares)
-
-  const { balance: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
-    pool.delegatedShares
-  )
 
   return (
     <Card onClick={() => router.push(`stake/deposit/${pool.address}`)}>
@@ -36,25 +28,10 @@ export default function PoolsCard({ pool }: PoolsCardProps) {
       <CardInfo>
         <div>
           <div>{t('staked')}</div>
-          {delegatedSharesLoading ? (
-            <SkeletonLoading width={80} />
-          ) : (
-            <div>
-              {truncateWei(delegatedShares, 6)}
-              <span>{t('lsd.symbol')}</span>
-            </div>
-          )}
-        </div>
-        <div>
-          <div>{t('rewards')}</div>
-          {rewardsSharesLoading ? (
-            <SkeletonLoading width={80} />
-          ) : (
-            <div>
-              {truncateWei(rewardsShares, 6)}
-              <span>{t('lsd.symbol')}</span>
-            </div>
-          )}
+          <div>
+            {truncateWei(pool.poolBalance, 6)}
+            <span>{t('lsd.symbol')}</span>
+          </div>
         </div>
 
         <div>
