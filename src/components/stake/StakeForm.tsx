@@ -9,11 +9,9 @@ import stIcon from '@assets/icons/seth-icon.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
-import { AiOutlineCreditCard } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
-import { globalConfig } from '../../config/global'
 import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useWithdrawPool from '../../hooks/contracts/useWithdrawPool'
@@ -41,7 +39,6 @@ type StakeFormProps = {
 }
 
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
-  const { fee } = globalConfig
   const { t } = useTranslation()
   const { contractConfig } = useContractConfig()
   const minDepositAmount = contractConfig?.minDepositAmount || 0n
@@ -205,14 +202,11 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const withdrawData = handleWithdraw()
 
-  const rewardsFee = truncateWei(fee.protocol * 100n)
-
   const isLoading = depositLoading || withdrawData.withdrawLoading
   const isSuccess = depositSuccess || withdrawData.withdrawSuccess
 
   const balance = type === 'deposit' ? ethBalance : delegationSharesEth
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
-  const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
   const operationSymbol = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
   const estimateGas = type === 'deposit' ? depositEstimateGas : withdrawData.withdrawEstimateGas
@@ -296,6 +290,30 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   return (
     <>
       <StakeContainer>
+        {type === 'deposit' && (
+          <CardInfo>
+            <div>
+              <div>
+                <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
+              </div>
+              <CardInfoData>
+                <header>
+                  <h4>{t('availableToStake')}</h4>
+                </header>
+                <div>
+                  <span>{truncateWei(ethBalance, 6)}</span>
+                  <span>{t('eth.symbol')}</span>
+                </div>
+              </CardInfoData>
+            </div>
+            <CardInfoData>
+              <BuyEthButton disabled={!accountAddress} onClick={() => openByEthModal(true)}>
+                {t('buyEth.button')}
+              </BuyEthButton>
+            </CardInfoData>
+          </CardInfo>
+        )}
+
         <CardInfo>
           <div>
             <div>
@@ -309,7 +327,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
                 <SkeletonLoading height={20} width={120} />
               ) : (
                 <div>
-                  <span>{truncateWei(BigInt(delegationSharesEth), 6)}</span>
+                  <span className='purple'>{truncateWei(BigInt(delegationSharesEth), 6)}</span>
                   <span className='purple'>{t('lsd.symbol')}</span>
                 </div>
               )}
@@ -337,30 +355,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           {/* </CardInfoData> */}
         </CardInfo>
 
-        {type === 'deposit' && (
-          <CardInfo>
-            <div>
-              <div>
-                <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
-              </div>
-              <CardInfoData>
-                <header>
-                  <h4>{t('availableToStake')}</h4>
-                </header>
-                <div>
-                  <span>{truncateWei(ethBalance, 6)}</span>
-                  <span className='purple'>{t('eth.symbol')}</span>
-                </div>
-              </CardInfoData>
-            </div>
-            <CardInfoData>
-              <BuyEthButton disabled={!accountAddress} onClick={() => openByEthModal(true)}>
-                <AiOutlineCreditCard />
-                {t('buyEth.button')}
-              </BuyEthButton>
-            </CardInfoData>
-          </CardInfo>
-        )}
         {type === 'withdraw' && (
           <StakeWithdrawSwitchTypes
             liquidityPoolBalance={withdrawLiquidityPoolBalance}
@@ -370,11 +364,11 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             selectWithdrawType={setWithdrawTypeSelected}
           />
         )}
+
         <StakeFormInput
           value={amount}
           onChange={value => setAmount(value)}
           balance={balance}
-          symbol={balanceLabel}
           balanceLoading={balanceLoading || delegationSharesLoading}
           disabled={isWrongNetwork || isLoading || !accountAddress}
           purple={type === 'withdraw'}
@@ -418,17 +412,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             )}
           </div>
           <div>
-            <span>{t('confirmStakeModal.networkFee')}</span>
-            <span>{estimateGasInGwei}</span>
-          </div>
-          {type === 'deposit' && (
-            <div>
-              <span>{`${t('rewardsFee')}`}</span>
-              <span>{`${rewardsFee}%`}</span>
-            </div>
-          )}
-          <div>
-            <span>{`${t('entryFee')} `}</span>
+            <span>{`${t('fee')} `}</span>
             <span>0.3%</span>
           </div>
         </StakeInfo>
@@ -463,11 +447,9 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, CardInfoData } = {
   `,
   CardInfo: styled.div`
     display: flex;
-    padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
     justify-content: space-between;
 
-    border-radius: 12px;
-    background: ${({ theme }) => theme.color.whiteAlpha[600]};
+    border-radius: ${({ theme }) => theme.size[12]};
 
     div:nth-child(1) {
       display: flex;
@@ -485,7 +467,7 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, CardInfoData } = {
       align-items: center;
       gap: ${({ theme }) => theme.size[4]};
       > h4 {
-        font-size: 12px;
+        font-size: ${({ theme }) => theme.font.size[12]};
         font-style: normal;
         font-weight: 400;
         line-height: normal;
@@ -496,7 +478,7 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, CardInfoData } = {
       display: flex;
       gap: ${({ theme }) => theme.size[4]};
       span {
-        font-size: 16px;
+        font-size: ${({ theme }) => theme.font.size[16]};
         font-style: normal;
         font-weight: 500;
         line-height: normal;
@@ -519,17 +501,8 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, CardInfoData } = {
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 8px;
+    gap: ${({ theme }) => theme.size[8]};
     font-size: ${({ theme }) => theme.size[12]};
-
-    > div:first-child {
-      padding: 8px 0px;
-      border-bottom: 1px solid ${({ theme }) => theme.color.blue[50]};
-      > span:nth-child(2) {
-        font-weight: 500;
-        color: ${({ theme }) => theme.color.secondary};
-      }
-    }
 
     > div {
       width: 100%;
@@ -556,21 +529,21 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, CardInfoData } = {
   `,
   BuyEthButton: styled.button`
     border: none;
-    height: 24px;
+    height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.primary};
-    border-radius: 12px;
+    border-radius: ${({ theme }) => theme.size[8]};
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
-    padding: 0px 12px;
+    padding: 0px ${({ theme }) => theme.size[12]};
     display: none;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: ${({ theme }) => theme.size[8]};
 
-    font-size: 12px;
+    font-size: ${({ theme }) => theme.font.size[12]};
     font-style: normal;
     font-weight: 500;
     line-height: normal;

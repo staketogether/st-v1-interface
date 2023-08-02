@@ -2,13 +2,20 @@ import StakePoolAbout from '@/components/stake/StakePoolAbout'
 import StakePoolMembers from '@/components/stake/StakePoolMembers'
 import { useState } from 'react'
 import styled, { useTheme } from 'styled-components'
-import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import usePool from '../../hooks/subgraphs/usePool'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateWei } from '../../services/truncate'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import Tabs, { TabsItems } from '../shared/Tabs'
-import { AiOutlineAreaChart, AiOutlineInfoCircle, AiOutlineUser } from 'react-icons/ai'
+import {
+  AiFillCheckCircle,
+  AiOutlineAreaChart,
+  AiOutlineInfoCircle,
+  AiOutlineShareAlt,
+  AiOutlineUser
+} from 'react-icons/ai'
+import { BsGraphUp } from 'react-icons/bs'
+import EnsAvatar from '../shared/ens/EnsAvatar'
+import { Tooltip } from 'antd'
+import EnsName from '../shared/ens/EnsName'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}` | undefined
@@ -26,13 +33,6 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
     loadMoreLoading: loadMoreLoadingPoolData,
     initialLoading
   } = usePool(poolAddress, { first: 10, skip: 0 })
-
-  const { balance: rewardsShares, loading: isRewardsSharesLoading } = usePooledEthByShares(
-    poolData ? poolData.rewardsShares : '0'
-  )
-  const { balance: delegatedShares, loading: delegatedSharesLoading } = usePooledEthByShares(
-    poolData ? poolData.delegatedShares : '0'
-  )
 
   const handleLoadMore = () => {
     if (poolAddress) {
@@ -70,59 +70,55 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
       children: <></>,
       disabled: true,
       tooltip: t('soon')
+    },
+    {
+      key: 'activity',
+      label: t('activity'),
+      icon: <ActivityIcon />,
+      children: <></>,
+      disabled: true,
+      tooltip: t('soon')
     }
   ]
 
+  function copyToClipboard() {
+    navigator.clipboard.writeText(window.location.toString())
+  }
+
   return (
     <Container>
-      <header>
-        <h1>{t('poolDetail')}</h1>
-      </header>
-      <StatsContainer>
-        <StatsBox>
-          <span>{t('rewards')}</span>
-          <span>
-            {!!(isRewardsSharesLoading || initialLoading) && poolAddress ? (
-              <SkeletonLoading width={80} />
-            ) : (
-              <>
-                <span style={{ color: theme.color.green[400] }}>
-                  + {truncateWei(rewardsShares, 5)} {t('lsd.symbol')}
-                </span>
-              </>
-            )}
-          </span>
-        </StatsBox>
-        <StatsBox>
-          <span>{t('staked')}</span>
-          <span>
-            {!!(delegatedSharesLoading || initialLoading) && poolAddress ? (
-              <SkeletonLoading width={80} />
-            ) : (
-              <>
-                <span>{`${truncateWei(delegatedShares, 6)}`}</span>
-                <span style={{ color: theme.color.secondary }}>{t('lsd.symbol')}</span>
-              </>
-            )}
-          </span>
-        </StatsBox>
-        <StatsBox>
-          <span>{t('members')}</span>
-          <span>
-            {initialLoading && poolAddress ? (
-              <SkeletonLoading width={80} />
-            ) : (
-              <>{poolData?.receivedDelegationsCount.toString()}</>
-            )}
-          </span>
-        </StatsBox>
-      </StatsContainer>
+      {poolAddress && (
+        <header>
+          <div>
+            <EnsAvatar size={32} address={poolAddress} />
+            <Verified>
+              <EnsName color={theme.color.primary} larger address={poolAddress} />
+              <VerifiedIcon fontSize={16} />
+            </Verified>
+          </div>
+          <Tooltip trigger='click' title={t('copiedToClipboard')}>
+            <ShareButton onClick={copyToClipboard}>
+              <ShareIcon />
+            </ShareButton>
+          </Tooltip>
+        </header>
+      )}
       <Tabs items={tabsItems} size='middle' />
     </Container>
   )
 }
 
-const { Container, StatsContainer, StatsBox, AboutIcon, MembersIcon, AnalyticsIcon } = {
+const {
+  Container,
+  AboutIcon,
+  MembersIcon,
+  AnalyticsIcon,
+  ActivityIcon,
+  Verified,
+  VerifiedIcon,
+  ShareButton,
+  ShareIcon
+} = {
   Container: styled.section`
     display: grid;
     grid-template-columns: 1fr;
@@ -137,60 +133,69 @@ const { Container, StatsContainer, StatsBox, AboutIcon, MembersIcon, AnalyticsIc
     gap: ${({ theme }) => theme.size[16]};
 
     header {
+      display: flex;
+      justify-content: space-between;
       padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]} 0;
+      > div {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[8]};
+      }
       h1 {
         color: ${({ theme }) => theme.color.blue[400]};
-        font-size: 16px;
+        font-size: ${({ theme }) => theme.font.size[16]};
         font-style: normal;
         font-weight: 500;
         line-height: normal;
       }
     }
   `,
-  StatsContainer: styled.div`
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    gap: ${({ theme }) => theme.size[8]};
-    padding: 0 ${({ theme }) => theme.size[24]};
-    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 1fr;
-    }
-  `,
-  StatsBox: styled.div`
-    display: flex;
-    height: 75px;
-    flex-direction: column;
-    justify-content: center;
-    gap: ${({ theme }) => theme.size[8]};
-    align-items: center;
-    background-color: ${({ theme }) => theme.color.white};
-    border: none;
-    border-radius: ${({ theme }) => theme.size[12]};
-    transition: background-color 0.2s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    > span {
-      &:nth-child(1) {
-        font-size: ${({ theme }) => theme.font.size[12]};
-        color: ${({ theme }) => theme.color.blue[300]};
-      }
-
-      &:nth-child(2) {
-        display: flex;
-        gap: ${({ theme }) => theme.size[4]};
-        font-size: ${({ theme }) => theme.font.size[14]};
-      }
-    }
-  `,
   AboutIcon: styled(AiOutlineInfoCircle)`
-    font-size: 16px;
+    font-size: ${({ theme }) => theme.font.size[16]};
   `,
   MembersIcon: styled(AiOutlineUser)`
-    font-size: 16px;
+    font-size: ${({ theme }) => theme.font.size[16]};
   `,
   AnalyticsIcon: styled(AiOutlineAreaChart)`
-    font-size: 16px;
+    font-size: ${({ theme }) => theme.font.size[16]};
+  `,
+  Verified: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+    color: ${({ theme }) => theme.color.whatsapp[600]};
+    > span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
+    }
+  `,
+  VerifiedIcon: styled(AiFillCheckCircle)`
+    color: ${({ theme }) => theme.color.secondary};
+  `,
+  ShareButton: styled.button`
+    border: none;
+    width: 32px;
+    height: 32px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.secondary};
+    background-color: transparent;
+    border-radius: 50%;
+    transition: background-color 0.1s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
+  `,
+  ShareIcon: styled(AiOutlineShareAlt)`
+    font-size: ${({ theme }) => theme.font.size[16]};
+  `,
+  ActivityIcon: styled(BsGraphUp)`
+    font-size: ${({ theme }) => theme.font.size[16]};
   `
 }

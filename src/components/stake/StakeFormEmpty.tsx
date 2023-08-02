@@ -84,7 +84,6 @@ export function StakeFormEmpty({ type, accountAddress, poolAddress }: StakeFormP
         value={amount}
         onChange={value => setAmount(value)}
         balance={ethBalance}
-        symbol={t('eth.symbol')}
         disabled={true}
         balanceLoading={isLoading}
         purple={type === 'withdraw'}

@@ -1,11 +1,8 @@
-import styled, { useTheme } from 'styled-components'
+import styled from 'styled-components'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import StakePoolInfo from './StakePoolInfo'
-import EnsAvatar from '../shared/ens/EnsAvatar'
-import EnsName from '../shared/ens/EnsName'
-import { AiFillCheckCircle, AiOutlineDownload, AiOutlineShareAlt, AiOutlineUpload } from 'react-icons/ai'
+import { AiFillSafetyCertificate, AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai'
 import { StakeForm } from './StakeForm'
-import { Tooltip } from 'antd'
 import useTranslation from '@/hooks/useTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import useActiveRoute from '@/hooks/useActiveRoute'
@@ -37,11 +34,6 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   }
 
   const { account } = useConnectedAccount()
-  const theme = useTheme()
-
-  function copyToClipboard() {
-    navigator.clipboard.writeText(window.location.toString())
-  }
 
   const stakeForm = <StakeForm type={type} accountAddress={account} poolAddress={poolAddress} />
 
@@ -65,23 +57,26 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
 
   return (
     <Container>
+      <header>
+        <div>
+          <h1>{t('titles.stake')}</h1>
+          <SafeButton>
+            <SafeIcon /> {t('safe')}
+          </SafeButton>
+        </div>
+        <span>{t('depositDescription')}</span>
+      </header>
+      <PoolDataCard>
+        <div>
+          <span>{t('annualRewards')}</span>
+          <span className='green'>5.7%</span>
+        </div>
+        <div>
+          <span>TVL</span>
+          <span className='primary'>9,868 ETH</span>
+        </div>
+      </PoolDataCard>
       <Form>
-        {poolAddress && (
-          <header>
-            <div>
-              <EnsAvatar size={32} address={poolAddress} />
-              <Verified>
-                <EnsName color={theme.color.primary} larger address={poolAddress} />
-                <VerifiedIcon fontSize={16} />
-              </Verified>
-            </div>
-            <Tooltip trigger='click' title={t('copiedToClipboard')}>
-              <ShareButton onClick={copyToClipboard}>
-                <ShareIcon />
-              </ShareButton>
-            </Tooltip>
-          </header>
-        )}
         <Tabs
           items={tabsItems}
           size='large'
@@ -94,11 +89,85 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   )
 }
 
-const { Container, Form, DepositIcon, Verified, WithdrawIcon, VerifiedIcon, ShareButton, ShareIcon } = {
+const { Container, SafeButton, Form, DepositIcon, WithdrawIcon, SafeIcon, PoolDataCard } = {
   Container: styled.div`
     display: grid;
     justify-content: center;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[16]};
+    > header {
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[8]};
+      max-width: 468px;
+
+      h1 {
+        font-size: ${({ theme }) => theme.font.size[32]};
+        font-style: normal;
+        font-weight: 600;
+        color: ${({ theme }) => theme.color.primary};
+      }
+
+      span {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        color: ${({ theme }) => theme.color.blue[400]};
+        word-break: break-word;
+      }
+
+      > div {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[16]};
+      }
+    }
+  `,
+  SafeButton: styled.div`
+    display: flex;
+    height: 25px;
+    padding: 0px ${({ theme }) => theme.size[4]};
+    justify-content: center;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
+
+    border-radius: 8px;
+    border: 1px solid ${({ theme }) => theme.color.blue[50]};
+    background: ${({ theme }) => theme.color.white};
+
+    font-size: ${({ theme }) => theme.font.size[14]};
+    font-style: normal;
+    font-weight: 500;
+    color: ${({ theme }) => theme.color.blackAlpha[600]};
+  `,
+  PoolDataCard: styled.div`
+    padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[24]};
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[8]};
+
+    border-radius: 12px;
+    background: ${({ theme }) => theme.color.whiteAlpha[500]};
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      span {
+        font-size: ${({ theme }) => theme.font.size[14]};
+        font-style: normal;
+        font-weight: 500;
+        color: ${({ theme }) => theme.color.blue[400]};
+        &.primary {
+          color: ${({ theme }) => theme.color.primary};
+        }
+        &.green {
+          color: ${({ theme }) => theme.color.green[500]};
+        }
+      }
+    }
+  `,
+  SafeIcon: styled(AiFillSafetyCertificate)`
+    color: ${({ theme }) => theme.color.green[600]};
+    font-size: ${({ theme }) => theme.font.size[16]};
   `,
   Form: styled.div`
     display: grid;
@@ -124,43 +193,6 @@ const { Container, Form, DepositIcon, Verified, WithdrawIcon, VerifiedIcon, Shar
         gap: ${({ theme }) => theme.size[8]};
       }
     }
-  `,
-  Verified: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
-    color: ${({ theme }) => theme.color.whatsapp[600]};
-    > span {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-align: left;
-    }
-  `,
-  VerifiedIcon: styled(AiFillCheckCircle)`
-    color: ${({ theme }) => theme.color.secondary};
-  `,
-  ShareButton: styled.button`
-    border: none;
-    width: 32px;
-    height: 32px;
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.secondary};
-    background-color: ${({ theme }) => theme.color.white};
-    border-radius: 50%;
-    transition: background-color 0.1s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-    }
-  `,
-  ShareIcon: styled(AiOutlineShareAlt)`
-    font-size: ${({ theme }) => theme.font.size[16]};
   `,
   DepositIcon: styled(AiOutlineDownload)`
     font-size: 16px;
