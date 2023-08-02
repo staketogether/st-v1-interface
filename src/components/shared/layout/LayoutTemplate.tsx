@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import styled from 'styled-components'
+import V2Modal from '../V2Modal'
 import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
@@ -20,6 +21,7 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
       </Wrapper>
       <LayoutMenuMobile />
       <LayoutFooter />
+      <V2Modal />
     </Container>
   )
 }
