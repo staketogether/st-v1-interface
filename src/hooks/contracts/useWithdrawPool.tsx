@@ -32,20 +32,19 @@ export default function useWithdrawPool(
 
   const isWithdrawEnabled = enabled && amount > 0n
 
-  const { estimatedCost, estimatedGasPrice, estimatedGas } = useEstimateTxInfo({
+  const { estimatedCost } = useEstimateTxInfo({
     account: accountAddress,
     contractAddress: contracts.StakeTogether,
     functionName: 'withdrawPool',
     args: [amount, poolAddress],
     abi: stakeTogetherABI,
-  }, !isWithdrawEnabled)
+    skip: awaitWalletAction || !isWithdrawEnabled
+  })
 
   const { config } = usePrepareStakeTogetherWithdrawPool({
     address: contracts.StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
-    gas: estimatedGas,
-    gasPrice: estimatedGasPrice,
     enabled: isWithdrawEnabled
   })
 
@@ -110,7 +109,7 @@ export default function useWithdrawPool(
 
   return {
     withdrawPool,
-    estimateGas: estimatedCost,
+    estimatedCost,
     isLoading,
     isSuccess,
     awaitWalletAction,

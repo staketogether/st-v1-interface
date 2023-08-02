@@ -104,23 +104,24 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const { setOpenModal: openByEthModal } = useWalletByEthModal()
 
-  const inputAmount = debouncedAmount || '0'
+  const inputAmount = amount ? debouncedAmount || '0' : '0'
 
   const {
     deposit,
     isSuccess: depositSuccess,
     isLoading: depositLoading,
-    estimatedGas: depositEstimateCost,
+    estimatedGas: depositEstimatedCost,
     awaitWalletAction: depositAwaitWalletAction,
     resetState: depositResetState,
     txHash: depositTxHash
-  } = useDeposit(inputAmount, poolAddress, type === 'deposit', accountAddress)
+  // To deposit, you need to have at least the min deposit amount in your wallet
+  } = useDeposit(inputAmount, poolAddress, type === 'deposit' && ethBalance > minDepositAmount, accountAddress)
 
   const {
     withdrawPool,
     isLoading: withdrawPoolLoading,
     isSuccess: withdrawPoolSuccess,
-    estimateGas: withdrawPoolEstimateGas,
+    estimatedCost: withdrawPoolEstimatedCost,
     awaitWalletAction: withdrawPoolAwaitWalletAction,
     resetState: withdrawPoolResetState,
     txHash: withdrawPoolTxHash
@@ -135,7 +136,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     withdrawLiquidity,
     isLoading: withdrawLiquidityLoading,
     isSuccess: withdrawLiquiditySuccess,
-    estimateGas: withdrawLiquidityEstimateGas,
+    estimatedCost: withdrawLiquidityEstimatedCost,
     awaitWalletAction: withdrawLiquidityAwaitWalletAction,
     resetState: withdrawLiquidityResetState,
     txHash: withdrawLiquidityTxHash
@@ -150,7 +151,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     withdrawValidator,
     isLoading: withdrawValidatorLoading,
     isSuccess: withdrawValidatorSuccess,
-    estimateGas: withdrawValidatorEstimateGas,
+    estimatedCost: withdrawValidatorEstimatedCost,
     awaitWalletAction: withdrawValidatorAwaitWalletAction,
     resetState: withdrawValidatorResetState,
     txHash: withdrawValidatorTxHash
@@ -161,12 +162,12 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     accountAddress
   )
 
-  const estimatedCost = useMemo(() => {
-    return type === 'deposit' ? depositEstimateCost : 0n
-  }, [depositEstimateCost, type])
+  const depositingCost = useMemo(() => {
+    return type === 'deposit' ? depositEstimatedCost : 0n
+  }, [depositEstimatedCost, type])
 
-  const { balance: sharesByEth } = usePooledShareByEth(ethers.parseEther(amount || '0') - estimatedCost)
-  const { balance: amountEthByShare } = usePooledEthByShares(sharesByEth.toString())
+  const { balance: expectedShares } = usePooledShareByEth(ethers.parseEther(amount || '0') - depositingCost)
+  const { balance: expectedSeth } = usePooledEthByShares(expectedShares.toString())
 
   const handleWithdraw = () => {
     switch (withdrawTypeSelected) {
@@ -175,7 +176,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           withdraw: withdrawLiquidity,
           withdrawLoading: withdrawLiquidityLoading,
           withdrawSuccess: withdrawLiquiditySuccess,
-          withdrawEstimatedCost: withdrawLiquidityEstimateGas,
+          withdrawEstimatedCost: withdrawLiquidityEstimatedCost,
           withdrawAwaitWalletAction: withdrawLiquidityAwaitWalletAction,
           withdrawResetState: withdrawLiquidityResetState,
           withdrawTxHash: withdrawLiquidityTxHash
@@ -185,7 +186,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           withdraw: withdrawValidator,
           withdrawLoading: withdrawValidatorLoading,
           withdrawSuccess: withdrawValidatorSuccess,
-          withdrawEstimatedCost: withdrawValidatorEstimateGas,
+          withdrawEstimatedCost: withdrawValidatorEstimatedCost,
           withdrawAwaitWalletAction: withdrawValidatorAwaitWalletAction,
           withdrawResetState: withdrawValidatorResetState,
           withdrawTxHash: withdrawValidatorTxHash
@@ -196,7 +197,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           withdraw: withdrawPool,
           withdrawLoading: withdrawPoolLoading,
           withdrawSuccess: withdrawPoolSuccess,
-          withdrawEstimatedCost: withdrawPoolEstimateGas,
+          withdrawEstimatedCost: withdrawPoolEstimatedCost,
           withdrawAwaitWalletAction: withdrawPoolAwaitWalletAction,
           withdrawResetState: withdrawPoolResetState,
           withdrawTxHash: withdrawPoolTxHash
@@ -213,7 +214,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
   const operationSymbol = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
-  const estimateCost = type === 'deposit' ? depositEstimateCost : withdrawData.withdrawEstimatedCost
+  const estimateCost = type === 'deposit' ? depositEstimatedCost : withdrawData.withdrawEstimatedCost
   const estimatedCostInEther = ethers.formatEther(estimateCost)
   const txHash = type === 'deposit' ? depositTxHash : withdrawData.withdrawTxHash
   const resetState = type === 'deposit' ? depositResetState : withdrawData.withdrawResetState
@@ -241,12 +242,16 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   useEffect(() => {
-    if (isSuccess && !isOpenStakeConfirmModal) {
-      resetState()
-      setAmount('')
-      refetchEthBalance()
-      handleWithdrawBalanceRefetch()
+    const handleSuccessfulAction = async () => {
+      if (isSuccess && !isOpenStakeConfirmModal) {
+        setAmount('')
+        await refetchEthBalance()
+        await handleWithdrawBalanceRefetch()
+        resetState()
+      }
     }
+
+    handleSuccessfulAction()
   }, [handleWithdrawBalanceRefetch, isOpenStakeConfirmModal, isSuccess, refetchEthBalance, resetState])
 
   const chain = chainConfig()
@@ -400,7 +405,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         <StakeInfo>
           <div>
             <span>{`${t('youReceive')} `}</span>
-            <span>{` ${truncateWei(amountEthByShare, 18) || '0'} ${operationSymbol}`}</span>
+            <span>{` ${truncateWei(expectedSeth, 18) || '0'} ${operationSymbol}`}</span>
           </div>
           <div>
             <span>{t('confirmStakeModal.exchangeRate')}</span>
@@ -423,7 +428,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       </StakeContainer>
       <StakeConfirmModal
         amount={amount}
-        amountEthByShare={amountEthByShare}
+        amountEthByShare={expectedSeth}
         txHash={txHash}
         titleModal={titleConfirmStakeModal}
         type={type}

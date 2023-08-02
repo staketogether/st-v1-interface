@@ -34,14 +34,19 @@ export default function useDeposit(
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
 
+  const { isLoading, isSuccess, isError } = useWaitForTransaction({
+    hash: txHash
+  })
+
   const { estimatedCost, estimatedGas, estimatedGasPrice } = useEstimateTxInfo({
     account: accountAddress,
     functionName: 'depositPool',
     args: [poolAddress, referral],
     contractAddress: contracts.StakeTogether,
     abi: stakeTogetherABI,
-    value: amount
-  }, !isDepositEnabled)
+    value: amount,
+    skip: awaitWalletAction || isSuccess || !isDepositEnabled
+  })
 
   const discountedGasAmount = useMemo(() => amount - estimatedCost, [amount, estimatedCost])
 
@@ -52,8 +57,8 @@ export default function useDeposit(
     account: accountAddress,
     enabled: isDepositEnabled,
     value: discountedGasAmount,
-    gas: estimatedGas,
-    gasPrice: estimatedGasPrice
+    gas: estimatedGas > 0n ? estimatedGas : undefined,
+    gasPrice: estimatedGasPrice > 0n ? estimatedGasPrice : undefined
   })
 
   const tx = useStakeTogetherDepositPool({
@@ -75,10 +80,6 @@ export default function useDeposit(
     tx.write?.()
     setNotify(true)
   }
-
-  const { isLoading, isSuccess, isError } = useWaitForTransaction({
-    hash: txHash
-  })
 
   const { t } = useTranslation()
 
