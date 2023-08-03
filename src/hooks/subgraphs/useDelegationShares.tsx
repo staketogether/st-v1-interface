@@ -2,7 +2,6 @@ import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 import { useQuery } from '@apollo/client'
 
 export default function useDelegationShares(walletAddress?: `0x${string}`, communityDelegate?: `0x${string}`) {
-  console.log(walletAddress?.toLocaleLowerCase())
   const { data, loading, refetch } = useQuery<{ pool?: { delegations: [{ delegationBalance: bigint }] } }>(
     queryDelegationShares,
     {
