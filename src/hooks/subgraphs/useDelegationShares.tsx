@@ -14,7 +14,7 @@ export default function useDelegationShares(walletAddress?: `0x${string}`, commu
   )
 
   return {
-    delegationBalance: data?.pool?.delegations[0].delegationBalance || 0n,
+    delegationBalance: data?.pool?.delegations[0]?.delegationBalance || 0n,
     loading: loading,
     refetch
   }
