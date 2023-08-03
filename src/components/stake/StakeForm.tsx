@@ -7,7 +7,7 @@ import ethIcon from '@assets/icons/eth-icon.svg'
 import stIcon from '@assets/icons/seth-icon.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
@@ -157,9 +157,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     accountAddress
   )
 
-  const depositingCost = useMemo(() => {
-    return type === 'deposit' ? depositEstimatedCost : 0n
-  }, [depositEstimatedCost, type])
+  const depositingCost = type === 'deposit' ? depositEstimatedCost : 0n
 
   const { balance: expectedShares } = usePooledShareByEth(ethers.parseEther(amount || '0') - depositingCost)
   const { balance: expectedSeth } = usePooledEthByShares(expectedShares.toString())
