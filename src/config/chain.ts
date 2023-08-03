@@ -50,8 +50,8 @@ const configs: ChainConfig[] = [
     alchemyApiUrl: `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`,
     contracts: {
       STOracle: '0x39952aFfa9a4731f304ba40793Cc8D2Da994531E',
-      StakeTogether: '0xb66b3b47ab7C6Ec220200598Dc9256A976Ea95C2',
-      Liquidity: '0x70650bDce546855460810bF3214b40498242DaD0'
+      StakeTogether: '0x35c35ECC926787093438BAB09f8595EA7Ffc26Ce',
+      Liquidity: '0xCA4C6213207E1961531A7d44d01fBd279C4BDf4c'
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-v2-goerli/version/latest',

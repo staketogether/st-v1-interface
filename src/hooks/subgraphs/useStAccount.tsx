@@ -17,7 +17,7 @@ export default function useStAccount(address: `0x${string}`) {
   })
 
   useEffect(() => {
-    if (data) {
+    if (data && data.account) {
       const account = data.account
       setAccount(data.account)
       setAccountDelegations(account.delegations || [])
