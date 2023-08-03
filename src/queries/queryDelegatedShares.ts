@@ -1,9 +1,11 @@
 import { gql } from '@apollo/client'
 
 export const queryDelegationShares = gql`
-  query DelegationShares($id: ID!) {
-    delegation(id: $id) {
-      delegationShares
+  query PoolReceivedDelegationsByDelegate($collectionAddress: ID!, $userAddress: String) {
+    pool(id: $collectionAddress) {
+      delegations(where: { delegate_contains: $userAddress }) {
+        delegationBalance
+      }
     }
   }
 `
