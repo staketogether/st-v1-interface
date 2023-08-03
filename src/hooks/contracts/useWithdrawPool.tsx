@@ -11,8 +11,9 @@ import { queryPool } from '../../queries/queryPool'
 import { ethers } from 'ethers'
 import { usePrepareStakeTogetherWithdrawPool, useStakeTogetherWithdrawPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import useEstimateGas from '../useEstimateGas'
+import useEstimateTxInfo from '../useEstimateTxInfo'
 import { WithdrawType } from '@/types/Withdraw'
+import { stakeTogetherABI } from '../../types/Contracts'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -29,14 +30,22 @@ export default function useWithdrawPool(
 
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
-  const withdrawRule = enabled && amount > 0n
+  const isWithdrawEnabled = enabled && amount > 0n
+
+  const { estimatedCost } = useEstimateTxInfo({
+    account: accountAddress,
+    contractAddress: contracts.StakeTogether,
+    functionName: 'withdrawPool',
+    args: [amount, poolAddress],
+    abi: stakeTogetherABI,
+    skip: awaitWalletAction || !isWithdrawEnabled
+  })
 
   const { config } = usePrepareStakeTogetherWithdrawPool({
     address: contracts.StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
-    gas: 300000n,
-    enabled: withdrawRule
+    enabled: isWithdrawEnabled
   })
 
   const tx = useStakeTogetherWithdrawPool({
@@ -50,8 +59,6 @@ export default function useWithdrawPool(
       setAwaitWalletAction(false)
     }
   })
-
-  const { estimateGas } = useEstimateGas(tx as ethers.TransactionRequest)
 
   const withdrawPool = () => {
     setAwaitWalletAction(true)
@@ -102,7 +109,7 @@ export default function useWithdrawPool(
 
   return {
     withdrawPool,
-    estimateGas,
+    estimatedCost,
     isLoading,
     isSuccess,
     awaitWalletAction,

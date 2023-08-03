@@ -99,7 +99,7 @@
     "exchangeRate": "Exchange",
     "confirmDeposit": "Confirm Deposit",
     "confirmWithdraw": "Confirm Withdraw",
-    "networkFee": "Network fee",
+    "networkFee": "Transaction cost",
     "transactionSubmitted": "Transaction submitted",
     "proceedInYourWallet": "Proceed in your wallet",
     "withdrawSuccessful": "Withdraw Successful",

@@ -11,7 +11,7 @@ import SkeletonLoading from '../icons/SkeletonLoading'
 
 export default function LayoutNetworkInfoButton() {
   const { t } = useTranslation()
-  const { networkGasPrice, loading } = useNetworkGasPrice()
+  const { networkGasPriceGwei, loading } = useNetworkGasPrice()
   return (
     <NetworkButton>
       <GasContainer>
@@ -19,7 +19,7 @@ export default function LayoutNetworkInfoButton() {
         {loading ? (
           <SkeletonLoading height={15} width={25} />
         ) : (
-          <span>{truncateDecimal(networkGasPrice, 0)}</span>
+          <span>{truncateDecimal(networkGasPriceGwei.toString(), 0)}</span>
         )}
       </GasContainer>
       <Tooltip trigger='click' title={capitalize(chainConfig().name)}>

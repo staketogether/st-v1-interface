@@ -3,12 +3,17 @@ import { useFeeData } from 'wagmi'
 
 export const useNetworkGasPrice = () => {
   const [networkGasPrice, setNetworkGasPrice] = useState('0')
+  const [networkGasPriceGwei, setNetworkGasPriceGwei] = useState(0n)
   const [loading, setLoading] = useState(false)
   const { data, refetch, isLoading } = useFeeData()
 
   useEffect(() => {
     if (data?.formatted.gasPrice) {
       setNetworkGasPrice(data?.formatted.gasPrice)
+    }
+
+    if (data?.gasPrice) {
+      setNetworkGasPriceGwei(data?.gasPrice)
     }
   }, [data])
 
@@ -27,7 +32,8 @@ export const useNetworkGasPrice = () => {
   }, [refetch])
 
   return {
-    networkGasPrice: networkGasPrice,
+    networkGasPrice,
+    networkGasPriceGwei,
     loading
   }
 }
