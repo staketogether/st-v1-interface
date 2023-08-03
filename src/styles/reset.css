@@ -144,7 +144,7 @@ html,
 body {
   font-size: 62.5%;
 
-  font-family: var(--font-montserrat);
+  font-family: var(--font-nunito);
   text-rendering: optimizeLegibility;
   height: 100%;
   color: #373b8a;

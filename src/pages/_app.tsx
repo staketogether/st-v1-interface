@@ -3,7 +3,7 @@ import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { ApolloProvider } from '@apollo/client'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
-import { Montserrat } from 'next/font/google'
+import { Nunito_Sans } from 'next/font/google'
 import { useRouter } from 'next/router'
 import NextNProgress from 'nextjs-progressbar'
 import { useEffect } from 'react'
@@ -18,7 +18,7 @@ import { config } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
 
-const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
+const nunito = Nunito_Sans({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
@@ -37,7 +37,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   }, [chain.chainId, registerPageView, router.events])
 
   return (
-    <div className={montserrat.className}>
+    <div className={nunito.className}>
       <GoogleTag />
       <Hotjar />
       <Cloudflare />
