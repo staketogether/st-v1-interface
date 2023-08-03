@@ -2,12 +2,11 @@ import { gql } from '@apollo/client'
 
 export const queryPools = gql`
   query Pools {
-    pools(orderBy: delegatedShares, orderDirection: desc, where: { active: true }) {
+    pools(orderBy: poolBalance, orderDirection: desc, where: { listed: true }) {
       id
       address
-      delegatedShares
-      rewardsShares
       receivedDelegationsCount
+      poolBalance
     }
   }
 `

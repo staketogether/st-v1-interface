@@ -1,11 +1,9 @@
 import styled from 'styled-components'
-import usePooledEthByShares from '../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
 import { Delegation } from '../../types/Delegation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 type StakeReceivedDelegationProps = {
   delegation: Delegation
@@ -14,8 +12,6 @@ type StakeReceivedDelegationProps = {
 
 export default function StakeReceivedDelegation({ delegation, rank }: StakeReceivedDelegationProps) {
   const { t } = useTranslation()
-
-  const { balance: delegationAmount, loading } = usePooledEthByShares(delegation.delegationShares)
 
   return (
     <DelegationItem>
@@ -26,14 +22,8 @@ export default function StakeReceivedDelegation({ delegation, rank }: StakeRecei
       </div>
       <div>
         <span>
-          {loading ? (
-            <SkeletonLoading width={90} height={14} />
-          ) : (
-            <>
-              {`${truncateWei(delegationAmount, 6)} `}
-              <span>{t('lsd.symbol')}</span>
-            </>
-          )}
+          {`${truncateWei(delegation.delegationBalance, 6)} `}
+          <span>{t('lsd.symbol')}</span>
         </span>
       </div>
     </DelegationItem>

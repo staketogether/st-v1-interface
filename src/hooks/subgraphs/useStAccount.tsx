@@ -1,4 +1,3 @@
-import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import { queryAccount } from '../../queries/queryAccount'
@@ -17,18 +16,16 @@ export default function useStAccount(address: `0x${string}`) {
     variables: { id: address.toLowerCase() }
   })
 
-  const { balance } = usePooledEthByShares(account?.shares || '0')
-
   useEffect(() => {
-    const account = data?.account
-    const originalBalance = BigInt(account?.originalBalance || 0n)
-    const rewards = balance - originalBalance + 1n
-    setAccount(account)
-    setAccountDelegations(account?.delegations || [])
-    setAccountSentDelegationsCount(BigInt(account?.sentDelegationsCount || 0n))
-    setAccountBalance(balance)
-    setAccountRewardsBalance(rewards)
-  }, [balance, data])
+    if (data) {
+      const account = data.account
+      setAccount(data.account)
+      setAccountDelegations(account.delegations || [])
+      setAccountSentDelegationsCount(BigInt(account.sentDelegationsCount))
+      setAccountBalance(account.balance)
+      setAccountRewardsBalance(account.rewardsBalance)
+    }
+  }, [data])
 
   useEffect(() => {
     setAccountIsLoading(loading)

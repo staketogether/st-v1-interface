@@ -5,8 +5,7 @@ export type Pool = {
   id: string
   account: Account
   active: boolean
-  delegatedShares: string
-  rewardsShares: string
+  poolBalance: bigint
   delegations: Delegation[]
   receivedDelegationsCount: bigint
 } & ENSPool
