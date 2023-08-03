@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import styled from 'styled-components'
-import usePooledEthByShares from '../../../hooks/contracts/usePooledEthByShares'
 import useTranslation from '../../../hooks/useTranslation'
 import { truncateWei } from '../../../services/truncate'
 import { Delegation } from '../../../types/Delegation'
@@ -15,7 +14,6 @@ type WalletSentDelegationProps = {
 export default function WalletSentDelegation({ delegation }: WalletSentDelegationProps) {
   const { t } = useTranslation()
 
-  const { balance: delegationAmount } = usePooledEthByShares(delegation.delegationShares)
   const { setOpenSidebar } = useWalletSidebar()
 
   return (
@@ -27,7 +25,7 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
         </div>
       </div>
       <span>
-        {delegationAmount > 0 ? truncateWei(delegationAmount, 6) : '0'}
+        {truncateWei(delegation.delegationBalance, 6)}
         <span>{t('lsd.symbol')}</span>
       </span>
     </Container>

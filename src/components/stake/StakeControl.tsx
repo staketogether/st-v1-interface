@@ -7,6 +7,9 @@ import useTranslation from '@/hooks/useTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import useActiveRoute from '@/hooks/useActiveRoute'
 import { useRouter } from 'next/router'
+import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
+import { truncateWei } from '@/services/truncate'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -17,7 +20,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { t } = useTranslation()
   const { isActive } = useActiveRoute()
   const router = useRouter()
-
+  const { stakeTogether, stakeTogetherIsLoading } = useStakeTogether()
   const handleSwitch = (type: string) => {
     if (poolAddress) {
       router.push(`/stake/${type}/${poolAddress}`)
@@ -73,7 +76,12 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
         </div>
         <div>
           <span>TVL</span>
-          <span className='primary'>9,868 ETH</span>
+          {stakeTogetherIsLoading && <SkeletonLoading width={150} />}
+          {!stakeTogetherIsLoading && stakeTogether && (
+            <span className='primary'>{`${truncateWei(stakeTogether.totalPooledEther, 4)} ${t(
+              'eth.symbol'
+            )}`}</span>
+          )}
         </div>
       </PoolDataCard>
       <Form>
