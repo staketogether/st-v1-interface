@@ -110,5 +110,13 @@ export default function useWithdrawLiquidity(
     }
   }, [accountAddress, isError, notify, poolAddress, t, withdrawAmount])
 
-  return { withdrawLiquidity, estimatedCost: estimatedCost, isLoading, isSuccess, awaitWalletAction, resetState, txHash }
+  return {
+    withdrawLiquidity,
+    estimatedCost: estimatedCost,
+    isLoading,
+    isSuccess,
+    awaitWalletAction,
+    resetState,
+    txHash
+  }
 }

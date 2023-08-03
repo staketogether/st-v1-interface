@@ -125,7 +125,9 @@ export default function StakeConfirmModal({
             </InfoReview>
             <InfoReview>
               <span>{t('confirmStakeModal.networkFee')}</span>
-              <span>{`${estimatedCost}`} {t('eth.symbol')}</span>
+              <span>
+                {`${estimatedCost}`} {t('eth.symbol')}
+              </span>
             </InfoReview>
           </ContainerInfoReview>
           <Button onClick={onClick}>{labelButton}</Button>

@@ -114,7 +114,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     awaitWalletAction: depositAwaitWalletAction,
     resetState: depositResetState,
     txHash: depositTxHash
-  // To deposit, you need to have at least the min deposit amount in your wallet
+    // To deposit, you need to have at least the min deposit amount in your wallet
   } = useDeposit(inputAmount, poolAddress, type === 'deposit' && ethBalance > minDepositAmount, accountAddress)
 
   const {

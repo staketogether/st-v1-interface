@@ -110,5 +110,13 @@ export default function useWithdrawValidator(
     }
   }, [accountAddress, isError, notify, poolAddress, t, withdrawAmount])
 
-  return { withdrawValidator, estimatedCost: estimatedCost, isLoading, isSuccess, awaitWalletAction, resetState, txHash }
+  return {
+    withdrawValidator,
+    estimatedCost: estimatedCost,
+    isLoading,
+    isSuccess,
+    awaitWalletAction,
+    resetState,
+    txHash
+  }
 }
