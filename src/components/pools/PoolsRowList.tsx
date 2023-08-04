@@ -36,7 +36,7 @@ const { Row, CardImage, VerifiedIcon, RankPosition, TypeContainer, Text, Communi
   Row: styled.div`
     display: grid;
     height: 56px;
-    grid-template-columns: 40px 320px 1fr 1fr 1fr 92px;
+    grid-template-columns: 60px 320px 1fr 1fr 1fr 92px;
     padding-left: 12px;
     gap: 8px;
     align-items: center;

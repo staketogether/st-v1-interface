@@ -4,6 +4,7 @@ import { Pool } from '../../types/Pool'
 import { useState } from 'react'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
+import useTranslation from '@/hooks/useTranslation'
 
 type PoolsListProps = {
   pools: Pool[]
@@ -22,7 +23,7 @@ export enum PoolsTypes {
 export default function PoolsControl({ pools }: PoolsListProps) {
   const [search, setSearch] = useState<string>('')
   const [activeFilters] = useState<PoolsTypes[]>([PoolsTypes.ALL])
-  // const { t } = useTranslation()
+  const { t } = useTranslation()
 
   const filterTypes = [
     {
@@ -59,11 +60,11 @@ export default function PoolsControl({ pools }: PoolsListProps) {
       </FilterContainer>
       <ListPools>
         <header>
-          <span>Rank</span>
-          <span>Name</span>
-          <span>Type</span>
-          <span>Members</span>
-          <span>Staked</span>
+          <span>{t('poolsFilter.rank')}</span>
+          <span>{t('poolsFilter.name')}</span>
+          <span>{t('poolsFilter.type')}</span>
+          <span>{t('poolsFilter.members')}</span>
+          <span>{t('poolsFilter.staked')}</span>
         </header>
         {!pools && <div>No Pools</div>}
         {pools.map(pool => (
@@ -124,7 +125,7 @@ const { Container, ListPools, FilterContainer } = {
     gap: ${({ theme }) => theme.size[8]};
     > header {
       display: grid;
-      grid-template-columns: 40px 320px 1fr 1fr 1fr 92px;
+      grid-template-columns: 60px 320px 1fr 1fr 1fr 92px;
       gap: 8px;
       align-items: center;
       padding-left: 12px;

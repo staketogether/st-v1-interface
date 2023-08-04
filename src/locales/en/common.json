@@ -147,5 +147,12 @@
   },
   "gas": {
     "alt": "Network gas price"
+  },
+  "poolsFilter": {
+    "rank": "Rank",
+    "name": "Name",
+    "type": "Type",
+    "members": "Members",
+    "staked": "staked"
   }
 }
