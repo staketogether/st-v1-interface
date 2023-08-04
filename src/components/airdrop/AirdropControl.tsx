@@ -1,5 +1,7 @@
 import useConnectedAccount from '@/hooks/useConnectedAccount'
+import { Tooltip } from 'antd'
 import React from 'react'
+import { AiFillCheckCircle, AiOutlineClose, AiOutlineQuestionCircle } from 'react-icons/ai'
 import { FiExternalLink } from 'react-icons/fi'
 import styled from 'styled-components'
 
@@ -31,8 +33,24 @@ export default function AirdropControl() {
         </DescribeContainer>
         <EligibilityList>
           <Row>
-            <div>Pools</div>
+            <div>
+              <VerifiedIcon />
+              Pools
+              <Tooltip title='Pools'>
+                <QuestionIcon />
+              </Tooltip>
+            </div>
             <span>100 SETH</span>
+          </Row>
+          <Row>
+            <div>
+              <ExcludeIcon />
+              Locks
+              <Tooltip title='Pools'>
+                <QuestionIcon />
+              </Tooltip>
+            </div>
+            <span>0 SETH</span>
           </Row>
         </EligibilityList>
       </AirdropContainer>
@@ -47,7 +65,10 @@ const {
   DescribeContainer,
   ExternalLink,
   EligibilityList,
-  Row
+  Row,
+  VerifiedIcon,
+  QuestionIcon,
+  ExcludeIcon
 } = {
   Container: styled.div`
     display: grid;
@@ -182,5 +203,18 @@ const {
   ExternalLink: styled(FiExternalLink)`
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
+  `,
+  VerifiedIcon: styled(AiFillCheckCircle)`
+    font-size: ${({ theme }) => theme.font.size[16]};
+    color: ${({ theme }) => theme.color.green[700]};
+  `,
+  QuestionIcon: styled(AiOutlineQuestionCircle)`
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.blackAlpha[500]};
+    cursor: pointer;
+  `,
+  ExcludeIcon: styled(AiOutlineClose)`
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.blackAlpha[500]};
   `
 }
