@@ -145,5 +145,12 @@
   },
   "gas": {
     "alt": "Preço do gás da rede"
+  },
+  "poolsFilter": {
+    "rank": "Ranque",
+    "name": "Nome",
+    "type": "Tipo",
+    "members": "Membros",
+    "staked": "Staked"
   }
 }
