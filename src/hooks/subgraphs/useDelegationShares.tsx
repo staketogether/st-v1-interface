@@ -1,26 +1,21 @@
 import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 import { useQuery } from '@apollo/client'
-import usePooledEthByShares from '../contracts/usePooledEthByShares'
 
 export default function useDelegationShares(walletAddress?: `0x${string}`, communityDelegate?: `0x${string}`) {
-  const { data, loading, refetch } = useQuery<{ delegation?: { delegationShares?: string } }>(
+  const { data, loading, refetch } = useQuery<{ pool?: { delegations: [{ delegationBalance: bigint }] } }>(
     queryDelegationShares,
     {
-      variables: { id: `${walletAddress?.toLocaleLowerCase()}-${communityDelegate?.toLocaleLowerCase()}` },
+      variables: {
+        collectionAddress: communityDelegate?.toLocaleLowerCase(),
+        userAddress: walletAddress?.toLocaleLowerCase()
+      },
       skip: !walletAddress || !communityDelegate
     }
   )
 
-  const { loading: delegatedSharesLoading } = usePooledEthByShares(
-    data && data.delegation?.delegationShares ? data.delegation?.delegationShares : '0'
-  )
-
-  //TODO: trocar a integração quando o thegraph estiver ok
   return {
-    delegationShares: data?.delegation?.delegationShares || '0',
-    // delegationSharesEth: delegatedShares,
-    delegationSharesEth: 106313078370738671n,
-    loading: loading || delegatedSharesLoading,
+    delegationBalance: data?.pool?.delegations[0]?.delegationBalance || 0n,
+    loading: loading,
     refetch
   }
 }

@@ -2,15 +2,16 @@ import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
+import useEstimateTxInfo from '../useEstimateTxInfo'
 import useTranslation from '../useTranslation'
-import useEstimateGas from '../useEstimateGas'
+import { stakeTogetherABI } from '../../types/Contracts'
 
 export default function useDeposit(
   depositAmount: string,
@@ -23,21 +24,41 @@ export default function useDeposit(
 
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
+  const [failedToExecute, setFailedToExecute] = useState(false)
   const { registerDeposit } = useMixpanelAnalytics()
 
   const amount = ethers.parseUnits(depositAmount, 18)
 
-  const depositRule = enabled && amount > 0n
+  const isDepositEnabled = enabled && amount > 0n
 
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
 
+  const { isLoading, isSuccess, isError } = useWaitForTransaction({
+    hash: txHash
+  })
+
+  const { estimatedCost, estimatedGas, estimatedGasPrice } = useEstimateTxInfo({
+    account: accountAddress,
+    functionName: 'depositPool',
+    args: [poolAddress, referral],
+    contractAddress: contracts.StakeTogether,
+    abi: stakeTogetherABI,
+    value: amount,
+    skip: awaitWalletAction || isSuccess || !isDepositEnabled
+  })
+
+  const discountedGasAmount = useMemo(() => amount - estimatedCost, [amount, estimatedCost])
+
   const { config } = usePrepareStakeTogetherDepositPool({
+    chainId,
     address: contracts.StakeTogether,
     args: [poolAddress, referral],
     account: accountAddress,
-    enabled: depositRule,
-    value: amount
+    enabled: isDepositEnabled,
+    value: discountedGasAmount,
+    gas: estimatedGas > 0n ? estimatedGas : undefined,
+    gasPrice: estimatedGasPrice > 0n ? estimatedGasPrice : undefined
   })
 
   const tx = useStakeTogetherDepositPool({
@@ -48,21 +69,17 @@ export default function useDeposit(
       }
     },
     onError: () => {
+      setNotify(true)
+      setFailedToExecute(true)
       setAwaitWalletAction(false)
     }
   })
-
-  const { estimateGas } = useEstimateGas(tx as ethers.TransactionRequest)
 
   const deposit = () => {
     setAwaitWalletAction(true)
     tx.write?.()
     setNotify(true)
   }
-
-  const { isLoading, isSuccess, isError } = useWaitForTransaction({
-    hash: txHash
-  })
 
   const { t } = useTranslation()
 
@@ -72,41 +89,42 @@ export default function useDeposit(
   }
 
   useEffect(() => {
-    if (isSuccess && depositAmount && accountAddress) {
+    if (isSuccess && discountedGasAmount > 0n && accountAddress) {
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool, queryDelegationShares]
       })
-      registerDeposit(accountAddress, chainId, poolAddress, depositAmount.toString())
+      registerDeposit(accountAddress, chainId, poolAddress, ethers.formatEther(discountedGasAmount))
       if (notify) {
         notification.success({
-          message: `${t('notifications.depositSuccess')}: ${depositAmount} ${t('lsd.symbol')}`,
+          message: `${t('notifications.depositSuccess')}: ${discountedGasAmount} ${t('lsd.symbol')}`,
           placement: 'topRight'
         })
         setNotify(false)
       }
     }
-  }, [accountAddress, chainId, depositAmount, isSuccess, notify, poolAddress, registerDeposit, t])
+  }, [accountAddress, chainId, discountedGasAmount, isSuccess, notify, poolAddress, registerDeposit, t])
 
   useEffect(() => {
-    if (isError) {
+    if (isError || failedToExecute) {
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool]
       })
       if (notify) {
         notification.error({
-          message: `${t('notifications.depositError')}: ${depositAmount} ${t('lsd.symbol')}`,
+          message: `${t('notifications.depositError')}: ${discountedGasAmount} ${t('lsd.symbol')}`,
           placement: 'topRight'
         })
         setNotify(false)
       }
+      setFailedToExecute(false)
     }
-  }, [accountAddress, depositAmount, isError, notify, poolAddress, t])
+  }, [accountAddress, discountedGasAmount, failedToExecute, isError, notify, poolAddress, t])
 
   return {
     deposit,
     isLoading,
     isSuccess,
-    estimateGas: estimateGas,
+    estimatedGas: estimatedCost,
     awaitWalletAction,
     txHash,
     resetState

@@ -95,7 +95,7 @@
     "youPay": "Você Paga",
     "youReceive": "Você Recebe",
     "exchangeRate": "Câmbio",
-    "networkFee": "Taxa de Rede",
+    "networkFee": "Custo de transação",
     "confirmDeposit": "Confirme o Deposito",
     "confirmWithdraw": "Confirme o Saque",
     "transactionSubmitted": "Transação submetida",
@@ -145,5 +145,12 @@
   },
   "gas": {
     "alt": "Preço do gás da rede"
+  },
+  "poolsFilter": {
+    "rank": "Ranque",
+    "name": "Nome",
+    "type": "Tipo",
+    "members": "Membros",
+    "staked": "Staked"
   }
 }

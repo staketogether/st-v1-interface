@@ -3,7 +3,6 @@ import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
 import usePooledShareByEth from '@/hooks/contracts/useSharesByPooledEth'
 import useDelegationShares from '@/hooks/subgraphs/useDelegationShares'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
-import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import stIcon from '@assets/icons/seth-icon.svg'
 import { ethers } from 'ethers'
@@ -18,7 +17,6 @@ import useWithdrawPool from '../../hooks/contracts/useWithdrawPool'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import WalletBuyEthModal from '../shared/wallet/WalletBuyEthModal'
 import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
@@ -52,7 +50,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
   const {
-    delegationSharesEth,
+    delegationBalance,
     loading: delegationSharesLoading,
     refetch: delegationSharesRefetch
   } = useDelegationShares(accountAddress, poolAddress)
@@ -100,30 +98,25 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const { balance: sharesRatio } = usePooledShareByEth(BigInt('1000000000000000000'))
   const { balance: ratioEthByShare } = usePooledEthByShares(sharesRatio.toString())
 
-  const { balance: sharesByEth } = usePooledShareByEth(ethers.parseEther(amount || '0'))
-  const { balance: amountEthByShare } = usePooledEthByShares(sharesByEth.toString())
-
   const debouncedAmount = useDebounce(amount, 1000)
-
-  const { setOpenModal: openByEthModal } = useWalletByEthModal()
-
-  const inputAmount = debouncedAmount || '0'
+  const inputAmount = amount ? debouncedAmount || '0' : '0'
 
   const {
     deposit,
     isSuccess: depositSuccess,
     isLoading: depositLoading,
-    estimateGas: depositEstimateGas,
+    estimatedGas: depositEstimatedCost,
     awaitWalletAction: depositAwaitWalletAction,
     resetState: depositResetState,
     txHash: depositTxHash
-  } = useDeposit(inputAmount, poolAddress, type === 'deposit', accountAddress)
+    // To deposit, you need to have at least the min deposit amount in your wallet
+  } = useDeposit(inputAmount, poolAddress, type === 'deposit' && ethBalance > minDepositAmount, accountAddress)
 
   const {
     withdrawPool,
     isLoading: withdrawPoolLoading,
     isSuccess: withdrawPoolSuccess,
-    estimateGas: withdrawPoolEstimateGas,
+    estimatedCost: withdrawPoolEstimatedCost,
     awaitWalletAction: withdrawPoolAwaitWalletAction,
     resetState: withdrawPoolResetState,
     txHash: withdrawPoolTxHash
@@ -138,7 +131,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     withdrawLiquidity,
     isLoading: withdrawLiquidityLoading,
     isSuccess: withdrawLiquiditySuccess,
-    estimateGas: withdrawLiquidityEstimateGas,
+    estimatedCost: withdrawLiquidityEstimatedCost,
     awaitWalletAction: withdrawLiquidityAwaitWalletAction,
     resetState: withdrawLiquidityResetState,
     txHash: withdrawLiquidityTxHash
@@ -153,7 +146,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     withdrawValidator,
     isLoading: withdrawValidatorLoading,
     isSuccess: withdrawValidatorSuccess,
-    estimateGas: withdrawValidatorEstimateGas,
+    estimatedCost: withdrawValidatorEstimatedCost,
     awaitWalletAction: withdrawValidatorAwaitWalletAction,
     resetState: withdrawValidatorResetState,
     txHash: withdrawValidatorTxHash
@@ -164,6 +157,11 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     accountAddress
   )
 
+  const depositingCost = type === 'deposit' ? depositEstimatedCost : 0n
+
+  const { balance: expectedShares } = usePooledShareByEth(ethers.parseEther(amount || '0') - depositingCost)
+  const { balance: expectedSeth } = usePooledEthByShares(expectedShares.toString())
+
   const handleWithdraw = () => {
     switch (withdrawTypeSelected) {
       case WithdrawType.LIQUIDITY:
@@ -171,7 +169,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           withdraw: withdrawLiquidity,
           withdrawLoading: withdrawLiquidityLoading,
           withdrawSuccess: withdrawLiquiditySuccess,
-          withdrawEstimateGas: withdrawLiquidityEstimateGas,
+          withdrawEstimatedCost: withdrawLiquidityEstimatedCost,
           withdrawAwaitWalletAction: withdrawLiquidityAwaitWalletAction,
           withdrawResetState: withdrawLiquidityResetState,
           withdrawTxHash: withdrawLiquidityTxHash
@@ -181,7 +179,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           withdraw: withdrawValidator,
           withdrawLoading: withdrawValidatorLoading,
           withdrawSuccess: withdrawValidatorSuccess,
-          withdrawEstimateGas: withdrawValidatorEstimateGas,
+          withdrawEstimatedCost: withdrawValidatorEstimatedCost,
           withdrawAwaitWalletAction: withdrawValidatorAwaitWalletAction,
           withdrawResetState: withdrawValidatorResetState,
           withdrawTxHash: withdrawValidatorTxHash
@@ -192,7 +190,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           withdraw: withdrawPool,
           withdrawLoading: withdrawPoolLoading,
           withdrawSuccess: withdrawPoolSuccess,
-          withdrawEstimateGas: withdrawPoolEstimateGas,
+          withdrawEstimatedCost: withdrawPoolEstimatedCost,
           withdrawAwaitWalletAction: withdrawPoolAwaitWalletAction,
           withdrawResetState: withdrawPoolResetState,
           withdrawTxHash: withdrawPoolTxHash
@@ -205,12 +203,12 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const isLoading = depositLoading || withdrawData.withdrawLoading
   const isSuccess = depositSuccess || withdrawData.withdrawSuccess
 
-  const balance = type === 'deposit' ? ethBalance : delegationSharesEth
+  const balance = type === 'deposit' ? ethBalance : delegationBalance
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
   const operationSymbol = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
-  const estimateGas = type === 'deposit' ? depositEstimateGas : withdrawData.withdrawEstimateGas
-  const estimateGasInGwei = ethers.formatUnits(estimateGas, 'gwei')
+  const estimateCost = type === 'deposit' ? depositEstimatedCost : withdrawData.withdrawEstimatedCost
+  const estimatedCostInEther = ethers.formatEther(estimateCost)
   const txHash = type === 'deposit' ? depositTxHash : withdrawData.withdrawTxHash
   const resetState = type === 'deposit' ? depositResetState : withdrawData.withdrawResetState
 
@@ -237,13 +235,25 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   useEffect(() => {
-    if (isSuccess && !isOpenStakeConfirmModal) {
-      resetState()
-      setAmount('')
-      refetchEthBalance()
-      handleWithdrawBalanceRefetch()
+    const handleSuccessfulAction = async () => {
+      if (isSuccess && !isOpenStakeConfirmModal) {
+        setAmount('')
+        await refetchEthBalance()
+        await delegationSharesRefetch()
+        await handleWithdrawBalanceRefetch()
+        resetState()
+      }
     }
-  }, [handleWithdrawBalanceRefetch, isOpenStakeConfirmModal, isSuccess, refetchEthBalance, resetState])
+
+    handleSuccessfulAction()
+  }, [
+    delegationSharesRefetch,
+    handleWithdrawBalanceRefetch,
+    isOpenStakeConfirmModal,
+    isSuccess,
+    refetchEthBalance,
+    resetState
+  ])
 
   const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
@@ -278,83 +288,49 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     return actionLabel
   }
 
-  const handleBuyEthSuccess = () => {
-    delegationSharesRefetch()
-    refetchEthBalance()
-  }
-
-  // const rewardsIsPositive = delegationSharesEth > 0n
-  // const rewardsIsZero = delegationSharesEth === 0n
-  // const rewardsIsNegative = delegationSharesEth < 0n
-
   return (
     <>
       <StakeContainer>
-        {type === 'deposit' && (
+        <CardInfoContainer>
+          {type === 'deposit' && (
+            <CardInfo>
+              <div>
+                <div>
+                  <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
+                </div>
+                <CardInfoData>
+                  <header>
+                    <h4>{t('availableToStake')}</h4>
+                  </header>
+                  <div>
+                    <span>{truncateWei(ethBalance, 6)}</span>
+                    <span>{t('eth.symbol')}</span>
+                  </div>
+                </CardInfoData>
+              </div>
+            </CardInfo>
+          )}
           <CardInfo>
             <div>
               <div>
-                <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
+                <Image src={stIcon} width={24} height={24} alt='staked Icon' />
               </div>
               <CardInfoData>
                 <header>
-                  <h4>{t('availableToStake')}</h4>
+                  <h4>{t('staked')}</h4>
                 </header>
-                <div>
-                  <span>{truncateWei(ethBalance, 6)}</span>
-                  <span>{t('eth.symbol')}</span>
-                </div>
+                {delegationSharesLoading ? (
+                  <SkeletonLoading height={20} width={120} />
+                ) : (
+                  <div>
+                    <span className='purple'>{truncateWei(BigInt(delegationBalance), 6)}</span>
+                    <span className='purple'>{t('lsd.symbol')}</span>
+                  </div>
+                )}
               </CardInfoData>
             </div>
-            <CardInfoData>
-              <BuyEthButton disabled={!accountAddress} onClick={() => openByEthModal(true)}>
-                {t('buyEth.button')}
-              </BuyEthButton>
-            </CardInfoData>
           </CardInfo>
-        )}
-
-        <CardInfo>
-          <div>
-            <div>
-              <Image src={stIcon} width={24} height={24} alt='staked Icon' />
-            </div>
-            <CardInfoData>
-              <header>
-                <h4>{t('staked')}</h4>
-              </header>
-              {delegationSharesLoading ? (
-                <SkeletonLoading height={20} width={120} />
-              ) : (
-                <div>
-                  <span className='purple'>{truncateWei(BigInt(delegationSharesEth), 6)}</span>
-                  <span className='purple'>{t('lsd.symbol')}</span>
-                </div>
-              )}
-            </CardInfoData>
-          </div>
-
-          {/* <CardInfoData> */}
-          {/* <header>
-              <h4>{t('rewards')} </h4>
-              <Tooltip title={t('rewardsTooltip')}>
-                <QuestionIcon />
-              </Tooltip>
-            </header> */}
-          {/* {delegationSharesLoading && <SkeletonLoading height={20} width={120} />}
-            {!delegationSharesLoading && (
-              <div>
-                <span className={`${rewardsIsPositive && 'positive'} ${rewardsIsPositive && 'negative'}`}>
-                  {rewardsIsPositive && `+${truncateWei(delegationSharesEth, 5)} `}
-                  {rewardsIsZero && `${truncateWei(delegationSharesEth, 5)} `}
-                  {rewardsIsNegative && `-${truncateWei(delegationSharesEth, 5)} `}
-                </span>
-                <span className='purple'>{t('lsd.symbol')}</span>
-              </div>
-            )} */}
-          {/* </CardInfoData> */}
-        </CardInfo>
-
+        </CardInfoContainer>
         {type === 'withdraw' && (
           <StakeWithdrawSwitchTypes
             liquidityPoolBalance={withdrawLiquidityPoolBalance}
@@ -364,7 +340,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             selectWithdrawType={setWithdrawTypeSelected}
           />
         )}
-
         <StakeFormInput
           value={amount}
           onChange={value => setAmount(value)}
@@ -396,7 +371,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         <StakeInfo>
           <div>
             <span>{`${t('youReceive')} `}</span>
-            <span>{` ${truncateWei(amountEthByShare, 18) || '0'} ${operationSymbol}`}</span>
+            <span>{` ${truncateWei(expectedSeth, 18) || '0'} ${operationSymbol}`}</span>
           </div>
           <div>
             <span>{t('confirmStakeModal.exchangeRate')}</span>
@@ -419,31 +394,38 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       </StakeContainer>
       <StakeConfirmModal
         amount={amount}
-        amountEthByShare={amountEthByShare}
+        amountEthByShare={expectedSeth}
         txHash={txHash}
         titleModal={titleConfirmStakeModal}
         type={type}
         labelButton={handleLabelButton()}
         onClick={handleStakeConfirmation}
         ethRatio={ratioEthByShare}
-        estimateGas={estimateGasInGwei}
+        estimatedCost={estimatedCostInEther}
         transactionLoading={isLoading}
         walletActionLoading={walletActionLoading}
         transactionIsSuccess={isSuccess}
         onClose={() => setOpenStakeConfirmModal(false)}
       />
-      {accountAddress && (
-        <WalletBuyEthModal walletAddress={accountAddress} onBuyEthIsSuccess={handleBuyEthSuccess} />
-      )}
     </>
   )
 }
 
-const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, CardInfoData } = {
+const { StakeContainer, CardInfoContainer, StakeInfo, CardInfo, CardInfoData } = {
   StakeContainer: styled.div`
     display: grid;
     gap: ${({ theme }) => theme.size[16]};
     padding: ${({ theme }) => theme.size[24]};
+  `,
+  CardInfoContainer: styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[16]};
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      gap: ${({ theme }) => theme.size[24]};
+      grid-template-columns: 1fr 1fr;
+    }
   `,
   CardInfo: styled.div`
     display: flex;
@@ -526,42 +508,8 @@ const { StakeContainer, StakeInfo, CardInfo, BuyEthButton, CardInfoData } = {
         }
       }
     }
-  `,
-  BuyEthButton: styled.button`
-    border: none;
-    height: 32px;
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.white};
-    background-color: ${({ theme }) => theme.color.primary};
-    border-radius: ${({ theme }) => theme.size[8]};
-    transition: background-color 0.1s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    padding: 0px ${({ theme }) => theme.size[12]};
-    display: none;
-    justify-content: center;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
-
-    font-size: ${({ theme }) => theme.font.size[12]};
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-
-    &:hover {
-      background: ${({ theme }) => theme.color.blue[600]};
-    }
-
-    &:disabled {
-      background: ${({ theme }) => theme.color.blue[50]};
-      cursor: not-allowed;
-    }
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-      display: flex;
-    }
   `
-  // QuestionIcon: styled(AiOutlineQuestionCircle)`
+  // QuestionIcon: styled(AiOutlineQuestionCircle)
   //   width: 12px;
   //   height: 12px;
   //   color: ${({ theme }) => theme.color.blackAlpha[500]};

@@ -1,13 +1,11 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import { GetServerSideProps } from 'next'
-import PoolsList from '../components/pools/PoolsList'
-import LayoutHead from '../components/shared/layout/LayoutHead'
+import PoolsControl from '../components/pools/PoolsControl'
 import LayoutTemplate from '../components/shared/layout/LayoutTemplate'
 
 import { MetaPools } from '../components/shared/meta/MetaPools'
 import { apolloClient } from '../config/apollo'
-import useTranslation from '../hooks/useTranslation'
 import { queryPools } from '../queries/queryPools'
 import { Pool } from '../types/Pool'
 
@@ -16,13 +14,10 @@ type PoolsProps = {
 }
 
 export default function Pools({ pools }: PoolsProps) {
-  const { t } = useTranslation()
-
   return (
     <LayoutTemplate>
       <MetaPools />
-      <LayoutHead text={t('titles.pools')} />
-      <PoolsList pools={pools} />
+      <PoolsControl pools={pools} />
     </LayoutTemplate>
   )
 }

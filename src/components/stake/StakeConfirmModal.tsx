@@ -15,7 +15,7 @@ type StakeConfirmModalProps = {
   type: 'deposit' | 'withdraw'
   titleModal: string
   labelButton: string
-  estimateGas: string | undefined
+  estimatedCost: string | undefined
   walletActionLoading: boolean
   transactionLoading: boolean
   transactionIsSuccess: boolean
@@ -29,7 +29,7 @@ export default function StakeConfirmModal({
   titleModal,
   type,
   labelButton,
-  estimateGas,
+  estimatedCost,
   transactionLoading,
   walletActionLoading,
   transactionIsSuccess,
@@ -125,7 +125,9 @@ export default function StakeConfirmModal({
             </InfoReview>
             <InfoReview>
               <span>{t('confirmStakeModal.networkFee')}</span>
-              <span>{`${estimateGas}`}</span>
+              <span>
+                {`${estimatedCost}`} {t('eth.symbol')}
+              </span>
             </InfoReview>
           </ContainerInfoReview>
           <Button onClick={onClick}>{labelButton}</Button>

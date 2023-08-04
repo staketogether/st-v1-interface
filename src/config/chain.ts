@@ -16,7 +16,6 @@ export type ChainConfig = {
     contentful: string
   }
   contracts: {
-    STOracle: `0x${string}`
     StakeTogether: `0x${string}`
     Liquidity: `0x${string}`
   }
@@ -30,7 +29,6 @@ const configs: ChainConfig[] = [
   //     `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY}`
   //   ),
   //   contracts: {
-  //     STOracle: '0x',
   //     StakeTogether: '0x'
   //   },
   //   subgraphs: {
@@ -49,9 +47,8 @@ const configs: ChainConfig[] = [
     },
     alchemyApiUrl: `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`,
     contracts: {
-      STOracle: '0x39952aFfa9a4731f304ba40793Cc8D2Da994531E',
-      StakeTogether: '0xd07bab220E60Ade7C2CF16cEec9D2280847e58Ea',
-      Liquidity: '0x70650bDce546855460810bF3214b40498242DaD0'
+      StakeTogether: '0xe4Dd09e070611C2785e51Cb22ef10DdBa6926b22',
+      Liquidity: '0x5364145C9d25429Be4c94ebb479500162f08205c'
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-v2-goerli/version/latest',
@@ -64,7 +61,6 @@ const configs: ChainConfig[] = [
   //   name: 'localhost',
   //   provider: new ethers.providers.JsonRpcProvider(`http://127.0.0.1:8545`),
   //   contracts: {
-  //     STOracle: '0x5D553864900780be550fA2Af918ABF4F83715A8a',
   //     StakeTogether: '0x27c85150D755D383A4f86d0aeD8232815674771f'
   //   },
   //   subgraphs: {

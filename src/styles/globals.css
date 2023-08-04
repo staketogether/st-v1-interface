@@ -4,10 +4,5 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: __Montserrat_35bac4, __Montserrat_Fallback_35bac4 !important;
-}
-
-.ant-drawer-mask {
-  background: linear-gradient(180deg, rgba(143, 152, 214, 0.4) 0%, rgba(143, 152, 214, 0.8) 10%) !important;
-  transition: background-color 0.2s ease !important;
+  font-family: __Nunito_Sans_01eb1c, __Nunito_Sans_Fallback_01eb1c !important;
 }
