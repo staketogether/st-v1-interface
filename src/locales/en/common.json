@@ -156,12 +156,14 @@
     "members": "Members",
     "staked": "staked"
   },
-    "airdrop":{
+  "airdrop":{
     "title": "Welcome to StakeTogether",
     "description": "Lorem Ipsum is simply",
     "readAnnouncementButton": "Read announcement",
     "eligibilityCriteria": "Eligibility Criteria",
     "pool": "Pool",
-    "locks": "Locks"
+    "locks": "Locks",
+    "willReceive": "will receive",
+    "startClaimProcess": "Start claim process"
   }
 }

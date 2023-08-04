@@ -160,6 +160,8 @@
     "readAnnouncementButton": "Ler anúncio",
     "eligibilityCriteria": "Critérios de elegibilidade",
     "pool": "Fundos",
-    "locks": "Bloqueios"
+    "locks": "Bloqueios",
+    "willReceive": "receberá",
+    "startClaimProcess": "Iniciar recebimento"
   }
 }
