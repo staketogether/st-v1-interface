@@ -47,6 +47,7 @@
   "safe": "SAFE",
   "depositDescription": "Deposit ETH and use stpETH in DeFi to earn staking rewards while explorinf additional",
   "annualRewards": "Annual Staking Rewards",
+  "learnMore": "learn more",
   "titles": {
     "pools": "Pools",
     "stake": "Stake Ether",
@@ -154,5 +155,13 @@
     "type": "Type",
     "members": "Members",
     "staked": "staked"
+  },
+    "airdrop":{
+    "title": "Welcome to StakeTogether",
+    "description": "Lorem Ipsum is simply",
+    "readAnnouncementButton": "Read announcement",
+    "eligibilityCriteria": "Eligibility Criteria",
+    "pool": "Pool",
+    "locks": "Locks"
   }
 }

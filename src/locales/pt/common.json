@@ -45,6 +45,7 @@
   "safe": "SEGURO",
   "depositDescription": "Deposite ETH e use stpETH no DeFi para ganhar recompensas de staking enquanto explora outras opções.",
   "annualRewards": "Recompensas Anuais de Staking",
+  "learnMore": "Leia mais",
   "titles": {
     "pools": "Projetos",
     "stake": "Stake de Ether",
@@ -152,5 +153,13 @@
     "type": "Tipo",
     "members": "Membros",
     "staked": "Staked"
+  },
+ "airdrop": {
+    "title": "Bem-vindo ao StakeTogether",
+    "description": "Lorem Ipsum é simplesmente",
+    "readAnnouncementButton": "Ler anúncio",
+    "eligibilityCriteria": "Critérios de elegibilidade",
+    "pool": "Fundos",
+    "locks": "Bloqueios"
   }
 }

@@ -1,4 +1,5 @@
 import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useTranslation from '@/hooks/useTranslation'
 import { Tooltip } from 'antd'
 import React from 'react'
 import { AiFillCheckCircle, AiOutlineClose, AiOutlineQuestionCircle } from 'react-icons/ai'
@@ -7,26 +8,23 @@ import styled from 'styled-components'
 
 export default function AirdropControl() {
   const { accountIsConnected } = useConnectedAccount()
+  const { t } = useTranslation()
   return (
     <Container>
       <AirdropContainer>
-        <h1>welcome to StakeTogether </h1>
-        <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-          standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled
-          it to make a type specimen book.
-        </p>
+        <h1>{t('airdrop.title')}</h1>
+        <p>{t('airdrop.description')}</p>
         {!accountIsConnected && (
           <WalletDisconnectedContainer>
-            <button>Connect Wallet</button>
-            <button className='ghost'>Read announcement</button>
+            <button>{t('connectWalletSideBar.connectButton')}</button>
+            <button className='ghost'>{t('airdrop.readAnnouncementButton')}</button>
           </WalletDisconnectedContainer>
         )}
         <DescribeContainer>
           <header>
-            <h3>Criterios de Elegibilidade</h3>
+            <h3>{t('airdrop.eligibilityCriteria')}</h3>
             <div>
-              <span>learn more</span>
+              <span>{t('learnMore')}</span>
               <ExternalLink />
             </div>
           </header>
@@ -35,22 +33,22 @@ export default function AirdropControl() {
           <Row>
             <div>
               <VerifiedIcon />
-              Pools
+              {t('airdrop.pool')}
               <Tooltip title='Pools'>
                 <QuestionIcon />
               </Tooltip>
             </div>
-            <span>100 SETH</span>
+            <span>{`0 ${t('lsd.symbol')}`}</span>
           </Row>
           <Row>
             <div>
               <ExcludeIcon />
-              Locks
+              {t('airdrop.locks')}
               <Tooltip title='Pools'>
                 <QuestionIcon />
               </Tooltip>
             </div>
-            <span>0 SETH</span>
+            <span>{`0 ${t('lsd.symbol')}`}</span>
           </Row>
         </EligibilityList>
       </AirdropContainer>
@@ -71,10 +69,10 @@ const {
   ExcludeIcon
 } = {
   Container: styled.div`
+    width: 100%;
     display: grid;
+    justify-items: center;
     grid-template-columns: 1fr;
-    align-items: center;
-    justify-content: center;
   `,
   AirdropContainer: styled.section`
     width: 100%;
