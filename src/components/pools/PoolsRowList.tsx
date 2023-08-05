@@ -4,19 +4,20 @@ import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
+import { PoolsType } from '@/types/Pool'
+import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
+import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 
 type PoolsRowListProps = {
-  address: `0x${string}`
-  people: bigint
-  invested: bigint
+  poolAddress: `0x${string}`
+  members: bigint
+  staked: bigint
+  type: PoolsType
 }
 
-export default function PoolsRowList({
-  address: poolAddress,
-  people: members,
-  invested: staked
-}: PoolsRowListProps) {
+export default function PoolsRowList({ poolAddress, members, staked, type }: PoolsRowListProps) {
   const { t } = useTranslation()
+  const { poolTypeTranslation } = usePoolTypeTranslation()
 
   return (
     <Link href={`/pools/deposit/${poolAddress}`}>
@@ -26,7 +27,8 @@ export default function PoolsRowList({
           <EnsName address={poolAddress} />
         </Name>
         <TypeContainer>
-          <Text>(Icon)(Type)</Text>
+          <Text>{`${poolTypeTranslation(type)}`}</Text>
+          {handlePoolTypeIcon({ iconSize: 14, value: type })}
         </TypeContainer>
         <Text>{members.toString()}</Text>
         <Text>{truncateWei(staked, 6)} ETH</Text>
@@ -65,6 +67,8 @@ const { Row, Name, TypeContainer, Text, CTA } = {
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
+
+    color: ${({ theme }) => theme.color.primary};
   `,
   Text: styled.span`
     font-size: ${({ theme }) => theme.font.size[14]};
