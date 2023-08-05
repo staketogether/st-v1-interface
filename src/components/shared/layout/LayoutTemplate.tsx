@@ -34,25 +34,25 @@ const { Container, Wrapper, Content, Body } = {
     grid-template-rows: 1fr 60px;
     gap: 24px;
     min-height: 100vh;
-    background: linear-gradient(to bottom, #f1f5fc 0%, #cfd6f3 80%);
+    background: linear-gradient(180deg, rgba(143, 152, 214, 0.2) 0%, #97a3eb 40%);
     background-attachment: fixed;
   `,
   Wrapper: styled.div`
     width: 100%;
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
     justify-content: center;
     place-items: start center;
   `,
   Content: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
     padding: ${props => props.theme.size[24]};
     gap: 48px;
   `,
   Body: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
     gap: ${props => props.theme.size[32]};
     justify-content: center;
     place-items: center;

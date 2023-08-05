@@ -6,8 +6,8 @@ import stIcon from '../../../../public/assets/st-icon.png'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useTranslation from '../../../hooks/useTranslation'
 import Wallet from '../wallet/Wallet'
-import LayoutSearch from './LayoutSearch'
 import LayoutNetworkInfoButton from './LayoutNetworkInfoButton'
+import LayoutSearch from './LayoutSearch'
 
 export default function LayoutHeader() {
   const { t } = useTranslation()
@@ -66,7 +66,7 @@ const { Container, MenuContainer, LayoutSearchContainer, WalletContainer, Logo, 
     align-items: center;
     grid-template-columns: 40px 1fr;
     gap: ${({ theme }) => theme.size[32]};
-    @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
     }
   `,
   WalletContainer: styled.div`

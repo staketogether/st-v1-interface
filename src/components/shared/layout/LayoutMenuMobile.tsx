@@ -40,7 +40,7 @@ const { Container, NextLink, MenuButton } = {
     justify-content: center;
     gap: ${({ theme }) => theme.size[8]};
     border-top: 1px solid ${({ theme }) => theme.color.blackAlpha[500]};
-    @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: none;
     }
   `,
