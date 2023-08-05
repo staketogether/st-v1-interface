@@ -152,5 +152,13 @@
     "type": "Tipo",
     "members": "Membros",
     "staked": "Staked"
+  },
+  "v2": {
+    "header": {
+      "invest": "Investir",
+      "incentives": "Incentivos",
+      "connect": "Conectar",
+      "disconnect": "Desconectar"
+    }
   }
 }

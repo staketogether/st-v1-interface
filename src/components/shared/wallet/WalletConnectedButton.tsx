@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 
 import chainConfig from '@/config/chain'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useEns from '@/hooks/useEns'
+import Image from 'next/image'
 import { AiOutlineSwap } from 'react-icons/ai'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useStAccount from '../../../hooks/subgraphs/useStAccount'
@@ -8,14 +11,12 @@ import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { truncateWei } from '../../../services/truncate'
 import EnsAvatar from '../ens/EnsAvatar'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
-import Image from 'next/image'
-import useEns from '@/hooks/useEns'
 import WalletName from './WalletName'
 
 type WalletConnectedButtonProps = {
   address: `0x${string}`
   showBalance?: boolean
+  showNetwork?: boolean
 }
 
 export default function WalletConnectedButton({ address, showBalance = true }: WalletConnectedButtonProps) {
@@ -51,10 +52,10 @@ export default function WalletConnectedButton({ address, showBalance = true }: W
       ) : (
         <>
           {showBalance && (
-            <CethBalance>
+            <Balance>
               <span>{truncateWei(accountBalance)}</span>
               <span>{t('lsd.symbol')}</span>
-            </CethBalance>
+            </Balance>
           )}
           <EnsAddress>
             <WalletName
@@ -80,7 +81,7 @@ export default function WalletConnectedButton({ address, showBalance = true }: W
   )
 }
 
-const { CethBalance, ConnectedButton, EnsAddress, NetworkWrong, Web3AuthProfileImage } = {
+const { Balance, ConnectedButton, EnsAddress, NetworkWrong, Web3AuthProfileImage } = {
   ConnectedButton: styled.button`
     display: flex;
     gap: ${({ theme }) => theme.size[16]};
@@ -93,7 +94,7 @@ const { CethBalance, ConnectedButton, EnsAddress, NetworkWrong, Web3AuthProfileI
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
 
-    padding: 0px 0px 0px ${({ theme }) => theme.size[16]};
+    padding: 0px 0px 0px ${({ theme }) => theme.size[8]};
 
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
@@ -107,7 +108,7 @@ const { CethBalance, ConnectedButton, EnsAddress, NetworkWrong, Web3AuthProfileI
       color: ${({ theme }) => theme.color.white};
     }
   `,
-  CethBalance: styled.div`
+  Balance: styled.div`
     display: none;
     gap: ${({ theme }) => theme.size[4]};
     font-size: ${({ theme }) => theme.font.size[14]};

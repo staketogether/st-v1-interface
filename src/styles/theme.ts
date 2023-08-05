@@ -34,8 +34,8 @@ export const lightTheme: Theme = {
     }
   },
   color: {
-    primary: '#283B8A',
-    secondary: '#7154B7',
+    primary: '#233a95',
+    secondary: '#734cd1',
     transparent: 'transparent',
     current: 'currentColor',
     black: '#000000',

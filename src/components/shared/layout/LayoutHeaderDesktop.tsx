@@ -1,13 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { AiOutlineBarChart, AiOutlineDeploymentUnit } from 'react-icons/ai'
+import { BsCoin, BsDatabaseUp } from 'react-icons/bs'
 import styled from 'styled-components'
-import stIcon from '../../../../public/assets/st-icon.png'
+import stLogoDesktop from '../../../../public/assets/st-logo-desktop.png'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useTranslation from '../../../hooks/useTranslation'
 import Wallet from '../wallet/Wallet'
-import LayoutNetworkInfoButton from './LayoutNetworkInfoButton'
-import LayoutSearch from './LayoutSearch'
 
 export default function LayoutHeader() {
   const { t } = useTranslation()
@@ -15,37 +13,37 @@ export default function LayoutHeader() {
   const { isActive } = useActiveRoute()
   return (
     <Container>
-      <MenuContainer>
+      <LogoContainer>
         <Logo href='/pools'>
-          <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
+          <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={32} />
         </Logo>
+      </LogoContainer>
+      <MenuContainer>
         <Menu>
           <Link href='/pools'>
             <MenuButton
               className={`${isActive('pools') || isActive('stake') || isActive('unstake') ? 'active' : ''}`}
             >
-              <AiOutlineDeploymentUnit size={16} /> {t('pools')}
+              <BsCoin fontSize={18} />
+              {t('v2.header.invest')}
             </MenuButton>
           </Link>
-          <Link href='#' title={t('soon')}>
-            <MenuButton disabled>
-              <AiOutlineBarChart size={16} /> {t('analytics')}
+          <Link href='/incentives'>
+            <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
+              <BsDatabaseUp fontSize={18} />
+              {t('v2.header.incentives')}
             </MenuButton>
           </Link>
         </Menu>
       </MenuContainer>
-      <LayoutSearchContainer>
-        <LayoutSearch />
-      </LayoutSearchContainer>
       <WalletContainer>
-        <LayoutNetworkInfoButton />
         <Wallet />
       </WalletContainer>
     </Container>
   )
 }
 
-const { Container, MenuContainer, LayoutSearchContainer, WalletContainer, Logo, Menu, MenuButton } = {
+const { Container, LogoContainer, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
   Container: styled.header`
     display: none;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
@@ -54,20 +52,15 @@ const { Container, MenuContainer, LayoutSearchContainer, WalletContainer, Logo, 
       gap: ${({ theme }) => theme.size[32]};
     }
   `,
-  LayoutSearchContainer: styled.div`
+  LogoContainer: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  `,
+  MenuContainer: styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-  `,
-  MenuContainer: styled.div`
-    display: grid;
-    grid-template-columns: auto;
-    justify-content: center;
-    align-items: center;
-    grid-template-columns: 40px 1fr;
-    gap: ${({ theme }) => theme.size[32]};
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-    }
   `,
   WalletContainer: styled.div`
     display: flex;
@@ -88,32 +81,23 @@ const { Container, MenuContainer, LayoutSearchContainer, WalletContainer, Logo, 
     height: 32px;
   `,
   MenuButton: styled.button`
-    display: grid;
-    grid-template-columns: 24px 1fr;
-    gap: ${({ theme }) => theme.size[4]};
+    display: flex;
+    gap: ${({ theme }) => theme.size[8]};
     align-items: center;
     width: auto;
     height: 32px;
-    font-size: ${({ theme }) => theme.font.size[14]};
+    font-size: ${({ theme }) => theme.font.size[16]};
     color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
     border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
     padding: 0 ${({ theme }) => theme.size[16]};
-    transition: background-color 0.1s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
+    background: none;
 
     &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      color: ${({ theme }) => theme.color.secondary};
     }
 
     &.active {
       color: ${({ theme }) => theme.color.secondary};
-    }
-
-    &:disabled {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
-      color: ${({ theme }) => theme.color.blackAlpha[600]};
     }
   `
 }
