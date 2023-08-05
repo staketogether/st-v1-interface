@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { AiOutlineBarChart, AiOutlineCodeSandbox } from 'react-icons/ai'
+import { AiOutlineCodeSandbox } from 'react-icons/ai'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -26,11 +26,6 @@ export default function LayoutHeader() {
               }`}
             >
               <AiOutlineCodeSandbox size={16} /> {t('pools')}
-            </MenuButton>
-          </Link>
-          <Link href='#' title={t('soon')}>
-            <MenuButton disabled>
-              <AiOutlineBarChart size={16} /> {t('analytics')}
             </MenuButton>
           </Link>
         </Menu>

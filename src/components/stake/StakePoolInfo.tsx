@@ -1,5 +1,4 @@
 import StakePoolAbout from '@/components/stake/StakePoolAbout'
-import StakePoolActions from '@/components/stake/StakePoolActions'
 import StakePoolMembers from '@/components/stake/StakePoolMembers'
 import { Divider } from 'antd'
 import { useState } from 'react'
@@ -17,7 +16,7 @@ interface StakeStatsProps {
 export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
   const { t } = useTranslation()
   const theme = useTheme()
-  const [activeTab, setActiveTab] = useState<'members' | 'about'>('members')
+  const [activeTab] = useState<'members' | 'about'>('members')
 
   const [skip, setSkip] = useState(0)
 
@@ -48,15 +47,12 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
       <StatsContainer>
         <Stats>
           <StatsBox>
-            <span>{t('rewards')}</span>
+            <span>{t('members')}</span>
             <span>
-              {!!(isRewardsSharesLoading || initialLoading) && poolAddress ? (
+              {initialLoading && poolAddress ? (
                 <SkeletonLoading width={80} />
               ) : (
-                <>
-                  <span style={{ color: theme.color.green[600] }}>{truncateWei(rewardsShares, 6)}</span>
-                  <span style={{ color: theme.color.secondary }}>{t('lsd.symbol')}</span>
-                </>
+                <>{poolData?.receivedDelegationsCount.toString()}</>
               )}
             </span>
           </StatsBox>
@@ -74,19 +70,22 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
             </span>
           </StatsBox>
           <StatsBox>
-            <span>{t('members')}</span>
+            <span>{t('rewards')}</span>
             <span>
-              {initialLoading && poolAddress ? (
+              {!!(isRewardsSharesLoading || initialLoading) && poolAddress ? (
                 <SkeletonLoading width={80} />
               ) : (
-                <>{poolData?.receivedDelegationsCount.toString()}</>
+                <>
+                  <span style={{ color: theme.color.green[600] }}>{truncateWei(rewardsShares, 6)}</span>
+                  <span style={{ color: theme.color.secondary }}>{t('lsd.symbol')}</span>
+                </>
               )}
             </span>
           </StatsBox>
         </Stats>
       </StatsContainer>
       <Divider style={{ margin: `${theme.size['12']} 0`, color: theme.color.blue[100] }} />
-      <StakePoolActions onActiveTabChange={tab => setActiveTab(tab)} />
+      {/* <StakePoolActions onActiveTabChange={tab => setActiveTab(tab)} /> */}
       {activeTab === 'members' && (
         <StakePoolMembers
           delegations={poolData?.delegations}

@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
 import styled from 'styled-components'
-import V2Modal from '../V2Modal'
 import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
@@ -21,7 +20,6 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
       </Wrapper>
       <LayoutMenuMobile />
       <LayoutFooter />
-      <V2Modal />
     </Container>
   )
 }
@@ -39,19 +37,19 @@ const { Container, Wrapper, Content, Body } = {
   Wrapper: styled.div`
     width: 100%;
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
     justify-content: center;
     place-items: start center;
   `,
   Content: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
     padding: ${props => props.theme.size[24]};
     gap: 48px;
   `,
   Body: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
     gap: ${props => props.theme.size[32]};
     justify-content: center;
     place-items: center;
