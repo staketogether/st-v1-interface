@@ -44,12 +44,12 @@ const { Row, Name, TypeContainer, Text, CTA } = {
   Row: styled.div`
     display: grid;
     height: 48px;
-    grid-template-columns: 1fr 0.8fr 0.5fr 0.8fr 112px;
+    grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr 112px;
     padding-left: 16px;
     gap: 8px;
     align-items: center;
 
-    border-radius: ${({ theme }) => theme.size[8]};
+    border-radius: ${({ theme }) => theme.size[16]};
     background: ${({ theme }) => theme.color.whiteAlpha[500]};
 
     &:hover {

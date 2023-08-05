@@ -205,7 +205,7 @@ const { Container, ListPools, FiltersContainer, Filters, Search, FilterButton } 
     gap: ${({ theme }) => theme.size[8]};
     > header {
       display: grid;
-      grid-template-columns: 1fr 0.8fr 0.5fr 0.8fr 112px;
+      grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr 112px;
       gap: 8px;
       align-items: center;
       padding-left: 16px;
