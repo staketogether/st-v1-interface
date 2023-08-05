@@ -157,7 +157,7 @@ const { Container, ListPools, FiltersContainer, Filters, Search, FilterButton } 
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[32]};
   `,
   FiltersContainer: styled.div`
     display: grid;
