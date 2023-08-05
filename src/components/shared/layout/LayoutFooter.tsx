@@ -1,10 +1,7 @@
 import styled from 'styled-components'
 import packageData from '../../../../package.json'
-import useTranslation from '../../../hooks/useTranslation'
 
 export default function LayoutFooter() {
-  const { t } = useTranslation()
-
   const date = new Date()
   return (
     <Container>
