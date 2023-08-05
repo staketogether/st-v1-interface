@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { BsCoin, BsDatabaseUp } from 'react-icons/bs'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/st-logo-desktop.png'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -24,13 +23,11 @@ export default function LayoutHeader() {
             <MenuButton
               className={`${isActive('pools') || isActive('stake') || isActive('unstake') ? 'active' : ''}`}
             >
-              <BsCoin fontSize={18} />
               {t('v2.header.invest')}
             </MenuButton>
           </Link>
           <Link href='/incentives'>
             <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
-              <BsDatabaseUp fontSize={18} />
               {t('v2.header.incentives')}
             </MenuButton>
           </Link>
@@ -92,6 +89,8 @@ const { Container, LogoContainer, MenuContainer, WalletContainer, Logo, Menu, Me
 
     &:hover {
       color: ${({ theme }) => theme.color.secondary};
+      background: ${({ theme }) => theme.color.whiteAlpha[300]};
+      border-radius: 8px;
     }
 
     &.active {

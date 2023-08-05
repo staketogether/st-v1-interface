@@ -1,6 +1,5 @@
 import { truncateWei } from '@/services/truncate'
 import Link from 'next/link'
-import { BsArrowRightCircle } from 'react-icons/bs'
 import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
@@ -31,10 +30,7 @@ export default function PoolsRowList({
         </TypeContainer>
         <Text>{members.toString()}</Text>
         <Text>{truncateWei(staked, 6)} ETH</Text>
-        <CTA>
-          <BsArrowRightCircle fontSize={14} />
-          {t('v2.pools.list.invest')}
-        </CTA>
+        <CTA>{t('v2.pools.list.invest')}</CTA>
       </Row>
     </Link>
   )
