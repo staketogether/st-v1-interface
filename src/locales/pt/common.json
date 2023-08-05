@@ -159,6 +159,16 @@
       "incentives": "Incentivos",
       "connect": "Conectar",
       "disconnect": "Desconectar"
+    },
+    "pools": {
+      "filter": {
+        "all": "All",
+        "art": "Arte",
+        "education": "Educação",
+        "socialImpact": "Impacto Social",
+        "innovation": "Inovação"
+      },
+      "search": "Pesquisar..."
     }
   }
 }

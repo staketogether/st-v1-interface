@@ -38,6 +38,7 @@ export default interface Theme {
     secondary: string
     transparent: string
     current: string
+    background: string
     black: string
     white: string
     whiteAlpha: {

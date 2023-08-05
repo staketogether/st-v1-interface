@@ -1,63 +1,72 @@
 import styled from 'styled-components'
 
-import { Pool } from '../../types/Pool'
+import useTranslation from '@/hooks/useTranslation'
 import { useState } from 'react'
+import { BsBook, BsHeart, BsLightbulb, BsPalette } from 'react-icons/bs'
+import { Pool } from '../../types/Pool'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
-import useTranslation from '@/hooks/useTranslation'
 
 type PoolsListProps = {
   pools: Pool[]
 }
 
-export enum PoolsTypes {
-  ALL = 'all',
-  SOCIALIMPACT = 'socialImpact',
-  DEFI = 'defi',
-  NFT = 'nft',
-  EDUCATION = 'education',
-  COMMUNITY = 'community',
-  CONTENTCREATOR = 'contentCreator'
+export enum PoolsFilter {
+  'all' = 'All',
+  'art' = 'Art',
+  'education' = 'Education',
+  'socialImpact' = 'Social Impact',
+  'innovation' = 'Innovation'
 }
 
 export default function PoolsControl({ pools }: PoolsListProps) {
   const [search, setSearch] = useState<string>('')
-  const [activeFilters] = useState<PoolsTypes[]>([PoolsTypes.ALL])
+  const [activeFilters] = useState<PoolsFilter[]>([PoolsFilter.all])
   const { t } = useTranslation()
 
   const filterTypes = [
     {
-      name: 'Todos',
-      value: PoolsTypes.ALL
+      icon: <></>,
+      name: t('v2.pools.filter.all'),
+      value: PoolsFilter.all
     },
     {
-      name: 'Impacto Social',
-      value: PoolsTypes.SOCIALIMPACT
+      icon: <BsPalette fontSize={14} />,
+      name: t('v2.pools.filter.art'),
+      value: PoolsFilter.art
     },
     {
-      name: 'Defi',
-      value: PoolsTypes.DEFI
+      icon: <BsBook fontSize={14} />,
+      name: t('v2.pools.filter.education'),
+      value: PoolsFilter.education
     },
     {
-      name: 'NFT',
-      value: PoolsTypes.NFT
+      icon: <BsHeart fontSize={14} />,
+      name: t('v2.pools.filter.socialImpact'),
+      value: PoolsFilter.socialImpact
     },
     {
-      name: 'Educação',
-      value: PoolsTypes.EDUCATION
+      icon: <BsLightbulb fontSize={14} />,
+      name: t('v2.pools.filter.innovation'),
+      value: PoolsFilter.innovation
     }
   ]
 
   return (
     <Container>
-      <PoolsInputSearch search={search} setSearch={setSearch} />
-      <FilterContainer>
-        {filterTypes.map(filter => (
-          <button className={`${activeFilters.includes(filter.value) && 'active'}`} key={filter.value}>
-            {filter.name}
-          </button>
-        ))}
-      </FilterContainer>
+      <FiltersContainer>
+        <Filters>
+          {filterTypes.map(filter => (
+            <FilterButton className={`${activeFilters.includes(filter.value) && 'active'}`} key={filter.value}>
+              {filter.icon}
+              {filter.name}
+            </FilterButton>
+          ))}
+        </Filters>
+        <Search>
+          <PoolsInputSearch search={search} setSearch={setSearch} />
+        </Search>
+      </FiltersContainer>
       <ListPools>
         <header>
           <span>{t('poolsFilter.rank')}</span>
@@ -81,43 +90,52 @@ export default function PoolsControl({ pools }: PoolsListProps) {
   )
 }
 
-const { Container, ListPools, FilterContainer } = {
+const { Container, ListPools, FiltersContainer, Filters, Search, FilterButton } = {
   Container: styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
   `,
-  FilterContainer: styled.div`
+  FiltersContainer: styled.div`
+    display: grid;
+    grid-template-columns: 1fr 320px;
+  `,
+  Filters: styled.div`
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
-    > button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 24px;
-      padding: 0px ${({ theme }) => theme.size[8]};
+  `,
+  FilterButton: styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    padding: 0px ${({ theme }) => theme.size[12]};
+    gap: ${({ theme }) => theme.size[8]};
 
-      border-radius: ${({ theme }) => theme.size[12]};
-      background: ${({ theme }) => theme.color.whiteAlpha[500]};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
+    border-radius: ${({ theme }) => theme.size[16]};
+    background: ${({ theme }) => theme.color.whiteAlpha[500]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
 
-      border: none;
+    border: none;
 
-      font-size: ${({ theme }) => theme.font.size[12]};
-      font-style: normal;
-      font-weight: 500;
-      line-height: normal;
+    font-size: ${({ theme }) => theme.font.size[14]};
 
-      color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.color.primary};
 
-      &:hover,
-      &.active {
-        background: ${({ theme }) => theme.color.primary};
-        color: ${({ theme }) => theme.color.white};
-      }
+    &:hover {
+      background: ${({ theme }) => theme.color.whiteAlpha[700]};
+      color: ${({ theme }) => theme.color.secondary};
     }
+
+    &.active {
+      color: ${({ theme }) => theme.color.secondary};
+    }
+  `,
+  Search: styled.div`
+    display: grid;
+    justify-content: flex-end;
   `,
   ListPools: styled.div`
     display: flex;

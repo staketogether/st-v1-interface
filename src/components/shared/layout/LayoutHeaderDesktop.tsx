@@ -13,12 +13,10 @@ export default function LayoutHeader() {
   const { isActive } = useActiveRoute()
   return (
     <Container>
-      <LogoContainer>
+      <MenuContainer>
         <Logo href='/pools'>
           <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={32} />
         </Logo>
-      </LogoContainer>
-      <MenuContainer>
         <Menu>
           <Link href='/pools'>
             <MenuButton
@@ -43,24 +41,19 @@ export default function LayoutHeader() {
   )
 }
 
-const { Container, LogoContainer, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
+const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
   Container: styled.header`
     display: none;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       gap: ${({ theme }) => theme.size[32]};
     }
   `,
-  LogoContainer: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-  `,
   MenuContainer: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 162px auto;
+    gap: ${({ theme }) => theme.size[32]};
   `,
   WalletContainer: styled.div`
     display: flex;
@@ -73,7 +66,7 @@ const { Container, LogoContainer, MenuContainer, WalletContainer, Logo, Menu, Me
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       display: flex;
       justify-content: flex-start;
-      gap: ${({ theme }) => theme.size[16]};
+      /* gap: ${({ theme }) => theme.size[16]}; */
     }
   `,
   Logo: styled(Link)`
