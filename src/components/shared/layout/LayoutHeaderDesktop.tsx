@@ -13,10 +13,12 @@ export default function LayoutHeader() {
   const { isActive } = useActiveRoute()
   return (
     <Container>
-      <MenuContainer>
+      <LogoContainer>
         <Logo href='/pools'>
           <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={32} />
         </Logo>
+      </LogoContainer>
+      <MenuContainer>
         <Menu>
           <Link href='/pools'>
             <MenuButton
@@ -41,17 +43,21 @@ export default function LayoutHeader() {
   )
 }
 
-const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
+const { Container, LogoContainer, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
   Container: styled.header`
     display: none;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 240px 1fr 240px;
       gap: ${({ theme }) => theme.size[32]};
     }
   `,
+  LogoContainer: styled.div`
+    display: flex;
+  `,
   MenuContainer: styled.div`
-    display: grid;
+    display: flex;
+    justify-content: center;
     grid-template-columns: 162px auto;
     gap: ${({ theme }) => theme.size[32]};
   `,
@@ -66,7 +72,6 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       display: flex;
       justify-content: flex-start;
-      /* gap: ${({ theme }) => theme.size[16]}; */
     }
   `,
   Logo: styled(Link)`

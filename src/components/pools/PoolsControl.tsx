@@ -69,20 +69,42 @@ export default function PoolsControl({ pools }: PoolsListProps) {
       </FiltersContainer>
       <ListPools>
         <header>
-          <span>{t('poolsFilter.rank')}</span>
-          <span>{t('poolsFilter.name')}</span>
-          <span>{t('poolsFilter.type')}</span>
-          <span>{t('poolsFilter.members')}</span>
-          <span>{t('poolsFilter.staked')}</span>
+          <span>{t('v2.pools.list.name')}</span>
+          <span>{t('v2.pools.list.type')}</span>
+          <span>{t('v2.pools.list.people')}</span>
+          <span>{t('v2.pools.list.invested')}</span>
         </header>
         {!pools && <div>No Pools</div>}
         {pools.map(pool => (
           <PoolsRowList
             key={pool.address}
-            poolAddress={pool.address}
-            members={pool.receivedDelegationsCount}
-            staked={pool.poolBalance}
-            rankPosition={1}
+            address={pool.address}
+            people={pool.receivedDelegationsCount}
+            invested={pool.poolBalance}
+          />
+        ))}
+        {pools.map(pool => (
+          <PoolsRowList
+            key={pool.address}
+            address={pool.address}
+            people={pool.receivedDelegationsCount}
+            invested={pool.poolBalance}
+          />
+        ))}
+        {pools.map(pool => (
+          <PoolsRowList
+            key={pool.address}
+            address={pool.address}
+            people={pool.receivedDelegationsCount}
+            invested={pool.poolBalance}
+          />
+        ))}
+        {pools.map(pool => (
+          <PoolsRowList
+            key={pool.address}
+            address={pool.address}
+            people={pool.receivedDelegationsCount}
+            invested={pool.poolBalance}
           />
         ))}
       </ListPools>
@@ -143,10 +165,10 @@ const { Container, ListPools, FiltersContainer, Filters, Search, FilterButton } 
     gap: ${({ theme }) => theme.size[8]};
     > header {
       display: grid;
-      grid-template-columns: 60px 320px 1fr 1fr 1fr 92px;
+      grid-template-columns: 1fr 0.8fr 0.5fr 0.8fr 112px;
       gap: 8px;
       align-items: center;
-      padding-left: 12px;
+      padding-left: 16px;
 
       > span {
         font-size: ${({ theme }) => theme.font.size[14]};

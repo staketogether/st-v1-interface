@@ -171,7 +171,14 @@
         "socialImpact": "Social Impact",
         "innovation": "Innovation"
       },
-      "search": "Search..."
+      "search": "Search...",
+      "list": {
+        "name": "Name",
+        "type": "Type",
+        "people": "People",
+        "invested": "Total Invested",
+        "invest": "Invest"
+      }
     }
   }
 }

@@ -162,13 +162,20 @@
     },
     "pools": {
       "filter": {
-        "all": "All",
+        "all": "Todos",
         "art": "Arte",
         "education": "Educação",
         "socialImpact": "Impacto Social",
         "innovation": "Inovação"
       },
-      "search": "Pesquisar..."
+      "search": "Pesquisar...",
+      "list": {
+        "name": "Nome",
+        "type": "Tipo",
+        "people": "Pessoas",
+        "invested": "Total Investido",
+        "invest": "Investir"
+      }
     }
   }
 }
