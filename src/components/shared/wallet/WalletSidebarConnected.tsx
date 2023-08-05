@@ -1,11 +1,10 @@
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
-import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
-import { Drawer, Tooltip, notification } from 'antd'
+import { Drawer, notification } from 'antd'
 import Image from 'next/image'
 import { useState } from 'react'
-import { AiFillCreditCard, AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
+import { AiOutlineLogout, AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import { FiCopy } from 'react-icons/fi'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
@@ -35,7 +34,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
   const handleWalletProviderImage = useWalletProviderImage()
-  const { setOpenModal } = useWalletByEthModal()
 
   const { accountRewardsBalance, accountDelegations, accountBalance } = useStAccount(address)
 
@@ -150,27 +148,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               </ContainerData>
             </div>
           </InfoContainer>
-          <BuyCryptoButton onClick={() => setOpenModal(true)}>
-            <AiFillCreditCard />
-            {t('buyEth.button')}
-          </BuyCryptoButton>
-          <SwitchActionsBar>
-            <ActionTab className='active'>{t('pools')}</ActionTab>
-            <Tooltip title={t('soon')}>
-              <ActionTab className='disabled'>{t('analytics')}</ActionTab>
-            </Tooltip>
-            <Tooltip title={t('soon')}>
-              <ActionTab className='disabled'>{t('activities')}</ActionTab>
-            </Tooltip>
-          </SwitchActionsBar>
           <ContainerPoolsDelegated>
-            {/* <div>
-              <span>{t('staked')}</span>
-              <span>
-                {accountSentDelegationsCount > 0 ? accountSentDelegationsCount.toString() : '0'}{' '}
-                <span className='symbol'>{t('lsd.symbol')}</span>
-              </span>
-            </div> */}
             {accountDelegations.length === 0 && (
               <div>
                 <span>{t('noStake')}</span>
@@ -199,10 +177,7 @@ const {
   SettingIcon,
   ContainerPoolsDelegated,
   Actions,
-  SwitchActionsBar,
   HeaderUserContainer,
-  BuyCryptoButton,
-  ActionTab,
   Web3AuthProfileImage,
   Web3AuthProfileContainer,
   WarperWallet,
@@ -262,7 +237,7 @@ const {
     }
   `,
   ContainerData: styled.div`
-    height: 81px;
+    height: 60px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -369,77 +344,6 @@ const {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: ${({ theme }) => theme.size[8]};
-  `,
-  BuyCryptoButton: styled.button`
-    border: none;
-    color: ${({ theme }) => theme.color.white};
-    border-radius: ${props => props.theme.size[16]};
-    background: ${({ theme }) => theme.color.blue[400]};
-    transition: background-color 0.2s ease;
-    height: 41px;
-
-    font-size: ${({ theme }) => theme.font.size[14]};
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: ${({ theme }) => theme.size[8]};
-
-    &:hover {
-      background: ${({ theme }) => theme.color.blue[600]};
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.4;
-    }
-  `,
-  SwitchActionsBar: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
-  `,
-  ActionTab: styled.button`
-    border: none;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[4]};
-
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
-    border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
-    padding: 0 ${({ theme }) => theme.size[16]};
-    transition: background-color 0.1s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-    }
-
-    &.active {
-      color: ${({ theme }) => theme.color.secondary};
-    }
-
-    &.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      &:hover {
-        background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
-      }
-    }
-
-    span {
-      display: none;
-    }
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      span {
-        display: block;
-      }
-    }
   `,
   Web3AuthProfileContainer: styled.div`
     position: relative;
