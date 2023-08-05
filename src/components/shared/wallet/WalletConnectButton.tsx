@@ -11,21 +11,21 @@ export default function WalletConnectButton() {
 
   return (
     <>
-      <DisconnectedButton
+      <ConnectButton
         onClick={() => {
           setOpenSidebarConnectWallet(true)
         }}
       >
         <BsWallet fontSize={16} />
         {t('v2.header.connect')}
-      </DisconnectedButton>
+      </ConnectButton>
       <WalletSidebarDisconnected />
     </>
   )
 }
 
-const { DisconnectedButton } = {
-  DisconnectedButton: styled.button`
+const { ConnectButton } = {
+  ConnectButton: styled.button`
     display: grid;
     grid-template-columns: 24px auto;
 
@@ -40,7 +40,6 @@ const { DisconnectedButton } = {
     border-radius: ${({ theme }) => theme.size[16]};
     padding: 0 ${({ theme }) => theme.size[16]};
     transition: background-color 0.1s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
 
     &:hover {
       background-color: ${({ theme }) => theme.color.secondary};
