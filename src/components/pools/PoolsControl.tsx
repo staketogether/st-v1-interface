@@ -172,10 +172,9 @@ const { Container, ListPools, FiltersContainer, Filters, Search, FilterButton } 
 
       > span {
         font-size: ${({ theme }) => theme.font.size[14]};
-        font-style: normal;
-        font-weight: 400;
+
         line-height: 150%;
-        color: ${({ theme }) => theme.color.blue[400]};
+        color: ${({ theme }) => theme.color.blue[600]};
       }
     }
   `

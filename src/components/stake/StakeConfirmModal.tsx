@@ -196,7 +196,7 @@ const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Butt
     border: none;
     color: ${({ theme }) => theme.color.white};
     border-radius: ${props => props.theme.size[16]};
-    background: ${({ theme }) => theme.color.blue[400]};
+    background: ${({ theme }) => theme.color.blue[600]};
     transition: background-color 0.2s ease;
     height: 48px;
 

@@ -24,7 +24,7 @@ export default function PoolsRowList({
       <Row>
         <Name>
           <EnsAvatar size={24} address={poolAddress} />
-          <EnsName large address={poolAddress} />
+          <EnsName address={poolAddress} />
         </Name>
         <TypeContainer>
           <Text>(Icon)(Type)</Text>
@@ -32,7 +32,7 @@ export default function PoolsRowList({
         <Text>{members.toString()}</Text>
         <Text>{truncateWei(staked, 6)} ETH</Text>
         <CTA>
-          <BsArrowRightCircle fontSize={16} />
+          <BsArrowRightCircle fontSize={14} />
           {t('v2.pools.list.invest')}
         </CTA>
       </Row>
@@ -71,10 +71,7 @@ const { Row, Name, TypeContainer, Text, CTA } = {
     gap: ${({ theme }) => theme.size[8]};
   `,
   Text: styled.span`
-    font-size: ${({ theme }) => theme.font.size[16]};
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+    font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
 
     &.secondary {
@@ -96,7 +93,8 @@ const { Row, Name, TypeContainer, Text, CTA } = {
 
     border: none;
 
-    font-size: ${({ theme }) => theme.font.size[16]};
+    font-size: ${({ theme }) => theme.font.size[14]};
+    font-weight: 300;
 
     background: ${({ theme }) => theme.color.primary};
     color: ${({ theme }) => theme.color.white};

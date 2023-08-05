@@ -117,7 +117,7 @@ const { InputSearchArea, InputSearch } = {
     }
 
     &::-webkit-input-placeholder {
-      color: ${({ theme }) => theme.color.blue[400]};
+      color: ${({ theme }) => theme.color.blue[600]};
     }
   `
 }

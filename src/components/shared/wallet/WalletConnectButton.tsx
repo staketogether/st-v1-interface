@@ -16,7 +16,7 @@ export default function WalletConnectButton() {
           setOpenSidebarConnectWallet(true)
         }}
       >
-        <BsWallet fontSize={16} />
+        <BsWallet fontSize={14} />
         {t('v2.header.connect')}
       </ConnectButton>
       <WalletSidebarDisconnected />
@@ -32,7 +32,7 @@ const { ConnectButton } = {
     align-items: center;
     width: auto;
     height: 32px;
-    font-size: ${({ theme }) => theme.font.size[16]};
+    font-size: ${({ theme }) => theme.font.size[14]};
     font-weight: 300;
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.primary};

@@ -1,13 +1,13 @@
 import chainConfig from '@/config/chain'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useTranslation from '@/hooks/useTranslation'
+import { truncateWei } from '@/services/truncate'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
 import { AiFillCheckCircle, AiOutlineArrowRight } from 'react-icons/ai'
 import styled from 'styled-components'
 import Loading from '../shared/icons/Loading'
-import { truncateWei } from '@/services/truncate'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -168,7 +168,7 @@ const {
     border: none;
     color: ${({ theme }) => theme.color.white};
     border-radius: ${props => props.theme.size[16]};
-    background: ${({ theme }) => theme.color.blue[400]};
+    background: ${({ theme }) => theme.color.blue[600]};
     transition: background-color 0.2s ease;
     height: 48px;
     padding: 0px ${({ theme }) => theme.size[16]};

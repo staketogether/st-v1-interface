@@ -1,8 +1,16 @@
 import chainConfig from '@/config/chain'
+import useContractConfig from '@/hooks/contracts/useContractConfig'
 import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
 import usePooledShareByEth from '@/hooks/contracts/useSharesByPooledEth'
+import useWithdrawLiquidity from '@/hooks/contracts/useWithdrawLiquidity'
+import { useWithdrawLiquidityBalance } from '@/hooks/contracts/useWithdrawLiquidityBalance'
+import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
+import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
+import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValidatorBalance'
 import useDelegationShares from '@/hooks/subgraphs/useDelegationShares'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
+import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import { WithdrawType } from '@/types/Withdraw'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import stIcon from '@assets/icons/seth-icon.svg'
 import { ethers } from 'ethers'
@@ -20,15 +28,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
-import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import { WithdrawType } from '@/types/Withdraw'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
-import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
-import useWithdrawLiquidity from '@/hooks/contracts/useWithdrawLiquidity'
-import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
-import { useWithdrawLiquidityBalance } from '@/hooks/contracts/useWithdrawLiquidityBalance'
-import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValidatorBalance'
-import useContractConfig from '@/hooks/contracts/useContractConfig'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -453,7 +453,7 @@ const { StakeContainer, CardInfoContainer, StakeInfo, CardInfo, CardInfoData } =
         font-style: normal;
         font-weight: 400;
         line-height: normal;
-        color: ${({ theme }) => theme.color.blue[400]};
+        color: ${({ theme }) => theme.color.blue[600]};
       }
     }
     > div {
@@ -498,7 +498,7 @@ const { StakeContainer, CardInfoContainer, StakeInfo, CardInfo, CardInfoData } =
 
       > span:nth-child(1) {
         font-weight: 400;
-        color: ${({ theme }) => theme.color.blue[400]};
+        color: ${({ theme }) => theme.color.blue[600]};
       }
       > span:nth-child(2) {
         font-weight: 500;

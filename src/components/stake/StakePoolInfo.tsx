@@ -1,10 +1,7 @@
 import StakePoolAbout from '@/components/stake/StakePoolAbout'
 import StakePoolMembers from '@/components/stake/StakePoolMembers'
+import { Tooltip } from 'antd'
 import { useState } from 'react'
-import styled, { useTheme } from 'styled-components'
-import usePool from '../../hooks/subgraphs/usePool'
-import useTranslation from '../../hooks/useTranslation'
-import Tabs, { TabsItems } from '../shared/Tabs'
 import {
   AiFillCheckCircle,
   AiOutlineAreaChart,
@@ -13,8 +10,11 @@ import {
   AiOutlineUser
 } from 'react-icons/ai'
 import { BsGraphUp } from 'react-icons/bs'
+import styled, { useTheme } from 'styled-components'
+import usePool from '../../hooks/subgraphs/usePool'
+import useTranslation from '../../hooks/useTranslation'
+import Tabs, { TabsItems } from '../shared/Tabs'
 import EnsAvatar from '../shared/ens/EnsAvatar'
-import { Tooltip } from 'antd'
 import EnsName from '../shared/ens/EnsName'
 
 interface StakeStatsProps {
@@ -142,7 +142,7 @@ const {
         gap: ${({ theme }) => theme.size[8]};
       }
       h1 {
-        color: ${({ theme }) => theme.color.blue[400]};
+        color: ${({ theme }) => theme.color.blue[600]};
         font-size: ${({ theme }) => theme.font.size[16]};
         font-style: normal;
         font-weight: 500;

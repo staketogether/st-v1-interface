@@ -22,12 +22,12 @@ import useStAccount from '../../../hooks/subgraphs/useStAccount'
 import useTranslation from '../../../hooks/useTranslation'
 import useWalletSidebar from '../../../hooks/useWalletSidebar'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../../services/truncate'
+import Tabs, { TabsItems } from '../Tabs'
 import EnsAvatar from '../ens/EnsAvatar'
 import SkeletonLoading from '../icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
-import WalletSlideBarSettings from './WalletSlideBarSettings'
-import Tabs, { TabsItems } from '../Tabs'
 import WalletSideBarPoolsDelegated from './WalletSideBarPoolsDelegated'
+import WalletSlideBarSettings from './WalletSlideBarSettings'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -365,7 +365,7 @@ const {
     border: none;
     color: ${({ theme }) => theme.color.white};
     border-radius: ${props => props.theme.size[16]};
-    background: ${({ theme }) => theme.color.blue[400]};
+    background: ${({ theme }) => theme.color.blue[600]};
     transition: background-color 0.2s ease;
     height: 41px;
 

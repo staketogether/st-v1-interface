@@ -1,15 +1,15 @@
+import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
+import useActiveRoute from '@/hooks/useActiveRoute'
+import useTranslation from '@/hooks/useTranslation'
+import { truncateWei } from '@/services/truncate'
+import { useRouter } from 'next/router'
+import { AiFillSafetyCertificate, AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai'
 import styled from 'styled-components'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
-import StakePoolInfo from './StakePoolInfo'
-import { AiFillSafetyCertificate, AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai'
-import { StakeForm } from './StakeForm'
-import useTranslation from '@/hooks/useTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
-import useActiveRoute from '@/hooks/useActiveRoute'
-import { useRouter } from 'next/router'
-import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
-import { truncateWei } from '@/services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import { StakeForm } from './StakeForm'
+import StakePoolInfo from './StakePoolInfo'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -119,7 +119,7 @@ const { Container, SafeButton, Form, DepositIcon, WithdrawIcon, SafeIcon, PoolDa
         font-size: 14px;
         font-style: normal;
         font-weight: 500;
-        color: ${({ theme }) => theme.color.blue[400]};
+        color: ${({ theme }) => theme.color.blue[600]};
         word-break: break-word;
       }
 
@@ -163,7 +163,7 @@ const { Container, SafeButton, Form, DepositIcon, WithdrawIcon, SafeIcon, PoolDa
         font-size: ${({ theme }) => theme.font.size[14]};
         font-style: normal;
         font-weight: 500;
-        color: ${({ theme }) => theme.color.blue[400]};
+        color: ${({ theme }) => theme.color.blue[600]};
         &.primary {
           color: ${({ theme }) => theme.color.primary};
         }

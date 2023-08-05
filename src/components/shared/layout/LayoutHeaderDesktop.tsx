@@ -84,7 +84,7 @@ const { Container, LogoContainer, MenuContainer, WalletContainer, Logo, Menu, Me
     align-items: center;
     width: auto;
     height: 32px;
-    font-size: ${({ theme }) => theme.font.size[16]};
+    font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
     border: none;
     padding: 0 ${({ theme }) => theme.size[16]};
