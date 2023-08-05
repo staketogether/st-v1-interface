@@ -85,8 +85,8 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
 
     &:hover {
       color: ${({ theme }) => theme.color.secondary};
-      background: ${({ theme }) => theme.color.whiteAlpha[300]};
-      border-radius: 8px;
+      background: ${({ theme }) => theme.color.whiteAlpha[700]};
+      border-radius: 16px;
     }
 
     &.active {
