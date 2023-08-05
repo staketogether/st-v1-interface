@@ -87,7 +87,7 @@ const { Row, Name, TypeContainer, Text, CTA } = {
     gap: 8px;
     padding: 0px ${({ theme }) => theme.size[12]};
 
-    border-radius: ${({ theme }) => theme.size[8]};
+    border-radius: ${({ theme }) => theme.size[16]};
     background: ${({ theme }) => theme.color.whiteAlpha[500]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
 

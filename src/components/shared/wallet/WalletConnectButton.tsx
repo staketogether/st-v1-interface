@@ -37,7 +37,7 @@ const { ConnectButton } = {
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.primary};
     border: none;
-    border-radius: ${({ theme }) => theme.size[8]};
+    border-radius: ${({ theme }) => theme.size[16]};
     padding: 0 ${({ theme }) => theme.size[16]};
     transition: background-color 0.1s ease;
 

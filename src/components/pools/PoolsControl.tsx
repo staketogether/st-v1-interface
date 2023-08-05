@@ -107,6 +107,46 @@ export default function PoolsControl({ pools }: PoolsListProps) {
             invested={pool.poolBalance}
           />
         ))}
+        {pools.map(pool => (
+          <PoolsRowList
+            key={pool.address}
+            address={pool.address}
+            people={pool.receivedDelegationsCount}
+            invested={pool.poolBalance}
+          />
+        ))}
+        {pools.map(pool => (
+          <PoolsRowList
+            key={pool.address}
+            address={pool.address}
+            people={pool.receivedDelegationsCount}
+            invested={pool.poolBalance}
+          />
+        ))}
+        {pools.map(pool => (
+          <PoolsRowList
+            key={pool.address}
+            address={pool.address}
+            people={pool.receivedDelegationsCount}
+            invested={pool.poolBalance}
+          />
+        ))}
+        {pools.map(pool => (
+          <PoolsRowList
+            key={pool.address}
+            address={pool.address}
+            people={pool.receivedDelegationsCount}
+            invested={pool.poolBalance}
+          />
+        ))}
+        {pools.map(pool => (
+          <PoolsRowList
+            key={pool.address}
+            address={pool.address}
+            people={pool.receivedDelegationsCount}
+            invested={pool.poolBalance}
+          />
+        ))}
       </ListPools>
     </Container>
   )
