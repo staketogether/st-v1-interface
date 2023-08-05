@@ -36,7 +36,7 @@ const { InputSearchArea, InputSearch } = {
     grid-template-columns: auto 1fr auto;
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
-    background-color: ${({ theme }) => theme.color.whiteAlpha[500]};
+    background: ${({ theme }) => theme.color.whiteAlpha[400]};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     padding: 0 ${({ theme }) => theme.size[8]};

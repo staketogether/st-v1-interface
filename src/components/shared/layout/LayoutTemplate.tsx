@@ -10,19 +10,17 @@ interface LayoutTemplateProps {
 }
 export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   return (
-    <>
-      <Container>
-        <Wrapper>
-          <Content>
-            <LayoutHeaderDesktop />
-            <LayoutHeaderMobile />
-            <Body>{children}</Body>
-          </Content>
-        </Wrapper>
-        <LayoutMenuMobile />
-        <LayoutFooter />
-      </Container>
-    </>
+    <Container>
+      <Wrapper>
+        <Content>
+          <LayoutHeaderDesktop />
+          <LayoutHeaderMobile />
+          <Body>{children}</Body>
+        </Content>
+      </Wrapper>
+      <LayoutMenuMobile />
+      <LayoutFooter />
+    </Container>
   )
 }
 
@@ -34,19 +32,20 @@ const { Container, Wrapper, Content, Body } = {
     grid-template-rows: 1fr 60px;
     gap: 24px;
     min-height: 100vh;
-    background: ${({ theme }) => theme.color.background};
+    background: linear-gradient(180deg, rgba(143, 152, 214, 0.2) 0%, rgba(143, 152, 214, 1) 50%);
     background-attachment: fixed;
   `,
   Wrapper: styled.div`
     width: 100%;
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
+    grid-template-columns: 1fr;
     justify-content: center;
     place-items: start center;
   `,
   Content: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
     padding: ${props => props.theme.size[24]};
     gap: 48px;
   `,

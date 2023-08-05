@@ -46,7 +46,7 @@ const { Row, Name, TypeContainer, Text, CTA } = {
     align-items: center;
 
     border-radius: ${({ theme }) => theme.size[16]};
-    background: ${({ theme }) => theme.color.whiteAlpha[500]};
+    background: ${({ theme }) => theme.color.whiteAlpha[400]};
 
     &:hover {
       background: ${({ theme }) => theme.color.whiteAlpha[700]};
@@ -84,7 +84,7 @@ const { Row, Name, TypeContainer, Text, CTA } = {
     padding: 0px ${({ theme }) => theme.size[12]};
 
     border-radius: ${({ theme }) => theme.size[16]};
-    background: ${({ theme }) => theme.color.whiteAlpha[500]};
+    background: ${({ theme }) => theme.color.whiteAlpha[400]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     border: none;

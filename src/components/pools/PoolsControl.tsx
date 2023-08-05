@@ -177,7 +177,7 @@ const { Container, ListPools, FiltersContainer, Filters, Search, FilterButton } 
     gap: ${({ theme }) => theme.size[8]};
 
     border-radius: ${({ theme }) => theme.size[16]};
-    background: ${({ theme }) => theme.color.whiteAlpha[500]};
+    background: ${({ theme }) => theme.color.whiteAlpha[400]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     border: none;
