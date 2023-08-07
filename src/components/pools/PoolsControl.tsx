@@ -116,13 +116,15 @@ export default function PoolsControl({ pools }: PoolsListProps) {
         </Search>
       </FiltersContainer>
       <ListPools>
-        <header>
-          <span>{t('v2.pools.list.name')}</span>
-          <span>{t('v2.pools.list.type')}</span>
-          <span>{t('v2.pools.list.people')}</span>
-          <span>{t('v2.pools.list.invested')}</span>
-        </header>
-        {!poolsFilterBySearch && <div>No Pools</div>}
+        {!poolsFilterBySearch.length && <div>No Pool</div>}
+        {!!poolsFilterBySearch.length && (
+          <header>
+            <span>{t('v2.pools.list.name')}</span>
+            <span>{t('v2.pools.list.type')}</span>
+            <span>{t('v2.pools.list.people')}</span>
+            <span>{t('v2.pools.list.invested')}</span>
+          </header>
+        )}
         {poolsFilterBySearch.map(pool => (
           <PoolsRowList
             key={pool.address}
