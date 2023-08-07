@@ -21,6 +21,8 @@ import WalletBuyEthModal from '../shared/wallet/WalletBuyEthModal'
 import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
+import useEstimateTxInfo from '@/hooks/useEstimateTxInfo'
+import { stakeTogetherABI } from '@/types/Contracts'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -30,6 +32,7 @@ type StakeFormProps = {
 
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { fee } = globalConfig
+  const { contracts } = chainConfig()
   const { t } = useTranslation()
   const {
     balance: ethBalance,
@@ -45,6 +48,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const { minDepositAmount } = useMinDepositAmount()
 
   const [amount, setAmount] = useState<string>('')
+  const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
+  const [gasPrice, setGasPrice] = useState<bigint | undefined>(undefined)
+  const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
   const { balance: ethByShare } = usePooledEthByShares(
     ethers.parseUnits(amount || '0', 'ether').toString()
   )
@@ -52,6 +59,16 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const debouncedAmount = useDebounce(amount, 1000)
 
   const inputAmount = debouncedAmount || '0'
+
+  const { estimateGas } = useEstimateTxInfo({
+    value: ethBalance,
+    functionName: 'depositPool',
+    args: [poolAddress, poolAddress],
+    account: accountAddress,
+    abi: stakeTogetherABI,
+    contractAddress: contracts.StakeTogether,
+    skip: !ethBalance || ethBalance === 0n
+  })
 
   const {
     deposit,
@@ -61,7 +78,12 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     awaitWalletAction: depositAwaitWalletAction,
     resetState: depositResetState,
     txHash: depositTxHash
-  } = useDeposit(inputAmount, accountAddress, poolAddress, type === 'deposit')
+  } = useDeposit(inputAmount, accountAddress, poolAddress, type === 'deposit', {
+    gas: depositEstimatedGas,
+    gasPrice,
+    maxFeePerGas,
+    maxPriorityFeePerGas
+  })
 
   const {
     withdraw,
@@ -83,7 +105,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
   const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
-  const estimateGas = type === 'deposit' ? depositEstimateGas : withdrawEstimateGas
+  const estimatedGas = type === 'deposit' ? ethers.formatEther(depositEstimateGas) : withdrawEstimateGas
   const txHash = type === 'deposit' ? depositTxHash : withdrawTxHash
   const resetState = type === 'deposit' ? depositResetState : withdrawResetState
 
@@ -157,6 +179,27 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     refetchEthBalance()
   }
 
+  const handleMaxValue = async () => {
+    if (type === 'withdraw') {
+      return
+    }
+
+    const {
+      estimatedCost,
+      estimatedGas,
+      estimatedGasPrice,
+      estimatedMaxFeePerGas,
+      estimatedMaxPriorityFeePerGas
+    } = await estimateGas()
+
+    const maxAmount = ethers.formatEther(ethBalance - estimatedCost)
+    setAmount(maxAmount)
+    setDepositEstimatedGas(estimatedGas)
+    setGasPrice(estimatedGasPrice)
+    setMaxFeePerGas(estimatedMaxFeePerGas)
+    setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
+  }
+
   return (
     <>
       <StakeContainer>
@@ -170,6 +213,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           purple={type === 'withdraw'}
           hasError={insufficientFunds || insufficientMinDeposit || insufficientWithdrawalLiquidity}
           type={type}
+          onMaxValue={handleMaxValue}
         />
         <StakeButton
           isLoading={isLoading}
@@ -202,7 +246,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         type={type}
         labelButton={handleLabelButton()}
         onClick={handleStakeConfirmation}
-        estimateGas={estimateGas}
+        estimateGas={estimatedGas}
         transactionLoading={isLoading}
         walletActionLoading={walletActionLoading}
         transactionIsSuccess={isSuccess}

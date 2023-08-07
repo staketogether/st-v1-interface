@@ -10,13 +10,18 @@ import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import useEstimateGas from '../useEstimateGas'
 
 export default function useDeposit(
   depositAmount: string,
   accountAddress: `0x${string}`,
   poolAddress: `0x${string}`,
-  enabled: boolean
+  enabled: boolean,
+  options?: {
+    gas?: bigint
+    gasPrice?: bigint
+    maxFeePerGas?: bigint
+    maxPriorityFeePerGas?: bigint
+  }
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
@@ -36,7 +41,9 @@ export default function useDeposit(
     address: contracts.StakeTogether,
     args: [poolAddress, referral],
     account: accountAddress,
-    gas: 300000n,
+    gas: options?.gas || 300000n,
+    maxFeePerGas: options?.maxFeePerGas,
+    maxPriorityFeePerGas: options?.maxPriorityFeePerGas,
     enabled: depositRule,
     value: amount
   })
@@ -48,12 +55,11 @@ export default function useDeposit(
         setTxHash(data?.hash)
       }
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.log(error)
       setAwaitWalletAction(false)
     }
   })
-
-  const { estimateGas } = useEstimateGas(tx as ethers.TransactionRequest)
 
   const deposit = () => {
     setAwaitWalletAction(true)
@@ -107,7 +113,7 @@ export default function useDeposit(
     deposit,
     isLoading,
     isSuccess,
-    estimateGas: estimateGas,
+    estimateGas: options?.gas && options?.maxFeePerGas ? options?.gas * options?.maxFeePerGas : 0n,
     awaitWalletAction,
     txHash,
     resetState
