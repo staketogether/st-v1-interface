@@ -47,7 +47,7 @@ const useEstimateTxInfo = ({
     return {
       estimatedGas: estimatedGas,
       estimatedGasPrice: networkGasPriceGwei,
-      // Add 20% to the estimated cost
+      // Add 50% to the estimated cost (same as metamask's market price)
       estimatedCost: estimatedCost,
       estimatedMaxFeePerGas: maxFeePerGas * 3n / 2n,
       estimatedMaxPriorityFeePerGas: maxPriorityFeePerGas * 3n / 2n
