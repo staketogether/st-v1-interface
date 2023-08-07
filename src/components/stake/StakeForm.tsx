@@ -21,8 +21,8 @@ import WalletBuyEthModal from '../shared/wallet/WalletBuyEthModal'
 import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
-import useEstimateTxInfo from "@/hooks/useEstimateTxInfo";
-import { stakeTogetherABI } from "@/types/Contracts";
+import useEstimateTxInfo from '@/hooks/useEstimateTxInfo'
+import { stakeTogetherABI } from '@/types/Contracts'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -184,7 +184,13 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       return
     }
 
-    const { estimatedCost, estimatedGas, estimatedGasPrice, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } = await estimateGas()
+    const {
+      estimatedCost,
+      estimatedGas,
+      estimatedGasPrice,
+      estimatedMaxFeePerGas,
+      estimatedMaxPriorityFeePerGas
+    } = await estimateGas()
 
     const maxAmount = ethers.formatEther(ethBalance - estimatedCost)
     setAmount(maxAmount)

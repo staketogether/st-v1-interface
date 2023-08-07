@@ -18,8 +18,8 @@ export default function useDeposit(
   enabled: boolean,
   options?: {
     gas?: bigint
-    gasPrice?: bigint,
-    maxFeePerGas?: bigint,
+    gasPrice?: bigint
+    maxFeePerGas?: bigint
     maxPriorityFeePerGas?: bigint
   }
 ) {

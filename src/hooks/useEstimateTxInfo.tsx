@@ -13,15 +13,20 @@ interface UseEstimateTxInfoProps {
 }
 
 const useEstimateTxInfo = ({
-                             account,
-                             contractAddress,
-                             abi,
-                             functionName,
-                             args,
-                             value,
-                             skip
-                           }: UseEstimateTxInfoProps) => {
-  const { networkGasPriceGwei, maxPriorityFeePerGas, maxFeePerGas, loading: gasPriceLoading } = useNetworkGasPrice()
+  account,
+  contractAddress,
+  abi,
+  functionName,
+  args,
+  value,
+  skip
+}: UseEstimateTxInfoProps) => {
+  const {
+    networkGasPriceGwei,
+    maxPriorityFeePerGas,
+    maxFeePerGas,
+    loading: gasPriceLoading
+  } = useNetworkGasPrice()
 
   const estimateGas = useCallback(async () => {
     if (skip || !account || !contractAddress || !abi || !functionName || gasPriceLoading) {
@@ -41,16 +46,28 @@ const useEstimateTxInfo = ({
       args: args || [],
       value
     })
-    const estimatedCost = estimatedGas * (maxFeePerGas * 3n / 2n)
+    const estimatedCost = estimatedGas * ((maxFeePerGas * 3n) / 2n)
     return {
       estimatedGas: estimatedGas,
       estimatedGasPrice: networkGasPriceGwei,
       // Add 50% to the estimated cost (same as metamask's market price)
       estimatedCost: estimatedCost,
-      estimatedMaxFeePerGas: maxFeePerGas * 3n / 2n,
-      estimatedMaxPriorityFeePerGas: maxPriorityFeePerGas * 3n / 2n
+      estimatedMaxFeePerGas: (maxFeePerGas * 3n) / 2n,
+      estimatedMaxPriorityFeePerGas: (maxPriorityFeePerGas * 3n) / 2n
     }
-  }, [skip, account, contractAddress, abi, functionName, gasPriceLoading, args, value, networkGasPriceGwei, maxPriorityFeePerGas, maxFeePerGas])
+  }, [
+    skip,
+    account,
+    contractAddress,
+    abi,
+    functionName,
+    gasPriceLoading,
+    args,
+    value,
+    networkGasPriceGwei,
+    maxPriorityFeePerGas,
+    maxFeePerGas
+  ])
 
   return { estimateGas }
 }

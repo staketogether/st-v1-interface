@@ -13,7 +13,7 @@ interface StakeInputProps {
   type: 'deposit' | 'withdraw'
   disabled?: boolean
   purple?: boolean
-  hasError?: boolean,
+  hasError?: boolean
   onMaxValue?: (value: string) => void
 }
 
