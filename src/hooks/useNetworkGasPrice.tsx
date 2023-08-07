@@ -18,10 +18,6 @@ export const useNetworkGasPrice = () => {
       setNetworkGasPriceGwei(data?.gasPrice)
     }
 
-    if (data?.gasPrice) {
-      setNetworkGasPriceGwei(data?.gasPrice)
-    }
-
     if (data?.maxFeePerGas) {
       setMaxFeePerGas(data?.maxFeePerGas)
     }
