@@ -15,6 +15,7 @@ import {
 } from '../../types/Contracts'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useTranslation from '../useTranslation'
+import { truncateWei } from '@/services/truncate'
 
 export default function useDeposit(
   depositAmount: string,
@@ -105,7 +106,9 @@ export default function useDeposit(
       registerDeposit(accountAddress, chainId, poolAddress, ethers.formatEther(discountedGasAmount))
       if (notify) {
         notification.success({
-          message: `${t('notifications.depositSuccess')}: ${discountedGasAmount} ${t('lsd.symbol')}`,
+          message: `${t('notifications.depositSuccess')}: ${truncateWei(discountedGasAmount, 6)} ${t(
+            'lsd.symbol'
+          )}`,
           placement: 'topRight'
         })
         setNotify(false)
@@ -120,7 +123,9 @@ export default function useDeposit(
       })
       if (notify) {
         notification.error({
-          message: `${t('notifications.depositError')}: ${discountedGasAmount} ${t('lsd.symbol')}`,
+          message: `${t('notifications.depositError')}: ${truncateWei(discountedGasAmount, 6)} ${t(
+            'lsd.symbol'
+          )}`,
           placement: 'topRight'
         })
         setNotify(false)
