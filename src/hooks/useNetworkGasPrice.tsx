@@ -23,12 +23,10 @@ export const useNetworkGasPrice = () => {
     }
 
     if (data?.maxFeePerGas) {
-      console.log('data?.maxFeePerGas', data?.maxFeePerGas)
       setMaxFeePerGas(data?.maxFeePerGas)
     }
 
     if (data?.maxPriorityFeePerGas) {
-      console.log('data?.maxPriorityFeePerGas', data?.maxPriorityFeePerGas)
       setMaxPriorityFeePerGas(data?.maxPriorityFeePerGas)
     }
   }, [data])
