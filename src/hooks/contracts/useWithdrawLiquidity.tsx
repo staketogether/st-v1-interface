@@ -37,14 +37,15 @@ export default function useWithdrawLiquidity(
 
   const isWithdrawEnabled = enabled && amount > 0n
 
-  const { estimatedCost } = useEstimateTxInfo({
-    account: accountAddress,
-    contractAddress: contracts.StakeTogether,
-    functionName: 'withdrawLiquidity',
-    args: [amount, poolAddress],
-    abi: stakeTogetherABI,
-    skip: awaitWalletAction || !isWithdrawEnabled
-  })
+  const { estimatedCost, estimatedGasLimit, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
+    useEstimateTxInfo({
+      account: accountAddress,
+      contractAddress: contracts.StakeTogether,
+      functionName: 'withdrawLiquidity',
+      args: [amount, poolAddress],
+      abi: stakeTogetherABI,
+      skip: awaitWalletAction || !isWithdrawEnabled
+    })
 
   useEffect(() => {
     setEstimateGasCost(estimatedCost)
@@ -54,7 +55,10 @@ export default function useWithdrawLiquidity(
     address: contracts.StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
-    enabled: isWithdrawEnabled
+    enabled: isWithdrawEnabled,
+    gas: estimatedGasLimit > 0n ? estimatedGasLimit : undefined,
+    maxFeePerGas: estimatedMaxFeePerGas > 0n ? estimatedMaxFeePerGas : undefined,
+    maxPriorityFeePerGas: estimatedMaxPriorityFeePerGas > 0n ? estimatedMaxPriorityFeePerGas : undefined
   })
 
   const tx = useStakeTogetherWithdrawLiquidity({
