@@ -11,12 +11,12 @@ import { queryPool } from '../../queries/queryPool'
 import { ethers } from 'ethers'
 import {
   usePrepareStakeTogetherWithdrawValidator,
-  useStakeTogetherWithdrawValidator
+  useStakeTogetherWithdrawValidator,
+  stakeTogetherABI
 } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import { WithdrawType } from '@/types/Withdraw'
-import { stakeTogetherABI } from '../../types/Contracts'
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
@@ -30,6 +30,7 @@ export default function useWithdrawValidator(
 
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
 
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
@@ -43,6 +44,10 @@ export default function useWithdrawValidator(
     abi: stakeTogetherABI,
     skip: awaitWalletAction || !isWithdrawEnabled
   })
+
+  useEffect(() => {
+    setEstimateGasCost(estimatedCost)
+  }, [estimatedCost])
 
   const { config } = usePrepareStakeTogetherWithdrawValidator({
     address: contracts.StakeTogether,
@@ -112,7 +117,7 @@ export default function useWithdrawValidator(
 
   return {
     withdrawValidator,
-    estimatedCost: estimatedCost,
+    estimatedCost: estimateGasCost,
     isLoading,
     isSuccess,
     awaitWalletAction,

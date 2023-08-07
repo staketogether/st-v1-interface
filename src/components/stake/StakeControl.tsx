@@ -96,7 +96,7 @@ const { Container, Form, DepositIcon, WithdrawIcon, ShareButton, ShareIcon } = {
     display: grid;
     justify-content: center;
     gap: ${({ theme }) => theme.size[16]};
-    header {
+    > header {
       display: flex;
       justify-content: space-between;
       padding: 0 ${({ theme }) => theme.size[24]};

@@ -11,12 +11,12 @@ import { queryPool } from '../../queries/queryPool'
 import { ethers } from 'ethers'
 import {
   usePrepareStakeTogetherWithdrawLiquidity,
-  useStakeTogetherWithdrawLiquidity
+  useStakeTogetherWithdrawLiquidity,
+  stakeTogetherABI
 } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import { WithdrawType } from '@/types/Withdraw'
-import { stakeTogetherABI } from '../../types/Contracts'
 
 export default function useWithdrawLiquidity(
   withdrawAmount: string,
@@ -31,6 +31,8 @@ export default function useWithdrawLiquidity(
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
 
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
+
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
   const isWithdrawEnabled = enabled && amount > 0n
@@ -43,6 +45,10 @@ export default function useWithdrawLiquidity(
     abi: stakeTogetherABI,
     skip: awaitWalletAction || !isWithdrawEnabled
   })
+
+  useEffect(() => {
+    setEstimateGasCost(estimatedCost)
+  }, [estimatedCost])
 
   const { config } = usePrepareStakeTogetherWithdrawLiquidity({
     address: contracts.StakeTogether,
@@ -112,7 +118,7 @@ export default function useWithdrawLiquidity(
 
   return {
     withdrawLiquidity,
-    estimatedCost: estimatedCost,
+    estimatedCost: estimateGasCost,
     isLoading,
     isSuccess,
     awaitWalletAction,

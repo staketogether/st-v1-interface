@@ -126,7 +126,7 @@ export default function StakeConfirmModal({
             <InfoReview>
               <span>{t('confirmStakeModal.networkFee')}</span>
               <span>
-                {`${estimatedCost}`} {t('eth.symbol')}
+                {`${truncateDecimal(estimatedCost || '0', 8)}`} {t('eth.symbol')}
               </span>
             </InfoReview>
           </ContainerInfoReview>
