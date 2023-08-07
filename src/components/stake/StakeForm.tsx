@@ -105,7 +105,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const balanceLabel = type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
   const receiveLabel = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
-  const estimatedGas = type === 'deposit' ? depositEstimateGas : withdrawEstimateGas
+  const estimatedGas = type === 'deposit' ? ethers.formatEther(depositEstimateGas) : withdrawEstimateGas
   const txHash = type === 'deposit' ? depositTxHash : withdrawTxHash
   const resetState = type === 'deposit' ? depositResetState : withdrawResetState
 
