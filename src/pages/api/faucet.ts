@@ -61,7 +61,8 @@ export default async function handler(req, res) {
   }
 
   const hasAlreadySendFaucet =
-    foundPasscode.accountsDistributed.includes(address) || foundPasscode.ipsUsed.includes(userIp)
+    // foundPasscode.accountsDistributed.includes(address) || foundPasscode.ipsUsed.includes(userIp)
+    foundPasscode.accountsDistributed.includes(address)
 
   if (hasAlreadySendFaucet) {
     return res.status(400).json({ message: 'getFaucetErrorMessages.addressHasAlready' })

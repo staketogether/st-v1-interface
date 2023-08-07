@@ -19,7 +19,9 @@ export default function useDeposit(
   enabled: boolean,
   options?: {
     gas?: bigint
-    gasPrice?: bigint
+    gasPrice?: bigint,
+    maxFeePerGas?: bigint,
+    maxPriorityFeePerGas?: bigint
   }
 ) {
   const { contracts, chainId } = chainConfig()
@@ -41,7 +43,8 @@ export default function useDeposit(
     args: [poolAddress, referral],
     account: accountAddress,
     gas: options?.gas || 300000n,
-    gasPrice: options?.gasPrice,
+    maxFeePerGas: options?.maxFeePerGas,
+    maxPriorityFeePerGas: options?.maxPriorityFeePerGas,
     enabled: depositRule,
     value: amount
   })

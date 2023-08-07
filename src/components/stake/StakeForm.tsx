@@ -50,6 +50,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const [amount, setAmount] = useState<string>('')
   const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
   const [gasPrice, setGasPrice] = useState<bigint | undefined>(undefined)
+  const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
   const { balance: ethByShare } = usePooledEthByShares(
     ethers.parseUnits(amount || '0', 'ether').toString()
   )
@@ -78,7 +80,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     txHash: depositTxHash
   } = useDeposit(inputAmount, accountAddress, poolAddress, type === 'deposit', {
     gas: depositEstimatedGas,
-    gasPrice
+    gasPrice,
+    maxFeePerGas,
+    maxPriorityFeePerGas
   })
 
   const {
@@ -180,12 +184,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       return
     }
 
-    const { estimatedCost, estimatedGas, estimatedGasPrice } = await estimateGas()
+    const { estimatedCost, estimatedGas, estimatedGasPrice, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } = await estimateGas()
 
     const maxAmount = ethers.formatEther(ethBalance - estimatedCost)
     setAmount(maxAmount)
     setDepositEstimatedGas(estimatedGas)
     setGasPrice(estimatedGasPrice)
+    setMaxFeePerGas(estimatedMaxFeePerGas)
+    setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
   }
 
   return (

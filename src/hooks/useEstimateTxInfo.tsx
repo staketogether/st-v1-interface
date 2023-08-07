@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { config } from '@/config/wagmi'
 import { createPublicClient, http } from 'viem'
 import { useNetworkGasPrice } from '@/hooks/useNetworkGasPrice'
+import { ethers } from "ethers";
 
 interface UseEstimateTxInfoProps {
   account?: `0x${string}`
@@ -22,7 +23,7 @@ const useEstimateTxInfo = ({
                              value,
                              skip
                            }: UseEstimateTxInfoProps) => {
-  const { networkGasPriceGwei, loading: gasPriceLoading } = useNetworkGasPrice()
+  const { networkGasPriceGwei, maxPriorityFeePerGas, maxFeePerGas, loading: gasPriceLoading } = useNetworkGasPrice()
 
   const estimateGas = useCallback(async () => {
     if (skip || !account || !contractAddress || !abi || !functionName || gasPriceLoading) {
@@ -42,14 +43,16 @@ const useEstimateTxInfo = ({
       args: args || [],
       value
     })
-    const estimatedCost = estimatedGas * networkGasPriceGwei
+    const estimatedCost = estimatedGas * maxFeePerGas
     return {
-      estimatedGas,
+      estimatedGas: estimatedGas,
       estimatedGasPrice: networkGasPriceGwei,
       // Add 20% to the estimated cost
-      estimatedCost: (estimatedCost * 6n) / 5n
+      estimatedCost: (estimatedCost * 6n) / 5n,
+      estimatedMaxFeePerGas: maxFeePerGas * 6n / 5n,
+      estimatedMaxPriorityFeePerGas: maxPriorityFeePerGas
     }
-  }, [contractAddress, functionName, args, abi, account, skip, value, gasPriceLoading, networkGasPriceGwei])
+  }, [skip, account, contractAddress, abi, functionName, gasPriceLoading, args, value, networkGasPriceGwei, maxPriorityFeePerGas, maxFeePerGas])
 
   return { estimateGas }
 }
