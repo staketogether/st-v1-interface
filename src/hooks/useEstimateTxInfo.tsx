@@ -43,14 +43,14 @@ const useEstimateTxInfo = ({
       args: args || [],
       value
     })
-    const estimatedCost = estimatedGas * maxFeePerGas
+    const estimatedCost = estimatedGas * (maxFeePerGas * 3n / 2n)
     return {
       estimatedGas: estimatedGas,
       estimatedGasPrice: networkGasPriceGwei,
       // Add 20% to the estimated cost
-      estimatedCost: (estimatedCost * 6n) / 5n,
-      estimatedMaxFeePerGas: maxFeePerGas * 6n / 5n,
-      estimatedMaxPriorityFeePerGas: maxPriorityFeePerGas
+      estimatedCost: estimatedCost,
+      estimatedMaxFeePerGas: maxFeePerGas * 3n / 2n,
+      estimatedMaxPriorityFeePerGas: maxPriorityFeePerGas * 3n / 2n
     }
   }, [skip, account, contractAddress, abi, functionName, gasPriceLoading, args, value, networkGasPriceGwei, maxPriorityFeePerGas, maxFeePerGas])
 

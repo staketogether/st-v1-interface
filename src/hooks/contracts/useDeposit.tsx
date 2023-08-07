@@ -62,8 +62,6 @@ export default function useDeposit(
     }
   })
 
-  const { estimateGas } = useEstimateGas(tx as ethers.TransactionRequest)
-
   const deposit = () => {
     setAwaitWalletAction(true)
     tx.write?.()
@@ -116,7 +114,7 @@ export default function useDeposit(
     deposit,
     isLoading,
     isSuccess,
-    estimateGas: estimateGas,
+    estimateGas: options?.gas && options?.maxFeePerGas ? options?.gas * options?.maxFeePerGas : 0n,
     awaitWalletAction,
     txHash,
     resetState
