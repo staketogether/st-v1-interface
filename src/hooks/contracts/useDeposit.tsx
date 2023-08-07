@@ -16,7 +16,11 @@ export default function useDeposit(
   depositAmount: string,
   accountAddress: `0x${string}`,
   poolAddress: `0x${string}`,
-  enabled: boolean
+  enabled: boolean,
+  options?: {
+    gas?: bigint
+    gasPrice?: bigint
+  }
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
@@ -36,7 +40,8 @@ export default function useDeposit(
     address: contracts.StakeTogether,
     args: [poolAddress, referral],
     account: accountAddress,
-    gas: 300000n,
+    gas: options?.gas || 300000n,
+    gasPrice: options?.gasPrice,
     enabled: depositRule,
     value: amount
   })
@@ -48,7 +53,8 @@ export default function useDeposit(
         setTxHash(data?.hash)
       }
     },
-    onError: () => {
+    onError: (error: any) => {
+      console.log(error)
       setAwaitWalletAction(false)
     }
   })

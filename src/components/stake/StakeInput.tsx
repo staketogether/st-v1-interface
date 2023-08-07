@@ -13,7 +13,8 @@ interface StakeInputProps {
   type: 'deposit' | 'withdraw'
   disabled?: boolean
   purple?: boolean
-  hasError?: boolean
+  hasError?: boolean,
+  onMaxValue?: (value: string) => void
 }
 
 export default function StakeFormInput({
@@ -25,7 +26,8 @@ export default function StakeFormInput({
   type,
   disabled,
   purple,
-  hasError
+  hasError,
+  onMaxValue
 }: StakeInputProps) {
   const { t } = useTranslation()
 
@@ -36,6 +38,13 @@ export default function StakeFormInput({
     if (!value || regex.test(value)) {
       if (value.length > 19 + value.split('.')[0].length) return
       onChange(value)
+    }
+  }
+
+  function handleMaxValue(value: string) {
+    onChange(value)
+    if (onMaxValue) {
+      onMaxValue(value)
     }
   }
 
@@ -53,7 +62,7 @@ export default function StakeFormInput({
         <MaxValue
           className={purple ? 'purple' : ''}
           disabled={disabled}
-          onClick={() => handleChange(truncateWei(balance, 18))}
+          onClick={() => handleMaxValue(truncateWei(balance, 18))}
         >
           {t('max')}
         </MaxValue>
