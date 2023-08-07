@@ -1,8 +1,6 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import { config } from '@/config/wagmi'
-import { createPublicClient, http } from 'viem'
 import { useNetworkGasPrice } from '@/hooks/useNetworkGasPrice'
-import { ethers } from "ethers";
 
 interface UseEstimateTxInfoProps {
   account?: `0x${string}`

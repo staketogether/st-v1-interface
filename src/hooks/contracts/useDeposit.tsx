@@ -10,7 +10,6 @@ import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import useEstimateGas from '../useEstimateGas'
 
 export default function useDeposit(
   depositAmount: string,
