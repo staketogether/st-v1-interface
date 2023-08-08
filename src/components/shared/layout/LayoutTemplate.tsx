@@ -32,7 +32,7 @@ const { Container, Wrapper, Content, Body } = {
     grid-template-rows: 1fr 60px;
     gap: 24px;
     min-height: 100vh;
-    background: linear-gradient(180deg, rgba(143, 152, 214, 0.2) 0%, rgba(143, 152, 214, 1) 50%);
+    background: linear-gradient(to bottom, #f1f5fc 0%, #cfd6f3 80%);
     background-attachment: fixed;
   `,
   Wrapper: styled.div`

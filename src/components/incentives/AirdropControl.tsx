@@ -11,7 +11,7 @@ import stIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
 import EnsName from '../shared/ens/EnsName'
 
-export default function AirdropControl() {
+export default function IncentivesControl() {
   const { accountIsConnected, account } = useConnectedAccount()
   const { t } = useTranslation()
   const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
