@@ -1,5 +1,4 @@
 import useTranslation from '@/hooks/useTranslation'
-import React from 'react'
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai'
 import styled from 'styled-components'
 
@@ -18,7 +17,7 @@ export default function PoolsInputSearch({ search, setSearch }: PoolsInputSearch
       <InputSearch
         type='text'
         value={search}
-        placeholder={t('searchPool')}
+        placeholder={t('v2.pools.search')}
         onChange={e => setSearch(e.target.value)}
       />
       {search && search.length > 0 && (
@@ -32,15 +31,12 @@ export default function PoolsInputSearch({ search, setSearch }: PoolsInputSearch
 
 const { InputSearchArea, InputSearch } = {
   InputSearchArea: styled.div`
-    width: 100%;
-    max-width: 468px;
-    margin: 0 auto;
+    min-width: 240px;
     display: grid;
     grid-template-columns: auto 1fr auto;
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
-
-    background-color: ${({ theme }) => theme.color.white};
+    background: ${({ theme }) => theme.color.whiteAlpha[400]};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     padding: 0 ${({ theme }) => theme.size[8]};
@@ -48,18 +44,18 @@ const { InputSearchArea, InputSearch } = {
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
     }
 
     &:focus {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
       color: ${({ theme }) => theme.color.primary};
       border: none;
       outline: none;
     }
 
     &.active {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
 
@@ -121,7 +117,7 @@ const { InputSearchArea, InputSearch } = {
     }
 
     &::-webkit-input-placeholder {
-      color: ${({ theme }) => theme.color.blue[300]};
+      color: ${({ theme }) => theme.color.blue[600]};
     }
   `
 }

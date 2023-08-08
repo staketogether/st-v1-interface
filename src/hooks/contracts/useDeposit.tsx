@@ -2,16 +2,20 @@ import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryDelegationShares } from '@/queries/queryDelegatedShares'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
-import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
+import {
+  usePrepareStakeTogetherDepositPool,
+  useStakeTogetherDepositPool,
+  stakeTogetherABI
+} from '../../types/Contracts'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useTranslation from '../useTranslation'
-import { stakeTogetherABI } from '../../types/Contracts'
+import { truncateWei } from '@/services/truncate'
 
 export default function useDeposit(
   depositAmount: string,
@@ -26,7 +30,7 @@ export default function useDeposit(
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [failedToExecute, setFailedToExecute] = useState(false)
   const { registerDeposit } = useMixpanelAnalytics()
-
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
   const amount = ethers.parseUnits(depositAmount, 18)
 
   const isDepositEnabled = enabled && amount > 0n
@@ -38,17 +42,22 @@ export default function useDeposit(
     hash: txHash
   })
 
-  const { estimatedCost, estimatedGas, estimatedGasPrice } = useEstimateTxInfo({
-    account: accountAddress,
-    functionName: 'depositPool',
-    args: [poolAddress, referral],
-    contractAddress: contracts.StakeTogether,
-    abi: stakeTogetherABI,
-    value: amount,
-    skip: awaitWalletAction || isSuccess || !isDepositEnabled
-  })
+  const { estimatedCost, estimatedGasLimit, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
+    useEstimateTxInfo({
+      account: accountAddress,
+      functionName: 'depositPool',
+      args: [poolAddress, referral],
+      contractAddress: contracts.StakeTogether,
+      abi: stakeTogetherABI,
+      value: amount,
+      skip: awaitWalletAction || isSuccess || !isDepositEnabled || estimateGasCost > 0n
+    })
 
-  const discountedGasAmount = useMemo(() => amount - estimatedCost, [amount, estimatedCost])
+  useEffect(() => {
+    setEstimateGasCost(estimatedCost)
+  }, [estimatedCost])
+
+  const discountedGasAmount = amount - estimateGasCost
 
   const { config } = usePrepareStakeTogetherDepositPool({
     chainId,
@@ -56,9 +65,10 @@ export default function useDeposit(
     args: [poolAddress, referral],
     account: accountAddress,
     enabled: isDepositEnabled,
-    value: discountedGasAmount,
-    gas: estimatedGas > 0n ? estimatedGas : undefined,
-    gasPrice: estimatedGasPrice > 0n ? estimatedGasPrice : undefined
+    value: amount,
+    gas: estimatedGasLimit > 0n ? estimatedGasLimit : undefined,
+    maxFeePerGas: estimatedMaxFeePerGas > 0n ? estimatedMaxFeePerGas : undefined,
+    maxPriorityFeePerGas: estimatedMaxPriorityFeePerGas > 0n ? estimatedMaxPriorityFeePerGas : undefined
   })
 
   const tx = useStakeTogetherDepositPool({
@@ -96,7 +106,9 @@ export default function useDeposit(
       registerDeposit(accountAddress, chainId, poolAddress, ethers.formatEther(discountedGasAmount))
       if (notify) {
         notification.success({
-          message: `${t('notifications.depositSuccess')}: ${discountedGasAmount} ${t('lsd.symbol')}`,
+          message: `${t('notifications.depositSuccess')}: ${truncateWei(discountedGasAmount, 6)} ${t(
+            'lsd.symbol'
+          )}`,
           placement: 'topRight'
         })
         setNotify(false)
@@ -111,7 +123,9 @@ export default function useDeposit(
       })
       if (notify) {
         notification.error({
-          message: `${t('notifications.depositError')}: ${discountedGasAmount} ${t('lsd.symbol')}`,
+          message: `${t('notifications.depositError')}: ${truncateWei(discountedGasAmount, 6)} ${t(
+            'lsd.symbol'
+          )}`,
           placement: 'topRight'
         })
         setNotify(false)

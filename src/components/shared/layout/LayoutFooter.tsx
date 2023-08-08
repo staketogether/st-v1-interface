@@ -1,20 +1,12 @@
-import Link from 'next/link'
 import styled from 'styled-components'
 import packageData from '../../../../package.json'
-import useTranslation from '../../../hooks/useTranslation'
 
 export default function LayoutFooter() {
-  const { t } = useTranslation()
-
   const date = new Date()
   return (
     <Container>
-      <span>
-        {`Pre-Alpha v${packageData.version} | ©`} {date.getFullYear()} Stake Together | {t('footer.powered')}
-        <Link href='https://ssv.network/tech/#ssv-dvt-at-hight-level' target='_blank'>
-          {t('footer.dvt')}
-        </Link>
-      </span>
+      <span>{`© ${date.getFullYear()} Stake Together `}</span>
+      <span>{`v${packageData.version}`}</span>
     </Container>
   )
 }
@@ -42,6 +34,10 @@ const { Container } = {
       text-align: center;
       display: flex;
       align-items: center;
+    }
+
+    > span:nth-child(2) {
+      color: ${({ theme }) => theme.color.secondary};
     }
   `
 }

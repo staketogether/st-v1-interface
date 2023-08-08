@@ -1,6 +1,14 @@
 import { Account } from './Account'
 import { Delegation } from './Delegation'
 
+export enum PoolsType {
+  'all' = 'All',
+  'art' = 'Art',
+  'education' = 'Education',
+  'socialImpact' = 'Social Impact',
+  'innovation' = 'Innovation'
+}
+
 export type Pool = {
   id: string
   account: Account
@@ -15,3 +23,7 @@ export type ENSPool = {
   name?: string
   avatar?: string
 }
+
+export type PoolWithType = {
+  type: PoolsType
+} & Pool

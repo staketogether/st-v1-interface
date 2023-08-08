@@ -163,5 +163,30 @@
     "locks": "Bloqueios",
     "willReceive": "receberá",
     "startClaimProcess": "Iniciar recebimento"
+ },
+  "v2": {
+    "header": {
+      "invest": "Investir",
+      "incentives": "Incentivos",
+      "connect": "Conectar",
+      "disconnect": "Desconectar"
+    },
+    "pools": {
+      "filter": {
+        "all": "Todos",
+        "art": "Arte",
+        "education": "Educação",
+        "socialImpact": "Impacto Social",
+        "innovation": "Inovação"
+      },
+      "search": "Pesquisar...",
+      "list": {
+        "name": "Nome",
+        "type": "Tipo",
+        "people": "Pessoas Investindo",
+        "invested": "Total Investido",
+        "invest": "Investir"
+      }
+    }
   }
 }

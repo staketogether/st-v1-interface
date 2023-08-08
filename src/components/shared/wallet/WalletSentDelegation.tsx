@@ -1,3 +1,4 @@
+import useWalletSidebar from '@/hooks/useWalletSidebar'
 import Link from 'next/link'
 import styled from 'styled-components'
 import useTranslation from '../../../hooks/useTranslation'
@@ -5,7 +6,6 @@ import { truncateWei } from '../../../services/truncate'
 import { Delegation } from '../../../types/Delegation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
-import useWalletSidebar from '@/hooks/useWalletSidebar'
 
 type WalletSentDelegationProps = {
   delegation: Delegation
@@ -17,7 +17,7 @@ export default function WalletSentDelegation({ delegation }: WalletSentDelegatio
   const { setOpenSidebar } = useWalletSidebar()
 
   return (
-    <Container href={`/stake/deposit/${delegation.delegated.address}`} onClick={() => setOpenSidebar(false)}>
+    <Container href={`/pools/deposit/${delegation.delegated.address}`} onClick={() => setOpenSidebar(false)}>
       <div>
         <div>
           <EnsAvatar address={delegation.delegated.address} />

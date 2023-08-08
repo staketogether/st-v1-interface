@@ -165,5 +165,30 @@
     "locks": "Locks",
     "willReceive": "will receive",
     "startClaimProcess": "Start claim process"
+  },
+  "v2": {
+    "header": {
+      "invest": "Invest",
+      "incentives": "Incentives",
+      "connect": "Connect",
+      "disconnect": "Disconnect"
+    },
+    "pools": {
+      "filter": {
+        "all": "All",
+        "art": "Art",
+        "education": "Education",
+        "socialImpact": "Social Impact",
+        "innovation": "Innovation"
+      },
+      "search": "Search...",
+      "list": {
+        "name": "Name",
+        "type": "Type",
+        "people": "People Investing",
+        "invested": "Total Invested",
+        "invest": "Invest"
+      }
+    }
   }
 }

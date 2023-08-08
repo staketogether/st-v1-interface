@@ -92,7 +92,7 @@ const { Container, Content, MaxValue, InputContainer } = {
       font-style: normal;
       font-weight: 400;
       line-height: normal;
-      color: ${({ theme }) => theme.color.blue[400]};
+      color: ${({ theme }) => theme.color.blue[600]};
       &.purple {
         color: ${({ theme }) => theme.color.secondary};
       }
@@ -172,7 +172,7 @@ const { Container, Content, MaxValue, InputContainer } = {
     padding: 0px ${({ theme }) => theme.size[16]};
     border-radius: ${({ theme }) => theme.size[16]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background-color: ${({ theme }) => theme.color.blue[400]};
+    background-color: ${({ theme }) => theme.color.blue[600]};
     color: ${({ theme }) => theme.color.white};
 
     &:hover {

@@ -22,26 +22,32 @@ const useEstimateTxInfo = ({
   value,
   skip
 }: UseEstimateTxInfoProps) => {
-  const { networkGasPriceGwei, loading: gasPriceLoading } = useNetworkGasPrice()
+  const {
+    networkGasPriceGwei,
+    maxPriorityFeePerGas,
+    maxFeePerGas,
+    loading: gasPriceLoading
+  } = useNetworkGasPrice()
   const [estimatedCost, setEstimatedCost] = useState(0n)
-  const [estimatedGas, setEstimatedGas] = useState(0n)
+  const [estimatedGasLimit, setEstimatedGasLimit] = useState(0n)
+  const [estimatedMaxFeePerGas, setEstimatedMaxFeePerGas] = useState(0n)
+  const [estimatedMaxPriorityFeePerGas, setEstimatedMaxPriorityFeePerGas] = useState(0n)
   const [estimatedGasPrice, setEstimatedGasPrice] = useState(0n)
   const [loading, setLoading] = useState(false)
 
   const estimateGas = useCallback(async () => {
     setLoading(true)
     if (skip || !account || !contractAddress || !abi || !functionName || gasPriceLoading) {
-      setEstimatedCost(0n)
       setLoading(false)
       return
     }
-
     setEstimatedGasPrice(networkGasPriceGwei)
 
     const client = createPublicClient({
       chain: chains[0],
       transport: http()
     })
+
     const estimatedGas = await client.estimateContractGas({
       account,
       functionName,
@@ -50,18 +56,39 @@ const useEstimateTxInfo = ({
       args: args || [],
       value
     })
-    setEstimatedGas(estimatedGas)
-    const estimatedCost = estimatedGas * networkGasPriceGwei
-    // Add 20% to the estimated cost
-    setEstimatedCost((estimatedCost * 6n) / 5n)
+    setEstimatedMaxPriorityFeePerGas((maxPriorityFeePerGas * 3n) / 2n)
+    setEstimatedMaxFeePerGas((maxFeePerGas * 3n) / 2n)
+    const estimatedCost = estimatedGas * ((maxFeePerGas * 3n) / 2n)
+    setEstimatedGasLimit(estimatedGas)
+    // Add 50% to the estimated cost (same as metamask's market price)
+    setEstimatedCost(estimatedCost)
     setLoading(false)
-  }, [contractAddress, functionName, args, abi, account, skip, value, gasPriceLoading, networkGasPriceGwei])
+  }, [
+    skip,
+    account,
+    contractAddress,
+    abi,
+    functionName,
+    gasPriceLoading,
+    networkGasPriceGwei,
+    args,
+    value,
+    maxPriorityFeePerGas,
+    maxFeePerGas
+  ])
 
   useEffect(() => {
     estimateGas()
   }, [estimateGas])
 
-  return { estimatedCost, estimatedGas, estimatedGasPrice, loading }
+  return {
+    estimatedCost,
+    estimatedGasLimit,
+    estimatedGasPrice,
+    loading,
+    estimatedMaxFeePerGas,
+    estimatedMaxPriorityFeePerGas
+  }
 }
 
 export default useEstimateTxInfo

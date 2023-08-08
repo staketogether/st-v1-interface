@@ -59,7 +59,7 @@ const { Text } = {
     ${({ large, theme }) =>
       large &&
       `
-      font-size: ${theme.font.size[15]};
+      font-size: ${theme.font.size[16]};
     `}
 
     ${({ larger, theme }) => {

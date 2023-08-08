@@ -2,8 +2,8 @@ import chainConfig from '@/config/chain'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { useEffect } from 'react'
 import useConnectedAccount from '../../../hooks/useConnectedAccount'
+import WalletDisconnectedButton from './WalletConnectButton'
 import WalletConnectedButton from './WalletConnectedButton'
-import WalletDisconnectedButton from './WalletDisconnectedButton'
 import WalletSidebarConnected from './WalletSidebarConnected'
 
 export default function Wallet() {
@@ -19,7 +19,7 @@ export default function Wallet() {
 
   return accountIsConnected && account ? (
     <>
-      <WalletConnectedButton address={account} showBalance={false} />
+      <WalletConnectedButton address={account} showBalance={false} showNetwork />
       <WalletSidebarConnected address={account} />
     </>
   ) : (
