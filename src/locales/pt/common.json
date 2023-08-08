@@ -154,7 +154,7 @@
     "members": "Membros",
     "staked": "Staked"
   },
- "airdrop": {
+  "airdrop": {
     "title": "Bem-vindo ao StakeTogether",
     "description": "Lorem Ipsum é simplesmente",
     "readAnnouncementButton": "Ler anúncio",
@@ -163,7 +163,7 @@
     "locks": "Bloqueios",
     "willReceive": "receberá",
     "startClaimProcess": "Iniciar recebimento"
- },
+  },
   "v2": {
     "header": {
       "invest": "Investir",
