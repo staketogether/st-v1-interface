@@ -162,7 +162,9 @@
     "pool": "Fundos",
     "locks": "Bloqueios",
     "willReceive": "receberá",
-    "startClaimProcess": "Iniciar recebimento"
+    "startClaimProcess": "Iniciar recebimento",
+    "emptyList": "Nenhum item encontrado para esta pesquisa",
+    "emptyButton": "Voltar para todos os itens"
   },
   "v2": {
     "header": {

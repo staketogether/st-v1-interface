@@ -164,7 +164,9 @@
     "pool": "Pool",
     "locks": "Locks",
     "willReceive": "will receive",
-    "startClaimProcess": "Start claim process"
+    "startClaimProcess": "Start claim process",
+    "emptyList": "No items found for this search",
+    "emptyButton": "Back to all items"
   },
   "v2": {
     "header": {

@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next'
 import LayoutTemplate from '../../components/shared/layout/LayoutTemplate'
 
 import { MetaPools } from '../../components/shared/meta/MetaPools'
-import IncentivesControl from '@/components/incentives/AirdropControl'
+import IncentivesControl from '@/components/incentives/IncentivesControl'
 
 export default function Incentives() {
   return (
