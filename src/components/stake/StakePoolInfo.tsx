@@ -2,11 +2,14 @@ import StakePoolAbout from '@/components/stake/StakePoolAbout'
 import StakePoolMembers from '@/components/stake/StakePoolMembers'
 import { useState } from 'react'
 import { AiOutlineInfoCircle, AiOutlineUser } from 'react-icons/ai'
-import { BsGraphUp } from 'react-icons/bs'
+import { BsGraphUp, BsShare } from 'react-icons/bs'
 import styled from 'styled-components'
 import usePool from '../../hooks/subgraphs/usePool'
 import useTranslation from '../../hooks/useTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
+import EnsAvatar from '../shared/ens/EnsAvatar'
+import EnsName from '../shared/ens/EnsName'
+import { Tooltip } from 'antd'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}` | undefined
@@ -61,17 +64,37 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
     }
   ]
 
+  function copyToClipboard() {
+    navigator.clipboard.writeText(window.location.toString())
+  }
+
   return (
     <Container>
+      {poolAddress && (
+        <header>
+          <div>
+            <EnsAvatar size={32} address={poolAddress} />
+            <EnsName larger address={poolAddress} />
+          </div>
+          <Tooltip trigger='click' title={t('copiedToClipboard')}>
+            <ShareButton onClick={copyToClipboard}>
+              <ShareIcon />
+            </ShareButton>
+          </Tooltip>
+        </header>
+      )}
       <Tabs items={tabsItems} size='middle' />
     </Container>
   )
 }
 
-const { Container, AboutIcon, MembersIcon, ActivityIcon } = {
+const { Container, AboutIcon, MembersIcon, ActivityIcon, ShareIcon, ShareButton } = {
   Container: styled.section`
     display: grid;
     grid-template-columns: 1fr;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[16]};
+
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
     background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
@@ -80,7 +103,17 @@ const { Container, AboutIcon, MembersIcon, ActivityIcon } = {
 
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    gap: ${({ theme }) => theme.size[16]};
+    > header {
+      display: flex;
+      justify-content: space-between;
+      padding: 0px ${({ theme }) => theme.size[24]};
+      padding-top: ${({ theme }) => theme.size[24]};
+      > div {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[8]};
+      }
+    }
   `,
   AboutIcon: styled(AiOutlineInfoCircle)`
     font-size: ${({ theme }) => theme.font.size[16]};
@@ -89,6 +122,27 @@ const { Container, AboutIcon, MembersIcon, ActivityIcon } = {
     font-size: ${({ theme }) => theme.font.size[16]};
   `,
   ActivityIcon: styled(BsGraphUp)`
+    font-size: ${({ theme }) => theme.font.size[16]};
+  `,
+  ShareButton: styled.button`
+    border: none;
+    width: 32px;
+    height: 32px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.secondary};
+    background-color: transparent;
+    border-radius: 50%;
+    transition: background-color 0.1s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
+  `,
+  ShareIcon: styled(BsShare)`
     font-size: ${({ theme }) => theme.font.size[16]};
   `
 }

@@ -10,6 +10,7 @@ import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import Fuse from 'fuse.js'
 import useSearchPools from '@/hooks/subgraphs/useSearchPools'
+import PoolsEmptyState from './PoolsEmptyState'
 
 type PoolsListProps = {
   pools: Pool[]
@@ -96,6 +97,11 @@ export default function PoolsControl({ pools }: PoolsListProps) {
     }
   }
 
+  const clearFilter = () => {
+    setActiveFilters([PoolsType.all])
+    setSearch('')
+  }
+
   return (
     <Container>
       <FiltersContainer>
@@ -116,7 +122,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
         </Search>
       </FiltersContainer>
       <ListPools>
-        {!poolsFilterBySearch.length && <div>No Pool</div>}
+        {!poolsFilterBySearch.length && <PoolsEmptyState handleClickButton={clearFilter} />}
         {!!poolsFilterBySearch.length && (
           <header>
             <span>{t('v2.pools.list.name')}</span>
