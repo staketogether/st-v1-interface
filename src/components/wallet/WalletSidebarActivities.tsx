@@ -2,43 +2,45 @@ import useTranslation from '@/hooks/useTranslation'
 import React from 'react'
 import styled, { useTheme } from 'styled-components'
 import { truncateWei } from "@/services/truncate";
-import { AccountReward } from "@/types/AccountReward";
 import { AiOutlineLink } from "react-icons/ai";
+import { AccountActivity } from "@/types/AccountActivity";
 
-type WalletSidebarRewards = {
-  accountRewards: AccountReward[]
+type WalletSidebarActivities = {
+  accountActivities: AccountActivity[]
 }
 
-export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRewards) {
+export default function WalletSidebarActivities({ accountActivities }: WalletSidebarActivities) {
   const { t } = useTranslation()
   const theme = useTheme()
 
   return (
     <Container>
-      {accountRewards.length === 0 && (
+      {accountActivities.length === 0 && (
         <div>
-          <span>{t('noRewards')}</span>
+          <span>{t('noActivities')}</span>
         </div>
       )}
-      {accountRewards.length > 0 && (
-        <RewardsHeader>
+      {accountActivities.length > 0 && (
+        <ActivitiesHeader>
           <span>{t('time')}</span>
-          <span>{t('rewards')}</span>
+          <span>{t('type')}</span>
+          <span>{t('value')}</span>
           <span>{t('tx')}</span>
-        </RewardsHeader>
+        </ActivitiesHeader>
       )}
-      {accountRewards.map((reward, index) => (
-        <Reward key={index}>
-          <span>{reward.timestamp}</span>
-          <span>{truncateWei(BigInt(reward.amount))}</span>
+      {accountActivities.map((activity, index) => (
+        <Activity key={index}>
+          <span>{activity.timestamp}</span>
+          <span>{t(`v2.wallet.activities.type.${activity.type}`)}</span>
+          <span>{truncateWei(BigInt(activity.amount))}</span>
           <AiOutlineLink color={theme.color.secondary}/>
-        </Reward>
+        </Activity>
       ))}
     </Container>
   )
 }
 
-const { Container, Reward, RewardsHeader } = {
+const { Container, Activity, ActivitiesHeader } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;

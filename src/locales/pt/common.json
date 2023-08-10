@@ -2,6 +2,9 @@
   "stakeTogether": "Stake Together",
   "pools": "Projetos",
   "stake": "Depositar",
+  "time": "Tempo",
+  "type": "Tipo",
+  "value": "Valor",
   "rewards": "Recompensas",
   "delegates": "Delegados",
   "processing": "Processando...",
@@ -192,6 +195,15 @@
         "people": "Pessoas Investindo",
         "invested": "Total Investido",
         "invest": "Investir"
+      }
+    },
+    "wallet": {
+      "activities": {
+        "type": {
+          "deposit": "Depósito",
+          "donationDeposit": "Doação",
+          "withdraw": "Saque"
+        }
       }
     }
   }
