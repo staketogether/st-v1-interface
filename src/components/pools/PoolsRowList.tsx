@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
-import { PoolsType } from '@/types/Pool'
 import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 
@@ -12,7 +11,7 @@ type PoolsRowListProps = {
   poolAddress: `0x${string}`
   members: bigint
   staked: bigint
-  type: PoolsType
+  type?: string
 }
 
 export default function PoolsRowList({ poolAddress, members, staked, type }: PoolsRowListProps) {
@@ -27,8 +26,8 @@ export default function PoolsRowList({ poolAddress, members, staked, type }: Poo
           <EnsName address={poolAddress} />
         </Name>
         <TypeContainer>
-          <Text>{`${poolTypeTranslation(type)}`}</Text>
-          {handlePoolTypeIcon({ iconSize: 14, value: type })}
+          <Text>{`${type && poolTypeTranslation(type)}`}</Text>
+          {type && handlePoolTypeIcon({ iconSize: 14, value: type })}
         </TypeContainer>
         <Text>{members.toString()}</Text>
         <Text>{truncateWei(staked, 6)} ETH</Text>

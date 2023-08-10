@@ -149,13 +149,6 @@
   "gas": {
     "alt": "Network gas price"
   },
-  "poolsFilter": {
-    "rank": "Rank",
-    "name": "Name",
-    "type": "Type",
-    "members": "Members",
-    "staked": "staked"
-  },
   "airdrop": {
     "title": "Welcome to StakeTogether",
     "description": "Lorem Ipsum is simply",
@@ -176,6 +169,15 @@
       "disconnect": "Disconnect"
     },
     "pools": {
+      "title": "Maximize Ethereum holdings through staking, unlock rewards, and collaborate on incredible Web3 projects.",
+      "projectInfo":{
+        "tvl": "Total Value Locked",
+        "rewards": "Rewards",
+        "incentives": "Incentives",
+        "members": "Members",
+        "projects": "Projects",
+        "apy": "APY"
+      }, 
       "filter": {
         "all": "All",
         "art": "Art",

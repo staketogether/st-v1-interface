@@ -1,4 +1,3 @@
-import { PoolsType } from '@/types/Pool'
 import useTranslation from './useTranslation'
 
 export default function usePoolTypeTranslation() {
@@ -6,26 +5,26 @@ export default function usePoolTypeTranslation() {
   const filterTypes = [
     {
       name: t('v2.pools.filter.all'),
-      value: PoolsType.all
+      value: 'all'
     },
     {
       name: t('v2.pools.filter.art'),
-      value: PoolsType.art
+      value: 'art'
     },
     {
       name: t('v2.pools.filter.education'),
-      value: PoolsType.education
+      value: 'education'
     },
     {
       name: t('v2.pools.filter.socialImpact'),
-      value: PoolsType.socialImpact
+      value: 'socialImpact'
     },
     {
       name: t('v2.pools.filter.innovation'),
-      value: PoolsType.innovation
+      value: 'innovation'
     }
   ]
-  function poolTypeTranslation(poolType: PoolsType) {
+  function poolTypeTranslation(poolType: string) {
     return filterTypes.find(item => item.value === poolType)?.name || ''
   }
 

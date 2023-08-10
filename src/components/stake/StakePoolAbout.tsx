@@ -1,4 +1,4 @@
-import usePoolDetailByAddress from '@/hooks/subgraphs/contentful/usePoolDetailByAddress'
+import useContentfulPoolDetailByAddress from '@/hooks/contentful/useContentfulPoolDetailByAddress'
 
 import {
   AiFillFacebook,
@@ -19,7 +19,7 @@ interface StakePoolAboutProps {
 }
 
 export default function StakePoolAbout({ poolAddress }: StakePoolAboutProps) {
-  const { poolDetail, loading } = usePoolDetailByAddress(poolAddress)
+  const { poolDetail, loading } = useContentfulPoolDetailByAddress(poolAddress)
   const videoId = poolDetail?.video ? poolDetail?.video.split('v=')[1] : null
   return (
     <Container>

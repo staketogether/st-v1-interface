@@ -1,4 +1,4 @@
-export type PoolDetail = {
+export type ContentfulPool = {
   wallet: string
   name?: string
   video?: string
@@ -10,4 +10,7 @@ export type PoolDetail = {
   twitter?: string
   contract?: string
   discord?: string
+  category?: {
+    name: string
+  }
 }

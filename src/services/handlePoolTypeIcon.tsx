@@ -1,33 +1,32 @@
-import { PoolsType } from '@/types/Pool'
 import React, { ReactNode } from 'react'
 import { BsBook, BsHeart, BsLightbulb, BsPalette } from 'react-icons/bs'
 
 type FilterPool = {
   icon: ReactNode
-  value: PoolsType
+  value: string
 }
 type PoolsTypesIconProps = {
   iconSize: number
-  value: PoolsType
+  value: string
 }
 
 export default function handlePoolTypeIcon({ iconSize, value }: PoolsTypesIconProps) {
   const filterTypes: FilterPool[] = [
     {
       icon: <BsPalette fontSize={iconSize} />,
-      value: PoolsType.art
+      value: 'all'
     },
     {
       icon: <BsBook fontSize={iconSize} />,
-      value: PoolsType.education
+      value: 'education'
     },
     {
       icon: <BsHeart fontSize={iconSize} />,
-      value: PoolsType.socialImpact
+      value: 'socialImpact'
     },
     {
       icon: <BsLightbulb fontSize={iconSize} />,
-      value: PoolsType.innovation
+      value: 'innovation'
     }
   ]
 
