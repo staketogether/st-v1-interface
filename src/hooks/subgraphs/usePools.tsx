@@ -2,13 +2,13 @@ import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import { queryPools } from '../../queries/subgraph/queryPools'
 
-import { Pool } from '../../types/Pool'
+import { PoolSubgraph } from '../../types/Pool'
 
 export default function usePools() {
-  const [pools, setPools] = useState<Pool[]>([])
+  const [pools, setPools] = useState<PoolSubgraph[]>([])
   const [poolsIsLoading, setPoolsIsLoading] = useState<boolean>(false)
 
-  const { data, loading } = useQuery<{ pools: Pool[] }>(queryPools)
+  const { data, loading } = useQuery<{ pools: PoolSubgraph[] }>(queryPools)
 
   useEffect(() => {
     setPools(data?.pools || [])

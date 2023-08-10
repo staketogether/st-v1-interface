@@ -1,9 +1,9 @@
 import { Account } from './Account'
-import { Pool } from './Pool'
+import { PoolSubgraph } from './Pool'
 
 export type Delegation = {
   id: string
   delegate: Account
-  delegated: Pool
+  delegated: PoolSubgraph
   delegationBalance: bigint
 }

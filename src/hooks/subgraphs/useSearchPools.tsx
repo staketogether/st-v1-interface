@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react'
 import { queryPools } from '../../queries/subgraph/queryPools'
 
 import getSearchPools from '../../services/getSearchPools'
-import { ENSPool, Pool } from '../../types/Pool'
+import { ENSPool, PoolSubgraph } from '../../types/Pool'
 
 export default function useSearchPools() {
   const [searchPools, setSearchPools] = useState<ENSPool[]>([])
   const [searchLoading, setSearchLoading] = useState<boolean>(true)
 
-  const { data } = useQuery<{ pools: Pool[] }>(queryPools)
+  const { data } = useQuery<{ pools: PoolSubgraph[] }>(queryPools)
 
   useEffect(() => {
     const getEnsPools = async () => {

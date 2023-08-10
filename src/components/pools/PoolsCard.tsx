@@ -3,12 +3,12 @@ import { useRouter } from 'next/router'
 import { AiOutlineCheck } from 'react-icons/ai'
 import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
-import { Pool } from '../../types/Pool'
+import { PoolSubgraph } from '../../types/Pool'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 
 type PoolsCardProps = {
-  pool: Pool
+  pool: PoolSubgraph
 }
 
 export default function PoolsCard({ pool }: PoolsCardProps) {
