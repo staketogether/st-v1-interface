@@ -157,7 +157,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           </HeaderContainer>
           <InfoContainer>
             <ContainerData>
-              <span>{t('rewards')}</span>
+              <span>{t('v2.wallet.totalRewards')}</span>
               <div>
                 <span className={`${rewardsIsPositive && 'positive'} ${rewardsIsNegative && 'negative'}`}>
                   {accountTotalRewards > 0 ? truncateWei(accountTotalRewards, 6) : '0'}

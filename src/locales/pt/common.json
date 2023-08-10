@@ -198,6 +198,7 @@
       }
     },
     "wallet": {
+      "totalRewards": "Total de Recompensas",
       "activities": {
         "type": {
           "deposit": "Depósito",
