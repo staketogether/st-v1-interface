@@ -40,6 +40,8 @@
   "viewOnExplorer": "Ver no Explorer",
   "try": "Tentar novamente",
   "availableToStake": "Disponivel para stake",
+  "amount": "Quantidade",
+  "tx": "TX",
   "rewardsTooltip": "O saldo de suas recompensas é automaticamente convertido em seu saldo de stake.",
   "poolDetail": "Detalhes da Pool",
   "safe": "SEGURO",
@@ -72,6 +74,8 @@
   },
   "noDelegations": "Sem Delegações",
   "noStake": "Você ainda não fez Stake",
+  "noRewards": "Você ainda não recebeu recompensas",
+  "noActivities": "Você ainda não tem atividades em sua conta",
   "notifications": {
     "depositSuccess": "Depósito Bem-Sucedido",
     "depositError": "Falha ao Depositar",

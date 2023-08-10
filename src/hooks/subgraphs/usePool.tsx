@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { queryPool } from '../../queries/queryPool'
+import { queryPool } from '../../queries/subgraph/queryPool'
 import { Pool } from '../../types/Pool'
 import { useState } from 'react'
 

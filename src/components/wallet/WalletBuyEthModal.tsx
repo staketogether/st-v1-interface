@@ -9,8 +9,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { ReCAPTCHA } from 'react-google-recaptcha'
 import { AiFillCloseCircle } from 'react-icons/ai'
 import styled from 'styled-components'
-import Modal from '../Modal'
-import Loading from '../icons/Loading'
+import Modal from '../shared/Modal'
+import Loading from '../shared/icons/Loading'
 
 type WalletBuyEthModalProps = {
   walletAddress: `0x${string}`

@@ -17,17 +17,18 @@ import {
 import { FiCopy } from 'react-icons/fi'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
-import useEthBalanceOf from '../../../hooks/contracts/useEthBalanceOf'
-import useStAccount from '../../../hooks/subgraphs/useStAccount'
-import useTranslation from '../../../hooks/useTranslation'
-import useWalletSidebar from '../../../hooks/useWalletSidebar'
-import { capitalize, truncateAddress, truncateText, truncateWei } from '../../../services/truncate'
-import Tabs, { TabsItems } from '../Tabs'
-import EnsAvatar from '../ens/EnsAvatar'
-import SkeletonLoading from '../icons/SkeletonLoading'
+import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
+import useStAccount from '../../hooks/subgraphs/useStAccount'
+import useTranslation from '../../hooks/useTranslation'
+import useWalletSidebar from '../../hooks/useWalletSidebar'
+import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
+import Tabs, { TabsItems } from '../shared/Tabs'
+import EnsAvatar from '../shared/ens/EnsAvatar'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
-import WalletSideBarPoolsDelegated from './WalletSideBarPoolsDelegated'
-import WalletSlideBarSettings from './WalletSlideBarSettings'
+import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
+import WalletSidebarSettings from './WalletSidebarSettings'
+import WalletSidebarRewards from "@/components/wallet/WalletSidebarRewards";
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -46,7 +47,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const handleWalletProviderImage = useWalletProviderImage()
   const { setOpenModal } = useWalletByEthModal()
 
-  const { accountRewardsBalance, accountDelegations, accountBalance } = useStAccount(address)
+  const { accountTotalRewards, accountDelegations, accountBalance, accountRewards } = useStAccount(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -61,8 +62,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     })
   }
 
-  const rewardsIsPositive = accountRewardsBalance > 1n
-  const rewardsIsNegative = accountRewardsBalance < 0
+  const rewardsIsPositive = accountTotalRewards > 1n
+  const rewardsIsNegative = accountTotalRewards < 0
 
   const onBuyEthIsSuccess = () => {
     refetch()
@@ -73,22 +74,18 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       key: 'pools',
       label: t('pools'),
       icon: <PoolsIcon />,
-      children: <WalletSideBarPoolsDelegated accountDelegations={accountDelegations} />
+      children: <WalletSidebarPoolsDelegated accountDelegations={accountDelegations} />
     },
     {
-      key: 'analytics',
-      label: t('analytics'),
+      key: 'rewards',
+      label: t('rewards'),
       icon: <AnalyticsIcon />,
-      disabled: true,
-      tooltip: t('soon'),
-      children: <></>
+      children: <WalletSidebarRewards accountRewards={accountRewards} />
     },
     {
-      key: 'activities',
-      label: t('activities'),
+      key: 'activity',
+      label: t('activity'),
       icon: <ActivitiesIcon />,
-      disabled: true,
-      tooltip: t('soon'),
       children: <></>
     }
   ]
@@ -102,7 +99,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       open={openSidebar}
     >
       {isSettingsActive ? (
-        <WalletSlideBarSettings setIsSettingsActive={setIsSettingsActive} />
+        <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />
       ) : (
         <>
           <HeaderContainer>
@@ -162,7 +159,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <span>{t('rewards')}</span>
               <div>
                 <span className={`${rewardsIsPositive && 'positive'} ${rewardsIsNegative && 'negative'}`}>
-                  {accountRewardsBalance > 0 ? truncateWei(accountRewardsBalance, 6) : '0'}
+                  {accountTotalRewards > 0 ? truncateWei(accountTotalRewards, 6) : '0'}
                 </span>
                 <span className='symbol'>{t('lsd.symbol')}</span>
               </div>
@@ -218,7 +215,7 @@ const {
   ActivitiesIcon
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: ${({ theme }) => theme.color.whiteAlpha[900]} !important;
+    background-color: ${({ theme }) => theme.color.white} !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;

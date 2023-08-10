@@ -6,7 +6,7 @@ import LayoutTemplate from '../components/shared/layout/LayoutTemplate'
 
 import { MetaPools } from '../components/shared/meta/MetaPools'
 import { apolloClient } from '../config/apollo'
-import { queryPools } from '../queries/queryPools'
+import { queryPools } from '../queries/subgraph/queryPools'
 import { Pool } from '../types/Pool'
 
 type PoolsProps = {
