@@ -170,14 +170,14 @@
     },
     "pools": {
       "title": "Maximize Ethereum holdings through staking, unlock rewards, and collaborate on incredible Web3 projects.",
-      "projectInfo":{
+      "projectInfo": {
         "tvl": "Total Value Locked",
         "rewards": "Rewards",
         "incentives": "Incentives",
         "members": "Members",
         "projects": "Projects",
         "apy": "APY"
-      }, 
+      },
       "filter": {
         "all": "All",
         "art": "Art",
