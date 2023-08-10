@@ -147,13 +147,6 @@
   "gas": {
     "alt": "Preço do gás da rede"
   },
-  "poolsFilter": {
-    "rank": "Ranque",
-    "name": "Nome",
-    "type": "Tipo",
-    "members": "Membros",
-    "staked": "Staked"
-  },
   "airdrop": {
     "title": "Bem-vindo ao StakeTogether",
     "description": "Lorem Ipsum é simplesmente",
@@ -174,6 +167,15 @@
       "disconnect": "Desconectar"
     },
     "pools": {
+      "title": "Maximize suas participações em Ethereum através de staking, desbloqueie recompensas e colabore em incríveis projetos Web3.",
+      "projectInfo": {
+        "tvl": "Valor Total Alocado",
+        "rewards": "Recompensas",
+        "incentives": "Incentivos",
+        "members": "Membros",
+        "projects": "Projetos",
+        "apy": "APY"
+      },
       "filter": {
         "all": "Todos",
         "art": "Arte",

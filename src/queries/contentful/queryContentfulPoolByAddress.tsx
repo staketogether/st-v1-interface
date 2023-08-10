@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client'
 
-export const queryPoolByAddress = gql`
-  query Account($walletAddress: String!, $locale: String) {
+export const queryContentfulPoolByAddress = gql`
+  query PoolByAddress($walletAddress: String!, $locale: String) {
     poolCollection(where: { wallet: $walletAddress }, locale: $locale) {
       items {
         wallet
@@ -15,6 +15,9 @@ export const queryPoolByAddress = gql`
         twitter
         contract
         discord
+        category {
+          name
+        }
       }
     }
   }
