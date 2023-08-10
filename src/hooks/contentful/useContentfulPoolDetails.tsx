@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-export default function useContentfulPoolDetailByAddress(poolAddress: `0x${string}` | undefined) {
+export default function useContentfulPoolDetails(poolAddress: `0x${string}` | undefined) {
   const [poolDetail, setPoolDetail] = useState<ContentfulPool | null>(null)
   const [poolsIsLoading, setPoolsIsLoading] = useState<boolean>(false)
   const router = useRouter()

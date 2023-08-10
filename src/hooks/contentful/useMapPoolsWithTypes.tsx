@@ -1,11 +1,10 @@
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
-import { Pool, PoolWithType } from '@/types/Pool'
+import { Pool, PoolSubgraph } from '@/types/Pool'
 
-export function useMapPoolsWithTypes(pools: Pool[]) {
+export function useMapPoolsWithTypes(pools: PoolSubgraph[]) {
   const { poolsList } = useContentfulPoolsList()
 
-  console.log(pools, poolsList)
-  const poolsWithTypes: PoolWithType[] = pools.map(subgraphPool => {
+  const poolsWithTypes: Pool[] = pools.map(subgraphPool => {
     const pool = poolsList.find(
       item => item.wallet?.toLocaleLowerCase() === subgraphPool.id.toLocaleLowerCase()
     )

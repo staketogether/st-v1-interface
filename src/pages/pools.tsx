@@ -7,10 +7,10 @@ import LayoutTemplate from '../components/shared/layout/LayoutTemplate'
 import { MetaPools } from '../components/shared/meta/MetaPools'
 import { apolloClient } from '../config/apollo'
 import { queryPools } from '../queries/queryPools'
-import { Pool } from '../types/Pool'
+import { PoolSubgraph } from '../types/Pool'
 
 type PoolsProps = {
-  pools: Pool[]
+  pools: PoolSubgraph[]
 }
 
 export default function Pools({ pools }: PoolsProps) {
@@ -23,12 +23,12 @@ export default function Pools({ pools }: PoolsProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const { data } = await apolloClient.query<{ pools: Pool[] }>({
+  const { data } = await apolloClient.query<{ pools: PoolSubgraph[] }>({
     query: queryPools,
     fetchPolicy: 'no-cache'
   })
 
-  const pools: Pool[] = data.pools
+  const pools: PoolSubgraph[] = data.pools
 
   return {
     props: {

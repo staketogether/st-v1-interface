@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { queryPool } from '../../queries/queryPool'
-import { Pool } from '../../types/Pool'
+import { PoolSubgraph } from '../../types/Pool'
 import { useState } from 'react'
 
 export default function usePool(address?: string, delegations?: { first: number; skip: number }) {
@@ -10,7 +10,7 @@ export default function usePool(address?: string, delegations?: { first: number;
     data,
     loading: poolLoading,
     fetchMore
-  } = useQuery<{ pool: Pool }>(queryPool, {
+  } = useQuery<{ pool: PoolSubgraph }>(queryPool, {
     variables: { id: address, first: delegations?.first || 10, skip: delegations?.skip || 0 },
     skip: !address?.length
   })

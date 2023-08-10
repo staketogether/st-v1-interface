@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import useTranslation from '@/hooks/useTranslation'
 import { useState } from 'react'
-import { Pool } from '../../types/Pool'
+import { PoolSubgraph } from '../../types/Pool'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
 import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
@@ -16,7 +16,7 @@ import { truncateWei } from '@/services/truncate'
 import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
 
 type PoolsListProps = {
-  pools: Pool[]
+  pools: PoolSubgraph[]
 }
 
 export default function PoolsControl({ pools }: PoolsListProps) {

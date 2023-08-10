@@ -1,7 +1,7 @@
 import { Account } from './Account'
 import { Delegation } from './Delegation'
 
-export type Pool = {
+export type PoolSubgraph = {
   id: string
   account: Account
   active: boolean
@@ -16,6 +16,6 @@ export type ENSPool = {
   avatar?: string
 }
 
-export type PoolWithType = {
+export type Pool = {
   type?: string
-} & Pool
+} & PoolSubgraph
