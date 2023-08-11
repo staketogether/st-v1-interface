@@ -1,9 +1,6 @@
 import chainConfig from '@/config/chain'
-import useContractConfig from '@/hooks/contracts/useContractConfig'
 import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
 import usePooledShareByEth from '@/hooks/contracts/useSharesByPooledEth'
-import useWithdrawLiquidity from '@/hooks/contracts/useWithdrawLiquidity'
-import { useWithdrawLiquidityBalance } from '@/hooks/contracts/useWithdrawLiquidityBalance'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
 import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValidatorBalance'
@@ -21,6 +18,7 @@ import { useDebounce } from 'usehooks-ts'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useDeposit from '../../hooks/contracts/useDeposit'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
+import useStConfig from '../../hooks/contracts/useStConfig'
 import useWithdrawPool from '../../hooks/contracts/useWithdrawPool'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateWei } from '../../services/truncate'
@@ -38,8 +36,8 @@ type StakeFormProps = {
 
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { t } = useTranslation()
-  const { contractConfig } = useContractConfig()
-  const minDepositAmount = contractConfig?.minDepositAmount || 0n
+  const { stConfig } = useStConfig()
+  const minDepositAmount = stConfig?.minDepositAmount || 0n
 
   const {
     balance: ethBalance,
@@ -58,7 +56,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const [withdrawTypeSelected, setWithdrawTypeSelected] = useState(WithdrawType.POOL)
   const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
     useWithdrawPoolBalance()
-  const { withdrawLiquidityBalance, refetch: withdrawLiquidityBalanceRefetch } = useWithdrawLiquidityBalance()
+
   const {
     withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
     refetch: withdrawValidatorsBalanceRefetch
@@ -66,8 +64,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
-      case WithdrawType.LIQUIDITY:
-        return withdrawLiquidityBalance
       case WithdrawType.VALIDATORS:
         return withdrawLiquidityValidatorsBalance
 
@@ -78,23 +74,17 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const handleWithdrawBalanceRefetch = useCallback(() => {
     switch (withdrawTypeSelected) {
-      case WithdrawType.LIQUIDITY:
-        return withdrawLiquidityBalanceRefetch()
       case WithdrawType.VALIDATORS:
         return withdrawValidatorsBalanceRefetch()
 
       default:
         return withdrawPoolBalanceRefetch()
     }
-  }, [
-    withdrawLiquidityBalanceRefetch,
-    withdrawPoolBalanceRefetch,
-    withdrawValidatorsBalanceRefetch,
-    withdrawTypeSelected
-  ])
+  }, [withdrawPoolBalanceRefetch, withdrawValidatorsBalanceRefetch, withdrawTypeSelected])
 
   const [amount, setAmount] = useState<string>('')
 
+  // Todo: this should be dynamic and come from subgraph
   const { balance: sharesRatio } = usePooledShareByEth(BigInt('1000000000000000000'))
   const { balance: ratioEthByShare } = usePooledEthByShares(sharesRatio.toString())
 
@@ -128,21 +118,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   )
 
   const {
-    withdrawLiquidity,
-    isLoading: withdrawLiquidityLoading,
-    isSuccess: withdrawLiquiditySuccess,
-    estimatedCost: withdrawLiquidityEstimatedCost,
-    awaitWalletAction: withdrawLiquidityAwaitWalletAction,
-    resetState: withdrawLiquidityResetState,
-    txHash: withdrawLiquidityTxHash
-  } = useWithdrawLiquidity(
-    inputAmount,
-    poolAddress,
-    type === 'withdraw' && withdrawTypeSelected === WithdrawType.LIQUIDITY,
-    accountAddress
-  )
-
-  const {
     withdrawValidator,
     isLoading: withdrawValidatorLoading,
     isSuccess: withdrawValidatorSuccess,
@@ -164,16 +139,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const handleWithdraw = () => {
     switch (withdrawTypeSelected) {
-      case WithdrawType.LIQUIDITY:
-        return {
-          withdraw: withdrawLiquidity,
-          withdrawLoading: withdrawLiquidityLoading,
-          withdrawSuccess: withdrawLiquiditySuccess,
-          withdrawEstimatedCost: withdrawLiquidityEstimatedCost,
-          withdrawAwaitWalletAction: withdrawLiquidityAwaitWalletAction,
-          withdrawResetState: withdrawLiquidityResetState,
-          withdrawTxHash: withdrawLiquidityTxHash
-        }
       case WithdrawType.VALIDATORS:
         return {
           withdraw: withdrawValidator,
@@ -334,7 +299,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         {type === 'withdraw' && (
           <StakeWithdrawSwitchTypes
             liquidityPoolBalance={withdrawLiquidityPoolBalance}
-            liquidityLiquidityBalance={withdrawLiquidityBalance}
             liquidityValidatorsBalance={withdrawLiquidityValidatorsBalance}
             withdrawTypeSelected={withdrawTypeSelected}
             selectWithdrawType={setWithdrawTypeSelected}

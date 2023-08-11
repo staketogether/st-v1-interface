@@ -9,3 +9,15 @@ export type Account = {
   delegations: Delegation[]
   sentDelegationsCount: bigint
 }
+
+export type AccountDelegations = {
+  sentDelegationsCount: bigint
+  shares: bigint
+  delegations: {
+    delegated: {
+      address: `0x${string}`
+    }
+    delegationShares: bigint
+    delegationBalance: bigint
+  }[]
+}

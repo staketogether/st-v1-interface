@@ -8,15 +8,15 @@ import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/queryAccount'
 import { queryPool } from '../../queries/queryPool'
 
+import { WithdrawType } from '@/types/Withdraw'
 import { ethers } from 'ethers'
 import {
   usePrepareStakeTogetherWithdrawValidator,
-  useStakeTogetherWithdrawValidator,
-  stakeTogetherABI
+  useStakeTogetherWithdrawValidator
 } from '../../types/Contracts'
+import useAccountDelegations from '../useAccountDelegations'
+
 import useTranslation from '../useTranslation'
-import useEstimateTxInfo from '../useEstimateTxInfo'
-import { WithdrawType } from '@/types/Withdraw'
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
@@ -30,34 +30,23 @@ export default function useWithdrawValidator(
 
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
-  const [estimateGasCost, setEstimateGasCost] = useState(0n)
+
+  const { delegations } = useAccountDelegations(
+    poolAddress,
+    ethers.parseEther(withdrawAmount || '0'),
+    'withdraw',
+    accountAddress
+  )
 
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
   const isWithdrawEnabled = enabled && amount > 0n
 
-  const { estimatedCost, estimatedGasLimit, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-    useEstimateTxInfo({
-      account: accountAddress,
-      contractAddress: contracts.StakeTogether,
-      functionName: 'withdrawValidator',
-      args: [amount, poolAddress],
-      abi: stakeTogetherABI,
-      skip: awaitWalletAction || !isWithdrawEnabled
-    })
-
-  useEffect(() => {
-    setEstimateGasCost(estimatedCost)
-  }, [estimatedCost])
-
   const { config } = usePrepareStakeTogetherWithdrawValidator({
     address: contracts.StakeTogether,
-    args: [amount, poolAddress],
+    args: [amount, delegations],
     account: accountAddress,
-    enabled: isWithdrawEnabled,
-    gas: estimatedGasLimit > 0n ? estimatedGasLimit : undefined,
-    maxFeePerGas: estimatedMaxFeePerGas > 0n ? estimatedMaxFeePerGas : undefined,
-    maxPriorityFeePerGas: estimatedMaxPriorityFeePerGas > 0n ? estimatedMaxPriorityFeePerGas : undefined
+    enabled: isWithdrawEnabled
   })
 
   const tx = useStakeTogetherWithdrawValidator({
@@ -121,7 +110,7 @@ export default function useWithdrawValidator(
 
   return {
     withdrawValidator,
-    estimatedCost: estimateGasCost,
+    estimatedCost: 0n,
     isLoading,
     isSuccess,
     awaitWalletAction,

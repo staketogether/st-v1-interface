@@ -7,3 +7,8 @@ export type Delegation = {
   delegated: PoolSubgraph
   delegationBalance: bigint
 }
+
+export type DelegationMap = {
+  pool: `0x${string}`
+  shares: bigint
+}

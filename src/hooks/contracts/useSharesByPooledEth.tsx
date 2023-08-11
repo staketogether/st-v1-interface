@@ -1,8 +1,11 @@
+import { useStakeTogetherSharesByPooledEth } from '@/types/Contracts'
 import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
-import { useStakeTogetherSharesByPooledEth } from '@/types/Contracts'
 
-export default function useSharesByPooledEth(ethAmount: bigint) {
+/**
+ * @deprecated Use from subgraph instead
+ */
+export default function useSharesByPooledEth(amount: bigint) {
   const { contracts } = chainConfig()
 
   const [balance, setBalance] = useState<bigint>(0n)
@@ -10,7 +13,7 @@ export default function useSharesByPooledEth(ethAmount: bigint) {
 
   const { isLoading } = useStakeTogetherSharesByPooledEth({
     address: contracts.StakeTogether,
-    args: [ethAmount],
+    args: [amount],
     onSuccess: data => {
       setBalance(data || 0n)
     }
