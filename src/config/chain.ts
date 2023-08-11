@@ -16,8 +16,10 @@ export type ChainConfig = {
     contentful: string
   }
   contracts: {
+    Airdrop: `0x${string}`
+    Withdrawals: `0x${string}`
+    Router: `0x${string}`
     StakeTogether: `0x${string}`
-    Liquidity: `0x${string}`
   }
 }
 
@@ -47,8 +49,10 @@ const configs: ChainConfig[] = [
     },
     alchemyApiUrl: `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`,
     contracts: {
-      StakeTogether: '0xe4Dd09e070611C2785e51Cb22ef10DdBa6926b22',
-      Liquidity: '0x5364145C9d25429Be4c94ebb479500162f08205c'
+      Airdrop: '0xe5C16aB0d8b285bC59d349C94e759bd9f15c89B0',
+      Withdrawals: '0x28d10155d3476742358841531F8b88c1BC2AB610',
+      Router: '0x3A27d46AF55c9441865B5C500E5819b1a1900A79',
+      StakeTogether: '0xb5E5BE5Bd9D41559a00de34aDF2aBAE11FC3143D'
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-v2-goerli/version/latest',
