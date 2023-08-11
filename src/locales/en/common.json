@@ -198,16 +198,15 @@
         "description": "Deposit ETH and use stpETH in DeFi to earn staking rewards while explorinf additional"
       },
       "annualRewards": "Annual Staking Rewards",
+      "infoEmptyState": "New information coming soon!"
+    },
     "wallet": {
-      "totalRewards": "Total Rewards",
-      "activities": {
-        "type": {
-          "deposit": "Deposit",
-          "donationDeposit": "Donation",
-          "withdraw": "Withdraw"
-        }
-      }
+      "totalRewards": "Total Rewards"
+    },
+    "activities": {
+      "deposit": "Deposit",
+      "donationDeposit": "Donation",
+      "withdraw": "Withdraw"
     }
   }
-}
 }

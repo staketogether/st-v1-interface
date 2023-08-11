@@ -11,6 +11,7 @@ import EnsName from '../shared/ens/EnsName'
 import { Tooltip } from 'antd'
 import { PoolSubgraph } from '@/types/Pool'
 import StakeActivity from './StakeActivity'
+import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}`
@@ -28,7 +29,6 @@ export default function StakePoolInfo({
   loadMoreLoadingPoolData
 }: StakeStatsProps) {
   const { t } = useTranslation()
-
   const [skip, setSkip] = useState(0)
 
   const handleLoadMore = () => {
@@ -36,6 +36,8 @@ export default function StakePoolInfo({
     setSkip(newSkip)
     fetchMore({ id: poolAddress, first: 10, skip: newSkip })
   }
+
+  const { poolActivities, isLoading: poolActivitiesLoading } = usePoolActivities(poolAddress)
 
   const tabsItems: TabsItems[] = [
     {
@@ -70,7 +72,7 @@ export default function StakePoolInfo({
       icon: <ActivityIcon />,
       children: (
         <TabContainer>
-          <StakeActivity poolAddress={poolAddress} />
+          <StakeActivity poolActivities={poolActivities} isLoading={poolActivitiesLoading} />
         </TabContainer>
       )
     }

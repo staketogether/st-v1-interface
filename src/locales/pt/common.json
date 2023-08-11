@@ -197,16 +197,15 @@
         "description": "Deposite ETH e use stpETH no DeFi para ganhar recompensas de staking enquanto explora outras opções"
       },
       "annualRewards": "Recompensas Anuais de Staking",
+      "infoEmptyState": "New information coming soon!"
+    },
     "wallet": {
-      "totalRewards": "Total de Recompensas",
-      "activities": {
-        "type": {
-          "deposit": "Depósito",
-          "donationDeposit": "Doação",
-          "withdraw": "Saque"
-        }
-      }
+      "totalRewards": "Total de Recompensas"
+    },
+    "activities": {
+      "deposit": "Depósito",
+      "donationDeposit": "Doação",
+      "withdraw": "Saque"
     }
   }
-}
 }

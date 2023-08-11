@@ -14,6 +14,7 @@ import chain from '@/config/chain'
 import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
 import { truncateAddress } from '@/services/truncate'
+import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 interface StakePoolAboutProps {
   poolAddress: `0x${string}` | undefined
 }
@@ -23,7 +24,8 @@ export default function StakePoolAbout({ poolAddress }: StakePoolAboutProps) {
   const videoId = poolDetail?.video ? poolDetail?.video.split('v=')[1] : null
   return (
     <Container>
-      {loading ? <SkeletonLoading height={18} width={250} /> : <h1>{poolDetail?.name}</h1>}
+      {loading && <SkeletonLoading height={18} width={237} />}
+      {!loading && poolDetail && <h1>{poolDetail?.name}</h1>}
 
       {!loading && videoId && (
         <iframe
@@ -46,7 +48,7 @@ export default function StakePoolAbout({ poolAddress }: StakePoolAboutProps) {
         </DescriptionLoading>
       )}
 
-      {!loading && (
+      {!loading && poolDetail && (
         <SocialContainer>
           {poolDetail?.site && (
             <Social href={poolDetail.site} target='_blank'>
@@ -100,6 +102,8 @@ export default function StakePoolAbout({ poolAddress }: StakePoolAboutProps) {
           <SkeletonLoading height={40} />
         </SocialContainer>
       )}
+
+      {!loading && !poolDetail && <StakeEmptyPoolInfo />}
     </Container>
   )
 }

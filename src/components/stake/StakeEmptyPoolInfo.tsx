@@ -2,12 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
 import stIcon from '@assets/icons/empty-pool-info.svg'
+import useTranslation from '@/hooks/useTranslation'
 
 export default function StakeEmptyPoolInfo() {
+  const { t } = useTranslation()
   return (
     <Container>
       <Image src={stIcon} width={120} height={120} alt='empty state' />
-      <h4>New information coming soon!</h4>
+      <h4>{t('v2.stake.annualRewards')}</h4>
     </Container>
   )
 }

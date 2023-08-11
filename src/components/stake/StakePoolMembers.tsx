@@ -5,6 +5,7 @@ import { Delegation } from '@/types/Delegation'
 import { AiOutlineUsergroupAdd } from 'react-icons/ai'
 import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
+import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 
 interface StakeMembersProps {
   initialLoading: boolean
@@ -32,6 +33,9 @@ export default function StakePoolMembers({
           <SkeletonLoading height={14} />
         </DelegationsContainer>
       )}
+      {!initialLoading && !delegations && <StakeEmptyPoolInfo />}
+      {!initialLoading && delegations && !delegations.length && <StakeEmptyPoolInfo />}
+
       {!initialLoading && delegations && delegations.length > 0 && (
         <DelegationsContainer>
           {delegations.map((delegation, index) => (
