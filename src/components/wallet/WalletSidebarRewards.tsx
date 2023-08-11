@@ -55,13 +55,13 @@ const { Container, Reward, RewardsHeader } = {
       color: ${({ theme }) => theme.color.secondary};
     }
   `,
-  ActivitiesHeader: styled.div`
+  RewardsHeader: styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: ${({ theme }) => theme.size[8]};
   `,
-  Activity: styled.div`
+  Reward: styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
