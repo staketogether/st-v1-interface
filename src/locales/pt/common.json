@@ -42,15 +42,7 @@
   "availableToStake": "Disponivel para stake",
   "rewardsTooltip": "O saldo de suas recompensas é automaticamente convertido em seu saldo de stake.",
   "poolDetail": "Detalhes da Pool",
-  "safe": "SEGURO",
-  "depositDescription": "Deposite ETH e use stpETH no DeFi para ganhar recompensas de staking enquanto explora outras opções.",
-  "annualRewards": "Recompensas Anuais de Staking",
   "learnMore": "Leia mais",
-  "titles": {
-    "pools": "Projetos",
-    "stake": "Stake de Ether",
-    "poolStats": "Estatísticas da Pool"
-  },
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -191,6 +183,13 @@
         "invested": "Total Investido",
         "invest": "Investir"
       }
+    },
+    "stake": {
+      "header": {
+        "title": "Stake Ether",
+        "description": "Deposite ETH e use stpETH no DeFi para ganhar recompensas de staking enquanto explora outras opções"
+      },
+      "annualRewards": "Recompensas Anuais de Staking"
     }
   }
 }

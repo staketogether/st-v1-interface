@@ -7,6 +7,9 @@ import useConnectedAccount from '../../hooks/useConnectedAccount'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
+import usePool from '@/hooks/subgraphs/usePool'
+import { truncateWei } from '@/services/truncate'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -16,8 +19,10 @@ interface StakeControlProps {
 export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { t } = useTranslation()
   const { isActive } = useActiveRoute()
-  const router = useRouter()
 
+  const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress, { first: 10, skip: 0 })
+
+  const router = useRouter()
   const handleSwitch = (type: string) => {
     if (poolAddress) {
       router.push(`/pools/${type}/${poolAddress}`)
@@ -34,7 +39,6 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   }
 
   const { account } = useConnectedAccount()
-
   const stakeForm = <StakeForm type={type} accountAddress={account} poolAddress={poolAddress} />
 
   const tabsItems: TabsItems[] = [
@@ -52,24 +56,29 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
       color: 'purple'
     }
   ]
-
   const activeTab = isActive('deposit') ? 'deposit' : 'withdraw'
 
   return (
     <Container>
       <header>
-        <h1>Stake Ether</h1>
-        <span>Deposit ETH and use stpETH in DeFi to earn staking rewards while explorinf additional</span>
+        <h1>{t('v2.stake.header.title')}</h1>
+        <span>{t('v2.stake.header.description')}</span>
       </header>
 
       <TvlContainer>
         <div>
-          <span>Annual Staking Rewards</span>
+          <span>{t('v2.stake.annualRewards')}</span>
           <span className='green'>5.7%</span>
         </div>
         <div>
           <span>TVL</span>
-          <span className='primary'>9.868 ETH</span>
+          {!!pool?.poolBalance && !initialLoading ? (
+            <span className='primary'>{`${truncateWei(pool?.poolBalance, 3)} ${t('eth.symbol')} (${
+              pool?.marketShare
+            }%)`}</span>
+          ) : (
+            <SkeletonLoading height={14} width={100} />
+          )}
         </div>
       </TvlContainer>
 
@@ -81,7 +90,13 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
           onChangeActiveTab={value => handleSwitch(value as string)}
         />
       </Form>
-      <StakePoolInfo poolAddress={poolAddress} />
+      <StakePoolInfo
+        poolAddress={poolAddress}
+        poolData={pool}
+        fetchMore={fetchMore}
+        loadMoreLoadingPoolData={loadMoreLoading}
+        initialLoadingPoolData={initialLoading}
+      />
     </Container>
   )
 }
@@ -130,7 +145,7 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
     }
 
     span {
-      font-size: 14px;
+      font-size: ${({ theme }) => theme.font.size[14]};
       font-style: normal;
       font-weight: 500;
       line-height: normal;

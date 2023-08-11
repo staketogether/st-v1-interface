@@ -11,7 +11,11 @@ export default function usePool(address?: string, delegations?: { first: number;
     loading: poolLoading,
     fetchMore
   } = useQuery<{ pool: PoolSubgraph }>(queryPool, {
-    variables: { id: address, first: delegations?.first || 10, skip: delegations?.skip || 0 },
+    variables: {
+      id: address?.toLocaleLowerCase(),
+      first: delegations?.first || 10,
+      skip: delegations?.skip || 0
+    },
     skip: !address?.length
   })
 

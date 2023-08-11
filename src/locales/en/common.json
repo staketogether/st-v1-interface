@@ -44,15 +44,7 @@
   "amount": "amount",
   "rewardsTooltip": "Your rewards balance is automatically converted into your staked balance.",
   "poolDetail": "Pool Detail",
-  "safe": "SAFE",
-  "depositDescription": "Deposit ETH and use stpETH in DeFi to earn staking rewards while explorinf additional",
-  "annualRewards": "Annual Staking Rewards",
   "learnMore": "learn more",
-  "titles": {
-    "pools": "Pools",
-    "stake": "Stake Ether",
-    "poolStats": "Pool Statistics"
-  },
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -193,6 +185,13 @@
         "invested": "Total Invested",
         "invest": "Invest"
       }
+    },
+    "stake": {
+      "header": {
+        "title": "Stake Ether",
+        "description": "Deposit ETH and use stpETH in DeFi to earn staking rewards while explorinf additional"
+      },
+      "annualRewards": "Annual Staking Rewards"
     }
   }
 }

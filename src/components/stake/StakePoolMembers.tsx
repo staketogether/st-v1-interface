@@ -63,7 +63,6 @@ const { Container, DelegationsContainer, LoadMoreButton } = {
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     gap: ${({ theme }) => theme.size[16]};
-    padding: ${({ theme }) => theme.size[24]};
   `,
   DelegationsContainer: styled.div`
     display: grid;
