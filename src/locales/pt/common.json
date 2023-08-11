@@ -2,6 +2,9 @@
   "stakeTogether": "Stake Together",
   "pools": "Projetos",
   "stake": "Depositar",
+  "time": "Tempo",
+  "type": "Tipo",
+  "value": "Valor",
   "rewards": "Recompensas",
   "delegates": "Delegados",
   "processing": "Processando...",
@@ -40,6 +43,8 @@
   "viewOnExplorer": "Ver no Explorer",
   "try": "Tentar novamente",
   "availableToStake": "Disponivel para stake",
+  "amount": "Quantidade",
+  "tx": "TX",
   "rewardsTooltip": "O saldo de suas recompensas é automaticamente convertido em seu saldo de stake.",
   "poolDetail": "Detalhes da Pool",
   "safe": "SEGURO",
@@ -72,6 +77,8 @@
   },
   "noDelegations": "Sem Delegações",
   "noStake": "Você ainda não fez Stake",
+  "noRewards": "Você ainda não recebeu recompensas",
+  "noActivities": "Você ainda não tem atividades em sua conta",
   "notifications": {
     "depositSuccess": "Depósito Bem-Sucedido",
     "depositError": "Falha ao Depositar",
@@ -190,6 +197,16 @@
         "people": "Pessoas Investindo",
         "invested": "Total Investido",
         "invest": "Investir"
+      }
+    },
+    "wallet": {
+      "totalRewards": "Total de Recompensas",
+      "activities": {
+        "type": {
+          "deposit": "Depósito",
+          "donationDeposit": "Doação",
+          "withdraw": "Saque"
+        }
       }
     }
   }

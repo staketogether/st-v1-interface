@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
 
-import { queryStakeTogether } from '@/queries/queryStakeTogether'
+import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { StakeTogether } from '@/types/StakeTogether'
 
 export default function useStakeTogether() {

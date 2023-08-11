@@ -8,17 +8,17 @@ import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 
-import { WithdrawType } from '@/types/Withdraw'
 import { ethers } from 'ethers'
 import {
-  usePrepareStakeTogetherWithdrawValidator,
-  useStakeTogetherWithdrawValidator
+  usePrepareStakeTogetherWithdrawLiquidity,
+  useStakeTogetherWithdrawLiquidity,
+  stakeTogetherABI
 } from '../../types/Contracts'
-import useAccountDelegations from '../useAccountDelegations'
-
 import useTranslation from '../useTranslation'
+import useEstimateTxInfo from '../useEstimateTxInfo'
+import { WithdrawType } from '@/types/Withdraw'
 
-export default function useWithdrawValidator(
+export default function useWithdrawLiquidity(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
@@ -31,25 +31,37 @@ export default function useWithdrawValidator(
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
 
-  const { delegations } = useAccountDelegations(
-    poolAddress,
-    ethers.parseEther(withdrawAmount || '0'),
-    'withdraw',
-    accountAddress
-  )
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
 
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
   const isWithdrawEnabled = enabled && amount > 0n
 
-  const { config } = usePrepareStakeTogetherWithdrawValidator({
+  const { estimatedCost, estimatedGasLimit, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
+    useEstimateTxInfo({
+      account: accountAddress,
+      contractAddress: contracts.StakeTogether,
+      functionName: 'withdrawLiquidity',
+      args: [amount, poolAddress],
+      abi: stakeTogetherABI,
+      skip: awaitWalletAction || !isWithdrawEnabled
+    })
+
+  useEffect(() => {
+    setEstimateGasCost(estimatedCost)
+  }, [estimatedCost])
+
+  const { config } = usePrepareStakeTogetherWithdrawLiquidity({
     address: contracts.StakeTogether,
-    args: [amount, delegations],
+    args: [amount, poolAddress],
     account: accountAddress,
-    enabled: isWithdrawEnabled
+    enabled: isWithdrawEnabled,
+    gas: estimatedGasLimit > 0n ? estimatedGasLimit : undefined,
+    maxFeePerGas: estimatedMaxFeePerGas > 0n ? estimatedMaxFeePerGas : undefined,
+    maxPriorityFeePerGas: estimatedMaxPriorityFeePerGas > 0n ? estimatedMaxPriorityFeePerGas : undefined
   })
 
-  const tx = useStakeTogetherWithdrawValidator({
+  const tx = useStakeTogetherWithdrawLiquidity({
     ...config,
     onSuccess: data => {
       if (data?.hash) {
@@ -61,7 +73,7 @@ export default function useWithdrawValidator(
     }
   })
 
-  const withdrawValidator = () => {
+  const withdrawLiquidity = () => {
     setAwaitWalletAction(true)
     tx.write?.()
     setNotify(true)
@@ -84,7 +96,7 @@ export default function useWithdrawValidator(
         include: [queryAccount, queryPool, queryDelegationShares]
       })
 
-      registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.VALIDATORS)
+      registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.LIQUIDITY)
 
       if (notify) {
         notification.success({
@@ -109,8 +121,8 @@ export default function useWithdrawValidator(
   }, [accountAddress, isError, notify, poolAddress, t, withdrawAmount])
 
   return {
-    withdrawValidator,
-    estimatedCost: 0n,
+    withdrawLiquidity,
+    estimatedCost: estimateGasCost,
     isLoading,
     isSuccess,
     awaitWalletAction,

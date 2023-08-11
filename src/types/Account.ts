@@ -5,7 +5,7 @@ export type Account = {
   address: `0x${string}`
   balance: bigint
   originalBalance: string
-  rewardsBalance: bigint
+  totalRewards: bigint
   delegations: Delegation[]
   sentDelegationsCount: bigint
 }

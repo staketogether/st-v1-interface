@@ -1,4 +1,4 @@
-import { queryDelegationShares } from '@/queries/queryDelegatedShares'
+import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { useQuery } from '@apollo/client'
 
 export default function useDelegationShares(walletAddress?: `0x${string}`, communityDelegate?: `0x${string}`) {

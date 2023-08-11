@@ -7,7 +7,7 @@ type WalletSlideBarSettingsProps = {
   setIsSettingsActive: (value: boolean) => void
 }
 
-export default function WalletSlideBarSettings({ setIsSettingsActive }: WalletSlideBarSettingsProps) {
+export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSlideBarSettingsProps) {
   const { t } = useTranslation()
   const router = useRouter()
 
