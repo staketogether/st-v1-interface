@@ -1,7 +1,7 @@
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { BsWallet } from 'react-icons/bs'
 import styled from 'styled-components'
-import useTranslation from '../../../hooks/useTranslation'
+import useTranslation from '../../hooks/useTranslation'
 import WalletSidebarDisconnected from './WalletSidebarDisconnected'
 
 export default function WalletConnectButton() {

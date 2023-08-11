@@ -5,8 +5,8 @@ import { useState } from 'react'
 import { AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
-import useTranslation from '../../../hooks/useTranslation'
-import WalletSlideBarSettings from './WalletSlideBarSettings'
+import useTranslation from '../../hooks/useTranslation'
+import WalletSidebarSettings from './WalletSidebarSettings'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 
 export default function WalletSidebarDisconnected() {
@@ -25,7 +25,7 @@ export default function WalletSidebarDisconnected() {
       open={openSidebarConnectWallet}
     >
       {isSettingsActive ? (
-        <WalletSlideBarSettings setIsSettingsActive={setIsSettingsActive} />
+        <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />
       ) : (
         <>
           <HeaderContainer>
@@ -71,7 +71,7 @@ const {
   ContainerWalletConnect
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: ${({ theme }) => theme.color.whiteAlpha[800]} !important;
+    background-color: ${({ theme }) => theme.color.white} !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;

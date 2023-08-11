@@ -1,13 +1,13 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
-import { queryDelegationShares } from '@/queries/queryDelegatedShares'
+import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
-import { queryAccount } from '../../queries/queryAccount'
-import { queryPool } from '../../queries/queryPool'
+import { queryAccount } from '../../queries/subgraph/queryAccount'
+import { queryPool } from '../../queries/subgraph/queryPool'
 import {
   usePrepareStakeTogetherDepositPool,
   useStakeTogetherDepositPool,

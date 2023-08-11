@@ -2,6 +2,9 @@
   "stakeTogether": "Stake Together",
   "pools": "Pools",
   "stake": "Stake",
+  "time": "Time",
+  "type": "Type",
+  "value": "Value",
   "rewards": "Rewards",
   "delegates": "Delegates",
   "processing": "Processing...",
@@ -41,7 +44,8 @@
   "viewOnExplorer": "View on Explorer",
   "try": "try again",
   "availableToStake": "Available to stake",
-  "amount": "amount",
+  "amount": "Amount",
+  "tx": "TX",
   "rewardsTooltip": "Your rewards balance is automatically converted into your staked balance.",
   "poolDetail": "Pool Detail",
   "learnMore": "learn more",
@@ -65,7 +69,9 @@
     "amount": "amount"
   },
   "noDelegations": "No Delegations",
-  "noStake": "You not staked yet",
+  "noStake": "You have not staked yet",
+  "noRewards": "You have not earned any rewards yet",
+  "noActivities": "You have not performed any activities yet",
   "notifications": {
     "depositSuccess": "Deposit Successful",
     "depositError": "Failed to Deposit",
@@ -191,7 +197,17 @@
         "title": "Stake Ether",
         "description": "Deposit ETH and use stpETH in DeFi to earn staking rewards while explorinf additional"
       },
-      "annualRewards": "Annual Staking Rewards"
+      "annualRewards": "Annual Staking Rewards",
+    "wallet": {
+      "totalRewards": "Total Rewards",
+      "activities": {
+        "type": {
+          "deposit": "Deposit",
+          "donationDeposit": "Donation",
+          "withdraw": "Withdraw"
+        }
+      }
     }
   }
+}
 }
