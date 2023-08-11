@@ -1,7 +1,7 @@
 import { truncateAddress, truncateText } from '@/services/truncate'
 import { Web3AuthUserInfo } from '@/types/Web3AuthUserInfo'
 import React from 'react'
-import SkeletonLoading from '../icons/SkeletonLoading'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 type WalletNameProps = {
   walletAddress: `0x${string}`

@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
-import { queryPools } from '../../queries/queryPools'
+import { queryPools } from '../../queries/subgraph/queryPools'
 
 import getSearchPools from '../../services/getSearchPools'
 import { ENSPool, PoolSubgraph } from '../../types/Pool'

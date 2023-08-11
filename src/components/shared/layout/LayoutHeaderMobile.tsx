@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { AiOutlineSearch } from 'react-icons/ai'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
-import Wallet from '../wallet/Wallet'
+import Wallet from '@/components/wallet/Wallet'
 import LayoutSearchDrawer from './LayoutSearchDrawer'
 import LayoutNetworkInfoButton from './LayoutNetworkInfoButton'
 

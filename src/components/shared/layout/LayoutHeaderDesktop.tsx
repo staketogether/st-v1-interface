@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/st-logo-desktop.png'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useTranslation from '../../../hooks/useTranslation'
-import Wallet from '../wallet/Wallet'
+import Wallet from '@/components/wallet/Wallet'
 
 export default function LayoutHeader() {
   const { t } = useTranslation()
