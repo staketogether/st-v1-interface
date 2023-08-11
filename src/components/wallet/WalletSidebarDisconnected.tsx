@@ -71,7 +71,7 @@ const {
   ContainerWalletConnect
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: ${({ theme }) => theme.color.white } !important;
+    background-color: ${({ theme }) => theme.color.white} !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;

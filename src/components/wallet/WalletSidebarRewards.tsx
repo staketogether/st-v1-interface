@@ -1,9 +1,9 @@
 import useTranslation from '@/hooks/useTranslation'
 import React from 'react'
 import styled, { useTheme } from 'styled-components'
-import { truncateWei } from "@/services/truncate";
-import { AccountReward } from "@/types/AccountReward";
-import { AiOutlineLink } from "react-icons/ai";
+import { truncateWei } from '@/services/truncate'
+import { AccountReward } from '@/types/AccountReward'
+import { AiOutlineLink } from 'react-icons/ai'
 
 type WalletSidebarRewards = {
   accountRewards: AccountReward[]
@@ -31,7 +31,7 @@ export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRe
         <Reward key={index}>
           <span>{reward.timestamp}</span>
           <span>{truncateWei(BigInt(reward.amount))}</span>
-          <AiOutlineLink color={theme.color.secondary}/>
+          <AiOutlineLink color={theme.color.secondary} />
         </Reward>
       ))}
     </Container>

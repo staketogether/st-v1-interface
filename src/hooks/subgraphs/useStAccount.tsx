@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { Account } from '../../types/Account'
 import { Delegation } from '../../types/Delegation'
-import { queryAccountActivities } from "@/queries/subgraph/queryAccountActivities";
-import { AccountActivity } from "@/types/AccountActivity";
-import { AccountReward } from "@/types/AccountReward";
-import { queryAccountRewards } from "@/queries/subgraph/queryAccountRewards";
+import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
+import { AccountActivity } from '@/types/AccountActivity'
+import { AccountReward } from '@/types/AccountReward'
+import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
 
 export default function useStAccount(address: `0x${string}`) {
   const [account, setAccount] = useState<Account | undefined>(undefined)
@@ -24,13 +24,18 @@ export default function useStAccount(address: `0x${string}`) {
     variables: { id: address.toLowerCase() }
   })
 
-  const { data: activitiesData, loading: activitiesLoading } = useQuery<{ accountActivities: AccountActivity[] }>(queryAccountActivities, {
+  const { data: activitiesData, loading: activitiesLoading } = useQuery<{
+    accountActivities: AccountActivity[]
+  }>(queryAccountActivities, {
     variables: { accountAddress: address.toLowerCase() }
   })
 
-  const { data: rewardsData, loading: rewardsLoading } = useQuery<{ accountRewards: AccountReward[] }>(queryAccountRewards, {
-    variables: { accountAddress: address.toLowerCase() }
-  })
+  const { data: rewardsData, loading: rewardsLoading } = useQuery<{ accountRewards: AccountReward[] }>(
+    queryAccountRewards,
+    {
+      variables: { accountAddress: address.toLowerCase() }
+    }
+  )
 
   useEffect(() => {
     if (accountData && accountData.account) {

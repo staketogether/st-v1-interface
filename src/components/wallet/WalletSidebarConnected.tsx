@@ -28,8 +28,8 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
 import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
 import WalletSidebarSettings from './WalletSidebarSettings'
-import WalletSidebarRewards from "@/components/wallet/WalletSidebarRewards";
-import WalletSidebarActivities from "@/components/wallet/WalletSidebarActivities";
+import WalletSidebarRewards from '@/components/wallet/WalletSidebarRewards'
+import WalletSidebarActivities from '@/components/wallet/WalletSidebarActivities'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -48,7 +48,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const handleWalletProviderImage = useWalletProviderImage()
   const { setOpenModal } = useWalletByEthModal()
 
-  const { accountTotalRewards, accountDelegations, accountBalance, accountRewards, accountActivities } = useStAccount(address)
+  const { accountTotalRewards, accountDelegations, accountBalance, accountRewards, accountActivities } =
+    useStAccount(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)

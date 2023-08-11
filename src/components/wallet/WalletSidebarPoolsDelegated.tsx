@@ -2,11 +2,11 @@ import useTranslation from '@/hooks/useTranslation'
 import { Delegation } from '@/types/Delegation'
 import React from 'react'
 import styled from 'styled-components'
-import Link from "next/link";
-import EnsAvatar from "@/components/shared/ens/EnsAvatar";
-import EnsName from "@/components/shared/ens/EnsName";
-import { truncateWei } from "@/services/truncate";
-import useWalletSidebar from "@/hooks/useWalletSidebar";
+import Link from 'next/link'
+import EnsAvatar from '@/components/shared/ens/EnsAvatar'
+import EnsName from '@/components/shared/ens/EnsName'
+import { truncateWei } from '@/services/truncate'
+import useWalletSidebar from '@/hooks/useWalletSidebar'
 
 type WalletSideBarPoolsDelegatedProps = {
   accountDelegations: Delegation[]
@@ -24,18 +24,21 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
         </div>
       )}
       {accountDelegations.map((delegation, index) => (
-        <DelegatedPool key={index} href={`/pools/deposit/${delegation.delegated.address}`}
-                       onClick={() => setOpenSidebar(false)}>
+        <DelegatedPool
+          key={index}
+          href={`/pools/deposit/${delegation.delegated.address}`}
+          onClick={() => setOpenSidebar(false)}
+        >
           <div>
             <div>
-              <EnsAvatar address={delegation.delegated.address}/>
-              <EnsName address={delegation.delegated.address}/>
+              <EnsAvatar address={delegation.delegated.address} />
+              <EnsName address={delegation.delegated.address} />
             </div>
           </div>
           <span>
-        {truncateWei(delegation.delegationBalance, 6)}
+            {truncateWei(delegation.delegationBalance, 6)}
             <span>{t('lsd.symbol')}</span>
-      </span>
+          </span>
         </DelegatedPool>
       ))}
     </Container>

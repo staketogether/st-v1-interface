@@ -1,9 +1,9 @@
 import useTranslation from '@/hooks/useTranslation'
 import React from 'react'
 import styled, { useTheme } from 'styled-components'
-import { truncateWei } from "@/services/truncate";
-import { AiOutlineLink } from "react-icons/ai";
-import { AccountActivity } from "@/types/AccountActivity";
+import { truncateWei } from '@/services/truncate'
+import { AiOutlineLink } from 'react-icons/ai'
+import { AccountActivity } from '@/types/AccountActivity'
 
 type WalletSidebarActivities = {
   accountActivities: AccountActivity[]
@@ -33,7 +33,7 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
           <span>{activity.timestamp}</span>
           <span>{t(`v2.wallet.activities.type.${activity.type}`)}</span>
           <span>{truncateWei(BigInt(activity.amount))}</span>
-          <AiOutlineLink color={theme.color.secondary}/>
+          <AiOutlineLink color={theme.color.secondary} />
         </Activity>
       ))}
     </Container>
