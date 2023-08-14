@@ -4,63 +4,77 @@ import { useState } from 'react'
 import { AiOutlineInfoCircle, AiOutlineUser } from 'react-icons/ai'
 import { BsGraphUp, BsShare } from 'react-icons/bs'
 import styled from 'styled-components'
-import usePool from '../../hooks/subgraphs/usePool'
 import useTranslation from '../../hooks/useTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 import { Tooltip } from 'antd'
+import { PoolSubgraph } from '@/types/Pool'
+import StakeActivity from './StakeActivity'
+import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 
 interface StakeStatsProps {
-  poolAddress: `0x${string}` | undefined
+  poolAddress: `0x${string}`
+  poolData: PoolSubgraph | undefined
+  fetchMore: (variables: { id: string; first: number; skip: number }) => void
+  loadMoreLoadingPoolData: boolean
+  initialLoadingPoolData: boolean
 }
 
-export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
+export default function StakePoolInfo({
+  poolAddress,
+  fetchMore,
+  poolData,
+  initialLoadingPoolData,
+  loadMoreLoadingPoolData
+}: StakeStatsProps) {
   const { t } = useTranslation()
-
   const [skip, setSkip] = useState(0)
 
-  const {
-    pool: poolData,
-    fetchMore,
-    loadMoreLoading: loadMoreLoadingPoolData,
-    initialLoading
-  } = usePool(poolAddress, { first: 10, skip: 0 })
-
   const handleLoadMore = () => {
-    if (poolAddress) {
-      const newSkip = skip + 10
-      setSkip(newSkip)
-      fetchMore({ id: poolAddress, first: 10, skip: newSkip })
-    }
+    const newSkip = skip + 10
+    setSkip(newSkip)
+    fetchMore({ id: poolAddress, first: 10, skip: newSkip })
   }
+
+  const { poolActivities, isLoading: poolActivitiesLoading } = usePoolActivities(poolAddress)
 
   const tabsItems: TabsItems[] = [
     {
       key: 'about',
       label: t('about'),
       icon: <AboutIcon />,
-      children: <StakePoolAbout poolAddress={poolAddress} />
+      children: (
+        <TabContainer>
+          <StakePoolAbout poolAddress={poolAddress} />
+        </TabContainer>
+      )
     },
     {
       key: 'members',
       label: t('members'),
       icon: <MembersIcon />,
       children: (
-        <StakePoolMembers
-          delegations={poolData?.delegations}
-          initialLoading={initialLoading}
-          loadMoreLoading={loadMoreLoadingPoolData}
-          onLoadMore={handleLoadMore}
-          totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
-        />
+        <TabContainer>
+          <StakePoolMembers
+            delegations={poolData?.delegations}
+            initialLoading={initialLoadingPoolData}
+            loadMoreLoading={loadMoreLoadingPoolData}
+            onLoadMore={handleLoadMore}
+            totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
+          />
+        </TabContainer>
       )
     },
     {
       key: 'activity',
       label: t('activity'),
       icon: <ActivityIcon />,
-      children: <></>
+      children: (
+        <TabContainer>
+          <StakeActivity poolActivities={poolActivities} isLoading={poolActivitiesLoading} />
+        </TabContainer>
+      )
     }
   ]
 
@@ -88,7 +102,7 @@ export default function StakePoolInfo({ poolAddress }: StakeStatsProps) {
   )
 }
 
-const { Container, AboutIcon, MembersIcon, ActivityIcon, ShareIcon, ShareButton } = {
+const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, ShareIcon, ShareButton } = {
   Container: styled.section`
     display: grid;
     grid-template-columns: 1fr;
@@ -103,6 +117,7 @@ const { Container, AboutIcon, MembersIcon, ActivityIcon, ShareIcon, ShareButton 
 
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
+
     > header {
       display: flex;
       justify-content: space-between;
@@ -114,6 +129,9 @@ const { Container, AboutIcon, MembersIcon, ActivityIcon, ShareIcon, ShareButton 
         gap: ${({ theme }) => theme.size[8]};
       }
     }
+  `,
+  TabContainer: styled.div`
+    padding: ${({ theme }) => theme.size[24]};
   `,
   AboutIcon: styled(AiOutlineInfoCircle)`
     font-size: ${({ theme }) => theme.font.size[16]};

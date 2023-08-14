@@ -2,6 +2,7 @@ import { Account } from './Account'
 import { Delegation } from './Delegation'
 
 export type PoolSubgraph = {
+  marketShare: bigint
   id: string
   account: Account
   active: boolean

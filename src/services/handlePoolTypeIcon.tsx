@@ -14,7 +14,7 @@ export default function handlePoolTypeIcon({ iconSize, value }: PoolsTypesIconPr
   const filterTypes: FilterPool[] = [
     {
       icon: <BsPalette fontSize={iconSize} />,
-      value: 'all'
+      value: 'art'
     },
     {
       icon: <BsBook fontSize={iconSize} />,
