@@ -157,7 +157,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
           </div>
           <div>
             <h3>{t('v2.pools.projectInfo.apy')}</h3>
-            <span className='green'>6,5%</span>
+            <span className='green'>5%</span>
           </div>
         </InfoProjectContainer>
       </header>
