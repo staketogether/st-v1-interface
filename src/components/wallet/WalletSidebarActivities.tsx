@@ -1,9 +1,13 @@
 import useTranslation from '@/hooks/useTranslation'
 import React from 'react'
-import styled, { useTheme } from 'styled-components'
+import styled from 'styled-components'
 import { truncateWei } from '@/services/truncate'
-import { AiOutlineLink } from 'react-icons/ai'
 import { AccountActivity } from '@/types/AccountActivity'
+import { DateTime } from 'luxon'
+import { useRouter } from 'next/router'
+import chainConfig from '@/config/chain'
+import Link from 'next/link'
+import { AiOutlineLink } from 'react-icons/ai'
 
 type WalletSidebarActivities = {
   accountActivities: AccountActivity[]
@@ -11,14 +15,15 @@ type WalletSidebarActivities = {
 
 export default function WalletSidebarActivities({ accountActivities }: WalletSidebarActivities) {
   const { t } = useTranslation()
-  const theme = useTheme()
+  const router = useRouter()
+  const { blockExplorer } = chainConfig()
 
   return (
     <Container>
       {accountActivities.length === 0 && (
-        <div>
+        <header>
           <span>{t('noActivities')}</span>
-        </div>
+        </header>
       )}
       {accountActivities.length > 0 && (
         <ActivitiesHeader>
@@ -28,73 +33,82 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
           <span>{t('tx')}</span>
         </ActivitiesHeader>
       )}
-      {accountActivities.map((activity, index) => (
-        <Activity key={index}>
-          <span>{activity.timestamp}</span>
-          <span>{t(`v2.wallet.activities.type.${activity.type}`)}</span>
-          <span>{truncateWei(BigInt(activity.amount))}</span>
-          <AiOutlineLink color={theme.color.secondary} />
-        </Activity>
-      ))}
+      {accountActivities.map(activity => {
+        const formatTimestamp = activity.timestamp
+          ? DateTime.fromSeconds(Number(activity.timestamp)).toRelative({
+              locale: router.locale === 'en' ? 'en-US' : router.locale
+            }) || ''
+          : ''
+        return (
+          <Activity key={activity.txHash}>
+            <span>{formatTimestamp}</span>
+            <span>{t(`v2.activities.${activity.type}`)}</span>
+            <span className={`${activity.type.includes('deposit') ? 'green' : 'red'}`}>
+              {`${truncateWei(BigInt(activity.amount))} ${t('eth.symbol')}`}
+            </span>
+            <Link href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`} target='_blank'>
+              <ExternalLink />
+            </Link>
+          </Activity>
+        )
+      })}
     </Container>
   )
 }
 
-const { Container, Activity, ActivitiesHeader } = {
+const { Container, Activity, ActivitiesHeader, ExternalLink } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
     margin-top: ${({ theme }) => theme.size[16]};
 
-    > div {
+    > header {
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    div > span:nth-child(2) > span {
-      color: ${({ theme }) => theme.color.secondary};
+    span {
+      font-size: ${({ theme }) => theme.font.size[12]};
+      font-style: normal;
+      line-height: normal;
+
+      &.green {
+        color: ${({ theme }) => theme.color.green[500]};
+      }
+
+      &.red {
+        color: ${({ theme }) => theme.color.red[500]};
+      }
     }
   `,
   ActivitiesHeader: styled.div`
-    display: flex;
+    display: grid;
     align-items: center;
-    justify-content: space-between;
-    margin-bottom: ${({ theme }) => theme.size[8]};
+    grid-template-columns: 1fr 1fr 1fr 30px;
+    padding: 0px 4px;
+    span {
+      color: ${({ theme }) => theme.color.blackAlpha[600]};
+      font-weight: 500;
+    }
   `,
   Activity: styled.div`
-    display: flex;
-    justify-content: space-between;
+    height: 32px;
+    border-radius: 99px;
+    background: ${({ theme }) => theme.color.blackAlpha[50]};
+    padding: 0px 4px;
+
+    display: grid;
     align-items: center;
-    align-self: stretch;
-    height: ${({ theme }) => theme.size[24]};
-    border-radius: ${({ theme }) => theme.size[16]};
-    padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[8]};
-    background-color: ${({ theme }) => theme.color.blackAlpha[50]};
-
-    > div {
-      display: flex;
-
-      > div {
-        display: flex;
-        gap: ${({ theme }) => theme.size[8]};
-      }
-
-      > span {
-        color: ${({ theme }) => theme.color.black};
-      }
+    grid-template-columns: 1fr 1fr 1fr 30px;
+    span {
+      color: ${({ theme }) => theme.color.blackAlpha[700]};
+      font-weight: 400;
     }
-
-    > span {
-      display: flex;
-      gap: ${({ theme }) => theme.size[4]};
-      font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.primary};
-
-      > span {
-        color: ${({ theme }) => theme.color.secondary};
-      }
-    }
+  `,
+  ExternalLink: styled(AiOutlineLink)`
+    font-size: ${({ theme }) => theme.font.size[16]};
+    color: ${({ theme }) => theme.color.secondary};
   `
 }
