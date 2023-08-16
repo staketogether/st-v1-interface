@@ -8,15 +8,11 @@ import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 
-import { ethers } from 'ethers'
-import {
-  usePrepareStakeTogetherWithdrawPool,
-  useStakeTogetherWithdrawPool,
-  stakeTogetherABI
-} from '../../types/Contracts'
-import useTranslation from '../useTranslation'
-import useEstimateTxInfo from '../useEstimateTxInfo'
 import { WithdrawType } from '@/types/Withdraw'
+import { ethers } from 'ethers'
+import { usePrepareStakeTogetherWithdrawPool, useStakeTogetherWithdrawPool } from '../../types/Contracts'
+import useTranslation from '../useTranslation'
+import { useCalculateDelegationShares } from '@/hooks/contracts/useCalculateDelegationShares'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -27,38 +23,26 @@ export default function useWithdrawPool(
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
   const { registerWithdraw } = useMixpanelAnalytics()
-
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
 
-  const [estimateGasCost, setEstimateGasCost] = useState(0n)
+  const { delegations } = useCalculateDelegationShares({
+    weiAmount: ethers.parseUnits(withdrawAmount, 18),
+    accountAddress,
+    pools: [poolAddress],
+    onlyUpdatedPools: true,
+    subtractAmount: true
+  })
 
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
   const isWithdrawEnabled = enabled && amount > 0n
 
-  const { estimatedCost, estimatedGasLimit, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-    useEstimateTxInfo({
-      account: accountAddress,
-      contractAddress: contracts.StakeTogether,
-      functionName: 'withdrawPool',
-      args: [amount, poolAddress],
-      abi: stakeTogetherABI,
-      skip: awaitWalletAction || !isWithdrawEnabled || estimateGasCost > 0n
-    })
-
-  useEffect(() => {
-    setEstimateGasCost(estimatedCost)
-  }, [estimatedCost])
-
   const { config } = usePrepareStakeTogetherWithdrawPool({
     address: contracts.StakeTogether,
-    args: [amount, poolAddress],
+    args: [amount, delegations],
     account: accountAddress,
-    enabled: isWithdrawEnabled,
-    gas: estimatedGasLimit > 0n ? estimatedGasLimit : undefined,
-    maxFeePerGas: estimatedMaxFeePerGas > 0n ? estimatedMaxFeePerGas : undefined,
-    maxPriorityFeePerGas: estimatedMaxPriorityFeePerGas > 0n ? estimatedMaxPriorityFeePerGas : undefined
+    enabled: isWithdrawEnabled
   })
 
   const tx = useStakeTogetherWithdrawPool({
@@ -122,7 +106,7 @@ export default function useWithdrawPool(
 
   return {
     withdrawPool,
-    estimatedCost: estimateGasCost,
+    estimatedCost: 0n,
     isLoading,
     isSuccess,
     awaitWalletAction,

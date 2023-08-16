@@ -16,8 +16,10 @@ export type ChainConfig = {
     contentful: string
   }
   contracts: {
+    Airdrop: `0x${string}`
+    Withdrawals: `0x${string}`
+    Router: `0x${string}`
     StakeTogether: `0x${string}`
-    Liquidity: `0x${string}`
   }
 }
 
@@ -47,12 +49,15 @@ const configs: ChainConfig[] = [
     },
     alchemyApiUrl: `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`,
     contracts: {
-      StakeTogether: '0xe4Dd09e070611C2785e51Cb22ef10DdBa6926b22',
-      Liquidity: '0x5364145C9d25429Be4c94ebb479500162f08205c'
+      // TODO: Update these addresses to the correct ones
+      Airdrop: '0x5A51FE21bf2807796e8dC9978753b9689f3Be597',
+      Withdrawals: '0x4F0361f2fB43d604465A1dE40a0b1B1F060B21f8',
+      Router: '0x43CcDd839Ab30A9b6645D50b1Aebb2f735984158',
+      StakeTogether: '0xa6Ab45C2B461fBA6B501b074BD8f5F5b0976c617'
     },
     subgraphs: {
       // StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-v2-goerli/version/latest',
-      StakeTogether: 'https://api.studio.thegraph.com/proxy/17823/stake-together-v2-goerli/v1.0.25',
+      StakeTogether: 'https://api.studio.thegraph.com/proxy/17823/stake-together-v2-goerli/v1.1.0',
       ENS: '',
       contentful: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/master`
     }
