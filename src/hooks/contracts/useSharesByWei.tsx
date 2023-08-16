@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
-import { useStakeTogetherSharesByWei } from "@/types/Contracts";
+import { useStakeTogetherSharesByWei } from '@/types/Contracts'
 
 /**
  * @deprecated Use from subgraph instead

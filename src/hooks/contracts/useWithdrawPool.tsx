@@ -12,7 +12,7 @@ import { WithdrawType } from '@/types/Withdraw'
 import { ethers } from 'ethers'
 import { usePrepareStakeTogetherWithdrawPool, useStakeTogetherWithdrawPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import { useCalculateDelegationShares } from "@/hooks/contracts/useCalculateDelegationShares";
+import { useCalculateDelegationShares } from '@/hooks/contracts/useCalculateDelegationShares'
 
 export default function useWithdrawPool(
   withdrawAmount: string,

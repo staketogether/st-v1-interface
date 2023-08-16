@@ -11,8 +11,8 @@ import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import { useCalculateDelegationShares } from "@/hooks/contracts/useCalculateDelegationShares";
-import { useEstimaateFeePercentage } from "@/hooks/contracts/useEstimaateFeePercentage";
+import { useCalculateDelegationShares } from '@/hooks/contracts/useCalculateDelegationShares'
+import { useEstimaateFeePercentage } from '@/hooks/contracts/useEstimaateFeePercentage'
 
 export default function useDeposit(
   depositAmount: string,

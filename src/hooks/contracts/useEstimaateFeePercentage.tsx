@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
-import { useStakeTogetherEstimateFeePercentage } from "@/types/Contracts";
+import { useStakeTogetherEstimateFeePercentage } from '@/types/Contracts'
 
 interface FeeVaalyeByRole {
-  Airdrop: { shares: bigint, amount: bigint }
-  Operator: { shares: bigint, amount: bigint }
-  StakeTogether: { shares: bigint, amount: bigint }
-  Sender: { shares: bigint, amount: bigint }
+  Airdrop: { shares: bigint; amount: bigint }
+  Operator: { shares: bigint; amount: bigint }
+  StakeTogether: { shares: bigint; amount: bigint }
+  Sender: { shares: bigint; amount: bigint }
 }
 
 enum FeeType {
   StakeEntry = 0,
   StakeRewards = 1,
   StakePool = 2,
-  StakeValidator = 3,
+  StakeValidator = 3
 }
 
 export const useEstimaateFeePercentage = (feeType: FeeType, amount: bigint) => {
@@ -21,7 +21,7 @@ export const useEstimaateFeePercentage = (feeType: FeeType, amount: bigint) => {
     Airdrop: { shares: 0n, amount: 0n },
     Operator: { shares: 0n, amount: 0n },
     StakeTogether: { shares: 0n, amount: 0n },
-    Sender: { shares: 0n, amount: 0n },
+    Sender: { shares: 0n, amount: 0n }
   })
   const { contracts } = chainConfig()
   const { StakeTogether } = contracts

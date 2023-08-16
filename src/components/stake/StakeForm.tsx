@@ -341,12 +341,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             <span>{t('confirmStakeModal.exchangeRate')}</span>
             {type === 'deposit' && (
               <span>
-                1 <span>{t('eth.symbol')}</span> = {truncateWei(sharesByEthRatio)} <span>{t('lsd.symbol')}</span>
+                1 <span>{t('eth.symbol')}</span> = {truncateWei(sharesByEthRatio)}{' '}
+                <span>{t('lsd.symbol')}</span>
               </span>
             )}
             {type === 'withdraw' && (
               <span>
-                1 <span>{t('lsd.symbol')}</span> = {truncateWei(ethBySharesRatio)} <span>{t('eth.symbol')}</span>
+                1 <span>{t('lsd.symbol')}</span> = {truncateWei(ethBySharesRatio)}{' '}
+                <span>{t('eth.symbol')}</span>
               </span>
             )}
           </div>

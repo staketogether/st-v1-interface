@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
-import { useStakeTogetherWeiByShares } from "@/types/Contracts";
+import { useStakeTogetherWeiByShares } from '@/types/Contracts'
 
 export default function useWeiByShares(sharesAmount?: string) {
   const { contracts } = chainConfig()

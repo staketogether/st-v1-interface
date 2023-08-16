@@ -1,21 +1,27 @@
-import { DelegationMap } from "@/types/Delegation";
-import { useCallback, useEffect, useState } from "react";
-import useSharesByWei from "@/hooks/contracts/useSharesByWei";
-import useStAccount from "@/hooks/subgraphs/useStAccount";
+import { DelegationMap } from '@/types/Delegation'
+import { useCallback, useEffect, useState } from 'react'
+import useSharesByWei from '@/hooks/contracts/useSharesByWei'
+import useStAccount from '@/hooks/subgraphs/useStAccount'
 
 interface UseCalculateDelegationSharesProps {
   weiAmount: bigint
-  pools: `0x${string}`[],
+  pools: `0x${string}`[]
   accountAddress?: `0x${string}`
   onlyUpdatedPools?: boolean
   subtractAmount?: boolean
 }
 
-export const useCalculateDelegationShares = ({ weiAmount, accountAddress, pools, onlyUpdatedPools, subtractAmount }: UseCalculateDelegationSharesProps) => {
+export const useCalculateDelegationShares = ({
+  weiAmount,
+  accountAddress,
+  pools,
+  onlyUpdatedPools,
+  subtractAmount
+}: UseCalculateDelegationSharesProps) => {
   const [delegations, setDelegations] = useState<DelegationMap[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const { loading: loadingNewShares, shares: newShares } = useSharesByWei(weiAmount)
-  const {account, accountDelegations} = useStAccount(accountAddress || '0x000000')
+  const { account, accountDelegations } = useStAccount(accountAddress || '0x000000')
 
   const calculateDelegationShares = useCallback(async () => {
     setLoading(true)
@@ -32,25 +38,27 @@ export const useCalculateDelegationShares = ({ weiAmount, accountAddress, pools,
 
     let remainingNewShares = newShares
 
-    const delegations = !account ? [] : accountDelegations.map(delegation => {
-      const shares = BigInt(delegation.delegationShares)
-      const poolSharesPercentage = (shares * 100n) / BigInt(account.balance)
-      const newSharesProportional = (newShares * poolSharesPercentage) / 100n
-      const poolToBeUpdated = pools.find(pool => pool === delegation.delegated.address.toLowerCase())
-      // If the pool is not in the list of pools to be updated, then the shares will remain the same
-      let delegationShares = shares
+    const delegations = !account
+      ? []
+      : accountDelegations.map(delegation => {
+          const shares = BigInt(delegation.delegationShares)
+          const poolSharesPercentage = (shares * 100n) / BigInt(account.balance)
+          const newSharesProportional = (newShares * poolSharesPercentage) / 100n
+          const poolToBeUpdated = pools.find(pool => pool === delegation.delegated.address.toLowerCase())
+          // If the pool is not in the list of pools to be updated, then the shares will remain the same
+          let delegationShares = shares
 
-      // If the pool is in the list of pools to be updated, then the remaining new shares will be reduced by the proportional amount
-      if (poolToBeUpdated) {
-        remainingNewShares -= newSharesProportional
-        delegationShares = subtractAmount ? shares - newSharesProportional : shares + newSharesProportional
-      }
+          // If the pool is in the list of pools to be updated, then the remaining new shares will be reduced by the proportional amount
+          if (poolToBeUpdated) {
+            remainingNewShares -= newSharesProportional
+            delegationShares = subtractAmount ? shares - newSharesProportional : shares + newSharesProportional
+          }
 
-      return {
-        pool: delegation.delegated.address,
-        shares: delegationShares
-      }
-    })
+          return {
+            pool: delegation.delegated.address,
+            shares: delegationShares
+          }
+        })
 
     const remainingPools = pools.filter(pool => {
       return delegations.find(delegation => delegation.pool.toLowerCase() === pool) === undefined
@@ -77,7 +85,7 @@ export const useCalculateDelegationShares = ({ weiAmount, accountAddress, pools,
 
   useEffect(() => {
     calculateDelegationShares()
-  }, [calculateDelegationShares]);
+  }, [calculateDelegationShares])
 
   return {
     delegations,
