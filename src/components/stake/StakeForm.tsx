@@ -2,7 +2,6 @@ import chainConfig from '@/config/chain'
 import useContractConfig from '@/hooks/contracts/useContractConfig'
 import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
 import usePooledShareByEth from '@/hooks/contracts/useSharesByPooledEth'
-import useWithdrawLiquidity from '@/hooks/contracts/useWithdrawLiquidity'
 import { useWithdrawLiquidityBalance } from '@/hooks/contracts/useWithdrawLiquidityBalance'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
@@ -93,11 +92,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     withdrawTypeSelected
   ])
 
-  const [amount, setAmount] = useState<string>('')
-
   const { balance: sharesRatio } = usePooledShareByEth(BigInt('1000000000000000000'))
   const { balance: ratioEthByShare } = usePooledEthByShares(sharesRatio.toString())
-
+  const [amount, setAmount] = useState<string>('')
   const debouncedAmount = useDebounce(amount, 1000)
   const inputAmount = amount ? debouncedAmount || '0' : '0'
 
@@ -128,21 +125,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   )
 
   const {
-    withdrawLiquidity,
-    isLoading: withdrawLiquidityLoading,
-    isSuccess: withdrawLiquiditySuccess,
-    estimatedCost: withdrawLiquidityEstimatedCost,
-    awaitWalletAction: withdrawLiquidityAwaitWalletAction,
-    resetState: withdrawLiquidityResetState,
-    txHash: withdrawLiquidityTxHash
-  } = useWithdrawLiquidity(
-    inputAmount,
-    poolAddress,
-    type === 'withdraw' && withdrawTypeSelected === WithdrawType.LIQUIDITY,
-    accountAddress
-  )
-
-  const {
     withdrawValidator,
     isLoading: withdrawValidatorLoading,
     isSuccess: withdrawValidatorSuccess,
@@ -157,23 +139,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     accountAddress
   )
 
-  const depositingCost = type === 'deposit' ? depositEstimatedCost : 0n
-
-  const { balance: expectedShares } = usePooledShareByEth(ethers.parseEther(amount || '0') - depositingCost)
-  const { balance: expectedSeth } = usePooledEthByShares(expectedShares.toString())
-
   const handleWithdraw = () => {
     switch (withdrawTypeSelected) {
-      case WithdrawType.LIQUIDITY:
-        return {
-          withdraw: withdrawLiquidity,
-          withdrawLoading: withdrawLiquidityLoading,
-          withdrawSuccess: withdrawLiquiditySuccess,
-          withdrawEstimatedCost: withdrawLiquidityEstimatedCost,
-          withdrawAwaitWalletAction: withdrawLiquidityAwaitWalletAction,
-          withdrawResetState: withdrawLiquidityResetState,
-          withdrawTxHash: withdrawLiquidityTxHash
-        }
       case WithdrawType.VALIDATORS:
         return {
           withdraw: withdrawValidator,
@@ -200,6 +167,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const withdrawData = handleWithdraw()
 
+  const { balance: expectedShares } = usePooledShareByEth(ethers.parseEther(amount || '0'))
+  const { balance: expectedSeth } = usePooledEthByShares(expectedShares.toString())
+
   const isLoading = depositLoading || withdrawData.withdrawLoading
   const isSuccess = depositSuccess || withdrawData.withdrawSuccess
 
@@ -208,6 +178,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const operationSymbol = type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
 
   const estimateCost = type === 'deposit' ? depositEstimatedCost : withdrawData.withdrawEstimatedCost
+  console.log('estimateGas', estimateCost)
   const estimatedCostInEther = ethers.formatEther(estimateCost)
   const txHash = type === 'deposit' ? depositTxHash : withdrawData.withdrawTxHash
   const resetState = type === 'deposit' ? depositResetState : withdrawData.withdrawResetState

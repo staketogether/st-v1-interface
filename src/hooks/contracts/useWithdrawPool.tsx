@@ -10,13 +10,13 @@ import { queryPool } from '../../queries/subgraph/queryPool'
 
 import { ethers } from 'ethers'
 import {
+  stakeTogetherABI,
   usePrepareStakeTogetherWithdrawPool,
-  useStakeTogetherWithdrawPool,
-  stakeTogetherABI
+  useStakeTogetherWithdrawPool
 } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import useEstimateTxInfo from '../useEstimateTxInfo'
 import { WithdrawType } from '@/types/Withdraw'
+import useEstimateTxInfo from '../useEstimateTxInfo'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -37,28 +37,30 @@ export default function useWithdrawPool(
 
   const isWithdrawEnabled = enabled && amount > 0n
 
-  const { estimatedCost, estimatedGasLimit, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-    useEstimateTxInfo({
-      account: accountAddress,
-      contractAddress: contracts.StakeTogether,
-      functionName: 'withdrawPool',
-      args: [amount, poolAddress],
-      abi: stakeTogetherABI,
-      skip: awaitWalletAction || !isWithdrawEnabled || estimateGasCost > 0n
-    })
+  const { estimateGas } = useEstimateTxInfo({
+    account: accountAddress,
+    contractAddress: contracts.StakeTogether,
+    functionName: 'withdrawPool',
+    args: [ethers.parseUnits('0.001', 18), poolAddress],
+    abi: stakeTogetherABI,
+    skip: true
+  })
 
   useEffect(() => {
-    setEstimateGasCost(estimatedCost)
-  }, [estimatedCost])
+    const handleMaxValue = async () => {
+      const { estimatedCost } = await estimateGas()
+      if (estimatedCost > 0n) {
+        setEstimateGasCost(estimatedCost)
+      }
+    }
+    handleMaxValue()
+  }, [estimateGas])
 
   const { config } = usePrepareStakeTogetherWithdrawPool({
     address: contracts.StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
-    enabled: isWithdrawEnabled,
-    gas: estimatedGasLimit > 0n ? estimatedGasLimit : undefined,
-    maxFeePerGas: estimatedMaxFeePerGas > 0n ? estimatedMaxFeePerGas : undefined,
-    maxPriorityFeePerGas: estimatedMaxPriorityFeePerGas > 0n ? estimatedMaxPriorityFeePerGas : undefined
+    enabled: isWithdrawEnabled
   })
 
   const tx = useStakeTogetherWithdrawPool({
