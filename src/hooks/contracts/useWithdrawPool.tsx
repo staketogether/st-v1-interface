@@ -7,7 +7,6 @@ import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-
 import { ethers } from 'ethers'
 import {
   stakeTogetherABI,
@@ -15,8 +14,9 @@ import {
   useStakeTogetherWithdrawPool
 } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import { WithdrawType } from '@/types/Withdraw'
 import useEstimateTxInfo from '../useEstimateTxInfo'
+import { useCalculateDelegationShares } from './useCalculateDelegationShares'
+import { WithdrawType } from '@/types/Withdraw'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -26,12 +26,18 @@ export default function useWithdrawPool(
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
   const { registerWithdraw } = useMixpanelAnalytics()
-
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
 
-  const [estimateGasCost, setEstimateGasCost] = useState(0n)
+  const { delegations } = useCalculateDelegationShares({
+    weiAmount: ethers.parseUnits(withdrawAmount, 18),
+    accountAddress,
+    pools: [poolAddress],
+    onlyUpdatedPools: true,
+    subtractAmount: true
+  })
 
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
@@ -58,7 +64,7 @@ export default function useWithdrawPool(
 
   const { config } = usePrepareStakeTogetherWithdrawPool({
     address: contracts.StakeTogether,
-    args: [amount, poolAddress],
+    args: [amount, delegations],
     account: accountAddress,
     enabled: isWithdrawEnabled
   })

@@ -8,15 +8,15 @@ import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 
+import { WithdrawType } from '@/types/Withdraw'
 import { ethers } from 'ethers'
 import {
   usePrepareStakeTogetherWithdrawValidator,
-  useStakeTogetherWithdrawValidator,
-  stakeTogetherABI
+  useStakeTogetherWithdrawValidator
 } from '../../types/Contracts'
+
 import useTranslation from '../useTranslation'
-import useEstimateTxInfo from '../useEstimateTxInfo'
-import { WithdrawType } from '@/types/Withdraw'
+import { useCalculateDelegationShares } from '@/hooks/contracts/useCalculateDelegationShares'
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
@@ -30,29 +30,22 @@ export default function useWithdrawValidator(
 
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
-  const [estimateGasCost, setEstimateGasCost] = useState(0n)
+
+  const { delegations } = useCalculateDelegationShares({
+    weiAmount: ethers.parseUnits(withdrawAmount, 18),
+    accountAddress,
+    pools: [poolAddress],
+    onlyUpdatedPools: true,
+    subtractAmount: true
+  })
 
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
   const isWithdrawEnabled = enabled && amount > 0n
 
-  // const { estimatedCost, estimatedGasLimit, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-  //   useEstimateTxInfo({
-  //     account: accountAddress,
-  //     contractAddress: contracts.StakeTogether,
-  //     functionName: 'withdrawValidator',
-  //     args: [amount, poolAddress],
-  //     abi: stakeTogetherABI,
-  //     skip: awaitWalletAction || !isWithdrawEnabled
-  //   })
-
-  // useEffect(() => {
-  //   setEstimateGasCost(estimatedCost)
-  // }, [estimatedCost])
-
   const { config } = usePrepareStakeTogetherWithdrawValidator({
     address: contracts.StakeTogether,
-    args: [amount, poolAddress],
+    args: [amount, delegations],
     account: accountAddress,
     enabled: isWithdrawEnabled
   })
@@ -92,7 +85,7 @@ export default function useWithdrawValidator(
         include: [queryAccount, queryPool, queryDelegationShares]
       })
 
-      registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.VALIDATORS)
+      registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.VALIDATOR)
 
       if (notify) {
         notification.success({

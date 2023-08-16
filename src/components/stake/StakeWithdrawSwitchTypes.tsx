@@ -1,28 +1,20 @@
-import React from 'react'
-import styled from 'styled-components'
-import {
-  AiOutlineClockCircle,
-  AiOutlineDashboard,
-  AiOutlineDatabase,
-  AiOutlineInteraction
-} from 'react-icons/ai'
 import useTranslation from '@/hooks/useTranslation'
-import { WithdrawType } from '@/types/Withdraw'
 import { truncateWei } from '@/services/truncate'
+import { WithdrawType } from '@/types/Withdraw'
+import { AiOutlineClockCircle, AiOutlineDashboard, AiOutlineDatabase } from 'react-icons/ai'
+import styled from 'styled-components'
 
 type StakeWithdrawSwitchTypesProps = {
   withdrawTypeSelected: WithdrawType
   selectWithdrawType: (value: WithdrawType) => void
   liquidityPoolBalance: bigint
   liquidityValidatorsBalance: bigint
-  liquidityLiquidityBalance: bigint
 }
 
 export default function StakeWithdrawSwitchTypes({
   withdrawTypeSelected,
   liquidityPoolBalance,
   liquidityValidatorsBalance,
-  liquidityLiquidityBalance,
   selectWithdrawType
 }: StakeWithdrawSwitchTypesProps) {
   const { t } = useTranslation()
@@ -59,34 +51,8 @@ export default function StakeWithdrawSwitchTypes({
         </Time>
       </Card>
       <Card
-        className={`${handleActiveType(WithdrawType.LIQUIDITY) ? 'active' : ''} disabled`}
-        onClick={() => selectWithdrawType(WithdrawType.LIQUIDITY)}
-      >
-        <header>
-          <h4>{t('withdrawCardsType.lendingPool')}</h4>
-          <LendingPoolIcon />
-        </header>
-        <RateInfo>
-          <div>
-            <span>{t('withdrawCardsType.bestRate')}</span>
-            <span>1:0.9999</span>
-          </div>
-          <div>
-            <span>{t('withdrawCardsType.liquidity')}</span>
-            <span>{`${truncateWei(liquidityLiquidityBalance, 4)} ETH`}</span>
-          </div>
-        </RateInfo>
-        <Time>
-          <ClockIcon />
-          <div>
-            <span>{t('withdrawCardsType.waitingTime')}</span>
-            <span>{t('withdrawCardsType.instantly')}</span>
-          </div>
-        </Time>
-      </Card>
-      <Card
-        className={`${handleActiveType(WithdrawType.VALIDATORS) ? 'active' : ''}`}
-        onClick={() => selectWithdrawType(WithdrawType.VALIDATORS)}
+        className={`${handleActiveType(WithdrawType.VALIDATOR) ? 'active' : ''}`}
+        onClick={() => selectWithdrawType(WithdrawType.VALIDATOR)}
       >
         <header>
           <h4>{t('withdrawCardsType.validators')}</h4>
@@ -114,7 +80,7 @@ export default function StakeWithdrawSwitchTypes({
   )
 }
 
-const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, LendingPoolIcon, ValidatorsIcon } = {
+const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -204,11 +170,6 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, LendingPoolIcon, V
     color: ${({ theme }) => theme.color.secondary};
   `,
   PoolIcon: styled(AiOutlineDashboard)`
-    width: 24px;
-    height: 24px;
-    color: ${({ theme }) => theme.color.secondary};
-  `,
-  LendingPoolIcon: styled(AiOutlineInteraction)`
     width: 24px;
     height: 24px;
     color: ${({ theme }) => theme.color.secondary};

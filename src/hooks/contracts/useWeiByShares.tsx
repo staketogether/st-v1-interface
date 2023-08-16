@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
-import { useStakeTogetherPooledEthByShares } from '../../types/Contracts'
+import { useStakeTogetherWeiByShares } from '@/types/Contracts'
 
-export default function usePooledEthByShares(sharesAmount?: string) {
+export default function useWeiByShares(sharesAmount?: string) {
   const { contracts } = chainConfig()
 
   const [balance, setBalance] = useState<bigint>(0n)
   const [loading, setLoading] = useState<boolean>(false)
 
-  const { isLoading } = useStakeTogetherPooledEthByShares({
+  const { isLoading } = useStakeTogetherWeiByShares({
     address: contracts.StakeTogether,
     args: [BigInt(sharesAmount || '0')],
     onSuccess: data => {

@@ -9,12 +9,14 @@ import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import {
+  stakeTogetherABI,
   usePrepareStakeTogetherDepositPool,
-  useStakeTogetherDepositPool,
-  stakeTogetherABI
+  useStakeTogetherDepositPool
 } from '../../types/Contracts'
-import useEstimateTxInfo from '../useEstimateTxInfo'
 import useTranslation from '../useTranslation'
+import { useCalculateDelegationShares } from '@/hooks/contracts/useCalculateDelegationShares'
+import { useEstimaateFeePercentage } from '@/hooks/contracts/useEstimaateFeePercentage'
+import useEstimateTxInfo from '../useEstimateTxInfo'
 
 export default function useDeposit(
   depositAmount: string,
@@ -24,12 +26,22 @@ export default function useDeposit(
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
-
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [failedToExecute, setFailedToExecute] = useState(false)
   const { registerDeposit } = useMixpanelAnalytics()
-  const [estimateGasCost, setEstimateGasCost] = useState(0n)
+
+  const STAKE_ENTRY_FEE = 0
+  const { fees } = useEstimaateFeePercentage(STAKE_ENTRY_FEE, ethers.parseUnits(depositAmount, 18))
+
+  const { delegations } = useCalculateDelegationShares({
+    weiAmount: fees.Sender.amount,
+    accountAddress,
+    pools: [poolAddress],
+    onlyUpdatedPools: true
+  })
+
   const amount = ethers.parseUnits(depositAmount, 18)
 
   const isDepositEnabled = enabled && amount > 0n
@@ -64,9 +76,9 @@ export default function useDeposit(
   const { config } = usePrepareStakeTogetherDepositPool({
     chainId,
     address: contracts.StakeTogether,
-    args: [poolAddress, referral],
+    args: [delegations, referral],
     account: accountAddress,
-    enabled: isDepositEnabled,
+    enabled: delegations.length > 0 && accountAddress && isDepositEnabled,
     value: amount
   })
 
