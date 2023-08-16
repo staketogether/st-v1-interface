@@ -48,7 +48,7 @@ export const useCalculateDelegationShares = ({ weiAmount, accountAddress, pools,
 
       return {
         pool: delegation.delegated.address,
-        balance: delegationShares
+        shares: delegationShares
       }
     })
 
@@ -61,7 +61,7 @@ export const useCalculateDelegationShares = ({ weiAmount, accountAddress, pools,
       const poolProportionalShares = remainingNewShares / BigInt(remainingPools.length)
       delegations.push({
         pool,
-        balance: poolProportionalShares
+        shares: poolProportionalShares
       })
     })
 
