@@ -10,10 +10,7 @@ import { queryPool } from '../../queries/subgraph/queryPool'
 
 import { WithdrawType } from '@/types/Withdraw'
 import { ethers } from 'ethers'
-import {
-  usePrepareStakeTogetherWithdrawValidator,
-  useStakeTogetherWithdrawValidator
-} from '../../types/Contracts'
+import { usePrepareStakeTogetherWithdrawValidator, useStakeTogetherWithdrawValidator } from '../../types/Contracts'
 
 import useTranslation from '../useTranslation'
 import { useCalculateDelegationShares } from "@/hooks/contracts/useCalculateDelegationShares";
