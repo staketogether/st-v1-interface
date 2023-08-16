@@ -30,11 +30,11 @@ export const useCalculateDelegationShares = ({ weiAmount, accountAddress, pools,
       return
     }
 
-    let remainingNewShares = BigInt(newShares)
+    let remainingNewShares = newShares
 
     const delegations = !account ? [] : accountDelegations.map(delegation => {
       const shares = BigInt(delegation.delegationShares)
-      const poolSharesPercentage = (shares * 100n) / BigInt(account.shares)
+      const poolSharesPercentage = (shares * 100n) / BigInt(account.balance)
       const newSharesProportional = (newShares * poolSharesPercentage) / 100n
       const poolToBeUpdated = pools.find(pool => pool === delegation.delegated.address.toLowerCase())
       // If the pool is not in the list of pools to be updated, then the shares will remain the same
@@ -48,7 +48,7 @@ export const useCalculateDelegationShares = ({ weiAmount, accountAddress, pools,
 
       return {
         pool: delegation.delegated.address,
-        shares: delegationShares
+        balance: delegationShares
       }
     })
 
@@ -61,7 +61,7 @@ export const useCalculateDelegationShares = ({ weiAmount, accountAddress, pools,
       const poolProportionalShares = remainingNewShares / BigInt(remainingPools.length)
       delegations.push({
         pool,
-        shares: poolProportionalShares
+        balance: poolProportionalShares
       })
     })
 

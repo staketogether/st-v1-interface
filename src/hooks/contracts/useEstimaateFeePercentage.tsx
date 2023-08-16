@@ -18,10 +18,10 @@ enum FeeType {
 
 export const useEstimaateFeePercentage = (feeType: FeeType, amount: bigint) => {
   const [feeByRole, setFeeByRole] = useState<FeeVaalyeByRole>({
-    Airdrop: { shares: 0n, amount: 0n },
-    Operator: { shares: 0n, amount: 0n },
-    StakeTogether: { shares: 0n, amount: 0n },
-    Sender: { shares: 0n, amount: 0n },
+    Airdrop: { balance: 0n, amount: 0n },
+    Operator: { balance: 0n, amount: 0n },
+    StakeTogether: { balance: 0n, amount: 0n },
+    Sender: { balance: 0n, amount: 0n },
   })
   const { contracts } = chainConfig()
   const { StakeTogether } = contracts
@@ -34,10 +34,10 @@ export const useEstimaateFeePercentage = (feeType: FeeType, amount: bigint) => {
   useEffect(() => {
     if (data) {
       setFeeByRole({
-        Airdrop: { shares: data[0][0], amount: data[1][0] },
-        Operator: { shares: data[0][1], amount: data[1][1] },
-        StakeTogether: { shares: data[0][2], amount: data[1][2] },
-        Sender: { shares: data[0][3], amount: data[1][3] }
+        Airdrop: { balance: data[0][0], amount: data[1][0] },
+        Operator: { balance: data[0][1], amount: data[1][1] },
+        StakeTogether: { balance: data[0][2], amount: data[1][2] },
+        Sender: { balance: data[0][3], amount: data[1][3] }
       })
     }
   }, [data])

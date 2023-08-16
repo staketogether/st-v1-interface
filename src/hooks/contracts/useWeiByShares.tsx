@@ -20,5 +20,5 @@ export default function useWeiByShares(sharesAmount?: string) {
     setLoading(isLoading)
   }, [isLoading])
 
-  return { shares: balance, loading }
+  return { balance, loading }
 }

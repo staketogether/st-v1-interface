@@ -51,8 +51,8 @@ export default function StakeWithdrawSwitchTypes({
         </Time>
       </Card>
       <Card
-        className={`${handleActiveType(WithdrawType.VALIDATORS) ? 'active' : ''}`}
-        onClick={() => selectWithdrawType(WithdrawType.VALIDATORS)}
+        className={`${handleActiveType(WithdrawType.VALIDATOR) ? 'active' : ''}`}
+        onClick={() => selectWithdrawType(WithdrawType.VALIDATOR)}
       >
         <header>
           <h4>{t('withdrawCardsType.validators')}</h4>

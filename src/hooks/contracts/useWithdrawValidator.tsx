@@ -82,7 +82,7 @@ export default function useWithdrawValidator(
         include: [queryAccount, queryPool, queryDelegationShares]
       })
 
-      registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.VALIDATORS)
+      registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.VALIDATOR)
 
       if (notify) {
         notification.success({
