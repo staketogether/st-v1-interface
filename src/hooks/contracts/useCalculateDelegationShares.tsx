@@ -72,6 +72,7 @@ export const useCalculateDelegationShares = ({ weiAmount, accountAddress, pools,
     setDelegations(filteredDelegations)
     setLoading(false)
     // TODO: Necessary to add the pool dep again
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [weiAmount, loadingNewShares, newShares, account, accountDelegations, subtractAmount, onlyUpdatedPools])
 
   useEffect(() => {

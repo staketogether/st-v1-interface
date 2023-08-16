@@ -56,7 +56,7 @@ export default function useDeposit(
     address: contracts.StakeTogether,
     args: [delegations, referral],
     account: accountAddress,
-    enabled: accountAddress && isDepositEnabled,
+    enabled: delegations.length > 0 && accountAddress && isDepositEnabled,
     value: amount
   })
 
