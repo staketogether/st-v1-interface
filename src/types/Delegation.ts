@@ -6,6 +6,7 @@ export type Delegation = {
   delegate: Account
   delegated: PoolSubgraph
   delegationBalance: bigint
+  delegationShares: bigint
 }
 
 export type DelegationMap = {

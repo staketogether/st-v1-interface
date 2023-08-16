@@ -43,7 +43,7 @@ export default function useStAccount(address: `0x${string}`) {
       setAccount(accountData.account)
       setAccountDelegations(account.delegations || [])
       setAccountSentDelegationsCount(BigInt(account.sentDelegationsCount))
-      setAccountBalance(account.balance)
+      setAccountBalance(BigInt(account.balance))
       setAccountTotalRewards(account.totalRewards)
     }
   }, [accountData])

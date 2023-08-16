@@ -10,8 +10,9 @@ import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
-import useAccountDelegations from '../useAccountDelegations'
 import useTranslation from '../useTranslation'
+import { useCalculateDelegationShares } from "@/hooks/contracts/useCalculateDelegationShares";
+import { useEstimaateFeePercentage } from "@/hooks/contracts/useEstimaateFeePercentage";
 
 export default function useDeposit(
   depositAmount: string,
@@ -27,12 +28,15 @@ export default function useDeposit(
   const [failedToExecute, setFailedToExecute] = useState(false)
   const { registerDeposit } = useMixpanelAnalytics()
 
-  const { delegations } = useAccountDelegations(
-    poolAddress,
-    ethers.parseEther(depositAmount || '0'),
-    'deposit',
-    accountAddress
-  )
+  const STAKE_ENTRY_FEE = 0
+  const { fees } = useEstimaateFeePercentage(STAKE_ENTRY_FEE, ethers.parseUnits(depositAmount, 18))
+
+  const { delegations } = useCalculateDelegationShares({
+    weiAmount: fees.Sender.amount,
+    accountAddress,
+    pools: [poolAddress],
+    onlyUpdatedPools: true
+  })
 
   const amount = ethers.parseUnits(depositAmount, 18)
 

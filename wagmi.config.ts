@@ -5,7 +5,7 @@ export default defineConfig({
   out: 'src/types/Contracts.ts',
   plugins: [
     hardhat({
-      project: '../st-v1-contracts',
+      project: '../st-contracts',
       commands: {
         clean: 'pnpm hardhat clean',
         build: 'pnpm hardhat compile',

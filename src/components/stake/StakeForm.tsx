@@ -1,6 +1,6 @@
 import chainConfig from '@/config/chain'
-import usePooledEthByShares from '@/hooks/contracts/usePooledEthByShares'
-import usePooledShareByEth from '@/hooks/contracts/useSharesByPooledEth'
+import useWeiByShares from '@/hooks/contracts/useWeiByShares'
+import useSharesByWei from '@/hooks/contracts/useSharesByWei'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
 import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValidatorBalance'
@@ -85,8 +85,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const [amount, setAmount] = useState<string>('')
 
   // Todo: this should be dynamic and come from subgraph
-  const { balance: sharesRatio } = usePooledShareByEth(BigInt('1000000000000000000'))
-  const { balance: ratioEthByShare } = usePooledEthByShares(sharesRatio.toString())
+  const { shares: sharesRatio } = useSharesByWei(BigInt('1000000000000000000'))
+  const { shares: ratioEthByShare } = useWeiByShares(sharesRatio.toString())
 
   const debouncedAmount = useDebounce(amount, 1000)
   const inputAmount = amount ? debouncedAmount || '0' : '0'
@@ -134,8 +134,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const depositingCost = type === 'deposit' ? depositEstimatedCost : 0n
 
-  const { balance: expectedShares } = usePooledShareByEth(ethers.parseEther(amount || '0') - depositingCost)
-  const { balance: expectedSeth } = usePooledEthByShares(expectedShares.toString())
+  const { shares: expectedShares } = useSharesByWei(ethers.parseEther(amount || '0') - depositingCost)
+  const { shares: expectedSeth } = useWeiByShares(expectedShares.toString())
 
   const handleWithdraw = () => {
     switch (withdrawTypeSelected) {

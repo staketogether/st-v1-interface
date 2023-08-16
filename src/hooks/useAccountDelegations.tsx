@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { queryAccountDelegations } from '../queries/queryAccountDelegations'
 import { AccountDelegations } from '../types/Account'
 import { DelegationMap } from '../types/Delegation'
-import useSharesByPooledEth from './contracts/useSharesByPooledEth'
+import useSharesByWei from './contracts/useSharesByWei'
 
 export default function useAccountDelegations(
   pool: `0x${string}`,
@@ -17,7 +17,7 @@ export default function useAccountDelegations(
     variables: { id: account?.toLowerCase(), skip: !account }
   })
 
-  const sharesByEth = useSharesByPooledEth(amount)
+  const sharesByEth = useSharesByWei(amount)
 
   useEffect(() => {
     const updateShares = (delegations: DelegationMap[], sharesAmount: bigint) => {
@@ -32,12 +32,12 @@ export default function useAccountDelegations(
         shares: delegation.delegationShares
       })) || []
 
-    const sharesAmount = sharesByEth.balance || 0n
+    const sharesAmount = sharesByEth.shares || 0n
 
     newDelegations = updateShares(newDelegations, sharesAmount)
 
     setDelegations(newDelegations)
-  }, [data?.account.delegations, sharesByEth.balance, pool, type])
+  }, [data?.account.delegations, sharesByEth.shares, pool, type])
 
   return { delegations, loading }
 }
