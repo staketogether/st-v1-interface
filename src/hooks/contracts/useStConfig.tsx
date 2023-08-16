@@ -20,10 +20,11 @@ export default function useStConfig() {
         depositLimit: data[1],
         maxDelegations: data[2],
         minDepositAmount: data[3],
-        poolSize: data[4],
-        validatorSize: data[5],
-        withdrawalLimit: data[6],
-        feature: data[7]
+        minWithdrawAmount: data[4],
+        poolSize: data[5],
+        validatorSize: data[6],
+        withdrawalLimit: data[7],
+        feature: data[8]
       }
       setSTConfig(config)
     }

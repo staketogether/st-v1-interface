@@ -3,6 +3,7 @@ export type STConfig = {
   depositLimit: bigint
   maxDelegations: bigint
   minDepositAmount: bigint
+  minWithdrawAmount: bigint
   poolSize: bigint
   validatorSize: bigint
   withdrawalLimit: bigint
