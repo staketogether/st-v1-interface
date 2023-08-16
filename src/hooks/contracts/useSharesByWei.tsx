@@ -23,5 +23,5 @@ export default function useSharesByWei(amount: bigint) {
     setLoading(isLoading)
   }, [isLoading])
 
-  return { shares: balance, loading }
+  return { shares, loading }
 }
