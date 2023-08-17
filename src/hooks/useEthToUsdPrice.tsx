@@ -14,10 +14,6 @@ export default function useEthToUsdPrice(eth: string) {
     const fetchPrice = async () => {
       const ethAmount = eth.length > 0 ? ethers.parseEther(eth) : 0n
       const config = {
-        headers: {
-          accept: 'application/json',
-          Authorization: `Bearer yQXdIQSSKDvi1XarUMNikTGiZ0jFDjt5`
-        },
         params: {
           src: ETH_ADDRESS,
           dst: USDC_ADDRESS,
