@@ -31,8 +31,17 @@ export default function useWithdrawPool(
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
 
-  const { delegations } = useCalculateDelegationShares({
+  const { delegations, loading: loadingDelegations } = useCalculateDelegationShares({
     weiAmount: ethers.parseUnits(withdrawAmount, 18),
+    accountAddress,
+    pools: [poolAddress],
+    onlyUpdatedPools: true,
+    subtractAmount: true
+  })
+
+  const amountEstimatedGas = ethers.parseUnits('0.001', 18)
+  const { delegations: delegationsEstimatedGas } = useCalculateDelegationShares({
+    weiAmount: amountEstimatedGas,
     accountAddress,
     pools: [poolAddress],
     onlyUpdatedPools: true,
@@ -41,15 +50,15 @@ export default function useWithdrawPool(
 
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
-  const isWithdrawEnabled = enabled && amount > 0n
+  const isWithdrawEnabled = enabled && amount > 0n && !loadingDelegations
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
     contractAddress: contracts.StakeTogether,
     functionName: 'withdrawPool',
-    args: [ethers.parseUnits('0.001', 18), poolAddress],
+    args: [amountEstimatedGas, delegationsEstimatedGas],
     abi: stakeTogetherABI,
-    skip: true
+    skip: !enabled || estimateGasCost > 0n
   })
 
   useEffect(() => {

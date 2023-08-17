@@ -16,6 +16,8 @@ import useTranslation from '../useTranslation'
 import { useCalculateDelegationShares } from '@/hooks/contracts/useCalculateDelegationShares'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import { truncateWei } from '@/services/truncate'
+import { ethers } from 'ethers'
+import { useEstimateFeePercentage } from './useEstimateFeePercentage'
 
 export default function useDeposit(
   netDepositAmount: bigint,
@@ -27,19 +29,31 @@ export default function useDeposit(
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
   const [estimateGasCost, setEstimateGasCost] = useState(0n)
+  const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
+  const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [failedToExecute, setFailedToExecute] = useState(false)
   const { registerDeposit } = useMixpanelAnalytics()
 
-  const { delegations } = useCalculateDelegationShares({
+  const { delegations, loading: loadingDelegations } = useCalculateDelegationShares({
     weiAmount: netDepositAmount,
     accountAddress,
     pools: [poolAddress],
     onlyUpdatedPools: true
   })
 
-  const isDepositEnabled = enabled && netDepositAmount > 0n
+  const amountEstimatedGas = ethers.parseUnits('0.001', 18)
+  const { fees } = useEstimateFeePercentage(0, amountEstimatedGas)
+  const { delegations: delegationsEstimatedGas } = useCalculateDelegationShares({
+    weiAmount: fees.Sender.amount,
+    accountAddress,
+    pools: [poolAddress],
+    onlyUpdatedPools: true
+  })
+
+  const isDepositEnabled = enabled && netDepositAmount > 0n && !loadingDelegations
 
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
@@ -51,22 +65,27 @@ export default function useDeposit(
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
     functionName: 'depositPool',
-    args: [delegations, referral],
+    args: [delegationsEstimatedGas, referral],
     contractAddress: contracts.StakeTogether,
     abi: stakeTogetherABI,
-    value: grossDepositAmount,
-    skip: !isDepositEnabled || estimateGasCost > 0n
+    value: amountEstimatedGas,
+    skip: !enabled || estimateGasCost > 0n
   })
 
   useEffect(() => {
-    const handleMaxValue = async () => {
-      const { estimatedCost } = await estimateGas()
-      if (estimatedCost > 0n) {
-        setEstimateGasCost(estimatedCost)
-      }
+    const handleEstimateGasPrice = async () => {
+      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
+        await estimateGas()
+      setDepositEstimatedGas(estimatedGas)
+      setEstimateGasCost(estimatedCost)
+      setMaxFeePerGas(estimatedMaxFeePerGas)
+      setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
     }
-    handleMaxValue()
-  }, [estimateGas])
+
+    if (estimateGasCost === 0n) {
+      handleEstimateGasPrice()
+    }
+  }, [estimateGas, estimateGasCost])
 
   const { config } = usePrepareStakeTogetherDepositPool({
     chainId,
@@ -74,7 +93,10 @@ export default function useDeposit(
     args: [delegations, referral],
     account: accountAddress,
     enabled: delegations.length > 0 && accountAddress && isDepositEnabled,
-    value: grossDepositAmount
+    value: grossDepositAmount,
+    gas: depositEstimatedGas,
+    maxFeePerGas: maxFeePerGas,
+    maxPriorityFeePerGas: maxPriorityFeePerGas
   })
 
   const tx = useStakeTogetherDepositPool({

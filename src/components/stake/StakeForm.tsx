@@ -27,7 +27,7 @@ import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 import useDeposit from '@/hooks/contracts/useDeposit'
 import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
-import { useEstimateFeePercentage } from '@/hooks/contracts/useEstimaateFeePercentage'
+import { useEstimateFeePercentage } from '@/hooks/contracts/useEstimateFeePercentage'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -37,8 +37,6 @@ type StakeFormProps = {
 
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { t } = useTranslation()
-  const { stConfig } = useStConfig()
-  const minDepositAmount = stConfig?.minDepositAmount || 0n
 
   const {
     balance: ethBalance,
@@ -93,8 +91,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const inputAmount = amount ? debouncedAmount || '0' : '0'
 
   const STAKE_ENTRY_FEE = 0
-  const { fees } = useEstimateFeePercentage(STAKE_ENTRY_FEE, ethers.parseUnits(inputAmount, 18))
+  const { fees, isLoading: isLoadingFees } = useEstimateFeePercentage(
+    STAKE_ENTRY_FEE,
+    ethers.parseUnits(inputAmount, 18)
+  )
   const youReceiveDeposit = fees.Sender.shares
+
+  const { stConfig } = useStConfig()
+  const minDepositAmount = stConfig?.minDepositAmount || 0n
 
   const {
     deposit,
@@ -109,7 +113,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     fees.Sender.amount,
     ethers.parseUnits(inputAmount, 18),
     poolAddress,
-    type === 'deposit' && ethBalance > minDepositAmount,
+    type === 'deposit' && ethBalance > minDepositAmount && !isLoadingFees,
     accountAddress
   )
 
@@ -178,25 +182,28 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
 
   const estimatedGasCost = type === 'deposit' ? depositEstimatedCost : withdrawData.withdrawEstimatedCost
-
   const txHash = type === 'deposit' ? depositTxHash : withdrawData.withdrawTxHash
   const resetState = type === 'deposit' ? depositResetState : withdrawData.withdrawResetState
 
   const amountBigNumber = ethers.parseEther(amount || '0')
 
   const insufficientMinDeposit = type === 'deposit' && amountBigNumber < minDepositAmount && amount.length > 0
-
   const insufficientFunds = amountBigNumber > balance
+  const insufficientFoundsPerGas = type === 'deposit' && amountBigNumber > balance - estimatedGasCost
+  const insufficientWithdrawalEthBalance = type === 'withdraw' && ethBalance < estimatedGasCost
+
   const insufficientWithdrawalBalance =
     type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
   const amountIsEmpty = amountBigNumber === 0n || !amount
 
   const errorLabel =
-    (insufficientFunds && t('form.insufficientFunds')) ||
+    ((insufficientFunds || insufficientFoundsPerGas) && t('form.insufficientFunds')) ||
     (insufficientMinDeposit &&
       `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
     (insufficientWithdrawalBalance &&
       `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
+    (insufficientWithdrawalEthBalance &&
+      `${t('form.insufficientFunds')} ${truncateWei(estimatedGasCost, 6)} ${t('eth.symbol')}`) ||
     ''
 
   const walletActionLoading =
@@ -250,7 +257,12 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
     }
-    if (insufficientFunds || insufficientWithdrawalBalance || insufficientMinDeposit) {
+    if (
+      insufficientFunds ||
+      insufficientWithdrawalBalance ||
+      insufficientMinDeposit ||
+      insufficientWithdrawalEthBalance
+    ) {
       return errorLabel
     }
 
@@ -259,7 +271,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const handleInputMaxValue = () => {
     if (estimatedGasCost && type === 'deposit') {
-      setAmount(truncateWei(balance - estimatedGasCost, 18))
+      setAmount(truncateWei(ethBalance - estimatedGasCost, 18))
       return
     }
     setAmount(truncateWei(balance, 18))
@@ -269,24 +281,23 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     <>
       <StakeContainer>
         <CardInfoContainer>
-          {type === 'deposit' && (
-            <CardInfo>
+          <CardInfo>
+            <div>
               <div>
-                <div>
-                  <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
-                </div>
-                <CardInfoData>
-                  <header>
-                    <h4>{t('availableToStake')}</h4>
-                  </header>
-                  <div>
-                    <span>{truncateWei(ethBalance, 6)}</span>
-                    <span>{t('eth.symbol')}</span>
-                  </div>
-                </CardInfoData>
+                <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
               </div>
-            </CardInfo>
-          )}
+              <CardInfoData>
+                <header>
+                  <h4>{t('availableToStake')}</h4>
+                </header>
+                <div>
+                  <span>{truncateWei(ethBalance, 6)}</span>
+                  <span>{t('eth.symbol')}</span>
+                </div>
+              </CardInfoData>
+            </div>
+          </CardInfo>
+
           <CardInfo>
             <div>
               <div>
@@ -336,12 +347,17 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         )}
         {accountAddress && (
           <StakeButton
-            isLoading={isLoading}
+            isLoading={isLoading || isLoadingFees}
             onClick={openStakeConfirmation}
             label={handleLabelButton()}
             purple={type === 'withdraw'}
             disabled={
-              insufficientFunds || insufficientWithdrawalBalance || amountIsEmpty || insufficientMinDeposit
+              insufficientFunds ||
+              insufficientWithdrawalBalance ||
+              amountIsEmpty ||
+              insufficientMinDeposit ||
+              isLoadingFees ||
+              insufficientWithdrawalEthBalance
             }
           />
         )}
