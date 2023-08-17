@@ -8,9 +8,7 @@ export const queryStakeTogether = gql`
       totalRewards
       totalIncentives
       totalValueLocked
-      totalPooledEther
       contractBalance
-      liquidityBalance
       beaconBalance
     }
   }
