@@ -13,18 +13,22 @@ export default function useEthToUsdPrice(eth: string) {
   useEffect(() => {
     const fetchPrice = async () => {
       const ethAmount = eth.length > 0 ? ethers.parseEther(eth) : 0n
-
+      const config = {
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer yQXdIQSSKDvi1XarUMNikTGiZ0jFDjt5`
+        },
+        params: {
+          src: ETH_ADDRESS,
+          dst: USDC_ADDRESS,
+          amount: ethAmount.toString()
+        }
+      }
+      const url = 'https://api.1inch.dev/swap/v5.2/1/quote'
       try {
         if (ethAmount > 0n) {
-          const response = await axios.get('https://api.1inch.io/v5.0/1/quote', {
-            params: {
-              fromTokenAddress: ETH_ADDRESS,
-              toTokenAddress: USDC_ADDRESS,
-              amount: ethAmount.toString()
-            }
-          })
-
-          const price = ethers.parseUnits(response.data.toTokenAmount, 12)
+          const response = await axios.get(url, config)
+          const price = ethers.parseUnits(response.data.toAmount, 12)
 
           setPrice(price.toString())
         } else {

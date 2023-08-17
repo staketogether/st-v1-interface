@@ -9,9 +9,9 @@ import { truncateWei } from '../../services/truncate'
 interface StakeInputProps {
   value: string
   onChange: (value: string) => void
-  balance: bigint
   balanceLoading: boolean
   type: 'deposit' | 'withdraw'
+  handleMaxValue: () => void
   disabled?: boolean
   purple?: boolean
   hasError?: boolean
@@ -20,9 +20,9 @@ interface StakeInputProps {
 export default function StakeFormInput({
   value,
   onChange,
-  balance,
   balanceLoading,
   type,
+  handleMaxValue,
   disabled,
   purple,
   hasError
@@ -72,7 +72,7 @@ export default function StakeFormInput({
           <MaxValue
             className={purple ? 'purple' : ''}
             disabled={balanceLoading || disabled}
-            onClick={() => handleChange(truncateWei(balance, 18))}
+            onClick={handleMaxValue}
           >
             {t('max')}
           </MaxValue>

@@ -13,7 +13,7 @@ type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
   transactionLoading: boolean
   amount: string
-  amountEthByShare: bigint
+  youReceive: bigint
   transactionIsSuccess: boolean
   txHash: string | undefined
   type: 'deposit' | 'withdraw'
@@ -23,7 +23,7 @@ export default function StakeTransactionLoading({
   walletActionLoading,
   transactionLoading,
   amount,
-  amountEthByShare,
+  youReceive,
   transactionIsSuccess,
   txHash,
   type
@@ -38,15 +38,19 @@ export default function StakeTransactionLoading({
       <div>
         {walletActionLoading && !transactionLoading && !transactionIsSuccess && (
           <TitleModal>
-            {isWithdraw ? t('confirmStakeModal.confirmWithdraw') : t('confirmStakeModal.confirmDeposit')}
+            {isWithdraw
+              ? t('v2.stake.confirmModal.confirmWithdraw')
+              : t('v2.stake.confirmModal.confirmDeposit')}
           </TitleModal>
         )}
         {transactionLoading && !transactionIsSuccess && (
-          <TitleModal>{t('confirmStakeModal.transactionSubmitted')}</TitleModal>
+          <TitleModal>{t('v2.stake.confirmModal.transactionSubmitted')}</TitleModal>
         )}
         {transactionIsSuccess && (
           <TitleModal>
-            {isWithdraw ? t('confirmStakeModal.withdrawSuccessful') : t('confirmStakeModal.depositSuccessful')}
+            {isWithdraw
+              ? t('v2.stake.confirmModal.withdrawSuccessful')
+              : t('v2.stake.confirmModal.depositSuccessful')}
           </TitleModal>
         )}
         <ResumeStake>
@@ -60,7 +64,7 @@ export default function StakeTransactionLoading({
               <AiOutlineArrowRight />
               <div>
                 <Image src={ethIcon} alt={t('stakeTogether')} width={18} height={18} />
-                <span>{`${truncateWei(amountEthByShare, 6)}`}</span>
+                <span>{`${truncateWei(youReceive, 6)}`}</span>
                 <span className={'purple'}> ETH</span>
               </div>
             </>
@@ -74,7 +78,7 @@ export default function StakeTransactionLoading({
               <AiOutlineArrowRight />
               <div>
                 <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={18} />
-                <span>{`${truncateWei(amountEthByShare, 6)}`}</span>
+                <span>{`${truncateWei(youReceive, 6)}`}</span>
                 <span className={'purple'}> {t('lsd.symbol')}</span>
               </div>
             </>
@@ -90,7 +94,7 @@ export default function StakeTransactionLoading({
       )}
       <DescriptionAction>
         {walletActionLoading && !transactionIsSuccess && !transactionLoading && (
-          <span>{t('confirmStakeModal.proceedInYourWallet')}</span>
+          <span>{t('v2.stake.confirmModal.proceedInYourWallet')}</span>
         )}
         {transactionIsSuccess && (
           <a href={`${chain.blockExplorer.baseUrl}/tx/${txHash}`} target='_blank' rel='noopener noreferrer'>

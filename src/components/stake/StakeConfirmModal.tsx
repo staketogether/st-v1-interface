@@ -10,12 +10,11 @@ import StakeTransactionLoading from './StakeTransactionLoading'
 
 type StakeConfirmModalProps = {
   amount: string
-  ethRatio: bigint
-  amountEthByShare: bigint
+  ethBySharesRatio: bigint
+  sharesByEthRatio: bigint
+  youReceive: bigint
   type: 'deposit' | 'withdraw'
-  titleModal: string
   labelButton: string
-  estimatedCost: string | undefined
   walletActionLoading: boolean
   transactionLoading: boolean
   transactionIsSuccess: boolean
@@ -26,15 +25,14 @@ type StakeConfirmModalProps = {
 
 export default function StakeConfirmModal({
   amount,
-  titleModal,
   type,
   labelButton,
-  estimatedCost,
   transactionLoading,
   walletActionLoading,
   transactionIsSuccess,
-  ethRatio,
-  amountEthByShare,
+  ethBySharesRatio,
+  sharesByEthRatio,
+  youReceive,
   txHash,
   onClick,
   onClose
@@ -42,6 +40,9 @@ export default function StakeConfirmModal({
   const { isOpen } = useStakeConfirmModal()
   const { t } = useTranslation()
   const isWithdraw = type === 'withdraw'
+  const titleModal = isWithdraw
+    ? t('v2.stake.confirmModal.withdrawTitle')
+    : t('v2.stake.confirmModal.depositTitle')
   return (
     <Modal
       title={walletActionLoading ? undefined : <Header>{titleModal}</Header>}
@@ -54,7 +55,7 @@ export default function StakeConfirmModal({
           walletActionLoading={walletActionLoading}
           transactionLoading={transactionLoading}
           amount={truncateDecimal(amount, 6)}
-          amountEthByShare={amountEthByShare}
+          youReceive={youReceive}
           transactionIsSuccess={transactionIsSuccess}
           type={type}
           txHash={txHash}
@@ -64,7 +65,7 @@ export default function StakeConfirmModal({
           {isWithdraw ? (
             <>
               <ContainerPayment>
-                <span>{t('confirmStakeModal.youPay')}</span>
+                <span>{t('v2.stake.confirmModal.withdrawing')}</span>
                 <div>
                   <span>
                     {truncateDecimal(amount, 6)} <span className={'purple'}> {t('lsd.symbol')}</span>
@@ -73,10 +74,10 @@ export default function StakeConfirmModal({
                 </div>
               </ContainerPayment>
               <ContainerPayment>
-                <span>{t('confirmStakeModal.youReceive')}</span>
+                <span>{t('v2.stake.confirmModal.youWillReceive')}</span>
                 <div>
                   <span>
-                    {truncateWei(amountEthByShare, 6)} <span className={'purple'}>{t('eth.symbol')}</span>{' '}
+                    {truncateWei(youReceive, 6)} <span className={'purple'}>{t('eth.symbol')}</span>{' '}
                   </span>
                   <Image src={ethIcon} alt={t('stakeTogether')} width={36} height={36} />
                 </div>
@@ -85,7 +86,7 @@ export default function StakeConfirmModal({
           ) : (
             <>
               <ContainerPayment>
-                <span>{t('confirmStakeModal.youPay')}</span>
+                <span>{t('v2.stake.confirmModal.deposit')}</span>
                 <div>
                   <span>
                     {truncateDecimal(amount, 6)} <span className={'purple'}>{t('eth.symbol')}</span>
@@ -94,10 +95,10 @@ export default function StakeConfirmModal({
                 </div>
               </ContainerPayment>
               <ContainerPayment>
-                <span>{t('confirmStakeModal.youReceive')}</span>
+                <span>{t('v2.stake.confirmModal.youWillReceive')}</span>
                 <div>
                   <span>
-                    {truncateWei(amountEthByShare, 6)}
+                    {truncateWei(youReceive, 6)}
                     <span className={'purple'}> {t('lsd.symbol')}</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
@@ -108,27 +109,27 @@ export default function StakeConfirmModal({
           <Divider />
           <ContainerInfoReview>
             <InfoReview>
-              <span>{t('confirmStakeModal.exchangeRate')}</span>
+              <span>{t('v2.stake.descriptionForm.exchange')}</span>
               <div>
                 {isWithdraw ? (
                   <>
-                    1<span className={`purple`}> {t('lsd.symbol')}</span> = {truncateWei(ethRatio, 6)}
+                    1<span className={`purple`}> {t('lsd.symbol')}</span> = {truncateWei(sharesByEthRatio, 6)}
                     <span className={`purple`}> {t('eth.symbol')}</span>
                   </>
                 ) : (
                   <>
-                    1<span className={`purple`}> {t('eth.symbol')}</span> = {truncateWei(ethRatio, 6)}
+                    1<span className={`purple`}> {t('eth.symbol')}</span> = {truncateWei(ethBySharesRatio, 6)}
                     <span className={`purple`}> {t('lsd.symbol')}</span>
                   </>
                 )}
               </div>
             </InfoReview>
-            <InfoReview>
-              <span>{t('confirmStakeModal.networkFee')}</span>
-              <span>
-                {`${truncateDecimal(estimatedCost || '0', 8)}`} {t('eth.symbol')}
-              </span>
-            </InfoReview>
+            {type === 'deposit' && (
+              <InfoReview>
+                <span>{`${t('v2.stake.descriptionForm.transactionFee')}`}</span>
+                <span>0.3%</span>
+              </InfoReview>
+            )}
           </ContainerInfoReview>
           <Button onClick={onClick}>{labelButton}</Button>
         </>

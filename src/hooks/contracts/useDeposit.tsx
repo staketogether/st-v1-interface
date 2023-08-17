@@ -1,7 +1,6 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { notification } from 'antd'
-import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
@@ -15,11 +14,12 @@ import {
 } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
 import { useCalculateDelegationShares } from '@/hooks/contracts/useCalculateDelegationShares'
-import { useEstimaateFeePercentage } from '@/hooks/contracts/useEstimaateFeePercentage'
 import useEstimateTxInfo from '../useEstimateTxInfo'
+import { truncateWei } from '@/services/truncate'
 
 export default function useDeposit(
-  depositAmount: string,
+  netDepositAmount: bigint,
+  grossDepositAmount: bigint,
   poolAddress: `0x${string}`,
   enabled: boolean,
   accountAddress?: `0x${string}`
@@ -32,19 +32,14 @@ export default function useDeposit(
   const [failedToExecute, setFailedToExecute] = useState(false)
   const { registerDeposit } = useMixpanelAnalytics()
 
-  const STAKE_ENTRY_FEE = 0
-  const { fees } = useEstimaateFeePercentage(STAKE_ENTRY_FEE, ethers.parseUnits(depositAmount, 18))
-
   const { delegations } = useCalculateDelegationShares({
-    weiAmount: fees.Sender.amount,
+    weiAmount: netDepositAmount,
     accountAddress,
     pools: [poolAddress],
     onlyUpdatedPools: true
   })
 
-  const amount = ethers.parseUnits(depositAmount, 18)
-
-  const isDepositEnabled = enabled && amount > 0n
+  const isDepositEnabled = enabled && netDepositAmount > 0n
 
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
@@ -56,10 +51,10 @@ export default function useDeposit(
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
     functionName: 'depositPool',
-    args: [poolAddress, referral],
+    args: [delegations, referral],
     contractAddress: contracts.StakeTogether,
     abi: stakeTogetherABI,
-    value: BigInt('1000000000000000'),
+    value: grossDepositAmount,
     skip: !isDepositEnabled || estimateGasCost > 0n
   })
 
@@ -79,7 +74,7 @@ export default function useDeposit(
     args: [delegations, referral],
     account: accountAddress,
     enabled: delegations.length > 0 && accountAddress && isDepositEnabled,
-    value: amount
+    value: grossDepositAmount
   })
 
   const tx = useStakeTogetherDepositPool({
@@ -114,16 +109,18 @@ export default function useDeposit(
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool, queryDelegationShares]
       })
-      registerDeposit(accountAddress, chainId, poolAddress, ethers.formatEther(amount))
+      registerDeposit(accountAddress, chainId, poolAddress, truncateWei(netDepositAmount, 4))
       if (notify) {
         notification.success({
-          message: `${t('notifications.depositSuccess')}: ${depositAmount} ${t('lsd.symbol')}`,
+          message: `${t('notifications.depositSuccess')}: ${truncateWei(netDepositAmount, 4)} ${t(
+            'lsd.symbol'
+          )}`,
           placement: 'topRight'
         })
         setNotify(false)
       }
     }
-  }, [accountAddress, amount, chainId, depositAmount, isSuccess, notify, poolAddress, registerDeposit, t])
+  }, [accountAddress, chainId, netDepositAmount, isSuccess, notify, poolAddress, registerDeposit, t])
 
   useEffect(() => {
     if (isError || failedToExecute) {
@@ -132,14 +129,14 @@ export default function useDeposit(
       })
       if (notify) {
         notification.error({
-          message: `${t('notifications.depositError')}: ${depositAmount} ${t('lsd.symbol')}`,
+          message: `${t('notifications.depositError')}: ${truncateWei(netDepositAmount, 4)} ${t('lsd.symbol')}`,
           placement: 'topRight'
         })
         setNotify(false)
       }
       setFailedToExecute(false)
     }
-  }, [accountAddress, depositAmount, failedToExecute, isError, notify, poolAddress, t])
+  }, [accountAddress, netDepositAmount, failedToExecute, isError, notify, poolAddress, t])
 
   return {
     deposit,
