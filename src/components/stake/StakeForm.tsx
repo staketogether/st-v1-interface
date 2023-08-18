@@ -189,7 +189,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const insufficientMinDeposit = type === 'deposit' && amountBigNumber < minDepositAmount && amount.length > 0
   const insufficientFunds = amountBigNumber > balance
-  const insufficientFoundsPerGas = type === 'deposit' && amountBigNumber > balance - estimatedGasCost
+  const insufficientFundsPerGas = type === 'deposit' && amountBigNumber > balance - estimatedGasCost
   const insufficientWithdrawalEthBalance = type === 'withdraw' && ethBalance < estimatedGasCost
 
   const insufficientWithdrawalBalance =
@@ -197,7 +197,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const amountIsEmpty = amountBigNumber === 0n || !amount
 
   const errorLabel =
-    ((insufficientFunds || insufficientFoundsPerGas) && t('form.insufficientFunds')) ||
+    ((insufficientFunds || insufficientFundsPerGas) && t('form.insufficientFunds')) ||
     (insufficientMinDeposit &&
       `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
     (insufficientWithdrawalBalance &&
