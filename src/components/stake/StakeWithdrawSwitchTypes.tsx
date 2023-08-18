@@ -83,7 +83,7 @@ export default function StakeWithdrawSwitchTypes({
 const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } = {
   Container: styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     gap: 8px;
   `,

@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from 'react'
-import { chains } from '@/config/wagmi'
-import { createPublicClient, http } from 'viem'
-import { useNetworkGasPrice } from '@/hooks/useNetworkGasPrice'
+import { useCallback } from 'react'
+import { config } from '@/config/wagmi'
+import { useFeeData } from 'wagmi'
 
 interface UseEstimateTxInfoProps {
   account?: `0x${string}`
@@ -22,47 +21,51 @@ const useEstimateTxInfo = ({
   value,
   skip
 }: UseEstimateTxInfoProps) => {
-  const {
-    networkGasPriceGwei,
-    maxPriorityFeePerGas,
-    maxFeePerGas,
-    loading: gasPriceLoading
-  } = useNetworkGasPrice()
-  const [estimatedCost, setEstimatedCost] = useState(0n)
-  const [estimatedGasLimit, setEstimatedGasLimit] = useState(0n)
-  const [estimatedMaxFeePerGas, setEstimatedMaxFeePerGas] = useState(0n)
-  const [estimatedMaxPriorityFeePerGas, setEstimatedMaxPriorityFeePerGas] = useState(0n)
-  const [estimatedGasPrice, setEstimatedGasPrice] = useState(0n)
-  const [loading, setLoading] = useState(false)
+  const { data, isLoading } = useFeeData({ enabled: !skip })
+
+  const gasPriceLoading = isLoading
+  const networkGasPriceGwei = data && data.gasPrice ? data.gasPrice : 0n
+  const maxFeePerGas = data && data.maxFeePerGas ? data?.maxFeePerGas : 0n
+  const maxPriorityFeePerGas = data && data.maxPriorityFeePerGas ? data?.maxPriorityFeePerGas : 0n
 
   const estimateGas = useCallback(async () => {
-    setLoading(true)
     if (skip || !account || !contractAddress || !abi || !functionName || gasPriceLoading) {
-      setLoading(false)
-      return
+      return {
+        estimatedGas: 0n,
+        estimatedCost: 0n,
+        estimatedGasPrice: gasPriceLoading ? 0n : networkGasPriceGwei,
+        error: false
+      }
     }
-    setEstimatedGasPrice(networkGasPriceGwei)
 
-    const client = createPublicClient({
-      chain: chains[0],
-      transport: http()
-    })
-
-    const estimatedGas = await client.estimateContractGas({
-      account,
-      functionName,
-      address: contractAddress,
-      abi,
-      args: args || [],
-      value
-    })
-    setEstimatedMaxPriorityFeePerGas((maxPriorityFeePerGas * 3n) / 2n)
-    setEstimatedMaxFeePerGas((maxFeePerGas * 3n) / 2n)
-    const estimatedCost = estimatedGas * ((maxFeePerGas * 3n) / 2n)
-    setEstimatedGasLimit(estimatedGas)
-    // Add 50% to the estimated cost (same as metamask's market price)
-    setEstimatedCost(estimatedCost)
-    setLoading(false)
+    const client = config.publicClient
+    try {
+      const estimatedGas = await client.estimateContractGas({
+        account,
+        functionName,
+        address: contractAddress,
+        abi,
+        args: args || [],
+        value
+      })
+      const estimatedCost = (estimatedGas * maxFeePerGas * 3n) / 2n
+      return {
+        estimatedGas: (estimatedGas * 3n) / 2n,
+        estimatedGasPrice: networkGasPriceGwei,
+        // Add 50% to the estimated cost (same as metamask's market price)
+        estimatedCost: (estimatedCost * 3n) / 2n,
+        estimatedMaxFeePerGas: (maxFeePerGas * 3n) / 2n,
+        estimatedMaxPriorityFeePerGas: (maxPriorityFeePerGas * 3n) / 2n,
+        error: true
+      }
+    } catch {
+      return {
+        estimatedGas: 0n,
+        estimatedCost: 0n,
+        estimatedGasPrice: 0n,
+        error: true
+      }
+    }
   }, [
     skip,
     account,
@@ -73,22 +76,11 @@ const useEstimateTxInfo = ({
     networkGasPriceGwei,
     args,
     value,
-    maxPriorityFeePerGas,
-    maxFeePerGas
+    maxFeePerGas,
+    maxPriorityFeePerGas
   ])
 
-  useEffect(() => {
-    estimateGas()
-  }, [estimateGas])
-
-  return {
-    estimatedCost,
-    estimatedGasLimit,
-    estimatedGasPrice,
-    loading,
-    estimatedMaxFeePerGas,
-    estimatedMaxPriorityFeePerGas
-  }
+  return { estimateGas }
 }
 
 export default useEstimateTxInfo

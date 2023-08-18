@@ -18,7 +18,6 @@
   "max": "Max",
   "rank": "Rank",
   "action": "Staking...",
-  "youReceive": "You Receive",
   "delegation": "Delegation",
   "fee": "Fee",
   "delegated": "Delegated",
@@ -33,7 +32,6 @@
   "loadMore": "Load More",
   "apr": "APR",
   "pnl": "PNL",
-  "rewardsFee": "Rewards Fee",
   "wrongNetwork": "Wrong Network",
   "switch": "Switch to",
   "about": "About",
@@ -55,7 +53,7 @@
   },
   "lsd": {
     "name": "ST Staked Ether",
-    "symbol": "SETH"
+    "symbol": "stpETH"
   },
   "form": {
     "deposit": "Deposit Ether",
@@ -89,20 +87,6 @@
   "sidebar": {
     "etherBalance": "Ether Balance",
     "stakedBalance": "Staked Balance"
-  },
-  "confirmStakeModal": {
-    "reviewDeposit": "Review Deposit",
-    "reviewWithdraw": "Review Withdraw",
-    "youPay": "You Pay",
-    "youReceive": "You will receive",
-    "exchangeRate": "Exchange",
-    "confirmDeposit": "Confirm Deposit",
-    "confirmWithdraw": "Confirm Withdraw",
-    "networkFee": "Transaction cost",
-    "transactionSubmitted": "Transaction submitted",
-    "proceedInYourWallet": "Proceed in your wallet",
-    "withdrawSuccessful": "Withdraw Successful",
-    "depositSuccessful": "Deposit Successful"
   },
   "soon": "Coming Soon",
   "addSethToWallet": {
@@ -198,7 +182,26 @@
         "description": "Deposit ETH and use stpETH in DeFi to earn staking rewards while explorinf additional"
       },
       "annualRewards": "Annual Staking Rewards",
-      "infoEmptyState": "New information coming soon!"
+      "infoEmptyState": "New information coming soon!",
+      "descriptionForm": {
+        "youReceive": "You Receive",
+        "exchange": "Exchange",
+        "rewardsFee": "Rewards Fee",
+        "transactionFee": "Transaction fee"
+      },
+      "confirmModal": {
+        "depositTitle": "Review Stake Request",
+        "withdrawTitle": "Review Withdraw Request",
+        "deposit": "You deposit",
+        "withdrawing": "You are withdrawing",
+        "youWillReceive": "You will receive",
+        "confirmWithdraw": "Confirm Withdraw",
+        "confirmDeposit": "Confirm Deposit",
+        "transactionSubmitted": "Transaction submitted",
+        "proceedInYourWallet": "Proceed in your wallet",
+        "withdrawSuccessful": "Withdraw Successful",
+        "depositSuccessful": "Deposit Successful"
+      }
     },
     "wallet": {
       "totalRewards": "Total Rewards"

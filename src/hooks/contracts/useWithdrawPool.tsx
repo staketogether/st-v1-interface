@@ -7,12 +7,16 @@ import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-
-import { WithdrawType } from '@/types/Withdraw'
 import { ethers } from 'ethers'
-import { usePrepareStakeTogetherWithdrawPool, useStakeTogetherWithdrawPool } from '../../types/Contracts'
+import {
+  stakeTogetherABI,
+  usePrepareStakeTogetherWithdrawPool,
+  useStakeTogetherWithdrawPool
+} from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import { useCalculateDelegationShares } from '@/hooks/contracts/useCalculateDelegationShares'
+import useEstimateTxInfo from '../useEstimateTxInfo'
+import { useCalculateDelegationShares } from './useCalculateDelegationShares'
+import { WithdrawType } from '@/types/Withdraw'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -22,12 +26,22 @@ export default function useWithdrawPool(
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
   const { registerWithdraw } = useMixpanelAnalytics()
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
 
-  const { delegations } = useCalculateDelegationShares({
+  const { delegations, loading: loadingDelegations } = useCalculateDelegationShares({
     weiAmount: ethers.parseUnits(withdrawAmount, 18),
+    accountAddress,
+    pools: [poolAddress],
+    onlyUpdatedPools: true,
+    subtractAmount: true
+  })
+
+  const amountEstimatedGas = ethers.parseUnits('0.001', 18)
+  const { delegations: delegationsEstimatedGas } = useCalculateDelegationShares({
+    weiAmount: amountEstimatedGas,
     accountAddress,
     pools: [poolAddress],
     onlyUpdatedPools: true,
@@ -36,7 +50,26 @@ export default function useWithdrawPool(
 
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
-  const isWithdrawEnabled = enabled && amount > 0n
+  const isWithdrawEnabled = enabled && amount > 0n && !loadingDelegations
+
+  const { estimateGas } = useEstimateTxInfo({
+    account: accountAddress,
+    contractAddress: contracts.StakeTogether,
+    functionName: 'withdrawPool',
+    args: [amountEstimatedGas, delegationsEstimatedGas],
+    abi: stakeTogetherABI,
+    skip: !enabled || estimateGasCost > 0n
+  })
+
+  useEffect(() => {
+    const handleMaxValue = async () => {
+      const { estimatedCost } = await estimateGas()
+      if (estimatedCost > 0n) {
+        setEstimateGasCost(estimatedCost)
+      }
+    }
+    handleMaxValue()
+  }, [estimateGas])
 
   const { config } = usePrepareStakeTogetherWithdrawPool({
     address: contracts.StakeTogether,
@@ -106,7 +139,7 @@ export default function useWithdrawPool(
 
   return {
     withdrawPool,
-    estimatedCost: 0n,
+    estimatedCost: estimateGasCost,
     isLoading,
     isSuccess,
     awaitWalletAction,

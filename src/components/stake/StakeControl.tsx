@@ -68,7 +68,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
       <TvlContainer>
         <div>
           <span>{t('v2.stake.annualRewards')}</span>
-          <span className='green'>5.7%</span>
+          <span className='green'>5%</span>
         </div>
         <div>
           <span>TVL</span>

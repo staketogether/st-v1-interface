@@ -1,46 +1,59 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
-import { truncateWei } from '@/services/truncate'
 import { notification } from 'antd'
-import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-import { usePrepareStakeTogetherDepositPool, useStakeTogetherDepositPool } from '../../types/Contracts'
+import {
+  stakeTogetherABI,
+  usePrepareStakeTogetherDepositPool,
+  useStakeTogetherDepositPool
+} from '../../types/Contracts'
 import useTranslation from '../useTranslation'
 import { useCalculateDelegationShares } from '@/hooks/contracts/useCalculateDelegationShares'
-import { useEstimaateFeePercentage } from '@/hooks/contracts/useEstimaateFeePercentage'
+import useEstimateTxInfo from '../useEstimateTxInfo'
+import { truncateWei } from '@/services/truncate'
+import { ethers } from 'ethers'
+import { useEstimateFeePercentage } from './useEstimateFeePercentage'
 
 export default function useDeposit(
-  depositAmount: string,
+  netDepositAmount: bigint,
+  grossDepositAmount: bigint,
   poolAddress: `0x${string}`,
   enabled: boolean,
   accountAddress?: `0x${string}`
 ) {
   const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
-
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
+  const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
+  const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [failedToExecute, setFailedToExecute] = useState(false)
   const { registerDeposit } = useMixpanelAnalytics()
 
-  const STAKE_ENTRY_FEE = 0
-  const { fees } = useEstimaateFeePercentage(STAKE_ENTRY_FEE, ethers.parseUnits(depositAmount, 18))
+  const { delegations, loading: loadingDelegations } = useCalculateDelegationShares({
+    weiAmount: netDepositAmount,
+    accountAddress,
+    pools: [poolAddress],
+    onlyUpdatedPools: true
+  })
 
-  const { delegations } = useCalculateDelegationShares({
+  const amountEstimatedGas = ethers.parseUnits('0.001', 18)
+  const { fees } = useEstimateFeePercentage(0, amountEstimatedGas)
+  const { delegations: delegationsEstimatedGas } = useCalculateDelegationShares({
     weiAmount: fees.Sender.amount,
     accountAddress,
     pools: [poolAddress],
     onlyUpdatedPools: true
   })
 
-  const amount = ethers.parseUnits(depositAmount, 18)
-
-  const isDepositEnabled = enabled && amount > 0n
+  const isDepositEnabled = enabled && netDepositAmount > 0n && !loadingDelegations
 
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
@@ -49,7 +62,30 @@ export default function useDeposit(
     hash: txHash
   })
 
-  const discountedGasAmount = amount - ethers.parseEther('0.001')
+  const { estimateGas } = useEstimateTxInfo({
+    account: accountAddress,
+    functionName: 'depositPool',
+    args: [delegationsEstimatedGas, referral],
+    contractAddress: contracts.StakeTogether,
+    abi: stakeTogetherABI,
+    value: amountEstimatedGas,
+    skip: !enabled || estimateGasCost > 0n
+  })
+
+  useEffect(() => {
+    const handleEstimateGasPrice = async () => {
+      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
+        await estimateGas()
+      setDepositEstimatedGas(estimatedGas)
+      setEstimateGasCost(estimatedCost)
+      setMaxFeePerGas(estimatedMaxFeePerGas)
+      setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
+    }
+
+    if (estimateGasCost === 0n) {
+      handleEstimateGasPrice()
+    }
+  }, [estimateGas, estimateGasCost])
 
   const { config } = usePrepareStakeTogetherDepositPool({
     chainId,
@@ -57,7 +93,10 @@ export default function useDeposit(
     args: [delegations, referral],
     account: accountAddress,
     enabled: delegations.length > 0 && accountAddress && isDepositEnabled,
-    value: amount
+    value: grossDepositAmount,
+    gas: depositEstimatedGas,
+    maxFeePerGas: maxFeePerGas,
+    maxPriorityFeePerGas: maxPriorityFeePerGas
   })
 
   const tx = useStakeTogetherDepositPool({
@@ -88,14 +127,14 @@ export default function useDeposit(
   }
 
   useEffect(() => {
-    if (isSuccess && discountedGasAmount > 0n && accountAddress) {
+    if (isSuccess && accountAddress) {
       apolloClient.refetchQueries({
         include: [queryAccount, queryPool, queryDelegationShares]
       })
-      registerDeposit(accountAddress, chainId, poolAddress, ethers.formatEther(discountedGasAmount))
+      registerDeposit(accountAddress, chainId, poolAddress, truncateWei(netDepositAmount, 4))
       if (notify) {
         notification.success({
-          message: `${t('notifications.depositSuccess')}: ${truncateWei(discountedGasAmount, 6)} ${t(
+          message: `${t('notifications.depositSuccess')}: ${truncateWei(netDepositAmount, 4)} ${t(
             'lsd.symbol'
           )}`,
           placement: 'topRight'
@@ -103,7 +142,7 @@ export default function useDeposit(
         setNotify(false)
       }
     }
-  }, [accountAddress, chainId, discountedGasAmount, isSuccess, notify, poolAddress, registerDeposit, t])
+  }, [accountAddress, chainId, netDepositAmount, isSuccess, notify, poolAddress, registerDeposit, t])
 
   useEffect(() => {
     if (isError || failedToExecute) {
@@ -112,22 +151,20 @@ export default function useDeposit(
       })
       if (notify) {
         notification.error({
-          message: `${t('notifications.depositError')}: ${truncateWei(discountedGasAmount, 6)} ${t(
-            'lsd.symbol'
-          )}`,
+          message: `${t('notifications.depositError')}: ${truncateWei(netDepositAmount, 4)} ${t('lsd.symbol')}`,
           placement: 'topRight'
         })
         setNotify(false)
       }
       setFailedToExecute(false)
     }
-  }, [accountAddress, discountedGasAmount, failedToExecute, isError, notify, poolAddress, t])
+  }, [accountAddress, netDepositAmount, failedToExecute, isError, notify, poolAddress, t])
 
   return {
     deposit,
     isLoading,
     isSuccess,
-    estimatedGas: 0n,
+    estimatedGas: estimateGasCost,
     awaitWalletAction,
     txHash,
     resetState

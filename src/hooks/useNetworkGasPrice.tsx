@@ -7,7 +7,7 @@ export const useNetworkGasPrice = () => {
   const [masFeePerGas, setMaxFeePerGas] = useState(0n)
   const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState(0n)
   const [loading, setLoading] = useState(false)
-  const { data, refetch, isLoading } = useFeeData()
+  const { data, isLoading } = useFeeData()
 
   useEffect(() => {
     if (data?.formatted.gasPrice) {
@@ -30,16 +30,6 @@ export const useNetworkGasPrice = () => {
   useEffect(() => {
     setLoading(isLoading)
   }, [isLoading])
-
-  useEffect(() => {
-    const milliseconds = 1000
-    const timer = setInterval(() => {
-      refetch()
-    }, 30 * milliseconds)
-    return () => {
-      clearInterval(timer)
-    }
-  }, [refetch])
 
   return {
     networkGasPrice,

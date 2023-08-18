@@ -33,7 +33,6 @@
   "loadMore": "Carregar Mais",
   "apr": "APR",
   "pnl": "PNL",
-  "rewardsFee": "Taxa de Recompensas",
   "wrongNetwork": "Rede Errada",
   "switch": "Trocar para",
   "about": "Sobre",
@@ -54,7 +53,7 @@
   },
   "lsd": {
     "name": "ST Staked Ether",
-    "symbol": "SETH"
+    "symbol": "stpETH"
   },
   "form": {
     "deposit": "Depositar Ether",
@@ -93,8 +92,6 @@
     "reviewDeposit": "Revisar o Deposito",
     "reviewWithdraw": "Revisar Saque",
     "youPay": "Você Paga",
-    "youReceive": "Você Recebe",
-    "exchangeRate": "Câmbio",
     "networkFee": "Custo de transação",
     "confirmDeposit": "Confirme o Deposito",
     "confirmWithdraw": "Confirme o Saque",
@@ -197,7 +194,26 @@
         "description": "Deposite ETH e use stpETH no DeFi para ganhar recompensas de staking enquanto explora outras opções"
       },
       "annualRewards": "Recompensas Anuais de Staking",
-      "infoEmptyState": "New information coming soon!"
+      "infoEmptyState": "New information coming soon!",
+      "descriptionForm": {
+        "youReceive": "Você Recebe",
+        "exchange": "Câmbio",
+        "rewardsFee": "Taxa de Recompensas",
+        "transactionFee": "Taxa de Transação"
+      },
+      "confirmModal": {
+        "depositTitle": "Revisar Pedido de Stake",
+        "withdrawTitle": "Revisar Pedido de Saque",
+        "deposit": "Você está depositando",
+        "withdrawing": "Você está sacando",
+        "youWillReceive": "Você receberá",
+        "confirmWithdraw": "Confirmar Saque",
+        "confirmDeposit": "Confirmar Depósito",
+        "transactionSubmitted": "Transação enviada",
+        "proceedInYourWallet": "Prossiga em sua carteira",
+        "withdrawSuccessful": "Saque realizada com sucesso",
+        "depositSuccessful": "Depósito realizado com sucesso"
+      }
     },
     "wallet": {
       "totalRewards": "Total de Recompensas"

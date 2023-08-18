@@ -56,8 +56,7 @@ const configs: ChainConfig[] = [
       StakeTogether: '0xa6Ab45C2B461fBA6B501b074BD8f5F5b0976c617'
     },
     subgraphs: {
-      // StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-v2-goerli/version/latest',
-      StakeTogether: 'https://api.studio.thegraph.com/proxy/17823/stake-together-v2-goerli/v1.1.0',
+      StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-v2-goerli/version/latest',
       ENS: '',
       contentful: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/master`
     }
