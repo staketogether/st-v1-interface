@@ -159,13 +159,13 @@ const {
       align-items: center;
       gap: ${({ theme }) => theme.size[16]};
       padding: ${({ theme }) => theme.size[8]};
-      background: ${({ theme }) => theme.color.whiteAlpha[600]};
+      background: ${({ theme }) => theme.color.blackAlpha[50]};
       box-shadow: ${({ theme }) => theme.shadow[100]};
       transition: background 0.2s ease;
       font-weight: 400;
       border-radius: ${({ theme }) => theme.size[24]};
       &:hover {
-        background: ${({ theme }) => theme.color.whiteAlpha[900]};
+        background: ${({ theme }) => theme.color.blackAlpha[200]};
       }
 
       img {
