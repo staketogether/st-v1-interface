@@ -66,12 +66,15 @@ export default function WalletSidebarDisconnected() {
                 />
                 <span>
                   {t('v2.sidebar.disconnected.iAgreeToThe')}
-                  <a href={handleTermsAndConditionsExternalLink()}>
+                  <a href={handleTermsAndConditionsExternalLink()} target='_blank'>
                     {' '}
                     {t('v2.sidebar.disconnected.terms&conditions')}{' '}
                   </a>
                   {t('v2.sidebar.disconnected.and')}
-                  <a href={handlePrivacyPolicyExternalLink()}> {t('v2.sidebar.disconnected.privacyPolicy')}</a>
+                  <a href={handlePrivacyPolicyExternalLink()} target='_blank'>
+                    {' '}
+                    {t('v2.sidebar.disconnected.privacyPolicy')}
+                  </a>
                 </span>
               </div>
             </Actions>
