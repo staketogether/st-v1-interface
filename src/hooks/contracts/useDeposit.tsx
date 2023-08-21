@@ -96,9 +96,9 @@ export default function useDeposit(
     account: accountAddress,
     enabled: delegations.length > 0 && accountAddress && isDepositEnabled,
     value: grossDepositAmount,
-    gas: depositEstimatedGas,
-    maxFeePerGas: maxFeePerGas,
-    maxPriorityFeePerGas: maxPriorityFeePerGas
+    gas: !!depositEstimatedGas && depositEstimatedGas > 0n ? depositEstimatedGas : undefined,
+    maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n ? maxFeePerGas : undefined,
+    maxPriorityFeePerGas: !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n ? maxPriorityFeePerGas : undefined
   })
 
   const tx = useStakeTogetherDepositPool({
