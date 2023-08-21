@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
-import { queryPoolActivities } from '@/queries/queryPoolActivities'
+import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { ActivitiesPool } from '@/types/ActivitiesPool'
 
 export default function usePoolActivities(poolAddress: `0x${string}`) {

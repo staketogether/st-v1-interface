@@ -15,7 +15,7 @@ import {
 } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
 import useEstimateTxInfo from '../useEstimateTxInfo'
-import { useCalculateDelegationShares } from './useCalculateDelegationShares'
+import { useCalculateDelegationPercentage } from './useCalculateDelegationPercentage'
 import { WithdrawType } from '@/types/Withdraw'
 
 export default function useWithdrawPool(
@@ -31,7 +31,7 @@ export default function useWithdrawPool(
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
 
-  const { delegations, loading: loadingDelegations } = useCalculateDelegationShares({
+  const { delegations, loading: loadingDelegations } = useCalculateDelegationPercentage({
     weiAmount: ethers.parseUnits(withdrawAmount, 18),
     accountAddress,
     pools: [poolAddress],
@@ -40,7 +40,7 @@ export default function useWithdrawPool(
   })
 
   const amountEstimatedGas = ethers.parseUnits('0.001', 18)
-  const { delegations: delegationsEstimatedGas } = useCalculateDelegationShares({
+  const { delegations: delegationsEstimatedGas } = useCalculateDelegationPercentage({
     weiAmount: amountEstimatedGas,
     accountAddress,
     pools: [poolAddress],

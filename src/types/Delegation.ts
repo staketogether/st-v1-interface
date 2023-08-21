@@ -11,5 +11,5 @@ export type Delegation = {
 
 export type DelegationMap = {
   pool: `0x${string}`
-  shares: bigint
+  percentage: bigint
 }
