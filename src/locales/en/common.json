@@ -146,6 +146,14 @@
       "connect": "Connect",
       "disconnect": "Disconnect"
     },
+    "sidebar": {
+      "disconnected": {
+        "iAgreeToThe": "I agree to the",
+        "terms&conditions": "Terms & Conditions",
+        "and": "and",
+        "privacyPolicy": "Privacy Policy."
+      }
+    },
     "pools": {
       "title": "Projects",
       "filter": {

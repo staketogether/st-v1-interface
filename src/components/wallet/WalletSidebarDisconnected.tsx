@@ -8,13 +8,30 @@ import { useConnect } from 'wagmi'
 import useTranslation from '../../hooks/useTranslation'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
+import { useRouter } from 'next/router'
 
 export default function WalletSidebarDisconnected() {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
+  const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
   const { connect, connectors } = useConnect()
   const { t } = useTranslation()
   const { openSidebarConnectWallet, setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
   const handleConnectorImage = useWalletProviderImage()
+  const router = useRouter()
+
+  function handleTermsAndConditionsExternalLink() {
+    if (router.locale === 'en') {
+      return 'https://docs.staketogether.app/stake-together/v/stake-together-en/documentation/terms-and-conditions'
+    }
+    return 'https://docs.staketogether.app/stake-together/documentation/termos-de-uso'
+  }
+
+  function handlePrivacyPolicyExternalLink() {
+    if (router.locale === 'en') {
+      return 'https://docs.staketogether.app/stake-together/v/stake-together-en/documentation/privacy-policies'
+    }
+    return 'https://docs.staketogether.app/stake-together/documentation/politicas-de-privacidade'
+  }
 
   return (
     <DrawerContainer
@@ -33,10 +50,30 @@ export default function WalletSidebarDisconnected() {
               <CloseSidebar fontSize={14} />
             </ClosedSidebarButton>
             <Actions>
-              <h2>{t('connectWalletSideBar.title')}</h2>
-              <Button onClick={() => setIsSettingsActive(true)}>
-                <SettingIcon fontSize={16} />
-              </Button>
+              <div>
+                <h2>{t('connectWalletSideBar.title')}</h2>
+                <Button onClick={() => setIsSettingsActive(true)}>
+                  <SettingIcon fontSize={16} />
+                </Button>
+              </div>
+              <div>
+                <input
+                  type='checkbox'
+                  name='agree'
+                  id='1'
+                  checked={hasAgreeTerms}
+                  onChange={e => setHasAgreeTerms(e.target.checked)}
+                />
+                <span>
+                  {t('v2.sidebar.disconnected.iAgreeToThe')}
+                  <a href={handleTermsAndConditionsExternalLink()}>
+                    {' '}
+                    {t('v2.sidebar.disconnected.terms&conditions')}{' '}
+                  </a>
+                  {t('v2.sidebar.disconnected.and')}
+                  <a href={handlePrivacyPolicyExternalLink()}> {t('v2.sidebar.disconnected.privacyPolicy')}</a>
+                </span>
+              </div>
             </Actions>
           </HeaderContainer>
           <ContainerWalletConnect>
@@ -47,7 +84,11 @@ export default function WalletSidebarDisconnected() {
                     capitalize((connector as any).loginParams.loginProvider)
                   : connector.name
               return (
-                <div key={connector.id + index} onClick={() => connect({ connector })}>
+                <div
+                  key={connector.id + index}
+                  className={`${hasAgreeTerms ? '' : 'disabled'}`}
+                  onClick={() => hasAgreeTerms && connect({ connector })}
+                >
                   {handleConnectorImage(walletName)}
                   {walletName}
                 </div>
@@ -139,13 +180,39 @@ const {
   Actions: styled.div`
     width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[16]};
+    div:first-child {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-    h2 {
-      font-size: ${({ theme }) => theme.font.size[16]};
-      font-weight: 400;
-      color: ${({ theme }) => theme.color.primary};
+      h2 {
+        font-size: ${({ theme }) => theme.font.size[16]};
+        font-weight: 400;
+        color: ${({ theme }) => theme.color.primary};
+      }
+    }
+    div:last-child {
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
+
+      font-size: ${({ theme }) => theme.font.size[12]};
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+
+      a {
+        color: ${({ theme }) => theme.color.secondary};
+      }
+
+      > input {
+        cursor: pointer;
+      }
+      > input:checked {
+        background: red;
+      }
     }
   `,
   ContainerWalletConnect: styled.div`
@@ -171,6 +238,15 @@ const {
       img {
         box-shadow: ${({ theme }) => theme.shadow[100]};
         border-radius: 100%;
+      }
+
+      &.disabled {
+        img {
+          filter: grayscale(100%);
+        }
+        cursor: not-allowed;
+        color: ${({ theme }) => theme.color.blackAlpha[400]};
+        background: ${({ theme }) => theme.color.blackAlpha[100]};
       }
     }
   `
