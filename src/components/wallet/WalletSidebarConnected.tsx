@@ -4,13 +4,15 @@ import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import { Drawer, notification } from 'antd'
 import Image from 'next/image'
+import ethIcon from '@assets/icons/eth-icon.svg'
+import stIcon from '@assets/icons/seth-icon.svg'
 import { useState } from 'react'
 import {
-  AiFillCreditCard,
   AiOutlineBarChart,
   AiOutlineLineChart,
   AiOutlineLogout,
   AiOutlinePieChart,
+  AiOutlineQuestionCircle,
   AiOutlineRight,
   AiOutlineSetting
 } from 'react-icons/ai'
@@ -157,36 +159,46 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             </Actions>
           </HeaderContainer>
           <InfoContainer>
-            <ContainerData>
-              <span>{t('v2.wallet.totalRewards')}</span>
-              <div>
-                <span className={`${rewardsIsPositive && 'positive'} ${rewardsIsNegative && 'negative'}`}>
-                  {accountTotalRewards > 0 ? truncateWei(accountTotalRewards, 6) : '0'}
-                </span>
-                <span className='symbol'>{t('lsd.symbol')}</span>
-              </div>
-            </ContainerData>
             <div>
-              <ContainerData>
-                <span>{`${t('sidebar.etherBalance')}`}</span>
+              <TokenContainer>
+                <Image src={ethIcon} width={24} height={24} alt='eth icon' />
                 <div>
-                  <span>{truncateWei(ethBalance, 6)}</span>
-                  <span className='symbol'>{t('eth.symbol')}</span>
+                  <h4>{t('availableToStake')}</h4>
+                  <div>
+                    <span>{truncateWei(ethBalance, 6)}</span>
+                    <span className='symbol'>{t('eth.symbol')}</span>
+                  </div>
                 </div>
-              </ContainerData>
-              <ContainerData>
-                <span>{`${t('sidebar.stakedBalance')}`}</span>
+              </TokenContainer>
+              <BuyCryptoButton onClick={() => setOpenModal(true)}>{t('buyEth.button')}</BuyCryptoButton>
+            </div>
+            <div>
+              <TokenContainer>
+                <Image src={stIcon} width={24} height={24} alt='eth icon' />
                 <div>
-                  <span>{truncateWei(accountBalance, 6)}</span>
-                  <span className='symbol'>{t('lsd.symbol')}</span>
+                  <h4>{t('staked')}</h4>
+                  <div>
+                    <span className='purple'>{truncateWei(accountBalance, 6)}</span>
+                    <span className='purple'>{t('lsd.symbol')}</span>
+                  </div>
                 </div>
-              </ContainerData>
+              </TokenContainer>
+              <TokenContainer>
+                <div>
+                  <div>
+                    <h4>{t('rewards')}</h4>
+                    <QuestionIcon />
+                  </div>
+                  <div>
+                    <span className={`${rewardsIsPositive && 'positive'} ${rewardsIsNegative && 'negative'}`}>
+                      {accountTotalRewards > 0 ? truncateWei(accountTotalRewards, 6) : '0'}
+                    </span>
+                    <span className='symbol'>{t('lsd.symbol')}</span>
+                  </div>
+                </div>
+              </TokenContainer>
             </div>
           </InfoContainer>
-          <BuyCryptoButton onClick={() => setOpenModal(true)}>
-            <AiFillCreditCard />
-            {t('buyEth.button')}
-          </BuyCryptoButton>
           <Tabs items={tabsItems} size='small' defaultActiveKey='pools' />
         </>
       )}
@@ -199,7 +211,6 @@ const {
   DrawerContainer,
   HeaderContainer,
   InfoContainer,
-  ContainerData,
   CloseSidebar,
   ClosedSidebarButton,
   Logout,
@@ -214,7 +225,9 @@ const {
   CopyIcon,
   PoolsIcon,
   AnalyticsIcon,
-  ActivitiesIcon
+  TokenContainer,
+  ActivitiesIcon,
+  QuestionIcon
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.color.white} !important;
@@ -263,52 +276,53 @@ const {
   InfoContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[24]};
     > div {
       display: flex;
-      gap: ${({ theme }) => theme.size[8]};
+      justify-content: space-between;
+      align-items: center;
     }
   `,
-  ContainerData: styled.div`
-    height: 81px;
-    width: 100%;
+  TokenContainer: styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
-    background: ${({ theme }) => theme.color.whiteAlpha[800]};
-    border-radius: ${({ theme }) => theme.size[12]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    span {
-      font-weight: 500;
-    }
-    > span:first-child {
-      font-size: ${({ theme }) => theme.font.size[12]};
-      color: ${({ theme }) => theme.color.blue[300]};
-    }
-    div {
+    gap: ${({ theme }) => theme.size[16]};
+    > div {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: ${({ theme }) => theme.size[4]};
-      > span:first-child {
-        color: ${({ theme }) => theme.color.primary};
+      > div {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[4]};
+      }
+      h4 {
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+
+        color: ${({ theme }) => theme.color.blue[400]};
       }
       span {
-        font-size: ${({ theme }) => theme.font.size[14]};
-        &.symbol {
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        color: ${({ theme }) => theme.color.primary};
+
+        &.purple {
           color: ${({ theme }) => theme.color.secondary};
         }
         &.negative {
           color: ${({ theme }) => theme.color.red[300]};
         }
         &.positive {
-          color: ${({ theme }) => theme.color.green[600]};
+          color: ${({ theme }) => theme.color.green[500]};
         }
       }
     }
   `,
-
   ClosedSidebarButton: styled.button`
     position: absolute;
     left: -44px;
@@ -339,13 +353,13 @@ const {
     height: 32px;
     border: 0;
     border-radius: ${({ theme }) => theme.size[16]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    background: ${({ theme }) => theme.color.whiteAlpha[700]};
+    background: transparent;
     transition: background 0.2s ease;
     line-height: 36px;
 
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[900]};
+      background: ${({ theme }) => theme.color.blackAlpha[200]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
     }
 
     &:first-of-type {
@@ -363,10 +377,12 @@ const {
   BuyCryptoButton: styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
-    border-radius: ${props => props.theme.size[16]};
-    background: ${({ theme }) => theme.color.blue[600]};
+    border-radius: ${props => props.theme.size[12]};
+
+    background: ${({ theme }) => theme.color.primary};
     transition: background-color 0.2s ease;
-    height: 41px;
+    height: 32px;
+    padding: 0px ${props => props.theme.size[12]};
 
     font-size: ${({ theme }) => theme.font.size[14]};
 
@@ -376,7 +392,7 @@ const {
     gap: ${({ theme }) => theme.size[8]};
 
     &:hover {
-      background: ${({ theme }) => theme.color.blue[600]};
+      background: ${({ theme }) => theme.color.blue[400]};
     }
 
     &:disabled {
@@ -411,5 +427,8 @@ const {
   `,
   ActivitiesIcon: styled(AiOutlineLineChart)`
     font-size: 16px;
+  `,
+  QuestionIcon: styled(AiOutlineQuestionCircle)`
+    font-size: 12px;
   `
 }

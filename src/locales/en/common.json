@@ -84,10 +84,6 @@
     "powered": "Powered by",
     "dvt": "DVT"
   },
-  "sidebar": {
-    "etherBalance": "Ether Balance",
-    "stakedBalance": "Staked Balance"
-  },
   "soon": "Coming Soon",
   "addSethToWallet": {
     "add": "Add",
@@ -202,9 +198,6 @@
         "withdrawSuccessful": "Withdraw Successful",
         "depositSuccessful": "Deposit Successful"
       }
-    },
-    "wallet": {
-      "totalRewards": "Total Rewards"
     },
     "activities": {
       "deposit": "Deposit",
