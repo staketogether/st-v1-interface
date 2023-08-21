@@ -160,12 +160,12 @@
     },
     "sidebar": {
       "disconnected": {
-          "iAgreeToThe": "Eu concordo com os",
-          "terms&conditions": "Termos e Condições",
-          "and": "e",
-          "privacyPolicy": "Política de Privacidade."
-          }
-      },
+        "iAgreeToThe": "Eu concordo com os",
+        "terms&conditions": "Termos e Condições",
+        "and": "e",
+        "privacyPolicy": "Política de Privacidade."
+      }
+    },
     "pools": {
       "title": "Projetos",
       "filter": {
