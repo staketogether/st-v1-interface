@@ -84,10 +84,6 @@
     "powered": "Potencializado por",
     "dvt": "DVT"
   },
-  "sidebar": {
-    "etherBalance": "Saldo de Ether",
-    "stakedBalance": "Saldo em Stake"
-  },
   "confirmStakeModal": {
     "reviewDeposit": "Revisar o Deposito",
     "reviewWithdraw": "Revisar Saque",
@@ -214,9 +210,6 @@
         "withdrawSuccessful": "Saque realizada com sucesso",
         "depositSuccessful": "Depósito realizado com sucesso"
       }
-    },
-    "wallet": {
-      "totalRewards": "Total de Recompensas"
     },
     "activities": {
       "deposit": "Depósito",
