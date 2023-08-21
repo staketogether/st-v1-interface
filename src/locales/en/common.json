@@ -151,15 +151,7 @@
       "disconnect": "Disconnect"
     },
     "pools": {
-      "title": "Maximize Ethereum holdings through staking, unlock rewards, and collaborate on incredible Web3 projects.",
-      "projectInfo": {
-        "tvl": "Total Value Locked",
-        "rewards": "Rewards",
-        "incentives": "Incentives",
-        "members": "Members",
-        "projects": "Projects",
-        "apy": "APY"
-      },
+      "title": "Projects",
       "filter": {
         "all": "All",
         "art": "Art",
@@ -170,10 +162,9 @@
       "search": "Search...",
       "list": {
         "name": "Name",
-        "type": "Type",
-        "people": "People Investing",
-        "invested": "Total Invested",
-        "invest": "Invest"
+        "type": "Category",
+        "people": "Members",
+        "invested": "Staked"
       }
     },
     "stake": {

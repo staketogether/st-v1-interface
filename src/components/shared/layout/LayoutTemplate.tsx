@@ -50,10 +50,10 @@ const { Container, Wrapper, Content, Body } = {
     gap: 48px;
   `,
   Body: styled.div`
-    display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
-    gap: ${props => props.theme.size[32]};
-    justify-content: center;
-    place-items: center;
+    /* display: grid; */
+    /* grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg}); */
+    /* gap: ${props => props.theme.size[32]}; */
+    /* justify-content: center; */
+    /* place-items: center; */
   `
 }

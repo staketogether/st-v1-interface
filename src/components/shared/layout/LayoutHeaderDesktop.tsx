@@ -5,6 +5,7 @@ import stLogoDesktop from '../../../../public/assets/st-logo-desktop.png'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useTranslation from '../../../hooks/useTranslation'
 import Wallet from '@/components/wallet/Wallet'
+import { AiOutlineGift, AiOutlineRise } from 'react-icons/ai'
 
 export default function LayoutHeader() {
   const { t } = useTranslation()
@@ -23,11 +24,13 @@ export default function LayoutHeader() {
             <MenuButton
               className={`${isActive('pools') || isActive('stake') || isActive('unstake') ? 'active' : ''}`}
             >
+              <AiOutlineRise />
               {t('v2.header.invest')}
             </MenuButton>
           </Link>
           <Link href='/incentives'>
             <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
+              <AiOutlineGift />
               {t('v2.header.incentives')}
             </MenuButton>
           </Link>
@@ -64,6 +67,8 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
     display: none;
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[16]};
       justify-content: flex-start;
     }
   `,
@@ -72,25 +77,30 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
     height: 32px;
   `,
   MenuButton: styled.button`
-    display: flex;
-    gap: ${({ theme }) => theme.size[8]};
-    align-items: center;
     width: auto;
     height: 32px;
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
+    border-radius: 99px;
+
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+
     border: none;
-    padding: 0 ${({ theme }) => theme.size[16]};
-    background: none;
+    padding: 0 ${({ theme }) => theme.size[12]};
+    background: transparent;
+
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.blackAlpha[700]};
 
     &:hover {
-      color: ${({ theme }) => theme.color.secondary};
+      color: ${({ theme }) => theme.color.primary};
       background: ${({ theme }) => theme.color.whiteAlpha[700]};
-      border-radius: 16px;
     }
 
     &.active {
-      color: ${({ theme }) => theme.color.secondary};
+      color: ${({ theme }) => theme.color.primary};
+      background: ${({ theme }) => theme.color.whiteAlpha[700]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
     }
   `
 }
