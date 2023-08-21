@@ -163,15 +163,7 @@
       "disconnect": "Desconectar"
     },
     "pools": {
-      "title": "Maximize suas participações em Ethereum através de staking, desbloqueie recompensas e colabore em incríveis projetos Web3.",
-      "projectInfo": {
-        "tvl": "Valor Total Alocado",
-        "rewards": "Recompensas",
-        "incentives": "Incentivos",
-        "members": "Membros",
-        "projects": "Projetos",
-        "apy": "APY"
-      },
+      "title": "Projetos",
       "filter": {
         "all": "Todos",
         "art": "Arte",
@@ -182,10 +174,9 @@
       "search": "Pesquisar...",
       "list": {
         "name": "Nome",
-        "type": "Tipo",
-        "people": "Pessoas Investindo",
-        "invested": "Total Investido",
-        "invest": "Investir"
+        "type": "Categoria",
+        "people": "Membros",
+        "invested": "Staked"
       }
     },
     "stake": {

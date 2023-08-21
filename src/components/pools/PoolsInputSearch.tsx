@@ -31,12 +31,12 @@ export default function PoolsInputSearch({ search, setSearch }: PoolsInputSearch
 
 const { InputSearchArea, InputSearch } = {
   InputSearchArea: styled.div`
-    min-width: 240px;
+    min-width: 340px;
     display: grid;
     grid-template-columns: auto 1fr auto;
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
-    background: ${({ theme }) => theme.color.whiteAlpha[400]};
+    background: ${({ theme }) => theme.color.white};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     padding: 0 ${({ theme }) => theme.size[8]};
