@@ -173,6 +173,10 @@ const {
     a {
       text-decoration: none;
       color: ${({ theme }) => theme.color.primary};
+
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[4]};
     }
   `,
   LoadingIcon: styled(Loading)`
