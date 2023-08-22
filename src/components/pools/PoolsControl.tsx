@@ -11,6 +11,7 @@ import Fuse from 'fuse.js'
 import useSearchPools from '@/hooks/subgraphs/useSearchPools'
 import PoolsEmptyState from './PoolsEmptyState'
 import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
+import PoolsCard from './PoolsCard'
 
 type PoolsListProps = {
   pools: PoolSubgraph[]
@@ -120,9 +121,8 @@ export default function PoolsControl({ pools }: PoolsListProps) {
             </FilterButton>
           ))}
         </Filters>
-        <Search>
-          <PoolsInputSearch search={search} setSearch={setSearch} />
-        </Search>
+
+        <PoolsInputSearch search={search} setSearch={setSearch} />
       </FiltersContainer>
       <ListPools>
         {!poolsFilterBySearch.length && <PoolsEmptyState handleClickButton={clearFilter} />}
@@ -135,20 +135,29 @@ export default function PoolsControl({ pools }: PoolsListProps) {
           </header>
         )}
         {poolsFilterBySearch.map(pool => (
-          <PoolsRowList
-            key={pool.address}
-            poolAddress={pool.address}
-            members={pool.receivedDelegationsCount}
-            staked={pool.poolBalance}
-            type={pool.type}
-          />
+          <>
+            <PoolsRowList
+              key={pool.address}
+              poolAddress={pool.address}
+              members={pool.receivedDelegationsCount}
+              staked={pool.poolBalance}
+              type={pool.type}
+            />
+            <PoolsCard
+              key={pool.address}
+              poolAddress={pool.address}
+              members={pool.receivedDelegationsCount}
+              staked={pool.poolBalance}
+              type={pool.type}
+            />
+          </>
         ))}
       </ListPools>
     </Container>
   )
 }
 
-const { Container, ListPools, FiltersContainer, Filters, Search, FilterButton } = {
+const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -166,13 +175,23 @@ const { Container, ListPools, FiltersContainer, Filters, Search, FilterButton } 
     }
   `,
   FiltersContainer: styled.div`
-    display: grid;
-    grid-template-columns: 1fr 320px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: ${({ theme }) => theme.size[16]};
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      justify-content: space-between;
+    }
   `,
   Filters: styled.div`
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: ${({ theme }) => theme.size[8]};
+    align-items: center;
+    justify-content: center;
   `,
   FilterButton: styled.button`
     display: flex;
@@ -199,17 +218,14 @@ const { Container, ListPools, FiltersContainer, Filters, Search, FilterButton } 
       color: ${({ theme }) => theme.color.white};
     }
   `,
-  Search: styled.div`
-    display: grid;
-    justify-content: flex-end;
-  `,
+
   ListPools: styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[8]};
     > header {
-      display: grid;
-      grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr;
+      display: none;
+      grid-template-columns: 1fr 0.8fr 0.8fr 1fr;
       gap: 8px;
       align-items: center;
       padding-left: 16px;
@@ -219,6 +235,10 @@ const { Container, ListPools, FiltersContainer, Filters, Search, FilterButton } 
 
         line-height: 150%;
         color: ${({ theme }) => theme.color.blue[600]};
+      }
+
+      @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+        display: grid;
       }
     }
   `
