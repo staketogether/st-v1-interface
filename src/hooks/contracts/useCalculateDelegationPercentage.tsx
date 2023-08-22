@@ -71,12 +71,9 @@ export const useCalculateDelegationPercentage = ({
       return currentDelegations.find(delegation => delegation.pool.toLowerCase() === pool) === undefined
     })
 
-    console.log('remaining pools', remainingPools)
     // If there are remaining pools, then the remaining new percentage will be distributed equally among them
     remainingPools.map(pool => {
       const proportionalPercentage = remainingNewPercentage / BigInt(remainingPools.length)
-      console.log('proportionalPercentage', proportionalPercentage.toString())
-      console.log('remainingPools.length', remainingPools.length)
       currentDelegations.push({
         pool,
         percentage: proportionalPercentage
