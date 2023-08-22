@@ -23,27 +23,17 @@ export default function Pools({ pools }: PoolsProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  try {
-    const { data } = await apolloClient.query<{ pools: PoolSubgraph[] }>({
-      query: queryPools,
-      fetchPolicy: 'no-cache'
-    })
+  const { data } = await apolloClient.query<{ pools: PoolSubgraph[] }>({
+    query: queryPools,
+    fetchPolicy: 'no-cache'
+  })
 
-    const pools: PoolSubgraph[] = data.pools
+  const pools: PoolSubgraph[] = data.pools
 
-    return {
-      props: {
-        ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
-        pools
-      }
-    }
-  } catch (error) {
-    console.error(error)
-    return {
-      props: {
-        ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
-        pools: []
-      }
+  return {
+    props: {
+      ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
+      pools
     }
   }
 }
