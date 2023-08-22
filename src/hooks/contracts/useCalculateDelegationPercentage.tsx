@@ -13,12 +13,12 @@ interface UseCalculateDelegationSharesProps {
 }
 
 export const useCalculateDelegationPercentage = ({
-  weiAmount,
-  accountAddress,
-  pools,
-  onlyUpdatedPools,
-  subtractAmount
-}: UseCalculateDelegationSharesProps) => {
+                                                   weiAmount,
+                                                   accountAddress,
+                                                   pools,
+                                                   onlyUpdatedPools,
+                                                   subtractAmount
+                                                 }: UseCalculateDelegationSharesProps) => {
   const [delegations, setDelegations] = useState<DelegationMap[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const { account, accountDelegations } = useStAccount(accountAddress || '0x000000')
@@ -46,34 +46,37 @@ export const useCalculateDelegationPercentage = ({
     const currentDelegations = !account
       ? []
       : accountDelegations.map(delegation => {
-          const poolToBeUpdated = pools.find(pool => pool === delegation.delegated.address.toLowerCase())
-          let shares = BigInt(delegation.delegationShares)
-          // If the pool is in the list of pools to be updated, then the shares will be updated
-          if (poolToBeUpdated) {
-            if (subtractAmount) {
-              shares -= newShares
-            } else {
-              shares += newShares
-            }
+        const poolToBeUpdated = pools.find(pool => pool === delegation.delegated.address.toLowerCase())
+        let shares = BigInt(delegation.delegationShares)
+        // If the pool is in the list of pools to be updated, then the shares will be updated
+        if (poolToBeUpdated) {
+          if (subtractAmount) {
+            shares -= newShares
+          } else {
+            shares += newShares
           }
-          // Calculate the percentage of the pool
-          const poolSharesPercentage = shares * newAccountShares / oneEther
-          // Reduce the remaining new shares by the pool percentage
-          remainingNewPercentage -= poolSharesPercentage
+        }
+        // Calculate the percentage of the pool
+        const poolSharesPercentage = shares * oneEther / newAccountShares
+        // Reduce the remaining new shares by the pool percentage
+        remainingNewPercentage -= poolSharesPercentage
 
-          return {
-            pool: delegation.delegated.address,
-            percentage: poolSharesPercentage
-          }
-        })
+        return {
+          pool: delegation.delegated.address,
+          percentage: poolSharesPercentage
+        }
+      })
 
     const remainingPools = pools.filter(pool => {
       return currentDelegations.find(delegation => delegation.pool.toLowerCase() === pool) === undefined
     })
 
+    console.log('remaining pools', remainingPools)
     // If there are remaining pools, then the remaining new percentage will be distributed equally among them
     remainingPools.map(pool => {
       const proportionalPercentage = remainingNewPercentage / BigInt(remainingPools.length)
+      console.log('proportionalPercentage', proportionalPercentage.toString())
+      console.log('remainingPools.length', remainingPools.length)
       currentDelegations.push({
         pool,
         percentage: proportionalPercentage

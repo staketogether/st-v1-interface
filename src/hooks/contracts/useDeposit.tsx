@@ -40,8 +40,7 @@ export default function useDeposit(
   const { delegations, loading: loadingDelegations } = useCalculateDelegationPercentage({
     weiAmount: netDepositAmount,
     accountAddress,
-    pools: [poolAddress],
-    onlyUpdatedPools: true
+    pools: [poolAddress]
   })
 
   const amountEstimatedGas = ethers.parseUnits('0.001', 18)
@@ -51,8 +50,7 @@ export default function useDeposit(
   const { delegations: delegationsEstimatedGas } = useCalculateDelegationPercentage({
     weiAmount: netAmountEstimatedGas,
     accountAddress,
-    pools: [poolAddress],
-    onlyUpdatedPools: true,
+    pools: [poolAddress]
   })
 
   const isDepositEnabled = enabled && netDepositAmount > 0n && !loadingDelegations
