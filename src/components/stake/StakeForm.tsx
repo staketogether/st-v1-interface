@@ -27,7 +27,7 @@ import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 import useDeposit from '@/hooks/contracts/useDeposit'
 import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
-import { useEstimateFeePercentage } from '@/hooks/contracts/useEstimateFeePercentage'
+import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -90,12 +90,12 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const debouncedAmount = useDebounce(amount, 1000)
   const inputAmount = amount ? debouncedAmount || '0' : '0'
 
-  const STAKE_ENTRY_FEE = 0
-  const { fees, isLoading: isLoadingFees } = useEstimateFeePercentage(
-    STAKE_ENTRY_FEE,
-    ethers.parseUnits(inputAmount, 18)
-  )
-  const youReceiveDeposit = fees.Sender.shares
+  const { fee, loading: isLoadingFees } = useFeeStakeEntry()
+  const parsedAmount = ethers.parseUnits(inputAmount, 18)
+  const feeAmount = (parsedAmount * BigInt(fee?.value || 0n)) / ethers.parseEther('1')
+  const netDepositAmount = ethers.parseUnits(inputAmount, 18) - feeAmount
+
+  const youReceiveDeposit = netDepositAmount
 
   const { stConfig } = useStConfig()
   const minDepositAmount = stConfig?.minDepositAmount || 0n
@@ -110,7 +110,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     txHash: depositTxHash
     // To deposit, you need to have at least the min deposit amount in your wallet
   } = useDeposit(
-    fees.Sender.amount,
+    netDepositAmount,
     ethers.parseUnits(inputAmount, 18),
     poolAddress,
     type === 'deposit' && ethBalance > minDepositAmount && !isLoadingFees,
