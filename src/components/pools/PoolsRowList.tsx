@@ -17,28 +17,26 @@ export default function PoolsRowList({ poolAddress, members, staked, type }: Poo
   const { poolTypeTranslation } = usePoolTypeTranslation()
 
   return (
-    <Link href={`/pools/deposit/${poolAddress}`}>
-      <Row>
-        <Name>
-          <EnsAvatar size={24} address={poolAddress} />
-          <EnsName address={poolAddress} />
-        </Name>
-        <TypeContainer>
-          <Text>{`${type && poolTypeTranslation(type)}`}</Text>
-          {type && handlePoolTypeIcon({ iconSize: 14, value: type })}
-        </TypeContainer>
-        <Text>{members.toString()}</Text>
-        <Text>{truncateWei(staked, 6)} ETH</Text>
-      </Row>
-    </Link>
+    <Row href={`/pools/deposit/${poolAddress}`}>
+      <Name>
+        <EnsAvatar size={24} address={poolAddress} />
+        <EnsName address={poolAddress} />
+      </Name>
+      <TypeContainer>
+        <Text>{`${type && poolTypeTranslation(type)}`}</Text>
+        {type && handlePoolTypeIcon({ iconSize: 14, value: type })}
+      </TypeContainer>
+      <Text>{members.toString()}</Text>
+      <Text>{truncateWei(staked, 6)} ETH</Text>
+    </Row>
   )
 }
 
 const { Row, Name, TypeContainer, Text } = {
-  Row: styled.div`
-    display: grid;
+  Row: styled(Link)`
+    display: none;
     height: 48px;
-    grid-template-columns: 1fr 0.8fr 0.8fr 0.8fr;
+    grid-template-columns: 1fr 0.8fr 0.8fr 1fr;
     padding-left: 16px;
     gap: 8px;
     align-items: center;
@@ -52,6 +50,10 @@ const { Row, Name, TypeContainer, Text } = {
       > button {
         background-color: ${({ theme }) => theme.color.secondary};
       }
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      display: grid;
     }
   `,
   Name: styled.div`

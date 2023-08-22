@@ -31,7 +31,14 @@ export default function PoolsInputSearch({ search, setSearch }: PoolsInputSearch
 
 const { InputSearchArea, InputSearch } = {
   InputSearchArea: styled.div`
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      width: auto;
+    }
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      width: 340px;
+    }
     min-width: 340px;
+    width: 100%;
     display: grid;
     grid-template-columns: auto 1fr auto;
     gap: ${({ theme }) => theme.size[4]};
