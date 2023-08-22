@@ -50,13 +50,13 @@ const configs: ChainConfig[] = [
     alchemyApiUrl: `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`,
     contracts: {
       // TODO: Update these addresses to the correct ones
-      Airdrop: '0x5A51FE21bf2807796e8dC9978753b9689f3Be597',
-      Withdrawals: '0x4F0361f2fB43d604465A1dE40a0b1B1F060B21f8',
-      Router: '0x43CcDd839Ab30A9b6645D50b1Aebb2f735984158',
-      StakeTogether: '0xa6Ab45C2B461fBA6B501b074BD8f5F5b0976c617'
+      Airdrop: '0xd7200bb807b617E216fcB49A55Bfa86c57A3F6A7',
+      Withdrawals: '0x9A1e2bc3068f56B3d737C022b8f5068Ea31DC63c',
+      Router: '0x1F6AC1ee1bEB0C079164f45201ebf1424880Fd1b',
+      StakeTogether: '0x0290f3B76C837A06Cd585fd45A26C7B65A6d1A76'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-v2-goerli/version/latest',
+      StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-v2-goerli/v1.2.0',
       ENS: '',
       contentful: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/master`
     }

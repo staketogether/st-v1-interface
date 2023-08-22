@@ -16,7 +16,7 @@ import {
 } from '../../types/Contracts'
 
 import useTranslation from '../useTranslation'
-import { useCalculateDelegationShares } from '@/hooks/contracts/useCalculateDelegationShares'
+import { useCalculateDelegationPercentage } from '@/hooks/contracts/useCalculateDelegationPercentage'
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
@@ -31,11 +31,10 @@ export default function useWithdrawValidator(
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
 
-  const { delegations } = useCalculateDelegationShares({
+  const { delegations } = useCalculateDelegationPercentage({
     weiAmount: ethers.parseUnits(withdrawAmount, 18),
     accountAddress,
     pools: [poolAddress],
-    onlyUpdatedPools: true,
     subtractAmount: true
   })
 

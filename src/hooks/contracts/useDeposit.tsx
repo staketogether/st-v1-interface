@@ -13,11 +13,11 @@ import {
   useStakeTogetherDepositPool
 } from '../../types/Contracts'
 import useTranslation from '../useTranslation'
-import { useCalculateDelegationShares } from '@/hooks/contracts/useCalculateDelegationShares'
+import { useCalculateDelegationPercentage } from '@/hooks/contracts/useCalculateDelegationPercentage'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import { truncateWei } from '@/services/truncate'
 import { ethers } from 'ethers'
-import { useEstimateFeePercentage } from './useEstimateFeePercentage'
+import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
 
 export default function useDeposit(
   netDepositAmount: bigint,
@@ -37,20 +37,21 @@ export default function useDeposit(
   const [failedToExecute, setFailedToExecute] = useState(false)
   const { registerDeposit } = useMixpanelAnalytics()
 
-  const { delegations, loading: loadingDelegations } = useCalculateDelegationShares({
+  const { delegations, loading: loadingDelegations } = useCalculateDelegationPercentage({
     weiAmount: netDepositAmount,
     accountAddress,
-    pools: [poolAddress],
-    onlyUpdatedPools: true
+    pools: [poolAddress]
   })
 
   const amountEstimatedGas = ethers.parseUnits('0.001', 18)
-  const { fees } = useEstimateFeePercentage(0, amountEstimatedGas)
-  const { delegations: delegationsEstimatedGas } = useCalculateDelegationShares({
-    weiAmount: fees.Sender.amount,
+  const { fee: feeEstimatedGas } = useFeeStakeEntry()
+  const feeAmountEstimatedGas =
+    (amountEstimatedGas * BigInt(feeEstimatedGas?.value || 0n)) / ethers.parseEther('1')
+  const netAmountEstimatedGas = amountEstimatedGas - feeAmountEstimatedGas
+  const { delegations: delegationsEstimatedGas } = useCalculateDelegationPercentage({
+    weiAmount: netAmountEstimatedGas,
     accountAddress,
-    pools: [poolAddress],
-    onlyUpdatedPools: true
+    pools: [poolAddress]
   })
 
   const isDepositEnabled = enabled && netDepositAmount > 0n && !loadingDelegations
@@ -94,9 +95,9 @@ export default function useDeposit(
     account: accountAddress,
     enabled: delegations.length > 0 && accountAddress && isDepositEnabled,
     value: grossDepositAmount,
-    gas: depositEstimatedGas,
-    maxFeePerGas: maxFeePerGas,
-    maxPriorityFeePerGas: maxPriorityFeePerGas
+    gas: !!depositEstimatedGas && depositEstimatedGas > 0n ? depositEstimatedGas : undefined,
+    maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n ? maxFeePerGas : undefined,
+    maxPriorityFeePerGas: !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n ? maxPriorityFeePerGas : undefined
   })
 
   const tx = useStakeTogetherDepositPool({
