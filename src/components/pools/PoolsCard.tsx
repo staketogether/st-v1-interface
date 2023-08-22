@@ -1,6 +1,4 @@
 import { truncateWei } from '@/services/truncate'
-
-import { AiFillCheckCircle } from 'react-icons/ai'
 import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
@@ -24,10 +22,7 @@ export default function PoolsCard({ poolAddress, members, staked, type }: PoolsC
     <Card href={`/pools/deposit/${poolAddress}`}>
       <CardHeader>
         <EnsAvatar size={26} address={poolAddress} />
-        <Verified>
-          <EnsName large address={poolAddress} />
-          <VerifiedIcon fontSize={16} />
-        </Verified>
+        <EnsName large address={poolAddress} />
       </CardHeader>
       <CardInfo>
         <div>
@@ -53,7 +48,7 @@ export default function PoolsCard({ poolAddress, members, staked, type }: PoolsC
   )
 }
 
-const { Card, CardInfo, CardHeader, Verified, VerifiedIcon } = {
+const { Card, CardInfo, CardHeader } = {
   Card: styled(Link)`
     display: grid;
     flex-direction: column;
@@ -81,9 +76,6 @@ const { Card, CardInfo, CardHeader, Verified, VerifiedIcon } = {
     @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
       display: none;
     }
-  `,
-  VerifiedIcon: styled(AiFillCheckCircle)`
-    color: ${({ theme }) => theme.color.secondary};
   `,
   CardHeader: styled.div`
     display: flex;
@@ -117,10 +109,5 @@ const { Card, CardInfo, CardHeader, Verified, VerifiedIcon } = {
         }
       }
     }
-  `,
-  Verified: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
   `
 }
