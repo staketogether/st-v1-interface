@@ -8,7 +8,6 @@ interface UseCalculateDelegationSharesProps {
   weiAmount: bigint
   pools: `0x${string}`[]
   accountAddress?: `0x${string}`
-  onlyUpdatedPools?: boolean
   subtractAmount?: boolean
 }
 
@@ -16,7 +15,6 @@ export const useCalculateDelegationPercentage = ({
                                                    weiAmount,
                                                    accountAddress,
                                                    pools,
-                                                   onlyUpdatedPools,
                                                    subtractAmount
                                                  }: UseCalculateDelegationSharesProps) => {
   const [delegations, setDelegations] = useState<DelegationMap[]>([])
@@ -43,7 +41,7 @@ export const useCalculateDelegationPercentage = ({
     let remainingNewPercentage = oneEther
 
     // Calculate current pools percentage by its shares
-    const currentDelegations = !account
+    let currentDelegations = !account
       ? []
       : accountDelegations.map(delegation => {
         const poolToBeUpdated = pools.find(pool => pool === delegation.delegated.address.toLowerCase())
@@ -56,8 +54,10 @@ export const useCalculateDelegationPercentage = ({
             shares += newShares
           }
         }
-        // Calculate the percentage of the pool
-        const poolSharesPercentage = shares * oneEther / newAccountShares
+        // Calculate the dividend of the shares
+        const dividend = shares * oneEther
+        // Calculate the pool percentage
+        const poolSharesPercentage = dividend === 0n ? 1n : dividend / newAccountShares
         // Reduce the remaining new shares by the pool percentage
         remainingNewPercentage -= poolSharesPercentage
 
@@ -80,15 +80,29 @@ export const useCalculateDelegationPercentage = ({
       })
     })
 
-    const filteredDelegations = currentDelegations.filter(delegation => {
-      return onlyUpdatedPools ? pools.find(pool => pool === delegation.pool.toLowerCase()) !== undefined : true
-    })
+    // If there are remaining new percentage, then it will be added to the pool with the biggest percentage
+    if (remainingNewPercentage > 0n && remainingPools.length === 0) {
+      currentDelegations = currentDelegations
+        // Sort the delegations by percentage
+        .sort((a, b) => Number(a.percentage) - Number(b.percentage))
+        // Add the remaining new percentage to the pool with the biggest percentage
+        .map((delegation, index) => {
+          if (index === currentDelegations.length - 1) {
+            return {
+              pool: delegation.pool,
+              percentage: delegation.percentage + remainingNewPercentage
+            }
+          }
 
-    setDelegations(filteredDelegations)
+          return delegation
+        })
+    }
+
+    setDelegations(currentDelegations)
     setLoading(false)
     // TODO: Necessary to add the pool dep again
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [weiAmount, loadingNewAccountShares, newAccountShares, account, accountDelegations, subtractAmount, onlyUpdatedPools])
+  }, [weiAmount, loadingNewAccountShares, newAccountShares, account, accountDelegations, subtractAmount])
 
   useEffect(() => {
     calculateDelegationShares()

@@ -35,7 +35,6 @@ export default function useWithdrawPool(
     weiAmount: ethers.parseUnits(withdrawAmount, 18),
     accountAddress,
     pools: [poolAddress],
-    onlyUpdatedPools: true,
     subtractAmount: true
   })
 
@@ -44,7 +43,6 @@ export default function useWithdrawPool(
     weiAmount: amountEstimatedGas,
     accountAddress,
     pools: [poolAddress],
-    onlyUpdatedPools: true,
     subtractAmount: true
   })
 

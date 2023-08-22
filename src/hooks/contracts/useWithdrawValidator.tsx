@@ -35,7 +35,6 @@ export default function useWithdrawValidator(
     weiAmount: ethers.parseUnits(withdrawAmount, 18),
     accountAddress,
     pools: [poolAddress],
-    onlyUpdatedPools: true,
     subtractAmount: true
   })
 
