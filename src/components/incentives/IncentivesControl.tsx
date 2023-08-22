@@ -99,11 +99,11 @@ const {
     gap: ${({ theme }) => theme.size[16]};
     > header {
       width: 100%;
-      max-width: 720px;
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[8]};
       align-items: flex-start;
+      max-width: 468px;
       h1 {
         font-size: ${({ theme }) => theme.font.size[32]};
         font-style: normal;
@@ -122,7 +122,7 @@ const {
   `,
   AirdropContainer: styled.section`
     width: 100%;
-    max-width: 720px;
+    max-width: 468px;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
