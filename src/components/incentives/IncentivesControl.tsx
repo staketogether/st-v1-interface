@@ -26,10 +26,10 @@ export default function IncentivesControl() {
             <AvailableToClaimContainer>
               <Image src={stIcon} width={32} height={32} alt='staked Icon' />
               <div>
-                <h3>Available to Claim</h3>
+                <h3>{t('airdrop.availableToClaim')}</h3>
                 <span>
                   <span>1.05678</span>
-                  <span className='purple'>stpETH</span>
+                  <span className='purple'>{t('lsd.symbol')}</span>
                 </span>
               </div>
             </AvailableToClaimContainer>

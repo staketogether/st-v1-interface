@@ -136,7 +136,8 @@
     "willReceive": "will receive",
     "startClaimProcess": "Start claim process",
     "emptyList": "No items found for this search",
-    "emptyButton": "Back to all items"
+    "emptyButton": "Back to all items",
+    "availableToClaim": "Available to Claim"
   },
   "v2": {
     "header": {

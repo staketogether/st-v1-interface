@@ -149,7 +149,8 @@
     "willReceive": "receberá",
     "startClaimProcess": "Iniciar recebimento",
     "emptyList": "Nenhum item encontrado para esta pesquisa",
-    "emptyButton": "Voltar para todos os itens"
+    "emptyButton": "Voltar para todos os itens",
+    "availableToClaim": "Disponivel para Receber"
   },
   "v2": {
     "header": {
