@@ -4,7 +4,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import useEthToUsdPrice from '../../hooks/useEthToUsdPrice'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateWei } from '../../services/truncate'
+import { truncateDecimal } from '../../services/truncate'
 
 interface StakeInputProps {
   value: string
@@ -66,7 +66,7 @@ export default function StakeFormInput({
                 placeholder='0'
                 className={`${purple ? 'purple' : ''} ${hasError ? 'error' : ''}`}
               />
-              <span className={`${hasError ? 'error' : ''}`}>{`$ ${truncateWei(BigInt(price || 0), 2)}`}</span>
+              <span className={`${hasError ? 'error' : ''}`}>{`$ ${truncateDecimal(price || '0', 2)}`}</span>
             </InputContainer>
           </div>
           <MaxValue

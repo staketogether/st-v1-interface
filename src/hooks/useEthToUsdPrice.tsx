@@ -1,36 +1,27 @@
 import axios from 'axios'
-import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 
-export default function useEthToUsdPrice(eth: string) {
-  const [price, setPrice] = useState<string | undefined>(undefined)
+export default function useEthToUsdPrice(amountValue: string) {
+  const [price, setPrice] = useState<string | undefined>('0')
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<unknown>(null)
-
-  const ETH_ADDRESS = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-  const USDC_ADDRESS = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48'
-
+  const [usdPrice, setUsdPRice] = useState(0)
   useEffect(() => {
     const fetchPrice = async () => {
-      const ethAmount = eth.length > 0 ? ethers.parseEther(eth) : 0n
       const config = {
         params: {
-          src: ETH_ADDRESS,
-          dst: USDC_ADDRESS,
-          amount: ethAmount.toString()
+          refreshInterval: 60 * 1000 * 5, // 5m Interval
+          revalidateOnFocus: false,
+          refreshWhenHidden: false
         }
       }
-      const url = 'https://api.1inch.dev/swap/v5.2/1/quote'
+      const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&symbols=eth`
       try {
-        if (ethAmount > 0n) {
-          const response = await axios.get(url, config)
-          const price = ethers.parseUnits(response.data.toAmount, 12)
-
-          setPrice(price.toString())
-        } else {
-          setPrice(undefined)
+        const data = await axios.get(url, config)
+        const response = data as { data: [{ current_price: number }] }
+        if (response && response.data[0] && response.data[0].current_price) {
+          setUsdPRice(response.data[0].current_price)
         }
-
         setLoading(false)
       } catch (error) {
         console.error('Error fetching ETH to USD price:', error)
@@ -38,9 +29,15 @@ export default function useEthToUsdPrice(eth: string) {
         setLoading(false)
       }
     }
-
     fetchPrice()
-  }, [eth])
+  }, [])
+
+  useEffect(() => {
+    if (usdPrice && amountValue) {
+      const priceCalc = Number(amountValue) * usdPrice
+      setPrice(priceCalc.toString())
+    }
+  }, [amountValue, usdPrice])
 
   return { price, loading, error }
 }
