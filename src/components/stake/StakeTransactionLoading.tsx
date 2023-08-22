@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { AiFillCheckCircle, AiOutlineArrowRight } from 'react-icons/ai'
 import styled from 'styled-components'
 import Loading from '../shared/icons/Loading'
+import etherscan from '@assets/icons/etherscan.svg'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -34,7 +35,7 @@ export default function StakeTransactionLoading({
   const { addToWalletAction } = useAddSethToWallet()
   return (
     <Container>
-      {transactionIsSuccess ? <SuccessIcon size={47} /> : <LoadingIcon size={36} />}
+      {transactionIsSuccess ? <SuccessIcon size={80} /> : <LoadingIcon size={80} />}
       <div>
         {walletActionLoading && !transactionLoading && !transactionIsSuccess && (
           <TitleModal>
@@ -57,13 +58,13 @@ export default function StakeTransactionLoading({
           {isWithdraw ? (
             <>
               <div>
-                <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={18} />
+                <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 <span>{`${amount}`}</span>
                 <span className={'purple'}>{t('lsd.symbol')}</span>
               </div>
-              <AiOutlineArrowRight />
+              <ArrowIcon fontSize={18} />
               <div>
-                <Image src={ethIcon} alt={t('stakeTogether')} width={18} height={18} />
+                <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 <span>{`${truncateWei(youReceive, 6)}`}</span>
                 <span className={'purple'}> ETH</span>
               </div>
@@ -71,13 +72,13 @@ export default function StakeTransactionLoading({
           ) : (
             <>
               <div>
-                <Image src={ethIcon} alt={t('stakeTogether')} width={18} height={18} />
+                <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 <span>{`${amount}`}</span>
                 <span className={'purple'}> ETH</span>
               </div>
-              <AiOutlineArrowRight />
+              <ArrowIcon fontSize={18} />
               <div>
-                <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={18} />
+                <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 <span>{`${truncateWei(youReceive, 6)}`}</span>
                 <span className={'purple'}> {t('lsd.symbol')}</span>
               </div>
@@ -88,7 +89,7 @@ export default function StakeTransactionLoading({
       {!isWithdraw && transactionIsSuccess && (
         <AddAssetInWalletButton onClick={addToWalletAction}>
           <span>{t('addSethToWallet.add')} </span>
-          <Image src={sethIcon} alt={t('stakeTogether')} width={18} height={18} />
+          <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
           <span>{t('addSethToWallet.yourWallet')}</span>
         </AddAssetInWalletButton>
       )}
@@ -98,6 +99,7 @@ export default function StakeTransactionLoading({
         )}
         {transactionIsSuccess && (
           <a href={`${chain.blockExplorer.baseUrl}/tx/${txHash}`} target='_blank' rel='noopener noreferrer'>
+            <Image src={etherscan} alt='etherscan icon' width={20} height={20} />
             <span>{t('viewOnExplorer')}</span>
           </a>
         )}
@@ -113,6 +115,7 @@ const {
   TitleModal,
   LoadingIcon,
   SuccessIcon,
+  ArrowIcon,
   AddAssetInWalletButton
 } = {
   Container: styled.div`
@@ -137,6 +140,7 @@ const {
   TitleModal: styled.h1`
     font-size: ${({ theme }) => theme.font.size[18]};
     color: ${({ theme }) => theme.color.primary};
+    font-weight: 500;
   `,
   ResumeStake: styled.div`
     display: flex;
@@ -150,16 +154,25 @@ const {
       align-items: center;
       gap: ${({ theme }) => theme.size[4]};
       > span {
-        font-size: ${({ theme }) => theme.font.size[16]};
+        font-size: ${({ theme }) => theme.font.size[18]};
+      }
+      span:last-child {
+        font-size: ${({ theme }) => theme.font.size[14]};
       }
     }
   `,
+  ArrowIcon: styled(AiOutlineArrowRight)`
+    color: ${({ theme }) => theme.color.secondary};
+  `,
   DescriptionAction: styled.span`
-    font-size: ${({ theme }) => theme.font.size[12]};
-    color: ${({ theme }) => theme.color.blue[500]};
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    font-style: normal;
+    line-height: normal;
+    font-weight: 500;
     a {
       text-decoration: none;
-      color: ${({ theme }) => theme.color.blue[500]};
+      color: ${({ theme }) => theme.color.primary};
     }
   `,
   LoadingIcon: styled(Loading)`
