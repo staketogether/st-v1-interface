@@ -2,7 +2,7 @@ import { DelegationMap } from '@/types/Delegation'
 import { useCallback, useEffect, useState } from 'react'
 import useSharesByWei from '@/hooks/contracts/useSharesByWei'
 import useStAccount from '@/hooks/subgraphs/useStAccount'
-import { ethers } from "ethers";
+import { ethers } from 'ethers'
 
 interface UseCalculateDelegationSharesProps {
   weiAmount: bigint
@@ -12,11 +12,11 @@ interface UseCalculateDelegationSharesProps {
 }
 
 export const useCalculateDelegationPercentage = ({
-                                                   weiAmount,
-                                                   accountAddress,
-                                                   pools,
-                                                   subtractAmount
-                                                 }: UseCalculateDelegationSharesProps) => {
+  weiAmount,
+  accountAddress,
+  pools,
+  subtractAmount
+}: UseCalculateDelegationSharesProps) => {
   const [delegations, setDelegations] = useState<DelegationMap[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const { account, accountDelegations } = useStAccount(accountAddress || '0x000000')
@@ -44,28 +44,28 @@ export const useCalculateDelegationPercentage = ({
     let currentDelegations = !account
       ? []
       : accountDelegations.map(delegation => {
-        const poolToBeUpdated = pools.find(pool => pool === delegation.delegated.address.toLowerCase())
-        let shares = BigInt(delegation.delegationShares)
-        // If the pool is in the list of pools to be updated, then the shares will be updated
-        if (poolToBeUpdated) {
-          if (subtractAmount) {
-            shares -= newShares
-          } else {
-            shares += newShares
+          const poolToBeUpdated = pools.find(pool => pool === delegation.delegated.address.toLowerCase())
+          let shares = BigInt(delegation.delegationShares)
+          // If the pool is in the list of pools to be updated, then the shares will be updated
+          if (poolToBeUpdated) {
+            if (subtractAmount) {
+              shares -= newShares
+            } else {
+              shares += newShares
+            }
           }
-        }
-        // Calculate the dividend of the shares
-        const dividend = shares * oneEther
-        // Calculate the pool percentage
-        const poolSharesPercentage = dividend === 0n ? 1n : dividend / newAccountShares
-        // Reduce the remaining new shares by the pool percentage
-        remainingNewPercentage -= poolSharesPercentage
+          // Calculate the dividend of the shares
+          const dividend = shares * oneEther
+          // Calculate the pool percentage
+          const poolSharesPercentage = dividend === 0n ? 1n : dividend / newAccountShares
+          // Reduce the remaining new shares by the pool percentage
+          remainingNewPercentage -= poolSharesPercentage
 
-        return {
-          pool: delegation.delegated.address,
-          percentage: poolSharesPercentage
-        }
-      })
+          return {
+            pool: delegation.delegated.address,
+            percentage: poolSharesPercentage
+          }
+        })
 
     const remainingPools = pools.filter(pool => {
       return currentDelegations.find(delegation => delegation.pool.toLowerCase() === pool) === undefined

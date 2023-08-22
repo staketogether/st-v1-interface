@@ -27,7 +27,7 @@ import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 import useDeposit from '@/hooks/contracts/useDeposit'
 import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
-import { useFeeStakeEntry } from "@/hooks/subgraphs/useFeeStakeEntry";
+import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -92,7 +92,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const { fee, loading: isLoadingFees } = useFeeStakeEntry()
   const parsedAmount = ethers.parseUnits(inputAmount, 18)
-  const feeAmount = parsedAmount * BigInt(fee?.value || 0n) / ethers.parseEther('1')
+  const feeAmount = (parsedAmount * BigInt(fee?.value || 0n)) / ethers.parseEther('1')
   const netDepositAmount = ethers.parseUnits(inputAmount, 18) - feeAmount
 
   const youReceiveDeposit = netDepositAmount

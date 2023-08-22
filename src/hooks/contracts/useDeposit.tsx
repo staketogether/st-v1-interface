@@ -17,7 +17,7 @@ import { useCalculateDelegationPercentage } from '@/hooks/contracts/useCalculate
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import { truncateWei } from '@/services/truncate'
 import { ethers } from 'ethers'
-import { useFeeStakeEntry } from "@/hooks/subgraphs/useFeeStakeEntry";
+import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
 
 export default function useDeposit(
   netDepositAmount: bigint,
@@ -45,7 +45,8 @@ export default function useDeposit(
 
   const amountEstimatedGas = ethers.parseUnits('0.001', 18)
   const { fee: feeEstimatedGas } = useFeeStakeEntry()
-  const feeAmountEstimatedGas = amountEstimatedGas * BigInt(feeEstimatedGas?.value || 0n) / ethers.parseEther('1')
+  const feeAmountEstimatedGas =
+    (amountEstimatedGas * BigInt(feeEstimatedGas?.value || 0n)) / ethers.parseEther('1')
   const netAmountEstimatedGas = amountEstimatedGas - feeAmountEstimatedGas
   const { delegations: delegationsEstimatedGas } = useCalculateDelegationPercentage({
     weiAmount: netAmountEstimatedGas,
