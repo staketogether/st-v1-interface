@@ -1,6 +1,6 @@
-import { ethers } from "ethers";
-import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { queryPoolsMarketShare } from "@/queries/subgraph/queryPoolsMarketShare";
+import { ethers } from 'ethers'
+import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 
 interface PoolsMarketShareData {
   pools: {
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   const oneEther = ethers.parseEther('1')
   // 3% fee, where 1 ether is 100%
   const poolFeePercentage = ethers.parseEther('0.03')
-  const poolsRewardsAmount = rewardsAmount * poolFeePercentage / oneEther
+  const poolsRewardsAmount = (rewardsAmount * poolFeePercentage) / oneEther
 
   const subgraphClient = new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/staketogether/stake-together-goerli',
@@ -31,9 +31,8 @@ export default async function handler(req, res) {
     query: queryPoolsMarketShare
   })
 
-  const poolsReward = data.pools.map((pool) => {
-    const rewardsPerPool = poolsRewardsAmount * pool.marketShare / oneEther
+  const poolsReward = data.pools.map(pool => {
+    const rewardsPerPool = (poolsRewardsAmount * pool.marketShare) / oneEther
     return [ethers.getAddress(pool.id), rewardsPerPool]
   })
-
 }

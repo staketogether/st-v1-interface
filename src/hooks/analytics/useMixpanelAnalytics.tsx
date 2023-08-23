@@ -93,13 +93,7 @@ export const useMixpanelAnalytics = () => {
   )
 
   const registerAirdropClaim = useCallback(
-    (
-      walletAddress: string,
-      chainId: number,
-      epoch: bigint,
-      index: bigint,
-      amount: string,
-    ) => {
+    (walletAddress: string, chainId: number, epoch: bigint, index: bigint, amount: string) => {
       if (!isInitialized) {
         init()
         return
@@ -111,9 +105,11 @@ export const useMixpanelAnalytics = () => {
         amount,
         epoch,
         index,
-        path: window.location.pathname,
+        path: window.location.pathname
       })
-    }, [init, isInitialized])
+    },
+    [init, isInitialized]
+  )
 
   return {
     init,

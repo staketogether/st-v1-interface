@@ -1,21 +1,27 @@
-import { airdropABI, useAirdropClaim, usePrepareAirdropClaim } from "@/types/Contracts";
-import chainConfig from "@/config/chain";
-import { useEffect, useState } from "react";
-import { useMixpanelAnalytics } from "@/hooks/analytics/useMixpanelAnalytics";
-import { useWaitForTransaction } from "wagmi";
-import useTranslation from "@/hooks/useTranslation";
-import useEstimateTxInfo from "@/hooks/useEstimateTxInfo";
-import { notification } from "antd";
+import { airdropABI, useAirdropClaim, usePrepareAirdropClaim } from '@/types/Contracts'
+import chainConfig from '@/config/chain'
+import { useEffect, useState } from 'react'
+import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
+import { useWaitForTransaction } from 'wagmi'
+import useTranslation from '@/hooks/useTranslation'
+import useEstimateTxInfo from '@/hooks/useEstimateTxInfo'
+import { notification } from 'antd'
 
 interface UseClaimAirdropProps {
-  epoch?: bigint,
-  index?: bigint,
-  accountAddress?: `0x${string}`,
-  sharesAmount?: bigint,
-  merkleProof?: `0x${string}`[],
+  epoch?: bigint
+  index?: bigint
+  accountAddress?: `0x${string}`
+  sharesAmount?: bigint
+  merkleProof?: `0x${string}`[]
 }
 
-export const useClaimAirdrop = ({ epoch, index, accountAddress, sharesAmount, merkleProof }: UseClaimAirdropProps) => {
+export const useClaimAirdrop = ({
+  epoch,
+  index,
+  accountAddress,
+  sharesAmount,
+  merkleProof
+}: UseClaimAirdropProps) => {
   const { chainId, contracts } = chainConfig()
   const isAirdropReady = Boolean(!!epoch && !!index && !!accountAddress && !!sharesAmount && !!merkleProof)
 
@@ -122,7 +128,7 @@ export const useClaimAirdrop = ({ epoch, index, accountAddress, sharesAmount, me
       setFailedToExecute(false)
     }
   }, [failedToExecute, isError, notify, t])
-  
+
   return {
     claim,
     isLoading,

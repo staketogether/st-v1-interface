@@ -9,7 +9,7 @@ import WalletSidebarDisconnected from '@/components/wallet/WalletSidebarDisconne
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import stIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
-import { useClaimAirdrop } from "@/hooks/contracts/useClaimAirdrop";
+import { useClaimAirdrop } from '@/hooks/contracts/useClaimAirdrop'
 
 export default function IncentivesControl() {
   const { accountIsConnected, account } = useConnectedAccount()
@@ -20,7 +20,7 @@ export default function IncentivesControl() {
     epoch: 0n,
     index: 0n,
     accountAddress: account,
-    sharesAmount: 0n,
+    sharesAmount: 0n
   })
 
   return (
