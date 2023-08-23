@@ -102,8 +102,8 @@
     "yourWallet": "em sua carteira"
   },
   "connectWalletSideBar": {
-    "connectButton": "Entrar",
-    "title": "Entrar com"
+    "connectButton": "Conectar",
+    "title": "Conectar com"
   },
   "buyEth": {
     "button": "Pegar ETH",
