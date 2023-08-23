@@ -174,8 +174,8 @@
         "socialImpact": "Impacto Social",
         "innovation": "Inovação"
       },
-    "emptyList": "Nenhuma projeto encontrado",
-    "emptyButton": "Limpar",
+      "emptyList": "Nenhuma projeto encontrado",
+      "emptyButton": "Limpar",
       "search": "Pesquisar...",
       "list": {
         "name": "Nome",
