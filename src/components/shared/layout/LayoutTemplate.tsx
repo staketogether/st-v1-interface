@@ -47,7 +47,10 @@ const { Container, Wrapper, Content, Body } = {
     display: grid;
     grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
     padding: ${props => props.theme.size[24]};
-    gap: 48px;
+    gap: 24px;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      gap: 48px;
+    }
   `,
   Body: styled.div`
     /* display: grid; */

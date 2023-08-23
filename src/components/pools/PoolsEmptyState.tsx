@@ -10,26 +10,27 @@ export default function PoolsEmptyState({ handleClickButton }: PoolsEmptyStatePr
   const { t } = useTranslation()
   return (
     <Container>
-      <h1>{t('airdrop.emptyList')}</h1>
-      <BackButton onClick={handleClickButton}>{t('airdrop.emptyButton')}</BackButton>
+      <h4>{t('v2.pools.emptyList')}</h4>
+      <BackButton onClick={handleClickButton}>{t('v2.pools.emptyButton')}</BackButton>
     </Container>
   )
 }
 const { Container, BackButton } = {
   Container: styled.section`
-    > h1 {
-      font-size: 24px;
+    > h4 {
+      font-size: ${({ theme }) => theme.font.size[24]};
       font-style: normal;
-      font-weight: 600;
+      font-weight: 500;
       line-height: normal;
       color: ${({ theme }) => theme.color.primary};
     }
 
     display: flex;
-    padding: ${({ theme }) => theme.font.size[32]};
+    padding: ${({ theme }) => theme.size[32]};
 
     flex-direction: column;
     align-items: center;
+    text-align: center;
     gap: ${({ theme }) => theme.font.size[16]};
     align-self: stretch;
 

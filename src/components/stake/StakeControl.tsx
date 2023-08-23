@@ -105,7 +105,10 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
   Container: styled.div`
     display: grid;
     justify-content: center;
-    gap: ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[24]};
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      gap: ${({ theme }) => theme.size[16]};
+    }
     > header {
       display: grid;
       flex-direction: column;
@@ -116,7 +119,7 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
         color: ${({ theme }) => theme.color.primary};
         font-size: ${({ theme }) => theme.font.size[32]};
         font-style: normal;
-        font-weight: 600;
+        font-weight: 500;
         line-height: normal;
       }
 

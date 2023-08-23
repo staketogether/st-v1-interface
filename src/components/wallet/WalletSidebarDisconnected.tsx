@@ -115,7 +115,7 @@ const {
   ContainerWalletConnect
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: ${({ theme }) => theme.color.white} !important;
+    background-color: #ecedf7 !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
@@ -207,14 +207,11 @@ const {
       line-height: normal;
 
       a {
-        color: ${({ theme }) => theme.color.secondary};
+        color: ${({ theme }) => theme.color.primary};
       }
 
       > input {
         cursor: pointer;
-      }
-      > input:checked {
-        background: red;
       }
     }
   `,
@@ -229,13 +226,13 @@ const {
       align-items: center;
       gap: ${({ theme }) => theme.size[16]};
       padding: ${({ theme }) => theme.size[8]};
-      background: ${({ theme }) => theme.color.blackAlpha[50]};
+      background: ${({ theme }) => theme.color.whiteAlpha[600]};
       box-shadow: ${({ theme }) => theme.shadow[100]};
       transition: background 0.2s ease;
       font-weight: 400;
       border-radius: ${({ theme }) => theme.size[24]};
       &:hover {
-        background: ${({ theme }) => theme.color.blackAlpha[200]};
+        background: ${({ theme }) => theme.color.whiteAlpha[900]};
       }
 
       img {

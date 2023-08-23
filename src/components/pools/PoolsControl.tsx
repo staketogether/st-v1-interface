@@ -121,7 +121,6 @@ export default function PoolsControl({ pools }: PoolsListProps) {
             </FilterButton>
           ))}
         </Filters>
-
         <PoolsInputSearch search={search} setSearch={setSearch} />
       </FiltersContainer>
       <ListPools>
@@ -134,7 +133,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
             <span>{t('v2.pools.list.invested')}</span>
           </header>
         )}
-        {poolsFilterBySearch.map(pool => (
+        {poolsFilterBySearch.map((pool, i) => (
           <>
             <PoolsRowList
               key={pool.address}
@@ -144,7 +143,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
               type={pool.type}
             />
             <PoolsCard
-              key={pool.address}
+              key={i}
               poolAddress={pool.address}
               members={pool.receivedDelegationsCount}
               staked={pool.poolBalance}
@@ -162,36 +161,44 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[32]};
+    gap: ${({ theme }) => theme.size[24]};
     > header {
       > h1 {
         font-size: ${({ theme }) => theme.font.size[32]};
         font-style: normal;
-        font-weight: 600;
+        font-weight: 500;
         line-height: normal;
 
         color: ${({ theme }) => theme.color.primary};
       }
+    }
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      gap: ${({ theme }) => theme.size[32]};
     }
   `,
   FiltersContainer: styled.div`
     display: flex;
     flex-wrap: wrap;
     flex-wrap: wrap-reverse;
-    align-items: center;
-    justify-content: center;
-    gap: ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[24]};
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       justify-content: space-between;
     }
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      gap: ${({ theme }) => theme.size[16]};
+    }
   `,
   Filters: styled.div`
+    width: 520px;
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
     gap: ${({ theme }) => theme.size[8]};
     align-items: center;
-    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      width: auto;
+      height: auto;
+    }
   `,
   FilterButton: styled.button`
     display: flex;
@@ -208,10 +215,9 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
 
     transition: background 0.1s ease;
     transition: color 0.1s ease;
-
+    white-space: nowrap;
     background: ${({ theme }) => theme.color.whiteAlpha[500]};
     color: ${({ theme }) => theme.color.primary};
-
     &.active,
     &:hover {
       background: ${({ theme }) => theme.color.primary};
@@ -222,7 +228,11 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
   ListPools: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[16]};
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      gap: ${({ theme }) => theme.size[8]};
+    }
+
     > header {
       display: none;
       grid-template-columns: 1fr 0.8fr 0.8fr 1fr;

@@ -148,8 +148,6 @@
     "locks": "Bloqueios",
     "willReceive": "receberá",
     "startClaimProcess": "Iniciar recebimento",
-    "emptyList": "Nenhum item encontrado para esta pesquisa",
-    "emptyButton": "Voltar para todos os itens",
     "availableToClaim": "Disponivel para Receber"
   },
   "v2": {
@@ -176,12 +174,14 @@
         "socialImpact": "Impacto Social",
         "innovation": "Inovação"
       },
+    "emptyList": "Nenhuma projeto encontrado",
+    "emptyButton": "Limpar",
       "search": "Pesquisar...",
       "list": {
         "name": "Nome",
         "type": "Categoria",
         "people": "Membros",
-        "invested": "Staked"
+        "invested": "Investidos"
       }
     },
     "stake": {
