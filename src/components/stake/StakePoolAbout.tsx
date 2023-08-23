@@ -15,6 +15,8 @@ import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
 import { truncateAddress } from '@/services/truncate'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
+import useTranslation from '@/hooks/useTranslation'
+
 interface StakePoolAboutProps {
   poolAddress: `0x${string}` | undefined
 }
@@ -22,6 +24,7 @@ interface StakePoolAboutProps {
 export default function StakePoolAbout({ poolAddress }: StakePoolAboutProps) {
   const { poolDetail, loading } = useContentfulPoolDetails(poolAddress)
   const videoId = poolDetail?.video ? poolDetail?.video.split('v=')[1] : null
+  const { t } = useTranslation()
   return (
     <Container>
       {loading && <SkeletonLoading height={18} width={237} />}
@@ -103,7 +106,7 @@ export default function StakePoolAbout({ poolAddress }: StakePoolAboutProps) {
         </SocialContainer>
       )}
 
-      {!loading && !poolDetail && <StakeEmptyPoolInfo />}
+      {!loading && !poolDetail && <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />}
     </Container>
   )
 }

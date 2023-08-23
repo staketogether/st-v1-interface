@@ -54,7 +54,7 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
                 )
               })
             ) : (
-              <StakeEmptyPoolInfo />
+              <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />
             )}
           </>
         </>

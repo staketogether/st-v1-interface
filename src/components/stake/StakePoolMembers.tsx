@@ -9,9 +9,9 @@ import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 
 interface StakeMembersProps {
   initialLoading: boolean
-  loadMoreLoading: boolean
   delegations: Delegation[] | undefined
   totalDelegations: number
+  loadMoreLoading: boolean
   onLoadMore: () => void
 }
 
@@ -33,8 +33,10 @@ export default function StakePoolMembers({
           <SkeletonLoading height={14} />
         </DelegationsContainer>
       )}
-      {!initialLoading && !delegations && <StakeEmptyPoolInfo />}
-      {!initialLoading && delegations && !delegations.length && <StakeEmptyPoolInfo />}
+      {!initialLoading && !delegations && <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />}
+      {!initialLoading && delegations && !delegations.length && (
+        <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />
+      )}
 
       {!initialLoading && delegations && delegations.length > 0 && (
         <DelegationsContainer>

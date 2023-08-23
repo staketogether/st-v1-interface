@@ -127,8 +127,8 @@
     "alt": "Network gas price"
   },
   "airdrop": {
-    "title": "Welcome to StakeTogether",
-    "description": "Lorem Ipsum is simply",
+    "title": "Incentives",
+    "description": "The protocol's profits are perpetually airdropped to benefit individuals, communities, and social initiatives.",
     "readAnnouncementButton": "Read announcement",
     "eligibilityCriteria": "Eligibility Criteria",
     "pool": "Pool",
@@ -136,7 +136,8 @@
     "willReceive": "will receive",
     "startClaimProcess": "Start claim process",
     "emptyList": "No items found for this search",
-    "emptyButton": "Back to all items"
+    "emptyButton": "Back to all items",
+    "availableToClaim": "Available to Claim"
   },
   "v2": {
     "header": {

@@ -147,6 +147,7 @@ const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Butt
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
+
     span {
       &.purple {
         color: ${({ theme }) => theme.color.secondary};
@@ -209,7 +210,7 @@ const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Butt
     gap: ${({ theme }) => theme.size[8]};
 
     &:hover {
-      background: ${({ theme }) => theme.color.blue[600]};
+      background: ${({ theme }) => theme.color.blue[500]};
     }
 
     &:disabled {

@@ -37,7 +37,7 @@ export default function StakePoolInfo({
     fetchMore({ id: poolAddress, first: 10, skip: newSkip })
   }
 
-  const { poolActivities, isLoading: poolActivitiesLoading } = usePoolActivities(poolAddress)
+  const { poolActivities, initialLoading: poolActivitiesLoading } = usePoolActivities(poolAddress)
 
   const tabsItems: TabsItems[] = [
     {
