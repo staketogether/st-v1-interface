@@ -1,7 +1,7 @@
 import useActiveRoute from '@/hooks/useActiveRoute'
 import { useTranslation } from 'next-i18next'
 import Link from 'next/link'
-import { AiOutlineBarChart, AiOutlineCodeSandbox } from 'react-icons/ai'
+import { AiOutlineGift, AiOutlineRise } from 'react-icons/ai'
 import styled from 'styled-components'
 function LayoutMenuMobile() {
   const { t } = useTranslation()
@@ -12,13 +12,13 @@ function LayoutMenuMobile() {
         <MenuButton
           className={`${isActive('pools') || isActive('stake') || isActive('unstake') ? 'active' : ''}`}
         >
-          <AiOutlineCodeSandbox size={16} />
-          {t('pools')}
+          <AiOutlineRise size={16} />
+          {t('v2.header.invest')}
         </MenuButton>
       </NextLink>
-      <NextLink href='#'>
-        <MenuButton disabled>
-          <AiOutlineBarChart size={16} /> {t('analytics')}
+      <NextLink href='/incentives'>
+        <MenuButton>
+          <AiOutlineGift size={16} /> {t('v2.header.incentives')}
         </MenuButton>
       </NextLink>
     </Container>
@@ -54,25 +54,20 @@ const { Container, NextLink, MenuButton } = {
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
 
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     padding: 0 ${({ theme }) => theme.size[16]};
     transition: background-color 0.1s ease;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
 
+    background: transparent;
     display: flex;
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
 
     &.active {
-      color: ${({ theme }) => theme.color.secondary};
-    }
-
-    &:disabled {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
-      color: ${({ theme }) => theme.color.blackAlpha[600]};
+      background: ${({ theme }) => theme.color.whiteAlpha[700]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
     }
   `
 }

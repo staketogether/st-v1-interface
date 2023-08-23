@@ -98,18 +98,19 @@ const { Header, CloseIcon, LocaleContainer, Button } = {
       height: 44px;
       gap: ${({ theme }) => theme.size[16]};
       padding: ${({ theme }) => theme.size[16]} ${({ theme }) => theme.size[16]};
-      background: ${({ theme }) => theme.color.blackAlpha[50]};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
+
       transition: background 0.2s ease;
       font-weight: 400;
       border-radius: ${({ theme }) => theme.size[24]};
       &:hover {
-        background: ${({ theme }) => theme.color.blackAlpha[200]};
+        background: ${({ theme }) => theme.color.whiteAlpha[900]};
+        box-shadow: ${({ theme }) => theme.shadow[100]};
       }
 
       &.active {
-        background: ${({ theme }) => theme.color.blackAlpha[200]};
-        color: ${({ theme }) => theme.color.secondary};
+        background: ${({ theme }) => theme.color.whiteAlpha[900]};
+        color: ${({ theme }) => theme.color.primary};
+        box-shadow: ${({ theme }) => theme.shadow[100]};
       }
       img {
         box-shadow: ${({ theme }) => theme.shadow[100]};

@@ -5,6 +5,7 @@ import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import useTranslation from '@/hooks/useTranslation'
 
 type PoolsRowListProps = {
   poolAddress: `0x${string}`
@@ -15,7 +16,7 @@ type PoolsRowListProps = {
 
 export default function PoolsRowList({ poolAddress, members, staked, type }: PoolsRowListProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
-
+  const { t } = useTranslation()
   return (
     <Row href={`/pools/deposit/${poolAddress}`}>
       <Name>
@@ -23,11 +24,14 @@ export default function PoolsRowList({ poolAddress, members, staked, type }: Poo
         <EnsName address={poolAddress} />
       </Name>
       <TypeContainer>
-        <Text>{`${type && poolTypeTranslation(type)}`}</Text>
         {type && handlePoolTypeIcon({ iconSize: 14, value: type })}
+        <Text>{`${type && poolTypeTranslation(type)}`}</Text>
       </TypeContainer>
       <Text>{members.toString()}</Text>
-      <Text>{truncateWei(staked, 6)} ETH</Text>
+      <Text>
+        {truncateWei(staked, 6)}
+        <Text className='purple'>{t('lsd.symbol')}</Text>
+      </Text>
     </Row>
   )
 }
@@ -72,7 +76,10 @@ const { Row, Name, TypeContainer, Text } = {
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
 
-    &.secondary {
+    display: flex;
+    gap: ${({ theme }) => theme.size[4]};
+
+    &.purple {
       color: ${({ theme }) => theme.color.secondary};
     }
   `

@@ -46,10 +46,10 @@ export default function LayoutHeader() {
 const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
   Container: styled.header`
     display: none;
+    gap: ${({ theme }) => theme.size[32]};
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: grid;
       grid-template-columns: 1fr 240px;
-      gap: ${({ theme }) => theme.size[32]};
     }
   `,
   MenuContainer: styled.div`
@@ -90,7 +90,7 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
     background: transparent;
 
     font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.blackAlpha[700]};
+    color: ${({ theme }) => theme.color.primary};
 
     &:hover {
       color: ${({ theme }) => theme.color.primary};
@@ -98,9 +98,7 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
     }
 
     &.active {
-      color: ${({ theme }) => theme.color.primary};
-      background: ${({ theme }) => theme.color.whiteAlpha[700]};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
+      color: ${({ theme }) => theme.color.secondary};
     }
   `
 }

@@ -43,7 +43,7 @@ const { InputSearchArea, InputSearch } = {
     grid-template-columns: auto 1fr auto;
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
-    background: ${({ theme }) => theme.color.white};
+    background: ${({ theme }) => theme.color.whiteAlpha[500]};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     padding: 0 ${({ theme }) => theme.size[8]};
@@ -51,18 +51,18 @@ const { InputSearchArea, InputSearch } = {
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
     }
 
     &:focus {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
       color: ${({ theme }) => theme.color.primary};
       border: none;
       outline: none;
     }
 
     &.active {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[700]};
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
 
