@@ -14,15 +14,8 @@ import { ActivitiesPool } from '@/types/ActivitiesPool'
 type StakeActivityProps = {
   poolActivities: ActivitiesPool[]
   isLoading: boolean
-  loadMoreLoading: boolean
-  handleFetchMore: () => void
 }
-export default function StakeActivity({
-  poolActivities,
-  isLoading,
-  loadMoreLoading,
-  handleFetchMore
-}: StakeActivityProps) {
+export default function StakeActivity({ poolActivities, isLoading }: StakeActivityProps) {
   const router = useRouter()
   const { t } = useTranslation()
   const { blockExplorer } = chainConfig()
