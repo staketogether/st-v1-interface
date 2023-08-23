@@ -31,6 +31,7 @@ export default async function handler(req, res) {
     query: queryPoolsMarketShare
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const poolsReward = data.pools.map(pool => {
     const rewardsPerPool = (poolsRewardsAmount * pool.marketShare) / oneEther
     return [ethers.getAddress(pool.id), rewardsPerPool]
