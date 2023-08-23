@@ -37,7 +37,18 @@ export default function StakePoolInfo({
     fetchMore({ id: poolAddress, first: 10, skip: newSkip })
   }
 
-  const { poolActivities, isLoading: poolActivitiesLoading } = usePoolActivities(poolAddress)
+  const {
+    poolActivities,
+    initialLoading: poolActivitiesLoading,
+    loadMore,
+    loadingFetchMore
+  } = usePoolActivities(poolAddress)
+
+  const handleActivityLoadMore = () => {
+    const newSkip = skip + 10
+    setSkip(newSkip)
+    loadMore({ id: poolAddress, first: 10, skip: newSkip })
+  }
 
   const tabsItems: TabsItems[] = [
     {
@@ -72,7 +83,12 @@ export default function StakePoolInfo({
       icon: <ActivityIcon />,
       children: (
         <TabContainer>
-          <StakeActivity poolActivities={poolActivities} isLoading={poolActivitiesLoading} />
+          <StakeActivity
+            handleFetchMore={handleActivityLoadMore}
+            loadMoreLoading={loadingFetchMore}
+            poolActivities={poolActivities}
+            isLoading={poolActivitiesLoading}
+          />
         </TabContainer>
       )
     }

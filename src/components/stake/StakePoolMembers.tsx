@@ -9,9 +9,9 @@ import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 
 interface StakeMembersProps {
   initialLoading: boolean
-  loadMoreLoading: boolean
   delegations: Delegation[] | undefined
   totalDelegations: number
+  loadMoreLoading: boolean
   onLoadMore: () => void
 }
 
