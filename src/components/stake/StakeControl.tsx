@@ -120,7 +120,6 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
         font-size: ${({ theme }) => theme.font.size[32]};
         font-style: normal;
         font-weight: 500;
-        line-height: normal;
       }
 
       > span {
