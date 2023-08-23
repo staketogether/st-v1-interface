@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { globalConfig } from '../../../config/global'
 
-export function MetaPools() {
+export function Metatags() {
   const { url } = globalConfig
 
   return (

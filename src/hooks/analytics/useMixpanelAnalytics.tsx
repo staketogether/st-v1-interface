@@ -92,11 +92,35 @@ export const useMixpanelAnalytics = () => {
     [init, isInitialized]
   )
 
+  const registerAirdropClaim = useCallback(
+    (
+      walletAddress: string,
+      chainId: number,
+      epoch: bigint,
+      index: bigint,
+      amount: string,
+    ) => {
+      if (!isInitialized) {
+        init()
+        return
+      }
+
+      mixpanel.track('Airdrop Claim', {
+        walletAddress,
+        chainId,
+        amount,
+        epoch,
+        index,
+        path: window.location.pathname,
+      })
+    }, [init, isInitialized])
+
   return {
     init,
     registerPageView,
     registerConnectWallet,
     registerDeposit,
-    registerWithdraw
+    registerWithdraw,
+    registerAirdropClaim
   }
 }

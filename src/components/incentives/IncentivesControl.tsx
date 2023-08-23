@@ -10,11 +10,19 @@ import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet
 import stIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
 import EnsName from '../shared/ens/EnsName'
+import { useClaimAirdrop } from "@/hooks/contracts/useClaimAirdrop";
 
 export default function IncentivesControl() {
   const { accountIsConnected, account } = useConnectedAccount()
   const { t } = useTranslation()
   const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
+  const { claim } = useClaimAirdrop({
+    epoch: 0n,
+    index: 0n,
+    accountAddress: account,
+    sharesAmount: 0n,
+  })
+
   return (
     <>
       <Container>
@@ -30,7 +38,7 @@ export default function IncentivesControl() {
                   <Image src={stIcon} width={24} height={24} alt='staked Icon' />
                 </div>
               </div>
-              <button>{t('airdrop.startClaimProcess')}</button>
+              <button onClick={claim}>{t('airdrop.startClaimProcess')}</button>
             </WalletConnectedContainer>
           )}
           {!accountIsConnected && (
