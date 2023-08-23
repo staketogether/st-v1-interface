@@ -213,8 +213,6 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
     border: none;
     font-size: ${({ theme }) => theme.font.size[14]};
 
-    transition: background 0.1s ease;
-    transition: color 0.1s ease;
     white-space: nowrap;
     background: ${({ theme }) => theme.color.whiteAlpha[500]};
     color: ${({ theme }) => theme.color.primary};
