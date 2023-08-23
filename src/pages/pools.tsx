@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next'
 import PoolsControl from '../components/pools/PoolsControl'
 import LayoutTemplate from '../components/shared/layout/LayoutTemplate'
 
-import { MetaPools } from '../components/shared/meta/MetaPools'
+import { Metatags } from '../components/shared/meta/Metatags'
 import { apolloClient } from '../config/apollo'
 import { queryPools } from '../queries/subgraph/queryPools'
 import { PoolSubgraph } from '../types/Pool'
@@ -16,7 +16,7 @@ type PoolsProps = {
 export default function Pools({ pools }: PoolsProps) {
   return (
     <LayoutTemplate>
-      <MetaPools />
+      <Metatags />
       <PoolsControl pools={pools} />
     </LayoutTemplate>
   )

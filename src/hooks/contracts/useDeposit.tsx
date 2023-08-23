@@ -125,6 +125,7 @@ export default function useDeposit(
   const resetState = () => {
     setAwaitWalletAction(false)
     setTxHash(undefined)
+    setFailedToExecute(false)
   }
 
   useEffect(() => {
