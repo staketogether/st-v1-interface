@@ -1,15 +1,13 @@
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-
 import { GetServerSideProps } from 'next'
 import LayoutTemplate from '../../components/shared/layout/LayoutTemplate'
-
-import { MetaPools } from '../../components/shared/meta/MetaPools'
+import { Metatags } from '@/components/shared/meta/Metatags'
 import IncentivesControl from '@/components/incentives/IncentivesControl'
 
 export default function Incentives() {
   return (
     <LayoutTemplate>
-      <MetaPools />
+      <Metatags />
       <IncentivesControl />
     </LayoutTemplate>
   )
