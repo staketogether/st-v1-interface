@@ -12,9 +12,10 @@ import Image from 'next/image'
 import { useClaimAirdrop } from "@/hooks/contracts/useClaimAirdrop";
 
 export default function IncentivesControl() {
-  const { accountIsConnected } = useConnectedAccount()
+  const { accountIsConnected, account } = useConnectedAccount()
   const { t } = useTranslation()
   const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { claim } = useClaimAirdrop({
     epoch: 0n,
     index: 0n,
