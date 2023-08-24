@@ -126,7 +126,6 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
         font-size: ${({ theme }) => theme.font.size[14]};
         font-style: normal;
         font-weight: 500;
-        line-height: normal;
         color: ${({ theme }) => theme.color.blue[400]};
       }
     }
@@ -150,7 +149,6 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
       font-size: ${({ theme }) => theme.font.size[14]};
       font-style: normal;
       font-weight: 500;
-      line-height: normal;
       color: ${({ theme }) => theme.color.blue[400]};
 
       &.green {

@@ -35,7 +35,7 @@ export default function StakeTransactionLoading({
   const { addToWalletAction } = useAddSethToWallet()
   return (
     <Container>
-      {transactionIsSuccess ? <SuccessIcon size={80} /> : <LoadingIcon size={80} />}
+      {transactionIsSuccess ? <SuccessIcon size={60} /> : <LoadingIcon size={60} />}
       <div>
         {walletActionLoading && !transactionLoading && !transactionIsSuccess && (
           <TitleModal>
@@ -168,7 +168,6 @@ const {
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
     font-style: normal;
-    line-height: normal;
     font-weight: 500;
     a {
       text-decoration: none;
@@ -177,6 +176,10 @@ const {
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.size[4]};
+
+      &:hover {
+        color: ${({ theme }) => theme.color.secondary};
+      }
     }
   `,
   LoadingIcon: styled(Loading)`

@@ -1,19 +1,21 @@
 import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
+import { ReactNode } from 'react'
 
 interface StakeButtonProps {
   onClick: () => void
   label: string
+  icon: ReactNode
   isLoading: boolean
   disabled?: boolean
-  purple?: boolean
 }
 
-export default function StakeButton({ onClick, label, disabled, isLoading, purple }: StakeButtonProps) {
+export default function StakeButton({ onClick, label, disabled, isLoading, icon }: StakeButtonProps) {
   const { t } = useTranslation()
 
   return (
-    <Stake className={`${purple ? 'purple' : ''}`} onClick={onClick} disabled={disabled}>
+    <Stake onClick={onClick} disabled={disabled}>
+      {icon}
       {isLoading ? t('processing') : label}
     </Stake>
   )
@@ -24,7 +26,7 @@ const { Stake } = {
     border: none;
     color: ${({ theme }) => theme.color.white};
     border-radius: ${props => props.theme.size[16]};
-    background: ${({ theme }) => theme.color.blue[600]};
+    background: ${({ theme }) => theme.color.primary};
     transition: background-color 0.2s ease;
     height: 48px;
 
@@ -36,19 +38,12 @@ const { Stake } = {
     gap: ${({ theme }) => theme.size[8]};
 
     &:hover {
-      background: ${({ theme }) => theme.color.blue[600]};
+      background: ${({ theme }) => theme.color.secondary};
     }
 
     &:disabled {
       cursor: not-allowed;
       opacity: 0.4;
-    }
-
-    &.purple {
-      background: ${({ theme }) => theme.color.purple[700]};
-      &:hover {
-        background: ${({ theme }) => theme.color.purple[900]};
-      }
     }
 
     &.wrong {

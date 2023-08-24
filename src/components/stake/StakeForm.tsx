@@ -18,7 +18,7 @@ import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useStConfig from '../../hooks/contracts/useStConfig'
 import useTranslation from '../../hooks/useTranslation'
-import { truncateDecimal, truncateWei } from '../../services/truncate'
+import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
@@ -28,6 +28,10 @@ import useDeposit from '@/hooks/contracts/useDeposit'
 import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
 import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
+import { BsWallet } from 'react-icons/bs'
+import { AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai'
+
+import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -283,40 +287,36 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         <CardInfoContainer>
           <CardInfo>
             <div>
-              <div>
-                <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
-              </div>
-              <CardInfoData>
-                <header>
-                  <h4>{t('availableToStake')}</h4>
-                </header>
-                <div>
-                  <span>{truncateWei(ethBalance, 6)}</span>
-                  <span>{t('eth.symbol')}</span>
-                </div>
-              </CardInfoData>
+              <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
             </div>
+            <CardInfoData>
+              <header>
+                <h4>{t('availableToStake')}</h4>
+              </header>
+              <div>
+                <span>{truncateWei(ethBalance, 6)}</span>
+                <span>{t('eth.symbol')}</span>
+              </div>
+            </CardInfoData>
           </CardInfo>
 
           <CardInfo>
             <div>
-              <div>
-                <Image src={stIcon} width={24} height={24} alt='staked Icon' />
-              </div>
-              <CardInfoData>
-                <header>
-                  <h4>{t('staked')}</h4>
-                </header>
-                {delegationSharesLoading ? (
-                  <SkeletonLoading height={20} width={120} />
-                ) : (
-                  <div>
-                    <span className='purple'>{truncateWei(BigInt(delegationBalance), 6)}</span>
-                    <span className='purple'>{t('lsd.symbol')}</span>
-                  </div>
-                )}
-              </CardInfoData>
+              <Image src={stIcon} width={24} height={24} alt='staked Icon' />
             </div>
+            <CardInfoData>
+              <header>
+                <h4>{t('staked')}</h4>
+              </header>
+              {delegationSharesLoading ? (
+                <SkeletonLoading height={20} width={120} />
+              ) : (
+                <div>
+                  <span>{truncateWei(BigInt(delegationBalance), 6)}</span>
+                  <span className='purple'>{t('lsd.symbol')}</span>
+                </div>
+              )}
+            </CardInfoData>
           </CardInfo>
         </CardInfoContainer>
         {type === 'withdraw' && (
@@ -342,7 +342,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             onClick={() => setOpenSidebarConnectWallet(true)}
             label={t('connectWalletSideBar.connectButton')}
             isLoading={openSidebarConnectWallet}
-            purple={type === 'withdraw'}
+            icon={<ConnectWalletIcon />}
           />
         )}
         {accountAddress && (
@@ -350,7 +350,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             isLoading={isLoading || isLoadingFees}
             onClick={openStakeConfirmation}
             label={handleLabelButton()}
-            purple={type === 'withdraw'}
+            icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
             disabled={
               insufficientFunds ||
               insufficientWithdrawalBalance ||
@@ -361,48 +361,13 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             }
           />
         )}
-        <StakeInfo>
-          <div>
-            <span className='blue'>{`${t('v2.stake.descriptionForm.youReceive')} `}</span>
-            {type === 'deposit' && (
-              <span>
-                <span>{`${truncateWei(youReceiveDeposit, 18) || '0'} `}</span>
-                <span className='purple'>{t('lsd.symbol')}</span>
-              </span>
-            )}
-            {type === 'withdraw' && (
-              <span>
-                <span>{` ${truncateDecimal(amount, 4) || '0'} `}</span>
-                <span className='purple'>{t('eth.symbol')}</span>
-              </span>
-            )}
-          </div>
-          <div>
-            <span className='blue'>{t('v2.stake.descriptionForm.exchange')}</span>
-            {type === 'deposit' && (
-              <span>
-                1 <span className='purple'>{t('eth.symbol')}</span> = {truncateWei(sharesByEthRatio)}{' '}
-                <span className='purple'>{t('lsd.symbol')}</span>
-              </span>
-            )}
-            {type === 'withdraw' && (
-              <span>
-                1 <span className='purple'>{t('lsd.symbol')}</span> = {truncateWei(ethBySharesRatio)}{' '}
-                <span className='purple'>{t('eth.symbol')}</span>
-              </span>
-            )}
-          </div>
-          {type === 'deposit' && (
-            <div>
-              <span className='blue'>{`${t('v2.stake.descriptionForm.transactionFee')} `}</span>
-              <span>0.3%</span>
-            </div>
-          )}
-          <div>
-            <span className='blue'>{`${t('v2.stake.descriptionForm.rewardsFee')} `}</span>
-            <span>0.45%</span>
-          </div>
-        </StakeInfo>
+        <StakeDescriptionCheckout
+          amount={amount}
+          type={type}
+          youReceiveDeposit={youReceiveDeposit}
+          sharesByEthRatio={sharesByEthRatio}
+          ethBySharesRatio={ethBySharesRatio}
+        />
       </StakeContainer>
       <StakeConfirmModal
         amount={amount}
@@ -422,7 +387,15 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   )
 }
 
-const { StakeContainer, CardInfoContainer, StakeInfo, CardInfo, CardInfoData } = {
+const {
+  StakeContainer,
+  CardInfoContainer,
+  CardInfo,
+  CardInfoData,
+  ConnectWalletIcon,
+  DepositIcon,
+  WithdrawIcon
+} = {
   StakeContainer: styled.div`
     display: grid;
     gap: ${({ theme }) => theme.size[16]};
@@ -440,14 +413,10 @@ const { StakeContainer, CardInfoContainer, StakeInfo, CardInfo, CardInfoData } =
   `,
   CardInfo: styled.div`
     display: flex;
-    justify-content: space-between;
-
-    border-radius: ${({ theme }) => theme.size[12]};
-
-    div:nth-child(1) {
-      display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[16]};
+    align-items: center;
+    gap: ${({ theme }) => theme.size[16]};
+    > img {
+      box-shadow: ${({ theme }) => theme.shadow[100]};
     }
   `,
   CardInfoData: styled.div`
@@ -463,7 +432,6 @@ const { StakeContainer, CardInfoContainer, StakeInfo, CardInfo, CardInfoData } =
         font-size: ${({ theme }) => theme.font.size[12]};
         font-style: normal;
         font-weight: 400;
-        line-height: normal;
         color: ${({ theme }) => theme.color.blue[600]};
       }
     }
@@ -474,7 +442,6 @@ const { StakeContainer, CardInfoContainer, StakeInfo, CardInfo, CardInfoData } =
         font-size: ${({ theme }) => theme.font.size[16]};
         font-style: normal;
         font-weight: 500;
-        line-height: normal;
         color: ${({ theme }) => theme.color.primary};
 
         &.purple {
@@ -489,46 +456,13 @@ const { StakeContainer, CardInfoContainer, StakeInfo, CardInfo, CardInfoData } =
       }
     }
   `,
-  StakeInfo: styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
-    font-size: ${({ theme }) => theme.size[12]};
-
-    > div {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      font-size: ${({ theme }) => theme.font.size[14]};
-      font-style: normal;
-      line-height: normal;
-
-      > span:nth-child(1) {
-        font-weight: 400;
-      }
-      > span:nth-child(2) {
-        font-weight: 500;
-      }
-      span {
-        color: ${({ theme }) => theme.color.primary};
-
-        &.purple {
-          color: ${({ theme }) => theme.color.secondary};
-        }
-        &.blue {
-          color: ${({ theme }) => theme.color.blue[600]};
-        }
-      }
-    }
+  ConnectWalletIcon: styled(BsWallet)`
+    font-size: 16px;
+  `,
+  DepositIcon: styled(AiOutlineDownload)`
+    font-size: 16px;
+  `,
+  WithdrawIcon: styled(AiOutlineUpload)`
+    font-size: 16px;
   `
-  // QuestionIcon: styled(AiOutlineQuestionCircle)
-  //   width: 12px;
-  //   height: 12px;
-  //   color: ${({ theme }) => theme.color.blackAlpha[500]};
-  //   cursor: pointer;
-  // `
 }

@@ -21,7 +21,6 @@ const { Container, BackButton } = {
       font-size: ${({ theme }) => theme.font.size[24]};
       font-style: normal;
       font-weight: 500;
-      line-height: normal;
       color: ${({ theme }) => theme.color.primary};
     }
 

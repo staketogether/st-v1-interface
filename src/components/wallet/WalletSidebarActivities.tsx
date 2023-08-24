@@ -17,13 +17,12 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
   const { t } = useTranslation()
   const router = useRouter()
   const { blockExplorer } = chainConfig()
-
   return (
     <Container>
       {accountActivities.length === 0 && (
-        <header>
+        <EmptyContainer>
           <span>{t('noActivities')}</span>
-        </header>
+        </EmptyContainer>
       )}
       {accountActivities.length > 0 && (
         <ActivitiesHeader>
@@ -40,15 +39,18 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
             }) || ''
           : ''
         return (
-          <Activity key={activity.txHash}>
+          <Activity
+            key={activity.txHash}
+            href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`}
+            target='_blank'
+          >
             <span>{formatTimestamp}</span>
-            <span>{t(`v2.activities.${activity.type}`)}</span>
+            <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
             <span className={`${activity.type.includes('deposit') ? 'green' : 'red'}`}>
               {`${truncateWei(BigInt(activity.amount))} ${t('eth.symbol')}`}
             </span>
-            <Link href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`} target='_blank'>
-              <ExternalLink />
-            </Link>
+
+            <ExternalLink />
           </Activity>
         )
       })}
@@ -56,7 +58,7 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
   )
 }
 
-const { Container, Activity, ActivitiesHeader, ExternalLink } = {
+const { Container, Activity, ActivitiesHeader, ExternalLink, EmptyContainer } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -72,8 +74,6 @@ const { Container, Activity, ActivitiesHeader, ExternalLink } = {
     span {
       font-size: ${({ theme }) => theme.font.size[12]};
       font-style: normal;
-      line-height: normal;
-
       &.green {
         color: ${({ theme }) => theme.color.green[500]};
       }
@@ -83,28 +83,50 @@ const { Container, Activity, ActivitiesHeader, ExternalLink } = {
       }
     }
   `,
+  EmptyContainer: styled.div`
+    span {
+      width: 100%;
+      text-align: center;
+    }
+  `,
+
   ActivitiesHeader: styled.div`
     display: grid;
     align-items: center;
     grid-template-columns: 1fr 1fr 1fr 30px;
     padding: 0px 4px;
     span {
-      color: ${({ theme }) => theme.color.blackAlpha[600]};
+      color: ${({ theme }) => theme.color.blue[500]};
       font-weight: 500;
     }
   `,
-  Activity: styled.div`
+  Activity: styled(Link)`
     height: 32px;
     border-radius: 99px;
-    background: ${({ theme }) => theme.color.blackAlpha[50]};
+    cursor: pointer;
+    background: ${({ theme }) => theme.color.whiteAlpha[500]};
+    &:hover {
+      background: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
     padding: 0px 4px;
 
     display: grid;
     align-items: center;
     grid-template-columns: 1fr 1fr 1fr 30px;
     span {
-      color: ${({ theme }) => theme.color.blackAlpha[700]};
+      color: ${({ theme }) => theme.color.primary};
       font-weight: 400;
+      &.purple {
+        color: ${({ theme }) => theme.color.secondary};
+      }
+
+      &.green {
+        color: ${({ theme }) => theme.color.green[500]};
+      }
+
+      &.red {
+        color: ${({ theme }) => theme.color.red[500]};
+      }
     }
   `,
   ExternalLink: styled(AiOutlineLink)`

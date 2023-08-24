@@ -42,7 +42,7 @@ const { ConnectButton } = {
     transition: background-color 0.1s ease;
 
     &:hover {
-      background-color: ${({ theme }) => theme.color.blue[500]};
+      background-color: ${({ theme }) => theme.color.secondary};
     }
   `
 }

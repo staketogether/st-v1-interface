@@ -50,7 +50,6 @@ const { NetworkButton, GasContainer, NetworkContainer } = {
       font-size: ${({ theme }) => theme.font.size[15]};
       font-style: normal;
       font-weight: 400;
-      line-height: normal;
     }
   `,
   GasContainer: styled.div`

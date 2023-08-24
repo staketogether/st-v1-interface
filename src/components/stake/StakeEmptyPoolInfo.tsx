@@ -28,7 +28,6 @@ const { Container } = {
       font-size: 16px;
       font-style: normal;
       font-weight: 500;
-      line-height: normal;
     }
   `
 }

@@ -84,18 +84,6 @@
     "powered": "Potencializado por",
     "dvt": "DVT"
   },
-  "confirmStakeModal": {
-    "reviewDeposit": "Revisar o Deposito",
-    "reviewWithdraw": "Revisar Saque",
-    "youPay": "Você Paga",
-    "networkFee": "Custo de transação",
-    "confirmDeposit": "Confirme o Deposito",
-    "confirmWithdraw": "Confirme o Saque",
-    "transactionSubmitted": "Transação submetida",
-    "proceedInYourWallet": "Continue na sua carteira",
-    "withdrawSuccessful": "Saque realizado com sucesso",
-    "depositSuccessful": "Depósito realizado com sucesso"
-  },
   "soon": "Em Breve",
   "addSethToWallet": {
     "add": "Adicione",
@@ -192,13 +180,13 @@
       "annualRewards": "Recompensas Anuais de Staking",
       "infoEmptyState": "New information coming soon!",
       "descriptionForm": {
-        "youReceive": "Você Recebe",
-        "exchange": "Câmbio",
-        "rewardsFee": "Taxa de Recompensas",
-        "transactionFee": "Taxa de Transação"
+        "youReceive": "Você vai receber:",
+        "exchange": "Câmbio:",
+        "rewardsFee": "Taxa sobre Recompensas Futuras:",
+        "transactionFee": "Taxa de Operação:"
       },
       "confirmModal": {
-        "depositTitle": "Revisar Pedido de Stake",
+        "depositTitle": "Revisar Pedido de Deposito",
         "withdrawTitle": "Revisar Pedido de Saque",
         "deposit": "Você está depositando",
         "withdrawing": "Você está sacando",
@@ -214,7 +202,8 @@
     "activities": {
       "deposit": "Depósito",
       "donationDeposit": "Doação",
-      "withdraw": "Saque"
+      "withdraw": "Saque",
+      "withdrawPool": "Saque" 
     }
   }
 }

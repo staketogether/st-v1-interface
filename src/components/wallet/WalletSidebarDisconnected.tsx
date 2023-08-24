@@ -204,10 +204,11 @@ const {
       font-size: ${({ theme }) => theme.font.size[12]};
       font-style: normal;
       font-weight: 500;
-      line-height: normal;
-
       a {
         color: ${({ theme }) => theme.color.primary};
+        &:hover {
+          color: ${({ theme }) => theme.color.secondary};
+        }
       }
 
       > input {

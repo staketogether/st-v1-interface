@@ -1,13 +1,4 @@
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
-
-import {
-  AiFillFacebook,
-  AiFillInstagram,
-  AiFillLinkedin,
-  AiFillTwitterCircle,
-  AiOutlineGlobal
-} from 'react-icons/ai'
-import { FaDiscord } from 'react-icons/fa'
 import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import chain from '@/config/chain'
@@ -16,6 +7,7 @@ import Image from 'next/image'
 import { truncateAddress } from '@/services/truncate'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 import useTranslation from '@/hooks/useTranslation'
+import { BsDiscord, BsFacebook, BsGlobe2, BsInstagram, BsLinkedin, BsTwitter } from 'react-icons/bs'
 
 interface StakePoolAboutProps {
   poolAddress: `0x${string}` | undefined
@@ -136,7 +128,6 @@ const {
       font-size: 18px;
       font-style: normal;
       font-weight: 500;
-      line-height: normal;
       color: ${({ theme }) => theme.color.blackAlpha[600]};
     }
   `,
@@ -145,8 +136,7 @@ const {
     font-size: ${({ theme }) => theme.font.size[14]};
     font-style: normal;
     font-weight: 400;
-    line-height: normal;
-    color: ${({ theme }) => theme.color.blackAlpha[600]};
+    color: ${({ theme }) => theme.color.blue[500]};
   `,
   DescriptionLoading: styled.div`
     display: flex;
@@ -173,43 +163,41 @@ const {
       font-size: ${({ theme }) => theme.font.size[12]};
       font-style: normal;
       font-weight: 500;
-      line-height: normal;
-
       color: ${({ theme }) => theme.color.blackAlpha[600]};
     }
 
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[600]};
+      background: ${({ theme }) => theme.color.whiteAlpha[800]};
     }
   `,
-  SiteIcon: styled(AiOutlineGlobal)`
-    width: 24px;
-    height: 24px;
+  SiteIcon: styled(BsGlobe2)`
+    width: 20px;
+    height: 20px;
     color: ${({ theme }) => theme.color.primary};
   `,
-  FacebookIcon: styled(AiFillFacebook)`
-    width: 24px;
-    height: 24px;
+  FacebookIcon: styled(BsFacebook)`
+    width: 20px;
+    height: 20px;
     color: ${({ theme }) => theme.color.primary};
   `,
-  InstagramIcon: styled(AiFillInstagram)`
-    width: 24px;
-    height: 24px;
+  InstagramIcon: styled(BsInstagram)`
+    width: 20px;
+    height: 20px;
     color: ${({ theme }) => theme.color.primary};
   `,
-  LinkedinIcon: styled(AiFillLinkedin)`
-    width: 24px;
-    height: 24px;
+  LinkedinIcon: styled(BsLinkedin)`
+    width: 20px;
+    height: 20px;
     color: ${({ theme }) => theme.color.primary};
   `,
-  TwitterIcon: styled(AiFillTwitterCircle)`
-    width: 24px;
-    height: 24px;
+  TwitterIcon: styled(BsTwitter)`
+    width: 20px;
+    height: 20px;
     color: ${({ theme }) => theme.color.primary};
   `,
-  DiscordIcon: styled(FaDiscord)`
-    width: 24px;
-    height: 24px;
+  DiscordIcon: styled(BsDiscord)`
+    width: 20px;
+    height: 20px;
     color: ${({ theme }) => theme.color.primary};
   `
 }

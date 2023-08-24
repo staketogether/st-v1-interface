@@ -179,10 +179,10 @@
       "annualRewards": "Annual Staking Rewards",
       "infoEmptyState": "New information coming soon!",
       "descriptionForm": {
-        "youReceive": "You Receive",
-        "exchange": "Exchange",
-        "rewardsFee": "Rewards Fee",
-        "transactionFee": "Transaction fee"
+        "youReceive": "You Receive:",
+        "exchange": "Exchange:",
+        "rewardsFee": "Rewards Fee:",
+        "transactionFee": "Transaction fee:"
       },
       "confirmModal": {
         "depositTitle": "Review Stake Request",
@@ -201,7 +201,8 @@
     "activities": {
       "deposit": "Deposit",
       "donationDeposit": "Donation",
-      "withdraw": "Withdraw"
+      "withdraw": "Withdraw",
+       "withdrawPool": "Withdraw" 
     }
   }
 }

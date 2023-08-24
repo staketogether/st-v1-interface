@@ -102,8 +102,9 @@ const { Header, CloseIcon, LocaleContainer, Button } = {
       transition: background 0.2s ease;
       font-weight: 400;
       border-radius: ${({ theme }) => theme.size[24]};
+      background: ${({ theme }) => theme.color.whiteAlpha[500]};
       &:hover {
-        background: ${({ theme }) => theme.color.whiteAlpha[900]};
+        background: ${({ theme }) => theme.color.whiteAlpha[800]};
         box-shadow: ${({ theme }) => theme.shadow[100]};
       }
 

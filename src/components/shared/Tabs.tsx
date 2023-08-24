@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { Tooltip } from 'antd'
 import { ReactNode, useState } from 'react'
-import useResizeView from '@/hooks/useResizeView'
 
 export type ItemsKey = number | string
 
@@ -34,13 +33,11 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, size 
     }
   }
 
-  const { screenWidth } = useResizeView()
-
   const activeChildren = items.find(item => item.key === activeKey)
 
   return (
     <Container>
-      <TabsContainer className={`${size}`} width={screenWidth}>
+      <TabsContainer className={`${size}`}>
         {items.map(item => {
           if (item.tooltip) {
             return (
@@ -50,7 +47,7 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, size 
                   ${activeKey === item.key ? 'active' : ''} 
                   ${size} 
                   ${item.disabled && 'disabled'}
-                  ${item.color ? item.color : 'primary'}`}
+                 `}
                   onClick={() => handleClickTab(item.key, !!item.disabled, item.onChange)}
                 >
                   {item.icon}
@@ -66,7 +63,7 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, size 
               ${activeKey === item.key ? 'active' : ''}
                ${size} 
                ${item.disabled && 'disabled'}
-               ${item.color ? item.color : 'primary'}`}
+               `}
               onClick={() => handleClickTab(item.key, !!item.disabled, item.onChange)}
             >
               {item.icon}
@@ -86,17 +83,21 @@ const { Container, TabItem, TabsContainer } = {
     display: flex;
     flex-direction: column;
   `,
-  TabsContainer: styled.div<{ width: number }>`
-    width: ${props => (props.width >= 468 ? '100%' : `${props.width - 24}px`)};
+  TabsContainer: styled.div`
+    width: 100%;
     border-bottom: 1px solid ${({ theme }) => theme.color.blue[50]};
-    display: flex;
 
+    display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[24]};
 
     overflow-y: auto;
     &::-webkit-scrollbar-thumb {
       background-color: transparent;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
     }
 
     &.middle {
@@ -118,12 +119,11 @@ const { Container, TabItem, TabsContainer } = {
 
     font-style: normal;
     font-weight: 400;
-    line-height: normal;
-    color: ${({ theme }) => theme.color.blackAlpha[500]};
+    color: ${({ theme }) => theme.color.primary};
 
     &.active {
       &.primary {
-        color: ${({ theme }) => theme.color.primary};
+        color: ${({ theme }) => theme.color.secondary};
       }
       &.purple {
         color: ${({ theme }) => theme.color.secondary};
@@ -131,15 +131,10 @@ const { Container, TabItem, TabsContainer } = {
     }
 
     &.small {
-      padding: ${({ theme }) => theme.size[4]} 2px;
+      padding: ${({ theme }) => theme.size[8]} 2px;
       font-size: ${({ theme }) => theme.font.size[14]};
       &.active {
-        &.primary {
-          border-bottom: 0px solid ${({ theme }) => theme.color.primary};
-        }
-        &.purple {
-          border-bottom: 0px solid ${({ theme }) => theme.color.secondary};
-        }
+        border-bottom: 1px solid ${({ theme }) => theme.color.secondary};
       }
     }
 
@@ -147,12 +142,7 @@ const { Container, TabItem, TabsContainer } = {
       padding: ${({ theme }) => theme.size[12]} 2px;
       font-size: ${({ theme }) => theme.font.size[14]};
       &.active {
-        &.primary {
-          border-bottom: 2px solid ${({ theme }) => theme.color.primary};
-        }
-        &.purple {
-          border-bottom: 2px solid ${({ theme }) => theme.color.secondary};
-        }
+        border-bottom: 1px solid ${({ theme }) => theme.color.secondary};
       }
     }
 
@@ -160,34 +150,19 @@ const { Container, TabItem, TabsContainer } = {
       padding: ${({ theme }) => theme.size[12]} 2px;
       font-size: ${({ theme }) => theme.font.size[16]};
       &.active {
-        &.primary {
-          border-bottom: 3px solid ${({ theme }) => theme.color.primary};
-        }
-        &.purple {
-          border-bottom: 3px solid ${({ theme }) => theme.color.secondary};
-        }
+        border-bottom: 2px solid ${({ theme }) => theme.color.secondary};
       }
     }
 
     &.disabled {
       cursor: not-allowed;
       &:hover {
-        &.primary {
-          color: ${({ theme }) => theme.color.blackAlpha[500]};
-        }
-        &.purple {
-          color: ${({ theme }) => theme.color.blackAlpha[500]};
-        }
+        color: ${({ theme }) => theme.color.blackAlpha[500]};
       }
     }
 
     &:hover {
-      &.primary {
-        color: ${({ theme }) => theme.color.primary};
-      }
-      &.purple {
-        color: ${({ theme }) => theme.color.secondary};
-      }
+      color: ${({ theme }) => theme.color.secondary};
     }
   `
 }

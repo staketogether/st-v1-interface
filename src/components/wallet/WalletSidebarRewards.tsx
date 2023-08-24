@@ -16,9 +16,9 @@ export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRe
   return (
     <Container>
       {accountRewards.length === 0 && (
-        <div>
+        <EmptyContainer>
           <span>{t('noRewards')}</span>
-        </div>
+        </EmptyContainer>
       )}
       {accountRewards.length > 0 && (
         <RewardsHeader>
@@ -38,7 +38,7 @@ export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRe
   )
 }
 
-const { Container, Reward, RewardsHeader } = {
+const { Container, Reward, RewardsHeader, EmptyContainer } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -53,6 +53,12 @@ const { Container, Reward, RewardsHeader } = {
 
     div > span:nth-child(2) > span {
       color: ${({ theme }) => theme.color.secondary};
+    }
+  `,
+  EmptyContainer: styled.div`
+    span {
+      width: 100%;
+      text-align: center;
     }
   `,
   RewardsHeader: styled.div`

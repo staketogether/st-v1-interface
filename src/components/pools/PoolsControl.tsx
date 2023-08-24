@@ -169,8 +169,6 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
         font-size: ${({ theme }) => theme.font.size[32]};
         font-style: normal;
         font-weight: 500;
-        line-height: normal;
-
         color: ${({ theme }) => theme.color.primary};
       }
     }
@@ -191,15 +189,17 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
     }
   `,
   Filters: styled.div`
-    width: 520px;
+    width: 100%;
     display: flex;
     gap: ${({ theme }) => theme.size[8]};
     align-items: center;
-    align-items: center;
     overflow-y: auto;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      width: auto;
-      height: auto;
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
     }
   `,
   FilterButton: styled.button`

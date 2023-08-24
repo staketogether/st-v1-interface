@@ -91,7 +91,6 @@ const { Container, Content, MaxValue, InputContainer } = {
       font-size: 14px;
       font-style: normal;
       font-weight: 400;
-      line-height: normal;
       color: ${({ theme }) => theme.color.blue[600]};
       &.purple {
         color: ${({ theme }) => theme.color.secondary};
@@ -111,7 +110,7 @@ const { Container, Content, MaxValue, InputContainer } = {
 
       &.disabled {
         border: 1px solid ${({ theme }) => theme.color.transparent};
-        background: ${({ theme }) => theme.color.blackAlpha[100]};
+        background: ${({ theme }) => theme.color.blue[50]};
       }
 
       &.error {
@@ -158,7 +157,7 @@ const { Container, Content, MaxValue, InputContainer } = {
 
     > span {
       font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.blackAlpha[700]};
+      color: ${({ theme }) => theme.color.blue[500]};
       font-weight: 500;
 
       &.error {
@@ -172,29 +171,15 @@ const { Container, Content, MaxValue, InputContainer } = {
     padding: 0px ${({ theme }) => theme.size[16]};
     border-radius: ${({ theme }) => theme.size[16]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background-color: ${({ theme }) => theme.color.blue[600]};
+    background-color: ${({ theme }) => theme.color.primary};
     color: ${({ theme }) => theme.color.white};
 
     &:hover {
-      background-color: ${({ theme }) => theme.color.blue[300]};
+      background-color: ${({ theme }) => theme.color.secondary};
     }
 
     &:disabled {
-      background-color: ${({ theme }) => theme.color.blue[100]};
       cursor: not-allowed;
-    }
-
-    &.purple {
-      background-color: ${({ theme }) => theme.color.purple[300]};
-
-      &:hover {
-        background-color: ${({ theme }) => theme.color.purple[400]};
-      }
-
-      &:disabled {
-        background-color: ${({ theme }) => theme.color.purple[200]};
-        cursor: not-allowed;
-      }
     }
 
     font-size: ${({ theme }) => theme.font.size[12]};

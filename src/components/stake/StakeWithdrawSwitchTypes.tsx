@@ -106,7 +106,6 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } =
         font-size: 13px;
         font-style: normal;
         font-weight: 400;
-        line-height: normal;
         color: ${({ theme }) => theme.color.secondary};
       }
     }
@@ -131,7 +130,6 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } =
         font-size: 12px;
         font-style: normal;
         font-weight: 400;
-        line-height: normal;
       }
       > span:nth-child(1) {
         color: ${({ theme }) => theme.color.blackAlpha[500]};
@@ -157,7 +155,6 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } =
         font-size: 12px;
         font-style: normal;
         font-weight: 400;
-        line-height: normal;
         color: ${({ theme }) => theme.color.blackAlpha[500]};
       }
       > span:nth-child(2) {

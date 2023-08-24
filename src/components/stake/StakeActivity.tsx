@@ -40,16 +40,19 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
                     }) || ''
                   : ''
                 return (
-                  <Row key={activity.txHash}>
+                  <Row
+                    key={activity.txHash}
+                    href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`}
+                    target='_blank'
+                  >
                     <span>{formatTimestamp}</span>
-                    <span>{t(`v2.activities.${activity.type}`)}</span>
+                    <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
                     <span className={`${activity.type.includes('deposit') ? 'green' : 'red'}`}>{`${truncateWei(
                       activity.amount,
-                      4
+                      5
                     )} ${t('eth.symbol')}`}</span>
-                    <Link href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`} target='_blank'>
-                      <ExternalLink />
-                    </Link>
+
+                    <ExternalLink />
                   </Row>
                 )
               })
@@ -81,16 +84,18 @@ const { Container, Row, ExternalLink } = {
       grid-template-columns: 1fr 1fr 1fr 30px;
       padding: ${({ theme }) => theme.size[8]};
       > span {
-        color: ${({ theme }) => theme.color.blackAlpha[600]};
+        color: ${({ theme }) => theme.color.blue[500]};
         font-size: ${({ theme }) => theme.font.size[14]};
         font-style: normal;
         font-weight: 500;
-        line-height: normal;
       }
     }
   `,
-  Row: styled.div`
+  Row: styled(Link)`
+    cursor: pointer;
     padding: 0px 8px;
+    padding-right: 8px;
+    padding-left: 14px;
     height: 32px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 30px;
@@ -99,12 +104,19 @@ const { Container, Row, ExternalLink } = {
     border-radius: 99px;
     background: ${({ theme }) => theme.color.whiteAlpha[500]};
 
-    > span {
-      color: ${({ theme }) => theme.color.blackAlpha[700]};
+    &:hover {
+      background: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
+
+    span {
+      color: ${({ theme }) => theme.color.primary};
       font-size: ${({ theme }) => theme.font.size[14]};
       font-style: normal;
       font-weight: 500;
-      line-height: normal;
+
+      &.purple {
+        color: ${({ theme }) => theme.color.secondary};
+      }
 
       &.green {
         color: ${({ theme }) => theme.color.green[500]};

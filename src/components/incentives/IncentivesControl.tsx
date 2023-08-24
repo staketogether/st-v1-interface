@@ -66,7 +66,10 @@ export default function IncentivesControl() {
                   <QuestionIcon />
                 </Tooltip>
               </div>
-              <span>{`0 ${t('lsd.symbol')}`}</span>
+              <div>
+                <span>{`0 `}</span>
+                <span className='purple'>{t('lsd.symbol')}</span>
+              </div>
             </Row>
             <Row>
               <div>
@@ -76,7 +79,10 @@ export default function IncentivesControl() {
                   <QuestionIcon />
                 </Tooltip>
               </div>
-              <span>{`0 ${t('lsd.symbol')}`}</span>
+              <div>
+                <span>{`0`}</span>
+                <span className='purple'>{t('lsd.symbol')}</span>
+              </div>
             </Row>
           </EligibilityList>
         </AirdropContainer>
@@ -117,14 +123,12 @@ const {
         font-size: ${({ theme }) => theme.font.size[32]};
         font-style: normal;
         font-weight: 500;
-        line-height: normal;
         color: ${({ theme }) => theme.color.primary};
       }
       h2 {
         font-size: ${({ theme }) => theme.font.size[14]};
         font-style: normal;
         font-weight: 500;
-        line-height: normal;
         color: ${({ theme }) => theme.color.blue[500]};
       }
     }
@@ -150,7 +154,6 @@ const {
       color: ${({ theme }) => theme.color.primary};
       font-style: normal;
       font-weight: 500;
-      line-height: normal;
     }
 
     > p {
@@ -158,7 +161,6 @@ const {
       color: ${({ theme }) => theme.color.primary};
       font-style: normal;
       font-weight: 400;
-      line-height: normal;
     }
 
     h4 {
@@ -166,7 +168,6 @@ const {
       color: ${({ theme }) => theme.color.blackAlpha[700]};
       font-style: normal;
       font-weight: 500;
-      line-height: normal;
     }
 
     span {
@@ -174,10 +175,10 @@ const {
       color: ${({ theme }) => theme.color.primary};
       font-style: normal;
       font-weight: 400;
-      line-height: normal;
     }
 
     button {
+      flex: 1;
       border-radius: ${props => props.theme.size[16]};
       transition: background-color 0.2s ease;
       height: 48px;
@@ -216,10 +217,12 @@ const {
     width: 100%;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     justify-content: space-between;
+    gap: ${({ theme }) => theme.size[32]};
     padding: ${({ theme }) => theme.size[24]};
     border-radius: ${({ theme }) => theme.size[16]};
-    background: ${({ theme }) => theme.color.white};
+    background: ${({ theme }) => theme.color.whiteAlpha[800]};
   `,
   AvailableToClaimContainer: styled.div`
     display: flex;
@@ -233,7 +236,6 @@ const {
         font-size: 14px;
         font-style: normal;
         font-weight: 500;
-        line-height: normal;
         color: ${({ theme }) => theme.color.blue[500]};
       }
       > span {
@@ -244,7 +246,6 @@ const {
         font-size: 22px;
         font-style: normal;
         font-weight: 400;
-        line-height: normal;
         color: ${({ theme }) => theme.color.primary};
 
         &.purple {
@@ -262,8 +263,6 @@ const {
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
     font-style: normal;
-    line-height: normal;
-
     > h3 {
       font-weight: 500;
     }
@@ -271,7 +270,12 @@ const {
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.size[4]};
+
       > span {
+        cursor: pointer;
+        &:hover {
+          color: ${({ theme }) => theme.color.secondary};
+        }
         font-weight: 400;
       }
     }
@@ -290,13 +294,18 @@ const {
     font-size: ${({ theme }) => theme.font.size[16]};
     color: ${({ theme }) => theme.color.primary};
     font-style: normal;
-    line-height: normal;
     font-weight: 400;
 
     > div {
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.size[8]};
+    }
+
+    span {
+      &.purple {
+        color: ${({ theme }) => theme.color.secondary};
+      }
     }
   `,
   ExternalLink: styled(FiExternalLink)`

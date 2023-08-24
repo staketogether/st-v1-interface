@@ -2,7 +2,7 @@ import StakePoolAbout from '@/components/stake/StakePoolAbout'
 import StakePoolMembers from '@/components/stake/StakePoolMembers'
 import { useState } from 'react'
 import { AiOutlineInfoCircle, AiOutlineUser } from 'react-icons/ai'
-import { BsGraphUp, BsShare } from 'react-icons/bs'
+import { BsFillShareFill, BsGraphUp } from 'react-icons/bs'
 import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
@@ -156,11 +156,10 @@ const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, ShareIcon
     align-items: center;
     justify-content: center;
 
-    &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-    }
+    background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
   `,
-  ShareIcon: styled(BsShare)`
-    font-size: ${({ theme }) => theme.font.size[16]};
+  ShareIcon: styled(BsFillShareFill)`
+    font-size: ${({ theme }) => theme.font.size[12]};
   `
 }

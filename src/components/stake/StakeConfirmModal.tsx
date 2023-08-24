@@ -7,6 +7,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import Modal from '../shared/Modal'
 import StakeTransactionLoading from './StakeTransactionLoading'
+import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 
 type StakeConfirmModalProps = {
   amount: string
@@ -70,7 +71,7 @@ export default function StakeConfirmModal({
                   <span>
                     {truncateDecimal(amount, 6)} <span className={'purple'}> {t('lsd.symbol')}</span>
                   </span>
-                  <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
+                  <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 </div>
               </ContainerPayment>
               <ContainerPayment>
@@ -79,7 +80,7 @@ export default function StakeConfirmModal({
                   <span>
                     {truncateWei(youReceive, 6)} <span className={'purple'}>{t('eth.symbol')}</span>{' '}
                   </span>
-                  <Image src={ethIcon} alt={t('stakeTogether')} width={36} height={36} />
+                  <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 </div>
               </ContainerPayment>
             </>
@@ -91,7 +92,7 @@ export default function StakeConfirmModal({
                   <span>
                     {truncateDecimal(amount, 6)} <span className={'purple'}>{t('eth.symbol')}</span>
                   </span>
-                  <Image src={ethIcon} alt={t('stakeTogether')} width={36} height={36} />
+                  <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 </div>
               </ContainerPayment>
               <ContainerPayment>
@@ -101,36 +102,19 @@ export default function StakeConfirmModal({
                     {truncateWei(youReceive, 6)}
                     <span className={'purple'}> {t('lsd.symbol')}</span>
                   </span>
-                  <Image src={sethIcon} alt={t('stakeTogether')} width={36} height={36} />
+                  <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 </div>
               </ContainerPayment>
             </>
           )}
           <Divider />
-          <ContainerInfoReview>
-            <InfoReview>
-              <span>{t('v2.stake.descriptionForm.exchange')}</span>
-              <div>
-                {isWithdraw ? (
-                  <>
-                    1<span className={`purple`}> {t('lsd.symbol')}</span> = {truncateWei(sharesByEthRatio, 6)}
-                    <span className={`purple`}> {t('eth.symbol')}</span>
-                  </>
-                ) : (
-                  <>
-                    1<span className={`purple`}> {t('eth.symbol')}</span> = {truncateWei(ethBySharesRatio, 6)}
-                    <span className={`purple`}> {t('lsd.symbol')}</span>
-                  </>
-                )}
-              </div>
-            </InfoReview>
-            {type === 'deposit' && (
-              <InfoReview>
-                <span>{`${t('v2.stake.descriptionForm.transactionFee')}`}</span>
-                <span>0.3%</span>
-              </InfoReview>
-            )}
-          </ContainerInfoReview>
+          <StakeDescriptionCheckout
+            amount={amount}
+            type={type}
+            youReceiveDeposit={youReceive}
+            sharesByEthRatio={sharesByEthRatio}
+            ethBySharesRatio={ethBySharesRatio}
+          />
           <Button onClick={onClick}>{labelButton}</Button>
         </>
       )}
@@ -138,10 +122,12 @@ export default function StakeConfirmModal({
   )
 }
 
-const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Button } = {
+const { ContainerPayment, Header, Divider, Button } = {
   Header: styled.div`
     display: grid;
     place-items: center;
+    font-size: ${({ theme }) => theme.font.size[18]};
+    font-weight: 500;
   `,
   ContainerPayment: styled.div`
     display: flex;
@@ -176,29 +162,11 @@ const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Butt
     background-color: ${({ theme }) => theme.color.blue[100]};
     border-radius: 12px;
   `,
-  ContainerInfoReview: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
-  `,
-  InfoReview: styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    span {
-      font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.primary};
-      &.purple {
-        color: ${({ theme }) => theme.color.secondary};
-      }
-    }
-  `,
   Button: styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     border-radius: ${props => props.theme.size[16]};
-    background: ${({ theme }) => theme.color.blue[600]};
+    background: ${({ theme }) => theme.color.primary};
     transition: background-color 0.2s ease;
     height: 48px;
 
@@ -210,7 +178,7 @@ const { ContainerPayment, Header, Divider, ContainerInfoReview, InfoReview, Butt
     gap: ${({ theme }) => theme.size[8]};
 
     &:hover {
-      background: ${({ theme }) => theme.color.blue[500]};
+      background: ${({ theme }) => theme.color.secondary};
     }
 
     &:disabled {

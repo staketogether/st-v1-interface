@@ -19,9 +19,9 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
   return (
     <Container>
       {accountDelegations.length === 0 && (
-        <div>
+        <EmptyContainer>
           <span>{t('noStake')}</span>
-        </div>
+        </EmptyContainer>
       )}
       {accountDelegations.map((delegation, index) => (
         <DelegatedPool
@@ -45,7 +45,7 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
   )
 }
 
-const { Container, DelegatedPool } = {
+const { Container, DelegatedPool, EmptyContainer } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -62,6 +62,12 @@ const { Container, DelegatedPool } = {
       color: ${({ theme }) => theme.color.secondary};
     }
   `,
+  EmptyContainer: styled.div`
+    span {
+      width: 100%;
+      text-align: center;
+    }
+  `,
   DelegatedPool: styled(Link)`
     display: flex;
     justify-content: space-between;
@@ -69,7 +75,10 @@ const { Container, DelegatedPool } = {
     align-self: stretch;
     border-radius: ${({ theme }) => theme.size[16]};
     padding: ${({ theme }) => theme.size[8]};
-    background-color: ${({ theme }) => theme.color.blackAlpha[50]};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[500]};
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
 
     > div {
       display: flex;
