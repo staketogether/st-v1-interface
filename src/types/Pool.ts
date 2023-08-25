@@ -7,6 +7,7 @@ export type PoolSubgraph = {
   account: Account
   active: boolean
   poolBalance: bigint
+  poolShares: bigint
   delegations: Delegation[]
   receivedDelegationsCount: bigint
 } & ENSPool

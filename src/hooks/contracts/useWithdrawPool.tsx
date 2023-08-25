@@ -17,6 +17,13 @@ import useTranslation from '../useTranslation'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import { useCalculateDelegationPercentage } from './useCalculateDelegationPercentage'
 import { WithdrawType } from '@/types/Withdraw'
+import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
+import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
+import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
+import { queryPools } from '@/queries/subgraph/queryPools'
+import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
+import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -95,7 +102,8 @@ export default function useWithdrawPool(
   }
 
   const { isLoading, isSuccess, isError } = useWaitForTransaction({
-    hash: txHash
+    hash: txHash,
+    confirmations: 2
   })
 
   const { t } = useTranslation()
@@ -108,7 +116,18 @@ export default function useWithdrawPool(
   useEffect(() => {
     if (isSuccess && withdrawAmount && accountAddress) {
       apolloClient.refetchQueries({
-        include: [queryAccount, queryPool, queryDelegationShares]
+        include: [
+          queryAccount,
+          queryPool,
+          queryDelegationShares,
+          queryAccountActivities,
+          queryAccountDelegations,
+          queryAccountRewards,
+          queryPoolActivities,
+          queryPools,
+          queryPoolsMarketShare,
+          queryStakeTogether
+        ]
       })
 
       registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.POOL)

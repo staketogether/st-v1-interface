@@ -6,4 +6,5 @@ export type StakeTogether = {
   totalRewards: bigint
   totalIncentives: bigint
   totalValueLocked: bigint
+  totalPoolShares: bigint
 }

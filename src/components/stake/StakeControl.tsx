@@ -10,6 +10,8 @@ import StakePoolInfo from './StakePoolInfo'
 import usePool from '@/hooks/subgraphs/usePool'
 import { truncateWei } from '@/services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import { ethers } from 'ethers'
+import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -21,6 +23,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { isActive } = useActiveRoute()
 
   const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress, { first: 10, skip: 0 })
+  const { stakeTogether } = useStakeTogether()
 
   const router = useRouter()
   const handleSwitch = (type: string) => {
@@ -57,6 +60,17 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
     }
   ]
   const activeTab = isActive('deposit') ? 'deposit' : 'withdraw'
+  let poolMarketShare = 0
+
+  if (pool?.poolShares && stakeTogether?.totalPoolShares) {
+    const marketShare =
+      (BigInt(pool.poolShares) * BigInt(ethers.parseEther('1'))) / BigInt(stakeTogether.totalPoolShares)
+    poolMarketShare = (Number(marketShare) / Number(ethers.parseEther('1'))) * 100
+  }
+
+  // if (pool?.marketShare && pool.marketShare > 0n) {
+  //   poolMarketShare = (Number(pool.marketShare) / Number(ethers.parseEther('1'))) * 100
+  // }
 
   return (
     <Container>
@@ -73,9 +87,9 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
         <div>
           <span>TVL</span>
           {!!pool?.poolBalance && !initialLoading ? (
-            <span className='primary'>{`${truncateWei(pool?.poolBalance, 3)} ${t('eth.symbol')} (${
-              pool?.marketShare
-            }%)`}</span>
+            <span className='primary'>{`${truncateWei(pool?.poolBalance, 5)} ${t(
+              'eth.symbol'
+            )} (${poolMarketShare.toFixed(2)}%)`}</span>
           ) : (
             <SkeletonLoading height={14} width={100} />
           )}

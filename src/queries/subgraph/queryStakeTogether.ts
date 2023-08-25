@@ -10,6 +10,7 @@ export const queryStakeTogether = gql`
       totalValueLocked
       contractBalance
       beaconBalance
+      totalPoolShares
     }
   }
 `
