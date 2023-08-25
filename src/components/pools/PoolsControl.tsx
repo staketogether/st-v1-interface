@@ -177,15 +177,15 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
     }
   `,
   FiltersContainer: styled.div`
-    display: flex;
+    width: 100%;
+    display: grid;
     flex-wrap: wrap;
     flex-wrap: wrap-reverse;
     gap: ${({ theme }) => theme.size[24]};
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       justify-content: space-between;
-    }
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       gap: ${({ theme }) => theme.size[16]};
+      grid-template-columns: auto auto;
     }
   `,
   Filters: styled.div`
