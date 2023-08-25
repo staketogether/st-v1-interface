@@ -67,13 +67,13 @@ export default function useWithdrawPool(
   })
 
   useEffect(() => {
-    const handleMaxValue = async () => {
+    const handleEstimateGas = async () => {
       const { estimatedCost } = await estimateGas()
       if (estimatedCost > 0n) {
         setEstimateGasCost(estimatedCost)
       }
     }
-    handleMaxValue()
+    handleEstimateGas()
   }, [estimateGas])
 
   const { config } = usePrepareStakeTogetherWithdrawPool({
