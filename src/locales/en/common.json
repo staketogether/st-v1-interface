@@ -202,7 +202,7 @@
       "deposit": "Deposit",
       "donationDeposit": "Donation",
       "withdraw": "Withdraw",
-       "withdrawPool": "Withdraw" 
+      "withdrawPool": "Withdraw"
     }
   }
 }
