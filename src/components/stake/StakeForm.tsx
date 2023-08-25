@@ -295,7 +295,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               </header>
               <div>
                 <span>{truncateWei(ethBalance, 6)}</span>
-                <span>{t('eth.symbol')}</span>
+                <span className='purple'>{t('eth.symbol')}</span>
               </div>
             </CardInfoData>
           </CardInfo>

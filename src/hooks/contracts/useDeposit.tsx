@@ -18,6 +18,13 @@ import useEstimateTxInfo from '../useEstimateTxInfo'
 import { truncateWei } from '@/services/truncate'
 import { ethers } from 'ethers'
 import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
+import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
+import { queryPools } from '@/queries/subgraph/queryPools'
+import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
+import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
+import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
+import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
+import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 
 export default function useDeposit(
   netDepositAmount: bigint,
@@ -60,7 +67,8 @@ export default function useDeposit(
   const referral = '0x0000000000000000000000000000000000000000'
 
   const { isLoading, isSuccess, isError } = useWaitForTransaction({
-    hash: txHash
+    hash: txHash,
+    confirmations: 2
   })
 
   const { estimateGas } = useEstimateTxInfo({
@@ -131,7 +139,18 @@ export default function useDeposit(
   useEffect(() => {
     if (isSuccess && accountAddress) {
       apolloClient.refetchQueries({
-        include: [queryAccount, queryPool, queryDelegationShares]
+        include: [
+          queryAccount,
+          queryPool,
+          queryDelegationShares,
+          queryAccountActivities,
+          queryAccountDelegations,
+          queryAccountRewards,
+          queryPoolActivities,
+          queryPools,
+          queryPoolsMarketShare,
+          queryStakeTogether
+        ]
       })
       registerDeposit(accountAddress, chainId, poolAddress, truncateWei(netDepositAmount, 4))
       if (notify) {

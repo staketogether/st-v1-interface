@@ -39,7 +39,10 @@ export default function StakeWithdrawSwitchTypes({
           </div>
           <div>
             <span>{t('withdrawCardsType.liquidity')}</span>
-            <span>{`${truncateWei(liquidityPoolBalance, 4)} ETH`}</span>
+            <div>
+              <span>{`${truncateWei(liquidityPoolBalance, 4)} `}</span>
+              <span className='purple'>{t('eth.symbol')}</span>
+            </div>
           </div>
         </RateInfo>
         <Time>
@@ -65,7 +68,10 @@ export default function StakeWithdrawSwitchTypes({
           </div>
           <div>
             <span>{t('withdrawCardsType.liquidity')}</span>
-            <span>{`${truncateWei(liquidityValidatorsBalance, 4)} ETH`}</span>
+            <div>
+              <span>{`${truncateWei(liquidityValidatorsBalance, 4)} `}</span>
+              <span className='purple'>{t('eth.symbol')}</span>
+            </div>
           </div>
         </RateInfo>
         <Time>
@@ -95,7 +101,7 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } =
     cursor: pointer;
 
     border-radius: 16px;
-    background: white;
+    background: ${({ theme }) => theme.color.whiteAlpha[500]};
 
     > header {
       display: flex;
@@ -112,7 +118,7 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } =
 
     &:hover,
     &.active {
-      border: 2px solid ${({ theme }) => theme.color.secondary};
+      background: ${({ theme }) => theme.color.whiteAlpha[800]};
     }
 
     &.disabled {
@@ -130,12 +136,11 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } =
         font-size: 12px;
         font-style: normal;
         font-weight: 400;
-      }
-      > span:nth-child(1) {
-        color: ${({ theme }) => theme.color.blackAlpha[500]};
-      }
-      > span:nth-child(2) {
         color: ${({ theme }) => theme.color.primary};
+
+        &.purple {
+          color: ${({ theme }) => theme.color.secondary};
+        }
       }
     }
   `,
