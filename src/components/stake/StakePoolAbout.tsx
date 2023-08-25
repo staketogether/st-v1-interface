@@ -53,7 +53,7 @@ export default function StakePoolAbout({ poolAddress }: StakePoolAboutProps) {
           )}
           {poolDetail?.contract && (
             <Social href={`${chain().blockExplorer.baseUrl}/address/${poolDetail.contract}`} target='_blank'>
-              <Image src={etherscan} alt='etherscan' width={24} height={24} />
+              <Image src={etherscan} alt='etherscan' width={20} height={20} />
               <span>{truncateAddress(poolDetail.contract)}</span>
             </Social>
           )}
