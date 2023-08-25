@@ -147,12 +147,6 @@ const { Container, Content, MaxValue, InputContainer } = {
       &.error {
         color: ${({ theme }) => theme.color.red[300]};
       }
-
-      &.purple {
-        &::-webkit-input-placeholder {
-          color: ${({ theme }) => theme.color.purple[300]};
-        }
-      }
     }
 
     > span {
