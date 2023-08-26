@@ -1,13 +1,12 @@
-import useTranslation from '@/hooks/useTranslation'
-import React from 'react'
-import styled from 'styled-components'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { styled } from 'styled-components'
 
 type PoolsEmptyStateProps = {
   handleClickButton: () => void
 }
 
 export default function PoolsEmptyState({ handleClickButton }: PoolsEmptyStateProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   return (
     <Container>
       <h4>{t('v2.pools.emptyList')}</h4>

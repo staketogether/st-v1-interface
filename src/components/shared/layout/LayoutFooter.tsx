@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import packageData from '../../../../package.json'
 
 export default function LayoutFooter() {

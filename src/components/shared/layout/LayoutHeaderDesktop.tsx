@@ -1,13 +1,13 @@
 import Wallet from '@/components/wallet/Wallet'
 import Image from 'next/image'
 import Link from 'next/link'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
-import useTranslation from '../../../hooks/useTranslation'
+import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 
 export default function LayoutHeader() {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   const { isActive } = useActiveRoute()
   return (

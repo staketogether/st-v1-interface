@@ -1,9 +1,13 @@
 import chainConfig from '@/config/chain'
-import useWeiByShares from '@/hooks/contracts/useWeiByShares'
+import useDeposit from '@/hooks/contracts/useDeposit'
 import useSharesByWei from '@/hooks/contracts/useSharesByWei'
+import useWeiByShares from '@/hooks/contracts/useWeiByShares'
+import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
+import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
 import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValidatorBalance'
 import useDelegationShares from '@/hooks/subgraphs/useDelegationShares'
+import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { WithdrawType } from '@/types/Withdraw'
@@ -12,24 +16,20 @@ import stIcon from '@assets/icons/seth-icon.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
-import styled from 'styled-components'
+import { AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai'
+import { BsWallet } from 'react-icons/bs'
+import { styled } from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useStConfig from '../../hooks/contracts/useStConfig'
-import useTranslation from '../../hooks/useTranslation'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import { truncateWei } from '../../services/truncate'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
-import useDeposit from '@/hooks/contracts/useDeposit'
-import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
-import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
-import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
-import { BsWallet } from 'react-icons/bs'
-import { AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai'
 
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 
@@ -40,7 +40,7 @@ type StakeFormProps = {
 }
 
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   const {
     balance: ethBalance,

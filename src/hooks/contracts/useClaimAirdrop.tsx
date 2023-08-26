@@ -1,11 +1,11 @@
-import { airdropABI, useAirdropClaim, usePrepareAirdropClaim } from '@/types/Contracts'
 import chainConfig from '@/config/chain'
-import { useEffect, useState } from 'react'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
-import { useWaitForTransaction } from 'wagmi'
-import useTranslation from '@/hooks/useTranslation'
 import useEstimateTxInfo from '@/hooks/useEstimateTxInfo'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { airdropABI, useAirdropClaim, usePrepareAirdropClaim } from '@/types/Contracts'
 import { notification } from 'antd'
+import { useEffect, useState } from 'react'
+import { useWaitForTransaction } from 'wagmi'
 
 interface UseClaimAirdropProps {
   epoch?: bigint
@@ -35,7 +35,7 @@ export const useClaimAirdrop = ({
   const [estimatedGasCost, setEstimatedGasCost] = useState(0n)
 
   const { registerAirdropClaim } = useMixpanelAnalytics()
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,

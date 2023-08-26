@@ -1,8 +1,8 @@
-import * as i18next from 'next-i18next'
+import { useTranslation } from 'next-i18next'
 import { useCallback } from 'react'
 
-export default function useTranslation() {
-  const { t } = i18next.useTranslation('common')
+export default function useLocaleTranslation() {
+  const { t } = useTranslation(['common'])
 
   const translation = useCallback(
     (key: string) => {

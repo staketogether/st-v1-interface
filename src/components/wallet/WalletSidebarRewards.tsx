@@ -1,16 +1,15 @@
-import useTranslation from '@/hooks/useTranslation'
-import React from 'react'
-import styled, { useTheme } from 'styled-components'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { AccountReward } from '@/types/AccountReward'
 import { AiOutlineLink } from 'react-icons/ai'
+import { styled, useTheme } from 'styled-components'
 
 type WalletSidebarRewards = {
   accountRewards: AccountReward[]
 }
 
 export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRewards) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const theme = useTheme()
 
   return (

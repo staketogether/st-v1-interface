@@ -1,6 +1,6 @@
-import styled from 'styled-components'
 import { Tooltip } from 'antd'
 import { ReactNode, useState } from 'react'
+import { styled } from 'styled-components'
 
 export type ItemsKey = number | string
 

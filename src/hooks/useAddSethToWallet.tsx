@@ -1,11 +1,11 @@
-import { useAccount } from 'wagmi'
 import chainConfig from '@/config/chain'
-import useTranslation from './useTranslation'
+import { useAccount } from 'wagmi'
+import useLocaleTranslation from './useLocaleTranslation'
 
 export default function useAddSethToWallet() {
   const { connector, isConnected } = useAccount()
   const { contracts } = chainConfig()
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const addToWalletAction = () => {
     if (connector && isConnected) {
       connector.watchAsset?.({

@@ -1,12 +1,12 @@
-import useTranslation from '@/hooks/useTranslation'
+import Wallet from '@/components/wallet/Wallet'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import Image from 'next/image'
 import Link from 'next/link'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
-import Wallet from '@/components/wallet/Wallet'
 
 export default function LayoutHeaderMobile() {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   return (
     <Container>
       <Content>

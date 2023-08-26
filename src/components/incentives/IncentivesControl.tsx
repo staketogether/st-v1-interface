@@ -1,19 +1,18 @@
-import useConnectedAccount from '@/hooks/useConnectedAccount'
-import useTranslation from '@/hooks/useTranslation'
-import { Tooltip } from 'antd'
-import React from 'react'
-import { AiFillCheckCircle, AiOutlineClose, AiOutlineQuestionCircle } from 'react-icons/ai'
-import { FiExternalLink } from 'react-icons/fi'
-import styled from 'styled-components'
 import WalletSidebarDisconnected from '@/components/wallet/WalletSidebarDisconnected'
+import { useClaimAirdrop } from '@/hooks/contracts/useClaimAirdrop'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import stIcon from '@assets/icons/seth-icon.svg'
+import { Tooltip } from 'antd'
 import Image from 'next/image'
-import { useClaimAirdrop } from '@/hooks/contracts/useClaimAirdrop'
+import { AiFillCheckCircle, AiOutlineClose, AiOutlineQuestionCircle } from 'react-icons/ai'
+import { FiExternalLink } from 'react-icons/fi'
+import { styled } from 'styled-components'
 
 export default function IncentivesControl() {
   const { accountIsConnected, account } = useConnectedAccount()
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { claim } = useClaimAirdrop({

@@ -1,20 +1,19 @@
-import useTranslation from '@/hooks/useTranslation'
-import React from 'react'
-import styled from 'styled-components'
+import chainConfig from '@/config/chain'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { AccountActivity } from '@/types/AccountActivity'
 import { DateTime } from 'luxon'
-import { useRouter } from 'next/router'
-import chainConfig from '@/config/chain'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { AiOutlineLink } from 'react-icons/ai'
+import { styled } from 'styled-components'
 
 type WalletSidebarActivities = {
   accountActivities: AccountActivity[]
 }
 
 export default function WalletSidebarActivities({ accountActivities }: WalletSidebarActivities) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const router = useRouter()
   const { blockExplorer } = chainConfig()
   return (

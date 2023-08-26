@@ -1,11 +1,11 @@
+import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
 import { truncateWei } from '@/services/truncate'
-import styled from 'styled-components'
-import useTranslation from '../../hooks/useTranslation'
+import Link from 'next/link'
+import { styled } from 'styled-components'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
-import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
-import Link from 'next/link'
-import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
 
 type PoolsCardProps = {
   poolAddress: `0x${string}`
@@ -16,7 +16,7 @@ type PoolsCardProps = {
 
 export default function PoolsCard({ poolAddress, members, staked, type }: PoolsCardProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   return (
     <Card href={`/pools/deposit/${poolAddress}`}>

@@ -1,10 +1,10 @@
 import ethIcon from '@assets/icons/eth-icon.svg'
 import stIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
-import styled from 'styled-components'
 import useCoinConversion from '../../hooks/useCoinConversion'
-import useTranslation from '../../hooks/useTranslation'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import { truncateDecimal } from '../../services/truncate'
+import styled from 'styled-components'
 
 interface StakeInputProps {
   value: string
@@ -27,7 +27,7 @@ export default function StakeFormInput({
   purple,
   hasError
 }: StakeInputProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   const { price, settingCurrency } = useCoinConversion(value)
 

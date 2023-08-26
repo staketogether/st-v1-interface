@@ -1,7 +1,7 @@
-import useTranslation from './useTranslation'
+import useLocaleTranslation from './useLocaleTranslation'
 
 export default function usePoolTypeTranslation() {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const filterTypes = [
     {
       name: t('v2.pools.filter.all'),

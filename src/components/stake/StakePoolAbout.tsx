@@ -1,13 +1,13 @@
-import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
-import styled from 'styled-components'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import chain from '@/config/chain'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { truncateAddress } from '@/services/truncate'
 import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
-import { truncateAddress } from '@/services/truncate'
-import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
-import useTranslation from '@/hooks/useTranslation'
 import { BsDiscord, BsFacebook, BsGlobe2, BsInstagram, BsLinkedin, BsTwitter } from 'react-icons/bs'
+import { styled } from 'styled-components'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 
 interface StakePoolAboutProps {
   poolAddress: `0x${string}` | undefined
@@ -16,7 +16,7 @@ interface StakePoolAboutProps {
 export default function StakePoolAbout({ poolAddress }: StakePoolAboutProps) {
   const { poolDetail, loading } = useContentfulPoolDetails(poolAddress)
   const videoId = poolDetail?.video ? poolDetail?.video.split('v=')[1] : null
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   return (
     <Container>
       {loading && <SkeletonLoading height={18} width={237} />}

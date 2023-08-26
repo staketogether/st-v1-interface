@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 import chainConfig from '@/config/chain'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { AiOutlineSwap } from 'react-icons/ai'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useStAccount from '../../hooks/subgraphs/useStAccount'
-import useTranslation from '../../hooks/useTranslation'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 import { truncateWei } from '../../services/truncate'
 import EnsAvatar from '../shared/ens/EnsAvatar'
@@ -21,7 +21,7 @@ type WalletConnectedButtonProps = {
 
 export default function WalletConnectedButton({ address, showBalance = true }: WalletConnectedButtonProps) {
   const { setOpenSidebar } = useWalletSidebar()
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   const chain = chainConfig()
 

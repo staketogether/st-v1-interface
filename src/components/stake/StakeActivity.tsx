@@ -1,15 +1,14 @@
-import React from 'react'
-import { AiOutlineLink } from 'react-icons/ai'
-import styled from 'styled-components'
-import { DateTime } from 'luxon'
-import { useRouter } from 'next/router'
-import { truncateWei } from '@/services/truncate'
-import useTranslation from '@/hooks/useTranslation'
-import Link from 'next/link'
 import chainConfig from '@/config/chain'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { truncateWei } from '@/services/truncate'
+import { ActivitiesPool } from '@/types/ActivitiesPool'
+import { DateTime } from 'luxon'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { AiOutlineLink } from 'react-icons/ai'
+import { styled } from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
-import { ActivitiesPool } from '@/types/ActivitiesPool'
 
 type StakeActivityProps = {
   poolActivities: ActivitiesPool[]
@@ -17,7 +16,7 @@ type StakeActivityProps = {
 }
 export default function StakeActivity({ poolActivities, isLoading }: StakeActivityProps) {
   const router = useRouter()
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const { blockExplorer } = chainConfig()
   return (
     <Container>

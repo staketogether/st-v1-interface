@@ -1,11 +1,11 @@
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { AiOutlineLogin } from 'react-icons/ai'
-import styled from 'styled-components'
-import useTranslation from '../../hooks/useTranslation'
+import { styled } from 'styled-components'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import WalletSidebarDisconnected from './WalletSidebarDisconnected'
 
 export default function WalletConnectButton() {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
