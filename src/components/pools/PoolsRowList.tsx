@@ -1,11 +1,11 @@
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
 import { truncateWei } from '@/services/truncate'
 import Link from 'next/link'
 import styled from 'styled-components'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
-import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
-import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
-import useTranslation from '@/hooks/useTranslation'
 
 type PoolsRowListProps = {
   poolAddress: `0x${string}`
@@ -16,7 +16,7 @@ type PoolsRowListProps = {
 
 export default function PoolsRowList({ poolAddress, members, staked, type }: PoolsRowListProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   return (
     <Row href={`/pools/deposit/${poolAddress}`}>
       <Name>

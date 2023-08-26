@@ -1,13 +1,13 @@
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
-import useTranslation from '@/hooks/useTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
 import styled from 'styled-components'
 import Modal from '../shared/Modal'
-import StakeTransactionLoading from './StakeTransactionLoading'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
+import StakeTransactionLoading from './StakeTransactionLoading'
 
 type StakeConfirmModalProps = {
   amount: string
@@ -39,7 +39,7 @@ export default function StakeConfirmModal({
   onClose
 }: StakeConfirmModalProps) {
   const { isOpen } = useStakeConfirmModal()
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const isWithdraw = type === 'withdraw'
   const titleModal = isWithdraw
     ? t('v2.stake.confirmModal.withdrawTitle')

@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
 import useSearchPools from '@/hooks/subgraphs/useSearchPools'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
-import useTranslation from '@/hooks/useTranslation'
 import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
 import Fuse from 'fuse.js'
 import { useState } from 'react'
@@ -20,7 +20,7 @@ type PoolsListProps = {
 export default function PoolsControl({ pools }: PoolsListProps) {
   const [search, setSearch] = useState<string>('')
   const [activeFilters, setActiveFilters] = useState<string[]>(['all'])
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const { poolTypeTranslation } = usePoolTypeTranslation()
 
   const filterTypes = [

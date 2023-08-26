@@ -1,6 +1,17 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
+import { useCalculateDelegationPercentage } from '@/hooks/contracts/useCalculateDelegationPercentage'
+import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
+import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
+import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
+import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
 import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
+import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
+import { queryPools } from '@/queries/subgraph/queryPools'
+import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
+import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import { truncateWei } from '@/services/truncate'
 import { notification } from 'antd'
+import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
@@ -12,19 +23,8 @@ import {
   usePrepareStakeTogetherDepositPool,
   useStakeTogetherDepositPool
 } from '../../types/Contracts'
-import useTranslation from '../useTranslation'
-import { useCalculateDelegationPercentage } from '@/hooks/contracts/useCalculateDelegationPercentage'
 import useEstimateTxInfo from '../useEstimateTxInfo'
-import { truncateWei } from '@/services/truncate'
-import { ethers } from 'ethers'
-import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
-import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
-import { queryPools } from '@/queries/subgraph/queryPools'
-import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
-import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
-import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
-import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
-import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import useLocaleTranslation from '../useLocaleTranslation'
 
 export default function useDeposit(
   netDepositAmount: bigint,
@@ -128,7 +128,7 @@ export default function useDeposit(
     setNotify(true)
   }
 
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   const resetState = () => {
     setAwaitWalletAction(false)

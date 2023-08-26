@@ -34,8 +34,8 @@
         "paths": [
           {
             "name": "react-i18next",
-            "importNames": ["useTranslation"],
-            "message": "Import useTranslation from next-i18next instead."
+            "importNames": ["useLocaleTranslation"],
+            "message": "Import useLocaleTranslation from next-i18next instead."
           }
         ]
       }

@@ -1,5 +1,5 @@
-import { useCallback } from 'react'
 import { config } from '@/config/wagmi'
+import { useCallback } from 'react'
 import { useFeeData } from 'wagmi'
 
 interface UseEstimateTxInfoProps {

@@ -1,17 +1,17 @@
 import StakePoolAbout from '@/components/stake/StakePoolAbout'
 import StakePoolMembers from '@/components/stake/StakePoolMembers'
+import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
+import { PoolSubgraph } from '@/types/Pool'
+import { Tooltip } from 'antd'
 import { useState } from 'react'
 import { AiOutlineInfoCircle, AiOutlineUser } from 'react-icons/ai'
 import { BsFillShareFill, BsGraphUp } from 'react-icons/bs'
 import styled from 'styled-components'
-import useTranslation from '../../hooks/useTranslation'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
-import { Tooltip } from 'antd'
-import { PoolSubgraph } from '@/types/Pool'
 import StakeActivity from './StakeActivity'
-import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}`
@@ -28,7 +28,7 @@ export default function StakePoolInfo({
   initialLoadingPoolData,
   loadMoreLoadingPoolData
 }: StakeStatsProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const [skip, setSkip] = useState(0)
 
   const handleLoadMore = () => {

@@ -1,7 +1,7 @@
 import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
 import useGetFaucet from '@/hooks/useGetFaucet'
-import useTranslation from '@/hooks/useTranslation'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import walletImage from '@assets/images/buy-eth-modal/walletImage.jpg'
 import Image, { StaticImageData } from 'next/image'
@@ -23,7 +23,7 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
   const [getFaucetError, setGetFaucetError] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const { openModal, setOpenModal } = useWalletByEthModal()
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const ethGifSuccess = `/assets/gifs/getEth.gif`
   const recaptchaRef = useRef<ReCAPTCHA>(null)
   const { recaptchakey } = globalConfig

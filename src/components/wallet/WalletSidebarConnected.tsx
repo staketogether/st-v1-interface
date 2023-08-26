@@ -1,11 +1,13 @@
+import WalletSidebarActivities from '@/components/wallet/WalletSidebarActivities'
+import WalletSidebarRewards from '@/components/wallet/WalletSidebarRewards'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
-import { Drawer, notification } from 'antd'
-import Image from 'next/image'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import stIcon from '@assets/icons/seth-icon.svg'
+import { Drawer, notification } from 'antd'
+import Image from 'next/image'
 import { useState } from 'react'
 import {
   AiOutlineBarChart,
@@ -21,7 +23,7 @@ import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useStAccount from '../../hooks/subgraphs/useStAccount'
-import useTranslation from '../../hooks/useTranslation'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
 import Tabs, { TabsItems } from '../shared/Tabs'
@@ -30,8 +32,6 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
 import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
 import WalletSidebarSettings from './WalletSidebarSettings'
-import WalletSidebarRewards from '@/components/wallet/WalletSidebarRewards'
-import WalletSidebarActivities from '@/components/wallet/WalletSidebarActivities'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -40,7 +40,7 @@ type WalletSidebarConnectedProps = {
 export default function WalletSidebarConnected({ address }: WalletSidebarConnectedProps) {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const { disconnect } = useDisconnect()
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
   const { balance: ethBalance, refetch } = useEthBalanceOf(address)

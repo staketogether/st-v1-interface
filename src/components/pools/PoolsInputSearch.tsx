@@ -1,4 +1,4 @@
-import useTranslation from '@/hooks/useTranslation'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai'
 import styled from 'styled-components'
 
@@ -8,7 +8,7 @@ type PoolsInputSearchProps = {
 }
 
 export default function PoolsInputSearch({ search, setSearch }: PoolsInputSearchProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   return (
     <InputSearchArea>
       <button>

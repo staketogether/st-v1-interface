@@ -1,29 +1,29 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
+import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
+import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
+import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
 import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
+import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
+import { queryPools } from '@/queries/subgraph/queryPools'
+import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
+import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import { WithdrawType } from '@/types/Withdraw'
 import { notification } from 'antd'
+import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-import { ethers } from 'ethers'
 import {
   stakeTogetherABI,
   usePrepareStakeTogetherWithdrawPool,
   useStakeTogetherWithdrawPool
 } from '../../types/Contracts'
-import useTranslation from '../useTranslation'
 import useEstimateTxInfo from '../useEstimateTxInfo'
+import useLocaleTranslation from '../useLocaleTranslation'
 import { useCalculateDelegationPercentage } from './useCalculateDelegationPercentage'
-import { WithdrawType } from '@/types/Withdraw'
-import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
-import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
-import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
-import { queryPools } from '@/queries/subgraph/queryPools'
-import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
-import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
-import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -106,7 +106,7 @@ export default function useWithdrawPool(
     confirmations: 2
   })
 
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   const resetState = () => {
     setAwaitWalletAction(false)

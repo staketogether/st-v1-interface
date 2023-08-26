@@ -1,10 +1,11 @@
 import useActiveRoute from '@/hooks/useActiveRoute'
-import { useTranslation } from 'next-i18next'
+
 import Link from 'next/link'
 import { AiOutlineGift, AiOutlineRise } from 'react-icons/ai'
 import styled from 'styled-components'
+import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 function LayoutMenuMobile() {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   return (
     <Container>

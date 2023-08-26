@@ -1,14 +1,14 @@
-import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import styled from 'styled-components'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
 type WalletSlideBarSettingsProps = {
   setIsSettingsActive: (value: boolean) => void
 }
 
 export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSlideBarSettingsProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const router = useRouter()
 
   const changeLocale = (newLocale: string) => {

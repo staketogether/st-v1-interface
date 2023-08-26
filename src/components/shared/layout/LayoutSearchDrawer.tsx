@@ -11,14 +11,14 @@ import { useRouter } from 'next/router'
 import { AiOutlineArrowLeft, AiOutlineSearch } from 'react-icons/ai'
 
 import useSearchPools from '../../../hooks/subgraphs/useSearchPools'
-import useTranslation from '../../../hooks/useTranslation'
+import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
 
 export default function LayoutSearchDrawer() {
   const { isOpen, setOpenSearchDrawer } = useSearchDrawer()
   const [text, setText] = useState<string>('')
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const router = useRouter()
   const pathname = router.pathname
   const { pools, poolsIsLoading } = usePools()

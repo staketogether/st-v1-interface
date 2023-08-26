@@ -1,16 +1,16 @@
-import styled from 'styled-components'
-import Image from 'next/image'
+import chainConfig from '@/config/chain'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { useNetworkGasPrice } from '@/hooks/useNetworkGasPrice'
+import { capitalize, truncateDecimal } from '@/services/truncate'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import gasIcon from '@assets/icons/gas.svg'
-import useTranslation from '@/hooks/useTranslation'
-import chainConfig from '@/config/chain'
-import { capitalize, truncateDecimal } from '@/services/truncate'
-import { useNetworkGasPrice } from '@/hooks/useNetworkGasPrice'
 import { Tooltip } from 'antd'
+import Image from 'next/image'
+import styled from 'styled-components'
 import SkeletonLoading from '../icons/SkeletonLoading'
 
 export default function LayoutNetworkInfoButton() {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const { networkGasPriceGwei, loading } = useNetworkGasPrice()
   return (
     <NetworkButton>

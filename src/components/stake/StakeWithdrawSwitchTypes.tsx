@@ -1,4 +1,4 @@
-import useTranslation from '@/hooks/useTranslation'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { WithdrawType } from '@/types/Withdraw'
 import { AiOutlineClockCircle, AiOutlineDashboard, AiOutlineDatabase } from 'react-icons/ai'
@@ -17,7 +17,7 @@ export default function StakeWithdrawSwitchTypes({
   liquidityValidatorsBalance,
   selectWithdrawType
 }: StakeWithdrawSwitchTypesProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const handleActiveType = (type: WithdrawType) => {
     return type === withdrawTypeSelected
   }

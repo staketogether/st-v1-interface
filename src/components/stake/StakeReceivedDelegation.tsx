@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import useTranslation from '../../hooks/useTranslation'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import { truncateWei } from '../../services/truncate'
 import { Delegation } from '../../types/Delegation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
@@ -11,7 +11,7 @@ type StakeReceivedDelegationProps = {
 }
 
 export default function StakeReceivedDelegation({ delegation, rank }: StakeReceivedDelegationProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   return (
     <DelegationItem>

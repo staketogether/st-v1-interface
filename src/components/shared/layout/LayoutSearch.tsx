@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import usePools from '../../../hooks/subgraphs/usePools'
 
 import useSearchPools from '../../../hooks/subgraphs/useSearchPools'
-import useTranslation from '../../../hooks/useTranslation'
+import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import Overlay from '../Overlay'
 import EnsAvatar from '../ens/EnsAvatar'
 import EnsName from '../ens/EnsName'
@@ -16,7 +16,7 @@ import EnsName from '../ens/EnsName'
 export default function LayoutSearch() {
   const { isOpen, setOpenSearchHeader } = useSearchHeader()
   const [text, setText] = useState<string>('')
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const router = useRouter()
   const pathname = router.pathname
   const { pools, poolsIsLoading } = usePools()

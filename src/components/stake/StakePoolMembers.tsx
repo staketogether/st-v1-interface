@@ -4,7 +4,7 @@ import StakeReceivedDelegation from '@/components/stake/StakeReceivedDelegation'
 import { Delegation } from '@/types/Delegation'
 import { AiOutlineUsergroupAdd } from 'react-icons/ai'
 import styled from 'styled-components'
-import useTranslation from '../../hooks/useTranslation'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 
 interface StakeMembersProps {
@@ -22,7 +22,7 @@ export default function StakePoolMembers({
   onLoadMore,
   initialLoading
 }: StakeMembersProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   return (
     <Container>

@@ -3,7 +3,7 @@ import stIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
 import styled from 'styled-components'
 import useEthToUsdPrice from '../../hooks/useEthToUsdPrice'
-import useTranslation from '../../hooks/useTranslation'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import { truncateDecimal } from '../../services/truncate'
 
 interface StakeInputProps {
@@ -27,7 +27,7 @@ export default function StakeFormInput({
   purple,
   hasError
 }: StakeInputProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   const { price } = useEthToUsdPrice(value)
 

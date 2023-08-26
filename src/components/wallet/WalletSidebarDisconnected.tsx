@@ -7,14 +7,14 @@ import { useState } from 'react'
 import { AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
-import useTranslation from '../../hooks/useTranslation'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import WalletSidebarSettings from './WalletSidebarSettings'
 
 export default function WalletSidebarDisconnected() {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
   const { connect, connectors } = useConnect()
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const { openSidebarConnectWallet, setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
   const handleConnectorImage = useWalletProviderImage()
   const router = useRouter()

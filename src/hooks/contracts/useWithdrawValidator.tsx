@@ -15,8 +15,8 @@ import {
   useStakeTogetherWithdrawValidator
 } from '../../types/Contracts'
 
-import useTranslation from '../useTranslation'
 import { useCalculateDelegationPercentage } from '@/hooks/contracts/useCalculateDelegationPercentage'
+import useLocaleTranslation from '../useLocaleTranslation'
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
@@ -71,7 +71,7 @@ export default function useWithdrawValidator(
     hash: txHash
   })
 
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
 
   const resetState = () => {
     setAwaitWalletAction(false)

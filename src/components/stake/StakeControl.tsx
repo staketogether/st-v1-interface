@@ -1,17 +1,17 @@
+import usePool from '@/hooks/subgraphs/usePool'
+import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
 import useActiveRoute from '@/hooks/useActiveRoute'
-import useTranslation from '@/hooks/useTranslation'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { truncateWei } from '@/services/truncate'
+import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai'
 import styled from 'styled-components'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import Tabs, { TabsItems } from '../shared/Tabs'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
-import usePool from '@/hooks/subgraphs/usePool'
-import { truncateWei } from '@/services/truncate'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import { ethers } from 'ethers'
-import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -19,7 +19,7 @@ interface StakeControlProps {
 }
 
 export default function StakeControl({ poolAddress, type }: StakeControlProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
 
   const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress, { first: 10, skip: 0 })

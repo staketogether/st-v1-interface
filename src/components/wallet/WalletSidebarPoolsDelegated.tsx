@@ -1,19 +1,18 @@
-import useTranslation from '@/hooks/useTranslation'
-import { Delegation } from '@/types/Delegation'
-import React from 'react'
-import styled from 'styled-components'
-import Link from 'next/link'
 import EnsAvatar from '@/components/shared/ens/EnsAvatar'
 import EnsName from '@/components/shared/ens/EnsName'
-import { truncateWei } from '@/services/truncate'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebar from '@/hooks/useWalletSidebar'
+import { truncateWei } from '@/services/truncate'
+import { Delegation } from '@/types/Delegation'
+import Link from 'next/link'
+import styled from 'styled-components'
 
 type WalletSideBarPoolsDelegatedProps = {
   accountDelegations: Delegation[]
 }
 
 export default function WalletSidebarPoolsDelegated({ accountDelegations }: WalletSideBarPoolsDelegatedProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   const { setOpenSidebar } = useWalletSidebar()
 
   return (

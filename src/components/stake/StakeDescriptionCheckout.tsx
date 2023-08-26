@@ -1,7 +1,6 @@
-import useTranslation from '@/hooks/useTranslation'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
 import { Tooltip } from 'antd'
-import React from 'react'
 import { AiOutlineQuestionCircle } from 'react-icons/ai'
 import styled from 'styled-components'
 
@@ -20,7 +19,7 @@ export default function StakeDescriptionCheckout({
   sharesByEthRatio,
   ethBySharesRatio
 }: StakeDescriptionCheckoutProps) {
-  const { t } = useTranslation()
+  const { t } = useLocaleTranslation()
   return (
     <StakeInfo>
       <div>
