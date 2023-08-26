@@ -1,7 +1,7 @@
 import ethIcon from '@assets/icons/eth-icon.svg'
 import stIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import useEthToUsdPrice from '../../hooks/useEthToUsdPrice'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import { truncateDecimal } from '../../services/truncate'

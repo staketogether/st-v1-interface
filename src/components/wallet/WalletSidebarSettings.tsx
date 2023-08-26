@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
 type WalletSlideBarSettingsProps = {

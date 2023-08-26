@@ -1,6 +1,6 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 type PoolsInputSearchProps = {
   search: string

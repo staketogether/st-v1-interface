@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
 import useSearchPools from '@/hooks/subgraphs/useSearchPools'

@@ -5,6 +5,7 @@ import { useFeeData } from 'wagmi'
 interface UseEstimateTxInfoProps {
   account?: `0x${string}`
   contractAddress?: `0x${string}`
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abi?: any
   functionName?: string
   args?: unknown[]
@@ -44,7 +45,8 @@ const useEstimateTxInfo = ({
         account,
         functionName,
         address: contractAddress,
-        abi,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        abi: abi as any,
         args: args || [],
         value
       })

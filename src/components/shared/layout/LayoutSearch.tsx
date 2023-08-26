@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ChangeEvent, useState } from 'react'
 import { AiOutlineClose, AiOutlineSearch, AiOutlineWarning } from 'react-icons/ai'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import usePools from '../../../hooks/subgraphs/usePools'
 
 import useSearchPools from '../../../hooks/subgraphs/useSearchPools'

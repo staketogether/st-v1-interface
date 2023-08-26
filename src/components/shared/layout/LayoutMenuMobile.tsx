@@ -2,7 +2,7 @@ import useActiveRoute from '@/hooks/useActiveRoute'
 
 import Link from 'next/link'
 import { AiOutlineGift, AiOutlineRise } from 'react-icons/ai'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 function LayoutMenuMobile() {
   const { t } = useLocaleTranslation()

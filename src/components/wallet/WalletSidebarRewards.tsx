@@ -2,7 +2,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { AccountReward } from '@/types/AccountReward'
 import { AiOutlineLink } from 'react-icons/ai'
-import styled, { useTheme } from 'styled-components'
+import { styled, useTheme } from 'styled-components'
 
 type WalletSidebarRewards = {
   accountRewards: AccountReward[]

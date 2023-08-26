@@ -5,7 +5,7 @@ import { truncateAddress } from '@/services/truncate'
 import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
 import { BsDiscord, BsFacebook, BsGlobe2, BsInstagram, BsLinkedin, BsTwitter } from 'react-icons/bs'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 

@@ -15,7 +15,7 @@ import { Hotjar } from '../components/shared/scripts/Hotjar'
 import { apolloClient } from '../config/apollo'
 import validEnv from '../config/env'
 import { config } from '../config/wagmi'
-import '../styles/globals.css'
+import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })

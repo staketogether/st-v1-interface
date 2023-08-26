@@ -1,6 +1,6 @@
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { AiOutlineLogin } from 'react-icons/ai'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import WalletSidebarDisconnected from './WalletSidebarDisconnected'
 

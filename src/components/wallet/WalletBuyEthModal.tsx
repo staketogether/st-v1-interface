@@ -8,7 +8,7 @@ import Image, { StaticImageData } from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ReCAPTCHA } from 'react-google-recaptcha'
 import { AiFillCloseCircle } from 'react-icons/ai'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import Modal from '../shared/Modal'
 import Loading from '../shared/icons/Loading'
 

@@ -2,7 +2,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
 import { Tooltip } from 'antd'
 import { AiOutlineQuestionCircle } from 'react-icons/ai'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 type StakeDescriptionCheckoutProps = {
   type: 'deposit' | 'withdraw'

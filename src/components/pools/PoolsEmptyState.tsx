@@ -1,5 +1,5 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 type PoolsEmptyStateProps = {
   handleClickButton: () => void

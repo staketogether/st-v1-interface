@@ -3,7 +3,7 @@ import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
 import { truncateWei } from '@/services/truncate'
 import Link from 'next/link'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 

@@ -1,7 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import Image from 'next/image'
 import stIcon from '@assets/icons/empty-pool-info.svg'
+import Image from 'next/image'
+import { styled } from 'styled-components'
 
 type StakeEmptyPoolInfoProps = {
   message: string

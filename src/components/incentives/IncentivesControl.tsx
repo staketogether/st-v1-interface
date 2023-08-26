@@ -8,7 +8,7 @@ import { Tooltip } from 'antd'
 import Image from 'next/image'
 import { AiFillCheckCircle, AiOutlineClose, AiOutlineQuestionCircle } from 'react-icons/ai'
 import { FiExternalLink } from 'react-icons/fi'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 
 export default function IncentivesControl() {
   const { accountIsConnected, account } = useConnectedAccount()

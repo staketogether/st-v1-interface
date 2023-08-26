@@ -3,7 +3,7 @@ import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import StakeReceivedDelegation from '@/components/stake/StakeReceivedDelegation'
 import { Delegation } from '@/types/Delegation'
 import { AiOutlineUsergroupAdd } from 'react-icons/ai'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 
