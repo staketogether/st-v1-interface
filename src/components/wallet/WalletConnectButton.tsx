@@ -1,5 +1,5 @@
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import { BsWallet } from 'react-icons/bs'
+import { AiOutlineLogin } from 'react-icons/ai'
 import styled from 'styled-components'
 import useTranslation from '../../hooks/useTranslation'
 import WalletSidebarDisconnected from './WalletSidebarDisconnected'
@@ -16,8 +16,8 @@ export default function WalletConnectButton() {
           setOpenSidebarConnectWallet(true)
         }}
       >
-        <BsWallet fontSize={14} />
-        {t('v2.header.connect')}
+        <AiOutlineLogin fontSize={14} />
+        {t('v2.header.enter')}
       </ConnectButton>
       <WalletSidebarDisconnected />
     </>
@@ -27,13 +27,13 @@ export default function WalletConnectButton() {
 const { ConnectButton } = {
   ConnectButton: styled.button`
     display: grid;
-    grid-template-columns: 24px auto;
+    grid-template-columns: 20px auto;
 
     align-items: center;
     width: auto;
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
-    font-weight: 300;
+    font-weight: 400;
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.color.primary};
     border: none;

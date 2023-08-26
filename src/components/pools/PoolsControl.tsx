@@ -1,17 +1,17 @@
 import styled from 'styled-components'
 
+import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
+import useSearchPools from '@/hooks/subgraphs/useSearchPools'
+import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import useTranslation from '@/hooks/useTranslation'
+import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
+import Fuse from 'fuse.js'
 import { useState } from 'react'
 import { PoolSubgraph } from '../../types/Pool'
+import PoolsCard from './PoolsCard'
+import PoolsEmptyState from './PoolsEmptyState'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
-import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
-import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
-import Fuse from 'fuse.js'
-import useSearchPools from '@/hooks/subgraphs/useSearchPools'
-import PoolsEmptyState from './PoolsEmptyState'
-import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
-import PoolsCard from './PoolsCard'
 
 type PoolsListProps = {
   pools: PoolSubgraph[]
@@ -126,7 +126,9 @@ export default function PoolsControl({ pools }: PoolsListProps) {
         <PoolsInputSearch search={search} setSearch={setSearch} />
       </FiltersContainer>
       <ListPools>
-        {!poolsFilterBySearch.length && <PoolsEmptyState handleClickButton={clearFilter} />}
+        {!poolsFilterBySearch.length && (
+          <PoolsEmptyState handleClickButton={clearFilter} key='pool-row-empty' />
+        )}
         {!!poolsFilterBySearch.length && (
           <header>
             <span>{t('v2.pools.list.name')}</span>
@@ -135,23 +137,22 @@ export default function PoolsControl({ pools }: PoolsListProps) {
             <span>{t('v2.pools.list.invested')}</span>
           </header>
         )}
-        {poolsFilterBySearch.map((pool, i) => (
-          <>
+        {poolsFilterBySearch.map(pool => (
+          <div key={`pool-row-${pool.address}`}>
             <PoolsRowList
-              key={pool.address}
               poolAddress={pool.address}
               members={pool.receivedDelegationsCount}
               staked={pool.poolBalance}
               type={pool.type}
             />
             <PoolsCard
-              key={i}
+              key={`pool-card-${pool.address}`}
               poolAddress={pool.address}
               members={pool.receivedDelegationsCount}
               staked={pool.poolBalance}
               type={pool.type}
             />
-          </>
+          </div>
         ))}
       </ListPools>
     </Container>

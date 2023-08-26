@@ -1,11 +1,10 @@
+import Wallet from '@/components/wallet/Wallet'
 import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
-import stLogoDesktop from '../../../../public/assets/st-logo-desktop.png'
+import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useTranslation from '../../../hooks/useTranslation'
-import Wallet from '@/components/wallet/Wallet'
-import { AiOutlineGift, AiOutlineRise } from 'react-icons/ai'
 
 export default function LayoutHeader() {
   const { t } = useTranslation()
@@ -16,7 +15,7 @@ export default function LayoutHeader() {
       <MenuContainer>
         <div>
           <Logo href='/pools'>
-            <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={32} />
+            <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={27} />
           </Logo>
         </div>
         <Menu>
@@ -24,19 +23,24 @@ export default function LayoutHeader() {
             <MenuButton
               className={`${isActive('pools') || isActive('stake') || isActive('unstake') ? 'active' : ''}`}
             >
-              <AiOutlineRise />
               {t('v2.header.invest')}
+            </MenuButton>
+          </Link>
+          <Link href='/simulator'>
+            <MenuButton className={`${isActive('simulator') ? 'active' : ''}`}>
+              {t('v2.header.simulator')}
             </MenuButton>
           </Link>
           <Link href='/incentives'>
             <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
-              <AiOutlineGift />
               {t('v2.header.incentives')}
             </MenuButton>
           </Link>
         </Menu>
       </MenuContainer>
       <WalletContainer>
+        <MenuButton className={`${isActive('support') ? 'active' : ''}`}>{t('v2.header.support')}</MenuButton>
+
         <Wallet />
       </WalletContainer>
     </Container>
@@ -47,21 +51,38 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
   Container: styled.header`
     display: none;
     gap: ${({ theme }) => theme.size[32]};
+    background: ${({ theme }) => theme.colorV2.white};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    padding: ${props => props.theme.size[16]} ${props => props.theme.size[24]};
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: grid;
-      grid-template-columns: 1fr 240px;
+      grid-template-columns: 1fr auto;
     }
   `,
   MenuContainer: styled.div`
     display: flex;
     grid-template-columns: 162px auto;
+    align-items: center;
     gap: ${({ theme }) => theme.size[32]};
+
+    > div:first-of-type {
+      height: 32px;
+      display: grid;
+      grid-template-columns: 162px;
+      align-items: center;
+
+      a {
+        display: flex;
+        align-items: center;
+      }
+    }
   `,
   WalletContainer: styled.div`
-    display: flex;
+    display: grid;
     align-items: center;
     justify-content: flex-end;
-    gap: ${({ theme }) => theme.size[8]};
+    grid-template-columns: auto auto;
+    gap: ${({ theme }) => theme.size[24]};
   `,
   Menu: styled.nav`
     display: none;
@@ -90,15 +111,14 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
     background: transparent;
 
     font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.colorV2.gray};
 
     &:hover {
-      color: ${({ theme }) => theme.color.primary};
-      background: ${({ theme }) => theme.color.whiteAlpha[700]};
+      color: ${({ theme }) => theme.colorV2.purple[1]};
     }
 
     &.active {
-      color: ${({ theme }) => theme.color.secondary};
+      color: ${({ theme }) => theme.colorV2.purple[1]};
     }
   `
 }

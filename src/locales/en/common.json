@@ -141,8 +141,10 @@
     "header": {
       "invest": "Invest",
       "incentives": "Incentives",
-      "connect": "Connect",
-      "disconnect": "Disconnect"
+      "simulator": "Simulator",
+      "enter": "Enter",
+      "exit": "Exit",
+      "support": "Support"
     },
     "sidebar": {
       "disconnected": {

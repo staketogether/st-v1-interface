@@ -1,14 +1,14 @@
+import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { capitalize } from '@/services/truncate'
 import { Drawer } from 'antd'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
 import useTranslation from '../../hooks/useTranslation'
 import WalletSidebarSettings from './WalletSidebarSettings'
-import useWalletProviderImage from '@/hooks/useWalletProviderImage'
-import { useRouter } from 'next/router'
 
 export default function WalletSidebarDisconnected() {
   const [isSettingsActive, setIsSettingsActive] = useState(false)

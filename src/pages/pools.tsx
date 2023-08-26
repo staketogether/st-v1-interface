@@ -32,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   return {
     props: {
-      ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
+      ...(await serverSideTranslations(context.locale || 'pt', ['common'], null, ['pt', 'en'])),
       pools
     }
   }

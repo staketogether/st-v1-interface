@@ -29,11 +29,10 @@ const { Container, Wrapper, Content, Body } = {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 60px;
+    grid-template-rows: 1fr 48px;
     gap: 24px;
     min-height: 100vh;
-    background: linear-gradient(180deg, rgba(143, 152, 214, 0.2) 0%, rgba(143, 152, 214, 1) 50%);
-    background-attachment: fixed;
+    background: ${({ theme }) => theme.colorV2.background};
   `,
   Wrapper: styled.div`
     width: 100%;
@@ -45,18 +44,18 @@ const { Container, Wrapper, Content, Body } = {
   `,
   Content: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
-    padding: ${props => props.theme.size[24]};
+    width: 100%;
+    /* grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl}); */
     gap: 24px;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       gap: 48px;
     }
   `,
   Body: styled.div`
-    /* display: grid; */
-    /* grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg}); */
-    /* gap: ${props => props.theme.size[32]}; */
-    /* justify-content: center; */
-    /* place-items: center; */
+    display: grid;
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
+    gap: ${props => props.theme.size[32]};
+    justify-content: center;
+    place-items: center;
   `
 }

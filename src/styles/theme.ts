@@ -33,12 +33,33 @@ export const lightTheme: Theme = {
       32: '3.2rem'
     }
   },
+  colorV2: {
+    blue: {
+      1: '#373b8a',
+      2: '#272961',
+      3: '#89a8f2'
+    },
+    purple: {
+      1: '#774bc7',
+      2: '#b993ff'
+    },
+    transparent: 'transparent',
+    background: '#eef2fd',
+    foreground: '#d8e1fb',
+    black: '#000000',
+    white: '#FFFFFF',
+    gray: {
+      1: '#404a57',
+      2: '#c3bdcb'
+    }
+  },
   color: {
-    primary: '#233a95',
-    secondary: '#603fb0',
+    primary: '#373b8a',
+    secondary: '#774bc7',
     transparent: 'transparent',
     current: 'currentColor',
-    background: '#c0c8ff',
+    background: '#f6f8ff',
+    foreground: '#d8e1fb',
     black: '#000000',
     white: '#FFFFFF',
     whiteAlpha: {

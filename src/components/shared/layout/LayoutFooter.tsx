@@ -13,14 +13,15 @@ export default function LayoutFooter() {
 const { Container } = {
   Container: styled.div`
     width: 100%;
-    padding: 16px 32px;
-    gap: 10px;
+    gap: ${({ theme }) => theme.size[16]};
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    background: ${({ theme }) => theme.colorV2.blue[2]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    padding: 16px 24px;
 
     a {
-      color: ${({ theme }) => theme.color.secondary};
       margin-left: 3px;
 
       &:hover {
@@ -30,14 +31,15 @@ const { Container } = {
 
     > span {
       font-size: ${({ theme }) => theme.font.size[14]};
-      line-height: 22px;
+      color: ${({ theme }) => theme.colorV2.white};
+
       text-align: center;
       display: flex;
       align-items: center;
     }
 
     > span:nth-child(2) {
-      color: ${({ theme }) => theme.color.secondary};
+      color: ${({ theme }) => theme.colorV2.purple[2]};
     }
   `
 }

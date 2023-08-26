@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   //   if (ens) {
   //     return {
   //       props: {
-  //         ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
+  //         ...(await serverSideTranslations(context.locale || 'pt', ['common'], null, ['pt', 'en'])),
   //         poolAddress: params?.address || '',
   //         name: ens.name ? ens.name : '',
   //         avatar: ens.avatar ? `${url}/_next/image?url${ens.avatar}&q=75` : ''
@@ -40,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   return {
     props: {
-      ...(await serverSideTranslations(context.locale || 'en', ['common'], null, ['en'])),
+      ...(await serverSideTranslations(context.locale || 'pt', ['common'], null, ['pt', 'en'])),
       poolAddress: params?.address || ''
     }
   }

@@ -33,12 +33,33 @@ export default interface Theme {
       32: string
     }
   }
+  colorV2: {
+    blue: {
+      1: string
+      2: string
+      3: string
+    }
+    purple: {
+      1: string
+      2: string
+    }
+    transparent: string
+    background: string
+    foreground: string
+    black: string
+    white: string
+    gray: {
+      1: string
+      2: string
+    }
+  }
   color: {
     primary: string
     secondary: string
     transparent: string
     current: string
     background: string
+    foreground: string
     black: string
     white: string
     whiteAlpha: {
