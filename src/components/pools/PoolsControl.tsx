@@ -86,7 +86,6 @@ export default function PoolsControl({ pools }: PoolsListProps) {
   const poolsFilterBySearch = searchPools()
 
   function handleSetFilter(filter: string) {
-    console.log(filter)
     if (filter === 'all') {
       setActiveFilters(['all'])
       return

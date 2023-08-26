@@ -2,7 +2,7 @@ import ethIcon from '@assets/icons/eth-icon.svg'
 import stIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
 import styled from 'styled-components'
-import useEthToUsdPrice from '../../hooks/useEthToUsdPrice'
+import useCoinConversion from '../../hooks/useCoinConversion'
 import useTranslation from '../../hooks/useTranslation'
 import { truncateDecimal } from '../../services/truncate'
 
@@ -29,7 +29,7 @@ export default function StakeFormInput({
 }: StakeInputProps) {
   const { t } = useTranslation()
 
-  const { price } = useEthToUsdPrice(value)
+  const { price, settingCurrency } = useCoinConversion(value)
 
   function handleChange(value: string) {
     if (value.includes(',')) {
@@ -66,7 +66,10 @@ export default function StakeFormInput({
                 placeholder='0'
                 className={`${purple ? 'purple' : ''} ${hasError ? 'error' : ''}`}
               />
-              <span className={`${hasError ? 'error' : ''}`}>{`$ ${truncateDecimal(price || '0', 2)}`}</span>
+              <span className={`${hasError ? 'error' : ''}`}>{`${settingCurrency.symbol} ${truncateDecimal(
+                price || '0',
+                2
+              )}`}</span>
             </InputContainer>
           </div>
           <MaxValue

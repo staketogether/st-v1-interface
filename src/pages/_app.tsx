@@ -17,6 +17,7 @@ import validEnv from '../config/env'
 import { config } from '../config/wagmi'
 import '../styles/globals.css'
 import { lightTheme } from '../styles/theme'
+import useSettingsCurrency from '@/hooks/useSettingCurrency'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -25,7 +26,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter()
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
   const chain = chainConfig()
-
+  useSettingsCurrency()
   useEffect(() => {
     initMixpanel()
   }, [initMixpanel])
