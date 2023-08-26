@@ -1,5 +1,3 @@
-import { styled } from 'styled-components'
-
 import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
 import useSearchPools from '@/hooks/subgraphs/useSearchPools'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -12,6 +10,7 @@ import PoolsCard from './PoolsCard'
 import PoolsEmptyState from './PoolsEmptyState'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
+import { styled } from 'styled-components'
 
 type PoolsListProps = {
   pools: PoolSubgraph[]
