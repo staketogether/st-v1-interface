@@ -3,11 +3,11 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LayoutTemplate from '../components/shared/layout/LayoutTemplate'
 import { Metatags } from '../components/shared/meta/Metatags'
 
-export default function Simulator() {
+export default function Home() {
   return (
     <LayoutTemplate>
       <Metatags />
-      <div>Simulator</div>
+      <div>Home</div>
     </LayoutTemplate>
   )
 }

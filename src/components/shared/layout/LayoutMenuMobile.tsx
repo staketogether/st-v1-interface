@@ -9,9 +9,9 @@ function LayoutMenuMobile() {
   const { isActive } = useActiveRoute()
   return (
     <Container>
-      <NextLink href='/pools'>
+      <NextLink href='/'>
         <MenuButton
-          className={`${isActive('pools') || isActive('stake') || isActive('unstake') ? 'active' : ''}`}
+          className={`${isActive('invest') || isActive('deposit') || isActive('withdraw') ? 'active' : ''}`}
         >
           <AiOutlineRise size={16} />
           {t('v2.header.invest')}

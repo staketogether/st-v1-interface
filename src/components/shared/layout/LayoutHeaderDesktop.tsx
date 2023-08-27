@@ -14,14 +14,14 @@ export default function LayoutHeader() {
     <Container>
       <MenuContainer>
         <div>
-          <Logo href='/pools'>
+          <Logo href='/'>
             <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={27} />
           </Logo>
         </div>
         <Menu>
-          <Link href='/pools'>
+          <Link href='/invest'>
             <MenuButton
-              className={`${isActive('pools') || isActive('stake') || isActive('unstake') ? 'active' : ''}`}
+              className={`${isActive('invest') || isActive('deposit') || isActive('withdraw') ? 'active' : ''}`}
             >
               {t('v2.header.invest')}
             </MenuButton>

@@ -25,7 +25,7 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
       {accountDelegations.map((delegation, index) => (
         <DelegatedPool
           key={index}
-          href={`/pools/deposit/${delegation.delegated.address}`}
+          href={`/invest/deposit/${delegation.delegated.address}`}
           onClick={() => setOpenSidebar(false)}
         >
           <div>

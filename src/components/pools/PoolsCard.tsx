@@ -19,7 +19,7 @@ export default function PoolsCard({ poolAddress, members, staked, type }: PoolsC
   const { t } = useLocaleTranslation()
 
   return (
-    <Card href={`/pools/deposit/${poolAddress}`}>
+    <Card href={`/invest/deposit/${poolAddress}`}>
       <CardHeader>
         <EnsAvatar size={26} address={poolAddress} />
         <EnsName large address={poolAddress} />

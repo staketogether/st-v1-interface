@@ -4,17 +4,17 @@ import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
 import { Metatags } from '../../../components/shared/meta/Metatags'
 import StakeControl from '../../../components/stake/StakeControl'
 
-type UnstakePoolProps = {
+type DepositProps = {
   poolAddress: `0x${string}`
   name?: string
   avatar?: string
 }
 
-export default function WithdrawPool({ poolAddress }: UnstakePoolProps) {
+export default function Deposit({ poolAddress }: DepositProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <StakeControl poolAddress={poolAddress} type='withdraw' />
+      <StakeControl poolAddress={poolAddress} type='deposit' />
     </LayoutTemplate>
   )
 }

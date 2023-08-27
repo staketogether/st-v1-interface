@@ -18,7 +18,7 @@ export default function PoolsRowList({ poolAddress, members, staked, type }: Poo
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
   return (
-    <Row href={`/pools/deposit/${poolAddress}`}>
+    <Row href={`/invest/deposit/${poolAddress}`}>
       <Name>
         <EnsAvatar size={24} address={poolAddress} />
         <EnsName address={poolAddress} />

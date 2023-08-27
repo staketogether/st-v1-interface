@@ -17,15 +17,6 @@ const nextConfig = {
         hostname: '**'
       }
     ]
-  },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/pools',
-        permanent: true
-      }
-    ]
   }
 }
 
