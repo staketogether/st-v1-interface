@@ -90,8 +90,8 @@
     "yourWallet": "em sua carteira"
   },
   "connectWalletSideBar": {
-    "connectButton": "Conectar",
-    "title": "Conectar com"
+    "connectButton": "Entrar",
+    "title": "Entrar com"
   },
   "buyEth": {
     "button": "Pegar ETH",
@@ -142,7 +142,7 @@
     "pages": {
       "invest": {
         "title": "Investir com Projetos",
-        "description": "Invista em Staking de Ethereum, apoie projetos e ganhe recompensas juntos"
+        "description": "Invista em staking de ethereum, apoie projetos e ganhe recompensas juntos"
       },
       "deposit": {
         "title": "Deposit",
@@ -172,9 +172,9 @@
     "sidebar": {
       "disconnected": {
         "iAgreeToThe": "Eu concordo com os",
-        "terms&conditions": "Termos e Condições",
+        "terms&conditions": "Termos",
         "and": "e",
-        "privacyPolicy": "Política de Privacidade."
+        "privacyPolicy": "Política de Privacidade"
       }
     },
     "pools": {

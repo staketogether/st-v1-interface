@@ -89,8 +89,8 @@
     "yourWallet": "to wallet"
   },
   "connectWalletSideBar": {
-    "connectButton": "Sign In",
-    "title": "Sign In"
+    "connectButton": "Enter with",
+    "title": "Enter with"
   },
   "buyEth": {
     "button": "Get ETH",
@@ -141,7 +141,7 @@
     "pages": {
       "invest": {
         "title": "Invest with Projects",
-        "description": "Invest in Ethereum staking, support projects, and earn rewards together"
+        "description": "Invest in ethereum staking, support projects, and earn rewards together"
       },
       "deposit": {
         "title": "Deposit",
@@ -171,9 +171,9 @@
     "sidebar": {
       "disconnected": {
         "iAgreeToThe": "I agree to the",
-        "terms&conditions": "Terms & Conditions",
+        "terms&conditions": "Terms",
         "and": "and",
-        "privacyPolicy": "Privacy Policy."
+        "privacyPolicy": "Privacy Policy"
       }
     },
     "pools": {

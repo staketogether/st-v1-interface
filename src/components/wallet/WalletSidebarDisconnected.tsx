@@ -115,7 +115,7 @@ const {
   ContainerWalletConnect
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: #ecedf7 !important;
+    background: ${({ theme }) => theme.colorV2.background} !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
@@ -166,10 +166,10 @@ const {
     width: 32px;
     height: 32px;
     border: 0;
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background: ${({ theme }) => theme.color.whiteAlpha[700]};
-    transition: background 0.2s ease;
+    background: ${({ theme }) => theme.colorV2.white};
+
     line-height: 36px;
 
     &:hover {
@@ -191,9 +191,9 @@ const {
       justify-content: space-between;
 
       h2 {
-        font-size: ${({ theme }) => theme.font.size[16]};
-        font-weight: 400;
-        color: ${({ theme }) => theme.color.primary};
+        color: ${({ theme }) => theme.colorV2.blue[1]};
+        font-size: ${({ theme }) => theme.font.size[18]};
+        font-weight: 500;
       }
     }
     div:last-child {
@@ -227,17 +227,15 @@ const {
       align-items: center;
       gap: ${({ theme }) => theme.size[16]};
       padding: ${({ theme }) => theme.size[8]};
-      background: ${({ theme }) => theme.color.whiteAlpha[600]};
+      background: ${({ theme }) => theme.colorV2.white};
       box-shadow: ${({ theme }) => theme.shadow[100]};
-      transition: background 0.2s ease;
-      font-weight: 400;
-      border-radius: ${({ theme }) => theme.size[24]};
+
+      border-radius: ${({ theme }) => theme.size[8]};
       &:hover {
-        background: ${({ theme }) => theme.color.whiteAlpha[900]};
+        background: ${({ theme }) => theme.color.whiteAlpha[700]};
       }
 
       img {
-        box-shadow: ${({ theme }) => theme.shadow[100]};
         border-radius: 100%;
       }
 
@@ -246,7 +244,7 @@ const {
           filter: grayscale(100%);
         }
         cursor: not-allowed;
-        color: ${({ theme }) => theme.color.blackAlpha[400]};
+        color: ${({ theme }) => theme.color.blackAlpha[600]};
         background: ${({ theme }) => theme.color.blackAlpha[100]};
       }
     }
