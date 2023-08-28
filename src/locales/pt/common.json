@@ -78,6 +78,7 @@
   },
   "settings": {
     "title": "Configurações",
+    "currency": "currency",
     "locale": "Idioma"
   },
   "footer": {

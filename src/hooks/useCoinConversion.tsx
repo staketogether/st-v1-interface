@@ -1,11 +1,13 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import useSettingsCurrency from './useSettingCurrency'
 
-export default function useEthToUsdPrice(amountValue: string) {
-  const [price, setPrice] = useState<string | undefined>('0')
+export default function useCoinConversion(amountValue: string) {
+  const [coinPrice, setCoinPrice] = useState<string | undefined>('0')
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<unknown>(null)
-  const [usdPrice, setUsdPRice] = useState(0)
+  const [conversionPrice, setConversionPrice] = useState(0)
+  const { currency } = useSettingsCurrency()
   useEffect(() => {
     const fetchPrice = async () => {
       const config = {
@@ -15,12 +17,12 @@ export default function useEthToUsdPrice(amountValue: string) {
           refreshWhenHidden: false
         }
       }
-      const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&symbols=eth`
+      const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.value}&symbols=eth`
       try {
         const data = await axios.get(url, config)
         const response = data as { data: [{ current_price: number }] }
         if (response && response.data[0] && response.data[0].current_price) {
-          setUsdPRice(response.data[0].current_price)
+          setConversionPrice(response.data[0].current_price)
         }
         setLoading(false)
       } catch (error) {
@@ -30,16 +32,16 @@ export default function useEthToUsdPrice(amountValue: string) {
       }
     }
     fetchPrice()
-  }, [])
+  }, [currency.value])
 
   useEffect(() => {
-    if (usdPrice && amountValue) {
-      const priceCalc = Number(amountValue) * usdPrice
-      setPrice(priceCalc.toString())
+    if (conversionPrice && amountValue) {
+      const priceCalc = Number(amountValue) * conversionPrice
+      setCoinPrice(priceCalc.toString())
       return
     }
-    setPrice('0')
-  }, [amountValue, usdPrice])
+    setCoinPrice('0')
+  }, [amountValue, conversionPrice])
 
-  return { price, loading, error }
+  return { price: coinPrice, loading, error, settingCurrency: currency }
 }
