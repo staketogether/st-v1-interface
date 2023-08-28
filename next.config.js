@@ -17,6 +17,15 @@ const nextConfig = {
         hostname: '**'
       }
     ]
+  },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/invest',
+        permanent: true
+      }
+    ]
   }
 }
 
