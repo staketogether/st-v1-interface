@@ -63,9 +63,9 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
       )}
       {isLoading && (
         <>
-          <SkeletonLoading height={32} borderRadius='99px' />
-          <SkeletonLoading height={32} borderRadius='99px' />
-          <SkeletonLoading height={32} borderRadius='99px' />
+          <SkeletonLoading height={32} borderRadius='8px' />
+          <SkeletonLoading height={32} borderRadius='8px' />
+          <SkeletonLoading height={32} borderRadius='8px' />
         </>
       )}
     </Container>
