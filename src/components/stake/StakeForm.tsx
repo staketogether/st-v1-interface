@@ -332,7 +332,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           handleMaxValue={handleInputMaxValue}
           balanceLoading={balanceLoading || delegationSharesLoading}
           disabled={isWrongNetwork || isLoading || !accountAddress}
-          purple={type === 'withdraw'}
           hasError={insufficientFunds || insufficientWithdrawalBalance || insufficientMinDeposit}
           type={type}
         />

@@ -118,7 +118,7 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } =
 
     &:hover,
     &.active {
-      background: ${({ theme }) => theme.color.whiteAlpha[800]};
+      background: ${({ theme }) => theme.color.blackAlpha[100]};
     }
 
     &.disabled {

@@ -47,25 +47,13 @@ export default function StakeFormInput({
       ) : (
         <h3>{`${t('lsd.symbol')} ${t('form.amount')}`}</h3>
       )}
-      <div className={`${disabled ? 'disabled' : ''} ${hasError ? 'error' : ''}`}>
+      <div className={`${hasError ? 'error' : ''}`}>
         <Content>
           <div>
             {type === 'deposit' ? (
-              <CoinIcon
-                className={`${disabled ? 'disabled' : ''} `}
-                src={ethIcon}
-                width={24}
-                height={24}
-                alt='staked Icon'
-              />
+              <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
             ) : (
-              <CoinIcon
-                className={`${disabled ? 'disabled' : ''} `}
-                src={stIcon}
-                width={24}
-                height={24}
-                alt='staked Icon'
-              />
+              <Image src={stIcon} width={24} height={24} alt='staked Icon' />
             )}
             <InputContainer>
               <input
@@ -88,7 +76,7 @@ export default function StakeFormInput({
   )
 }
 
-const { Container, Content, MaxValue, InputContainer, CoinIcon } = {
+const { Container, Content, MaxValue, InputContainer } = {
   Container: styled.section`
     display: flex;
     flex-direction: column;
@@ -106,6 +94,27 @@ const { Container, Content, MaxValue, InputContainer, CoinIcon } = {
 
     &.disabled {
       cursor: not-allowed;
+      > div {
+        background: ${({ theme }) => theme.color.blackAlpha[100]};
+        cursor: not-allowed;
+      }
+      button {
+        cursor: not-allowed;
+        background: ${({ theme }) => theme.color.blackAlpha[300]};
+      }
+      input {
+        color: ${({ theme }) => theme.color.blackAlpha[300]};
+        &::-webkit-input-placeholder {
+          color: ${({ theme }) => theme.color.blackAlpha[300]};
+        }
+      }
+      img {
+        cursor: not-allowed;
+        filter: grayscale(100%);
+      }
+      span {
+        color: ${({ theme }) => theme.color.blackAlpha[300]};
+      }
     }
 
     > div {
@@ -119,11 +128,6 @@ const { Container, Content, MaxValue, InputContainer, CoinIcon } = {
       gap: ${({ theme }) => theme.size[12]};
       box-shadow: ${({ theme }) => theme.shadow[100]};
       background: ${({ theme }) => theme.color.gray[100]};
-
-      &.disabled {
-        background: ${({ theme }) => theme.color.blackAlpha[100]};
-        cursor: not-allowed;
-      }
 
       &.error {
         border: 1px solid ${({ theme }) => theme.color.red[100]};
@@ -185,18 +189,11 @@ const { Container, Content, MaxValue, InputContainer, CoinIcon } = {
     &:hover {
       background-color: ${({ theme }) => theme.color.secondary};
     }
-
     &:disabled {
       cursor: not-allowed;
       background: ${({ theme }) => theme.color.blackAlpha[300]};
     }
 
     font-size: ${({ theme }) => theme.font.size[12]};
-  `,
-  CoinIcon: styled(Image)`
-    &.disabled {
-      cursor: not-allowed;
-      filter: grayscale(100%);
-    }
   `
 }

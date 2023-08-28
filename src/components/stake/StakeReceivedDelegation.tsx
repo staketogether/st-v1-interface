@@ -47,13 +47,7 @@ export const { DelegationItem } = {
     > div:nth-child(3) {
       display: grid;
       font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.primary};
-
-      > span:nth-child(1) {
-        > span {
-          color: ${({ theme }) => theme.color.secondary};
-        }
-      }
+      color: ${({ theme }) => theme.color.secondary};
     }
   `
 }

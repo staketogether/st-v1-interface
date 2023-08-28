@@ -30,15 +30,18 @@ export default function StakePoolInfo({
   loadMoreLoadingPoolData
 }: StakeStatsProps) {
   const { t } = useLocaleTranslation()
-  const [skip, setSkip] = useState(0)
+  const [skipMembers, setSkipMembers] = useState(0)
 
-  const handleLoadMore = () => {
-    const newSkip = skip + 10
-    setSkip(newSkip)
+  const handleLoadMoreMembers = () => {
+    const newSkip = skipMembers + 10
+    setSkipMembers(newSkip)
     fetchMore({ id: poolAddress, first: 10, skip: newSkip })
   }
 
-  const { poolActivities, initialLoading: poolActivitiesLoading } = usePoolActivities(poolAddress)
+  const { poolActivities, initialLoading: poolActivitiesLoading } = usePoolActivities(poolAddress, {
+    first: 10,
+    skip: 0
+  })
   const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(poolAddress)
 
   const tabsItems: TabsItems[] = [
@@ -62,7 +65,7 @@ export default function StakePoolInfo({
             delegations={poolData?.delegations}
             initialLoading={initialLoadingPoolData}
             loadMoreLoading={loadMoreLoadingPoolData}
-            onLoadMore={handleLoadMore}
+            onLoadMore={handleLoadMoreMembers}
             totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
           />
         </TabContainer>
