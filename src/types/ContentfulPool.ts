@@ -1,6 +1,12 @@
+export type ContentfulLogo = {
+  url: string
+  fileName: string
+}
+
 export type ContentfulPool = {
-  wallet: string
-  name?: string
+  wallet: `0x${string}`
+  name: string
+  logo: ContentfulLogo
   video?: string
   description?: string
   site?: string
@@ -10,7 +16,7 @@ export type ContentfulPool = {
   twitter?: string
   contract?: string
   discord?: string
-  category?: {
+  category: {
     name: string
   }
 }

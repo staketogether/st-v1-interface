@@ -6,6 +6,10 @@ export const queryContentfulPoolsList = gql`
       items {
         wallet
         name
+        logo {
+          url
+          fileName
+        }
         description
         video
         site

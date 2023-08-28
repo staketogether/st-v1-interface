@@ -1,6 +1,4 @@
 import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
-import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
-import useSearchPools from '@/hooks/subgraphs/useSearchPools'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import Fuse from 'fuse.js'
@@ -12,6 +10,7 @@ import PoolsCard from './PoolsCard'
 import PoolsEmptyState from './PoolsEmptyState'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
+import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
 
 type PoolsListProps = {
   pools: PoolSubgraph[]
@@ -41,7 +40,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
       value: 'social'
     }
   ]
-  const { searchPools: searchPoolsData } = useSearchPools()
+
   const poolsWithTypes = useMapPoolsWithTypes(pools)
 
   const poolsFilterByType = poolsWithTypes.filter(pool => {
@@ -69,7 +68,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
     threshold: 0.3
   }
 
-  const fuse = new Fuse(searchPoolsData, options)
+  const fuse = new Fuse(poolsFilterByType, options)
 
   function searchPools() {
     if (!search || search.trim() === '') {
@@ -130,19 +129,8 @@ export default function PoolsControl({ pools }: PoolsListProps) {
         )}
         {poolsFilterBySearch.map(pool => (
           <div key={`pool-row-${pool.address}`}>
-            <PoolsRowList
-              poolAddress={pool.address}
-              members={pool.receivedDelegationsCount}
-              staked={pool.poolBalance}
-              type={pool.type}
-            />
-            <PoolsCard
-              key={`pool-card-${pool.address}`}
-              poolAddress={pool.address}
-              members={pool.receivedDelegationsCount}
-              staked={pool.poolBalance}
-              type={pool.type}
-            />
+            <PoolsRowList pool={pool} />
+            <PoolsCard key={`pool-card-${pool.address}`} pool={pool} />
           </div>
         ))}
       </ListPools>
@@ -211,7 +199,6 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
       background: ${({ theme }) => theme.color.whiteAlpha[700]};
     }
   `,
-
   ListPools: styled.div`
     display: flex;
     flex-direction: column;
