@@ -139,6 +139,28 @@
     "availableToClaim": "Disponivel para Receber"
   },
   "v2": {
+    "pages": {
+      "invest": {
+        "title": "Investir com Projetos",
+        "description": "Invista em Ethereum com Staking, apoie projetos e ganhe recompensas juntos"
+      },
+      "deposit": {
+        "title": "Deposit",
+        "description": "Deposit ETH and receive stpETH to in DeFi, support this projects donating the fees."
+      },
+      "withdraw": {
+        "title": "Withdraw",
+        "description": "Description"
+      },
+      "incentives": {
+        "title": "Incentives",
+        "description": "Description"
+      },
+      "simulator": {
+        "title": "Simulator",
+        "description": "Description"
+      }
+    },
     "header": {
       "invest": "Investir",
       "incentives": "Incentivos",
@@ -161,12 +183,12 @@
         "all": "Todos",
         "art": "Arte",
         "education": "Educação",
-        "socialImpact": "Impacto Social",
+        "social": "Social",
         "innovation": "Inovação"
       },
-      "emptyList": "Nenhuma projeto encontrado",
+      "emptyList": "Nenhum resultado encontrado",
       "emptyButton": "Limpar",
-      "search": "Pesquisar...",
+      "search": "Pesquisar",
       "list": {
         "name": "Nome",
         "type": "Categoria",

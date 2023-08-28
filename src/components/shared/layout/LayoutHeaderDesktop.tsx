@@ -40,7 +40,6 @@ export default function LayoutHeader() {
       </MenuContainer>
       <WalletContainer>
         <MenuButton className={`${isActive('support') ? 'active' : ''}`}>{t('v2.header.support')}</MenuButton>
-
         <Wallet />
       </WalletContainer>
     </Container>

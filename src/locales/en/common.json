@@ -138,6 +138,28 @@
     "availableToClaim": "Available to Claim"
   },
   "v2": {
+    "pages": {
+      "invest": {
+        "title": "Invest with Projects",
+        "description": "Invest in Ethereum staking, support projects, and earn rewards together"
+      },
+      "deposit": {
+        "title": "Deposit",
+        "description": "Deposit ETH and receive stpETH to in DeFi, support this projects donating the fees."
+      },
+      "withdraw": {
+        "title": "Withdraw",
+        "description": "Description"
+      },
+      "incentives": {
+        "title": "Incentives",
+        "description": "Description"
+      },
+      "simulator": {
+        "title": "Simulator",
+        "description": "Description"
+      }
+    },
     "header": {
       "invest": "Invest",
       "incentives": "Incentives",
@@ -160,7 +182,7 @@
         "all": "All",
         "art": "Art",
         "education": "Education",
-        "socialImpact": "Social Impact",
+        "social": "Social Impact",
         "innovation": "Innovation"
       },
       "emptyList": "No project found.",
@@ -170,7 +192,7 @@
         "name": "Name",
         "type": "Category",
         "people": "Members",
-        "invested": "invested"
+        "invested": "Invested"
       }
     },
     "stake": {

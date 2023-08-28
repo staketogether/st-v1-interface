@@ -49,7 +49,7 @@ export default function EnsName({ address, large, larger, slice, color }: EnsNam
 const { Text } = {
   Text: styled.span<{ large?: boolean; larger?: boolean; color?: string }>`
     font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme, color }) => color || theme.color.primary};
+    color: ${({ theme, color }) => color || theme.colorV2.gray[1]};
     border: 0;
     padding: 0;
     margin: 0;

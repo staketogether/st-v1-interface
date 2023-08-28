@@ -1,16 +1,17 @@
-import React, { ReactNode } from 'react'
-import { BsBook, BsHeart, BsLightbulb, BsPalette } from 'react-icons/bs'
+import { ReactNode } from 'react'
+import { BsBook, BsHeart, BsPalette } from 'react-icons/bs'
 
 type FilterPool = {
   icon: ReactNode
   value: string
 }
-type PoolsTypesIconProps = {
+
+type PoolFilterIconProps = {
   iconSize: number
   value: string
 }
 
-export default function handlePoolTypeIcon({ iconSize, value }: PoolsTypesIconProps) {
+export default function PoolFilterIcon({ iconSize, value }: PoolFilterIconProps) {
   const filterTypes: FilterPool[] = [
     {
       icon: <BsPalette fontSize={iconSize} />,
@@ -22,11 +23,7 @@ export default function handlePoolTypeIcon({ iconSize, value }: PoolsTypesIconPr
     },
     {
       icon: <BsHeart fontSize={iconSize} />,
-      value: 'socialImpact'
-    },
-    {
-      icon: <BsLightbulb fontSize={iconSize} />,
-      value: 'innovation'
+      value: 'social'
     }
   ]
 

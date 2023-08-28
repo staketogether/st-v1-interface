@@ -1,5 +1,5 @@
+import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
-import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
 import { truncateWei } from '@/services/truncate'
 import Link from 'next/link'
 import { styled } from 'styled-components'
@@ -28,7 +28,7 @@ export default function PoolsCard({ poolAddress, members, staked, type }: PoolsC
         <div>
           <div>{t('v2.pools.list.type')}</div>
           <div>
-            {type && handlePoolTypeIcon({ iconSize: 14, value: type })}
+            {type && PoolFilterIcon({ iconSize: 14, value: type })}
             <div>{`${type && poolTypeTranslation(type)}`}</div>
           </div>
         </div>

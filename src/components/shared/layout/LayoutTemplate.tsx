@@ -45,15 +45,14 @@ const { Container, Wrapper, Content, Body } = {
   Content: styled.div`
     display: grid;
     width: 100%;
-    /* grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl}); */
     gap: 24px;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      gap: 48px;
+      gap: 64px;
     }
   `,
   Body: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.md});
     gap: ${props => props.theme.size[32]};
     justify-content: center;
     place-items: center;
