@@ -128,10 +128,10 @@ export default function PoolsControl({ pools }: PoolsListProps) {
           <PoolsEmptyState handleClickButton={clearFilter} key='pool-row-empty' />
         )}
         {poolsFilterBySearch.map(pool => (
-          <>
-            <PoolsRowList pool={pool} key={`pool-row-${pool.address}`} />
+          <div key={`pool-row-${pool.address}`}>
+            <PoolsRowList key={`pool-list-row-${pool.address}`} pool={pool} />
             <PoolsCard key={`pool-card-${pool.address}`} pool={pool} />
-          </>
+          </div>
         ))}
       </ListPools>
     </Container>
