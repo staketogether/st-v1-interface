@@ -1,5 +1,3 @@
-import { ethers } from 'ethers'
-
 interface BlockExplorerConfig {
   baseUrl: string
 }
@@ -7,12 +5,9 @@ interface BlockExplorerConfig {
 export type ChainConfig = {
   chainId: number
   name: string
-  provider: ethers.JsonRpcProvider
   blockExplorer: BlockExplorerConfig
-  alchemyApiUrl: string
   subgraphs: {
     StakeTogether: string
-    ENS: string
     contentful: string
   }
   contracts: {
@@ -41,13 +36,9 @@ const configs: ChainConfig[] = [
   {
     chainId: 5,
     name: 'goerli',
-    provider: new ethers.JsonRpcProvider(
-      `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`
-    ),
     blockExplorer: {
       baseUrl: 'https://goerli.etherscan.io'
     },
-    alchemyApiUrl: `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`,
     contracts: {
       // TODO: Update these addresses to the correct ones
       Airdrop: '0xd7200bb807b617E216fcB49A55Bfa86c57A3F6A7',
@@ -57,7 +48,6 @@ const configs: ChainConfig[] = [
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/17823/stake-together-v2-goerli/v1.2.1',
-      ENS: '',
       contentful: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/master`
     }
   }
