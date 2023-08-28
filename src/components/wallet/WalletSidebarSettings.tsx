@@ -1,6 +1,10 @@
+import { useLocalStorage } from '@/hooks/useLocalStorage'
+import useSettingsCurrency from '@/hooks/useSettingCurrency'
+import { Currency, CurrencySymbol, CurrencyType, Settings } from '@/types/Settings'
+
 import { useRouter } from 'next/router'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
 type WalletSlideBarSettingsProps = {
@@ -15,6 +19,14 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
     router.push(router.pathname, router.asPath, { locale: newLocale })
     setIsSettingsActive(false)
   }
+  const { currency, setCurrency } = useSettingsCurrency()
+  const { setItem } = useLocalStorage()
+
+  const handleCurrencySetting = (value: Currency) => {
+    const settings: Settings = { language: '', currency: value }
+    setItem('settings', JSON.stringify(settings))
+    setCurrency(value)
+  }
 
   return (
     <>
@@ -24,7 +36,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
         </Button>
         <h2>{t('settings.title')}</h2>
       </Header>
-      <LocaleContainer>
+      <SettingContainer>
         <h3>{t('settings.locale')}</h3>
         <div onClick={() => changeLocale('en')} className={`${router.locale === 'en' ? 'active' : ''}`}>
           <span>English</span>
@@ -32,12 +44,33 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
         <div onClick={() => changeLocale('pt')} className={`${router.locale === 'pt' ? 'active' : ''}`}>
           <span>Português</span>
         </div>
-      </LocaleContainer>
+      </SettingContainer>
+      <SettingContainer>
+        <h3>{t('settings.currency')}</h3>
+        <div
+          onClick={() => handleCurrencySetting({ value: CurrencyType.BRL, symbol: CurrencySymbol.BRL })}
+          className={`${currency.value === CurrencyType.BRL ? 'active' : ''}`}
+        >
+          <span>BRL</span>
+        </div>
+        <div
+          onClick={() => handleCurrencySetting({ value: CurrencyType.USD, symbol: CurrencySymbol.USD })}
+          className={`${currency.value === CurrencyType.USD ? 'active' : ''}`}
+        >
+          <span>USD</span>
+        </div>
+        <div
+          onClick={() => handleCurrencySetting({ value: CurrencyType.EUR, symbol: CurrencySymbol.EUR })}
+          className={`${currency.value === CurrencyType.EUR ? 'active' : ''}`}
+        >
+          <span>EUR</span>
+        </div>
+      </SettingContainer>
     </>
   )
 }
 
-const { Header, CloseIcon, LocaleContainer, Button } = {
+const { Header, CloseIcon, SettingContainer, Button } = {
   CloseIcon: styled(AiOutlineArrowLeft)`
     font-size: 18px;
     color: ${({ theme }) => theme.color.primary};
@@ -78,7 +111,7 @@ const { Header, CloseIcon, LocaleContainer, Button } = {
       font-weight: 400;
     }
   `,
-  LocaleContainer: styled.div`
+  SettingContainer: styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[8]};

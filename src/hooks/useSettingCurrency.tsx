@@ -1,0 +1,32 @@
+import { makeVar, useReactiveVar } from '@apollo/client'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import { useLocalStorage } from './useLocalStorage'
+import { Currency, CurrencySymbol, CurrencyType, Settings } from '@/types/Settings'
+
+const reactiveVar = makeVar<Currency>({ value: CurrencyType.USD, symbol: CurrencySymbol.USD })
+
+export default function useSettingsCurrency() {
+  const currency = useReactiveVar(reactiveVar)
+  const { getItem } = useLocalStorage()
+  const router = useRouter()
+  useEffect(() => {
+    const localStorageItem = getItem('settings')
+    const settings = localStorageItem ? (JSON.parse(localStorageItem) as Settings) : null
+    if (settings) {
+      reactiveVar({ value: settings.currency.value, symbol: settings.currency.symbol })
+      return
+    }
+    if (router.locale === 'pt') {
+      reactiveVar({ value: CurrencyType.BRL, symbol: CurrencySymbol.BRL })
+    }
+    if (router.locale === 'es') {
+      reactiveVar({ value: CurrencyType.EUR, symbol: CurrencySymbol.EUR })
+    }
+    if (router.locale === 'en') {
+      reactiveVar({ value: CurrencyType.USD, symbol: CurrencySymbol.USD })
+    }
+  }, [getItem, router.locale])
+  const setCurrency = (value: Currency) => reactiveVar(value)
+  return { currency, setCurrency }
+}
