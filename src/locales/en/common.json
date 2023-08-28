@@ -191,7 +191,7 @@
       "list": {
         "name": "Name",
         "type": "Category",
-        "people": "Members",
+        "people": "People",
         "invested": "Invested"
       }
     },
