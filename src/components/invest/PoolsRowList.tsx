@@ -40,7 +40,7 @@ const { Row, Name, TypeContainer, Text } = {
   Row: styled(Link)`
     display: none;
     height: 48px;
-    grid-template-columns: 0.9fr 0.6fr 0.5fr 0.7fr;
+    grid-template-columns: 0.9fr 0.7fr 0.5fr 0.7fr;
     gap: 8px;
     align-items: center;
     background: ${({ theme }) => theme.color.white};
@@ -70,7 +70,11 @@ const { Row, Name, TypeContainer, Text } = {
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
-    color: ${({ theme }) => theme.colorV2.gray[1]};
+    color: ${({ theme }) => theme.colorV2.blue[1]};
+
+    span {
+      color: ${({ theme }) => theme.colorV2.blue[1]};
+    }
   `,
   Text: styled.span`
     font-size: ${({ theme }) => theme.font.size[14]};

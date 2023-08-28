@@ -219,7 +219,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
 
     > header {
       display: none;
-      grid-template-columns: 0.9fr 0.6fr 0.5fr 0.7fr;
+      grid-template-columns: 0.9fr 0.7fr 0.5fr 0.7fr;
       gap: 8px;
       align-items: center;
       /* background: ${({ theme }) => theme.color.white}; */

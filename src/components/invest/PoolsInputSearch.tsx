@@ -10,7 +10,7 @@ type PoolsInputSearchProps = {
 export default function PoolsInputSearch({ search, setSearch }: PoolsInputSearchProps) {
   const { t } = useLocaleTranslation()
   return (
-    <InputSearchArea>
+    <InputSearchArea className={search.length > 0 ? 'selected' : ''}>
       <button>
         <AiOutlineSearch fontSize={16} />
       </button>
@@ -46,6 +46,7 @@ const { InputSearchArea, InputSearch } = {
 
     &:hover {
       color: ${({ theme }) => theme.colorV2.purple[1]};
+      background: ${({ theme }) => theme.color.whiteAlpha[700]};
     }
 
     &:focus {
@@ -57,10 +58,15 @@ const { InputSearchArea, InputSearch } = {
     &.active {
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
+      background: ${({ theme }) => theme.color.white};
 
       button:first-of-type {
         color: ${({ theme }) => theme.color.secondary};
       }
+    }
+
+    &.selected {
+      background: ${({ theme }) => theme.color.white} !important;
     }
 
     button {
