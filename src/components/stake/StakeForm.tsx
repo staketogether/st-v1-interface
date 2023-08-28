@@ -16,8 +16,7 @@ import stIcon from '@assets/icons/seth-icon.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
-import { AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai'
-import { BsWallet } from 'react-icons/bs'
+import { AiOutlineDownload, AiOutlineLogin, AiOutlineUpload } from 'react-icons/ai'
 import { styled } from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
@@ -456,7 +455,7 @@ const {
       }
     }
   `,
-  ConnectWalletIcon: styled(BsWallet)`
+  ConnectWalletIcon: styled(AiOutlineLogin)`
     font-size: 16px;
   `,
   DepositIcon: styled(AiOutlineDownload)`

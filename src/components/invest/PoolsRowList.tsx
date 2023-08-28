@@ -4,33 +4,31 @@ import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import { truncateWei } from '@/services/truncate'
 import Link from 'next/link'
 import { styled } from 'styled-components'
-import EnsAvatar from '../shared/ens/EnsAvatar'
-import EnsName from '../shared/ens/EnsName'
+import { Pool } from '@/types/Pool'
+import CommunityLogo from '../shared/community/CommunityLogo'
+import CommunityName from '../shared/community/CommunityName'
 
 type PoolsRowListProps = {
-  poolAddress: `0x${string}`
-  members: bigint
-  staked: bigint
-  type?: string
+  pool: Pool
 }
 
-export default function PoolsRowList({ poolAddress, members, staked, type }: PoolsRowListProps) {
+export default function PoolsRowList({ pool }: PoolsRowListProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
   return (
-    <Row href={`/invest/deposit/${poolAddress}`}>
+    <Row href={`/invest/deposit/${pool.address}`}>
       <Name>
-        <EnsAvatar size={24} address={poolAddress} />
-        <EnsName address={poolAddress} />
+        <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} />
+        <CommunityName name={pool.name} />
       </Name>
       <TypeContainer>
-        {type && PoolFilterIcon({ iconSize: 14, value: type })}
-        <Text>{`${type && poolTypeTranslation(type)}`}</Text>
+        {pool.type && PoolFilterIcon({ iconSize: 14, value: pool.type })}
+        <Text>{`${pool.type && poolTypeTranslation(pool.type)}`}</Text>
       </TypeContainer>
-      <Text>{members.toString()}</Text>
-      <Text>
-        {truncateWei(staked, 6)}
-        <Text className='purple'>{t('eth.symbol')}</Text>
+      <Text>{pool.receivedDelegationsCount.toString()}</Text>
+      <Text className='blue'>
+        {truncateWei(pool.poolBalance, 6)}
+        <Text className='blue'>{t('eth.symbol')}</Text>
       </Text>
     </Row>
   )
@@ -83,7 +81,7 @@ const { Row, Name, TypeContainer, Text } = {
     display: flex;
     gap: ${({ theme }) => theme.size[4]};
 
-    &.purple {
+    &.blue {
       color: ${({ theme }) => theme.colorV2.blue[1]};
     }
   `

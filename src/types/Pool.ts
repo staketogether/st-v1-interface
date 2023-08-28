@@ -1,10 +1,10 @@
-import { Account } from './Account'
+import { ContentfulLogo } from './ContentfulPool'
 import { Delegation } from './Delegation'
 
 export type PoolSubgraph = {
   marketShare: bigint
   id: string
-  account: Account
+  address: `0x${string}`
   active: boolean
   poolBalance: bigint
   poolShares: bigint
@@ -19,5 +19,7 @@ export type ENSPool = {
 }
 
 export type Pool = {
-  type?: string
+  type: string
+  logo: ContentfulLogo
+  name: string
 } & PoolSubgraph
