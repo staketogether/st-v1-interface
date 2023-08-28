@@ -11,7 +11,7 @@ const { chains, publicClient } = configureChains(
   [goerli],
   [alchemyProvider({ apiKey: String(process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY) }), publicProvider()],
   {
-    retryCount: 5
+    retryCount: 1
   }
 )
 

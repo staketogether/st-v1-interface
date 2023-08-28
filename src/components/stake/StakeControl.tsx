@@ -28,16 +28,16 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const router = useRouter()
   const handleSwitch = (type: string) => {
     if (poolAddress) {
-      router.push(`/pools/${type}/${poolAddress}`)
+      router.push(`/invest/${type}/${poolAddress}`)
       router.push(
         {
-          pathname: `/pools/${type}/${poolAddress}`
+          pathname: `/invest/${type}/${poolAddress}`
         },
         undefined,
         { shallow: true }
       )
     } else {
-      router.push(`/pools/${type}`)
+      router.push(`/invest/${type}`)
     }
   }
 

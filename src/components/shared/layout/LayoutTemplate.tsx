@@ -45,10 +45,9 @@ const { Container, Wrapper, Content, Body } = {
   Content: styled.div`
     display: grid;
     width: 100%;
-    /* grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl}); */
     gap: 24px;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      gap: 48px;
+      gap: 64px;
     }
   `,
   Body: styled.div`

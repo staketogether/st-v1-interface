@@ -1,20 +1,25 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
+import LayoutTitle from '../../../components/shared/layout/LayoutTitle'
 import { Metatags } from '../../../components/shared/meta/Metatags'
 import StakeControl from '../../../components/stake/StakeControl'
+import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 
-type UnstakePoolProps = {
+type DepositProps = {
   poolAddress: `0x${string}`
   name?: string
   avatar?: string
 }
 
-export default function WithdrawPool({ poolAddress }: UnstakePoolProps) {
+export default function Deposit({ poolAddress }: DepositProps) {
+  const { t } = useLocaleTranslation()
+
   return (
     <LayoutTemplate>
       <Metatags />
-      <StakeControl poolAddress={poolAddress} type='withdraw' />
+      <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
+      <StakeControl poolAddress={poolAddress} type='deposit' />
     </LayoutTemplate>
   )
 }
@@ -24,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   return {
     props: {
-      ...(await serverSideTranslations(context.locale || 'pt', ['common'])),
+      ...(await serverSideTranslations(context.locale || 'en', ['common'])),
       poolAddress: params?.address || ''
     }
   }

@@ -10,9 +10,9 @@ export function useMapPoolsWithTypes(pools: PoolSubgraph[]) {
     )
 
     if (!pool) {
-      return { ...subgraphPool, type: undefined }
+      return { ...subgraphPool, type: '', name: '', logo: { url: '', fileName: '' } }
     }
-    return { ...subgraphPool, type: pool.category?.name }
+    return { ...subgraphPool, type: pool.category?.name, name: pool.name, logo: pool.logo }
   })
 
   return poolsWithTypes

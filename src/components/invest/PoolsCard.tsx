@@ -1,45 +1,44 @@
+import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
-import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
 import { truncateWei } from '@/services/truncate'
 import Link from 'next/link'
 import { styled } from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-import EnsAvatar from '../shared/ens/EnsAvatar'
-import EnsName from '../shared/ens/EnsName'
+
+import { Pool } from '@/types/Pool'
+import CommunityLogo from '../shared/community/CommunityLogo'
+import CommunityName from '../shared/community/CommunityName'
 
 type PoolsCardProps = {
-  poolAddress: `0x${string}`
-  members: bigint
-  staked: bigint
-  type?: string
+  pool: Pool
 }
 
-export default function PoolsCard({ poolAddress, members, staked, type }: PoolsCardProps) {
+export default function PoolsCard({ pool }: PoolsCardProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
 
   return (
-    <Card href={`/pools/deposit/${poolAddress}`}>
+    <Card href={`/invest/deposit/${pool.address}`}>
       <CardHeader>
-        <EnsAvatar size={26} address={poolAddress} />
-        <EnsName large address={poolAddress} />
+        <CommunityLogo size={26} src={pool.logo.url} alt={pool.logo.fileName} />
+        <CommunityName name={pool.name} />
       </CardHeader>
       <CardInfo>
         <div>
           <div>{t('v2.pools.list.type')}</div>
           <div>
-            {type && handlePoolTypeIcon({ iconSize: 14, value: type })}
-            <div>{`${type && poolTypeTranslation(type)}`}</div>
+            {pool.type && PoolFilterIcon({ iconSize: 14, value: pool.type })}
+            <div>{`${pool.type && poolTypeTranslation(pool.type)}`}</div>
           </div>
         </div>
         <div>
           <div>{t('v2.pools.list.people')}</div>
-          <div>{members.toString()}</div>
+          <div>{pool.receivedDelegationsCount.toString()}</div>
         </div>
         <div>
           <div>{t('v2.pools.list.invested')}</div>
           <div>
-            {truncateWei(staked, 6)}
+            {truncateWei(pool.poolBalance, 6)}
             <span>{t('lsd.symbol')}</span>
           </div>
         </div>
@@ -102,11 +101,7 @@ const { Card, CardInfo, CardHeader } = {
       }
       > div:last-child {
         font-size: ${({ theme }) => theme.font.size[14]};
-        color: ${({ theme }) => theme.color.primary};
-
-        span {
-          color: ${({ theme }) => theme.color.secondary};
-        }
+        color: ${({ theme }) => theme.colorV2.blue[1]};
       }
     }
   `

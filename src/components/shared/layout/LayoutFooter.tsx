@@ -39,7 +39,7 @@ const { Container } = {
     }
 
     > span:nth-child(2) {
-      color: ${({ theme }) => theme.colorV2.purple[2]};
+      color: ${({ theme }) => theme.colorV2.white};
     }
   `
 }

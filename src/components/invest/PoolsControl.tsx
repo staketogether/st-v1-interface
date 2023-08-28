@@ -1,16 +1,16 @@
-import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
-import useSearchPools from '@/hooks/subgraphs/useSearchPools'
+import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
-import handlePoolTypeIcon from '@/services/handlePoolTypeIcon'
 import Fuse from 'fuse.js'
 import { useState } from 'react'
+import { styled } from 'styled-components'
 import { PoolSubgraph } from '../../types/Pool'
+import LayoutTitle from '../shared/layout/LayoutTitle'
 import PoolsCard from './PoolsCard'
 import PoolsEmptyState from './PoolsEmptyState'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
-import { styled } from 'styled-components'
+import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
 
 type PoolsListProps = {
   pools: PoolSubgraph[]
@@ -36,15 +36,11 @@ export default function PoolsControl({ pools }: PoolsListProps) {
       value: 'education'
     },
     {
-      name: poolTypeTranslation('socialImpact'),
-      value: 'socialImpact'
-    },
-    {
-      name: poolTypeTranslation('innovation'),
-      value: 'innovation'
+      name: poolTypeTranslation('social'),
+      value: 'social'
     }
   ]
-  const { searchPools: searchPoolsData } = useSearchPools()
+
   const poolsWithTypes = useMapPoolsWithTypes(pools)
 
   const poolsFilterByType = poolsWithTypes.filter(pool => {
@@ -72,7 +68,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
     threshold: 0.3
   }
 
-  const fuse = new Fuse(searchPoolsData, options)
+  const fuse = new Fuse(poolsFilterByType, options)
 
   function searchPools() {
     if (!search || search.trim() === '') {
@@ -84,20 +80,6 @@ export default function PoolsControl({ pools }: PoolsListProps) {
 
   const poolsFilterBySearch = searchPools()
 
-  function handleSetFilter(filter: string) {
-    if (filter === 'all') {
-      setActiveFilters(['all'])
-      return
-    }
-
-    if (activeFilters.includes(filter)) {
-      const filters = activeFilters.filter(item => item !== filter)
-      setActiveFilters(!filters.length ? ['all'] : filters)
-      return
-    }
-    setActiveFilters([...activeFilters.filter(item => item !== 'all'), filter])
-  }
-
   const clearFilter = () => {
     setActiveFilters(['all'])
     setSearch('')
@@ -105,18 +87,16 @@ export default function PoolsControl({ pools }: PoolsListProps) {
 
   return (
     <Container>
-      <header>
-        <h1>{t('v2.pools.title')}</h1>
-      </header>
+      <LayoutTitle title={t('v2.pages.invest.title')} description={t('v2.pages.invest.description')} />
       <FiltersContainer>
         <Filters>
           {filterTypes.map(filter => (
             <FilterButton
-              onClick={() => handleSetFilter(filter.value)}
+              onClick={() => setActiveFilters([filter.value])}
               className={`${activeFilters.includes(filter.value) && 'active'}`}
               key={filter.value}
             >
-              {handlePoolTypeIcon({ iconSize: 14, value: filter.value })}
+              {PoolFilterIcon({ iconSize: 14, value: filter.value })}
               {filter.name}
             </FilterButton>
           ))}
@@ -124,32 +104,19 @@ export default function PoolsControl({ pools }: PoolsListProps) {
         <PoolsInputSearch search={search} setSearch={setSearch} />
       </FiltersContainer>
       <ListPools>
+        <header>
+          <span>{t('v2.pools.list.name')}</span>
+          <span>{t('v2.pools.list.type')}</span>
+          <span>{t('v2.pools.list.people')}</span>
+          <span>{t('v2.pools.list.invested')}</span>
+        </header>
         {!poolsFilterBySearch.length && (
           <PoolsEmptyState handleClickButton={clearFilter} key='pool-row-empty' />
         )}
-        {!!poolsFilterBySearch.length && (
-          <header>
-            <span>{t('v2.pools.list.name')}</span>
-            <span>{t('v2.pools.list.type')}</span>
-            <span>{t('v2.pools.list.people')}</span>
-            <span>{t('v2.pools.list.invested')}</span>
-          </header>
-        )}
         {poolsFilterBySearch.map(pool => (
           <div key={`pool-row-${pool.address}`}>
-            <PoolsRowList
-              poolAddress={pool.address}
-              members={pool.receivedDelegationsCount}
-              staked={pool.poolBalance}
-              type={pool.type}
-            />
-            <PoolsCard
-              key={`pool-card-${pool.address}`}
-              poolAddress={pool.address}
-              members={pool.receivedDelegationsCount}
-              staked={pool.poolBalance}
-              type={pool.type}
-            />
+            <PoolsRowList key={`pool-list-row-${pool.address}`} pool={pool} />
+            <PoolsCard key={`pool-card-${pool.address}`} pool={pool} />
           </div>
         ))}
       </ListPools>
@@ -163,16 +130,8 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
-    > header {
-      > h1 {
-        font-size: ${({ theme }) => theme.font.size[32]};
-        font-style: normal;
-        font-weight: 500;
-        color: ${({ theme }) => theme.color.primary};
-      }
-    }
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      gap: ${({ theme }) => theme.size[32]};
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      gap: ${({ theme }) => theme.size[8]};
     }
   `,
   FiltersContainer: styled.div`
@@ -181,16 +140,16 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
     flex-wrap: wrap;
     flex-wrap: wrap-reverse;
     gap: ${({ theme }) => theme.size[24]};
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      justify-content: space-between;
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       gap: ${({ theme }) => theme.size[16]};
-      grid-template-columns: auto auto;
+      grid-template-columns: auto 240px;
+      grid-template-rows: 34px;
     }
   `,
   Filters: styled.div`
     width: 100%;
     display: flex;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
     align-items: center;
     overflow-y: auto;
     &::-webkit-scrollbar-thumb {
@@ -204,46 +163,45 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
   FilterButton: styled.button`
     display: flex;
     align-items: center;
-    justify-content: center;
     height: 32px;
-    padding: 0px ${({ theme }) => theme.size[12]};
+    justify-content: center;
+    padding: 8px ${({ theme }) => theme.size[12]};
     gap: ${({ theme }) => theme.size[8]};
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
+
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     border: none;
     font-size: ${({ theme }) => theme.font.size[14]};
 
     white-space: nowrap;
-    background: ${({ theme }) => theme.color.whiteAlpha[500]};
-    color: ${({ theme }) => theme.color.primary};
-    &.active,
+    background: ${({ theme }) => theme.colorV2.white};
+    color: ${({ theme }) => theme.colorV2.gray};
+    &.active {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
     &:hover {
-      background: ${({ theme }) => theme.color.primary};
-      color: ${({ theme }) => theme.color.white};
+      /* color: ${({ theme }) => theme.colorV2.blue[1]}; */
+      background: ${({ theme }) => theme.color.whiteAlpha[700]};
     }
   `,
-
   ListPools: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[16]};
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      gap: ${({ theme }) => theme.size[8]};
-    }
+    gap: 4px;
 
     > header {
       display: none;
-      grid-template-columns: 1fr 0.8fr 0.8fr 1fr;
+      grid-template-columns: 0.9fr 0.7fr 0.5fr 0.7fr;
       gap: 8px;
       align-items: center;
-      padding-left: 16px;
+      /* background: ${({ theme }) => theme.color.white}; */
+      padding: 12px 16px;
+      border-radius: 8px;
 
       > span {
         font-size: ${({ theme }) => theme.font.size[14]};
-
-        line-height: 150%;
-        color: ${({ theme }) => theme.color.blue[600]};
+        color: ${({ theme }) => theme.colorV2.blue[1]};
       }
 
       @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {

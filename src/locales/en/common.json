@@ -90,8 +90,8 @@
     "yourWallet": "to wallet"
   },
   "connectWalletSideBar": {
-    "connectButton": "Sign In",
-    "title": "Sign In"
+    "connectButton": "Enter with",
+    "title": "Enter with"
   },
   "buyEth": {
     "button": "Get ETH",
@@ -139,6 +139,28 @@
     "availableToClaim": "Available to Claim"
   },
   "v2": {
+    "pages": {
+      "invest": {
+        "title": "Invest with Projects",
+        "description": "Invest in ethereum staking, support projects, and earn rewards together"
+      },
+      "deposit": {
+        "title": "Deposit",
+        "description": "Deposit ETH and receive stpETH to in DeFi, support this projects donating the fees."
+      },
+      "withdraw": {
+        "title": "Withdraw",
+        "description": "Description"
+      },
+      "incentives": {
+        "title": "Incentives",
+        "description": "Description"
+      },
+      "simulator": {
+        "title": "Simulator",
+        "description": "Description"
+      }
+    },
     "header": {
       "invest": "Invest",
       "incentives": "Incentives",
@@ -150,9 +172,9 @@
     "sidebar": {
       "disconnected": {
         "iAgreeToThe": "I agree to the",
-        "terms&conditions": "Terms & Conditions",
+        "terms&conditions": "Terms",
         "and": "and",
-        "privacyPolicy": "Privacy Policy."
+        "privacyPolicy": "Privacy Policies"
       }
     },
     "pools": {
@@ -161,17 +183,17 @@
         "all": "All",
         "art": "Art",
         "education": "Education",
-        "socialImpact": "Social Impact",
+        "social": "Social Impact",
         "innovation": "Innovation"
       },
-      "emptyList": "No project found.",
+      "emptyList": "No results found",
       "emptyButton": "Clean",
       "search": "Search...",
       "list": {
         "name": "Name",
         "type": "Category",
-        "people": "Members",
-        "invested": "invested"
+        "people": "People",
+        "invested": "Invested"
       }
     },
     "stake": {

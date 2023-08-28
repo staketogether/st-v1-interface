@@ -10,7 +10,7 @@ export default function LayoutHeaderMobile() {
   return (
     <Container>
       <Content>
-        <Logo href='/pools'>
+        <Logo href='/invest'>
           <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
         </Logo>
         <WalletContainer>
