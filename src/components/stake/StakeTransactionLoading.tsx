@@ -167,7 +167,7 @@ const {
   DescriptionAction: styled.span`
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    font-style: normal;
+
     font-weight: 500;
     a {
       text-decoration: none;

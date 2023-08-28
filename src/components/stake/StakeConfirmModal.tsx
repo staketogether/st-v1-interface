@@ -69,7 +69,8 @@ export default function StakeConfirmModal({
                 <span>{t('v2.stake.confirmModal.withdrawing')}</span>
                 <div>
                   <span>
-                    {truncateDecimal(amount, 6)} <span className={'purple'}> {t('lsd.symbol')}</span>
+                    <span className={'purple'}>{truncateDecimal(amount, 6)}</span>{' '}
+                    <span className={'purple'}>{t('lsd.symbol')}</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 </div>
@@ -78,7 +79,7 @@ export default function StakeConfirmModal({
                 <span>{t('v2.stake.confirmModal.youWillReceive')}</span>
                 <div>
                   <span>
-                    {truncateWei(youReceive, 6)} <span className={'purple'}>{t('eth.symbol')}</span>{' '}
+                    <span>{truncateWei(youReceive, 6)}</span> <span>{t('eth.symbol')}</span>{' '}
                   </span>
                   <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 </div>
@@ -90,7 +91,7 @@ export default function StakeConfirmModal({
                 <span>{t('v2.stake.confirmModal.deposit')}</span>
                 <div>
                   <span>
-                    {truncateDecimal(amount, 6)} <span className={'purple'}>{t('eth.symbol')}</span>
+                    <span>{truncateDecimal(amount, 6)}</span> <span>{t('eth.symbol')}</span>
                   </span>
                   <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 </div>
@@ -99,7 +100,7 @@ export default function StakeConfirmModal({
                 <span>{t('v2.stake.confirmModal.youWillReceive')}</span>
                 <div>
                   <span>
-                    {truncateWei(youReceive, 6)}
+                    <span className={'purple'}>{truncateWei(youReceive, 6)}</span>
                     <span className={'purple'}> {t('lsd.symbol')}</span>
                   </span>
                   <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />

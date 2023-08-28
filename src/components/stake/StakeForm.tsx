@@ -293,8 +293,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
                 <h4>{t('availableToStake')}</h4>
               </header>
               <div>
-                <span>{truncateWei(ethBalance, 6)}</span>
-                <span className='purple'>{t('eth.symbol')}</span>
+                <span className='primary'>{truncateWei(ethBalance, 6)}</span>
+                <span className='primary'>{t('eth.symbol')}</span>
               </div>
             </CardInfoData>
           </CardInfo>
@@ -311,7 +311,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
                 <SkeletonLoading height={20} width={120} />
               ) : (
                 <div>
-                  <span>{truncateWei(BigInt(delegationBalance), 6)}</span>
+                  <span className='purple'>{truncateWei(BigInt(delegationBalance), 6)}</span>
                   <span className='purple'>{t('lsd.symbol')}</span>
                 </div>
               )}
@@ -429,7 +429,6 @@ const {
       gap: ${({ theme }) => theme.size[4]};
       > h4 {
         font-size: ${({ theme }) => theme.font.size[12]};
-        font-style: normal;
         font-weight: 400;
         color: ${({ theme }) => theme.color.blue[600]};
       }
@@ -439,16 +438,22 @@ const {
       gap: ${({ theme }) => theme.size[4]};
       span {
         font-size: ${({ theme }) => theme.font.size[16]};
-        font-style: normal;
+
         font-weight: 500;
-        color: ${({ theme }) => theme.color.primary};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+
+        &.primary {
+          color: ${({ theme }) => theme.colorV2.blue[1]};
+        }
 
         &.purple {
-          color: ${({ theme }) => theme.color.secondary};
+          color: ${({ theme }) => theme.colorV2.purple[1]};
         }
+
         &.negative {
           color: ${({ theme }) => theme.color.red[500]};
         }
+
         &.positive {
           color: ${({ theme }) => theme.color.green[500]};
         }

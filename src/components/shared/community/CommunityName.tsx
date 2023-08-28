@@ -5,7 +5,7 @@ import SkeletonLoading from '../icons/SkeletonLoading'
 
 type EnsNameProps = {
   name: string
-  loading?: string
+  loading?: boolean
   large?: boolean
   larger?: boolean
   slice?: number

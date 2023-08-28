@@ -18,6 +18,7 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
   const router = useRouter()
   const { t } = useLocaleTranslation()
   const { blockExplorer } = chainConfig()
+
   return (
     <Container>
       {!isLoading && (
@@ -46,10 +47,9 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
                   >
                     <span>{formatTimestamp}</span>
                     <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
-                    <span className={`${activity.type.includes('deposit') ? 'green' : 'red'}`}>{`${truncateWei(
-                      activity.amount,
-                      5
-                    )} ${t('eth.symbol')}`}</span>
+                    <span
+                      className={`${activity.amount > 1n && 'green'} ${activity.amount < 0 && 'red'}`}
+                    >{`${truncateWei(activity.amount, 5)} ${t('eth.symbol')}`}</span>
 
                     <ExternalLink />
                   </Row>
@@ -85,7 +85,7 @@ const { Container, Row, ExternalLink } = {
       > span {
         color: ${({ theme }) => theme.color.blue[500]};
         font-size: ${({ theme }) => theme.font.size[14]};
-        font-style: normal;
+
         font-weight: 500;
       }
     }
@@ -100,7 +100,7 @@ const { Container, Row, ExternalLink } = {
     grid-template-columns: 1fr 1fr 1fr 30px;
     align-items: center;
 
-    border-radius: 99px;
+    border-radius: 8px;
     background: ${({ theme }) => theme.color.whiteAlpha[500]};
 
     &:hover {
@@ -110,7 +110,7 @@ const { Container, Row, ExternalLink } = {
     span {
       color: ${({ theme }) => theme.color.primary};
       font-size: ${({ theme }) => theme.font.size[14]};
-      font-style: normal;
+
       font-weight: 500;
 
       &.purple {

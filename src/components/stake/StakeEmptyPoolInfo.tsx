@@ -25,7 +25,7 @@ const { Container } = {
     gap: 16px;
     > h4 {
       font-size: 16px;
-      font-style: normal;
+
       font-weight: 500;
     }
   `

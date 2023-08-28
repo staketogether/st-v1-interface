@@ -23,7 +23,7 @@ export default function StakeDescriptionCheckout({
   return (
     <StakeInfo>
       <div>
-        <span className='blue'>
+        <span>
           {`${t('v2.stake.descriptionForm.youReceive')} `}{' '}
           <Tooltip title='Pools'>
             <QuestionIcon />
@@ -31,19 +31,19 @@ export default function StakeDescriptionCheckout({
         </span>
         {type === 'deposit' && (
           <span>
-            <span>{`${truncateWei(youReceiveDeposit, 18) || '0'} `}</span>
+            <span className='purple'>{`${truncateWei(youReceiveDeposit, 18) || '0'} `}</span>
             <span className='purple'>{t('lsd.symbol')}</span>
           </span>
         )}
         {type === 'withdraw' && (
           <span>
-            <span>{` ${truncateDecimal(amount, 5) || '0'} `}</span>
-            <span className='purple'>{t('eth.symbol')}</span>
+            <span className='blue'>{` ${truncateDecimal(amount, 5) || '0'} `}</span>
+            <span className='blue'>{t('eth.symbol')}</span>
           </span>
         )}
       </div>
       <div>
-        <span className='blue'>
+        <span>
           {`${t('v2.stake.descriptionForm.exchange')} `}{' '}
           <Tooltip title='Pools'>
             <QuestionIcon />
@@ -51,20 +51,22 @@ export default function StakeDescriptionCheckout({
         </span>
         {type === 'deposit' && (
           <span>
-            1 <span className='purple'>{t('eth.symbol')}</span> = {truncateWei(sharesByEthRatio)}{' '}
+            <span className='blue'>1</span> <span className='blue'>{t('eth.symbol')}</span> ={' '}
+            <span className='purple'>{truncateWei(sharesByEthRatio)}</span>{' '}
             <span className='purple'>{t('lsd.symbol')}</span>
           </span>
         )}
         {type === 'withdraw' && (
           <span>
-            1 <span className='purple'>{t('lsd.symbol')}</span> = {truncateWei(ethBySharesRatio)}{' '}
-            <span className='purple'>{t('eth.symbol')}</span>
+            <span className='purple'>1</span> <span className='purple'>{t('lsd.symbol')}</span> ={' '}
+            <span className='blue'>{truncateWei(ethBySharesRatio)}</span>{' '}
+            <span className='blue'>{t('eth.symbol')}</span>
           </span>
         )}
       </div>
       {type === 'deposit' && (
         <div>
-          <span className='blue'>
+          <span>
             {`${t('v2.stake.descriptionForm.transactionFee')} `}{' '}
             <Tooltip title='Pools'>
               <QuestionIcon />
@@ -74,7 +76,7 @@ export default function StakeDescriptionCheckout({
         </div>
       )}
       <div>
-        <span className='blue'>
+        <span>
           {`${t('v2.stake.descriptionForm.rewardsFee')} `}
           <Tooltip title='Pools'>
             <QuestionIcon />
@@ -102,7 +104,7 @@ const { StakeInfo, QuestionIcon } = {
       justify-content: space-between;
 
       font-size: ${({ theme }) => theme.font.size[14]};
-      font-style: normal;
+
       > span:nth-child(1) {
         font-weight: 400;
       }
@@ -110,13 +112,13 @@ const { StakeInfo, QuestionIcon } = {
         font-weight: 500;
       }
       span {
-        color: ${({ theme }) => theme.color.primary};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
 
         &.purple {
-          color: ${({ theme }) => theme.color.secondary};
+          color: ${({ theme }) => theme.colorV2.purple[1]};
         }
         &.blue {
-          color: ${({ theme }) => theme.color.blue[600]};
+          color: ${({ theme }) => theme.colorV2.blue[1]};
         }
       }
     }
@@ -124,7 +126,7 @@ const { StakeInfo, QuestionIcon } = {
   QuestionIcon: styled(AiOutlineQuestionCircle)`
     width: 14px;
     height: 14px;
-    color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
     cursor: pointer;
   `
 }

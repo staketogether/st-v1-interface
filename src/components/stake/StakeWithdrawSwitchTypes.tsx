@@ -110,7 +110,7 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } =
 
       > h4 {
         font-size: 13px;
-        font-style: normal;
+
         font-weight: 400;
         color: ${({ theme }) => theme.color.secondary};
       }
@@ -134,7 +134,7 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } =
       justify-content: space-between;
       span {
         font-size: 12px;
-        font-style: normal;
+
         font-weight: 400;
         color: ${({ theme }) => theme.color.primary};
 
@@ -158,7 +158,7 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } =
       flex-direction: column;
       span {
         font-size: 12px;
-        font-style: normal;
+
         font-weight: 400;
         color: ${({ theme }) => theme.color.blackAlpha[500]};
       }

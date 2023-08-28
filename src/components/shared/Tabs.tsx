@@ -117,7 +117,6 @@ const { Container, TabItem, TabsContainer } = {
     align-items: center;
     justify-content: center;
 
-    font-style: normal;
     font-weight: 400;
     color: ${({ theme }) => theme.color.primary};
 

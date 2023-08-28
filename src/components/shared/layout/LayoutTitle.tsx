@@ -3,11 +3,12 @@ import { styled } from 'styled-components'
 type LayoutTitleProps = {
   title: string
   description: string
+  className?: string
 }
 
-export default function LayoutTitle({ title, description }: LayoutTitleProps) {
+export default function LayoutTitle({ title, description, className }: LayoutTitleProps) {
   return (
-    <Container>
+    <Container className={className}>
       <Title>{title}</Title>
       <Description>{description}</Description>
     </Container>
@@ -19,7 +20,6 @@ const Container = styled.header`
   align-items: center;
   gap: ${({ theme }) => theme.size[8]};
   width: 100%;
-  margin-bottom: ${({ theme }) => theme.size[32]};
 `
 
 const Title = styled.h1`

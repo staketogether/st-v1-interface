@@ -13,7 +13,6 @@ interface StakeInputProps {
   type: 'deposit' | 'withdraw'
   handleMaxValue: () => void
   disabled?: boolean
-  purple?: boolean
   hasError?: boolean
 }
 
@@ -24,7 +23,6 @@ export default function StakeFormInput({
   type,
   handleMaxValue,
   disabled,
-  purple,
   hasError
 }: StakeInputProps) {
   const { t } = useLocaleTranslation()
@@ -43,19 +41,31 @@ export default function StakeFormInput({
   }
 
   return (
-    <Container>
+    <Container className={`${disabled ? 'disabled' : ''}`}>
       {type === 'deposit' ? (
         <h3>{`${t('eth.symbol')} ${t('form.amount')}`}</h3>
       ) : (
-        <h3 className='purple'>{`${t('lsd.symbol')} ${t('form.amount')}`}</h3>
+        <h3>{`${t('lsd.symbol')} ${t('form.amount')}`}</h3>
       )}
       <div className={`${disabled ? 'disabled' : ''} ${hasError ? 'error' : ''}`}>
         <Content>
           <div>
             {type === 'deposit' ? (
-              <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
+              <CoinIcon
+                className={`${disabled ? 'disabled' : ''} `}
+                src={ethIcon}
+                width={24}
+                height={24}
+                alt='staked Icon'
+              />
             ) : (
-              <Image src={stIcon} width={24} height={24} alt='staked Icon' />
+              <CoinIcon
+                className={`${disabled ? 'disabled' : ''} `}
+                src={stIcon}
+                width={24}
+                height={24}
+                alt='staked Icon'
+              />
             )}
             <InputContainer>
               <input
@@ -64,16 +74,12 @@ export default function StakeFormInput({
                 value={value}
                 onChange={e => handleChange(e.target.value)}
                 placeholder='0'
-                className={`${purple ? 'purple' : ''} ${hasError ? 'error' : ''}`}
+                className={`${hasError ? 'error' : ''}`}
               />
               <span className={`${hasError ? 'error' : ''}`}>{`$ ${truncateDecimal(price || '0', 2)}`}</span>
             </InputContainer>
           </div>
-          <MaxValue
-            className={purple ? 'purple' : ''}
-            disabled={balanceLoading || disabled}
-            onClick={handleMaxValue}
-          >
+          <MaxValue disabled={balanceLoading || disabled} onClick={handleMaxValue}>
             {t('max')}
           </MaxValue>
         </Content>
@@ -82,35 +88,41 @@ export default function StakeFormInput({
   )
 }
 
-const { Container, Content, MaxValue, InputContainer } = {
+const { Container, Content, MaxValue, InputContainer, CoinIcon } = {
   Container: styled.section`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
+
     h3 {
       font-size: 14px;
-      font-style: normal;
+
       font-weight: 400;
       color: ${({ theme }) => theme.color.blue[600]};
       &.purple {
         color: ${({ theme }) => theme.color.secondary};
       }
     }
+
+    &.disabled {
+      cursor: not-allowed;
+    }
+
     > div {
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[4]};
 
-      border-radius: ${({ theme }) => theme.size[16]};
+      border-radius: ${({ theme }) => theme.size[8]};
       background: ${({ theme }) => theme.color.whiteAlpha[800]};
       padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
       gap: ${({ theme }) => theme.size[12]};
       box-shadow: ${({ theme }) => theme.shadow[100]};
-      border: 1px solid ${({ theme }) => theme.color.white};
+      background: ${({ theme }) => theme.color.gray[100]};
 
       &.disabled {
-        border: 1px solid ${({ theme }) => theme.color.transparent};
-        background: ${({ theme }) => theme.color.blue[50]};
+        background: ${({ theme }) => theme.color.blackAlpha[100]};
+        cursor: not-allowed;
       }
 
       &.error {
@@ -122,6 +134,7 @@ const { Container, Content, MaxValue, InputContainer } = {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     > div {
       display: flex;
       align-items: center;
@@ -131,6 +144,7 @@ const { Container, Content, MaxValue, InputContainer } = {
   InputContainer: styled.div`
     display: flex;
     flex-direction: column;
+
     > input {
       display: flex;
       width: 100%;
@@ -163,7 +177,7 @@ const { Container, Content, MaxValue, InputContainer } = {
     height: 25px;
     border: none;
     padding: 0px ${({ theme }) => theme.size[16]};
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
     background-color: ${({ theme }) => theme.color.primary};
     color: ${({ theme }) => theme.color.white};
@@ -174,8 +188,15 @@ const { Container, Content, MaxValue, InputContainer } = {
 
     &:disabled {
       cursor: not-allowed;
+      background: ${({ theme }) => theme.color.blackAlpha[300]};
     }
 
     font-size: ${({ theme }) => theme.font.size[12]};
+  `,
+  CoinIcon: styled(Image)`
+    &.disabled {
+      cursor: not-allowed;
+      filter: grayscale(100%);
+    }
   `
 }

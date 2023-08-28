@@ -87,7 +87,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
 
   return (
     <Container>
-      <LayoutTitle title={t('v2.pages.invest.title')} description={t('v2.pages.invest.description')} />
+      <Title title={t('v2.pages.invest.title')} description={t('v2.pages.invest.description')} />
       <FiltersContainer>
         <Filters>
           {filterTypes.map(filter => (
@@ -124,7 +124,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
   )
 }
 
-const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
+const { Container, ListPools, FiltersContainer, Filters, FilterButton, Title } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -133,6 +133,9 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       gap: ${({ theme }) => theme.size[8]};
     }
+  `,
+  Title: styled(LayoutTitle)`
+    margin-bottom: ${({ theme }) => theme.size[32]};
   `,
   FiltersContainer: styled.div`
     width: 100%;

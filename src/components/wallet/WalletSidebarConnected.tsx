@@ -298,13 +298,13 @@ const {
       }
       h4 {
         font-size: 12px;
-        font-style: normal;
+
         font-weight: 400;
         color: ${({ theme }) => theme.color.blue[400]};
       }
       span {
         font-size: 16px;
-        font-style: normal;
+
         font-weight: 400;
         color: ${({ theme }) => theme.color.primary};
 

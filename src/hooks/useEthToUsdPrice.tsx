@@ -36,7 +36,9 @@ export default function useEthToUsdPrice(amountValue: string) {
     if (usdPrice && amountValue) {
       const priceCalc = Number(amountValue) * usdPrice
       setPrice(priceCalc.toString())
+      return
     }
+    setPrice('0')
   }, [amountValue, usdPrice])
 
   return { price, loading, error }

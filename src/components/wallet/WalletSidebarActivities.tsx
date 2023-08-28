@@ -72,7 +72,7 @@ const { Container, Activity, ActivitiesHeader, ExternalLink, EmptyContainer } = 
 
     span {
       font-size: ${({ theme }) => theme.font.size[12]};
-      font-style: normal;
+
       &.green {
         color: ${({ theme }) => theme.color.green[500]};
       }

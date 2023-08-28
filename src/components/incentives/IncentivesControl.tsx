@@ -120,13 +120,13 @@ const {
       max-width: 468px;
       h1 {
         font-size: ${({ theme }) => theme.font.size[32]};
-        font-style: normal;
+
         font-weight: 500;
         color: ${({ theme }) => theme.color.primary};
       }
       h2 {
         font-size: ${({ theme }) => theme.font.size[14]};
-        font-style: normal;
+
         font-weight: 500;
         color: ${({ theme }) => theme.color.blue[500]};
       }
@@ -151,28 +151,28 @@ const {
     > h1 {
       font-size: ${({ theme }) => theme.font.size[24]};
       color: ${({ theme }) => theme.color.primary};
-      font-style: normal;
+
       font-weight: 500;
     }
 
     > p {
       font-size: ${({ theme }) => theme.font.size[16]};
       color: ${({ theme }) => theme.color.primary};
-      font-style: normal;
+
       font-weight: 400;
     }
 
     h4 {
       font-size: ${({ theme }) => theme.font.size[14]};
       color: ${({ theme }) => theme.color.blackAlpha[700]};
-      font-style: normal;
+
       font-weight: 500;
     }
 
     span {
       font-size: ${({ theme }) => theme.font.size[16]};
       color: ${({ theme }) => theme.color.primary};
-      font-style: normal;
+
       font-weight: 400;
     }
 
@@ -233,7 +233,7 @@ const {
 
       > h3 {
         font-size: 14px;
-        font-style: normal;
+
         font-weight: 500;
         color: ${({ theme }) => theme.color.blue[500]};
       }
@@ -243,7 +243,7 @@ const {
         gap: ${({ theme }) => theme.size[8]};
 
         font-size: 22px;
-        font-style: normal;
+
         font-weight: 400;
         color: ${({ theme }) => theme.color.primary};
 
@@ -261,7 +261,7 @@ const {
 
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    font-style: normal;
+
     > h3 {
       font-weight: 500;
     }
@@ -292,7 +292,7 @@ const {
 
     font-size: ${({ theme }) => theme.font.size[16]};
     color: ${({ theme }) => theme.color.primary};
-    font-style: normal;
+
     font-weight: 400;
 
     > div {
