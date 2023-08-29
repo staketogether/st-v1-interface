@@ -17,7 +17,6 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
 
   const changeLocale = (newLocale: string) => {
     router.push(router.pathname, router.asPath, { locale: newLocale })
-    setIsSettingsActive(false)
   }
   const { currency, setCurrency } = useSettingsCurrency()
   const { setItem } = useLocalStorage()
