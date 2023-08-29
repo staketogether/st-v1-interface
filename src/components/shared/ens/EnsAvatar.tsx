@@ -12,7 +12,7 @@ export default function EnsAvatar({ address, size = 24 }: EnsAvatarProps) {
   const { avatar, avatarLoading } = useEns(address)
 
   if (avatarLoading) {
-    return <SkeletonLoading borderRadius='50%' width={size} height={size} />
+    return <SkeletonLoading $borderRadius='50%' width={size} height={size} />
   }
 
   return avatar ? (

@@ -98,7 +98,7 @@ export default function StakePoolInfo({
               alt={poolDetail ? poolDetail?.logo?.url : ''}
               loading={poolDetailLoading}
             />
-            <CommunityName larger name={poolDetail?.name || ''} loading={poolDetailLoading} />
+            <CommunityName $larger name={poolDetail?.name || ''} loading={poolDetailLoading} />
           </div>
           <Tooltip trigger='click' title={t('copiedToClipboard')}>
             <ShareButton onClick={copyToClipboard}>

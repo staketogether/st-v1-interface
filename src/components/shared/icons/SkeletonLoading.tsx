@@ -4,11 +4,11 @@ type SkeletonLoadingProps = {
   className?: string
   height?: number
   width?: number
-  borderRadius?: string
+  $borderRadius?: string
 }
 
-export default function SkeletonLoading({ className, height, width, borderRadius }: SkeletonLoadingProps) {
-  return <Container className={className} height={height} width={width} borderRadius={borderRadius} />
+export default function SkeletonLoading({ className, height, width, $borderRadius }: SkeletonLoadingProps) {
+  return <Container className={className} height={height} width={width} $borderRadius={$borderRadius} />
 }
 
 const loading = keyframes`
@@ -21,7 +21,7 @@ const loading = keyframes`
 `
 
 const { Container } = {
-  Container: styled.div<{ height?: number; width?: number; borderRadius?: string }>`
+  Container: styled.div<{ height?: number; width?: number; $borderRadius?: string }>`
     height: ${props => (props.height ? `${props.height}px` : '14px')};
     width: ${props => (props.width ? `${props.width}px` : '100%')};
     background: linear-gradient(
@@ -33,6 +33,6 @@ const { Container } = {
     background-size: 200%;
     animation: ${loading} 1.5s infinite ease-in-out;
 
-    border-radius: ${props => (props.borderRadius ? `${props.borderRadius}` : '12px')};
+    border-radius: ${props => (props.$borderRadius ? `${props.$borderRadius}` : '12px')};
   `
 }
