@@ -11,6 +11,7 @@ export default interface Theme {
   }
   shadow: {
     100: string
+    200: string
   }
   size: {
     4: string
@@ -51,6 +52,7 @@ export default interface Theme {
     gray: {
       1: string
       2: string
+      3: string
     }
   }
   color: {

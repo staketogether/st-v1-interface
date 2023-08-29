@@ -3,7 +3,7 @@ import useActiveRoute from '@/hooks/useActiveRoute'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { useRouter } from 'next/router'
-import { AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai'
+import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
 import { styled } from 'styled-components'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import Tabs, { TabsItems } from '../shared/Tabs'
@@ -124,7 +124,6 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
     span {
       font-size: ${({ theme }) => theme.font.size[14]};
 
-      font-weight: 500;
       color: ${({ theme }) => theme.colorV2.blue[1]};
 
       &.green {
@@ -160,10 +159,10 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
       }
     }
   `,
-  DepositIcon: styled(AiOutlineDownload)`
-    font-size: 16px;
+  DepositIcon: styled(BsArrowDown)`
+    font-size: 14px;
   `,
-  WithdrawIcon: styled(AiOutlineUpload)`
-    font-size: 16px;
+  WithdrawIcon: styled(BsArrowUp)`
+    font-size: 14px;
   `
 }

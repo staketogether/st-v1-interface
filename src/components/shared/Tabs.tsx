@@ -106,8 +106,8 @@ const { Container, TabItem, TabsContainer } = {
     align-items: center;
     justify-content: center;
 
-    font-weight: 400;
-    color: ${({ theme }) => theme.color.primary};
+    font-weight: 500;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
     border-bottom: 1px solid ${({ theme }) => theme.color.transparent};
 
     &.active {

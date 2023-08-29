@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { BsBook, BsHeart, BsPalette } from 'react-icons/bs'
+import { BsBook, BsBrush, BsHeart } from 'react-icons/bs'
 
 type FilterPool = {
   icon: ReactNode
@@ -14,7 +14,7 @@ type PoolFilterIconProps = {
 export default function PoolFilterIcon({ iconSize, value }: PoolFilterIconProps) {
   const filterTypes: FilterPool[] = [
     {
-      icon: <BsPalette fontSize={iconSize} />,
+      icon: <BsBrush fontSize={iconSize} />,
       value: 'art'
     },
     {

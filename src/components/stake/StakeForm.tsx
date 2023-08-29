@@ -12,7 +12,7 @@ import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { WithdrawType } from '@/types/Withdraw'
 import ethIcon from '@assets/icons/eth-icon.svg'
-import stIcon from '@assets/icons/seth-icon.svg'
+import stSymbol from '@assets/st-symbol.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
@@ -286,7 +286,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         <CardInfoContainer>
           <CardInfo>
             <div>
-              <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
+              <Image src={ethIcon} width={30} height={30} alt='staked Icon' />
             </div>
             <CardInfoData>
               <header>
@@ -298,14 +298,13 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               </div>
             </CardInfoData>
           </CardInfo>
-
           <CardInfo>
             <div>
-              <Image src={stIcon} width={24} height={24} alt='staked Icon' />
+              <Image src={stSymbol} width={30} height={30} alt='staked Icon' />
             </div>
             <CardInfoData>
               <header>
-                <h4>{t('staked')}</h4>
+                <h4>{t('invested')}</h4>
               </header>
               {delegationSharesLoading ? (
                 <SkeletonLoading height={20} width={120} />
@@ -396,14 +395,16 @@ const {
 } = {
   StakeContainer: styled.div`
     display: grid;
-    gap: ${({ theme }) => theme.size[16]};
-    padding: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[24]};
+    padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]};
   `,
   CardInfoContainer: styled.div`
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
+
     gap: ${({ theme }) => theme.size[16]};
+
     @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
       gap: ${({ theme }) => theme.size[24]};
       grid-template-columns: 1fr 1fr;
@@ -412,9 +413,29 @@ const {
   CardInfo: styled.div`
     display: flex;
     align-items: center;
+
     gap: ${({ theme }) => theme.size[16]};
-    > img {
-      box-shadow: ${({ theme }) => theme.shadow[100]};
+    background: ${({ theme }) => theme.colorV2.gray[3]};
+    padding: ${({ theme }) => theme.size[12]};
+    border-radius: 8px;
+
+    box-shadow: ${({ theme }) => theme.shadow[200]};
+
+    img {
+      box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.3);
+      border-radius: 100%;
+    }
+
+    > div {
+      display: grid;
+      align-items: center;
+      justify-content: flex-start;
+
+      > div {
+        display: flex;
+        justify-content: flex-start;
+        align-self: flex-start;
+      }
     }
   `,
   CardInfoData: styled.div`
@@ -422,6 +443,7 @@ const {
     flex-direction: column;
     justify-content: center;
     gap: ${({ theme }) => theme.size[4]};
+
     > header {
       display: flex;
       align-items: center;
@@ -429,20 +451,20 @@ const {
       > h4 {
         font-size: ${({ theme }) => theme.font.size[12]};
         font-weight: 400;
-        color: ${({ theme }) => theme.color.blue[600]};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
       }
     }
     > div {
       display: flex;
       gap: ${({ theme }) => theme.size[4]};
       span {
-        font-size: ${({ theme }) => theme.font.size[16]};
+        font-size: ${({ theme }) => theme.font.size[14]};
 
         font-weight: 500;
         color: ${({ theme }) => theme.colorV2.gray[1]};
 
         &.primary {
-          color: ${({ theme }) => theme.colorV2.blue[1]};
+          color: ${({ theme }) => theme.colorV2.blue[3]};
         }
 
         &.purple {
