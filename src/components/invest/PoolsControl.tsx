@@ -184,7 +184,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, Title } =
       color: ${({ theme }) => theme.colorV2.purple[1]};
     }
     &:hover {
-      color: ${({ theme }) => theme.colorV2.blue[1]};
+      color: ${({ theme }) => theme.colorV2.purple[1]};
       background: ${({ theme }) => theme.color.whiteAlpha[700]};
     }
   `,
