@@ -53,8 +53,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
       key: 'withdraw',
       label: t('withdraw'),
       icon: <WithdrawIcon />,
-      children: stakeForm,
-      color: 'purple'
+      children: stakeForm
     }
   ]
 
@@ -77,16 +76,13 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
           )}
         </div>
       </TvlContainer>
-
       <Form>
         <Tabs
           items={tabsItems}
-          size='large'
           defaultActiveKey={activeTab}
           onChangeActiveTab={value => handleSwitch(value as string)}
         />
       </Form>
-
       <StakePoolInfo
         poolAddress={poolAddress}
         poolData={pool}

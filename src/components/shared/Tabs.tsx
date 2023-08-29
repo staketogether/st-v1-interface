@@ -18,11 +18,10 @@ export type TabsItems = {
 interface TabsProps {
   items: TabsItems[]
   defaultActiveKey?: ItemsKey
-  size: 'small' | 'middle' | 'large'
   onChangeActiveTab?: (value: string | number) => void
 }
 
-export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, size }: TabsProps) {
+export default function Tabs({ onChangeActiveTab, items, defaultActiveKey }: TabsProps) {
   const [activeKey, setActiveKey] = useState<ItemsKey>(defaultActiveKey ? defaultActiveKey : items[0].key)
 
   const handleClickTab = (key: ItemsKey, disabled: boolean, callBack: (() => void) | undefined) => {
@@ -37,15 +36,14 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, size 
 
   return (
     <Container>
-      <TabsContainer className={`${size}`}>
+      <TabsContainer>
         {items.map(item => {
           if (item.tooltip) {
             return (
               <Tooltip title={item.tooltip} key={item.key}>
                 <TabItem
                   className={`
-                  ${activeKey === item.key ? 'active' : ''} 
-                  ${size} 
+           
                   ${item.disabled && 'disabled'}
                  `}
                   onClick={() => handleClickTab(item.key, !!item.disabled, item.onChange)}
@@ -61,7 +59,6 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, size 
               key={item.key}
               className={`
               ${activeKey === item.key ? 'active' : ''}
-               ${size} 
                ${item.disabled && 'disabled'}
                `}
               onClick={() => handleClickTab(item.key, !!item.disabled, item.onChange)}
@@ -85,11 +82,11 @@ const { Container, TabItem, TabsContainer } = {
   `,
   TabsContainer: styled.div`
     width: 100%;
-    border-bottom: 1px solid ${({ theme }) => theme.color.blue[50]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    height: 48px;
 
     display: flex;
     align-items: center;
-    gap: ${({ theme }) => theme.size[24]};
 
     overflow-y: auto;
     &::-webkit-scrollbar-thumb {
@@ -99,18 +96,10 @@ const { Container, TabItem, TabsContainer } = {
     &::-webkit-scrollbar {
       display: none;
     }
-
-    &.middle {
-      padding: 0px ${({ theme }) => theme.size[24]};
-    }
-
-    &.large {
-      padding: 0px ${({ theme }) => theme.size[24]};
-    }
   `,
   TabItem: styled.div`
     cursor: pointer;
-
+    height: 48px;
     display: flex;
     width: 100%;
     gap: ${({ theme }) => theme.size[8]};
@@ -119,6 +108,7 @@ const { Container, TabItem, TabsContainer } = {
 
     font-weight: 400;
     color: ${({ theme }) => theme.color.primary};
+    border-bottom: 1px solid ${({ theme }) => theme.color.transparent};
 
     &.active {
       &.primary {
@@ -129,28 +119,10 @@ const { Container, TabItem, TabsContainer } = {
       }
     }
 
-    &.small {
-      padding: ${({ theme }) => theme.size[8]} 2px;
-      font-size: ${({ theme }) => theme.font.size[14]};
-      &.active {
-        border-bottom: 1px solid ${({ theme }) => theme.color.secondary};
-      }
-    }
-
-    &.middle {
-      padding: ${({ theme }) => theme.size[12]} 2px;
-      font-size: ${({ theme }) => theme.font.size[14]};
-      &.active {
-        border-bottom: 1px solid ${({ theme }) => theme.color.secondary};
-      }
-    }
-
-    &.large {
-      padding: ${({ theme }) => theme.size[12]} 2px;
-      font-size: ${({ theme }) => theme.font.size[16]};
-      &.active {
-        border-bottom: 2px solid ${({ theme }) => theme.color.secondary};
-      }
+    font-size: ${({ theme }) => theme.font.size[14]};
+    &.active {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+      border-bottom: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
     }
 
     &.disabled {
