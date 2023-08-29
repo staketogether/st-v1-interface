@@ -283,40 +283,42 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   return (
     <>
       <StakeContainer>
-        <CardInfoContainer>
-          <CardInfo>
-            <div>
-              <Image src={ethIcon} width={30} height={30} alt='staked Icon' />
-            </div>
-            <CardInfoData>
-              <header>
-                <h4>{t('availableToStake')}</h4>
-              </header>
+        {accountAddress && (
+          <CardInfoContainer>
+            <CardInfo>
               <div>
-                <span className='primary'>{truncateWei(ethBalance, 6)}</span>
-                <span className='primary'>{t('eth.symbol')}</span>
+                <Image src={ethIcon} width={30} height={30} alt='staked Icon' />
               </div>
-            </CardInfoData>
-          </CardInfo>
-          <CardInfo>
-            <div>
-              <Image src={stSymbol} width={30} height={30} alt='staked Icon' />
-            </div>
-            <CardInfoData>
-              <header>
-                <h4>{t('invested')}</h4>
-              </header>
-              {delegationSharesLoading ? (
-                <SkeletonLoading height={20} width={120} />
-              ) : (
+              <CardInfoData>
+                <header>
+                  <h4>{t('availableToStake')}</h4>
+                </header>
                 <div>
-                  <span className='purple'>{truncateWei(BigInt(delegationBalance), 6)}</span>
-                  <span className='purple'>{t('lsd.symbol')}</span>
+                  <span className='primary'>{truncateWei(ethBalance, 6)}</span>
+                  <span className='primary'>{t('eth.symbol')}</span>
                 </div>
-              )}
-            </CardInfoData>
-          </CardInfo>
-        </CardInfoContainer>
+              </CardInfoData>
+            </CardInfo>
+            <CardInfo>
+              <CardInfoData>
+                <header>
+                  <h4>{t('invested')}</h4>
+                </header>
+                {delegationSharesLoading ? (
+                  <SkeletonLoading height={20} width={120} />
+                ) : (
+                  <div>
+                    <span className='purple'>{truncateWei(BigInt(delegationBalance), 6)}</span>
+                    <span className='purple'>{t('lsd.symbol')}</span>
+                  </div>
+                )}
+              </CardInfoData>
+              <div>
+                <Image src={stSymbol} width={30} height={30} alt='staked Icon' />
+              </div>
+            </CardInfo>
+          </CardInfoContainer>
+        )}
         {type === 'withdraw' && (
           <StakeWithdrawSwitchTypes
             liquidityPoolBalance={withdrawLiquidityPoolBalance}
@@ -403,7 +405,16 @@ const {
     grid-template-columns: 1fr;
     align-items: center;
 
+    border-radius: 8px;
     gap: ${({ theme }) => theme.size[16]};
+    height: 32px;
+
+    > div:nth-child(2) {
+      justify-content: flex-end;
+      header {
+        justify-content: flex-end;
+      }
+    }
 
     @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
       gap: ${({ theme }) => theme.size[24]};
@@ -415,11 +426,7 @@ const {
     align-items: center;
 
     gap: ${({ theme }) => theme.size[16]};
-    background: ${({ theme }) => theme.colorV2.gray[3]};
-    padding: ${({ theme }) => theme.size[12]};
-    border-radius: 8px;
-
-    box-shadow: ${({ theme }) => theme.shadow[200]};
+    height: 32px;
 
     img {
       box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.3);
@@ -430,6 +437,7 @@ const {
       display: grid;
       align-items: center;
       justify-content: flex-start;
+      height: 32px;
 
       > div {
         display: flex;
@@ -446,7 +454,7 @@ const {
 
     > header {
       display: flex;
-      align-items: center;
+
       gap: ${({ theme }) => theme.size[4]};
       > h4 {
         font-size: ${({ theme }) => theme.font.size[12]};

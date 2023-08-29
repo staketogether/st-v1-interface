@@ -1,10 +1,10 @@
 import ethIcon from '@assets/icons/eth-icon.svg'
-import stIcon from '@assets/icons/seth-icon.svg'
+import stSymbol from '@assets/st-symbol.svg'
 import Image from 'next/image'
+import styled from 'styled-components'
 import useCoinConversion from '../../hooks/useCoinConversion'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import { truncateDecimal } from '../../services/truncate'
-import styled from 'styled-components'
 
 interface StakeInputProps {
   value: string
@@ -42,18 +42,13 @@ export default function StakeFormInput({
 
   return (
     <Container className={`${disabled ? 'disabled' : ''}`}>
-      {type === 'deposit' ? (
-        <h3>{`${t('eth.symbol')} ${t('form.amount')}`}</h3>
-      ) : (
-        <h3>{`${t('lsd.symbol')} ${t('form.amount')}`}</h3>
-      )}
       <div className={`${hasError ? 'error' : ''}`}>
         <Content>
           <div>
             {type === 'deposit' ? (
-              <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
+              <Image src={ethIcon} width={24} height={24} alt='ETH Icon' />
             ) : (
-              <Image src={stIcon} width={24} height={24} alt='staked Icon' />
+              <Image src={stSymbol} width={24} height={24} alt='stpETH Icon' />
             )}
             <InputContainer>
               <input
@@ -83,13 +78,13 @@ const { Container, Content, MaxValue, InputContainer } = {
   Container: styled.section`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
+    gap: ${({ theme }) => theme.size[8]};
 
-    h3 {
+    p {
       font-size: 14px;
 
       font-weight: 400;
-      color: ${({ theme }) => theme.color.blue[600]};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
       &.purple {
         color: ${({ theme }) => theme.color.secondary};
       }
@@ -98,7 +93,7 @@ const { Container, Content, MaxValue, InputContainer } = {
     &.disabled {
       cursor: not-allowed;
       > div {
-        background: ${({ theme }) => theme.color.blackAlpha[100]};
+        background: ${({ theme }) => theme.colorV2.gray[2]};
         cursor: not-allowed;
       }
       button {
@@ -127,14 +122,10 @@ const { Container, Content, MaxValue, InputContainer } = {
 
       border-radius: ${({ theme }) => theme.size[8]};
       background: ${({ theme }) => theme.color.whiteAlpha[800]};
-      padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
-      gap: ${({ theme }) => theme.size[12]};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
-      background: ${({ theme }) => theme.color.gray[100]};
-
-      &.error {
-        border: 1px solid ${({ theme }) => theme.color.red[100]};
-      }
+      padding: ${({ theme }) => theme.size[16]} ${({ theme }) => theme.size[16]};
+      gap: ${({ theme }) => theme.size[16]};
+      box-shadow: ${({ theme }) => theme.shadow[200]};
+      background: ${({ theme }) => theme.colorV2.gray[2]};
     }
   `,
   Content: styled.div`
@@ -145,12 +136,13 @@ const { Container, Content, MaxValue, InputContainer } = {
     > div {
       display: flex;
       align-items: center;
-      gap: ${({ theme }) => theme.size[8]};
+      gap: ${({ theme }) => theme.size[12]};
     }
   `,
   InputContainer: styled.div`
     display: flex;
     flex-direction: column;
+    gap: ${({ theme }) => theme.size[4]};
 
     > input {
       display: flex;
@@ -160,6 +152,8 @@ const { Container, Content, MaxValue, InputContainer } = {
       background: none;
       color: ${({ theme }) => theme.color.black};
       font-size: ${({ theme }) => theme.font.size[24]};
+      line-height: 24px;
+      height: 24px;
 
       &::-webkit-input-placeholder {
         color: ${({ theme }) => theme.color.blue[300]};
@@ -171,9 +165,10 @@ const { Container, Content, MaxValue, InputContainer } = {
     }
 
     > span {
-      font-size: ${({ theme }) => theme.font.size[14]};
+      font-size: ${({ theme }) => theme.font.size[12]};
       color: ${({ theme }) => theme.color.blue[500]};
       font-weight: 500;
+      display: none;
 
       &.error {
         color: ${({ theme }) => theme.color.red[300]};
