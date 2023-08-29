@@ -37,7 +37,7 @@ export const lightTheme: Theme = {
     blue: {
       1: '#373b8a',
       2: '#272961',
-      3: '#89a8f2'
+      3: '#1f51ab'
     },
     purple: {
       1: '#774bc7',

@@ -135,7 +135,7 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
         color: ${({ theme }) => theme.color.green[500]};
       }
       &.primary {
-        color: ${({ theme }) => theme.colorV2.blue[1]};
+        color: ${({ theme }) => theme.colorV2.blue[3]};
       }
     }
   `,

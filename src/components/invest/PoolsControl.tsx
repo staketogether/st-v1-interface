@@ -1,4 +1,5 @@
 import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
+import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import Fuse from 'fuse.js'
@@ -10,7 +11,6 @@ import PoolsCard from './PoolsCard'
 import PoolsEmptyState from './PoolsEmptyState'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
-import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
 
 type PoolsListProps = {
   pools: PoolSubgraph[]
@@ -135,7 +135,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, Title } =
     }
   `,
   Title: styled(LayoutTitle)`
-    margin-bottom: ${({ theme }) => theme.size[32]};
+    margin-bottom: ${({ theme }) => theme.size[16]};
   `,
   FiltersContainer: styled.div`
     width: 100%;
@@ -184,7 +184,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, Title } =
       color: ${({ theme }) => theme.colorV2.purple[1]};
     }
     &:hover {
-      /* color: ${({ theme }) => theme.colorV2.blue[1]}; */
+      color: ${({ theme }) => theme.colorV2.blue[1]};
       background: ${({ theme }) => theme.color.whiteAlpha[700]};
     }
   `,
@@ -205,6 +205,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, Title } =
       > span {
         font-size: ${({ theme }) => theme.font.size[14]};
         color: ${({ theme }) => theme.colorV2.blue[1]};
+        font-weight: 500;
       }
 
       @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
