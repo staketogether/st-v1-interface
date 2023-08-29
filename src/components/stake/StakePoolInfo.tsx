@@ -107,7 +107,7 @@ export default function StakePoolInfo({
           </Tooltip>
         </header>
       )}
-      <Tabs items={tabsItems} size='middle' />
+      <Tabs items={tabsItems} />
     </Container>
   )
 }
