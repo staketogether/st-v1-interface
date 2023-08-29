@@ -33,6 +33,10 @@ const { Container, Wrapper, Content, Body } = {
     gap: 24px;
     min-height: 100vh;
     background: ${({ theme }) => theme.colorV2.background};
+    padding: ${({ theme }) => theme.size[16]};
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      padding: 0px;
+    }
   `,
   Wrapper: styled.div`
     width: 100%;

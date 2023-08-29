@@ -55,7 +55,7 @@ const { Card, CardInfo, CardHeader } = {
 
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
+    background-color: ${({ theme }) => theme.color.white};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     padding: ${({ theme }) => theme.size[16]};

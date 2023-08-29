@@ -135,7 +135,10 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, Title } =
     }
   `,
   Title: styled(LayoutTitle)`
-    margin-bottom: ${({ theme }) => theme.size[16]};
+    margin-bottom: 0px;
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      margin-bottom: ${({ theme }) => theme.size[16]};
+    }
   `,
   FiltersContainer: styled.div`
     width: 100%;
