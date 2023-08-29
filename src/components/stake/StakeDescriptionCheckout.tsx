@@ -1,8 +1,8 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
-import { Tooltip } from 'antd'
 import { AiOutlineQuestionCircle } from 'react-icons/ai'
 import { styled } from 'styled-components'
+import TooltipComponent from '../shared/TooltipComponent'
 
 type StakeDescriptionCheckoutProps = {
   type: 'deposit' | 'withdraw'
@@ -25,9 +25,9 @@ export default function StakeDescriptionCheckout({
       <div>
         <span>
           {`${t('v2.stake.descriptionForm.youReceive')} `}{' '}
-          <Tooltip title='Pools'>
+          <TooltipComponent text='Pools'>
             <QuestionIcon />
-          </Tooltip>
+          </TooltipComponent>
         </span>
         {type === 'deposit' && (
           <span>
@@ -45,9 +45,9 @@ export default function StakeDescriptionCheckout({
       <div>
         <span>
           {`${t('v2.stake.descriptionForm.exchange')} `}{' '}
-          <Tooltip title='Pools'>
+          <TooltipComponent text='Pools'>
             <QuestionIcon />
-          </Tooltip>
+          </TooltipComponent>
         </span>
         {type === 'deposit' && (
           <span>
@@ -68,9 +68,9 @@ export default function StakeDescriptionCheckout({
         <div>
           <span>
             {`${t('v2.stake.descriptionForm.transactionFee')} `}{' '}
-            <Tooltip title='Pools'>
+            <TooltipComponent text='Pools'>
               <QuestionIcon />
-            </Tooltip>
+            </TooltipComponent>
           </span>
           <span>0.3%</span>
         </div>
@@ -78,9 +78,9 @@ export default function StakeDescriptionCheckout({
       <div>
         <span>
           {`${t('v2.stake.descriptionForm.rewardsFee')} `}
-          <Tooltip title='Pools'>
+          <TooltipComponent text='Pools'>
             <QuestionIcon />
-          </Tooltip>
+          </TooltipComponent>
         </span>
         <span>0.45%</span>
       </div>
