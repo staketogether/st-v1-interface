@@ -104,7 +104,6 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
       max-width: 468px;
     }
   `,
-
   TvlContainer: styled.div`
     display: flex;
     padding: ${({ theme }) => theme.size[16]} ${({ theme }) => theme.size[24]};
@@ -124,7 +123,7 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
     span {
       font-size: ${({ theme }) => theme.font.size[14]};
 
-      color: ${({ theme }) => theme.colorV2.blue[1]};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
 
       &.green {
         color: ${({ theme }) => theme.color.green[500]};
