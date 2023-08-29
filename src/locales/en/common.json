@@ -146,12 +146,8 @@
         "description": "Invest in ethereum staking, support projects, and earn rewards together"
       },
       "deposit": {
-        "title": "Deposit",
-        "description": "Deposit ETH and receive stpETH to in DeFi, support this projects donating the fees."
-      },
-      "withdraw": {
-        "title": "Withdraw",
-        "description": "Description"
+        "title": "Deposit Ether",
+        "description": "Deposit ETH to earn staking rewards with stpETH while boosting incentives for this project"
       },
       "incentives": {
         "title": "Incentives",
@@ -198,11 +194,8 @@
       }
     },
     "stake": {
-      "header": {
-        "title": "Stake Ether",
-        "description": "Deposit ETH and use stpETH in DeFi to earn staking rewards while explorinf additional"
-      },
-      "annualRewards": "Annual Staking Rewards",
+      "apy": "Annual Yield",
+      "tvl": "Deposited Value",
       "infoEmptyState": "New information coming soon!",
       "descriptionForm": {
         "youReceive": "You Receive:",

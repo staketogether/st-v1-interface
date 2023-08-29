@@ -1,18 +1,16 @@
 import usePool from '@/hooks/subgraphs/usePool'
-import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
 import useActiveRoute from '@/hooks/useActiveRoute'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
-import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { AiOutlineDownload, AiOutlineUpload } from 'react-icons/ai'
 import { styled } from 'styled-components'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
-import LayoutTitle from '../shared/layout/LayoutTitle'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -24,7 +22,6 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { isActive } = useActiveRoute()
 
   const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress, { first: 10, skip: 0 })
-  const { stakeTogether } = useStakeTogether()
 
   const router = useRouter()
   const handleSwitch = (type: string) => {
@@ -62,34 +59,19 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   ]
 
   const activeTab = isActive('deposit') ? 'deposit' : 'withdraw'
-  let poolMarketShare = 0
-
-  if (pool?.poolShares && stakeTogether?.totalPoolShares) {
-    const marketShare =
-      (BigInt(pool.poolShares) * BigInt(ethers.parseEther('1'))) / BigInt(stakeTogether.totalPoolShares)
-    poolMarketShare = (Number(marketShare) / Number(ethers.parseEther('1'))) * 100
-  }
 
   return (
     <Container>
-      {type === 'deposit' && (
-        <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
-      )}
-      {type === 'withdraw' && (
-        <LayoutTitle title={t('v2.pages.withdraw.title')} description={t('v2.pages.withdraw.description')} />
-      )}
-
+      <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
       <TvlContainer>
         <div>
-          <span>{t('v2.stake.annualRewards')}</span>
+          <span>{t('v2.stake.apy')}</span>
           <span className='green'>5%</span>
         </div>
         <div>
-          <span>TVL</span>
+          <span>{t('v2.stake.tvl')}</span>
           {!!pool?.poolBalance && !initialLoading ? (
-            <span className='primary'>{`${truncateWei(pool?.poolBalance, 5)} ${t(
-              'eth.symbol'
-            )} (${poolMarketShare.toFixed(2)}%)`}</span>
+            <span className='primary'>{`${truncateWei(pool?.poolBalance, 5)} ${t('eth.symbol')} `}</span>
           ) : (
             <SkeletonLoading height={14} width={100} />
           )}
@@ -129,9 +111,10 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
 
   TvlContainer: styled.div`
     display: flex;
-    padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[24]};
+    padding: ${({ theme }) => theme.size[16]} ${({ theme }) => theme.size[24]};
     flex-direction: column;
     gap: 8px;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
 
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.color.white};

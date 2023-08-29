@@ -32,4 +32,5 @@ const Description = styled.p`
   color: ${({ theme }) => theme.colorV2.gray[1]};
   font-size: ${({ theme }) => theme.font.size[14]};
   font-weight: 400;
+  line-height: 18px;
 `
