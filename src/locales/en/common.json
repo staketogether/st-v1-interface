@@ -130,8 +130,6 @@
     "alt": "Network gas price"
   },
   "airdrop": {
-    "title": "Incentives",
-    "description": "The protocol's profits are perpetually airdropped to benefit individuals, communities, and social initiatives.",
     "readAnnouncementButton": "Read announcement",
     "eligibilityCriteria": "Eligibility Criteria",
     "pool": "Pool",
