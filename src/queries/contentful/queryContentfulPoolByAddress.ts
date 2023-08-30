@@ -7,6 +7,10 @@ export const queryContentfulPoolByAddress = gql`
         wallet
         name
         description
+        logo {
+          url
+          fileName
+        }
         video
         site
         facebook

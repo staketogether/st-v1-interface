@@ -9,9 +9,10 @@ import { BsFillShareFill, BsGraphUp } from 'react-icons/bs'
 import { styled } from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
-import EnsAvatar from '../shared/ens/EnsAvatar'
-import EnsName from '../shared/ens/EnsName'
 import StakeActivity from './StakeActivity'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
+import CommunityLogo from '../shared/community/CommunityLogo'
+import CommunityName from '../shared/community/CommunityName'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}`
@@ -29,15 +30,19 @@ export default function StakePoolInfo({
   loadMoreLoadingPoolData
 }: StakeStatsProps) {
   const { t } = useLocaleTranslation()
-  const [skip, setSkip] = useState(0)
+  const [skipMembers, setSkipMembers] = useState(0)
 
-  const handleLoadMore = () => {
-    const newSkip = skip + 10
-    setSkip(newSkip)
+  const handleLoadMoreMembers = () => {
+    const newSkip = skipMembers + 10
+    setSkipMembers(newSkip)
     fetchMore({ id: poolAddress, first: 10, skip: newSkip })
   }
 
-  const { poolActivities, initialLoading: poolActivitiesLoading } = usePoolActivities(poolAddress)
+  const { poolActivities, initialLoading: poolActivitiesLoading } = usePoolActivities(poolAddress, {
+    first: 10,
+    skip: 0
+  })
+  const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(poolAddress)
 
   const tabsItems: TabsItems[] = [
     {
@@ -46,7 +51,7 @@ export default function StakePoolInfo({
       icon: <AboutIcon />,
       children: (
         <TabContainer>
-          <StakePoolAbout poolAddress={poolAddress} />
+          <StakePoolAbout poolDetail={poolDetail} loading={poolDetailLoading} />
         </TabContainer>
       )
     },
@@ -60,7 +65,7 @@ export default function StakePoolInfo({
             delegations={poolData?.delegations}
             initialLoading={initialLoadingPoolData}
             loadMoreLoading={loadMoreLoadingPoolData}
-            onLoadMore={handleLoadMore}
+            onLoadMore={handleLoadMoreMembers}
             totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
           />
         </TabContainer>
@@ -87,8 +92,13 @@ export default function StakePoolInfo({
       {poolAddress && (
         <header>
           <div>
-            <EnsAvatar size={32} address={poolAddress} />
-            <EnsName larger address={poolAddress} />
+            <CommunityLogo
+              size={32}
+              src={poolDetail ? poolDetail?.logo?.url : ''}
+              alt={poolDetail ? poolDetail?.logo?.url : ''}
+              loading={poolDetailLoading}
+            />
+            <CommunityName $larger name={poolDetail?.name || ''} loading={poolDetailLoading} />
           </div>
           <Tooltip trigger='click' title={t('copiedToClipboard')}>
             <ShareButton onClick={copyToClipboard}>
@@ -97,7 +107,7 @@ export default function StakePoolInfo({
           </Tooltip>
         </header>
       )}
-      <Tabs items={tabsItems} size='middle' />
+      <Tabs items={tabsItems} />
     </Container>
   )
 }
@@ -111,9 +121,9 @@ const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, ShareIcon
 
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[600]};
+    background-color: ${({ theme }) => theme.color.white};
     border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
 
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};

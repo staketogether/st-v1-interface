@@ -27,13 +27,15 @@ export default function useStAccount(address: `0x${string}`) {
   const { data: activitiesData, loading: activitiesLoading } = useQuery<{
     accountActivities: AccountActivity[]
   }>(queryAccountActivities, {
-    variables: { accountAddress: address.toLowerCase() }
+    variables: { accountAddress: address.toLowerCase(), first: 10, skip: 0 }
   })
 
   const { data: rewardsData, loading: rewardsLoading } = useQuery<{ accountRewards: AccountReward[] }>(
     queryAccountRewards,
     {
-      variables: { accountAddress: address.toLowerCase() }
+      variables: {
+        accountAddress: address.toLowerCase()
+      }
     }
   )
 

@@ -4,11 +4,12 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import stIcon from '@assets/icons/seth-icon.svg'
-import { Tooltip } from 'antd'
 import Image from 'next/image'
 import { AiFillCheckCircle, AiOutlineClose, AiOutlineQuestionCircle } from 'react-icons/ai'
 import { FiExternalLink } from 'react-icons/fi'
 import { styled } from 'styled-components'
+import LayoutTitle from '../shared/layout/LayoutTitle'
+import TooltipComponent from '../shared/TooltipComponent'
 
 export default function IncentivesControl() {
   const { accountIsConnected, account } = useConnectedAccount()
@@ -25,10 +26,10 @@ export default function IncentivesControl() {
   return (
     <>
       <Container>
-        <header>
-          <h1>{t('airdrop.title')}</h1>
-          <h2>{t('airdrop.description')}</h2>
-        </header>
+        <LayoutTitle
+          title={t('v2.pages.incentives.title')}
+          description={t('v2.pages.incentives.description')}
+        />
         <AirdropContainer>
           <WalletConnectedContainer>
             <AvailableToClaimContainer>
@@ -61,9 +62,9 @@ export default function IncentivesControl() {
               <div>
                 <VerifiedIcon />
                 {t('airdrop.pool')}
-                <Tooltip title='Pools'>
+                <TooltipComponent text='Pools'>
                   <QuestionIcon />
-                </Tooltip>
+                </TooltipComponent>
               </div>
               <div>
                 <span>{`0 `}</span>
@@ -74,9 +75,9 @@ export default function IncentivesControl() {
               <div>
                 <ExcludeIcon />
                 {t('airdrop.locks')}
-                <Tooltip title='Pools'>
+                <TooltipComponent text='Pools'>
                   <QuestionIcon />
-                </Tooltip>
+                </TooltipComponent>
               </div>
               <div>
                 <span>{`0`}</span>
@@ -110,38 +111,18 @@ const {
     justify-items: center;
     align-items: center;
     flex-direction: column;
+    max-width: 468px;
     gap: ${({ theme }) => theme.size[16]};
-    > header {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[8]};
-      align-items: flex-start;
-      max-width: 468px;
-      h1 {
-        font-size: ${({ theme }) => theme.font.size[32]};
-        font-style: normal;
-        font-weight: 500;
-        color: ${({ theme }) => theme.color.primary};
-      }
-      h2 {
-        font-size: ${({ theme }) => theme.font.size[14]};
-        font-style: normal;
-        font-weight: 500;
-        color: ${({ theme }) => theme.color.blue[500]};
-      }
-    }
   `,
   AirdropContainer: styled.section`
     width: 100%;
-    max-width: 468px;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
     text-align: center;
     align-items: center;
 
-    background-color: ${({ theme }) => theme.color.whiteAlpha[500]};
+    background-color: ${({ theme }) => theme.color.white};
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     transition: background-color 0.2s ease;
@@ -151,28 +132,28 @@ const {
     > h1 {
       font-size: ${({ theme }) => theme.font.size[24]};
       color: ${({ theme }) => theme.color.primary};
-      font-style: normal;
+
       font-weight: 500;
     }
 
     > p {
       font-size: ${({ theme }) => theme.font.size[16]};
       color: ${({ theme }) => theme.color.primary};
-      font-style: normal;
+
       font-weight: 400;
     }
 
     h4 {
       font-size: ${({ theme }) => theme.font.size[14]};
       color: ${({ theme }) => theme.color.blackAlpha[700]};
-      font-style: normal;
+
       font-weight: 500;
     }
 
     span {
       font-size: ${({ theme }) => theme.font.size[16]};
       color: ${({ theme }) => theme.color.primary};
-      font-style: normal;
+
       font-weight: 400;
     }
 
@@ -221,7 +202,6 @@ const {
     gap: ${({ theme }) => theme.size[32]};
     padding: ${({ theme }) => theme.size[24]};
     border-radius: ${({ theme }) => theme.size[16]};
-    background: ${({ theme }) => theme.color.whiteAlpha[800]};
   `,
   AvailableToClaimContainer: styled.div`
     display: flex;
@@ -233,7 +213,7 @@ const {
 
       > h3 {
         font-size: 14px;
-        font-style: normal;
+
         font-weight: 500;
         color: ${({ theme }) => theme.color.blue[500]};
       }
@@ -243,7 +223,7 @@ const {
         gap: ${({ theme }) => theme.size[8]};
 
         font-size: 22px;
-        font-style: normal;
+
         font-weight: 400;
         color: ${({ theme }) => theme.color.primary};
 
@@ -261,7 +241,7 @@ const {
 
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    font-style: normal;
+
     > h3 {
       font-weight: 500;
     }
@@ -292,7 +272,7 @@ const {
 
     font-size: ${({ theme }) => theme.font.size[16]};
     color: ${({ theme }) => theme.color.primary};
-    font-style: normal;
+
     font-weight: 400;
 
     > div {

@@ -38,7 +38,9 @@ export default function useCoinConversion(amountValue: string) {
     if (conversionPrice && amountValue) {
       const priceCalc = Number(amountValue) * conversionPrice
       setCoinPrice(priceCalc.toString())
+      return
     }
+    setCoinPrice('0')
   }, [amountValue, conversionPrice])
 
   return { price: coinPrice, loading, error, settingCurrency: currency }

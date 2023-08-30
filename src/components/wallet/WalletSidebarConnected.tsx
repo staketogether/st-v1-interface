@@ -166,7 +166,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                   <h4>{t('availableToStake')}</h4>
                   <div>
                     <span>{truncateWei(ethBalance, 6)}</span>
-                    <span className='purple'>{t('eth.symbol')}</span>
+                    <span>{t('eth.symbol')}</span>
                   </div>
                 </div>
               </TokenContainer>
@@ -176,9 +176,9 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <TokenContainer>
                 <Image src={stIcon} width={24} height={24} alt='eth icon' />
                 <div>
-                  <h4>{t('staked')}</h4>
+                  <h4>{t('invested')}</h4>
                   <div>
-                    <span>{truncateWei(accountBalance, 6)}</span>
+                    <span className='purple'>{truncateWei(accountBalance, 6)}</span>
                     <span className='purple'>{t('lsd.symbol')}</span>
                   </div>
                 </div>
@@ -199,7 +199,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               </TokenContainer>
             </div>
           </InfoContainer>
-          <Tabs items={tabsItems} size='small' defaultActiveKey='pools' />
+          <Tabs items={tabsItems} defaultActiveKey='pools' />
         </>
       )}
       <WalletBuyEthModal walletAddress={address} onBuyEthIsSuccess={onBuyEthIsSuccess} />
@@ -298,13 +298,13 @@ const {
       }
       h4 {
         font-size: 12px;
-        font-style: normal;
+
         font-weight: 400;
         color: ${({ theme }) => theme.color.blue[400]};
       }
       span {
         font-size: 16px;
-        font-style: normal;
+
         font-weight: 400;
         color: ${({ theme }) => theme.color.primary};
 

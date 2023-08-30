@@ -1,10 +1,8 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LayoutTemplate from '../../../components/shared/layout/LayoutTemplate'
-import LayoutTitle from '../../../components/shared/layout/LayoutTitle'
 import { Metatags } from '../../../components/shared/meta/Metatags'
 import StakeControl from '../../../components/stake/StakeControl'
-import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 
 type DepositProps = {
   poolAddress: `0x${string}`
@@ -13,12 +11,9 @@ type DepositProps = {
 }
 
 export default function Deposit({ poolAddress }: DepositProps) {
-  const { t } = useLocaleTranslation()
-
   return (
     <LayoutTemplate>
       <Metatags />
-      <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
       <StakeControl poolAddress={poolAddress} type='deposit' />
     </LayoutTemplate>
   )

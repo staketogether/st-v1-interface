@@ -11,7 +11,7 @@ type EnsAvatarProps = {
 
 export default function CommunityLogo({ src, alt, loading, size = 24 }: EnsAvatarProps) {
   if (loading) {
-    return <SkeletonLoading borderRadius='50%' width={size} height={size} />
+    return <SkeletonLoading $borderRadius='50%' width={size} height={size} />
   }
 
   return src ? (

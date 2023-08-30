@@ -202,7 +202,7 @@ const {
       gap: ${({ theme }) => theme.size[8]};
 
       font-size: ${({ theme }) => theme.font.size[12]};
-      font-style: normal;
+
       font-weight: 500;
       a {
         color: ${({ theme }) => theme.color.primary};

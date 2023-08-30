@@ -2,9 +2,9 @@ import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import { truncateWei } from '@/services/truncate'
+import { Pool } from '@/types/Pool'
 import Link from 'next/link'
 import { styled } from 'styled-components'
-import { Pool } from '@/types/Pool'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 
@@ -68,10 +68,10 @@ const { Row, Name, TypeContainer, Text } = {
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
-    color: ${({ theme }) => theme.colorV2.blue[1]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
 
     span {
-      color: ${({ theme }) => theme.colorV2.blue[1]};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
     }
   `,
   Text: styled.span`
@@ -82,7 +82,7 @@ const { Row, Name, TypeContainer, Text } = {
     gap: ${({ theme }) => theme.size[4]};
 
     &.blue {
-      color: ${({ theme }) => theme.colorV2.blue[1]};
+      color: ${({ theme }) => theme.colorV2.blue[3]};
     }
   `
 }

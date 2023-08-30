@@ -12,7 +12,7 @@ import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { WithdrawType } from '@/types/Withdraw'
 import ethIcon from '@assets/icons/eth-icon.svg'
-import stIcon from '@assets/icons/seth-icon.svg'
+import stSymbol from '@assets/st-symbol.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
@@ -283,41 +283,42 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   return (
     <>
       <StakeContainer>
-        <CardInfoContainer>
-          <CardInfo>
-            <div>
-              <Image src={ethIcon} width={24} height={24} alt='staked Icon' />
-            </div>
-            <CardInfoData>
-              <header>
-                <h4>{t('availableToStake')}</h4>
-              </header>
+        {accountAddress && (
+          <CardInfoContainer>
+            <CardInfo>
               <div>
-                <span>{truncateWei(ethBalance, 6)}</span>
-                <span className='purple'>{t('eth.symbol')}</span>
+                <Image src={ethIcon} width={30} height={30} alt='staked Icon' />
               </div>
-            </CardInfoData>
-          </CardInfo>
-
-          <CardInfo>
-            <div>
-              <Image src={stIcon} width={24} height={24} alt='staked Icon' />
-            </div>
-            <CardInfoData>
-              <header>
-                <h4>{t('staked')}</h4>
-              </header>
-              {delegationSharesLoading ? (
-                <SkeletonLoading height={20} width={120} />
-              ) : (
+              <CardInfoData>
+                <header>
+                  <h4>{t('availableToStake')}</h4>
+                </header>
                 <div>
-                  <span>{truncateWei(BigInt(delegationBalance), 6)}</span>
-                  <span className='purple'>{t('lsd.symbol')}</span>
+                  <span className='primary'>{truncateWei(ethBalance, 6)}</span>
+                  <span className='primary'>{t('eth.symbol')}</span>
                 </div>
-              )}
-            </CardInfoData>
-          </CardInfo>
-        </CardInfoContainer>
+              </CardInfoData>
+            </CardInfo>
+            <CardInfo>
+              <CardInfoData>
+                <header>
+                  <h4>{t('invested')}</h4>
+                </header>
+                {delegationSharesLoading ? (
+                  <SkeletonLoading height={20} width={120} />
+                ) : (
+                  <div>
+                    <span className='purple'>{truncateWei(BigInt(delegationBalance), 6)}</span>
+                    <span className='purple'>{t('lsd.symbol')}</span>
+                  </div>
+                )}
+              </CardInfoData>
+              <div>
+                <Image src={stSymbol} width={30} height={30} alt='staked Icon' />
+              </div>
+            </CardInfo>
+          </CardInfoContainer>
+        )}
         {type === 'withdraw' && (
           <StakeWithdrawSwitchTypes
             liquidityPoolBalance={withdrawLiquidityPoolBalance}
@@ -332,7 +333,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           handleMaxValue={handleInputMaxValue}
           balanceLoading={balanceLoading || delegationSharesLoading}
           disabled={isWrongNetwork || isLoading || !accountAddress}
-          purple={type === 'withdraw'}
           hasError={insufficientFunds || insufficientWithdrawalBalance || insufficientMinDeposit}
           type={type}
         />
@@ -397,14 +397,25 @@ const {
 } = {
   StakeContainer: styled.div`
     display: grid;
-    gap: ${({ theme }) => theme.size[16]};
-    padding: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[24]};
+    padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]};
   `,
   CardInfoContainer: styled.div`
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
+
+    border-radius: 8px;
     gap: ${({ theme }) => theme.size[16]};
+    height: 32px;
+
+    > div:nth-child(2) {
+      justify-content: flex-end;
+      header {
+        justify-content: flex-end;
+      }
+    }
+
     @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
       gap: ${({ theme }) => theme.size[24]};
       grid-template-columns: 1fr 1fr;
@@ -413,9 +424,26 @@ const {
   CardInfo: styled.div`
     display: flex;
     align-items: center;
+
     gap: ${({ theme }) => theme.size[16]};
-    > img {
-      box-shadow: ${({ theme }) => theme.shadow[100]};
+    height: 32px;
+
+    img {
+      box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.3);
+      border-radius: 100%;
+    }
+
+    > div {
+      display: grid;
+      align-items: center;
+      justify-content: flex-start;
+      height: 32px;
+
+      > div {
+        display: flex;
+        justify-content: flex-start;
+        align-self: flex-start;
+      }
     }
   `,
   CardInfoData: styled.div`
@@ -423,32 +451,38 @@ const {
     flex-direction: column;
     justify-content: center;
     gap: ${({ theme }) => theme.size[4]};
+
     > header {
       display: flex;
-      align-items: center;
+
       gap: ${({ theme }) => theme.size[4]};
       > h4 {
         font-size: ${({ theme }) => theme.font.size[12]};
-        font-style: normal;
         font-weight: 400;
-        color: ${({ theme }) => theme.color.blue[600]};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
       }
     }
     > div {
       display: flex;
       gap: ${({ theme }) => theme.size[4]};
       span {
-        font-size: ${({ theme }) => theme.font.size[16]};
-        font-style: normal;
+        font-size: ${({ theme }) => theme.font.size[14]};
+
         font-weight: 500;
-        color: ${({ theme }) => theme.color.primary};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+
+        &.primary {
+          color: ${({ theme }) => theme.colorV2.blue[3]};
+        }
 
         &.purple {
-          color: ${({ theme }) => theme.color.secondary};
+          color: ${({ theme }) => theme.colorV2.purple[1]};
         }
+
         &.negative {
           color: ${({ theme }) => theme.color.red[500]};
         }
+
         &.positive {
           color: ${({ theme }) => theme.color.green[500]};
         }

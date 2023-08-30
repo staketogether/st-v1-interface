@@ -72,7 +72,7 @@ const { Container, Activity, ActivitiesHeader, ExternalLink, EmptyContainer } = 
 
     span {
       font-size: ${({ theme }) => theme.font.size[12]};
-      font-style: normal;
+
       &.green {
         color: ${({ theme }) => theme.color.green[500]};
       }
@@ -101,7 +101,7 @@ const { Container, Activity, ActivitiesHeader, ExternalLink, EmptyContainer } = 
   `,
   Activity: styled(Link)`
     height: 32px;
-    border-radius: 99px;
+    border-radius: ${({ theme }) => theme.size[8]};
     cursor: pointer;
     background: ${({ theme }) => theme.color.whiteAlpha[500]};
     &:hover {

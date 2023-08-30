@@ -48,7 +48,7 @@ const { NetworkButton, GasContainer, NetworkContainer } = {
 
     span {
       font-size: ${({ theme }) => theme.font.size[15]};
-      font-style: normal;
+
       font-weight: 400;
     }
   `,

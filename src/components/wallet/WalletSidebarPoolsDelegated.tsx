@@ -72,7 +72,7 @@ const { Container, DelegatedPool, EmptyContainer } = {
     justify-content: space-between;
     align-items: center;
     align-self: stretch;
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
     padding: ${({ theme }) => theme.size[8]};
     background-color: ${({ theme }) => theme.color.whiteAlpha[500]};
     &:hover {
@@ -96,11 +96,7 @@ const { Container, DelegatedPool, EmptyContainer } = {
       display: flex;
       gap: ${({ theme }) => theme.size[4]};
       font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.primary};
-
-      > span {
-        color: ${({ theme }) => theme.color.secondary};
-      }
+      color: ${({ theme }) => theme.color.secondary};
     }
   `
 }

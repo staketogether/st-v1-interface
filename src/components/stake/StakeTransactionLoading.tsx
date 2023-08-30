@@ -59,14 +59,14 @@ export default function StakeTransactionLoading({
             <>
               <div>
                 <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
-                <span>{`${amount}`}</span>
+                <span className={'purple'}>{`${amount}`}</span>
                 <span className={'purple'}>{t('lsd.symbol')}</span>
               </div>
               <ArrowIcon fontSize={18} />
               <div>
                 <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 <span>{`${truncateWei(youReceive, 6)}`}</span>
-                <span className={'purple'}> ETH</span>
+                <span> {t('eth.symbol')}</span>
               </div>
             </>
           ) : (
@@ -74,12 +74,12 @@ export default function StakeTransactionLoading({
               <div>
                 <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 <span>{`${amount}`}</span>
-                <span className={'purple'}> ETH</span>
+                <span> {t('eth.symbol')}</span>
               </div>
               <ArrowIcon fontSize={18} />
               <div>
                 <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
-                <span>{`${truncateWei(youReceive, 6)}`}</span>
+                <span className={'purple'}>{`${truncateWei(youReceive, 6)}`}</span>
                 <span className={'purple'}> {t('lsd.symbol')}</span>
               </div>
             </>
@@ -167,7 +167,7 @@ const {
   DescriptionAction: styled.span`
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    font-style: normal;
+
     font-weight: 500;
     a {
       text-decoration: none;

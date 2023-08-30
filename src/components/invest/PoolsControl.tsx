@@ -1,4 +1,5 @@
 import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
+import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import Fuse from 'fuse.js'
@@ -10,7 +11,6 @@ import PoolsCard from './PoolsCard'
 import PoolsEmptyState from './PoolsEmptyState'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
-import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
 
 type PoolsListProps = {
   pools: PoolSubgraph[]
@@ -87,7 +87,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
 
   return (
     <Container>
-      <LayoutTitle title={t('v2.pages.invest.title')} description={t('v2.pages.invest.description')} />
+      <Title title={t('v2.pages.invest.title')} description={t('v2.pages.invest.description')} />
       <FiltersContainer>
         <Filters>
           {filterTypes.map(filter => (
@@ -124,7 +124,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
   )
 }
 
-const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
+const { Container, ListPools, FiltersContainer, Filters, FilterButton, Title } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -132,6 +132,12 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
     gap: ${({ theme }) => theme.size[24]};
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       gap: ${({ theme }) => theme.size[8]};
+    }
+  `,
+  Title: styled(LayoutTitle)`
+    margin-bottom: 0px;
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      margin-bottom: ${({ theme }) => theme.size[16]};
     }
   `,
   FiltersContainer: styled.div`
@@ -181,7 +187,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
       color: ${({ theme }) => theme.colorV2.purple[1]};
     }
     &:hover {
-      /* color: ${({ theme }) => theme.colorV2.blue[1]}; */
+      color: ${({ theme }) => theme.colorV2.purple[1]};
       background: ${({ theme }) => theme.color.whiteAlpha[700]};
     }
   `,
@@ -202,6 +208,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
       > span {
         font-size: ${({ theme }) => theme.font.size[14]};
         color: ${({ theme }) => theme.colorV2.blue[1]};
+        font-weight: 500;
       }
 
       @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {

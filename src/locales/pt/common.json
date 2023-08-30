@@ -8,6 +8,7 @@
   "rewards": "Recompensas",
   "delegates": "Delegados",
   "processing": "Processando...",
+  "invested": "Investidos",
   "staked": "Em Stake",
   "unstake": "Desfazer Stake",
   "members": "Membros",
@@ -41,7 +42,7 @@
   "success": "Sucesso",
   "viewOnExplorer": "Ver no Explorer",
   "try": "Tentar novamente",
-  "availableToStake": "Disponivel para stake",
+  "availableToStake": "Disponível",
   "amount": "Quantidade",
   "tx": "TX",
   "rewardsTooltip": "O saldo de suas recompensas é automaticamente convertido em seu saldo de stake.",
@@ -78,7 +79,7 @@
   },
   "settings": {
     "title": "Configurações",
-    "currency": "currency",
+    "currency": "Moeda",
     "locale": "Idioma"
   },
   "footer": {
@@ -146,12 +147,8 @@
         "description": "Invista em staking de ethereum, apoie projetos e ganhe recompensas juntos"
       },
       "deposit": {
-        "title": "Deposit",
-        "description": "Deposit ETH and receive stpETH to in DeFi, support this projects donating the fees."
-      },
-      "withdraw": {
-        "title": "Withdraw",
-        "description": "Description"
+        "title": "Investir Ethereum",
+        "description": "Deposite ETH para ganhar recompensas de Staking com o stpETH enquanto impulsiona os incentivos para este projeto"
       },
       "incentives": {
         "title": "Incentives",
@@ -198,10 +195,8 @@
       }
     },
     "stake": {
-      "header": {
-        "title": "Stake Ether",
-        "description": "Deposite ETH e use stpETH no DeFi para ganhar recompensas de staking enquanto explora outras opções"
-      },
+      "apy": "Rendimento Anual",
+      "tvl": "Total Depositado",
       "annualRewards": "Recompensas Anuais de Staking",
       "infoEmptyState": "New information coming soon!",
       "descriptionForm": {

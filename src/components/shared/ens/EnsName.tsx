@@ -9,12 +9,12 @@ import SkeletonLoading from '../icons/SkeletonLoading'
 type EnsNameProps = {
   address: `0x${string}`
   large?: boolean
-  larger?: boolean
+  $larger?: boolean
   slice?: number
   color?: string
 }
 
-export default function EnsName({ address, large, larger, slice, color }: EnsNameProps) {
+export default function EnsName({ address, large, $larger, slice, color }: EnsNameProps) {
   const { name, nameLoading } = useEns(address)
 
   const text = <Text className={large ? 'large' : ''}>{truncateAddress(address)}</Text>
@@ -22,26 +22,26 @@ export default function EnsName({ address, large, larger, slice, color }: EnsNam
   const [nameEl, setNameEl] = useState(text)
 
   useEffect(() => {
-    if (nameLoading && !larger && !large) {
+    if (nameLoading && !$larger && !large) {
       setNameEl(<SkeletonLoading width={140} height={14} />)
     } else if (nameLoading && large) {
       setNameEl(<SkeletonLoading width={140} height={15} />)
-    } else if (nameLoading && larger) {
+    } else if (nameLoading && $larger) {
       setNameEl(<SkeletonLoading width={140} height={22} />)
     } else if (name) {
       setNameEl(
-        <Text color={color} large={large} larger={larger}>
+        <Text color={color} large={large} larger={$larger}>
           {slice ? truncateText(name, slice) : name}
         </Text>
       )
     } else {
       setNameEl(
-        <Text color={color} large={large} larger={larger}>
+        <Text color={color} large={large} larger={$larger}>
           {truncateAddress(address)}
         </Text>
       )
     }
-  }, [address, color, large, larger, name, nameLoading, slice])
+  }, [address, color, large, $larger, name, nameLoading, slice])
 
   return nameEl
 }

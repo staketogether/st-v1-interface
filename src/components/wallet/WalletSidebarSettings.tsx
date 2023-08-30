@@ -17,7 +17,6 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
 
   const changeLocale = (newLocale: string) => {
     router.push(router.pathname, router.asPath, { locale: newLocale })
-    setIsSettingsActive(false)
   }
   const { currency, setCurrency } = useSettingsCurrency()
   const { setItem } = useLocalStorage()
@@ -83,7 +82,7 @@ const { Header, CloseIcon, SettingContainer, Button } = {
     width: 32px;
     height: 32px;
     border: 0;
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
     background: ${({ theme }) => theme.color.whiteAlpha[700]};
     transition: background 0.2s ease;
@@ -134,7 +133,7 @@ const { Header, CloseIcon, SettingContainer, Button } = {
 
       transition: background 0.2s ease;
       font-weight: 400;
-      border-radius: ${({ theme }) => theme.size[24]};
+      border-radius: ${({ theme }) => theme.size[8]};
       background: ${({ theme }) => theme.color.whiteAlpha[500]};
       &:hover {
         background: ${({ theme }) => theme.color.whiteAlpha[800]};

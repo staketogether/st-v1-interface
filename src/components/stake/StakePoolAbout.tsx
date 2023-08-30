@@ -1,5 +1,4 @@
 import chain from '@/config/chain'
-import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateAddress } from '@/services/truncate'
 import etherscan from '@assets/icons/etherscan.svg'
@@ -8,13 +7,14 @@ import { BsDiscord, BsFacebook, BsGlobe2, BsInstagram, BsLinkedin, BsTwitter } f
 import { styled } from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
+import { ContentfulPool } from '@/types/ContentfulPool'
 
 interface StakePoolAboutProps {
-  poolAddress: `0x${string}` | undefined
+  poolDetail: ContentfulPool | null
+  loading: boolean
 }
 
-export default function StakePoolAbout({ poolAddress }: StakePoolAboutProps) {
-  const { poolDetail, loading } = useContentfulPoolDetails(poolAddress)
+export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutProps) {
   const videoId = poolDetail?.video ? poolDetail?.video.split('v=')[1] : null
   const { t } = useLocaleTranslation()
   return (
@@ -121,22 +121,23 @@ const {
     flex-direction: column;
     gap: ${({ theme }) => theme.size[16]};
     > iframe {
-      border-radius: ${({ theme }) => theme.size[12]};
+      border-radius: ${({ theme }) => theme.size[8]};
     }
 
     > h1 {
       font-size: 18px;
-      font-style: normal;
+
       font-weight: 500;
-      color: ${({ theme }) => theme.color.blackAlpha[600]};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
     }
   `,
   Description: styled.p`
     max-width: 420px;
     font-size: ${({ theme }) => theme.font.size[14]};
-    font-style: normal;
+
     font-weight: 400;
-    color: ${({ theme }) => theme.color.blue[500]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    line-height: ${({ theme }) => theme.font.size[18]};
   `,
   DescriptionLoading: styled.div`
     display: flex;
@@ -157,17 +158,17 @@ const {
     gap: ${({ theme }) => theme.size[8]};
 
     border-radius: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.color.whiteAlpha[500]};
+    background: ${({ theme }) => theme.color.blackAlpha[50]};
 
     span {
       font-size: ${({ theme }) => theme.font.size[12]};
-      font-style: normal;
+
       font-weight: 500;
-      color: ${({ theme }) => theme.color.blackAlpha[600]};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
     }
 
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[800]};
+      background: ${({ theme }) => theme.color.blackAlpha[100]};
     }
   `,
   SiteIcon: styled(BsGlobe2)`
