@@ -30,6 +30,7 @@
     "@web3auth/web3auth-wagmi-connector": "^4.0.1",
     "antd": "^5.8.4",
     "axios": "^1.5.0",
+    "babel-plugin-styled-components": "^2.1.4",
     "eslint": "^8.48.0",
     "eslint-import-resolver-typescript": "^3.6.0",
     "ethers": "^6.7.1",
