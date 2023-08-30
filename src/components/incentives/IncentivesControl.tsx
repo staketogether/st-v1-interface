@@ -4,12 +4,12 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import stIcon from '@assets/icons/seth-icon.svg'
-import { Tooltip } from 'antd'
 import Image from 'next/image'
 import { AiFillCheckCircle, AiOutlineClose, AiOutlineQuestionCircle } from 'react-icons/ai'
 import { FiExternalLink } from 'react-icons/fi'
 import { styled } from 'styled-components'
 import LayoutTitle from '../shared/layout/LayoutTitle'
+import TooltipComponent from '../shared/TooltipComponent'
 
 export default function IncentivesControl() {
   const { accountIsConnected, account } = useConnectedAccount()
@@ -62,9 +62,9 @@ export default function IncentivesControl() {
               <div>
                 <VerifiedIcon />
                 {t('airdrop.pool')}
-                <Tooltip title='Pools'>
+                <TooltipComponent text='Pools'>
                   <QuestionIcon />
-                </Tooltip>
+                </TooltipComponent>
               </div>
               <div>
                 <span>{`0 `}</span>
@@ -75,9 +75,9 @@ export default function IncentivesControl() {
               <div>
                 <ExcludeIcon />
                 {t('airdrop.locks')}
-                <Tooltip title='Pools'>
+                <TooltipComponent text='Pools'>
                   <QuestionIcon />
-                </Tooltip>
+                </TooltipComponent>
               </div>
               <div>
                 <span>{`0`}</span>
