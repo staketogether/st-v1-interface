@@ -23,7 +23,7 @@ export default function PoolFilterIcon({ iconSize, value }: PoolFilterIconProps)
     },
     {
       icon: <BsHeart fontSize={iconSize} />,
-      value: 'social'
+      value: 'socialImpact'
     }
   ]
 
