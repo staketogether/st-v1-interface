@@ -122,11 +122,10 @@ const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, ShareIcon
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
     background-color: ${({ theme }) => theme.color.white};
-    border: none;
     border-radius: ${({ theme }) => theme.size[8]};
-
-    transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
+    transition: background-color 0.1s ease;
+    border: none;
 
     > header {
       display: flex;
@@ -167,7 +166,7 @@ const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, ShareIcon
     justify-content: center;
 
     background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
+    box-shadow: ${({ theme }) => theme.shadow[300]};
   `,
   ShareIcon: styled(BsFillShareFill)`
     font-size: ${({ theme }) => theme.font.size[12]};

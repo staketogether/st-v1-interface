@@ -230,7 +230,7 @@ const {
   QuestionIcon
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: #ecedf7 !important;
+    background-color: ${({ theme }) => theme.color.white} !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
@@ -349,7 +349,7 @@ const {
     width: 32px;
     height: 32px;
     border: 0;
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
     background: transparent;
     transition: background 0.2s ease;
     line-height: 36px;

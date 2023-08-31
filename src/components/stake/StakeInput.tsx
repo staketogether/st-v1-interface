@@ -132,6 +132,7 @@ const { Container, Content, MaxValue, InputContainer } = {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: ${({ theme }) => theme.size[16]};
 
     > div {
       display: flex;
@@ -140,8 +141,10 @@ const { Container, Content, MaxValue, InputContainer } = {
     }
   `,
   InputContainer: styled.div`
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    justify-content: space-between;
+    align-items: center;
     gap: ${({ theme }) => theme.size[4]};
 
     > input {
@@ -168,7 +171,8 @@ const { Container, Content, MaxValue, InputContainer } = {
       font-size: ${({ theme }) => theme.font.size[12]};
       color: ${({ theme }) => theme.color.blue[500]};
       font-weight: 500;
-      display: none;
+      display: flex;
+      gap: ${({ theme }) => theme.size[4]};
 
       &.error {
         color: ${({ theme }) => theme.color.red[300]};

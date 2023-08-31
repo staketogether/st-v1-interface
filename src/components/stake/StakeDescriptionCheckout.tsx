@@ -103,7 +103,7 @@ const { StakeInfo, QuestionIcon } = {
       align-items: center;
       justify-content: space-between;
 
-      font-size: ${({ theme }) => theme.font.size[14]};
+      font-size: ${({ theme }) => theme.font.size[13]};
 
       > span:nth-child(1) {
         font-weight: 400;
@@ -128,5 +128,8 @@ const { StakeInfo, QuestionIcon } = {
     height: 14px;
     color: ${({ theme }) => theme.colorV2.gray[1]};
     cursor: pointer;
+    &:hover {
+      color: ${({ theme }) => theme.color.secondary};
+    }
   `
 }

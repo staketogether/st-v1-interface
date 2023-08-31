@@ -10,7 +10,7 @@ export default function LayoutFooter() {
       <span>{`© ${date.getFullYear()} Stake Together `}</span>
       <div>
         <a href={`${blockExplorer.baseUrl}/address/${contracts.StakeTogether}`} target='_blank'>
-          Contract
+          Smart Contract
         </a>
         <span>{`v${packageData.version}`}</span>
       </div>

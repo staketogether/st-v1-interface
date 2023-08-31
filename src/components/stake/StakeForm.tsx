@@ -16,7 +16,6 @@ import stSymbol from '@assets/st-symbol.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
-import { AiOutlineDownload, AiOutlineLogin, AiOutlineUpload } from 'react-icons/ai'
 import { styled } from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
@@ -31,6 +30,7 @@ import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
+import { BsArrowBarRight, BsArrowDown, BsArrowUp } from 'react-icons/bs'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -429,7 +429,7 @@ const {
     height: 32px;
 
     img {
-      box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.3);
+      box-shadow: ${({ theme }) => theme.shadow[300]};
       border-radius: 100%;
     }
 
@@ -489,13 +489,13 @@ const {
       }
     }
   `,
-  ConnectWalletIcon: styled(AiOutlineLogin)`
+  ConnectWalletIcon: styled(BsArrowBarRight)`
     font-size: 16px;
   `,
-  DepositIcon: styled(AiOutlineDownload)`
+  DepositIcon: styled(BsArrowDown)`
     font-size: 16px;
   `,
-  WithdrawIcon: styled(AiOutlineUpload)`
+  WithdrawIcon: styled(BsArrowUp)`
     font-size: 16px;
   `
 }

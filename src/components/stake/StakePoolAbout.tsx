@@ -19,9 +19,6 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
   const { t } = useLocaleTranslation()
   return (
     <Container>
-      {loading && <SkeletonLoading height={18} width={237} />}
-      {!loading && poolDetail && <h1>{poolDetail?.name}</h1>}
-
       {!loading && videoId && (
         <iframe
           width='100%'
@@ -66,7 +63,7 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
           {poolDetail?.discord && (
             <Social href={`https://discord.com/invite/${poolDetail.discord}`} target='_blank'>
               <DiscordIcon />
-              <span>{poolDetail.discord}</span>
+              <span>Discord</span>
             </Social>
           )}
           {poolDetail?.instagram && (

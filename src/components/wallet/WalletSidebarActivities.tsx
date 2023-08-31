@@ -103,11 +103,11 @@ const { Container, Activity, ActivitiesHeader, ExternalLink, EmptyContainer } = 
     height: 32px;
     border-radius: ${({ theme }) => theme.size[8]};
     cursor: pointer;
-    background: ${({ theme }) => theme.color.whiteAlpha[500]};
+    background: ${({ theme }) => theme.color.blackAlpha[50]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[800]};
+      background: ${({ theme }) => theme.color.blackAlpha[100]};
     }
-    padding: 0px 4px;
 
     display: grid;
     align-items: center;

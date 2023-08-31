@@ -173,7 +173,8 @@ const {
     line-height: 36px;
 
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[900]};
+      background: ${({ theme }) => theme.color.blackAlpha[200]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
     }
 
     &:first-of-type {

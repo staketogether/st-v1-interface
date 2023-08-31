@@ -12,6 +12,7 @@ export default interface Theme {
   shadow: {
     100: string
     200: string
+    300: string
   }
   size: {
     4: string
@@ -25,6 +26,7 @@ export default interface Theme {
   font: {
     size: {
       12: string
+      13: string
       14: string
       15: string
       16: string

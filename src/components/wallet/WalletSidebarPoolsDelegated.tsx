@@ -72,11 +72,16 @@ const { Container, DelegatedPool, EmptyContainer } = {
     justify-content: space-between;
     align-items: center;
     align-self: stretch;
+
     border-radius: ${({ theme }) => theme.size[8]};
     padding: ${({ theme }) => theme.size[8]};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[500]};
+    background: ${({ theme }) => theme.color.blackAlpha[50]};
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    transition: background-color 0.1s ease;
     &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      background: ${({ theme }) => theme.color.blackAlpha[100]};
     }
 
     > div {

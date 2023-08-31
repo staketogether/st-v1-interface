@@ -11,7 +11,8 @@ export const lightTheme: Theme = {
   },
   shadow: {
     100: '0px 1px 1px 0px rgba(0, 0, 0, 0.1)',
-    200: '0px 1px 1px 0px rgba(0, 0, 0, 0.2)'
+    200: '0px 1px 1px 0px rgba(0, 0, 0, 0.2)',
+    300: '0px 1px 1px 0px rgba(0, 0, 0, 0.3)'
   },
   size: {
     4: '4px',
@@ -25,6 +26,7 @@ export const lightTheme: Theme = {
   font: {
     size: {
       12: '1.2rem',
+      13: '1.3rem',
       14: '1.4rem',
       15: '1.5rem',
       16: '1.6rem',
