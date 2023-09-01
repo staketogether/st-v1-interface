@@ -32,10 +32,10 @@ const configs: ChainConfig[] = [
       baseUrl: 'https://goerli.etherscan.io'
     },
     contracts: {
-      Airdrop: '0x0D94209A5766163DEBcc8e5c4b1d3d98870e97cD',
-      Withdrawals: '0x4dBD4803121b3Aa2650C74F705e94cb91960E5B9',
-      Router: '0x1503DC66AD5f70AdB43C7D1390c84a796D160D82',
-      StakeTogether: '0xA27cdc5fed61a1084603979B544aeb9Bb6995bc9'
+      Airdrop: '0x21D8ceA6333Ab384d27B501f77E0e63B760F4cB2',
+      Withdrawals: '0xC82F04B8d18aBaEfd1b58B65A0B638159aC5Ea03',
+      Router: '0x6E04E3100bB2ea8868907B078DF1b3fCf3098083',
+      StakeTogether: '0x5D8563144e35d9eFCe478c4d253645F965965Dd6'
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/51080/stake-together/version/latest',
