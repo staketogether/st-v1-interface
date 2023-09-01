@@ -29,6 +29,9 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
           allowFullScreen
         ></iframe>
       )}
+      {!loading && !videoId && poolDetail && poolDetail.cover?.url && (
+        <ImageCover src={poolDetail.cover.url} alt={poolDetail.cover.fileName} />
+      )}
       {loading && <SkeletonLoading height={237} width={420} />}
 
       {!loading && poolDetail?.description && <Description>{poolDetail.description}</Description>}
@@ -104,6 +107,7 @@ const {
   Container,
   Description,
   Social,
+  ImageCover,
   SocialContainer,
   SiteIcon,
   FacebookIcon,
@@ -120,7 +124,6 @@ const {
     > iframe {
       border-radius: ${({ theme }) => theme.size[8]};
     }
-
     > h1 {
       font-size: 18px;
 
@@ -128,6 +131,13 @@ const {
       color: ${({ theme }) => theme.colorV2.gray[1]};
     }
   `,
+  ImageCover: styled.img`
+    width: 100% !important;
+    height: 237px !important;
+    border-radius: ${({ theme }) => theme.size[8]};
+    object-fit: cover;
+  `,
+
   Description: styled.p`
     max-width: 420px;
     font-size: ${({ theme }) => theme.font.size[14]};
