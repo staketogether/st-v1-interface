@@ -1,4 +1,4 @@
-import { ContentfulLogo } from './ContentfulPool'
+import { ContentfulImage } from './ContentfulPool'
 import { Delegation } from './Delegation'
 
 export type PoolSubgraph = {
@@ -20,6 +20,6 @@ export type ENSPool = {
 
 export type Pool = {
   type: string
-  logo: ContentfulLogo
+  logo: ContentfulImage
   name: string
 } & PoolSubgraph

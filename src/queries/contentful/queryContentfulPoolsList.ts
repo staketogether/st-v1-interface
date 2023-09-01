@@ -10,6 +10,10 @@ export const queryContentfulPoolsList = gql`
           url
           fileName
         }
+        cover {
+          url
+          fileName
+        }
         description
         video
         site

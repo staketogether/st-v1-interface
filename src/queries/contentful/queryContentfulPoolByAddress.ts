@@ -11,6 +11,10 @@ export const queryContentfulPoolByAddress = gql`
           url
           fileName
         }
+        cover {
+          url
+          fileName
+        }
         video
         site
         facebook

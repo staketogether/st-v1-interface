@@ -138,6 +138,10 @@ const { Container, Content, MaxValue, InputContainer } = {
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.size[12]};
+      img {
+        border-radius: 50%;
+        box-shadow: ${({ theme }) => theme.shadow[200]};
+      }
     }
   `,
   InputContainer: styled.div`

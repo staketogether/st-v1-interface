@@ -1,4 +1,4 @@
-export type ContentfulLogo = {
+export type ContentfulImage = {
   url: string
   fileName: string
 }
@@ -6,7 +6,8 @@ export type ContentfulLogo = {
 export type ContentfulPool = {
   wallet: `0x${string}`
   name: string
-  logo: ContentfulLogo
+  logo: ContentfulImage
+  cover: ContentfulImage
   video?: string
   description?: string
   site?: string
