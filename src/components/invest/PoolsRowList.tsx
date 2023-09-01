@@ -13,7 +13,6 @@ type PoolsRowListProps = {
 }
 
 export default function PoolsRowList({ pool }: PoolsRowListProps) {
-  console.log('pool', pool)
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
   return (
