@@ -22,8 +22,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/invest',
-        permanent: true
+        destination: '/invest'
       }
     ]
   }
