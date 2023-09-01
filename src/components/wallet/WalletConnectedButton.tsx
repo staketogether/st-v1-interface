@@ -72,7 +72,7 @@ export default function WalletConnectedButton({ address, showBalance = true }: W
                 height={24}
               />
             ) : (
-              <EnsAvatar address={address} size={32} />
+              <EnsAvatar address={address} size={24} />
             )}
           </EnsAddress>
         </>
@@ -94,7 +94,7 @@ const { Balance, ConnectedButton, EnsAddress, NetworkWrong, Web3AuthProfileImage
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
 
-    padding: 0px 0px 0px ${({ theme }) => theme.size[16]};
+    padding: 0px ${({ theme }) => theme.size[8]} 0px ${({ theme }) => theme.size[16]};
 
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[200]};
