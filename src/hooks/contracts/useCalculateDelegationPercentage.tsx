@@ -12,11 +12,11 @@ interface UseCalculateDelegationSharesProps {
 }
 
 export const useCalculateDelegationPercentage = ({
-  weiAmount,
-  accountAddress,
-  pools,
-  subtractAmount
-}: UseCalculateDelegationSharesProps) => {
+                                                   weiAmount,
+                                                   accountAddress,
+                                                   pools,
+                                                   subtractAmount
+                                                 }: UseCalculateDelegationSharesProps) => {
   const [delegations, setDelegations] = useState<DelegationMap[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const { account, accountDelegations } = useStAccount(accountAddress || '0x000000')
@@ -44,28 +44,28 @@ export const useCalculateDelegationPercentage = ({
     let currentDelegations = !account
       ? []
       : accountDelegations.map(delegation => {
-          const poolToBeUpdated = pools.find(pool => pool === delegation.delegated.address.toLowerCase())
-          let shares = BigInt(delegation.delegationShares)
-          // If the pool is in the list of pools to be updated, then the shares will be updated
-          if (poolToBeUpdated) {
-            if (subtractAmount) {
-              shares -= newShares
-            } else {
-              shares += newShares
-            }
+        const poolToBeUpdated = pools.find(pool => pool === delegation.delegated.address.toLowerCase())
+        let shares = BigInt(delegation.delegationShares)
+        // If the pool is in the list of pools to be updated, then the shares will be updated
+        if (poolToBeUpdated) {
+          if (subtractAmount) {
+            shares -= newShares
+          } else {
+            shares += newShares
           }
-          // Calculate the dividend of the shares
-          const dividend = shares * oneEther
-          // Calculate the pool percentage
-          const poolSharesPercentage = dividend === 0n ? 1n : dividend / newAccountShares
-          // Reduce the remaining new shares by the pool percentage
-          remainingNewPercentage -= poolSharesPercentage
+        }
+        // Calculate the dividend of the shares
+        const dividend = shares * oneEther
+        // Calculate the pool percentage
+        const poolSharesPercentage = dividend || newAccountShares === 0n ? 0n : dividend / newAccountShares
+        // Reduce the remaining new shares by the pool percentage
+        remainingNewPercentage -= poolSharesPercentage
 
-          return {
-            pool: delegation.delegated.address,
-            percentage: poolSharesPercentage
-          }
-        })
+        return {
+          pool: delegation.delegated.address,
+          percentage: poolSharesPercentage
+        }
+      })
 
     const remainingPools = pools.filter(pool => {
       return currentDelegations.find(delegation => delegation.pool.toLowerCase() === pool) === undefined
@@ -90,7 +90,8 @@ export const useCalculateDelegationPercentage = ({
           if (index === currentDelegations.length - 1) {
             return {
               pool: delegation.pool,
-              percentage: delegation.percentage + remainingNewPercentage
+              // If the new account shares is 0, then it means that the user is withdrawing all his shares
+              percentage: newAccountShares > 0n ? delegation.percentage + remainingNewPercentage : delegation.percentage
             }
           }
 
@@ -98,7 +99,7 @@ export const useCalculateDelegationPercentage = ({
         })
     }
 
-    setDelegations(currentDelegations)
+    setDelegations(currentDelegations.filter(delegation => delegation.percentage > 0n))
     setLoading(false)
     // TODO: Necessary to add the pool dep again
     // eslint-disable-next-line react-hooks/exhaustive-deps
