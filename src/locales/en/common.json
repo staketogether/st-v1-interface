@@ -83,8 +83,9 @@
     "locale": "Language"
   },
   "footer": {
-    "powered": "Powered by",
-    "dvt": "DVT"
+    "website": "Website",
+    "smartContract": "Smart Contract",
+    "audit": "Audit"
   },
   "soon": "Coming Soon",
   "addSethToWallet": {

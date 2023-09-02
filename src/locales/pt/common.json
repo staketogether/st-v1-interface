@@ -83,8 +83,9 @@
     "locale": "Idioma"
   },
   "footer": {
-    "powered": "Potencializado por",
-    "dvt": "DVT"
+    "website": "Site",
+    "smartContract": "Contrato Inteligente",
+    "audit": "Auditoria"
   },
   "soon": "Em Breve",
   "addSethToWallet": {

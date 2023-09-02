@@ -2,11 +2,15 @@ import chainConfig from '@/config/chain'
 import styled from 'styled-components'
 import packageData from '../../../../package.json'
 import { globalConfig } from '../../../config/global'
+import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 
 export default function LayoutFooter() {
   const date = new Date()
   const { blockExplorer, contracts } = chainConfig()
-  const { websiteUrl } = globalConfig
+  const { websiteUrl, auditUrl } = globalConfig
+
+  const { t } = useLocaleTranslation()
+
   return (
     <Container>
       <div>
@@ -15,15 +19,19 @@ export default function LayoutFooter() {
         </div>
         <span>
           <a href={`${blockExplorer.baseUrl}/address/${contracts.StakeTogether}`} target='_blank'>
-            Smart Contract
+            {t('footer.smartContract')}
+          </a>
+        </span>
+        <span>
+          <a href={`${auditUrl}`} target='_blank'>
+            {t('footer.audit')}
           </a>
         </span>
       </div>
       <div>
         <a href={`${websiteUrl}`} target='_blank'>
-          Website
+          {t('footer.website')}
         </a>
-
         <span>{`© ${date.getFullYear()} Stake Together `}</span>
       </div>
     </Container>
