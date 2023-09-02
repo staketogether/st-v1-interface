@@ -1,3 +1,4 @@
+import { Montserrat } from 'next/font/google'
 import NextNProgress from 'nextjs-progressbar'
 import { ReactNode } from 'react'
 import { styled } from 'styled-components'
@@ -10,13 +11,15 @@ import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
 
+const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
+
 interface LayoutTemplateProps {
   children: ReactNode
 }
 
 export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   return (
-    <Container>
+    <Container className={montserrat.className}>
       <GoogleTag />
       <Hotjar />
       <Cloudflare />
