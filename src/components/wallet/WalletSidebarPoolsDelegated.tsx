@@ -5,7 +5,7 @@ import useWalletSidebar from '@/hooks/useWalletSidebar'
 import { truncateWei } from '@/services/truncate'
 import { Delegation } from '@/types/Delegation'
 import Link from 'next/link'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 
 type WalletSideBarPoolsDelegatedProps = {
   accountDelegations: Delegation[]

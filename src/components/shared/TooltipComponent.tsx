@@ -1,5 +1,5 @@
-import React, { ReactNode, useState } from 'react'
-import { styled } from 'styled-components'
+import { ReactNode, useState } from 'react'
+import styled from 'styled-components'
 
 interface TooltipProps {
   text: string

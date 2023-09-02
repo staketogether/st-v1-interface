@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import useEns from '../../../hooks/useEns'
 import SkeletonLoading from '../icons/SkeletonLoading'
 

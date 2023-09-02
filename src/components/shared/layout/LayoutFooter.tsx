@@ -1,5 +1,5 @@
 import chainConfig from '@/config/chain'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import packageData from '../../../../package.json'
 import { globalConfig } from '../../../config/global'
 

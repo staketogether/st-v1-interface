@@ -1,7 +1,7 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
 import { AiOutlineQuestionCircle } from 'react-icons/ai'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import TooltipComponent from '../shared/TooltipComponent'
 
 type StakeDescriptionCheckoutProps = {

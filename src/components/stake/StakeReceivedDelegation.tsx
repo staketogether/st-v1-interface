@@ -1,4 +1,4 @@
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import { truncateWei } from '../../services/truncate'
 import { Delegation } from '../../types/Delegation'

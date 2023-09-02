@@ -1,18 +1,18 @@
 import StakePoolAbout from '@/components/stake/StakePoolAbout'
 import StakePoolMembers from '@/components/stake/StakePoolMembers'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import { PoolSubgraph } from '@/types/Pool'
 import { Tooltip } from 'antd'
 import { useState } from 'react'
 import { AiOutlineInfoCircle, AiOutlineUser } from 'react-icons/ai'
 import { BsFillShareFill, BsGraphUp } from 'react-icons/bs'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
-import StakeActivity from './StakeActivity'
-import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
+import StakeActivity from './StakeActivity'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}`

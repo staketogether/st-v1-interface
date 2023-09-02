@@ -7,7 +7,7 @@ import stIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
 import { AiFillCheckCircle, AiOutlineClose, AiOutlineQuestionCircle } from 'react-icons/ai'
 import { FiExternalLink } from 'react-icons/fi'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import TooltipComponent from '../shared/TooltipComponent'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 

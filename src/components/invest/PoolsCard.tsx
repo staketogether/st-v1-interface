@@ -2,7 +2,7 @@ import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import { truncateWei } from '@/services/truncate'
 import Link from 'next/link'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
 import { Pool } from '@/types/Pool'

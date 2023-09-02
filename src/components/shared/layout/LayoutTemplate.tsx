@@ -1,7 +1,7 @@
 import { Montserrat } from 'next/font/google'
 import NextNProgress from 'nextjs-progressbar'
 import { ReactNode } from 'react'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import { lightTheme } from '../../../styles/theme'
 import { Cloudflare } from '../scripts/Cloudflare'
 import { GoogleTag } from '../scripts/GoogleTag'

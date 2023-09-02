@@ -4,7 +4,7 @@ import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import { truncateWei } from '@/services/truncate'
 import { Pool } from '@/types/Pool'
 import Link from 'next/link'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 

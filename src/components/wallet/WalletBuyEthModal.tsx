@@ -4,11 +4,11 @@ import useGetFaucet from '@/hooks/useGetFaucet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import walletImage from '@assets/images/buy-eth-modal/walletImage.jpg'
-import Image, { StaticImageData } from "next/legacy/image"
+import Image, { StaticImageData } from 'next/legacy/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ReCAPTCHA } from 'react-google-recaptcha'
 import { AiFillCloseCircle } from 'react-icons/ai'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import Modal from '../shared/Modal'
 import Loading from '../shared/icons/Loading'
 

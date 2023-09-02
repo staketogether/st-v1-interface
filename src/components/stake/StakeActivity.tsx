@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiOutlineLink } from 'react-icons/ai'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 

@@ -1,6 +1,6 @@
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { BsArrowBarRight } from 'react-icons/bs'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import WalletSidebarDisconnected from './WalletSidebarDisconnected'
 

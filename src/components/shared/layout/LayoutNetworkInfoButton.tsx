@@ -6,7 +6,7 @@ import ethIcon from '@assets/icons/eth-icon.svg'
 import gasIcon from '@assets/icons/gas.svg'
 import { Tooltip } from 'antd'
 import Image from 'next/image'
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 import SkeletonLoading from '../icons/SkeletonLoading'
 
 export default function LayoutNetworkInfoButton() {
