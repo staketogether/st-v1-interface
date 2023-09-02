@@ -19,14 +19,14 @@ export default function LayoutHeader() {
           </Logo>
         </div>
         <Menu>
-          <Link href='/invest'>
+          <Link href='/invest' legacyBehavior>
             <MenuButton
               className={`${isActive('invest') || isActive('deposit') || isActive('withdraw') ? 'active' : ''}`}
             >
               {t('v2.header.invest')}
             </MenuButton>
           </Link>
-          <Link href='/incentives'>
+          <Link href='/incentives' legacyBehavior>
             <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
               {t('v2.header.incentives')}
             </MenuButton>
@@ -37,7 +37,7 @@ export default function LayoutHeader() {
         <Wallet />
       </WalletContainer>
     </Container>
-  )
+  );
 }
 
 const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
