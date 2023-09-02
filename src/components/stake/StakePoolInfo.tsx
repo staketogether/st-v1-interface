@@ -4,8 +4,7 @@ import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetail
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import { PoolSubgraph } from '@/types/Pool'
 import { useState } from 'react'
-import { AiOutlineInfoCircle, AiOutlineUser } from 'react-icons/ai'
-import { BsGraphUp } from 'react-icons/bs'
+import { BsCardText, BsJustify, BsPeople } from 'react-icons/bs'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
@@ -105,13 +104,13 @@ const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon } = {
   TabContainer: styled.div`
     padding: ${({ theme }) => theme.size[24]};
   `,
-  AboutIcon: styled(AiOutlineInfoCircle)`
+  AboutIcon: styled(BsCardText)`
     font-size: ${({ theme }) => theme.font.size[16]};
   `,
-  MembersIcon: styled(AiOutlineUser)`
+  MembersIcon: styled(BsPeople)`
     font-size: ${({ theme }) => theme.font.size[16]};
   `,
-  ActivityIcon: styled(BsGraphUp)`
+  ActivityIcon: styled(BsJustify)`
     font-size: ${({ theme }) => theme.font.size[16]};
   `
 }
