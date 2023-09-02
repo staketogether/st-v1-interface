@@ -5,7 +5,7 @@ import { truncateWei } from '@/services/truncate'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
 import { AiOutlineQuestionCircle } from 'react-icons/ai'
-import { PiCoin, PiCoins, PiShareNetworkFill } from 'react-icons/pi'
+import { PiCoin, PiCoins, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useContentfulPoolDetails from '../../hooks/contentful/useContentfulPoolDetails'
@@ -252,8 +252,8 @@ const {
       background-color: ${({ theme }) => theme.colorV2.purple[1]};
     }
   `,
-  ShareIcon: styled(PiShareNetworkFill)`
-    font-size: ${({ theme }) => theme.font.size[12]};
+  ShareIcon: styled(PiShareNetwork)`
+    font-size: ${({ theme }) => theme.font.size[15]};
   `,
   PoolTitle: styled.div`
     display: flex;
