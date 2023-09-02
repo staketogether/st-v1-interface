@@ -57,7 +57,7 @@ export const useCalculateDelegationPercentage = ({
           // Calculate the dividend of the shares
           const dividend = shares * oneEther
           // Calculate the pool percentage
-          const poolSharesPercentage = dividend || newAccountShares === 0n ? 0n : dividend / newAccountShares
+          const poolSharesPercentage = dividend === 0n || newAccountShares === 0n ? 0n : dividend / newAccountShares
           // Reduce the remaining new shares by the pool percentage
           remainingNewPercentage -= poolSharesPercentage
 
