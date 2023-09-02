@@ -3,15 +3,12 @@ import StakePoolMembers from '@/components/stake/StakePoolMembers'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import { PoolSubgraph } from '@/types/Pool'
-import { Tooltip } from 'antd'
 import { useState } from 'react'
 import { AiOutlineInfoCircle, AiOutlineUser } from 'react-icons/ai'
-import { BsFillShareFill, BsGraphUp } from 'react-icons/bs'
+import { BsGraphUp } from 'react-icons/bs'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
-import CommunityLogo from '../shared/community/CommunityLogo'
-import CommunityName from '../shared/community/CommunityName'
 import StakeActivity from './StakeActivity'
 
 interface StakeStatsProps {
@@ -83,36 +80,14 @@ export default function StakePoolInfo({
     }
   ]
 
-  function copyToClipboard() {
-    navigator.clipboard.writeText(window.location.toString())
-  }
-
   return (
     <Container>
-      {poolAddress && (
-        <header>
-          <div>
-            <CommunityLogo
-              size={32}
-              src={poolDetail ? poolDetail?.logo?.url : ''}
-              alt={poolDetail ? poolDetail?.logo?.url : ''}
-              loading={poolDetailLoading}
-            />
-            <CommunityName $larger name={poolDetail?.name || ''} loading={poolDetailLoading} />
-          </div>
-          <Tooltip trigger='click' title={t('copiedToClipboard')}>
-            <ShareButton onClick={copyToClipboard}>
-              <ShareIcon />
-            </ShareButton>
-          </Tooltip>
-        </header>
-      )}
       <Tabs items={tabsItems} />
     </Container>
   )
 }
 
-const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, ShareIcon, ShareButton } = {
+const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon } = {
   Container: styled.section`
     display: grid;
     grid-template-columns: 1fr;
@@ -126,18 +101,6 @@ const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, ShareIcon
     box-shadow: ${({ theme }) => theme.shadow[100]};
     transition: background-color 0.1s ease;
     border: none;
-
-    > header {
-      display: flex;
-      justify-content: space-between;
-      padding: 0px ${({ theme }) => theme.size[24]};
-      padding-top: ${({ theme }) => theme.size[24]};
-      > div {
-        display: flex;
-        align-items: center;
-        gap: ${({ theme }) => theme.size[8]};
-      }
-    }
   `,
   TabContainer: styled.div`
     padding: ${({ theme }) => theme.size[24]};
@@ -150,25 +113,5 @@ const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, ShareIcon
   `,
   ActivityIcon: styled(BsGraphUp)`
     font-size: ${({ theme }) => theme.font.size[16]};
-  `,
-  ShareButton: styled.button`
-    border: none;
-    width: 32px;
-    height: 32px;
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.secondary};
-    background-color: transparent;
-    border-radius: 50%;
-    transition: background-color 0.1s ease;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
-    box-shadow: ${({ theme }) => theme.shadow[300]};
-  `,
-  ShareIcon: styled(BsFillShareFill)`
-    font-size: ${({ theme }) => theme.font.size[12]};
   `
 }
