@@ -153,7 +153,7 @@ const {
     justify-content: center;
     gap: ${({ theme }) => theme.size[24]};
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      gap: ${({ theme }) => theme.size[16]};
+      gap: ${({ theme }) => theme.size[24]};
       max-width: 468px;
     }
   `,
