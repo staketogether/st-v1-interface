@@ -31,13 +31,18 @@ export default function LayoutFooter() {
 const { Container } = {
   Container: styled.div`
     width: 100%;
-    gap: ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[8]};
     display: flex;
     align-items: center;
     justify-content: space-between;
     background: ${({ theme }) => theme.colorV2.blue[2]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
     padding: 16px 24px;
+    flex-direction: column;
+
+    > div:nth-child(2) {
+      display: none;
+    }
 
     > div {
       display: flex;
@@ -63,6 +68,15 @@ const { Container } = {
 
       &:hover {
         color: ${({ theme }) => theme.colorV2.purple[2]};
+      }
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      flex-direction: row;
+      gap: ${({ theme }) => theme.size[16]};
+
+      > div:nth-child(2) {
+        display: block;
       }
     }
   `

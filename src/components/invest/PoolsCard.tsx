@@ -39,7 +39,7 @@ export default function PoolsCard({ pool }: PoolsCardProps) {
           <div>{t('v2.pools.list.invested')}</div>
           <div>
             {truncateWei(pool.poolBalance, 6)}
-            <span>{t('lsd.symbol')}</span>
+            <span>{t('eth.symbol')}</span>
           </div>
         </div>
       </CardInfo>
@@ -57,7 +57,7 @@ const { Card, CardInfo, CardHeader } = {
     color: ${({ theme }) => theme.color.primary};
     background-color: ${({ theme }) => theme.color.white};
     border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
     padding: ${({ theme }) => theme.size[16]};
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
@@ -79,7 +79,9 @@ const { Card, CardInfo, CardHeader } = {
   CardHeader: styled.div`
     display: flex;
     align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
+    font-weight: 500;
+
     div {
       display: flex;
       align-items: center;
@@ -88,7 +90,8 @@ const { Card, CardInfo, CardHeader } = {
   CardInfo: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
+    gap: ${({ theme }) => theme.size[8]};
+
     div {
       display: flex;
       align-items: center;
@@ -97,10 +100,16 @@ const { Card, CardInfo, CardHeader } = {
 
       > div:first-child {
         font-size: ${({ theme }) => theme.font.size[14]};
-        color: ${({ theme }) => theme.color.primary};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
       }
       > div:last-child {
         font-size: ${({ theme }) => theme.font.size[14]};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+      }
+    }
+
+    > div:nth-child(3) {
+      > div:last-of-type {
         color: ${({ theme }) => theme.colorV2.blue[1]};
       }
     }

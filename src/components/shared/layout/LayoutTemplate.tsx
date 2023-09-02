@@ -51,9 +51,11 @@ const { Container, Wrapper, Content, Body } = {
     gap: 24px;
     min-height: 100vh;
     background: ${({ theme }) => theme.colorV2.background};
-    padding: ${({ theme }) => theme.size[16]};
+    padding: 0;
+    padding-bottom: 48px;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      padding: 0px;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
   `,
   Wrapper: styled.div`
@@ -63,6 +65,10 @@ const { Container, Wrapper, Content, Body } = {
     grid-template-columns: 1fr;
     justify-content: center;
     place-items: start center;
+    padding: ${({ theme }) => theme.size[16]};
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      padding: 0;
+    }
   `,
   Content: styled.div`
     display: grid;

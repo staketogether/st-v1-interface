@@ -150,6 +150,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
     width: 100%;
     display: flex;
     gap: ${({ theme }) => theme.size[12]};
+    height: 34px;
     align-items: center;
     overflow-y: auto;
     &::-webkit-scrollbar-thumb {

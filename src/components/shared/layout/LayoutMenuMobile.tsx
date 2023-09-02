@@ -24,7 +24,7 @@ function LayoutMenuMobile() {
 const { Container, NextLink } = {
   Container: styled.nav`
     width: 100vw;
-    height: 58px;
+    height: 48px;
     position: fixed;
     bottom: 0;
     left: 0;
