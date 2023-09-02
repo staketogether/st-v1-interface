@@ -1,5 +1,5 @@
 import stIcon from '@assets/icons/empty-pool-info.svg'
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import { styled } from 'styled-components'
 
 type StakeEmptyPoolInfoProps = {

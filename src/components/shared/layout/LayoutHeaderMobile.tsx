@@ -1,6 +1,6 @@
 import Wallet from '@/components/wallet/Wallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import Link from 'next/link'
 import { styled } from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'

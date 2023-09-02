@@ -4,7 +4,7 @@ import facebook from '@assets/icons/wallets/Facebook.svg'
 import google from '@assets/icons/wallets/Google.svg'
 import metamask from '@assets/icons/wallets/Metamask.svg'
 import walletConnect from '@assets/icons/wallets/WalletConnect.svg'
-import Image from 'next/image'
+import Image from "next/legacy/image"
 
 export default function useWalletProviderImage() {
   const handleWalletProviderImage = (walletName: string, size = 28) => {

@@ -14,7 +14,7 @@ import { WithdrawType } from '@/types/Withdraw'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import stSymbol from '@assets/st-symbol.svg'
 import { ethers } from 'ethers'
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import { useCallback, useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { useDebounce } from 'usehooks-ts'

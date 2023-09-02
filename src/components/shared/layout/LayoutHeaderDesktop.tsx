@@ -1,5 +1,5 @@
 import Wallet from '@/components/wallet/Wallet'
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import Link from 'next/link'
 import { styled } from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'

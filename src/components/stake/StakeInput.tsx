@@ -1,6 +1,6 @@
 import ethIcon from '@assets/icons/eth-icon.svg'
 import stSymbol from '@assets/st-symbol.svg'
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import styled from 'styled-components'
 import useCoinConversion from '../../hooks/useCoinConversion'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
