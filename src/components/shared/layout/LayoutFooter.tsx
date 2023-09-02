@@ -10,10 +10,14 @@ export default function LayoutFooter() {
   return (
     <Container>
       <div>
-        <a href={`${blockExplorer.baseUrl}/address/${contracts.StakeTogether}`} target='_blank'>
-          Smart Contract
-        </a>
-        <span>{`v${packageData.version}`}</span>
+        <div>
+          <span>{`v${packageData.version}`}</span>
+        </div>
+        <span>
+          <a href={`${blockExplorer.baseUrl}/address/${contracts.StakeTogether}`} target='_blank'>
+            Smart Contract
+          </a>
+        </span>
       </div>
       <div>
         <a href={`${websiteUrl}`} target='_blank'>
