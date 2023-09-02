@@ -38,6 +38,10 @@ export default function PoolsControl({ pools }: PoolsListProps) {
     {
       name: poolTypeTranslation('socialImpact'),
       value: 'socialImpact'
+    },
+    {
+      name: poolTypeTranslation('technology'),
+      value: 'technology'
     }
   ]
 
@@ -107,7 +111,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
               className={`${activeFilters.includes(filter.value) && 'active'}`}
               key={filter.value}
             >
-              {PoolFilterIcon({ iconSize: 14, value: filter.value })}
+              {PoolFilterIcon({ iconSize: 16, value: filter.value })}
               {filter.name}
             </FilterButton>
           ))}

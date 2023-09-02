@@ -182,8 +182,8 @@
         "all": "Todos",
         "art": "Arte",
         "education": "Educação",
-        "social": "Social",
-        "innovation": "Inovação"
+        "social": "Impacto Social",
+        "technology": "Tecnologia"
       },
       "emptyList": "Nenhum resultado encontrado",
       "emptyButton": "Limpar",
@@ -201,7 +201,7 @@
       "tvl": "Total Investido com o Projeto",
       "tvlTooltip": "Total Investido com o Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto.",
       "annualRewards": "Recompensas Anuais de Staking",
-      "infoEmptyState": "New information coming soon!",
+      "infoEmptyState": "Nenhuma informação disponível",
       "descriptionForm": {
         "receive": "Você vai receber:",
         "receiveTooltip": "Quando você deposita ETH você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",

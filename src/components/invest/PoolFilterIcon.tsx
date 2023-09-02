@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { BsBook, BsBrush, BsHeart } from 'react-icons/bs'
+import { PiBookOpenText, PiCodesandboxLogo, PiHandHeart, PiPaintBrush } from 'react-icons/pi'
 
 type FilterPool = {
   icon: ReactNode
@@ -14,16 +14,20 @@ type PoolFilterIconProps = {
 export default function PoolFilterIcon({ iconSize, value }: PoolFilterIconProps) {
   const filterTypes: FilterPool[] = [
     {
-      icon: <BsBrush fontSize={iconSize} />,
+      icon: <PiPaintBrush fontSize={iconSize} />,
       value: 'art'
     },
     {
-      icon: <BsBook fontSize={iconSize} />,
+      icon: <PiBookOpenText fontSize={iconSize} />,
       value: 'education'
     },
     {
-      icon: <BsHeart fontSize={iconSize} />,
+      icon: <PiHandHeart fontSize={iconSize} />,
       value: 'socialImpact'
+    },
+    {
+      icon: <PiCodesandboxLogo fontSize={iconSize} />,
+      value: 'technology'
     }
   ]
 

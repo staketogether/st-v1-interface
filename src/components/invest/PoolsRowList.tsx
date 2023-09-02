@@ -22,7 +22,7 @@ export default function PoolsRowList({ pool }: PoolsRowListProps) {
         <CommunityName name={pool.name} />
       </Name>
       <TypeContainer>
-        {pool.type && PoolFilterIcon({ iconSize: 14, value: pool.type })}
+        {pool.type && PoolFilterIcon({ iconSize: 16, value: pool.type })}
         <Text>{`${pool.type && poolTypeTranslation(pool.type)}`}</Text>
       </TypeContainer>
       <Text>{pool.receivedDelegationsCount.toString()}</Text>

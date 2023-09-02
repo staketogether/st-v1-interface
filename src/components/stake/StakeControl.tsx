@@ -5,7 +5,7 @@ import { truncateWei } from '@/services/truncate'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
 import { AiOutlineQuestionCircle } from 'react-icons/ai'
-import { BsArrowDown, BsArrowUp, BsFillShareFill } from 'react-icons/bs'
+import { PiCoin, PiCoins, PiShareNetworkFill } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useContentfulPoolDetails from '../../hooks/contentful/useContentfulPoolDetails'
@@ -215,11 +215,11 @@ const {
       }
     }
   `,
-  DepositIcon: styled(BsArrowDown)`
-    font-size: 14px;
+  DepositIcon: styled(PiCoin)`
+    font-size: 15px;
   `,
-  WithdrawIcon: styled(BsArrowUp)`
-    font-size: 14px;
+  WithdrawIcon: styled(PiCoins)`
+    font-size: 17px;
   `,
   QuestionIcon: styled(AiOutlineQuestionCircle)`
     width: 14px;
@@ -252,7 +252,7 @@ const {
       background-color: ${({ theme }) => theme.colorV2.purple[1]};
     }
   `,
-  ShareIcon: styled(BsFillShareFill)`
+  ShareIcon: styled(PiShareNetworkFill)`
     font-size: ${({ theme }) => theme.font.size[12]};
   `,
   PoolTitle: styled.div`

@@ -1,5 +1,5 @@
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import { BsArrowBarRight } from 'react-icons/bs'
+import { PiArrowLineRight } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import WalletSidebarDisconnected from './WalletSidebarDisconnected'
@@ -16,7 +16,7 @@ export default function WalletConnectButton() {
           setOpenSidebarConnectWallet(true)
         }}
       >
-        <BsArrowBarRight fontSize={14} />
+        <PiArrowLineRight fontSize={14} />
         {t('v2.header.enter')}
       </ConnectButton>
       <WalletSidebarDisconnected />

@@ -29,7 +29,8 @@ import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
-import { BsArrowBarRight, BsArrowDown, BsArrowUp } from 'react-icons/bs'
+import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
+import { PiArrowLineRight } from 'react-icons/pi'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 
 type StakeFormProps = {
@@ -491,7 +492,7 @@ const {
       }
     }
   `,
-  ConnectWalletIcon: styled(BsArrowBarRight)`
+  ConnectWalletIcon: styled(PiArrowLineRight)`
     font-size: 16px;
   `,
   DepositIcon: styled(BsArrowDown)`

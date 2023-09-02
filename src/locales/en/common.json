@@ -181,7 +181,7 @@
         "art": "Art",
         "education": "Education",
         "social": "Social Impact",
-        "innovation": "Innovation"
+        "technology": "Technology"
       },
       "emptyList": "No results found",
       "emptyButton": "Clean",
@@ -198,7 +198,7 @@
       "apyTooltip": "Annual Percentage Yield represents the depositor's investment return over one year, considering auto-reinvestment and compound interest.",
       "tvl": "Total Invested with Project",
       "tvlTooltip": "Total Invested with the Project refers to the total amount of ETH deposited into the project. The more ETH, the greater the incentives for the project.",
-      "infoEmptyState": "New information coming soon!",
+      "infoEmptyState": "Information not available",
       "descriptionForm": {
         "receive": "You will receive:",
         "receiveTooltip": "When you deposit ETH, you receive the stpETH token in return. The stpETH receives staking rewards daily.",

@@ -87,6 +87,7 @@ const { Container, TabItem, TabsContainer } = {
 
     display: flex;
     align-items: center;
+    border-radius: 8px 8px 0 0;
 
     overflow-y: auto;
     &::-webkit-scrollbar-thumb {
