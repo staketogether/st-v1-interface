@@ -76,7 +76,7 @@ const { Container } = {
       gap: ${({ theme }) => theme.size[16]};
 
       > div:nth-child(2) {
-        display: block;
+        display: flex;
       }
     }
   `
