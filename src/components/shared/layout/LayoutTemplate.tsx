@@ -18,11 +18,16 @@ interface LayoutTemplateProps {
 }
 
 export default function LayoutTemplate({ children }: LayoutTemplateProps) {
+  const isProduction = process.env.NODE_ENV == 'production'
   return (
     <Container className={montserrat.className}>
-      <GoogleTag />
-      <Hotjar />
-      <Cloudflare />
+      {isProduction && (
+        <>
+          <GoogleTag />
+          <Hotjar />
+          <Cloudflare />
+        </>
+      )}
       <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
       <Wrapper>
         <Content>

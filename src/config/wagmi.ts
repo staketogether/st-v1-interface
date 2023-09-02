@@ -1,6 +1,5 @@
 import { goerli } from 'viem/chains'
 import { configureChains, createConfig } from 'wagmi'
-import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
@@ -23,12 +22,6 @@ const connectors = [
     options: {
       projectId: String(process.env.NEXT_PUBLIC_WALLET_CONNECT),
       showQrModal: true
-    }
-  }),
-  new CoinbaseWalletConnector({
-    chains,
-    options: {
-      appName: 'Stake Together'
     }
   })
 ]
