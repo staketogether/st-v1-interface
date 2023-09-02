@@ -204,13 +204,13 @@
       "infoEmptyState": "Nenhuma informação disponível",
       "descriptionForm": {
         "receive": "Você vai receber:",
-        "receiveTooltip": "Quando você deposita ETH você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",
+        "receiveTooltip": "Quando você deposita ETH, você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",
         "exchange": "Câmbio:",
         "exchangeTooltip": "Câmbio é a equivalência entre ETH e stpETH.",
         "rewards": "Taxa de Recompensas Futuras:",
-        "rewardsTooltip": "Taxa de Recompensas Futuras é a taxa de recompensas que é descontada sobre as recompenas de staking.",
+        "rewardsTooltip": "Taxa de Recompensas Futuras é a taxa que é descontada sobre as recompenas futuras de staking com base no valor anual depositado.",
         "operation": "Taxa de Operação:",
-        "operationTooltip": "Taxa de Operação é a taxa que é descontada sobre o deposito no projeto."
+        "operationTooltip": "Taxa de Operação é a taxa que é descontada sobre o deposito."
       },
       "confirmModal": {
         "depositTitle": "Revisar Pedido de Deposito",

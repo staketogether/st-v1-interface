@@ -205,9 +205,9 @@
         "exchange": "Exchange rate:",
         "exchangeTooltip": "Exchange is the equivalence between ETH and stpETH.",
         "rewards": "Future Rewards Fee:",
-        "rewardsTooltip": "Future Rewards Rate is the rate of rewards that is deducted from the staking rewards.",
+        "rewardsTooltip": "The Future Rewards Rate is the rate deducted from future staking rewards based on the annual deposited amount.",
         "operation": "Operation Fee:",
-        "operationTooltip": "Operation Fee is the fee that is deducted from the deposit in the project."
+        "operationTooltip": "Operation Fee is the fee that is deducted from the deposit."
       },
       "confirmModal": {
         "depositTitle": "Review Stake Request",
