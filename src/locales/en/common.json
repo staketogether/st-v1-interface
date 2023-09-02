@@ -195,17 +195,19 @@
     },
     "stake": {
       "apy": "Annual Percentage Yield",
-      "tvl": "Total Invested with Project",
+      "apyTooltip": "Annual Percentage Yield represents the depositor's investment return over one year, considering auto-reinvestment and compound interest.",
+      "tvl": "Total Invested in the Project",
+      "tvlTooltip": "Total Invested in the Project refers to the total amount of ETH deposited into the project. The more ETH, the greater the incentives for the project.",
       "infoEmptyState": "New information coming soon!",
       "descriptionForm": {
         "receive": "You will receive:",
-        "receiveTooltip": "When you deposit ETH, you receive the stpETH token in return. The stpETH receives staking rewards daily",
+        "receiveTooltip": "When you deposit ETH, you receive the stpETH token in return. The stpETH receives staking rewards daily.",
         "exchange": "Exchange rate:",
-        "exchangeTooltip": "Exchange rate is the conversion rate between ETH and stpETH",
+        "exchangeTooltip": "Exchange is the equivalence between ETH and stpETH.",
         "rewards": "Future Rewards Fee:",
-        "rewardsTooltip": "Future Rewards Rate is the rate of rewards that is deducted from the staking rewards",
+        "rewardsTooltip": "Future Rewards Rate is the rate of rewards that is deducted from the staking rewards.",
         "operation": "Operation Fee:",
-        "operationTooltip": "Operation Fee is the fee that is deducted from the deposit in the pool"
+        "operationTooltip": "Operation Fee is the fee that is deducted from the deposit in the project."
       },
       "confirmModal": {
         "depositTitle": "Review Stake Request",

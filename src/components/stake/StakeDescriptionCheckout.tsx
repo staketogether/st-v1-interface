@@ -108,13 +108,21 @@ const { StakeInfo, QuestionIcon } = {
       justify-content: space-between;
 
       font-size: ${({ theme }) => theme.font.size[13]};
+      line-height: 13px;
+      height: 13px;
 
       > span:nth-child(1) {
         font-weight: 400;
+        display: flex;
         align-items: center;
+        line-height: 13px;
       }
       > span:nth-child(2) {
         font-weight: 500;
+        display: flex;
+        align-items: center;
+        line-height: 13px;
+        gap: 2px;
       }
       span {
         color: ${({ theme }) => theme.colorV2.gray[1]};
@@ -132,6 +140,7 @@ const { StakeInfo, QuestionIcon } = {
     width: 14px;
     height: 14px;
     color: ${({ theme }) => theme.colorV2.gray[1]};
+    margin-left: 3px;
     cursor: pointer;
     &:hover {
       color: ${({ theme }) => theme.color.secondary};

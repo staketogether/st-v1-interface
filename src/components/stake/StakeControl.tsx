@@ -3,10 +3,13 @@ import useActiveRoute from '@/hooks/useActiveRoute'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { useRouter } from 'next/router'
+import { AiOutlineQuestionCircle } from 'react-icons/ai'
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
 import styled from 'styled-components'
+import { globalConfig } from '../../config/global'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import Tabs, { TabsItems } from '../shared/Tabs'
+import TooltipComponent from '../shared/TooltipComponent'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
@@ -20,6 +23,8 @@ interface StakeControlProps {
 export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
+
+  const { apy } = globalConfig
 
   const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress, { first: 10, skip: 0 })
 
@@ -64,11 +69,21 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
       <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
       <TvlContainer>
         <div>
-          <span>{t('v2.stake.apy')}</span>
-          <span className='green'>6%</span>
+          <span>
+            <TooltipComponent text={t('v2.stake.apyTooltip')} left={225} width={200}>
+              {`${t('v2.stake.apy')}: `}
+              <QuestionIcon />
+            </TooltipComponent>
+          </span>
+          <span className='green'>{`${apy}%`}</span>
         </div>
         <div>
-          <span>{t('v2.stake.tvl')}</span>
+          <span>
+            <TooltipComponent text={t('v2.stake.tvlTooltip')} left={225} width={200}>
+              {`${t('v2.stake.tvl')}: `}
+              <QuestionIcon />
+            </TooltipComponent>
+          </span>
           {!!pool?.poolBalance && !initialLoading ? (
             <span className='primary'>{`${truncateWei(pool?.poolBalance, 5)} ${t('eth.symbol')} `}</span>
           ) : (
@@ -94,7 +109,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   )
 }
 
-const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
+const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer, QuestionIcon } = {
   Container: styled.div`
     display: grid;
     justify-content: center;
@@ -121,7 +136,9 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
     }
 
     span {
-      font-size: ${({ theme }) => theme.font.size[14]};
+      font-size: 13px;
+      line-height: 13px;
+      height: 13px;
 
       color: ${({ theme }) => theme.colorV2.gray[1]};
 
@@ -165,5 +182,15 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
   `,
   WithdrawIcon: styled(BsArrowUp)`
     font-size: 14px;
+  `,
+  QuestionIcon: styled(AiOutlineQuestionCircle)`
+    width: 14px;
+    height: 14px;
+    margin-left: 3px;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    cursor: pointer;
+    &:hover {
+      color: ${({ theme }) => theme.color.secondary};
+    }
   `
 }

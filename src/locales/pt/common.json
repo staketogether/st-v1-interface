@@ -197,18 +197,20 @@
     },
     "stake": {
       "apy": "Rendimento Percentual Anual",
+      "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos.",
       "tvl": "Total Investido com o Projeto",
+      "tvlTooltip": "Total Investido no Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH, maiores os incentivos para o projeto.",
       "annualRewards": "Recompensas Anuais de Staking",
       "infoEmptyState": "New information coming soon!",
       "descriptionForm": {
         "receive": "Você vai receber:",
-        "receiveTooltip": "Quando você deposita ETH você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente",
+        "receiveTooltip": "Quando você deposita ETH você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",
         "exchange": "Câmbio:",
-        "exchangeTooltip": "Câmbio é a taxa de conversão entre ETH e stpETH",
+        "exchangeTooltip": "Câmbio é a equivalência entre ETH e stpETH.",
         "rewards": "Taxa de Recompensas Futuras:",
-        "rewardsTooltip": "Taxa de Recompensas Futuras é a taxa de recompensas que é descontada sobre as recompenas de staking",
+        "rewardsTooltip": "Taxa de Recompensas Futuras é a taxa de recompensas que é descontada sobre as recompenas de staking.",
         "operation": "Taxa de Operação:",
-        "operationTooltip": "Taxa de Operação é a taxa que é descontada sobre o deposito na pool"
+        "operationTooltip": "Taxa de Operação é a taxa que é descontada sobre o deposito no projeto."
       },
       "confirmModal": {
         "depositTitle": "Revisar Pedido de Deposito",
