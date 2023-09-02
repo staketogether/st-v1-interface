@@ -1,4 +1,5 @@
 import chainConfig from '@/config/chain'
+import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 import packageData from '../../../../package.json'
 import { globalConfig } from '../../../config/global'
@@ -8,6 +9,8 @@ export default function LayoutFooter() {
   const date = new Date()
   const { blockExplorer, contracts } = chainConfig()
   const { websiteUrl, auditUrl } = globalConfig
+
+  const { i18n } = useTranslation(['common'])
 
   const { t } = useLocaleTranslation()
 
@@ -29,7 +32,7 @@ export default function LayoutFooter() {
         </span>
       </div>
       <div>
-        <a href={`${websiteUrl}`} target='_blank'>
+        <a href={`${websiteUrl}/${i18n.language}`} target='_blank'>
           {t('footer.website')}
         </a>
         <span>{`© ${date.getFullYear()} Stake Together `}</span>
