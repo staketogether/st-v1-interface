@@ -11,8 +11,8 @@ import {
   PiInstagramLogo,
   PiLinkedinLogo,
   PiTelegramLogo,
+  PiTwitterLogo,
   PiWhatsappLogo,
-  PiX,
   PiYoutubeLogo
 } from 'react-icons/pi'
 import styled from 'styled-components'
@@ -239,7 +239,7 @@ const {
     height: 20px;
     color: ${({ theme }) => theme.color.primary};
   `,
-  TwitterIcon: styled(PiX)`
+  TwitterIcon: styled(PiTwitterLogo)`
     width: 20px;
     height: 20px;
     color: ${({ theme }) => theme.color.primary};
