@@ -4,7 +4,7 @@ import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetail
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import { PoolSubgraph } from '@/types/Pool'
 import { useState } from 'react'
-import { BsCardText, BsJustify, BsPeople } from 'react-icons/bs'
+import { PiAppWindow, PiListDashes, PiUsers } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
@@ -104,13 +104,13 @@ const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon } = {
   TabContainer: styled.div`
     padding: ${({ theme }) => theme.size[24]};
   `,
-  AboutIcon: styled(BsCardText)`
+  AboutIcon: styled(PiAppWindow)`
     font-size: ${({ theme }) => theme.font.size[16]};
   `,
-  MembersIcon: styled(BsPeople)`
+  MembersIcon: styled(PiUsers)`
     font-size: ${({ theme }) => theme.font.size[16]};
   `,
-  ActivityIcon: styled(BsJustify)`
+  ActivityIcon: styled(PiListDashes)`
     font-size: ${({ theme }) => theme.font.size[16]};
   `
 }

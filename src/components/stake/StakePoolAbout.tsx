@@ -4,7 +4,17 @@ import { truncateAddress } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
-import { BsDiscord, BsFacebook, BsGlobe2, BsInstagram, BsLinkedin, BsTwitter } from 'react-icons/bs'
+import {
+  PiDiscordLogo,
+  PiFacebookLogo,
+  PiGlobeSimple,
+  PiInstagramLogo,
+  PiLinkedinLogo,
+  PiTelegramLogo,
+  PiWhatsappLogo,
+  PiX,
+  PiYoutubeLogo
+} from 'react-icons/pi'
 import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
@@ -57,16 +67,10 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
               <span>{truncateAddress(poolDetail.contract)}</span>
             </Social>
           )}
-          {poolDetail?.twitter && (
-            <Social href={`https://twitter.com/${poolDetail.twitter}`} target='_blank'>
-              <TwitterIcon />
-              <span>{poolDetail.twitter}</span>
-            </Social>
-          )}
-          {poolDetail?.discord && (
-            <Social href={`https://discord.com/invite/${poolDetail.discord}`} target='_blank'>
-              <DiscordIcon />
-              <span>Discord</span>
+          {poolDetail?.linkedin && (
+            <Social href={`https://www.linkedin.com/in/${poolDetail.linkedin}`} target='_blank'>
+              <LinkedinIcon />
+              <span>{poolDetail.linkedin}</span>
             </Social>
           )}
           {poolDetail?.instagram && (
@@ -82,10 +86,34 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
             </Social>
           )}
 
-          {poolDetail?.linkedin && (
-            <Social href={`https://www.linkedin.com/in/${poolDetail.linkedin}`} target='_blank'>
-              <LinkedinIcon />
-              <span>{poolDetail.linkedin}</span>
+          {poolDetail?.twitter && (
+            <Social href={`https://twitter.com/${poolDetail.twitter}`} target='_blank'>
+              <TwitterIcon />
+              <span>{poolDetail.twitter}</span>
+            </Social>
+          )}
+          {poolDetail?.youtube && (
+            <Social href={`https://www.youtube.com/channel/${poolDetail.youtube}`} target='_blank'>
+              <YoutubeIcon />
+              <span>{poolDetail.youtube}</span>
+            </Social>
+          )}
+          {poolDetail?.discord && (
+            <Social href={`https://discord.com/invite/${poolDetail.discord}`} target='_blank'>
+              <DiscordIcon />
+              <span>Discord</span>
+            </Social>
+          )}
+          {poolDetail?.telegram && (
+            <Social href={`https://t.me/joinchat/${poolDetail.telegram}`} target='_blank'>
+              <TelegramIcon />
+              <span>Telegram</span>
+            </Social>
+          )}
+          {poolDetail?.whatsapp && (
+            <Social href={`https://chat.whatsapp.com/${poolDetail.whatsapp}`} target='_blank'>
+              <WhatsAppIcon />
+              <span>Whatsapp</span>
             </Social>
           )}
         </SocialContainer>
@@ -115,7 +143,10 @@ const {
   LinkedinIcon,
   TwitterIcon,
   DescriptionLoading,
-  DiscordIcon
+  DiscordIcon,
+  YoutubeIcon,
+  TelegramIcon,
+  WhatsAppIcon
 } = {
   Container: styled.section`
     display: flex;
@@ -144,7 +175,11 @@ const {
 
     font-weight: 400;
     color: ${({ theme }) => theme.colorV2.gray[1]};
-    line-height: ${({ theme }) => theme.font.size[18]};
+    line-height: ${({ theme }) => theme.font.size[16]};
+    padding: 8px 0;
+
+    word-break: break-word;
+    white-space: pre-wrap;
   `,
   DescriptionLoading: styled.div`
     display: flex;
@@ -154,7 +189,7 @@ const {
   SocialContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
+    gap: ${({ theme }) => theme.size[8]};
   `,
   Social: styled.a`
     cursor: pointer;
@@ -166,44 +201,65 @@ const {
 
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.color.blackAlpha[50]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
 
     span {
-      font-size: ${({ theme }) => theme.font.size[12]};
+      font-size: ${({ theme }) => theme.font.size[13]};
+      line-height: 13px;
 
-      font-weight: 500;
       color: ${({ theme }) => theme.colorV2.gray[1]};
     }
 
     &:hover {
       background: ${({ theme }) => theme.color.blackAlpha[100]};
+
+      svg,
+      img {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
     }
   `,
-  SiteIcon: styled(BsGlobe2)`
+  SiteIcon: styled(PiGlobeSimple)`
     width: 20px;
     height: 20px;
     color: ${({ theme }) => theme.color.primary};
   `,
-  FacebookIcon: styled(BsFacebook)`
+  FacebookIcon: styled(PiFacebookLogo)`
     width: 20px;
     height: 20px;
     color: ${({ theme }) => theme.color.primary};
   `,
-  InstagramIcon: styled(BsInstagram)`
+  InstagramIcon: styled(PiInstagramLogo)`
     width: 20px;
     height: 20px;
     color: ${({ theme }) => theme.color.primary};
   `,
-  LinkedinIcon: styled(BsLinkedin)`
+  LinkedinIcon: styled(PiLinkedinLogo)`
     width: 20px;
     height: 20px;
     color: ${({ theme }) => theme.color.primary};
   `,
-  TwitterIcon: styled(BsTwitter)`
+  TwitterIcon: styled(PiX)`
     width: 20px;
     height: 20px;
     color: ${({ theme }) => theme.color.primary};
   `,
-  DiscordIcon: styled(BsDiscord)`
+  DiscordIcon: styled(PiDiscordLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  YoutubeIcon: styled(PiYoutubeLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  TelegramIcon: styled(PiTelegramLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  WhatsAppIcon: styled(PiWhatsappLogo)`
     width: 20px;
     height: 20px;
     color: ${({ theme }) => theme.color.primary};

@@ -12,10 +12,13 @@ export type ContentfulPool = {
   description?: string
   site?: string
   facebook?: string
+  youtube?: string
   instagram?: string
   linkedin?: string
   twitter?: string
   contract?: string
+  telegram?: string
+  whatsapp?: string
   discord?: string
   category: {
     name: string
