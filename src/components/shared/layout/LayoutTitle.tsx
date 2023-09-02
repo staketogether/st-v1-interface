@@ -30,7 +30,7 @@ const Title = styled.h1`
 
 const Description = styled.p`
   color: ${({ theme }) => theme.colorV2.gray[1]};
-  font-size: ${({ theme }) => theme.font.size[14]};
+  font-size: 13px;
   font-weight: 400;
   line-height: 18px;
 `

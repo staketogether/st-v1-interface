@@ -159,7 +159,7 @@ const {
   `,
   TvlContainer: styled.div`
     display: flex;
-    padding: ${({ theme }) => theme.size[16]} ${({ theme }) => theme.size[24]};
+    padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]};
     flex-direction: column;
     gap: 12px;
     box-shadow: ${({ theme }) => theme.shadow[100]};

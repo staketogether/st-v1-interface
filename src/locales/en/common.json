@@ -196,8 +196,8 @@
     "stake": {
       "apy": "Annual Percentage Yield",
       "apyTooltip": "Annual Percentage Yield represents the depositor's investment return over one year, considering auto-reinvestment and compound interest.",
-      "tvl": "Total Invested in the Project",
-      "tvlTooltip": "Total Invested in the Project refers to the total amount of ETH deposited into the project. The more ETH, the greater the incentives for the project.",
+      "tvl": "Total Invested with Project",
+      "tvlTooltip": "Total Invested with the Project refers to the total amount of ETH deposited into the project. The more ETH, the greater the incentives for the project.",
       "infoEmptyState": "New information coming soon!",
       "descriptionForm": {
         "receive": "You will receive:",

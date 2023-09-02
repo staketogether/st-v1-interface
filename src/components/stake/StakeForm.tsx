@@ -319,7 +319,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             </CardInfo>
           </CardInfoContainer>
         )}
-        {type === 'withdraw' && (
+        {accountAddress && type === 'withdraw' && (
           <StakeWithdrawSwitchTypes
             liquidityPoolBalance={withdrawLiquidityPoolBalance}
             liquidityValidatorsBalance={withdrawLiquidityValidatorsBalance}
@@ -360,13 +360,15 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             }
           />
         )}
-        <StakeDescriptionCheckout
-          amount={amount}
-          type={type}
-          youReceiveDeposit={youReceiveDeposit}
-          sharesByEthRatio={sharesByEthRatio}
-          ethBySharesRatio={ethBySharesRatio}
-        />
+        {accountAddress && (
+          <StakeDescriptionCheckout
+            amount={amount}
+            type={type}
+            youReceiveDeposit={youReceiveDeposit}
+            sharesByEthRatio={sharesByEthRatio}
+            ethBySharesRatio={ethBySharesRatio}
+          />
+        )}
       </StakeContainer>
       <StakeConfirmModal
         amount={amount}

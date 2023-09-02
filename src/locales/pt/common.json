@@ -199,7 +199,7 @@
       "apy": "Rendimento Percentual Anual",
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos.",
       "tvl": "Total Investido com o Projeto",
-      "tvlTooltip": "Total Investido no Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto.",
+      "tvlTooltip": "Total Investido com o Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto.",
       "annualRewards": "Recompensas Anuais de Staking",
       "infoEmptyState": "New information coming soon!",
       "descriptionForm": {
