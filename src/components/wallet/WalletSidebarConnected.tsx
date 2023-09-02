@@ -7,7 +7,7 @@ import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import stIcon from '@assets/icons/seth-icon.svg'
 import { Drawer, notification } from 'antd'
-import Image from "next/legacy/image"
+import Image from 'next/image'
 import { useState } from 'react'
 import {
   AiOutlineBarChart,

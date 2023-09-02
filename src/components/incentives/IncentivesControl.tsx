@@ -4,7 +4,7 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import stIcon from '@assets/icons/seth-icon.svg'
-import Image from "next/legacy/image"
+import Image from 'next/image'
 import { AiFillCheckCircle, AiOutlineClose, AiOutlineQuestionCircle } from 'react-icons/ai'
 import { FiExternalLink } from 'react-icons/fi'
 import { styled } from 'styled-components'

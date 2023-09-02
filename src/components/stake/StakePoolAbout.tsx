@@ -1,13 +1,13 @@
 import chain from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateAddress } from '@/services/truncate'
+import { ContentfulPool } from '@/types/ContentfulPool'
 import etherscan from '@assets/icons/etherscan.svg'
-import Image from "next/legacy/image"
+import Image from 'next/image'
 import { BsDiscord, BsFacebook, BsGlobe2, BsInstagram, BsLinkedin, BsTwitter } from 'react-icons/bs'
 import { styled } from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
-import { ContentfulPool } from '@/types/ContentfulPool'
 
 interface StakePoolAboutProps {
   poolDetail: ContentfulPool | null

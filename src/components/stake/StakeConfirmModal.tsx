@@ -3,7 +3,7 @@ import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
-import Image from "next/legacy/image"
+import Image from 'next/image'
 import { styled } from 'styled-components'
 import Modal from '../shared/Modal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'

@@ -3,7 +3,7 @@ import { styled } from 'styled-components'
 import chainConfig from '@/config/chain'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
-import Image from "next/legacy/image"
+import Image from 'next/image'
 import { AiOutlineSwap } from 'react-icons/ai'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useStAccount from '../../hooks/subgraphs/useStAccount'

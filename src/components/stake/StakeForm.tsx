@@ -14,7 +14,7 @@ import { WithdrawType } from '@/types/Withdraw'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import stSymbol from '@assets/st-symbol.svg'
 import { ethers } from 'ethers'
-import Image from "next/legacy/image"
+import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { styled } from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
@@ -29,8 +29,8 @@ import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
-import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import { BsArrowBarRight, BsArrowDown, BsArrowUp } from 'react-icons/bs'
+import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
