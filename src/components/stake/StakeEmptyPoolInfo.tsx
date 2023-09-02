@@ -22,6 +22,7 @@ const { Container } = {
     > h4 {
       font-size: 14px;
       line-height: 18px;
+      font-weight: 400;
       color: ${({ theme }) => theme.colorV2.gray[1]};
     }
   `
