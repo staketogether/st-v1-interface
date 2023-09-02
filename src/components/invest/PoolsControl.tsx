@@ -75,10 +75,21 @@ export default function PoolsControl({ pools }: PoolsListProps) {
       return poolsFilterByType
     }
     const itemFiltered = fuse.search(search).map(pool => pool.item)
+
     return poolsFilterByType.filter(pool => itemFiltered.find(item => item.address === pool.address))
   }
 
   const poolsFilterBySearch = searchPools()
+
+  const selectFilter = (filter: string[]) => {
+    setSearch('')
+    setActiveFilters(filter)
+  }
+
+  const selectSearch = (search: string) => {
+    setActiveFilters(['all'])
+    setSearch(search)
+  }
 
   const clearFilter = () => {
     setActiveFilters(['all'])
@@ -92,7 +103,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
         <Filters>
           {filterTypes.map(filter => (
             <FilterButton
-              onClick={() => setActiveFilters([filter.value])}
+              onClick={() => selectFilter([filter.value])}
               className={`${activeFilters.includes(filter.value) && 'active'}`}
               key={filter.value}
             >
@@ -101,7 +112,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
             </FilterButton>
           ))}
         </Filters>
-        <PoolsInputSearch search={search} setSearch={setSearch} />
+        <PoolsInputSearch search={search} setSearch={selectSearch} />
       </FiltersContainer>
       <ListPools>
         <header>
