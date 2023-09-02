@@ -26,11 +26,6 @@ export default function LayoutHeader() {
               {t('v2.header.invest')}
             </MenuButton>
           </Link>
-          <Link href='/simulator'>
-            <MenuButton className={`${isActive('simulator') ? 'active' : ''}`}>
-              {t('v2.header.simulator')}
-            </MenuButton>
-          </Link>
           <Link href='/incentives'>
             <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
               {t('v2.header.incentives')}
@@ -39,7 +34,6 @@ export default function LayoutHeader() {
         </Menu>
       </MenuContainer>
       <WalletContainer>
-        <MenuButton className={`${isActive('support') ? 'active' : ''}`}>{t('v2.header.support')}</MenuButton>
         <Wallet />
       </WalletContainer>
     </Container>

@@ -14,11 +14,6 @@ function LayoutMenuMobile() {
       >
         {t('v2.header.invest')}
       </NextLink>
-
-      <NextLink href='/simulator' className={`${isActive('simulator') ? 'active' : ''}`}>
-        {t('v2.header.simulator')}
-      </NextLink>
-
       <NextLink href='/incentives' className={`${isActive('incentives') ? 'active' : ''}`}>
         {t('v2.header.incentives')}
       </NextLink>
