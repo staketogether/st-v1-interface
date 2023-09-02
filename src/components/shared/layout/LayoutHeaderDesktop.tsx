@@ -75,7 +75,6 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
     align-items: center;
     justify-content: flex-end;
     grid-template-columns: auto auto;
-    gap: ${({ theme }) => theme.size[24]};
   `,
   Menu: styled.nav`
     display: none;
