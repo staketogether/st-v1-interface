@@ -8,8 +8,8 @@ import Image from 'next/image'
 import { AiFillCheckCircle, AiOutlineClose, AiOutlineQuestionCircle } from 'react-icons/ai'
 import { FiExternalLink } from 'react-icons/fi'
 import { styled } from 'styled-components'
-import LayoutTitle from '../shared/layout/LayoutTitle'
 import TooltipComponent from '../shared/TooltipComponent'
+import LayoutTitle from '../shared/layout/LayoutTitle'
 
 export default function IncentivesControl() {
   const { accountIsConnected, account } = useConnectedAccount()

@@ -62,7 +62,8 @@ const { Row, Name, TypeContainer, Text } = {
   Name: styled.div`
     display: flex;
     align-items: center;
-    gap: ${({ theme }) => theme.size[12]};
+    gap: ${({ theme }) => theme.size[16]};
+    font-weight: 500;
   `,
   TypeContainer: styled.div`
     display: flex;

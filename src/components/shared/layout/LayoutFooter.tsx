@@ -1,18 +1,25 @@
+import chainConfig from '@/config/chain'
 import { styled } from 'styled-components'
 import packageData from '../../../../package.json'
-import chainConfig from '@/config/chain'
+import { globalConfig } from '../../../config/global'
 
 export default function LayoutFooter() {
   const date = new Date()
   const { blockExplorer, contracts } = chainConfig()
+  const { websiteUrl } = globalConfig
   return (
     <Container>
-      <span>{`© ${date.getFullYear()} Stake Together `}</span>
       <div>
         <a href={`${blockExplorer.baseUrl}/address/${contracts.StakeTogether}`} target='_blank'>
           Smart Contract
         </a>
         <span>{`v${packageData.version}`}</span>
+      </div>
+      <div>
+        <a href={`${websiteUrl}`} target='_blank'>
+          Website
+        </a>
+        <span>{`© ${date.getFullYear()} Stake Together `}</span>
       </div>
     </Container>
   )

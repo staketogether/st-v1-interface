@@ -10,9 +10,9 @@ export const lightTheme: Theme = {
     xxl: '1400px'
   },
   shadow: {
-    100: '0px 1px 1px 0px rgba(0, 0, 0, 0.1)',
-    200: '0px 1px 1px 0px rgba(0, 0, 0, 0.2)',
-    300: '0px 1px 1px 0px rgba(0, 0, 0, 0.3)'
+    100: '0px 1px 1px 0px rgba(0, 0, 0, 0.2)',
+    200: '0px 1px 1px 0px rgba(0, 0, 0, 0.3)',
+    300: '0px 1px 1px 0px rgba(0, 0, 0, 0.4)'
   },
   size: {
     4: '4px',

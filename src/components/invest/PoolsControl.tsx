@@ -87,7 +87,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
 
   return (
     <Container>
-      <Title title={t('v2.pages.invest.title')} description={t('v2.pages.invest.description')} />
+      <LayoutTitle title={t('v2.pages.invest.title')} description={t('v2.pages.invest.description')} />
       <FiltersContainer>
         <Filters>
           {filterTypes.map(filter => (
@@ -124,20 +124,14 @@ export default function PoolsControl({ pools }: PoolsListProps) {
   )
 }
 
-const { Container, ListPools, FiltersContainer, Filters, FilterButton, Title } = {
+const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
   Container: styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      gap: ${({ theme }) => theme.size[8]};
-    }
-  `,
-  Title: styled(LayoutTitle)`
-    margin-bottom: 0px;
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      margin-bottom: ${({ theme }) => theme.size[16]};
+      gap: ${({ theme }) => theme.size[24]};
     }
   `,
   FiltersContainer: styled.div`
@@ -148,7 +142,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, Title } =
     gap: ${({ theme }) => theme.size[24]};
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       gap: ${({ theme }) => theme.size[16]};
-      grid-template-columns: auto 240px;
+      grid-template-columns: auto 250px;
       grid-template-rows: 34px;
     }
   `,
@@ -194,7 +188,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, Title } =
   ListPools: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: ${({ theme }) => theme.size[8]};
 
     > header {
       display: none;
@@ -202,7 +196,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, Title } =
       gap: 8px;
       align-items: center;
       /* background: ${({ theme }) => theme.color.white}; */
-      padding: 12px 16px;
+      padding: 0 16px;
       border-radius: 8px;
 
       > span {
