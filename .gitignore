@@ -37,3 +37,6 @@ next-env.d.ts
 .vscode/settings.json
 .env
 
+#
+public/sw.js
+public/workbox-*
