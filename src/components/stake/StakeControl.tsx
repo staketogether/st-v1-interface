@@ -65,7 +65,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
       <TvlContainer>
         <div>
           <span>{t('v2.stake.apy')}</span>
-          <span className='green'>5%</span>
+          <span className='green'>6%</span>
         </div>
         <div>
           <span>{t('v2.stake.tvl')}</span>
@@ -127,9 +127,11 @@ const { Container, Form, DepositIcon, WithdrawIcon, TvlContainer } = {
 
       &.green {
         color: ${({ theme }) => theme.color.green[500]};
+        font-weight: 500;
       }
       &.primary {
         color: ${({ theme }) => theme.colorV2.blue[3]};
+        font-weight: 500;
       }
     }
   `,

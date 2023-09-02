@@ -196,15 +196,19 @@
       }
     },
     "stake": {
-      "apy": "Rendimento Anual",
-      "tvl": "Total Depositado",
+      "apy": "Rendimento Percentual Anual",
+      "tvl": "Total Investido com o Projeto",
       "annualRewards": "Recompensas Anuais de Staking",
       "infoEmptyState": "New information coming soon!",
       "descriptionForm": {
-        "youReceive": "Você vai receber:",
+        "receive": "Você vai receber:",
+        "receiveTooltip": "Quando você deposita ETH você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente",
         "exchange": "Câmbio:",
-        "rewardsFee": "Taxa sobre Recompensas Futuras:",
-        "transactionFee": "Taxa de Operação:"
+        "exchangeTooltip": "Câmbio é a taxa de conversão entre ETH e stpETH",
+        "rewards": "Taxa de Recompensas Futuras:",
+        "rewardsTooltip": "Taxa de Recompensas Futuras é a taxa de recompensas que é descontada sobre as recompenas de staking",
+        "operation": "Taxa de Operação:",
+        "operationTooltip": "Taxa de Operação é a taxa que é descontada sobre o deposito na pool"
       },
       "confirmModal": {
         "depositTitle": "Revisar Pedido de Deposito",

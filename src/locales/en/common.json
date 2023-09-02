@@ -194,14 +194,18 @@
       }
     },
     "stake": {
-      "apy": "Annual Yield",
-      "tvl": "Deposited Value",
+      "apy": "Annual Percentage Yield",
+      "tvl": "Total Invested with Project",
       "infoEmptyState": "New information coming soon!",
       "descriptionForm": {
-        "youReceive": "You Receive:",
-        "exchange": "Exchange:",
-        "rewardsFee": "Rewards Fee:",
-        "transactionFee": "Transaction fee:"
+        "receive": "You will receive:",
+        "receiveTooltip": "When you deposit ETH, you receive the stpETH token in return. The stpETH receives staking rewards daily",
+        "exchange": "Exchange rate:",
+        "exchangeTooltip": "Exchange rate is the conversion rate between ETH and stpETH",
+        "rewards": "Future Rewards Fee:",
+        "rewardsTooltip": "Future Rewards Rate is the rate of rewards that is deducted from the staking rewards",
+        "operation": "Operation Fee:",
+        "operationTooltip": "Operation Fee is the fee that is deducted from the deposit in the pool"
       },
       "confirmModal": {
         "depositTitle": "Review Stake Request",

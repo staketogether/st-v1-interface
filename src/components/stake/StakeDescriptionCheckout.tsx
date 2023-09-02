@@ -2,6 +2,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
 import { AiOutlineQuestionCircle } from 'react-icons/ai'
 import styled from 'styled-components'
+import { globalConfig } from '../../config/global'
 import TooltipComponent from '../shared/TooltipComponent'
 
 type StakeDescriptionCheckoutProps = {
@@ -20,12 +21,14 @@ export default function StakeDescriptionCheckout({
   ethBySharesRatio
 }: StakeDescriptionCheckoutProps) {
   const { t } = useLocaleTranslation()
+  const { fees } = globalConfig
+
   return (
     <StakeInfo>
       <div>
         <span>
-          {`${t('v2.stake.descriptionForm.youReceive')} `}{' '}
-          <TooltipComponent text='Pools'>
+          {`${t('v2.stake.descriptionForm.receive')} `}
+          <TooltipComponent text={t('v2.stake.descriptionForm.receiveTooltip')}>
             <QuestionIcon />
           </TooltipComponent>
         </span>
@@ -44,22 +47,23 @@ export default function StakeDescriptionCheckout({
       </div>
       <div>
         <span>
-          {`${t('v2.stake.descriptionForm.exchange')} `}{' '}
-          <TooltipComponent text='Pools'>
+          {`${t('v2.stake.descriptionForm.exchange')} `}
+          <TooltipComponent text={t('v2.stake.descriptionForm.exchangeTooltip')}>
             <QuestionIcon />
           </TooltipComponent>
         </span>
         {type === 'deposit' && (
           <span>
-            <span className='blue'>1</span> <span className='blue'>{t('eth.symbol')}</span> ={' '}
-            <span className='purple'>{truncateWei(sharesByEthRatio)}</span>{' '}
+            <span className='blue'>1</span> <span className='blue'>{t('eth.symbol')}</span>
+            {`  = `}
+            <span className='purple'>{truncateWei(sharesByEthRatio)}</span>
             <span className='purple'>{t('lsd.symbol')}</span>
           </span>
         )}
         {type === 'withdraw' && (
           <span>
-            <span className='purple'>1</span> <span className='purple'>{t('lsd.symbol')}</span> ={' '}
-            <span className='blue'>{truncateWei(ethBySharesRatio)}</span>{' '}
+            <span className='purple'>1</span> <span className='purple'>{t('lsd.symbol')}</span> =
+            <span className='blue'>{truncateWei(ethBySharesRatio)}</span>
             <span className='blue'>{t('eth.symbol')}</span>
           </span>
         )}
@@ -67,22 +71,22 @@ export default function StakeDescriptionCheckout({
       {type === 'deposit' && (
         <div>
           <span>
-            {`${t('v2.stake.descriptionForm.transactionFee')} `}{' '}
-            <TooltipComponent text='Pools'>
+            {`${t('v2.stake.descriptionForm.operation')} `}
+            <TooltipComponent text={t('v2.stake.descriptionForm.operationTooltip')}>
               <QuestionIcon />
             </TooltipComponent>
           </span>
-          <span>0.3%</span>
+          <span>{fees.operation}%</span>
         </div>
       )}
       <div>
         <span>
-          {`${t('v2.stake.descriptionForm.rewardsFee')} `}
-          <TooltipComponent text='Pools'>
+          {`${t('v2.stake.descriptionForm.rewards')} `}
+          <TooltipComponent text={t('v2.stake.descriptionForm.rewardsTooltip')}>
             <QuestionIcon />
           </TooltipComponent>
         </span>
-        <span>0.45%</span>
+        <span>{fees.rewards}%</span>
       </div>
     </StakeInfo>
   )
@@ -107,6 +111,7 @@ const { StakeInfo, QuestionIcon } = {
 
       > span:nth-child(1) {
         font-weight: 400;
+        align-items: center;
       }
       > span:nth-child(2) {
         font-weight: 500;
