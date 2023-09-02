@@ -20,11 +20,8 @@ export default function LayoutFooter() {
         </span>
       </div>
       <div>
-        <a href={`${websiteUrl}`} target='_blank'>
-          App
-        </a>
         <span>
-          <a href={`#`} target='_blank'>
+          <a href={`${websiteUrl}`} target='_blank'>
             Website
           </a>
         </span>
