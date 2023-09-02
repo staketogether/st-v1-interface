@@ -6,9 +6,6 @@ const nextConfig = {
   i18n,
   swcMinify: true,
   reactStrictMode: true,
-  experimental: {
-    typedRoutes: true
-  },
   compiler: {
     styledComponents: true
   },
