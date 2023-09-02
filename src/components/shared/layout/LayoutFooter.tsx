@@ -20,11 +20,10 @@ export default function LayoutFooter() {
         </span>
       </div>
       <div>
-        <span>
-          <a href={`${websiteUrl}`} target='_blank'>
-            Website
-          </a>
-        </span>
+        <a href={`${websiteUrl}`} target='_blank'>
+          Website
+        </a>
+
         <span>{`© ${date.getFullYear()} Stake Together `}</span>
       </div>
     </Container>
