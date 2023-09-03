@@ -37,6 +37,7 @@ const { Container, Content } = {
     display: inline-flex;
     height: 13px;
     top: 0px;
+    align-items: center;
 
     &:hover {
       color: ${({ theme }) => theme.colorV2.purple[1]};
@@ -55,6 +56,8 @@ const { Container, Content } = {
     border-radius: ${({ theme }) => theme.size[8]};
     font-size: 13px;
     line-height: 16px;
+
+    justify-content: flex-start;
 
     z-index: 1;
   `

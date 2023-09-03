@@ -340,7 +340,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         {!accountAddress && (
           <Button
             onClick={() => setOpenSidebarConnectWallet(true)}
-            label={t('connectWalletSideBar.connectButton')}
+            label={t('v2.header.enter')}
             isLoading={openSidebarConnectWallet}
             icon={<ConnectWalletIcon />}
           />

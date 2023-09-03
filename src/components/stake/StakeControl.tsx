@@ -4,8 +4,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
-import { AiOutlineQuestionCircle } from 'react-icons/ai'
-import { PiCoin, PiCoins, PiShareNetwork } from 'react-icons/pi'
+import { PiCoin, PiCoins, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useContentfulPoolDetails from '../../hooks/contentful/useContentfulPoolDetails'
@@ -221,7 +220,7 @@ const {
   WithdrawIcon: styled(PiCoins)`
     font-size: 17px;
   `,
-  QuestionIcon: styled(AiOutlineQuestionCircle)`
+  QuestionIcon: styled(PiQuestion)`
     width: 14px;
     height: 14px;
     margin-left: 3px;

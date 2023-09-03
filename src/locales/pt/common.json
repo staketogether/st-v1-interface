@@ -139,10 +139,10 @@
     "learnMore": "Saiba Mais",
     "incentives": {
       "pool": "Projeto",
-      "poolDescription": "50% dos Incentivos são destinados para ter um projeto na Stake Together",
+      "poolDescription": "50% dos Incentivos são destinados para os projetos na Stake Together",
       "social": "Stake de Impacto Social",
       "socialDescription": "10% dos Incentivos são destinados para fazer depositos em projetos de impacto social",
-      "early": "Stake Pioneiro",
+      "early": "Primeiros Stakers",
       "earlyDescription": "20% dos Incentivos do 3 primeiros meses são destinados para as pessoas que fizerem depositos no primeiro mês"
     },
     "total": "Total"

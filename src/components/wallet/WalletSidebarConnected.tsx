@@ -14,11 +14,11 @@ import {
   AiOutlineLineChart,
   AiOutlineLogout,
   AiOutlinePieChart,
-  AiOutlineQuestionCircle,
   AiOutlineRight,
   AiOutlineSetting
 } from 'react-icons/ai'
 import { FiCopy } from 'react-icons/fi'
+import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
@@ -425,7 +425,7 @@ const {
   ActivitiesIcon: styled(AiOutlineLineChart)`
     font-size: 16px;
   `,
-  QuestionIcon: styled(AiOutlineQuestionCircle)`
+  QuestionIcon: styled(PiQuestion)`
     font-size: 12px;
   `
 }

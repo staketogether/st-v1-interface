@@ -14,15 +14,15 @@ export default function Button({ onClick, label, disabled, isLoading, icon }: Bu
   const { t } = useLocaleTranslation()
 
   return (
-    <Stake onClick={onClick} disabled={disabled}>
+    <Container onClick={onClick} disabled={disabled}>
       {icon}
       {isLoading ? t('processing') : label}
-    </Stake>
+    </Container>
   )
 }
 
-const { Stake } = {
-  Stake: styled.button`
+const { Container } = {
+  Container: styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
     border-radius: ${props => props.theme.size[8]};

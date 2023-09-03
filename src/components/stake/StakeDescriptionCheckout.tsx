@@ -1,6 +1,6 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
-import { AiOutlineQuestionCircle } from 'react-icons/ai'
+import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import TooltipComponent from '../shared/TooltipComponent'
@@ -136,7 +136,7 @@ const { StakeInfo, QuestionIcon } = {
       }
     }
   `,
-  QuestionIcon: styled(AiOutlineQuestionCircle)`
+  QuestionIcon: styled(PiQuestion)`
     width: 14px;
     height: 14px;
     color: ${({ theme }) => theme.colorV2.gray[1]};

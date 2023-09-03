@@ -1,7 +1,7 @@
+import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import useLocaleTranslation from './useLocaleTranslation'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function useIncentives(accountAddress?: string) {
   const { t } = useLocaleTranslation()
 
@@ -11,6 +11,33 @@ export default function useIncentives(accountAddress?: string) {
 
   useEffect(() => {
     const getIncentives = () => {
+      if (accountAddress) {
+        const userIncentives = [
+          {
+            name: t('airdrop.incentives.pool'),
+            description: t('airdrop.incentives.poolDescription'),
+            amount: 0n
+          },
+          {
+            name: t('airdrop.incentives.social'),
+            description: t('airdrop.incentives.socialDescription'),
+            amount: ethers.parseEther('30.1234')
+          },
+          {
+            name: t('airdrop.incentives.early'),
+            description: t('airdrop.incentives.earlyDescription'),
+            amount: ethers.parseEther('9')
+          }
+        ]
+
+        const totalAmount = userIncentives.reduce((acc, curr) => acc + curr.amount, 0n)
+
+        return {
+          incentives: userIncentives,
+          amount: totalAmount
+        }
+      }
+
       const defaultIncentives = [
         {
           name: t('airdrop.incentives.pool'),
@@ -20,6 +47,11 @@ export default function useIncentives(accountAddress?: string) {
         {
           name: t('airdrop.incentives.social'),
           description: t('airdrop.incentives.socialDescription'),
+          amount: 0n
+        },
+        {
+          name: t('airdrop.incentives.early'),
+          description: t('airdrop.incentives.earlyDescription'),
           amount: 0n
         }
       ]
@@ -37,7 +69,7 @@ export default function useIncentives(accountAddress?: string) {
     setIncentives(current.incentives)
     setAmount(current.amount)
     setLoading(false)
-  }, [t])
+  }, [accountAddress, t])
 
   return {
     loading,

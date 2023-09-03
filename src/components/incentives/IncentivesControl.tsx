@@ -6,13 +6,14 @@ import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet
 import stSymbol from '@assets/st-symbol.svg'
 import Image from 'next/image'
 import Link from 'next/link'
-import { PiArrowLineRight, PiHandCoins, PiLink } from 'react-icons/pi'
+import { PiArrowLineRight, PiCheckCircle, PiHandCoins, PiLink, PiQuestion, PiXCircle } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useNetwork } from 'wagmi'
 import chainConfig from '../../config/chain'
 import useIncentives from '../../hooks/useIncentives'
 import { truncateWei } from '../../services/truncate'
 import Button from '../shared/Button'
+import TooltipComponent from '../shared/TooltipComponent'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 
 export default function IncentivesControl() {
@@ -22,7 +23,6 @@ export default function IncentivesControl() {
 
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { claim } = useClaimAirdrop({
     epoch: 0n,
     index: 0n,
@@ -64,7 +64,7 @@ export default function IncentivesControl() {
               {!account && (
                 <Button
                   onClick={() => setOpenSidebarConnectWallet(true)}
-                  label={t('connectWalletSideBar.connectButton')}
+                  label={t('v2.header.enter')}
                   isLoading={openSidebarConnectWallet}
                   icon={<ConnectWalletIcon />}
                 />
@@ -80,45 +80,44 @@ export default function IncentivesControl() {
               )}
             </div>
           </Available>
-          <Eligibility>
-            <div>
-              <span>{t('airdrop.eligibilityCriteria')}</span>
-            </div>
-            <div>
-              <Link href='#' target='_blank'>
-                {t('airdrop.learnMore')} <LearnMoreIcon />
-              </Link>
-            </div>
-          </Eligibility>
           <Incentives>
-            {incentives.map((incentive, index) => (
-              <div key={index}>
-                <div>
-                  <span>{incentive.amount > 0 ? <LearnMoreIcon /> : <LearnMoreIcon />}</span>
-                  <span>{incentive.name}</span>
-                </div>
-                <div>
-                  <span>
-                    {truncateWei(incentive.amount)}
-                    {t('lsd.symbol')}
-                  </span>
-                </div>
+            <Eligibility>
+              <div>
+                <span>{t('airdrop.eligibilityCriteria')}</span>
               </div>
+              <div>
+                <Link href='#' target='_blank'>
+                  <LearnMoreIcon />
+                  {t('airdrop.learnMore')}
+                </Link>
+              </div>
+            </Eligibility>
+            {incentives.map((incentive, index) => (
+              <IncentiveRow key={index} green={incentive.amount > 0}>
+                <div>
+                  {account && <span>{incentive.amount > 0 ? <CheckIcon /> : <XIcon />}</span>}
+                  <span>{incentive.name}</span>
+                  <TooltipComponent text={incentive.description}>
+                    <QuestionIcon />
+                  </TooltipComponent>
+                </div>
+                <div>
+                  <span>{truncateWei(incentive.amount)}</span>
+                  <span>{t('lsd.symbol')}</span>
+                </div>
+              </IncentiveRow>
             ))}
             <hr />
-            <div>
+            <IncentiveRow green={amount > 0}>
               <div>
-                <span>{amount > 0 ? <LearnMoreIcon /> : <LearnMoreIcon />}</span>
+                {account && <span>{amount > 0 ? <CheckIcon /> : <XIcon />}</span>}
                 <span>{t('airdrop.total')}</span>
               </div>
-
               <div>
-                <span>
-                  {truncateWei(amount)}
-                  {t('lsd.symbol')}
-                </span>
+                <span>{truncateWei(amount)}</span>
+                <span>{t('lsd.symbol')}</span>
               </div>
-            </div>
+            </IncentiveRow>
           </Incentives>
         </AirdropContainer>
       </Container>
@@ -135,7 +134,11 @@ const {
   Eligibility,
   LearnMoreIcon,
   ClaimIcon,
-  Incentives
+  Incentives,
+  IncentiveRow,
+  XIcon,
+  CheckIcon,
+  QuestionIcon
 } = {
   Container: styled.div`
     width: 100%;
@@ -148,7 +151,7 @@ const {
     width: 100%;
     display: grid;
 
-    gap: ${({ theme }) => theme.size[24]};
+    gap: 24px;
     text-align: center;
     align-items: center;
     background-color: ${({ theme }) => theme.colorV2.white};
@@ -198,25 +201,99 @@ const {
   Eligibility: styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    background-color: ${({ theme }) => theme.colorV2.gray[2]};
+    padding: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    font-size: 14px;
+    line-height: 16px;
+    margin-bottom: 12px;
+
+    > div:nth-child(2) {
+      display: flex;
+      align-items: center;
+
+      > a {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        color: ${({ theme }) => theme.colorV2.blue[1]};
+
+        &:hover {
+          color: ${({ theme }) => theme.colorV2.purple[1]};
+        }
+      }
+    }
   `,
   Incentives: styled.div`
     display: flex;
     flex-direction: column;
 
-    gap: 8px;
+    gap: 16px;
+
+    hr {
+      border: 1px solid transparent;
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+      position: relative;
+      top: -1px;
+    }
 
     > div {
       display: flex;
       justify-content: space-between;
     }
   `,
+  IncentiveRow: styled.div<{ green: boolean }>`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    line-height: 18px;
+
+    color: ${({ green, theme }) => (green ? theme.color.green[500] : theme.colorV2.gray[1])};
+
+    > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      line-height: 16px;
+
+      > span {
+        display: flex;
+      }
+    }
+  `,
   ConnectWalletIcon: styled(PiArrowLineRight)`
     font-size: 16px;
   `,
   LearnMoreIcon: styled(PiLink)`
-    font-size: 16px;
+    font-size: 14px;
   `,
   ClaimIcon: styled(PiHandCoins)`
     font-size: 18px;
+  `,
+  XIcon: styled(PiXCircle)`
+    font-size: 18px;
+  `,
+  CheckIcon: styled(PiCheckCircle)`
+    font-size: 18px;
+  `,
+  QuestionIcon: styled(PiQuestion)`
+    width: 16px;
+    height: 16px;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    margin-left: 2px;
+    display: flex;
+    align-items: center;
+
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    cursor: pointer;
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
   `
 }

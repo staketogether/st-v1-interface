@@ -79,7 +79,7 @@
   },
   "settings": {
     "title": "Settings",
-    "currency": "currency",
+    "currency": "Currency",
     "locale": "Language"
   },
   "footer": {
