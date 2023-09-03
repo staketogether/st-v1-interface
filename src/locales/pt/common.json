@@ -152,12 +152,8 @@
         "description": "Deposite ETH para ganhar recompensas de staking de ethereum com o stpETH enquanto impulsiona os incentivos para este projeto"
       },
       "incentives": {
-        "title": "Incentives",
-        "description": "Description"
-      },
-      "simulator": {
-        "title": "Simulator",
-        "description": "Description"
+        "title": "Incentivos Recorrentes",
+        "description": "Incentivos semanais em Ethereum em Stake (stpETH) são enviados pelo mecanismo de airdrop perpétuo para apoiadores e usuários"
       }
     },
     "header": {

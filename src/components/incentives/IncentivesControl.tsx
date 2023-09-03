@@ -36,12 +36,15 @@ export default function IncentivesControl() {
               <Image src={stIcon} width={32} height={32} alt='staked Icon' />
               <div>
                 <h3>{t('airdrop.availableToClaim')}</h3>
+              </div>
+              <div>
                 <span>
                   <span>1.05678</span>
                   <span className='purple'>{t('lsd.symbol')}</span>
                 </span>
               </div>
             </AvailableToClaimContainer>
+
             {accountIsConnected ? (
               <button>{t('airdrop.startClaimProcess')}</button>
             ) : (

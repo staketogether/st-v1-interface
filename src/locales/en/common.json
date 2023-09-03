@@ -151,11 +151,7 @@
       },
       "incentives": {
         "title": "Incentives",
-        "description": "Description"
-      },
-      "simulator": {
-        "title": "Simulator",
-        "description": "Description"
+        "description": "Incentives are distributed weekly through the perpetual airdrop, redistributing the protocol's profits in stpETH, an Ethereum staked in the protocol that yields continuous returns, to supporters and users."
       }
     },
     "header": {
