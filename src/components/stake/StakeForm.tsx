@@ -23,8 +23,8 @@ import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useStConfig from '../../hooks/contracts/useStConfig'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import { truncateWei } from '../../services/truncate'
+import Button from '../shared/Button'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import StakeButton from './StakeButton'
 import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
@@ -288,7 +288,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           <CardInfoContainer>
             <CardInfo>
               <div>
-                <Image src={ethIcon} width={30} height={30} alt='staked Icon' />
+                <Image src={ethIcon} width={30} height={30} alt='stpEth' />
               </div>
               <CardInfoData>
                 <header>
@@ -315,7 +315,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
                 )}
               </CardInfoData>
               <div>
-                <Image src={stSymbol} width={30} height={30} alt='staked Icon' />
+                <Image src={stSymbol} width={30} height={30} alt='stpEth' />
               </div>
             </CardInfo>
           </CardInfoContainer>
@@ -338,7 +338,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           type={type}
         />
         {!accountAddress && (
-          <StakeButton
+          <Button
             onClick={() => setOpenSidebarConnectWallet(true)}
             label={t('connectWalletSideBar.connectButton')}
             isLoading={openSidebarConnectWallet}
@@ -346,7 +346,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           />
         )}
         {accountAddress && (
-          <StakeButton
+          <Button
             isLoading={isLoading || isLoadingFees}
             onClick={openStakeConfirmation}
             label={handleLabelButton()}

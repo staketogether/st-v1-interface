@@ -131,13 +131,21 @@
     "alt": "Network gas price"
   },
   "airdrop": {
-    "readAnnouncementButton": "Read announcement",
+    "claim": "Claim",
+    "available": "Available",
+    "infoEnter": "Enter and verify if you have incentives to receive",
+    "infoClaim": "Claim incentives to your account",
     "eligibilityCriteria": "Eligibility Criteria",
-    "pool": "Pool",
-    "locks": "Locks",
-    "willReceive": "will receive",
-    "startClaimProcess": "Start claim process",
-    "availableToClaim": "Available to Claim"
+    "learnMore": "Learn More",
+    "incentives": {
+      "pool": "Project",
+      "poolDescription": "50% of the Incentives are allocated for having a project in Stake Together",
+      "social": "Social Impact Stake",
+      "socialDescription": "10% of the Incentives are allocated for making deposits in social impact projects",
+      "early": "Early Adopter",
+      "earlyDescription": "20% of the Incentives from the first 3 months are allocated for people who make deposits in the first month"
+    },
+    "total": "Total"
   },
   "v2": {
     "pages": {
@@ -151,7 +159,7 @@
       },
       "incentives": {
         "title": "Incentives",
-        "description": "Incentives are distributed weekly through the perpetual airdrop, redistributing the protocol's profits in stpETH, an Ethereum staked in the protocol that yields continuous returns, to supporters and users."
+        "description": "Weekly incentives in Ethereum in Stake (stpETH) are sent through the perpetual airdrop to supporters and users."
       }
     },
     "header": {

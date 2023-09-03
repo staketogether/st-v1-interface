@@ -3,18 +3,25 @@ import { useClaimAirdrop } from '@/hooks/contracts/useClaimAirdrop'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import stIcon from '@assets/icons/seth-icon.svg'
+import stSymbol from '@assets/st-symbol.svg'
 import Image from 'next/image'
-import { AiFillCheckCircle, AiOutlineClose, AiOutlineQuestionCircle } from 'react-icons/ai'
-import { FiExternalLink } from 'react-icons/fi'
+import Link from 'next/link'
+import { PiArrowLineRight, PiHandCoins, PiLink } from 'react-icons/pi'
 import styled from 'styled-components'
-import TooltipComponent from '../shared/TooltipComponent'
+import { useNetwork } from 'wagmi'
+import chainConfig from '../../config/chain'
+import useIncentives from '../../hooks/useIncentives'
+import { truncateWei } from '../../services/truncate'
+import Button from '../shared/Button'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 
 export default function IncentivesControl() {
-  const { accountIsConnected, account } = useConnectedAccount()
+  const { account } = useConnectedAccount()
+  const { incentives, amount } = useIncentives(account)
   const { t } = useLocaleTranslation()
-  const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
+
+  const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { claim } = useClaimAirdrop({
     epoch: 0n,
@@ -22,6 +29,19 @@ export default function IncentivesControl() {
     accountAddress: account,
     sharesAmount: 0n
   })
+
+  const chain = chainConfig()
+  const { chain: walletChainId } = useNetwork()
+  const isWrongNetwork = chain.chainId !== walletChainId?.id
+
+  const handleLabelButton = () => {
+    if (isWrongNetwork) {
+      return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
+    }
+
+    const actionLabel = t('airdrop.claim')
+    return actionLabel
+  }
 
   return (
     <>
@@ -31,63 +51,75 @@ export default function IncentivesControl() {
           description={t('v2.pages.incentives.description')}
         />
         <AirdropContainer>
-          <WalletConnectedContainer>
-            <AvailableToClaimContainer>
-              <Image src={stIcon} width={32} height={32} alt='staked Icon' />
+          <Available green={amount > 0n}>
+            <Image src={stSymbol} width={48} height={48} alt='stpETH' />
+            <div>
+              <h3>{t('airdrop.available')}</h3>
               <div>
-                <h3>{t('airdrop.availableToClaim')}</h3>
+                <span>{truncateWei(amount)}</span>
+                <span>{t('lsd.symbol')}</span>
               </div>
+            </div>
+            <div>
+              {!account && (
+                <Button
+                  onClick={() => setOpenSidebarConnectWallet(true)}
+                  label={t('connectWalletSideBar.connectButton')}
+                  isLoading={openSidebarConnectWallet}
+                  icon={<ConnectWalletIcon />}
+                />
+              )}
+              {account && (
+                <Button
+                  isLoading={false}
+                  onClick={claim}
+                  label={handleLabelButton()}
+                  icon={<ClaimIcon />}
+                  disabled={!amount}
+                />
+              )}
+            </div>
+          </Available>
+          <Eligibility>
+            <div>
+              <span>{t('airdrop.eligibilityCriteria')}</span>
+            </div>
+            <div>
+              <Link href='#' target='_blank'>
+                {t('airdrop.learnMore')} <LearnMoreIcon />
+              </Link>
+            </div>
+          </Eligibility>
+          <Incentives>
+            {incentives.map((incentive, index) => (
+              <div key={index}>
+                <div>
+                  <span>{incentive.amount > 0 ? <LearnMoreIcon /> : <LearnMoreIcon />}</span>
+                  <span>{incentive.name}</span>
+                </div>
+                <div>
+                  <span>
+                    {truncateWei(incentive.amount)}
+                    {t('lsd.symbol')}
+                  </span>
+                </div>
+              </div>
+            ))}
+            <hr />
+            <div>
+              <div>
+                <span>{amount > 0 ? <LearnMoreIcon /> : <LearnMoreIcon />}</span>
+                <span>{t('airdrop.total')}</span>
+              </div>
+
               <div>
                 <span>
-                  <span>1.05678</span>
-                  <span className='purple'>{t('lsd.symbol')}</span>
+                  {truncateWei(amount)}
+                  {t('lsd.symbol')}
                 </span>
               </div>
-            </AvailableToClaimContainer>
-
-            {accountIsConnected ? (
-              <button>{t('airdrop.startClaimProcess')}</button>
-            ) : (
-              <button onClick={() => setOpenSidebarConnectWallet(true)}>
-                {t('connectWalletSideBar.connectButton')}
-              </button>
-            )}
-          </WalletConnectedContainer>
-          <DescribeContainer>
-            <h3>{t('airdrop.eligibilityCriteria')}</h3>
-            <div>
-              <span>{t('learnMore')}</span>
-              <ExternalLink />
             </div>
-          </DescribeContainer>
-          <EligibilityList>
-            <Row>
-              <div>
-                <VerifiedIcon />
-                {t('airdrop.pool')}
-                <TooltipComponent text='Pools'>
-                  <QuestionIcon />
-                </TooltipComponent>
-              </div>
-              <div>
-                <span>{`0 `}</span>
-                <span className='purple'>{t('lsd.symbol')}</span>
-              </div>
-            </Row>
-            <Row>
-              <div>
-                <ExcludeIcon />
-                {t('airdrop.locks')}
-                <TooltipComponent text='Pools'>
-                  <QuestionIcon />
-                </TooltipComponent>
-              </div>
-              <div>
-                <span>{`0`}</span>
-                <span className='purple'>{t('lsd.symbol')}</span>
-              </div>
-            </Row>
-          </EligibilityList>
+          </Incentives>
         </AirdropContainer>
       </Container>
       <WalletSidebarDisconnected />
@@ -98,213 +130,93 @@ export default function IncentivesControl() {
 const {
   Container,
   AirdropContainer,
-  DescribeContainer,
-  ExternalLink,
-  EligibilityList,
-  Row,
-  WalletConnectedContainer,
-  VerifiedIcon,
-  QuestionIcon,
-  ExcludeIcon,
-  AvailableToClaimContainer
+  Available,
+  ConnectWalletIcon,
+  Eligibility,
+  LearnMoreIcon,
+  ClaimIcon,
+  Incentives
 } = {
   Container: styled.div`
     width: 100%;
     display: flex;
-    justify-items: center;
-    align-items: center;
     flex-direction: column;
     max-width: 468px;
     gap: ${({ theme }) => theme.size[16]};
   `,
   AirdropContainer: styled.section`
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+
     gap: ${({ theme }) => theme.size[24]};
     text-align: center;
     align-items: center;
-
-    background-color: ${({ theme }) => theme.color.white};
-    border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
-    transition: background-color 0.2s ease;
+    background-color: ${({ theme }) => theme.colorV2.white};
+    border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
     padding: ${({ theme }) => theme.size[24]};
-
-    > h1 {
-      font-size: ${({ theme }) => theme.font.size[24]};
-      color: ${({ theme }) => theme.color.primary};
-
-      font-weight: 500;
-    }
-
-    > p {
-      font-size: ${({ theme }) => theme.font.size[16]};
-      color: ${({ theme }) => theme.color.primary};
-
-      font-weight: 400;
-    }
-
-    h4 {
-      font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.blackAlpha[700]};
-
-      font-weight: 500;
-    }
-
-    span {
-      font-size: ${({ theme }) => theme.font.size[16]};
-      color: ${({ theme }) => theme.color.primary};
-
-      font-weight: 400;
-    }
-
-    button {
-      flex: 1;
-      border-radius: ${props => props.theme.size[16]};
-      transition: background-color 0.2s ease;
-      height: 48px;
-
-      font-size: ${({ theme }) => theme.font.size[14]};
-      font-weight: 400;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: ${({ theme }) => theme.size[8]};
-
-      border: none;
-      color: ${({ theme }) => theme.color.white};
-      background: ${({ theme }) => theme.color.primary};
-      padding: 0px ${({ theme }) => theme.size[12]};
-
-      &:hover {
-        background: ${({ theme }) => theme.color.blue[600]};
-      }
-
-      &.ghost {
-        border: 1px solid ${({ theme }) => theme.color.primary};
-        color: ${({ theme }) => theme.color.primary};
-        background: transparent;
-
-        &:hover {
-          border: none;
-          color: ${({ theme }) => theme.color.white};
-          background: ${({ theme }) => theme.color.primary};
-        }
-      }
-    }
   `,
-  WalletConnectedContainer: styled.div`
-    width: 100%;
-    display: flex;
+  Available: styled.div<{ green: boolean }>`
+    display: grid;
+    grid-template-columns: 48px auto 160px;
+    gap: ${({ theme }) => theme.size[16]};
     align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: ${({ theme }) => theme.size[32]};
-    padding: ${({ theme }) => theme.size[24]};
-    border-radius: ${({ theme }) => theme.size[16]};
-  `,
-  AvailableToClaimContainer: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
-    > div {
+
+    > img {
+      box-shadow: ${({ theme }) => theme.shadow[300]};
+      border-radius: 100%;
+    }
+
+    > div h3 {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+    }
+
+    > div span {
+      font-size: 18px;
+      color: ${({ green, theme }) => (green ? theme.color.green[500] : theme.colorV2.purple[1])};
+    }
+
+    > div:nth-child(2) {
       display: flex;
       flex-direction: column;
+      gap: 4px;
+      justify-content: flex-start;
+      align-items: flex-start;
 
-      > h3 {
-        font-size: 14px;
-
-        font-weight: 500;
-        color: ${({ theme }) => theme.color.blue[500]};
-      }
-      > span {
+      > div {
         display: flex;
-        align-items: center;
-        gap: ${({ theme }) => theme.size[8]};
-
-        font-size: 22px;
-
-        font-weight: 400;
-        color: ${({ theme }) => theme.color.primary};
-
-        &.purple {
-          color: ${({ theme }) => theme.color.secondary};
-        }
+        gap: 4px;
       }
     }
+
+    > div:nth-child(3) {
+      display: grid;
+    }
   `,
-  DescribeContainer: styled.div`
-    width: 100%;
+  Eligibility: styled.div`
     display: flex;
-    align-items: center;
     justify-content: space-between;
-
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
-
-    > h3 {
-      font-weight: 500;
-    }
-    > div {
-      display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[4]};
-
-      > span {
-        cursor: pointer;
-        &:hover {
-          color: ${({ theme }) => theme.color.secondary};
-        }
-        font-weight: 400;
-      }
-    }
   `,
-  EligibilityList: styled.div`
-    width: 100%;
+  Incentives: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
-  `,
-  Row: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 
-    font-size: ${({ theme }) => theme.font.size[16]};
-    color: ${({ theme }) => theme.color.primary};
-
-    font-weight: 400;
+    gap: 8px;
 
     > div {
       display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[8]};
-    }
-
-    span {
-      &.purple {
-        color: ${({ theme }) => theme.color.secondary};
-      }
+      justify-content: space-between;
     }
   `,
-  ExternalLink: styled(FiExternalLink)`
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
+  ConnectWalletIcon: styled(PiArrowLineRight)`
+    font-size: 16px;
   `,
-  VerifiedIcon: styled(AiFillCheckCircle)`
-    font-size: ${({ theme }) => theme.font.size[16]};
-    color: ${({ theme }) => theme.color.green[700]};
+  LearnMoreIcon: styled(PiLink)`
+    font-size: 16px;
   `,
-  QuestionIcon: styled(AiOutlineQuestionCircle)`
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.blackAlpha[500]};
-    cursor: pointer;
-  `,
-  ExcludeIcon: styled(AiOutlineClose)`
-    font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.blackAlpha[500]};
+  ClaimIcon: styled(PiHandCoins)`
+    font-size: 18px;
   `
 }

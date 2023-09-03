@@ -46,9 +46,9 @@ export default function StakeFormInput({
         <Content>
           <div>
             {type === 'deposit' ? (
-              <Image src={ethIcon} width={24} height={24} alt='ETH Icon' />
+              <Image src={ethIcon} width={24} height={24} alt='ETH' />
             ) : (
-              <Image src={stSymbol} width={24} height={24} alt='stpETH Icon' />
+              <Image src={stSymbol} width={24} height={24} alt='stpETH' />
             )}
             <InputContainer>
               <input

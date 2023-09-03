@@ -56,7 +56,7 @@ const { Container, Wrapper, Content, Body } = {
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       margin-bottom: 0;
       padding-bottom: 0;
-      gap: 48px;
+      gap: 64px;
     }
   `,
   Wrapper: styled.div`

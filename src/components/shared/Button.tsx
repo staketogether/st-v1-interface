@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
-interface StakeButtonProps {
+interface ButtonProps {
   onClick: () => void
   label: string
   icon: ReactNode
@@ -10,7 +10,7 @@ interface StakeButtonProps {
   disabled?: boolean
 }
 
-export default function StakeButton({ onClick, label, disabled, isLoading, icon }: StakeButtonProps) {
+export default function Button({ onClick, label, disabled, isLoading, icon }: ButtonProps) {
   const { t } = useLocaleTranslation()
 
   return (

@@ -131,15 +131,21 @@
     "alt": "Preço do gás da rede"
   },
   "airdrop": {
-    "title": "Incentivos",
-    "description": "Os lucros do protocolo são perpetuamente distribuídos por meio de airdrops para beneficiar indivíduos, comunidades e iniciativas sociais.",
-    "readAnnouncementButton": "Ler anúncio",
-    "eligibilityCriteria": "Critérios de elegibilidade",
-    "pool": "Fundos",
-    "locks": "Bloqueios",
-    "willReceive": "receberá",
-    "startClaimProcess": "Iniciar recebimento",
-    "availableToClaim": "Disponivel para Receber"
+    "claim": "Resgatar",
+    "available": "Disponível",
+    "infoEnter": "Entre e verifique se você tem incentivos para resgatar",
+    "infoClaim": "Resgate os incentivos para sua conta",
+    "eligibilityCriteria": "Critérios de Elegibilidade",
+    "learnMore": "Saiba Mais",
+    "incentives": {
+      "pool": "Projeto",
+      "poolDescription": "50% dos Incentivos são destinados para ter um projeto na Stake Together",
+      "social": "Stake de Impacto Social",
+      "socialDescription": "10% dos Incentivos são destinados para fazer depositos em projetos de impacto social",
+      "early": "Stake Pioneiro",
+      "earlyDescription": "20% dos Incentivos do 3 primeiros meses são destinados para as pessoas que fizerem depositos no primeiro mês"
+    },
+    "total": "Total"
   },
   "v2": {
     "pages": {
@@ -152,8 +158,8 @@
         "description": "Deposite ETH para ganhar recompensas de staking de ethereum com o stpETH enquanto impulsiona os incentivos para este projeto"
       },
       "incentives": {
-        "title": "Incentivos Recorrentes",
-        "description": "Incentivos semanais em Ethereum em Stake (stpETH) são enviados pelo mecanismo de airdrop perpétuo para apoiadores e usuários"
+        "title": "Incentivos",
+        "description": "Incentivos semanais em Ethereum em Stake (stpETH) são enviados através de airdrop perpétuo para apoiadores e usuários"
       }
     },
     "header": {
