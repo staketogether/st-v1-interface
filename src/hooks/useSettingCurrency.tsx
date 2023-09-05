@@ -10,6 +10,7 @@ export default function useSettingsCurrency() {
   const currency = useReactiveVar(reactiveVar)
   const { getItem, setItem } = useLocalStorage()
   const router = useRouter()
+
   useEffect(() => {
     const localStorageItem = getItem('settings')
     const settings = localStorageItem ? (JSON.parse(localStorageItem) as Settings) : null
@@ -40,5 +41,6 @@ export default function useSettingsCurrency() {
     }
   }, [getItem, router.locale, setItem])
   const setCurrency = (value: Currency) => reactiveVar(value)
+
   return { currency, setCurrency }
 }
