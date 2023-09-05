@@ -47,7 +47,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { name, nameLoading } = useEns(address)
 
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
-  console.log('web3AuthUserInfo', web3AuthUserInfo)
+
   const handleWalletProviderImage = useWalletProviderImage()
   const { setOpenModal } = useWalletByEthModal()
 
