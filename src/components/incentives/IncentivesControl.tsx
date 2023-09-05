@@ -1,4 +1,3 @@
-import WalletSidebarDisconnected from '@/components/wallet/WalletSidebarDisconnected'
 import { useClaimAirdrop } from '@/hooks/contracts/useClaimAirdrop'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -121,7 +120,6 @@ export default function IncentivesControl() {
           </Incentives>
         </AirdropContainer>
       </Container>
-      <WalletSidebarDisconnected />
     </>
   )
 }
