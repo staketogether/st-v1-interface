@@ -23,7 +23,6 @@ import {
 } from '../../types/Contracts'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
-import { useCalculateDelegationPercentage } from './useCalculateDelegationPercentage'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -38,30 +37,17 @@ export default function useWithdrawPool(
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
 
-  const { delegations, loading: loadingDelegations } = useCalculateDelegationPercentage({
-    weiAmount: ethers.parseUnits(withdrawAmount, 18),
-    accountAddress,
-    pools: [poolAddress],
-    subtractAmount: true
-  })
-
   const amountEstimatedGas = ethers.parseUnits('0.001', 18)
-  const { delegations: delegationsEstimatedGas } = useCalculateDelegationPercentage({
-    weiAmount: amountEstimatedGas,
-    accountAddress,
-    pools: [poolAddress],
-    subtractAmount: true
-  })
 
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
-  const isWithdrawEnabled = enabled && amount > 0n && !loadingDelegations
+  const isWithdrawEnabled = enabled && amount > 0n
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
     contractAddress: contracts.StakeTogether,
     functionName: 'withdrawPool',
-    args: [amountEstimatedGas, delegationsEstimatedGas],
+    args: [amountEstimatedGas],
     abi: stakeTogetherABI,
     skip: !enabled || estimateGasCost > 0n
   })
@@ -78,7 +64,7 @@ export default function useWithdrawPool(
 
   const { config } = usePrepareStakeTogetherWithdrawPool({
     address: contracts.StakeTogether,
-    args: [amount, delegations],
+    args: [amount, poolAddress],
     account: accountAddress,
     enabled: isWithdrawEnabled
   })

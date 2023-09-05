@@ -1,5 +1,5 @@
 import chainConfig from '@/config/chain'
-import useDeposit from '@/hooks/contracts/useDeposit'
+import useDepositPool from '@/hooks/contracts/useDepositPool'
 import useSharesByWei from '@/hooks/contracts/useSharesByWei'
 import useWeiByShares from '@/hooks/contracts/useWeiByShares'
 import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
@@ -112,8 +112,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     awaitWalletAction: depositAwaitWalletAction,
     resetState: depositResetState,
     txHash: depositTxHash
-    // To deposit, you need to have at least the min deposit amount in your wallet
-  } = useDeposit(
+  } = useDepositPool(
     netDepositAmount,
     ethers.parseUnits(inputAmount, 18),
     poolAddress,
