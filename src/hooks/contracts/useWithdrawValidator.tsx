@@ -15,7 +15,6 @@ import {
   useStakeTogetherWithdrawValidator
 } from '../../types/Contracts'
 
-import { useCalculateDelegationPercentage } from '@/hooks/contracts/useCalculateDelegationPercentage'
 import useLocaleTranslation from '../useLocaleTranslation'
 
 export default function useWithdrawValidator(
@@ -31,20 +30,13 @@ export default function useWithdrawValidator(
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
 
-  const { delegations } = useCalculateDelegationPercentage({
-    weiAmount: ethers.parseUnits(withdrawAmount, 18),
-    accountAddress,
-    pools: [poolAddress],
-    subtractAmount: true
-  })
-
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
   const isWithdrawEnabled = enabled && amount > 0n
 
   const { config } = usePrepareStakeTogetherWithdrawValidator({
     address: contracts.StakeTogether,
-    args: [amount, delegations],
+    args: [amount, poolAddress],
     account: accountAddress,
     enabled: isWithdrawEnabled
   })
