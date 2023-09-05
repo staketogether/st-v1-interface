@@ -160,7 +160,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           </HeaderContainer>
           <InfoContainer>
             <div>
-              <TokenContainer>
+              <LeftContainer>
                 <Image src={ethIcon} width={24} height={24} alt='eth icon' />
                 <div>
                   <h4>{t('availableToStake')}</h4>
@@ -169,21 +169,20 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                     <span>{t('eth.symbol')}</span>
                   </div>
                 </div>
-              </TokenContainer>
-              <BuyCryptoButton onClick={() => setOpenModal(true)}>{t('buyEth.button')}</BuyCryptoButton>
-            </div>
-            <div>
-              <TokenContainer>
-                <Image src={stIcon} width={24} height={24} alt='eth icon' />
+              </LeftContainer>
+              <RightContainer>
                 <div>
                   <h4>{t('invested')}</h4>
                   <div>
-                    <span className='purple'>{truncateWei(accountBalance, 6)}</span>
+                    <span className='purple'>{truncateWei(accountBalance, 5)}</span>
                     <span className='purple'>{t('lsd.symbol')}</span>
                   </div>
                 </div>
-              </TokenContainer>
-              <TokenContainer>
+                <Image src={stIcon} width={24} height={24} alt={t('lsd.symbol')} />
+              </RightContainer>
+            </div>
+            <div>
+              <LeftContainer>
                 <div>
                   <div>
                     <h4>{t('rewards')}</h4>
@@ -196,9 +195,10 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                     <span className='purple'>{t('lsd.symbol')}</span>
                   </div>
                 </div>
-              </TokenContainer>
+              </LeftContainer>
             </div>
           </InfoContainer>
+          <BuyCryptoButton onClick={() => setOpenModal(true)}>{t('buyEth.button')}</BuyCryptoButton>
           <Tabs items={tabsItems} defaultActiveKey='pools' />
         </>
       )}
@@ -225,7 +225,8 @@ const {
   CopyIcon,
   PoolsIcon,
   AnalyticsIcon,
-  TokenContainer,
+  LeftContainer,
+  RightContainer,
   ActivitiesIcon,
   QuestionIcon
 } = {
@@ -283,7 +284,7 @@ const {
       align-items: center;
     }
   `,
-  TokenContainer: styled.div`
+  LeftContainer: styled.div`
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[16]};
@@ -291,6 +292,45 @@ const {
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[4]};
+      > div {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[4]};
+      }
+      h4 {
+        font-size: 12px;
+
+        font-weight: 400;
+        color: ${({ theme }) => theme.color.blue[400]};
+      }
+      span {
+        font-size: 16px;
+
+        font-weight: 400;
+        color: ${({ theme }) => theme.color.primary};
+
+        &.purple {
+          color: ${({ theme }) => theme.color.secondary};
+        }
+        &.negative {
+          color: ${({ theme }) => theme.color.red[300]};
+        }
+        &.positive {
+          color: ${({ theme }) => theme.color.green[500]};
+        }
+      }
+    }
+  `,
+  RightContainer: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[16]};
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[4]};
+      align-items: end;
+
       > div {
         display: flex;
         align-items: center;

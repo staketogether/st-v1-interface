@@ -5,7 +5,6 @@ export const queryFeeStakeEntry = gql`
     fee(id: "stakeEntry") {
       id
       value
-      mathType
       allocations
     }
   }
