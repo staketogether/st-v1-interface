@@ -150,7 +150,6 @@ const {
     display: grid;
 
     gap: 24px;
-    text-align: center;
     align-items: center;
     background-color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${({ theme }) => theme.size[8]};
