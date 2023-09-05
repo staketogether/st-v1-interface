@@ -40,7 +40,7 @@ export default function StakeDescriptionCheckout({
         )}
         {type === 'withdraw' && (
           <span>
-            <span className='blue'>{` ${truncateDecimal(amount, 5) || '0'} `}</span>
+            <span className='blue'>{` ${truncateDecimal(amount, 6) || '0'} `}</span>
             <span className='blue'>{t('eth.symbol')}</span>
           </span>
         )}

@@ -75,9 +75,7 @@ const { Container, DelegatedPool, EmptyContainer } = {
 
     border-radius: ${({ theme }) => theme.size[8]};
     padding: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.color.blackAlpha[50]};
     border-radius: ${({ theme }) => theme.size[8]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
 
     transition: background-color 0.1s ease;
     &:hover {

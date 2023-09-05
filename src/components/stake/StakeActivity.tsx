@@ -49,7 +49,7 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
                     <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
                     <span
                       className={`${activity.amount > 1n && 'green'} ${activity.amount < 0 && 'red'}`}
-                    >{`${truncateWei(activity.amount, 5)} ${t('eth.symbol')}`}</span>
+                    >{`${truncateWei(activity.amount, 6)} ${t('eth.symbol')}`}</span>
 
                     <ExternalLink />
                   </Row>
@@ -101,11 +101,6 @@ const { Container, Row, ExternalLink } = {
     align-items: center;
 
     border-radius: 8px;
-    background: ${({ theme }) => theme.color.whiteAlpha[500]};
-
-    &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[800]};
-    }
 
     span {
       color: ${({ theme }) => theme.color.primary};

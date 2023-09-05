@@ -46,7 +46,7 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
             <span>{formatTimestamp}</span>
             <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
             <span className={`${activity.type.includes('deposit') ? 'green' : 'red'}`}>
-              {`${truncateWei(BigInt(activity.amount))} ${t('eth.symbol')}`}
+              {`${truncateWei(BigInt(activity.amount), 5)} ${t('eth.symbol')}`}
             </span>
 
             <ExternalLink />
@@ -100,14 +100,9 @@ const { Container, Activity, ActivitiesHeader, ExternalLink, EmptyContainer } = 
     }
   `,
   Activity: styled(Link)`
+    cursor: pointer;
     height: 32px;
     border-radius: ${({ theme }) => theme.size[8]};
-    cursor: pointer;
-    background: ${({ theme }) => theme.color.blackAlpha[50]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    &:hover {
-      background: ${({ theme }) => theme.color.blackAlpha[100]};
-    }
 
     display: grid;
     align-items: center;
