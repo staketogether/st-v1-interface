@@ -51,7 +51,7 @@ const { Text } = {
       line-height: 16px;
     `}
 
-    ${({ $larger, theme }) => {
+    ${({ $larger }) => {
       return (
         $larger &&
         `
