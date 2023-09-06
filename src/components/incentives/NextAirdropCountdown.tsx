@@ -1,13 +1,9 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-type NextAirdropCountdownProps = {
-  timestamp: number
-}
-
-export default function NextAirdropCountdown({ timestamp }: NextAirdropCountdownProps) {
-  const [currentTimestamp, setCurrentTimestamp] = useState<number>(timestamp)
+export default function NextAirdropCountdown() {
+  const [currentTimestamp, setCurrentTimestamp] = useState<number>(0)
 
   const formatTime = (time: number) => (time < 10 ? `0${time}` : time)
   const { t } = useLocaleTranslation()
@@ -33,8 +29,8 @@ export default function NextAirdropCountdown({ timestamp }: NextAirdropCountdown
       <div>
         <Time>
           <div>
-            <div>{String(day).charAt(0)}</div>
-            <div>{String(day).charAt(1)}</div>
+            <div>{currentTimestamp > 0 && String(day).charAt(0)}</div>
+            <div>{currentTimestamp > 0 && String(day).charAt(1)}</div>
           </div>
         </Time>
         <div>
@@ -42,8 +38,8 @@ export default function NextAirdropCountdown({ timestamp }: NextAirdropCountdown
         </div>
         <Time>
           <div>
-            <div>{String(hours).charAt(0)}</div>
-            <div>{String(hours).charAt(1)}</div>
+            <div>{currentTimestamp > 0 && String(hours).charAt(0)}</div>
+            <div>{currentTimestamp > 0 && String(hours).charAt(1)}</div>
           </div>
         </Time>
         <div>
@@ -51,8 +47,8 @@ export default function NextAirdropCountdown({ timestamp }: NextAirdropCountdown
         </div>
         <Time>
           <div>
-            <div>{String(minutes).charAt(0)}</div>
-            <div>{String(minutes).charAt(1)}</div>
+            <div>{currentTimestamp > 0 && String(minutes).charAt(0)}</div>
+            <div>{currentTimestamp > 0 && String(minutes).charAt(1)}</div>
           </div>
         </Time>
       </div>
@@ -119,7 +115,8 @@ const { AirdropCountdown, Time } = {
         justify-content: center;
 
         font-size: 18px;
-        padding: 12px 11px;
+        padding: 10px 11px;
+        min-height: 38px;
 
         color: ${({ theme }) => theme.colorV2.purple[1]};
       }

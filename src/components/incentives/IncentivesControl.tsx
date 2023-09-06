@@ -50,7 +50,7 @@ export default function IncentivesControl() {
           title={t('v2.pages.incentives.title')}
           description={t('v2.pages.incentives.description')}
         />
-        <NextAirdropCountdown timestamp={Date.now() + 7 * 24 * 60 * 60 * 1000 || Date.now()} />
+        <NextAirdropCountdown />
         <AirdropContainer>
           <Available green={amount > 0n}>
             <Image src={stSymbol} width={48} height={48} alt='stpETH' />

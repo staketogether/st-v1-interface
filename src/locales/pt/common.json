@@ -145,7 +145,9 @@
       "social": "Stake de Impacto Social",
       "socialDescription": "10% dos Incentivos são destinados para fazer depositos em projetos de impacto social",
       "early": "Primeiros Stakers",
-      "earlyDescription": "20% dos Incentivos gerados nos 3 primeiros meses são destinados para as pessoas que fizerem depositos no primeiro mês"
+      "earlyDescription": "20% dos Incentivos gerados nos 3 primeiros meses são destinados para as pessoas que fizerem depositos no primeiro mês",
+      "relationship": "App Stake Together",
+      "relationshipDescription": "20% dos incentivos são destinados para pessoas que têm uma relação com projetos que recebem airdrops diários através do aplicativo Stake Together"
     },
     "total": "Total",
     "countdown": {

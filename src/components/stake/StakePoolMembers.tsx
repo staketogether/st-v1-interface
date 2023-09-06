@@ -38,7 +38,7 @@ export default function StakePoolMembers({
         <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />
       )}
 
-      {!initialLoading && delegations && (
+      {!initialLoading && delegations && delegations.length > 0 && (
         <header>
           <span>{t('rank')}</span>
           <span>{t('account')}</span>
