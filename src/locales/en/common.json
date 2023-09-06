@@ -3,6 +3,8 @@
   "pools": "Pools",
   "stake": "Stake",
   "time": "Time",
+  "account": "Account",
+  "accounts": "Accounts",
   "type": "Type",
   "value": "Value",
   "rewards": "Rewards",
@@ -205,9 +207,9 @@
     },
     "stake": {
       "apy": "Annual Percentage Yield",
-      "apyTooltip": "(APY) Annual Percentage Yield represents the depositor's investment return over one year, considering auto-reinvestment and compound interest.",
+      "apyTooltip": " Annual Percentage Yield represents the depositor's investment return over one year, considering auto-reinvestment and compound interest. (APY)",
       "tvl": "Total Invested with Project",
-      "tvlTooltip": "(Project TVL) - Total Invested with the Project refers to the total amount of ETH deposited into the project. The more ETH, the greater the incentives for project.",
+      "tvlTooltip": "Total Invested with the Project refers to the total amount of ETH deposited into the project. The more ETH, the greater the incentives for project. (Project TVL)",
       "infoEmptyState": "Information not available",
       "descriptionForm": {
         "receive": "You will receive:",

@@ -38,6 +38,14 @@ export default function StakePoolMembers({
         <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />
       )}
 
+      {!initialLoading && delegations && (
+        <header>
+          <span>{t('rank')}</span>
+          <span>{t('account')}</span>
+          <span>{t('value')}</span>
+        </header>
+      )}
+
       {!initialLoading && delegations && delegations.length > 0 && (
         <DelegationsContainer>
           {delegations.map((delegation, index) => (
@@ -69,15 +77,23 @@ const { Container, DelegationsContainer, LoadMoreButton } = {
     border: none;
     border-radius: ${({ theme }) => theme.size[16]};
     gap: ${({ theme }) => theme.size[16]};
+
+    > header {
+      display: grid;
+      grid-template-columns: 0.4fr 1.5fr 1fr;
+      padding: 0 8px;
+      gap: 16px;
+
+      > span {
+        font-size: ${({ theme }) => theme.font.size[14]};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+      }
+    }
   `,
   DelegationsContainer: styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.size[12]};
-
-    > button {
-      margin-top: ${({ theme }) => theme.size[8]};
-    }
+    gap: 4px;
   `,
   LoadMoreButton: styled.button`
     display: flex;

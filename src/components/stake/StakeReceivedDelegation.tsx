@@ -17,7 +17,7 @@ export default function StakeReceivedDelegation({ delegation, rank }: StakeRecei
     <DelegationItem>
       <div>{rank}</div>
       <div>
-        <EnsAvatar address={delegation.delegate.address} />
+        <EnsAvatar address={delegation.delegate.address} size={18} />
         <EnsName address={delegation.delegate.address} />
       </div>
       <div>
@@ -33,13 +33,19 @@ export default function StakeReceivedDelegation({ delegation, rank }: StakeRecei
 export const { DelegationItem } = {
   DelegationItem: styled.div`
     display: grid;
-    grid-template-columns: 16px 2fr auto;
+    grid-template-columns: 0.4fr 1.5fr 1fr;
     align-items: center;
-    gap: 8px;
+    gap: 16px;
+    padding: 7px 8px;
+
+    > div:nth-child(1) {
+      font-weight: 500;
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
 
     > div:nth-child(2) {
       display: grid;
-      grid-template-columns: 24px auto;
+      grid-template-columns: 18px auto;
       align-items: center;
       gap: 8px;
     }

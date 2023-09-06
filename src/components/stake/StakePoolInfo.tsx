@@ -52,8 +52,8 @@ export default function StakePoolInfo({
       )
     },
     {
-      key: 'members',
-      label: t('members'),
+      key: 'accounts',
+      label: t('accounts'),
       icon: <MembersIcon />,
       children: (
         <TabContainer>
