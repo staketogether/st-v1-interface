@@ -26,7 +26,7 @@
   "searchPool": "Search Pools",
   "emptyPool": "Pool Not Found",
   "copyClipboard": "Copy to Clipboard",
-  "copiedToClipboard": "Copied link, share now!",
+  "copiedToClipboard": "Link copied, Share it now!",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
   "loading": "Loading...",
@@ -145,7 +145,13 @@
       "early": "Early Adopter",
       "earlyDescription": "20% of the Incentives from the first 3 months are allocated for people who make deposits in the first month"
     },
-    "total": "Total"
+    "total": "Total",
+    "countdown": {
+      "next": "Next Airdrop",
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes"
+    }
   },
   "v2": {
     "pages": {
@@ -199,9 +205,9 @@
     },
     "stake": {
       "apy": "Annual Percentage Yield",
-      "apyTooltip": "Annual Percentage Yield represents the depositor's investment return over one year, considering auto-reinvestment and compound interest.",
+      "apyTooltip": "(APY) Annual Percentage Yield represents the depositor's investment return over one year, considering auto-reinvestment and compound interest.",
       "tvl": "Total Invested with Project",
-      "tvlTooltip": "Total Invested with the Project refers to the total amount of ETH deposited into the project. The more ETH, the greater the incentives for the project.",
+      "tvlTooltip": "(Project TVL) - Total Invested with the Project refers to the total amount of ETH deposited into the project. The more ETH, the greater the incentives for project.",
       "infoEmptyState": "Information not available",
       "descriptionForm": {
         "receive": "You will receive:",

@@ -173,19 +173,21 @@ const {
     }
 
     span {
-      font-size: 13px;
-      line-height: 13px;
-      height: 13px;
+      font-size: 14px;
+      line-height: 15px;
+      height: 15px;
 
       color: ${({ theme }) => theme.colorV2.gray[1]};
 
       &.green {
         color: ${({ theme }) => theme.color.green[500]};
         font-weight: 500;
+        font-size: 15px;
       }
       &.primary {
         color: ${({ theme }) => theme.colorV2.blue[3]};
         font-weight: 500;
+        font-size: 15px;
       }
     }
   `,

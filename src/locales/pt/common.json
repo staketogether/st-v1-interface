@@ -145,7 +145,13 @@
       "early": "Primeiros Stakers",
       "earlyDescription": "20% dos Incentivos do 3 primeiros meses são destinados para as pessoas que fizerem depositos no primeiro mês"
     },
-    "total": "Total"
+    "total": "Total",
+    "countdown": {
+      "next": "Próximo Airdrop",
+      "days": "Dias",
+      "hours": "Horas",
+      "minutes": "Minutos"
+    }
   },
   "v2": {
     "pages": {
@@ -199,9 +205,9 @@
     },
     "stake": {
       "apy": "Rendimento Percentual Anual",
-      "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos.",
+      "apyTooltip": "(APY)Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos.",
       "tvl": "Total Investido com o Projeto",
-      "tvlTooltip": "Total Investido com o Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto.",
+      "tvlTooltip": "(TVL do Projeto)Total Investido com o Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto.",
       "annualRewards": "Recompensas Anuais de Staking",
       "infoEmptyState": "Nenhuma informação disponível",
       "descriptionForm": {
