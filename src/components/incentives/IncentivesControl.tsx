@@ -203,7 +203,7 @@ const {
     > div:nth-child(2) {
       justify-content: flex-end;
       display: grid;
-      grid-template-columns: 70px 4px 70px 4px 70px;
+      grid-template-columns: 64px 4px 64px 4px 64px;
       gap: 8px;
       align-items: center;
     }
@@ -227,7 +227,7 @@ const {
       > div {
         display: flex;
         flex-direction: row;
-        width: 33px;
+        width: 32px;
 
         gap: 8px;
         background: ${({ theme }) => theme.colorV2.gray[2]};
