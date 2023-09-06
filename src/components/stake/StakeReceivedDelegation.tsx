@@ -23,7 +23,7 @@ export default function StakeReceivedDelegation({ delegation, rank }: StakeRecei
       <div>
         <span>
           {`${truncateWei(delegation.delegationBalance, 6)} `}
-          <span>{t('lsd.symbol')}</span>
+          <span>{t('eth.symbol')}</span>
         </span>
       </div>
     </DelegationItem>
@@ -39,8 +39,7 @@ export const { DelegationItem } = {
     padding: 7px 8px;
 
     > div:nth-child(1) {
-      font-weight: 500;
-      color: ${({ theme }) => theme.colorV2.purple[1]};
+      color: ${({ theme }) => theme.colorV2.blue[1]};
     }
 
     > div:nth-child(2) {
@@ -53,7 +52,7 @@ export const { DelegationItem } = {
     > div:nth-child(3) {
       display: grid;
       font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.secondary};
+      color: ${({ theme }) => theme.colorV2.blue[3]};
     }
   `
 }

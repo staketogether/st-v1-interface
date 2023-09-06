@@ -41,10 +41,10 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
     <Container>
       {hasActivities && (
         <header>
+          <span>{t('tx')}</span>
           <span>{t('time')}</span>
           <span>{t('type')}</span>
           <span>{t('value')}</span>
-          <span>{t('tx')}</span>
         </header>
       )}
       <List>
@@ -61,12 +61,14 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
                 href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`}
                 target='_blank'
               >
+                <span>
+                  <ExternalLink />
+                </span>
                 <span>{formatTimestamp}</span>
                 <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
                 <span className={`${activity.amount > 1n && 'green'} ${activity.amount < 0 && 'red'}`}>
                   {`${truncateWei(activity.amount, 6)} ${t('eth.symbol')}`}
                 </span>
-                <ExternalLink />
               </Row>
             )
           })
@@ -86,7 +88,7 @@ const { Container, Row, ExternalLink, List } = {
 
     > header {
       display: grid;
-      grid-template-columns: 0.9fr 0.8fr 1fr 16px;
+      grid-template-columns: 0.3fr 0.9fr 0.8fr 0.8fr;
       padding: 0 8px;
 
       > span {
@@ -103,7 +105,7 @@ const { Container, Row, ExternalLink, List } = {
     cursor: pointer;
 
     display: grid;
-    grid-template-columns: 0.9fr 0.8fr 1fr 16px;
+    grid-template-columns: 0.3fr 0.9fr 0.8fr 0.8fr;
     align-items: center;
     padding: 8px 8px;
 
