@@ -49,6 +49,37 @@ export default function IncentivesControl() {
           title={t('v2.pages.incentives.title')}
           description={t('v2.pages.incentives.description')}
         />
+        <AirdropCountdown>
+          <div>
+            <h2>{t('airdrop.countdown.next')}</h2>
+          </div>
+          <div>
+            <Time>
+              <div>
+                <div>1</div>
+                <div>2</div>
+              </div>
+            </Time>
+            <div>
+              <p>:</p>
+            </div>
+            <Time>
+              <div>
+                <div>0</div>
+                <div>5</div>
+              </div>
+            </Time>
+            <div>
+              <p>:</p>
+            </div>
+            <Time>
+              <div>
+                <div>3</div>
+                <div>1</div>
+              </div>
+            </Time>
+          </div>
+        </AirdropCountdown>
         <AirdropContainer>
           <Available green={amount > 0n}>
             <Image src={stSymbol} width={48} height={48} alt='stpETH' />
@@ -126,6 +157,7 @@ export default function IncentivesControl() {
 
 const {
   Container,
+  AirdropCountdown,
   AirdropContainer,
   Available,
   ConnectWalletIcon,
@@ -136,7 +168,8 @@ const {
   IncentiveRow,
   XIcon,
   CheckIcon,
-  QuestionIcon
+  QuestionIcon,
+  Time
 } = {
   Container: styled.div`
     width: 100%;
@@ -144,6 +177,81 @@ const {
     flex-direction: column;
     max-width: 468px;
     gap: ${({ theme }) => theme.size[16]};
+  `,
+  AirdropCountdown: styled.section`
+    padding: 16px ${({ theme }) => theme.size[24]};
+    display: grid;
+    grid-template-columns: auto auto;
+    background-color: ${({ theme }) => theme.colorV2.white};
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    align-items: center;
+    gap: 8px;
+
+    > div:nth-child(1) {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      > h2 {
+        height: 20px;
+        font-size: 20px !important;
+        font-weight: 400;
+      }
+    }
+
+    > div:nth-child(2) {
+      justify-content: flex-end;
+      display: grid;
+      grid-template-columns: 70px 4px 70px 4px 70px;
+      gap: 8px;
+      align-items: center;
+    }
+
+    > div p {
+      font-size: 18px;
+    }
+  `,
+  Time: styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    justify-content: center;
+
+    > div:nth-child(1) {
+      gap: 4px;
+      justify-content: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      > div {
+        display: flex;
+        flex-direction: row;
+        width: 33px;
+
+        gap: 8px;
+        background: ${({ theme }) => theme.colorV2.gray[2]};
+        border-radius: ${({ theme }) => theme.size[8]};
+        box-shadow: ${({ theme }) => theme.shadow[100]};
+        justify-content: center;
+
+        font-size: 18px;
+        padding: 12px 11px;
+
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
+    }
+
+    > div:nth-child(2) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 13px;
+      line-height: 13px;
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
   `,
   AirdropContainer: styled.section`
     width: 100%;
@@ -280,6 +388,7 @@ const {
   CheckIcon: styled(PiCheckCircle)`
     font-size: 18px;
   `,
+
   QuestionIcon: styled(PiQuestion)`
     width: 16px;
     height: 16px;

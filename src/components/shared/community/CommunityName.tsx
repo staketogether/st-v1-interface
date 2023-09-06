@@ -48,6 +48,7 @@ const { Text } = {
       $large &&
       `
       font-size: ${theme.font.size[16]};
+      line-height: 16px;
     `}
 
     ${({ $larger, theme }) => {
@@ -55,7 +56,9 @@ const { Text } = {
         $larger &&
         `
           height: 30px;
-          font-size: ${theme.font.size[22]} !important;
+          font-size: 20px !important;
+          line-height: 20px;
+          font-weight: 400;
         `
       )
     }}
