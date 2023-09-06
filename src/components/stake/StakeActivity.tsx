@@ -91,7 +91,7 @@ const { Container, Row, ExternalLink, List } = {
 
     > header {
       display: grid;
-      grid-template-columns: 0.3fr 0.7fr 0.8fr 0.8fr 0.8fr;
+      grid-template-columns: 0.3fr 0.7fr 0.7fr 0.8fr 0.9fr;
       padding: 0 8px;
       text-align: center;
       @media (min-width: 768px) {
@@ -112,7 +112,7 @@ const { Container, Row, ExternalLink, List } = {
     cursor: pointer;
 
     display: grid;
-    grid-template-columns: 0.3fr 0.7fr 0.8fr 0.8fr 0.8fr;
+    grid-template-columns: 0.3fr 0.7fr 0.7fr 0.8fr 0.9fr;
     align-items: center;
     padding: ${({ theme }) => theme.size[8]} 0;
     text-align: center;
