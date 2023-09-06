@@ -134,7 +134,7 @@
   },
   "airdrop": {
     "claim": "Claim",
-    "available": "Verify Eligibility",
+    "available": "Check Eligibility",
     "infoEnter": "Enter and verify if you have incentives to receive",
     "infoClaim": "Claim incentives to your account",
     "eligibilityCriteria": "Eligibility Criteria",
