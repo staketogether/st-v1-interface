@@ -72,7 +72,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
 const { Header, CloseIcon, SettingContainer, Button } = {
   CloseIcon: styled(AiOutlineArrowLeft)`
     font-size: 18px;
-    color: ${({ theme }) => theme.color.primary};
+
     cursor: pointer;
   `,
   Button: styled.button`
@@ -84,12 +84,12 @@ const { Header, CloseIcon, SettingContainer, Button } = {
     border: 0;
     border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background: ${({ theme }) => theme.color.whiteAlpha[700]};
+    background: ${({ theme }) => theme.color.white};
     transition: background 0.2s ease;
     line-height: 36px;
 
     &:hover {
-      background: ${({ theme }) => theme.color.blackAlpha[200]};
+      background: ${({ theme }) => theme.color.whiteAlpha[600]};
       box-shadow: ${({ theme }) => theme.shadow[100]};
     }
 
@@ -134,16 +134,22 @@ const { Header, CloseIcon, SettingContainer, Button } = {
       transition: background 0.2s ease;
       font-weight: 400;
       border-radius: ${({ theme }) => theme.size[8]};
-      background: ${({ theme }) => theme.color.whiteAlpha[500]};
+
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+      border-radius: ${({ theme }) => theme.size[8]};
+      background: ${({ theme }) => theme.colorV2.white};
+
       &:hover {
-        background: ${({ theme }) => theme.color.whiteAlpha[800]};
-        box-shadow: ${({ theme }) => theme.shadow[100]};
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+        background: ${({ theme }) => theme.color.whiteAlpha[600]};
       }
 
       &.active {
-        background: ${({ theme }) => theme.color.whiteAlpha[900]};
-        color: ${({ theme }) => theme.color.primary};
-        box-shadow: ${({ theme }) => theme.shadow[100]};
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
+
+      &:active {
+        transform: scale(0.99);
       }
       img {
         box-shadow: ${({ theme }) => theme.shadow[100]};

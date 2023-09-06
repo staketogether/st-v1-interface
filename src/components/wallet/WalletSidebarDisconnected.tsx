@@ -139,18 +139,18 @@ const {
   `,
   ClosedSidebarButton: styled.button`
     position: absolute;
-    left: -44px;
+    left: -52px;
     width: 32px;
     height: 32px;
     border: 0;
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: 8px;
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background: ${({ theme }) => theme.color.whiteAlpha[700]};
+    background: ${({ theme }) => theme.color.white};
     transition: background 0.2s ease;
     line-height: 36px;
 
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[900]};
+      background: ${({ theme }) => theme.color.whiteAlpha[600]};
     }
   `,
   SettingIcon: styled(AiOutlineSetting)`
@@ -173,7 +173,7 @@ const {
     line-height: 36px;
 
     &:hover {
-      background: ${({ theme }) => theme.color.blackAlpha[200]};
+      background: ${({ theme }) => theme.color.whiteAlpha[600]};
       box-shadow: ${({ theme }) => theme.shadow[100]};
     }
 
@@ -192,7 +192,6 @@ const {
       justify-content: space-between;
 
       h2 {
-        color: ${({ theme }) => theme.colorV2.blue[1]};
         font-size: ${({ theme }) => theme.font.size[18]};
         font-weight: 500;
       }
@@ -233,7 +232,7 @@ const {
 
       border-radius: ${({ theme }) => theme.size[8]};
       &:hover {
-        background: ${({ theme }) => theme.color.whiteAlpha[700]};
+        background: ${({ theme }) => theme.color.whiteAlpha[600]};
       }
 
       img {

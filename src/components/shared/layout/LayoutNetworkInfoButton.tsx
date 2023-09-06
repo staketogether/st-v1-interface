@@ -38,7 +38,7 @@ const { NetworkButton, GasContainer, NetworkContainer } = {
     align-items: center;
     height: 32px;
     border-radius: 99px;
-    background: ${({ theme }) => theme.color.blackAlpha[200]};
+    background: ${({ theme }) => theme.color.whiteAlpha[600]};
     padding: 0px;
 
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
