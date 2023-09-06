@@ -86,7 +86,7 @@ export default function IncentivesControl() {
             <div>
               <h3>{t('airdrop.available')}</h3>
               <div>
-                <span>{truncateWei(amount)}</span>
+                <span>{amount > 0n ? truncateWei(amount) : '0'}</span>
                 <span>{t('lsd.symbol')}</span>
               </div>
             </div>
