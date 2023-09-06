@@ -13,6 +13,9 @@ export const queryPoolActivities = gql`
       timestamp
       amount
       txHash
+      account {
+        address
+      }
     }
   }
 `

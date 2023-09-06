@@ -1,7 +1,7 @@
 import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { truncateWei } from '@/services/truncate'
-import { ActivitiesPool } from '@/types/ActivitiesPool'
+import { truncateAddress, truncateWei } from '@/services/truncate'
+import { PoolActivity } from '@/types/PoolActivity'
 import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -11,7 +11,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 
 type StakeActivityProps = {
-  poolActivities: ActivitiesPool[]
+  poolActivities: PoolActivity[]
   isLoading: boolean
 }
 
@@ -44,6 +44,7 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
           <span>{t('tx')}</span>
           <span>{t('time')}</span>
           <span>{t('type')}</span>
+          <span>{t('account')}</span>
           <span>{t('value')}</span>
         </header>
       )}
@@ -52,7 +53,8 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
           poolActivities.map(activity => {
             const formatTimestamp = activity.timestamp
               ? DateTime.fromSeconds(Number(activity.timestamp)).toRelative({
-                  locale: getLocale()
+                  locale: getLocale(),
+                  style: 'short'
                 }) || ''
               : ''
             return (
@@ -66,6 +68,7 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
                 </span>
                 <span>{formatTimestamp}</span>
                 <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
+                <span className='purple'>{truncateAddress(activity.account.address, 3)}</span>
                 <span className={`${activity.amount > 1n && 'green'} ${activity.amount < 0 && 'red'}`}>
                   {`${truncateWei(activity.amount, 6)} ${t('eth.symbol')}`}
                 </span>
@@ -88,8 +91,12 @@ const { Container, Row, ExternalLink, List } = {
 
     > header {
       display: grid;
-      grid-template-columns: 0.3fr 0.9fr 0.8fr 0.8fr;
+      grid-template-columns: 0.3fr 0.7fr 0.8fr 0.8fr 0.8fr;
       padding: 0 8px;
+      text-align: center;
+      @media (min-width: 768px) {
+        text-align: justify;
+      }
 
       > span {
         font-size: ${({ theme }) => theme.font.size[14]};
@@ -105,9 +112,14 @@ const { Container, Row, ExternalLink, List } = {
     cursor: pointer;
 
     display: grid;
-    grid-template-columns: 0.3fr 0.9fr 0.8fr 0.8fr;
+    grid-template-columns: 0.3fr 0.7fr 0.8fr 0.8fr 0.8fr;
     align-items: center;
-    padding: 8px 8px;
+    padding: ${({ theme }) => theme.size[8]} 0;
+    text-align: center;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      padding: ${({ theme }) => theme.size[8]};
+      text-align: justify;
+    }
 
     &:hover {
       background: ${({ theme }) => theme.colorV2.gray[2]};

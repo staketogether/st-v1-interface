@@ -31,8 +31,7 @@ export function truncateText(text: string, chars = 16): string {
   return `${text.slice(0, chars)}${text.length > chars ? '...' : ''}`
 }
 
-export function truncateAddress(address: string): string {
-  const charsToShow = 6
+export function truncateAddress(address: string, charsToShow = 6): string {
   if (!address) {
     return ''
   }

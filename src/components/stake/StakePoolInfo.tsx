@@ -102,7 +102,10 @@ const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon } = {
     border: none;
   `,
   TabContainer: styled.div`
-    padding: ${({ theme }) => theme.size[24]};
+    padding: ${({ theme }) => theme.size[16]};
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      padding: ${({ theme }) => theme.size[24]};
+    }
   `,
   AboutIcon: styled(PiAppWindow)`
     font-size: ${({ theme }) => theme.font.size[16]};
