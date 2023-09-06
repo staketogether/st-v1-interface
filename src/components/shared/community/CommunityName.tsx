@@ -36,7 +36,8 @@ export default function CommunityName({ name, loading, $large, $larger, slice, $
 
 const { Text } = {
   Text: styled.span<{ $large?: boolean; $larger?: boolean; $color?: string }>`
-    font-size: ${({ theme }) => theme.font.size[14]};
+    font-size: ${({ theme }) => theme.font.size[15]};
+    font-weight: 400;
     color: ${({ theme, color }) => color || theme.colorV2.gray[1]};
     border: 0;
     padding: 0;
@@ -47,7 +48,7 @@ const { Text } = {
     ${({ $large, theme }) =>
       $large &&
       `
-      font-size: ${theme.font.size[16]};
+      font-size: ${theme.font.size[15]};
       line-height: 16px;
     `}
 
