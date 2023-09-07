@@ -90,12 +90,10 @@ const { Balance, ConnectedButton, EnsAddress, NetworkWrong, Web3AuthProfileImage
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.colorV2.foreground};
+    background-color: ${({ theme }) => theme.colorV2.gray[2]};
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
-
     padding: 0px ${({ theme }) => theme.size[8]} 0px ${({ theme }) => theme.size[16]};
-
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[200]};
 

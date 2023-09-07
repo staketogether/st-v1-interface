@@ -7,6 +7,7 @@
   "value": "Valor",
   "account": "Conta",
   "accounts": "Contas",
+  "days": "Dias",
   "rewards": "Recompensas",
   "delegates": "Delegados",
   "processing": "Processando...",
@@ -126,7 +127,7 @@
     "rate": "Taxa",
     "bestRate": "Melhor Taxa",
     "liquidity": "Liquidez",
-    "waitingTime": "Tempo de Espera",
+    "waitingTime": "Espera",
     "instantly": "Imediatamente"
   },
   "gas": {
@@ -215,7 +216,7 @@
       "annualRewards": "Recompensas Anuais de Staking",
       "infoEmptyState": "Nenhuma informação disponível",
       "descriptionForm": {
-        "receive": "Você vai receber:",
+        "receive": "Você Vai Receber:",
         "receiveTooltip": "Quando você deposita ETH, você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",
         "exchange": "Câmbio:",
         "exchangeTooltip": "Câmbio é a equivalência entre ETH e stpETH.",

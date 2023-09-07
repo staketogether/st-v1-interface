@@ -79,15 +79,17 @@ export default function StakeDescriptionCheckout({
           <span>{fees.operation}%</span>
         </div>
       )}
-      <div>
-        <span>
-          {`${t('v2.stake.descriptionForm.rewards')} `}
-          <TooltipComponent text={t('v2.stake.descriptionForm.rewardsTooltip')}>
-            <QuestionIcon />
-          </TooltipComponent>
-        </span>
-        <span>{fees.rewards}%</span>
-      </div>
+      {type === 'deposit' && (
+        <div>
+          <span>
+            {`${t('v2.stake.descriptionForm.rewards')} `}
+            <TooltipComponent text={t('v2.stake.descriptionForm.rewardsTooltip')}>
+              <QuestionIcon />
+            </TooltipComponent>
+          </span>
+          <span>{fees.rewards}%</span>
+        </div>
+      )}
     </StakeInfo>
   )
 }
@@ -98,7 +100,7 @@ const { StakeInfo, QuestionIcon } = {
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
     font-size: ${({ theme }) => theme.size[12]};
 
     > div {

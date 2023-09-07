@@ -1,7 +1,7 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { WithdrawType } from '@/types/Withdraw'
-import { AiOutlineClockCircle, AiOutlineDashboard, AiOutlineDatabase } from 'react-icons/ai'
+import { PiStack, PiStackSimple } from 'react-icons/pi'
 import styled from 'styled-components'
 
 type StakeWithdrawSwitchTypesProps = {
@@ -34,24 +34,19 @@ export default function StakeWithdrawSwitchTypes({
         </header>
         <RateInfo>
           <div>
-            <span>{t('withdrawCardsType.rate')}</span>
-            <span>1:1</span>
+            <span>{t('withdrawCardsType.liquidity')}</span>
+            <div className='blue'>
+              <span className='blue'>{`${truncateWei(liquidityPoolBalance, 4)} `}</span>
+              <span className='blue'>{t('eth.symbol')}</span>
+            </div>
           </div>
           <div>
-            <span>{t('withdrawCardsType.liquidity')}</span>
+            <span>{t('withdrawCardsType.waitingTime')}</span>
             <div>
-              <span>{`${truncateWei(liquidityPoolBalance, 4)} `}</span>
-              <span className='purple'>{t('eth.symbol')}</span>
+              <span className='purple'>{t('withdrawCardsType.instantly')}</span>
             </div>
           </div>
         </RateInfo>
-        <Time>
-          <ClockIcon />
-          <div>
-            <span>{t('withdrawCardsType.waitingTime')}</span>
-            <span>{t('withdrawCardsType.instantly')}</span>
-          </div>
-        </Time>
       </Card>
       <Card
         className={`${handleActiveType(WithdrawType.VALIDATOR) ? 'active' : ''}`}
@@ -63,45 +58,41 @@ export default function StakeWithdrawSwitchTypes({
         </header>
         <RateInfo>
           <div>
-            <span>{t('withdrawCardsType.rate')}</span>
-            <span>1:1</span>
-          </div>
-          <div>
             <span>{t('withdrawCardsType.liquidity')}</span>
             <div>
-              <span>{`${truncateWei(liquidityValidatorsBalance, 4)} `}</span>
-              <span className='purple'>{t('eth.symbol')}</span>
+              <span className='blue'>{`${truncateWei(liquidityValidatorsBalance, 4)} `}</span>
+              <span className='blue'>{t('eth.symbol')}</span>
+            </div>
+          </div>
+          <div>
+            <span>{t('withdrawCardsType.waitingTime')}</span>
+            <div>
+              <span className='purple'>~1-3 {t('days')}</span>
             </div>
           </div>
         </RateInfo>
-        <Time>
-          <ClockIcon />
-          <div>
-            <span>{t('withdrawCardsType.waitingTime')}</span>
-            <span>~1-3</span>
-          </div>
-        </Time>
       </Card>
     </Container>
   )
 }
 
-const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } = {
+const { Container, Card, RateInfo, PoolIcon, ValidatorsIcon } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
-    gap: 8px;
+    gap: 16px;
   `,
   Card: styled.div`
     display: flex;
     flex-direction: column;
-    padding: 8px;
-    gap: 8px;
+    padding: 12px;
+    gap: 12px;
     cursor: pointer;
 
-    border-radius: 16px;
-    background: ${({ theme }) => theme.color.whiteAlpha[500]};
+    border-radius: 8px;
+
+    box-shadow: ${({ theme }) => theme.shadow[200]};
 
     > header {
       display: flex;
@@ -109,16 +100,23 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } =
       justify-content: space-between;
 
       > h4 {
-        font-size: 13px;
+        font-size: 14px;
+        color: ${({ theme }) => theme.colorV2.gray[1]};
 
         font-weight: 400;
-        color: ${({ theme }) => theme.color.secondary};
       }
     }
 
-    &:hover,
-    &.active {
-      background: ${({ theme }) => theme.color.blackAlpha[100]};
+    &.active,
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+      background: ${({ theme }) => theme.colorV2.gray[2]};
+
+      > header {
+        > h4 {
+          color: ${({ theme }) => theme.colorV2.purple[1]};
+        }
+      }
     }
 
     &.disabled {
@@ -128,57 +126,38 @@ const { Container, Card, RateInfo, Time, ClockIcon, PoolIcon, ValidatorsIcon } =
   RateInfo: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
+
     > div {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      height: 12px;
+
       span {
         font-size: 12px;
-
         font-weight: 400;
-        color: ${({ theme }) => theme.color.primary};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        line-height: 12px;
+
+        &.blue {
+          color: ${({ theme }) => theme.colorV2.blue[3]};
+        }
 
         &.purple {
-          color: ${({ theme }) => theme.color.secondary};
+          color: ${({ theme }) => theme.colorV2.purple[1]};
         }
       }
     }
   `,
-  Time: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 4px;
-
-    border-radius: 8px;
-    padding: 4px;
-    background-color: ${({ theme }) => theme.color.blackAlpha[50]};
-
-    > div {
-      display: flex;
-      flex-direction: column;
-      span {
-        font-size: 12px;
-
-        font-weight: 400;
-        color: ${({ theme }) => theme.color.blackAlpha[500]};
-      }
-      > span:nth-child(2) {
-        color: ${({ theme }) => theme.color.primary};
-      }
-    }
+  PoolIcon: styled(PiStackSimple)`
+    width: 18px;
+    height: 18px;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
   `,
-  ClockIcon: styled(AiOutlineClockCircle)`
-    font-size: 16px;
-    color: ${({ theme }) => theme.color.secondary};
-  `,
-  PoolIcon: styled(AiOutlineDashboard)`
-    width: 24px;
-    height: 24px;
-    color: ${({ theme }) => theme.color.secondary};
-  `,
-  ValidatorsIcon: styled(AiOutlineDatabase)`
-    width: 24px;
-    height: 24px;
-    color: ${({ theme }) => theme.color.secondary};
+  ValidatorsIcon: styled(PiStack)`
+    width: 18px;
+    height: 18px;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
   `
 }

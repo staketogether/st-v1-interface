@@ -1,6 +1,7 @@
 import ethIcon from '@assets/icons/eth-icon.svg'
 import stSymbol from '@assets/st-symbol.svg'
 import Image from 'next/image'
+import { useRef } from 'react'
 import styled from 'styled-components'
 import useCoinConversion from '../../hooks/useCoinConversion'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
@@ -29,6 +30,8 @@ export default function StakeFormInput({
 
   const { price, settingCurrency } = useCoinConversion(value)
 
+  const inputRef = useRef(null)
+
   function handleChange(value: string) {
     if (value.includes(',')) {
       value = value.replace(',', '.')
@@ -56,9 +59,24 @@ export default function StakeFormInput({
                 type='text'
                 value={value}
                 onChange={e => handleChange(e.target.value)}
-                placeholder='0'
+                placeholder={`0`}
                 className={`${hasError ? 'error' : ''}`}
+                ref={inputRef}
               />
+              {value.length === 0 ? (
+                <span
+                  className='absolute'
+                  onClick={() => {
+                    if (inputRef.current) {
+                      inputRef.current.focus()
+                    }
+                  }}
+                >
+                  {type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')}
+                </span>
+              ) : (
+                ''
+              )}
               <span className={`${hasError ? 'error' : ''}`}>{`${settingCurrency.symbol} ${truncateDecimal(
                 price || '0',
                 2
@@ -151,6 +169,17 @@ const { Container, Content, MaxValue, InputContainer } = {
     align-items: center;
     gap: ${({ theme }) => theme.size[4]};
 
+    .absolute {
+      position: absolute;
+      font-size: ${({ theme }) => theme.font.size[16]};
+      line-height: 16px;
+      height: 16px;
+      font-weight: 500;
+      color: ${({ theme }) => theme.color.blue[200]};
+      margin-left: 24px;
+      z-index: 1;
+    }
+
     > input {
       display: flex;
       width: 100%;
@@ -163,7 +192,7 @@ const { Container, Content, MaxValue, InputContainer } = {
       height: 24px;
 
       &::-webkit-input-placeholder {
-        color: ${({ theme }) => theme.color.blue[300]};
+        color: ${({ theme }) => theme.color.blue[200]};
       }
 
       &.error {
@@ -172,7 +201,7 @@ const { Container, Content, MaxValue, InputContainer } = {
     }
 
     > span {
-      font-size: ${({ theme }) => theme.font.size[12]};
+      font-size: ${({ theme }) => theme.font.size[13]};
       color: ${({ theme }) => theme.color.blue[500]};
       font-weight: 500;
       display: flex;

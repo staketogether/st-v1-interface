@@ -5,6 +5,7 @@
   "time": "Time",
   "account": "Account",
   "accounts": "Accounts",
+  "days": "Days",
   "type": "Type",
   "value": "Value",
   "rewards": "Rewards",
@@ -35,6 +36,7 @@
   "loadMore": "Load More",
   "apr": "APR",
   "pnl": "PNL",
+
   "wrongNetwork": "Wrong Network",
   "switch": "Switch to",
   "about": "About",
@@ -214,7 +216,7 @@
       "tvlTooltip": "Total Invested with the Project refers to the total amount of ETH deposited into the project. The more ETH, the greater the incentives for project. (Project TVL)",
       "infoEmptyState": "Information not available",
       "descriptionForm": {
-        "receive": "You will receive:",
+        "receive": "You Will Receive:",
         "receiveTooltip": "When you deposit ETH, you receive the stpETH token in return. The stpETH receives staking rewards daily.",
         "exchange": "Exchange rate:",
         "exchangeTooltip": "Exchange is the equivalence between ETH and stpETH.",
