@@ -30,7 +30,7 @@ export default function StakeFormInput({
 
   const { price, settingCurrency } = useCoinConversion(value)
 
-  const inputRef = useRef(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   function handleChange(value: string) {
     if (value.includes(',')) {
