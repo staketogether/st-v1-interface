@@ -31,6 +31,16 @@ export default function LayoutHeader() {
               {t('v2.header.incentives')}
             </MenuButton>
           </Link>
+          <Link href='/incentives' legacyBehavior>
+            <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
+              {t('v2.header.incentives')}
+            </MenuButton>
+          </Link>
+          <Link href='/gifts' legacyBehavior>
+            <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
+              {t('v2.header.gifts')}
+            </MenuButton>
+          </Link>
         </Menu>
       </MenuContainer>
       <WalletContainer>
