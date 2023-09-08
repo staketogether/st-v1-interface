@@ -38,7 +38,7 @@ const configs: ChainConfig[] = [
       StakeTogether: '0xfa001a3f2d6c2425C697beEC8FF404720ca3B32E'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/51080/stake-together/v0.2.5',
+      StakeTogether: 'https://api.studio.thegraph.com/query/51080/stake-together/v0.2.8',
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/master`
     }
   }
