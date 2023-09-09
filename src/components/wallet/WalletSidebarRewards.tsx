@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiOutlineLink } from 'react-icons/ai'
-import { styled, useTheme } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 
 type WalletSidebarRewards = {
   accountRewards: AccountReward[]
@@ -55,13 +55,16 @@ const { Container, Reward, RewardsHeader, EmptyContainer } = {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
-    margin-top: ${({ theme }) => theme.size[16]};
+    padding: ${({ theme }) => theme.size[8]};
 
     div > span:nth-child(2) > span {
       color: ${({ theme }) => theme.color.secondary};
     }
   `,
   EmptyContainer: styled.div`
+    padding: 8px;
+    text-align: center;
+    font-size: 13px;
     span {
       width: 100%;
       text-align: center;

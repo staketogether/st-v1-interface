@@ -2,10 +2,9 @@ import WalletSidebarActivities from '@/components/wallet/WalletSidebarActivities
 import WalletSidebarRewards from '@/components/wallet/WalletSidebarRewards'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
-import useWalletByEthModal from '@/hooks/useWalletByEthModal'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import ethIcon from '@assets/icons/eth-icon.svg'
-import stIcon from '@assets/icons/seth-icon.svg'
+import stIcon from '@assets/st-symbol.svg'
 import { Drawer, notification } from 'antd'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -18,7 +17,6 @@ import {
   AiOutlineSetting
 } from 'react-icons/ai'
 import { FiCopy } from 'react-icons/fi'
-import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
@@ -49,10 +47,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
 
   const handleWalletProviderImage = useWalletProviderImage()
-  const { setOpenModal } = useWalletByEthModal()
 
-  const { accountTotalRewards, accountDelegations, accountBalance, accountRewards, accountActivities } =
-    useStAccount(address)
+  const { accountDelegations, accountBalance, accountRewards, accountActivities } = useStAccount(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -67,26 +63,29 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     })
   }
 
-  const rewardsIsPositive = accountTotalRewards > 1n
-  const rewardsIsNegative = accountTotalRewards < 0
-
   const onBuyEthIsSuccess = () => {
     refetch()
   }
 
-  const tabsItems: TabsItems[] = [
-    {
-      key: 'pools',
-      label: t('pools'),
-      icon: <PoolsIcon />,
-      children: <WalletSidebarPoolsDelegated accountDelegations={accountDelegations} />
-    },
+  const tab1: TabsItems[] = [
     {
       key: 'rewards',
       label: t('rewards'),
       icon: <AnalyticsIcon />,
       children: <WalletSidebarRewards accountRewards={accountRewards} />
-    },
+    }
+  ]
+
+  const tab2: TabsItems[] = [
+    {
+      key: 'portfolio',
+      label: t('portfolio'),
+      icon: <PoolsIcon />,
+      children: <WalletSidebarPoolsDelegated accountDelegations={accountDelegations} />
+    }
+  ]
+
+  const tab3: TabsItems[] = [
     {
       key: 'activity',
       label: t('activity'),
@@ -108,48 +107,44 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       ) : (
         <>
           <HeaderContainer>
-            <ClosedSidebarButton onClick={() => setOpenSidebar(false)}>
-              <CloseSidebar fontSize={14} />
-            </ClosedSidebarButton>
             <HeaderUserContainer>
+              <div>
+                {web3AuthUserInfo && (
+                  <span onClick={() => copyToClipboard(web3AuthUserInfo.email)}>
+                    {truncateText(web3AuthUserInfo.email, 20)}
+                  </span>
+                )}
+                {nameLoading && <SkeletonLoading width={140} height={14} />}
+                {!nameLoading && name && !web3AuthUserInfo && (
+                  <span onClick={() => copyToClipboard(name)}>{truncateText(name, 16)}</span>
+                )}
+                <span onClick={() => copyToClipboard(address)}>{truncateAddress(address)}</span>
+              </div>
               <Web3AuthProfileContainer>
                 {web3AuthUserInfo && web3AuthUserInfo.profileImage ? (
                   <>
                     <Web3AuthProfileImage
                       src={web3AuthUserInfo.profileImage}
                       alt={t('stakeTogether')}
-                      width={40}
-                      height={40}
+                      width={24}
+                      height={24}
                     />
-                    <WarperWallet>
+                    <WrapperWallet>
                       {handleWalletProviderImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}
-                    </WarperWallet>
+                    </WrapperWallet>
                   </>
                 ) : (
                   <>
-                    <WarperWallet>{handleWalletProviderImage(walletConnected, 16)}</WarperWallet>
-                    <EnsAvatar address={address} size={40} />
+                    <WrapperWallet>{handleWalletProviderImage(walletConnected, 16)}</WrapperWallet>
+                    <EnsAvatar address={address} size={24} />
                   </>
                 )}
               </Web3AuthProfileContainer>
-              <div>
-                {web3AuthUserInfo && (
-                  <span onClick={() => copyToClipboard(web3AuthUserInfo.email)}>
-                    {truncateText(web3AuthUserInfo.email, 20)}
-                    <CopyIcon />
-                  </span>
-                )}
-                {nameLoading && <SkeletonLoading width={140} height={14} />}
-                {!nameLoading && name && !web3AuthUserInfo && (
-                  <span onClick={() => copyToClipboard(name)}>
-                    {truncateText(name, 16)} <CopyIcon />
-                  </span>
-                )}
-                <span onClick={() => copyToClipboard(address)}>
-                  {truncateAddress(address)} <CopyIcon />
-                </span>
-              </div>
+              <CopyIcon className='copy' />
             </HeaderUserContainer>
+            <ClosedSidebarButton onClick={() => setOpenSidebar(false)}>
+              <CloseSidebar fontSize={14} />
+            </ClosedSidebarButton>
             <Actions>
               <Button onClick={() => setIsSettingsActive(true)}>
                 <SettingIcon fontSize={16} />
@@ -182,25 +177,16 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 <Image src={stIcon} width={24} height={24} alt={t('lsd.symbol')} />
               </RightContainer>
             </div>
-            <div>
-              <LeftContainer>
-                <div>
-                  <div>
-                    <h4>{t('rewards')}</h4>
-                    <QuestionIcon />
-                  </div>
-                  <div>
-                    <span className={`${rewardsIsPositive && 'positive'} ${rewardsIsNegative && 'negative'}`}>
-                      {accountTotalRewards > 0 ? truncateWei(accountTotalRewards, 6) : '0'}
-                    </span>
-                    <span className='purple'>{t('lsd.symbol')}</span>
-                  </div>
-                </div>
-              </LeftContainer>
-            </div>
           </InfoContainer>
-          <BuyCryptoButton onClick={() => setOpenModal(true)}>{t('buyEth.button')}</BuyCryptoButton>
-          <Tabs items={tabsItems} defaultActiveKey='pools' />
+          <TabsArea>
+            <Tabs items={tab1} defaultActiveKey='rewards' gray />
+          </TabsArea>
+          <TabsArea>
+            <Tabs items={tab2} defaultActiveKey='portfolio' gray />
+          </TabsArea>
+          <TabsArea>
+            <Tabs items={tab3} defaultActiveKey='activity' gray />
+          </TabsArea>
         </>
       )}
       <WalletBuyEthModal walletAddress={address} onBuyEthIsSuccess={onBuyEthIsSuccess} />
@@ -219,20 +205,19 @@ const {
   SettingIcon,
   Actions,
   HeaderUserContainer,
-  BuyCryptoButton,
   Web3AuthProfileImage,
   Web3AuthProfileContainer,
-  WarperWallet,
+  WrapperWallet,
   CopyIcon,
   PoolsIcon,
   AnalyticsIcon,
   LeftContainer,
   RightContainer,
   ActivitiesIcon,
-  QuestionIcon
+  TabsArea
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: ${({ theme }) => theme.color.white} !important;
+    background-color: ${({ theme }) => theme.colorV2.foreground} !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
@@ -258,6 +243,20 @@ const {
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.colorV2.white};
+    border-radius: 8px;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    padding: 0px ${({ theme }) => theme.size[12]};
+
+    &:hover {
+      background: ${({ theme }) => theme.colorV2.gray[4]};
+      cursor: pointer;
+
+      .copy {
+        display: block;
+        color: ${({ theme }) => theme.colorV2.blue[1]};
+      }
+    }
     > div {
       display: flex;
       flex-direction: column;
@@ -279,6 +278,10 @@ const {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
+    background: ${({ theme }) => theme.colorV2.white};
+    border-radius: 8px;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    padding: 16px;
     > div {
       display: flex;
       justify-content: space-between;
@@ -289,6 +292,12 @@ const {
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[16]};
+
+    img {
+      box-shadow: ${({ theme }) => theme.shadow[300]};
+      border-radius: 100%;
+    }
+
     > div {
       display: flex;
       flex-direction: column;
@@ -305,7 +314,7 @@ const {
         color: ${({ theme }) => theme.color.blue[400]};
       }
       span {
-        font-size: 16px;
+        font-size: 14px;
 
         font-weight: 400;
         color: ${({ theme }) => theme.color.primary};
@@ -326,6 +335,12 @@ const {
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[16]};
+
+    img {
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+      border-radius: 100%;
+    }
+
     > div {
       display: flex;
       flex-direction: column;
@@ -344,7 +359,7 @@ const {
         color: ${({ theme }) => theme.color.blue[400]};
       }
       span {
-        font-size: 16px;
+        font-size: 14px;
 
         font-weight: 400;
         color: ${({ theme }) => theme.color.primary};
@@ -367,21 +382,32 @@ const {
     width: 32px;
     height: 32px;
     border: 0;
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background: ${({ theme }) => theme.color.whiteAlpha[700]};
+    background: ${({ theme }) => theme.color.white};
     transition: background 0.2s ease;
     line-height: 36px;
 
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[900]};
+      background: ${({ theme }) => theme.color.whiteAlpha[700]};
+      svg {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
     }
   `,
   SettingIcon: styled(AiOutlineSetting)`
-    color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.colorV2.blue[1]};
+
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
   `,
   CloseSidebar: styled(AiOutlineRight)`
-    color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.colorV2.blue[1]};
+
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
   `,
   Button: styled.button`
     display: grid;
@@ -391,13 +417,21 @@ const {
     height: 32px;
     border: 0;
     border-radius: ${({ theme }) => theme.size[8]};
-    background: transparent;
+    background: ${({ theme }) => theme.colorV2.white};
     transition: background 0.2s ease;
     line-height: 36px;
+    box-shadow: ${({ theme }) => theme.shadow[300]};
+
+    svg {
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+    }
 
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[600]};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
+      background: ${({ theme }) => theme.colorV2.gray[2]};
+
+      svg {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
     }
 
     &:first-of-type {
@@ -412,43 +446,27 @@ const {
     grid-template-columns: 1fr 1fr;
     gap: ${({ theme }) => theme.size[8]};
   `,
-  BuyCryptoButton: styled.button`
-    border: none;
-    color: ${({ theme }) => theme.color.white};
-    border-radius: ${props => props.theme.size[12]};
-
-    background: ${({ theme }) => theme.color.primary};
-    transition: background-color 0.2s ease;
-    height: 32px;
-    padding: 0px ${props => props.theme.size[12]};
-
-    font-size: ${({ theme }) => theme.font.size[14]};
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: ${({ theme }) => theme.size[8]};
-
-    &:hover {
-      background: ${({ theme }) => theme.color.blue[400]};
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.4;
-    }
-  `,
   Web3AuthProfileContainer: styled.div`
     position: relative;
   `,
-  WarperWallet: styled.div`
+  WrapperWallet: styled.div`
     position: absolute;
-    top: 27px;
-    left: 26px;
+    top: 10px;
+    left: 13px;
     border-radius: 50%;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    width: 14px;
+    height: 14px;
     img {
       border-radius: 50%;
+      width: 14px;
+      height: 14px;
     }
+  `,
+  TabsArea: styled.div`
+    background: ${({ theme }) => theme.colorV2.white};
+    border-radius: 8px;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
   `,
   Web3AuthProfileImage: styled(Image)`
     border-radius: 50%;
@@ -456,6 +474,9 @@ const {
   CopyIcon: styled(FiCopy)`
     font-size: ${({ theme }) => theme.font.size[12]};
     display: none;
+    position: absolute;
+    margin-left: 162px;
+    color: ${({ theme }) => theme.colorV2.blue[1]};
   `,
   PoolsIcon: styled(AiOutlinePieChart)`
     font-size: 16px;
@@ -465,8 +486,5 @@ const {
   `,
   ActivitiesIcon: styled(AiOutlineLineChart)`
     font-size: 16px;
-  `,
-  QuestionIcon: styled(PiQuestion)`
-    font-size: 12px;
   `
 }

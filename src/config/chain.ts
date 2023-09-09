@@ -32,13 +32,13 @@ const configs: ChainConfig[] = [
       baseUrl: 'https://goerli.etherscan.io'
     },
     contracts: {
-      Airdrop: '0xb76F3E355cc296359ABfFa254AFF4D6c80357116',
-      Withdrawals: '0x50CA606d48ef40303aDDF4ae331b8f0206D02aF0',
-      Router: '0xc463B1d31c7d21E7FaaEc021a9fAC84885169fC6',
-      StakeTogether: '0xfa001a3f2d6c2425C697beEC8FF404720ca3B32E'
+      Airdrop: '0x1631bfC9Cf3bDEA31058958Db1f449d693178724',
+      Withdrawals: '0x29c5F6868Cb00975250300AAE4Fb90972F6C73aF',
+      Router: '0xA4C23f90b8496FD5A3AaE65136e26AF059265366',
+      StakeTogether: '0x4AcD2D83D87dF046f3C17ac25f76749C263bb09B'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/51080/stake-together/v0.2.5',
+      StakeTogether: 'https://api.studio.thegraph.com/query/51080/stake-together/v0.0.29',
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/master`
     }
   }

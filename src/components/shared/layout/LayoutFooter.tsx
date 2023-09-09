@@ -8,7 +8,7 @@ import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 export default function LayoutFooter() {
   const date = new Date()
   const { blockExplorer, contracts } = chainConfig()
-  const { websiteUrl, auditUrl } = globalConfig
+  const { websiteUrl, auditUrl, appUrl } = globalConfig
 
   const { i18n } = useTranslation(['common'])
 
@@ -32,6 +32,9 @@ export default function LayoutFooter() {
         </span>
       </div>
       <div>
+        <a href={`${appUrl}/${i18n.language}`} target='_blank'>
+          {t('footer.app')}
+        </a>
         <a href={`${websiteUrl}/${i18n.language}`} target='_blank'>
           {t('footer.website')}
         </a>
@@ -61,6 +64,13 @@ const { Container } = {
       align-items: center;
       gap: ${({ theme }) => theme.size[16]};
       > span {
+        &::before {
+          content: '|';
+          margin-right: ${({ theme }) => theme.size[16]};
+        }
+      }
+
+      > a:last-of-type {
         &::before {
           content: '|';
           margin-right: ${({ theme }) => theme.size[16]};

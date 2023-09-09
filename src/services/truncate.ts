@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import { DateTime } from 'luxon'
 
 function sliceString(value: string, decimals: number) {
   const [whole, decimal] = value.split('.')
@@ -47,4 +48,17 @@ export function truncateAddress(address: string, charsToShow = 6): string {
 
 export function capitalize(text: string) {
   return text.charAt(0).toUpperCase() + text.slice(1)
+}
+
+export function truncateTimestamp(timestamp: number, locale: string) {
+  const formatTimestamp = timestamp
+    ? DateTime.fromSeconds(Number(timestamp))
+        .toRelative({
+          locale: locale,
+          style: 'short'
+        })
+        ?.replace('.', '') || ''
+    : ''
+
+  return formatTimestamp
 }

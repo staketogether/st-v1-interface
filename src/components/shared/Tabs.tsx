@@ -19,9 +19,10 @@ interface TabsProps {
   items: TabsItems[]
   defaultActiveKey?: ItemsKey
   onChangeActiveTab?: (value: string | number) => void
+  gray?: boolean
 }
 
-export default function Tabs({ onChangeActiveTab, items, defaultActiveKey }: TabsProps) {
+export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, gray }: TabsProps) {
   const [activeKey, setActiveKey] = useState<ItemsKey>(defaultActiveKey ? defaultActiveKey : items[0].key)
 
   const handleClickTab = (key: ItemsKey, disabled: boolean, callBack: (() => void) | undefined) => {
@@ -42,10 +43,7 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey }: Tab
             return (
               <Tooltip title={item.tooltip} key={item.key}>
                 <TabItem
-                  className={`
-           
-                  ${item.disabled && 'disabled'}
-                 `}
+                  className={`${item.disabled ? 'disabled' : ''} ${gray ? 'gray' : ''}`}
                   onClick={() => handleClickTab(item.key, !!item.disabled, item.onChange)}
                 >
                   {item.icon}
@@ -59,7 +57,8 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey }: Tab
               key={item.key}
               className={`
               ${activeKey === item.key ? 'active' : ''}
-               ${item.disabled && 'disabled'}
+               ${item.disabled ? 'disabled' : ''}
+               ${gray ? 'gray' : ''}
                `}
               onClick={() => handleClickTab(item.key, !!item.disabled, item.onChange)}
             >
@@ -107,16 +106,16 @@ const { Container, TabItem, TabsContainer } = {
     align-items: center;
     justify-content: center;
 
-    font-weight: 500;
+    font-weight: 400;
     color: ${({ theme }) => theme.colorV2.gray[1]};
     border-bottom: 1px solid ${({ theme }) => theme.color.transparent};
 
     &.active {
       &.primary {
-        color: ${({ theme }) => theme.color.secondary};
+        color: ${({ theme }) => theme.colorV2.purple[1]};
       }
       &.purple {
-        color: ${({ theme }) => theme.color.secondary};
+        color: ${({ theme }) => theme.colorV2.purple[1]};
       }
     }
 
@@ -135,6 +134,11 @@ const { Container, TabItem, TabsContainer } = {
 
     &:hover {
       color: ${({ theme }) => theme.color.secondary};
+    }
+
+    &.gray {
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      border-bottom: 1px solid ${({ theme }) => theme.color.transparent};
     }
   `
 }

@@ -35,7 +35,7 @@ const { ConnectButton } = {
     font-size: ${({ theme }) => theme.font.size[14]};
     font-weight: 400;
     color: ${({ theme }) => theme.color.white};
-    background: ${({ theme }) => theme.colorV2.gray[1]};
+    background: ${({ theme }) => theme.colorV2.blue[1]};
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
     padding: 0 ${({ theme }) => theme.size[16]};

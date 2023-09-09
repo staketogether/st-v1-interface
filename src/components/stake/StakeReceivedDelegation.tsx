@@ -33,7 +33,7 @@ export default function StakeReceivedDelegation({ delegation, rank }: StakeRecei
 export const { DelegationItem } = {
   DelegationItem: styled.div`
     display: grid;
-    grid-template-columns: 0.4fr 1.5fr 1fr;
+    grid-template-columns: 0.4fr 1fr 0.7fr;
     align-items: center;
     gap: 16px;
     padding: 7px 8px;
