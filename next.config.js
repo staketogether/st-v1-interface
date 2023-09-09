@@ -19,14 +19,13 @@ const nextConfig = {
     ]
   },
   async rewrites() {
-    return [
-      { source: '/', destination: 'https://org.staketogether.app' },
-      { source: '/en', destination: 'https://org.staketogether.app/en' },
-      { source: '/pt', destination: 'https://org.staketogether.app/pt' }
-    ]
+    return []
   },
   async redirects() {
     return [
+      { source: '/', destination: 'https://org.staketogether.app', permanent: true },
+      { source: '/en', destination: 'https://org.staketogether.app', permanent: true },
+      { source: '/pt', destination: 'https://org.staketogether.app/pt', permanent: true },
       {
         source: '/ethereum',
         destination: '/en/ethereum/invest',
