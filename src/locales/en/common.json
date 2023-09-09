@@ -260,7 +260,8 @@
       "coffee": "coffee",
       "titleOffAccount": "Connect the wallet to check if you have received any gifts",
       "claimed": "claimed",
-      "lost": "Perdido"
+      "lost": "Perdido",
+      "notGift": "You haven't received any gifts yet"
     }
   }
 }
