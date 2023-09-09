@@ -80,7 +80,7 @@ const { Container, DelegationsContainer, LoadMoreButton } = {
 
     > header {
       display: grid;
-      grid-template-columns: 0.4fr 1.5fr 1fr;
+      grid-template-columns: 0.5fr 1.5fr 0.7fr;
       padding: 0 8px;
       gap: 16px;
 
