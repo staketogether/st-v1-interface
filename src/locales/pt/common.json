@@ -176,7 +176,7 @@
         "description": "Incentivos semanais em Ethereum em Stake (stpETH) são enviados através de airdrop perpétuo para usuários e projetos"
       },
       "gifts": {
-        "title" : "Gifts",
+        "title": "Gifts",
         "description": "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
       }
     },
@@ -254,7 +254,7 @@
       "withdrawPool": "Saque"
     },
     "gifts": {
-      "countdown" : "Tempo para Resgatar",
+      "countdown": "Tempo para Resgatar",
       "ActionButton": "Resgatar",
       "sent": "te enviou um",
       "coffee": "Café",
