@@ -4,7 +4,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
-import { PiCoin, PiCoins, PiQuestion, PiShareNetwork } from 'react-icons/pi'
+import { PiCurrencyEthLight, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useContentfulPoolDetails from '../../hooks/contentful/useContentfulPoolDetails'
@@ -56,13 +56,18 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
     {
       key: 'deposit',
       label: t('deposit'),
-      icon: <DepositIcon />,
+      icon: <EthIcon />,
       children: stakeForm
     },
     {
       key: 'withdraw',
       label: t('withdraw'),
-      icon: <WithdrawIcon />,
+      icon: (
+        <EthIcons>
+          <EthIcon />
+          <EthIcon />
+        </EthIcons>
+      ),
       children: stakeForm
     }
   ]
@@ -136,17 +141,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   )
 }
 
-const {
-  Container,
-  Form,
-  DepositIcon,
-  WithdrawIcon,
-  TvlContainer,
-  QuestionIcon,
-  ShareButton,
-  ShareIcon,
-  PoolTitle
-} = {
+const { Container, Form, EthIcon, TvlContainer, QuestionIcon, ShareButton, ShareIcon, PoolTitle, EthIcons } = {
   Container: styled.div`
     display: grid;
     justify-content: center;
@@ -216,11 +211,8 @@ const {
       }
     }
   `,
-  DepositIcon: styled(PiCoin)`
+  EthIcon: styled(PiCurrencyEthLight)`
     font-size: 15px;
-  `,
-  WithdrawIcon: styled(PiCoins)`
-    font-size: 17px;
   `,
   QuestionIcon: styled(PiQuestion)`
     width: 14px;
@@ -265,6 +257,12 @@ const {
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.size[12]};
+    }
+  `,
+  EthIcons: styled.div`
+    svg:nth-child(1) {
+      position: relative;
+      left: 8px;
     }
   `
 }
