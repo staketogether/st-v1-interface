@@ -90,7 +90,10 @@ const { Header, CloseIcon, SettingContainer, Button } = {
 
     &:hover {
       background: ${({ theme }) => theme.color.whiteAlpha[600]};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
+
+      svg {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
     }
 
     &:first-of-type {

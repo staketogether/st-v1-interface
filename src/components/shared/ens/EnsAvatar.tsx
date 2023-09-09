@@ -29,10 +29,11 @@ const { DefaultAvatar, Avatar } = {
 
     width: ${props => `${props.size}px`};
     height: ${props => `${props.size}px`};
+    box-shadow: ${({ theme }) => theme.shadow[300]};
   `,
   Avatar: styled(Image)<{ size: number }>`
     border-radius: 100%;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
+    box-shadow: ${({ theme }) => theme.shadow[300]};
 
     width: ${props => `${props.size}px`};
     height: ${props => `${props.size}px`};

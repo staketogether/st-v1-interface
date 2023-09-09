@@ -111,45 +111,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             <ClosedSidebarButton onClick={() => setOpenSidebar(false)}>
               <CloseSidebar fontSize={14} />
             </ClosedSidebarButton>
-            <HeaderUserContainer>
-              <Web3AuthProfileContainer>
-                {web3AuthUserInfo && web3AuthUserInfo.profileImage ? (
-                  <>
-                    <Web3AuthProfileImage
-                      src={web3AuthUserInfo.profileImage}
-                      alt={t('stakeTogether')}
-                      width={40}
-                      height={40}
-                    />
-                    <WarperWallet>
-                      {handleWalletProviderImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}
-                    </WarperWallet>
-                  </>
-                ) : (
-                  <>
-                    <WarperWallet>{handleWalletProviderImage(walletConnected, 16)}</WarperWallet>
-                    <EnsAvatar address={address} size={40} />
-                  </>
-                )}
-              </Web3AuthProfileContainer>
-              <div>
-                {web3AuthUserInfo && (
-                  <span onClick={() => copyToClipboard(web3AuthUserInfo.email)}>
-                    {truncateText(web3AuthUserInfo.email, 20)}
-                    <CopyIcon />
-                  </span>
-                )}
-                {nameLoading && <SkeletonLoading width={140} height={14} />}
-                {!nameLoading && name && !web3AuthUserInfo && (
-                  <span onClick={() => copyToClipboard(name)}>
-                    {truncateText(name, 16)} <CopyIcon />
-                  </span>
-                )}
-                <span onClick={() => copyToClipboard(address)}>
-                  {truncateAddress(address)} <CopyIcon />
-                </span>
-              </div>
-            </HeaderUserContainer>
             <Actions>
               <Button onClick={() => setIsSettingsActive(true)}>
                 <SettingIcon fontSize={16} />
@@ -158,6 +119,47 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 <Logout fontSize={14} />
               </Button>
             </Actions>
+            <HeaderUserContainer>
+              <div>
+                {web3AuthUserInfo && (
+                  <span onClick={() => copyToClipboard(web3AuthUserInfo.email)}>
+                    <CopyIcon />
+                    {truncateText(web3AuthUserInfo.email, 20)}
+                  </span>
+                )}
+                {nameLoading && <SkeletonLoading width={140} height={14} />}
+                {!nameLoading && name && !web3AuthUserInfo && (
+                  <span onClick={() => copyToClipboard(name)}>
+                    <CopyIcon />
+                    {truncateText(name, 16)}
+                  </span>
+                )}
+                <span onClick={() => copyToClipboard(address)}>
+                  <CopyIcon />
+                  {truncateAddress(address)}
+                </span>
+              </div>
+              <Web3AuthProfileContainer>
+                {web3AuthUserInfo && web3AuthUserInfo.profileImage ? (
+                  <>
+                    <Web3AuthProfileImage
+                      src={web3AuthUserInfo.profileImage}
+                      alt={t('stakeTogether')}
+                      width={24}
+                      height={24}
+                    />
+                    <WarperWallet>
+                      {handleWalletProviderImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}
+                    </WarperWallet>
+                  </>
+                ) : (
+                  <>
+                    <WarperWallet>{handleWalletProviderImage(walletConnected, 16)}</WarperWallet>
+                    <EnsAvatar address={address} size={24} />
+                  </>
+                )}
+              </Web3AuthProfileContainer>
+            </HeaderUserContainer>
           </HeaderContainer>
           <InfoContainer>
             <div>
@@ -367,21 +369,32 @@ const {
     width: 32px;
     height: 32px;
     border: 0;
-    border-radius: ${({ theme }) => theme.size[16]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    background: ${({ theme }) => theme.color.whiteAlpha[700]};
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[300]};
+    background: ${({ theme }) => theme.color.white};
     transition: background 0.2s ease;
     line-height: 36px;
 
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[900]};
+      background: ${({ theme }) => theme.color.whiteAlpha[700]};
+      svg {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
     }
   `,
   SettingIcon: styled(AiOutlineSetting)`
-    color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.colorV2.blue[1]};
+
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
   `,
   CloseSidebar: styled(AiOutlineRight)`
-    color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.colorV2.blue[1]};
+
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
   `,
   Button: styled.button`
     display: grid;
@@ -394,10 +407,14 @@ const {
     background: transparent;
     transition: background 0.2s ease;
     line-height: 36px;
+    box-shadow: ${({ theme }) => theme.shadow[300]};
 
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[600]};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
+      background: ${({ theme }) => theme.colorV2.gray[2]};
+
+      svg {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
     }
 
     &:first-of-type {
@@ -443,11 +460,16 @@ const {
   `,
   WarperWallet: styled.div`
     position: absolute;
-    top: 27px;
-    left: 26px;
+    top: 14px;
+    left: 14px;
     border-radius: 50%;
+    box-shadow: ${({ theme }) => theme.shadow[300]};
+    width: 16px;
+    height: 16px;
     img {
       border-radius: 50%;
+      width: 16px;
+      height: 16px;
     }
   `,
   Web3AuthProfileImage: styled(Image)`
