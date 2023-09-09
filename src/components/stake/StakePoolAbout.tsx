@@ -85,7 +85,6 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
               <span>{poolDetail.facebook}</span>
             </Social>
           )}
-
           {poolDetail?.twitter && (
             <Social href={`https://twitter.com/${poolDetail.twitter}`} target='_blank'>
               <TwitterIcon />

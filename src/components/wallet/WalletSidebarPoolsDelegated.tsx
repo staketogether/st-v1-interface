@@ -29,27 +29,27 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
           onClick={() => setOpenSidebar(false)}
         >
           <div>
-            <div>
-              <EnsAvatar address={delegation.delegated.address} />
+            <Project>
+              <EnsAvatar address={delegation.delegated.address} size={22} />
               <EnsName address={delegation.delegated.address} />
-            </div>
+            </Project>
           </div>
-          <span>
+          <div>
             {truncateWei(delegation.delegationBalance, 6)}
             <span>{t('lsd.symbol')}</span>
-          </span>
+          </div>
         </DelegatedPool>
       ))}
     </Container>
   )
 }
 
-const { Container, DelegatedPool, EmptyContainer } = {
+const { Container, DelegatedPool, EmptyContainer, Project } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
-    margin-top: ${({ theme }) => theme.size[16]};
+
+    padding: 8px;
 
     > div {
       display: flex;
@@ -62,6 +62,7 @@ const { Container, DelegatedPool, EmptyContainer } = {
     }
   `,
   EmptyContainer: styled.div`
+    font-size: 13px;
     span {
       width: 100%;
       text-align: center;
@@ -84,6 +85,8 @@ const { Container, DelegatedPool, EmptyContainer } = {
 
     > div {
       display: flex;
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+      font-size: 13px;
 
       > div {
         display: flex;
@@ -91,7 +94,8 @@ const { Container, DelegatedPool, EmptyContainer } = {
       }
 
       > span {
-        color: ${({ theme }) => theme.color.black};
+        padding-left: 4px;
+        color: ${({ theme }) => theme.colorV2.purple[1]};
       }
     }
 
@@ -100,6 +104,13 @@ const { Container, DelegatedPool, EmptyContainer } = {
       gap: ${({ theme }) => theme.size[4]};
       font-size: ${({ theme }) => theme.font.size[14]};
       color: ${({ theme }) => theme.color.secondary};
+    }
+  `,
+  Project: styled.div`
+    font-size: 13px;
+
+    span {
+      font-size: 13px;
     }
   `
 }

@@ -55,13 +55,16 @@ const { Container, Reward, RewardsHeader, EmptyContainer } = {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
-    margin-top: ${({ theme }) => theme.size[16]};
+    padding: ${({ theme }) => theme.size[8]};
 
     div > span:nth-child(2) > span {
       color: ${({ theme }) => theme.color.secondary};
     }
   `,
   EmptyContainer: styled.div`
+    padding: 8px;
+    text-align: center;
+    font-size: 13px;
     span {
       width: 100%;
       text-align: center;

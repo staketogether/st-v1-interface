@@ -1,8 +1,7 @@
 import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { truncateAddress, truncateWei } from '@/services/truncate'
+import { truncateAddress, truncateTimestamp, truncateWei } from '@/services/truncate'
 import { PoolActivity } from '@/types/PoolActivity'
-import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiOutlineLink } from 'react-icons/ai'
@@ -34,7 +33,7 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
   }
 
   const getLocale = () => {
-    return router.locale === 'en' ? 'en-US' : router.locale
+    return router.locale === 'en' ? 'en-US' : 'pt-BR'
   }
 
   return (
@@ -43,20 +42,14 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
         <header>
           <span>{t('tx')}</span>
           <span>{t('time')}</span>
-          <span>{t('type')}</span>
           <span>{t('account')}</span>
+          <span>{t('type')}</span>
           <span>{t('value')}</span>
         </header>
       )}
       <List>
         {hasActivities ? (
           poolActivities.map(activity => {
-            const formatTimestamp = activity.timestamp
-              ? DateTime.fromSeconds(Number(activity.timestamp)).toRelative({
-                  locale: getLocale(),
-                  style: 'short'
-                }) || ''
-              : ''
             return (
               <Row
                 key={activity.txHash}
@@ -66,9 +59,9 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
                 <span>
                   <ExternalLink />
                 </span>
-                <span>{formatTimestamp}</span>
-                <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
+                <span>{truncateTimestamp(activity.timestamp, getLocale())}</span>
                 <span className='purple'>{truncateAddress(activity.account.address, 3)}</span>
+                <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
                 <span className={`${activity.amount > 1n && 'green'} ${activity.amount < 0 && 'red'}`}>
                   {`${truncateWei(activity.amount, 6)} ${t('eth.symbol')}`}
                 </span>
@@ -91,7 +84,7 @@ const { Container, Row, ExternalLink, List } = {
 
     > header {
       display: grid;
-      grid-template-columns: 0.3fr 1fr 0.9fr 0.9fr 0.9fr;
+      grid-template-columns: 0.3fr 0.9fr 0.9fr 0.9fr 0.9fr;
       padding: 0 8px;
       text-align: center;
       @media (min-width: 768px) {
@@ -112,7 +105,7 @@ const { Container, Row, ExternalLink, List } = {
     cursor: pointer;
 
     display: grid;
-    grid-template-columns: 0.3fr 1fr 0.9fr 0.9fr 0.9fr;
+    grid-template-columns: 0.3fr 0.9fr 0.9fr 0.9fr 0.9fr;
     align-items: center;
     padding: ${({ theme }) => theme.size[8]} 0;
     text-align: center;

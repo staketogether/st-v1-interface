@@ -144,16 +144,13 @@ const { Header, CloseIcon, SettingContainer, Button } = {
 
       &:hover {
         color: ${({ theme }) => theme.colorV2.purple[1]};
-        background: ${({ theme }) => theme.color.whiteAlpha[600]};
+        background: ${({ theme }) => theme.colorV2.gray[4]};
       }
 
       &.active {
         color: ${({ theme }) => theme.colorV2.purple[1]};
       }
 
-      &:active {
-        transform: scale(0.99);
-      }
       img {
         box-shadow: ${({ theme }) => theme.shadow[100]};
         border-radius: 100%;

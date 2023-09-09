@@ -1,6 +1,8 @@
 {
   "stakeTogether": "Stake Together",
-  "pools": "Projetos",
+  "pools": "Pools",
+  "projects": "Projetos",
+  "portfolio": "Portfólio",
   "stake": "Depositar",
   "time": "Tempo",
   "type": "Tipo",
@@ -72,7 +74,7 @@
   },
   "noDelegations": "Sem Delegações",
   "noStake": "Você ainda não fez Stake",
-  "noRewards": "Você ainda não recebeu recompensas",
+  "noRewards": "Recompensas são distribuídas diariamente",
   "noActivities": "Você ainda não tem atividades em sua conta",
   "notifications": {
     "depositSuccess": "Depósito Bem-Sucedido",

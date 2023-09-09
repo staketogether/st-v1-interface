@@ -1,8 +1,7 @@
 import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { truncateWei } from '@/services/truncate'
+import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { AccountActivity } from '@/types/AccountActivity'
-import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiOutlineLink } from 'react-icons/ai'
@@ -16,6 +15,10 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
   const { t } = useLocaleTranslation()
   const router = useRouter()
   const { blockExplorer } = chainConfig()
+  const getLocale = () => {
+    return router.locale === 'en' ? 'en-US' : 'pt-BR'
+  }
+
   return (
     <Container>
       {accountActivities.length === 0 && (
@@ -25,44 +28,37 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
       )}
       {accountActivities.length > 0 && (
         <ActivitiesHeader>
+          <span>{t('tx')}</span>
           <span>{t('time')}</span>
           <span>{t('type')}</span>
           <span>{t('value')}</span>
-          <span>{t('tx')}</span>
         </ActivitiesHeader>
       )}
       {accountActivities.map(activity => {
-        const formatTimestamp = activity.timestamp
-          ? DateTime.fromSeconds(Number(activity.timestamp)).toRelative({
-              locale: router.locale === 'en' ? 'en-US' : router.locale
-            }) || ''
-          : ''
         return (
-          <Activity
-            key={activity.txHash}
-            href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`}
-            target='_blank'
-          >
-            <span>{formatTimestamp}</span>
+          <Row key={activity.txHash} href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`} target='_blank'>
+            <span>
+              <ExternalLink />
+            </span>
+            <span>{truncateTimestamp(activity.timestamp, getLocale())}</span>
             <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
+
             <span className={`${activity.type.includes('deposit') ? 'green' : 'red'}`}>
               {`${truncateWei(BigInt(activity.amount), 5)} ${t('eth.symbol')}`}
             </span>
-
-            <ExternalLink />
-          </Activity>
+          </Row>
         )
       })}
     </Container>
   )
 }
 
-const { Container, Activity, ActivitiesHeader, ExternalLink, EmptyContainer } = {
+const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
-    margin-top: ${({ theme }) => theme.size[16]};
+
+    padding: 8px;
 
     > header {
       display: flex;
@@ -88,28 +84,37 @@ const { Container, Activity, ActivitiesHeader, ExternalLink, EmptyContainer } = 
       text-align: center;
     }
   `,
-
   ActivitiesHeader: styled.div`
     display: grid;
-    align-items: center;
-    grid-template-columns: 1fr 1fr 1fr 30px;
-    padding: 0px 4px;
-    span {
-      color: ${({ theme }) => theme.color.blue[500]};
-      font-weight: 500;
+    display: none;
+    grid-template-columns: 0.3fr 1fr 0.9fr 0.9fr;
+    padding: 8px;
+
+    padding-bottom: 12px;
+
+    > span {
+      font-size: 13px;
+      color: ${({ theme }) => theme.colorV2.gray[1]};
     }
   `,
-  Activity: styled(Link)`
+  Row: styled(Link)`
     cursor: pointer;
-    height: 32px;
-    border-radius: ${({ theme }) => theme.size[8]};
 
     display: grid;
+    grid-template-columns: 0.3fr 0.9fr 0.9fr 0.9fr;
     align-items: center;
-    grid-template-columns: 1fr 1fr 1fr 30px;
+    padding: 8px;
+
+    &:hover {
+      background: ${({ theme }) => theme.colorV2.gray[2]};
+      border-radius: 8px;
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+    }
+
     span {
       color: ${({ theme }) => theme.color.primary};
-      font-weight: 400;
+      font-size: 13px;
+
       &.purple {
         color: ${({ theme }) => theme.color.secondary};
       }
