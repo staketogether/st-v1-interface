@@ -39,9 +39,7 @@ export default function LayoutHeader() {
             </MenuButton>
           </Link>
           <Link href='/gifts' legacyBehavior>
-            <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
-              {t('v2.header.gifts')}
-            </MenuButton>
+            <MenuButton className={`${isActive('gifts') ? 'active' : ''}`}>{t('v2.header.gifts')}</MenuButton>
           </Link>
         </Menu>
       </MenuContainer>
