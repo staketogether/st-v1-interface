@@ -171,6 +171,10 @@
       "incentives": {
         "title": "Incentivos",
         "description": "Incentivos semanais em Ethereum em Stake (stpETH) são enviados através de airdrop perpétuo para usuários e projetos"
+      },
+      "gifts": {
+        "title" : "Gifts",
+        "description": "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
       }
     },
     "header": {
@@ -245,6 +249,16 @@
       "donationDeposit": "Doação",
       "withdraw": "Saque",
       "withdrawPool": "Saque"
+    },
+    "gifts": {
+      "countdown" : "Tempo para Resgatar",
+      "ActionButton": "Resgatar",
+      "sent": "enviou um",
+      "coffee": "Café",
+      "titleOffAccount": "Conecte a Carteira para verificar se você recebeu algum presente",
+      "claimed": "Resgatado",
+      "lost": "Perdido",
+      "notGift": "You haven't received any gifts yet"
     }
   }
 }

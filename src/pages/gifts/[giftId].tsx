@@ -1,4 +1,4 @@
-import GiftsControl from '@/components/gifts/GiftsControl'
+import GiftControl from '@/components/gifts/GiftControl'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { GetServerSideProps } from 'next'
@@ -13,7 +13,7 @@ export default function Gifts({ giftId }: GiftsProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <GiftsControl giftId={giftId} />
+      <GiftControl giftId={giftId} />
     </LayoutTemplate>
   )
 }
