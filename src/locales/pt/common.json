@@ -73,7 +73,7 @@
     "amount": "Quantidade"
   },
   "noDelegations": "Sem Delegações",
-  "noStake": "Você ainda não fez Stake",
+  "noStake": "Você ainda não depositou ethereum",
   "noRewards": "Recompensas são distribuídas diariamente",
   "noActivities": "Você ainda não tem atividades em sua conta",
   "notifications": {

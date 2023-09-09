@@ -1,8 +1,8 @@
 import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { truncateWei } from '@/services/truncate'
+import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { AccountReward } from '@/types/AccountReward'
-import { DateTime } from 'luxon'
+
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiOutlineLink } from 'react-icons/ai'
@@ -27,22 +27,19 @@ export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRe
       )}
       {accountRewards.length > 0 && (
         <RewardsHeader>
+          <span>{t('tx')}</span>
           <span>{t('time')}</span>
           <span>{t('rewards')}</span>
-          <span>{t('tx')}</span>
         </RewardsHeader>
       )}
       {accountRewards.map(reward => {
-        const formatTimestamp = reward.timestamp
-          ? DateTime.fromSeconds(Number(reward.timestamp)).toRelative({
-              locale: router.locale === 'en' ? 'en-US' : router.locale
-            }) || ''
-          : ''
         return (
           <Reward key={reward.txHash} href={`${blockExplorer.baseUrl}/tx/${reward.txHash}`} target='_blank'>
-            <span>{formatTimestamp}</span>
-            <span>{truncateWei(BigInt(reward.amount))}</span>
             <AiOutlineLink color={theme.color.secondary} />
+            <span>{truncateTimestamp(reward.timestamp, router.locale || 'en')}</span>
+            <span>
+              {truncateWei(BigInt(reward.amount))} {t('lsd.symbol')}
+            </span>
           </Reward>
         )
       })}
@@ -54,7 +51,6 @@ const { Container, Reward, RewardsHeader, EmptyContainer } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
     padding: ${({ theme }) => theme.size[8]};
 
     div > span:nth-child(2) > span {
@@ -72,10 +68,10 @@ const { Container, Reward, RewardsHeader, EmptyContainer } = {
   `,
   RewardsHeader: styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 0.3fr 1fr 0.9fr;
     gap: ${({ theme }) => theme.size[8]};
-    align-items: center;
-    justify-content: space-between;
+
+    display: none;
 
     padding: 0px 4px;
     margin-bottom: ${({ theme }) => theme.size[8]};
@@ -83,59 +79,27 @@ const { Container, Reward, RewardsHeader, EmptyContainer } = {
     color: ${({ theme }) => theme.color.blue[500]};
     font-weight: 500;
     font-size: ${({ theme }) => theme.font.size[12]};
-    > span:nth-child(1) {
-      justify-self: start;
-    }
-    > span:nth-child(2) {
-      justify-self: center;
-    }
-    > span:nth-child(3) {
-      justify-self: end;
-    }
   `,
   Reward: styled(Link)`
     height: 32px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 20px 1fr 0.9fr;
     gap: ${({ theme }) => theme.size[8]};
-    align-items: center;
+    padding: 8px;
 
-    padding: 0px 4px;
     border-radius: ${({ theme }) => theme.size[8]};
 
-    padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.color.blackAlpha[50]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
+    align-items: center;
 
     &:hover {
-      background: ${({ theme }) => theme.color.blackAlpha[100]};
-    }
-
-    > span:nth-child(1) {
-      justify-self: start;
-    }
-    > span:nth-child(2) {
-      justify-self: center;
-    }
-    svg {
-      justify-self: end;
-    }
-
-    > div {
-      display: flex;
-
-      > div {
-        display: flex;
-        gap: ${({ theme }) => theme.size[8]};
-      }
-
-      > span {
-        color: ${({ theme }) => theme.color.black};
-      }
+      background: ${({ theme }) => theme.colorV2.gray[4]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
     }
 
     > span {
       display: flex;
+      align-items: center;
+
       gap: ${({ theme }) => theme.size[4]};
       font-size: ${({ theme }) => theme.font.size[14]};
       color: ${({ theme }) => theme.color.primary};
@@ -143,6 +107,10 @@ const { Container, Reward, RewardsHeader, EmptyContainer } = {
       > span {
         color: ${({ theme }) => theme.color.secondary};
       }
+    }
+
+    > span:last-of-type {
+      justify-self: flex-end;
     }
   `
 }

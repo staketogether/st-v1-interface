@@ -264,7 +264,7 @@ const { Container, Form, EthIcon, TvlContainer, QuestionIcon, ShareButton, Share
   EthIcons: styled.div`
     svg:nth-child(1) {
       position: relative;
-      left: 8px;
+      left: 3px;
     }
   `
 }

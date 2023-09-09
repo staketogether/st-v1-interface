@@ -63,6 +63,7 @@ const { Container, DelegatedPool, EmptyContainer, Project } = {
   `,
   EmptyContainer: styled.div`
     font-size: 13px;
+    padding: 8px;
     span {
       width: 100%;
       text-align: center;
