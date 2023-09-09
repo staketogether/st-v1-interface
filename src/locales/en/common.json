@@ -89,6 +89,7 @@
     "locale": "Language"
   },
   "footer": {
+    "app": "Install App",
     "website": "Website",
     "smartContract": "Smart Contract",
     "audit": "Audit"

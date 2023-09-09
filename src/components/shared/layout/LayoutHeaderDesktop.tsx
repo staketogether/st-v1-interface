@@ -1,6 +1,7 @@
 import Wallet from '@/components/wallet/Wallet'
 import Image from 'next/image'
 import Link from 'next/link'
+import { PiCellSignalFull, PiCurrencyEth } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -23,12 +24,13 @@ export default function LayoutHeader() {
             <MenuButton
               className={`${isActive('invest') || isActive('deposit') || isActive('withdraw') ? 'active' : ''}`}
             >
+              <InvestIcon />
               {t('v2.header.invest')}
             </MenuButton>
           </Link>
           <Link href='/incentives' legacyBehavior>
             <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
-              {t('v2.header.incentives')}
+              <IncentivesIcon /> {t('v2.header.incentives')}
             </MenuButton>
           </Link>
         </Menu>
@@ -40,7 +42,7 @@ export default function LayoutHeader() {
   )
 }
 
-const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
+const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, InvestIcon, IncentivesIcon } = {
   Container: styled.header`
     display: none;
     gap: ${({ theme }) => theme.size[32]};
@@ -112,5 +114,11 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton } = {
     &.active {
       color: ${({ theme }) => theme.colorV2.purple[1]};
     }
+  `,
+  InvestIcon: styled(PiCurrencyEth)`
+    font-size: 15px;
+  `,
+  IncentivesIcon: styled(PiCellSignalFull)`
+    font-size: 17px;
   `
 }

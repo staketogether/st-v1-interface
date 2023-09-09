@@ -88,6 +88,7 @@
     "locale": "Idioma"
   },
   "footer": {
+    "app": "Instalar App",
     "website": "Site",
     "smartContract": "Contrato Inteligente",
     "audit": "Auditoria"
