@@ -6,7 +6,7 @@ import { DateTime } from 'luxon'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { AiOutlineLink } from 'react-icons/ai'
-import { styled, useTheme } from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 
 type WalletSidebarRewards = {
   accountRewards: AccountReward[]

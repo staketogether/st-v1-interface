@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
+import { useState } from 'react'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import { PoolSubgraph } from '../../types/Pool'
-import { useState } from 'react'
 
 export default function usePool(address?: string, delegations?: { first: number; skip: number }) {
   const [loadingFetchMore, setLoadingFetchMore] = useState<boolean>(false)
