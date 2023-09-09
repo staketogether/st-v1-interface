@@ -4,6 +4,7 @@ import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import { truncateWei } from '@/services/truncate'
 import { Pool } from '@/types/Pool'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
@@ -15,8 +16,11 @@ type PoolsRowListProps = {
 export default function PoolsRowList({ pool }: PoolsRowListProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
+  const { query } = useRouter()
+  const { currency, network } = query
+
   return (
-    <Row href={`/invest/deposit/${pool.address}`}>
+    <Row href={`/${network}/${currency}/invest/deposit/${pool.address}`}>
       <Name>
         <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} />
         <CommunityName name={pool.name} />

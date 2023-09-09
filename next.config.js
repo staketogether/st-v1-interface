@@ -18,12 +18,24 @@ const nextConfig = {
       }
     ]
   },
+  async rewrites() {
+    return []
+  },
   async redirects() {
     return [
+      { source: '/', destination: 'https://use.staketogether.app', permanent: true },
+      { source: '/en', destination: 'https://use.staketogether.app', permanent: true },
+      { source: '/pt', destination: 'https://use.staketogether.app/pt', permanent: true },
       {
-        source: '/',
-        destination: '/invest',
-        permanent: false
+        source: '/mainnet',
+        destination: '/mainnet/usd/invest',
+        permanent: true
+      },
+
+      {
+        source: '/goerli',
+        destination: '/goerli/usd/invest',
+        permanent: true
       }
     ]
   }

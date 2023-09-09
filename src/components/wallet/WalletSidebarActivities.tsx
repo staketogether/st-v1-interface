@@ -79,6 +79,8 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
     }
   `,
   EmptyContainer: styled.div`
+    text-align: center;
+    padding: 8px;
     span {
       width: 100%;
       text-align: center;
@@ -101,7 +103,7 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
     cursor: pointer;
 
     display: grid;
-    grid-template-columns: 0.3fr 0.9fr 0.9fr 0.9fr;
+    grid-template-columns: 30px 0.9fr 0.9fr 0.9fr;
     align-items: center;
     padding: 8px;
 
@@ -114,6 +116,8 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
     span {
       color: ${({ theme }) => theme.color.primary};
       font-size: 13px;
+      display: flex;
+      align-items: center;
 
       &.purple {
         color: ${({ theme }) => theme.color.secondary};
@@ -126,6 +130,10 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
       &.red {
         color: ${({ theme }) => theme.color.red[500]};
       }
+    }
+
+    > span:last-of-type {
+      justify-self: end;
     }
   `,
   ExternalLink: styled(AiOutlineLink)`

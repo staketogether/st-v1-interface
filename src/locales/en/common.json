@@ -74,7 +74,7 @@
     "amount": "amount"
   },
   "noDelegations": "No Delegations",
-  "noStake": "You have not staked yet",
+  "noStake": "You have not deposited ethereum yet",
   "noRewards": "Rewards are distributed daily",
   "noActivities": "You have not performed any activities yet",
   "notifications": {
@@ -86,7 +86,8 @@
   "settings": {
     "title": "Settings",
     "currency": "Currency",
-    "locale": "Language"
+    "locale": "Language",
+    "network": "Network"
   },
   "footer": {
     "app": "Install App",

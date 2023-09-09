@@ -1,6 +1,7 @@
 import Wallet from '@/components/wallet/Wallet'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { PiCellSignalFull, PiCurrencyEth } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
@@ -11,16 +12,20 @@ export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
 
   const { isActive } = useActiveRoute()
+
+  const { query } = useRouter()
+  const { currency, network } = query
+
   return (
     <Container>
       <MenuContainer>
         <div>
-          <Logo href='/invest'>
+          <Logo href={`/${network}/${currency}/invest`}>
             <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={27} />
           </Logo>
         </div>
         <Menu>
-          <Link href='/invest' legacyBehavior>
+          <Link href={`/${network}/${currency}/invest`}>
             <MenuButton
               className={`${isActive('invest') || isActive('deposit') || isActive('withdraw') ? 'active' : ''}`}
             >
@@ -28,7 +33,7 @@ export default function LayoutHeader() {
               {t('v2.header.invest')}
             </MenuButton>
           </Link>
-          <Link href='/incentives' legacyBehavior>
+          <Link href={`/${network}/${currency}/incentives`}>
             <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
               <IncentivesIcon /> {t('v2.header.incentives')}
             </MenuButton>

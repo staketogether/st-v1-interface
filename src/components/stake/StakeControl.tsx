@@ -26,6 +26,8 @@ interface StakeControlProps {
 export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
+  const { query } = useRouter()
+  const { currency, network } = query
 
   const { apy } = globalConfig
 
@@ -36,16 +38,16 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const router = useRouter()
   const handleSwitch = (type: string) => {
     if (poolAddress) {
-      router.push(`/invest/${type}/${poolAddress}`)
+      router.push(`/${network}/${currency}/invest/${type}/${poolAddress}`)
       router.push(
         {
-          pathname: `/invest/${type}/${poolAddress}`
+          pathname: `/${network}/${currency}/invest/${type}/${poolAddress}`
         },
         undefined,
         { shallow: true }
       )
     } else {
-      router.push(`/invest/${type}`)
+      router.push(`/${network}/${currency}/invest/${type}`)
     }
   }
 
@@ -262,7 +264,7 @@ const { Container, Form, EthIcon, TvlContainer, QuestionIcon, ShareButton, Share
   EthIcons: styled.div`
     svg:nth-child(1) {
       position: relative;
-      left: 8px;
+      left: 3px;
     }
   `
 }

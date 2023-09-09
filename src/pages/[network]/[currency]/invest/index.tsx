@@ -1,11 +1,11 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import PoolsControl from '../../components/invest/PoolsControl'
-import LayoutTemplate from '../../components/shared/layout/LayoutTemplate'
-import { Metatags } from '../../components/shared/meta/Metatags'
-import { apolloClient } from '../../config/apollo'
-import { queryPools } from '../../queries/subgraph/queryPools'
-import { PoolSubgraph } from '../../types/Pool'
+import PoolsControl from '../../../../components/invest/PoolsControl'
+import LayoutTemplate from '../../../../components/shared/layout/LayoutTemplate'
+import { Metatags } from '../../../../components/shared/meta/Metatags'
+import { apolloClient } from '../../../../config/apollo'
+import { queryPools } from '../../../../queries/subgraph/queryPools'
+import { PoolSubgraph } from '../../../../types/Pool'
 
 type InvestProps = {
   pools: PoolSubgraph[]

@@ -67,7 +67,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     refetch()
   }
 
-  const tab1: TabsItems[] = [
+  const tabRewards: TabsItems[] = [
     {
       key: 'rewards',
       label: t('rewards'),
@@ -76,7 +76,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   ]
 
-  const tab2: TabsItems[] = [
+  const tabPortfolio: TabsItems[] = [
     {
       key: 'portfolio',
       label: t('portfolio'),
@@ -85,7 +85,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   ]
 
-  const tab3: TabsItems[] = [
+  const tabActivities: TabsItems[] = [
     {
       key: 'activity',
       label: t('activity'),
@@ -179,13 +179,13 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             </div>
           </InfoContainer>
           <TabsArea>
-            <Tabs items={tab1} defaultActiveKey='rewards' gray />
+            <Tabs items={tabPortfolio} defaultActiveKey='portfolio' gray />
           </TabsArea>
           <TabsArea>
-            <Tabs items={tab2} defaultActiveKey='portfolio' gray />
+            <Tabs items={tabRewards} defaultActiveKey='rewards' gray />
           </TabsArea>
           <TabsArea>
-            <Tabs items={tab3} defaultActiveKey='activity' gray />
+            <Tabs items={tabActivities} defaultActiveKey='activity' gray />
           </TabsArea>
         </>
       )}
@@ -291,7 +291,7 @@ const {
   LeftContainer: styled.div`
     display: flex;
     align-items: center;
-    gap: ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[8]};
 
     img {
       box-shadow: ${({ theme }) => theme.shadow[300]};
@@ -334,7 +334,7 @@ const {
   RightContainer: styled.div`
     display: flex;
     align-items: center;
-    gap: ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[8]};
 
     img {
       box-shadow: ${({ theme }) => theme.shadow[100]};

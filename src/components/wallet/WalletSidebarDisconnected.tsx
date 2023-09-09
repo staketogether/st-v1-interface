@@ -173,7 +173,7 @@ const {
     line-height: 36px;
 
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[600]};
+      background: ${({ theme }) => theme.colorV2.gray[4]};
       box-shadow: ${({ theme }) => theme.shadow[100]};
     }
 

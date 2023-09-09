@@ -1,13 +1,28 @@
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import useSettingsCurrency from './useSettingCurrency'
 
 export default function useCoinConversion(amountValue: string) {
   const [coinPrice, setCoinPrice] = useState<string | undefined>('0')
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<unknown>(null)
   const [conversionPrice, setConversionPrice] = useState(0)
-  const { currency } = useSettingsCurrency()
+  const router = useRouter()
+  const currency = router.query.currency
+
+  const symbol = () => {
+    switch (currency) {
+      case 'brl':
+        return 'R$'
+      case 'usd':
+        return '$'
+      case 'eur':
+        return '€'
+      default:
+        return '$'
+    }
+  }
+
   useEffect(() => {
     const fetchPrice = async () => {
       const config = {
@@ -17,7 +32,7 @@ export default function useCoinConversion(amountValue: string) {
           refreshWhenHidden: false
         }
       }
-      const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.value}&symbols=eth`
+      const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&symbols=eth`
       try {
         const data = await axios.get(url, config)
         const response = data as { data: [{ current_price: number }] }
@@ -32,7 +47,7 @@ export default function useCoinConversion(amountValue: string) {
       }
     }
     fetchPrice()
-  }, [currency.value])
+  }, [currency])
 
   useEffect(() => {
     if (conversionPrice && amountValue) {
@@ -43,5 +58,5 @@ export default function useCoinConversion(amountValue: string) {
     setCoinPrice('0')
   }, [amountValue, conversionPrice])
 
-  return { price: coinPrice, loading, error, settingCurrency: currency }
+  return { price: coinPrice, loading, error, settingCurrency: currency, symbol }
 }

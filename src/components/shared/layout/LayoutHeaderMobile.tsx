@@ -1,16 +1,21 @@
 import Wallet from '@/components/wallet/Wallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { useTranslation } from 'next-i18next'
 import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
+import chainConfig from '../../../config/chain'
 
 export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
+  const { i18n } = useTranslation()
+  const { name } = chainConfig()
+
   return (
     <Container>
       <Content>
-        <Logo href='/invest'>
+        <Logo href={`/${i18n.language}/${name}/invest`}>
           <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
         </Logo>
         <WalletContainer>
