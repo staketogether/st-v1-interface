@@ -13,9 +13,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
   const { t } = useLocaleTranslation()
 
   const router = useRouter()
-
   const { currency, network } = router.query
-
   const { setItem, getItem } = useLocalStorage()
 
   const changeLocale = (newLocale: string) => {
@@ -25,7 +23,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
   const changeCurrency = (newCurrency: string) => {
     router.push({
       pathname: router.pathname,
-      query: { currency: newCurrency, network: network }
+      query: { ...router.query, currency: newCurrency }
     })
 
     setItem('currency', newCurrency)
@@ -34,7 +32,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
   const changeNetwork = (newNetwork: string) => {
     router.push({
       pathname: router.pathname,
-      query: { currency: currency, network: newNetwork }
+      query: { ...router.query, network: newNetwork }
     })
     setItem('network', newNetwork)
   }
