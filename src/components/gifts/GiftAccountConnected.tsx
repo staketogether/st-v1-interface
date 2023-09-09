@@ -37,7 +37,7 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
   function copyToClipboard() {
     navigator.clipboard.writeText(window.location.toString())
   }
-  console.log(userGift, loading)
+
   return (
     <>
       {!loading && !userGift && <Title>{t('v2.gifts.notGift')}</Title>}

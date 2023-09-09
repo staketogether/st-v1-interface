@@ -5,7 +5,7 @@ import GiftHistoryCard from './GiftHistoryCard'
 
 export default function GiftHistoryList() {
   const { giftHistory, loading } = useGiftHistory()
-  console.log('giftHistory', giftHistory)
+
   return (
     <GiftCard>
       <h1>Gifts history</h1>
