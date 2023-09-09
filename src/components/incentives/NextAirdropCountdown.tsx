@@ -73,8 +73,8 @@ const { AirdropCountdown, Time } = {
       align-items: center;
 
       > h2 {
-        height: 20px;
-        font-size: 20px !important;
+        height: 18px;
+        font-size: 18px !important;
         font-weight: 400;
       }
     }
