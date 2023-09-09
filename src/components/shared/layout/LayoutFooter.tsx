@@ -10,7 +10,7 @@ export default function LayoutFooter() {
   const { blockExplorer, contracts } = chainConfig()
   const { websiteUrl, auditUrl, appUrl } = globalConfig
 
-  const { i18n } = useTranslation(['common'])
+  const { i18n } = useTranslation()
 
   const { t } = useLocaleTranslation()
 

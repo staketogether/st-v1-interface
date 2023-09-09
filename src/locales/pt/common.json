@@ -85,7 +85,8 @@
   "settings": {
     "title": "Configurações",
     "currency": "Moeda",
-    "locale": "Idioma"
+    "locale": "Idioma",
+    "network": "Rede"
   },
   "footer": {
     "app": "Instalar App",

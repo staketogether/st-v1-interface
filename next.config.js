@@ -27,18 +27,14 @@ const nextConfig = {
       { source: '/en', destination: 'https://use.staketogether.app', permanent: true },
       { source: '/pt', destination: 'https://use.staketogether.app/pt', permanent: true },
       {
-        source: '/ethereum',
-        destination: '/en/ethereum/invest',
+        source: '/mainnet',
+        destination: '/mainnet/usd/invest',
         permanent: true
       },
+
       {
-        source: '/en/ethereum',
-        destination: '/en/ethereum/invest',
-        permanent: true
-      },
-      {
-        source: '/pt/ethereum',
-        destination: '/pt/ethereum/invest',
+        source: '/goerli',
+        destination: '/goerli/usd/invest',
         permanent: true
       }
     ]

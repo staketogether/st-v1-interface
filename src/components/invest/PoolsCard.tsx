@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
 import { Pool } from '@/types/Pool'
+import { useTranslation } from 'next-i18next'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 
@@ -16,9 +17,10 @@ type PoolsCardProps = {
 export default function PoolsCard({ pool }: PoolsCardProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
+  const { i18n } = useTranslation()
 
   return (
-    <Card href={`/invest/deposit/${pool.address}`}>
+    <Card href={`/${i18n.language}/invest/deposit/${pool.address}`}>
       <CardHeader>
         <CommunityLogo size={26} src={pool.logo.url} alt={pool.logo.fileName} />
         <CommunityName name={pool.name} />

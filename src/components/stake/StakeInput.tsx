@@ -28,7 +28,7 @@ export default function StakeFormInput({
 }: StakeInputProps) {
   const { t } = useLocaleTranslation()
 
-  const { price, settingCurrency } = useCoinConversion(value)
+  const { price, symbol } = useCoinConversion(value)
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -77,7 +77,7 @@ export default function StakeFormInput({
               ) : (
                 ''
               )}
-              <span className={`${hasError ? 'error' : ''}`}>{`${settingCurrency.symbol} ${truncateDecimal(
+              <span className={`${hasError ? 'error' : ''}`}>{`${symbol()} ${truncateDecimal(
                 price || '0',
                 2
               )}`}</span>

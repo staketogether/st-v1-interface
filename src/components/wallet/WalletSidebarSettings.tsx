@@ -1,10 +1,8 @@
-import { useLocalStorage } from '@/hooks/useLocalStorage'
-import useSettingsCurrency from '@/hooks/useSettingCurrency'
-import { Currency, CurrencySymbol, CurrencyType, Settings } from '@/types/Settings'
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRouter } from 'next/router'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import styled from 'styled-components'
+import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
 type WalletSlideBarSettingsProps = {
@@ -13,18 +11,32 @@ type WalletSlideBarSettingsProps = {
 
 export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSlideBarSettingsProps) {
   const { t } = useLocaleTranslation()
+
   const router = useRouter()
+
+  const { currency, network } = router.query
+
+  const { setItem, getItem } = useLocalStorage()
 
   const changeLocale = (newLocale: string) => {
     router.push(router.pathname, router.asPath, { locale: newLocale })
   }
-  const { currency, setCurrency } = useSettingsCurrency()
-  const { setItem } = useLocalStorage()
 
-  const handleCurrencySetting = (value: Currency) => {
-    const settings: Settings = { language: '', currency: value }
-    setItem('settings', JSON.stringify(settings))
-    setCurrency(value)
+  const changeCurrency = (newCurrency: string) => {
+    router.push({
+      pathname: router.pathname,
+      query: { currency: newCurrency, network: network }
+    })
+
+    setItem('currency', newCurrency)
+  }
+
+  const changeNetwork = (newNetwork: string) => {
+    router.push({
+      pathname: router.pathname,
+      query: { currency: currency, network: newNetwork }
+    })
+    setItem('network', newNetwork)
   }
 
   return (
@@ -46,23 +58,20 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
       </SettingContainer>
       <SettingContainer>
         <h3>{t('settings.currency')}</h3>
-        <div
-          onClick={() => handleCurrencySetting({ value: CurrencyType.BRL, symbol: CurrencySymbol.BRL })}
-          className={`${currency.value === CurrencyType.BRL ? 'active' : ''}`}
-        >
+        <div onClick={() => changeCurrency('brl')} className={`${currency === 'brl' ? 'active' : ''}`}>
           <span>BRL</span>
         </div>
-        <div
-          onClick={() => handleCurrencySetting({ value: CurrencyType.USD, symbol: CurrencySymbol.USD })}
-          className={`${currency.value === CurrencyType.USD ? 'active' : ''}`}
-        >
+        <div onClick={() => changeCurrency('usd')} className={`${currency === 'usd' ? 'active' : ''}`}>
           <span>USD</span>
         </div>
-        <div
-          onClick={() => handleCurrencySetting({ value: CurrencyType.EUR, symbol: CurrencySymbol.EUR })}
-          className={`${currency.value === CurrencyType.EUR ? 'active' : ''}`}
-        >
+        <div onClick={() => changeCurrency('eur')} className={`${currency === 'eur' ? 'active' : ''}`}>
           <span>EUR</span>
+        </div>
+      </SettingContainer>
+      <SettingContainer>
+        <h3>{t('settings.network')}</h3>
+        <div onClick={() => changeNetwork('goerli')} className={`${network === 'goerli' ? 'active' : ''}`}>
+          <span>Goerli</span>
         </div>
       </SettingContainer>
     </>
