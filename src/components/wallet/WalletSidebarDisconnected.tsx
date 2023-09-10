@@ -122,7 +122,7 @@ const {
     }
 
     .ant-drawer-body {
-      width: calc(100vw - 80px);
+      width: calc(100vw - 60px);
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[24]};
