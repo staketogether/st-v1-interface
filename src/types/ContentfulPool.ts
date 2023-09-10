@@ -5,22 +5,26 @@ export type ContentfulImage = {
 
 export type ContentfulPool = {
   wallet: `0x${string}`
-  name: string
   logo: ContentfulImage
-  cover: ContentfulImage
-  video?: string
-  description?: string
-  site?: string
-  facebook?: string
-  youtube?: string
-  instagram?: string
-  linkedin?: string
-  twitter?: string
-  contract?: string
-  telegram?: string
-  whatsapp?: string
-  discord?: string
+  name: string
   category: {
     name: string
   }
+  cover: ContentfulImage
+  video?: string
+  image: ContentfulImage
+  description?: string
+  site?: string
+  twitter?: string
+  instagram?: string
+  youtube?: string
+  discord_name?: string
+  discord?: string
+  gotas?: string
+  lens?: string
+  facebook?: string
+  linkedin?: string
+  whatsapp?: string
+  telegram?: string
+  contract?: string
 }
