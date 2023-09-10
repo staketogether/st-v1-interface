@@ -36,8 +36,8 @@ export default function PoolsControl({ pools }: PoolsListProps) {
       value: 'education'
     },
     {
-      name: poolTypeTranslation('socialImpact'),
-      value: 'socialImpact'
+      name: poolTypeTranslation('social'),
+      value: 'social'
     },
     {
       name: poolTypeTranslation('technology'),

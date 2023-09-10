@@ -23,7 +23,7 @@ export default function PoolFilterIcon({ iconSize, value }: PoolFilterIconProps)
     },
     {
       icon: <PiHandHeart fontSize={iconSize} />,
-      value: 'socialImpact'
+      value: 'social'
     },
     {
       icon: <PiCodesandboxLogo fontSize={iconSize} />,

@@ -17,7 +17,7 @@ export default function usePoolTypeTranslation() {
     },
     {
       name: t('v2.pools.filter.social'),
-      value: 'socialImpact'
+      value: 'social'
     },
     {
       name: t('v2.pools.filter.technology'),
