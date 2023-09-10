@@ -10,9 +10,7 @@ import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
-
   const { isActive } = useActiveRoute()
-
   const { query } = useRouter()
   const { currency, network } = query
 
