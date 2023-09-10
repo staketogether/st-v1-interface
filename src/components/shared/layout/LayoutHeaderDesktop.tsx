@@ -38,7 +38,7 @@ export default function LayoutHeader() {
               <IncentivesIcon /> {t('v2.header.incentives')}
             </MenuButton>
           </Link>
-          <Link href='/gifts' legacyBehavior>
+          <Link href={`/${network}/${currency}/gifts`} legacyBehavior>
             <MenuButton className={`${isActive('gifts') ? 'active' : ''}`}>
               <GiftsIcon />
               {t('v2.header.gifts')}
