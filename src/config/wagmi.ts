@@ -3,6 +3,7 @@ import { configureChains, createConfig } from 'wagmi'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
+import { publicProvider } from 'wagmi/providers/public'
 import Web3AuthConnectorInstance from './web3Auth'
 
 const { chains, publicClient } = configureChains(
@@ -12,7 +13,8 @@ const { chains, publicClient } = configureChains(
       rpc: () => ({
         http: 'https://rpc.etha.staketogether.org/v1/goerli'
       })
-    })
+    }),
+    publicProvider()
   ],
   {
     retryCount: 1
