@@ -5,27 +5,36 @@ export const queryContentfulPoolsList = gql`
     poolCollection(locale: $locale) {
       items {
         wallet
-        name
         logo {
           url
           fileName
+        }
+        name
+        category {
+          name
         }
         cover {
           url
           fileName
         }
-        description
         video
-        site
-        facebook
-        instagram
-        linkedin
-        twitter
-        contract
-        discord
-        category {
-          name
+        image {
+          url
+          fileName
         }
+        description
+        site
+        twitter
+        instagram
+        youtube
+        discord_name
+        discord
+        gotas
+        lens
+        facebook
+        linkedin
+        telegram
+        contract
       }
     }
   }
