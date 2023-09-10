@@ -17,6 +17,9 @@ function LayoutMenuMobile() {
       <NextLink href='/incentives' className={`${isActive('incentives') ? 'active' : ''}`}>
         {t('v2.header.incentives')}
       </NextLink>
+      <NextLink href='/gifts' className={`${isActive('incentives') ? 'active' : ''}`}>
+        {t('v2.header.gifts')}
+      </NextLink>
     </Container>
   )
 }

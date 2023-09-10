@@ -9,6 +9,7 @@ export enum CurrencySymbol {
   USD = '$',
   EUR = '€'
 }
+
 export type Currency = {
   value: CurrencyType
   symbol: CurrencySymbol

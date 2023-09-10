@@ -176,12 +176,17 @@
       "incentives": {
         "title": "Incentives",
         "description": "Weekly incentives in Ethereum in Stake (stpETH) are sent through the perpetual airdrop to supporters and users."
+      },
+      "gifts": {
+        "title": "Gifts",
+        "description": "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
       }
     },
     "header": {
       "invest": "Invest",
       "incentives": "Incentives",
       "simulator": "Simulator",
+      "gifts": "gifts",
       "enter": "Enter",
       "exit": "Exit",
       "support": "Support"
@@ -248,6 +253,16 @@
       "donationDeposit": "Donation",
       "withdraw": "Withdraw",
       "withdrawPool": "Withdraw"
+    },
+    "gifts": {
+      "countdown": "Time to Redeem",
+      "ActionButton": "Claim",
+      "sent": "sent a",
+      "coffee": "coffee",
+      "titleOffAccount": "Connect the wallet to check if you have received any gifts",
+      "claimed": "claimed",
+      "lost": "Perdido",
+      "notGift": "You haven't received any gifts yet"
     }
   }
 }

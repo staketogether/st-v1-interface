@@ -2,7 +2,7 @@ import Wallet from '@/components/wallet/Wallet'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCellSignalFull, PiCurrencyEth } from 'react-icons/pi'
+import { PiCellSignalFull, PiCurrencyEth, PiGift } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -38,6 +38,12 @@ export default function LayoutHeader() {
               <IncentivesIcon /> {t('v2.header.incentives')}
             </MenuButton>
           </Link>
+          <Link href='/gifts' legacyBehavior>
+            <MenuButton className={`${isActive('gifts') ? 'active' : ''}`}>
+              <GiftsIcon />
+              {t('v2.header.gifts')}
+            </MenuButton>
+          </Link>
         </Menu>
       </MenuContainer>
       <WalletContainer>
@@ -47,7 +53,17 @@ export default function LayoutHeader() {
   )
 }
 
-const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, InvestIcon, IncentivesIcon } = {
+const {
+  Container,
+  MenuContainer,
+  WalletContainer,
+  GiftsIcon,
+  Logo,
+  Menu,
+  MenuButton,
+  InvestIcon,
+  IncentivesIcon
+} = {
   Container: styled.header`
     display: none;
     gap: ${({ theme }) => theme.size[32]};
@@ -125,5 +141,8 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, Inves
   `,
   IncentivesIcon: styled(PiCellSignalFull)`
     font-size: 17px;
+  `,
+  GiftsIcon: styled(PiGift)`
+    font-size: 15px;
   `
 }
