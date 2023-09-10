@@ -5,11 +5,11 @@ export const queryContentfulPoolByAddress = gql`
     poolCollection(where: { wallet: $walletAddress }, locale: $locale) {
       items {
         wallet
+        name
         logo {
           url
           fileName
         }
-        name
         category {
           name
         }
@@ -27,8 +27,8 @@ export const queryContentfulPoolByAddress = gql`
         twitter
         instagram
         youtube
-        discord_name
         discord
+        discordName
         gotas
         lens
         facebook
