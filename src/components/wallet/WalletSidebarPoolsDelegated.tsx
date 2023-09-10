@@ -5,6 +5,7 @@ import useWalletSidebar from '@/hooks/useWalletSidebar'
 import { truncateWei } from '@/services/truncate'
 import { Delegation } from '@/types/Delegation'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
 type WalletSideBarPoolsDelegatedProps = {
@@ -14,6 +15,8 @@ type WalletSideBarPoolsDelegatedProps = {
 export default function WalletSidebarPoolsDelegated({ accountDelegations }: WalletSideBarPoolsDelegatedProps) {
   const { t } = useLocaleTranslation()
   const { setOpenSidebar } = useWalletSidebar()
+  const { query } = useRouter()
+  const { currency, network } = query
 
   return (
     <Container>
@@ -25,7 +28,7 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
       {accountDelegations.map((delegation, index) => (
         <DelegatedPool
           key={index}
-          href={`/invest/deposit/${delegation.delegated.address}`}
+          href={`/${network}/${currency}/invest/deposit/${delegation.delegated.address}`}
           onClick={() => setOpenSidebar(false)}
         >
           <div>
