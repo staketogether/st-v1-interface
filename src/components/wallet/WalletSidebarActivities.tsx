@@ -89,7 +89,7 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
   ActivitiesHeader: styled.div`
     display: grid;
     display: none;
-    grid-template-columns: 0.3fr 1fr 0.9fr 0.9fr;
+    grid-template-columns: 0.3fr 1fr 0.9fr 1fr;
     padding: 8px;
 
     padding-bottom: 12px;
@@ -103,7 +103,7 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
     cursor: pointer;
 
     display: grid;
-    grid-template-columns: 30px 0.9fr 0.9fr 0.9fr;
+    grid-template-columns: 30px 0.9fr 0.9fr 1fr;
     align-items: center;
     padding: 8px;
 
