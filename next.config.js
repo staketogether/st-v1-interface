@@ -25,7 +25,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/mainnet/usd/invest',
+        destination: '/goerli/usd/invest',
         permanent: true
       },
       {
