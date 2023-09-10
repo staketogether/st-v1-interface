@@ -11,9 +11,10 @@ import CommunityName from '../shared/community/CommunityName'
 
 type PoolsRowListProps = {
   pool: Pool
+  loading: boolean
 }
 
-export default function PoolsRowList({ pool }: PoolsRowListProps) {
+export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
@@ -22,8 +23,8 @@ export default function PoolsRowList({ pool }: PoolsRowListProps) {
   return (
     <Row href={`/${network}/${currency}/invest/deposit/${pool.address}`}>
       <Name>
-        <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} />
-        <CommunityName name={pool.name} />
+        <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
+        <CommunityName name={pool.name} loading={loading} />
       </Name>
       <TypeContainer>
         {pool.type && PoolFilterIcon({ iconSize: 16, value: pool.type })}

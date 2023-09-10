@@ -1,5 +1,4 @@
-import EnsAvatar from '@/components/shared/ens/EnsAvatar'
-import EnsName from '@/components/shared/ens/EnsName'
+import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebar from '@/hooks/useWalletSidebar'
 import { truncateWei } from '@/services/truncate'
@@ -7,6 +6,8 @@ import { Delegation } from '@/types/Delegation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
+import CommunityLogo from '../shared/community/CommunityLogo'
+import CommunityName from '../shared/community/CommunityName'
 
 type WalletSideBarPoolsDelegatedProps = {
   accountDelegations: Delegation[]
@@ -17,6 +18,11 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
   const { setOpenSidebar } = useWalletSidebar()
   const { query } = useRouter()
   const { currency, network } = query
+  const { poolsList, isLoading } = useContentfulPoolsList()
+
+  const handleMetadataPools = (address: `0x${string}`) => {
+    return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
+  }
 
   return (
     <Container>
@@ -25,24 +31,36 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
           <span>{t('noStake')}</span>
         </EmptyContainer>
       )}
-      {accountDelegations.map((delegation, index) => (
-        <DelegatedPool
-          key={index}
-          href={`/${network}/${currency}/invest/deposit/${delegation.delegated.address}`}
-          onClick={() => setOpenSidebar(false)}
-        >
-          <div>
-            <Project>
-              <EnsAvatar address={delegation.delegated.address} size={22} />
-              <EnsName address={delegation.delegated.address} />
-            </Project>
-          </div>
-          <div>
-            {truncateWei(delegation.delegationBalance, 6)}
-            <span>{t('lsd.symbol')}</span>
-          </div>
-        </DelegatedPool>
-      ))}
+      {accountDelegations.map((delegation, index) => {
+        const poolMetadata = handleMetadataPools(delegation.delegated.address)
+        return (
+          <DelegatedPool
+            key={index}
+            href={`/${network}/${currency}/invest/deposit/${delegation.delegated.address}`}
+            onClick={() => setOpenSidebar(false)}
+          >
+            <div>
+              <Project>
+                {poolMetadata && (
+                  <>
+                    <CommunityLogo
+                      size={24}
+                      src={poolMetadata.logo.url}
+                      alt={poolMetadata.logo.fileName}
+                      loading={isLoading}
+                    />
+                    <CommunityName name={poolMetadata.name} loading={isLoading} />
+                  </>
+                )}
+              </Project>
+            </div>
+            <div>
+              {truncateWei(delegation.delegationBalance, 6)}
+              <span>{t('lsd.symbol')}</span>
+            </div>
+          </DelegatedPool>
+        )
+      })}
     </Container>
   )
 }

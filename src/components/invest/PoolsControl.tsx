@@ -45,7 +45,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
     }
   ]
 
-  const poolsWithTypes = useMapPoolsWithTypes(pools)
+  const { poolsWithTypes, isLoading } = useMapPoolsWithTypes(pools)
 
   const poolsFilterByType = poolsWithTypes.filter(pool => {
     if (activeFilters.includes('all')) {
@@ -130,8 +130,8 @@ export default function PoolsControl({ pools }: PoolsListProps) {
         )}
         {poolsFilterBySearch.map(pool => (
           <div key={`pool-row-${pool.address}`}>
-            <PoolsRowList key={`pool-list-row-${pool.address}`} pool={pool} />
-            <PoolsCard key={`pool-card-${pool.address}`} pool={pool} />
+            <PoolsRowList key={`pool-list-row-${pool.address}`} pool={pool} loading={isLoading} />
+            <PoolsCard key={`pool-card-${pool.address}`} pool={pool} loading={isLoading} />
           </div>
         ))}
       </ListPools>

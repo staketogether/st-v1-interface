@@ -2,7 +2,7 @@ import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import { Pool, PoolSubgraph } from '@/types/Pool'
 
 export function useMapPoolsWithTypes(pools: PoolSubgraph[]) {
-  const { poolsList } = useContentfulPoolsList()
+  const { poolsList, isLoading } = useContentfulPoolsList()
 
   const poolsWithTypes: Pool[] = pools.map(subgraphPool => {
     const pool = poolsList.find(
@@ -15,5 +15,5 @@ export function useMapPoolsWithTypes(pools: PoolSubgraph[]) {
     return { ...subgraphPool, type: pool.category?.name, name: pool.name, logo: pool.logo }
   })
 
-  return poolsWithTypes
+  return { poolsWithTypes, isLoading }
 }

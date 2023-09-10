@@ -12,9 +12,10 @@ import { useRouter } from 'next/router'
 
 type PoolsCardProps = {
   pool: Pool
+  loading: boolean
 }
 
-export default function PoolsCard({ pool }: PoolsCardProps) {
+export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
@@ -23,8 +24,8 @@ export default function PoolsCard({ pool }: PoolsCardProps) {
   return (
     <Card href={`/${network}/${currency}/invest/deposit/${pool.address}`}>
       <CardHeader>
-        <CommunityLogo size={26} src={pool.logo.url} alt={pool.logo.fileName} />
-        <CommunityName name={pool.name} />
+        <CommunityLogo size={26} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
+        <CommunityName name={pool.name} loading={loading} />
       </CardHeader>
       <CardInfo>
         <div>
