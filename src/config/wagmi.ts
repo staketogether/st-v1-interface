@@ -2,13 +2,18 @@ import { goerli } from 'viem/chains'
 import { configureChains, createConfig } from 'wagmi'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { alchemyProvider } from 'wagmi/providers/alchemy'
-import { publicProvider } from 'wagmi/providers/public'
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import Web3AuthConnectorInstance from './web3Auth'
 
 const { chains, publicClient } = configureChains(
   [goerli],
-  [alchemyProvider({ apiKey: String(process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY) }), publicProvider()],
+  [
+    jsonRpcProvider({
+      rpc: () => ({
+        http: 'https://rpc.etha.staketogether.org/v1/goerli'
+      })
+    })
+  ],
   {
     retryCount: 1
   }

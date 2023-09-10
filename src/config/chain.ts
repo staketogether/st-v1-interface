@@ -25,9 +25,7 @@ const configs: ChainConfig[] = [
   {
     chainId: 5,
     name: 'goerli',
-    provider: new ethers.JsonRpcProvider(
-      `https://eth-goerli.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY}`
-    ),
+    provider: new ethers.JsonRpcProvider(`https://rpc.etha.staketogether.org/v1/goerli`),
     blockExplorer: {
       baseUrl: 'https://goerli.etherscan.io'
     },
