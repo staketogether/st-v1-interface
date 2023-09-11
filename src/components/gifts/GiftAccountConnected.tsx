@@ -10,6 +10,7 @@ import Image from 'next/image'
 import { PiHandCoins, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useNetwork } from 'wagmi'
+import useCoinConversion from '../../hooks/useCoinConversion'
 import Button from '../shared/Button'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
@@ -35,6 +36,7 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
 
   const { userGift, loading } = useGiftByWalletAddress(account)
   const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(userGift?.address)
+  const { price, symbol } = useCoinConversion(userGift?.amount.toString() || '0')
 
   function copyToClipboard() {
     navigator.clipboard.writeText(window.location.toString())
@@ -63,14 +65,19 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
           </Tooltip>
         </Header>
       )}
-
       {!loading && userGift && <CardImage src={coffee} width={420} height={240} alt={'Coffee'} />}
       {!loading && !userGift && <Image src={empty} width={420} height={240} alt={'Empty'} />}
       {!loading && userGift && (
         <Content>
           <Title>
             {t(`v2.gifts.coffee.title`)}
-            <GiftAmount>{`${truncateWei(userGift.amount, 4)} ${t('lsd.symbol')}`}</GiftAmount>
+            <GiftAmount>
+              {`${truncateWei(userGift.amount, 4)} ${t('lsd.symbol')}`}
+              <Currency>
+                {symbol()}
+                {truncateWei(BigInt(price || 0n), 2)}
+              </Currency>
+            </GiftAmount>
           </Title>
           <Description>{t(`v2.gifts.coffee.description`)}</Description>
         </Content>
@@ -80,7 +87,6 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
           <Empty>{t('v2.gifts.notGift')}</Empty>
         </EmptyArea>
       )}
-
       {!loading && userGift && <GiftCountDown futureTimestamp={userGift.data} />}
 
       <Button
@@ -106,7 +112,8 @@ const {
   Description,
   Content,
   Empty,
-  EmptyArea
+  EmptyArea,
+  Currency
 } = {
   CardImage: styled(Image)`
     border-radius: 8px;
@@ -197,6 +204,13 @@ const {
     font-size: 20px;
     color: ${({ theme }) => theme.color.green[500]};
     text-align: center;
-    margin-left: 4px;
+    margin-left: 12px;
+    display: inline-flex;
+    align-items: center;
+  `,
+  Currency: styled.span`
+    font-size: 14px;
+    margin-left: 12px;
+    color: ${({ theme }) => theme.colorV2.blue[3]};
   `
 }
