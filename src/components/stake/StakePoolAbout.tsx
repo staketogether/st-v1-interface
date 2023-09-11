@@ -27,7 +27,7 @@ interface StakePoolAboutProps {
 export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutProps) {
   const videoId = poolDetail?.video ? poolDetail?.video.split('v=')[1] : null
   const { t } = useLocaleTranslation()
-  console.log('poolDetail', poolDetail)
+
   return (
     <Container>
       {!loading && videoId && (
