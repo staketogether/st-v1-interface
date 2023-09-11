@@ -151,8 +151,8 @@
       "socialDescription": "10% dos Incentivos são destinados para fazer depositos em projetos de impacto social",
       "early": "Primeiros Stakers",
       "earlyDescription": "20% dos Incentivos gerados nos 3 primeiros meses são destinados para as pessoas que fizerem depositos no primeiro mês",
-      "relationship": "App Stake Together",
-      "relationshipDescription": "20% dos incentivos são destinados para pessoas que têm uma relação com projetos que recebem airdrops diários através do aplicativo Stake Together"
+      "gifts": "Envio de Presentes",
+      "giftsDescription": "20% dos incentivos são destinados para pessoas fazem staking e tem o aplicativo da stake together instalado"
     },
     "total": "Total",
     "countdown": {
@@ -177,8 +177,8 @@
         "description": "Incentivos semanais em Ethereum em Stake (stpETH) são enviados através de airdrop perpétuo para usuários e projetos"
       },
       "gifts": {
-        "title": "Gifts",
-        "description": "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
+        "title": "Presentes dos Projetos",
+        "description": "Receba presentes em stpETH de seus projetos favoritos desde um cafézinho ou almoço grátis e até viagens internacionais."
       }
     },
     "header": {
@@ -258,8 +258,11 @@
       "countdown": "Tempo para Resgatar",
       "ActionButton": "Resgatar",
       "sent": "te enviou um",
-      "coffee": "Café",
-      "titleOffAccount": "Conecte a Carteira para verificar se você recebeu algum presente",
+      "coffee": {
+        "title": "Café",
+        "description": "Comece seu dia feliz com um delicioso café"
+      },
+      "titleOfAccount": "Entre com sua conta para verificar seus presentes",
       "claimed": "Resgatado",
       "lost": "Perdido",
       "notGift": "Você ainda não recebeu nenhum presente"

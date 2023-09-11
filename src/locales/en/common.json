@@ -152,8 +152,8 @@
       "socialDescription": "10% of the Incentives are allocated for making deposits in social impact projects",
       "early": "Early Adopter",
       "earlyDescription": "20% of the Incentives from the first 3 months are allocated for people who make deposits in the first month",
-      "relationship": "Stake Together App",
-      "relationshipDescription": "20% of the Incentives are allocated for people who have a relationship with projects receiving diary airdrops through Stake Together App"
+      "gifts": "Sending Gifts",
+      "giftsDescription": "20% of the Incentives are allocated for sending gifts for people who have a staked and Stake Together App installed"
     },
     "total": "Total",
     "countdown": {
@@ -178,8 +178,8 @@
         "description": "Weekly incentives in Ethereum in Stake (stpETH) are sent through the perpetual airdrop to supporters and users."
       },
       "gifts": {
-        "title": "Gifts",
-        "description": "orem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+        "title": "Projects' Gifts",
+        "description": "Receive gifts in stpETH from your favorite projects, ranging from a small coffee or a free lunch to international trips."
       }
     },
     "header": {
@@ -258,8 +258,11 @@
       "countdown": "Time to Redeem",
       "ActionButton": "Claim",
       "sent": "sent a",
-      "coffee": "coffee",
-      "titleOffAccount": "Connect the wallet to check if you have received any gifts",
+      "coffee": {
+        "title": "Coffee",
+        "description": "Start your day happy with a delicious coffee."
+      },
+      "titleOfAccount": "Enter your account to verify your gifts",
       "claimed": "claimed",
       "lost": "Perdido",
       "notGift": "You haven't received any gifts yet"

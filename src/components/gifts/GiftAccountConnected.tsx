@@ -1,17 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
-import Button from '../shared/Button'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import GiftCountDown from './GiftCountDown'
-import { PiHandCoins, PiShareNetwork } from 'react-icons/pi'
-import { useNetwork } from 'wagmi'
 import chainConfig from '@/config/chain'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import useGiftByWalletAddress from '@/hooks/useGiftByWalletAddress'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { truncateWei } from '@/services/truncate'
+import coffee from '@assets/images/coffee.jpg'
+import { Tooltip } from 'antd'
+import Image from 'next/image'
+import { PiHandCoins, PiShareNetwork } from 'react-icons/pi'
+import styled from 'styled-components'
+import { useNetwork } from 'wagmi'
+import Button from '../shared/Button'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { Tooltip } from 'antd'
-import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
-import { truncateWei } from '@/services/truncate'
+import GiftCountDown from './GiftCountDown'
 
 type GiftAccountConnectedProps = {
   account: `0x${string}`
@@ -40,7 +41,7 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
 
   return (
     <>
-      {!loading && !userGift && <Title>{t('v2.gifts.notGift')}</Title>}
+      {!loading && !userGift && <Sent>{t('v2.gifts.notGift')}</Sent>}
       {!loading && userGift && (
         <Header>
           <div>
@@ -52,7 +53,7 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
             />
             <div>
               <CommunityName $larger name={poolDetail?.name || ''} loading={poolDetailLoading} />
-              <Title>{`${t('v2.gifts.sent')}`}</Title>
+              <Sent>{`${t('v2.gifts.sent')}`}</Sent>
             </div>
           </div>
           <Tooltip trigger='click' title={t('copiedToClipboard')}>
@@ -62,13 +63,18 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
           </Tooltip>
         </Header>
       )}
-      {!loading && userGift && <CardIconWinner />}
+      {!loading && userGift && <CardImage src={coffee} width={420} height={240} alt={'Coffee'} />}
       {!loading && !userGift && <CardIcon />}
-
-      {!loading && userGift && <Description>{t(`v2.gifts.${userGift.type}`)}</Description>}
       {!loading && userGift && (
-        <GiftAmount>{`${truncateWei(userGift.amount, 4)} ${t('lsd.symbol')}`}</GiftAmount>
+        <Content>
+          <Title>
+            {t(`v2.gifts.coffee.title`)}{' '}
+            <GiftAmount>{`${truncateWei(userGift.amount, 4)} ${t('lsd.symbol')}`}</GiftAmount>
+          </Title>
+          <Description>{t(`v2.gifts.coffee.description`)}</Description>
+        </Content>
       )}
+
       {!loading && userGift && <GiftCountDown futureTimestamp={userGift.data} />}
 
       <Button
@@ -82,81 +88,102 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
   )
 }
 
-const { CardIcon, ClaimIcon, GiftAmount, CardIconWinner, Header, ShareIcon, ShareButton, Title, Description } =
-  {
-    CardIcon: styled.div`
-      width: 100%;
-      height: 237px;
-      background: red;
-    `,
-    CardIconWinner: styled.div`
-      width: 100%;
-      height: 237px;
-      background: blue;
-    `,
-    ClaimIcon: styled(PiHandCoins)`
-      font-size: 18px;
-    `,
-    Header: styled.header`
-      display: flex;
-      justify-content: space-between;
+const {
+  CardImage,
+  CardIcon,
+  ClaimIcon,
+  GiftAmount,
+  Header,
+  ShareIcon,
+  ShareButton,
+  Sent,
+  Title,
+  Description,
+  Content
+} = {
+  CardImage: styled(Image)`
+    border-radius: 8px;
+    box-shadow: ${({ theme }) => theme.shadow[300]};
+    max-width: 86%;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 8px;
+  `,
+  CardIcon: styled.div`
+    width: 100%;
+    height: 237px;
+    background: red;
+  `,
+  ClaimIcon: styled(PiHandCoins)`
+    font-size: 18px;
+  `,
+  Header: styled.header`
+    display: flex;
+    justify-content: space-between;
 
-      > div {
-        display: flex;
-        align-items: center;
-        gap: ${({ theme }) => theme.size[12]};
-        div {
-          display: flex;
-          align-items: center;
-          gap: ${({ theme }) => theme.size[4]};
-        }
-      }
-    `,
-    ShareButton: styled.button`
-      border: none;
-      width: 32px;
-      height: 32px;
-      font-size: ${({ theme }) => theme.font.size[14]};
-
-      border-radius: 8px;
-      transition: background-color 0.1s ease;
-
+    > div {
       display: flex;
       align-items: center;
-      justify-content: center;
-
-      background-color: ${({ theme }) => theme.colorV2.blue[1]};
-      color: ${({ theme }) => theme.colorV2.white};
-      box-shadow: ${({ theme }) => theme.shadow[300]};
-
-      &:hover {
-        background-color: ${({ theme }) => theme.colorV2.purple[1]};
+      gap: ${({ theme }) => theme.size[12]};
+      div {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[4]};
       }
-    `,
-    ShareIcon: styled(PiShareNetwork)`
-      font-size: ${({ theme }) => theme.font.size[15]};
-    `,
-    Title: styled.span`
-      font-size: 20px;
-      font-weight: 400;
-      color: ${({ theme, color }) => color || theme.colorV2.gray[1]};
+    }
+  `,
+  ShareButton: styled.button`
+    border: none;
+    width: 32px;
+    height: 32px;
+    font-size: ${({ theme }) => theme.font.size[14]};
 
-      span {
-        &.green {
-          color: ${({ theme }) => theme.color.green[700]};
-        }
-      }
-    `,
-    Description: styled.span`
-      font-size: 16px;
-      font-weight: 500;
-      color: ${({ theme }) => theme.color.secondary};
-      text-align: center;
-    `,
-    GiftAmount: styled.span`
-      font-size: 22px;
-      font-weight: 500;
-      color: ${({ theme }) => theme.color.green[700]};
-      text-align: center;
-    `
-  }
+    border-radius: 8px;
+    transition: background-color 0.1s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: ${({ theme }) => theme.colorV2.blue[1]};
+    color: ${({ theme }) => theme.colorV2.white};
+    box-shadow: ${({ theme }) => theme.shadow[300]};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
+  `,
+  ShareIcon: styled(PiShareNetwork)`
+    font-size: ${({ theme }) => theme.font.size[15]};
+  `,
+  Sent: styled.span`
+    font-size: 20px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.colorV2.purple[1]};
+    margin-left: 6px;
+  `,
+  Content: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px;
+  `,
+  Title: styled.div`
+    font-size: 22px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.colorV2.blue[1]};
+    text-align: center;
+  `,
+  Description: styled.div`
+    font-size: 16px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    text-align: center;
+  `,
+  GiftAmount: styled.span`
+    font-size: 20px;
+    color: ${({ theme }) => theme.color.green[500]};
+    text-align: center;
+    margin-left: 4px;
+  `
+}

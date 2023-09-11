@@ -29,8 +29,8 @@ export default function useIncentives(accountAddress?: string) {
             amount: ethers.parseEther('9')
           },
           {
-            name: t('airdrop.incentives.relationship'),
-            description: t('airdrop.incentives.relationshipDescription'),
+            name: t('airdrop.incentives.gifts'),
+            description: t('airdrop.incentives.giftsDescription'),
             amount: ethers.parseEther('9')
           }
         ]
@@ -60,8 +60,8 @@ export default function useIncentives(accountAddress?: string) {
           amount: 0n
         },
         {
-          name: t('airdrop.incentives.relationship'),
-          description: t('airdrop.incentives.relationshipDescription'),
+          name: t('airdrop.incentives.gifts'),
+          description: t('airdrop.incentives.giftsDescription'),
           amount: 0n
         }
       ]

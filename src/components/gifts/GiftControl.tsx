@@ -1,12 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import LayoutTitle from '../shared/layout/LayoutTitle'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import Button from '../shared/Button'
-import { PiArrowLineRight } from 'react-icons/pi'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import GiftHistoryList from './GiftHistoryList'
+import giftsImage from '@assets/images/gifts.jpg'
+import Image from 'next/image'
+import { PiArrowLineRight } from 'react-icons/pi'
+import styled from 'styled-components'
+import Button from '../shared/Button'
+import LayoutTitle from '../shared/layout/LayoutTitle'
 import GiftAccountConnected from './GiftAccountConnected'
 
 export default function GiftControl() {
@@ -20,8 +20,8 @@ export default function GiftControl() {
       <GiftCard>
         {!account && (
           <>
-            <CardIcon />
-            <Title>{t('v2.gifts.titleOffAccount')}</Title>
+            <Image src={giftsImage} width={420} height={240} alt='gifts' />
+            <Title>{t('v2.gifts.titleOfAccount')}</Title>
             <Button
               onClick={() => setOpenSidebarConnectWallet(true)}
               label={t('v2.header.enter')}
@@ -32,12 +32,12 @@ export default function GiftControl() {
         )}
         {account && <GiftAccountConnected account={account} />}
       </GiftCard>
-      <GiftHistoryList />
+      {/* <GiftHistoryList /> */}
     </Container>
   )
 }
 
-const { Container, GiftCard, Title, CardIcon, ConnectWalletIcon } = {
+const { Container, GiftCard, Title, ConnectWalletIcon } = {
   Container: styled.div`
     display: grid;
     justify-content: center;
@@ -51,21 +51,19 @@ const { Container, GiftCard, Title, CardIcon, ConnectWalletIcon } = {
     display: flex;
     padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]};
     flex-direction: column;
-    gap: 12px;
+    gap: 24px;
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.color.white};
   `,
-  CardIcon: styled.header`
-    width: 100%;
-    height: 237px;
-    background: red;
-  `,
+
   Title: styled.span`
     font-size: ${({ theme }) => theme.font.size[16]};
+    line-height: 20px;
     text-align: center;
-    font-weight: 500;
+    font-weight: 400;
+    padding: 12px;
   `,
   ConnectWalletIcon: styled(PiArrowLineRight)`
     font-size: 16px;

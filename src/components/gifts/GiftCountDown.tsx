@@ -62,12 +62,13 @@ const { Countdown, Time } = {
   Countdown: styled.section`
     padding: 16px ${({ theme }) => theme.size[24]};
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     background-color: ${({ theme }) => theme.colorV2.gray[2]};
     border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
     align-items: center;
     gap: 8px;
+    justify-content: space-between;
 
     > div:nth-child(1) {
       display: flex;
@@ -75,9 +76,9 @@ const { Countdown, Time } = {
       align-items: center;
 
       > h2 {
-        height: 20px;
-        font-size: 20px !important;
+        font-size: 16px;
         font-weight: 400;
+        color: ${({ theme }) => theme.colorV2.blue[1]};
       }
     }
 
@@ -119,6 +120,7 @@ const { Countdown, Time } = {
         font-size: 18px;
         padding: 10px 11px;
         min-height: 38px;
+        background: ${({ theme }) => theme.colorV2.white};
 
         color: ${({ theme }) => theme.colorV2.purple[1]};
       }
