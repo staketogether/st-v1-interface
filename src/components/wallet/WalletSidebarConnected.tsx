@@ -390,9 +390,6 @@ const {
 
     &:hover {
       background: ${({ theme }) => theme.color.whiteAlpha[700]};
-      svg {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-      }
     }
   `,
   SettingIcon: styled(AiOutlineSetting)`
@@ -403,11 +400,7 @@ const {
     }
   `,
   CloseSidebar: styled(AiOutlineRight)`
-    color: ${({ theme }) => theme.colorV2.blue[1]};
-
-    &:hover {
-      color: ${({ theme }) => theme.colorV2.purple[1]};
-    }
+    color: ${({ theme }) => theme.colorV2.gray[1]};
   `,
   Button: styled.button`
     display: grid;

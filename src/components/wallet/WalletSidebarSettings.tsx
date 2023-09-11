@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRouter } from 'next/router'
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import styled from 'styled-components'
@@ -14,7 +13,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
 
   const router = useRouter()
   const { currency, network } = router.query
-  const { setItem, getItem } = useLocalStorage()
+  const { setItem } = useLocalStorage()
 
   const changeLocale = (newLocale: string) => {
     router.push(router.pathname, router.asPath, { locale: newLocale })

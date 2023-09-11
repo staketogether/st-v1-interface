@@ -157,7 +157,7 @@ const {
     color: ${({ theme }) => theme.color.primary};
   `,
   CloseSidebar: styled(AiOutlineRight)`
-    color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
   `,
   Button: styled.button`
     display: grid;
