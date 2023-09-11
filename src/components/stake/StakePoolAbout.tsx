@@ -27,6 +27,7 @@ interface StakePoolAboutProps {
 export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutProps) {
   const videoId = poolDetail?.video ? poolDetail?.video.split('v=')[1] : null
   const { t } = useLocaleTranslation()
+  console.log('poolDetail', poolDetail)
   return (
     <Container>
       {!loading && videoId && (
@@ -58,7 +59,7 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
           {poolDetail?.site && (
             <Social href={poolDetail.site} target='_blank'>
               <SiteIcon />
-              <span>{poolDetail.site}</span>
+              <span>{poolDetail.site.replace('https://', '')}</span>
             </Social>
           )}
           {poolDetail?.contract && (
@@ -92,7 +93,7 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
             </Social>
           )}
           {poolDetail?.youtube && (
-            <Social href={`https://www.youtube.com/channel/${poolDetail.youtube}`} target='_blank'>
+            <Social href={`https://www.youtube.com/${poolDetail.youtube}`} target='_blank'>
               <YoutubeIcon />
               <span>{poolDetail.youtube}</span>
             </Social>
@@ -100,7 +101,7 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
           {poolDetail?.discord && (
             <Social href={`https://discord.com/invite/${poolDetail.discord}`} target='_blank'>
               <DiscordIcon />
-              <span>Discord</span>
+              <span>{poolDetail.discordName}</span>
             </Social>
           )}
           {poolDetail?.telegram && (
