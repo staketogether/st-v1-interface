@@ -32,9 +32,9 @@ export default function LayoutFooter() {
         </span>
       </div>
       <div>
-        <a href={`${appUrl}/${i18n.language}`} target='_blank'>
+        {/* <a href={`${appUrl}/${i18n.language}`} target='_blank'>
           {t('footer.app')}
-        </a>
+        </a> */}
         <a href={`${websiteUrl}/${i18n.language}`} target='_blank'>
           {t('footer.website')}
         </a>
@@ -71,10 +71,10 @@ const { Container } = {
       }
 
       > a:last-of-type {
-        &::before {
+        /* &::before {
           content: '|';
           margin-right: ${({ theme }) => theme.size[16]};
-        }
+        } */
       }
     }
 
