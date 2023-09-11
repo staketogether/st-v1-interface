@@ -20,7 +20,7 @@ export default function GiftControl() {
       <GiftCard>
         {!account && (
           <>
-            <Image src={giftsImage} width={420} height={240} alt='gifts' />
+            <NextImage src={giftsImage} alt='gifts' />
             <Title>{t('v2.gifts.titleOfAccount')}</Title>
             <Button
               onClick={() => setOpenSidebarConnectWallet(true)}
@@ -37,7 +37,7 @@ export default function GiftControl() {
   )
 }
 
-const { Container, GiftCard, Title, ConnectWalletIcon } = {
+const { Container, NextImage, GiftCard, Title, ConnectWalletIcon } = {
   Container: styled.div`
     display: grid;
     justify-content: center;
@@ -46,6 +46,10 @@ const { Container, GiftCard, Title, ConnectWalletIcon } = {
       gap: ${({ theme }) => theme.size[24]};
       max-width: 468px;
     }
+  `,
+  NextImage: styled(Image)`
+    width: 100%;
+    height: 240px;
   `,
   GiftCard: styled.div`
     display: flex;

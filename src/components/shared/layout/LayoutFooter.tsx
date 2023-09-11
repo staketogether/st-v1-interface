@@ -1,5 +1,4 @@
 import chainConfig from '@/config/chain'
-import { useTranslation } from 'next-i18next'
 import styled from 'styled-components'
 import packageData from '../../../../package.json'
 import { globalConfig } from '../../../config/global'
@@ -9,8 +8,6 @@ export default function LayoutFooter() {
   const date = new Date()
   const { blockExplorer, contracts } = chainConfig()
   const { websiteUrl, auditUrl } = globalConfig
-
-  const { i18n } = useTranslation()
 
   const { t } = useLocaleTranslation()
 
@@ -35,7 +32,7 @@ export default function LayoutFooter() {
         {/* <a href={`${appUrl}/${i18n.language}`} target='_blank'>
           {t('footer.app')}
         </a> */}
-        <a href={`${websiteUrl}/${i18n.language}`} target='_blank'>
+        <a href={`${websiteUrl}`} target='_blank'>
           {t('footer.website')}
         </a>
         <span>{`© ${date.getFullYear()} Stake Together `}</span>
@@ -52,7 +49,12 @@ const { Container } = {
     justify-content: space-between;
     background: ${({ theme }) => theme.colorV2.blue[2]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    padding: 16px 24px;
+    padding: 11px 24px;
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      padding: 16px 24px;
+    }
+
     flex-direction: column;
 
     > div:nth-child(2) {

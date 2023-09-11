@@ -15,7 +15,7 @@ export function Metatags() {
             content='Invista em Ethereum com a Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain'
           />
           <meta property='og:type' content='website' />
-          <meta property='og:url' content='https://staketogether.app' />
+          <meta property='og:url' content='https://beta.staketogether.app' />
           <meta property='og:title' content='Stake Together - Staking de Ethereum' />
           <meta
             property='og:description'
@@ -23,7 +23,7 @@ export function Metatags() {
           />
           <meta property='og:image' content={`/assets/icons/stake-together/meta.png`} />
           <meta property='twitter:card' content='summary_large_image' />
-          <meta property='twitter:url' content='https://staketogether.app' />
+          <meta property='twitter:url' content='https://beta.staketogether.app' />
           <meta property='twitter:title' content='Stake Together - Staking de Ethereum' />
           <meta
             property='twitter:description'
@@ -42,7 +42,7 @@ export function Metatags() {
             content='Invest in Ethereum with Stake Together and maximize your profits while supporting your favorite projects through the Blockchain.'
           />
           <meta property='og:type' content='website' />
-          <meta property='og:url' content='https://staketogether.app' />
+          <meta property='og:url' content='https://beta.staketogether.app' />
           <meta property='og:title' content='Stake Together - Ethereum Staking' />
           <meta
             property='og:description'
@@ -50,7 +50,7 @@ export function Metatags() {
           />
           <meta property='og:image' content={`/assets/icons/stake-together/meta.png`} />
           <meta property='twitter:card' content='summary_large_image' />
-          <meta property='twitter:url' content='https://staketogether.app' />
+          <meta property='twitter:url' content='https://beta.staketogether.app' />
           <meta property='twitter:title' content='Stake Together - Ethereum Staking' />
           <meta
             property='twitter:description'

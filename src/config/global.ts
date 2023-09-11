@@ -12,9 +12,9 @@ interface GlobalConfig {
 }
 
 export const globalConfig: GlobalConfig = {
-  url: 'https://alpha.staketogether.app',
-  websiteUrl: 'https://staketogether.app',
-  appUrl: 'https://staketogether.app',
+  url: 'https://beta.staketogether.app',
+  websiteUrl: 'https://beta.staketogether.app',
+  appUrl: 'https://beta.staketogether.app',
   auditUrl:
     'https://github.com/blocksecteam/audit-reports/blob/main/solidity/blocksec_staketogether_v1.1-signed.pdf',
   recaptchakey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string,
