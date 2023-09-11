@@ -154,10 +154,16 @@ const {
     }
   `,
   SettingIcon: styled(AiOutlineSetting)`
-    color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+    }
   `,
   CloseSidebar: styled(AiOutlineRight)`
-    color: ${({ theme }) => theme.colorV2.gray[1]};
+    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+    }
   `,
   Button: styled.button`
     display: grid;

@@ -78,8 +78,11 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
 const { Header, CloseIcon, SettingContainer, Button } = {
   CloseIcon: styled(AiOutlineArrowLeft)`
     font-size: 18px;
-    color: ${({ theme }) => theme.colorV2.gray[1]};
+    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
     cursor: pointer;
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+    }
   `,
   Button: styled.button`
     display: grid;

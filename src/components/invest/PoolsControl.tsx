@@ -192,12 +192,12 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
 
     white-space: nowrap;
     background: ${({ theme }) => theme.colorV2.white};
-    color: ${({ theme }) => theme.colorV2.gray};
+    color: ${({ theme }) => theme.colorV2.gray} !important;
     &.active {
-      color: ${({ theme }) => theme.colorV2.purple[1]};
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
     }
     &:hover {
-      color: ${({ theme }) => theme.colorV2.purple[1]};
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
       background: ${({ theme }) => theme.color.whiteAlpha[700]};
     }
   `,
