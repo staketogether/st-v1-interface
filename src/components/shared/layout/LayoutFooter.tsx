@@ -44,15 +44,19 @@ const { Container } = {
   Container: styled.div`
     width: 100%;
     gap: ${({ theme }) => theme.size[8]};
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: space-between;
     background: ${({ theme }) => theme.colorV2.blue[2]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
     padding: 11px 24px;
 
+    @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    }
+
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       padding: 16px 24px;
+      display: flex;
     }
 
     flex-direction: column;

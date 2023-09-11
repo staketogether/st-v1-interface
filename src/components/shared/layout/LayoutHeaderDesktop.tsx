@@ -68,6 +68,10 @@ const {
     background: ${({ theme }) => theme.colorV2.white};
     box-shadow: ${({ theme }) => theme.shadow[100]};
     padding: ${props => props.theme.size[16]} ${props => props.theme.size[24]};
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: grid;
       grid-template-columns: 1fr auto;
