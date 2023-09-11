@@ -71,6 +71,7 @@ const {
     position: fixed;
     left: 0;
     top: 0;
+    z-index: 5;
     width: 100%;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: grid;
