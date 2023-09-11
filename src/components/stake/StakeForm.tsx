@@ -404,7 +404,7 @@ const {
   `,
   CardInfoContainer: styled.div`
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
 
     border-radius: 8px;
@@ -420,7 +420,6 @@ const {
 
     @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
       gap: ${({ theme }) => theme.size[24]};
-      grid-template-columns: 1fr 1fr;
     }
   `,
   CardInfo: styled.div`
