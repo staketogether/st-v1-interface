@@ -6,9 +6,9 @@ import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
 import { Pool } from '@/types/Pool'
+import { useRouter } from 'next/router'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { useRouter } from 'next/router'
 
 type PoolsCardProps = {
   pool: Pool
@@ -26,15 +26,12 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
       <CardHeader>
         <CommunityLogo size={26} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
         <CommunityName name={pool.name} loading={loading} />
+        <CommunityType>
+          {pool.type && PoolFilterIcon({ iconSize: 16, value: pool.type })}
+          <div>{`${pool.type && poolTypeTranslation(pool.type)}`}</div>
+        </CommunityType>
       </CardHeader>
       <CardInfo>
-        <div>
-          <div>{t('v2.pools.list.type')}</div>
-          <div>
-            {pool.type && PoolFilterIcon({ iconSize: 14, value: pool.type })}
-            <div>{`${pool.type && poolTypeTranslation(pool.type)}`}</div>
-          </div>
-        </div>
         <div>
           <div>{t('v2.pools.list.people')}</div>
           <div>{pool.receivedDelegationsCount.toString()}</div>
@@ -51,7 +48,7 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   )
 }
 
-const { Card, CardInfo, CardHeader } = {
+const { Card, CardInfo, CardHeader, CommunityType } = {
   Card: styled(Link)`
     display: grid;
     flex-direction: column;
@@ -81,14 +78,14 @@ const { Card, CardInfo, CardHeader } = {
     }
   `,
   CardHeader: styled.div`
-    display: flex;
+    display: grid;
     align-items: center;
     gap: ${({ theme }) => theme.size[12]};
     font-weight: 500;
+    grid-template-columns: 26px 1fr auto;
 
-    div {
-      display: flex;
-      align-items: center;
+    span {
+      font-weight: 500;
     }
   `,
   CardInfo: styled.div`
@@ -117,5 +114,10 @@ const { Card, CardInfo, CardHeader } = {
         color: ${({ theme }) => theme.colorV2.blue[1]};
       }
     }
+  `,
+  CommunityType: styled.div`
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   `
 }
