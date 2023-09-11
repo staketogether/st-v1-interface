@@ -4,6 +4,7 @@ import useGiftByWalletAddress from '@/hooks/useGiftByWalletAddress'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import coffee from '@assets/images/coffee.jpg'
+import empty from '@assets/images/empty.jpg'
 import { Tooltip } from 'antd'
 import Image from 'next/image'
 import { PiHandCoins, PiShareNetwork } from 'react-icons/pi'
@@ -41,7 +42,6 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
 
   return (
     <>
-      {!loading && !userGift && <Sent>{t('v2.gifts.notGift')}</Sent>}
       {!loading && userGift && (
         <Header>
           <div>
@@ -63,16 +63,22 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
           </Tooltip>
         </Header>
       )}
+
       {!loading && userGift && <CardImage src={coffee} width={420} height={240} alt={'Coffee'} />}
-      {!loading && !userGift && <CardIcon />}
+      {!loading && !userGift && <Image src={empty} width={420} height={240} alt={'Empty'} />}
       {!loading && userGift && (
         <Content>
           <Title>
-            {t(`v2.gifts.coffee.title`)}{' '}
+            {t(`v2.gifts.coffee.title`)}
             <GiftAmount>{`${truncateWei(userGift.amount, 4)} ${t('lsd.symbol')}`}</GiftAmount>
           </Title>
           <Description>{t(`v2.gifts.coffee.description`)}</Description>
         </Content>
+      )}
+      {!loading && !userGift && (
+        <EmptyArea>
+          <Empty>{t('v2.gifts.notGift')}</Empty>
+        </EmptyArea>
       )}
 
       {!loading && userGift && <GiftCountDown futureTimestamp={userGift.data} />}
@@ -90,7 +96,6 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
 
 const {
   CardImage,
-  CardIcon,
   ClaimIcon,
   GiftAmount,
   Header,
@@ -99,7 +104,9 @@ const {
   Sent,
   Title,
   Description,
-  Content
+  Content,
+  Empty,
+  EmptyArea
 } = {
   CardImage: styled(Image)`
     border-radius: 8px;
@@ -109,11 +116,7 @@ const {
     margin: 0 auto;
     margin-top: 8px;
   `,
-  CardIcon: styled.div`
-    width: 100%;
-    height: 237px;
-    background: red;
-  `,
+
   ClaimIcon: styled(PiHandCoins)`
     font-size: 18px;
   `,
@@ -161,6 +164,16 @@ const {
     font-weight: 400;
     color: ${({ theme }) => theme.colorV2.purple[1]};
     margin-left: 6px;
+  `,
+  EmptyArea: styled.div`
+    display: flex;
+    justify-content: center;
+  `,
+  Empty: styled.span`
+    font-size: 16px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    text-align: center;
   `,
   Content: styled.div`
     display: flex;

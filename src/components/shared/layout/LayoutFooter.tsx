@@ -8,7 +8,7 @@ import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 export default function LayoutFooter() {
   const date = new Date()
   const { blockExplorer, contracts } = chainConfig()
-  const { websiteUrl, auditUrl, appUrl } = globalConfig
+  const { websiteUrl, auditUrl } = globalConfig
 
   const { i18n } = useTranslation()
 

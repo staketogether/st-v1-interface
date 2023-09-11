@@ -21,17 +21,17 @@ export default function useIncentives(accountAddress?: string) {
           {
             name: t('airdrop.incentives.social'),
             description: t('airdrop.incentives.socialDescription'),
-            amount: ethers.parseEther('30.1234')
+            amount: ethers.parseEther('1.23')
           },
           {
             name: t('airdrop.incentives.early'),
             description: t('airdrop.incentives.earlyDescription'),
-            amount: ethers.parseEther('9')
+            amount: ethers.parseEther('2.42')
           },
           {
             name: t('airdrop.incentives.gifts'),
             description: t('airdrop.incentives.giftsDescription'),
-            amount: ethers.parseEther('9')
+            amount: ethers.parseEther('0.05')
           }
         ]
 
