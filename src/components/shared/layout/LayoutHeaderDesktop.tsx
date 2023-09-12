@@ -129,14 +129,14 @@ const {
     background: transparent;
 
     font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.colorV2.gray};
+    color: ${({ theme }) => theme.colorV2.gray} !important;
 
     &:hover {
-      color: ${({ theme }) => theme.colorV2.purple[1]};
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
     }
 
     &.active {
-      color: ${({ theme }) => theme.colorV2.purple[1]};
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
     }
   `,
   InvestIcon: styled(PiCurrencyEth)`
