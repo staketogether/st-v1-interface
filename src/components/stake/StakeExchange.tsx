@@ -46,15 +46,22 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
   }, [isError])
 
   const handleGetFaucet = useCallback(async () => {
+    console.log('aqui1')
     if (recaptchaRef) {
-      const token = await recaptchaRef?.current?.executeAsync()
-      if (token) {
-        setIsSuccess(false)
-        const params = {
-          address: walletAddress || '0x',
-          passcode: code
+      console.log('aqui2')
+      try {
+        const token = await recaptchaRef?.current?.executeAsync()
+        console.log('token', token)
+        if (token) {
+          setIsSuccess(false)
+          const params = {
+            address: walletAddress || '0x',
+            passcode: code
+          }
+          getFaucet(params)
         }
-        getFaucet(params)
+      } catch (error) {
+        console.error('érror', error)
       }
     }
   }, [code, getFaucet, walletAddress])
@@ -140,7 +147,7 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
               />
             )}
           </InputContainer>
-          <ReCAPTCHA sitekey={recaptchakey} size='invisible' ref={recaptchaRef} />
+          <ReCAPTCHA sitekey={recaptchakey} ref={recaptchaRef} />
         </div>
       ) : (
         <>

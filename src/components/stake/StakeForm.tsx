@@ -285,45 +285,51 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     setAmount(truncateWei(balance, 18))
   }
 
+  if (type === 'exchange') {
+    return (
+      <StakeContainer>
+        <StakeExchange walletAddress={accountAddress} onBuyEthIsSuccess={onBuyEthIsSuccess} />
+      </StakeContainer>
+    )
+  }
   return (
     <>
       <StakeContainer>
-        {type !== 'exchange' && (
-          <CardInfoContainer>
-            <CardInfo>
+        <CardInfoContainer>
+          <CardInfo>
+            <div>
+              <Image src={ethIcon} width={30} height={30} alt='stpEth' />
+            </div>
+            <CardInfoData>
+              <header>
+                <h4>{t('availableToStake')}</h4>
+              </header>
               <div>
-                <Image src={ethIcon} width={30} height={30} alt='stpEth' />
+                <span className='primary'>{truncateWei(ethBalance, 6)}</span>
+                <span className='primary'>{t('eth.symbol')}</span>
               </div>
-              <CardInfoData>
-                <header>
-                  <h4>{t('availableToStake')}</h4>
-                </header>
+            </CardInfoData>
+          </CardInfo>
+          <CardInfo>
+            <CardInfoData>
+              <header>
+                <h4>{t('invested')}</h4>
+              </header>
+              {delegationSharesLoading ? (
+                <SkeletonLoading height={20} width={120} />
+              ) : (
                 <div>
-                  <span className='primary'>{truncateWei(ethBalance, 6)}</span>
-                  <span className='primary'>{t('eth.symbol')}</span>
+                  <span className='purple'>{truncateWei(BigInt(delegationBalance), 6)}</span>
+                  <span className='purple'>{t('lsd.symbol')}</span>
                 </div>
-              </CardInfoData>
-            </CardInfo>
-            <CardInfo>
-              <CardInfoData>
-                <header>
-                  <h4>{t('invested')}</h4>
-                </header>
-                {delegationSharesLoading ? (
-                  <SkeletonLoading height={20} width={120} />
-                ) : (
-                  <div>
-                    <span className='purple'>{truncateWei(BigInt(delegationBalance), 6)}</span>
-                    <span className='purple'>{t('lsd.symbol')}</span>
-                  </div>
-                )}
-              </CardInfoData>
-              <div>
-                <Image src={stSymbol} width={30} height={30} alt='stpEth' />
-              </div>
-            </CardInfo>
-          </CardInfoContainer>
-        )}
+              )}
+            </CardInfoData>
+            <div>
+              <Image src={stSymbol} width={30} height={30} alt='stpEth' />
+            </div>
+          </CardInfo>
+        </CardInfoContainer>
+
         {type === 'withdraw' && (
           <StakeWithdrawSwitchTypes
             liquidityPoolBalance={withdrawLiquidityPoolBalance}
@@ -332,18 +338,16 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             selectWithdrawType={setWithdrawTypeSelected}
           />
         )}
-        {type !== 'exchange' && (
-          <StakeFormInput
-            value={amount}
-            onChange={value => setAmount(value)}
-            handleMaxValue={handleInputMaxValue}
-            balanceLoading={balanceLoading || delegationSharesLoading}
-            disabled={isWrongNetwork || isLoading || !accountAddress}
-            hasError={insufficientFunds || insufficientWithdrawalBalance || insufficientMinDeposit}
-            type={type}
-          />
-        )}
-        {!accountAddress && type !== 'exchange' && (
+        <StakeFormInput
+          value={amount}
+          onChange={value => setAmount(value)}
+          handleMaxValue={handleInputMaxValue}
+          balanceLoading={balanceLoading || delegationSharesLoading}
+          disabled={isWrongNetwork || isLoading || !accountAddress}
+          hasError={insufficientFunds || insufficientWithdrawalBalance || insufficientMinDeposit}
+          type={type}
+        />
+        {!accountAddress && (
           <Button
             onClick={() => setOpenSidebarConnectWallet(true)}
             label={t('v2.header.enter')}
@@ -351,7 +355,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             icon={<ConnectWalletIcon />}
           />
         )}
-        {accountAddress && type !== 'exchange' && (
+        {accountAddress && (
           <Button
             isLoading={isLoading || isLoadingFees}
             onClick={openStakeConfirmation}
@@ -367,10 +371,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             }
           />
         )}
-        {type === 'exchange' && (
-          <StakeExchange walletAddress={accountAddress} onBuyEthIsSuccess={onBuyEthIsSuccess} />
-        )}
-        {accountAddress && type !== 'exchange' && (
+        {accountAddress && (
           <StakeDescriptionCheckout
             amount={amount}
             type={type}
@@ -380,22 +381,22 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           />
         )}
       </StakeContainer>
-      {type !== 'exchange' && (
-        <StakeConfirmModal
-          amount={amount}
-          youReceive={type === 'deposit' ? youReceiveDeposit : ethers.parseUnits(amount || '0', 18)}
-          txHash={txHash}
-          type={type}
-          labelButton={handleLabelButton()}
-          onClick={handleStakeConfirmation}
-          ethBySharesRatio={ethBySharesRatio}
-          sharesByEthRatio={sharesByEthRatio}
-          transactionLoading={isLoading}
-          walletActionLoading={walletActionLoading}
-          transactionIsSuccess={isSuccess}
-          onClose={() => setOpenStakeConfirmModal(false)}
-        />
-      )}
+
+      <StakeConfirmModal
+        amount={amount}
+        youReceive={type === 'deposit' ? youReceiveDeposit : ethers.parseUnits(amount || '0', 18)}
+        txHash={txHash}
+        type={type}
+        labelButton={handleLabelButton()}
+        onClick={handleStakeConfirmation}
+        ethBySharesRatio={ethBySharesRatio}
+        sharesByEthRatio={sharesByEthRatio}
+        transactionLoading={isLoading}
+        walletActionLoading={walletActionLoading}
+        transactionIsSuccess={isSuccess}
+        onClose={() => setOpenStakeConfirmModal(false)}
+      />
+
       {accountAddress && (
         <WalletBuyEthModal walletAddress={accountAddress} onBuyEthIsSuccess={onBuyEthIsSuccess} />
       )}
