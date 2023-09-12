@@ -17,8 +17,6 @@ export default function CommunityName({ name, loading, $large, $larger, slice, $
     return <SkeletonLoading width={140} height={14} />
   } else if (loading && $large) {
     return <SkeletonLoading width={140} height={15} />
-  } else if (loading && $larger) {
-    return <SkeletonLoading width={140} height={22} />
   } else if (name) {
     return (
       <Text color={$color} $large={$large} $larger={$larger}>

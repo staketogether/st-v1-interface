@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 type PoolsRowListProps = {
   pool: Pool
@@ -23,10 +24,17 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
   return (
     <Row href={`/${network}/${currency}/invest/deposit/${pool.address}`}>
       <Name>
-        <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
-        <CommunityName name={pool.name} loading={loading} />
+        {pool.logo.url && (
+          <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
+        )}
+        {!pool.logo.url && (
+          <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={true} />
+        )}
+        {pool.name && <CommunityName name={pool.name} loading={loading} />}
+        {!pool.name && <CommunityName name={pool.name} loading={true} />}
       </Name>
       <TypeContainer>
+        {!pool.type && <SkeletonLoading width={100} height={15} />}
         {pool.type && PoolFilterIcon({ iconSize: 16, value: pool.type })}
         <Text>{`${pool.type && poolTypeTranslation(pool.type)}`}</Text>
       </TypeContainer>
