@@ -129,7 +129,7 @@ const {
     background: transparent;
 
     font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.colorV2.gray} !important;
+    color: ${({ theme }) => theme.colorV2.gray[1]} !important;
 
     &:hover {
       color: ${({ theme }) => theme.colorV2.purple[1]} !important;
