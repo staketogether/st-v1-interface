@@ -9,9 +9,11 @@ export default function useIncentives(accountAddress?: string) {
   const [loading, setLoading] = useState<boolean>(true)
   const [amount, setAmount] = useState<bigint>(0n)
 
+  const whitelist = ['0x81c5a12fe0190f792009e3bbcff9c980867614bb', '0xC3afC9D818e6ae917B079d9195374d819431722f']
+
   useEffect(() => {
     const getIncentives = () => {
-      if (accountAddress) {
+      if (accountAddress && whitelist.includes(accountAddress.toLowerCase())) {
         const userIncentives = [
           {
             name: t('airdrop.incentives.pool'),

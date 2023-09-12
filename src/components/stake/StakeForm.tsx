@@ -29,10 +29,10 @@ import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
-import { PiArrowCircleDown, PiArrowDown, PiArrowLineRight, PiArrowUp } from 'react-icons/pi'
-import useWalletByEthModal from '../../hooks/useWalletByEthModal'
+import { PiArrowDown, PiArrowLineRight, PiArrowUp } from 'react-icons/pi'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
+import StakeExchange from './StakeExchange'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw' | 'exchange'
@@ -285,12 +285,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     setAmount(truncateWei(balance, 18))
   }
 
-  const { setOpenModal } = useWalletByEthModal()
-
   return (
     <>
       <StakeContainer>
-        {accountAddress && (
+        {type !== 'exchange' && (
           <CardInfoContainer>
             <CardInfo>
               <div>
@@ -326,7 +324,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             </CardInfo>
           </CardInfoContainer>
         )}
-        {accountAddress && type === 'withdraw' && (
+        {type === 'withdraw' && (
           <StakeWithdrawSwitchTypes
             liquidityPoolBalance={withdrawLiquidityPoolBalance}
             liquidityValidatorsBalance={withdrawLiquidityValidatorsBalance}
@@ -345,7 +343,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             type={type}
           />
         )}
-        {!accountAddress && (
+        {!accountAddress && type !== 'exchange' && (
           <Button
             onClick={() => setOpenSidebarConnectWallet(true)}
             label={t('v2.header.enter')}
@@ -369,13 +367,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             }
           />
         )}
-        {accountAddress && type === 'exchange' && (
-          <Button
-            isLoading={false}
-            onClick={() => setOpenModal(true)}
-            label={t('getEthFaucet')}
-            icon={<DexIcon />}
-          />
+        {type === 'exchange' && (
+          <StakeExchange walletAddress={accountAddress} onBuyEthIsSuccess={onBuyEthIsSuccess} />
         )}
         {accountAddress && type !== 'exchange' && (
           <StakeDescriptionCheckout
@@ -417,8 +410,7 @@ const {
   CardInfoData,
   ConnectWalletIcon,
   DepositIcon,
-  WithdrawIcon,
-  DexIcon
+  WithdrawIcon
 } = {
   StakeContainer: styled.div`
     display: grid;
@@ -520,9 +512,6 @@ const {
     font-size: 16px;
   `,
   WithdrawIcon: styled(PiArrowDown)`
-    font-size: 16px;
-  `,
-  DexIcon: styled(PiArrowCircleDown)`
     font-size: 16px;
   `
 }

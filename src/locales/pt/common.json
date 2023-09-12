@@ -22,6 +22,10 @@
   "poolBalance": "Saldo na Pool",
   "selectPool": "Selecionar Pool",
   "exchange": "Trocar",
+  "buy": "Comprar",
+  "sell": "Vender",
+  "available": "Disponível",
+  "receive": "Receber",
   "getEthFaucet": "Pegar Faucet de ETH",
   "max": "Max",
   "rank": "Rank",
@@ -111,11 +115,11 @@
     "modalButton": "Pegar ETH",
     "altImage": "Icon Carteira",
     "labelInput": "Digite abaixo o código de resgate:",
-    "inputPlaceHolder": "Digite o código aqui",
+    "inputPlaceHolder": "Código",
     "successMessage": "Você resgatou",
-    "messageTitleInit": "Pegar ETH",
-    "messageTitleFinish": "com um código na rede goerli e teste o protoloco",
-    "free": "gratuitamente"
+    "messageTitleInit": "A compra de ETH é",
+    "messageTitleFinish": "na rede goerli",
+    "free": "gratuita"
   },
   "getFaucetErrorMessages": {
     "addressIsRequired": "Endereço é obrigatório",

@@ -34,7 +34,7 @@ export default function useGiftByWalletAddress(account: `0x${string}`) {
           claimed: true,
           txHash: '1',
           address: '0x0f2e3e67cb000993d07e60261748963d3f4bd6d9',
-          winner: '0x1d930E421dFD2F02BBD9B0c3B877d0eD3FBd1343'
+          winner: '0xC3afC9D818e6ae917B079d9195374d819431722f'
         },
         {
           id: '3',

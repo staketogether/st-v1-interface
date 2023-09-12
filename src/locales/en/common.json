@@ -22,6 +22,10 @@
   "poolBalance": "Pool Balance",
   "selectPool": "Select Pool",
   "exchange": "Exchange",
+  "buy": "Buy",
+  "sell": "Sell",
+  "available": "Available",
+  "receive": "Receive",
   "getEthFaucet": "Get ETH Faucet",
   "max": "Max",
   "rank": "Rank",
@@ -40,7 +44,6 @@
   "loadMore": "Load More",
   "apr": "APR",
   "pnl": "PNL",
-
   "wrongNetwork": "Wrong Network",
   "switch": "Switch to",
   "about": "About",
@@ -112,10 +115,10 @@
     "modalButton": "Get ETH",
     "altImage": "Wallet Icon",
     "labelInput": "Enter the redemption code below:",
-    "inputPlaceHolder": "Enter code here",
+    "inputPlaceHolder": "Code",
     "successMessage": "You have redeemed",
     "messageTitleInit": "The purchase of ETH is",
-    "messageTitleFinish": "on the Goerli network for conducting tests on the application",
+    "messageTitleFinish": "on the Goerli network",
     "free": "free"
   },
   "getFaucetErrorMessages": {
