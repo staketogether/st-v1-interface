@@ -81,7 +81,7 @@ export default function useIncentives(accountAddress?: string) {
     setIncentives(current.incentives)
     setAmount(current.amount)
     setLoading(false)
-  }, [accountAddress, t])
+  }, [accountAddress, t, whitelist])
 
   return {
     loading,
