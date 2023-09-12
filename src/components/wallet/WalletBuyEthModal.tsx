@@ -199,13 +199,14 @@ const {
       width: 100%;
       border: none;
       outline: none;
-      background: ${({ theme }) => theme.color.whiteAlpha[800]};
-      border-radius: ${({ theme }) => theme.size[16]};
+      background: ${({ theme }) => theme.colorV2.gray[2]};
+      border-radius: ${({ theme }) => theme.size[8]};
       padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
       text-align: center;
-      color: ${({ theme }) => theme.color.secondary};
+      color: ${({ theme }) => theme.colorV2.blue[1]};
       font-size: ${({ theme }) => theme.font.size[16]};
       font-weight: 500;
+      box-shadow: ${({ theme }) => theme.shadow[300]};
 
       &::placeholder {
         text-align: center;
@@ -218,11 +219,12 @@ const {
   BuyCryptoButton: styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
-    border-radius: ${props => props.theme.size[16]};
-    background: ${({ theme }) => theme.color.secondary};
+    border-radius: ${props => props.theme.size[8]};
+    background: ${({ theme }) => theme.colorV2.blue[1]};
     transition: background-color 0.2s ease;
     height: 48px;
     width: 100%;
+    box-shadow: ${({ theme }) => theme.shadow[300]};
 
     font-size: ${({ theme }) => theme.font.size[16]};
     font-weight: 500;
@@ -233,7 +235,7 @@ const {
     gap: ${({ theme }) => theme.size[8]};
 
     &:hover {
-      background: ${({ theme }) => theme.color.purple[900]};
+      background: ${({ theme }) => theme.colorV2.purple[1]};
     }
 
     &:disabled {

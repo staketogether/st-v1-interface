@@ -75,7 +75,7 @@ const { Container, DelegationsContainer, LoadMoreButton } = {
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
     border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
     gap: ${({ theme }) => theme.size[16]};
 
     > header {
@@ -106,7 +106,7 @@ const { Container, DelegationsContainer, LoadMoreButton } = {
     color: ${({ theme }) => theme.color.primary};
     background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
     border: none;
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
     padding: 0 ${({ theme }) => theme.size[16]};
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};

@@ -29,12 +29,13 @@ import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
-import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
-import { PiArrowLineRight } from 'react-icons/pi'
+import { PiArrowCircleDown, PiArrowDown, PiArrowLineRight, PiArrowUp } from 'react-icons/pi'
+import useWalletByEthModal from '../../hooks/useWalletByEthModal'
+import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 
 type StakeFormProps = {
-  type: 'deposit' | 'withdraw'
+  type: 'deposit' | 'withdraw' | 'exchange'
   poolAddress: `0x${string}`
   accountAddress?: `0x${string}`
 }
@@ -84,6 +85,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         return withdrawPoolBalanceRefetch()
     }
   }, [withdrawPoolBalanceRefetch, withdrawValidatorsBalanceRefetch, withdrawTypeSelected])
+
+  const onBuyEthIsSuccess = () => {
+    refetchEthBalance()
+  }
 
   const [amount, setAmount] = useState<string>('')
 
@@ -280,6 +285,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     setAmount(truncateWei(balance, 18))
   }
 
+  const { setOpenModal } = useWalletByEthModal()
+
   return (
     <>
       <StakeContainer>
@@ -327,15 +334,17 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             selectWithdrawType={setWithdrawTypeSelected}
           />
         )}
-        <StakeFormInput
-          value={amount}
-          onChange={value => setAmount(value)}
-          handleMaxValue={handleInputMaxValue}
-          balanceLoading={balanceLoading || delegationSharesLoading}
-          disabled={isWrongNetwork || isLoading || !accountAddress}
-          hasError={insufficientFunds || insufficientWithdrawalBalance || insufficientMinDeposit}
-          type={type}
-        />
+        {type !== 'exchange' && (
+          <StakeFormInput
+            value={amount}
+            onChange={value => setAmount(value)}
+            handleMaxValue={handleInputMaxValue}
+            balanceLoading={balanceLoading || delegationSharesLoading}
+            disabled={isWrongNetwork || isLoading || !accountAddress}
+            hasError={insufficientFunds || insufficientWithdrawalBalance || insufficientMinDeposit}
+            type={type}
+          />
+        )}
         {!accountAddress && (
           <Button
             onClick={() => setOpenSidebarConnectWallet(true)}
@@ -344,7 +353,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             icon={<ConnectWalletIcon />}
           />
         )}
-        {accountAddress && (
+        {accountAddress && type !== 'exchange' && (
           <Button
             isLoading={isLoading || isLoadingFees}
             onClick={openStakeConfirmation}
@@ -360,7 +369,15 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             }
           />
         )}
-        {accountAddress && (
+        {accountAddress && type === 'exchange' && (
+          <Button
+            isLoading={false}
+            onClick={() => setOpenModal(true)}
+            label={t('getEthFaucet')}
+            icon={<DexIcon />}
+          />
+        )}
+        {accountAddress && type !== 'exchange' && (
           <StakeDescriptionCheckout
             amount={amount}
             type={type}
@@ -370,20 +387,25 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           />
         )}
       </StakeContainer>
-      <StakeConfirmModal
-        amount={amount}
-        youReceive={type === 'deposit' ? youReceiveDeposit : ethers.parseUnits(amount || '0', 18)}
-        txHash={txHash}
-        type={type}
-        labelButton={handleLabelButton()}
-        onClick={handleStakeConfirmation}
-        ethBySharesRatio={ethBySharesRatio}
-        sharesByEthRatio={sharesByEthRatio}
-        transactionLoading={isLoading}
-        walletActionLoading={walletActionLoading}
-        transactionIsSuccess={isSuccess}
-        onClose={() => setOpenStakeConfirmModal(false)}
-      />
+      {type !== 'exchange' && (
+        <StakeConfirmModal
+          amount={amount}
+          youReceive={type === 'deposit' ? youReceiveDeposit : ethers.parseUnits(amount || '0', 18)}
+          txHash={txHash}
+          type={type}
+          labelButton={handleLabelButton()}
+          onClick={handleStakeConfirmation}
+          ethBySharesRatio={ethBySharesRatio}
+          sharesByEthRatio={sharesByEthRatio}
+          transactionLoading={isLoading}
+          walletActionLoading={walletActionLoading}
+          transactionIsSuccess={isSuccess}
+          onClose={() => setOpenStakeConfirmModal(false)}
+        />
+      )}
+      {accountAddress && (
+        <WalletBuyEthModal walletAddress={accountAddress} onBuyEthIsSuccess={onBuyEthIsSuccess} />
+      )}
     </>
   )
 }
@@ -395,7 +417,8 @@ const {
   CardInfoData,
   ConnectWalletIcon,
   DepositIcon,
-  WithdrawIcon
+  WithdrawIcon,
+  DexIcon
 } = {
   StakeContainer: styled.div`
     display: grid;
@@ -493,10 +516,13 @@ const {
   ConnectWalletIcon: styled(PiArrowLineRight)`
     font-size: 16px;
   `,
-  DepositIcon: styled(BsArrowDown)`
+  DepositIcon: styled(PiArrowDown)`
     font-size: 16px;
   `,
-  WithdrawIcon: styled(BsArrowUp)`
+  WithdrawIcon: styled(PiArrowUp)`
+    font-size: 16px;
+  `,
+  DexIcon: styled(PiArrowCircleDown)`
     font-size: 16px;
   `
 }

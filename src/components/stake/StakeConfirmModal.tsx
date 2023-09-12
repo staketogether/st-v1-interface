@@ -166,7 +166,7 @@ const { ContainerPayment, Header, Divider, Button } = {
   Button: styled.button`
     border: none;
     color: ${({ theme }) => theme.color.white};
-    border-radius: ${props => props.theme.size[16]};
+    border-radius: ${props => props.theme.size[8]};
     background: ${({ theme }) => theme.color.primary};
     transition: background-color 0.2s ease;
     height: 48px;

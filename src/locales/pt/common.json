@@ -21,6 +21,8 @@
   "balance": "Saldo",
   "poolBalance": "Saldo na Pool",
   "selectPool": "Selecionar Pool",
+  "exchange": "Trocar",
+  "getEthFaucet": "Pegar Faucet de ETH",
   "max": "Max",
   "rank": "Rank",
   "action": "Depositando...",

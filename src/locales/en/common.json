@@ -21,6 +21,8 @@
   "balance": "Balance",
   "poolBalance": "Pool Balance",
   "selectPool": "Select Pool",
+  "exchange": "Exchange",
+  "getEthFaucet": "Get ETH Faucet",
   "max": "Max",
   "rank": "Rank",
   "action": "Staking...",

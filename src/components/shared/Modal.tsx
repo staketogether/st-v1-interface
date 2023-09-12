@@ -48,9 +48,10 @@ const { ModalWrapper, Overlay, CloseButton } = {
     z-index: 9999;
 
     width: ${props => `${props.width}px`};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    background-color: ${({ theme }) => theme.colorV2.white};
     padding: ${({ theme }) => theme.size[24]};
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[300]};
 
     display: flex;
     flex-direction: column;
@@ -63,6 +64,11 @@ const { ModalWrapper, Overlay, CloseButton } = {
 
       font-size: ${({ theme }) => theme.font.size[16]};
       font-weight: 500;
+    }
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+      width: 340px;
+      max-width: 90%;
     }
   `,
   Overlay: styled.div`
@@ -82,7 +88,7 @@ const { ModalWrapper, Overlay, CloseButton } = {
     width: 32px;
     height: 32px;
     border: 0;
-    border-radius: ${({ theme }) => theme.size[16]};
+    border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
     background: ${({ theme }) => theme.color.whiteAlpha[600]};
     transition: background 0.2s ease;

@@ -96,6 +96,12 @@ const { Container, TabItem, TabsContainer } = {
     &::-webkit-scrollbar {
       display: none;
     }
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+      > div:nth-child(1) {
+        margin-left: -8px;
+      }
+    }
   `,
   TabItem: styled.div`
     cursor: pointer;

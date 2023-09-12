@@ -4,7 +4,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
-import { PiCurrencyEthLight, PiQuestion, PiShareNetwork } from 'react-icons/pi'
+import { PiArrowDown, PiArrowUp, PiArrowsClockwiseBold, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useContentfulPoolDetails from '../../hooks/contentful/useContentfulPoolDetails'
@@ -20,7 +20,7 @@ import StakePoolInfo from './StakePoolInfo'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
-  type: 'deposit' | 'withdraw'
+  type: 'deposit' | 'withdraw' | 'exchange'
 }
 
 export default function StakeControl({ poolAddress, type }: StakeControlProps) {
@@ -64,12 +64,13 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
     {
       key: 'withdraw',
       label: t('withdraw'),
-      icon: (
-        <EthIcons>
-          <EthIcon />
-          <EthIcon />
-        </EthIcons>
-      ),
+      icon: <WithdrawIcon />,
+      children: stakeForm
+    },
+    {
+      key: 'exchange',
+      label: t('exchange'),
+      icon: <DexIcon />,
       children: stakeForm
     }
   ]
@@ -78,7 +79,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
     navigator.clipboard.writeText(window.location.toString())
   }
 
-  const activeTab = isActive('deposit') ? 'deposit' : 'withdraw'
+  const activeTab = isActive('deposit') ? 'deposit' : isActive('withdraw') ? 'withdraw' : 'exchange'
 
   return (
     <Container>
@@ -143,7 +144,18 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   )
 }
 
-const { Container, Form, EthIcon, TvlContainer, QuestionIcon, ShareButton, ShareIcon, PoolTitle, EthIcons } = {
+const {
+  Container,
+  Form,
+  EthIcon,
+  TvlContainer,
+  QuestionIcon,
+  ShareButton,
+  ShareIcon,
+  PoolTitle,
+  WithdrawIcon,
+  DexIcon
+} = {
   Container: styled.div`
     display: grid;
     justify-content: center;
@@ -213,7 +225,13 @@ const { Container, Form, EthIcon, TvlContainer, QuestionIcon, ShareButton, Share
       }
     }
   `,
-  EthIcon: styled(PiCurrencyEthLight)`
+  EthIcon: styled(PiArrowUp)`
+    font-size: 15px;
+  `,
+  WithdrawIcon: styled(PiArrowDown)`
+    font-size: 15px;
+  `,
+  DexIcon: styled(PiArrowsClockwiseBold)`
     font-size: 15px;
   `,
   QuestionIcon: styled(PiQuestion)`
@@ -259,12 +277,6 @@ const { Container, Form, EthIcon, TvlContainer, QuestionIcon, ShareButton, Share
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.size[12]};
-    }
-  `,
-  EthIcons: styled.div`
-    svg:nth-child(1) {
-      position: relative;
-      left: 3px;
     }
   `
 }
