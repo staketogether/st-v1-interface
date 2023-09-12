@@ -38,7 +38,6 @@ export default function IncentivesControl() {
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
     }
-
     const actionLabel = t('airdrop.claim')
     return actionLabel
   }
