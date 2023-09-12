@@ -9,9 +9,12 @@ export default function useIncentives(accountAddress?: string) {
   const [loading, setLoading] = useState<boolean>(true)
   const [amount, setAmount] = useState<bigint>(0n)
 
-  const whitelist = ['0x81c5a12fe0190f792009e3bbcff9c980867614bb', '0xC3afC9D818e6ae917B079d9195374d819431722f']
-
   useEffect(() => {
+    const whitelist = [
+      '0x81c5a12fe0190f792009e3bbcff9c980867614bb',
+      '0xC3afC9D818e6ae917B079d9195374d819431722f'
+    ]
+
     const getIncentives = () => {
       if (accountAddress && whitelist.includes(accountAddress.toLowerCase())) {
         const userIncentives = [
@@ -81,7 +84,7 @@ export default function useIncentives(accountAddress?: string) {
     setIncentives(current.incentives)
     setAmount(current.amount)
     setLoading(false)
-  }, [accountAddress, t, whitelist])
+  }, [accountAddress, t])
 
   return {
     loading,
