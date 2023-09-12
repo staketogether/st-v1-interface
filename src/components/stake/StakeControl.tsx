@@ -225,10 +225,10 @@ const {
       }
     }
   `,
-  EthIcon: styled(PiArrowUp)`
+  EthIcon: styled(PiArrowDown)`
     font-size: 15px;
   `,
-  WithdrawIcon: styled(PiArrowDown)`
+  WithdrawIcon: styled(PiArrowUp)`
     font-size: 15px;
   `,
   DexIcon: styled(PiArrowsClockwiseBold)`

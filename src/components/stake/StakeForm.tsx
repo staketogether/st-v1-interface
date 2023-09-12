@@ -516,10 +516,10 @@ const {
   ConnectWalletIcon: styled(PiArrowLineRight)`
     font-size: 16px;
   `,
-  DepositIcon: styled(PiArrowDown)`
+  DepositIcon: styled(PiArrowUp)`
     font-size: 16px;
   `,
-  WithdrawIcon: styled(PiArrowUp)`
+  WithdrawIcon: styled(PiArrowDown)`
     font-size: 16px;
   `,
   DexIcon: styled(PiArrowCircleDown)`
