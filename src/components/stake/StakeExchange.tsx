@@ -2,12 +2,12 @@ import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
 import useGetFaucet from '@/hooks/useGetFaucet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import useWalletByEthModal from '@/hooks/useWalletByEthModal'
+
 import dollar from '@assets/icons/dollar.png'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ReCAPTCHA } from 'react-google-recaptcha'
 import { PiArrowLineRight, PiArrowRight, PiArrowsLeftRight } from 'react-icons/pi'
 import styled from 'styled-components'
@@ -26,7 +26,6 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
 
   const [getFaucetError, setGetFaucetError] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const { openModal } = useWalletByEthModal()
   const { t } = useLocaleTranslation()
   const recaptchaRef = useRef<ReCAPTCHA>(null)
   const { recaptchakey } = globalConfig
@@ -45,42 +44,20 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
     setGetFaucetError(isError)
   }, [isError])
 
-  const handleGetFaucet = useCallback(async () => {
-    console.log('aqui1')
-    if (recaptchaRef) {
-      console.log('aqui2')
-      try {
-        const token = await recaptchaRef?.current?.executeAsync()
-        console.log('token', token)
-        if (token) {
-          setIsSuccess(false)
-          const params = {
-            address: walletAddress || '0x',
-            passcode: code
-          }
-          getFaucet(params)
-        }
-      } catch (error) {
-        console.error('érror', error)
-      }
+  const handleAction = () => {
+    setIsSuccess(false)
+    const params = {
+      address: walletAddress || '0x',
+      passcode: code
     }
-  }, [code, getFaucet, walletAddress])
+    getFaucet(params)
+  }
 
-  const resetStates = useCallback(() => {
+  const resetStates = () => {
     setGetFaucetError(false)
     setIsSuccess(false)
     setCode('')
-  }, [])
-
-  useEffect(() => {
-    resetStates()
-  }, [resetStates, walletAddress])
-
-  useEffect(() => {
-    if (!openModal) {
-      resetStates()
-    }
-  }, [openModal, resetStates])
+  }
 
   const disabledButton = !code || isLoading
 
@@ -129,9 +106,10 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
               onChange={e => setCode(e.target.value.toLocaleUpperCase())}
               placeholder={t('buyEth.inputPlaceHolder')}
             />
+
             {walletAddress && (
               <Button
-                onClick={handleGetFaucet}
+                onClick={handleAction}
                 disabled={disabledButton}
                 label={t('getEthFaucet')}
                 isLoading={isLoading}
@@ -147,7 +125,7 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
               />
             )}
           </InputContainer>
-          <ReCAPTCHA sitekey={recaptchakey} ref={recaptchaRef} />
+          <ReCAPTCHA sitekey={recaptchakey} size='invisible' ref={recaptchaRef} />
         </div>
       ) : (
         <>
