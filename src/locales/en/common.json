@@ -115,7 +115,7 @@
     "modalButton": "Get ETH",
     "altImage": "Wallet Icon",
     "labelInput": "Enter the redemption code below:",
-    "inputPlaceHolder": "Code",
+    "inputPlaceHolder": "code",
     "successMessage": "You have redeemed",
     "messageTitleInit": "The purchase of ETH is",
     "messageTitleFinish": "on the Goerli network",

@@ -115,7 +115,7 @@
     "modalButton": "Pegar ETH",
     "altImage": "Icon Carteira",
     "labelInput": "Digite abaixo o código de resgate:",
-    "inputPlaceHolder": "Código",
+    "inputPlaceHolder": "código",
     "successMessage": "Você resgatou",
     "messageTitleInit": "A compra de ETH é",
     "messageTitleFinish": "na rede goerli",
