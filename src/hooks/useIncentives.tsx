@@ -12,6 +12,7 @@ export default function useIncentives(accountAddress?: string) {
   useEffect(() => {
     const whitelist = [
       '0x81c5a12fe0190f792009e3bbcff9c980867614bb',
+      '0xC3afC9D818e6ae917B079d9195374d819431722f',
       '0xC3afC9D818e6ae917B079d9195374d819431722f'
     ]
 
