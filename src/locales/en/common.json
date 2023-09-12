@@ -257,7 +257,8 @@
       "deposit": "Deposit",
       "donationDeposit": "Donation",
       "withdraw": "Withdraw",
-      "withdrawPool": "Withdraw"
+      "withdrawPool": "Withdraw",
+      "transfer": "Transfer"
     },
     "gifts": {
       "countdown": "Time to Redeem",

@@ -258,7 +258,8 @@
       "deposit": "Depósito",
       "donationDeposit": "Doação",
       "withdraw": "Saque",
-      "withdrawPool": "Saque"
+      "withdrawPool": "Saque",
+      "transfer": "Transferencia"
     },
     "gifts": {
       "countdown": "Tempo para Resgatar",
