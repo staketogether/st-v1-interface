@@ -38,7 +38,7 @@ export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRe
             <AiOutlineLink color={theme.color.secondary} />
             <span>{truncateTimestamp(reward.timestamp, router.locale || 'en')}</span>
             <span className='green'>
-              {truncateWei(reward.amount, 4)} {t('lsd.symbol')}
+              {truncateWei(reward.amount, 8)} {t('lsd.symbol')}
             </span>
           </Reward>
         )
@@ -83,7 +83,7 @@ const { Container, Reward, RewardsHeader, EmptyContainer } = {
   Reward: styled(Link)`
     height: 32px;
     display: grid;
-    grid-template-columns: 20px 1fr 0.9fr;
+    grid-template-columns: 20px auto 1fr;
     gap: ${({ theme }) => theme.size[8]};
     padding: 8px;
 

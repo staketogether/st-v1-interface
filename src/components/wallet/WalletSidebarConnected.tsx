@@ -108,18 +108,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
         <>
           <HeaderContainer>
             <HeaderUserContainer>
-              <div>
-                {web3AuthUserInfo && (
-                  <span onClick={() => copyToClipboard(web3AuthUserInfo.email)}>
-                    {truncateText(web3AuthUserInfo.email, 20)}
-                  </span>
-                )}
-                {nameLoading && <SkeletonLoading width={140} height={14} />}
-                {!nameLoading && name && !web3AuthUserInfo && (
-                  <span onClick={() => copyToClipboard(name)}>{truncateText(name, 16)}</span>
-                )}
-                <span onClick={() => copyToClipboard(address)}>{truncateAddress(address)}</span>
-              </div>
               <Web3AuthProfileContainer>
                 {web3AuthUserInfo && web3AuthUserInfo.profileImage ? (
                   <>
@@ -140,7 +128,27 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                   </>
                 )}
               </Web3AuthProfileContainer>
-              <CopyIcon className='copy' />
+              <div>
+                {web3AuthUserInfo && (
+                  <WalletAddressContainer>
+                    <span onClick={() => copyToClipboard(web3AuthUserInfo.email)}>
+                      {truncateText(web3AuthUserInfo.email, 20)}
+                    </span>
+                    <CopyIcon className='copy' />
+                  </WalletAddressContainer>
+                )}
+                {nameLoading && <SkeletonLoading width={140} height={14} />}
+                {!nameLoading && name && !web3AuthUserInfo && (
+                  <WalletAddressContainer onClick={() => copyToClipboard(name)}>
+                    <span>{truncateText(name, 16)}</span>
+                    <CopyIcon className='copy' />
+                  </WalletAddressContainer>
+                )}
+                <WalletAddressContainer onClick={() => copyToClipboard(address)}>
+                  <span>{truncateAddress(address)}</span>
+                  <CopyIcon className='copy' />
+                </WalletAddressContainer>
+              </div>
             </HeaderUserContainer>
             <ClosedSidebarButton onClick={() => setOpenSidebar(false)}>
               <CloseSidebar fontSize={14} />
@@ -214,7 +222,8 @@ const {
   LeftContainer,
   RightContainer,
   ActivitiesIcon,
-  TabsArea
+  TabsArea,
+  WalletAddressContainer
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.colorV2.foreground} !important;
@@ -242,21 +251,9 @@ const {
   HeaderUserContainer: styled.div`
     display: flex;
     align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.colorV2.white};
+    gap: ${({ theme }) => theme.size[12]};
     border-radius: 8px;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    padding: 0px ${({ theme }) => theme.size[12]};
 
-    &:hover {
-      background: ${({ theme }) => theme.colorV2.gray[4]};
-      cursor: pointer;
-
-      .copy {
-        display: block;
-        color: ${({ theme }) => theme.colorV2.blue[1]};
-      }
-    }
     > div {
       display: flex;
       flex-direction: column;
@@ -266,11 +263,6 @@ const {
         align-items: center;
         gap: ${({ theme }) => theme.size[4]};
         cursor: pointer;
-        &:hover {
-          svg {
-            display: block;
-          }
-        }
       }
     }
   `,
@@ -401,10 +393,6 @@ const {
   `,
   CloseSidebar: styled(AiOutlineRight)`
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
-
-    &:hover {
-      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
-    }
   `,
   Button: styled.button`
     display: grid;
@@ -448,8 +436,8 @@ const {
   `,
   WrapperWallet: styled.div`
     position: absolute;
-    top: 10px;
-    left: 13px;
+    top: 14px;
+    left: 15px;
     border-radius: 50%;
     box-shadow: ${({ theme }) => theme.shadow[100]};
     width: 14px;
@@ -469,11 +457,23 @@ const {
     border-radius: 50%;
   `,
   CopyIcon: styled(FiCopy)`
-    font-size: ${({ theme }) => theme.font.size[12]};
-    display: none;
-    position: absolute;
-    margin-left: 162px;
-    color: ${({ theme }) => theme.colorV2.blue[1]};
+    font-size: 11px;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    &:hover {
+      cursor: pointer;
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
+  `,
+  WalletAddressContainer: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    &:hover {
+      svg {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
+    }
   `,
   PoolsIcon: styled(AiOutlinePieChart)`
     font-size: 16px;
