@@ -53,7 +53,7 @@ export default function StakeWithdrawSwitchTypes({
         onClick={() => selectWithdrawType(WithdrawType.VALIDATOR)}
       >
         <header>
-          <h4>{t('withdrawCardsType.validators')}</h4>
+          <h4>{t('withdrawCardsType.beaconChain')}</h4>
           <ValidatorsIcon />
         </header>
         <RateInfo>
