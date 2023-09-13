@@ -17,6 +17,7 @@ export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRe
   const theme = useTheme()
   const router = useRouter()
   const { blockExplorer } = chainConfig()
+  console.log('rewards', accountRewards)
 
   return (
     <Container>
@@ -37,8 +38,8 @@ export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRe
           <Reward key={reward.txHash} href={`${blockExplorer.baseUrl}/tx/${reward.txHash}`} target='_blank'>
             <AiOutlineLink color={theme.color.secondary} />
             <span>{truncateTimestamp(reward.timestamp, router.locale || 'en')}</span>
-            <span>
-              {truncateWei(BigInt(reward.amount))} {t('lsd.symbol')}
+            <span className='green'>
+              {truncateWei(reward.amount, 4)} {t('lsd.symbol')}
             </span>
           </Reward>
         )
@@ -106,6 +107,9 @@ const { Container, Reward, RewardsHeader, EmptyContainer } = {
 
       > span {
         color: ${({ theme }) => theme.color.secondary};
+      }
+      &.green {
+        color: ${({ theme }) => theme.color.green[500]};
       }
     }
 
