@@ -17,7 +17,6 @@ export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRe
   const theme = useTheme()
   const router = useRouter()
   const { blockExplorer } = chainConfig()
-  console.log('rewards', accountRewards)
 
   return (
     <Container>
