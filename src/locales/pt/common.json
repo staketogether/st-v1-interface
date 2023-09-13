@@ -133,7 +133,7 @@
   "withdrawCardsType": {
     "pool": "Pool",
     "lendingPool": "Pools de Empréstimo",
-    "validators": "Validadores",
+    "beaconChain": "Beacon Chain",
     "rate": "Taxa",
     "bestRate": "Melhor Taxa",
     "liquidity": "Liquidez",
