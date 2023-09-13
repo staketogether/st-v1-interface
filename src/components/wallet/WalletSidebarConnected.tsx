@@ -134,7 +134,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                     <span onClick={() => copyToClipboard(web3AuthUserInfo.email)}>
                       {truncateText(web3AuthUserInfo.email, 20)}
                     </span>
-                    <CopyIcon className='copy' />
                   </WalletAddressContainer>
                 )}
                 {nameLoading && <SkeletonLoading width={140} height={14} />}
