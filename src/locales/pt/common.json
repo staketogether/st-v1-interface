@@ -125,7 +125,7 @@
     "addressIsRequired": "Endereço é obrigatório",
     "passcodeIsRequired": "Código de acesso é obrigatório",
     "invalidAddress": "Endereço inválido",
-    "noPasscodes": "Nenhum código de acesso encontrado",
+    "noPassCodes": "Nenhum código de acesso encontrado",
     "invalidPasscode": "Código de acesso inválido",
     "faucetIsEmpty": "Não temos mais ETH",
     "addressHasAlready": "Sua carteira já recebeu ETH"

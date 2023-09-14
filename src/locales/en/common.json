@@ -125,7 +125,7 @@
     "addressIsRequired": "Address is required",
     "passcodeIsRequired": "Passcode is required",
     "invalidAddress": "Invalid address",
-    "noPasscodes": "No passcodes found",
+    "noPassCodes": "No passcodes found",
     "invalidPasscode": "Invalid passcode",
     "faucetIsEmpty": "No more ETH available",
     "addressHasAlready": "Your wallet has already received ETH"

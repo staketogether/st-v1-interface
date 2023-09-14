@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   }
 
   const chain = chainConfig()
-  const creatorPasscodes = (
+  const creatorPassCodes = (
     await firestore.collection('creators').withConverter(creatorPasscodeConverter).get()
   ).docs.map(doc => {
     return { id: doc.id, ...doc.data() }
@@ -39,11 +39,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: 'getFaucetErrorMessages.invalidAddress' })
   }
 
-  if (creatorPasscodes.length === 0) {
-    return res.status(500).json({ message: 'getFaucetErrorMessages.noPasscodes' })
+  if (creatorPassCodes.length === 0) {
+    return res.status(500).json({ message: 'getFaucetErrorMessages.noPassCodes' })
   }
 
-  const foundPasscode = creatorPasscodes.find(creator => creator.passcode === passcode)
+  const foundPasscode = creatorPassCodes.find(creator => creator.passcode === passcode)
 
   if (foundPasscode === undefined) {
     return res.status(400).json({ message: 'getFaucetErrorMessages.invalidPasscode' })
