@@ -11,7 +11,7 @@ const { chains, publicClient } = configureChains(
   [
     jsonRpcProvider({
       rpc: () => ({
-        http: 'https://rpc.etha.staketogether.org/v1/goerli'
+        http: `${process.env.NEXT_PUBLIC_RPC_URL}`
       })
     }),
     publicProvider()
