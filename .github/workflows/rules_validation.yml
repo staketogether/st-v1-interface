@@ -45,8 +45,6 @@ jobs:
         run: |
           touch .env
           echo NEXT_PUBLIC_CHAIN_ID=5 >> .env          
-          echo NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY=1 >> .env
-          echo NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY=1 >> .env
           echo NEXT_PUBLIC_GA_MEASUREMENT_ID=1 >> .env
           echo NEXT_PUBLIC_CLOUDFLARE_TOKEN=1 >> .env
           echo NEXT_PUBLIC_HOTJAR_ID=1 >> .env

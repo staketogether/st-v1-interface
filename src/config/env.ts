@@ -2,12 +2,6 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_CHAIN_ID) {
     throw new Error('NEXT_PUBLIC_CHAIN_ID not found in env')
   }
-  if (!process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY) {
-    throw new Error('NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY not found in env')
-  }
-  if (!process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY) {
-    throw new Error('NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY not found in env')
-  }
   if (!process.env.NEXT_PUBLIC_HOTJAR_ID) {
     throw new Error('NEXT_PUBLIC_HOTJAR_ID not found in env')
   }
