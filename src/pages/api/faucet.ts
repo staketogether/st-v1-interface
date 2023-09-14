@@ -59,10 +59,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: 'getFaucetErrorMessages.faucetIsEmpty' })
   }
 
-  const hasAlreadySendFaucet =
-    foundPasscode.accountsDistributed.includes(address) || foundPasscode.ipsUsed.includes(userIp)
-
-  if (hasAlreadySendFaucet) {
+  if (foundPasscode.accountsDistributed.includes(address)) {
     return res.status(400).json({ message: 'getFaucetErrorMessages.addressHasAlready' })
   }
 
