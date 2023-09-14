@@ -125,9 +125,9 @@
     "addressIsRequired": "Endereço é obrigatório",
     "passcodeIsRequired": "Código de acesso é obrigatório",
     "invalidAddress": "Endereço inválido",
-    "noPassCodes": "Nenhum código de acesso encontrado",
-    "invalidPasscode": "Código de acesso inválido",
-    "faucetIsEmpty": "Não temos mais ETH",
+    "noPassCodes": "Código Não Encontrado",
+    "invalidPasscode": "Código Inválido",
+    "faucetIsEmpty": "Sem ETH Disponível para Faucet",
     "addressHasAlready": "Sua carteira já recebeu ETH"
   },
   "withdrawCardsType": {
