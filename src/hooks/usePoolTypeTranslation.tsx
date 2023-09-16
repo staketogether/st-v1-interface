@@ -8,10 +8,6 @@ export default function usePoolTypeTranslation() {
       value: 'all'
     },
     {
-      name: t('v2.pools.filter.art'),
-      value: 'art'
-    },
-    {
       name: t('v2.pools.filter.education'),
       value: 'education'
     },

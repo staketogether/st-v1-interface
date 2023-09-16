@@ -28,10 +28,6 @@ export default function PoolsControl({ pools }: PoolsListProps) {
       value: 'all'
     },
     {
-      name: poolTypeTranslation('art'),
-      value: 'art'
-    },
-    {
       name: poolTypeTranslation('education'),
       value: 'education'
     },
