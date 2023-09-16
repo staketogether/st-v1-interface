@@ -90,6 +90,13 @@ const { AirdropCountdown, Time } = {
     align-items: center;
     gap: 8px;
 
+    > div p {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: -20px;
+    }
+
     > div:nth-child(1) {
       display: flex;
       gap: 8px;
