@@ -3,23 +3,43 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 export default function NextAirdropCountdown() {
-  const [currentTimestamp, setCurrentTimestamp] = useState<number>(0)
-
-  const formatTime = (time: number) => (time < 10 ? `0${time}` : time)
+  const [timeLeft, setTimeLeft] = useState<number>(0)
   const { t } = useLocaleTranslation()
 
+  const formatTime = (time: number): [string, string] => {
+    const str = time.toString().padStart(2, '0')
+    return [str.charAt(0), str.charAt(1)]
+  }
+
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTimestamp(Date.now())
-    }, 1000)
+    const getNextFriday = () => {
+      const dateInBrasilia = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }))
+      const nextFriday = new Date(dateInBrasilia)
+
+      if (dateInBrasilia.getDay() !== 5 || (dateInBrasilia.getDay() === 5 && dateInBrasilia.getHours() >= 14)) {
+        nextFriday.setDate(dateInBrasilia.getDate() + ((5 + 7 - dateInBrasilia.getDay()) % 7))
+      }
+      nextFriday.setHours(14, 0, 0, 0)
+      return nextFriday
+    }
+
+    const updateCountdown = () => {
+      const nowInBrasilia = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }))
+      const diff = getNextFriday().getTime() - nowInBrasilia.getTime()
+      setTimeLeft(diff)
+    }
+
+    updateCountdown()
+
+    const interval = setInterval(updateCountdown, 1000)
 
     return () => clearInterval(interval)
   }, [])
 
-  const date = new Date(currentTimestamp)
-  const hours = formatTime(date.getHours())
-  const minutes = formatTime(date.getMinutes())
-  const day = formatTime(date.getDate())
+  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24))
+  const [daysTens, daysUnits] = formatTime(days)
+  const [hoursTens, hoursUnits] = formatTime(Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))
+  const [minutesTens, minutesUnits] = formatTime(Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)))
 
   return (
     <AirdropCountdown>
@@ -29,27 +49,30 @@ export default function NextAirdropCountdown() {
       <div>
         <Time>
           <div>
-            <div>{currentTimestamp > 0 && String(day).charAt(0)}</div>
-            <div>{currentTimestamp > 0 && String(day).charAt(1)}</div>
+            <div>{daysTens}</div>
+            <div>{daysUnits}</div>
           </div>
+          <div>{t('airdrop.countdown.days')}</div>
         </Time>
         <div>
           <p>:</p>
         </div>
         <Time>
           <div>
-            <div>{currentTimestamp > 0 && String(hours).charAt(0)}</div>
-            <div>{currentTimestamp > 0 && String(hours).charAt(1)}</div>
+            <div>{hoursTens}</div>
+            <div>{hoursUnits}</div>
           </div>
+          <div>{t('airdrop.countdown.hours')}</div>
         </Time>
         <div>
           <p>:</p>
         </div>
         <Time>
           <div>
-            <div>{currentTimestamp > 0 && String(minutes).charAt(0)}</div>
-            <div>{currentTimestamp > 0 && String(minutes).charAt(1)}</div>
+            <div>{minutesTens}</div>
+            <div>{minutesUnits}</div>
           </div>
+          <div>{t('airdrop.countdown.minutes')}</div>
         </Time>
       </div>
     </AirdropCountdown>
@@ -70,12 +93,13 @@ const { AirdropCountdown, Time } = {
     > div:nth-child(1) {
       display: flex;
       gap: 8px;
-      align-items: center;
+      align-items: flex-start;
+      justify-content: flex-start;
 
       > h2 {
-        height: 18px;
         font-size: 18px !important;
         font-weight: 400;
+        margin-top: -18px;
       }
     }
 
