@@ -22,25 +22,6 @@ export default function PoolsControl({ pools }: PoolsListProps) {
   const { t } = useLocaleTranslation()
   const { poolTypeTranslation } = usePoolTypeTranslation()
 
-  const filterTypes = [
-    {
-      name: poolTypeTranslation('all'),
-      value: 'all'
-    },
-    {
-      name: poolTypeTranslation('education'),
-      value: 'education'
-    },
-    {
-      name: poolTypeTranslation('social'),
-      value: 'social'
-    },
-    {
-      name: poolTypeTranslation('technology'),
-      value: 'technology'
-    }
-  ]
-
   const { poolsWithTypes, isLoading } = useMapPoolsWithTypes(pools)
 
   const poolsFilterByType = poolsWithTypes.filter(pool => {
@@ -95,6 +76,25 @@ export default function PoolsControl({ pools }: PoolsListProps) {
     setActiveFilters(['all'])
     setSearch('')
   }
+
+  const filterTypes = [
+    {
+      name: `${poolTypeTranslation('all')} (${poolsWithTypes.length || 0})`,
+      value: 'all'
+    },
+    {
+      name: poolTypeTranslation('education'),
+      value: 'education'
+    },
+    {
+      name: poolTypeTranslation('social'),
+      value: 'social'
+    },
+    {
+      name: poolTypeTranslation('technology'),
+      value: 'technology'
+    }
+  ]
 
   return (
     <Container>
