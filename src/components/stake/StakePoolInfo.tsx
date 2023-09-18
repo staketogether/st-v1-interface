@@ -39,7 +39,7 @@ export default function StakePoolInfo({
     skip: 0
   })
   const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(poolAddress)
-  console.log(poolData)
+
   const tabsItems: TabsItems[] = [
     {
       key: 'about',
