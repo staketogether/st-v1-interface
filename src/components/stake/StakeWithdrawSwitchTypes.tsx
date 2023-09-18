@@ -1,8 +1,9 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { WithdrawType } from '@/types/Withdraw'
-import { PiStack, PiStackSimple } from 'react-icons/pi'
+import { PiQuestion, PiStack, PiStackSimple } from 'react-icons/pi'
 import styled from 'styled-components'
+import TooltipComponent from '../shared/TooltipComponent'
 
 type StakeWithdrawSwitchTypesProps = {
   withdrawTypeSelected: WithdrawType
@@ -29,7 +30,12 @@ export default function StakeWithdrawSwitchTypes({
         onClick={() => selectWithdrawType(WithdrawType.POOL)}
       >
         <header>
-          <h4>{t('withdrawCardsType.pool')}</h4>
+          <h4>
+            {t('withdrawCardsType.pool')}{' '}
+            <TooltipComponent text={t('withdrawCardsType.tooltipPool')}>
+              <QuestionIcon className={`${handleActiveType(WithdrawType.POOL) ? 'active' : ''}`} />
+            </TooltipComponent>
+          </h4>
           <PoolIcon />
         </header>
         <RateInfo>
@@ -53,7 +59,12 @@ export default function StakeWithdrawSwitchTypes({
         onClick={() => selectWithdrawType(WithdrawType.VALIDATOR)}
       >
         <header>
-          <h4>{t('withdrawCardsType.beaconChain')}</h4>
+          <h4>
+            {t('withdrawCardsType.beaconChain')}{' '}
+            <TooltipComponent text={t('withdrawCardsType.tooltipBeaconChain')}>
+              <QuestionIcon className={`${handleActiveType(WithdrawType.VALIDATOR) ? 'active' : ''}`} />
+            </TooltipComponent>
+          </h4>
           <ValidatorsIcon />
         </header>
         <RateInfo>
@@ -76,7 +87,7 @@ export default function StakeWithdrawSwitchTypes({
   )
 }
 
-const { Container, Card, RateInfo, PoolIcon, ValidatorsIcon } = {
+const { Container, Card, RateInfo, PoolIcon, ValidatorsIcon, QuestionIcon } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -104,6 +115,8 @@ const { Container, Card, RateInfo, PoolIcon, ValidatorsIcon } = {
         color: ${({ theme }) => theme.colorV2.gray[1]};
 
         font-weight: 400;
+
+        display: flex;
       }
     }
 
@@ -159,5 +172,17 @@ const { Container, Card, RateInfo, PoolIcon, ValidatorsIcon } = {
     width: 18px;
     height: 18px;
     color: ${({ theme }) => theme.colorV2.gray[1]};
+  `,
+  QuestionIcon: styled(PiQuestion)`
+    width: 14px;
+    height: 14px;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    margin-left: 3px;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      color: ${({ theme }) => theme.color.secondary};
+    }
   `
 }
