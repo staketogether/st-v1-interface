@@ -6,7 +6,7 @@ export const queryAccount = gql`
       address
       balance
       shares
-      originalBalance
+      totalDeposited
       totalRewards
       sentDelegationsCount
       delegations(orderBy: delegationShares, orderDirection: desc) {
