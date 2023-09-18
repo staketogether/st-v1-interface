@@ -11,12 +11,15 @@ import PoolsCard from './PoolsCard'
 import PoolsEmptyState from './PoolsEmptyState'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
+import { StakeTogether } from '@/types/StakeTogether'
+import { truncateWei } from '@/services/truncate'
 
 type PoolsListProps = {
   pools: PoolSubgraph[]
+  stakeTogether: StakeTogether
 }
 
-export default function PoolsControl({ pools }: PoolsListProps) {
+export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
   const [search, setSearch] = useState<string>('')
   const [activeFilters, setActiveFilters] = useState<string[]>(['all'])
   const { t } = useLocaleTranslation()
@@ -98,6 +101,28 @@ export default function PoolsControl({ pools }: PoolsListProps) {
 
   return (
     <Container>
+      <ProjectStatusContainer>
+        <div>
+          <h2>{t('v2.pools.status.totalSupply')}</h2>
+          <span>{`${truncateWei(stakeTogether.totalSupply, 4)} ${t('eth.symbol')}`}</span>
+        </div>
+        <div>
+          <h2>{t('v2.pools.status.totalRewards')}</h2>
+          <span className='green'>{`${truncateWei(stakeTogether.totalRewards, 4)} ${t('lsd.symbol')}`}</span>
+        </div>
+        <div>
+          <h2>{t('v2.pools.status.totalAccounts')}</h2>
+          <span>{stakeTogether.accountsCount}</span>
+        </div>
+        <div>
+          <h2>{t('v2.pools.status.validators')}</h2>
+          <span>{stakeTogether.validatorsCount}</span>
+        </div>
+        <div>
+          <h2>{t('v2.pools.status.totalProjects')}</h2>
+          <span>{stakeTogether.poolsCount}</span>
+        </div>
+      </ProjectStatusContainer>
       <LayoutTitle title={t('v2.pages.invest.title')} description={t('v2.pages.invest.description')} />
       <FiltersContainer>
         <Filters>
@@ -135,7 +160,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
   )
 }
 
-const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
+const { Container, ListPools, FiltersContainer, Filters, FilterButton, ProjectStatusContainer } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -143,6 +168,49 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
     gap: ${({ theme }) => theme.size[24]};
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       gap: ${({ theme }) => theme.size[24]};
+    }
+  `,
+  ProjectStatusContainer: styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.size[8]};
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      grid-template-columns: 1fr 1fr;
+      gap: ${({ theme }) => theme.size[32]};
+    }
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      grid-template-columns: repeat(5, 150px);
+      gap: ${({ theme }) => theme.size[32]};
+    }
+    align-items: center;
+    justify-content: center;
+    div {
+      height: 70px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[8]};
+
+      border-radius: ${({ theme }) => theme.size[8]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+      background: ${({ theme }) => theme.colorV2.white};
+
+      text-align: center;
+      h2 {
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        font-size: ${({ theme }) => theme.font.size[12]};
+      }
+
+      span {
+        color: ${({ theme }) => theme.colorV2.blue[1]};
+        font-size: ${({ theme }) => theme.font.size[14]};
+
+        &.green {
+          color: ${({ theme }) => theme.color.green[500]};
+        }
+      }
     }
   `,
   FiltersContainer: styled.div`
@@ -180,15 +248,14 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
     padding: 8px ${({ theme }) => theme.size[12]};
     gap: ${({ theme }) => theme.size[8]};
     border-radius: ${({ theme }) => theme.size[8]};
-
     box-shadow: ${({ theme }) => theme.shadow[100]};
+    background: ${({ theme }) => theme.colorV2.white};
 
     border: none;
     font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.colorV2.gray[1]} !important;
 
     white-space: nowrap;
-    background: ${({ theme }) => theme.colorV2.white};
-    color: ${({ theme }) => theme.colorV2.gray[1]} !important;
     &.active {
       color: ${({ theme }) => theme.colorV2.purple[1]} !important;
     }

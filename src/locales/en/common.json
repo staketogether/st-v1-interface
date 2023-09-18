@@ -212,6 +212,13 @@
         "social": "Social Impact",
         "technology": "Technology"
       },
+      "status": {
+        "totalSupply": "Total in ETH",
+        "totalRewards": "Total Rewards",
+        "totalAccounts": "Accounts",
+        "validators": "DVT Validators",
+        "totalProjects": "Total Projects"
+      },
       "emptyList": "No results found",
       "emptyButton": "Clean",
       "search": "Search...",

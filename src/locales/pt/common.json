@@ -212,6 +212,13 @@
         "social": "Impacto Social",
         "technology": "Tecnologia"
       },
+      "status": {
+        "totalSupply": "Total em ETH",
+        "totalRewards": "Total de Recompensas",
+        "totalAccounts": "Contas",
+        "validators": "Validadores DVT",
+        "totalProjects": "Total de projetos"
+      },
       "emptyList": "Nenhum resultado encontrado",
       "emptyButton": "Limpar",
       "search": "Pesquisar",
