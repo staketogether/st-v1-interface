@@ -219,7 +219,8 @@
         "name": "Nome",
         "type": "Categoria",
         "people": "Pessoas",
-        "invested": "Investidos"
+        "invested": "Investidos",
+        "rewards": "Recompensas"
       }
     },
     "stake": {

@@ -27,10 +27,8 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
         {pool.logo.url && (
           <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
         )}
-        {!pool.logo.url && (
-          <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={true} />
-        )}
-        {pool.name && <CommunityName name={pool.name} loading={loading} />}
+        {!pool.logo.url && <CommunityLogo size={24} src={''} alt={pool.logo.fileName} loading={true} />}
+        {pool.name && <CommunityName name={pool.name} loading={loading} $bold />}
         {!pool.name && <CommunityName name={pool.name} loading={true} />}
         <CommunityType>
           {pool.type && PoolFilterIcon({ iconSize: 16, value: pool.type })}
@@ -44,9 +42,16 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
         </div>
         <div>
           <div>{t('v2.pools.list.invested')}</div>
-          <div>
+          <div className='blue'>
             {truncateWei(pool.poolBalance, 6)}
-            <span>{t('eth.symbol')}</span>
+            <span className='blue'>{t('eth.symbol')}</span>
+          </div>
+        </div>
+        <div>
+          <div>{t('v2.pools.list.rewards')}</div>
+          <div className='green'>
+            {truncateWei(pool.totalRewards, 6)}
+            <span className='green'>{t('lsd.symbol')}</span>
           </div>
         </div>
       </CardInfo>
@@ -105,19 +110,14 @@ const { Card, CardInfo, CardHeader, CommunityType } = {
       justify-content: space-between;
       gap: ${({ theme }) => theme.size[4]};
 
-      > div:first-child {
-        font-size: ${({ theme }) => theme.font.size[14]};
-        color: ${({ theme }) => theme.colorV2.gray[1]};
-      }
-      > div:last-child {
-        font-size: ${({ theme }) => theme.font.size[14]};
-        color: ${({ theme }) => theme.colorV2.gray[1]};
-      }
-    }
+      font-size: ${({ theme }) => theme.font.size[14]};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
 
-    > div:nth-child(3) {
-      > div:last-of-type {
+      &.blue {
         color: ${({ theme }) => theme.colorV2.blue[1]};
+      }
+      &.green {
+        color: ${({ theme }) => theme.color.green[500]};
       }
     }
   `,
