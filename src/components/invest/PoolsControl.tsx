@@ -2,6 +2,8 @@ import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
 import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import { truncateWei } from '@/services/truncate'
+import { StakeTogether } from '@/types/StakeTogether'
 import Fuse from 'fuse.js'
 import { useState } from 'react'
 import styled from 'styled-components'
@@ -11,8 +13,6 @@ import PoolsCard from './PoolsCard'
 import PoolsEmptyState from './PoolsEmptyState'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
-import { StakeTogether } from '@/types/StakeTogether'
-import { truncateWei } from '@/services/truncate'
 
 type PoolsListProps = {
   pools: PoolSubgraph[]
@@ -82,7 +82,7 @@ export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
 
   const filterTypes = [
     {
-      name: `${poolTypeTranslation('all')} (${poolsWithTypes.length || 0})`,
+      name: `${poolTypeTranslation('all')}`,
       value: 'all'
     },
     {
@@ -101,29 +101,33 @@ export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
 
   return (
     <Container>
-      <ProjectStatusContainer>
+      <LayoutTitle title={t('v2.pages.invest.title')} description={t('v2.pages.invest.description')} />
+      <StatusCard>
         <div>
           <h2>{t('v2.pools.status.totalSupply')}</h2>
-          <span>{`${truncateWei(stakeTogether.totalSupply, 4)} ${t('eth.symbol')}`}</span>
+          <span className='blue'>{`${truncateWei(stakeTogether.totalSupply, 4)} ${t('eth.symbol')}`}</span>
         </div>
         <div>
           <h2>{t('v2.pools.status.totalRewards')}</h2>
           <span className='green'>{`${truncateWei(stakeTogether.totalRewards, 4)} ${t('lsd.symbol')}`}</span>
         </div>
         <div>
-          <h2>{t('v2.pools.status.totalAccounts')}</h2>
-          <span>{stakeTogether.accountsCount}</span>
+          <h2>{t('v2.pools.status.gifts')}</h2>
+          <span className='green'>{`${truncateWei(0n, 4)} ${t('lsd.symbol')}`}</span>
         </div>
         <div>
           <h2>{t('v2.pools.status.validators')}</h2>
-          <span>{stakeTogether.validatorsCount}</span>
+          <span className='cyan'>{stakeTogether.validatorsCount}</span>
         </div>
         <div>
           <h2>{t('v2.pools.status.totalProjects')}</h2>
-          <span>{stakeTogether.poolsCount}</span>
+          <span className='purple'>{stakeTogether.poolsCount}</span>
         </div>
-      </ProjectStatusContainer>
-      <LayoutTitle title={t('v2.pages.invest.title')} description={t('v2.pages.invest.description')} />
+        <div>
+          <h2>{t('v2.pools.status.totalAccounts')}</h2>
+          <span>{stakeTogether.accountsCount}</span>
+        </div>
+      </StatusCard>
       <FiltersContainer>
         <Filters>
           {filterTypes.map(filter => (
@@ -161,7 +165,7 @@ export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
   )
 }
 
-const { Container, ListPools, FiltersContainer, Filters, FilterButton, ProjectStatusContainer } = {
+const { Container, ListPools, FiltersContainer, Filters, FilterButton, StatusCard } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -171,45 +175,55 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, ProjectSt
       gap: ${({ theme }) => theme.size[24]};
     }
   `,
-  ProjectStatusContainer: styled.div`
+  StatusCard: styled.div`
     display: grid;
-    grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.size[8]};
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      grid-template-columns: 1fr 1fr;
-      gap: ${({ theme }) => theme.size[32]};
-    }
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      grid-template-columns: repeat(5, 150px);
-      gap: ${({ theme }) => theme.size[32]};
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 12px;
+      margin-top: 8px;
+      gap: 16px;
     }
-    align-items: center;
-    justify-content: center;
+
     div {
-      height: 70px;
+      background: ${({ theme }) => theme.color.white};
+      padding: 12px 16px;
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+      border-radius: 8px;
 
       display: flex;
-      align-items: center;
-      justify-content: center;
       flex-direction: column;
-      gap: ${({ theme }) => theme.size[8]};
+      gap: 8px;
 
-      border-radius: ${({ theme }) => theme.size[8]};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
-      background: ${({ theme }) => theme.colorV2.white};
-
-      text-align: center;
       h2 {
-        color: ${({ theme }) => theme.colorV2.gray[1]};
         font-size: ${({ theme }) => theme.font.size[12]};
+        font-weight: 400;
+        color: ${({ theme }) => theme.colorV2.gray[1]};
       }
 
       span {
+        font-size: ${({ theme }) => theme.font.size[16]};
+        font-weight: 400;
         color: ${({ theme }) => theme.colorV2.blue[1]};
-        font-size: ${({ theme }) => theme.font.size[14]};
+
+        &.blue {
+          color: ${({ theme }) => theme.colorV2.blue[3]};
+        }
 
         &.green {
           color: ${({ theme }) => theme.color.green[500]};
+        }
+
+        &.cyan {
+          color: ${({ theme }) => theme.color.messenger[400]};
+        }
+
+        &.purple {
+          color: ${({ theme }) => theme.colorV2.purple[1]};
         }
       }
     }

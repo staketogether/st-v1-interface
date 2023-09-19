@@ -215,11 +215,12 @@
         "technology": "Tecnologia"
       },
       "status": {
-        "totalSupply": "Total em ETH",
-        "totalRewards": "Total de Recompensas",
+        "totalSupply": "Em Stake",
+        "totalRewards": "Recompensas",
+        "gifts": "Presentes",
         "totalAccounts": "Contas",
         "validators": "Validadores DVT",
-        "totalProjects": "Total de projetos"
+        "totalProjects": "Projetos"
       },
       "emptyList": "Nenhum resultado encontrado",
       "emptyButton": "Limpar",
