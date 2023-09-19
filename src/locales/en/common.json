@@ -214,6 +214,14 @@
         "social": "Social Impact",
         "technology": "Technology"
       },
+      "status": {
+        "totalSupply": "Staked",
+        "totalRewards": "Rewards",
+        "gifts": "Gifts",
+        "totalAccounts": "Accounts",
+        "validators": "DVT Validators",
+        "totalProjects": "Projects"
+      },
       "emptyList": "No results found",
       "emptyButton": "Clean",
       "search": "Search...",

@@ -214,6 +214,14 @@
         "social": "Impacto Social",
         "technology": "Tecnologia"
       },
+      "status": {
+        "totalSupply": "Em Stake",
+        "totalRewards": "Recompensas",
+        "gifts": "Presentes",
+        "totalAccounts": "Contas",
+        "validators": "Validadores DVT",
+        "totalProjects": "Projetos"
+      },
       "emptyList": "Nenhum resultado encontrado",
       "emptyButton": "Limpar",
       "search": "Pesquisar",

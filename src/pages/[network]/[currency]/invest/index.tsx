@@ -6,16 +6,19 @@ import { Metatags } from '../../../../components/shared/meta/Metatags'
 import { apolloClient } from '../../../../config/apollo'
 import { queryPools } from '../../../../queries/subgraph/queryPools'
 import { PoolSubgraph } from '../../../../types/Pool'
+import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import { StakeTogether } from '@/types/StakeTogether'
 
 type InvestProps = {
   pools: PoolSubgraph[]
+  stakeTogether: StakeTogether
 }
 
-export default function Invest({ pools }: InvestProps) {
+export default function Invest({ pools, stakeTogether }: InvestProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <PoolsControl pools={pools} />
+      <PoolsControl pools={pools} stakeTogether={stakeTogether} />
     </LayoutTemplate>
   )
 }
@@ -28,10 +31,16 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   const pools: PoolSubgraph[] = data.pools
 
+  const { data: stakeTogether } = await apolloClient.query<{ stakeTogether: StakeTogether }>({
+    query: queryStakeTogether,
+    fetchPolicy: 'no-cache'
+  })
+
   return {
     props: {
       ...(await serverSideTranslations(context.locale || 'en', ['common'])),
-      pools
+      pools,
+      stakeTogether: stakeTogether.stakeTogether
     }
   }
 }

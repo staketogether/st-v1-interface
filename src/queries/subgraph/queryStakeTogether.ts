@@ -11,6 +11,8 @@ export const queryStakeTogether = gql`
       contractBalance
       beaconBalance
       totalPoolShares
+      totalSupply
+      validatorsCount
     }
   }
 `

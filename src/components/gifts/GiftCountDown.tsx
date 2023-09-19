@@ -10,6 +10,11 @@ export default function GiftCountDown({ futureTimestamp }: GiftCountDownProps) {
   const { t } = useLocaleTranslation()
   const [timeRemaining, setTimeRemaining] = useState({ minutes: 0, seconds: 0 })
 
+  const formatTime = (time: number): [string, string] => {
+    const str = time.toString().padStart(2, '0')
+    return [str.charAt(0), str.charAt(1)]
+  }
+
   useEffect(() => {
     if (futureTimestamp > 0) {
       const intervalId = setInterval(() => {
@@ -30,7 +35,8 @@ export default function GiftCountDown({ futureTimestamp }: GiftCountDownProps) {
     }
   }, [futureTimestamp])
 
-  const { minutes, seconds } = timeRemaining
+  const [minutesTens, minutesUnits] = formatTime(timeRemaining.minutes)
+  const [secondsTens, secondsUnits] = formatTime(timeRemaining.seconds)
 
   return (
     <Countdown>
@@ -40,8 +46,8 @@ export default function GiftCountDown({ futureTimestamp }: GiftCountDownProps) {
       <div>
         <Time>
           <div>
-            <div>{futureTimestamp > 0 ? String(minutes).charAt(0) : 0}</div>
-            <div>{futureTimestamp > 0 ? String(minutes).charAt(1) : 0}</div>
+            <div>{futureTimestamp > 0 ? minutesTens : '0'}</div>
+            <div>{futureTimestamp > 0 ? minutesUnits : '0'}</div>
           </div>
         </Time>
         <div>
@@ -49,8 +55,8 @@ export default function GiftCountDown({ futureTimestamp }: GiftCountDownProps) {
         </div>
         <Time>
           <div>
-            <div>{futureTimestamp > 0 ? String(seconds).charAt(0) : 0}</div>
-            <div>{futureTimestamp > 0 ? String(seconds).charAt(1) : 0}</div>
+            <div>{futureTimestamp > 0 ? secondsTens : '0'}</div>
+            <div>{futureTimestamp > 0 ? secondsUnits : '0'}</div>
           </div>
         </Time>
       </div>
