@@ -21,7 +21,7 @@
   "balance": "Balance",
   "poolBalance": "Pool Balance",
   "selectPool": "Select Pool",
-  "exchange": "Exchange",
+  "exchange": "Buy/Sell",
   "buy": "Buy",
   "sell": "Sell",
   "available": "Available",
@@ -138,7 +138,9 @@
     "rate": "Rate",
     "liquidity": "Liquidity",
     "waitingTime": "Waiting Time",
-    "instantly": "Instantly"
+    "instantly": "Instantly",
+    "tooltipPool": "Withdrawals from the Pool remain in the Smart Contract and are processed instantly.",
+    "tooltipBeaconChain": "Validator withdrawals stay in the Beacon Chain and are processed by Stake Together's oracles according to the Beacon Chain queue and take a minimum of 1 day to process."
   },
   "gas": {
     "alt": "Network gas price"
@@ -226,7 +228,8 @@
         "name": "Name",
         "type": "Category",
         "people": "People",
-        "invested": "Invested"
+        "invested": "Invested",
+        "rewards": "Rewards"
       }
     },
     "stake": {

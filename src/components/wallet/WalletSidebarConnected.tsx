@@ -245,6 +245,7 @@ const {
   HeaderContainer: styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: ${({ theme }) => theme.size[16]};
   `,
   HeaderUserContainer: styled.div`
@@ -252,6 +253,11 @@ const {
     align-items: center;
     gap: ${({ theme }) => theme.size[12]};
     border-radius: 8px;
+    padding: 4px 8px;
+
+    background: ${({ theme }) => theme.colorV2.white};
+    border-radius: 8px;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
 
     > div {
       display: flex;

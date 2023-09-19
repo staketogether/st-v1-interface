@@ -21,7 +21,7 @@
   "balance": "Saldo",
   "poolBalance": "Saldo na Pool",
   "selectPool": "Selecionar Pool",
-  "exchange": "Trocar",
+  "exchange": "Comprar/Vender",
   "buy": "Comprar",
   "sell": "Vender",
   "available": "Disponível",
@@ -138,7 +138,9 @@
     "bestRate": "Melhor Taxa",
     "liquidity": "Liquidez",
     "waitingTime": "Espera",
-    "instantly": "Imediatamente"
+    "instantly": "Imediatamente",
+    "tooltipPool": "Saques da Pool ficam no Contrato Inteligente e são processados instantaneamente.",
+    "tooltipBeaconChain": "Saque do Validador ficam na Beacon Chain e são processados pelos oráculos da Stake Together de acordo com a fila da beacon chain e são processados com no mínimo 1 dia."
   },
   "gas": {
     "alt": "Preço do gás da rede"
@@ -226,7 +228,8 @@
         "name": "Nome",
         "type": "Categoria",
         "people": "Pessoas",
-        "invested": "Investidos"
+        "invested": "Investidos",
+        "rewards": "Recompensas"
       }
     },
     "stake": {

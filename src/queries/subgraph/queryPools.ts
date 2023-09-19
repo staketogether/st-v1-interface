@@ -7,6 +7,7 @@ export const queryPools = gql`
       address
       receivedDelegationsCount
       poolBalance
+      totalRewards
     }
   }
 `

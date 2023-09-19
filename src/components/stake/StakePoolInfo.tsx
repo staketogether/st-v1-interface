@@ -53,7 +53,7 @@ export default function StakePoolInfo({
     },
     {
       key: 'accounts',
-      label: t('accounts'),
+      label: `${t('accounts')} (${poolData?.receivedDelegationsCount})`,
       icon: <MembersIcon />,
       children: (
         <TabContainer>
