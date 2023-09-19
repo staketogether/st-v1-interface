@@ -10,16 +10,17 @@ type EnsNameProps = {
   $larger?: boolean
   slice?: number
   $color?: string
+  $bold?: boolean
 }
 
-export default function CommunityName({ name, loading, $large, $larger, slice, $color }: EnsNameProps) {
+export default function CommunityName({ name, loading, $large, $larger, slice, $color, $bold }: EnsNameProps) {
   if (loading && !$larger && !$large) {
     return <SkeletonLoading width={140} height={14} />
   } else if (loading && $large) {
     return <SkeletonLoading width={140} height={15} />
   } else if (name) {
     return (
-      <Text color={$color} $large={$large} $larger={$larger}>
+      <Text color={$color} $large={$large} $larger={$larger} $bold={$bold}>
         {slice ? truncateText(name, slice) : name}
       </Text>
     )
@@ -33,7 +34,7 @@ export default function CommunityName({ name, loading, $large, $larger, slice, $
 }
 
 const { Text } = {
-  Text: styled.span<{ $large?: boolean; $larger?: boolean; $color?: string }>`
+  Text: styled.span<{ $large?: boolean; $larger?: boolean; $color?: string; $bold?: boolean }>`
     font-size: ${({ theme }) => theme.font.size[15]};
     font-weight: 400;
     color: ${({ theme, color }) => color || theme.colorV2.gray[1]};
@@ -48,6 +49,12 @@ const { Text } = {
       `
       font-size: ${theme.font.size[15]};
       line-height: 16px;
+    `}
+
+    ${({ $bold }) =>
+      $bold &&
+      `
+        font-weight: 500;
     `}
 
     ${({ $larger }) => {
