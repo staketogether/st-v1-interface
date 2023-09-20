@@ -3,7 +3,6 @@ import StakePoolMembers from '@/components/stake/StakePoolMembers'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import { PoolSubgraph } from '@/types/Pool'
-import { useState } from 'react'
 import { PiAppWindow, PiListDashes, PiUsers } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
@@ -13,7 +12,7 @@ import StakeActivity from './StakeActivity'
 interface StakeStatsProps {
   poolAddress: `0x${string}`
   poolData: PoolSubgraph | undefined
-  fetchMore: (variables: { id: string; first: number; skip: number }) => void
+  fetchMore: () => void
   loadMoreLoadingPoolData: boolean
   initialLoadingPoolData: boolean
 }
@@ -26,13 +25,6 @@ export default function StakePoolInfo({
   loadMoreLoadingPoolData
 }: StakeStatsProps) {
   const { t } = useLocaleTranslation()
-  const [skipMembers, setSkipMembers] = useState(0)
-
-  const handleLoadMoreMembers = () => {
-    const newSkip = skipMembers + 10
-    setSkipMembers(newSkip)
-    fetchMore({ id: poolAddress, first: 10, skip: newSkip })
-  }
 
   const { poolActivities, initialLoading: poolActivitiesLoading } = usePoolActivities(poolAddress, {
     first: 10,
@@ -61,7 +53,7 @@ export default function StakePoolInfo({
             delegations={poolData?.delegations}
             initialLoading={initialLoadingPoolData}
             loadMoreLoading={loadMoreLoadingPoolData}
-            onLoadMore={handleLoadMoreMembers}
+            onLoadMore={fetchMore}
             totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
           />
         </TabContainer>

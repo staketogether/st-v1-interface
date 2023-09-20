@@ -17,6 +17,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
+import { useCallback, useState } from 'react'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -24,6 +25,7 @@ interface StakeControlProps {
 }
 
 export default function StakeControl({ poolAddress, type }: StakeControlProps) {
+  const [skipMembers, setSkipMembers] = useState(0)
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   const { query } = useRouter()
@@ -31,7 +33,13 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
 
   const { apy } = globalConfig
 
-  const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress, { first: 10, skip: 0 })
+  const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress)
+
+  const handleLoadMoreMembers = useCallback(() => {
+    const newSkip = skipMembers + 10
+    setSkipMembers(newSkip)
+    fetchMore({ id: poolAddress, first: 10, skip: newSkip })
+  }, [fetchMore, poolAddress, skipMembers])
 
   const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(poolAddress)
 
@@ -136,7 +144,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
       <StakePoolInfo
         poolAddress={poolAddress}
         poolData={pool}
-        fetchMore={fetchMore}
+        fetchMore={handleLoadMoreMembers}
         loadMoreLoadingPoolData={loadMoreLoading}
         initialLoadingPoolData={initialLoading}
       />

@@ -1,9 +1,9 @@
 import { useQuery } from '@apollo/client'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import { PoolSubgraph } from '../../types/Pool'
 
-export default function usePool(address?: string, delegations?: { first: number; skip: number }) {
+export default function usePool(address?: string) {
   const [loadingFetchMore, setLoadingFetchMore] = useState<boolean>(false)
 
   const {
@@ -13,28 +13,32 @@ export default function usePool(address?: string, delegations?: { first: number;
   } = useQuery<{ pool: PoolSubgraph }>(queryPool, {
     variables: {
       id: address?.toLocaleLowerCase(),
-      first: delegations?.first || 10,
-      skip: delegations?.skip || 0
+      first: 10,
+      skip: 0
     },
     skip: !address?.length
   })
 
-  const loadMore = (variables: { id: string; first: number; skip: number }) => {
-    setLoadingFetchMore(true)
-    fetchMore({
-      variables,
-      updateQuery: (prev, { fetchMoreResult }) => {
-        setLoadingFetchMore(false)
-        if (!fetchMoreResult) return prev
-        return {
-          pool: {
-            ...fetchMoreResult.pool,
-            delegations: [...prev.pool.delegations, ...fetchMoreResult.pool.delegations]
+  const loadMore = useCallback(
+    async (variables: { id: string; first: number; skip: number }) => {
+      setLoadingFetchMore(true)
+      await fetchMore({
+        variables,
+        updateQuery: (prev, { fetchMoreResult }) => {
+          setLoadingFetchMore(false)
+
+          if (!fetchMoreResult) return prev
+          return {
+            pool: {
+              ...fetchMoreResult.pool,
+              delegations: [...prev.pool.delegations, ...fetchMoreResult.pool.delegations]
+            }
           }
         }
-      }
-    })
-  }
+      })
+    },
+    [fetchMore]
+  )
 
   return {
     pool: data?.pool,
