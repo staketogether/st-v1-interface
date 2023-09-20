@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import StakeActivity from './StakeActivity'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}`
@@ -45,7 +46,12 @@ export default function StakePoolInfo({
     },
     {
       key: 'accounts',
-      label: `${t('accounts')} (${poolData?.receivedDelegationsCount})`,
+      label: (
+        <AccountContainer>
+          {`${t('accounts')}`}{' '}
+          {!initialLoadingPoolData ? `(${poolData?.receivedDelegationsCount})` : <SkeletonLoading width={20} />}
+        </AccountContainer>
+      ),
       icon: <MembersIcon />,
       children: (
         <TabContainer>
@@ -78,7 +84,7 @@ export default function StakePoolInfo({
   )
 }
 
-const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon } = {
+const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, AccountContainer } = {
   Container: styled.section`
     display: grid;
     grid-template-columns: 1fr;
@@ -107,5 +113,10 @@ const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon } = {
   `,
   ActivityIcon: styled(PiListDashes)`
     font-size: ${({ theme }) => theme.font.size[16]};
+  `,
+  AccountContainer: styled.span`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
   `
 }
