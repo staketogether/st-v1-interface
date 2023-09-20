@@ -116,6 +116,10 @@ const { Container, TabItem, TabsContainer } = {
     color: ${({ theme }) => theme.colorV2.gray[1]};
     border-bottom: 1px solid ${({ theme }) => theme.color.transparent};
 
+    &:last-of-type {
+      padding-right: 16px;
+    }
+
     &.active {
       &.primary {
         color: ${({ theme }) => theme.colorV2.purple[1]};

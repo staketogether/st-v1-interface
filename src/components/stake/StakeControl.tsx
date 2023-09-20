@@ -4,7 +4,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
-import { PiArrowDown, PiArrowUp, PiArrowsLeftRight, PiQuestion, PiShareNetwork } from 'react-icons/pi'
+import { PiArrowDown, PiArrowUp, PiCurrencyEth, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useContentfulPoolDetails from '../../hooks/contentful/useContentfulPoolDetails'
@@ -231,7 +231,7 @@ const {
   WithdrawIcon: styled(PiArrowUp)`
     font-size: 15px;
   `,
-  DexIcon: styled(PiArrowsLeftRight)`
+  DexIcon: styled(PiCurrencyEth)`
     font-size: 15px;
   `,
   QuestionIcon: styled(PiQuestion)`
