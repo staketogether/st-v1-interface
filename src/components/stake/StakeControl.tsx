@@ -17,6 +17,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
+import { useEffect, useState } from 'react'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -27,6 +28,17 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   const { query } = useRouter()
+  const [tooltipHasOpen, setTooltipHasOpen] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setTooltipHasOpen(true)
+    }, 3000)
+    setTimeout(() => {
+      setTooltipHasOpen(false)
+    }, 8000)
+  }, [])
+
   const { currency, network } = query
 
   const { apy } = globalConfig
@@ -70,6 +82,8 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
     {
       key: 'exchange',
       label: t('exchange'),
+      tooltip: t('v2.stake.faucetTooltip'),
+      tooltipOpen: tooltipHasOpen,
       icon: <DexIcon />,
       children: stakeForm
     }
