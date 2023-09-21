@@ -1,16 +1,17 @@
 import { Tooltip } from 'antd'
 import { ReactNode, useState } from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 
 export type ItemsKey = number | string
 
 export type TabsItems = {
   key: ItemsKey
-  label: string
+  label: string | ReactNode
   children: ReactNode
   icon?: ReactNode
   disabled?: boolean
   tooltip?: string
+  tooltipOpen?: boolean
   color?: 'primary' | 'purple'
   onChange?: () => void
 }
@@ -34,14 +35,19 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, gray 
   }
 
   const activeChildren = items.find(item => item.key === activeKey)
-
+  const theme = useTheme()
   return (
     <Container>
       <TabsContainer>
         {items.map(item => {
           if (item.tooltip) {
             return (
-              <Tooltip title={item.tooltip} key={item.key}>
+              <Tooltip
+                title={<TooltipText>{item.tooltip}</TooltipText>}
+                key={item.key}
+                open={item.tooltipOpen ? true : undefined}
+                color={theme.colorV2.blue[1]}
+              >
                 <TabItem
                   className={`${item.disabled ? 'disabled' : ''} ${gray ? 'gray' : ''}`}
                   onClick={() => handleClickTab(item.key, !!item.disabled, item.onChange)}
@@ -73,7 +79,7 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, gray 
   )
 }
 
-const { Container, TabItem, TabsContainer } = {
+const { Container, TabItem, TabsContainer, TooltipText } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -150,5 +156,11 @@ const { Container, TabItem, TabsContainer } = {
       color: ${({ theme }) => theme.colorV2.gray[1]};
       border-bottom: 1px solid ${({ theme }) => theme.color.transparent};
     }
+  `,
+  TooltipText: styled.span`
+    display: flex;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    text-align: center;
+    font-weight: 500;
   `
 }

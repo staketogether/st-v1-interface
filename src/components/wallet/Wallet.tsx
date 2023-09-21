@@ -8,6 +8,7 @@ import WalletSidebarConnected from './WalletSidebarConnected'
 
 export default function Wallet() {
   const { account, accountIsConnected } = useConnectedAccount()
+
   const { registerConnectWallet } = useMixpanelAnalytics()
   const chain = chainConfig()
 
@@ -19,7 +20,7 @@ export default function Wallet() {
 
   return accountIsConnected && account ? (
     <>
-      <WalletConnectedButton address={account} showBalance={false} showNetwork />
+      <WalletConnectedButton address={account} />
       <WalletSidebarConnected address={account} />
     </>
   ) : (

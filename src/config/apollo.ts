@@ -4,7 +4,18 @@ import chainConfig from './chain'
 export const apolloClient = new ApolloClient({
   uri: chainConfig().subgraphs.StakeTogether,
   ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          pool: {
+            keyArgs: ['id', 'delegate_contains']
+          }
+        }
+      }
+    }
+  }),
+
   connectToDevTools: true
 })
 

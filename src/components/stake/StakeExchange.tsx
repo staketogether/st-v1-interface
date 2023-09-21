@@ -22,8 +22,6 @@ type StakeExchangeProps = {
 }
 
 export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: StakeExchangeProps) {
-  const [code, setCode] = useState('')
-
   const [getFaucetError, setGetFaucetError] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const { t } = useLocaleTranslation()
@@ -48,7 +46,7 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
     setIsSuccess(false)
     const params = {
       address: walletAddress || '0x',
-      passcode: code
+      passcode: 'STAKETOGETHER'
     }
     getFaucet(params)
   }
@@ -56,10 +54,9 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
   const resetStates = () => {
     setGetFaucetError(false)
     setIsSuccess(false)
-    setCode('')
   }
 
-  const disabledButton = !code || isLoading
+  const disabledButton = isLoading
 
   return (
     <Container>
@@ -99,14 +96,6 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
       {!isSuccess && !getFaucetError ? (
         <div style={{ width: '100%' }}>
           <InputContainer className={`${getFaucetError ? 'error' : ''} ${isSuccess ? 'success' : ''}`}>
-            <input
-              type='text'
-              onClick={() => (getFaucetError || isSuccess) && resetStates()}
-              value={code}
-              onChange={e => setCode(e.target.value.toLocaleUpperCase())}
-              placeholder={t('buyEth.inputPlaceHolder')}
-            />
-
             {walletAddress && (
               <Button
                 onClick={handleAction}
