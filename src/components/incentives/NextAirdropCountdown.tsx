@@ -82,19 +82,27 @@ export default function NextAirdropCountdown() {
 const { AirdropCountdown, Time } = {
   AirdropCountdown: styled.section`
     padding: 16px ${({ theme }) => theme.size[24]};
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      flex-direction: row;
+      justify-content: space-between;
+      h2 {
+        margin-top: -20px;
+      }
+    }
+
     background-color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    align-items: center;
-    gap: 8px;
+    gap: ${({ theme }) => theme.size[12]};
 
     > div p {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: -20px;
     }
 
     > div:nth-child(1) {
@@ -106,7 +114,6 @@ const { AirdropCountdown, Time } = {
       > h2 {
         font-size: 18px !important;
         font-weight: 400;
-        margin-top: -18px;
       }
     }
 
