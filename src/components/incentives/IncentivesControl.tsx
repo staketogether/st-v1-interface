@@ -43,85 +43,82 @@ export default function IncentivesControl() {
   }
 
   return (
-    <>
-      <Container>
-        <LayoutTitle
-          title={t('v2.pages.incentives.title')}
-          description={t('v2.pages.incentives.description')}
-        />
-        <NextAirdropCountdown />
-        <AirdropContainer>
-          <Available green={amount > 0n}>
+    <Container>
+      <LayoutTitle title={t('v2.pages.incentives.title')} description={t('v2.pages.incentives.description')} />
+      <NextAirdropCountdown />
+      <AirdropContainer>
+        <Available green={amount > 0n}>
+          <div>
             <Image src={stSymbol} width={48} height={48} alt='stpETH' />
-            <div>
+            <AvailableInfoContainer>
               <h3>{t('airdrop.available')}</h3>
               <div>
                 <span>{amount > 0n ? truncateWei(amount) : '0'}</span>
                 <span>{t('lsd.symbol')}</span>
               </div>
+            </AvailableInfoContainer>
+          </div>
+          <div>
+            {!account && (
+              <Button
+                onClick={() => setOpenSidebarConnectWallet(true)}
+                label={t('v2.header.enter')}
+                isLoading={openSidebarConnectWallet}
+                icon={<ConnectWalletIcon />}
+              />
+            )}
+            {account && (
+              <Button
+                isLoading={false}
+                onClick={claim}
+                label={handleLabelButton()}
+                icon={<ClaimIcon />}
+                disabled={!amount}
+              />
+            )}
+          </div>
+        </Available>
+        <Incentives>
+          <Eligibility>
+            <div>
+              <span>{t('airdrop.eligibilityCriteria')}</span>
             </div>
             <div>
-              {!account && (
-                <Button
-                  onClick={() => setOpenSidebarConnectWallet(true)}
-                  label={t('v2.header.enter')}
-                  isLoading={openSidebarConnectWallet}
-                  icon={<ConnectWalletIcon />}
-                />
-              )}
-              {account && (
-                <Button
-                  isLoading={false}
-                  onClick={claim}
-                  label={handleLabelButton()}
-                  icon={<ClaimIcon />}
-                  disabled={!amount}
-                />
-              )}
+              <Link href='#' target='_blank'>
+                <LearnMoreIcon />
+                {t('airdrop.learnMore')}
+              </Link>
             </div>
-          </Available>
-          <Incentives>
-            <Eligibility>
+          </Eligibility>
+          {incentives.map((incentive, index) => (
+            <IncentiveRow key={index} green={incentive.amount > 0}>
               <div>
-                <span>{t('airdrop.eligibilityCriteria')}</span>
+                {account && <span>{incentive.amount > 0 ? <CheckIcon /> : <XIcon />}</span>}
+                <span>{incentive.name}</span>
+                <TooltipComponent text={incentive.description}>
+                  <QuestionIcon />
+                </TooltipComponent>
               </div>
               <div>
-                <Link href='#' target='_blank'>
-                  <LearnMoreIcon />
-                  {t('airdrop.learnMore')}
-                </Link>
-              </div>
-            </Eligibility>
-            {incentives.map((incentive, index) => (
-              <IncentiveRow key={index} green={incentive.amount > 0}>
-                <div>
-                  {account && <span>{incentive.amount > 0 ? <CheckIcon /> : <XIcon />}</span>}
-                  <span>{incentive.name}</span>
-                  <TooltipComponent text={incentive.description}>
-                    <QuestionIcon />
-                  </TooltipComponent>
-                </div>
-                <div>
-                  <span>{truncateWei(incentive.amount)}</span>
-                  <span>{t('lsd.symbol')}</span>
-                </div>
-              </IncentiveRow>
-            ))}
-            <hr />
-            <IncentiveRow green={amount > 0}>
-              <div>
-                {account && <span>{amount > 0 ? <CheckIcon /> : <XIcon />}</span>}
-                <span>{t('airdrop.total')}</span>
-              </div>
-              <div>
-                <span>{truncateWei(amount)}</span>
+                <span>{truncateWei(incentive.amount)}</span>
                 <span>{t('lsd.symbol')}</span>
               </div>
             </IncentiveRow>
-          </Incentives>
-        </AirdropContainer>
-      </Container>
-    </>
+          ))}
+          <hr />
+          <IncentiveRow green={amount > 0}>
+            <div>
+              {account && <span>{amount > 0 ? <CheckIcon /> : <XIcon />}</span>}
+              <span>{t('airdrop.total')}</span>
+            </div>
+            <div>
+              <span>{truncateWei(amount)}</span>
+              <span>{t('lsd.symbol')}</span>
+            </div>
+          </IncentiveRow>
+        </Incentives>
+      </AirdropContainer>
+    </Container>
   )
 }
 
@@ -137,7 +134,8 @@ const {
   IncentiveRow,
   XIcon,
   CheckIcon,
-  QuestionIcon
+  QuestionIcon,
+  AvailableInfoContainer
 } = {
   Container: styled.div`
     width: 100%;
@@ -148,52 +146,57 @@ const {
   `,
   AirdropContainer: styled.section`
     width: 100%;
-    display: grid;
-
+    display: flex;
+    flex-direction: column;
     gap: 24px;
-    align-items: center;
     background-color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
     padding: ${({ theme }) => theme.size[24]};
   `,
   Available: styled.div<{ green: boolean }>`
-    display: grid;
-    grid-template-columns: 48px auto 160px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: ${({ theme }) => theme.size[16]};
-    align-items: center;
+    > div {
+      display: flex;
+      gap: ${({ theme }) => theme.size[8]};
+    }
+    > div:nth-child(2) {
+      display: grid;
+      @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+        width: 160px;
+      }
+      width: 100%;
+    }
 
-    > img {
+    img {
       box-shadow: ${({ theme }) => theme.shadow[300]};
       border-radius: 100%;
     }
 
-    > div h3 {
+    h3 {
       font-size: 14px;
       line-height: 18px;
       font-weight: 400;
     }
 
-    > div span {
+    span {
       font-size: 18px;
       color: ${({ green, theme }) => (green ? theme.color.green[500] : theme.colorV2.purple[1])};
     }
+  `,
+  AvailableInfoContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: flex-start;
+    align-items: flex-start;
 
-    > div:nth-child(2) {
+    > div {
       display: flex;
-      flex-direction: column;
       gap: 4px;
-      justify-content: flex-start;
-      align-items: flex-start;
-
-      > div {
-        display: flex;
-        gap: 4px;
-      }
-    }
-
-    > div:nth-child(3) {
-      display: grid;
     }
   `,
   Eligibility: styled.div`
@@ -229,7 +232,6 @@ const {
   Incentives: styled.div`
     display: flex;
     flex-direction: column;
-
     gap: 16px;
 
     hr {
