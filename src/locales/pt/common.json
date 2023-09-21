@@ -199,6 +199,7 @@
       "support": "Suporte"
     },
     "sidebar": {
+      "percentageProfit": "Lucro Percentual",
       "disconnected": {
         "iAgreeToThe": "Eu concordo com os",
         "terms&conditions": "Termos",

@@ -30,6 +30,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
 import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
 import WalletSidebarSettings from './WalletSidebarSettings'
+import { PiArrowUpBold } from 'react-icons/pi'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -48,7 +49,14 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const handleWalletProviderImage = useWalletProviderImage()
 
-  const { accountDelegations, accountBalance, accountRewards, accountActivities } = useStAccount(address)
+  const {
+    accountDelegations,
+    accountBalance,
+    accountRewards,
+    accountActivities,
+    accountProfitPercentage,
+    accountTotalRewards
+  } = useStAccount(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -184,6 +192,36 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 <Image src={stIcon} width={24} height={24} alt={t('lsd.symbol')} />
               </RightContainer>
             </div>
+            <div>
+              <LeftContainer>
+                <div>
+                  <h4>{t('v2.sidebar.percentageProfit')}</h4>
+                  <div>
+                    {accountProfitPercentage > 1n && <ArrowUp />}
+                    <span className={`${accountTotalRewards > 1n && 'green'}`}>
+                      {truncateWei(accountProfitPercentage, 4)} %
+                    </span>
+                  </div>
+                </div>
+              </LeftContainer>
+              <RightContainer>
+                <div>
+                  <h4>{t('rewards')}</h4>
+                  <div>
+                    <span
+                      className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}
+                    >
+                      {`${truncateWei(accountTotalRewards, 8)}`}
+                    </span>
+                    <span
+                      className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}
+                    >
+                      {t('lsd.symbol')}
+                    </span>
+                  </div>
+                </div>
+              </RightContainer>
+            </div>
           </InfoContainer>
           <TabsArea>
             <Tabs items={tabPortfolio} defaultActiveKey='portfolio' gray />
@@ -222,7 +260,8 @@ const {
   RightContainer,
   ActivitiesIcon,
   TabsArea,
-  WalletAddressContainer
+  WalletAddressContainer,
+  ArrowUp
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.colorV2.foreground} !important;
@@ -274,7 +313,7 @@ const {
   InfoContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[12]};
     background: ${({ theme }) => theme.colorV2.white};
     border-radius: 8px;
     box-shadow: ${({ theme }) => theme.shadow[100]};
@@ -283,6 +322,22 @@ const {
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+    span {
+      font-size: 14px;
+
+      font-weight: 400;
+      color: ${({ theme }) => theme.color.primary};
+
+      &.purple {
+        color: ${({ theme }) => theme.color.secondary};
+      }
+      &.red {
+        color: ${({ theme }) => theme.color.red[300]};
+      }
+      &.green {
+        color: ${({ theme }) => theme.color.green[500]};
+      }
     }
   `,
   LeftContainer: styled.div`
@@ -309,22 +364,6 @@ const {
 
         font-weight: 400;
         color: ${({ theme }) => theme.color.blue[400]};
-      }
-      span {
-        font-size: 14px;
-
-        font-weight: 400;
-        color: ${({ theme }) => theme.color.primary};
-
-        &.purple {
-          color: ${({ theme }) => theme.color.secondary};
-        }
-        &.negative {
-          color: ${({ theme }) => theme.color.red[300]};
-        }
-        &.positive {
-          color: ${({ theme }) => theme.color.green[500]};
-        }
       }
     }
   `,
@@ -354,22 +393,6 @@ const {
 
         font-weight: 400;
         color: ${({ theme }) => theme.color.blue[400]};
-      }
-      span {
-        font-size: 14px;
-
-        font-weight: 400;
-        color: ${({ theme }) => theme.color.primary};
-
-        &.purple {
-          color: ${({ theme }) => theme.color.secondary};
-        }
-        &.negative {
-          color: ${({ theme }) => theme.color.red[300]};
-        }
-        &.positive {
-          color: ${({ theme }) => theme.color.green[500]};
-        }
       }
     }
   `,
@@ -488,5 +511,8 @@ const {
   `,
   ActivitiesIcon: styled(AiOutlineLineChart)`
     font-size: 16px;
+  `,
+  ArrowUp: styled(PiArrowUpBold)`
+    color: ${({ theme }) => theme.color.green[500]};
   `
 }

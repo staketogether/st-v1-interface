@@ -199,6 +199,7 @@
       "support": "Support"
     },
     "sidebar": {
+      "percentageProfit": "Percentage Profit",
       "disconnected": {
         "iAgreeToThe": "I agree to the",
         "terms&conditions": "Terms",

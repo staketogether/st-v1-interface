@@ -7,6 +7,7 @@ export type Account = {
   shares: string
   totalDeposited: string
   totalRewards: bigint
+  profitPercentage: bigint
   delegations: Delegation[]
   sentDelegationsCount: bigint
 }
