@@ -200,6 +200,7 @@
       "support": "Support"
     },
     "sidebar": {
+      "percentageProfit": "Profit",
       "disconnected": {
         "iAgreeToThe": "I agree to the",
         "terms&conditions": "Terms",

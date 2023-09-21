@@ -125,8 +125,8 @@ const {
       width: calc(100vw - 60px);
       display: flex;
       flex-direction: column;
-      gap: ${({ theme }) => theme.size[24]};
-      padding: ${({ theme }) => theme.size[24]};
+      gap: ${({ theme }) => theme.size[16]};
+      padding: ${({ theme }) => theme.size[16]};
       @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
         width: 378px;
       }

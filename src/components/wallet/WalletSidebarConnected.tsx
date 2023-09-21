@@ -48,7 +48,14 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const handleWalletProviderImage = useWalletProviderImage()
 
-  const { accountDelegations, accountBalance, accountRewards, accountActivities } = useStAccount(address)
+  const {
+    accountDelegations,
+    accountBalance,
+    accountRewards,
+    accountActivities,
+    accountProfitPercentage,
+    accountTotalRewards
+  } = useStAccount(address)
 
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -162,28 +169,43 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             </Actions>
           </HeaderContainer>
           <InfoContainer>
-            <div>
-              <LeftContainer>
-                <Image src={ethIcon} width={24} height={24} alt='eth icon' />
-                <div>
-                  <h4>{t('availableToStake')}</h4>
-                  <div>
-                    <span>{truncateWei(ethBalance, 6)}</span>
-                    <span>{t('eth.symbol')}</span>
-                  </div>
-                </div>
-              </LeftContainer>
-              <RightContainer>
-                <div>
-                  <h4>{t('invested')}</h4>
-                  <div>
-                    <span className='purple'>{truncateWei(accountBalance, 5)}</span>
-                    <span className='purple'>{t('lsd.symbol')}</span>
-                  </div>
-                </div>
-                <Image src={stIcon} width={24} height={24} alt={t('lsd.symbol')} />
-              </RightContainer>
-            </div>
+            <InfoCard>
+              <h4>
+                {t('availableToStake')} <Image src={ethIcon} width={18} height={18} alt='eth icon' />
+              </h4>
+              <div>
+                <span>{truncateWei(ethBalance, 6)}</span>
+                <span>{` ${t('eth.symbol')}`}</span>
+              </div>
+            </InfoCard>
+            <InfoCard>
+              <h4>
+                {t('invested')} <Image src={stIcon} width={18} height={18} alt={t('lsd.symbol')} />
+              </h4>
+              <div>
+                <span className='purple'>{truncateWei(accountBalance, 5)}</span>
+                <span className='purple'>{` ${t('lsd.symbol')}`}</span>
+              </div>
+            </InfoCard>
+            <InfoCard>
+              <h4>{t('rewards')}</h4>
+              <div>
+                <span className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}>
+                  {`${truncateWei(accountTotalRewards, 6)}`}
+                </span>
+                <span className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}>
+                  {` ${t('lsd.symbol')}`}
+                </span>
+              </div>
+            </InfoCard>
+            <InfoCard>
+              <h4>{t('v2.sidebar.percentageProfit')}</h4>
+              <div>
+                <span className={`${accountTotalRewards > 1n && 'green'}`}>
+                  {truncateWei(accountProfitPercentage, 6)} %
+                </span>
+              </div>
+            </InfoCard>
           </InfoContainer>
           <TabsArea>
             <Tabs items={tabPortfolio} defaultActiveKey='portfolio' gray />
@@ -218,11 +240,10 @@ const {
   CopyIcon,
   PoolsIcon,
   AnalyticsIcon,
-  LeftContainer,
-  RightContainer,
   ActivitiesIcon,
   TabsArea,
-  WalletAddressContainer
+  WalletAddressContainer,
+  InfoCard
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.colorV2.foreground} !important;
@@ -235,8 +256,8 @@ const {
       width: calc(100vw - 60px);
       display: flex;
       flex-direction: column;
-      gap: ${({ theme }) => theme.size[24]};
-      padding: ${({ theme }) => theme.size[24]};
+      gap: ${({ theme }) => theme.size[16]};
+      padding: ${({ theme }) => theme.size[16]};
       @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
         width: 380px;
       }
@@ -272,107 +293,68 @@ const {
     }
   `,
   InfoContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.size[12]};
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      grid-template-columns: 1fr 1fr;
+      gap: ${({ theme }) => theme.size[16]};
+    }
+  `,
+  InfoCard: styled.div`
     background: ${({ theme }) => theme.colorV2.white};
     border-radius: 8px;
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    padding: 16px;
-    > div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  `,
-  LeftContainer: styled.div`
+    padding: 12px 16px;
+
     display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[4]};
 
-    img {
-      box-shadow: ${({ theme }) => theme.shadow[300]};
-      border-radius: 100%;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      padding: 12px 16px;
+      gap: 4px;
+    }
+
+    h4 {
+      font-size: 13px;
+      font-weight: 400;
+      color: ${({ theme }) => theme.colorV2.blue[1]};
+
+      img {
+        box-shadow: ${({ theme }) => theme.shadow[100]};
+        border-radius: 100%;
+
+        float: right;
+        margin-top: -4px;
+        margin-right: -8px;
+      }
     }
 
     > div {
-      display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[4]};
-      > div {
-        display: flex;
-        align-items: center;
-        gap: ${({ theme }) => theme.size[4]};
-      }
-      h4 {
-        font-size: 12px;
-
-        font-weight: 400;
-        color: ${({ theme }) => theme.color.blue[400]};
-      }
       span {
         font-size: 14px;
-
+        line-height: 18px;
         font-weight: 400;
-        color: ${({ theme }) => theme.color.primary};
+        color: ${({ theme }) => theme.colorV2.blue[3]};
 
         &.purple {
           color: ${({ theme }) => theme.color.secondary};
         }
-        &.negative {
+        &.red {
           color: ${({ theme }) => theme.color.red[300]};
         }
-        &.positive {
+        &.green {
           color: ${({ theme }) => theme.color.green[500]};
+        }
+        &.cyan {
+          color: ${({ theme }) => theme.color.messenger[400]};
         }
       }
     }
   `,
-  RightContainer: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
 
-    img {
-      box-shadow: ${({ theme }) => theme.shadow[100]};
-      border-radius: 100%;
-    }
-
-    > div {
-      display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[4]};
-      align-items: end;
-
-      > div {
-        display: flex;
-        align-items: center;
-        gap: ${({ theme }) => theme.size[4]};
-      }
-      h4 {
-        font-size: 12px;
-
-        font-weight: 400;
-        color: ${({ theme }) => theme.color.blue[400]};
-      }
-      span {
-        font-size: 14px;
-
-        font-weight: 400;
-        color: ${({ theme }) => theme.color.primary};
-
-        &.purple {
-          color: ${({ theme }) => theme.color.secondary};
-        }
-        &.negative {
-          color: ${({ theme }) => theme.color.red[300]};
-        }
-        &.positive {
-          color: ${({ theme }) => theme.color.green[500]};
-        }
-      }
-    }
-  `,
   ClosedSidebarButton: styled.button`
     position: absolute;
     left: -44px;

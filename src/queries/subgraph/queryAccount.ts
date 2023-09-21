@@ -8,6 +8,7 @@ export const queryAccount = gql`
       shares
       totalDeposited
       totalRewards
+      profitPercentage
       sentDelegationsCount
       delegations(orderBy: delegationShares, orderDirection: desc) {
         id
