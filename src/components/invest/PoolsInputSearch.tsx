@@ -1,5 +1,5 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai'
+import { PiMagnifyingGlass, PiX } from 'react-icons/pi'
 import styled from 'styled-components'
 
 type PoolsInputSearchProps = {
@@ -12,7 +12,7 @@ export default function PoolsInputSearch({ search, setSearch }: PoolsInputSearch
   return (
     <InputSearchArea className={search.length > 0 ? 'selected' : ''}>
       <button>
-        <AiOutlineSearch fontSize={16} />
+        <PiMagnifyingGlass fontSize={16} />
       </button>
       <InputSearch
         type='text'
@@ -22,7 +22,7 @@ export default function PoolsInputSearch({ search, setSearch }: PoolsInputSearch
       />
       {search && search.length > 0 && (
         <button onClick={() => setSearch('')}>
-          <AiOutlineClose fontSize={16} />
+          <PiX fontSize={16} />
         </button>
       )}
     </InputSearchArea>

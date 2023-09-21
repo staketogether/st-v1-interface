@@ -1,4 +1,4 @@
-import { AiOutlineLoading } from 'react-icons/ai'
+import { PiSpinnerGap } from 'react-icons/pi'
 import { keyframes, styled } from 'styled-components'
 
 type LoadingProps = {
@@ -22,7 +22,7 @@ const rotate = keyframes`
 `
 
 const { LoadingIcon } = {
-  LoadingIcon: styled(AiOutlineLoading)`
+  LoadingIcon: styled(PiSpinnerGap)`
     animation: ${rotate} 1s linear infinite;
   `
 }

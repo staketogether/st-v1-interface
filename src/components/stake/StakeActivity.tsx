@@ -4,10 +4,10 @@ import { truncateAddress, truncateTimestamp, truncateWei } from '@/services/trun
 import { PoolActivity } from '@/types/PoolActivity'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { AiOutlineLink } from 'react-icons/ai'
 import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
+import { PiLink } from 'react-icons/pi'
 
 type StakeActivityProps = {
   poolActivities: PoolActivity[]
@@ -137,7 +137,7 @@ const { Container, Row, ExternalLink, List } = {
       }
     }
   `,
-  ExternalLink: styled(AiOutlineLink)`
+  ExternalLink: styled(PiLink)`
     font-size: ${({ theme }) => theme.font.size[16]};
     color: ${({ theme }) => theme.colorV2.blue[1]};
   `

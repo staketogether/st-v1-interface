@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
-import { AiOutlineArrowLeft } from 'react-icons/ai'
 import styled from 'styled-components'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
+import { PiArrowLeft } from 'react-icons/pi'
 
 type WalletSlideBarSettingsProps = {
   setIsSettingsActive: (value: boolean) => void
@@ -76,7 +76,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
 }
 
 const { Header, CloseIcon, SettingContainer, Button } = {
-  CloseIcon: styled(AiOutlineArrowLeft)`
+  CloseIcon: styled(PiArrowLeft)`
     font-size: 18px;
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
     cursor: pointer;
