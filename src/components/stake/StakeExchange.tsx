@@ -35,7 +35,7 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
   const { getFaucet, txHash, isLoading, isError, errorMessage, amount } = useGetFaucet(handleSuccess)
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
-  const ethersFaucet = ethers.parseEther('0.02')
+  const ethersFaucet = ethers.parseEther('0.05')
   const { price, symbol } = useCoinConversion(ethersFaucet.toString() || '0')
 
   useEffect(() => {
