@@ -132,6 +132,19 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
         </div>
         <div>
           <span>
+            <TooltipComponent text={t('v2.stake.rewardsTooltip')} left={126} width={350}>
+              {`${t('generatedRewards')}: `}
+              <QuestionIcon />
+            </TooltipComponent>
+          </span>
+          {!!pool?.totalRewards && !initialLoading ? (
+            <span className='green'>{`${truncateWei(pool?.totalRewards)} ${t('lsd.symbol')} `}</span>
+          ) : (
+            <SkeletonLoading height={14} width={100} />
+          )}
+        </div>
+        <div>
+          <span>
             <TooltipComponent text={t('v2.stake.apyTooltip')} left={225} width={200}>
               {`${t('v2.stake.apy')}: `}
               <QuestionIcon />
