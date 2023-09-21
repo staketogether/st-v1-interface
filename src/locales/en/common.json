@@ -239,6 +239,7 @@
       "tvl": "Total Invested with Project",
       "tvlTooltip": "Total Invested with the Project refers to the total amount of ETH deposited into the project. The more ETH, the greater the incentives for project. (Project TVL)",
       "infoEmptyState": "Information not available",
+      "faucetTooltip": "Try the protocol, get Goerli Ethereum here",
       "descriptionForm": {
         "receive": "You Will Receive:",
         "receiveTooltip": "When you deposit ETH, you receive the stpETH token in return. The stpETH receives staking rewards daily.",
