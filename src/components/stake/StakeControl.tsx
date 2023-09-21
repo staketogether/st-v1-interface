@@ -4,6 +4,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
+import { useCallback, useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowUp, PiCurrencyEth, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
@@ -17,7 +18,6 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
-import { useCallback, useState } from 'react'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -29,6 +29,17 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   const { query } = useRouter()
+  const [tooltipHasOpen, setTooltipHasOpen] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setTooltipHasOpen(true)
+    }, 3000)
+    setTimeout(() => {
+      setTooltipHasOpen(false)
+    }, 8000)
+  }, [])
+
   const { currency, network } = query
 
   const { apy } = globalConfig
@@ -78,6 +89,8 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
     {
       key: 'exchange',
       label: t('exchange'),
+      tooltip: t('v2.stake.faucetTooltip'),
+      tooltipOpen: tooltipHasOpen,
       icon: <DexIcon />,
       children: stakeForm
     }
@@ -120,6 +133,19 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
           </span>
           {!!pool?.poolBalance && !initialLoading ? (
             <span className='primary'>{`${truncateWei(pool?.poolBalance, 5)} ${t('eth.symbol')} `}</span>
+          ) : (
+            <SkeletonLoading height={14} width={100} />
+          )}
+        </div>
+        <div>
+          <span>
+            <TooltipComponent text={t('v2.stake.rewardsTooltip')} left={126} width={350}>
+              {`${t('generatedRewards')}: `}
+              <QuestionIcon />
+            </TooltipComponent>
+          </span>
+          {!!pool?.totalRewards && !initialLoading ? (
+            <span className='green'>{`${truncateWei(pool?.totalRewards)} ${t('lsd.symbol')} `}</span>
           ) : (
             <SkeletonLoading height={14} width={100} />
           )}
