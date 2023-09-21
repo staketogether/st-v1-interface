@@ -4,11 +4,12 @@ import { capitalize } from '@/services/truncate'
 import { Drawer } from 'antd'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { AiOutlineRight, AiOutlineSetting } from 'react-icons/ai'
+
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import WalletSidebarSettings from './WalletSidebarSettings'
+import { PiCaretRight, PiGear } from 'react-icons/pi'
 
 export default function WalletSidebarDisconnected() {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
@@ -153,13 +154,13 @@ const {
       background: ${({ theme }) => theme.color.whiteAlpha[600]};
     }
   `,
-  SettingIcon: styled(AiOutlineSetting)`
+  SettingIcon: styled(PiGear)`
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
     &:hover {
       color: ${({ theme }) => theme.colorV2.purple[1]} !important;
     }
   `,
-  CloseSidebar: styled(AiOutlineRight)`
+  CloseSidebar: styled(PiCaretRight)`
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
     &:hover {
       color: ${({ theme }) => theme.colorV2.purple[1]} !important;

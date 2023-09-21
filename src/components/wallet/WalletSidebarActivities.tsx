@@ -4,7 +4,7 @@ import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { AccountActivity } from '@/types/AccountActivity'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { AiOutlineLink } from 'react-icons/ai'
+import { PiLink } from 'react-icons/pi'
 import styled from 'styled-components'
 
 type WalletSidebarActivities = {
@@ -136,7 +136,7 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
       justify-self: end;
     }
   `,
-  ExternalLink: styled(AiOutlineLink)`
+  ExternalLink: styled(PiLink)`
     font-size: ${({ theme }) => theme.font.size[16]};
     color: ${({ theme }) => theme.color.secondary};
   `

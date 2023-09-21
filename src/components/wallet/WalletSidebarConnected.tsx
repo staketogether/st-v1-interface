@@ -8,14 +8,6 @@ import stIcon from '@assets/st-symbol.svg'
 import { Drawer, notification } from 'antd'
 import Image from 'next/image'
 import { useState } from 'react'
-import {
-  AiOutlineBarChart,
-  AiOutlineLineChart,
-  AiOutlineLogout,
-  AiOutlinePieChart,
-  AiOutlineRight,
-  AiOutlineSetting
-} from 'react-icons/ai'
 import { FiCopy } from 'react-icons/fi'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
@@ -30,6 +22,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
 import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
 import WalletSidebarSettings from './WalletSidebarSettings'
+import { PiCaretRight, PiChartBar, PiChartLine, PiChartPieSlice, PiGear, PiSignOut } from 'react-icons/pi'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -389,14 +382,14 @@ const {
       background: ${({ theme }) => theme.color.whiteAlpha[700]};
     }
   `,
-  SettingIcon: styled(AiOutlineSetting)`
+  SettingIcon: styled(PiGear)`
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
 
     &:hover {
       color: ${({ theme }) => theme.colorV2.purple[1]} !important;
     }
   `,
-  CloseSidebar: styled(AiOutlineRight)`
+  CloseSidebar: styled(PiCaretRight)`
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
   `,
   Button: styled.button`
@@ -428,7 +421,7 @@ const {
       margin-left: auto;
     }
   `,
-  Logout: styled(AiOutlineLogout)`
+  Logout: styled(PiSignOut)`
     color: ${({ theme }) => theme.color.primary};
   `,
   Actions: styled.div`
@@ -480,13 +473,13 @@ const {
       }
     }
   `,
-  PoolsIcon: styled(AiOutlinePieChart)`
+  PoolsIcon: styled(PiChartPieSlice)`
     font-size: 16px;
   `,
-  AnalyticsIcon: styled(AiOutlineBarChart)`
+  AnalyticsIcon: styled(PiChartBar)`
     font-size: 16px;
   `,
-  ActivitiesIcon: styled(AiOutlineLineChart)`
+  ActivitiesIcon: styled(PiChartLine)`
     font-size: 16px;
   `
 }

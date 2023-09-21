@@ -6,7 +6,7 @@ import ethIcon from '@assets/icons/eth-icon.svg'
 import etherscan from '@assets/icons/etherscan.svg'
 import sethIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
-import { AiFillCheckCircle, AiOutlineArrowRight } from 'react-icons/ai'
+import { PiArrowRight, PiCheckCircle } from 'react-icons/pi'
 import styled from 'styled-components'
 import Loading from '../shared/icons/Loading'
 
@@ -161,7 +161,7 @@ const {
       }
     }
   `,
-  ArrowIcon: styled(AiOutlineArrowRight)`
+  ArrowIcon: styled(PiArrowRight)`
     color: ${({ theme }) => theme.color.secondary};
   `,
   DescriptionAction: styled.span`
@@ -185,7 +185,7 @@ const {
   LoadingIcon: styled(Loading)`
     color: ${({ theme }) => theme.color.secondary};
   `,
-  SuccessIcon: styled(AiFillCheckCircle)`
+  SuccessIcon: styled(PiCheckCircle)`
     color: ${({ theme }) => theme.color.green[300]};
   `,
   AddAssetInWalletButton: styled.button`

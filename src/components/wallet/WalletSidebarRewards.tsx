@@ -5,7 +5,7 @@ import { AccountReward } from '@/types/AccountReward'
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { AiOutlineLink } from 'react-icons/ai'
+import { PiLink } from 'react-icons/pi'
 import styled, { useTheme } from 'styled-components'
 
 type WalletSidebarRewards = {
@@ -35,7 +35,7 @@ export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRe
       {accountRewards.map(reward => {
         return (
           <Reward key={reward.txHash} href={`${blockExplorer.baseUrl}/tx/${reward.txHash}`} target='_blank'>
-            <AiOutlineLink color={theme.color.secondary} />
+            <PiLink color={theme.color.secondary} />
             <span>{truncateTimestamp(reward.timestamp, router.locale || 'en')}</span>
             <span className='green'>
               {truncateWei(reward.amount, 8)} {t('lsd.symbol')}
