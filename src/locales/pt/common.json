@@ -11,6 +11,7 @@
   "accounts": "Contas",
   "days": "Dias",
   "rewards": "Recompensas",
+  "generatedRewards": "Recompensas Geradas",
   "delegates": "Delegados",
   "processing": "Processando...",
   "invested": "Investidos",
@@ -239,6 +240,8 @@
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
       "tvl": "Total Investido com o Projeto",
       "tvlTooltip": "Total Investido com o Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto. (TVL do Projeto)",
+      "rewardsTooltip": "Recompensas geradas pelos incentivos em stake nesse projeto",
+      "faucetTooltip": "Experimente o protocolo, pegue goerli ethereum aqui",
       "annualRewards": "Recompensas Anuais de Staking",
       "infoEmptyState": "Nenhuma informação disponível",
       "descriptionForm": {

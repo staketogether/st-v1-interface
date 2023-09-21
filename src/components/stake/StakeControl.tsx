@@ -4,6 +4,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
+import { useCallback, useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowUp, PiCurrencyEth, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
@@ -24,14 +25,32 @@ interface StakeControlProps {
 }
 
 export default function StakeControl({ poolAddress, type }: StakeControlProps) {
+  const [skipMembers, setSkipMembers] = useState(0)
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   const { query } = useRouter()
+  const [tooltipHasOpen, setTooltipHasOpen] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setTooltipHasOpen(true)
+    }, 3000)
+    setTimeout(() => {
+      setTooltipHasOpen(false)
+    }, 8000)
+  }, [])
+
   const { currency, network } = query
 
   const { apy } = globalConfig
 
-  const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress, { first: 10, skip: 0 })
+  const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress)
+
+  const handleLoadMoreMembers = useCallback(() => {
+    const newSkip = skipMembers + 10
+    setSkipMembers(newSkip)
+    fetchMore({ id: poolAddress, first: 10, skip: newSkip })
+  }, [fetchMore, poolAddress, skipMembers])
 
   const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(poolAddress)
 
@@ -70,6 +89,8 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
     {
       key: 'exchange',
       label: t('exchange'),
+      tooltip: t('v2.stake.faucetTooltip'),
+      tooltipOpen: tooltipHasOpen,
       icon: <DexIcon />,
       children: stakeForm
     }
@@ -118,6 +139,19 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
         </div>
         <div>
           <span>
+            <TooltipComponent text={t('v2.stake.rewardsTooltip')} left={126} width={350}>
+              {`${t('generatedRewards')}: `}
+              <QuestionIcon />
+            </TooltipComponent>
+          </span>
+          {!!pool?.totalRewards && !initialLoading ? (
+            <span className='green'>{`${truncateWei(pool?.totalRewards)} ${t('lsd.symbol')} `}</span>
+          ) : (
+            <SkeletonLoading height={14} width={100} />
+          )}
+        </div>
+        <div>
+          <span>
             <TooltipComponent text={t('v2.stake.apyTooltip')} left={225} width={200}>
               {`${t('v2.stake.apy')}: `}
               <QuestionIcon />
@@ -136,7 +170,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
       <StakePoolInfo
         poolAddress={poolAddress}
         poolData={pool}
-        fetchMore={fetchMore}
+        fetchMore={handleLoadMoreMembers}
         loadMoreLoadingPoolData={loadMoreLoading}
         initialLoadingPoolData={initialLoading}
       />
