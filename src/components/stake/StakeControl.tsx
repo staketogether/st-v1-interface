@@ -119,7 +119,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
         <div>
           <span>
             <TooltipComponent text={t('v2.stake.rewardsTooltip')} left={126} width={350}>
-              {`${t('rewards')}: `}
+              {`${t('generatedRewards')}: `}
               <QuestionIcon />
             </TooltipComponent>
           </span>
