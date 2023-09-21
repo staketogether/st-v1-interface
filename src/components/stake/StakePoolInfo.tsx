@@ -3,17 +3,17 @@ import StakePoolMembers from '@/components/stake/StakePoolMembers'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import { PoolSubgraph } from '@/types/Pool'
-import { useState } from 'react'
 import { PiAppWindow, PiListDashes, PiUsers } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import StakeActivity from './StakeActivity'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}`
   poolData: PoolSubgraph | undefined
-  fetchMore: (variables: { id: string; first: number; skip: number }) => void
+  fetchMore: () => void
   loadMoreLoadingPoolData: boolean
   initialLoadingPoolData: boolean
 }
@@ -26,13 +26,6 @@ export default function StakePoolInfo({
   loadMoreLoadingPoolData
 }: StakeStatsProps) {
   const { t } = useLocaleTranslation()
-  const [skipMembers, setSkipMembers] = useState(0)
-
-  const handleLoadMoreMembers = () => {
-    const newSkip = skipMembers + 10
-    setSkipMembers(newSkip)
-    fetchMore({ id: poolAddress, first: 10, skip: newSkip })
-  }
 
   const { poolActivities, initialLoading: poolActivitiesLoading } = usePoolActivities(poolAddress, {
     first: 10,
@@ -53,7 +46,12 @@ export default function StakePoolInfo({
     },
     {
       key: 'accounts',
-      label: `${t('accounts')} (${poolData?.receivedDelegationsCount})`,
+      label: (
+        <AccountContainer>
+          {`${t('accounts')}`}{' '}
+          {!initialLoadingPoolData ? `(${poolData?.receivedDelegationsCount})` : <SkeletonLoading width={20} />}
+        </AccountContainer>
+      ),
       icon: <MembersIcon />,
       children: (
         <TabContainer>
@@ -61,7 +59,7 @@ export default function StakePoolInfo({
             delegations={poolData?.delegations}
             initialLoading={initialLoadingPoolData}
             loadMoreLoading={loadMoreLoadingPoolData}
-            onLoadMore={handleLoadMoreMembers}
+            onLoadMore={fetchMore}
             totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
           />
         </TabContainer>
@@ -86,7 +84,7 @@ export default function StakePoolInfo({
   )
 }
 
-const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon } = {
+const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, AccountContainer } = {
   Container: styled.section`
     display: grid;
     grid-template-columns: 1fr;
@@ -115,5 +113,10 @@ const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon } = {
   `,
   ActivityIcon: styled(PiListDashes)`
     font-size: ${({ theme }) => theme.font.size[16]};
+  `,
+  AccountContainer: styled.span`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
   `
 }

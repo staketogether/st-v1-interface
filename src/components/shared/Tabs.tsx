@@ -6,7 +6,7 @@ export type ItemsKey = number | string
 
 export type TabsItems = {
   key: ItemsKey
-  label: string
+  label: string | ReactNode
   children: ReactNode
   icon?: ReactNode
   disabled?: boolean
