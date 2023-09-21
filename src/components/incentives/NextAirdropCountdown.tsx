@@ -90,7 +90,7 @@ const { AirdropCountdown, Time } = {
       flex-direction: row;
       justify-content: space-between;
       h2 {
-        margin-top: -18px;
+        margin-top: -20px;
       }
     }
 
