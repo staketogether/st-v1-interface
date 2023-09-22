@@ -106,24 +106,24 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
     <Container>
       <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
       <TvlContainer>
-        {poolAddress && (
-          <PoolTitle>
+        <PoolTitle>
+          {poolDetail && (
             <div>
               <CommunityLogo
                 size={32}
-                src={poolDetail ? poolDetail?.logo?.url : ''}
-                alt={poolDetail ? poolDetail?.logo?.url : ''}
+                src={poolDetail?.logo?.url}
+                alt={poolDetail?.logo?.url}
                 loading={poolDetailLoading}
               />
-              <CommunityName $larger name={poolDetail?.name || ''} loading={poolDetailLoading} />
+              <CommunityName $larger name={poolDetail?.name} loading={poolDetailLoading} />
             </div>
-            <Tooltip trigger='click' title={t('copiedToClipboard')}>
-              <ShareButton onClick={copyToClipboard}>
-                <ShareIcon />
-              </ShareButton>
-            </Tooltip>
-          </PoolTitle>
-        )}
+          )}
+          <Tooltip trigger='click' title={t('copiedToClipboard')}>
+            <ShareButton onClick={copyToClipboard}>
+              <ShareIcon />
+            </ShareButton>
+          </Tooltip>
+        </PoolTitle>
         <div>
           <span>
             <TooltipComponent text={t('v2.stake.tvlTooltip')} left={225} width={200}>

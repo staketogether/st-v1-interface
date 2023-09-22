@@ -46,18 +46,20 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
     <>
       {!loading && userGift && (
         <Header>
-          <div>
-            <CommunityLogo
-              size={32}
-              src={poolDetail ? poolDetail?.logo?.url : ''}
-              alt={poolDetail ? poolDetail?.logo?.url : ''}
-              loading={poolDetailLoading}
-            />
+          {poolDetail && (
             <div>
-              <CommunityName $larger name={poolDetail?.name || ''} loading={poolDetailLoading} />
-              <Sent>{`${t('v2.gifts.sent')}`}</Sent>
+              <CommunityLogo
+                size={32}
+                src={poolDetail?.logo?.url}
+                alt={poolDetail?.logo?.url}
+                loading={poolDetailLoading}
+              />
+              <div>
+                <CommunityName $larger name={poolDetail?.name} loading={poolDetailLoading} />
+                <Sent>{`${t('v2.gifts.sent')}`}</Sent>
+              </div>
             </div>
-          </div>
+          )}
           <Tooltip trigger='click' title={t('copiedToClipboard')}>
             <ShareButton onClick={copyToClipboard}>
               <ShareIcon />

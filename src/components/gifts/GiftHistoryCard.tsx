@@ -1,12 +1,11 @@
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
-import { Gift } from '@/types/Gift'
-import React from 'react'
-import { styled } from 'styled-components'
-import CommunityLogo from '../shared/community/CommunityLogo'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
+import { Gift } from '@/types/Gift'
 import { DateTime } from 'luxon'
 import { useRouter } from 'next/router'
+import { styled } from 'styled-components'
+import CommunityLogo from '../shared/community/CommunityLogo'
 
 type GiftHistoryCardProps = {
   gift: Gift
@@ -27,15 +26,17 @@ export default function GiftHistoryCard({ gift }: GiftHistoryCardProps) {
 
   return (
     <Container>
-      <CommunityLogo
-        size={22}
-        src={poolDetail ? poolDetail?.logo?.url : ''}
-        alt={poolDetail ? poolDetail?.logo?.url : ''}
-        loading={poolDetailLoading}
-      />
+      {poolDetail && (
+        <CommunityLogo
+          size={22}
+          src={poolDetail ? poolDetail?.logo?.url : ''}
+          alt={poolDetail ? poolDetail?.logo?.url : ''}
+          loading={poolDetailLoading}
+        />
+      )}
       <Detail>
         <div>
-          <span>{`${poolDetail?.name} ${t('v2.gifts.sent')} ${t(`v2.gifts.${gift.type}`)}`}</span>
+          <span>{`${poolDetail && poolDetail?.name} ${t('v2.gifts.sent')} ${t(`v2.gifts.${gift.type}`)}`}</span>
           <Tag className={`${gift.claimed ? 'primary' : 'lost'}`}>
             {gift.claimed ? t('v2.gifts.claimed') : t('v2.gifts.lost')}
           </Tag>

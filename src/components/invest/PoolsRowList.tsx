@@ -23,30 +23,34 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
 
   return (
     <Row href={`/${network}/${currency}/invest/deposit/${pool.address}`}>
-      <Name>
-        {pool.logo.url && (
-          <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
-        )}
-        {!pool.logo.url && (
-          <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={true} />
-        )}
-        {pool.name && <CommunityName name={pool.name} loading={loading} />}
-        {!pool.name && <CommunityName name={pool.name} loading={true} />}
-      </Name>
-      <TypeContainer>
-        {!pool.type && <SkeletonLoading width={100} height={15} />}
-        {pool.type && PoolFilterIcon({ iconSize: 16, value: pool.type })}
-        <Text>{`${pool.type && poolTypeTranslation(pool.type)}`}</Text>
-      </TypeContainer>
-      <Text>{pool.receivedDelegationsCount.toString()}</Text>
-      <Text className='blue'>
-        {truncateWei(pool.poolBalance, 6)}
-        <Text className='blue'>{t('eth.symbol')}</Text>
-      </Text>
-      <Text className='green'>
-        {truncateWei(pool.totalRewards, 6)}
-        <Text className='green'>{t('lsd.symbol')}</Text>
-      </Text>
+      {pool && (
+        <>
+          <Name>
+            {pool.logo.url && (
+              <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
+            )}
+            {!pool.logo.url && (
+              <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={true} />
+            )}
+            {pool.name && <CommunityName name={pool.name} loading={loading} />}
+            {!pool.name && <CommunityName name={pool.name} loading={true} />}
+          </Name>
+          <TypeContainer>
+            {!pool.type && <SkeletonLoading width={100} height={15} />}
+            {pool.type && PoolFilterIcon({ iconSize: 16, value: pool.type })}
+            <Text>{`${pool.type && poolTypeTranslation(pool.type)}`}</Text>
+          </TypeContainer>
+          <Text>{pool.receivedDelegationsCount.toString()}</Text>
+          <Text className='blue'>
+            {truncateWei(pool.poolBalance, 6)}
+            <Text className='blue'>{t('eth.symbol')}</Text>
+          </Text>
+          <Text className='green'>
+            {truncateWei(pool.totalRewards, 6)}
+            <Text className='green'>{t('lsd.symbol')}</Text>
+          </Text>
+        </>
+      )}
     </Row>
   )
 }
