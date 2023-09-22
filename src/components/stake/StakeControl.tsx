@@ -132,7 +132,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
             </TooltipComponent>
           </span>
           {!!pool?.poolBalance && !initialLoading ? (
-            <span className='primary'>{`${truncateWei(pool?.poolBalance, 5)} ${t('eth.symbol')} `}</span>
+            <span className='primary'>{`${truncateWei(pool.poolBalance, 5)}  ${t('eth.symbol')} `}</span>
           ) : (
             <SkeletonLoading height={14} width={100} />
           )}

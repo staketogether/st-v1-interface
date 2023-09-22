@@ -10,7 +10,7 @@ function sliceString(value: string, decimals: number) {
 }
 
 export function truncateWei(wei: bigint, maxDecimals = 4): string {
-  if (!wei) {
+  if (!wei || wei.toString() === '0') {
     return '0'
   }
 
