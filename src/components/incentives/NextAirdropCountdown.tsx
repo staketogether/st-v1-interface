@@ -13,23 +13,22 @@ export default function NextAirdropCountdown() {
 
   useEffect(() => {
     const getNextFriday = () => {
-      const dateInBrasilia = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }))
-      const nextFriday = new Date(dateInBrasilia)
+      const today = new Date()
+      const currentDay = today.getDay()
 
-      if (dateInBrasilia.getDay() !== 5 || (dateInBrasilia.getDay() === 5 && dateInBrasilia.getHours() >= 14)) {
-        nextFriday.setDate(dateInBrasilia.getDate() + ((5 + 7 - dateInBrasilia.getDay()) % 7))
-      }
-      nextFriday.setHours(14, 0, 0, 0)
-      return nextFriday
+      const daysUntilFriday = (5 - currentDay + 7) % 7 || 7
+
+      today.setDate(today.getDate() + daysUntilFriday)
+
+      today.setHours(0, 0, 0, 0)
+
+      return today
     }
 
     const updateCountdown = () => {
-      const nowInBrasilia = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Sao_Paulo' }))
-      const diff = getNextFriday().getTime() - nowInBrasilia.getTime()
+      const diff = getNextFriday().getTime() - new Date().getTime()
       setTimeLeft(diff)
     }
-
-    updateCountdown()
 
     const interval = setInterval(updateCountdown, 1000)
 
