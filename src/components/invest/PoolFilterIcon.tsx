@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import { PiBookOpenText, PiCodesandboxLogo, PiHandHeart } from 'react-icons/pi'
+import { SiDragonframe } from 'react-icons/si'
 
 type FilterPool = {
   icon: ReactNode
@@ -24,6 +25,10 @@ export default function PoolFilterIcon({ iconSize, value }: PoolFilterIconProps)
     {
       icon: <PiCodesandboxLogo fontSize={iconSize} />,
       value: 'technology'
+    },
+    {
+      icon: <SiDragonframe fontSize={iconSize} />,
+      value: 'collectibles'
     }
   ]
 

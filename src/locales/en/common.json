@@ -214,7 +214,8 @@
         "all": "All",
         "education": "Education",
         "social": "Social Impact",
-        "technology": "Technology"
+        "technology": "Technology",
+        "collectibles": "Collectibles"
       },
       "status": {
         "totalSupply": "Staked",
