@@ -11,7 +11,7 @@ export function MetaTagsPoolDetail({ poolDetail }: MetaTagsPoolDetailProps) {
 
   const descriptionPt = `Invista em Ethereum com a ${poolDetail?.name} utilizando a  Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain`
   const image =
-    poolDetail && poolDetail.image.url ? poolDetail.image.url : `/assets/icons/stake-together/meta.png`
+    poolDetail && poolDetail.image?.url ? poolDetail.image.url : `/assets/icons/stake-together/meta.png`
   return (
     <Head>
       {i18n.language == 'pt' && (
