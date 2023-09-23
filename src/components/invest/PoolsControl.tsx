@@ -86,6 +86,10 @@ export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
       value: 'all'
     },
     {
+      name: poolTypeTranslation('collectibles'),
+      value: 'collectibles'
+    },
+    {
       name: poolTypeTranslation('education'),
       value: 'education'
     },
@@ -105,7 +109,7 @@ export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
       <StatusCard>
         <div>
           <h2>{t('v2.pools.status.totalSupply')}</h2>
-          <span className='blue'>{`${truncateWei(stakeTogether.totalSupply, 4)} ${t('eth.symbol')}`}</span>
+          <span className='blue'>{`${truncateWei(stakeTogether.totalSupply, 2)} ${t('eth.symbol')}`}</span>
         </div>
         <div>
           <h2>{t('v2.pools.status.totalRewards')}</h2>
