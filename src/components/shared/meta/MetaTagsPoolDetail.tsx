@@ -1,3 +1,4 @@
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import Head from 'next/head'
 
@@ -6,8 +7,10 @@ type MetaTagsPoolDetailProps = {
 }
 
 export function MetaTagsPoolDetail({ poolDetail }: MetaTagsPoolDetailProps) {
-  const descriptionPt = `Invista em Ethereum com o projeto ${poolDetail?.name} utilizando a  Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain`
-  const image = poolDetail && poolDetail.logo?.url ? poolDetail.logo.url : ``
+  const { t } = useLocaleTranslation()
+  const descriptionPt = t('v2.meta.stake.description').replace('projectName', poolDetail?.name || '')
+  const image =
+    poolDetail && poolDetail.logo?.url ? poolDetail.logo.url : `/assets/icons/stake-together/meta.png`
   return (
     <Head>
       <>
@@ -25,33 +28,6 @@ export function MetaTagsPoolDetail({ poolDetail }: MetaTagsPoolDetailProps) {
         <meta property='twitter:description' content={descriptionPt} />
         <meta property='twitter:image' content={image} />
       </>
-
-      {/* {i18n.language != 'pt' && (
-        <>
-          <title>Stake Together - Ethereum Staking</title>
-          <meta name='title' content='Stake Together - Ethereum Staking' />
-          <meta
-            name='description'
-            content='Invest in Ethereum with Stake Together and maximize your profits while supporting your favorite projects through the Blockchain.'
-          />
-          <meta property='og:type' content='website' />
-          <meta property='og:url' content='https://beta.staketogether.app' />
-          <meta property='og:title' content='Stake Together - Ethereum Staking' />
-          <meta
-            property='og:description'
-            content='Invest in Ethereum with Stake Together and maximize your profits while supporting your favorite projects through the Blockchain.'
-          />
-          <meta property='og:image' content={`/assets/icons/stake-together/meta.png`} />
-          <meta property='twitter:card' content='summary_large_image' />
-          <meta property='twitter:url' content='https://beta.staketogether.app' />
-          <meta property='twitter:title' content='Stake Together - Ethereum Staking' />
-          <meta
-            property='twitter:description'
-            content='Invest in Ethereum with Stake Together and maximize your profits while supporting your favorite projects through the Blockchain.'
-          />
-          <meta property='twitter:image' content={`/assets/icons/stake-together/meta.png`} />
-        </>
-      )} */}
 
       <link rel='apple-touch-icon' sizes='180x180' href={`/assets/icons/stake-together/apple-touch-icon.png`} />
       <link rel='icon' type='image/png' sizes='32x32' href={`/assets/icons/stake-together/favicon-32x32.png`} />

@@ -190,6 +190,11 @@
         "description": "Receba presentes em stpETH de seus projetos favoritos, desde um cafezinho, almoço grátis ou até viagens internacionais."
       }
     },
+    "meta": {
+      "stake": {
+        "description": "Invista em Ethereum com o projeto projectName utilizando a  Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain"
+      }
+    },
     "header": {
       "invest": "Investir",
       "incentives": "Incentivos",
