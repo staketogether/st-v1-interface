@@ -236,7 +236,7 @@ const {
   `,
   Form: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, 468px);
+    grid-template-columns: 1fr;
 
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
