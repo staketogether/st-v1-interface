@@ -9,7 +9,8 @@ export default function useDelegationShares(walletAddress?: `0x${string}`, commu
         collectionAddress: communityDelegate?.toLocaleLowerCase(),
         userAddress: walletAddress?.toLocaleLowerCase()
       },
-      skip: !walletAddress || !communityDelegate
+      skip: !walletAddress || !communityDelegate,
+      fetchPolicy: 'no-cache'
     }
   )
 
