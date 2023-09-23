@@ -8,6 +8,7 @@ export const queryPool = gql`
       address
       totalRewards
       poolShares
+      activitiesCount
       delegations(orderBy: delegationShares, orderDirection: desc, first: $first, skip: $skip) {
         delegationBalance
         delegate {
