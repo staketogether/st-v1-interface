@@ -9,9 +9,9 @@ type MetaTagsPoolDetailProps = {
 export function MetaTagsPoolDetail({ poolDetail }: MetaTagsPoolDetailProps) {
   const { i18n } = useTranslation(['common'])
 
-  const descriptionPt = `Invista em Ethereum com a ${poolDetail?.name} utilizando a  Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain`
+  const descriptionPt = `Invista em Ethereum com o projeto ${poolDetail?.name} utilizando a  Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain`
   const image =
-    poolDetail && poolDetail.image?.url ? poolDetail.image.url : `/assets/icons/stake-together/meta.png`
+    poolDetail && poolDetail.logo?.url ? poolDetail.logo.url : `/assets/icons/stake-together/meta.png`
   return (
     <Head>
       {i18n.language == 'pt' && (
