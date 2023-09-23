@@ -1,7 +1,5 @@
 import chainConfig from '@/config/chain'
 import useDepositPool from '@/hooks/contracts/useDepositPool'
-import useSharesByWei from '@/hooks/contracts/useSharesByWei'
-import useWeiByShares from '@/hooks/contracts/useWeiByShares'
 import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
@@ -91,10 +89,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   }
 
   const [amount, setAmount] = useState<string>('')
-
-  // Todo: this should be dynamic and come from subgraph
-  const { shares: sharesByEthRatio } = useSharesByWei(BigInt('1000000000000000000'))
-  const { balance: ethBySharesRatio } = useWeiByShares('1000000000000000000')
 
   const debouncedAmount = useDebounce(amount, 1000)
   const inputAmount = amount ? debouncedAmount || '0' : '0'
@@ -372,13 +366,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           />
         )}
         {accountAddress && (
-          <StakeDescriptionCheckout
-            amount={amount}
-            type={type}
-            youReceiveDeposit={youReceiveDeposit}
-            sharesByEthRatio={sharesByEthRatio}
-            ethBySharesRatio={ethBySharesRatio}
-          />
+          <StakeDescriptionCheckout amount={amount} type={type} youReceiveDeposit={youReceiveDeposit} />
         )}
       </StakeContainer>
 
@@ -389,8 +377,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         type={type}
         labelButton={handleLabelButton()}
         onClick={handleStakeConfirmation}
-        ethBySharesRatio={ethBySharesRatio}
-        sharesByEthRatio={sharesByEthRatio}
         transactionLoading={isLoading}
         walletActionLoading={walletActionLoading}
         transactionIsSuccess={isSuccess}

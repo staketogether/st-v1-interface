@@ -11,8 +11,6 @@ import StakeTransactionLoading from './StakeTransactionLoading'
 
 type StakeConfirmModalProps = {
   amount: string
-  ethBySharesRatio: bigint
-  sharesByEthRatio: bigint
   youReceive: bigint
   type: 'deposit' | 'withdraw'
   labelButton: string
@@ -31,8 +29,6 @@ export default function StakeConfirmModal({
   transactionLoading,
   walletActionLoading,
   transactionIsSuccess,
-  ethBySharesRatio,
-  sharesByEthRatio,
   youReceive,
   txHash,
   onClick,
@@ -109,13 +105,7 @@ export default function StakeConfirmModal({
             </>
           )}
           <Divider />
-          <StakeDescriptionCheckout
-            amount={amount}
-            type={type}
-            youReceiveDeposit={youReceive}
-            sharesByEthRatio={sharesByEthRatio}
-            ethBySharesRatio={ethBySharesRatio}
-          />
+          <StakeDescriptionCheckout amount={amount} type={type} youReceiveDeposit={youReceive} />
           <Button onClick={onClick}>{labelButton}</Button>
         </>
       )}

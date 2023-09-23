@@ -7,8 +7,6 @@ import TooltipComponent from '../shared/TooltipComponent'
 
 type StakeDescriptionCheckoutProps = {
   type: 'deposit' | 'withdraw'
-  sharesByEthRatio: bigint
-  ethBySharesRatio: bigint
   youReceiveDeposit: bigint
   amount: string
 }
@@ -16,9 +14,7 @@ type StakeDescriptionCheckoutProps = {
 export default function StakeDescriptionCheckout({
   type,
   youReceiveDeposit,
-  amount,
-  sharesByEthRatio,
-  ethBySharesRatio
+  amount
 }: StakeDescriptionCheckoutProps) {
   const { t } = useLocaleTranslation()
   const { fees } = globalConfig
@@ -56,14 +52,14 @@ export default function StakeDescriptionCheckout({
           <span>
             <span className='blue'>1</span> <span className='blue'>{t('eth.symbol')}</span>
             {`  = `}
-            <span className='purple'>{truncateWei(sharesByEthRatio)}</span>
+            <span className='purple'>1</span>
             <span className='purple'>{t('lsd.symbol')}</span>
           </span>
         )}
         {type === 'withdraw' && (
           <span>
             <span className='purple'>1</span> <span className='purple'>{t('lsd.symbol')}</span> =
-            <span className='blue'>{truncateWei(ethBySharesRatio)}</span>
+            <span className='blue'>1</span>
             <span className='blue'>{t('eth.symbol')}</span>
           </span>
         )}
