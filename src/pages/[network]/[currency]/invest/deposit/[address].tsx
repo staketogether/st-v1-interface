@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LayoutTemplate from '../../../../../components/shared/layout/LayoutTemplate'
-import { Metatags } from '../../../../../components/shared/meta/Metatags'
+import { MetaTagsPoolDetail } from '../../../../../components/shared/meta/MetaTagsPoolDetail'
 import StakeControl from '../../../../../components/stake/StakeControl'
 import { contentfulClient } from '@/config/apollo'
 import { ContentfulPool } from '@/types/ContentfulPool'
@@ -15,7 +15,7 @@ type DepositProps = {
 export default function Deposit({ poolAddress, poolDetail }: DepositProps) {
   return (
     <LayoutTemplate>
-      <Metatags />
+      <MetaTagsPoolDetail poolDetail={poolDetail} />
       <StakeControl poolAddress={poolAddress} type='deposit' poolDetail={poolDetail} />
     </LayoutTemplate>
   )
