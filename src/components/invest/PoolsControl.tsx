@@ -86,6 +86,10 @@ export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
       value: 'all'
     },
     {
+      name: poolTypeTranslation('collectibles'),
+      value: 'collectibles'
+    },
+    {
       name: poolTypeTranslation('education'),
       value: 'education'
     },
@@ -96,10 +100,6 @@ export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
     {
       name: poolTypeTranslation('technology'),
       value: 'technology'
-    },
-    {
-      name: poolTypeTranslation('collectibles'),
-      value: 'collectibles'
     }
   ]
 

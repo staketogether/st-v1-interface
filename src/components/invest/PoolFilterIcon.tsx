@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
-import { PiBookOpenText, PiCodesandboxLogo, PiHandHeart } from 'react-icons/pi'
-import { SiDragonframe } from 'react-icons/si'
+import { PiBookOpenText, PiCodesandboxLogo, PiHandHeart, PiImageSquare } from 'react-icons/pi'
 
 type FilterPool = {
   icon: ReactNode
@@ -15,6 +14,10 @@ type PoolFilterIconProps = {
 export default function PoolFilterIcon({ iconSize, value }: PoolFilterIconProps) {
   const filterTypes: FilterPool[] = [
     {
+      icon: <PiImageSquare fontSize={iconSize} />,
+      value: 'collectibles'
+    },
+    {
       icon: <PiBookOpenText fontSize={iconSize} />,
       value: 'education'
     },
@@ -25,10 +28,6 @@ export default function PoolFilterIcon({ iconSize, value }: PoolFilterIconProps)
     {
       icon: <PiCodesandboxLogo fontSize={iconSize} />,
       value: 'technology'
-    },
-    {
-      icon: <SiDragonframe fontSize={iconSize} />,
-      value: 'collectibles'
     }
   ]
 
