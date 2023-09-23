@@ -1,5 +1,4 @@
 import { ContentfulPool } from '@/types/ContentfulPool'
-import { useTranslation } from 'next-i18next'
 import Head from 'next/head'
 
 type MetaTagsPoolDetailProps = {
