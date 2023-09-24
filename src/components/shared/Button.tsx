@@ -3,18 +3,19 @@ import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
 interface ButtonProps {
-  onClick: () => void
+  onClick?: () => void
   label: string
+  type?: 'button' | 'submit'
   icon: ReactNode
   isLoading: boolean
   disabled?: boolean
 }
 
-export default function Button({ onClick, label, disabled, isLoading, icon }: ButtonProps) {
+export default function Button({ onClick, label, disabled, isLoading, icon, type }: ButtonProps) {
   const { t } = useLocaleTranslation()
 
   return (
-    <Container onClick={onClick} disabled={disabled}>
+    <Container disabled={disabled} {...(type && { type })} {...(onClick && { onClick })}>
       {icon}
       {isLoading ? t('processing') : label}
     </Container>

@@ -288,6 +288,29 @@
       "claimed": "Resgatado",
       "lost": "Perdido",
       "notGift": "Você ainda não recebeu nenhum presente"
+    },
+    "stakeProfileEdit": {
+      "communityName": "Nome da comunidade",
+      "cover": "Cover",
+      "image": "Image",
+      "video": "Video",
+      "site": "Site",
+      "linkedin": "Linkedin",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "gotas": "Gotas",
+      "lens": "Lens",
+      "logo": "Logo",
+      "telegram": "Telegram",
+      "wallet": "Carteira",
+      "category": "Categoria",
+      "twitter": "Twitter",
+      "youtube": "Canal do youtube",
+      "discord": "Discord",
+      "discordName": "Nome no discord",
+      "description": "Descrição",
+      "requiredField": "Esse campo é obrigatório",
+      "save": "Salvar"
     }
   }
 }

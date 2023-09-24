@@ -287,6 +287,29 @@
       "claimed": "claimed",
       "lost": "Perdido",
       "notGift": "You haven't received any gifts yet"
+    },
+    "stakeProfileEdit": {
+      "communityName": "Community name",
+      "cover": "Cover",
+      "video": "Video",
+      "image": "Image",
+      "site": "Site",
+      "linkedin": "Linkedin",
+      "facebook": "Facebook",
+      "gotas": "Gotas",
+      "lens": "Lens",
+      "logo": "Logo",
+      "telegram": "Telegram",
+      "wallet": "Wallet",
+      "category": "Category",
+      "instagram": "Instagram",
+      "twitter": "Twitter",
+      "youtube": "Youtube channel",
+      "discord": "Discord",
+      "discordName": "Discord name",
+      "description": "Description",
+      "requiredField": "This field is required",
+      "save": "Save"
     }
   }
 }

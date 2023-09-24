@@ -3,6 +3,10 @@ export type ContentfulImage = {
   fileName: string
 }
 
+export type ContentFulCategory = {
+  name: string
+}
+
 export type ContentfulPool = {
   wallet: `0x${string}`
   name: string
