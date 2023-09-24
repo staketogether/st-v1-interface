@@ -7,14 +7,17 @@ import ethIcon from '@assets/icons/eth-icon.svg'
 import stIcon from '@assets/st-symbol.svg'
 import { Drawer, notification } from 'antd'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
+import { PiCaretRight, PiChartBar, PiChartLine, PiChartPieSlice, PiGear, PiSignOut } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useStAccount from '../../hooks/subgraphs/useStAccount'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
+import { formatNumberByLocale } from '../../services/format'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import EnsAvatar from '../shared/ens/EnsAvatar'
@@ -22,7 +25,6 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
 import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
 import WalletSidebarSettings from './WalletSidebarSettings'
-import { PiCaretRight, PiChartBar, PiChartLine, PiChartPieSlice, PiGear, PiSignOut } from 'react-icons/pi'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -40,6 +42,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
 
   const handleWalletProviderImage = useWalletProviderImage()
+
+  const { locale } = useRouter()
 
   const {
     accountDelegations,
@@ -167,7 +171,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 {t('availableToStake')} <Image src={ethIcon} width={18} height={18} alt='eth icon' />
               </h4>
               <div>
-                <span>{truncateWei(ethBalance, 6)}</span>
+                <span>{formatNumberByLocale(truncateWei(ethBalance, 6), locale)}</span>
                 <span>{` ${t('eth.symbol')}`}</span>
               </div>
             </InfoCard>
@@ -176,7 +180,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 {t('invested')} <Image src={stIcon} width={18} height={18} alt={t('lsd.symbol')} />
               </h4>
               <div>
-                <span className='purple'>{truncateWei(accountBalance, 5)}</span>
+                <span className='purple'>{formatNumberByLocale(truncateWei(accountBalance, 5), locale)}</span>
                 <span className='purple'>{` ${t('lsd.symbol')}`}</span>
               </div>
             </InfoCard>
@@ -184,7 +188,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <h4>{t('rewards')}</h4>
               <div>
                 <span className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}>
-                  {`${truncateWei(accountTotalRewards, 6)}`}
+                  {`${formatNumberByLocale(truncateWei(accountTotalRewards, 6), locale)}`}
                 </span>
                 <span className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}>
                   {` ${t('lsd.symbol')}`}
@@ -195,7 +199,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <h4>{t('v2.sidebar.percentageProfit')}</h4>
               <div>
                 <span className={`${accountTotalRewards > 1n && 'green'}`}>
-                  {truncateWei(accountProfitPercentage, 6)} %
+                  {formatNumberByLocale(truncateWei(accountProfitPercentage, 6), locale)} %
                 </span>
               </div>
             </InfoCard>

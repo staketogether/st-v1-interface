@@ -5,8 +5,10 @@ import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import { truncateWei } from '@/services/truncate'
 import { StakeTogether } from '@/types/StakeTogether'
 import Fuse from 'fuse.js'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import styled from 'styled-components'
+import { formatNumberByLocale } from '../../services/format'
 import { PoolSubgraph } from '../../types/Pool'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import PoolsCard from './PoolsCard'
@@ -24,6 +26,7 @@ export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
   const [activeFilters, setActiveFilters] = useState<string[]>(['all'])
   const { t } = useLocaleTranslation()
   const { poolTypeTranslation } = usePoolTypeTranslation()
+  const { locale } = useRouter()
 
   const { poolsWithTypes, isLoading } = useMapPoolsWithTypes(pools)
 
@@ -105,27 +108,35 @@ export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
       <StatusCard>
         <div>
           <h2>{t('v2.pools.status.totalSupply')}</h2>
-          <span className='blue'>{`${truncateWei(stakeTogether.totalSupply, 2)} ${t('eth.symbol')}`}</span>
+          <span className='blue'>{`${formatNumberByLocale(
+            truncateWei(stakeTogether.totalSupply, 2),
+            locale
+          )} ${t('eth.symbol')}`}</span>
         </div>
         <div>
           <h2>{t('v2.pools.status.totalRewards')}</h2>
-          <span className='green'>{`${truncateWei(stakeTogether.totalRewards, 4)} ${t('lsd.symbol')}`}</span>
+          <span className='green'>{`${formatNumberByLocale(
+            truncateWei(stakeTogether.totalRewards, 4),
+            locale
+          )} ${t('lsd.symbol')}`}</span>
         </div>
         <div>
           <h2>{t('v2.pools.status.gifts')}</h2>
-          <span className='green'>{`${truncateWei(0n, 4)} ${t('lsd.symbol')}`}</span>
+          <span className='green'>{`${formatNumberByLocale(truncateWei(0n, 4), locale)} ${t(
+            'lsd.symbol'
+          )}`}</span>
         </div>
         <div>
           <h2>{t('v2.pools.status.validators')}</h2>
-          <span className='cyan'>{stakeTogether.validatorsCount}</span>
+          <span className='cyan'>{formatNumberByLocale(stakeTogether.validatorsCount)}</span>
         </div>
         <div>
           <h2>{t('v2.pools.status.totalProjects')}</h2>
-          <span className='purple'>{stakeTogether.poolsCount}</span>
+          <span className='purple'>{formatNumberByLocale(stakeTogether.poolsCount, locale)}</span>
         </div>
         <div>
           <h2>{t('v2.pools.status.totalAccounts')}</h2>
-          <span>{stakeTogether.accountsCount}</span>
+          <span>{formatNumberByLocale(stakeTogether.accountsCount, locale)}</span>
         </div>
       </StatusCard>
       <FiltersContainer>

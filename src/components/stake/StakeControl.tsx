@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useContentfulPoolDetails from '../../hooks/contentful/useContentfulPoolDetails'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
+import { formatNumberByLocale } from '../../services/format'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import TooltipComponent from '../shared/TooltipComponent'
 import CommunityLogo from '../shared/community/CommunityLogo'
@@ -30,6 +31,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { isActive } = useActiveRoute()
   const { query } = useRouter()
   const [tooltipHasOpen, setTooltipHasOpen] = useState(false)
+  const { locale } = useRouter()
 
   useEffect(() => {
     setTimeout(() => {
@@ -132,7 +134,9 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
             </TooltipComponent>
           </span>
           {!!pool?.poolBalance && !initialLoading ? (
-            <span className='primary'>{`${truncateWei(pool.poolBalance, 5)}  ${t('eth.symbol')} `}</span>
+            <span className='primary'>{`${formatNumberByLocale(truncateWei(pool.poolBalance, 5), locale)}  ${t(
+              'eth.symbol'
+            )} `}</span>
           ) : (
             <SkeletonLoading height={14} width={100} />
           )}
@@ -145,7 +149,9 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
             </TooltipComponent>
           </span>
           {!!pool?.totalRewards && !initialLoading ? (
-            <span className='green'>{`${truncateWei(pool?.totalRewards)} ${t('lsd.symbol')} `}</span>
+            <span className='green'>{`${formatNumberByLocale(truncateWei(pool?.totalRewards), locale)} ${t(
+              'lsd.symbol'
+            )} `}</span>
           ) : (
             <SkeletonLoading height={14} width={100} />
           )}

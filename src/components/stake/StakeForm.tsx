@@ -27,7 +27,9 @@ import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
+import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowLineRight, PiArrowUp } from 'react-icons/pi'
+import { formatNumberByLocale } from '../../services/format'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeExchange from './StakeExchange'
@@ -40,6 +42,7 @@ type StakeFormProps = {
 
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { t } = useLocaleTranslation()
+  const { locale } = useRouter()
 
   const {
     balance: ethBalance,
@@ -299,7 +302,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
                 <h4>{t('availableToStake')}</h4>
               </header>
               <div>
-                <span className='primary'>{truncateWei(ethBalance, 6)}</span>
+                <span className='primary'>{formatNumberByLocale(truncateWei(ethBalance, 6), locale)}</span>
                 <span className='primary'>{t('eth.symbol')}</span>
               </div>
             </CardInfoData>
@@ -313,7 +316,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
                 <SkeletonLoading height={20} width={120} />
               ) : (
                 <div>
-                  <span className='purple'>{truncateWei(BigInt(delegationBalance), 6)}</span>
+                  <span className='purple'>
+                    {formatNumberByLocale(truncateWei(BigInt(delegationBalance), 6), locale)}
+                  </span>
                   <span className='purple'>{t('lsd.symbol')}</span>
                 </div>
               )}

@@ -6,6 +6,7 @@ import { Delegation } from '@/types/Delegation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
+import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 
@@ -16,7 +17,7 @@ type WalletSideBarPoolsDelegatedProps = {
 export default function WalletSidebarPoolsDelegated({ accountDelegations }: WalletSideBarPoolsDelegatedProps) {
   const { t } = useLocaleTranslation()
   const { setOpenSidebar } = useWalletSidebar()
-  const { query } = useRouter()
+  const { query, locale } = useRouter()
   const { currency, network } = query
   const { poolsList, isLoading } = useContentfulPoolsList()
 
@@ -55,7 +56,7 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
               </Project>
             </div>
             <div>
-              {truncateWei(delegation.delegationBalance, 6)}
+              {formatNumberByLocale(truncateWei(delegation.delegationBalance, 6), locale)}
               <span>{t('lsd.symbol')}</span>
             </div>
           </DelegatedPool>
