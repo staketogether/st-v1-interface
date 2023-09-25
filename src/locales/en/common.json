@@ -309,7 +309,8 @@
       "discordName": "Discord name",
       "description": "Description",
       "requiredField": "This field is required",
-      "save": "Save"
+      "save": "Save",
+      "choseFile": "Choose the file" 
     }
   }
 }

@@ -51,6 +51,7 @@
     "react-i18next": "^13.2.0",
     "react-icons": "^4.10.1",
     "react-jazzicon": "^1.0.4",
+    "react-youtube": "^10.1.0",
     "sharp": "^0.32.5",
     "stylis": "^4.3.0",
     "use-debounce": "^9.0.4",

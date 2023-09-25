@@ -310,7 +310,8 @@
       "discordName": "Nome no discord",
       "description": "Descrição",
       "requiredField": "Esse campo é obrigatório",
-      "save": "Salvar"
+      "save": "Salvar",
+      "choseFile": "Enviar a imagem" 
     }
   }
 }

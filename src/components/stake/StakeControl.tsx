@@ -19,6 +19,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
+import StakeProfileEdit from './StakeProfileEdit'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -107,6 +108,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   return (
     <Container>
       <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
+      {poolDetail && <StakeProfileEdit poolDetail={poolDetail} poolDetailLoading={false} />}
       <TvlContainer>
         <PoolTitle>
           {poolDetail && (

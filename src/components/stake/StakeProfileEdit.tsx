@@ -7,6 +7,8 @@ import styled from 'styled-components'
 import Button from '../shared/Button'
 import GenericInput from '../shared/GenericInput'
 import CommunityName from '../shared/community/CommunityName'
+import YouTube from 'react-youtube'
+import CommunityLogo from '../shared/community/CommunityLogo'
 
 export default function StakeProfileEdit({
   poolDetail,
@@ -20,33 +22,69 @@ export default function StakeProfileEdit({
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useForm({
     defaultValues: {
       ...poolDetail,
       category: poolDetail.category
     }
   })
+
+  function getVideoIdFromUrl(url?: string): string | null {
+    if (!url) return ''
+    const youtubeUrlPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/watch\?v=([A-Za-z0-9_-]+)/
+    const match = url.match(youtubeUrlPattern)
+
+    if (match && match[4]) {
+      return match[4]
+    } else {
+      return null
+    }
+  }
+
+  const contentfulVideo = watch('video')
+  const videoId = getVideoIdFromUrl(contentfulVideo)
+
+  const opts = {
+    height: '250',
+    width: '100%',
+    playerVars: {
+      autoplay: 0
+    }
+  }
+
   const onSubmit = (data: object) => console.log(data)
+
   return (
     <Container>
-      {poolDetail && <CommunityName $larger name={poolDetail?.name} loading={poolDetailLoading} />}
+      <header>
+        <CommunityLogo
+          size={32}
+          src={poolDetail?.logo?.url}
+          alt={poolDetail?.logo?.url}
+          loading={poolDetailLoading}
+        />
+        {poolDetail && <CommunityName $larger name={poolDetail?.name} loading={poolDetailLoading} />}
+      </header>
       <FormControl onSubmit={handleSubmit(onSubmit)}>
+        <GenericInput title={t('v2.stakeProfileEdit.logo')} type='file' register={register('logo.url')} />
         <GenericInput
           title={t('v2.stakeProfileEdit.communityName')}
           register={register('name', { required: true })}
           type='text'
           error={errors.name ? t('v2.stakeProfileEdit.requiredField') : ''}
         />
-        <GenericInput title={t('v2.stakeProfileEdit.cover')} register={register('cover.url')} />
+        <GenericInput title={t('v2.stakeProfileEdit.cover')} type='file' register={register('cover.url')} />
+        {poolDetail && <ImageCover src={poolDetail.cover?.url} alt={poolDetail.cover?.fileName} />}
         <GenericInput title={t('v2.stakeProfileEdit.video')} register={register('video')} />
+        {contentfulVideo && videoId && <YouTube videoId={videoId} opts={opts} />}
         <GenericInput
           title={t('v2.stakeProfileEdit.category')}
           register={register('category.name')}
           type='select'
           options={categories?.map(category => ({ value: category.name, key: category.name }))}
         />
-        <GenericInput title={t('v2.stakeProfileEdit.logo')} register={register('logo.url')} />
         <GenericInput title={t('v2.stakeProfileEdit.site')} register={register('site')} />
         <GenericInput title={t('v2.stakeProfileEdit.linkedin')} register={register('linkedin')} />
         <GenericInput title={t('v2.stakeProfileEdit.youtube')} register={register('youtube')} />
@@ -70,7 +108,7 @@ export default function StakeProfileEdit({
   )
 }
 
-const { Container, FormControl, SaveIcon } = {
+const { Container, FormControl, SaveIcon, ImageCover } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
@@ -83,6 +121,11 @@ const { Container, FormControl, SaveIcon } = {
     box-shadow: ${({ theme }) => theme.shadow[100]};
     padding: 24px 24px;
     gap: ${({ theme }) => theme.size[32]};
+    header {
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
+    }
   `,
   FormControl: styled.form`
     display: grid;
@@ -91,5 +134,11 @@ const { Container, FormControl, SaveIcon } = {
   `,
   SaveIcon: styled(PiFloppyDiskLight)`
     font-size: 16px;
+  `,
+  ImageCover: styled.img`
+    width: 100% !important;
+    height: 237px !important;
+    border-radius: ${({ theme }) => theme.size[8]};
+    object-fit: cover;
   `
 }
