@@ -233,6 +233,11 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, StatusCar
         font-weight: 400;
         color: ${({ theme }) => theme.colorV2.blue[1]};
 
+        &:nth-child(3) {
+          color: ${({ theme }) => theme.colorV2.gray[1]};
+          font-size: ${({ theme }) => theme.font.size[12]};
+        }
+
         &.blue {
           color: ${({ theme }) => theme.colorV2.blue[3]};
         }
