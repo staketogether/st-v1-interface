@@ -53,7 +53,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountProfitPercentage,
     accountTotalRewards
   } = useStAccount(address)
-
   function disconnectWallet() {
     setOpenSidebar(false)
     disconnect()
@@ -188,7 +187,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <h4>{t('rewards')}</h4>
               <div>
                 <span className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}>
-                  {`${formatNumberByLocale(truncateWei(accountTotalRewards, 6), locale)}`}
+                  {`${truncateWei(accountTotalRewards, 4)}`}
                 </span>
                 <span className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}>
                   {` ${t('lsd.symbol')}`}
@@ -199,7 +198,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <h4>{t('v2.sidebar.percentageProfit')}</h4>
               <div>
                 <span className={`${accountTotalRewards > 1n && 'green'}`}>
-                  {formatNumberByLocale(truncateWei(accountProfitPercentage, 6), locale)} %
+                  {truncateWei(BigInt(accountProfitPercentage) * BigInt(100), 4)} %
                 </span>
               </div>
             </InfoCard>
