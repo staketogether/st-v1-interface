@@ -2,7 +2,7 @@ import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
 import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
-import { truncateWei } from '@/services/truncate'
+import { truncateDecimal, truncateWei } from '@/services/truncate'
 import { StakeTogether } from '@/types/StakeTogether'
 import Fuse from 'fuse.js'
 import { useRouter } from 'next/router'
@@ -15,6 +15,7 @@ import PoolsCard from './PoolsCard'
 import PoolsEmptyState from './PoolsEmptyState'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
+import useCoinConversion from '@/hooks/useCoinConversion'
 
 type PoolsListProps = {
   pools: PoolSubgraph[]
@@ -102,6 +103,9 @@ export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
     }
   ]
 
+  const { price: totalSupplyCoinValue, symbol } = useCoinConversion(truncateWei(stakeTogether.totalSupply, 4))
+  const { price: RewardsCoinValue } = useCoinConversion(truncateWei(stakeTogether.totalRewards, 4))
+
   return (
     <Container>
       <LayoutTitle title={t('v2.pages.invest.title')} description={t('v2.pages.invest.description')} />
@@ -112,6 +116,10 @@ export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
             truncateWei(stakeTogether.totalSupply, 2),
             locale
           )} ${t('eth.symbol')}`}</span>
+          <span>{`${symbol()} ${formatNumberByLocale(
+            truncateDecimal(totalSupplyCoinValue || '0', 2),
+            locale
+          )}`}</span>
         </div>
         <div>
           <h2>{t('v2.pools.status.totalRewards')}</h2>
@@ -119,6 +127,10 @@ export default function PoolsControl({ pools, stakeTogether }: PoolsListProps) {
             truncateWei(stakeTogether.totalRewards, 4),
             locale
           )} ${t('lsd.symbol')}`}</span>
+          <span>{`${symbol()} ${formatNumberByLocale(
+            truncateDecimal(RewardsCoinValue || '0', 2),
+            locale
+          )}`}</span>
         </div>
         <div>
           <h2>{t('v2.pools.status.gifts')}</h2>
@@ -193,7 +205,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, StatusCar
     margin-bottom: 8px;
 
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr;
       gap: 16px;
       margin-bottom: 12px;
       margin-top: 8px;
@@ -220,6 +232,11 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, StatusCar
         font-size: ${({ theme }) => theme.font.size[16]};
         font-weight: 400;
         color: ${({ theme }) => theme.colorV2.blue[1]};
+
+        &:nth-child(3) {
+          color: ${({ theme }) => theme.colorV2.gray[1]};
+          font-size: ${({ theme }) => theme.font.size[12]};
+        }
 
         &.blue {
           color: ${({ theme }) => theme.colorV2.blue[3]};
