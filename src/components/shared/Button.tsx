@@ -23,6 +23,7 @@ export default function Button({ onClick, label, disabled, isLoading, icon }: Bu
 
 const { Container } = {
   Container: styled.button`
+    width: 100%;
     border: none;
     color: ${({ theme }) => theme.color.white};
     border-radius: ${props => props.theme.size[8]};
