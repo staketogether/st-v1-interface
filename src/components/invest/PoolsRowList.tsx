@@ -6,6 +6,7 @@ import { Pool } from '@/types/Pool'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
+import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
@@ -18,7 +19,7 @@ type PoolsRowListProps = {
 export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
-  const { query } = useRouter()
+  const { query, locale } = useRouter()
   const { currency, network } = query
 
   return (
@@ -40,13 +41,13 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
             {pool.type && PoolFilterIcon({ iconSize: 16, value: pool.type })}
             <Text>{`${pool.type && poolTypeTranslation(pool.type)}`}</Text>
           </TypeContainer>
-          <Text>{pool.receivedDelegationsCount.toString()}</Text>
+          <Text>{formatNumberByLocale(pool.receivedDelegationsCount.toString(), locale)}</Text>
           <Text className='blue'>
-            {truncateWei(pool.poolBalance, 6)}
+            {formatNumberByLocale(truncateWei(pool.poolBalance, 6), locale)}
             <Text className='blue'>{t('eth.symbol')}</Text>
           </Text>
           <Text className='green'>
-            {truncateWei(pool.totalRewards, 6)}
+            {formatNumberByLocale(truncateWei(pool.totalRewards, 6), locale)}
             <Text className='green'>{t('lsd.symbol')}</Text>
           </Text>
         </>

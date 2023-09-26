@@ -1,7 +1,5 @@
 import chainConfig from '@/config/chain'
 import useDepositPool from '@/hooks/contracts/useDepositPool'
-import useSharesByWei from '@/hooks/contracts/useSharesByWei'
-import useWeiByShares from '@/hooks/contracts/useWeiByShares'
 import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
@@ -29,7 +27,9 @@ import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
+import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowLineRight, PiArrowUp } from 'react-icons/pi'
+import { formatNumberByLocale } from '../../services/format'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeExchange from './StakeExchange'
@@ -42,6 +42,7 @@ type StakeFormProps = {
 
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { t } = useLocaleTranslation()
+  const { locale } = useRouter()
 
   const {
     balance: ethBalance,
@@ -91,10 +92,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   }
 
   const [amount, setAmount] = useState<string>('')
-
-  // Todo: this should be dynamic and come from subgraph
-  const { shares: sharesByEthRatio } = useSharesByWei(BigInt('1000000000000000000'))
-  const { balance: ethBySharesRatio } = useWeiByShares('1000000000000000000')
 
   const debouncedAmount = useDebounce(amount, 1000)
   const inputAmount = amount ? debouncedAmount || '0' : '0'
@@ -305,7 +302,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
                 <h4>{t('availableToStake')}</h4>
               </header>
               <div>
-                <span className='primary'>{truncateWei(ethBalance, 6)}</span>
+                <span className='primary'>{formatNumberByLocale(truncateWei(ethBalance, 6), locale)}</span>
                 <span className='primary'>{t('eth.symbol')}</span>
               </div>
             </CardInfoData>
@@ -319,7 +316,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
                 <SkeletonLoading height={20} width={120} />
               ) : (
                 <div>
-                  <span className='purple'>{truncateWei(BigInt(delegationBalance), 6)}</span>
+                  <span className='purple'>
+                    {formatNumberByLocale(truncateWei(BigInt(delegationBalance), 6), locale)}
+                  </span>
                   <span className='purple'>{t('lsd.symbol')}</span>
                 </div>
               )}
@@ -372,13 +371,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           />
         )}
         {accountAddress && (
-          <StakeDescriptionCheckout
-            amount={amount}
-            type={type}
-            youReceiveDeposit={youReceiveDeposit}
-            sharesByEthRatio={sharesByEthRatio}
-            ethBySharesRatio={ethBySharesRatio}
-          />
+          <StakeDescriptionCheckout amount={amount} type={type} youReceiveDeposit={youReceiveDeposit} />
         )}
       </StakeContainer>
 
@@ -389,8 +382,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         type={type}
         labelButton={handleLabelButton()}
         onClick={handleStakeConfirmation}
-        ethBySharesRatio={ethBySharesRatio}
-        sharesByEthRatio={sharesByEthRatio}
         transactionLoading={isLoading}
         walletActionLoading={walletActionLoading}
         transactionIsSuccess={isSuccess}

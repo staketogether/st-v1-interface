@@ -15,7 +15,7 @@ type WalletSidebarRewards = {
 export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRewards) {
   const { t } = useLocaleTranslation()
   const theme = useTheme()
-  const router = useRouter()
+  const { locale } = useRouter()
   const { blockExplorer } = chainConfig()
 
   return (
@@ -36,7 +36,7 @@ export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRe
         return (
           <Reward key={reward.txHash} href={`${blockExplorer.baseUrl}/tx/${reward.txHash}`} target='_blank'>
             <PiLink color={theme.color.secondary} />
-            <span>{truncateTimestamp(reward.timestamp, router.locale || 'en')}</span>
+            <span>{truncateTimestamp(reward.timestamp, locale || 'en')}</span>
             <span className='green'>
               {truncateWei(reward.amount, 8)} {t('lsd.symbol')}
             </span>

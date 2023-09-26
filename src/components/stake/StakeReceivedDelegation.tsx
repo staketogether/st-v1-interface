@@ -1,5 +1,7 @@
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
+import { formatNumberByLocale } from '../../services/format'
 import { truncateWei } from '../../services/truncate'
 import { Delegation } from '../../types/Delegation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
@@ -12,6 +14,7 @@ type StakeReceivedDelegationProps = {
 
 export default function StakeReceivedDelegation({ delegation, rank }: StakeReceivedDelegationProps) {
   const { t } = useLocaleTranslation()
+  const { locale } = useRouter()
 
   return (
     <DelegationItem>
@@ -22,7 +25,7 @@ export default function StakeReceivedDelegation({ delegation, rank }: StakeRecei
       </div>
       <div>
         <span>
-          {`${truncateWei(delegation.delegationBalance, 6)} `}
+          {`${formatNumberByLocale(truncateWei(delegation.delegationBalance, 6), locale)} `}
           <span>{t('eth.symbol')}</span>
         </span>
       </div>

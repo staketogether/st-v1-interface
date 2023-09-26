@@ -39,6 +39,7 @@
   "emptyPool": "Pool Not Found",
   "copyClipboard": "Copy to Clipboard",
   "copiedToClipboard": "Link copied, Share it now!",
+  "addressCopiedToClipboard": "Address copied",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
   "loading": "Loading...",
@@ -292,6 +293,12 @@
       "claimed": "claimed",
       "lost": "Perdido",
       "notGift": "You haven't received any gifts yet"
+    },
+    "draw": {
+      "performDrawing": "Perform drawing",
+      "drawing": "Drawing",
+      "result": "Result",
+      "conductANewDraw": "Conduct a new draw"
     }
   }
 }

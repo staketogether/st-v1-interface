@@ -4,10 +4,11 @@ import { truncateAddress, truncateTimestamp, truncateWei } from '@/services/trun
 import { PoolActivity } from '@/types/PoolActivity'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { PiLink } from 'react-icons/pi'
 import styled from 'styled-components'
+import { formatNumberByLocale } from '../../services/format'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
-import { PiLink } from 'react-icons/pi'
 
 type StakeActivityProps = {
   poolActivities: PoolActivity[]
@@ -15,7 +16,7 @@ type StakeActivityProps = {
 }
 
 export default function StakeActivity({ poolActivities, isLoading }: StakeActivityProps) {
-  const router = useRouter()
+  const { locale } = useRouter()
   const { t } = useLocaleTranslation()
   const { blockExplorer } = chainConfig()
   const hasActivities = poolActivities.length > 0
@@ -33,7 +34,7 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
   }
 
   const getLocale = () => {
-    return router.locale === 'en' ? 'en-US' : 'pt-BR'
+    return locale === 'en' ? 'en-US' : 'pt-BR'
   }
 
   return (
@@ -63,7 +64,7 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
                 <span className='purple'>{truncateAddress(activity.account.address, 3)}</span>
                 <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
                 <span className={`${activity.amount > 1n && 'green'} ${activity.amount < 0 && 'red'}`}>
-                  {`${truncateWei(activity.amount, 6)} ${t('eth.symbol')}`}
+                  {`${formatNumberByLocale(truncateWei(activity.amount, 6), locale)} ${t('eth.symbol')}`}
                 </span>
               </Row>
             )
@@ -84,7 +85,7 @@ const { Container, Row, ExternalLink, List } = {
 
     > header {
       display: grid;
-      grid-template-columns: 0.3fr 0.9fr 0.9fr 0.9fr 1fr;
+      grid-template-columns: 0.3fr 0.8fr 0.8fr 0.8fr 1fr;
       padding: 0 8px;
       text-align: center;
       @media (min-width: 768px) {
@@ -105,7 +106,7 @@ const { Container, Row, ExternalLink, List } = {
     cursor: pointer;
 
     display: grid;
-    grid-template-columns: 0.3fr 0.9fr 0.9fr 0.9fr 1fr;
+    grid-template-columns: 0.3fr 0.8fr 0.8fr 0.8fr 1fr;
     align-items: center;
     padding: ${({ theme }) => theme.size[8]} 0;
     text-align: center;

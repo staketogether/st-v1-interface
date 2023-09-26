@@ -18,10 +18,6 @@ export default function usePoolTypeTranslation() {
     {
       name: t('v2.pools.filter.technology'),
       value: 'technology'
-    },
-    {
-      name: t('v2.pools.filter.collectibles'),
-      value: 'collectibles'
     }
   ]
   function poolTypeTranslation(poolType: string) {
