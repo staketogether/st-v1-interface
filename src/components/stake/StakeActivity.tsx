@@ -4,7 +4,7 @@ import { truncateAddress, truncateTimestamp, truncateWei } from '@/services/trun
 import { PoolActivity } from '@/types/PoolActivity'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiChartBar, PiLink } from 'react-icons/pi'
+import { PiLink, PiListDashes } from 'react-icons/pi'
 import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
@@ -87,7 +87,7 @@ export default function StakeActivity({
       {poolActivities.length < Number(activityCount) && (
         <LoadMoreButton onClick={loadMoreActivitiesItems}>
           {poolActivitiesFetchMoreLoading && <Loading />}
-          {!poolActivitiesFetchMoreLoading && <PiChartBar />}
+          {!poolActivitiesFetchMoreLoading && <PiListDashes />}
           {t('loadMore')}
         </LoadMoreButton>
       )}
