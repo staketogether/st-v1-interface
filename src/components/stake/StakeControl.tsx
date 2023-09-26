@@ -2,31 +2,32 @@ import usePool from '@/hooks/subgraphs/usePool'
 import useActiveRoute from '@/hooks/useActiveRoute'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
+import { ContentfulPool } from '@/types/ContentfulPool'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowUp, PiCurrencyEth, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
-import useContentfulPoolDetails from '../../hooks/contentful/useContentfulPoolDetails'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import { formatNumberByLocale } from '../../services/format'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import TooltipComponent from '../shared/TooltipComponent'
+import WalletLottery from '../shared/WalletLottery'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
-import WalletLottery from '../shared/WalletLottery'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
   type: 'deposit' | 'withdraw' | 'exchange'
+  poolDetail?: ContentfulPool
 }
 
-export default function StakeControl({ poolAddress, type }: StakeControlProps) {
+export default function StakeControl({ poolAddress, type, poolDetail }: StakeControlProps) {
   const [skipMembers, setSkipMembers] = useState(0)
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
@@ -54,8 +55,6 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
     setSkipMembers(newSkip)
     fetchMore({ id: poolAddress, first: 10, skip: newSkip })
   }, [fetchMore, poolAddress, skipMembers])
-
-  const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(poolAddress)
 
   const router = useRouter()
   const handleSwitch = (type: string) => {
@@ -116,9 +115,9 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
                 size={32}
                 src={poolDetail?.logo?.url}
                 alt={poolDetail?.logo?.url}
-                loading={poolDetailLoading}
+                loading={false}
               />
-              <CommunityName $larger name={poolDetail?.name} loading={poolDetailLoading} />
+              <CommunityName $larger name={poolDetail?.name} loading={false} />
             </div>
           )}
           <Tooltip trigger='click' title={t('copiedToClipboard')}>
