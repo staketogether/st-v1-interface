@@ -1,7 +1,6 @@
 import StakePoolAbout from '@/components/stake/StakePoolAbout'
 import StakePoolMembers from '@/components/stake/StakePoolMembers'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
-import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import { PoolSubgraph } from '@/types/Pool'
 import { PiAppWindow, PiListDashes, PiUsers } from 'react-icons/pi'
 import styled from 'styled-components'
@@ -9,28 +8,33 @@ import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import StakeActivity from './StakeActivity'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import { PoolActivity } from '@/types/PoolActivity'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}`
   poolData: PoolSubgraph | undefined
-  fetchMore: () => void
   loadMoreLoadingPoolData: boolean
   initialLoadingPoolData: boolean
+  fetchMore: () => void
+  poolActivities: PoolActivity[]
+  poolActivitiesFetchMoreLoading: boolean
+  poolActivitiesLoading: boolean
+  loadMoreActivitiesItems: () => void
 }
 
 export default function StakePoolInfo({
   poolAddress,
-  fetchMore,
   poolData,
   initialLoadingPoolData,
-  loadMoreLoadingPoolData
+  loadMoreLoadingPoolData,
+  fetchMore,
+  poolActivities,
+  poolActivitiesFetchMoreLoading,
+  poolActivitiesLoading,
+  loadMoreActivitiesItems
 }: StakeStatsProps) {
   const { t } = useLocaleTranslation()
 
-  const { poolActivities, initialLoading: poolActivitiesLoading } = usePoolActivities(poolAddress, {
-    first: 10,
-    skip: 0
-  })
   const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(poolAddress)
 
   const tabsItems: TabsItems[] = [
@@ -71,7 +75,13 @@ export default function StakePoolInfo({
       icon: <ActivityIcon />,
       children: (
         <TabContainer>
-          <StakeActivity poolActivities={poolActivities} isLoading={poolActivitiesLoading} />
+          <StakeActivity
+            poolActivities={poolActivities}
+            poolActivitiesLoading={poolActivitiesLoading}
+            poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
+            loadMoreActivitiesItems={loadMoreActivitiesItems}
+            activityCount={poolData?.activitiesCount || '0'}
+          />
         </TabContainer>
       )
     }

@@ -5,7 +5,7 @@ import { truncateWei } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowUp, PiCurrencyEth, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
@@ -20,6 +20,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
+import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -28,11 +29,13 @@ interface StakeControlProps {
 }
 
 export default function StakeControl({ poolAddress, type, poolDetail }: StakeControlProps) {
+  const [tooltipHasOpen, setTooltipHasOpen] = useState(false)
   const [skipMembers, setSkipMembers] = useState(0)
+  const [skipActivity, setSkipActivity] = useState(0)
+
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   const { query } = useRouter()
-  const [tooltipHasOpen, setTooltipHasOpen] = useState(false)
   const { locale } = useRouter()
 
   useEffect(() => {
@@ -50,11 +53,24 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
 
   const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress)
 
-  const handleLoadMoreMembers = useCallback(() => {
+  const handleLoadMoreMembers = () => {
     const newSkip = skipMembers + 10
     setSkipMembers(newSkip)
     fetchMore({ id: poolAddress, first: 10, skip: newSkip })
-  }, [fetchMore, poolAddress, skipMembers])
+  }
+
+  const {
+    poolActivities,
+    initialLoading: poolActivitiesLoading,
+    loadingFetchMore: poolActivitiesFetchMoreLoading,
+    loadMore
+  } = usePoolActivities(poolAddress)
+
+  const handleLoadMoreActivity = () => {
+    const newSkip = skipActivity + 10
+    setSkipActivity(newSkip)
+    loadMore({ poolAddress: poolAddress, first: 10, skip: newSkip })
+  }
 
   const router = useRouter()
   const handleSwitch = (type: string) => {
@@ -74,7 +90,6 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
 
   const { account } = useConnectedAccount()
   const stakeForm = <StakeForm type={type} accountAddress={account} poolAddress={poolAddress} />
-
   const tabsItems: TabsItems[] = [
     {
       key: 'deposit',
@@ -179,6 +194,10 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
         fetchMore={handleLoadMoreMembers}
         loadMoreLoadingPoolData={loadMoreLoading}
         initialLoadingPoolData={initialLoading}
+        poolActivities={poolActivities}
+        poolActivitiesLoading={poolActivitiesLoading}
+        poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
+        loadMoreActivitiesItems={handleLoadMoreActivity}
       />
       {poolAddress === account && <WalletLottery poolAddress={poolAddress} />}
     </Container>
