@@ -47,14 +47,16 @@ export default function StakePoolMembers({
       )}
 
       {!initialLoading && delegations && delegations.length > 0 && (
-        <DelegationsContainer>
-          {delegations.map((delegation, index) => (
-            <StakeReceivedDelegation
-              key={delegation.delegate.address}
-              delegation={delegation}
-              rank={index + 1}
-            />
-          ))}
+        <>
+          <DelegationsContainer>
+            {delegations.map((delegation, index) => (
+              <StakeReceivedDelegation
+                key={delegation.delegate.address}
+                delegation={delegation}
+                rank={index + 1}
+              />
+            ))}
+          </DelegationsContainer>
           {delegations.length < totalDelegations && (
             <LoadMoreButton onClick={onLoadMore}>
               {loadMoreLoading && <Loading />}
@@ -62,7 +64,7 @@ export default function StakePoolMembers({
               {t('loadMore')}
             </LoadMoreButton>
           )}
-        </DelegationsContainer>
+        </>
       )}
     </Container>
   )
@@ -94,6 +96,8 @@ const { Container, DelegationsContainer, LoadMoreButton } = {
     display: grid;
     grid-template-columns: 1fr;
     gap: 4px;
+    max-height: 480px;
+    overflow-y: auto;
   `,
   LoadMoreButton: styled.button`
     display: flex;

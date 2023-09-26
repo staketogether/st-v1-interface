@@ -8,6 +8,7 @@ export type PoolSubgraph = {
   active: boolean
   poolBalance: bigint
   totalRewards: bigint
+  activitiesCount: string
   poolShares: bigint
   delegations: Delegation[]
   receivedDelegationsCount: bigint

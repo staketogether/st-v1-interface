@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-import { PiArrowLeft } from 'react-icons/pi'
+import { PiArrowLeft, PiCheckBold } from 'react-icons/pi'
 
 type WalletSlideBarSettingsProps = {
   setIsSettingsActive: (value: boolean) => void
@@ -48,34 +48,40 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
         <h3>{t('settings.locale')}</h3>
         <div onClick={() => changeLocale('en')} className={`${router.locale === 'en' ? 'active' : ''}`}>
           <span>English</span>
+          {router.locale === 'en' && <CheckedIcon />}
         </div>
         <div onClick={() => changeLocale('pt')} className={`${router.locale === 'pt' ? 'active' : ''}`}>
           <span>Português</span>
+          {router.locale === 'pt' && <CheckedIcon />}
         </div>
       </SettingContainer>
       <SettingContainer>
         <h3>{t('settings.currency')}</h3>
         <div onClick={() => changeCurrency('brl')} className={`${currency === 'brl' ? 'active' : ''}`}>
           <span>BRL</span>
+          {currency === 'brl' && <CheckedIcon />}
         </div>
         <div onClick={() => changeCurrency('usd')} className={`${currency === 'usd' ? 'active' : ''}`}>
           <span>USD</span>
+          {currency === 'usd' && <CheckedIcon />}
         </div>
         <div onClick={() => changeCurrency('eur')} className={`${currency === 'eur' ? 'active' : ''}`}>
           <span>EUR</span>
+          {currency === 'eur' && <CheckedIcon />}
         </div>
       </SettingContainer>
       <SettingContainer>
         <h3>{t('settings.network')}</h3>
         <div onClick={() => changeNetwork('goerli')} className={`${network === 'goerli' ? 'active' : ''}`}>
           <span>Goerli</span>
+          {network === 'goerli' && <CheckedIcon />}
         </div>
       </SettingContainer>
     </>
   )
 }
 
-const { Header, CloseIcon, SettingContainer, Button } = {
+const { Header, CloseIcon, SettingContainer, Button, CheckedIcon } = {
   CloseIcon: styled(PiArrowLeft)`
     font-size: 18px;
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
@@ -118,6 +124,10 @@ const { Header, CloseIcon, SettingContainer, Button } = {
       font-weight: 400;
     }
   `,
+  CheckedIcon: styled(PiCheckBold)`
+    color: ${({ theme }) => theme.colorV2.purple[1]};
+    font-size: ${({ theme }) => theme.font.size[12]};
+  `,
   SettingContainer: styled.div`
     display: flex;
     flex-direction: column;
@@ -136,7 +146,7 @@ const { Header, CloseIcon, SettingContainer, Button } = {
       display: flex;
       align-items: center;
       height: 44px;
-      gap: ${({ theme }) => theme.size[16]};
+      gap: ${({ theme }) => theme.size[8]};
       padding: ${({ theme }) => theme.size[16]} ${({ theme }) => theme.size[16]};
 
       transition: background 0.2s ease;
