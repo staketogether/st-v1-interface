@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useContentfulPoolDetails from '../../hooks/contentful/useContentfulPoolDetails'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
+import { formatNumberByLocale } from '../../services/format'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import TooltipComponent from '../shared/TooltipComponent'
 import CommunityLogo from '../shared/community/CommunityLogo'
@@ -19,6 +20,7 @@ import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
+import WalletLottery from '../shared/WalletLottery'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -33,6 +35,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   const { query } = useRouter()
+  const { locale } = useRouter()
 
   useEffect(() => {
     setTimeout(() => {
@@ -147,7 +150,9 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
             </TooltipComponent>
           </span>
           {!!pool?.poolBalance && !initialLoading ? (
-            <span className='primary'>{`${truncateWei(pool.poolBalance, 5)}  ${t('eth.symbol')} `}</span>
+            <span className='primary'>{`${formatNumberByLocale(truncateWei(pool.poolBalance, 5), locale)}  ${t(
+              'eth.symbol'
+            )} `}</span>
           ) : (
             <SkeletonLoading height={14} width={100} />
           )}
@@ -160,7 +165,9 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
             </TooltipComponent>
           </span>
           {!!pool?.totalRewards && !initialLoading ? (
-            <span className='green'>{`${truncateWei(pool?.totalRewards)} ${t('lsd.symbol')} `}</span>
+            <span className='green'>{`${formatNumberByLocale(truncateWei(pool?.totalRewards), locale)} ${t(
+              'lsd.symbol'
+            )} `}</span>
           ) : (
             <SkeletonLoading height={14} width={100} />
           )}
@@ -193,6 +200,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
         poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
         loadMoreActivitiesItems={handleLoadMoreActivity}
       />
+      {poolAddress === account && <WalletLottery poolAddress={poolAddress} />}
     </Container>
   )
 }
@@ -223,8 +231,8 @@ const {
     padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]};
     flex-direction: column;
     gap: 12px;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
 
+    box-shadow: ${({ theme }) => theme.shadow[100]};
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.color.white};
 

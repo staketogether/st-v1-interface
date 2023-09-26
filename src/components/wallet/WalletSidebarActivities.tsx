@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiLink } from 'react-icons/pi'
 import styled from 'styled-components'
+import { formatNumberByLocale } from '../../services/format'
 
 type WalletSidebarActivities = {
   accountActivities: AccountActivity[]
@@ -13,10 +14,10 @@ type WalletSidebarActivities = {
 
 export default function WalletSidebarActivities({ accountActivities }: WalletSidebarActivities) {
   const { t } = useLocaleTranslation()
-  const router = useRouter()
+  const { locale } = useRouter()
   const { blockExplorer } = chainConfig()
   const getLocale = () => {
-    return router.locale === 'en' ? 'en-US' : 'pt-BR'
+    return locale === 'en' ? 'en-US' : 'pt-BR'
   }
 
   return (
@@ -42,9 +43,8 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
             </span>
             <span>{truncateTimestamp(activity.timestamp, getLocale())}</span>
             <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
-
             <span className={`${activity.type.includes('deposit') ? 'green' : 'red'}`}>
-              {`${truncateWei(BigInt(activity.amount), 5)} ${t('eth.symbol')}`}
+              {`${formatNumberByLocale(truncateWei(BigInt(activity.amount), 5), locale)} ${t('eth.symbol')}`}
             </span>
           </Row>
         )

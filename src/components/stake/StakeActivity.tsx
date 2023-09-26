@@ -4,10 +4,10 @@ import { truncateAddress, truncateTimestamp, truncateWei } from '@/services/trun
 import { PoolActivity } from '@/types/PoolActivity'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { PiLink, PiListDashes } from 'react-icons/pi'
 import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
-import { PiLink, PiListDashes } from 'react-icons/pi'
 import Loading from '../shared/icons/Loading'
 
 type StakeActivityProps = {
@@ -103,7 +103,7 @@ const { Container, Row, ExternalLink, List, LoadMoreButton } = {
 
     > header {
       display: grid;
-      grid-template-columns: 0.3fr 0.9fr 0.9fr 0.9fr 1fr;
+      grid-template-columns: 0.3fr 0.8fr 0.8fr 0.8fr 1fr;
       padding: 0 8px;
       text-align: center;
       @media (min-width: 768px) {
@@ -126,7 +126,7 @@ const { Container, Row, ExternalLink, List, LoadMoreButton } = {
     cursor: pointer;
 
     display: grid;
-    grid-template-columns: 0.3fr 0.9fr 0.9fr 0.9fr 1fr;
+    grid-template-columns: 0.3fr 0.8fr 0.8fr 0.8fr 1fr;
     align-items: center;
     padding: ${({ theme }) => theme.size[8]} 0;
     text-align: center;

@@ -27,10 +27,9 @@ interface StakePoolAboutProps {
 export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutProps) {
   const videoId = poolDetail?.video ? poolDetail?.video.split('v=')[1] : null
   const { t } = useLocaleTranslation()
-  const isEmpty = !poolDetail?.description && !poolDetail?.cover && !videoId
+  const isEmpty = !poolDetail || (!poolDetail?.description && !poolDetail?.cover && !videoId)
   return (
     <Container>
-      {!loading && isEmpty && <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />}
       {!loading && videoId && (
         <iframe
           width='100%'
@@ -127,7 +126,7 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
         </SocialContainer>
       )}
 
-      {!loading && !poolDetail && <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />}
+      {!loading && isEmpty && <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />}
     </Container>
   )
 }
