@@ -7,21 +7,17 @@ import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import StakeActivity from './StakeActivity'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import usePoolRewards from '@/hooks/subgraphs/usePoolRewards'
 import StakeRewardsPool from './StakeRewardsPool'
-import { PoolActivity } from '@/types/PoolActivity'
+import { useState } from 'react'
+import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}`
   poolData: PoolSubgraph | undefined
   loadMoreLoadingPoolData: boolean
   initialLoadingPoolData: boolean
-  fetchMore: () => void
-  poolActivities: PoolActivity[]
-  poolActivitiesFetchMoreLoading: boolean
-  poolActivitiesLoading: boolean
-  loadMoreActivitiesItems: () => void
+  fetchMorePoolMembers: () => void
 }
 
 export default function StakePoolInfo({
@@ -29,18 +25,38 @@ export default function StakePoolInfo({
   poolData,
   initialLoadingPoolData,
   loadMoreLoadingPoolData,
-  fetchMore,
-  poolActivities,
-  poolActivitiesFetchMoreLoading,
-  poolActivitiesLoading,
-  loadMoreActivitiesItems
+  fetchMorePoolMembers
 }: StakeStatsProps) {
+  const [skipActivity, setSkipActivity] = useState(0)
+  const [skipRewards, setSkipRewards] = useState(0)
   const { t } = useLocaleTranslation()
 
-  const { rewardsPool, initialLoading: poolRewardsLoading } = usePoolRewards(poolAddress, {
+  const {
+    rewardsPool,
+    loadMore: rewardsPoolLoadMore,
+    initialLoading: poolRewardsLoading,
+    loadingFetchMore: poolRewardsFetchMoreLoading
+  } = usePoolRewards(poolAddress, {
     first: 10,
     skip: 0
   })
+  const handleLoadMoreRewards = () => {
+    const newSkip = skipRewards + 10
+    setSkipRewards(newSkip)
+    rewardsPoolLoadMore({ poolAddress: poolAddress, first: 10, skip: newSkip })
+  }
+
+  const {
+    poolActivities,
+    initialLoading: poolActivitiesLoading,
+    loadingFetchMore: poolActivitiesFetchMoreLoading,
+    loadMore
+  } = usePoolActivities(poolAddress)
+  const handleLoadMoreActivity = () => {
+    const newSkip = skipActivity + 10
+    setSkipActivity(newSkip)
+    loadMore({ poolAddress: poolAddress, first: 10, skip: newSkip })
+  }
 
   const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(poolAddress)
 
@@ -57,12 +73,7 @@ export default function StakePoolInfo({
     },
     {
       key: 'accounts',
-      label: (
-        <AccountContainer>
-          {`${t('accounts')}`}{' '}
-          {!initialLoadingPoolData ? `(${poolData?.receivedDelegationsCount})` : <SkeletonLoading width={20} />}
-        </AccountContainer>
-      ),
+      label: <AccountContainer>{`${t('accounts')}`}</AccountContainer>,
       icon: <MembersIcon />,
       children: (
         <TabContainer>
@@ -70,7 +81,7 @@ export default function StakePoolInfo({
             delegations={poolData?.delegations}
             initialLoading={initialLoadingPoolData}
             loadMoreLoading={loadMoreLoadingPoolData}
-            onLoadMore={fetchMore}
+            onLoadMore={fetchMorePoolMembers}
             totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
           />
         </TabContainer>
@@ -86,7 +97,7 @@ export default function StakePoolInfo({
             poolActivities={poolActivities}
             poolActivitiesLoading={poolActivitiesLoading}
             poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
-            loadMoreActivitiesItems={loadMoreActivitiesItems}
+            loadMoreActivitiesItems={handleLoadMoreActivity}
             activityCount={poolData?.activitiesCount || '0'}
           />
         </TabContainer>
@@ -98,7 +109,13 @@ export default function StakePoolInfo({
       icon: <RewardsIcon />,
       children: (
         <TabContainer>
-          <StakeRewardsPool rewardsPool={rewardsPool} isLoading={poolRewardsLoading} />
+          <StakeRewardsPool
+            poolRewardsFetchMoreLoading={poolRewardsFetchMoreLoading}
+            rewardsPool={rewardsPool}
+            poolRewardLoading={poolRewardsLoading}
+            loadMoreRewardsItems={handleLoadMoreRewards}
+            rewardsCount='50'
+          />
         </TabContainer>
       )
     }

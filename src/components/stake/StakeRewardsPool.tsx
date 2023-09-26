@@ -3,24 +3,34 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiLink } from 'react-icons/pi'
+import { PiLink, PiListDashes } from 'react-icons/pi'
 import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 import { PoolRewards } from '@/types/RewardsPool'
+import Loading from '../shared/icons/Loading'
 
-type StakeActivityProps = {
+type StakeRewardsPoolProps = {
   rewardsPool: PoolRewards[]
-  isLoading: boolean
+  poolRewardLoading: boolean
+  poolRewardsFetchMoreLoading: boolean
+  loadMoreRewardsItems: () => void
+  rewardsCount: string
 }
 
-export default function StakeRewardsPool({ rewardsPool, isLoading }: StakeActivityProps) {
+export default function StakeRewardsPool({
+  rewardsPool,
+  poolRewardLoading,
+  poolRewardsFetchMoreLoading,
+  loadMoreRewardsItems,
+  rewardsCount
+}: StakeRewardsPoolProps) {
   const { locale } = useRouter()
   const { t } = useLocaleTranslation()
   const { blockExplorer } = chainConfig()
-  const hasActivities = rewardsPool.length > 0
+  const hasRewards = rewardsPool.length > 0
 
-  if (isLoading) {
+  if (poolRewardLoading) {
     return (
       <Container>
         {Array(3)
@@ -38,7 +48,7 @@ export default function StakeRewardsPool({ rewardsPool, isLoading }: StakeActivi
 
   return (
     <Container>
-      {hasActivities && (
+      {hasRewards && (
         <header>
           <span>{t('tx')}</span>
           <span>{t('time')}</span>
@@ -46,7 +56,7 @@ export default function StakeRewardsPool({ rewardsPool, isLoading }: StakeActivi
         </header>
       )}
       <List>
-        {hasActivities ? (
+        {hasRewards ? (
           rewardsPool.map(activity => {
             return (
               <Row
@@ -68,11 +78,19 @@ export default function StakeRewardsPool({ rewardsPool, isLoading }: StakeActivi
           <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />
         )}
       </List>
+
+      {rewardsPool.length < Number(rewardsCount) && (
+        <LoadMoreButton onClick={loadMoreRewardsItems}>
+          {poolRewardsFetchMoreLoading && <Loading />}
+          {!poolRewardsFetchMoreLoading && <PiListDashes />}
+          {t('loadMore')}
+        </LoadMoreButton>
+      )}
     </Container>
   )
 }
 
-const { Container, Row, ExternalLink, List } = {
+const { Container, Row, ExternalLink, List, LoadMoreButton } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -80,7 +98,7 @@ const { Container, Row, ExternalLink, List } = {
 
     > header {
       display: grid;
-      grid-template-columns: 80px 0.5fr 1fr;
+      grid-template-columns: 50px 0.5fr 1fr;
       padding: 0 8px;
       text-align: center;
       @media (min-width: 768px) {
@@ -100,12 +118,14 @@ const { Container, Row, ExternalLink, List } = {
   List: styled.div`
     display: grid;
     gap: 4px;
+    max-height: 480px;
+    overflow-y: auto;
   `,
   Row: styled(Link)`
     cursor: pointer;
 
     display: grid;
-    grid-template-columns: 80px 0.5fr 1fr;
+    grid-template-columns: 50px 0.5fr 1fr;
     align-items: center;
     padding: ${({ theme }) => theme.size[8]} 0;
     text-align: center;
@@ -144,5 +164,29 @@ const { Container, Row, ExternalLink, List } = {
   ExternalLink: styled(PiLink)`
     font-size: ${({ theme }) => theme.font.size[16]};
     color: ${({ theme }) => theme.colorV2.blue[1]};
+  `,
+  LoadMoreButton: styled.button`
+    display: flex;
+    gap: ${({ theme }) => theme.size[4]};
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 32px;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.color.primary};
+    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
+    border: none;
+    border-radius: ${({ theme }) => theme.size[8]};
+    padding: 0 ${({ theme }) => theme.size[16]};
+    transition: background-color 0.1s ease;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    &:hover {
+      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+    }
+
+    &.active {
+      color: ${({ theme }) => theme.color.secondary};
+    }
   `
 }
