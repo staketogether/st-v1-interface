@@ -19,7 +19,6 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
-import WalletLottery from '../shared/WalletLottery'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -181,9 +180,9 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
         loadMoreLoadingPoolData={loadMoreLoading}
         initialLoadingPoolData={initialLoading}
       />
-      {poolAddress.toLocaleLowerCase() === account?.toLocaleLowerCase() && (
+      {/* {poolAddress.toLocaleLowerCase() === account?.toLocaleLowerCase() && (
         <WalletLottery poolAddress={poolAddress} />
-      )}
+      )} */}
     </Container>
   )
 }
