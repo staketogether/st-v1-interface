@@ -14,9 +14,9 @@ import { notification } from 'antd'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import Loading from './icons/Loading'
 
-type RouletteComponentProps = { poolAddress: `0x${string}` }
+type WalletLotteryProps = { poolAddress: `0x${string}` }
 
-export default function RouletteComponent({ poolAddress }: RouletteComponentProps) {
+export default function WalletLottery({ poolAddress }: WalletLotteryProps) {
   const [starterDraw, setStarterDraw] = useState(false)
   const [finishedDraw, setFinishedDraw] = useState(false)
   const [result, setResult] = useState<`0x${string}` | null>(null)

@@ -19,7 +19,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
-import RouletteComponent from '../shared/RouletteComponent'
+import WalletLottery from '../shared/WalletLottery'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -181,7 +181,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
         loadMoreLoadingPoolData={loadMoreLoading}
         initialLoadingPoolData={initialLoading}
       />
-      <RouletteComponent poolAddress={poolAddress} />
+      {poolAddress === account && <WalletLottery poolAddress={poolAddress} />}
     </Container>
   )
 }
