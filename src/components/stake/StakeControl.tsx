@@ -181,7 +181,9 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
         loadMoreLoadingPoolData={loadMoreLoading}
         initialLoadingPoolData={initialLoading}
       />
-      {poolAddress === account && <WalletLottery poolAddress={poolAddress} />}
+      {poolAddress.toLocaleLowerCase() === account?.toLocaleLowerCase() && (
+        <WalletLottery poolAddress={poolAddress} />
+      )}
     </Container>
   )
 }
