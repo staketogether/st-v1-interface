@@ -1,24 +1,24 @@
 import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { truncateAddress, truncateTimestamp, truncateWei } from '@/services/truncate'
-import { PoolActivity } from '@/types/PoolActivity'
+import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiLink } from 'react-icons/pi'
 import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
+import { PoolRewards } from '@/types/RewardsPool'
 
 type StakeActivityProps = {
-  poolActivities: PoolActivity[]
+  rewardsPool: PoolRewards[]
   isLoading: boolean
 }
 
-export default function StakeActivity({ poolActivities, isLoading }: StakeActivityProps) {
+export default function StakeRewardsPool({ rewardsPool, isLoading }: StakeActivityProps) {
   const { locale } = useRouter()
   const { t } = useLocaleTranslation()
   const { blockExplorer } = chainConfig()
-  const hasActivities = poolActivities.length > 0
+  const hasActivities = rewardsPool.length > 0
 
   if (isLoading) {
     return (
@@ -42,14 +42,12 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
         <header>
           <span>{t('tx')}</span>
           <span>{t('time')}</span>
-          <span>{t('account')}</span>
-          <span>{t('type')}</span>
           <span>{t('value')}</span>
         </header>
       )}
       <List>
         {hasActivities ? (
-          poolActivities.map(activity => {
+          rewardsPool.map(activity => {
             return (
               <Row
                 key={activity.txHash}
@@ -60,8 +58,6 @@ export default function StakeActivity({ poolActivities, isLoading }: StakeActivi
                   <ExternalLink />
                 </span>
                 <span>{truncateTimestamp(activity.timestamp, getLocale())}</span>
-                <span className='purple'>{truncateAddress(activity.account.address, 3)}</span>
-                <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
                 <span className={`${activity.amount > 1n && 'green'} ${activity.amount < 0 && 'red'}`}>
                   {`${truncateWei(activity.amount, 6)} ${t('eth.symbol')}`}
                 </span>
@@ -84,7 +80,7 @@ const { Container, Row, ExternalLink, List } = {
 
     > header {
       display: grid;
-      grid-template-columns: 0.3fr 0.8fr 0.8fr 0.8fr 1fr;
+      grid-template-columns: 80px 0.5fr 1fr;
       padding: 0 8px;
       text-align: center;
       @media (min-width: 768px) {
@@ -94,6 +90,10 @@ const { Container, Row, ExternalLink, List } = {
       > span {
         font-size: ${({ theme }) => theme.font.size[14]};
         color: ${({ theme }) => theme.colorV2.gray[1]};
+
+        &:last-child {
+          text-align: end;
+        }
       }
     }
   `,
@@ -105,7 +105,7 @@ const { Container, Row, ExternalLink, List } = {
     cursor: pointer;
 
     display: grid;
-    grid-template-columns: 0.3fr 0.8fr 0.8fr 0.8fr 1fr;
+    grid-template-columns: 80px 0.5fr 1fr;
     align-items: center;
     padding: ${({ theme }) => theme.size[8]} 0;
     text-align: center;
@@ -134,6 +134,10 @@ const { Container, Row, ExternalLink, List } = {
 
       &.red {
         color: ${({ theme }) => theme.color.red[500]};
+      }
+
+      &:last-child {
+        text-align: end;
       }
     }
   `,

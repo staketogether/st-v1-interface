@@ -3,12 +3,14 @@ import StakePoolMembers from '@/components/stake/StakePoolMembers'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import { PoolSubgraph } from '@/types/Pool'
-import { PiAppWindow, PiListDashes, PiUsers } from 'react-icons/pi'
+import { PiAppWindow, PiChartBar, PiListDashes, PiUsers } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import StakeActivity from './StakeActivity'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import usePoolRewards from '@/hooks/subgraphs/usePoolRewards'
+import StakeRewardsPool from './StakeRewardsPool'
 
 interface StakeStatsProps {
   poolAddress: `0x${string}`
@@ -31,6 +33,12 @@ export default function StakePoolInfo({
     first: 10,
     skip: 0
   })
+
+  const { rewardsPool, initialLoading: poolRewardsLoading } = usePoolRewards(poolAddress, {
+    first: 10,
+    skip: 0
+  })
+
   const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(poolAddress)
 
   const tabsItems: TabsItems[] = [
@@ -74,6 +82,16 @@ export default function StakePoolInfo({
           <StakeActivity poolActivities={poolActivities} isLoading={poolActivitiesLoading} />
         </TabContainer>
       )
+    },
+    {
+      key: 'rewards',
+      label: t('rewards'),
+      icon: <RewardsIcon />,
+      children: (
+        <TabContainer>
+          <StakeRewardsPool rewardsPool={rewardsPool} isLoading={poolRewardsLoading} />
+        </TabContainer>
+      )
     }
   ]
 
@@ -84,7 +102,7 @@ export default function StakePoolInfo({
   )
 }
 
-const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, AccountContainer } = {
+const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, AccountContainer, RewardsIcon } = {
   Container: styled.section`
     display: grid;
     grid-template-columns: 1fr;
@@ -118,5 +136,8 @@ const { Container, AboutIcon, TabContainer, MembersIcon, ActivityIcon, AccountCo
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[4]};
+  `,
+  RewardsIcon: styled(PiChartBar)`
+    font-size: 16px;
   `
 }
