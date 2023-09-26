@@ -39,7 +39,8 @@
   "searchPool": "Pesquisar Pools",
   "emptyPool": "Pool não encontrado",
   "copyClipboard": "Copiar para Área de Transferência",
-  "copiedToClipboard": "Link copiado, compartilhe agora!",
+  "copiedToClipboard": "Endereço copiado",
+  "addressCopiedToClipboard": "Address copied",
   "deposit": "Depositar",
   "withdraw": "Sacar",
   "loading": "Carregando...",
@@ -288,6 +289,12 @@
       "claimed": "Resgatado",
       "lost": "Perdido",
       "notGift": "Você ainda não recebeu nenhum presente"
+    },
+   "draw": {
+      "performDrawing": "Realizar um Sorteio",
+      "drawing": "Sorteando...",
+      "result": "Resultado",
+      "conductANewDraw": "Realizar um novo sorteio"
     }
   }
 }
