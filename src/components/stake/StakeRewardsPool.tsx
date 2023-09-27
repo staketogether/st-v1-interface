@@ -46,8 +46,6 @@ export default function StakeRewardsPool({
     return locale === 'en' ? 'en-US' : 'pt-BR'
   }
 
-  console.log(rewardsPool)
-
   return (
     <Container>
       {hasRewards && (
@@ -104,7 +102,6 @@ const { Container, Row, ExternalLink, List, LoadMoreButton } = {
       display: grid;
       grid-template-columns: 50px 1fr 1fr 1fr;
       padding: 0 8px;
-      text-align: center;
       @media (min-width: 768px) {
         text-align: justify;
       }
@@ -127,12 +124,10 @@ const { Container, Row, ExternalLink, List, LoadMoreButton } = {
   `,
   Row: styled(Link)`
     cursor: pointer;
-
     display: grid;
     grid-template-columns: 50px 1fr 1fr 1fr;
     align-items: center;
     padding: ${({ theme }) => theme.size[8]} 0;
-    text-align: center;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       padding: ${({ theme }) => theme.size[8]};
       text-align: justify;
