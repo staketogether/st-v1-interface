@@ -114,7 +114,7 @@ export default function StakePoolInfo({
             rewardsPool={rewardsPool}
             poolRewardLoading={poolRewardsLoading}
             loadMoreRewardsItems={handleLoadMoreRewards}
-            rewardsCount='50'
+            rewardsCount={poolData?.activitiesCount || '0'}
           />
         </TabContainer>
       )

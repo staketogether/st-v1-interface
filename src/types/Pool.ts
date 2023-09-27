@@ -10,6 +10,7 @@ export type PoolSubgraph = {
   totalRewards: bigint
   activitiesCount: string
   poolShares: bigint
+  rewardsCount: string
   delegations: Delegation[]
   receivedDelegationsCount: bigint
 } & ENSPool
