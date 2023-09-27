@@ -1,6 +1,6 @@
 import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { truncateTimestamp, truncateWei } from '@/services/truncate'
+import { truncateAddress, truncateTimestamp, truncateWei } from '@/services/truncate'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiLink, PiListDashes } from 'react-icons/pi'
@@ -46,30 +46,34 @@ export default function StakeRewardsPool({
     return locale === 'en' ? 'en-US' : 'pt-BR'
   }
 
+  console.log(rewardsPool)
+
   return (
     <Container>
       {hasRewards && (
         <header>
           <span>{t('tx')}</span>
           <span>{t('time')}</span>
+          <span>{t('account')}</span>
           <span>{t('value')}</span>
         </header>
       )}
       <List>
         {hasRewards ? (
-          rewardsPool.map(activity => {
+          rewardsPool.map((reward, i) => {
             return (
               <Row
-                key={activity.txHash}
-                href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`}
+                key={`reward-row-${i + 1}`}
+                href={`${blockExplorer.baseUrl}/tx/${reward.txHash}`}
                 target='_blank'
               >
                 <span>
                   <ExternalLink />
                 </span>
-                <span>{truncateTimestamp(activity.timestamp, getLocale())}</span>
-                <span className={`${activity.amount > 1n && 'green'} ${activity.amount < 0 && 'red'}`}>
-                  {`${truncateWei(activity.amount, 6)} ${t('eth.symbol')}`}
+                <span>{truncateTimestamp(reward.timestamp, getLocale())}</span>
+                <span>{truncateAddress(reward.account?.address, 3)}</span>
+                <span className={`${reward.amount > 1n && 'green'} ${reward.amount < 0 && 'red'}`}>
+                  {`${truncateWei(reward.amount, 4)} ${t('eth.symbol')}`}
                 </span>
               </Row>
             )
@@ -98,7 +102,7 @@ const { Container, Row, ExternalLink, List, LoadMoreButton } = {
 
     > header {
       display: grid;
-      grid-template-columns: 50px 0.5fr 1fr;
+      grid-template-columns: 50px 1fr 1fr 1fr;
       padding: 0 8px;
       text-align: center;
       @media (min-width: 768px) {
@@ -125,7 +129,7 @@ const { Container, Row, ExternalLink, List, LoadMoreButton } = {
     cursor: pointer;
 
     display: grid;
-    grid-template-columns: 50px 0.5fr 1fr;
+    grid-template-columns: 50px 1fr 1fr 1fr;
     align-items: center;
     padding: ${({ theme }) => theme.size[8]} 0;
     text-align: center;

@@ -12,6 +12,9 @@ export const queryRewardsPool = gql`
       timestamp
       amount
       txHash
+      account {
+        address
+      }
     }
   }
 `
