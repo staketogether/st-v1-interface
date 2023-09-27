@@ -71,7 +71,7 @@ export default function StakeRewardsPool({
                   <ExternalLink />
                 </span>
                 <span>{truncateTimestamp(reward.timestamp, getLocale())}</span>
-                <span>{truncateAddress(reward.account?.address, 3)}</span>
+                <span>{truncateAddress(reward.account?.address, 4)}</span>
                 <span className={`${reward.amount > 1n && 'green'} ${reward.amount < 0 && 'red'}`}>
                   {`${truncateWei(reward.amount, 4)} ${t('eth.symbol')}`}
                 </span>
