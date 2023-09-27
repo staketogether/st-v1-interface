@@ -1,14 +1,16 @@
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ContentfulPool } from '@/types/ContentfulPool'
+import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { PiFloppyDiskLight } from 'react-icons/pi'
+import YouTube from 'react-youtube'
 import styled from 'styled-components'
 import Button from '../shared/Button'
 import GenericInput from '../shared/GenericInput'
-import CommunityName from '../shared/community/CommunityName'
-import YouTube from 'react-youtube'
+import GenericInputFile from '../shared/GenericInputFile'
 import CommunityLogo from '../shared/community/CommunityLogo'
+import CommunityName from '../shared/community/CommunityName'
 
 export default function StakeProfileEdit({
   poolDetail,
@@ -53,9 +55,14 @@ export default function StakeProfileEdit({
       autoplay: 0
     }
   }
-
-  const onSubmit = (data: object) => console.log(data)
-
+  const formData = new FormData()
+  const onSubmit = async (data: object) => {
+    console.log(data)
+    formData.append('cover', data.cover[0]);
+    formData.append('contract', data.contract);
+    const response = await axios.post('/api/profile', formData)
+    // console.log('formData', formData)
+  }
   return (
     <Container>
       <header>
@@ -67,7 +74,7 @@ export default function StakeProfileEdit({
         />
         {poolDetail && <CommunityName $larger name={poolDetail?.name} loading={poolDetailLoading} />}
       </header>
-      <FormControl onSubmit={handleSubmit(onSubmit)}>
+      <FormControl onSubmit={handleSubmit(onSubmit)} action='/api/profile' method='post'  >
         <GenericInput title={t('v2.stakeProfileEdit.logo')} type='file' register={register('logo.url')} />
         <GenericInput
           title={t('v2.stakeProfileEdit.communityName')}
@@ -75,7 +82,8 @@ export default function StakeProfileEdit({
           type='text'
           error={errors.name ? t('v2.stakeProfileEdit.requiredField') : ''}
         />
-        <GenericInput title={t('v2.stakeProfileEdit.cover')} type='file' register={register('cover.url')} />
+        <input type='file' {...register('cover')} />
+        <GenericInputFile name={t('v2.stakeProfileEdit.cover')} title="Cover" form={formData} />
         {poolDetail && <ImageCover src={poolDetail.cover?.url} alt={poolDetail.cover?.fileName} />}
         <GenericInput title={t('v2.stakeProfileEdit.video')} register={register('video')} />
         {contentfulVideo && videoId && <YouTube videoId={videoId} opts={opts} />}
@@ -104,11 +112,11 @@ export default function StakeProfileEdit({
 
         <Button label={t('v2.stakeProfileEdit.save')} isLoading={false} type='submit' icon={<SaveIcon />} />
       </FormControl>
-    </Container>
+    </Container >
   )
 }
 
-const { Container, FormControl, SaveIcon, ImageCover } = {
+const { Container, FormControl, SaveIcon, ImageCover, InputFile } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
@@ -140,5 +148,8 @@ const { Container, FormControl, SaveIcon, ImageCover } = {
     height: 237px !important;
     border-radius: ${({ theme }) => theme.size[8]};
     object-fit: cover;
+  `,
+  InputFile: styled.input`
+    display: block;
   `
 }
