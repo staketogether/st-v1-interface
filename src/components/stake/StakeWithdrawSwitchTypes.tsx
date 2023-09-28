@@ -4,30 +4,51 @@ import { WithdrawType } from '@/types/Withdraw'
 import { PiQuestion, PiStack, PiStackSimple } from 'react-icons/pi'
 import styled from 'styled-components'
 import TooltipComponent from '../shared/TooltipComponent'
+import { ethers } from 'ethers'
+import { useEffect, useState } from 'react'
 
 type StakeWithdrawSwitchTypesProps = {
   withdrawTypeSelected: WithdrawType
   selectWithdrawType: (value: WithdrawType) => void
   liquidityPoolBalance: bigint
   liquidityValidatorsBalance: bigint
+  withdrawAmount: string
 }
 
 export default function StakeWithdrawSwitchTypes({
   withdrawTypeSelected,
   liquidityPoolBalance,
   liquidityValidatorsBalance,
+  withdrawAmount,
   selectWithdrawType
 }: StakeWithdrawSwitchTypesProps) {
+  const [disabledWithdrawLiquidity, setDisabledWithdrawLiquidity] = useState(false)
+  const [disabledWithdrawValidator, setDisabledWithdrawValidator] = useState(false)
   const { t } = useLocaleTranslation()
+  const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
   const handleActiveType = (type: WithdrawType) => {
     return type === withdrawTypeSelected
   }
 
+  useEffect(() => {
+    if (amount > liquidityPoolBalance) {
+      setDisabledWithdrawLiquidity(true)
+      setDisabledWithdrawValidator(false)
+      selectWithdrawType(WithdrawType.VALIDATOR)
+    } else {
+      setDisabledWithdrawLiquidity(false)
+      setDisabledWithdrawValidator(true)
+      selectWithdrawType(WithdrawType.POOL)
+    }
+  }, [amount, liquidityPoolBalance, selectWithdrawType])
+
   return (
     <Container>
       <Card
-        className={`${handleActiveType(WithdrawType.POOL) ? 'active' : ''}`}
-        onClick={() => selectWithdrawType(WithdrawType.POOL)}
+        className={`${handleActiveType(WithdrawType.POOL) ? 'active' : ''} ${
+          disabledWithdrawLiquidity && 'disabled'
+        }`}
+        onClick={() => !disabledWithdrawValidator && selectWithdrawType(WithdrawType.POOL)}
       >
         <header>
           <h4>
@@ -55,8 +76,10 @@ export default function StakeWithdrawSwitchTypes({
         </RateInfo>
       </Card>
       <Card
-        className={`${handleActiveType(WithdrawType.VALIDATOR) ? 'active' : ''}`}
-        onClick={() => selectWithdrawType(WithdrawType.VALIDATOR)}
+        className={`${handleActiveType(WithdrawType.VALIDATOR) ? 'active' : ''} ${
+          disabledWithdrawValidator && 'disabled'
+        }`}
+        onClick={() => !disabledWithdrawValidator && selectWithdrawType(WithdrawType.VALIDATOR)}
       >
         <header>
           <h4>
@@ -102,8 +125,7 @@ const { Container, Card, RateInfo, PoolIcon, ValidatorsIcon, QuestionIcon } = {
     cursor: pointer;
 
     border-radius: 8px;
-
-    box-shadow: ${({ theme }) => theme.shadow[200]};
+    border: 1px solid ${({ theme }) => theme.color.gray[400]};
 
     > header {
       display: flex;
@@ -123,7 +145,7 @@ const { Container, Card, RateInfo, PoolIcon, ValidatorsIcon, QuestionIcon } = {
     &.active,
     &:hover {
       color: ${({ theme }) => theme.colorV2.purple[1]};
-      background: ${({ theme }) => theme.colorV2.gray[2]};
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
 
       > header {
         > h4 {
@@ -133,7 +155,9 @@ const { Container, Card, RateInfo, PoolIcon, ValidatorsIcon, QuestionIcon } = {
     }
 
     &.disabled {
+      border: 1px solid ${({ theme }) => theme.color.gray[400]};
       cursor: not-allowed;
+      opacity: 0.4;
     }
   `,
   RateInfo: styled.div`
