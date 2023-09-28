@@ -335,6 +335,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             liquidityValidatorsBalance={withdrawLiquidityValidatorsBalance}
             withdrawTypeSelected={withdrawTypeSelected}
             selectWithdrawType={setWithdrawTypeSelected}
+            withdrawAmount={inputAmount}
           />
         )}
         <StakeFormInput
