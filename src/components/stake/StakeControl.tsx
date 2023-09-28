@@ -118,23 +118,27 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
   }
 
   const activeTab = isActive('deposit') ? 'deposit' : isActive('withdraw') ? 'withdraw' : 'exchange'
-
+  console.log(pool)
   return (
     <Container>
       <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
       <TvlContainer>
         <PoolTitle>
-          {poolDetail && (
-            <div>
-              <CommunityLogo
-                size={32}
-                src={poolDetail?.logo?.url}
-                alt={poolDetail?.logo?.url}
-                loading={false}
-              />
+          <div>
+            <CommunityLogo
+              size={32}
+              src={poolDetail?.logo?.url}
+              alt={poolDetail?.logo?.url || ''}
+              loading={false}
+              listed={pool?.listed}
+            />
+            {poolDetail?.name ? (
               <CommunityName $larger name={poolDetail?.name} loading={false} />
-            </div>
-          )}
+            ) : (
+              <CommunityName $larger walletAddress={poolAddress} loading={false} />
+            )}
+          </div>
+
           <Tooltip trigger='click' title={t('copiedToClipboard')}>
             <ShareButton onClick={copyToClipboard}>
               <ShareIcon />
