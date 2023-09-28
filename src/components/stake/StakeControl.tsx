@@ -118,7 +118,7 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
   }
 
   const activeTab = isActive('deposit') ? 'deposit' : isActive('withdraw') ? 'withdraw' : 'exchange'
-  console.log(pool)
+
   return (
     <Container>
       <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
