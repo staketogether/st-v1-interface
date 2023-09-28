@@ -63,6 +63,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: 'getFaucetErrorMessages.addressHasAlready' })
   }
 
+  if (foundPasscode.ipsUsed.includes(userIp)) {
+    return res.status(400).json({ message: 'getFaucetErrorMessages.addressHasAlready' })
+  }
   const transaction = await faucetWallet.sendTransaction({
     to: address,
     value: ethers.parseEther(foundPasscode.amountToSend)

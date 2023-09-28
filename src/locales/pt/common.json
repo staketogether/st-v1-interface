@@ -130,7 +130,8 @@
     "noPassCodes": "Código Não Encontrado",
     "invalidPasscode": "Código Inválido",
     "faucetIsEmpty": "Sem ETH Disponível para Faucet",
-    "addressHasAlready": "Sua carteira já recebeu ETH"
+    "addressHasAlready": "Sua carteira já recebeu ETH",
+    "userIpHasAlready" : "Seu Ip já recebeu ETH"
   },
   "withdrawCardsType": {
     "pool": "Pool",
