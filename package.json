@@ -20,6 +20,7 @@
   "dependencies": {
     "@apollo/client": "^3.8.1",
     "@emotion/is-prop-valid": "^1.2.1",
+    "@lottiefiles/react-lottie-player": "^3.5.3",
     "@openzeppelin/merkle-tree": "^1.0.5",
     "@sentry/nextjs": "^7.68.0",
     "@wagmi/cli": "^1.4.1",

@@ -1,7 +1,6 @@
 import { queryDelegationsPool } from '@/queries/subgraph/queryDelegationsPool'
 import { PoolSubgraph } from '@/types/Pool'
 import { useQuery } from '@apollo/client'
-
 import React, { useState } from 'react'
 import { PiGift } from 'react-icons/pi'
 import styled from 'styled-components'
@@ -12,8 +11,9 @@ import EnsAvatar from './ens/EnsAvatar'
 import EnsName from './ens/EnsName'
 import { notification } from 'antd'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import Loading from './icons/Loading'
-
+import LottieAnimation from './LottieAnimation'
+import loadingAnimation from '@assets/animations/loading-animation.json'
+import giftAnimation from '@assets/animations/gift-animation.json'
 type WalletLotteryProps = { poolAddress: `0x${string}` }
 
 export default function WalletLottery({ poolAddress }: WalletLotteryProps) {
@@ -86,11 +86,11 @@ export default function WalletLottery({ poolAddress }: WalletLotteryProps) {
             <ResultContainer>
               {starterDraw ? (
                 <div>
-                  <LoadingIcon size={60} />
+                  <LottieAnimation animationData={loadingAnimation} height={80} />
                   <h2>{t('v2.draw.drawing')}</h2>
                 </div>
               ) : (
-                <GiftsIcon size={60} className='green' />
+                <LottieAnimation animationData={giftAnimation} height={100} />
               )}
               <span>
                 {!finishedDraw && result && truncateAddress(result)}
@@ -107,12 +107,14 @@ export default function WalletLottery({ poolAddress }: WalletLotteryProps) {
               </span>
             </ResultContainer>
             {finishedDraw && (
-              <Button
-                label={t('v2.draw.conductANewDraw')}
-                onClick={() => startDraw()}
-                icon={<GiftsIcon />}
-                isLoading={false}
-              />
+              <>
+                <Button
+                  label={t('v2.draw.conductANewDraw')}
+                  onClick={() => startDraw()}
+                  icon={<GiftsIcon />}
+                  isLoading={false}
+                />
+              </>
             )}
           </div>
         </>
@@ -121,7 +123,7 @@ export default function WalletLottery({ poolAddress }: WalletLotteryProps) {
   )
 }
 
-const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, LoadingIcon, CloseButton } = {
+const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
@@ -196,10 +198,6 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, LoadingIcon, Cl
       cursor: pointer;
       color: ${({ theme }) => theme.colorV2.purple[1]};
     }
-  `,
-  LoadingIcon: styled(Loading)`
-    color: ${({ theme }) => theme.colorV2.blue[1]};
-    margin: 0 auto;
   `,
   CloseButton: styled.button`
     width: 32px;
