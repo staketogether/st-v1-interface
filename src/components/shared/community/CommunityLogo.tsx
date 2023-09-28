@@ -1,15 +1,17 @@
 import Image from 'next/image'
 import styled from 'styled-components'
 import SkeletonLoading from '../icons/SkeletonLoading'
+import { PiEyeSlash } from 'react-icons/pi'
 
-type EnsAvatarProps = {
-  src: string
+type CommunityLogoProps = {
+  src?: string
   alt: string
   size?: number
   loading?: boolean
+  listed?: boolean
 }
 
-export default function CommunityLogo({ src, alt, loading, size = 24 }: EnsAvatarProps) {
+export default function CommunityLogo({ src, alt, loading, size = 24, listed = true }: CommunityLogoProps) {
   if (loading) {
     return <SkeletonLoading $borderRadius='50%' width={size} height={size} />
   }
@@ -17,17 +19,35 @@ export default function CommunityLogo({ src, alt, loading, size = 24 }: EnsAvata
   return src ? (
     <Avatar width={size} height={size} src={src} alt={alt} size={size} />
   ) : (
-    <DefaultAvatar size={size} />
+    <>
+      {listed ? (
+        <DefaultAvatar size={size} />
+      ) : (
+        <>
+          <DefaultAvatar size={size}>
+            <NotListed />
+          </DefaultAvatar>
+        </>
+      )}
+    </>
   )
 }
 
-const { DefaultAvatar, Avatar } = {
+const { DefaultAvatar, Avatar, NotListed } = {
   DefaultAvatar: styled.div<{ size: number }>`
     background-color: ${({ theme }) => theme.color.blue[600]};
     border-radius: 100%;
 
     width: ${props => `${props.size}px`};
     height: ${props => `${props.size}px`};
+
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
+  `,
+  NotListed: styled(PiEyeSlash)`
+    color: white;
+    font-size: 14px;
   `,
   Avatar: styled(Image)<{ size: number }>`
     border-radius: 100%;
