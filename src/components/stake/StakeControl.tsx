@@ -203,7 +203,7 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
         poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
         loadMoreActivitiesItems={handleLoadMoreActivity}
       />
-      <WalletLottery poolAddress={poolAddress} />
+      {poolAddress === account && <WalletLottery poolAddress={poolAddress} />}
     </Container>
   )
 }
