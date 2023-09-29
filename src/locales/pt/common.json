@@ -297,10 +297,10 @@
       "notGift": "Você ainda não recebeu nenhum presente"
     },
     "draw": {
-      "performDrawing": "Realizar um Sorteio",
+      "performDrawing": "Realizar Sorteio",
       "drawing": "Sorteando...",
       "result": "Resultado",
-      "conductANewDraw": "Realizar um novo sorteio"
+      "conductANewDraw": "Realizar Novo Sorteio"
     }
   }
 }

@@ -132,7 +132,6 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.color.white};
     padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]};
-    min-height: 280px;
 
     font-size: ${({ theme }) => theme.font.size[14]};
 

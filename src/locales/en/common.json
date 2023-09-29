@@ -296,10 +296,10 @@
       "notGift": "You haven't received any gifts yet"
     },
     "draw": {
-      "performDrawing": "Conducting a Drawing",
+      "performDrawing": "Conducting Drawing",
       "drawing": "Drawing",
       "result": "Result",
-      "conductANewDraw": "Conduct a Drawing"
+      "conductANewDraw": "Conduct Drawing"
     }
   }
 }
