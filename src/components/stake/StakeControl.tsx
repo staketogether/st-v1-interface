@@ -1,4 +1,5 @@
 import usePool from '@/hooks/subgraphs/usePool'
+import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import useActiveRoute from '@/hooks/useActiveRoute'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
@@ -20,7 +21,6 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
-import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -203,7 +203,7 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
         poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
         loadMoreActivitiesItems={handleLoadMoreActivity}
       />
-      {poolAddress === account && <WalletLottery poolAddress={poolAddress} />}
+      <WalletLottery poolAddress={poolAddress} />
     </Container>
   )
 }
