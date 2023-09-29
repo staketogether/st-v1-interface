@@ -40,7 +40,7 @@
   "emptyPool": "Pool não encontrado",
   "copyClipboard": "Copiar para Área de Transferência",
   "copiedToClipboard": "Endereço copiado",
-  "addressCopiedToClipboard": "Address copied",
+  "addressCopiedToClipboard": "Address Copied",
   "deposit": "Depositar",
   "withdraw": "Sacar",
   "loading": "Carregando...",
@@ -131,7 +131,7 @@
     "invalidPasscode": "Código Inválido",
     "faucetIsEmpty": "Sem ETH Disponível para Faucet",
     "addressHasAlready": "Sua carteira já recebeu ETH",
-    "userIpHasAlready" : "Seu Ip já recebeu ETH"
+    "userIpHasAlready": "Seu Ip já recebeu ETH"
   },
   "withdrawCardsType": {
     "pool": "Pool",
@@ -296,7 +296,7 @@
       "lost": "Perdido",
       "notGift": "Você ainda não recebeu nenhum presente"
     },
-   "draw": {
+    "draw": {
       "performDrawing": "Realizar um Sorteio",
       "drawing": "Sorteando...",
       "result": "Resultado",
