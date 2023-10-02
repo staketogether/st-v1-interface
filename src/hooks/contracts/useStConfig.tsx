@@ -12,7 +12,7 @@ export default function useStConfig() {
   const { data, isFetching } = useStakeTogetherConfig({
     address: contracts.StakeTogether
   })
-  console.log('data', data)
+
   useEffect(() => {
     if (data) {
       const config: STConfig = {
