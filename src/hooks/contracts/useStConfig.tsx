@@ -12,7 +12,7 @@ export default function useStConfig() {
   const { data, isFetching } = useStakeTogetherConfig({
     address: contracts.StakeTogether
   })
-
+  console.log('data', data)
   useEffect(() => {
     if (data) {
       const config: STConfig = {
@@ -23,8 +23,9 @@ export default function useStConfig() {
         minWithdrawAmount: data[4],
         poolSize: data[5],
         validatorSize: data[6],
-        withdrawalLimit: data[7],
-        feature: data[8]
+        withdrawPoolLimit: data[7],
+        withdrawalValidatorLimit: data[8],
+        feature: data[9]
       }
       setSTConfig(config)
     }
