@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import TooltipComponent from '../shared/TooltipComponent'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
+import { formatNumberByLocale } from '@/services/format'
+import { useRouter } from 'next/router'
 
 type StakeWithdrawSwitchTypesProps = {
   withdrawTypeSelected: WithdrawType
@@ -29,7 +31,7 @@ export default function StakeWithdrawSwitchTypes({
   const handleActiveType = (type: WithdrawType) => {
     return type === withdrawTypeSelected
   }
-
+  const { locale } = useRouter()
   useEffect(() => {
     if (amount > liquidityPoolBalance) {
       setDisabledWithdrawLiquidity(true)
@@ -63,7 +65,10 @@ export default function StakeWithdrawSwitchTypes({
           <div>
             <span>{t('withdrawCardsType.liquidity')}</span>
             <div className='blue'>
-              <span className='blue'>{`${truncateWei(liquidityPoolBalance, 4)} `}</span>
+              <span className='blue'>{`${formatNumberByLocale(
+                truncateWei(liquidityPoolBalance, 4),
+                locale
+              )} `}</span>
               <span className='blue'>{t('eth.symbol')}</span>
             </div>
           </div>
@@ -94,7 +99,10 @@ export default function StakeWithdrawSwitchTypes({
           <div>
             <span>{t('withdrawCardsType.liquidity')}</span>
             <div>
-              <span className='blue'>{`${truncateWei(liquidityValidatorsBalance, 4)} `}</span>
+              <span className='blue'>{`${formatNumberByLocale(
+                truncateWei(liquidityValidatorsBalance, 2),
+                locale
+              )} `}</span>
               <span className='blue'>{t('eth.symbol')}</span>
             </div>
           </div>

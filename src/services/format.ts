@@ -1,4 +1,7 @@
 export function formatNumberByLocale(num: string, lang?: string): string {
+  if (Number(num) < 1) {
+    return num
+  }
   const parsedNum = parseFloat(num)
 
   if (isNaN(parsedNum)) {
