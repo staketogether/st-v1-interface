@@ -11,6 +11,7 @@ import styled from 'styled-components'
 import { WithdrawType } from '@/types/Withdraw'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from '../shared/LottieAnimation'
+import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -37,12 +38,13 @@ export default function StakeTransactionLoading({
   const chain = chainConfig()
   const isWithdraw = type === 'withdraw'
   const { addToWalletAction } = useAddSethToWallet()
+  const { addToWalletAction: addStwEthToWalletAction } = useAddStwEthToWallet()
   return (
     <Container>
       {transactionIsSuccess ? (
         <SuccessIcon size={60} />
       ) : (
-        <LottieAnimation animationData={loadingAnimation} height={60} />
+        <LottieAnimation animationData={loadingAnimation} height={60} loop />
       )}
       <div>
         {walletActionLoading && !transactionLoading && !transactionIsSuccess && (
@@ -100,6 +102,13 @@ export default function StakeTransactionLoading({
         <AddAssetInWalletButton onClick={addToWalletAction}>
           <span>{t('addSethToWallet.add')} </span>
           <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
+          <span>{t('addSethToWallet.yourWallet')}</span>
+        </AddAssetInWalletButton>
+      )}
+      {isWithdraw && transactionIsSuccess && withdrawTypeSelected === WithdrawType.VALIDATOR && (
+        <AddAssetInWalletButton onClick={addStwEthToWalletAction}>
+          <span>{t('addSethToWallet.add')} </span>
+          <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
           <span>{t('addSethToWallet.yourWallet')}</span>
         </AddAssetInWalletButton>
       )}
