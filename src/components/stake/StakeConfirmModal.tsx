@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import Modal from '../shared/Modal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeTransactionLoading from './StakeTransactionLoading'
+import { WithdrawType } from '@/types/Withdraw'
 
 type StakeConfirmModalProps = {
   amount: string
@@ -20,6 +21,7 @@ type StakeConfirmModalProps = {
   txHash: string | undefined
   onClick: () => void
   onClose: () => void
+  withdrawTypeSelected: WithdrawType
 }
 
 export default function StakeConfirmModal({
@@ -31,6 +33,7 @@ export default function StakeConfirmModal({
   transactionIsSuccess,
   youReceive,
   txHash,
+  withdrawTypeSelected,
   onClick,
   onClose
 }: StakeConfirmModalProps) {
@@ -53,6 +56,7 @@ export default function StakeConfirmModal({
           transactionLoading={transactionLoading}
           amount={truncateDecimal(amount, 6)}
           youReceive={youReceive}
+          withdrawTypeSelected={withdrawTypeSelected}
           transactionIsSuccess={transactionIsSuccess}
           type={type}
           txHash={txHash}
@@ -75,7 +79,10 @@ export default function StakeConfirmModal({
                 <span>{t('v2.stake.confirmModal.youWillReceive')}</span>
                 <div>
                   <span>
-                    <span>{truncateWei(youReceive, 6)}</span> <span>{t('eth.symbol')}</span>{' '}
+                    <span>{truncateWei(youReceive, 6)}</span>
+                    <span>{` ${
+                      withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
+                    }`}</span>{' '}
                   </span>
                   <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 </div>
@@ -105,7 +112,12 @@ export default function StakeConfirmModal({
             </>
           )}
           <Divider />
-          <StakeDescriptionCheckout amount={amount} type={type} youReceiveDeposit={youReceive} />
+          <StakeDescriptionCheckout
+            amount={amount}
+            type={type}
+            youReceiveDeposit={youReceive}
+            withdrawTypeSelected={withdrawTypeSelected}
+          />
           <Button onClick={onClick}>{labelButton}</Button>
         </>
       )}

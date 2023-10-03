@@ -69,6 +69,10 @@
     "name": "ST Staked Ether",
     "symbol": "stpETH"
   },
+  "wse": {
+    "name": "Stake Together Withdrawals",
+    "symbol": "stwETH "
+  },
   "form": {
     "deposit": "Depositar Ether",
     "withdraw": "Sacar Ether",
@@ -281,7 +285,8 @@
       "donationDeposit": "Doação",
       "withdraw": "Saque",
       "withdrawPool": "Saque",
-      "transfer": "Transferencia"
+      "transfer": "Transferencia",
+      "withdrawValidator": "Saque Validatores"
     },
     "gifts": {
       "countdown": "Tempo para Resgatar",
@@ -301,6 +306,11 @@
       "drawing": "Sorteando...",
       "result": "Resultado",
       "conductANewDraw": "Realizar Novo Sorteio"
+    },
+     "withdrawals": {
+      "title": "Saques da Beacon Chain",
+      "pending": "Pendente",
+      "claim": "Resgatar"
     }
   }
 }

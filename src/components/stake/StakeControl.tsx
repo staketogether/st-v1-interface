@@ -1,6 +1,5 @@
 import usePool from '@/hooks/subgraphs/usePool'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
-import useActiveRoute from '@/hooks/useActiveRoute'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
@@ -34,7 +33,6 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
   const [skipActivity, setSkipActivity] = useState(0)
 
   const { t } = useLocaleTranslation()
-  const { isActive } = useActiveRoute()
   const { query } = useRouter()
   const { locale } = useRouter()
 
@@ -117,7 +115,7 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
     navigator.clipboard.writeText(window.location.toString())
   }
 
-  const activeTab = isActive('deposit') ? 'deposit' : isActive('withdraw') ? 'withdraw' : 'exchange'
+  const activeTab = type
 
   return (
     <Container>
@@ -203,7 +201,7 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
         poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
         loadMoreActivitiesItems={handleLoadMoreActivity}
       />
-      {poolAddress.toLowerCase() === account?.toLowerCase() && <WalletLottery poolAddress={poolAddress} />}
+      <WalletLottery poolAddress={poolAddress} />
     </Container>
   )
 }
