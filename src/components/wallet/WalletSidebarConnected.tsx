@@ -25,6 +25,8 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
 import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
 import WalletSidebarSettings from './WalletSidebarSettings'
+import Withdrawals from '../shared/Withdrawals'
+import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -37,6 +39,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
   const { balance: ethBalance, refetch } = useEthBalanceOf(address)
+  const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
+
   const { name, nameLoading } = useEns(address)
 
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
@@ -203,6 +207,9 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               </div>
             </InfoCard>
           </InfoContainer>
+          {stwETHBalance > 0n && (
+            <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />
+          )}
           <TabsArea>
             <Tabs items={tabPortfolio} defaultActiveKey='portfolio' gray />
           </TabsArea>

@@ -2,7 +2,7 @@ import { Tooltip } from 'antd'
 import { ReactNode, useState } from 'react'
 import styled, { useTheme } from 'styled-components'
 
-export type ItemsKey = number | string
+export type ItemsKey = string
 
 export type TabsItems = {
   key: ItemsKey
@@ -33,8 +33,8 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, gray 
       callBack && callBack()
     }
   }
-
   const activeChildren = items.find(item => item.key === activeKey)
+
   const theme = useTheme()
   return (
     <Container>
@@ -49,7 +49,11 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, gray 
                 color={theme.colorV2.blue[1]}
               >
                 <TabItem
-                  className={`${item.disabled ? 'disabled' : ''} ${gray ? 'gray' : ''}`}
+                  className={`
+                  ${activeKey === item.key ? 'active' : ''}
+                  ${item.disabled ? 'disabled' : ''}
+                  ${gray ? 'gray' : ''}
+                  `}
                   onClick={() => handleClickTab(item.key, !!item.disabled, item.onChange)}
                 >
                   {item.icon}
