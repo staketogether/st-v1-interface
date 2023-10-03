@@ -39,7 +39,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
   const { balance: ethBalance, refetch } = useEthBalanceOf(address)
-  const { balance: stwETHBalance } = useStwEthBalance(address)
+  const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
   const { name, nameLoading } = useEns(address)
 
@@ -207,7 +207,9 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               </div>
             </InfoCard>
           </InfoContainer>
-          {stwETHBalance > 0n && <Withdrawals balance={stwETHBalance} accountAddress={address} />}
+          {stwETHBalance > 0n && (
+            <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />
+          )}
           <TabsArea>
             <Tabs items={tabPortfolio} defaultActiveKey='portfolio' gray />
           </TabsArea>

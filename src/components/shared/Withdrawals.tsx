@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { PiHandCoins, PiSwap } from 'react-icons/pi'
 import styled from 'styled-components'
 import ethIcon from '@assets/icons/eth-icon.svg'
@@ -15,21 +15,30 @@ type WithdrawalsProps = {
   accountAddress: `0x${string}`
   smallAction?: boolean
   isLoading?: boolean
+  refetchBalance: () => void
 }
 
 export default function Withdrawals({
   smallAction = true,
   accountAddress,
   balance = 0n,
-  isLoading = false
+  isLoading = false,
+  refetchBalance
 }: WithdrawalsProps) {
   const { t } = useLocaleTranslation()
   const { isReady, loading: isReadyLoading } = useWithdrawalsIsReady(balance)
-  const { isLoading: withdrawalWithdrawLoading, withdrawalsWithdraw } = useWithdrawalsStwEth(
-    balance,
-    accountAddress,
-    true
-  )
+  const {
+    isLoading: withdrawalWithdrawLoading,
+    withdrawalsWithdraw,
+    isSuccess
+  } = useWithdrawalsStwEth(balance, accountAddress, true)
+
+  useEffect(() => {
+    if (isSuccess) {
+      refetchBalance()
+    }
+  }, [isSuccess, refetchBalance])
+
   return (
     <Container>
       <header>
