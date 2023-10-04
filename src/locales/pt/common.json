@@ -40,7 +40,7 @@
   "emptyPool": "Pool não encontrado",
   "copyClipboard": "Copiar para Área de Transferência",
   "copiedToClipboard": "Endereço copiado",
-  "addressCopiedToClipboard": "Address copied",
+  "addressCopiedToClipboard": "Address Copied",
   "deposit": "Depositar",
   "withdraw": "Sacar",
   "loading": "Carregando...",
@@ -68,6 +68,10 @@
   "lsd": {
     "name": "ST Staked Ether",
     "symbol": "stpETH"
+  },
+  "wse": {
+    "name": "Stake Together Withdrawals",
+    "symbol": "stwETH "
   },
   "form": {
     "deposit": "Depositar Ether",
@@ -130,7 +134,8 @@
     "noPassCodes": "Código Não Encontrado",
     "invalidPasscode": "Código Inválido",
     "faucetIsEmpty": "Sem ETH Disponível para Faucet",
-    "addressHasAlready": "Sua carteira já recebeu ETH"
+    "addressHasAlready": "Sua carteira já recebeu ETH",
+    "userIpHasAlready": "Seu Ip já recebeu ETH"
   },
   "withdrawCardsType": {
     "pool": "Pool",
@@ -280,7 +285,8 @@
       "donationDeposit": "Doação",
       "withdraw": "Saque",
       "withdrawPool": "Saque",
-      "transfer": "Transferencia"
+      "transfer": "Transferencia",
+      "withdrawValidator": "Saque Validatores"
     },
     "gifts": {
       "countdown": "Tempo para Resgatar",
@@ -295,11 +301,16 @@
       "lost": "Perdido",
       "notGift": "Você ainda não recebeu nenhum presente"
     },
-   "draw": {
-      "performDrawing": "Realizar um Sorteio",
+    "draw": {
+      "performDrawing": "Realizar Sorteio",
       "drawing": "Sorteando...",
       "result": "Resultado",
-      "conductANewDraw": "Realizar um novo sorteio"
+      "conductANewDraw": "Realizar Novo Sorteio"
+    },
+     "withdrawals": {
+      "title": "Saques da Beacon Chain",
+      "pending": "Pendente",
+      "claim": "Resgatar"
     }
   }
 }

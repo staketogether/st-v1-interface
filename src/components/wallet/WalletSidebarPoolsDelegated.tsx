@@ -34,6 +34,7 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
       )}
       {accountDelegations.map((delegation, index) => {
         const poolMetadata = handleMetadataPools(delegation.delegated.address)
+
         return (
           <DelegatedPool
             key={index}
@@ -42,16 +43,17 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
           >
             <div>
               <Project>
-                {poolMetadata && (
-                  <>
-                    <CommunityLogo
-                      size={24}
-                      src={poolMetadata.logo.url}
-                      alt={poolMetadata.logo.fileName}
-                      loading={isLoading}
-                    />
-                    <CommunityName name={poolMetadata.name} loading={isLoading} />
-                  </>
+                <CommunityLogo
+                  size={24}
+                  src={poolMetadata?.logo.url}
+                  alt={poolMetadata?.logo.fileName || ''}
+                  loading={isLoading}
+                  listed={!!poolMetadata}
+                />
+                {poolMetadata && poolMetadata.name ? (
+                  <CommunityName name={poolMetadata.name} loading={isLoading} />
+                ) : (
+                  <CommunityName walletAddress={delegation.delegated.address} loading={isLoading} />
                 )}
               </Project>
             </div>

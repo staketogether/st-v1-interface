@@ -335,6 +335,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             liquidityValidatorsBalance={withdrawLiquidityValidatorsBalance}
             withdrawTypeSelected={withdrawTypeSelected}
             selectWithdrawType={setWithdrawTypeSelected}
+            withdrawAmount={inputAmount}
           />
         )}
         <StakeFormInput
@@ -371,7 +372,12 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           />
         )}
         {accountAddress && (
-          <StakeDescriptionCheckout amount={amount} type={type} youReceiveDeposit={youReceiveDeposit} />
+          <StakeDescriptionCheckout
+            amount={amount}
+            type={type}
+            youReceiveDeposit={youReceiveDeposit}
+            withdrawTypeSelected={withdrawTypeSelected}
+          />
         )}
       </StakeContainer>
 
@@ -386,6 +392,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         walletActionLoading={walletActionLoading}
         transactionIsSuccess={isSuccess}
         onClose={() => setOpenStakeConfirmModal(false)}
+        withdrawTypeSelected={withdrawTypeSelected}
       />
 
       {accountAddress && (

@@ -6,6 +6,7 @@ export const queryPool = gql`
       poolBalance
       receivedDelegationsCount
       address
+      listed
       totalRewards
       rewardsCount
       poolShares

@@ -4,17 +4,20 @@ import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import TooltipComponent from '../shared/TooltipComponent'
+import { WithdrawType } from '@/types/Withdraw'
 
 type StakeDescriptionCheckoutProps = {
   type: 'deposit' | 'withdraw'
   youReceiveDeposit: bigint
   amount: string
+  withdrawTypeSelected: WithdrawType
 }
 
 export default function StakeDescriptionCheckout({
   type,
   youReceiveDeposit,
-  amount
+  amount,
+  withdrawTypeSelected
 }: StakeDescriptionCheckoutProps) {
   const { t } = useLocaleTranslation()
   const { fees } = globalConfig
@@ -37,7 +40,9 @@ export default function StakeDescriptionCheckout({
         {type === 'withdraw' && (
           <span>
             <span className='blue'>{` ${truncateDecimal(amount, 6) || '0'} `}</span>
-            <span className='blue'>{t('eth.symbol')}</span>
+            <span className='blue'>{` ${
+              withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
+            }`}</span>
           </span>
         )}
       </div>
@@ -60,7 +65,9 @@ export default function StakeDescriptionCheckout({
           <span>
             <span className='purple'>1</span> <span className='purple'>{t('lsd.symbol')}</span> =
             <span className='blue'>1</span>
-            <span className='blue'>{t('eth.symbol')}</span>
+            <span className='blue'>{` ${
+              withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
+            }`}</span>
           </span>
         )}
       </div>

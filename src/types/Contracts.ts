@@ -1638,6 +1638,12 @@ export const iRouterABI = [
   {
     type: 'event',
     anonymous: false,
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    name: 'ReceiveWithdrawEther'
+  },
+  {
+    type: 'event',
+    anonymous: false,
     inputs: [{ name: 'reportOracle', internalType: 'address', type: 'address', indexed: true }],
     name: 'RemoveReportOracle'
   },
@@ -1868,6 +1874,7 @@ export const iRouterABI = [
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'pause', outputs: [] },
+  { stateMutability: 'payable', type: 'function', inputs: [], name: 'receiveWithdrawEther', outputs: [] },
   {
     stateMutability: 'nonpayable',
     type: 'function',
@@ -1985,6 +1992,15 @@ export const iStakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
+      { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'AnticipateWithdrawValidator'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
       { name: 'account', internalType: 'address', type: 'address', indexed: true },
       { name: 'sharesAmount', internalType: 'uint256', type: 'uint256', indexed: false }
     ],
@@ -1994,7 +2010,7 @@ export const iStakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'creator', internalType: 'address', type: 'address', indexed: true },
+      { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'publicKey', internalType: 'bytes', type: 'bytes', indexed: false },
       { name: 'withdrawalCredentials', internalType: 'bytes', type: 'bytes', indexed: false },
@@ -2111,7 +2127,8 @@ export const iStakeTogetherABI = [
           { name: 'minWithdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'poolSize', internalType: 'uint256', type: 'uint256' },
           { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
-          { name: 'withdrawalLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
           {
             name: 'feature',
             internalType: 'struct IStakeTogether.Feature',
@@ -2222,7 +2239,8 @@ export const iStakeTogetherABI = [
     anonymous: false,
     inputs: [
       { name: 'sender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'withdrawType', internalType: 'enum IStakeTogether.WithdrawType', type: 'uint8', indexed: false }
     ],
     name: 'WithdrawalsLimitReached'
   },
@@ -2252,6 +2270,13 @@ export const iStakeTogetherABI = [
     ],
     name: 'allowance',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [],
+    name: 'anticipateWithdrawValidator',
+    outputs: []
   },
   {
     stateMutability: 'nonpayable',
@@ -2417,7 +2442,8 @@ export const iStakeTogetherABI = [
           { name: 'minWithdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'poolSize', internalType: 'uint256', type: 'uint256' },
           { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
-          { name: 'withdrawalLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
           {
             name: 'feature',
             internalType: 'struct IStakeTogether.Feature',
@@ -3169,6 +3195,12 @@ export const mockRouterABI = [
   {
     type: 'event',
     anonymous: false,
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    name: 'ReceiveWithdrawEther'
+  },
+  {
+    type: 'event',
+    anonymous: false,
     inputs: [{ name: 'reportOracle', internalType: 'address', type: 'address', indexed: true }],
     name: 'RemoveReportOracle'
   },
@@ -3608,6 +3640,7 @@ export const mockRouterABI = [
     name: 'proxiableUUID',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
   },
+  { stateMutability: 'payable', type: 'function', inputs: [], name: 'receiveWithdrawEther', outputs: [] },
   {
     stateMutability: 'nonpayable',
     type: 'function',
@@ -3877,6 +3910,15 @@ export const mockStakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
+      { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'AnticipateWithdrawValidator'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
       { name: 'owner', internalType: 'address', type: 'address', indexed: true },
       { name: 'spender', internalType: 'address', type: 'address', indexed: true },
       { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
@@ -3902,7 +3944,7 @@ export const mockStakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'creator', internalType: 'address', type: 'address', indexed: true },
+      { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'publicKey', internalType: 'bytes', type: 'bytes', indexed: false },
       { name: 'withdrawalCredentials', internalType: 'bytes', type: 'bytes', indexed: false },
@@ -4062,7 +4104,8 @@ export const mockStakeTogetherABI = [
           { name: 'minWithdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'poolSize', internalType: 'uint256', type: 'uint256' },
           { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
-          { name: 'withdrawalLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
           {
             name: 'feature',
             internalType: 'struct IStakeTogether.Feature',
@@ -4195,7 +4238,8 @@ export const mockStakeTogetherABI = [
     anonymous: false,
     inputs: [
       { name: 'sender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'withdrawType', internalType: 'enum IStakeTogether.WithdrawType', type: 'uint8', indexed: false }
     ],
     name: 'WithdrawalsLimitReached'
   },
@@ -4285,6 +4329,13 @@ export const mockStakeTogetherABI = [
   {
     stateMutability: 'nonpayable',
     type: 'function',
+    inputs: [],
+    name: 'anticipateWithdrawValidator',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
     inputs: [
       { name: '_spender', internalType: 'address', type: 'address' },
       { name: '_amount', internalType: 'uint256', type: 'uint256' }
@@ -4346,7 +4397,8 @@ export const mockStakeTogetherABI = [
       { name: 'minWithdrawAmount', internalType: 'uint256', type: 'uint256' },
       { name: 'poolSize', internalType: 'uint256', type: 'uint256' },
       { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
-      { name: 'withdrawalLimit', internalType: 'uint256', type: 'uint256' },
+      { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
+      { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
       {
         name: 'feature',
         internalType: 'struct IStakeTogether.Feature',
@@ -4630,7 +4682,7 @@ export const mockStakeTogetherABI = [
     type: 'function',
     inputs: [],
     name: 'router',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract Router', type: 'address' }]
   },
   {
     stateMutability: 'payable',
@@ -4655,7 +4707,8 @@ export const mockStakeTogetherABI = [
           { name: 'minWithdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'poolSize', internalType: 'uint256', type: 'uint256' },
           { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
-          { name: 'withdrawalLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
           {
             name: 'feature',
             internalType: 'struct IStakeTogether.Feature',
@@ -4754,7 +4807,14 @@ export const mockStakeTogetherABI = [
     stateMutability: 'view',
     type: 'function',
     inputs: [],
-    name: 'totalWithdrawn',
+    name: 'totalWithdrawnPool',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'totalWithdrawnValidator',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
   },
   {
@@ -5537,6 +5597,12 @@ export const routerABI = [
   {
     type: 'event',
     anonymous: false,
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    name: 'ReceiveWithdrawEther'
+  },
+  {
+    type: 'event',
+    anonymous: false,
     inputs: [{ name: 'reportOracle', internalType: 'address', type: 'address', indexed: true }],
     name: 'RemoveReportOracle'
   },
@@ -5958,6 +6024,7 @@ export const routerABI = [
     name: 'proxiableUUID',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
   },
+  { stateMutability: 'payable', type: 'function', inputs: [], name: 'receiveWithdrawEther', outputs: [] },
   {
     stateMutability: 'nonpayable',
     type: 'function',
@@ -6213,6 +6280,15 @@ export const stakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
+      { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'AnticipateWithdrawValidator'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
       { name: 'owner', internalType: 'address', type: 'address', indexed: true },
       { name: 'spender', internalType: 'address', type: 'address', indexed: true },
       { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
@@ -6238,7 +6314,7 @@ export const stakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'creator', internalType: 'address', type: 'address', indexed: true },
+      { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'publicKey', internalType: 'bytes', type: 'bytes', indexed: false },
       { name: 'withdrawalCredentials', internalType: 'bytes', type: 'bytes', indexed: false },
@@ -6398,7 +6474,8 @@ export const stakeTogetherABI = [
           { name: 'minWithdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'poolSize', internalType: 'uint256', type: 'uint256' },
           { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
-          { name: 'withdrawalLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
           {
             name: 'feature',
             internalType: 'struct IStakeTogether.Feature',
@@ -6531,7 +6608,8 @@ export const stakeTogetherABI = [
     anonymous: false,
     inputs: [
       { name: 'sender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'withdrawType', internalType: 'enum IStakeTogether.WithdrawType', type: 'uint8', indexed: false }
     ],
     name: 'WithdrawalsLimitReached'
   },
@@ -6621,6 +6699,13 @@ export const stakeTogetherABI = [
   {
     stateMutability: 'nonpayable',
     type: 'function',
+    inputs: [],
+    name: 'anticipateWithdrawValidator',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
     inputs: [
       { name: '_spender', internalType: 'address', type: 'address' },
       { name: '_amount', internalType: 'uint256', type: 'uint256' }
@@ -6682,7 +6767,8 @@ export const stakeTogetherABI = [
       { name: 'minWithdrawAmount', internalType: 'uint256', type: 'uint256' },
       { name: 'poolSize', internalType: 'uint256', type: 'uint256' },
       { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
-      { name: 'withdrawalLimit', internalType: 'uint256', type: 'uint256' },
+      { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
+      { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
       {
         name: 'feature',
         internalType: 'struct IStakeTogether.Feature',
@@ -6955,7 +7041,7 @@ export const stakeTogetherABI = [
     type: 'function',
     inputs: [],
     name: 'router',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract Router', type: 'address' }]
   },
   {
     stateMutability: 'payable',
@@ -6980,7 +7066,8 @@ export const stakeTogetherABI = [
           { name: 'minWithdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'poolSize', internalType: 'uint256', type: 'uint256' },
           { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
-          { name: 'withdrawalLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
           {
             name: 'feature',
             internalType: 'struct IStakeTogether.Feature',
@@ -7079,7 +7166,14 @@ export const stakeTogetherABI = [
     stateMutability: 'view',
     type: 'function',
     inputs: [],
-    name: 'totalWithdrawn',
+    name: 'totalWithdrawnPool',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'totalWithdrawnValidator',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
   },
   {
@@ -12831,6 +12925,28 @@ export function useIRouterPause<TMode extends WriteContractMode = undefined>(
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iRouterABI}__ and `functionName` set to `"receiveWithdrawEther"`.
+ */
+export function useIRouterReceiveWithdrawEther<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iRouterABI, 'receiveWithdrawEther'>['request']['abi'],
+        'receiveWithdrawEther',
+        TMode
+      > & { functionName?: 'receiveWithdrawEther' }
+    : UseContractWriteConfig<typeof iRouterABI, 'receiveWithdrawEther', TMode> & {
+        abi?: never
+        functionName?: 'receiveWithdrawEther'
+      } = {} as any
+) {
+  return useContractWrite<typeof iRouterABI, 'receiveWithdrawEther', TMode>({
+    abi: iRouterABI,
+    functionName: 'receiveWithdrawEther',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iRouterABI}__ and `functionName` set to `"removeReportOracle"`.
  */
 export function useIRouterRemoveReportOracle<TMode extends WriteContractMode = undefined>(
@@ -13166,6 +13282,22 @@ export function usePrepareIRouterPause(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iRouterABI}__ and `functionName` set to `"receiveWithdrawEther"`.
+ */
+export function usePrepareIRouterReceiveWithdrawEther(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iRouterABI, 'receiveWithdrawEther'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iRouterABI,
+    functionName: 'receiveWithdrawEther',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iRouterABI, 'receiveWithdrawEther'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iRouterABI}__ and `functionName` set to `"removeReportOracle"`.
  */
 export function usePrepareIRouterRemoveReportOracle(
@@ -13407,6 +13539,22 @@ export function useIRouterReceiveEtherEvent(
     typeof iRouterABI,
     'ReceiveEther'
   >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iRouterABI}__ and `eventName` set to `"ReceiveWithdrawEther"`.
+ */
+export function useIRouterReceiveWithdrawEtherEvent(
+  config: Omit<
+    UseContractEventConfig<typeof iRouterABI, 'ReceiveWithdrawEther'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: iRouterABI,
+    eventName: 'ReceiveWithdrawEther',
+    ...config
+  } as UseContractEventConfig<typeof iRouterABI, 'ReceiveWithdrawEther'>)
 }
 
 /**
@@ -13751,6 +13899,28 @@ export function useIStakeTogetherAddValidatorOracle<TMode extends WriteContractM
   return useContractWrite<typeof iStakeTogetherABI, 'addValidatorOracle', TMode>({
     abi: iStakeTogetherABI,
     functionName: 'addValidatorOracle',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawValidator"`.
+ */
+export function useIStakeTogetherAnticipateWithdrawValidator<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iStakeTogetherABI, 'anticipateWithdrawValidator'>['request']['abi'],
+        'anticipateWithdrawValidator',
+        TMode
+      > & { functionName?: 'anticipateWithdrawValidator' }
+    : UseContractWriteConfig<typeof iStakeTogetherABI, 'anticipateWithdrawValidator', TMode> & {
+        abi?: never
+        functionName?: 'anticipateWithdrawValidator'
+      } = {} as any
+) {
+  return useContractWrite<typeof iStakeTogetherABI, 'anticipateWithdrawValidator', TMode>({
+    abi: iStakeTogetherABI,
+    functionName: 'anticipateWithdrawValidator',
     ...config
   } as any)
 }
@@ -14350,6 +14520,22 @@ export function usePrepareIStakeTogetherAddValidatorOracle(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawValidator"`.
+ */
+export function usePrepareIStakeTogetherAnticipateWithdrawValidator(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'anticipateWithdrawValidator'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iStakeTogetherABI,
+    functionName: 'anticipateWithdrawValidator',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'anticipateWithdrawValidator'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"approve"`.
  */
 export function usePrepareIStakeTogetherApprove(
@@ -14787,6 +14973,22 @@ export function useIStakeTogetherAddValidatorOracleEvent(
     eventName: 'AddValidatorOracle',
     ...config
   } as UseContractEventConfig<typeof iStakeTogetherABI, 'AddValidatorOracle'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherABI}__ and `eventName` set to `"AnticipateWithdrawValidator"`.
+ */
+export function useIStakeTogetherAnticipateWithdrawValidatorEvent(
+  config: Omit<
+    UseContractEventConfig<typeof iStakeTogetherABI, 'AnticipateWithdrawValidator'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: iStakeTogetherABI,
+    eventName: 'AnticipateWithdrawValidator',
+    ...config
+  } as UseContractEventConfig<typeof iStakeTogetherABI, 'AnticipateWithdrawValidator'>)
 }
 
 /**
@@ -17847,6 +18049,28 @@ export function useMockRouterProcessStakeRewards<TMode extends WriteContractMode
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"receiveWithdrawEther"`.
+ */
+export function useMockRouterReceiveWithdrawEther<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockRouterABI, 'receiveWithdrawEther'>['request']['abi'],
+        'receiveWithdrawEther',
+        TMode
+      > & { functionName?: 'receiveWithdrawEther' }
+    : UseContractWriteConfig<typeof mockRouterABI, 'receiveWithdrawEther', TMode> & {
+        abi?: never
+        functionName?: 'receiveWithdrawEther'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockRouterABI, 'receiveWithdrawEther', TMode>({
+    abi: mockRouterABI,
+    functionName: 'receiveWithdrawEther',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"removeReportOracle"`.
  */
 export function useMockRouterRemoveReportOracle<TMode extends WriteContractMode = undefined>(
@@ -18362,6 +18586,22 @@ export function usePrepareMockRouterProcessStakeRewards(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"receiveWithdrawEther"`.
+ */
+export function usePrepareMockRouterReceiveWithdrawEther(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockRouterABI, 'receiveWithdrawEther'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockRouterABI,
+    functionName: 'receiveWithdrawEther',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockRouterABI, 'receiveWithdrawEther'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"removeReportOracle"`.
  */
 export function usePrepareMockRouterRemoveReportOracle(
@@ -18761,6 +19001,22 @@ export function useMockRouterReceiveEtherEvent(
     eventName: 'ReceiveEther',
     ...config
   } as UseContractEventConfig<typeof mockRouterABI, 'ReceiveEther'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockRouterABI}__ and `eventName` set to `"ReceiveWithdrawEther"`.
+ */
+export function useMockRouterReceiveWithdrawEtherEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockRouterABI, 'ReceiveWithdrawEther'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockRouterABI,
+    eventName: 'ReceiveWithdrawEther',
+    ...config
+  } as UseContractEventConfig<typeof mockRouterABI, 'ReceiveWithdrawEther'>)
 }
 
 /**
@@ -19633,10 +19889,10 @@ export function useMockStakeTogetherTotalSupply<
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"totalWithdrawn"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"totalWithdrawnPool"`.
  */
-export function useMockStakeTogetherTotalWithdrawn<
-  TFunctionName extends 'totalWithdrawn',
+export function useMockStakeTogetherTotalWithdrawnPool<
+  TFunctionName extends 'totalWithdrawnPool',
   TSelectData = ReadContractResult<typeof mockStakeTogetherABI, TFunctionName>
 >(
   config: Omit<
@@ -19646,7 +19902,26 @@ export function useMockStakeTogetherTotalWithdrawn<
 ) {
   return useContractRead({
     abi: mockStakeTogetherABI,
-    functionName: 'totalWithdrawn',
+    functionName: 'totalWithdrawnPool',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"totalWithdrawnValidator"`.
+ */
+export function useMockStakeTogetherTotalWithdrawnValidator<
+  TFunctionName extends 'totalWithdrawnValidator',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherABI,
+    functionName: 'totalWithdrawnValidator',
     ...config
   } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
 }
@@ -19828,6 +20103,31 @@ export function useMockStakeTogetherAddValidatorOracle<TMode extends WriteContra
   return useContractWrite<typeof mockStakeTogetherABI, 'addValidatorOracle', TMode>({
     abi: mockStakeTogetherABI,
     functionName: 'addValidatorOracle',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawValidator"`.
+ */
+export function useMockStakeTogetherAnticipateWithdrawValidator<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof mockStakeTogetherABI,
+          'anticipateWithdrawValidator'
+        >['request']['abi'],
+        'anticipateWithdrawValidator',
+        TMode
+      > & { functionName?: 'anticipateWithdrawValidator' }
+    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'anticipateWithdrawValidator', TMode> & {
+        abi?: never
+        functionName?: 'anticipateWithdrawValidator'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherABI, 'anticipateWithdrawValidator', TMode>({
+    abi: mockStakeTogetherABI,
+    functionName: 'anticipateWithdrawValidator',
     ...config
   } as any)
 }
@@ -20647,6 +20947,22 @@ export function usePrepareMockStakeTogetherAddValidatorOracle(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawValidator"`.
+ */
+export function usePrepareMockStakeTogetherAnticipateWithdrawValidator(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'anticipateWithdrawValidator'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherABI,
+    functionName: 'anticipateWithdrawValidator',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'anticipateWithdrawValidator'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"approve"`.
  */
 export function usePrepareMockStakeTogetherApprove(
@@ -21261,6 +21577,22 @@ export function useMockStakeTogetherAdminChangedEvent(
     eventName: 'AdminChanged',
     ...config
   } as UseContractEventConfig<typeof mockStakeTogetherABI, 'AdminChanged'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"AnticipateWithdrawValidator"`.
+ */
+export function useMockStakeTogetherAnticipateWithdrawValidatorEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherABI, 'AnticipateWithdrawValidator'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherABI,
+    eventName: 'AnticipateWithdrawValidator',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherABI, 'AnticipateWithdrawValidator'>)
 }
 
 /**
@@ -24403,6 +24735,28 @@ export function useRouterPause<TMode extends WriteContractMode = undefined>(
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"receiveWithdrawEther"`.
+ */
+export function useRouterReceiveWithdrawEther<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof routerABI, 'receiveWithdrawEther'>['request']['abi'],
+        'receiveWithdrawEther',
+        TMode
+      > & { functionName?: 'receiveWithdrawEther' }
+    : UseContractWriteConfig<typeof routerABI, 'receiveWithdrawEther', TMode> & {
+        abi?: never
+        functionName?: 'receiveWithdrawEther'
+      } = {} as any
+) {
+  return useContractWrite<typeof routerABI, 'receiveWithdrawEther', TMode>({
+    abi: routerABI,
+    functionName: 'receiveWithdrawEther',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"removeReportOracle"`.
  */
 export function useRouterRemoveReportOracle<TMode extends WriteContractMode = undefined>(
@@ -24823,6 +25177,22 @@ export function usePrepareRouterPause(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"receiveWithdrawEther"`.
+ */
+export function usePrepareRouterReceiveWithdrawEther(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof routerABI, 'receiveWithdrawEther'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: routerABI,
+    functionName: 'receiveWithdrawEther',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof routerABI, 'receiveWithdrawEther'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"removeReportOracle"`.
  */
 export function usePrepareRouterRemoveReportOracle(
@@ -25166,6 +25536,22 @@ export function useRouterReceiveEtherEvent(
     typeof routerABI,
     'ReceiveEther'
   >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link routerABI}__ and `eventName` set to `"ReceiveWithdrawEther"`.
+ */
+export function useRouterReceiveWithdrawEtherEvent(
+  config: Omit<
+    UseContractEventConfig<typeof routerABI, 'ReceiveWithdrawEther'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: routerABI,
+    eventName: 'ReceiveWithdrawEther',
+    ...config
+  } as UseContractEventConfig<typeof routerABI, 'ReceiveWithdrawEther'>)
 }
 
 /**
@@ -26020,10 +26406,10 @@ export function useStakeTogetherTotalSupply<
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"totalWithdrawn"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"totalWithdrawnPool"`.
  */
-export function useStakeTogetherTotalWithdrawn<
-  TFunctionName extends 'totalWithdrawn',
+export function useStakeTogetherTotalWithdrawnPool<
+  TFunctionName extends 'totalWithdrawnPool',
   TSelectData = ReadContractResult<typeof stakeTogetherABI, TFunctionName>
 >(
   config: Omit<
@@ -26033,7 +26419,26 @@ export function useStakeTogetherTotalWithdrawn<
 ) {
   return useContractRead({
     abi: stakeTogetherABI,
-    functionName: 'totalWithdrawn',
+    functionName: 'totalWithdrawnPool',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"totalWithdrawnValidator"`.
+ */
+export function useStakeTogetherTotalWithdrawnValidator<
+  TFunctionName extends 'totalWithdrawnValidator',
+  TSelectData = ReadContractResult<typeof stakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherABI,
+    functionName: 'totalWithdrawnValidator',
     ...config
   } as UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>)
 }
@@ -26215,6 +26620,28 @@ export function useStakeTogetherAddValidatorOracle<TMode extends WriteContractMo
   return useContractWrite<typeof stakeTogetherABI, 'addValidatorOracle', TMode>({
     abi: stakeTogetherABI,
     functionName: 'addValidatorOracle',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawValidator"`.
+ */
+export function useStakeTogetherAnticipateWithdrawValidator<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherABI, 'anticipateWithdrawValidator'>['request']['abi'],
+        'anticipateWithdrawValidator',
+        TMode
+      > & { functionName?: 'anticipateWithdrawValidator' }
+    : UseContractWriteConfig<typeof stakeTogetherABI, 'anticipateWithdrawValidator', TMode> & {
+        abi?: never
+        functionName?: 'anticipateWithdrawValidator'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherABI, 'anticipateWithdrawValidator', TMode>({
+    abi: stakeTogetherABI,
+    functionName: 'anticipateWithdrawValidator',
     ...config
   } as any)
 }
@@ -26990,6 +27417,22 @@ export function usePrepareStakeTogetherAddValidatorOracle(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawValidator"`.
+ */
+export function usePrepareStakeTogetherAnticipateWithdrawValidator(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'anticipateWithdrawValidator'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherABI,
+    functionName: 'anticipateWithdrawValidator',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'anticipateWithdrawValidator'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"approve"`.
  */
 export function usePrepareStakeTogetherApprove(
@@ -27568,6 +28011,22 @@ export function useStakeTogetherAdminChangedEvent(
     eventName: 'AdminChanged',
     ...config
   } as UseContractEventConfig<typeof stakeTogetherABI, 'AdminChanged'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"AnticipateWithdrawValidator"`.
+ */
+export function useStakeTogetherAnticipateWithdrawValidatorEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherABI, 'AnticipateWithdrawValidator'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherABI,
+    eventName: 'AnticipateWithdrawValidator',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherABI, 'AnticipateWithdrawValidator'>)
 }
 
 /**

@@ -1,5 +1,5 @@
 import usePool from '@/hooks/subgraphs/usePool'
-import useActiveRoute from '@/hooks/useActiveRoute'
+import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
@@ -32,7 +32,6 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
   const [skipMembers, setSkipMembers] = useState(0)
 
   const { t } = useLocaleTranslation()
-  const { isActive } = useActiveRoute()
   const { query } = useRouter()
   const { locale } = useRouter()
 
@@ -101,24 +100,28 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
     navigator.clipboard.writeText(window.location.toString())
   }
 
-  const activeTab = isActive('deposit') ? 'deposit' : isActive('withdraw') ? 'withdraw' : 'exchange'
+  const activeTab = type
 
   return (
     <Container>
       <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
       <TvlContainer>
         <PoolTitle>
-          {poolDetail && (
-            <div>
-              <CommunityLogo
-                size={32}
-                src={poolDetail?.logo?.url}
-                alt={poolDetail?.logo?.url}
-                loading={false}
-              />
+          <div>
+            <CommunityLogo
+              size={32}
+              src={poolDetail?.logo?.url}
+              alt={poolDetail?.logo?.url || ''}
+              loading={false}
+              listed={pool?.listed}
+            />
+            {poolDetail?.name ? (
               <CommunityName $larger name={poolDetail?.name} loading={false} />
-            </div>
-          )}
+            ) : (
+              <CommunityName $larger walletAddress={poolAddress} loading={false} />
+            )}
+          </div>
+
           <Tooltip trigger='click' title={t('copiedToClipboard')}>
             <ShareButton onClick={copyToClipboard}>
               <ShareIcon />
@@ -179,7 +182,7 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
         loadMoreLoadingPoolData={loadMoreLoading}
         initialLoadingPoolData={initialLoading}
       />
-      {poolAddress === account && <WalletLottery poolAddress={poolAddress} />}
+      <WalletLottery poolAddress={poolAddress} />
     </Container>
   )
 }

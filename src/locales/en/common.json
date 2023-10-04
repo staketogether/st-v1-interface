@@ -39,7 +39,7 @@
   "emptyPool": "Pool Not Found",
   "copyClipboard": "Copy to Clipboard",
   "copiedToClipboard": "Link copied, Share it now!",
-  "addressCopiedToClipboard": "Address copied",
+  "addressCopiedToClipboard": "Address Copied",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
   "loading": "Loading...",
@@ -68,6 +68,10 @@
   "lsd": {
     "name": "ST Staked Ether",
     "symbol": "stpETH"
+  },
+  "wse": {
+    "name": "Stake Together Withdrawals",
+    "symbol": "stwETH "
   },
   "form": {
     "deposit": "Deposit Ether",
@@ -130,7 +134,8 @@
     "noPassCodes": "No Code Found",
     "invalidPasscode": "Invalid Code",
     "faucetIsEmpty": "No more ETH available",
-    "addressHasAlready": "Your wallet has already received ETH"
+    "addressHasAlready": "Your wallet has already received ETH",
+    "userIpHasAlready": "Your Ip has already received ETH"
   },
   "withdrawCardsType": {
     "pool": "Pool",
@@ -279,7 +284,8 @@
       "donationDeposit": "Donation",
       "withdraw": "Withdraw",
       "withdrawPool": "Withdraw",
-      "transfer": "Transfer"
+      "transfer": "Transfer",
+      "withdrawValidator": "withdraw Validator"
     },
     "gifts": {
       "countdown": "Time to Redeem",
@@ -295,10 +301,15 @@
       "notGift": "You haven't received any gifts yet"
     },
     "draw": {
-      "performDrawing": "Perform drawing",
+      "performDrawing": "Conducting Drawing",
       "drawing": "Drawing",
       "result": "Result",
-      "conductANewDraw": "Conduct a new draw"
+      "conductANewDraw": "Conduct Drawing"
+    },
+    "withdrawals": {
+      "title": "Beacon Chain Withdrawals",
+      "pending": "Pending",
+      "claim": "Claim"
     }
   }
 }
