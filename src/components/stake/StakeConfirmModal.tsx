@@ -43,6 +43,7 @@ export default function StakeConfirmModal({
   const titleModal = isWithdraw
     ? t('v2.stake.confirmModal.withdrawTitle')
     : t('v2.stake.confirmModal.depositTitle')
+
   return (
     <Modal
       title={walletActionLoading ? undefined : <Header>{titleModal}</Header>}

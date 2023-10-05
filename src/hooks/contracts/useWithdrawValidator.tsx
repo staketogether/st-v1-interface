@@ -30,22 +30,36 @@ export default function useWithdrawValidator(
   enabled: boolean,
   accountAddress?: `0x${string}`
 ) {
-  const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
   const { registerWithdraw } = useMixpanelAnalytics()
 
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
+  const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
 
+  const { contracts, chainId } = chainConfig()
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
   const isWithdrawEnabled = enabled && amount > 0n
 
-  const { config } = usePrepareStakeTogetherWithdrawValidator({
+  const {
+    config,
+    isError: prepareTransactionIsError,
+    isSuccess: prepareTransactionIsSuccess
+  } = usePrepareStakeTogetherWithdrawValidator({
     address: contracts.StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
-    enabled: isWithdrawEnabled
+    enabled: isWithdrawEnabled,
+    onError(error) {
+      const { cause } = error as { cause?: { reason?: string } }
+      if (cause && cause?.reason) {
+        setPrepareTransactionErrorMessage(cause.reason)
+      }
+    },
+    onSuccess() {
+      setPrepareTransactionErrorMessage('')
+    }
   })
 
   const tx = useStakeTogetherWithdrawValidator({
@@ -125,6 +139,9 @@ export default function useWithdrawValidator(
     isSuccess,
     awaitWalletAction,
     resetState,
-    txHash
+    txHash,
+    prepareTransactionIsError,
+    prepareTransactionIsSuccess,
+    prepareTransactionErrorMessage
   }
 }
