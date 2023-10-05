@@ -14,7 +14,7 @@ export default function usePoolRewards(
   const { data, loading, fetchMore } = useQuery<{ poolRewards: PoolRewards[] }>(queryRewardsPool, {
     variables: { id: poolAddress, first: pagination?.first || 10, skip: pagination?.skip || 0 }
   })
-  const loadMore = (variables: { poolAddress: string; first: number; skip: number }) => {
+  const loadMore = (variables: { id: string; first: number; skip: number }) => {
     setLoadingFetchMore(true)
     fetchMore({
       variables,
