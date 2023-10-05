@@ -45,13 +45,21 @@ export default function useWithdrawValidator(
   const {
     config,
     isError: prepareTransactionIsError,
-    error: prepareTransactionError,
     isSuccess: prepareTransactionIsSuccess
   } = usePrepareStakeTogetherWithdrawValidator({
     address: contracts.StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
-    enabled: isWithdrawEnabled
+    enabled: isWithdrawEnabled,
+    onError(error) {
+      const { cause } = error as { cause?: { reason?: string } }
+      if (cause && cause?.reason) {
+        setPrepareTransactionErrorMessage(cause.reason)
+      }
+    },
+    onSuccess() {
+      setPrepareTransactionErrorMessage('')
+    }
   })
 
   const tx = useStakeTogetherWithdrawValidator({
@@ -123,21 +131,6 @@ export default function useWithdrawValidator(
       }
     }
   }, [accountAddress, isError, notify, poolAddress, t, withdrawAmount])
-
-  useEffect(() => {
-    if (prepareTransactionIsError && prepareTransactionError) {
-      const { cause } = prepareTransactionError as { cause?: { reason?: string } }
-      if (cause && cause?.reason) {
-        setPrepareTransactionErrorMessage(cause.reason)
-      }
-    }
-  }, [prepareTransactionError, prepareTransactionIsError])
-
-  useEffect(() => {
-    if (prepareTransactionIsSuccess) {
-      setPrepareTransactionErrorMessage('')
-    }
-  }, [prepareTransactionIsSuccess])
 
   return {
     withdrawValidator,

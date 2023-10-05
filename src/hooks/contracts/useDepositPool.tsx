@@ -85,7 +85,6 @@ export default function useDepositPool(
   const {
     config,
     isError: prepareTransactionIsError,
-    error: prepareTransactionError,
     isSuccess: prepareTransactionIsSuccess
   } = usePrepareStakeTogetherDepositPool({
     chainId,
@@ -96,7 +95,17 @@ export default function useDepositPool(
     value: grossDepositAmount,
     gas: !!depositEstimatedGas && depositEstimatedGas > 0n ? depositEstimatedGas : undefined,
     maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n ? maxFeePerGas : undefined,
-    maxPriorityFeePerGas: !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n ? maxPriorityFeePerGas : undefined
+    maxPriorityFeePerGas:
+      !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n ? maxPriorityFeePerGas : undefined,
+    onError(error) {
+      const { cause } = error as { cause?: { reason?: string } }
+      if (cause && cause?.reason) {
+        setPrepareTransactionErrorMessage(cause.reason)
+      }
+    },
+    onSuccess() {
+      setPrepareTransactionErrorMessage('')
+    }
   })
 
   const tx = useStakeTogetherDepositPool({
@@ -171,21 +180,6 @@ export default function useDepositPool(
       setFailedToExecute(false)
     }
   }, [accountAddress, notify, netDepositAmount, failedToExecute, isError, poolAddress, t])
-
-  useEffect(() => {
-    if (prepareTransactionIsError && prepareTransactionError) {
-      const { cause } = prepareTransactionError as { cause?: { reason?: string } }
-      if (cause && cause?.reason) {
-        setPrepareTransactionErrorMessage(cause.reason)
-      }
-    }
-  }, [prepareTransactionError, prepareTransactionIsError])
-
-  useEffect(() => {
-    if (prepareTransactionIsSuccess) {
-      setPrepareTransactionErrorMessage('')
-    }
-  }, [prepareTransactionIsSuccess])
 
   return {
     deposit,
