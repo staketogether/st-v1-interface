@@ -1,5 +1,4 @@
 import usePool from '@/hooks/subgraphs/usePool'
-import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
