@@ -113,7 +113,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     estimatedGas: depositEstimatedCost,
     awaitWalletAction: depositAwaitWalletAction,
     resetState: depositResetState,
-    txHash: depositTxHash
+    txHash: depositTxHash,
+    prepareTransactionIsError: depositPrepareTransactionIsError,
+    prepareTransactionErrorMessage: depositPrepareTransactionErrorMessage
   } = useDepositPool(
     netDepositAmount,
     ethers.parseUnits(inputAmount, 18),
@@ -129,7 +131,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     estimatedCost: withdrawPoolEstimatedCost,
     awaitWalletAction: withdrawPoolAwaitWalletAction,
     resetState: withdrawPoolResetState,
-    txHash: withdrawPoolTxHash
+    txHash: withdrawPoolTxHash,
+    prepareTransactionIsError: withdrawPoolPrepareTransactionIsError,
+    prepareTransactionIsSuccess: withdrawPoolPrepareTransactionIsSuccess,
+    prepareTransactionErrorMessage: withdrawPoolPrepareTransactionErrorMessage
   } = useWithdrawPool(
     inputAmount,
     poolAddress,
@@ -144,7 +149,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     estimatedCost: withdrawValidatorEstimatedCost,
     awaitWalletAction: withdrawValidatorAwaitWalletAction,
     resetState: withdrawValidatorResetState,
-    txHash: withdrawValidatorTxHash
+    txHash: withdrawValidatorTxHash,
+    prepareTransactionIsError: withdrawValidatorPrepareTransactionIsError,
+    prepareTransactionIsSuccess: withdrawValidatorPrepareTransactionIsSuccess,
+    prepareTransactionErrorMessage: withdrawValidatorPrepareTransactionErrorMessage
   } = useWithdrawValidator(
     inputAmount,
     poolAddress,
@@ -162,7 +170,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           withdrawEstimatedCost: withdrawValidatorEstimatedCost,
           withdrawAwaitWalletAction: withdrawValidatorAwaitWalletAction,
           withdrawResetState: withdrawValidatorResetState,
-          withdrawTxHash: withdrawValidatorTxHash
+          withdrawTxHash: withdrawValidatorTxHash,
+          prepareTransactionIsError: withdrawValidatorPrepareTransactionIsError,
+          prepareTransactionIsSuccess: withdrawValidatorPrepareTransactionIsSuccess,
+          prepareTransactionErrorMessage: withdrawValidatorPrepareTransactionErrorMessage
         }
 
       default:
@@ -173,7 +184,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           withdrawEstimatedCost: withdrawPoolEstimatedCost,
           withdrawAwaitWalletAction: withdrawPoolAwaitWalletAction,
           withdrawResetState: withdrawPoolResetState,
-          withdrawTxHash: withdrawPoolTxHash
+          withdrawTxHash: withdrawPoolTxHash,
+          prepareTransactionIsError: withdrawPoolPrepareTransactionIsError,
+          prepareTransactionIsSuccess: withdrawPoolPrepareTransactionIsSuccess,
+          prepareTransactionErrorMessage: withdrawPoolPrepareTransactionErrorMessage
         }
     }
   }
@@ -182,6 +196,11 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const isLoading = depositLoading || withdrawData.withdrawLoading
   const isSuccess = depositSuccess || withdrawData.withdrawSuccess
+
+  const prepareTransactionIsError =
+    type === 'deposit' ? depositPrepareTransactionIsError : withdrawData.prepareTransactionIsError
+  const prepareTransactionErrorMessage =
+    type === 'deposit' ? depositPrepareTransactionErrorMessage : withdrawData.prepareTransactionErrorMessage
 
   const balance = type === 'deposit' ? ethBalance : delegationBalance
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
@@ -209,6 +228,12 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
     (insufficientWithdrawalEthBalance &&
       `${t('form.insufficientFunds')} ${truncateWei(estimatedGasCost, 6)} ${t('eth.symbol')}`) ||
+    (prepareTransactionErrorMessage &&
+      `${
+        type === 'deposit'
+          ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
+          : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
+      }`) ||
     ''
 
   const walletActionLoading =
@@ -262,12 +287,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
     }
-    if (
-      insufficientFunds ||
-      insufficientWithdrawalBalance ||
-      insufficientMinDeposit ||
-      insufficientWithdrawalEthBalance
-    ) {
+    if (errorLabel) {
       return errorLabel
     }
 
@@ -367,7 +387,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               amountIsEmpty ||
               insufficientMinDeposit ||
               isLoadingFees ||
-              insufficientWithdrawalEthBalance
+              insufficientWithdrawalEthBalance ||
+              prepareTransactionIsError
             }
           />
         )}
