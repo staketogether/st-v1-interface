@@ -16,7 +16,7 @@ export default function Withdraw({ poolAddress, poolDetail }: WithdrawProps) {
   return (
     <LayoutTemplate>
       <MetaTagsPoolDetail poolDetail={poolDetail} />
-      <StakeControl poolAddress={poolAddress} type='withdraw' />
+      <StakeControl poolAddress={poolAddress} type='withdraw' poolDetail={poolDetail} />
     </LayoutTemplate>
   )
 }
