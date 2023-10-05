@@ -12,9 +12,8 @@ export default function usePoolRewards(
   const [loadingFetchMore, setLoadingFetchMore] = useState<boolean>(false)
 
   const { data, loading, fetchMore } = useQuery<{ poolRewards: PoolRewards[] }>(queryRewardsPool, {
-    variables: { poolAddress: poolAddress, first: pagination?.first || 10, skip: pagination?.skip || 0 }
+    variables: { id: poolAddress, first: pagination?.first || 10, skip: pagination?.skip || 0 }
   })
-
   const loadMore = (variables: { poolAddress: string; first: number; skip: number }) => {
     setLoadingFetchMore(true)
     fetchMore({
