@@ -30,17 +30,16 @@ export default function useWithdrawPool(
   enabled: boolean,
   accountAddress?: `0x${string}`
 ) {
-  const { contracts, chainId } = chainConfig()
-  const [notify, setNotify] = useState(false)
   const [estimateGasCost, setEstimateGasCost] = useState(0n)
-  const { registerWithdraw } = useMixpanelAnalytics()
+  const [notify, setNotify] = useState(false)
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
+  const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
+  const { contracts, chainId } = chainConfig()
 
+  const { registerWithdraw } = useMixpanelAnalytics()
   const amountEstimatedGas = ethers.parseUnits('0.001', 18)
-
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
-
   const isWithdrawEnabled = enabled && amount > 0n
 
   const { estimateGas } = useEstimateTxInfo({
@@ -62,13 +61,17 @@ export default function useWithdrawPool(
     handleEstimateGas()
   }, [estimateGas])
 
-  const { config } = usePrepareStakeTogetherWithdrawPool({
+  const {
+    config,
+    isError: prepareTransactionIsError,
+    error: prepareTransactionError,
+    isSuccess: prepareTransactionIsSuccess
+  } = usePrepareStakeTogetherWithdrawPool({
     address: contracts.StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
     enabled: isWithdrawEnabled
   })
-
   const tx = useStakeTogetherWithdrawPool({
     ...config,
     onSuccess: data => {
@@ -117,7 +120,6 @@ export default function useWithdrawPool(
       })
 
       registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.POOL)
-
       if (notify) {
         notification.success({
           message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,
@@ -126,7 +128,7 @@ export default function useWithdrawPool(
         setNotify(false)
       }
     }
-  }, [accountAddress, chainId, isSuccess, notify, poolAddress, registerWithdraw, t, withdrawAmount])
+  }, [accountAddress, chainId, notify, isSuccess, poolAddress, registerWithdraw, t, withdrawAmount])
 
   useEffect(() => {
     if (isError) {
@@ -140,6 +142,21 @@ export default function useWithdrawPool(
     }
   }, [accountAddress, isError, notify, poolAddress, t, withdrawAmount])
 
+  useEffect(() => {
+    if (prepareTransactionIsError && prepareTransactionError) {
+      const { cause } = prepareTransactionError as { cause?: { reason?: string } }
+      if (cause && cause?.reason) {
+        setPrepareTransactionErrorMessage(cause.reason)
+      }
+    }
+  }, [prepareTransactionError, prepareTransactionIsError])
+
+  useEffect(() => {
+    if (prepareTransactionIsSuccess) {
+      setPrepareTransactionErrorMessage('')
+    }
+  }, [prepareTransactionIsSuccess])
+
   return {
     withdrawPool,
     estimatedCost: estimateGasCost,
@@ -147,6 +164,9 @@ export default function useWithdrawPool(
     isSuccess,
     awaitWalletAction,
     resetState,
-    txHash
+    txHash,
+    prepareTransactionIsError,
+    prepareTransactionIsSuccess,
+    prepareTransactionErrorMessage
   }
 }

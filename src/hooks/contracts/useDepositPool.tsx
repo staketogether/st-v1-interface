@@ -31,16 +31,19 @@ export default function useDepositPool(
   enabled: boolean,
   accountAddress?: `0x${string}`
 ) {
-  const { contracts, chainId } = chainConfig()
-  const [notify, setNotify] = useState(false)
   const [estimateGasCost, setEstimateGasCost] = useState(0n)
+  const [notify, setNotify] = useState(false)
+  const [awaitWalletAction, setAwaitWalletAction] = useState(false)
+  const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
+  const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
+
   const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
   const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
   const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
-  const [awaitWalletAction, setAwaitWalletAction] = useState(false)
-  const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [failedToExecute, setFailedToExecute] = useState(false)
+
   const { registerDeposit } = useMixpanelAnalytics()
+  const { contracts, chainId } = chainConfig()
 
   const amountEstimatedGas = ethers.parseUnits('0.001', 18)
 
@@ -79,7 +82,12 @@ export default function useDepositPool(
     }
   }, [estimateGas, estimateGasCost])
 
-  const { config } = usePrepareStakeTogetherDepositPool({
+  const {
+    config,
+    isError: prepareTransactionIsError,
+    error: prepareTransactionError,
+    isSuccess: prepareTransactionIsSuccess
+  } = usePrepareStakeTogetherDepositPool({
     chainId,
     address: contracts.StakeTogether,
     args: [poolAddress, referral],
@@ -146,7 +154,7 @@ export default function useDepositPool(
         setNotify(false)
       }
     }
-  }, [accountAddress, chainId, netDepositAmount, isSuccess, notify, poolAddress, registerDeposit, t])
+  }, [accountAddress, chainId, notify, netDepositAmount, isSuccess, poolAddress, registerDeposit, t])
 
   useEffect(() => {
     if (isError || failedToExecute) {
@@ -162,7 +170,22 @@ export default function useDepositPool(
       }
       setFailedToExecute(false)
     }
-  }, [accountAddress, netDepositAmount, failedToExecute, isError, notify, poolAddress, t])
+  }, [accountAddress, notify, netDepositAmount, failedToExecute, isError, poolAddress, t])
+
+  useEffect(() => {
+    if (prepareTransactionIsError && prepareTransactionError) {
+      const { cause } = prepareTransactionError as { cause?: { reason?: string } }
+      if (cause && cause?.reason) {
+        setPrepareTransactionErrorMessage(cause.reason)
+      }
+    }
+  }, [prepareTransactionError, prepareTransactionIsError])
+
+  useEffect(() => {
+    if (prepareTransactionIsSuccess) {
+      setPrepareTransactionErrorMessage('')
+    }
+  }, [prepareTransactionIsSuccess])
 
   return {
     deposit,
@@ -171,6 +194,9 @@ export default function useDepositPool(
     estimatedGas: estimateGasCost,
     awaitWalletAction,
     txHash,
-    resetState
+    resetState,
+    prepareTransactionIsError,
+    prepareTransactionIsSuccess,
+    prepareTransactionErrorMessage
   }
 }

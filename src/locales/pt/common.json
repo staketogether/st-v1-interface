@@ -278,6 +278,23 @@
         "proceedInYourWallet": "Prossiga em sua carteira",
         "withdrawSuccessful": "Saque realizada com sucesso",
         "depositSuccessful": "Depósito realizado com sucesso"
+      },
+      "withdrawErrorMessage": {
+        "FD": "Funcionalidade Desativada",
+        "IAB": "Saldo Insuficiente na Conta",
+        "WPLR": "Limite de saque diario alcançado",
+        "WVLR": "Limite de Saque diario alcançado",
+        "MW": "Retirada Mínima",
+        "ZA": "Valor Zero",
+        "IPB": "Saldo Insuficiente no Pool",
+        "WFP": "Retirada do Pool"
+      },
+      "depositErrorMessage": {
+        "FD": "Funcionalidade Desativada",
+        "DLR": "Limite de Depósito Alcançado",
+        "MD": "Depósito Mínimo",
+        "PNF": "Pool Não Encontrado",
+        "ZS": "Suprimento Zero"
       }
     },
     "activities": {
