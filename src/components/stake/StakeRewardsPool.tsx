@@ -1,6 +1,6 @@
 import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { truncateAddress, truncateTimestamp, truncateWei } from '@/services/truncate'
+import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiLink, PiListDashes } from 'react-icons/pi'
@@ -29,7 +29,7 @@ export default function StakeRewardsPool({
   const { t } = useLocaleTranslation()
   const { blockExplorer } = chainConfig()
   const hasRewards = rewardsPool.length > 0
-
+  console.log(rewardsPool)
   if (poolRewardLoading) {
     return (
       <Container>
@@ -52,7 +52,7 @@ export default function StakeRewardsPool({
         <header>
           <span>{t('tx')}</span>
           <span>{t('time')}</span>
-          <span>{t('account')}</span>
+          <span>{t('accounts')}</span>
           <span>{t('value')}</span>
         </header>
       )}
@@ -69,7 +69,7 @@ export default function StakeRewardsPool({
                   <ExternalLink />
                 </span>
                 <span>{truncateTimestamp(reward.timestamp, getLocale())}</span>
-                <span>{truncateAddress(reward.account?.address, 4)}</span>
+                <span>{reward.accountsCount}</span>
                 <span className={`${reward.amount > 1n && 'green'} ${reward.amount < 0 && 'red'}`}>
                   {`${truncateWei(reward.amount, 4)} ${t('eth.symbol')}`}
                 </span>
