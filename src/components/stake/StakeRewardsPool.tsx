@@ -29,7 +29,7 @@ export default function StakeRewardsPool({
   const { t } = useLocaleTranslation()
   const { blockExplorer } = chainConfig()
   const hasRewards = rewardsPool.length > 0
-  console.log(rewardsPool)
+
   if (poolRewardLoading) {
     return (
       <Container>
