@@ -12,7 +12,7 @@ export default function usePoolRewards(
   const [loadingFetchMore, setLoadingFetchMore] = useState<boolean>(false)
 
   const { data, loading, fetchMore } = useQuery<{ poolRewards: PoolRewards[] }>(queryRewardsPool, {
-    variables: { id: poolAddress, first: pagination?.first || 10, skip: pagination?.skip || 0 }
+    variables: { poolId: poolAddress, first: pagination?.first || 10, skip: pagination?.skip || 0 }
   })
   const loadMore = (variables: { id: string; first: number; skip: number }) => {
     setLoadingFetchMore(true)
@@ -20,7 +20,10 @@ export default function usePoolRewards(
       variables,
       updateQuery: (prev, { fetchMoreResult }) => {
         setLoadingFetchMore(false)
-        if (!fetchMoreResult) return prev
+        if (!fetchMoreResult) {
+          return prev
+        }
+
         return {
           poolRewards: [...prev.poolRewards, ...fetchMoreResult.poolRewards]
         }
