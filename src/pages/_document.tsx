@@ -26,10 +26,7 @@ export default class AppDocument extends Document {
       <Html>
         <Head>
           <meta name='title' content='Stake Together - Staking de Ethereum' />
-          <meta
-            name='description'
-            content='Invista em Ethereum com a Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain'
-          />
+
           <meta property='og:type' content='website' />
           <meta property='og:url' content='https://beta.staketogether.app' />
           <meta property='og:title' content='Stake Together - Staking de Ethereum' />
@@ -38,6 +35,7 @@ export default class AppDocument extends Document {
             content='Invista em Ethereum com a Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain'
           />
           <meta property='og:image' content={`/assets/icons/stake-together/meta.png`} />
+
           <meta property='twitter:card' content='summary_large_image' />
           <meta property='twitter:url' content='https://beta.staketogether.app' />
           <meta property='twitter:title' content='Stake Together - Staking de Ethereum' />
