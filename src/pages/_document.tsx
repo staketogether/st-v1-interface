@@ -2,7 +2,7 @@ import { Metatags } from '@/components/shared/meta/Metatags'
 import Document, { DocumentContext, DocumentInitialProps, Html } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
-class MyDocument extends Document {
+export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet()
     const originalRenderPage = ctx.renderPage
@@ -29,5 +29,3 @@ class MyDocument extends Document {
     }
   }
 }
-
-export default MyDocument
