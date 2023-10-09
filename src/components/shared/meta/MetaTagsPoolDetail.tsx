@@ -14,16 +14,11 @@ export function MetaTagsPoolDetail({ poolDetail }: MetaTagsPoolDetailProps) {
   return (
     <Head>
       <>
-        <title>Stake Together - Staking de Ethereum</title>
-        <meta property='og:url' content='https://beta.staketogether.app' />
-        <meta property='og:title' content='Stake Together - Staking de Ethereum' key='title' />
         <meta property='og:description' content={descriptionPt} key='ogDescription' />
         <meta property='og:image' content={image} key='ogImage' />
-        <meta property='twitter:card' content='summary_large_image' key='xImageLarge' />
-        <meta property='twitter:url' content='https://beta.staketogether.app' key='xUrl' />
-        <meta property='twitter:title' content='Stake Together - Staking de Ethereum' key='xTitle' />
+        {/* <meta property='twitter:card' content='summary_large_image' key='xImageLarge' />
         <meta property='twitter:description' content={descriptionPt} key='xDescription' />
-        <meta property='twitter:image' content={image} key='xImage' />
+        <meta property='twitter:image' content={image} key='xImage' /> */}
       </>
 
       <link rel='apple-touch-icon' sizes='180x180' href={`/assets/icons/stake-together/apple-touch-icon.png`} />
