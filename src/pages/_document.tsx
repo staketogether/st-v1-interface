@@ -1,4 +1,4 @@
-import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
+import Document, { DocumentContext, Html, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
 export default class AppDocument extends Document {
@@ -24,7 +24,7 @@ export default class AppDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>
+        {/* <Head>
           <meta name='title' content='Stake Together - Staking de Ethereum' />
 
           <meta property='og:type' content='website' />
@@ -44,7 +44,7 @@ export default class AppDocument extends Document {
             content='Invista em Ethereum com a Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain'
           />
           <meta property='twitter:image' content={`/assets/icons/stake-together/meta.png`} />
-        </Head>
+        </Head> */}
         <body>
           <Main />
           <NextScript />
