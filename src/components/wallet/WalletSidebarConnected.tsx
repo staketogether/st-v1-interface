@@ -10,7 +10,15 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
-import { PiCaretRight, PiChartBar, PiChartLine, PiChartPieSlice, PiGear, PiSignOut } from 'react-icons/pi'
+import {
+  PiCaretRight,
+  PiChartBar,
+  PiChartLine,
+  PiChartPieSlice,
+  PiGear,
+  PiPen,
+  PiSignOut
+} from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
@@ -19,14 +27,17 @@ import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 import { formatNumberByLocale } from '../../services/format'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
-import Tabs, { TabsItems } from '../shared/Tabs'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
-import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
+import WalletSidebarPortfolio from './WalletSidebarPortfolio'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import Withdrawals from '../shared/Withdrawals'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
+import Card from '../shared/Card'
+import Button from '../shared/Button'
+import WalletSidebarEditPortfolio from './WalletSidebarEditPortfolio'
+import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -37,6 +48,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { disconnect } = useDisconnect()
   const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
+  const { setOpenSidebar: setOpenSidebarEditPortfolio } = useWalletSidebarEditPortfolio()
 
   const { balance: ethBalance, refetch } = useEthBalanceOf(address)
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
@@ -55,7 +67,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountRewards,
     accountActivities,
     accountProfitPercentage,
-    accountTotalRewards
+    accountTotalRewards,
+    accountIsLoading
   } = useStAccount(address)
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -73,33 +86,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const onBuyEthIsSuccess = () => {
     refetch()
   }
-
-  const tabRewards: TabsItems[] = [
-    {
-      key: 'rewards',
-      label: t('rewards'),
-      icon: <AnalyticsIcon />,
-      children: <WalletSidebarRewards accountRewards={accountRewards} />
-    }
-  ]
-
-  const tabPortfolio: TabsItems[] = [
-    {
-      key: 'portfolio',
-      label: t('portfolio'),
-      icon: <PoolsIcon />,
-      children: <WalletSidebarPoolsDelegated accountDelegations={accountDelegations} />
-    }
-  ]
-
-  const tabActivities: TabsItems[] = [
-    {
-      key: 'activity',
-      label: t('activity'),
-      icon: <ActivitiesIcon />,
-      children: <WalletSidebarActivities accountActivities={accountActivities} />
-    }
-  ]
 
   return (
     <DrawerContainer
@@ -160,12 +146,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <CloseSidebar fontSize={14} />
             </ClosedSidebarButton>
             <Actions>
-              <Button onClick={() => setIsSettingsActive(true)}>
+              <SidebarButton onClick={() => setIsSettingsActive(true)}>
                 <SettingIcon fontSize={16} />
-              </Button>
-              <Button onClick={() => disconnectWallet()}>
+              </SidebarButton>
+              <SidebarButton onClick={() => disconnectWallet()}>
                 <Logout fontSize={14} />
-              </Button>
+              </SidebarButton>
             </Actions>
           </HeaderContainer>
           <InfoContainer>
@@ -210,18 +196,36 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           {stwETHBalance > 0n && (
             <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />
           )}
-          <TabsArea>
-            <Tabs items={tabPortfolio} defaultActiveKey='portfolio' gray />
-          </TabsArea>
-          <TabsArea>
-            <Tabs items={tabRewards} defaultActiveKey='rewards' gray />
-          </TabsArea>
-          <TabsArea>
-            <Tabs items={tabActivities} defaultActiveKey='activity' gray />
-          </TabsArea>
+          <Card
+            header={
+              <PortfolioHeader>
+                <div>
+                  <PoolsIcon />
+                  {t('portfolio')}
+                </div>
+                {accountDelegations.length > 0 && !accountIsLoading && (
+                  <Button
+                    small={true}
+                    label={'Edit'}
+                    icon={<EditIcon />}
+                    onClick={() => setOpenSidebarEditPortfolio(true)}
+                  />
+                )}
+              </PortfolioHeader>
+            }
+          >
+            <WalletSidebarPortfolio accountDelegations={accountDelegations} />
+          </Card>
+          <Card title={t('rewards')} icon={<AnalyticsIcon />}>
+            <WalletSidebarRewards accountRewards={accountRewards} />
+          </Card>
+          <Card title={t('activity')} icon={<ActivitiesIcon />}>
+            <WalletSidebarActivities accountActivities={accountActivities} />
+          </Card>
         </>
       )}
       <WalletBuyEthModal walletAddress={address} onBuyEthIsSuccess={onBuyEthIsSuccess} />
+      <WalletSidebarEditPortfolio accountDelegations={accountDelegations} />
     </DrawerContainer>
   )
 }
@@ -233,7 +237,7 @@ const {
   CloseSidebar,
   ClosedSidebarButton,
   Logout,
-  Button,
+  SidebarButton,
   SettingIcon,
   Actions,
   HeaderUserContainer,
@@ -244,9 +248,10 @@ const {
   PoolsIcon,
   AnalyticsIcon,
   ActivitiesIcon,
-  TabsArea,
   WalletAddressContainer,
-  InfoCard
+  PortfolioHeader,
+  InfoCard,
+  EditIcon
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.colorV2.foreground} !important;
@@ -384,7 +389,7 @@ const {
   CloseSidebar: styled(PiCaretRight)`
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
   `,
-  Button: styled.button`
+  SidebarButton: styled.button`
     display: grid;
     align-items: center;
     justify-content: center;
@@ -438,11 +443,6 @@ const {
       height: 14px;
     }
   `,
-  TabsArea: styled.div`
-    background: ${({ theme }) => theme.colorV2.white};
-    border-radius: 8px;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-  `,
   Web3AuthProfileImage: styled(Image)`
     border-radius: 50%;
   `,
@@ -465,6 +465,28 @@ const {
       }
     }
   `,
+  PortfolioHeader: styled.header`
+    width: 100%;
+
+    display: grid;
+    position: relative;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    justify-content: center;
+
+    > div {
+      justify-self: center;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    > button {
+      position: absolute;
+      justify-self: flex-end;
+      margin-right: 16px;
+    }
+  `,
   PoolsIcon: styled(PiChartPieSlice)`
     font-size: 16px;
   `,
@@ -473,5 +495,8 @@ const {
   `,
   ActivitiesIcon: styled(PiChartLine)`
     font-size: 16px;
+  `,
+  EditIcon: styled(PiPen)`
+    font-size: 14px;
   `
 }

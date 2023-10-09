@@ -6,7 +6,7 @@ interface ButtonProps {
   onClick: () => void
   label: string
   icon: ReactNode
-  isLoading: boolean
+  isLoading?: boolean
   disabled?: boolean
   small?: boolean
   block?: boolean
@@ -16,8 +16,8 @@ export default function Button({
   onClick,
   label,
   disabled,
-  isLoading,
   icon,
+  isLoading = false,
   small = false,
   block = false
 }: ButtonProps) {

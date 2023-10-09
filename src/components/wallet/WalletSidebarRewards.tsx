@@ -51,7 +51,6 @@ const { Container, Reward, RewardsHeader, EmptyContainer } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
-    padding: ${({ theme }) => theme.size[8]};
 
     div > span:nth-child(2) > span {
       color: ${({ theme }) => theme.color.secondary};

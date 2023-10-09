@@ -58,8 +58,6 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
     display: flex;
     flex-direction: column;
 
-    padding: 8px;
-
     > header {
       display: flex;
       align-items: center;

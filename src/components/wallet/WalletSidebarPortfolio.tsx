@@ -10,13 +10,12 @@ import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 
-type WalletSideBarPoolsDelegatedProps = {
+type WalletSidebarPortfolioProps = {
   accountDelegations: Delegation[]
 }
 
-export default function WalletSidebarPoolsDelegated({ accountDelegations }: WalletSideBarPoolsDelegatedProps) {
+export default function WalletSidebarPortfolio({ accountDelegations }: WalletSidebarPortfolioProps) {
   const { t } = useLocaleTranslation()
-  const { setOpenSidebar } = useWalletSidebar()
   const { query, locale } = useRouter()
   const { currency, network } = query
   const { poolsList, isLoading } = useContentfulPoolsList()
@@ -24,6 +23,8 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
+
+  const { setOpenSidebar } = useWalletSidebar()
 
   return (
     <Container>
@@ -73,8 +74,6 @@ const { Container, DelegatedPool, EmptyContainer, Project } = {
     display: flex;
     flex-direction: column;
 
-    padding: 8px;
-
     > div {
       display: flex;
       align-items: center;
@@ -99,11 +98,10 @@ const { Container, DelegatedPool, EmptyContainer, Project } = {
     align-items: center;
     align-self: stretch;
 
-    border-radius: ${({ theme }) => theme.size[8]};
     padding: ${({ theme }) => theme.size[8]};
     border-radius: ${({ theme }) => theme.size[8]};
-
     transition: background-color 0.1s ease;
+
     &:hover {
       background: ${({ theme }) => theme.color.blackAlpha[100]};
     }
