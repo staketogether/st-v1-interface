@@ -20,8 +20,8 @@ export function MetaTagsPoolDetail({ poolDetail }: MetaTagsPoolDetailProps) {
         <meta property='og:type' content='website' />
         <meta property='og:url' content='https://beta.staketogether.app' />
         <meta property='og:title' content='Stake Together - Staking de Ethereum' />
-        <meta property='og:description' content={descriptionPt} />
-        <meta property='og:image' content={image} />
+        <meta property='og:description' content={descriptionPt} key='ogDescription' />
+        <meta property='og:image' content={image} key='ogImage' />
         <meta property='twitter:card' content='summary_large_image' />
         <meta property='twitter:url' content='https://beta.staketogether.app' />
         <meta property='twitter:title' content='Stake Together - Staking de Ethereum' />
