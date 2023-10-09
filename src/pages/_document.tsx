@@ -1,15 +1,22 @@
-import Document, { DocumentContext } from 'next/document'
+import { Metatags } from '@/components/shared/meta/Metatags'
+import Document, { DocumentContext, DocumentInitialProps, Html } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
-export default class AppDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext) {
+class MyDocument extends Document {
+  static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const sheet = new ServerStyleSheet()
     const originalRenderPage = ctx.renderPage
 
     try {
       ctx.renderPage = () =>
         originalRenderPage({
-          enhanceApp: App => props => sheet.collectStyles(<App {...props} />)
+          enhanceApp: App => props =>
+            sheet.collectStyles(
+              <Html>
+                <Metatags />
+                <App {...props} />
+              </Html>
+            )
         })
 
       const initialProps = await Document.getInitialProps(ctx)
@@ -22,3 +29,5 @@ export default class AppDocument extends Document {
     }
   }
 }
+
+export default MyDocument

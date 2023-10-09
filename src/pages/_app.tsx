@@ -14,7 +14,6 @@ import validEnv from '../config/env'
 import { config } from '../config/wagmi'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
-import { Metatags } from '@/components/shared/meta/Metatags'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
@@ -34,7 +33,6 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <>
-      <Metatags />
       <ApolloProvider client={apolloClient}>
         <ThemeProvider theme={lightTheme}>
           <WagmiConfig config={config}>
