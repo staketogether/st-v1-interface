@@ -16,9 +16,9 @@ export function MetaTagsPoolDetail({ poolDetail }: MetaTagsPoolDetailProps) {
       <>
         <meta property='og:description' content={descriptionPt} key='ogDescription' />
         <meta property='og:image' content={image} key='ogImage' />
-        {/* <meta property='twitter:card' content='summary_large_image' key='xImageLarge' />
+        <meta property='twitter:card' content='summary_large_image' key='xImageLarge' />
         <meta property='twitter:description' content={descriptionPt} key='xDescription' />
-        <meta property='twitter:image' content={image} key='xImage' /> */}
+        <meta property='twitter:image' content={image} key='xImage' />
       </>
 
       <link rel='apple-touch-icon' sizes='180x180' href={`/assets/icons/stake-together/apple-touch-icon.png`} />
