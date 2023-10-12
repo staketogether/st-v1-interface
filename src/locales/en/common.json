@@ -194,6 +194,10 @@
       "gifts": {
         "title": "Projects' Gifts",
         "description": "Receive gifts in stpETH from your favorite projects, ranging from a small coffee or a free lunch to international trips."
+      },
+      "wrap": {
+        "title": "Wrap",
+        "description": "Wrap your stpETH into wstpETH and earn ethereum staking rewards while you stake ethereum"
       }
     },
     "meta": {

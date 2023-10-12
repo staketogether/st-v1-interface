@@ -194,6 +194,10 @@
       "gifts": {
         "title": "Presentes dos Projetos",
         "description": "Receba presentes em stpETH de seus projetos favoritos, desde um cafezinho, almoço grátis ou até viagens internacionais."
+      },
+      "wrap": {
+        "title": "Embrulhar",
+        "description": "Embrulhe seu stpETH em wstpETH e ganhe recompensas de staking de ethereum enquanto você faz staking de ethereum"
       }
     },
     "meta": {
