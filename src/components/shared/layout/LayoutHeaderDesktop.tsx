@@ -2,7 +2,7 @@ import Wallet from '@/components/wallet/Wallet'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCellSignalFull, PiCurrencyEth, PiGift } from 'react-icons/pi'
+import { PiCellSignalFull, PiCurrencyEth, PiGift, PiCubeFocusBold } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -40,6 +40,13 @@ export default function LayoutHeader() {
             <MenuButton className={`${isActive('gifts') ? 'active' : ''}`}>
               <GiftsIcon />
               {t('v2.header.gifts')}
+            </MenuButton>
+          </Link>
+
+          <Link href={`/${network}/${currency}/wrap`} legacyBehavior>
+            <MenuButton className={`${isActive('wrap') ? 'active' : ''}`}>
+              <PiCubeFocusBold />
+              {t('v2.header.wrap')}
             </MenuButton>
           </Link>
         </Menu>

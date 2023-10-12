@@ -208,7 +208,8 @@
       "gifts": "Presentes",
       "enter": "Entrar",
       "exit": "Sair",
-      "support": "Suporte"
+      "support": "Suporte",
+      "wrap": "Embrulhar"
     },
     "sidebar": {
       "percentageProfit": "Lucro",
@@ -324,7 +325,7 @@
       "result": "Resultado",
       "conductANewDraw": "Realizar Novo Sorteio"
     },
-     "withdrawals": {
+    "withdrawals": {
       "title": "Saques da Beacon Chain",
       "pending": "Pendente",
       "claim": "Resgatar"
