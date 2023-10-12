@@ -1,32 +1,30 @@
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import { Delegation } from '@/types/Delegation'
-import { Drawer, Progress, Slider } from 'antd'
+import { Progress, Slider } from 'antd'
 import styled from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import Card from '../shared/Card'
-import { PiArrowCounterClockwise, PiChartPieSlice } from 'react-icons/pi'
-import { useState } from 'react'
+import { PiArrowCounterClockwise } from 'react-icons/pi'
+import { useEffect, useState } from 'react'
 import Button from '../shared/Button'
 import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'
 import { UpdateDelegationForm } from '@/types/UpdateDelegation'
 import { ethers } from 'ethers'
 import ConfirmTransaction from '../shared/transaction-loading/ConfirmTransaction'
 import useConfirmTransactionModal from '@/hooks/useConfirmTransactionModal'
+import Modal from '../shared/Modal'
 
-type WalletSidebarEditPortfolioProps = {
+type UpdateDelegationsModalProps = {
   accountDelegations: Delegation[]
   accountTotalShares: bigint
   userAccount: `0x${string}`
 }
-
-export default function WalletSidebarEditPortfolio({
+export default function UpdateDelegationsModal({
   accountDelegations,
   accountTotalShares,
   userAccount
-}: WalletSidebarEditPortfolioProps) {
+}: UpdateDelegationsModalProps) {
   function handleFormValue(value: Delegation) {
     const address = value.delegated.address
     const poolBalanceDecimal = Number(value.delegationShares)
@@ -41,8 +39,8 @@ export default function WalletSidebarEditPortfolio({
   )
   const [remainingValue, setRemainingValue] = useState(0)
 
-  const { openSidebar, setOpenSidebar } = useWalletSidebarEditPortfolio()
   const { poolsList, isLoading } = useContentfulPoolsList()
+  const { openSidebar, setOpenSidebar } = useWalletSidebarEditPortfolio()
   const { setConfirmTransactionModal, isOpen: confirmTransactionIsOpen } = useConfirmTransactionModal()
 
   function percentageToWei(percentage: number) {
@@ -66,17 +64,30 @@ export default function WalletSidebarEditPortfolio({
   }
 
   const isEnabled = verifySumEth(updateDelegationsFormat)
-  const { updateDelegations, isLoading: updateDelegationsLoading } = useUpdateDelegations(
-    isEnabled,
-    updateDelegationsFormat,
-    userAccount
-  )
+  const {
+    updateDelegations,
+    isLoading: updateDelegationsLoading,
+    isSuccess,
+    awaitWalletAction,
+    resetState,
+    txHash
+  } = useUpdateDelegations(isEnabled, updateDelegationsFormat, userAccount)
+
+  useEffect(() => {
+    const handleSuccessfulAction = async () => {
+      if (isSuccess && !confirmTransactionIsOpen) {
+        resetState()
+      }
+    }
+
+    handleSuccessfulAction()
+  }, [confirmTransactionIsOpen, isSuccess, resetState])
 
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
 
-  const { t } = useLocaleTranslation()
+  // const { t } = useLocaleTranslation()
   function handleUpdateForm(delegation: UpdateDelegationForm, valuePercentage: number, valueDecimal: number) {
     const updateDelegation = delegationForm.map(delegationForm => {
       if (delegationForm.address === delegation.address) {
@@ -108,22 +119,27 @@ export default function WalletSidebarEditPortfolio({
       setRemainingValue(0)
     }
   }
-
   return (
     <>
-      <DrawerContainer
-        placement='right'
-        size='default'
+      <Modal
+        title={<Title>Update Delegations</Title>}
+        isOpen={openSidebar}
         onClose={() => setOpenSidebar(false)}
-        mask={true}
-        open={openSidebar}
+        showCloseIcon={true}
       >
-        <CardContainer title={t('portfolio')} icon={<PoolsIcon />}>
+        <CardContainer>
           <AvailableValueContainer>
             <span>Valor disponivel para distribuição</span>
             <div>
               <Progress percent={Number(remainingValue.toFixed(0))} style={{ margin: 0 }} />
-              {/* <Button icon={<PiPlus />} block isLoading={false} onClick={() => {}} label={'add Project'} disabled={false} /> */}
+              {/* <Button
+                icon={<PiPlus />}
+                block
+                isLoading={false}
+                onClick={() => {}}
+                label={'add Project'}
+                disabled={false}
+              /> */}
             </div>
           </AvailableValueContainer>
           <CommunitiesContainer>
@@ -164,22 +180,24 @@ export default function WalletSidebarEditPortfolio({
           <Button
             icon={<PiArrowCounterClockwise />}
             block
-            isLoading={updateDelegationsLoading}
+            isLoading={updateDelegationsLoading || awaitWalletAction}
             onClick={() => setConfirmTransactionModal(true)}
             label={'update delegation'}
             disabled={!isEnabled}
           />
         </CardContainer>
-      </DrawerContainer>
+      </Modal>
       {confirmTransactionIsOpen && (
         <ConfirmTransaction
           labelButton='confirm'
           titleModal='review update delegation'
-          walletActionLoading={false}
-          transactionLoading={false}
-          transactionIsSuccess={false}
+          walletActionLoading={awaitWalletAction}
+          transactionLoading={updateDelegationsLoading}
+          transactionIsSuccess={isSuccess}
           handleConfirmTransaction={updateDelegations}
           handleCloseModal={() => setConfirmTransactionModal(false)}
+          successMessage={'transaction success'}
+          txHash={txHash}
         >
           <div>transaction</div>
         </ConfirmTransaction>
@@ -188,32 +206,10 @@ export default function WalletSidebarEditPortfolio({
   )
 }
 
-const {
-  DrawerContainer,
-  CommunitiesContainer,
-  DelegatedPool,
-  Project,
-  PoolsIcon,
-  AvailableValueContainer,
-  CardContainer
-} = {
-  DrawerContainer: styled(Drawer)`
-    background-color: ${({ theme }) => theme.colorV2.foreground} !important;
-
-    .ant-drawer-header.ant-drawer-header-close-only {
-      display: none;
-    }
-
-    .ant-drawer-body {
-      width: calc(100vw - 60px);
-      display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[16]};
-      padding: ${({ theme }) => theme.size[16]};
-      @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-        width: 380px;
-      }
-    }
+const { Title, CommunitiesContainer, DelegatedPool, Project, AvailableValueContainer, CardContainer } = {
+  Title: styled.header`
+    width: 100%;
+    text-align: center;
   `,
   DelegatedPool: styled.div`
     display: grid;
@@ -261,7 +257,7 @@ const {
       color: ${({ theme }) => theme.color.secondary};
     }
   `,
-  CardContainer: styled(Card)`
+  CardContainer: styled.div`
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -288,8 +284,5 @@ const {
       align-items: center;
       gap: 8px;
     }
-  `,
-  PoolsIcon: styled(PiChartPieSlice)`
-    font-size: 16px;
   `
 }

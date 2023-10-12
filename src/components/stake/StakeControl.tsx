@@ -5,7 +5,7 @@ import { truncateWei } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { PiArrowDown, PiArrowUp, PiCurrencyEth, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
@@ -28,22 +28,12 @@ interface StakeControlProps {
 }
 
 export default function StakeControl({ poolAddress, type, poolDetail }: StakeControlProps) {
-  const [tooltipHasOpen, setTooltipHasOpen] = useState(false)
   const [skipMembers, setSkipMembers] = useState(0)
   const [skipActivity, setSkipActivity] = useState(0)
 
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { locale } = useRouter()
-
-  useEffect(() => {
-    setTimeout(() => {
-      setTooltipHasOpen(true)
-    }, 3000)
-    setTimeout(() => {
-      setTooltipHasOpen(false)
-    }, 8000)
-  }, [])
 
   const { currency, network } = query
 
@@ -105,7 +95,6 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
       key: 'exchange',
       label: t('exchange'),
       tooltip: t('v2.stake.faucetTooltip'),
-      tooltipOpen: tooltipHasOpen,
       icon: <DexIcon />,
       children: stakeForm
     }

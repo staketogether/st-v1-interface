@@ -6,9 +6,10 @@ type CardProps = {
   title?: string
   icon?: ReactNode
   header?: ReactNode
+  className?: string
 }
 
-export default function Card({ children, title, icon, header }: CardProps) {
+export default function Card({ children, title, icon, header, className }: CardProps) {
   return (
     <Container>
       {header ? (
@@ -19,7 +20,7 @@ export default function Card({ children, title, icon, header }: CardProps) {
           <span>{title}</span>
         </DefaultHeader>
       )}
-      <WithdrawContainer>{children}</WithdrawContainer>
+      <WithdrawContainer className={className}>{children}</WithdrawContainer>
     </Container>
   )
 }

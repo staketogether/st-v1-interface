@@ -36,8 +36,8 @@ import Withdrawals from '../shared/Withdrawals'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
 import Card from '../shared/Card'
 import Button from '../shared/Button'
-import WalletSidebarEditPortfolio from './WalletSidebarEditPortfolio'
 import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
+import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -68,7 +68,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountActivities,
     accountProfitPercentage,
     accountTotalRewards,
-    accountIsLoading
+    accountIsLoading,
+    accountShare
   } = useStAccount(address)
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -225,7 +226,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
         </>
       )}
       <WalletBuyEthModal walletAddress={address} onBuyEthIsSuccess={onBuyEthIsSuccess} />
-      <WalletSidebarEditPortfolio accountDelegations={accountDelegations} />
+      <UpdateDelegationsModal
+        accountDelegations={accountDelegations}
+        accountTotalShares={accountShare}
+        userAccount={address}
+      />
     </DrawerContainer>
   )
 }

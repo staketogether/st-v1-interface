@@ -8,7 +8,10 @@ type ModalProps = {
   showCloseIcon?: boolean
   width?: number
   title: string | ReactNode
+  zIndex?: number
 }
+
+let modalCount = 0
 
 export default function Modal({
   showCloseIcon = true,
@@ -21,10 +24,14 @@ export default function Modal({
   if (!isOpen) {
     return null
   }
+
+  const zIndex = 10000 + modalCount
+  modalCount++
+
   return (
     <>
-      <Overlay />
-      <ModalWrapper width={width}>
+      <Overlay zIndex={zIndex - 1} />
+      <ModalWrapper width={width} zIndex={zIndex}>
         <header>
           {title && title}
           {showCloseIcon && (
@@ -40,13 +47,13 @@ export default function Modal({
 }
 
 const { ModalWrapper, Overlay, CloseButton } = {
-  ModalWrapper: styled.div<{ width: number }>`
+  ModalWrapper: styled.div<{ width: number; zIndex: number }>`
     position: fixed;
     top: 42%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 9999;
 
+    z-index: ${props => `${props.zIndex}`};
     width: ${props => `${props.width}px`};
     background-color: ${({ theme }) => theme.colorV2.white};
     padding: ${({ theme }) => theme.size[24]};
@@ -71,18 +78,18 @@ const { ModalWrapper, Overlay, CloseButton } = {
       max-width: 90%;
     }
   `,
-  Overlay: styled.div`
+  Overlay: styled.div<{ zIndex: number }>`
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: ${props => `${props.zIndex}`};
     background: linear-gradient(180deg, rgba(143, 152, 214, 0.4) 0%, rgba(143, 152, 214, 0.8) 10%);
     transition: background-color 0.2s ease;
     display: flex;
     justify-content: center;
     align-items: start;
-    z-index: 9998;
   `,
   CloseButton: styled.button`
     width: 32px;
