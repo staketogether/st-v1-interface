@@ -327,6 +327,17 @@
       "title": "Beacon Chain Withdrawals",
       "pending": "Pending",
       "claim": "Claim"
+    },
+    "updateDelegations": {
+      "modalTitle": "Update delegations",
+      "availableForDistribution": "amount available for distribution",
+      "availableForDistributionTooltip": "tooltip",
+      "labelButton": "Update Delegations",
+      "transactionMessages": {
+        "transactionTitle": "Review Update Request",
+        "successful": "Delegations updated successfully",
+        "confirmButton": "Confirm"
+      }
     }
   }
 }

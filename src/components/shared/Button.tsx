@@ -50,7 +50,7 @@ const { Container } = {
 
     &.small {
       height: 32px;
-      padding: 0px 12px;
+      padding: 0px 8px;
       font-size: ${({ theme }) => theme.font.size[14]};
     }
 

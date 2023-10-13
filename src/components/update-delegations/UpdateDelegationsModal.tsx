@@ -5,7 +5,7 @@ import { Progress, Slider } from 'antd'
 import styled from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { PiArrowCounterClockwise } from 'react-icons/pi'
+import { PiArrowCounterClockwise, PiPlus, PiQuestion } from 'react-icons/pi'
 import { useEffect, useState } from 'react'
 import Button from '../shared/Button'
 import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'
@@ -14,6 +14,9 @@ import { ethers } from 'ethers'
 import ConfirmTransaction from '../shared/transaction-loading/ConfirmTransaction'
 import useConfirmTransactionModal from '@/hooks/useConfirmTransactionModal'
 import Modal from '../shared/Modal'
+import TooltipComponent from '../shared/TooltipComponent'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import ListProjectModal from './ListProjectModal'
 
 type UpdateDelegationsModalProps = {
   accountDelegations: Delegation[]
@@ -30,18 +33,19 @@ export default function UpdateDelegationsModal({
     const poolBalanceDecimal = Number(value.delegationShares)
     const percentage = (poolBalanceDecimal / Number(accountTotalShares)) * 100
     const roundedPercentage = Math.round(percentage * 100) / 100
-
     return { poolBalanceDecimal, percentage: roundedPercentage, address }
   }
-
   const [delegationForm, setDelegationForm] = useState<UpdateDelegationForm[]>(
     accountDelegations.map(item => handleFormValue(item))
   )
   const [remainingValue, setRemainingValue] = useState(0)
+  const [addProjectModal, setAddProjectModal] = useState(false)
 
   const { poolsList, isLoading } = useContentfulPoolsList()
+
   const { openSidebar, setOpenSidebar } = useWalletSidebarEditPortfolio()
   const { setConfirmTransactionModal, isOpen: confirmTransactionIsOpen } = useConfirmTransactionModal()
+  const { t } = useLocaleTranslation()
 
   function percentageToWei(percentage: number) {
     if (isNaN(percentage)) {
@@ -87,7 +91,6 @@ export default function UpdateDelegationsModal({
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
 
-  // const { t } = useLocaleTranslation()
   function handleUpdateForm(delegation: UpdateDelegationForm, valuePercentage: number, valueDecimal: number) {
     const updateDelegation = delegationForm.map(delegationForm => {
       if (delegationForm.address === delegation.address) {
@@ -119,27 +122,42 @@ export default function UpdateDelegationsModal({
       setRemainingValue(0)
     }
   }
+
+  function handleAddNewProject(walletAddress: `0x${string}`) {
+    const newProject: UpdateDelegationForm = {
+      address: walletAddress,
+      poolBalanceDecimal: 0,
+      percentage: 0
+    }
+    setDelegationForm([...delegationForm, newProject])
+  }
+
   return (
     <>
       <Modal
-        title={<Title>Update Delegations</Title>}
+        title={<Title>{t('v2.updateDelegations.modalTitle')}</Title>}
         isOpen={openSidebar}
         onClose={() => setOpenSidebar(false)}
         showCloseIcon={true}
       >
         <CardContainer>
           <AvailableValueContainer>
-            <span>Valor disponivel para distribuição</span>
+            <span>
+              {t('v2.updateDelegations.availableForDistribution')}{' '}
+              <TooltipComponent text={t('v2.updateDelegations.availableForDistributionTooltip')}>
+                <QuestionIcon />
+              </TooltipComponent>
+            </span>
             <div>
               <Progress percent={Number(remainingValue.toFixed(0))} style={{ margin: 0 }} />
-              {/* <Button
+              <Button
                 icon={<PiPlus />}
-                block
+                small
                 isLoading={false}
-                onClick={() => {}}
-                label={'add Project'}
+                onClick={() => setAddProjectModal(true)}
+                label={''}
                 disabled={false}
-              /> */}
+              />
             </div>
           </AvailableValueContainer>
           <CommunitiesContainer>
@@ -182,31 +200,46 @@ export default function UpdateDelegationsModal({
             block
             isLoading={updateDelegationsLoading || awaitWalletAction}
             onClick={() => setConfirmTransactionModal(true)}
-            label={'update delegation'}
+            label={t('v2.updateDelegations.labelButton')}
             disabled={!isEnabled}
           />
         </CardContainer>
       </Modal>
       {confirmTransactionIsOpen && (
         <ConfirmTransaction
-          labelButton='confirm'
-          titleModal='review update delegation'
+          labelButton={t('v2.updateDelegations.transactionMessages.confirmButton')}
+          titleModal={t('v2.updateDelegations.transactionMessages.transactionTitle')}
           walletActionLoading={awaitWalletAction}
           transactionLoading={updateDelegationsLoading}
           transactionIsSuccess={isSuccess}
           handleConfirmTransaction={updateDelegations}
           handleCloseModal={() => setConfirmTransactionModal(false)}
-          successMessage={'transaction success'}
+          successMessage={t('v2.updateDelegations.transactionMessages.successful')}
           txHash={txHash}
         >
           <div>transaction</div>
         </ConfirmTransaction>
       )}
+      {
+        <ListProjectModal
+          isOpen={addProjectModal}
+          handleCloseModal={() => setAddProjectModal(false)}
+          handleAddNewProject={handleAddNewProject}
+        />
+      }
     </>
   )
 }
 
-const { Title, CommunitiesContainer, DelegatedPool, Project, AvailableValueContainer, CardContainer } = {
+const {
+  Title,
+  CommunitiesContainer,
+  DelegatedPool,
+  Project,
+  AvailableValueContainer,
+  CardContainer,
+  QuestionIcon
+} = {
   Title: styled.header`
     width: 100%;
     text-align: center;
@@ -281,8 +314,25 @@ const { Title, CommunitiesContainer, DelegatedPool, Project, AvailableValueConta
     gap: 10px;
     > div {
       display: flex;
-      align-items: center;
       gap: 8px;
+      align-items: center;
+    }
+    > span {
+      font-size: ${({ theme }) => theme.font.size[14]};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  `,
+  QuestionIcon: styled(PiQuestion)`
+    width: 14px;
+    height: 14px;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    margin-left: 3px;
+    cursor: pointer;
+    &:hover {
+      color: ${({ theme }) => theme.color.secondary};
     }
   `
 }

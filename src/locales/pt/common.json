@@ -328,6 +328,17 @@
       "title": "Saques da Beacon Chain",
       "pending": "Pendente",
       "claim": "Resgatar"
+    },
+    "updateDelegations": {
+      "modalTitle": "Atualização de delegações",
+      "availableForDistribution": "Valor disponivel para distribuição",
+      "availableForDistributionTooltip": "tooltip",
+      "labelButton": "Atualizar as Delegações",
+      "transactionMessages": {
+        "transactionTitle": "Revisar Pedido de Update",
+        "successful": "Delegações atualizadas com sucesso",
+        "confirmButton": "Confirmar"
+      }
     }
   }
 }
