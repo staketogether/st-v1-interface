@@ -61,6 +61,8 @@
   "rewardsTooltip": "Your rewards balance is automatically converted into your staked balance.",
   "poolDetail": "Pool Detail",
   "learnMore": "learn more",
+  "wrap": "Wrap",
+  "unwrap": "Unwrap",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -196,8 +198,8 @@
         "description": "Receive gifts in stpETH from your favorite projects, ranging from a small coffee or a free lunch to international trips."
       },
       "wrap": {
-        "title": "Wrap",
-        "description": "Wrap your stpETH into wstpETH and earn ethereum staking rewards while you stake ethereum"
+        "title": "Wrap and Unwrap",
+        "description": "Converting stpETH to wstpETH makes the token stable for use in DeFi protocols"
       }
     },
     "meta": {

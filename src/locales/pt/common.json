@@ -61,6 +61,8 @@
   "rewardsTooltip": "O saldo de suas recompensas é automaticamente convertido em seu saldo de stake.",
   "poolDetail": "Detalhes da Pool",
   "learnMore": "Leia mais",
+  "wrap": "Embrulhar",
+  "unwrap": "Desembrulhar",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -196,8 +198,8 @@
         "description": "Receba presentes em stpETH de seus projetos favoritos, desde um cafezinho, almoço grátis ou até viagens internacionais."
       },
       "wrap": {
-        "title": "Embrulhar",
-        "description": "Embrulhe seu stpETH em wstpETH e ganhe recompensas de staking de ethereum enquanto você faz staking de ethereum"
+        "title": "Embrulhar e Desembrulhar",
+        "description": "Convertendo o stpETH em wstpETH você torna o token estável para ser usado em protocolos DeFi"
       }
     },
     "meta": {

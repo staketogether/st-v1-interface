@@ -17,7 +17,7 @@ interface LayoutTemplateProps {
   children: ReactNode
 }
 
-export default function LayoutTemplate({ children }: LayoutTemplateProps) {
+export function LayoutTemplate({ children }: LayoutTemplateProps) {
   const isProduction = process.env.NODE_ENV == 'production'
   return (
     <Container className={montserrat.className}>
@@ -91,3 +91,5 @@ const { Container, Wrapper, Content, Body } = {
     place-items: center;
   `
 }
+
+export default LayoutTemplate

@@ -23,7 +23,7 @@ interface TabsProps {
   gray?: boolean
 }
 
-export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, gray }: TabsProps) {
+export function Tabs({ onChangeActiveTab, items, defaultActiveKey, gray }: TabsProps) {
   const [activeKey, setActiveKey] = useState<ItemsKey>(defaultActiveKey ? defaultActiveKey : items[0].key)
 
   const handleClickTab = (key: ItemsKey, disabled: boolean, callBack: (() => void) | undefined) => {
@@ -168,3 +168,5 @@ const { Container, TabItem, TabsContainer, TooltipText } = {
     font-weight: 500;
   `
 }
+
+export default Tabs

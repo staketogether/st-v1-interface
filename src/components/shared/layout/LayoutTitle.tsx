@@ -6,7 +6,7 @@ type LayoutTitleProps = {
   className?: string
 }
 
-export default function LayoutTitle({ title, description, className }: LayoutTitleProps) {
+export function LayoutTitle({ title, description, className }: LayoutTitleProps) {
   return (
     <Container className={className}>
       <Title>{title}</Title>
@@ -34,3 +34,5 @@ const Description = styled.p`
   font-weight: 400;
   line-height: 20px;
 `
+
+export default LayoutTitle
