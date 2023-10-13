@@ -17,6 +17,7 @@ import Modal from '../shared/Modal'
 import TooltipComponent from '../shared/TooltipComponent'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import ListProjectModal from './ListProjectModal'
+import ReviewUpdateDelegationsRequest from './ReviewUpdateDelegationsRequest'
 
 type UpdateDelegationsModalProps = {
   accountDelegations: Delegation[]
@@ -28,16 +29,21 @@ export default function UpdateDelegationsModal({
   accountTotalShares,
   userAccount
 }: UpdateDelegationsModalProps) {
-  function handleFormValue(value: Delegation) {
-    const address = value.delegated.address
-    const poolBalanceDecimal = Number(value.delegationShares)
-    const percentage = (poolBalanceDecimal / Number(accountTotalShares)) * 100
-    const roundedPercentage = Math.round(percentage * 100) / 100
-    return { poolBalanceDecimal, percentage: roundedPercentage, address }
-  }
-  const [delegationForm, setDelegationForm] = useState<UpdateDelegationForm[]>(
-    accountDelegations.map(item => handleFormValue(item))
-  )
+  const [delegationForm, setDelegationForm] = useState<UpdateDelegationForm[]>([])
+
+  useEffect(() => {
+    function handleFormValue(value: Delegation) {
+      const address = value.delegated.address
+      const poolBalanceDecimal = Number(value.delegationShares)
+      const percentage = (poolBalanceDecimal / Number(accountTotalShares)) * 100
+      const roundedPercentage = Math.round(percentage * 100) / 100
+      return { poolBalanceDecimal, percentage: roundedPercentage, address }
+    }
+
+    const newAccountDelegations = accountDelegations.map(item => handleFormValue(item))
+    setDelegationForm(newAccountDelegations)
+  }, [accountDelegations, accountTotalShares])
+
   const [remainingValue, setRemainingValue] = useState(0)
   const [addProjectModal, setAddProjectModal] = useState(false)
 
@@ -217,7 +223,7 @@ export default function UpdateDelegationsModal({
           successMessage={t('v2.updateDelegations.transactionMessages.successful')}
           txHash={txHash}
         >
-          <div>transaction</div>
+          <ReviewUpdateDelegationsRequest poolsList={poolsList} delegationForm={delegationForm} />
         </ConfirmTransaction>
       )}
       {
@@ -293,12 +299,14 @@ const {
   CardContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 24px;
   `,
   CommunitiesContainer: styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
+    max-height: 500px;
+    overflow-y: auto;
   `,
   Project: styled.div`
     font-size: 13px;
@@ -308,10 +316,10 @@ const {
     }
   `,
   AvailableValueContainer: styled.div`
-    padding: 8px;
+    padding: 0px 8px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+
     > div {
       display: flex;
       gap: 8px;

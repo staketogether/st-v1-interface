@@ -14,7 +14,7 @@ type StakeTransactionLoadingProps = {
   transactionIsSuccess: boolean
   txHash: string | undefined
   titleModal: string
-  successMessage: string
+  successMessage?: string
   componentSuccessResume?: ReactNode
 }
 

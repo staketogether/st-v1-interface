@@ -51,6 +51,14 @@ export default function useStAccount(address: `0x${string}`) {
       setAccountTotalRewards(account.totalRewards)
       setAccountProfitPercentage(account.profitPercentage)
       setAccountShare(account.shares)
+    } else {
+      setAccount(undefined)
+      setAccountDelegations([])
+      setAccountSentDelegationsCount(0n)
+      setAccountBalance(0n)
+      setAccountTotalRewards(0n)
+      setAccountProfitPercentage(0n)
+      setAccountShare(0n)
     }
   }, [accountData])
 

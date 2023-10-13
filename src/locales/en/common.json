@@ -329,10 +329,11 @@
       "claim": "Claim"
     },
     "updateDelegations": {
-      "modalTitle": "Update delegations",
-      "availableForDistribution": "amount available for distribution",
-      "availableForDistributionTooltip": "tooltip",
+      "modalTitle": "Update Delegations",
+      "availableForDistribution": "Amount available for distribution",
+      "availableForDistributionTooltip": "Project reward's distribution",
       "labelButton": "Update Delegations",
+      "listPoolsModalTitle": "Select projects",
       "transactionMessages": {
         "transactionTitle": "Review Update Request",
         "successful": "Delegations updated successfully",

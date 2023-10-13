@@ -55,7 +55,7 @@ export default function ListProjectModal({
 
   return (
     <Modal
-      title={<Title>{t('v2.updateDelegations.modalTitle')}</Title>}
+      title={<Title>{t('v2.updateDelegations.listPoolsModalTitle')}</Title>}
       isOpen={isOpen}
       onClose={handleCloseModal}
       showCloseIcon={true}

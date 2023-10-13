@@ -11,7 +11,7 @@ type ConfirmTransactionProps = {
   transactionLoading: boolean
   transactionIsSuccess: boolean
   children: ReactNode
-  successMessage: string
+  successMessage?: string
   txHash?: string | undefined
   componentSuccessResume?: ReactNode
   handleConfirmTransaction: () => void

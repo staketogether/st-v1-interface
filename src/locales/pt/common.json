@@ -332,8 +332,9 @@
     "updateDelegations": {
       "modalTitle": "Atualização de delegações",
       "availableForDistribution": "Valor disponivel para distribuição",
-      "availableForDistributionTooltip": "tooltip",
+      "availableForDistributionTooltip": "Distribuição de recompensa dos projetos",
       "labelButton": "Atualizar as Delegações",
+      "listPoolsModalTitle": "Selecione um projeto",
       "transactionMessages": {
         "transactionTitle": "Revisar Pedido de Update",
         "successful": "Delegações atualizadas com sucesso",

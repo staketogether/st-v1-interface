@@ -10,6 +10,9 @@ export const apolloClient = new ApolloClient({
         fields: {
           pool: {
             keyArgs: ['id', 'delegate_contains']
+          },
+          account: {
+            keyArgs: ['id']
           }
         }
       }
