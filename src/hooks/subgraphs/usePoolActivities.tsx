@@ -15,7 +15,7 @@ export default function usePoolActivities(
     variables: { poolAddress: poolAddress, first: pagination?.first || 10, skip: pagination?.skip || 0 }
   })
 
-  const loadMore = (variables: { id: string; first: number; skip: number }) => {
+  const loadMore = (variables: { poolAddress: string; first: number; skip: number }) => {
     setLoadingFetchMore(true)
     fetchMore({
       variables,

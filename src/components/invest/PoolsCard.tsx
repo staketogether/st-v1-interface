@@ -24,12 +24,12 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   return (
     <Card href={`/${network}/${currency}/invest/deposit/${pool.address}`}>
       <CardHeader>
-        {pool.logo.url && (
+        {pool.logo?.url && (
           <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
         )}
-        {!pool.logo.url && <CommunityLogo size={24} src={''} alt={pool.logo.fileName} loading={true} />}
-        {pool.name && <CommunityName name={pool.name} loading={loading} $bold />}
-        {!pool.name && <CommunityName name={pool.name} loading={true} />}
+        {!pool.logo?.url && <CommunityLogo size={24} src={''} alt='logo' loading={true} />}
+        {pool?.name && <CommunityName name={pool?.name} loading={loading} $bold />}
+        {!pool?.name && <CommunityName name={pool?.name} loading={true} />}
         <CommunityType>
           {pool.type && PoolFilterIcon({ iconSize: 16, value: pool.type })}
           <div>{`${pool.type && poolTypeTranslation(pool.type)}`}</div>

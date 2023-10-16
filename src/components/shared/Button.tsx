@@ -9,13 +9,23 @@ interface ButtonProps {
   icon: ReactNode
   isLoading: boolean
   disabled?: boolean
+  small?: boolean
+  block?: boolean
 }
 
-export default function Button({ onClick, label, disabled, isLoading, icon, type }: ButtonProps) {
+export default function Button({
+  onClick,
+  label,
+  disabled,
+  isLoading,
+  icon,
+  small = false,
+  block = false
+}: ButtonProps) {
   const { t } = useLocaleTranslation()
 
   return (
-    <Container disabled={disabled} {...(type && { type })} {...(onClick && { onClick })}>
+    <Container onClick={onClick} disabled={disabled} className={`${small && 'small'} ${block && 'block'}`}>
       {icon}
       {isLoading ? t('processing') : label}
     </Container>
@@ -30,6 +40,7 @@ const { Container } = {
     background: ${({ theme }) => theme.color.primary};
     transition: background-color 0.2s ease;
     height: 48px;
+    padding: 0px 16px;
 
     font-size: ${({ theme }) => theme.font.size[16]};
 
@@ -37,6 +48,16 @@ const { Container } = {
     align-items: center;
     justify-content: center;
     gap: ${({ theme }) => theme.size[8]};
+
+    &.small {
+      height: 32px;
+      padding: 0px 12px;
+      font-size: ${({ theme }) => theme.font.size[14]};
+    }
+
+    &.block {
+      width: 100%;
+    }
 
     &:hover {
       background: ${({ theme }) => theme.color.secondary};

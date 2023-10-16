@@ -39,6 +39,7 @@
   "emptyPool": "Pool Not Found",
   "copyClipboard": "Copy to Clipboard",
   "copiedToClipboard": "Link copied, Share it now!",
+  "addressCopiedToClipboard": "Address Copied",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
   "loading": "Loading...",
@@ -67,6 +68,10 @@
   "lsd": {
     "name": "ST Staked Ether",
     "symbol": "stpETH"
+  },
+  "wse": {
+    "name": "Stake Together Withdrawals",
+    "symbol": "stwETH "
   },
   "form": {
     "deposit": "Deposit Ether",
@@ -129,7 +134,8 @@
     "noPassCodes": "No Code Found",
     "invalidPasscode": "Invalid Code",
     "faucetIsEmpty": "No more ETH available",
-    "addressHasAlready": "Your wallet has already received ETH"
+    "addressHasAlready": "Your wallet has already received ETH",
+    "userIpHasAlready": "Your Ip has already received ETH"
   },
   "withdrawCardsType": {
     "pool": "Pool",
@@ -188,6 +194,11 @@
       "gifts": {
         "title": "Projects' Gifts",
         "description": "Receive gifts in stpETH from your favorite projects, ranging from a small coffee or a free lunch to international trips."
+      }
+    },
+    "meta": {
+      "stake": {
+        "description": "Invest in Ethereum with the projectName project using Stake Together and maximize your profits while supporting your favorite projects through the Blockchain."
       }
     },
     "header": {
@@ -266,6 +277,23 @@
         "proceedInYourWallet": "Proceed in your wallet",
         "withdrawSuccessful": "Withdraw Successful",
         "depositSuccessful": "Deposit Successful"
+      },
+      "withdrawErrorMessage": {
+        "FD": "Feature Disabled",
+        "IAB": "Insufficient Account Balance",
+        "WPLR": "Withdrawals Pool Limit Reached",
+        "WVLR": "Withdrawals Validator Limit Reached",
+        "MW": "Min Withdraw",
+        "ZA": "Zero Amount",
+        "IPB": "Insufficient Pool Balance",
+        "WFP": "Withdraw From Pool"
+      },
+      "depositErrorMessage": {
+        "FD": "Feature Disabled",
+        "DLR": "Deposit Limit Reached",
+        "MD": "Min Deposit",
+        "PNF": "Pool Not Found",
+        "ZS": "Zero Supply"
       }
     },
     "activities": {
@@ -273,7 +301,8 @@
       "donationDeposit": "Donation",
       "withdraw": "Withdraw",
       "withdrawPool": "Withdraw",
-      "transfer": "Transfer"
+      "transfer": "Transfer",
+      "withdrawValidator": "withdraw Validator"
     },
     "gifts": {
       "countdown": "Time to Redeem",
@@ -311,6 +340,17 @@
       "requiredField": "This field is required",
       "save": "Save",
       "choseFile": "Choose the file" 
+    },
+    "draw": {
+      "performDrawing": "Conducting Drawing",
+      "drawing": "Drawing",
+      "result": "Result",
+      "conductANewDraw": "Conduct Drawing"
+    },
+    "withdrawals": {
+      "title": "Beacon Chain Withdrawals",
+      "pending": "Pending",
+      "claim": "Claim"
     }
   }
 }

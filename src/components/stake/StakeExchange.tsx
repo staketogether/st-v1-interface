@@ -15,6 +15,7 @@ import useCoinConversion from '../../hooks/useCoinConversion'
 import useWalletSidebarConnectWallet from '../../hooks/useWalletSidebarConnectWallet'
 import { truncateWei } from '../../services/truncate'
 import Button from '../shared/Button'
+import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 
 type StakeExchangeProps = {
   walletAddress?: `0x${string}`
@@ -38,6 +39,10 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
   const ethersFaucet = ethers.parseEther('0.005')
   const { price, symbol } = useCoinConversion(ethersFaucet.toString() || '0')
 
+  const { balance: faucetBalance, isLoading: balanceLoading } = useEthBalanceOf(
+    '0x6B70de928a055FC38c70D5EC46861676F22E4Ae6'
+  )
+
   useEffect(() => {
     setGetFaucetError(isError)
   }, [isError])
@@ -56,7 +61,8 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
     setIsSuccess(false)
   }
 
-  const disabledButton = isLoading
+  const hasFaucet = faucetBalance >= ethers.parseUnits('0.005', 18)
+  const disabledButton = isLoading || balanceLoading || !hasFaucet
 
   return (
     <Container>
@@ -100,7 +106,7 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
               <Button
                 onClick={handleAction}
                 disabled={disabledButton}
-                label={t('getEthFaucet')}
+                label={hasFaucet ? t('getEthFaucet') : t('getFaucetErrorMessages.faucetIsEmpty')}
                 isLoading={isLoading}
                 icon={<DexIcon />}
               />

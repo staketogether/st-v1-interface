@@ -25,6 +25,8 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
 import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
 import WalletSidebarSettings from './WalletSidebarSettings'
+import Withdrawals from '../shared/Withdrawals'
+import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -37,6 +39,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
   const { balance: ethBalance, refetch } = useEthBalanceOf(address)
+  const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
+
   const { name, nameLoading } = useEns(address)
 
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
@@ -53,7 +57,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountProfitPercentage,
     accountTotalRewards
   } = useStAccount(address)
-
   function disconnectWallet() {
     setOpenSidebar(false)
     disconnect()
@@ -188,7 +191,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <h4>{t('rewards')}</h4>
               <div>
                 <span className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}>
-                  {`${formatNumberByLocale(truncateWei(accountTotalRewards, 6), locale)}`}
+                  {`${truncateWei(accountTotalRewards, 4)}`}
                 </span>
                 <span className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}>
                   {` ${t('lsd.symbol')}`}
@@ -199,11 +202,14 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <h4>{t('v2.sidebar.percentageProfit')}</h4>
               <div>
                 <span className={`${accountTotalRewards > 1n && 'green'}`}>
-                  {formatNumberByLocale(truncateWei(accountProfitPercentage, 6), locale)} %
+                  {truncateWei(BigInt(accountProfitPercentage) * BigInt(100), 4)} %
                 </span>
               </div>
             </InfoCard>
           </InfoContainer>
+          {stwETHBalance > 0n && (
+            <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />
+          )}
           <TabsArea>
             <Tabs items={tabPortfolio} defaultActiveKey='portfolio' gray />
           </TabsArea>

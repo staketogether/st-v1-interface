@@ -1,4 +1,3 @@
-import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
@@ -7,13 +6,7 @@ import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-
-import { WithdrawType } from '@/types/Withdraw'
-import { ethers } from 'ethers'
-import {
-  usePrepareStakeTogetherWithdrawValidator,
-  useStakeTogetherWithdrawValidator
-} from '../../types/Contracts'
+import { usePrepareWithdrawalsWithdraw, useWithdrawalsWithdraw } from '../../types/Contracts'
 
 import useLocaleTranslation from '../useLocaleTranslation'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
@@ -24,45 +17,27 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 
-export default function useWithdrawValidator(
-  withdrawAmount: string,
-  poolAddress: `0x${string}`,
-  enabled: boolean,
-  accountAddress?: `0x${string}`
+export default function useWithdrawalsStwEth(
+  withdrawAmount: bigint,
+  accountAddress: `0x${string}`,
+  enabled: boolean
 ) {
+  const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
-  const { registerWithdraw } = useMixpanelAnalytics()
 
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
-  const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
 
-  const { contracts, chainId } = chainConfig()
-  const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
+  const isWithdrawEnabled = enabled && withdrawAmount > 0n
 
-  const isWithdrawEnabled = enabled && amount > 0n
-
-  const {
-    config,
-    isError: prepareTransactionIsError,
-    isSuccess: prepareTransactionIsSuccess
-  } = usePrepareStakeTogetherWithdrawValidator({
-    address: contracts.StakeTogether,
-    args: [amount, poolAddress],
+  const { config } = usePrepareWithdrawalsWithdraw({
+    address: contracts.Withdrawals,
+    args: [withdrawAmount],
     account: accountAddress,
-    enabled: isWithdrawEnabled,
-    onError(error) {
-      const { cause } = error as { cause?: { reason?: string } }
-      if (cause && cause?.reason) {
-        setPrepareTransactionErrorMessage(cause.reason)
-      }
-    },
-    onSuccess() {
-      setPrepareTransactionErrorMessage('')
-    }
+    enabled: isWithdrawEnabled
   })
 
-  const tx = useStakeTogetherWithdrawValidator({
+  const tx = useWithdrawalsWithdraw({
     ...config,
     onSuccess: data => {
       if (data?.hash) {
@@ -74,7 +49,7 @@ export default function useWithdrawValidator(
     }
   })
 
-  const withdrawValidator = () => {
+  const withdrawalsWithdraw = () => {
     setAwaitWalletAction(true)
     tx.write?.()
     setNotify(true)
@@ -107,9 +82,7 @@ export default function useWithdrawValidator(
           queryStakeTogether
         ]
       })
-
-      registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.VALIDATOR)
-
+      resetState()
       if (notify) {
         notification.success({
           message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,
@@ -118,7 +91,7 @@ export default function useWithdrawValidator(
         setNotify(false)
       }
     }
-  }, [accountAddress, chainId, isSuccess, notify, poolAddress, registerWithdraw, t, withdrawAmount])
+  }, [accountAddress, chainId, isSuccess, notify, t, withdrawAmount])
 
   useEffect(() => {
     if (isError) {
@@ -130,18 +103,15 @@ export default function useWithdrawValidator(
         setNotify(false)
       }
     }
-  }, [accountAddress, isError, notify, poolAddress, t, withdrawAmount])
+  }, [accountAddress, isError, notify, t, withdrawAmount])
 
   return {
-    withdrawValidator,
+    withdrawalsWithdraw,
     estimatedCost: 0n,
     isLoading,
     isSuccess,
     awaitWalletAction,
     resetState,
-    txHash,
-    prepareTransactionIsError,
-    prepareTransactionIsSuccess,
-    prepareTransactionErrorMessage
+    txHash
   }
 }

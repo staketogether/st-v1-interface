@@ -8,7 +8,10 @@ import sethIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
 import { PiArrowRight, PiCheckCircle } from 'react-icons/pi'
 import styled from 'styled-components'
-import Loading from '../shared/icons/Loading'
+import { WithdrawType } from '@/types/Withdraw'
+import loadingAnimation from '@assets/animations/loading-animation.json'
+import LottieAnimation from '../shared/LottieAnimation'
+import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -18,6 +21,7 @@ type StakeTransactionLoadingProps = {
   transactionIsSuccess: boolean
   txHash: string | undefined
   type: 'deposit' | 'withdraw'
+  withdrawTypeSelected: WithdrawType
 }
 
 export default function StakeTransactionLoading({
@@ -27,15 +31,21 @@ export default function StakeTransactionLoading({
   youReceive,
   transactionIsSuccess,
   txHash,
-  type
+  type,
+  withdrawTypeSelected
 }: StakeTransactionLoadingProps) {
   const { t } = useLocaleTranslation()
   const chain = chainConfig()
   const isWithdraw = type === 'withdraw'
   const { addToWalletAction } = useAddSethToWallet()
+  const { addToWalletAction: addStwEthToWalletAction } = useAddStwEthToWallet()
   return (
     <Container>
-      {transactionIsSuccess ? <SuccessIcon size={60} /> : <LoadingIcon size={60} />}
+      {transactionIsSuccess ? (
+        <SuccessIcon size={60} />
+      ) : (
+        <LottieAnimation animationData={loadingAnimation} height={60} loop />
+      )}
       <div>
         {walletActionLoading && !transactionLoading && !transactionIsSuccess && (
           <TitleModal>
@@ -66,7 +76,9 @@ export default function StakeTransactionLoading({
               <div>
                 <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 <span>{`${truncateWei(youReceive, 6)}`}</span>
-                <span> {t('eth.symbol')}</span>
+                <span>
+                  {` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}
+                </span>
               </div>
             </>
           ) : (
@@ -93,6 +105,13 @@ export default function StakeTransactionLoading({
           <span>{t('addSethToWallet.yourWallet')}</span>
         </AddAssetInWalletButton>
       )}
+      {isWithdraw && transactionIsSuccess && withdrawTypeSelected === WithdrawType.VALIDATOR && (
+        <AddAssetInWalletButton onClick={addStwEthToWalletAction}>
+          <span>{t('addSethToWallet.add')} </span>
+          <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
+          <span>{t('addSethToWallet.yourWallet')}</span>
+        </AddAssetInWalletButton>
+      )}
       <DescriptionAction>
         {walletActionLoading && !transactionIsSuccess && !transactionLoading && (
           <span>{t('v2.stake.confirmModal.proceedInYourWallet')}</span>
@@ -113,7 +132,6 @@ const {
   DescriptionAction,
   ResumeStake,
   TitleModal,
-  LoadingIcon,
   SuccessIcon,
   ArrowIcon,
   AddAssetInWalletButton
@@ -181,9 +199,6 @@ const {
         color: ${({ theme }) => theme.color.secondary};
       }
     }
-  `,
-  LoadingIcon: styled(Loading)`
-    color: ${({ theme }) => theme.color.secondary};
   `,
   SuccessIcon: styled(PiCheckCircle)`
     color: ${({ theme }) => theme.color.green[300]};

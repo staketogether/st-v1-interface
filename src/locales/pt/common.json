@@ -39,7 +39,8 @@
   "searchPool": "Pesquisar Pools",
   "emptyPool": "Pool não encontrado",
   "copyClipboard": "Copiar para Área de Transferência",
-  "copiedToClipboard": "Link copiado, compartilhe agora!",
+  "copiedToClipboard": "Endereço copiado",
+  "addressCopiedToClipboard": "Address Copied",
   "deposit": "Depositar",
   "withdraw": "Sacar",
   "loading": "Carregando...",
@@ -67,6 +68,10 @@
   "lsd": {
     "name": "ST Staked Ether",
     "symbol": "stpETH"
+  },
+  "wse": {
+    "name": "Stake Together Withdrawals",
+    "symbol": "stwETH "
   },
   "form": {
     "deposit": "Depositar Ether",
@@ -129,7 +134,8 @@
     "noPassCodes": "Código Não Encontrado",
     "invalidPasscode": "Código Inválido",
     "faucetIsEmpty": "Sem ETH Disponível para Faucet",
-    "addressHasAlready": "Sua carteira já recebeu ETH"
+    "addressHasAlready": "Sua carteira já recebeu ETH",
+    "userIpHasAlready": "Seu Ip já recebeu ETH"
   },
   "withdrawCardsType": {
     "pool": "Pool",
@@ -188,6 +194,11 @@
       "gifts": {
         "title": "Presentes dos Projetos",
         "description": "Receba presentes em stpETH de seus projetos favoritos, desde um cafezinho, almoço grátis ou até viagens internacionais."
+      }
+    },
+    "meta": {
+      "stake": {
+        "description": "Invista em Ethereum com o projeto projectName utilizando a  Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain"
       }
     },
     "header": {
@@ -267,6 +278,23 @@
         "proceedInYourWallet": "Prossiga em sua carteira",
         "withdrawSuccessful": "Saque realizada com sucesso",
         "depositSuccessful": "Depósito realizado com sucesso"
+      },
+      "withdrawErrorMessage": {
+        "FD": "Funcionalidade Desativada",
+        "IAB": "Saldo Insuficiente na Conta",
+        "WPLR": "Limite de saque diario alcançado",
+        "WVLR": "Limite de Saque diario alcançado",
+        "MW": "Retirada Mínima",
+        "ZA": "Valor Zero",
+        "IPB": "Saldo Insuficiente no Pool",
+        "WFP": "Retirada do Pool"
+      },
+      "depositErrorMessage": {
+        "FD": "Funcionalidade Desativada",
+        "DLR": "Limite de Depósito Alcançado",
+        "MD": "Depósito Mínimo",
+        "PNF": "Pool Não Encontrado",
+        "ZS": "Suprimento Zero"
       }
     },
     "activities": {
@@ -274,7 +302,8 @@
       "donationDeposit": "Doação",
       "withdraw": "Saque",
       "withdrawPool": "Saque",
-      "transfer": "Transferencia"
+      "transfer": "Transferencia",
+      "withdrawValidator": "Saque Validatores"
     },
     "gifts": {
       "countdown": "Tempo para Resgatar",
@@ -312,6 +341,17 @@
       "requiredField": "Esse campo é obrigatório",
       "save": "Salvar",
       "choseFile": "Enviar a imagem" 
+    },
+    "draw": {
+      "performDrawing": "Realizar Sorteio",
+      "drawing": "Sorteando...",
+      "result": "Resultado",
+      "conductANewDraw": "Realizar Novo Sorteio"
+    },
+     "withdrawals": {
+      "title": "Saques da Beacon Chain",
+      "pending": "Pendente",
+      "claim": "Resgatar"
     }
   }
 }

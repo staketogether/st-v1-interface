@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import { truncateAddress, truncateText } from '../../../services/truncate'
 import SkeletonLoading from '../icons/SkeletonLoading'
 
-type EnsNameProps = {
-  name: string
+type CommunityNameProps = {
+  name?: string
+  walletAddress?: `0x${string}`
   loading?: boolean
   $large?: boolean
   $larger?: boolean
@@ -13,7 +14,16 @@ type EnsNameProps = {
   $bold?: boolean
 }
 
-export default function CommunityName({ name, loading, $large, $larger, slice, $color, $bold }: EnsNameProps) {
+export default function CommunityName({
+  name,
+  walletAddress,
+  loading,
+  $large,
+  $larger,
+  slice,
+  $color,
+  $bold
+}: CommunityNameProps) {
   if (loading && !$larger && !$large) {
     return <SkeletonLoading width={140} height={14} />
   } else if (loading && $large) {
@@ -27,7 +37,7 @@ export default function CommunityName({ name, loading, $large, $larger, slice, $
   } else {
     return (
       <Text color={$color} $large={$large} $larger={$larger}>
-        {truncateAddress(name)}
+        {truncateAddress(walletAddress || '', 5)}
       </Text>
     )
   }

@@ -7,7 +7,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiLink } from 'react-icons/pi'
 import styled, { useTheme } from 'styled-components'
-import { formatNumberByLocale } from '../../services/format'
 
 type WalletSidebarRewards = {
   accountRewards: AccountReward[]
@@ -39,7 +38,7 @@ export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRe
             <PiLink color={theme.color.secondary} />
             <span>{truncateTimestamp(reward.timestamp, locale || 'en')}</span>
             <span className='green'>
-              {formatNumberByLocale(truncateWei(reward.amount, 8), locale)} {t('lsd.symbol')}
+              {truncateWei(reward.amount, 8)} {t('lsd.symbol')}
             </span>
           </Reward>
         )

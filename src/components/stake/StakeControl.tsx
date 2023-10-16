@@ -1,18 +1,19 @@
 import usePool from '@/hooks/subgraphs/usePool'
-import useActiveRoute from '@/hooks/useActiveRoute'
+import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
+import { ContentfulPool } from '@/types/ContentfulPool'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowUp, PiCurrencyEth, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
-import useContentfulPoolDetails from '../../hooks/contentful/useContentfulPoolDetails'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import { formatNumberByLocale } from '../../services/format'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import TooltipComponent from '../shared/TooltipComponent'
+import WalletLottery from '../shared/WalletLottery'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
@@ -24,14 +25,16 @@ import StakeProfileEdit from './StakeProfileEdit'
 interface StakeControlProps {
   poolAddress: `0x${string}`
   type: 'deposit' | 'withdraw' | 'exchange'
+  poolDetail?: ContentfulPool
 }
 
-export default function StakeControl({ poolAddress, type }: StakeControlProps) {
-  const [skipMembers, setSkipMembers] = useState(0)
-  const { t } = useLocaleTranslation()
-  const { isActive } = useActiveRoute()
-  const { query } = useRouter()
+export default function StakeControl({ poolAddress, type, poolDetail }: StakeControlProps) {
   const [tooltipHasOpen, setTooltipHasOpen] = useState(false)
+  const [skipMembers, setSkipMembers] = useState(0)
+  const [skipActivity, setSkipActivity] = useState(0)
+
+  const { t } = useLocaleTranslation()
+  const { query } = useRouter()
   const { locale } = useRouter()
 
   useEffect(() => {
@@ -49,13 +52,24 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
 
   const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress)
 
-  const handleLoadMoreMembers = useCallback(() => {
+  const handleLoadMoreMembers = () => {
     const newSkip = skipMembers + 10
     setSkipMembers(newSkip)
     fetchMore({ id: poolAddress, first: 10, skip: newSkip })
-  }, [fetchMore, poolAddress, skipMembers])
+  }
 
-  const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(poolAddress)
+  const {
+    poolActivities,
+    initialLoading: poolActivitiesLoading,
+    loadingFetchMore: poolActivitiesFetchMoreLoading,
+    loadMore
+  } = usePoolActivities(poolAddress)
+
+  const handleLoadMoreActivity = () => {
+    const newSkip = skipActivity + 10
+    setSkipActivity(newSkip)
+    loadMore({ poolAddress: poolAddress, first: 10, skip: newSkip })
+  }
 
   const router = useRouter()
   const handleSwitch = (type: string) => {
@@ -75,7 +89,6 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
 
   const { account } = useConnectedAccount()
   const stakeForm = <StakeForm type={type} accountAddress={account} poolAddress={poolAddress} />
-
   const tabsItems: TabsItems[] = [
     {
       key: 'deposit',
@@ -103,7 +116,7 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
     navigator.clipboard.writeText(window.location.toString())
   }
 
-  const activeTab = isActive('deposit') ? 'deposit' : isActive('withdraw') ? 'withdraw' : 'exchange'
+  const activeTab = type
 
   return (
     <Container>
@@ -111,17 +124,21 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
       {poolDetail && <StakeProfileEdit poolDetail={poolDetail} poolDetailLoading={false} />}
       <TvlContainer>
         <PoolTitle>
-          {poolDetail && (
-            <div>
-              <CommunityLogo
-                size={32}
-                src={poolDetail?.logo?.url}
-                alt={poolDetail?.logo?.url}
-                loading={poolDetailLoading}
-              />
-              <CommunityName $larger name={poolDetail?.name} loading={poolDetailLoading} />
-            </div>
-          )}
+          <div>
+            <CommunityLogo
+              size={32}
+              src={poolDetail?.logo?.url}
+              alt={poolDetail?.logo?.url || ''}
+              loading={false}
+              listed={pool?.listed}
+            />
+            {poolDetail?.name ? (
+              <CommunityName $larger name={poolDetail?.name} loading={false} />
+            ) : (
+              <CommunityName $larger walletAddress={poolAddress} loading={false} />
+            )}
+          </div>
+
           <Tooltip trigger='click' title={t('copiedToClipboard')}>
             <ShareButton onClick={copyToClipboard}>
               <ShareIcon />
@@ -181,7 +198,12 @@ export default function StakeControl({ poolAddress, type }: StakeControlProps) {
         fetchMore={handleLoadMoreMembers}
         loadMoreLoadingPoolData={loadMoreLoading}
         initialLoadingPoolData={initialLoading}
+        poolActivities={poolActivities}
+        poolActivitiesLoading={poolActivitiesLoading}
+        poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
+        loadMoreActivitiesItems={handleLoadMoreActivity}
       />
+      <WalletLottery poolAddress={poolAddress} />
     </Container>
   )
 }
@@ -212,8 +234,8 @@ const {
     padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]};
     flex-direction: column;
     gap: 12px;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
 
+    box-shadow: ${({ theme }) => theme.shadow[100]};
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.color.white};
 
