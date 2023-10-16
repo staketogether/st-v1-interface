@@ -10,7 +10,7 @@ import wstpSymbol from '@assets/wstp-symbol.svg'
 export const WrapWidget = () => {
   const { t } = useLocaleTranslation()
   const router = useRouter()
-  const isUnwraping = router.query.slug?.includes('unwrap')
+  const isUnwraping = router.query.slug?.includes('unwrap') || false
 
   const token1 = {
     address: ZeroAddress,
@@ -49,20 +49,7 @@ export const WrapWidget = () => {
         }
       ].map(item => ({
         ...item,
-        children: (
-          <WrapWidgetContainer
-            detailsProps={{
-              tokens,
-              isUnwraping
-            }}
-            formProps={{
-              inputProps: {
-                fromToken: tokens[0],
-                toToken: tokens[1]
-              }
-            }}
-          />
-        )
+        children: <WrapWidgetContainer tokens={tokens} isUnwraping={isUnwraping} />
       }))}
       defaultActiveKey={isUnwraping ? 'unwrap' : 'wrap'}
       onChangeActiveTab={handleOnChangeActiveTab}

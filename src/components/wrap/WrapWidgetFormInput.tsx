@@ -4,25 +4,18 @@ import styled from 'styled-components'
 import { WrapWidgetToken } from './WrapWidgetDetails'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
-
 import { makeVar, useReactiveVar } from '@apollo/client'
 
 export const inputValue = makeVar('')
 
 export type WrapWidgetFormInputProps = HTMLProps<HTMLDivElement> & {
-  fromToken: WrapWidgetToken
-  toToken: WrapWidgetToken
+  tokens: WrapWidgetToken[]
   disabled?: boolean
   hasError?: boolean
 }
 
-export const WrapWidgetFormInput = ({
-  disabled,
-  hasError,
-  fromToken,
-  toToken,
-  ...props
-}: WrapWidgetFormInputProps) => {
+export const WrapWidgetFormInput = ({ disabled, hasError, tokens, ...props }: WrapWidgetFormInputProps) => {
+  const [fromToken, toToken] = tokens
   const value = useReactiveVar(inputValue)
   const { t } = useLocaleTranslation()
   const inputRef = useRef<HTMLInputElement>(null)

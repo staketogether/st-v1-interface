@@ -20,13 +20,13 @@ export type WrapWidgetDetailsProps = HTMLProps<HTMLDivElement> & {
 export const WrapWidgetDetails = ({ tokens, isUnwraping, ...props }: WrapWidgetDetailsProps) => {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
-  const [token1, token2] = tokens
+  const [fromToken, toToken] = tokens
 
   return (
     <Container {...props}>
       <Info>
         <div>
-          <Image src={token1.icon} width={30} height={30} alt={token1.symbol} />
+          <Image src={fromToken.icon} width={30} height={30} alt={fromToken.symbol} />
         </div>
         <Token>
           <header>
@@ -34,7 +34,7 @@ export const WrapWidgetDetails = ({ tokens, isUnwraping, ...props }: WrapWidgetD
           </header>
           <div>
             <span className='primary'>{formatNumberByLocale(truncateWei(BigInt(0), 6), locale)}</span>
-            <span className='primary'>{token1.symbol}</span>
+            <span className='primary'>{fromToken.symbol}</span>
           </div>
         </Token>
       </Info>
@@ -45,11 +45,11 @@ export const WrapWidgetDetails = ({ tokens, isUnwraping, ...props }: WrapWidgetD
           </header>
           <div>
             <span className='purple'>{formatNumberByLocale(truncateWei(BigInt(0), 6), locale)}</span>
-            <span className='purple'>{token2.symbol}</span>
+            <span className='purple'>{toToken.symbol}</span>
           </div>
         </Token>
         <div>
-          <Image src={token2.icon} width={30} height={30} alt={token2.symbol} />
+          <Image src={toToken.icon} width={30} height={30} alt={toToken.symbol} />
         </div>
       </Info>
     </Container>

@@ -1,18 +1,20 @@
 import { HTMLProps } from 'react'
-import { WrapWidgetDetails, WrapWidgetDetailsProps } from './WrapWidgetDetails'
-import { WrapWidgetForm, WrapWidgetFormProps } from './WrapWidgetForm'
+import { WrapWidgetDetails, WrapWidgetToken } from './WrapWidgetDetails'
+import { WrapWidgetForm } from './WrapWidgetForm'
 import styled from 'styled-components'
+import { WrapWidgetSubtotal } from './WrapWidgetSubtotal'
 
 export type WrapWidgetContainerProps = HTMLProps<HTMLDivElement> & {
-  detailsProps: WrapWidgetDetailsProps
-  formProps: WrapWidgetFormProps
+  tokens: WrapWidgetToken[]
+  isUnwraping: boolean
 }
 
-export const WrapWidgetContainer = ({ detailsProps, formProps, ...props }: WrapWidgetContainerProps) => {
+export const WrapWidgetContainer = ({ tokens, isUnwraping, ...props }: WrapWidgetContainerProps) => {
   return (
     <Container {...props}>
-      <WrapWidgetDetails {...detailsProps} />
-      <WrapWidgetForm {...formProps} />
+      <WrapWidgetDetails tokens={tokens} isUnwraping={isUnwraping} />
+      <WrapWidgetForm tokens={tokens} isUnwraping={isUnwraping} />
+      <WrapWidgetSubtotal tokens={tokens} />
     </Container>
   )
 }
