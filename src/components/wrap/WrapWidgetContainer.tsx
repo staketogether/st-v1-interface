@@ -1,17 +1,18 @@
 import { HTMLProps } from 'react'
 import { WrapWidgetDetails, WrapWidgetDetailsProps } from './WrapWidgetDetails'
-import { WrapWidgetForm } from './WrapWidgetForm'
+import { WrapWidgetForm, WrapWidgetFormProps } from './WrapWidgetForm'
 import styled from 'styled-components'
 
 export type WrapWidgetContainerProps = HTMLProps<HTMLDivElement> & {
-  details: WrapWidgetDetailsProps
+  detailsProps: WrapWidgetDetailsProps
+  formProps: WrapWidgetFormProps
 }
 
-export const WrapWidgetContainer = ({ details, ...props }: WrapWidgetContainerProps) => {
+export const WrapWidgetContainer = ({ detailsProps, formProps, ...props }: WrapWidgetContainerProps) => {
   return (
     <Container {...props}>
-      <WrapWidgetDetails {...details} />
-      <WrapWidgetForm />
+      <WrapWidgetDetails {...detailsProps} />
+      <WrapWidgetForm {...formProps} />
     </Container>
   )
 }

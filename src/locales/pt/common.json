@@ -77,9 +77,9 @@
     "name": "Stake Together Withdrawals",
     "symbol": "stwETH "
   },
-  "wst": {
+  "wstp": {
     "name": "Wrapped Stake Together",
-    "symbol": "stwETH"
+    "symbol": "wstpETH"
   },
   "form": {
     "deposit": "Depositar Ether",

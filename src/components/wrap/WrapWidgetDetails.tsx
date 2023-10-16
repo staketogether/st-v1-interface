@@ -2,11 +2,13 @@ import { HTMLProps } from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { useRouter } from 'next/router'
+import { formatNumberByLocale } from '@/services/format'
+import { truncateWei } from '@/services/truncate'
 
 export type WrapWidgetToken = {
   address: string
   symbol: string
-  decimals: number
   icon: string
 }
 
@@ -17,6 +19,7 @@ export type WrapWidgetDetailsProps = HTMLProps<HTMLDivElement> & {
 
 export const WrapWidgetDetails = ({ tokens, isUnwraping, ...props }: WrapWidgetDetailsProps) => {
   const { t } = useLocaleTranslation()
+  const { locale } = useRouter()
   const [token1, token2] = tokens
 
   return (
@@ -30,7 +33,7 @@ export const WrapWidgetDetails = ({ tokens, isUnwraping, ...props }: WrapWidgetD
             <h4>{t('available')}</h4>
           </header>
           <div>
-            {/* <span className='primary'>{formatNumberByLocale(truncateWei(ethBalance, 6), locale)}</span> */}
+            <span className='primary'>{formatNumberByLocale(truncateWei(BigInt(0), 6), locale)}</span>
             <span className='primary'>{token1.symbol}</span>
           </div>
         </Token>
@@ -41,9 +44,7 @@ export const WrapWidgetDetails = ({ tokens, isUnwraping, ...props }: WrapWidgetD
             <h4>{t(isUnwraping ? 'unwrapped' : 'wrapped')}</h4>
           </header>
           <div>
-            {/* <span className='purple'>
-                    {formatNumberByLocale(truncateWei(BigInt(delegationBalance), 6), locale)}
-                  </span> */}
+            <span className='purple'>{formatNumberByLocale(truncateWei(BigInt(0), 6), locale)}</span>
             <span className='purple'>{token2.symbol}</span>
           </div>
         </Token>
