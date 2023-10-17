@@ -16,10 +16,33 @@ export const WrapWidgetSubtotal = ({ tokens, ...props }: WrapWidgetSubtotalProps
   const { t } = useLocaleTranslation()
   const amount = useReactiveVar(inputValue)
   const [fromToken, toToken] = tokens
-  console.log(fromToken, toToken)
 
   return (
     <Container {...props}>
+      <div>
+        <span>
+          {`${t('v2.wrap.subtotal.maxUnlockFee')} `}
+          <TooltipComponent text={t('v2.wrap.subtotal.maxUnlockFeeTooltip')}>
+            <QuestionIcon />
+          </TooltipComponent>
+        </span>
+        <span>
+          <span className='purple'>{`${truncateDecimal('0', 2)}`}</span>
+          <span className='purple'>{t('eth.symbol')}</span>
+        </span>
+      </div>
+      <div>
+        <span>
+          {`${t('v2.wrap.subtotal.maxGasFee')} `}
+          <TooltipComponent text={t('v2.wrap.subtotal.maxGasFeeTooltip')}>
+            <QuestionIcon />
+          </TooltipComponent>
+        </span>
+        <span>
+          <span className='purple'>{`${truncateDecimal('0', 2)}`}</span>
+          <span className='purple'>{t('eth.symbol')}</span>
+        </span>
+      </div>
       <div>
         <span>
           {`${t('v2.stake.descriptionForm.exchange')} `}
@@ -32,6 +55,18 @@ export const WrapWidgetSubtotal = ({ tokens, ...props }: WrapWidgetSubtotalProps
           {`  = `}
           <span className='purple'>1</span>
           <span className='purple'>{toToken.symbol}</span>
+        </span>
+      </div>
+      <div>
+        <span>
+          {`${t('allowance.title')} `}
+          <TooltipComponent text={t('allowance.description')}>
+            <QuestionIcon />
+          </TooltipComponent>
+        </span>
+        <span>
+          <span className='purple'>{`${truncateDecimal('0', 2)}`}</span>
+          <span className='purple'>{fromToken.symbol}</span>
         </span>
       </div>
       <div>

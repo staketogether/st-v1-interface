@@ -65,6 +65,10 @@
   "wrapped": "Wrapped",
   "unwrap": "Unwrap",
   "unwrapped": "Unwrapped",
+  "allowance": {
+    "title": "Allowance",
+    "description": "The required authorization for address to spend tokens on your Behalf"
+  },
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -340,6 +344,14 @@
       "title": "Beacon Chain Withdrawals",
       "pending": "Pending",
       "claim": "Claim"
+    },
+    "wrap": {
+      "subtotal": {
+        "maxUnlockFee": "Max unlock fee",
+        "maxUnlockFeeTooltip": "The maximum fee amount of ETH to be paid for the unlock transaction.",
+        "maxGasFee": "Max gas fee",
+        "maxGasFeeTooltip": "The maximum fee amount of ETH to be paid for the transaction."
+      }
     }
   }
 }

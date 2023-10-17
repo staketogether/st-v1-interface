@@ -65,6 +65,10 @@
   "wrapped": "Embrulhado",
   "unwrap": "Desembrulhar",
   "unwrapped": "Desembrulhado",
+  "allowance": {
+    "title": "Permissão",
+    "description": "A permissão é obrigatória para que o endereço possa realizar transações em seu nome."
+  },
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -341,6 +345,14 @@
       "title": "Saques da Beacon Chain",
       "pending": "Pendente",
       "claim": "Resgatar"
+    },
+    "wrap": {
+      "subtotal": {
+        "maxUnlockFee": "Máx. taxa de desbloqueio",
+        "maxUnlockFeeTooltip": "Taxa de desbloqueio máxima é o você pagará em ETH para desembrulhar o token.",
+        "maxGasFee": "Máx. taxa de gás",
+        "maxGasFeeTooltip": "Taxa de gás máxima é o você pagará para realizar a transação."
+      }
     }
   }
 }
