@@ -1,5 +1,7 @@
 import { HTMLProps } from 'react'
-import { WrapWidgetDetails, WrapWidgetToken } from './WrapWidgetDetails'
+import { WrapWidgetDetails } from './WrapWidgetDetails'
+import { WrapWidgetToken } from './WrapWidget'
+
 import { WrapWidgetForm } from './WrapWidgetForm'
 import styled from 'styled-components'
 import { WrapWidgetSubtotal } from './WrapWidgetSubtotal'

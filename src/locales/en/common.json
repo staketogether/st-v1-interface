@@ -65,6 +65,7 @@
   "wrapped": "Wrapped",
   "unwrap": "Unwrap",
   "unwrapped": "Unwrapped",
+  "approve": "Approve",
   "allowance": {
     "title": "Allowance",
     "description": "The required authorization for address to spend tokens on your Behalf"

@@ -6,14 +6,7 @@ import { useRouter } from 'next/router'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-
-export type WrapWidgetToken = {
-  address: string
-  symbol: string
-  icon: string
-  balance: bigint
-  loading?: boolean
-}
+import { WrapWidgetToken } from './WrapWidget'
 
 export type WrapWidgetDetailsProps = HTMLProps<HTMLDivElement> & {
   isUnwraping?: boolean
@@ -23,6 +16,7 @@ export type WrapWidgetDetailsProps = HTMLProps<HTMLDivElement> & {
 export const WrapWidgetDetails = ({ tokens, isUnwraping, ...props }: WrapWidgetDetailsProps) => {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
+
   const [fromToken, toToken] = tokens
 
   return (

@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { PiQuestion } from 'react-icons/pi'
 import TooltipComponent from '@/components/shared/TooltipComponent'
-import { WrapWidgetToken } from './WrapWidgetDetails'
-import { truncateDecimal } from '@/services/truncate'
+import { WrapWidgetToken } from './WrapWidget'
+import { truncateDecimal, truncateWei } from '@/services/truncate'
 
 export type WrapWidgetSubtotalProps = HTMLProps<HTMLDivElement> & {
   tokens: WrapWidgetToken[]
@@ -62,7 +62,7 @@ export const WrapWidgetSubtotal = ({ tokens, ...props }: WrapWidgetSubtotalProps
           </TooltipComponent>
         </span>
         <span>
-          <span className='purple'>{`${truncateDecimal('0', 2)}`}</span>
+          <span className='purple'>{`${truncateWei(fromToken.allowance, 2)}`}</span>
           <span className='purple'>{fromToken.symbol}</span>
         </span>
       </div>

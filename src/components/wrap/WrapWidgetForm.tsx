@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { PiArrowLineRight, PiArrowLineLeft } from 'react-icons/pi'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import { WrapWidgetToken } from './WrapWidgetDetails'
+import { WrapWidgetToken } from './WrapWidget'
 import { useReactiveVar } from '@apollo/client'
 import { ethers } from 'ethers'
 
@@ -16,16 +16,19 @@ export type WrapWidgetFormProps = HTMLProps<HTMLDivElement> & {
 }
 
 export const WrapWidgetForm = ({ tokens, isUnwraping, ...props }: WrapWidgetFormProps) => {
+  const { t } = useLocaleTranslation()
+  const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
+  const { account } = useConnectedAccount()
+
+  const [fromToken, toToken] = tokens
+
   const value = useReactiveVar(inputValue)
   const valueAsBigNumber = ethers.parseEther(value || '0')
 
-  const [fromToken, toToken] = tokens
-  const { t } = useLocaleTranslation()
-  const { account } = useConnectedAccount()
-  const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
-
   const insufficientFunds = valueAsBigNumber > fromToken.balance
   const insufficientMinDeposit = valueAsBigNumber <= 0 && value.length > 0
+  const insufficientAllowance = valueAsBigNumber > fromToken.allowance
+
   const hasErrors = insufficientFunds || insufficientMinDeposit
 
   return (
@@ -50,9 +53,14 @@ export const WrapWidgetForm = ({ tokens, isUnwraping, ...props }: WrapWidgetForm
           icon={isUnwraping ? <ArrowLeft /> : <ArrowRight />}
           disabled={!value || hasErrors}
         >
-          {insufficientFunds && t('form.insufficientFunds')}
-          {insufficientMinDeposit && t('form.insufficientMinDeposit')}
-          {!hasErrors && t(isUnwraping ? 'unwrap' : 'wrap')}
+          {hasErrors ? (
+            <>
+              {insufficientFunds && t('form.insufficientFunds')}
+              {insufficientMinDeposit && t('form.insufficientMinDeposit')}
+            </>
+          ) : (
+            <>{insufficientAllowance ? t('approve') : t(isUnwraping ? 'unwrap' : 'wrap')}</>
+          )}
         </Button>
       )}
     </Container>

@@ -65,6 +65,7 @@
   "wrapped": "Embrulhado",
   "unwrap": "Desembrulhar",
   "unwrapped": "Desembrulhado",
+  "approve": "Aprovar",
   "allowance": {
     "title": "Permissão",
     "description": "A permissão é obrigatória para que o endereço possa realizar transações em seu nome."

@@ -2,35 +2,47 @@ import { Tabs } from '@/components/shared/Tabs'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { WrapWidgetContainer } from './WrapWidgetContainer'
 import { useRouter } from 'next/router'
-import { ZeroAddress } from 'ethers'
 
 import stSymbol from '@assets/st-symbol.svg'
 import wstpSymbol from '@assets/wstp-symbol.svg'
 import useStAccount from '@/hooks/subgraphs/useStAccount'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
+import chainConfig from '@/config/chain'
+
+export type WrapWidgetToken = {
+  address: `0x${string}`
+  symbol: string
+  icon: string
+  balance: bigint
+  loading?: boolean
+  allowance: bigint
+}
 
 export const WrapWidget = () => {
   const { t } = useLocaleTranslation()
   const router = useRouter()
   const isUnwraping = router.query.slug?.includes('unwrap') || false
+
   const { account } = useConnectedAccount()
-
   const { accountBalance, accountIsLoading } = useStAccount(account)
+  const { contracts } = chainConfig()
 
-  const token1 = {
-    address: ZeroAddress,
-    symbol: t('lsd.symbol'),
+  const token1: WrapWidgetToken = {
+    address: contracts.StakeTogether,
     icon: stSymbol,
+    symbol: t('lsd.symbol'),
     balance: accountBalance || BigInt(0),
-    loading: accountIsLoading
+    loading: accountIsLoading,
+    allowance: BigInt(0) // get token 2 allowance
   }
 
-  const token2 = {
-    address: ZeroAddress,
-    symbol: t('wstp.symbol'),
+  const token2: WrapWidgetToken = {
+    address: contracts.StakeTogether, // must be changed
     icon: wstpSymbol,
-    balance: BigInt(0),
-    loading: false
+    symbol: t('wstp.symbol'),
+    balance: BigInt(0), // must be changed
+    loading: false, // must be changed
+    allowance: BigInt(0) // get token 1 allowance
   }
 
   const tokens = isUnwraping ? [token2, token1] : [token1, token2]

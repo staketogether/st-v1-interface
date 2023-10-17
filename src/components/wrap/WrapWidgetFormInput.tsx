@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { type HTMLProps, useRef } from 'react'
 import styled from 'styled-components'
-import { WrapWidgetToken } from './WrapWidgetDetails'
+import { WrapWidgetToken } from './WrapWidget'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
 import { makeVar, useReactiveVar } from '@apollo/client'
