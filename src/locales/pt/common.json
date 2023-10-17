@@ -92,7 +92,8 @@
     "connectWallet": "Conectar Carteira",
     "selectPool": "Selecionar Pool",
     "insufficientFunds": "Saldo insuficiente",
-    "insufficientMinDeposit": "Valor mínimo de depósito insuficiente",
+    "insufficientMinDeposit": "Valor mín. de depósito insuficiente",
+    "insufficientMinDepositValue": "Valor mín. de depósito é",
     "insufficientLiquidity": "Liquidez insuficiente para saque",
     "amount": "Quantidade"
   },

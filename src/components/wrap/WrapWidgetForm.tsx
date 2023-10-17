@@ -13,26 +13,33 @@ import { ethers } from 'ethers'
 export type WrapWidgetFormProps = HTMLProps<HTMLDivElement> & {
   isUnwraping?: boolean
   tokens: WrapWidgetToken[]
-  loading?: boolean
 }
 
-export const WrapWidgetForm = ({ tokens, loading, isUnwraping, ...props }: WrapWidgetFormProps) => {
+export const WrapWidgetForm = ({ tokens, isUnwraping, ...props }: WrapWidgetFormProps) => {
   const value = useReactiveVar(inputValue)
-  const [fromToken] = tokens
+  const valueAsBigNumber = ethers.parseEther(value || '0')
+
+  const [fromToken, toToken] = tokens
   const { t } = useLocaleTranslation()
   const { account } = useConnectedAccount()
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
-  const insufficientFunds = ethers.parseEther(value || '0') > fromToken.balance
-  const hasErrors = insufficientFunds
+  const insufficientFunds = valueAsBigNumber > fromToken.balance
+  const insufficientMinDeposit = valueAsBigNumber <= 0 && value.length > 0
+  const hasErrors = insufficientFunds || insufficientMinDeposit
 
   return (
     <Container {...props}>
-      <WrapWidgetFormInput tokens={tokens} loading={loading} hasError={hasErrors} />
+      <WrapWidgetFormInput
+        tokens={tokens}
+        loading={fromToken.loading || toToken.loading}
+        hasError={hasErrors}
+        disabled={!account || fromToken.loading || toToken.loading}
+      />
       {!account ? (
         <Button
           onClick={() => setOpenSidebarConnectWallet(true)}
-          isLoading={loading || openSidebarConnectWallet}
+          isLoading={fromToken.loading || toToken.loading || openSidebarConnectWallet}
           label={t('v2.header.enter')}
           icon={<ArrowRight />}
         />
@@ -41,9 +48,10 @@ export const WrapWidgetForm = ({ tokens, loading, isUnwraping, ...props }: WrapW
           isLoading={false}
           onClick={() => {}}
           icon={isUnwraping ? <ArrowLeft /> : <ArrowRight />}
-          disabled={hasErrors}
+          disabled={!value || hasErrors}
         >
           {insufficientFunds && t('form.insufficientFunds')}
+          {insufficientMinDeposit && t('form.insufficientMinDeposit')}
           {!hasErrors && t(isUnwraping ? 'unwrap' : 'wrap')}
         </Button>
       )}

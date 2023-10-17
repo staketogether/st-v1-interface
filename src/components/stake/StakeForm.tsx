@@ -223,7 +223,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const errorLabel =
     ((insufficientFunds || insufficientFundsPerGas) && t('form.insufficientFunds')) ||
     (insufficientMinDeposit &&
-      `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
+      `${t('form.insufficientMinDepositValue')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
     (insufficientWithdrawalBalance &&
       `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
     (insufficientWithdrawalEthBalance &&

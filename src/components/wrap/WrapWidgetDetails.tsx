@@ -5,12 +5,14 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useRouter } from 'next/router'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
+import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 
 export type WrapWidgetToken = {
   address: string
   symbol: string
   icon: string
   balance: bigint
+  loading?: boolean
 }
 
 export type WrapWidgetDetailsProps = HTMLProps<HTMLDivElement> & {
@@ -33,12 +35,16 @@ export const WrapWidgetDetails = ({ tokens, isUnwraping, ...props }: WrapWidgetD
           <header>
             <h4>{t('available')}</h4>
           </header>
-          <div>
-            <span className='primary'>
-              {formatNumberByLocale(truncateWei(BigInt(fromToken.balance), 6), locale)}
-            </span>
-            <span className='primary'>{fromToken.symbol}</span>
-          </div>
+          {fromToken.loading ? (
+            <SkeletonLoading height={20} width={120} />
+          ) : (
+            <div>
+              <span className='primary'>
+                {formatNumberByLocale(truncateWei(BigInt(fromToken.balance), 6), locale)}
+              </span>
+              <span className='primary'>{fromToken.symbol}</span>
+            </div>
+          )}
         </Token>
       </Info>
       <Info>
@@ -46,12 +52,16 @@ export const WrapWidgetDetails = ({ tokens, isUnwraping, ...props }: WrapWidgetD
           <header>
             <h4>{t(isUnwraping ? 'unwrapped' : 'wrapped')}</h4>
           </header>
-          <div>
-            <span className='purple'>
-              {formatNumberByLocale(truncateWei(BigInt(toToken.balance), 6), locale)}
-            </span>
-            <span className='purple'>{toToken.symbol}</span>
-          </div>
+          {toToken.loading ? (
+            <SkeletonLoading height={20} width={120} />
+          ) : (
+            <div>
+              <span className='purple'>
+                {formatNumberByLocale(truncateWei(BigInt(toToken.balance), 6), locale)}
+              </span>
+              <span className='purple'>{toToken.symbol}</span>
+            </div>
+          )}
         </Token>
         <div>
           <Image src={toToken.icon} width={30} height={30} alt={toToken.symbol} />

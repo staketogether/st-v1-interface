@@ -15,20 +15,22 @@ export const WrapWidget = () => {
   const isUnwraping = router.query.slug?.includes('unwrap') || false
   const { account } = useConnectedAccount()
 
-  const stAccount = useStAccount(account)
+  const { accountBalance, accountIsLoading } = useStAccount(account)
 
   const token1 = {
     address: ZeroAddress,
     symbol: t('lsd.symbol'),
     icon: stSymbol,
-    balance: stAccount?.accountBalance || BigInt(0)
+    balance: accountBalance || BigInt(0),
+    loading: accountIsLoading
   }
 
   const token2 = {
     address: ZeroAddress,
     symbol: t('wstp.symbol'),
     icon: wstpSymbol,
-    balance: BigInt(0)
+    balance: BigInt(0),
+    loading: false
   }
 
   const tokens = isUnwraping ? [token2, token1] : [token1, token2]
