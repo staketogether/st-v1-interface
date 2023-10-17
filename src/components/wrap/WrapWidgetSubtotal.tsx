@@ -5,8 +5,6 @@ import { PiQuestion } from 'react-icons/pi'
 import TooltipComponent from '@/components/shared/TooltipComponent'
 import { WrapWidgetToken } from './WrapWidgetDetails'
 import { truncateDecimal } from '@/services/truncate'
-import { inputValue } from './WrapWidgetFormInput'
-import { useReactiveVar } from '@apollo/client'
 
 export type WrapWidgetSubtotalProps = HTMLProps<HTMLDivElement> & {
   tokens: WrapWidgetToken[]
@@ -14,7 +12,6 @@ export type WrapWidgetSubtotalProps = HTMLProps<HTMLDivElement> & {
 
 export const WrapWidgetSubtotal = ({ tokens, ...props }: WrapWidgetSubtotalProps) => {
   const { t } = useLocaleTranslation()
-  const amount = useReactiveVar(inputValue)
   const [fromToken, toToken] = tokens
 
   return (
@@ -53,7 +50,7 @@ export const WrapWidgetSubtotal = ({ tokens, ...props }: WrapWidgetSubtotalProps
         <span>
           <span className='blue'>1</span> <span className='blue'>{fromToken.symbol}</span>
           {`  = `}
-          <span className='purple'>1</span>
+          <span className='purple'>0</span>
           <span className='purple'>{toToken.symbol}</span>
         </span>
       </div>
@@ -77,7 +74,7 @@ export const WrapWidgetSubtotal = ({ tokens, ...props }: WrapWidgetSubtotalProps
           </TooltipComponent>
         </span>
         <span>
-          <span className='purple'>{`${truncateDecimal(amount || '0', 2)}`}</span>
+          <span className='purple'>{`${truncateDecimal('0', 2)}`}</span>
           <span className='purple'>{toToken.symbol}</span>
         </span>
       </div>

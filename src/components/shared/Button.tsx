@@ -1,10 +1,10 @@
-import { ReactNode } from 'react'
+import { ButtonHTMLAttributes, ReactNode } from 'react'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick: () => void
-  label: string
+  label?: string
   icon: ReactNode
   isLoading: boolean
   disabled?: boolean
@@ -19,14 +19,21 @@ export default function Button({
   isLoading,
   icon,
   small = false,
-  block = false
+  block = false,
+  children,
+  ...props
 }: ButtonProps) {
   const { t } = useLocaleTranslation()
 
   return (
-    <Container onClick={onClick} disabled={disabled} className={`${small && 'small'} ${block && 'block'}`}>
+    <Container
+      {...props}
+      onClick={onClick}
+      disabled={disabled}
+      className={`${small && 'small'} ${block && 'block'}`}
+    >
       {icon}
-      {isLoading ? t('processing') : label}
+      {isLoading ? t('processing') : label || children}
     </Container>
   )
 }

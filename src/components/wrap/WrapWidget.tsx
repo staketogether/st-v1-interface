@@ -6,22 +6,29 @@ import { ZeroAddress } from 'ethers'
 
 import stSymbol from '@assets/st-symbol.svg'
 import wstpSymbol from '@assets/wstp-symbol.svg'
+import useStAccount from '@/hooks/subgraphs/useStAccount'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
 
 export const WrapWidget = () => {
   const { t } = useLocaleTranslation()
   const router = useRouter()
   const isUnwraping = router.query.slug?.includes('unwrap') || false
+  const { account } = useConnectedAccount()
+
+  const stAccount = useStAccount(account)
 
   const token1 = {
     address: ZeroAddress,
     symbol: t('lsd.symbol'),
-    icon: stSymbol
+    icon: stSymbol,
+    balance: stAccount?.accountBalance || BigInt(0)
   }
 
   const token2 = {
     address: ZeroAddress,
     symbol: t('wstp.symbol'),
-    icon: wstpSymbol
+    icon: wstpSymbol,
+    balance: BigInt(0)
   }
 
   const tokens = isUnwraping ? [token2, token1] : [token1, token2]

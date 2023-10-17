@@ -10,6 +10,7 @@ export type WrapWidgetToken = {
   address: string
   symbol: string
   icon: string
+  balance: bigint
 }
 
 export type WrapWidgetDetailsProps = HTMLProps<HTMLDivElement> & {
@@ -33,7 +34,9 @@ export const WrapWidgetDetails = ({ tokens, isUnwraping, ...props }: WrapWidgetD
             <h4>{t('available')}</h4>
           </header>
           <div>
-            <span className='primary'>{formatNumberByLocale(truncateWei(BigInt(0), 6), locale)}</span>
+            <span className='primary'>
+              {formatNumberByLocale(truncateWei(BigInt(fromToken.balance), 6), locale)}
+            </span>
             <span className='primary'>{fromToken.symbol}</span>
           </div>
         </Token>
@@ -44,7 +47,9 @@ export const WrapWidgetDetails = ({ tokens, isUnwraping, ...props }: WrapWidgetD
             <h4>{t(isUnwraping ? 'unwrapped' : 'wrapped')}</h4>
           </header>
           <div>
-            <span className='purple'>{formatNumberByLocale(truncateWei(BigInt(0), 6), locale)}</span>
+            <span className='purple'>
+              {formatNumberByLocale(truncateWei(BigInt(toToken.balance), 6), locale)}
+            </span>
             <span className='purple'>{toToken.symbol}</span>
           </div>
         </Token>

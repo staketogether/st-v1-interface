@@ -9,12 +9,19 @@ import { makeVar, useReactiveVar } from '@apollo/client'
 export const inputValue = makeVar('')
 
 export type WrapWidgetFormInputProps = HTMLProps<HTMLDivElement> & {
+  loading?: boolean
   tokens: WrapWidgetToken[]
   disabled?: boolean
   hasError?: boolean
 }
 
-export const WrapWidgetFormInput = ({ disabled, hasError, tokens, ...props }: WrapWidgetFormInputProps) => {
+export const WrapWidgetFormInput = ({
+  disabled,
+  loading,
+  hasError,
+  tokens,
+  ...props
+}: WrapWidgetFormInputProps) => {
   const [fromToken, toToken] = tokens
   const value = useReactiveVar(inputValue)
   const { t } = useLocaleTranslation()
@@ -64,12 +71,12 @@ export const WrapWidgetFormInput = ({ disabled, hasError, tokens, ...props }: Wr
                 ''
               )}
               <span className={`${hasError ? 'error' : ''}`}>
-                {`${toToken.symbol} ${truncateDecimal(value || '0', 2)}`}
+                {`${toToken.symbol} ${truncateDecimal('0', 2)}`}
               </span>
             </InputContainer>
           </div>
 
-          <MaxValue disabled={disabled} onClick={handleMaxValue}>
+          <MaxValue disabled={loading || disabled} onClick={handleMaxValue}>
             {t('max')}
           </MaxValue>
         </Content>
