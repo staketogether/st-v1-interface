@@ -17,7 +17,7 @@ export const FacebookPixel = () => {
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', 'SEU_ID_DO_PIXEL');
+        fbq('init', '1367668057155824');
         fbq('track', 'PageView');
       `
         }}
