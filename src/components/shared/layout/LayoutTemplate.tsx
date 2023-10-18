@@ -10,6 +10,7 @@ import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
+import { FacebookPixel } from '../scripts/FacebookPixel'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -26,6 +27,7 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
           <GoogleTag />
           <Hotjar />
           <Cloudflare />
+          <FacebookPixel />
         </>
       )}
       <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
