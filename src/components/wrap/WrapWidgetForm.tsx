@@ -27,7 +27,7 @@ export const WrapWidgetForm = ({ tokens, isUnwraping, ...props }: WrapWidgetForm
 
   const insufficientFunds = valueAsBigNumber > fromToken.balance
   const insufficientMinDeposit = valueAsBigNumber <= 0 && value.length > 0
-  const insufficientAllowance = valueAsBigNumber > fromToken.allowance
+  const insufficientAllowance = valueAsBigNumber > toToken.allowance
 
   const hasErrors = insufficientFunds || insufficientMinDeposit
 

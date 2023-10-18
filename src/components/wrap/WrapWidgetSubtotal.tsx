@@ -12,6 +12,7 @@ export type WrapWidgetSubtotalProps = HTMLProps<HTMLDivElement> & {
 
 export const WrapWidgetSubtotal = ({ tokens, ...props }: WrapWidgetSubtotalProps) => {
   const { t } = useLocaleTranslation()
+
   const [fromToken, toToken] = tokens
 
   return (
@@ -62,7 +63,7 @@ export const WrapWidgetSubtotal = ({ tokens, ...props }: WrapWidgetSubtotalProps
           </TooltipComponent>
         </span>
         <span>
-          <span className='purple'>{`${truncateWei(fromToken.allowance, 2)}`}</span>
+          <span className='purple'>{`${truncateWei(toToken.allowance, 2)}`}</span>
           <span className='purple'>{fromToken.symbol}</span>
         </span>
       </div>

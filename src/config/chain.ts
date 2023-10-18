@@ -18,6 +18,7 @@ export type ChainConfig = {
     Withdrawals: `0x${string}`
     Router: `0x${string}`
     StakeTogether: `0x${string}`
+    WrappedStageTogether: `0x${string}`
   }
 }
 
@@ -33,7 +34,8 @@ const configs: ChainConfig[] = [
       Airdrop: '0x42bcFc7DB9211b2FfB0C85c1F459780D6d2279f5',
       Withdrawals: '0xD265ED544C4B9F0F7f47fe4b8f527792b6FaD587',
       Router: '0x0973b86d4beb6398F79F68ae8b59Fe5Be1e6699b',
-      StakeTogether: '0x55b838a0985B9F8b2aE1c60F47bca0FbcDbD4800'
+      StakeTogether: '0x55b838a0985B9F8b2aE1c60F47bca0FbcDbD4800',
+      WrappedStageTogether: '0xDE97faA105f3759A19CEF4d961Ea172C0aFF6456'
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/51080/stake-together/v0.0.48',

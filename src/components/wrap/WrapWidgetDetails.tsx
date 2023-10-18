@@ -13,6 +13,10 @@ export type WrapWidgetDetailsProps = HTMLProps<HTMLDivElement> & {
   tokens: WrapWidgetToken[]
 }
 
+/**
+ * ToDo: check tooltips
+ */
+
 export const WrapWidgetDetails = ({ tokens, isUnwraping, ...props }: WrapWidgetDetailsProps) => {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
