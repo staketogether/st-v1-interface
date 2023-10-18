@@ -5,12 +5,12 @@ import { useForm } from 'react-hook-form'
 import { PiFloppyDiskLight } from 'react-icons/pi'
 import YouTube from 'react-youtube'
 import styled from 'styled-components'
-import Button from '../shared/Button'
-import GenericInput from '../shared/GenericInput'
-import CommunityLogo from '../shared/community/CommunityLogo'
-import CommunityName from '../shared/community/CommunityName'
+import Button from '../Button'
+import GenericInput from '../GenericInput'
+import CommunityLogo from './CommunityLogo'
+import CommunityName from './CommunityName'
 
-export default function StakeProfileEdit({
+export default function CommunityForm({
   poolDetail,
   poolDetailLoading
 }: {
@@ -53,13 +53,9 @@ export default function StakeProfileEdit({
       autoplay: 0
     }
   }
-  const formData = new FormData()
+
   const onSubmit = async (data: object) => {
     console.log(data)
-    formData.append('cover', data.cover[0])
-    formData.append('contract', data.contract)
-    // const response = await axios.post('/api/profile', formData)
-    // console.log('formData', formData)
   }
   return (
     <Container>
@@ -114,7 +110,7 @@ export default function StakeProfileEdit({
   )
 }
 
-const { Container, FormControl, SaveIcon, ImageCover, InputFile } = {
+const { Container, FormControl, SaveIcon, ImageCover } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
@@ -146,8 +142,5 @@ const { Container, FormControl, SaveIcon, ImageCover, InputFile } = {
     height: 237px !important;
     border-radius: ${({ theme }) => theme.size[8]};
     object-fit: cover;
-  `,
-  InputFile: styled.input`
-    display: block;
   `
 }

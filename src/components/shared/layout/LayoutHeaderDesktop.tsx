@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
+import Button from '../Button'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
@@ -45,6 +46,7 @@ export default function LayoutHeader() {
         </Menu>
       </MenuContainer>
       <WalletContainer>
+        <Button small isLoading={false} onClick={() => {}} label={`Cadastrar comunidade`} icon={<></>} />
         <Wallet />
       </WalletContainer>
     </Container>
@@ -100,6 +102,7 @@ const {
     display: grid;
     align-items: center;
     justify-content: flex-end;
+    gap: ${({ theme }) => theme.size[8]};
     grid-template-columns: auto auto;
   `,
   Menu: styled.nav`
