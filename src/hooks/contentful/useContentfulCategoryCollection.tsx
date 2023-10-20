@@ -2,18 +2,15 @@ import { contentfulClient } from '@/config/apollo'
 import { queryContentfulCategoryCollection } from '@/queries/contentful/queryContentfulCategoryCollection'
 import { ContentFulCategory } from '@/types/ContentfulPool'
 import { useQuery } from '@apollo/client'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 export default function useContentfulCategoryCollection() {
   const [categories, setCategories] = useState<ContentFulCategory[] | null>(null)
   const [poolsIsLoading, setPoolsIsLoading] = useState<boolean>(false)
-  const router = useRouter()
 
   const { data, loading } = useQuery<{ categoryCollection: { items: ContentFulCategory[] } }>(
     queryContentfulCategoryCollection,
     {
-      variables: { locale: router.locale === 'en' ? 'en-US' : router.locale },
       client: contentfulClient
     }
   )

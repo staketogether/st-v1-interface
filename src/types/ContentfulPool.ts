@@ -3,8 +3,13 @@ export type ContentfulImage = {
   fileName: string
 }
 
+export type Sys = {
+  id: string
+}
+
 export type ContentFulCategory = {
   name: string
+  sys: Sys
 }
 
 export type ContentfulPool = {
@@ -13,6 +18,7 @@ export type ContentfulPool = {
   logo: ContentfulImage
   category: {
     name: string
+    sys?: Sys
   }
   cover: ContentfulImage
   video?: string

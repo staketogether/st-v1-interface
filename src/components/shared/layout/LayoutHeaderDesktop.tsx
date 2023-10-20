@@ -8,10 +8,15 @@ import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import Button from '../Button'
+import useRegisterCommunitySidebar from '@/hooks/useRegisterCommunitySidebar'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import CommunitySidebarRegister from '@/components/community/CommunitySidebarRegister'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
+  const { account, accountIsConnected } = useConnectedAccount()
+  const { setOpenSidebar: openRegisterCommunitySidebar } = useRegisterCommunitySidebar()
   const { query } = useRouter()
   const { currency, network } = query
 
@@ -46,9 +51,18 @@ export default function LayoutHeader() {
         </Menu>
       </MenuContainer>
       <WalletContainer>
-        <Button small isLoading={false} onClick={() => {}} label={`Cadastrar comunidade`} icon={<></>} />
-        <Wallet />
+        <Button
+          small
+          isLoading={false}
+          onClick={() => openRegisterCommunitySidebar(true)}
+          label={`Cadastrar comunidade`}
+          icon={<></>}
+        />
+        <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
+      {account && accountIsConnected && (
+        <CommunitySidebarRegister account={account} accountIsConnected={accountIsConnected} />
+      )}
     </Container>
   )
 }

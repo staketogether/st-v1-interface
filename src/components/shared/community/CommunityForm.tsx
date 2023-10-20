@@ -9,25 +9,34 @@ import Button from '../Button'
 import GenericInput from '../GenericInput'
 import CommunityLogo from './CommunityLogo'
 import CommunityName from './CommunityName'
+import axios from 'axios'
+import { useSignMessage } from 'wagmi'
+import { notification } from 'antd'
+import GenericInputFile from '../GenericInputFile'
+import { CommunityContentfulForm } from '@/types/CommunityForm'
 
-export default function CommunityForm({
-  poolDetail,
-  poolDetailLoading
-}: {
-  poolDetail: ContentfulPool
-  poolDetailLoading: boolean
-}) {
+type CommunityFormProps = {
+  poolDetail?: ContentfulPool
+  account: `0x${string}`
+  accountIsConnected: boolean
+}
+
+export default function CommunityForm({ poolDetail, account }: CommunityFormProps) {
   const { categories } = useContentfulCategoryCollection()
   const { t } = useLocaleTranslation()
+
   const {
     register,
-    handleSubmit,
-    formState: { errors },
-    watch
-  } = useForm({
+    formState: { errors, isValid },
+    watch,
+    getValues,
+    setValue
+  } = useForm<CommunityContentfulForm>({
     defaultValues: {
       ...poolDetail,
-      category: poolDetail.category
+      logo: { buffer: undefined, mimeType: undefined },
+      wallet: account,
+      category: poolDetail?.category?.sys?.id
     }
   })
 
@@ -54,38 +63,63 @@ export default function CommunityForm({
     }
   }
 
-  const onSubmit = async (data: object) => {
-    console.log(data)
+  const message = `Create community - ${account} `
+  const { signMessage } = useSignMessage({
+    message: message,
+    onSuccess: async data => {
+      const createCommunityForm = getValues()
+      const signatureMessage = { signature: data, message: message }
+
+      await axios.post('/api/community/create', {
+        form: {
+          ...createCommunityForm,
+          wallet: account
+        },
+        signatureMessage
+      })
+      notification.success({
+        message: `communidate criada com sucesso!`,
+        placement: 'topRight'
+      })
+    }
+  })
+
+  const onSubmit = async () => {
+    const createCommunityForm = getValues()
+    console.log('form', createCommunityForm)
+    await signMessage()
   }
+
   return (
     <Container>
-      <header>
-        <CommunityLogo
-          size={32}
-          src={poolDetail?.logo?.url}
-          alt={poolDetail?.logo?.url}
-          loading={poolDetailLoading}
-        />
-        {poolDetail && <CommunityName $larger name={poolDetail?.name} loading={poolDetailLoading} />}
-      </header>
-      <FormControl onSubmit={handleSubmit(onSubmit)} action='/api/profile' method='post'>
-        <GenericInput title={t('v2.stakeProfileEdit.logo')} type='file' register={register('logo.url')} />
+      {poolDetail && (
+        <header>
+          <CommunityLogo size={32} src={poolDetail?.logo?.url} alt={poolDetail?.logo?.url} />
+          <CommunityName $larger name={poolDetail?.name} />
+        </header>
+      )}
+      <FormControl>
+        <GenericInputFile setValue={setValue} />
         <GenericInput
           title={t('v2.stakeProfileEdit.communityName')}
           register={register('name', { required: true })}
           type='text'
           error={errors.name ? t('v2.stakeProfileEdit.requiredField') : ''}
         />
-        <input type='file' {...register('cover')} />
+        {/* <input type='file' {...register('cover')} /> */}
         {/* <GenericInputFile name={t('v2.stakeProfileEdit.cover')} title="Cover" form={formData} /> */}
         {poolDetail && <ImageCover src={poolDetail.cover?.url} alt={poolDetail.cover?.fileName} />}
         <GenericInput title={t('v2.stakeProfileEdit.video')} register={register('video')} />
         {contentfulVideo && videoId && <YouTube videoId={videoId} opts={opts} />}
         <GenericInput
           title={t('v2.stakeProfileEdit.category')}
-          register={register('category.name')}
+          register={register('category')}
           type='select'
-          options={categories?.map(category => ({ value: category.name, key: category.name }))}
+          error={errors.category ? t('v2.stakeProfileEdit.requiredField') : ''}
+          options={categories?.map(category => ({
+            value: { label: category.name, value: category.sys.id },
+            key: category.sys.id
+          }))}
         />
         <GenericInput title={t('v2.stakeProfileEdit.site')} register={register('site')} />
         <GenericInput title={t('v2.stakeProfileEdit.linkedin')} register={register('linkedin')} />
@@ -104,7 +138,13 @@ export default function CommunityForm({
           type='longText'
         />
 
-        <Button label={t('v2.stakeProfileEdit.save')} isLoading={false} type='submit' icon={<SaveIcon />} />
+        <Button
+          label={t('v2.stakeProfileEdit.save')}
+          onClick={onSubmit}
+          isLoading={false}
+          disabled={!isValid}
+          icon={<SaveIcon />}
+        />
       </FormControl>
     </Container>
   )
@@ -129,7 +169,7 @@ const { Container, FormControl, SaveIcon, ImageCover } = {
       gap: ${({ theme }) => theme.size[8]};
     }
   `,
-  FormControl: styled.form`
+  FormControl: styled.div`
     display: grid;
     grid-template-columns: 1fr;
     gap: ${({ theme }) => theme.size[16]};

@@ -1,10 +1,13 @@
 import { gql } from '@apollo/client'
 
 export const queryContentfulCategoryCollection = gql`
-  query CategoryCollection($locale: String) {
+  query CategoryCollection {
     categoryCollection {
       items {
-        name(locale: $locale)
+        name
+        sys {
+          id
+        }
       }
     }
   }

@@ -1,6 +1,3 @@
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { lightTheme } from '@/styles/theme'
-import { Upload } from 'antd'
 import { UseFormRegisterReturn } from 'react-hook-form'
 import styled from 'styled-components'
 
@@ -14,39 +11,22 @@ export default function GenericInput({
   title?: string
   error?: string
   register: UseFormRegisterReturn<string>
-  type?: 'text' | 'longText' | 'file' | 'select'
-  options?: { key: string; value: string }[]
+  type?: 'text' | 'longText' | 'select'
+  options?: { key: string; value: { label: string; value: string | number } }[]
 }) {
-  const { t } = useLocaleTranslation()
-  const { colorV2, color } = lightTheme
   return (
     <Content>
       {title && <span>{title}</span>}
       <InputContainer>
         {type === 'text' && <input type='text' {...register} />}
-        {type === 'file' && (
-          <>
-            <input type='file' />
-            <Upload
-              listType='picture'
-              maxCount={1}
-              progress={{
-                strokeColor: {
-                  '0%': `${colorV2.blue[1]}`,
-                  '100%': `${color.green[500]}`
-                },
-                strokeWidth: 3,
-                format: percent => percent && `${parseFloat(percent.toFixed(2))}%`
-              }}
-            >
-              <button>{t('v2.stakeProfileEdit.choseFile')}</button>
-            </Upload>
-          </>
-        )}
         {type === 'longText' && <textarea {...register} />}
         {type === 'select' && options && (
           <select {...register}>
-            {options?.map(option => <option key={option.key}>{option.value}</option>)}
+            {options?.map(option => (
+              <option key={option.key} value={option.value.value}>
+                {option.value.label}
+              </option>
+            ))}
           </select>
         )}
       </InputContainer>
