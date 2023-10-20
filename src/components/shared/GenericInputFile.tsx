@@ -23,11 +23,22 @@ export default function GenericInputFile({ setValue }: GenericInputFileProps) {
       const reader = new FileReader()
 
       reader.onload = event => {
-        const imageBuffer = Buffer.from(event.target?.result as ArrayBuffer) // Usar Buffer em vez de ArrayBuffer
-        const mimeType = file.type
-        const imageDataURL = URL.createObjectURL(file)
-        setSelectedImage(imageDataURL)
-        setValue('logo', { buffer: imageBuffer, mimeType })
+        if (event && event.target && event.target.result) {
+          const imageDataURL = URL.createObjectURL(file)
+          const image = event.target.result as string
+          const [imageType, imageBase64] = image.split(',')
+          const mimeType = imageType.split(':')[1].split(';')[0]
+          const decodedImage = Buffer.from(imageBase64, 'base64')
+
+          console.log('image', image)
+          console.log('imagetype', imageType)
+          console.log('ímagebase64', imageBase64)
+          console.log('mimetype', mimeType)
+          console.log('decodeImage', decodedImage)
+
+          setSelectedImage(imageDataURL)
+          setValue('logo', { buffer: decodedImage, mimeType })
+        }
       }
 
       reader.readAsDataURL(file)
@@ -36,7 +47,6 @@ export default function GenericInputFile({ setValue }: GenericInputFileProps) {
       alert('Por favor, selecione uma imagem válida.')
     }
   }
-
   const handleFileSelect = () => {
     if (fileInputRef.current) {
       fileInputRef.current?.click()

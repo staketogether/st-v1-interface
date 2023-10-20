@@ -36,49 +36,49 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         'en-US': Date.now().toString()
       },
       description: {
-        'en-US': ' '
+        'en-US': ''
       },
       file: {
         'en-US': {
           fileName: `${Date.now().toString()}.${form.logo.mimeType.split('/')[1]}`,
-          file: form.logo.buffer.data,
+          file: form.logo.buffer,
           contentType: form.logo.mimeType
         }
       }
     }
   })
 
-  const asset = await imageUpload.processForAllLocales().then(res => res.publish())
+  await imageUpload.processForAllLocales().then(res => res.publish())
 
   try {
-    const mandatoryFields = {
-      wallet: {
-        'en-US': form.wallet.toLocaleLowerCase()
-      },
-      name: {
-        'en-US': form.name
-      },
-      category: {
-        'en-US': {
-          sys: {
-            linkType: 'Entry',
-            id: form.category
-          }
-        }
-      },
-      logo: {
-        'en-US': {
-          sys: {
-            type: 'Link',
-            linkType: 'Asset',
-            id: asset.sys.id
-          }
-        }
-      }
-    }
+    //   const mandatoryFields = {
+    //     wallet: {
+    //       'en-US': form.wallet.toLocaleLowerCase()
+    //     },
+    //     name: {
+    //       'en-US': form.name
+    //     },
+    //     category: {
+    //       'en-US': {
+    //         sys: {
+    //           linkType: 'Entry',
+    //           id: form.category
+    //         }
+    //       }
+    //     },
+    //     logo: {
+    //       'en-US': {
+    //         sys: {
+    //           type: 'Link',
+    //           linkType: 'Asset',
+    //           id: asset.sys.id
+    //         }
+    //       }
+    //     }
+    //   }
 
-    const entry = await client.createEntry('pool', { fields: mandatoryFields })
-    await entry.publish()
+    //   const entry = await client.createEntry('pool', { fields: mandatoryFields })
+    //   await entry.publish()
 
     res.send(`community created success`)
   } catch (error) {
