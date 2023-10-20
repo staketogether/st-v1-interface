@@ -29,7 +29,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const client = await CreateContentfulClient()
-  console.log(form.logo.buffer)
+  console.log(form.logo.base64)
+  const decodedImage = Buffer.from(form.logo.base64, 'base64')
+
   const imageUpload = await client.createAssetFromFiles({
     fields: {
       title: {
@@ -41,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       file: {
         'en-US': {
           fileName: `${Date.now().toString()}.${form.logo.mimeType.split('/')[1]}`,
-          file: form.logo.buffer,
+          file: decodedImage.buffer,
           contentType: form.logo.mimeType
         }
       }

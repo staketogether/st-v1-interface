@@ -34,7 +34,7 @@ export default function CommunityForm({ poolDetail, account }: CommunityFormProp
   } = useForm<CommunityContentfulForm>({
     defaultValues: {
       ...poolDetail,
-      logo: { buffer: undefined, mimeType: undefined },
+      logo: { base64: undefined, mimeType: undefined },
       wallet: account,
       category: poolDetail?.category?.sys?.id
     }

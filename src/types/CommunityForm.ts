@@ -8,7 +8,7 @@ export type CommunityContentfulForm = {
   instagram?: string
   lens?: string
   linkedin?: string
-  logo?: { buffer: Buffer; mimeType?: string }
+  logo?: { base64: string; mimeType?: string }
   name?: string
   site?: string
   telegram?: string

@@ -28,16 +28,9 @@ export default function GenericInputFile({ setValue }: GenericInputFileProps) {
           const image = event.target.result as string
           const [imageType, imageBase64] = image.split(',')
           const mimeType = imageType.split(':')[1].split(';')[0]
-          const decodedImage = Buffer.from(imageBase64, 'base64')
-
-          console.log('image', image)
-          console.log('imagetype', imageType)
-          console.log('ímagebase64', imageBase64)
-          console.log('mimetype', mimeType)
-          console.log('decodeImage', decodedImage)
 
           setSelectedImage(imageDataURL)
-          setValue('logo', { buffer: decodedImage, mimeType })
+          setValue('logo', { base64: imageBase64, mimeType })
         }
       }
 
