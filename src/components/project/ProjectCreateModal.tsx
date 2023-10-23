@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Modal from '../shared/Modal'
 import useCommunityCreateModal from '@/hooks/useCommunityCreateModal'
 import styled from 'styled-components'
-import { Steps, UploadFile, notification } from 'antd'
+import { Steps, notification } from 'antd'
+import type { UploadFile } from 'antd/es/upload/interface'
 import { PiArrowLineRight, PiNotePencil } from 'react-icons/pi'
 import ProjectLogin from './ProjectLogin'
 import ProjectRegisterInfo from './ProjectRegisterInfo'
@@ -51,7 +52,7 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
   }
 
   const message = `Create community - ${account} `
-  const { isLoading, isSuccess, signMessage, isError } = useSignMessage({
+  const { isLoading, isSuccess, signMessage } = useSignMessage({
     message: message,
     onSuccess: async data => {
       const createCommunityForm = getValues()

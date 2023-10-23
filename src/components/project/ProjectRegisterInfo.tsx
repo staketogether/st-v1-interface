@@ -4,9 +4,10 @@ import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import styled from 'styled-components'
 import GenericInput from '../shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Modal, Upload, UploadFile, UploadProps } from 'antd'
+import { Modal, Upload } from 'antd'
 import { PiArrowCircleRightFill, PiPlus } from 'react-icons/pi'
-import { RcFile } from 'antd/es/upload'
+import type { UploadFile } from 'antd/es/upload/interface'
+import type { RcFile, UploadProps } from 'antd/es/upload'
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
 
 type ProjectRegisterInfoProps = {
@@ -65,6 +66,7 @@ export default function ProjectRegisterInfo({
       reader.onload = () => resolve(reader.result as string)
       reader.onerror = error => reject(error)
     })
+
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj as RcFile)
