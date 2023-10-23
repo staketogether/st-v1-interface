@@ -1,12 +1,12 @@
 import { ReactNode } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 type ModalProps = {
   isOpen: boolean
   children: ReactNode
   onClose: () => void
   showCloseIcon?: boolean
-  width?: number
+  width?: number | string
   title: string | ReactNode
 }
 
@@ -40,14 +40,21 @@ export default function Modal({
 }
 
 const { ModalWrapper, Overlay, CloseButton } = {
-  ModalWrapper: styled.div<{ width: number }>`
+  ModalWrapper: styled.div<{ width: number | string }>`
     position: fixed;
-    top: 42%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 9999;
 
-    width: ${props => `${props.width}px`};
+    ${props =>
+      Number.isInteger(props.width)
+        ? css`
+            width: ${props.width}px;
+          `
+        : css`
+            width: ${props.width};
+          `}
     background-color: ${({ theme }) => theme.colorV2.white};
     padding: ${({ theme }) => theme.size[24]};
     border-radius: ${({ theme }) => theme.size[8]};

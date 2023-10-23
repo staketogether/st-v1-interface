@@ -8,15 +8,16 @@ import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import Button from '../Button'
-import useRegisterCommunitySidebar from '@/hooks/useRegisterCommunitySidebar'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
-import CommunitySidebarRegister from '@/components/community/CommunitySidebarRegister'
+import ProjectSidebarRegister from '@/components/project/ProjectSidebarRegister'
+import ProjectCreateModal from '@/components/project/ProjectCreateModal'
+import useCommunityCreateModal from '@/hooks/useCommunityCreateModal'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   const { account, accountIsConnected } = useConnectedAccount()
-  const { setOpenSidebar: openRegisterCommunitySidebar } = useRegisterCommunitySidebar()
+  const { setCommunityCreateModal } = useCommunityCreateModal()
   const { query } = useRouter()
   const { currency, network } = query
 
@@ -54,15 +55,16 @@ export default function LayoutHeader() {
         <Button
           small
           isLoading={false}
-          onClick={() => openRegisterCommunitySidebar(true)}
+          onClick={() => setCommunityCreateModal(true)}
           label={`Cadastrar comunidade`}
           icon={<></>}
         />
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
       {account && accountIsConnected && (
-        <CommunitySidebarRegister account={account} accountIsConnected={accountIsConnected} />
+        <ProjectSidebarRegister account={account} accountIsConnected={accountIsConnected} />
       )}
+      <ProjectCreateModal account={account} />
     </Container>
   )
 }

@@ -9,10 +9,7 @@ type CommunitySidebarRegisterProps = {
   accountIsConnected: boolean
 }
 
-export default function CommunitySidebarRegister({
-  account,
-  accountIsConnected
-}: CommunitySidebarRegisterProps) {
+export default function ProjectSidebarRegister({ account, accountIsConnected }: CommunitySidebarRegisterProps) {
   // const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useRegisterCommunitySidebar()
 

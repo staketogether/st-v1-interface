@@ -3,16 +3,17 @@ import styled from 'styled-components'
 import Button from './Button'
 import { PiUploadSimple } from 'react-icons/pi'
 import { UseFormSetValue } from 'react-hook-form'
-import { CommunityContentfulForm } from '@/types/CommunityForm'
+import { ProjectContentfulForm } from '@/types/CommunityForm'
 
 type GenericInputFileProps = {
-  title?: string
+  title: string
   error?: string
   options?: { key: string; value: { label: string; value: string | number } }[]
-  setValue: UseFormSetValue<CommunityContentfulForm>
+  setValue: UseFormSetValue<ProjectContentfulForm>
+  fieldValue: 'logo' | 'cover'
 }
 
-export default function GenericInputFile({ setValue }: GenericInputFileProps) {
+export default function GenericInputFile({ setValue, title, fieldValue }: GenericInputFileProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
@@ -30,7 +31,7 @@ export default function GenericInputFile({ setValue }: GenericInputFileProps) {
           const mimeType = imageType.split(':')[1].split(';')[0]
 
           setSelectedImage(imageDataURL)
-          setValue('logo', { base64: imageBase64, mimeType })
+          setValue(fieldValue, { base64: imageBase64, mimeType })
         }
       }
 
@@ -48,13 +49,15 @@ export default function GenericInputFile({ setValue }: GenericInputFileProps) {
 
   return (
     <Container>
+      {title && <span>{title}</span>}
       <Input type='file' accept='image/*' onChange={handleImageChange} ref={fileInputRef} />
       <Button label={'Selecionar Arquivo'} isLoading={false} icon={<UploadIcon />} onClick={handleFileSelect} />
-
       {selectedImage && (
-        <div>
-          <Image src={selectedImage} alt='Imagem selecionada' />
-        </div>
+        <Image
+          className={`${fieldValue === 'logo' ? 'logo' : ''}`}
+          src={selectedImage}
+          alt='Imagem selecionada'
+        />
       )}
     </Container>
   )
@@ -64,11 +67,18 @@ const { Image, Container, Input, UploadIcon } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: ${({ theme }) => theme.size[8]};
   `,
   Image: styled.img`
     max-width: 100%;
     height: auto;
+    border-radius: 8px;
+    &.logo {
+      border-radius: 100%;
+      box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.4);
+      width: 32px;
+      height: 32px;
+    }
   `,
   Input: styled.input`
     display: none;

@@ -13,7 +13,7 @@ import axios from 'axios'
 import { useSignMessage } from 'wagmi'
 import { notification } from 'antd'
 import GenericInputFile from '../GenericInputFile'
-import { CommunityContentfulForm } from '@/types/CommunityForm'
+import { ProjectContentfulForm } from '@/types/CommunityForm'
 
 type CommunityFormProps = {
   poolDetail?: ContentfulPool
@@ -31,10 +31,11 @@ export default function CommunityForm({ poolDetail, account }: CommunityFormProp
     watch,
     getValues,
     setValue
-  } = useForm<CommunityContentfulForm>({
+  } = useForm<ProjectContentfulForm>({
     defaultValues: {
       ...poolDetail,
       logo: { base64: undefined, mimeType: undefined },
+      cover: { base64: undefined, mimeType: undefined },
       wallet: account,
       category: poolDetail?.category?.sys?.id
     }
@@ -99,15 +100,13 @@ export default function CommunityForm({ poolDetail, account }: CommunityFormProp
         </header>
       )}
       <FormControl>
-        <GenericInputFile setValue={setValue} />
+        <GenericInputFile setValue={setValue} fieldValue='logo' title={t('v2.stakeProfileEdit.logo')} />
         <GenericInput
           title={t('v2.stakeProfileEdit.communityName')}
-          register={register('name', { required: true })}
+          register={register('communityName', { required: true })}
           type='text'
-          error={errors.name ? t('v2.stakeProfileEdit.requiredField') : ''}
+          error={errors.communityName ? t('v2.stakeProfileEdit.requiredField') : ''}
         />
-        {/* <input type='file' {...register('cover')} /> */}
-        {/* <GenericInputFile name={t('v2.stakeProfileEdit.cover')} title="Cover" form={formData} /> */}
         {poolDetail && <ImageCover src={poolDetail.cover?.url} alt={poolDetail.cover?.fileName} />}
         <GenericInput title={t('v2.stakeProfileEdit.video')} register={register('video')} />
         {contentfulVideo && videoId && <YouTube videoId={videoId} opts={opts} />}
@@ -127,11 +126,13 @@ export default function CommunityForm({ poolDetail, account }: CommunityFormProp
         <GenericInput title={t('v2.stakeProfileEdit.twitter')} register={register('twitter')} />
         <GenericInput title={t('v2.stakeProfileEdit.instagram')} register={register('instagram')} />
         <GenericInput title={t('v2.stakeProfileEdit.facebook')} register={register('facebook')} />
+
         <GenericInput title={t('v2.stakeProfileEdit.discordName')} register={register('discordName')} />
         <GenericInput title={t('v2.stakeProfileEdit.discord')} register={register('discord')} />
         <GenericInput title={t('v2.stakeProfileEdit.gotas')} register={register('gotas')} />
         <GenericInput title={t('v2.stakeProfileEdit.lens')} register={register('lens')} />
         <GenericInput title={t('v2.stakeProfileEdit.telegram')} register={register('telegram')} />
+        <GenericInputFile setValue={setValue} fieldValue='cover' title={t('v2.stakeProfileEdit.cover')} />
         <GenericInput
           title={t('v2.stakeProfileEdit.description')}
           register={register('description')}

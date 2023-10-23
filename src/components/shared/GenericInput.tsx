@@ -6,19 +6,21 @@ export default function GenericInput({
   register,
   error,
   type = 'text',
-  options
+  options,
+  disabled
 }: {
   title?: string
   error?: string
   register: UseFormRegisterReturn<string>
   type?: 'text' | 'longText' | 'select'
+  disabled?: boolean
   options?: { key: string; value: { label: string; value: string | number } }[]
 }) {
   return (
     <Content>
       {title && <span>{title}</span>}
-      <InputContainer>
-        {type === 'text' && <input type='text' {...register} />}
+      <InputContainer className={`${disabled ? 'disabled' : ''}`}>
+        {type === 'text' && <input type='text' {...register} disabled={disabled} />}
         {type === 'longText' && <textarea {...register} />}
         {type === 'select' && options && (
           <select {...register}>
@@ -52,6 +54,12 @@ const { InputContainer, Content } = {
     box-shadow: ${({ theme }) => theme.shadow[200]};
     background: ${({ theme }) => theme.colorV2.gray[2]};
 
+    &.disabled {
+      cursor: not-allowed;
+      color: ${({ theme }) => theme.color.blackAlpha[600]};
+      background: ${({ theme }) => theme.color.blackAlpha[100]};
+    }
+
     > input,
     select {
       color: ${({ theme }) => theme.color.black};
@@ -77,6 +85,10 @@ const { InputContainer, Content } = {
       border: none;
       outline: none;
       background: none;
+
+      &:disabled {
+        cursor: not-allowed;
+      }
 
       &::-webkit-input-placeholder {
         color: ${({ theme }) => theme.color.blue[200]};
