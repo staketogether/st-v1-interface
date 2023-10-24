@@ -2,12 +2,11 @@ import Wallet from '@/components/wallet/Wallet'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCellSignalFull, PiCurrencyEth, PiGift } from 'react-icons/pi'
+import { PiCellSignalFull, PiCurrencyEth, PiGift, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import Button from '../Button'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import ProjectSidebarRegister from '@/components/project/ProjectSidebarRegister'
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
@@ -52,13 +51,9 @@ export default function LayoutHeader() {
         </Menu>
       </MenuContainer>
       <WalletContainer>
-        <Button
-          small
-          isLoading={false}
-          onClick={() => setCommunityCreateModal(true)}
-          label={`Cadastrar comunidade`}
-          icon={<></>}
-        />
+        <MenuButton onClick={() => setCommunityCreateModal(true)}>
+          <CreateProjectIcon /> Create Project
+        </MenuButton>
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
       {account && accountIsConnected && (
@@ -78,7 +73,8 @@ const {
   Menu,
   MenuButton,
   InvestIcon,
-  IncentivesIcon
+  IncentivesIcon,
+  CreateProjectIcon
 } = {
   Container: styled.header`
     display: none;
@@ -165,6 +161,9 @@ const {
     font-size: 17px;
   `,
   GiftsIcon: styled(PiGift)`
+    font-size: 15px;
+  `,
+  CreateProjectIcon: styled(PiPencilSimpleLine)`
     font-size: 15px;
   `
 }

@@ -62,6 +62,7 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
         form: createCommunityForm,
         signatureMessage
       })
+
       notification.success({
         message: `communidate criada com sucesso!`,
         placement: 'topRight'

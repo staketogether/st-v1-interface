@@ -4,7 +4,7 @@ import { FieldErrors, UseFormRegister } from 'react-hook-form'
 import styled from 'styled-components'
 import GenericInput from '../shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { PiArrowCircleLeftFill } from 'react-icons/pi'
+import { PiArrowCircleLeftFill, PiPencilSimpleLine } from 'react-icons/pi'
 import Button from '../shared/Button'
 import ProjectCreateLoading from './ProjectCreateLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
@@ -81,17 +81,17 @@ export default function ProjectRegisterMoreInfo({
           />
           <Button
             onClick={onSubmit}
-            label={'cadastrar'}
+            label={'Cadastrar'}
             disabled={isLoading}
             isLoading={isLoading}
-            icon={<></>}
+            icon={<CreateProjectIcon />}
           />
         </FooterContainer>
       )}
     </Container>
   )
 }
-const { Container, FormContainer, PreviewStepIcon, FooterContainer } = {
+const { Container, FormContainer, PreviewStepIcon, FooterContainer, CreateProjectIcon } = {
   Container: styled.div`
     display: grid;
     flex-direction: column;
@@ -120,5 +120,8 @@ const { Container, FormContainer, PreviewStepIcon, FooterContainer } = {
       cursor: not-allowed;
       color: ${({ theme }) => theme.color.blackAlpha[600]};
     }
+  `,
+  CreateProjectIcon: styled(PiPencilSimpleLine)`
+    font-size: 15px;
   `
 }

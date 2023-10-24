@@ -11,7 +11,6 @@ const cors = Cors({
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await runMiddleware(req, res, cors)
   const { form, signatureMessage } = req.body
-  console.log(form)
   const { signature, message } = signatureMessage
 
   if (!signatureMessage) {
@@ -21,6 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!form) {
     res.status(400).json({ message: 'form not found' })
   }
+
   const messageBytes = ethers.toUtf8Bytes(message)
   const signatureWallet = ethers.verifyMessage(messageBytes, signature)
 

@@ -19,7 +19,6 @@ const { Container } = {
     width: 100%;
     display: grid;
     place-items: center;
-    padding-bottom: 24px;
 
     > div {
       h2 {
