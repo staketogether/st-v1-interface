@@ -5,12 +5,13 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import { useRouter } from 'next/router'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
 
 export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency, network } = query
-
+  const { account, accountIsConnected } = useConnectedAccount()
   return (
     <Container>
       <Content>
@@ -18,7 +19,7 @@ export default function LayoutHeaderMobile() {
           <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
         </Logo>
         <WalletContainer>
-          <Wallet />
+          <Wallet account={account} accountIsConnected={accountIsConnected} />
         </WalletContainer>
       </Content>
     </Container>
