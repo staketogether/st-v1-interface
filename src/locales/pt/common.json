@@ -354,7 +354,7 @@
       "claim": "Resgatar"
     },
     "createProject": {
-      "title": "Criar Projeto",
+      "title": "Cadastrar Projeto",
       "projectWithMembers": "Sou um projeto com mais de 100 membros",
       "send": "Enviar",
       "sent": "Enviado",
