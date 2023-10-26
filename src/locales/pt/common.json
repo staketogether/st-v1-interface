@@ -378,7 +378,8 @@
       },
       "formMessages" : {
         "required": "Campo obrigatorio",
-        "invalidEmail": "Email invalido" 
+        "invalidEmail": "Email invalido" ,
+        "sizeImage": "A imagem deve ter menos de 1MB!"
       },
       "messages": {
         "success": "Projeto cadastrado com sucesso",

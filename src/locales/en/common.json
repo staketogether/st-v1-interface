@@ -377,7 +377,8 @@
       },
       "formMessages" : {
         "required": "This field is required",
-        "invalidEmail": "Invalid email" 
+        "invalidEmail": "Invalid email" ,
+        "sizeImage": "Image must smaller than 1MB"
       },
       "messages": {
         "success": "Project created successfully",

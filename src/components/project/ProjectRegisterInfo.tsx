@@ -1,19 +1,20 @@
 import { CreateCommunityForm } from '@/types/CommunityForm'
-import React from 'react'
+import React, { useState } from 'react'
 import {
   FieldErrors,
   UseFormClearErrors,
   UseFormHandleSubmit,
   UseFormRegister,
+  UseFormSetError,
   UseFormSetValue
 } from 'react-hook-form'
 import styled from 'styled-components'
 import GenericInput from '../shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Modal, Upload } from 'antd'
+import { Modal, Upload, notification } from 'antd'
 import { PiArrowCircleRightFill, PiPlus } from 'react-icons/pi'
 import type { UploadFile } from 'antd/es/upload/interface'
-import type { RcFile, UploadProps } from 'antd/es/upload'
+import type { RcFile, UploadProps, UploadChangeParam } from 'antd/es/upload'
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
 import ConnectWallet from '../shared/ConnectWallet'
 import Image from 'next/image'
@@ -38,6 +39,7 @@ type ProjectRegisterInfoProps = {
   setPreviewTitle: (value: string) => void
   setFileList: (value: UploadFile[]) => void
   clearErrors: UseFormClearErrors<CreateCommunityForm>
+  setError: UseFormSetError<CreateCommunityForm>
 }
 
 export default function ProjectRegisterInfo({
@@ -49,6 +51,7 @@ export default function ProjectRegisterInfo({
   previewTitle,
   isSubmitted,
   fileList,
+  setError,
   handleSubmit,
   register,
   nextStep,
@@ -62,15 +65,33 @@ export default function ProjectRegisterInfo({
 }: ProjectRegisterInfoProps) {
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
+  const [logoSizeError, setLogoSizeError] = useState(false)
 
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    setFileList(newFileList)
-    const file = fileList[0]
+  const beforeUpload: UploadProps['beforeUpload'] = file => {
+    const maxSize = 1 * 1024 * 1024
+    if (file.size > maxSize) {
+      notification.warning({
+        message: `${t('v2.createProject.formMessages.sizeImage')}`,
+        placement: 'topRight'
+      })
+      setLogoSizeError(true)
+      setError('logo', { type: 'custom', message: `${t('v2.createProject.formMessages.sizeImage')}` })
+      return false
+    }
+    return true
+  }
+
+  const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
+    const file = info.fileList[0]
+    setFileList(info.fileList)
     if (file && file.thumbUrl && file.type) {
       const [imageType, imageBase64] = file.thumbUrl.split(',')
       const mimeType = imageType.split(':')[1].split(';')[0]
       setValue('logo', { base64: imageBase64, mimeType })
-      clearErrors('logo')
+      if (!logoSizeError) {
+        setLogoSizeError(false)
+        clearErrors('logo')
+      }
     }
   }
 
@@ -115,7 +136,9 @@ export default function ProjectRegisterInfo({
             <>
               <FormContainer>
                 <LogoContainer
-                  className={`${errors.logo && isSubmitted && 'error'} ${hasAgreeTerms ? '' : 'disabled'}`}
+                  className={`${((errors.logo && isSubmitted) || logoSizeError) && 'error'} ${
+                    hasAgreeTerms ? '' : 'disabled'
+                  }`}
                 >
                   <span>{t('v2.createProject.form.logo')}</span>
                   <Upload
@@ -124,6 +147,7 @@ export default function ProjectRegisterInfo({
                     fileList={fileList}
                     onPreview={handlePreview}
                     onChange={handleChange}
+                    beforeUpload={beforeUpload}
                   >
                     {fileList.length >= 1 ? null : (
                       <div>
@@ -249,9 +273,15 @@ const { Container, Terms, Form, FormContainer, LogoContainer, NextStepIcon, Butt
       span {
         > div {
           color: ${({ theme }) => theme.color.red[300]};
+
           > div {
             &.ant-upload.ant-upload-select {
               border-color: ${({ theme }) => theme.color.red[300]};
+            }
+            > div {
+              &.ant-upload-list-item.ant-upload-list-item-undefined {
+                border-color: ${({ theme }) => theme.color.red[300]} !important;
+              }
             }
           }
         }
@@ -260,13 +290,6 @@ const { Container, Terms, Form, FormContainer, LogoContainer, NextStepIcon, Butt
     &.disabled {
       span {
         opacity: 0.4;
-        > div {
-          > div {
-            &.ant-upload.ant-upload-select {
-              opacity: 0.4;
-            }
-          }
-        }
       }
     }
     span {

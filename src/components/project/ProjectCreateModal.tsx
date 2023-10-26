@@ -97,6 +97,7 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
           previewImage={previewImage}
           previewTitle={previewTitle}
           fileList={fileList}
+          setError={setError}
           setHasAgreeTerms={setHasAgreeTerms}
           setPreviewOpen={setPreviewOpen}
           setPreviewImage={setPreviewImage}
