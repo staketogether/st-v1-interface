@@ -4,7 +4,6 @@ import useCommunityCreateModal from '@/hooks/useCommunityCreateModal'
 import styled from 'styled-components'
 import { notification } from 'antd'
 import type { UploadFile } from 'antd/es/upload/interface'
-import { PiNotePencil } from 'react-icons/pi'
 import ProjectRegisterInfo from './ProjectRegisterInfo'
 import { useForm } from 'react-hook-form'
 import { CreateCommunityForm } from '@/types/CommunityForm'
@@ -104,8 +103,7 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
           setPreviewTitle={setPreviewTitle}
           setFileList={setFileList}
         />
-      ),
-      icon: <PiNotePencil fontSize={14} />
+      )
     },
     {
       content: (
