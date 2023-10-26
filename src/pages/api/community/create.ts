@@ -21,6 +21,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(400).json({ message: 'form not found' })
   }
 
+  if (!form.projectName) {
+    res.status(400).json({ message: 'name not found' })
+  }
+
+  if (!form.logo.base64) {
+    res.status(400).json({ message: 'logo not found' })
+  }
+
+  if (!form.category) {
+    res.status(400).json({ message: 'category not found' })
+  }
+
+  if (!form.aboutProject) {
+    res.status(400).json({ message: 'aboutProject not found' })
+  }
+
+  if (!form.status) {
+    res.status(400).json({ message: 'status not found' })
+  }
+
   const messageBytes = ethers.toUtf8Bytes(message)
   const signatureWallet = ethers.verifyMessage(messageBytes, signature)
 
@@ -34,14 +54,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const logoUpload = await client.createAssetFromFiles({
     fields: {
       title: {
-        'en-US': `${form.name}-logo.${form.logo.mimeType.split('/')[1]}`
+        'en-US': `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`
       },
       description: {
         'en-US': ''
       },
       file: {
         'en-US': {
-          fileName: `${form.name}-logo.${form.logo.mimeType.split('/')[1]}`,
+          fileName: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
           file: decodedImage.buffer,
           contentType: form.logo.mimeType
         }
@@ -66,6 +86,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             linkType: 'Asset',
             id: assetLogo.sys.id
           }
+        },
+        pt: {
+          sys: {
+            type: 'Link',
+            linkType: 'Asset',
+            id: assetLogo.sys.id
+          }
         }
       },
       category: {
@@ -78,6 +105,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
       aboutProject: {
         'en-US': form.aboutProject
+      },
+      status: {
+        'en-US': 'pending'
       },
       email: {
         'en-US': form.email

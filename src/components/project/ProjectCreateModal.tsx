@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react'
 import Modal from '../shared/Modal'
 import useCommunityCreateModal from '@/hooks/useCommunityCreateModal'
 import styled from 'styled-components'
-import { Steps, notification } from 'antd'
+import { notification } from 'antd'
 import type { UploadFile } from 'antd/es/upload/interface'
-import { PiArrowLineRight, PiNotePencil } from 'react-icons/pi'
-import ProjectLogin from './ProjectLogin'
+import { PiNotePencil } from 'react-icons/pi'
 import ProjectRegisterInfo from './ProjectRegisterInfo'
 import { useForm } from 'react-hook-form'
 import { CreateCommunityForm } from '@/types/CommunityForm'
 import ProjectRegisterMoreInfo from './ProjectRegisterMoreInfo'
 import { useSignMessage } from 'wagmi'
 import axios from 'axios'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
+import ProjectRegistered from './ProjectRegistered'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 
 type CommunityCreateModalProps = {
   account?: `0x${string}`
@@ -25,23 +27,26 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
   const [previewTitle, setPreviewTitle] = useState('')
   const [fileList, setFileList] = useState<UploadFile[]>([])
 
+  const { poolDetail } = useContentfulPoolDetails(account as `0x${string}`)
+  const { t } = useLocaleTranslation()
+
   const {
     register,
-    formState: { errors, isValid },
+    formState: { errors, isSubmitted },
     getValues,
-    setValue
+    setValue,
+    handleSubmit,
+    setError,
+    clearErrors
   } = useForm<CreateCommunityForm>()
-
   const formValues = getValues()
 
   useEffect(() => {
     if (account) {
       setValue('wallet', account.toLocaleLowerCase())
-      setCurrent(1)
-    } else {
-      setCurrent(0)
+      setError('logo', { type: 'required', message: `${t('v2.createProject.formMessages.required')}` })
     }
-  }, [account, setValue])
+  }, [account, setError, setValue, t])
 
   const nextStep = () => {
     setCurrent(current + 1)
@@ -51,7 +56,7 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
     setCurrent(current - 1)
   }
 
-  const message = `Create community - ${account} `
+  const message = `Create project - ${account} `
   const { isLoading, isSuccess, signMessage } = useSignMessage({
     message: message,
     onSuccess: async data => {
@@ -64,7 +69,7 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
       })
 
       notification.success({
-        message: `communidate criada com sucesso!`,
+        message: `${t('v2.createProject.messages.success')}`,
         placement: 'topRight'
       })
     }
@@ -76,25 +81,22 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
 
   const steps = [
     {
-      title: 'Login',
-      content: <ProjectLogin />,
-      icon: <PiArrowLineRight fontSize={14} />
-    },
-    {
-      title: 'Registrar informações',
       content: (
         <ProjectRegisterInfo
           setValue={setValue}
           register={register}
+          clearErrors={clearErrors}
+          handleSubmit={handleSubmit}
           errors={errors}
+          isSubmitted={isSubmitted}
           nextStep={nextStep}
+          account={account}
           formValues={formValues}
           hasAgreeTerms={hasAgreeTerms}
           previewOpen={previewOpen}
           previewImage={previewImage}
           previewTitle={previewTitle}
           fileList={fileList}
-          isFormValid={isValid}
           setHasAgreeTerms={setHasAgreeTerms}
           setPreviewOpen={setPreviewOpen}
           setPreviewImage={setPreviewImage}
@@ -105,34 +107,33 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
       icon: <PiNotePencil fontSize={14} />
     },
     {
-      title: 'Informações Adicionais',
       content: (
         <ProjectRegisterMoreInfo
           register={register}
-          errors={errors}
           isLoading={isLoading}
           isSuccess={isSuccess}
           previewStep={previewStep}
           formValues={formValues}
           onSubmit={onSubmit}
         />
-      ),
-      icon: <PiNotePencil fontSize={14} />
+      )
     }
   ]
   const { isOpenCommunityCreateModal, setCommunityCreateModal } = useCommunityCreateModal()
-  const items = steps.map(item => ({ key: item.title, title: item.title, icon: item.icon }))
-
+  const hasProjectRegistered = !!poolDetail
   return (
     <Modal
-      title='Create Community'
+      title={t('v2.createProject.title')}
       onClose={() => setCommunityCreateModal(false)}
       isOpen={isOpenCommunityCreateModal}
       width={'auto'}
     >
       <Container>
-        <Steps current={current} items={items} />
-        <div>{steps[current].content}</div>
+        {hasProjectRegistered ? (
+          <ProjectRegistered projectDetail={poolDetail} />
+        ) : (
+          <div>{steps[current].content}</div>
+        )}
       </Container>
     </Modal>
   )
@@ -140,9 +141,9 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
 
 const { Container } = {
   Container: styled.div`
-    width: 900px;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 12px;
+    width: 450px;
   `
 }

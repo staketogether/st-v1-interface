@@ -1,6 +1,6 @@
 import { CreateCommunityForm } from '@/types/CommunityForm'
 import React from 'react'
-import { FieldErrors, UseFormRegister } from 'react-hook-form'
+import { UseFormRegister } from 'react-hook-form'
 import styled from 'styled-components'
 import GenericInput from '../shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -10,7 +10,6 @@ import ProjectCreateLoading from './ProjectCreateLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
 
 type ProjectRegisterInfoProps = {
-  errors: FieldErrors<CreateCommunityForm>
   formValues: CreateCommunityForm
   isLoading: boolean
   isSuccess: boolean
@@ -23,7 +22,6 @@ export default function ProjectRegisterMoreInfo({
   register,
   isSuccess,
   isLoading,
-  errors,
   previewStep,
   onSubmit
 }: ProjectRegisterInfoProps) {
@@ -35,41 +33,23 @@ export default function ProjectRegisterMoreInfo({
       {isLoading && !isSuccess && <ProjectCreateLoading />}
       {!isLoading && !isSuccess && (
         <FormContainer>
+          <GenericInput title={t('v2.createProject.form.site')} register={register('site')} type='text' />
+          <GenericInput title={t('v2.createProject.form.twitter')} register={register('twitter')} type='text' />
           <GenericInput
-            title={'Site'}
-            register={register('site')}
-            type='text'
-            error={errors.site ? t('v2.stakeProfileEdit.requiredField') : ''}
-          />
-          <GenericInput
-            title={'Twitter'}
-            register={register('twitter')}
-            type='text'
-            error={errors.twitter ? t('v2.stakeProfileEdit.requiredField') : ''}
-          />
-          <GenericInput
-            title={'Instagram'}
+            title={t('v2.createProject.form.instagram')}
             register={register('instagram')}
             type='text'
-            error={errors.instagram ? t('v2.stakeProfileEdit.requiredField') : ''}
           />
           <GenericInput
-            title={'Linkedin'}
+            title={t('v2.createProject.form.linkedin')}
             register={register('linkedin')}
             type='text'
-            error={errors.linkedin ? t('v2.stakeProfileEdit.requiredField') : ''}
           />
+          <GenericInput title={t('v2.createProject.form.discord')} register={register('discord')} type='text' />
           <GenericInput
-            title={'Discord'}
-            register={register('discord')}
-            type='text'
-            error={errors.discord ? t('v2.stakeProfileEdit.requiredField') : ''}
-          />
-          <GenericInput
-            title={'Telegram'}
+            title={t('v2.createProject.form.telegram')}
             register={register('telegram')}
             type='text'
-            error={errors.telegram ? t('v2.stakeProfileEdit.requiredField') : ''}
           />
         </FormContainer>
       )}
@@ -81,7 +61,7 @@ export default function ProjectRegisterMoreInfo({
           />
           <Button
             onClick={onSubmit}
-            label={'Cadastrar'}
+            label={t('v2.createProject.form.register')}
             disabled={isLoading}
             isLoading={isLoading}
             icon={<CreateProjectIcon />}
@@ -104,7 +84,7 @@ const { Container, FormContainer, PreviewStepIcon, FooterContainer, CreateProjec
   FormContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: ${({ theme }) => theme.size[12]};
   `,
   FooterContainer: styled.div`
     width: 100%;

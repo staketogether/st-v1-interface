@@ -13,7 +13,10 @@ export default function useContentfulPoolDetails(poolAddress: `0x${string}` | un
   const { data, loading } = useQuery<{ poolCollection: { items: ContentfulPool[] } }>(
     queryContentfulPoolByAddress,
     {
-      variables: { walletAddress: poolAddress, locale: router.locale === 'en' ? 'en-US' : router.locale },
+      variables: {
+        walletAddress: poolAddress?.toLocaleLowerCase(),
+        locale: router.locale === 'en' ? 'en-US' : router.locale
+      },
       client: contentfulClient,
       skip: !poolAddress
     }

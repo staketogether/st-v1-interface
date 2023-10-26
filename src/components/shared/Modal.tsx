@@ -8,6 +8,7 @@ type ModalProps = {
   showCloseIcon?: boolean
   width?: number | string
   title: string | ReactNode
+  className?: string
 }
 
 export default function Modal({
@@ -16,7 +17,8 @@ export default function Modal({
   children,
   onClose,
   width = 418,
-  title
+  title,
+  className
 }: ModalProps) {
   if (!isOpen) {
     return null
@@ -24,7 +26,7 @@ export default function Modal({
   return (
     <>
       <Overlay />
-      <ModalWrapper width={width}>
+      <ModalWrapper width={width} className={className}>
         <header>
           {title && title}
           {showCloseIcon && (

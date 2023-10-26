@@ -1,6 +1,12 @@
 import { CreateCommunityForm } from '@/types/CommunityForm'
 import React from 'react'
-import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import {
+  FieldErrors,
+  UseFormClearErrors,
+  UseFormHandleSubmit,
+  UseFormRegister,
+  UseFormSetValue
+} from 'react-hook-form'
 import styled from 'styled-components'
 import GenericInput from '../shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -9,34 +15,42 @@ import { PiArrowCircleRightFill, PiPlus } from 'react-icons/pi'
 import type { UploadFile } from 'antd/es/upload/interface'
 import type { RcFile, UploadProps } from 'antd/es/upload'
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
+import ConnectWallet from '../shared/ConnectWallet'
+import Image from 'next/image'
 
 type ProjectRegisterInfoProps = {
-  register: UseFormRegister<CreateCommunityForm>
-  setValue: UseFormSetValue<CreateCommunityForm>
   errors: FieldErrors<CreateCommunityForm>
-  nextStep: () => void
   formValues: CreateCommunityForm
   hasAgreeTerms: boolean
-  setHasAgreeTerms: (value: boolean) => void
+  account?: `0x${string}`
   previewOpen: boolean
-  isFormValid: boolean
+
+  isSubmitted: boolean
   previewImage: string
   previewTitle: string
   fileList: UploadFile[]
+  nextStep: () => void
+  register: UseFormRegister<CreateCommunityForm>
+  setValue: UseFormSetValue<CreateCommunityForm>
+  setHasAgreeTerms: (value: boolean) => void
+  handleSubmit: UseFormHandleSubmit<CreateCommunityForm, undefined>
   setPreviewOpen: (value: boolean) => void
   setPreviewImage: (value: string) => void
   setPreviewTitle: (value: string) => void
   setFileList: (value: UploadFile[]) => void
+  clearErrors: UseFormClearErrors<CreateCommunityForm>
 }
 
 export default function ProjectRegisterInfo({
   errors,
-  isFormValid,
+  account,
   hasAgreeTerms,
   previewOpen,
   previewImage,
   previewTitle,
+  isSubmitted,
   fileList,
+  handleSubmit,
   register,
   nextStep,
   setValue,
@@ -44,7 +58,8 @@ export default function ProjectRegisterInfo({
   setPreviewImage,
   setPreviewOpen,
   setPreviewTitle,
-  setFileList
+  setFileList,
+  clearErrors
 }: ProjectRegisterInfoProps) {
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
@@ -56,6 +71,7 @@ export default function ProjectRegisterInfo({
       const [imageType, imageBase64] = file.thumbUrl.split(',')
       const mimeType = imageType.split(':')[1].split(';')[0]
       setValue('logo', { base64: imageBase64, mimeType })
+      clearErrors('logo')
     }
   }
 
@@ -76,94 +92,117 @@ export default function ProjectRegisterInfo({
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1))
   }
 
+  const onSubmit = () => {
+    if (hasAgreeTerms) {
+      nextStep()
+    }
+  }
+
   return (
-    <>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Container>
-        <Terms>
-          <input
-            type='checkbox'
-            name='agree'
-            checked={hasAgreeTerms}
-            onChange={e => setHasAgreeTerms(e.target.checked)}
-          />
-          <span>Sou um projeto com mais de 100 membros</span>
-        </Terms>
-        {hasAgreeTerms && (
+        {!account && <ConnectWallet />}
+        {account && (
           <>
-            <FormContainer>
-              <LogoContainer>
-                <span>Insira a logo do projeto</span>
-                <Upload
-                  listType='picture-circle'
-                  maxCount={1}
-                  fileList={fileList}
-                  onPreview={handlePreview}
-                  onChange={handleChange}
+            <Terms>
+              <input
+                type='checkbox'
+                name='agree'
+                checked={hasAgreeTerms}
+                onChange={e => setHasAgreeTerms(e.target.checked)}
+              />
+              <span>{t('v2.createProject.projectWithMembers')}</span>
+            </Terms>
+            <>
+              <FormContainer>
+                <LogoContainer
+                  className={`${errors.logo && isSubmitted && 'error'} ${hasAgreeTerms ? '' : 'disabled'}`}
                 >
-                  {fileList.length >= 1 ? null : (
-                    <div>
-                      <PiPlus />
-                      <div style={{ marginTop: 8 }}>Upload</div>
-                    </div>
-                  )}
-                </Upload>
-              </LogoContainer>
-              <GenericInput
-                title={'project wallet'}
-                register={register('wallet', { required: true })}
-                type='text'
-                disabled
-                error={errors.wallet ? t('v2.stakeProfileEdit.requiredField') : ''}
-              />
-              <GenericInput
-                title={t('v2.stakeProfileEdit.communityName')}
-                register={register('projectName', { required: true })}
-                type='text'
-                error={errors.projectName ? t('v2.stakeProfileEdit.requiredField') : ''}
-              />
-              <GenericInput
-                title={t('v2.stakeProfileEdit.category')}
-                register={register('category')}
-                type='select'
-                error={errors.category ? t('v2.stakeProfileEdit.requiredField') : ''}
-                options={categories?.map(category => ({
-                  value: { label: category.name, value: category.sys.id },
-                  key: category.sys.id
-                }))}
-              />
-              <GenericInput
-                title={'email'}
-                register={register('email', {
-                  required: 'Email é Obrigatorio',
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: 'Por favor, insira um e-mail válido'
-                  }
-                })}
-                type='text'
-                error={errors.email ? t('v2.stakeProfileEdit.requiredField') : ''}
-              />
-              <GenericInput
-                title={'Apresente seu projeto'}
-                register={register('aboutProject', { required: 'Apresentação do projeto é Obrigatorio' })}
-                type='longText'
-                error={errors.aboutProject ? t('v2.stakeProfileEdit.requiredField') : ''}
-              />
-            </FormContainer>
-            <NextStepIcon
-              onClick={() => isFormValid && nextStep()}
-              className={`${!isFormValid ? 'disabled' : ''}`}
-            />
+                  <span>{t('v2.createProject.form.logo')}</span>
+                  <Upload
+                    listType='picture-circle'
+                    maxCount={1}
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={handleChange}
+                  >
+                    {fileList.length >= 1 ? null : (
+                      <div>
+                        <PiPlus />
+                        <div style={{ marginTop: 8 }}>{t('v2.createProject.form.upload')}</div>
+                      </div>
+                    )}
+                  </Upload>
+                  <ErrorMessage>
+                    {errors.logo && isSubmitted && `${t('v2.createProject.formMessages.required')}`}
+                  </ErrorMessage>
+                </LogoContainer>
+                <GenericInput
+                  title={t('v2.createProject.form.logo') + '*'}
+                  register={register('wallet', { required: `${t('v2.createProject.formMessages.required')}` })}
+                  type='text'
+                  disabled
+                  error={errors.wallet?.message}
+                />
+                <GenericInput
+                  title={t('v2.createProject.form.name') + '*'}
+                  register={register('projectName', {
+                    required: `${t('v2.createProject.formMessages.required')}`
+                  })}
+                  type='text'
+                  disabled={!hasAgreeTerms}
+                  error={errors.projectName?.message}
+                />
+                <GenericInput
+                  title={t('v2.createProject.form.category') + '*'}
+                  register={register('category')}
+                  type='select'
+                  disabled={!hasAgreeTerms}
+                  error={errors.category ? t('v2.stakeProfileEdit.requiredField') : ''}
+                  options={categories?.map(category => ({
+                    value: { label: category.name, value: category.sys.id },
+                    key: category.sys.id
+                  }))}
+                />
+                <GenericInput
+                  title={t('v2.createProject.form.email') + '*'}
+                  disabled={!hasAgreeTerms}
+                  register={register('email', {
+                    required: `${t('v2.createProject.formMessages.required')}`,
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: `${t('v2.createProject.formMessages.invalidEmail')}`
+                    }
+                  })}
+                  type='text'
+                  error={errors.email?.message}
+                />
+                <GenericInput
+                  title={t('v2.createProject.form.about') + '*'}
+                  disabled={!hasAgreeTerms}
+                  register={register('aboutProject', {
+                    required: `${t('v2.createProject.formMessages.required')}`
+                  })}
+                  type='longText'
+                  error={errors.aboutProject?.message}
+                />
+              </FormContainer>
+              <ButtonSubmit type='submit' disabled={!hasAgreeTerms}>
+                <NextStepIcon />
+              </ButtonSubmit>
+            </>
           </>
         )}
       </Container>
       <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={() => setPreviewOpen(false)}>
-        <img alt='example' style={{ width: '100%' }} src={previewImage} />
+        <div style={{ display: 'grid', placeItems: 'center' }}>
+          <Image alt='example' style={{ borderRadius: '8px' }} width={400} height={400} src={previewImage} />
+        </div>
       </Modal>
-    </>
+    </Form>
   )
 }
-const { Container, Terms, FormContainer, LogoContainer, NextStepIcon } = {
+const { Container, Terms, Form, FormContainer, LogoContainer, NextStepIcon, ButtonSubmit, ErrorMessage } = {
   Container: styled.div`
     display: grid;
     flex-direction: column;
@@ -173,12 +212,13 @@ const { Container, Terms, FormContainer, LogoContainer, NextStepIcon } = {
       color: ${({ theme }) => theme.colorV2.gray[1]};
     }
   `,
+  Form: styled.form``,
+
   Terms: styled.div`
     width: 100%;
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
-
     font-size: ${({ theme }) => theme.font.size[12]};
     font-weight: 500;
 
@@ -196,21 +236,66 @@ const { Container, Terms, FormContainer, LogoContainer, NextStepIcon } = {
   FormContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: ${({ theme }) => theme.size[12]};
+    max-height: 600px;
+    overflow: auto;
   `,
   LogoContainer: styled.div`
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    gap: 4px;
+    gap: ${({ theme }) => theme.size[4]};
+    &.error {
+      span {
+        > div {
+          color: ${({ theme }) => theme.color.red[300]};
+          > div {
+            &.ant-upload.ant-upload-select {
+              border-color: ${({ theme }) => theme.color.red[300]};
+            }
+          }
+        }
+      }
+    }
+    &.disabled {
+      span {
+        opacity: 0.4;
+        > div {
+          > div {
+            &.ant-upload.ant-upload-select {
+              opacity: 0.4;
+            }
+          }
+        }
+      }
+    }
+    span {
+      font-size: 14px;
+      > div {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  `,
+  ButtonSubmit: styled.button`
+    border: none;
+    background: transparent;
+    margin-left: auto;
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
   `,
   NextStepIcon: styled(PiArrowCircleRightFill)`
     font-size: 52px;
-    cursor: pointer;
     color: ${({ theme }) => theme.colorV2.blue[1]};
-    &.disabled {
-      cursor: not-allowed;
-      color: ${({ theme }) => theme.color.blackAlpha[600]};
-    }
-    margin-left: auto;
+  `,
+  ErrorMessage: styled.span`
+    font-size: 14px;
+    height: 14px;
+    color: ${({ theme }) => theme.color.red[300]} !important;
   `
 }

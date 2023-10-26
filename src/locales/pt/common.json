@@ -352,6 +352,37 @@
       "title": "Saques da Beacon Chain",
       "pending": "Pendente",
       "claim": "Resgatar"
+    },
+    "createProject": {
+      "title": "Criar Projeto",
+      "projectWithMembers": "Sou um projeto com mais de 100 membros",
+      "send": "Enviar",
+      "sent": "Enviado",
+      "seeMyProject": "Ver meu projeto",
+      "form": {
+        "logo": "Logo",
+        "wallet": "Carteira",
+        "name": "Nome",
+        "category": "Category",
+        "email": "Email",
+        "about": "Apresente seu projeto",
+        "site": "Site",
+        "twitter": "Twitter",
+        "instagram": "Instagram",
+        "linkedin": "Linkedin",
+        "discord": "Discord",
+        "telegram": "Telegram",
+        "upload": "Enviar",
+        "register": "Registar"
+      },
+      "formMessages" : {
+        "required": "Campo obrigatorio",
+        "invalidEmail": "Email invalido" 
+      },
+      "messages": {
+        "success": "Projeto cadastrado com sucesso",
+        "error": "Erro na criaçao do projeto"
+      }
     }
   }
 }

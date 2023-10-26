@@ -32,9 +32,14 @@ export const queryContentfulPoolByAddress = gql`
         gotas
         lens
         facebook
+        status
         linkedin
         telegram
         contract
+        sys {
+          id
+          publishedAt
+        }
       }
     }
   }

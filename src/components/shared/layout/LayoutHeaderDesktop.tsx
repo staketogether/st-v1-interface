@@ -52,7 +52,7 @@ export default function LayoutHeader() {
       </MenuContainer>
       <WalletContainer>
         <MenuButton onClick={() => setCommunityCreateModal(true)}>
-          <CreateProjectIcon /> Create Project
+          <CreateProjectIcon /> {t('v2.createProject.title')}
         </MenuButton>
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>

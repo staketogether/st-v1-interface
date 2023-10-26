@@ -17,9 +17,9 @@ export default function GenericInput({
   options?: { key: string; value: { label: string; value: string | number } }[]
 }) {
   return (
-    <Content>
+    <Content className={`${disabled ? 'disabled' : ''}`}>
       {title && <span>{title}</span>}
-      <InputContainer className={`${disabled ? 'disabled' : ''}`}>
+      <InputContainer className={`${disabled ? 'disabled' : ''} ${error ? 'error' : ''}`}>
         {type === 'text' && <input type='text' {...register} disabled={disabled} />}
         {type === 'longText' && <textarea {...register} />}
         {type === 'select' && options && (
@@ -32,16 +32,21 @@ export default function GenericInput({
           </select>
         )}
       </InputContainer>
-      {error && <span>{error}</span>}
+      <ErrorMessage>{error}</ErrorMessage>
     </Content>
   )
 }
 
-const { InputContainer, Content } = {
+const { InputContainer, Content, ErrorMessage } = {
   Content: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[4]};
+    &.disabled {
+      > span {
+        opacity: 0.4;
+      }
+    }
   `,
   InputContainer: styled.div`
     width: 100%;
@@ -49,7 +54,7 @@ const { InputContainer, Content } = {
     gap: ${({ theme }) => theme.size[4]};
 
     border-radius: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.color.whiteAlpha[800]};
+    background: ${({ theme }) => theme.colorV2.gray[2]};
     padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
     box-shadow: ${({ theme }) => theme.shadow[200]};
     background: ${({ theme }) => theme.colorV2.gray[2]};
@@ -57,7 +62,15 @@ const { InputContainer, Content } = {
     &.disabled {
       cursor: not-allowed;
       color: ${({ theme }) => theme.color.blackAlpha[600]};
-      background: ${({ theme }) => theme.color.blackAlpha[100]};
+      opacity: 0.4;
+    }
+
+    &.error {
+      border: 1px solid ${({ theme }) => theme.color.red[300]};
+      color: ${({ theme }) => theme.color.red[300]};
+      > input {
+        color: ${({ theme }) => theme.color.red[300]};
+      }
     }
 
     > input,
@@ -94,9 +107,6 @@ const { InputContainer, Content } = {
         color: ${({ theme }) => theme.color.blue[200]};
       }
 
-      &.error {
-        color: ${({ theme }) => theme.color.red[300]};
-      }
       &[type='file'] {
         display: none;
       }
@@ -106,5 +116,9 @@ const { InputContainer, Content } = {
       min-height: 15vh;
       resize: vertical;
     }
+  `,
+  ErrorMessage: styled.span`
+    color: ${({ theme }) => theme.color.red[300]} !important;
+    height: 14px;
   `
 }

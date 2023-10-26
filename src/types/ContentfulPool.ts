@@ -5,6 +5,7 @@ export type ContentfulImage = {
 
 export type Sys = {
   id: string
+  publishedAt: string
 }
 
 export type ContentFulCategory = {
@@ -22,6 +23,7 @@ export type ContentfulPool = {
   }
   cover: ContentfulImage
   video?: string
+  status: string
   image: ContentfulImage
   description?: string
   site?: string
@@ -37,4 +39,5 @@ export type ContentfulPool = {
   whatsapp?: string
   telegram?: string
   contract?: string
+  sys: Sys
 }

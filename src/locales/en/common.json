@@ -351,6 +351,37 @@
       "title": "Beacon Chain Withdrawals",
       "pending": "Pending",
       "claim": "Claim"
+    },
+    "createProject": {
+      "title": "Create Project",
+      "projectWithMembers": "I am a project with more than 100 members",
+      "send": "Send",
+      "sent": "Sent",
+      "seeMyProject": "See my project",
+      "form": {
+        "logo": "Logo",
+        "wallet": "Wallet",
+        "name": "Name",
+        "category": "Category",
+        "email": "Email",
+        "about": "Present your project",
+        "site": "Site",
+        "twitter": "Twitter",
+        "instagram": "Instagram",
+        "linkedin": "Linkedin",
+        "discord": "Discord",
+        "telegram": "Telegram",
+        "upload": "Upload",
+        "register": "Register"
+      },
+      "formMessages" : {
+        "required": "This field is required",
+        "invalidEmail": "Invalid email" 
+      },
+      "messages": {
+        "success": "Project created successfully",
+        "error": "Error creating project"
+      }
     }
   }
 }
