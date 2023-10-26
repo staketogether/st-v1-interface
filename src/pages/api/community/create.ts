@@ -1,15 +1,8 @@
 import { CreateContentfulClient } from '@/config/contentful'
 import { NextApiRequest, NextApiResponse } from 'next'
-import Cors from 'cors'
-import { runMiddleware } from '@/services/middleware'
 import { ethers } from 'ethers'
 
-const cors = Cors({
-  methods: ['POST', 'HEAD']
-})
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  await runMiddleware(req, res, cors)
   const { form, signatureMessage } = req.body
   const { signature, message } = signatureMessage
 
@@ -37,10 +30,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(400).json({ message: 'aboutProject not found' })
   }
 
-  if (!form.status) {
-    res.status(400).json({ message: 'status not found' })
-  }
-
   const messageBytes = ethers.toUtf8Bytes(message)
   const signatureWallet = ethers.verifyMessage(messageBytes, signature)
 
@@ -54,13 +43,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const logoUpload = await client.createAssetFromFiles({
     fields: {
       title: {
-        'en-US': `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`
+        'en-US': `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
+        pt: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`
       },
       description: {
-        'en-US': ''
+        'en-US': '',
+        pt: ''
       },
       file: {
         'en-US': {
+          fileName: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
+          file: decodedImage.buffer,
+          contentType: form.logo.mimeType
+        },
+        pt: {
           fileName: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
           file: decodedImage.buffer,
           contentType: form.logo.mimeType

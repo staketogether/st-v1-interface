@@ -12,7 +12,7 @@ import ProjectRegisterMoreInfo from './ProjectRegisterMoreInfo'
 import { useSignMessage } from 'wagmi'
 import axios from 'axios'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
-import ProjectRegistered from './ProjectRegistered'
+import ProjectRegisteredCard from './ProjectRegisteredCard'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 
 type CommunityCreateModalProps = {
@@ -130,7 +130,13 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
     >
       <Container>
         {hasProjectRegistered ? (
-          <ProjectRegistered projectDetail={poolDetail} />
+          <ProjectRegisteredCard
+            projectLogo={poolDetail?.logo?.url}
+            projectName={poolDetail.name}
+            projectStatus={poolDetail.status}
+            projectWallet={poolDetail.wallet}
+            createAt={poolDetail.sys.publishedAt}
+          />
         ) : (
           <div>{steps[current].content}</div>
         )}

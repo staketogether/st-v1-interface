@@ -24,7 +24,6 @@ type ProjectRegisterInfoProps = {
   hasAgreeTerms: boolean
   account?: `0x${string}`
   previewOpen: boolean
-
   isSubmitted: boolean
   previewImage: string
   previewTitle: string

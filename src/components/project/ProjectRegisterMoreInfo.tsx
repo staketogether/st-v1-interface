@@ -23,13 +23,14 @@ export default function ProjectRegisterMoreInfo({
   isSuccess,
   isLoading,
   previewStep,
+  formValues,
   onSubmit
 }: ProjectRegisterInfoProps) {
   const { t } = useLocaleTranslation()
 
   return (
     <Container>
-      {!isLoading && isSuccess && <ProjectCreateSuccess />}
+      {!isLoading && isSuccess && <ProjectCreateSuccess formValues={formValues} />}
       {isLoading && !isSuccess && <ProjectCreateLoading />}
       {!isLoading && !isSuccess && (
         <FormContainer>

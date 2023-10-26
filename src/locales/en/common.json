@@ -372,7 +372,8 @@
         "discord": "Discord",
         "telegram": "Telegram",
         "upload": "Upload",
-        "register": "Register"
+        "register": "Register",
+        "loadingMessage": "Creating project"
       },
       "formMessages" : {
         "required": "This field is required",
@@ -381,6 +382,10 @@
       "messages": {
         "success": "Project created successfully",
         "error": "Error creating project"
+      },
+      "successMessages": {  
+        "title": "Project created successfully",
+        "description": "Your project is being reviewed by our team and will be available soon."
       }
     }
   }

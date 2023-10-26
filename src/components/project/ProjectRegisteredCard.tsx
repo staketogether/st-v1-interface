@@ -1,4 +1,3 @@
-import { ContentfulPool } from '@/types/ContentfulPool'
 import React from 'react'
 import styled from 'styled-components'
 import CommunityName from '../shared/community/CommunityName'
@@ -9,11 +8,21 @@ import Button from '../shared/Button'
 import { useRouter } from 'next/router'
 
 type ProjectRegisteredProps = {
-  projectDetail: ContentfulPool
+  projectLogo?: string
+  projectName?: string
+  projectStatus: string
+  projectWallet: `0x${string}`
+  createAt: string
 }
 
-export default function ProjectRegistered({ projectDetail }: ProjectRegisteredProps) {
-  const publishedData = DateTime.fromISO(projectDetail.sys.publishedAt)
+export default function ProjectRegisteredCard({
+  projectLogo,
+  projectName,
+  projectStatus,
+  createAt,
+  projectWallet
+}: ProjectRegisteredProps) {
+  const publishedData = DateTime.fromISO(createAt)
   const router = useRouter()
   const { currency, network } = router.query
   const { t } = useLocaleTranslation()
@@ -21,22 +30,18 @@ export default function ProjectRegistered({ projectDetail }: ProjectRegisteredPr
     <Container>
       <CardContainer>
         <CardHeader>
-          {projectDetail.logo?.url && (
-            <CommunityLogo size={48} src={projectDetail.logo.url} alt={projectDetail.logo.fileName} />
-          )}
-          {projectDetail?.name && <CommunityName name={projectDetail?.name} $bold />}
+          {projectLogo && <CommunityLogo size={48} src={projectLogo} alt={projectName || ''} />}
+          {projectName && <CommunityName name={projectName} $bold />}
         </CardHeader>
-        <StatusContainer className={`${projectDetail.status && `${projectDetail.status}`}`}>
-          {projectDetail.status}
-        </StatusContainer>
+        <StatusContainer className={`${projectStatus && `${projectStatus}`}`}>{projectStatus}</StatusContainer>
         <PublishedContainer>
           <div>{t('v2.createProject.sent')}</div>
           <div>{publishedData.toFormat('dd/MM/yyyy')}</div>
         </PublishedContainer>
       </CardContainer>
-      {projectDetail.status === 'approved' && (
+      {projectStatus === 'approved' && (
         <Button
-          onClick={() => router.push(`/${network}/${currency}/invest/deposit/${projectDetail.wallet}`)}
+          onClick={() => router.push(`/${network}/${currency}/invest/deposit/${projectWallet}`)}
           label={`${t('v2.createProject.seeMyProject')}`}
           icon={<></>}
           isLoading={false}
@@ -48,12 +53,14 @@ export default function ProjectRegistered({ projectDetail }: ProjectRegisteredPr
 
 const { Container, CardContainer, CardHeader, StatusContainer, PublishedContainer } = {
   Container: styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
+    padding: 24px 0;
   `,
   CardContainer: styled.div`
-    width: auto;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
