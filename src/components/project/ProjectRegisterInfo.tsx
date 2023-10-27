@@ -1,18 +1,17 @@
 import { CreateCommunityForm } from '@/types/CommunityForm'
-import React, { useState } from 'react'
+import React from 'react'
 import {
   FieldErrors,
   UseFormClearErrors,
   UseFormHandleSubmit,
   UseFormRegister,
-  UseFormSetError,
   UseFormSetValue
 } from 'react-hook-form'
 import styled from 'styled-components'
 import GenericInput from '../shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Modal, Upload, notification } from 'antd'
-import { PiArrowCircleRightFill, PiPlus } from 'react-icons/pi'
+import { PiArrowCircleRightFill, PiCloudArrowUp } from 'react-icons/pi'
 import type { UploadFile } from 'antd/es/upload/interface'
 import type { RcFile, UploadProps, UploadChangeParam } from 'antd/es/upload'
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
@@ -39,7 +38,6 @@ type ProjectRegisterInfoProps = {
   setPreviewTitle: (value: string) => void
   setFileList: (value: UploadFile[]) => void
   clearErrors: UseFormClearErrors<CreateCommunityForm>
-  setError: UseFormSetError<CreateCommunityForm>
 }
 
 export default function ProjectRegisterInfo({
@@ -51,7 +49,7 @@ export default function ProjectRegisterInfo({
   previewTitle,
   isSubmitted,
   fileList,
-  setError,
+
   handleSubmit,
   register,
   nextStep,
@@ -65,7 +63,6 @@ export default function ProjectRegisterInfo({
 }: ProjectRegisterInfoProps) {
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
-  const [logoSizeError, setLogoSizeError] = useState(false)
 
   const beforeUpload: UploadProps['beforeUpload'] = file => {
     const maxSize = 1 * 1024 * 1024
@@ -74,9 +71,7 @@ export default function ProjectRegisterInfo({
         message: `${t('v2.createProject.formMessages.sizeImage')}`,
         placement: 'topRight'
       })
-      setLogoSizeError(true)
-      setError('logo', { type: 'custom', message: `${t('v2.createProject.formMessages.sizeImage')}` })
-      return false
+      return false || Upload.LIST_IGNORE
     }
     return true
   }
@@ -84,14 +79,13 @@ export default function ProjectRegisterInfo({
   const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
     const file = info.fileList[0]
     setFileList(info.fileList)
-    if (file && file.thumbUrl && file.type) {
+
+    if (file && file.thumbUrl) {
+      console.log('não entendo')
       const [imageType, imageBase64] = file.thumbUrl.split(',')
       const mimeType = imageType.split(':')[1].split(';')[0]
       setValue('logo', { base64: imageBase64, mimeType })
-      if (!logoSizeError) {
-        setLogoSizeError(false)
-        clearErrors('logo')
-      }
+      clearErrors('logo')
     }
   }
 
@@ -136,9 +130,7 @@ export default function ProjectRegisterInfo({
             <>
               <FormContainer>
                 <LogoContainer
-                  className={`${((errors.logo && isSubmitted) || logoSizeError) && 'error'} ${
-                    hasAgreeTerms ? '' : 'disabled'
-                  }`}
+                  className={`${errors.logo && isSubmitted && 'error'} ${hasAgreeTerms ? '' : 'disabled'}`}
                 >
                   <span>{t('v2.createProject.form.logo')}</span>
                   <Upload
@@ -151,8 +143,8 @@ export default function ProjectRegisterInfo({
                   >
                     {fileList.length >= 1 ? null : (
                       <div>
-                        <PiPlus />
-                        <div style={{ marginTop: 8 }}>{t('v2.createProject.form.upload')}</div>
+                        <UploadIcon />
+                        <div style={{ opacity: '0.4' }}>{t('v2.createProject.form.upload')}</div>
                       </div>
                     )}
                   </Upload>
@@ -225,7 +217,17 @@ export default function ProjectRegisterInfo({
     </Form>
   )
 }
-const { Container, Terms, Form, FormContainer, LogoContainer, NextStepIcon, ButtonSubmit, ErrorMessage } = {
+const {
+  Container,
+  Terms,
+  UploadIcon,
+  Form,
+  FormContainer,
+  LogoContainer,
+  NextStepIcon,
+  ButtonSubmit,
+  ErrorMessage
+} = {
   Container: styled.div`
     display: grid;
     flex-direction: column;
@@ -269,6 +271,24 @@ const { Container, Terms, Form, FormContainer, LogoContainer, NextStepIcon, Butt
     align-items: center;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
+
+    > span {
+      > div {
+        > div {
+          border: none !important;
+          background: ${({ theme }) => theme.colorV2.gray[2]} !important;
+          box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2) !important;
+          color: ${({ theme }) => theme.colorV2.gray[1]} !important;
+          font-weight: 500 !important;
+          margin: 0px !important;
+          border-radius: 50% !important;
+          > div {
+            border-radius: 50% !important;
+            padding: 0px !important;
+          }
+        }
+      }
+    }
     &.error {
       span {
         > div {
@@ -319,5 +339,10 @@ const { Container, Terms, Form, FormContainer, LogoContainer, NextStepIcon, Butt
     font-size: 14px;
     height: 14px;
     color: ${({ theme }) => theme.color.red[300]} !important;
+  `,
+  UploadIcon: styled(PiCloudArrowUp)`
+    font-size: 24px;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    opacity: 0.4;
   `
 }

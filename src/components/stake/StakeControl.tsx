@@ -120,7 +120,6 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
   return (
     <Container>
       <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
-      {/* poolDetail && <CommunityForm poolDetail={poolDetail} poolDetailLoading={false} /> */}
       <TvlContainer>
         <PoolTitle>
           <div>
