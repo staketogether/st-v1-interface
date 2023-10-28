@@ -5,6 +5,9 @@
   "portfolio": "Portfólio",
   "stake": "Depositar",
   "time": "Tempo",
+  "next": "Avançar",
+  "close": "Fechar",
+  "goToBack": "Voltar",
   "type": "Tipo",
   "value": "Valor",
   "account": "Conta",
@@ -373,8 +376,13 @@
         "discord": "Discord",
         "telegram": "Telegram",
         "upload": "Enviar",
-        "register": "Registar",
-        "loadingMessage": "Criando seu projeto"
+        "register": "Cadastrar Projeto",
+        "loadingMessage": "Enviando Cadastro do Projeto"
+      },
+      "status": {
+        "approved": "Aprovado",
+        "reproved": "Reprovado",
+        "pending": "Em Análise"
       },
       "formMessages" : {
         "required": "Campo obrigatorio",
@@ -386,8 +394,8 @@
         "error": "Erro na criaçao do projeto"
       },
       "successMessages": {  
-        "title": "Projeto criado com sucesso",
-        "description": "Seu projeto está sendo analisado por nossa equipe e estará disponível em breve"
+        "title": "Projeto enviado com sucesso!",
+        "description": "O projeto está em análise, aguarde o retorno da nossa equipe por e-mail"
       }
     }
   }

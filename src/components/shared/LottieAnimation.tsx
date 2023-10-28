@@ -18,15 +18,13 @@ export default function LottieAnimation({
   height
 }: LottieAnimationProps) {
   return (
-    <>
-      <Player
-        autoplay={autoplay}
-        loop={loop}
-        controls={true}
-        src={animationData}
-        style={{ height: `${height ? `${height}px` : 'auto%'}`, maxWidth: `${width ? `${width}px` : '100%'}` }}
-        keepLastFrame={true}
-      />
-    </>
+    <Player
+      autoplay={autoplay}
+      loop={loop}
+      controls={true}
+      src={animationData}
+      style={{ height: `${height ? `${height}px` : 'auto%'}`, maxWidth: `${width ? `${width}px` : '100%'}` }}
+      keepLastFrame={true}
+    />
   )
 }

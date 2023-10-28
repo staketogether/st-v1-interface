@@ -11,6 +11,7 @@ export default function ProjectCreateLoading() {
       <div>
         <LottieAnimation animationData={loadingAnimation} height={60} loop />
         <h2>{t('v2.createProject.form.loadingMessage')}</h2>
+        <h2>{t('v2.stake.confirmModal.proceedInYourWallet')}</h2>
       </div>
     </Container>
   )
@@ -30,6 +31,7 @@ const { Container } = {
         font-weight: 500;
       }
       display: flex;
+      text-align: center;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[24]};
     }

@@ -8,9 +8,10 @@ import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
-import ProjectSidebarRegister from '@/components/project/ProjectSidebarRegister'
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
 import useCommunityCreateModal from '@/hooks/useCommunityCreateModal'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
+import ProjectButton from '@/components/project/ProjectButton'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
@@ -19,6 +20,7 @@ export default function LayoutHeader() {
   const { setCommunityCreateModal } = useCommunityCreateModal()
   const { query } = useRouter()
   const { currency, network } = query
+  const { poolDetail } = useContentfulPoolDetails(account)
 
   return (
     <Container>
@@ -51,14 +53,14 @@ export default function LayoutHeader() {
         </Menu>
       </MenuContainer>
       <WalletContainer>
-        <MenuButton onClick={() => setCommunityCreateModal(true)}>
-          <CreateProjectIcon /> {t('v2.createProject.title')}
-        </MenuButton>
+        {!poolDetail && (
+          <MenuButton onClick={() => setCommunityCreateModal(true)}>
+            <CreateProjectIcon /> {t('v2.createProject.title')}
+          </MenuButton>
+        )}
+        {poolDetail && <ProjectButton poolDetail={poolDetail} />}
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
-      {account && accountIsConnected && (
-        <ProjectSidebarRegister account={account} accountIsConnected={accountIsConnected} />
-      )}
       <ProjectCreateModal account={account} />
     </Container>
   )

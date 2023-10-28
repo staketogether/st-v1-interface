@@ -5,6 +5,9 @@
   "portfolio": "Portfolio",
   "stake": "Stake",
   "time": "Time",
+  "next": "Next",
+   "close": "Close",
+  "goToBack": "Go To Back",
   "account": "Account",
   "accounts": "Accounts",
   "days": "Days",
@@ -372,8 +375,13 @@
         "discord": "Discord",
         "telegram": "Telegram",
         "upload": "Upload",
-        "register": "Register",
-        "loadingMessage": "Creating project"
+        "register": "Register Project",
+        "loadingMessage": "Submitting Project Registration"
+      },
+      "status": {
+        "approved": "Approved",
+        "reproved": "Reproved",
+        "pending": "Under analysis"
       },
       "formMessages" : {
         "required": "This field is required",
@@ -386,7 +394,7 @@
       },
       "successMessages": {  
         "title": "Project created successfully",
-        "description": "Your project is being reviewed by our team and will be available soon."
+        "description": "The project is under review, please await our team's response via email"
       }
     }
   }

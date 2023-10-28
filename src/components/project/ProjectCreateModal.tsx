@@ -10,9 +10,9 @@ import { CreateCommunityForm } from '@/types/CommunityForm'
 import ProjectRegisterMoreInfo from './ProjectRegisterMoreInfo'
 import { useSignMessage } from 'wagmi'
 import axios from 'axios'
-import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
-import ProjectRegisteredCard from './ProjectRegisteredCard'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { contentfulClient } from '@/config/apollo'
+import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
 
 type CommunityCreateModalProps = {
   account?: `0x${string}`
@@ -26,7 +26,6 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
   const [previewTitle, setPreviewTitle] = useState('')
   const [fileList, setFileList] = useState<UploadFile[]>([])
 
-  const { poolDetail } = useContentfulPoolDetails(account as `0x${string}`)
   const { t } = useLocaleTranslation()
 
   const {
@@ -70,6 +69,9 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
       notification.success({
         message: `${t('v2.createProject.messages.success')}`,
         placement: 'topRight'
+      })
+      contentfulClient.refetchQueries({
+        include: [queryContentfulPoolByAddress]
       })
     }
   })
@@ -118,7 +120,7 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
     }
   ]
   const { isOpenCommunityCreateModal, setCommunityCreateModal } = useCommunityCreateModal()
-  const hasProjectRegistered = !!poolDetail
+
   return (
     <Modal
       title={t('v2.createProject.title')}
@@ -127,17 +129,7 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
       width={'auto'}
     >
       <Container>
-        {hasProjectRegistered ? (
-          <ProjectRegisteredCard
-            projectLogo={poolDetail?.logo?.url}
-            projectName={poolDetail.name}
-            projectStatus={poolDetail.status}
-            projectWallet={poolDetail.wallet}
-            createAt={poolDetail.sys.publishedAt}
-          />
-        ) : (
-          <div>{steps[current].content}</div>
-        )}
+        <div>{steps[current].content}</div>
       </Container>
     </Modal>
   )

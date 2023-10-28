@@ -1,102 +1,148 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import CommunityName from '../shared/community/CommunityName'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import { DateTime } from 'luxon'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import Button from '../shared/Button'
-import { useRouter } from 'next/router'
+import PoolFilterIcon from '../invest/PoolFilterIcon'
+import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 
 type ProjectRegisteredProps = {
   projectLogo?: string
   projectName?: string
   projectStatus: string
-  projectWallet: `0x${string}`
   createAt: string
+  ProjectCategory: string
 }
 
 export default function ProjectRegisteredCard({
   projectLogo,
   projectName,
   projectStatus,
-  createAt,
-  projectWallet
+  ProjectCategory,
+  createAt
 }: ProjectRegisteredProps) {
   const publishedData = DateTime.fromISO(createAt)
-  const router = useRouter()
-  const { currency, network } = router.query
   const { t } = useLocaleTranslation()
+  const { poolTypeTranslation } = usePoolTypeTranslation()
+
+  const statusColor = () => {
+    switch (projectStatus) {
+      case 'approved':
+        return 'green'
+      case 'reproved':
+        return 'red'
+      default:
+        return 'secondary'
+    }
+  }
+
+  const theme = useTheme()
+
   return (
-    <Container>
-      <CardContainer>
-        <CardHeader>
-          {projectLogo && <CommunityLogo size={48} src={projectLogo} alt={projectName || ''} />}
-          {projectName && <CommunityName name={projectName} $bold />}
-        </CardHeader>
-        <StatusContainer className={`${projectStatus && `${projectStatus}`}`}>{projectStatus}</StatusContainer>
-        <PublishedContainer>
-          <div>{t('v2.createProject.sent')}</div>
-          <div>{publishedData.toFormat('dd/MM/yyyy')}</div>
-        </PublishedContainer>
-      </CardContainer>
-      {projectStatus === 'approved' && (
-        <Button
-          onClick={() => router.push(`/${network}/${currency}/invest/deposit/${projectWallet}`)}
-          label={`${t('v2.createProject.seeMyProject')}`}
-          icon={<></>}
-          isLoading={false}
-        />
-      )}
-    </Container>
+    <CardContainer>
+      <CardHeader>
+        {projectLogo && <CommunityLogo size={80} src={projectLogo} alt={projectName || ''} />}
+        <div>
+          {projectName && <CommunityName name={projectName} $bold $color={theme.color.secondary} />}
+          <div>
+            {PoolFilterIcon({ iconSize: 16, value: ProjectCategory })}
+            <span>{`${poolTypeTranslation(ProjectCategory)}`}</span>
+          </div>
+        </div>
+      </CardHeader>
+
+      <CardInfo>
+        <div>
+          <span>Status</span>
+          <span className={`bold ${statusColor()}`}>{`${t(`v2.createProject.status.${projectStatus}`)}`}</span>
+        </div>
+        <div>
+          <span>{t('v2.createProject.sent')}</span>
+          <span className={`bold `}>{publishedData.toFormat('dd/MM/yyyy')}</span>
+        </div>
+      </CardInfo>
+    </CardContainer>
   )
 }
 
-const { Container, CardContainer, CardHeader, StatusContainer, PublishedContainer } = {
-  Container: styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
-    padding: 24px 0;
-  `,
+const { CardContainer, CardHeader, CardInfo } = {
   CardContainer: styled.div`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 16px;
+    gap: ${({ theme }) => theme.size[4]};
+
+    border-radius: 12px;
+    background: ${({ theme }) => theme.colorV2.foreground};
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+  `,
+
+  CardHeader: styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
-
-    background: ${({ theme }) => theme.colorV2.gray[2]};
-    padding: ${({ theme }) => theme.size[24]};
-    border-radius: ${({ theme }) => theme.size[8]};
-  `,
-  CardHeader: styled.div`
-    display: grid;
     align-items: center;
-    gap: ${({ theme }) => theme.size[12]};
-    font-weight: 500;
-    grid-template-columns: auto 1fr;
-  `,
-  StatusContainer: styled.div`
+    gap: ${({ theme }) => theme.size[16]};
+    padding: ${({ theme }) => theme.size[16]};
+
+    border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.colorV2.white};
-    padding: ${({ theme }) => theme.size[12]};
-    border-radius: ${({ theme }) => theme.size[8]};
-    text-align: center;
-    font-size: ${({ theme }) => theme.font.size[14]};
-
-    &.pending {
-      color: ${({ theme }) => theme.color.yellow[500]};
-    }
-    &.approved {
-      color: ${({ theme }) => theme.color.green[500]};
-    }
-    &.reproved {
-      color: ${({ theme }) => theme.color.red[500]};
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: ${({ theme }) => theme.size[4]};
+      > div {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[4]};
+        > span {
+          font-size: 14px;
+          font-weight: 500;
+        }
+      }
     }
   `,
-  PublishedContainer: styled.div`
+  CardInfo: styled.div`
+    width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    font-size: ${({ theme }) => theme.font.size[14]};
+    gap: ${({ theme }) => theme.size[4]};
+    padding: ${({ theme }) => theme.size[8]};
+
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.colorV2.white};
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+
+    > div {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: ${({ theme }) => theme.size[16]};
+      > span {
+        font-size: ${({ theme }) => theme.font.size[14]};
+        font-weight: 400;
+
+        &.bold {
+          font-weight: 500;
+        }
+        &.secondary {
+          color: ${({ theme }) => theme.color.secondary};
+        }
+        &.green {
+          color: ${({ theme }) => theme.color.green[500]};
+        }
+        &.red {
+          color: ${({ theme }) => theme.color.red[500]};
+        }
+      }
+    }
   `
 }

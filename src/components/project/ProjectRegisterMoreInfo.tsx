@@ -4,7 +4,7 @@ import { UseFormRegister } from 'react-hook-form'
 import styled from 'styled-components'
 import GenericInput from '../shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { PiArrowCircleLeftFill, PiPencilSimpleLine } from 'react-icons/pi'
+import { PiArrowLeft, PiPencilSimpleLine } from 'react-icons/pi'
 import Button from '../shared/Button'
 import ProjectCreateLoading from './ProjectCreateLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
@@ -54,19 +54,15 @@ export default function ProjectRegisterMoreInfo({
           />
         </FormContainer>
       )}
-      {!isSuccess && (
+      {!isSuccess && !isLoading && (
         <FooterContainer>
-          <PreviewStepIcon
-            onClick={() => !isLoading && previewStep()}
-            className={`${isLoading ? 'disabled' : ''}`}
-          />
           <Button
+            block
+            icon={<CreateProjectIcon />}
             onClick={onSubmit}
             label={t('v2.createProject.form.register')}
-            disabled={isLoading}
-            isLoading={isLoading}
-            icon={<CreateProjectIcon />}
           />
+          <Button onClick={previewStep} ghost label={t('goToBack')} icon={<PreviewStepIcon />} block />
         </FooterContainer>
       )}
     </Container>
@@ -91,16 +87,12 @@ const { Container, FormContainer, PreviewStepIcon, FooterContainer, CreateProjec
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 10px;
   `,
-  PreviewStepIcon: styled(PiArrowCircleLeftFill)`
-    font-size: 52px;
-    cursor: pointer;
-    color: ${({ theme }) => theme.colorV2.blue[1]};
-    &.disabled {
-      cursor: not-allowed;
-      color: ${({ theme }) => theme.color.blackAlpha[600]};
-    }
+  PreviewStepIcon: styled(PiArrowLeft)`
+    font-size: 18px;
+    color: ${({ theme }) => theme.colorV2.white[1]};
   `,
   CreateProjectIcon: styled(PiPencilSimpleLine)`
     font-size: 15px;

@@ -11,12 +11,13 @@ import styled from 'styled-components'
 import GenericInput from '../shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Modal, Upload, notification } from 'antd'
-import { PiArrowCircleRightFill, PiCloudArrowUp } from 'react-icons/pi'
-import type { UploadFile } from 'antd/es/upload/interface'
-import type { RcFile, UploadProps, UploadChangeParam } from 'antd/es/upload'
+import { PiArrowRight, PiCloudArrowUp } from 'react-icons/pi'
+import type { UploadFile, RcFile, UploadProps } from 'antd/es/upload/interface'
+import type { UploadChangeParam } from 'antd/es/upload'
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
 import ConnectWallet from '../shared/ConnectWallet'
 import Image from 'next/image'
+import Button from '../shared/Button'
 
 type ProjectRegisterInfoProps = {
   errors: FieldErrors<CreateCommunityForm>
@@ -76,19 +77,6 @@ export default function ProjectRegisterInfo({
     return true
   }
 
-  const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
-    const file = info.fileList[0]
-    setFileList(info.fileList)
-
-    if (file && file.thumbUrl) {
-      console.log('não entendo')
-      const [imageType, imageBase64] = file.thumbUrl.split(',')
-      const mimeType = imageType.split(':')[1].split(';')[0]
-      setValue('logo', { base64: imageBase64, mimeType })
-      clearErrors('logo')
-    }
-  }
-
   const getBase64 = (file: RcFile): Promise<string> =>
     new Promise((resolve, reject) => {
       const reader = new FileReader()
@@ -96,6 +84,20 @@ export default function ProjectRegisterInfo({
       reader.onload = () => resolve(reader.result as string)
       reader.onerror = error => reject(error)
     })
+
+  const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
+    setFileList(info.fileList)
+
+    if (info.file.status === 'done') {
+      const file = await getBase64(info.fileList[0].originFileObj as RcFile)
+      if (file) {
+        const [imageType, imageBase64] = file.split(',')
+        const mimeType = imageType.split(':')[1].split(';')[0]
+        setValue('logo', { base64: imageBase64, mimeType })
+        clearErrors('logo')
+      }
+    }
+  }
 
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
@@ -202,9 +204,13 @@ export default function ProjectRegisterInfo({
                   error={errors.aboutProject?.message}
                 />
               </FormContainer>
-              <ButtonSubmit type='submit' disabled={!hasAgreeTerms}>
-                <NextStepIcon />
-              </ButtonSubmit>
+              <Button
+                block
+                icon={<NextStepIcon />}
+                type='submit'
+                disabled={!hasAgreeTerms}
+                label={`${t('next')}`}
+              />
             </>
           </>
         )}
@@ -217,17 +223,7 @@ export default function ProjectRegisterInfo({
     </Form>
   )
 }
-const {
-  Container,
-  Terms,
-  UploadIcon,
-  Form,
-  FormContainer,
-  LogoContainer,
-  NextStepIcon,
-  ButtonSubmit,
-  ErrorMessage
-} = {
+const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextStepIcon, ErrorMessage } = {
   Container: styled.div`
     display: grid;
     flex-direction: column;
@@ -322,18 +318,9 @@ const {
       }
     }
   `,
-  ButtonSubmit: styled.button`
-    border: none;
-    background: transparent;
-    margin-left: auto;
-    &:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-  `,
-  NextStepIcon: styled(PiArrowCircleRightFill)`
-    font-size: 52px;
-    color: ${({ theme }) => theme.colorV2.blue[1]};
+  NextStepIcon: styled(PiArrowRight)`
+    font-size: 18px;
+    color: ${({ theme }) => theme.colorV2.white[1]};
   `,
   ErrorMessage: styled.span`
     font-size: 14px;

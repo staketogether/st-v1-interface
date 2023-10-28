@@ -47,7 +47,7 @@ const { Text } = {
   Text: styled.span<{ $large?: boolean; $larger?: boolean; $color?: string; $bold?: boolean }>`
     font-size: ${({ theme }) => theme.font.size[15]};
     font-weight: 400;
-    color: ${({ theme, color }) => color || theme.colorV2.gray[1]};
+    color: ${({ theme, color }) => color || theme.colorV2.gray[1]} !important;
     border: 0;
     padding: 0;
     margin: 0;

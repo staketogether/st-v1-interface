@@ -5,6 +5,9 @@ import LottieAnimation from '../shared/LottieAnimation'
 import { CreateCommunityForm } from '@/types/CommunityForm'
 import ProjectRegisteredCard from './ProjectRegisteredCard'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
+import useCommunityCreateModal from '@/hooks/useCommunityCreateModal'
+import Button from '../shared/Button'
 
 type ProjectCreateSuccessProps = {
   formValues: CreateCommunityForm
@@ -12,21 +15,31 @@ type ProjectCreateSuccessProps = {
 
 export default function ProjectCreateSuccess({ formValues }: ProjectCreateSuccessProps) {
   const { t } = useLocaleTranslation()
+  const { categories } = useContentfulCategoryCollection()
+  const { setCommunityCreateModal } = useCommunityCreateModal()
   return (
     <Container>
-      <div>
-        <LottieAnimation animationData={successAnimation} height={60} />
-        <MessageContainer>
-          <h2>{`${t('v2.createProject.successMessages.title')}`}</h2>
-          <span>{`${t('v2.createProject.successMessages.description')}`}</span>
-        </MessageContainer>
-      </div>
+      <header>
+        <LottieAnimation animationData={successAnimation} height={52} width={52} />
+        <span>{`${t('v2.createProject.successMessages.title')}`}</span>
+      </header>
+
       <ProjectRegisteredCard
         projectLogo={`data:${formValues.logo?.mimeType};base64,${formValues.logo?.base64}`}
         projectName={formValues.projectName}
         projectStatus={'pending'}
-        projectWallet={formValues.wallet as `0x${string}`}
         createAt={new Date().toISOString()}
+        ProjectCategory={
+          (categories?.length && categories.find(category => category.sys.id === formValues.category)?.name) ||
+          'education'
+        }
+      />
+      <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
+      <Button
+        onClick={() => setCommunityCreateModal(false)}
+        label={`${t('close')}`}
+        icon={<></>}
+        isLoading={false}
       />
     </Container>
   )
@@ -37,12 +50,20 @@ const { Container, MessageContainer } = {
     width: 100%;
     display: grid;
     place-items: center;
-    padding-bottom: 24px;
+    padding: 0px 8px;
+    gap: ${({ theme }) => theme.size[24]};
 
-    > div {
+    > header {
       display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[24]};
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
+      margin-bottom: -18px;
+      > span {
+        color: ${({ theme }) => theme.color.green[500]};
+        text-align: center;
+        font-size: ${({ theme }) => theme.font.size[18]};
+        font-weight: 500;
+      }
     }
   `,
   MessageContainer: styled.div`
@@ -50,15 +71,9 @@ const { Container, MessageContainer } = {
     flex-direction: column;
     gap: ${({ theme }) => theme.size[12]};
     text-align: center;
-    h2 {
-      font-size: ${({ theme }) => theme.font.size[18]};
-      color: ${({ theme }) => theme.color.primary};
-      font-weight: 500;
-    }
-    span {
-      font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.color.secondary};
-      font-weight: 500;
-    }
+
+    font-size: ${({ theme }) => theme.font.size[15]};
+    color: ${({ theme }) => theme.color.secondary};
+    font-weight: 500;
   `
 }
