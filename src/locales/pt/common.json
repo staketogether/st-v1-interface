@@ -370,7 +370,7 @@
         "email": "Email",
         "about": "Apresente seu projeto",
         "site": "Site",
-        "twitter": "Twitter",
+        "twitter": "X (Twitter)",
         "instagram": "Instagram",
         "linkedin": "Linkedin",
         "discord": "Discord",
@@ -378,6 +378,16 @@
         "upload": "Enviar",
         "register": "Cadastrar Projeto",
         "loadingMessage": "Enviando Cadastro do Projeto"
+      },
+      "placeholder":{
+        "email": "Insira seu email para contato",
+        "about": "Conte nós um pouco mais sobre seu projeto",
+        "site": "Insira o URL do seu site",
+        "twitter": "Nome de usuário (e.g. @staketogether)",
+        "instagram": "Nome de usuário (e.g. @staketogether)",
+        "linkedin": "Nome de usuário (e.g. @staketogether)",
+        "discord": "Insira o link de invite do seu servidor Discord",
+        "telegram": "Insira o link de invite do seu grupo Telegram"
       },
       "status": {
         "approved": "Aprovado",

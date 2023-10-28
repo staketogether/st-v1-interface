@@ -34,23 +34,41 @@ export default function ProjectRegisterMoreInfo({
       {isLoading && !isSuccess && <ProjectCreateLoading />}
       {!isLoading && !isSuccess && (
         <FormContainer>
-          <GenericInput title={t('v2.createProject.form.site')} register={register('site')} type='text' />
-          <GenericInput title={t('v2.createProject.form.twitter')} register={register('twitter')} type='text' />
+          <GenericInput
+            title={t('v2.createProject.form.site')}
+            register={register('site')}
+            type='text'
+            placeholder={t('v2.createProject.placeholder.site')}
+          />
+          <GenericInput
+            title={t('v2.createProject.form.twitter')}
+            register={register('twitter')}
+            type='text'
+            placeholder={t('v2.createProject.placeholder.twitter')}
+          />
           <GenericInput
             title={t('v2.createProject.form.instagram')}
             register={register('instagram')}
             type='text'
+            placeholder={t('v2.createProject.placeholder.instagram')}
           />
           <GenericInput
             title={t('v2.createProject.form.linkedin')}
             register={register('linkedin')}
             type='text'
+            placeholder={t('v2.createProject.placeholder.linkedin')}
           />
-          <GenericInput title={t('v2.createProject.form.discord')} register={register('discord')} type='text' />
+          <GenericInput
+            title={t('v2.createProject.form.discord')}
+            register={register('discord')}
+            type='text'
+            placeholder={t('v2.createProject.placeholder.discord')}
+          />
           <GenericInput
             title={t('v2.createProject.form.telegram')}
             register={register('telegram')}
             type='text'
+            placeholder={t('v2.createProject.placeholder.telegram')}
           />
         </FormContainer>
       )}

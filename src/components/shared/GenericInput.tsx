@@ -7,7 +7,8 @@ export default function GenericInput({
   error,
   type = 'text',
   options,
-  disabled
+  disabled,
+  placeholder
 }: {
   title?: string
   error?: string
@@ -15,15 +16,16 @@ export default function GenericInput({
   type?: 'text' | 'longText' | 'select'
   disabled?: boolean
   options?: { key: string; value: { label: string; value: string | number } }[]
+  placeholder?: string
 }) {
   return (
     <Content className={`${disabled ? 'disabled' : ''}`}>
       {title && <span>{title}</span>}
       <InputContainer className={`${disabled ? 'disabled' : ''} ${error ? 'error' : ''}`}>
-        {type === 'text' && <input type='text' {...register} disabled={disabled} />}
-        {type === 'longText' && <textarea {...register} />}
+        {type === 'text' && <input type='text' {...register} disabled={disabled} placeholder={placeholder} />}
+        {type === 'longText' && <textarea {...register} disabled={disabled} placeholder={placeholder} />}
         {type === 'select' && options && (
-          <select {...register}>
+          <select {...register} disabled={disabled}>
             {options?.map(option => (
               <option key={option.key} value={option.value.value}>
                 {option.value.label}
@@ -104,7 +106,8 @@ const { InputContainer, Content, ErrorMessage } = {
       }
 
       &::-webkit-input-placeholder {
-        color: ${({ theme }) => theme.color.blue[200]};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        opacity: 0.4;
       }
 
       &[type='file'] {
@@ -115,6 +118,19 @@ const { InputContainer, Content, ErrorMessage } = {
     > textarea {
       min-height: 15vh;
       resize: vertical;
+      &:disabled {
+        cursor: not-allowed;
+      }
+
+      &::-webkit-input-placeholder {
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        opacity: 0.4;
+      }
+    }
+    > select {
+      &:disabled {
+        cursor: not-allowed;
+      }
     }
   `,
   ErrorMessage: styled.span`

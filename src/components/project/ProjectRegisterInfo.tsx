@@ -193,6 +193,7 @@ export default function ProjectRegisterInfo({
                   })}
                   type='text'
                   error={errors.email?.message}
+                  placeholder={t('v2.createProject.placeholder.email')}
                 />
                 <GenericInput
                   title={t('v2.createProject.form.about') + '*'}
@@ -202,6 +203,7 @@ export default function ProjectRegisterInfo({
                   })}
                   type='longText'
                   error={errors.aboutProject?.message}
+                  placeholder={t('v2.createProject.placeholder.about')}
                 />
               </FormContainer>
               <Button

@@ -378,6 +378,17 @@
         "register": "Register Project",
         "loadingMessage": "Submitting Project Registration"
       },
+      "placeholder": {
+        "email": "Enter your email for contact",
+        "about": "Tell us a bit more about your project",
+        "site": "Enter your website URL",
+        "twitter": "Username (e.g. @staketogether)",
+        "instagram": "Username (e.g. @staketogether)",
+        "linkedin": "Username (e.g. @staketogether)",
+        "discord": "Enter the invite link to your Discord server",
+        "telegram": "Enter the invite link to your Telegram group",
+        "youtube": "Enter the link to your YouTube channel"
+      },
       "status": {
         "approved": "Approved",
         "reproved": "Reproved",
