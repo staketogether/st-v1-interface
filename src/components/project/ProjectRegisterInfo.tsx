@@ -1,4 +1,3 @@
-import { CreateCommunityForm } from '@/types/CommunityForm'
 import React from 'react'
 import {
   FieldErrors,
@@ -18,10 +17,12 @@ import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCat
 import ConnectWallet from '../shared/ConnectWallet'
 import Image from 'next/image'
 import Button from '../shared/Button'
+import { getBase64 } from '@/services/format'
+import { CreateProjectForm } from '@/types/Project'
 
 type ProjectRegisterInfoProps = {
-  errors: FieldErrors<CreateCommunityForm>
-  formValues: CreateCommunityForm
+  errors: FieldErrors<CreateProjectForm>
+  formValues: CreateProjectForm
   hasAgreeTerms: boolean
   account?: `0x${string}`
   previewOpen: boolean
@@ -30,15 +31,15 @@ type ProjectRegisterInfoProps = {
   previewTitle: string
   fileList: UploadFile[]
   nextStep: () => void
-  register: UseFormRegister<CreateCommunityForm>
-  setValue: UseFormSetValue<CreateCommunityForm>
+  register: UseFormRegister<CreateProjectForm>
+  setValue: UseFormSetValue<CreateProjectForm>
   setHasAgreeTerms: (value: boolean) => void
-  handleSubmit: UseFormHandleSubmit<CreateCommunityForm, undefined>
+  handleSubmit: UseFormHandleSubmit<CreateProjectForm, undefined>
   setPreviewOpen: (value: boolean) => void
   setPreviewImage: (value: string) => void
   setPreviewTitle: (value: string) => void
   setFileList: (value: UploadFile[]) => void
-  clearErrors: UseFormClearErrors<CreateCommunityForm>
+  clearErrors: UseFormClearErrors<CreateProjectForm>
 }
 
 export default function ProjectRegisterInfo({
@@ -50,7 +51,6 @@ export default function ProjectRegisterInfo({
   previewTitle,
   isSubmitted,
   fileList,
-
   handleSubmit,
   register,
   nextStep,
@@ -76,14 +76,6 @@ export default function ProjectRegisterInfo({
     }
     return true
   }
-
-  const getBase64 = (file: RcFile): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onload = () => resolve(reader.result as string)
-      reader.onerror = error => reject(error)
-    })
 
   const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
     setFileList(info.fileList)

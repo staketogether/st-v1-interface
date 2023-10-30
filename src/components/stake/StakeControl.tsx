@@ -20,6 +20,9 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
+import Button from '../shared/Button'
+import useProjectEditModal from '@/hooks/useProjectEditModal'
+import ProjectEditModal from '../project/Edit/ProjectEditModal'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -33,8 +36,9 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
   const [skipActivity, setSkipActivity] = useState(0)
 
   const { t } = useLocaleTranslation()
-  const { query } = useRouter()
-  const { locale } = useRouter()
+  const { setProjectEditModal } = useProjectEditModal()
+
+  const { query, locale } = useRouter()
 
   useEffect(() => {
     setTimeout(() => {
@@ -130,10 +134,14 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
               loading={false}
               listed={pool?.listed}
             />
+
             {poolDetail?.name ? (
               <CommunityName $larger name={poolDetail?.name} loading={false} />
             ) : (
               <CommunityName $larger walletAddress={poolAddress} loading={false} />
+            )}
+            {poolAddress.toLocaleLowerCase() === account?.toLocaleLowerCase() && (
+              <Button onClick={() => setProjectEditModal(true)} label={'Edit'} icon={<></>} small />
             )}
           </div>
 
@@ -202,6 +210,7 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
         loadMoreActivitiesItems={handleLoadMoreActivity}
       />
       <WalletLottery poolAddress={poolAddress} />
+      {poolDetail && <ProjectEditModal poolDetail={poolDetail} />}
     </Container>
   )
 }

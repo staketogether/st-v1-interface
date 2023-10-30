@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '../shared/Modal'
-import useCommunityCreateModal from '@/hooks/useCommunityCreateModal'
+import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import styled from 'styled-components'
 import { notification } from 'antd'
 import type { UploadFile } from 'antd/es/upload/interface'
 import ProjectRegisterInfo from './ProjectRegisterInfo'
 import { useForm } from 'react-hook-form'
-import { CreateCommunityForm } from '@/types/CommunityForm'
 import ProjectRegisterMoreInfo from './ProjectRegisterMoreInfo'
 import { useSignMessage } from 'wagmi'
 import axios from 'axios'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { contentfulClient } from '@/config/apollo'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
+import { CreateProjectForm } from '@/types/Project'
 
 type CommunityCreateModalProps = {
   account?: `0x${string}`
@@ -36,7 +36,7 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
     handleSubmit,
     setError,
     clearErrors
-  } = useForm<CreateCommunityForm>()
+  } = useForm<CreateProjectForm>()
   const formValues = getValues()
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
       const createCommunityForm = getValues()
       const signatureMessage = { signature: data, message: message }
 
-      await axios.post('/api/community/create', {
+      await axios.post('/api/project/create', {
         form: createCommunityForm,
         signatureMessage
       })
@@ -119,13 +119,13 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
       )
     }
   ]
-  const { isOpenCommunityCreateModal, setCommunityCreateModal } = useCommunityCreateModal()
+  const { isOpenProjectCreateModal, setOpenProjectCreateModal } = useProjectCreateModal()
 
   return (
     <Modal
       title={t('v2.createProject.title')}
-      onClose={() => setCommunityCreateModal(false)}
-      isOpen={isOpenCommunityCreateModal}
+      onClose={() => setOpenProjectCreateModal(false)}
+      isOpen={isOpenProjectCreateModal}
       width={'auto'}
     >
       <Container>

@@ -1,6 +1,7 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
+  "save" : "Salvar",
   "projects": "Projetos",
   "portfolio": "Portfólio",
   "stake": "Depositar",
@@ -377,17 +378,34 @@
         "telegram": "Telegram",
         "upload": "Enviar",
         "register": "Cadastrar Projeto",
-        "loadingMessage": "Enviando Cadastro do Projeto"
+        "loadingMessage": "Enviando Cadastro do Projeto",
+        "cover": "Cover",
+        "video": "Video",
+        "facebook": "Facebook",
+        "youtube": "Canal do youtube",
+        "discordName": "Nome do seu servidor Discord",
+        "discordLink": "Link do seu servidor Discord",
+        "description": "Descrição",
+        "descriptionPt": "Descrição linguagem pt",
+        "descriptionEn": "Descrição linguagem en",
+        "contract": "Contrato"
       },
       "placeholder":{
         "email": "Insira seu email para contato",
         "about": "Conte nós um pouco mais sobre seu projeto",
         "site": "Insira o URL do seu site",
+        "youtube": "Insira o URL do seu canal do youtube",
         "twitter": "Nome de usuário (e.g. @staketogether)",
         "instagram": "Nome de usuário (e.g. @staketogether)",
         "linkedin": "Nome de usuário (e.g. @staketogether)",
-        "discord": "Insira o link de invite do seu servidor Discord",
-        "telegram": "Insira o link de invite do seu grupo Telegram"
+        "discordLink": "Insira o link de invite do seu servidor Discord",
+        "discordName": "Insira o Nome do seu servidor Discord",
+        "telegram": "Insira o link de invite do seu grupo Telegram",
+        "facebook": "Insira o URL da sua página do Facebook",
+        "description": "Insira uma descrição do seu projeto",
+        "descriptionPt": "Insira uma descrição do seu projeto em português",  
+        "descriptionEn": "Insira uma descrição do seu projeto em inglês", 
+        "contract": "Insira o endereço do seu contrato"
       },
       "status": {
         "approved": "Aprovado",

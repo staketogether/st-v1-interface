@@ -2,21 +2,21 @@ import React from 'react'
 import styled from 'styled-components'
 import successAnimation from '@assets/animations/success-animation.json'
 import LottieAnimation from '../shared/LottieAnimation'
-import { CreateCommunityForm } from '@/types/CommunityForm'
+import { CreateProjectForm } from '@/types/Project'
 import ProjectRegisteredCard from './ProjectRegisteredCard'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
-import useCommunityCreateModal from '@/hooks/useCommunityCreateModal'
+import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import Button from '../shared/Button'
 
 type ProjectCreateSuccessProps = {
-  formValues: CreateCommunityForm
+  formValues: CreateProjectForm
 }
 
 export default function ProjectCreateSuccess({ formValues }: ProjectCreateSuccessProps) {
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
-  const { setCommunityCreateModal } = useCommunityCreateModal()
+  const { setOpenProjectCreateModal: setCommunityCreateModal } = useProjectCreateModal()
   return (
     <Container>
       <header>

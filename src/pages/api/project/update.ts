@@ -6,6 +6,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { form, signatureMessage } = req.body
   const { signature, message } = signatureMessage
 
+  const contentfulId = form.sys.id
+  if (!contentfulId) {
+    res.status(400).json({ message: 'sysId not found' })
+  }
+
+  const client = await CreateContentfulClient()
+  const entry = await client.getEntry(contentfulId)
+  console.log('entry', entry)
+
+  res.send(`community created success`)
+  return
   if (!signatureMessage) {
     res.status(400).json({ message: 'signature not found' })
   }
@@ -37,7 +48,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(400).json({ message: 'as carteiras não são iguais' })
   }
 
-  const client = await CreateContentfulClient()
   const decodedImage = Buffer.from(form.logo.base64, 'base64')
 
   const logoUpload = await client.createAssetFromFiles({
@@ -52,11 +62,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
       file: {
         'en-US': {
-          fileName: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
-          file: decodedImage.buffer,
-          contentType: form.logo.mimeType
-        },
-        pt: {
           fileName: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
           file: decodedImage.buffer,
           contentType: form.logo.mimeType

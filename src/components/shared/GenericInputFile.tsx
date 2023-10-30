@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Button from './Button'
 import { PiUploadSimple } from 'react-icons/pi'
 import { UseFormSetValue } from 'react-hook-form'
-import { ProjectContentfulForm } from '@/types/CommunityForm'
+import { ProjectContentfulForm } from '@/types/Project'
 
 type GenericInputFileProps = {
   title: string

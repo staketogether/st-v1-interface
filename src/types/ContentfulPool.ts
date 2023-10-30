@@ -41,3 +41,7 @@ export type ContentfulPool = {
   contract?: string
   sys: Sys
 }
+
+export type ContentfulWithLocale = ContentfulPool & {
+  locale?: string
+}

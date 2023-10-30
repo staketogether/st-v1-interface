@@ -1,4 +1,4 @@
-import { CreateCommunityForm } from '@/types/CommunityForm'
+import { CreateProjectForm } from '@/types/Project'
 import React from 'react'
 import { UseFormRegister } from 'react-hook-form'
 import styled from 'styled-components'
@@ -10,10 +10,10 @@ import ProjectCreateLoading from './ProjectCreateLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
 
 type ProjectRegisterInfoProps = {
-  formValues: CreateCommunityForm
+  formValues: CreateProjectForm
   isLoading: boolean
   isSuccess: boolean
-  register: UseFormRegister<CreateCommunityForm>
+  register: UseFormRegister<CreateProjectForm>
   previewStep: () => void
   onSubmit: () => void
 }
@@ -59,10 +59,10 @@ export default function ProjectRegisterMoreInfo({
             placeholder={t('v2.createProject.placeholder.linkedin')}
           />
           <GenericInput
-            title={t('v2.createProject.form.discord')}
+            title={t('v2.createProject.form.discordLink')}
             register={register('discord')}
             type='text'
-            placeholder={t('v2.createProject.placeholder.discord')}
+            placeholder={t('v2.createProject.placeholder.discordLink')}
           />
           <GenericInput
             title={t('v2.createProject.form.telegram')}

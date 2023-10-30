@@ -1,6 +1,7 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
+  "save" : "Save",
   "projects": "Projects",
   "portfolio": "Portfolio",
   "stake": "Stake",
@@ -320,30 +321,6 @@
       "lost": "Perdido",
       "notGift": "You haven't received any gifts yet"
     },
-    "stakeProfileEdit": {
-      "communityName": "Project name",
-      "cover": "Cover",
-      "video": "Video",
-      "image": "Image",
-      "site": "Site",
-      "linkedin": "Linkedin",
-      "facebook": "Facebook",
-      "gotas": "Gotas",
-      "lens": "Lens",
-      "logo": "Logo",
-      "telegram": "Telegram",
-      "wallet": "Wallet",
-      "category": "Category",
-      "instagram": "Instagram",
-      "twitter": "Twitter",
-      "youtube": "Youtube channel",
-      "discord": "Discord",
-      "discordName": "Discord name",
-      "description": "Description",
-      "requiredField": "This field is required",
-      "save": "Save",
-      "choseFile": "Choose the file" 
-    },
     "draw": {
       "performDrawing": "Conducting Drawing",
       "drawing": "Drawing",
@@ -376,7 +353,17 @@
         "telegram": "Telegram",
         "upload": "Upload",
         "register": "Register Project",
-        "loadingMessage": "Submitting Project Registration"
+        "loadingMessage": "Submitting Project Registration",
+        "cover": "Cover",
+        "video": "Video",
+        "facebook": "Facebook",
+        "youtube": "Youtube channel",
+        "discordName": "Discord Server name",
+        "discordLink": "Discord Server Link",
+        "description": "Description",
+        "descriptionPt": "Description language pt",
+        "descriptionEn": "Description language en",
+        "contract": "Contract"
       },
       "placeholder": {
         "email": "Enter your email for contact",
@@ -385,9 +372,13 @@
         "twitter": "Username (e.g. @staketogether)",
         "instagram": "Username (e.g. @staketogether)",
         "linkedin": "Username (e.g. @staketogether)",
-        "discord": "Enter the invite link to your Discord server",
+        "discordName": "Enter the Name to your Discord server",
+        "discordLink": "Enter the invite link to your Discord server",
         "telegram": "Enter the invite link to your Telegram group",
-        "youtube": "Enter the link to your YouTube channel"
+        "youtube": "Enter the link to your YouTube channel",
+        "facebook": "Enter the link to your Facebook page",
+        "description": "Enter a description of your project", 
+        "contract": "Enter the address of your project's smart contract"
       },
       "status": {
         "approved": "Approved",
@@ -407,6 +398,9 @@
         "title": "Project created successfully",
         "description": "The project is under review, please await our team's response via email"
       }
+    },
+    "editProject": {
+      "title": "Edit Project"
     }
   }
 }

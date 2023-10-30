@@ -9,7 +9,7 @@ import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
-import useCommunityCreateModal from '@/hooks/useCommunityCreateModal'
+import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import ProjectButton from '@/components/project/ProjectButton'
 
@@ -17,7 +17,7 @@ export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   const { account, accountIsConnected } = useConnectedAccount()
-  const { setCommunityCreateModal } = useCommunityCreateModal()
+  const { setOpenProjectCreateModal: setCommunityCreateModal } = useProjectCreateModal()
   const { query } = useRouter()
   const { currency, network } = query
   const { poolDetail } = useContentfulPoolDetails(account)
