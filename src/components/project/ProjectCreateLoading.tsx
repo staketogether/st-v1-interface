@@ -30,6 +30,9 @@ const { Container } = {
         color: ${({ theme }) => theme.color.primary};
         font-weight: 500;
       }
+      h2:nth-child(3) {
+        font-size: ${({ theme }) => theme.font.size[16]};
+      }
       display: flex;
       text-align: center;
       flex-direction: column;
