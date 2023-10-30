@@ -19,6 +19,7 @@ import Image from 'next/image'
 import Button from '../shared/Button'
 import { getBase64 } from '@/services/format'
 import { CreateProjectForm } from '@/types/Project'
+import GenericInputFile from '../shared/GenericInputFile'
 
 type ProjectRegisterInfoProps = {
   errors: FieldErrors<CreateProjectForm>
@@ -122,6 +123,11 @@ export default function ProjectRegisterInfo({
               <span>{t('v2.createProject.projectWithMembers')}</span>
             </Terms>
             <>
+              <GenericInputFile
+                title={t('v2.createProject.form.logo')}
+                setValue={setValue}
+                clearErrors={clearErrors}
+              />
               <FormContainer>
                 <LogoContainer
                   className={`${errors.logo && isSubmitted && 'error'} ${hasAgreeTerms ? '' : 'disabled'}`}

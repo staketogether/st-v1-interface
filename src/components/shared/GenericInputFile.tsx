@@ -2,18 +2,16 @@ import React, { useState, ChangeEvent, useRef } from 'react'
 import styled from 'styled-components'
 import Button from './Button'
 import { PiUploadSimple } from 'react-icons/pi'
-import { UseFormSetValue } from 'react-hook-form'
-import { ProjectContentfulForm } from '@/types/Project'
+import { UseFormClearErrors, UseFormSetValue } from 'react-hook-form'
+import { CreateProjectForm } from '@/types/Project'
 
 type GenericInputFileProps = {
   title: string
-  error?: string
-  options?: { key: string; value: { label: string; value: string | number } }[]
-  setValue: UseFormSetValue<ProjectContentfulForm>
-  fieldValue: 'logo' | 'cover'
+  setValue: UseFormSetValue<CreateProjectForm>
+  clearErrors: UseFormClearErrors<CreateProjectForm>
 }
 
-export default function GenericInputFile({ setValue, title, fieldValue }: GenericInputFileProps) {
+export default function GenericInputFile({ setValue, title, clearErrors }: GenericInputFileProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
@@ -31,7 +29,8 @@ export default function GenericInputFile({ setValue, title, fieldValue }: Generi
           const mimeType = imageType.split(':')[1].split(';')[0]
 
           setSelectedImage(imageDataURL)
-          setValue(fieldValue, { base64: imageBase64, mimeType })
+          setValue('logo', { base64: imageBase64, mimeType })
+          clearErrors('logo')
         }
       }
 
@@ -52,13 +51,7 @@ export default function GenericInputFile({ setValue, title, fieldValue }: Generi
       {title && <span>{title}</span>}
       <Input type='file' accept='image/*' onChange={handleImageChange} ref={fileInputRef} />
       <Button label={'Selecionar Arquivo'} isLoading={false} icon={<UploadIcon />} onClick={handleFileSelect} />
-      {selectedImage && (
-        <Image
-          className={`${fieldValue === 'logo' ? 'logo' : ''}`}
-          src={selectedImage}
-          alt='Imagem selecionada'
-        />
-      )}
+      {selectedImage && <Image className={'logo'} src={selectedImage} alt='Imagem selecionada' />}
     </Container>
   )
 }
