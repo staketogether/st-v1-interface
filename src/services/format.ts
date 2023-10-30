@@ -23,9 +23,14 @@ export function formatNumberByLocale(num: string, lang?: string): string {
 }
 
 export const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
+  new Promise(resolve => {
     const reader = new FileReader()
+
+    reader.onload = e => {
+      if (e.target) {
+        const result = e.target.result as string
+        resolve(result)
+      }
+    }
     reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result as string)
-    reader.onerror = error => reject(error)
   })
