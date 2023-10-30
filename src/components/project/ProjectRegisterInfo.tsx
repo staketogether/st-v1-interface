@@ -19,7 +19,6 @@ import Image from 'next/image'
 import Button from '../shared/Button'
 import { getBase64 } from '@/services/format'
 import { CreateProjectForm } from '@/types/Project'
-import GenericInputFile from '../shared/GenericInputFile'
 
 type ProjectRegisterInfoProps = {
   errors: FieldErrors<CreateProjectForm>
