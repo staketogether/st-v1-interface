@@ -57,7 +57,7 @@ const { Container, MessageContainer } = {
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.size[8]};
-      margin-bottom: -18px;
+      margin-bottom: -10px;
       > span {
         color: ${({ theme }) => theme.color.green[500]};
         text-align: center;
@@ -73,6 +73,6 @@ const { Container, MessageContainer } = {
     text-align: center;
 
     font-size: ${({ theme }) => theme.font.size[15]};
-    color: ${({ theme }) => theme.color.secondary};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
   `
 }

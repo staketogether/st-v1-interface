@@ -123,9 +123,10 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
 
   return (
     <Modal
-      title={t('v2.createProject.title')}
+      title={isLoading || isSuccess ? '' : t('v2.createProject.title')}
       onClose={() => setOpenProjectCreateModal(false)}
       isOpen={isOpenProjectCreateModal}
+      showCloseIcon={isLoading || isSuccess ? false : true}
       width={'auto'}
     >
       <Container>

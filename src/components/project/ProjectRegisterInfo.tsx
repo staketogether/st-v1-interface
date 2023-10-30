@@ -131,11 +131,6 @@ export default function ProjectRegisterInfo({
               <span>{t('v2.createProject.projectWithMembers')}</span>
             </Terms>
             <>
-              {/* <GenericInputFile
-                title={t('v2.createProject.form.logo')}
-                setValue={setValue}
-                clearErrors={clearErrors}
-              /> */}
               <FormContainer>
                 <LogoContainer
                   className={`${errors.logo && isSubmitted && 'error'} ${hasAgreeTerms ? '' : 'disabled'}`}
