@@ -82,13 +82,34 @@ export default function ProjectRegisterInfo({
     setFileList(info.fileList)
 
     if (info.file.status === 'done') {
-      const file = await getBase64(info.fileList[0].originFileObj as RcFile)
-      if (file) {
-        const [imageType, imageBase64] = file.split(',')
-        const mimeType = imageType.split(':')[1].split(';')[0]
-        setValue('logo', { base64: imageBase64, mimeType })
-        clearErrors('logo')
+      // const file = await getBase64(info.fileList[0].originFileObj as RcFile)
+      const file = info.fileList[0].originFileObj as RcFile
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader()
+
+        reader.onload = event => {
+          if (event && event.target && event.target.result) {
+            // const imageDataURL = URL.createObjectURL(file)
+            const image = event.target.result as string
+            const [imageType, imageBase64] = image.split(',')
+            const mimeType = imageType.split(':')[1].split(';')[0]
+
+            setValue('logo', { base64: imageBase64, mimeType })
+            clearErrors('logo')
+          }
+        }
+
+        reader.readAsDataURL(file)
+      } else {
+        // Handle the case where a non-image file is selected
+        alert('Por favor, selecione uma imagem válida.')
       }
+      // if (file) {
+      //   const [imageType, imageBase64] = file.split(',')
+      //   const mimeType = imageType.split(':')[1].split(';')[0]
+      //   setValue('logo', { base64: imageBase64, mimeType })
+      //   clearErrors('logo')
+      // }
     }
   }
 
@@ -123,11 +144,11 @@ export default function ProjectRegisterInfo({
               <span>{t('v2.createProject.projectWithMembers')}</span>
             </Terms>
             <>
-              <GenericInputFile
+              {/* <GenericInputFile
                 title={t('v2.createProject.form.logo')}
                 setValue={setValue}
                 clearErrors={clearErrors}
-              />
+              /> */}
               <FormContainer>
                 <LogoContainer
                   className={`${errors.logo && isSubmitted && 'error'} ${hasAgreeTerms ? '' : 'disabled'}`}

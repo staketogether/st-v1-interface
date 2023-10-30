@@ -50,7 +50,13 @@ export default function GenericInputFile({ setValue, title, clearErrors }: Gener
     <Container>
       {title && <span>{title}</span>}
       <Input type='file' accept='image/*' onChange={handleImageChange} ref={fileInputRef} />
-      <Button label={'Selecionar Arquivo'} isLoading={false} icon={<UploadIcon />} onClick={handleFileSelect} />
+      <Button
+        type='button'
+        label={'Selecionar Arquivo'}
+        isLoading={false}
+        icon={<UploadIcon />}
+        onClick={handleFileSelect}
+      />
       {selectedImage && <Image className={'logo'} src={selectedImage} alt='Imagem selecionada' />}
     </Container>
   )
