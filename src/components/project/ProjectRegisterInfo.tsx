@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import GenericInput from '../shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Modal, Upload, notification } from 'antd'
-import { PiArrowRight, PiCloudArrowUp } from 'react-icons/pi'
+import { PiArrowRight, PiCloudArrowUpBold } from 'react-icons/pi'
 import type { UploadFile, RcFile, UploadProps } from 'antd/es/upload/interface'
 import type { UploadChangeParam } from 'antd/es/upload'
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
@@ -147,7 +147,7 @@ export default function ProjectRegisterInfo({
                   </ErrorMessage>
                 </LogoContainer>
                 <GenericInput
-                  title={t('v2.createProject.form.logo') + '*'}
+                  title={t('v2.createProject.form.wallet') + '*'}
                   register={register('wallet', { required: `${t('v2.createProject.formMessages.required')}` })}
                   type='text'
                   disabled
@@ -221,9 +221,8 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
   Container: styled.div`
     display: grid;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
     span {
-      font-size: ${({ theme }) => theme.font.size[14]};
+      font-size: ${({ theme }) => theme.font.size[13]};
       color: ${({ theme }) => theme.colorV2.gray[1]};
     }
   `,
@@ -234,14 +233,11 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
-    font-size: ${({ theme }) => theme.font.size[12]};
-    font-weight: 500;
+    padding: ${({ theme }) => theme.size[8]} 0;
+    margin-bottom: 24px;
 
-    a {
-      color: ${({ theme }) => theme.color.primary};
-      &:hover {
-        color: ${({ theme }) => theme.color.secondary};
-      }
+    span {
+      font-size: ${({ theme }) => theme.font.size[13]};
     }
 
     > input {
@@ -251,9 +247,10 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
   FormContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
-    max-height: 600px;
+    gap: 6px;
+    max-height: 850px;
     overflow: auto;
+    margin-bottom: 6px;
   `,
   LogoContainer: styled.div`
     display: flex;
@@ -261,6 +258,11 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
     align-items: center;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
+
+    border-radius: 8px;
+    border: 1px solid rgba(64, 74, 87, 0.2);
+    padding: 24px 0 12px;
+    margin-bottom: 12px;
 
     > span {
       > div {
@@ -281,10 +283,15 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
     }
     &.error {
       span {
+        &.ant-upload {
+          border: 1px solid ${({ theme }) => theme.color.red[300]};
+          border-radius: 50%;
+        }
         > div {
           color: ${({ theme }) => theme.color.red[300]};
 
           > div {
+            opacity: initial !important;
             &.ant-upload.ant-upload-select {
               border-color: ${({ theme }) => theme.color.red[300]};
             }
@@ -303,7 +310,7 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
       }
     }
     span {
-      font-size: 14px;
+      font-size: ${({ theme }) => theme.font.size[13]};
       > div {
         display: flex;
         align-items: center;
@@ -317,11 +324,11 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
     color: ${({ theme }) => theme.colorV2.white[1]};
   `,
   ErrorMessage: styled.span`
-    font-size: 14px;
+    font-size: ${({ theme }) => theme.font.size[13]};
     height: 14px;
     color: ${({ theme }) => theme.color.red[300]} !important;
   `,
-  UploadIcon: styled(PiCloudArrowUp)`
+  UploadIcon: styled(PiCloudArrowUpBold)`
     font-size: 24px;
     color: ${({ theme }) => theme.colorV2.gray[1]};
     opacity: 0.4;

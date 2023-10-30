@@ -69,7 +69,7 @@ const { Container } = {
       background: transparent;
       border: none;
 
-      color: ${({ theme }) => theme.colorV2.blue[1]};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
       &:hover {
         background: transparent;
         color: ${({ theme }) => theme.color.secondary};

@@ -90,7 +90,6 @@ const { Container, FormContainer, PreviewStepIcon, FooterContainer, CreateProjec
   Container: styled.div`
     display: grid;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
     span {
       font-size: ${({ theme }) => theme.font.size[14]};
       color: ${({ theme }) => theme.colorV2.gray[1]};
@@ -99,7 +98,8 @@ const { Container, FormContainer, PreviewStepIcon, FooterContainer, CreateProjec
   FormContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
+    gap: 6px;
+    margin-bottom: 6px;
   `,
   FooterContainer: styled.div`
     width: 100%;

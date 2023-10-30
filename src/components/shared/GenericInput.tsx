@@ -44,6 +44,7 @@ const { InputContainer, Content, ErrorMessage } = {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
+    font-size: ${({ theme }) => theme.font.size[13]};
     &.disabled {
       > span {
         opacity: 0.4;
