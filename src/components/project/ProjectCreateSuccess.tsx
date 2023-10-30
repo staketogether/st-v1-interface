@@ -74,6 +74,5 @@ const { Container, MessageContainer } = {
 
     font-size: ${({ theme }) => theme.font.size[15]};
     color: ${({ theme }) => theme.color.secondary};
-    font-weight: 500;
   `
 }
