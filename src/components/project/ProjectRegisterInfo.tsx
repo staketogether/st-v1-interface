@@ -80,35 +80,23 @@ export default function ProjectRegisterInfo({
   const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
     setFileList(info.fileList)
 
-    if (info.file.status === 'done') {
-      // const file = await getBase64(info.fileList[0].originFileObj as RcFile)
-      const file = info.fileList[0].originFileObj as RcFile
-      if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader()
+    const file = info.fileList[0].originFileObj as RcFile
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader()
 
-        reader.onload = event => {
-          if (event && event.target && event.target.result) {
-            // const imageDataURL = URL.createObjectURL(file)
-            const image = event.target.result as string
-            const [imageType, imageBase64] = image.split(',')
-            const mimeType = imageType.split(':')[1].split(';')[0]
+      reader.onload = event => {
+        if (event && event.target && event.target.result) {
+          // const imageDataURL = URL.createObjectURL(file)
+          const image = event.target.result as string
+          const [imageType, imageBase64] = image.split(',')
+          const mimeType = imageType.split(':')[1].split(';')[0]
 
-            setValue('logo', { base64: imageBase64, mimeType })
-            clearErrors('logo')
-          }
+          setValue('logo', { base64: imageBase64, mimeType })
+          clearErrors('logo')
         }
-
-        reader.readAsDataURL(file)
-      } else {
-        // Handle the case where a non-image file is selected
-        alert('Por favor, selecione uma imagem válida.')
       }
-      // if (file) {
-      //   const [imageType, imageBase64] = file.split(',')
-      //   const mimeType = imageType.split(':')[1].split(';')[0]
-      //   setValue('logo', { base64: imageBase64, mimeType })
-      //   clearErrors('logo')
-      // }
+
+      reader.readAsDataURL(file)
     }
   }
 
