@@ -148,6 +148,9 @@ export default function ProjectRegisterInfo({
                     onPreview={handlePreview}
                     onChange={handleChange}
                     beforeUpload={beforeUpload}
+                    customRequest={async ({ onSuccess }) => {
+                      onSuccess && onSuccess('ok')
+                    }}
                   >
                     {fileList.length >= 1 ? null : (
                       <div>
