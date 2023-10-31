@@ -4,8 +4,17 @@ import { ContentfulPool, ContentfulWithLocale } from '@/types/ContentfulPool'
 import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+type ContentfulPoolDetailsProps = {
+  poolAddress: `0x${string}` | undefined
+  locale?: string
+  fetchPolicy?: 'cache-first' | 'cache-and-network' | 'network-only' | 'no-cache' | 'standby'
+}
 
-export default function useContentfulPoolDetails(poolAddress: `0x${string}` | undefined, locale?: string) {
+export default function useContentfulPoolDetails({
+  poolAddress,
+  locale,
+  fetchPolicy
+}: ContentfulPoolDetailsProps) {
   const [poolDetail, setPoolDetail] = useState<ContentfulWithLocale | null>(null)
   const [poolsIsLoading, setPoolsIsLoading] = useState<boolean>(false)
   const router = useRouter()
@@ -18,6 +27,7 @@ export default function useContentfulPoolDetails(poolAddress: `0x${string}` | un
         locale: requestLocale
       },
       client: contentfulClient,
+      fetchPolicy: fetchPolicy ? fetchPolicy : 'cache-first',
       skip: !poolAddress
     }
   )

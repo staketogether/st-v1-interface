@@ -35,7 +35,9 @@ export default function GiftAccountConnected({ account }: GiftAccountConnectedPr
   }
 
   const { userGift, loading } = useGiftByWalletAddress(account)
-  const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(userGift?.address)
+  const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails({
+    poolAddress: userGift?.address
+  })
   const { price, symbol } = useCoinConversion(userGift?.amount.toString() || '0')
 
   function copyToClipboard() {

@@ -24,7 +24,10 @@ export default function ProjectEditModal({ poolDetail }: ProjectEditModalProps) 
   const { isOpenProjectEditModal, setProjectEditModal } = useProjectEditModal()
   const router = useRouter()
   const otherLocale = router.locale === 'en' ? 'pt' : 'en-US'
-  const otherLocaleContentful = useContentfulPoolDetails(poolDetail.wallet, otherLocale)
+  const otherLocaleContentful = useContentfulPoolDetails({
+    poolAddress: poolDetail.wallet,
+    locale: otherLocale
+  })
 
   const {
     register,
