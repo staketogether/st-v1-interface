@@ -35,16 +35,6 @@ const httpLink = new HttpLink({
 export const contentfulClient = new ApolloClient({
   link: authLink.concat(httpLink),
   ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          poolCollection: {
-            keyArgs: ['walletAddress', 'locale']
-          }
-        }
-      }
-    }
-  }),
+  cache: new InMemoryCache(),
   connectToDevTools: true
 })
