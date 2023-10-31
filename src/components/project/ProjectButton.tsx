@@ -25,7 +25,7 @@ export default function ProjectButton({ poolDetail }: ProjectCreateButtonProps) 
     <>
       {poolDetail.status === 'pending' && (
         <Tooltip title={t('v2.createProject.status.pending')}>
-          <Button>
+          <Button className='pending'>
             <div>
               <CommunityLogo size={24} src={poolDetail.logo.url} alt={poolDetail.logo.fileName} />
               <ClockIcon src={clockYellow} width={12} height={12} alt='clock' />
@@ -79,7 +79,12 @@ const { Button, ClockIcon, ReprovedIcon, Divider, CreateProjectIcon } = {
       background-color: ${({ theme }) => theme.colorV2.foreground};
     }
 
+    &.pending {
+      padding: 0px 16px 0px 8px;
+    }
+
     > div {
+      margin-top: 3px;
       position: relative;
       > img {
       }

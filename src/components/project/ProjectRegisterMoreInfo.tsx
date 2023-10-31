@@ -138,6 +138,9 @@ const { Container, FormContainer, PreviewStepIcon, FooterContainer, CreateProjec
     flex-direction: column;
     gap: 6px;
     margin-bottom: 6px;
+    max-height: 450px;
+    overflow: auto;
+    padding-right: 12px;
   `,
   FooterContainer: styled.div`
     width: 100%;

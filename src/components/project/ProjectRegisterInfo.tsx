@@ -266,8 +266,10 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
     display: flex;
     flex-direction: column;
     gap: 6px;
-    max-height: 900px;
+    max-height: 450px;
+    overflow: auto;
     margin-bottom: 6px;
+    padding-right: 12px;
   `,
   LogoContainer: styled.div`
     display: flex;
