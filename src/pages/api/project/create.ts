@@ -55,6 +55,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           fileName: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
           file: decodedImage.buffer,
           contentType: form.logo.mimeType
+        },
+        pt: {
+          fileName: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
+          file: decodedImage.buffer,
+          contentType: form.logo.mimeType
         }
       }
     }
