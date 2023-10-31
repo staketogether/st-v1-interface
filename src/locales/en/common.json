@@ -388,7 +388,14 @@
       "formMessages" : {
         "required": "This field is required",
         "invalidEmail": "Invalid email" ,
-        "sizeImage": "Image must smaller than 1MB"
+        "sizeImage": "Image must smaller than 1MB",
+        "maxLength": "Maximum length exceeded",
+          "telegram": "Invalid telegram invite",
+          "discord": "Invalid discord invite",
+          "linkedin": "Invalid Linkedin",
+          "instagram": "Invalid Instagram",
+          "twitter": "Invalid Twitter",
+          "site": "Invalid site URL"
       },
       "messages": {
         "success": "Project created successfully",

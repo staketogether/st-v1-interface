@@ -73,6 +73,13 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
       contentfulClient.refetchQueries({
         include: [queryContentfulPoolByAddress]
       })
+    },
+    onError: error => {
+      const { cause } = error as { cause?: { message?: string } }
+      notification.warning({
+        message: `${cause?.message}`,
+        placement: 'topRight'
+      })
     }
   })
 
@@ -110,6 +117,8 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
       content: (
         <ProjectRegisterMoreInfo
           register={register}
+          errors={errors}
+          handleSubmit={handleSubmit}
           isLoading={isLoading}
           isSuccess={isSuccess}
           previewStep={previewStep}

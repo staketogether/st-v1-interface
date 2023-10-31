@@ -47,7 +47,7 @@ const { InputContainer, Content, ErrorMessage } = {
     font-size: ${({ theme }) => theme.font.size[13]};
     &.disabled {
       > span {
-        opacity: 0.4;
+        opacity: 0.5;
       }
     }
   `,
@@ -65,7 +65,7 @@ const { InputContainer, Content, ErrorMessage } = {
     &.disabled {
       cursor: not-allowed;
       color: ${({ theme }) => theme.color.blackAlpha[600]};
-      opacity: 0.4;
+      opacity: 0.5;
     }
 
     &.error {
@@ -108,7 +108,7 @@ const { InputContainer, Content, ErrorMessage } = {
 
       &::-webkit-input-placeholder {
         color: ${({ theme }) => theme.colorV2.gray[1]};
-        opacity: 0.4;
+        opacity: 0.5;
       }
 
       &[type='file'] {
@@ -125,7 +125,7 @@ const { InputContainer, Content, ErrorMessage } = {
 
       &::-webkit-input-placeholder {
         color: ${({ theme }) => theme.colorV2.gray[1]};
-        opacity: 0.4;
+        opacity: 0.5;
       }
     }
     > select {

@@ -19,6 +19,7 @@ import Image from 'next/image'
 import Button from '../shared/Button'
 import { getBase64 } from '@/services/format'
 import { CreateProjectForm } from '@/types/Project'
+import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 
 type ProjectRegisterInfoProps = {
   errors: FieldErrors<CreateProjectForm>
@@ -64,6 +65,7 @@ export default function ProjectRegisterInfo({
 }: ProjectRegisterInfoProps) {
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
+  const { poolTypeTranslation } = usePoolTypeTranslation()
 
   const beforeUpload: UploadProps['beforeUpload'] = file => {
     const maxSize = 1 * 1024 * 1024
@@ -79,24 +81,24 @@ export default function ProjectRegisterInfo({
 
   const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
     setFileList(info.fileList)
+    if (info.file.status === 'done') {
+      const file = info.fileList[0].originFileObj as RcFile
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader()
 
-    const file = info.fileList[0].originFileObj as RcFile
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader()
+        reader.onload = event => {
+          if (event && event.target && event.target.result) {
+            const image = event.target.result as string
+            const [imageType, imageBase64] = image.split(',')
+            const mimeType = imageType.split(':')[1].split(';')[0]
 
-      reader.onload = event => {
-        if (event && event.target && event.target.result) {
-          // const imageDataURL = URL.createObjectURL(file)
-          const image = event.target.result as string
-          const [imageType, imageBase64] = image.split(',')
-          const mimeType = imageType.split(':')[1].split(';')[0]
-
-          setValue('logo', { base64: imageBase64, mimeType })
-          clearErrors('logo')
+            setValue('logo', { base64: imageBase64, mimeType })
+            clearErrors('logo')
+          }
         }
-      }
 
-      reader.readAsDataURL(file)
+        reader.readAsDataURL(file)
+      }
     }
   }
 
@@ -141,6 +143,7 @@ export default function ProjectRegisterInfo({
                     maxCount={1}
                     fileList={fileList}
                     onPreview={handlePreview}
+                    disabled={!hasAgreeTerms}
                     onChange={handleChange}
                     beforeUpload={beforeUpload}
                     customRequest={async ({ onSuccess }) => {
@@ -149,8 +152,8 @@ export default function ProjectRegisterInfo({
                   >
                     {fileList.length >= 1 ? null : (
                       <div>
-                        <UploadIcon />
-                        <div style={{ opacity: '0.4' }}>{t('v2.createProject.form.upload')}</div>
+                        <UploadIcon className={`${errors.logo && isSubmitted && 'error'}`} />
+                        <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
                       </div>
                     )}
                   </Upload>
@@ -168,7 +171,8 @@ export default function ProjectRegisterInfo({
                 <GenericInput
                   title={t('v2.createProject.form.name') + '*'}
                   register={register('projectName', {
-                    required: `${t('v2.createProject.formMessages.required')}`
+                    required: `${t('v2.createProject.formMessages.required')}`,
+                    maxLength: { value: 30, message: `${t('v2.createProject.formMessages.maxLength')} ${30}` }
                   })}
                   type='text'
                   disabled={!hasAgreeTerms}
@@ -181,7 +185,7 @@ export default function ProjectRegisterInfo({
                   disabled={!hasAgreeTerms}
                   error={errors.category ? t('v2.stakeProfileEdit.requiredField') : ''}
                   options={categories?.map(category => ({
-                    value: { label: category.name, value: category.sys.id },
+                    value: { label: poolTypeTranslation(category.name), value: category.sys.id },
                     key: category.sys.id
                   }))}
                 />
@@ -193,7 +197,8 @@ export default function ProjectRegisterInfo({
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                       message: `${t('v2.createProject.formMessages.invalidEmail')}`
-                    }
+                    },
+                    maxLength: { value: 120, message: `${t('v2.createProject.formMessages.maxLength')} ${120}` }
                   })}
                   type='text'
                   error={errors.email?.message}
@@ -203,7 +208,8 @@ export default function ProjectRegisterInfo({
                   title={t('v2.createProject.form.about') + '*'}
                   disabled={!hasAgreeTerms}
                   register={register('aboutProject', {
-                    required: `${t('v2.createProject.formMessages.required')}`
+                    required: `${t('v2.createProject.formMessages.required')}`,
+                    maxLength: { value: 320, message: `${t('v2.createProject.formMessages.maxLength')} ${320}` }
                   })}
                   type='longText'
                   error={errors.aboutProject?.message}
@@ -260,8 +266,7 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
     display: flex;
     flex-direction: column;
     gap: 6px;
-    max-height: 850px;
-    overflow: auto;
+    max-height: 900px;
     margin-bottom: 6px;
   `,
   LogoContainer: styled.div`
@@ -318,7 +323,7 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
     }
     &.disabled {
       span {
-        opacity: 0.4;
+        opacity: 0.5;
       }
     }
     span {
@@ -343,6 +348,10 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
   UploadIcon: styled(PiCloudArrowUpBold)`
     font-size: 24px;
     color: ${({ theme }) => theme.colorV2.gray[1]};
-    opacity: 0.4;
+    opacity: 0.5;
+
+    &.error {
+      color: ${({ theme }) => theme.color.red[300]};
+    }
   `
 }

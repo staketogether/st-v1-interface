@@ -364,7 +364,7 @@
       "sent": "Enviado",
       "seeMyProject": "Ver meu projeto",
       "form": {
-        "logo": "Logo do Projeto",
+        "logo": "Nome do Projeto",
         "wallet": "Carteira responsável",
         "name": "Nome do projeto",
         "category": "Categoria",
@@ -415,7 +415,14 @@
       "formMessages" : {
         "required": "Campo obrigatorio",
         "invalidEmail": "Email invalido" ,
-        "sizeImage": "A imagem deve ter menos de 1MB!"
+        "sizeImage": "A imagem deve ter menos de 1MB!",
+        "maxLength": "O campo deve ter no máximo",
+        "telegram": "Convite do telegram invalido",
+        "discord": "Convite do discord invalido",
+        "linkedin": "Linkedin invalido",
+        "instagram": "Instagram invalido",
+        "twitter": "Twitter Invalido",
+        "site": "URL do site invalido" 
       },
       "messages": {
         "success": "Projeto cadastrado com sucesso",

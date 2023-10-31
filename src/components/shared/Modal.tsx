@@ -114,7 +114,7 @@ const { ModalWrapper, Overlay, CloseButton } = {
     }
 
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[800]};
+      background: ${({ theme }) => theme.color.foreground};
     }
   `
 }
