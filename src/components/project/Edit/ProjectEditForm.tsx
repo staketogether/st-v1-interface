@@ -135,6 +135,9 @@ export default function ProjectEditForm({
               onPreview={handlePreview}
               onChange={handleChange}
               beforeUpload={beforeUpload}
+              customRequest={async ({ onSuccess }) => {
+                onSuccess && onSuccess('ok')
+              }}
             >
               {fileList.length >= 1 ? null : (
                 <div>
@@ -148,11 +151,10 @@ export default function ProjectEditForm({
             </ErrorMessage>
           </LogoContainer>
           <GenericInput
-            title={t('v2.createProject.form.wallet')}
-            register={register('wallet', { required: `${t('v2.createProject.formMessages.required')}` })}
+            title={t('v2.createProject.form.name')}
+            register={register('projectName', { required: `${t('v2.createProject.formMessages.required')}` })}
             type='text'
-            disabled
-            error={errors.wallet?.message}
+            error={errors.projectName?.message}
           />
           <GenericInput
             title={t('v2.createProject.form.category') + '*'}
@@ -165,78 +167,18 @@ export default function ProjectEditForm({
             }))}
           />
           <GenericInput
-            title={t('v2.createProject.form.video')}
-            register={register('video', { required: `${t('v2.createProject.formMessages.required')}` })}
-            type='text'
-            error={errors.video?.message}
-          />
-          {ProjectVideo && videoId && <YouTube videoId={videoId} opts={opts} />}
-          <GenericInput
             title={t('v2.createProject.form.descriptionPt')}
             register={register('descriptionPt', { required: `${t('v2.createProject.formMessages.required')}` })}
             type='longText'
             error={errors.descriptionPt?.message}
           />
           <GenericInput
-            title={t('v2.createProject.form.descriptionEn')}
-            register={register('descriptionEn', { required: `${t('v2.createProject.formMessages.required')}` })}
-            type='longText'
-            error={errors.descriptionEn?.message}
-          />
-          <GenericInput
-            title={t('v2.createProject.form.site')}
-            register={register('site')}
+            title={t('v2.createProject.form.video')}
+            register={register('video', { required: `${t('v2.createProject.formMessages.required')}` })}
             type='text'
-            placeholder={t('v2.createProject.placeholder.site')}
+            error={errors.video?.message}
           />
-          <GenericInput
-            title={t('v2.createProject.form.youtube')}
-            register={register('youtube')}
-            type='text'
-            placeholder={t('v2.createProject.placeholder.youtube')}
-          />
-          <GenericInput
-            title={t('v2.createProject.form.contract')}
-            register={register('contract')}
-            type='text'
-            placeholder={t('v2.createProject.placeholder.contract')}
-          />
-          <GenericInput
-            title={t('v2.createProject.form.twitter')}
-            register={register('twitter')}
-            type='text'
-            placeholder={t('v2.createProject.placeholder.twitter')}
-          />
-          <GenericInput
-            title={t('v2.createProject.form.instagram')}
-            register={register('instagram')}
-            type='text'
-            placeholder={t('v2.createProject.placeholder.instagram')}
-          />
-          <GenericInput
-            title={t('v2.createProject.form.linkedin')}
-            register={register('linkedin')}
-            type='text'
-            placeholder={t('v2.createProject.placeholder.linkedin')}
-          />
-          <GenericInput
-            title={t('v2.createProject.form.discordName')}
-            register={register('discord')}
-            type='text'
-            placeholder={t('v2.createProject.placeholder.discordName')}
-          />
-          <GenericInput
-            title={t('v2.createProject.form.discordLink')}
-            register={register('discord')}
-            type='text'
-            placeholder={t('v2.createProject.placeholder.discordLink')}
-          />
-          <GenericInput
-            title={t('v2.createProject.form.telegram')}
-            register={register('telegram')}
-            type='text'
-            placeholder={t('v2.createProject.placeholder.telegram')}
-          />
+          {ProjectVideo && videoId && <YouTube videoId={videoId} opts={opts} />}
         </FormContainer>
         <Button block icon={<CreateProjectIcon />} type='submit' label={`${t('save')}`} />
       </Container>
@@ -269,9 +211,11 @@ const { Container, CreateProjectIcon, UploadIcon, Form, FormContainer, LogoConta
   FormContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
-    max-height: 600px;
+    gap: 6px;
+    max-height: 500px;
     overflow: auto;
+    margin-bottom: 6px;
+    padding-right: 12px;
 
     iframe {
       border-radius: ${({ theme }) => theme.size[8]};
@@ -283,6 +227,11 @@ const { Container, CreateProjectIcon, UploadIcon, Form, FormContainer, LogoConta
     align-items: center;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
+
+    border-radius: 8px;
+    border: 1px solid rgba(64, 74, 87, 0.2);
+    padding: 24px 0 12px;
+    margin-bottom: 12px;
 
     > span {
       > div {
@@ -303,10 +252,14 @@ const { Container, CreateProjectIcon, UploadIcon, Form, FormContainer, LogoConta
     }
     &.error {
       span {
+        &.ant-upload {
+          border: 1px solid ${({ theme }) => theme.color.red[300]};
+          border-radius: 50%;
+        }
         > div {
           color: ${({ theme }) => theme.color.red[300]};
-
           > div {
+            opacity: initial !important;
             &.ant-upload.ant-upload-select {
               border-color: ${({ theme }) => theme.color.red[300]};
             }
@@ -321,11 +274,11 @@ const { Container, CreateProjectIcon, UploadIcon, Form, FormContainer, LogoConta
     }
     &.disabled {
       span {
-        opacity: 0.4;
+        opacity: 0.5;
       }
     }
     span {
-      font-size: 14px;
+      font-size: ${({ theme }) => theme.font.size[13]};
       > div {
         display: flex;
         align-items: center;

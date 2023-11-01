@@ -3,14 +3,14 @@ import React from 'react'
 import styled from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import clockYellow from '@assets/icons/clock-yellow.svg'
 import Image from 'next/image'
 import { Tooltip } from 'antd'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { AiOutlineClose } from 'react-icons/ai'
 import { PiPencilSimpleLine } from 'react-icons/pi'
+import ProjectEditModal from './Edit/ProjectEditModal'
+import useProjectEditModal from '@/hooks/useProjectEditModal'
 
 type ProjectCreateButtonProps = {
   poolDetail: ContentfulPool
@@ -18,8 +18,7 @@ type ProjectCreateButtonProps = {
 
 export default function ProjectButton({ poolDetail }: ProjectCreateButtonProps) {
   const { t } = useLocaleTranslation()
-  const { query } = useRouter()
-  const { currency, network } = query
+  const { setProjectEditModal } = useProjectEditModal()
 
   return (
     <>
@@ -35,14 +34,15 @@ export default function ProjectButton({ poolDetail }: ProjectCreateButtonProps) 
         </Tooltip>
       )}
       {poolDetail.status === 'approved' && (
-        <Link href={`/${network}/${currency}/invest/deposit/${poolDetail.wallet}`}>
-          <Button>
+        <>
+          <Button onClick={() => setProjectEditModal(true)}>
             <CommunityLogo size={24} src={poolDetail.logo.url} alt={poolDetail.logo.fileName} />
             <CommunityName $bold name={poolDetail.name} />
             <Divider />
             <CreateProjectIcon />
           </Button>
-        </Link>
+          <ProjectEditModal poolDetail={poolDetail} />
+        </>
       )}
       {poolDetail.status === 'reproved' && (
         <Tooltip title={t('v2.createProject.status.reproved')}>

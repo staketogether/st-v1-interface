@@ -20,6 +20,7 @@ import Button from '../shared/Button'
 import { getBase64 } from '@/services/format'
 import { CreateProjectForm } from '@/types/Project'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import { useRouter } from 'next/router'
 
 type ProjectRegisterInfoProps = {
   errors: FieldErrors<CreateProjectForm>
@@ -66,6 +67,7 @@ export default function ProjectRegisterInfo({
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
   const { poolTypeTranslation } = usePoolTypeTranslation()
+  const router = useRouter()
 
   const beforeUpload: UploadProps['beforeUpload'] = file => {
     const maxSize = 1 * 1024 * 1024
@@ -117,6 +119,13 @@ export default function ProjectRegisterInfo({
     }
   }
 
+  function handlePrivacyPolicyExternalLink() {
+    if (router.locale === 'en') {
+      return 'https://docs.staketogether.app/stake-together/v/stake-together-en/documentation/privacy-policies'
+    }
+    return 'https://docs.staketogether.app/stake-together/documentation/politicas-de-privacidade'
+  }
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Container>
@@ -130,7 +139,14 @@ export default function ProjectRegisterInfo({
                 checked={hasAgreeTerms}
                 onChange={e => setHasAgreeTerms(e.target.checked)}
               />
-              <span>{t('v2.createProject.projectWithMembers')}</span>
+
+              <span>
+                {t('v2.createProject.terms')}{' '}
+                <a href={handlePrivacyPolicyExternalLink()} target='_blank'>
+                  {' '}
+                  {t('v2.createProject.termsAndConditions')}
+                </a>
+              </span>
             </Terms>
             <>
               <FormContainer>
@@ -256,6 +272,13 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
 
     span {
       font-size: ${({ theme }) => theme.font.size[13]};
+    }
+
+    a {
+      color: ${({ theme }) => theme.color.primary};
+      &:hover {
+        color: ${({ theme }) => theme.color.secondary};
+      }
     }
 
     > input {

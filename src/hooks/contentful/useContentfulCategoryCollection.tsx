@@ -16,13 +16,8 @@ export default function useContentfulCategoryCollection() {
   )
 
   useEffect(() => {
-    // remove this logic when collection no more duplicates on contentful
     if (data?.categoryCollection.items) {
-      const clearOptions: ContentFulCategory[] = []
-      data?.categoryCollection.items.every(
-        item => !clearOptions.find(option => option.name.includes(item.name)) && clearOptions.push(item)
-      )
-      setCategories(clearOptions)
+      setCategories(data?.categoryCollection.items)
     }
   }, [data])
 

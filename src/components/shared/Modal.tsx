@@ -7,7 +7,8 @@ type ModalProps = {
   onClose: () => void
   showCloseIcon?: boolean
   width?: number | string
-  title: string | ReactNode
+  title?: string | ReactNode
+  showHeader?: boolean
   className?: string
 }
 
@@ -18,6 +19,7 @@ export default function Modal({
   onClose,
   width = 418,
   title,
+  showHeader = true,
   className
 }: ModalProps) {
   if (!isOpen) {
@@ -27,14 +29,16 @@ export default function Modal({
     <>
       <Overlay />
       <ModalWrapper width={width} className={className}>
-        <header>
-          {title && title}
-          {showCloseIcon && (
-            <CloseButton onClick={onClose}>
-              <span>x</span>
-            </CloseButton>
-          )}
-        </header>
+        {showHeader && (
+          <header>
+            {title && title}
+            {showCloseIcon && (
+              <CloseButton onClick={onClose}>
+                <span>x</span>
+              </CloseButton>
+            )}
+          </header>
+        )}
         {children}
       </ModalWrapper>
     </>

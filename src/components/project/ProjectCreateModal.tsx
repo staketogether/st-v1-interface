@@ -130,9 +130,11 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
   ]
   const { isOpenProjectCreateModal, setOpenProjectCreateModal } = useProjectCreateModal()
 
+  const titleModal = current === 0 ? t('v2.createProject.title') : t('v2.createProject.linksToAnalyze')
   return (
     <Modal
-      title={isLoading || isSuccess ? '' : t('v2.createProject.title')}
+      title={isLoading || isSuccess ? null : titleModal}
+      showHeader={isLoading || isSuccess ? false : true}
       onClose={() => setOpenProjectCreateModal(false)}
       isOpen={isOpenProjectCreateModal}
       showCloseIcon={isLoading || isSuccess ? false : true}

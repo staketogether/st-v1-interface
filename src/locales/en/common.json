@@ -334,7 +334,9 @@
     },
     "createProject": {
       "title": "Create Project",
-      "projectWithMembers": "I am a project with more than 100 members",
+      "linksToAnalyze": "Links to Analyze",
+      "terms": "I agree with the",
+      "termsAndConditions": "links to analyze",
       "send": "Send",
       "sent": "Sent",
       "seeMyProject": "See my project",

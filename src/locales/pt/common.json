@@ -359,7 +359,9 @@
     },
     "createProject": {
       "title": "Cadastrar Projeto",
-      "projectWithMembers": "Sou um projeto com mais de 100 membros",
+      "linksToAnalyze": "Links para Análise",
+      "terms": "Estou de acordo com os",
+      "termsAndConditions": "Termos de Cadastro",
       "send": "Enviar",
       "sent": "Enviado",
       "seeMyProject": "Ver meu projeto",
