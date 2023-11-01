@@ -20,7 +20,6 @@ import Button from '../shared/Button'
 import { getBase64 } from '@/services/format'
 import { CreateProjectForm } from '@/types/Project'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
-import { useRouter } from 'next/router'
 
 type ProjectRegisterInfoProps = {
   errors: FieldErrors<CreateProjectForm>
@@ -67,7 +66,6 @@ export default function ProjectRegisterInfo({
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
   const { poolTypeTranslation } = usePoolTypeTranslation()
-  const router = useRouter()
 
   const beforeUpload: UploadProps['beforeUpload'] = file => {
     const maxSize = 1 * 1024 * 1024
@@ -119,13 +117,6 @@ export default function ProjectRegisterInfo({
     }
   }
 
-  function handlePrivacyPolicyExternalLink() {
-    if (router.locale === 'en') {
-      return 'https://docs.staketogether.app/stake-together/v/stake-together-en/documentation/privacy-policies'
-    }
-    return 'https://docs.staketogether.app/stake-together/documentation/politicas-de-privacidade'
-  }
-
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Container>
@@ -142,7 +133,7 @@ export default function ProjectRegisterInfo({
 
               <span>
                 {t('v2.createProject.terms')}{' '}
-                <a href={handlePrivacyPolicyExternalLink()} target='_blank'>
+                <a href={'#'} target='_blank'>
                   {' '}
                   {t('v2.createProject.termsAndConditions')}
                 </a>
@@ -210,11 +201,14 @@ export default function ProjectRegisterInfo({
                   disabled={!hasAgreeTerms}
                   register={register('email', {
                     required: `${t('v2.createProject.formMessages.required')}`,
+                    maxLength: {
+                      value: 64,
+                      message: `${t('v2.createProject.formMessages.maxLength')} ${64}`
+                    },
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                       message: `${t('v2.createProject.formMessages.invalidEmail')}`
-                    },
-                    maxLength: { value: 120, message: `${t('v2.createProject.formMessages.maxLength')} ${120}` }
+                    }
                   })}
                   type='text'
                   error={errors.email?.message}

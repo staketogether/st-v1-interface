@@ -33,18 +33,12 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
     formState: { errors, isSubmitted },
     getValues,
     setValue,
+    reset,
     handleSubmit,
     setError,
     clearErrors
   } = useForm<CreateProjectForm>()
   const formValues = getValues()
-
-  useEffect(() => {
-    if (account) {
-      setValue('wallet', account.toLocaleLowerCase())
-      setError('logo', { type: 'required', message: `${t('v2.createProject.formMessages.required')}` })
-    }
-  }, [account, setError, setValue, t])
 
   const nextStep = () => {
     setCurrent(current + 1)
@@ -55,7 +49,12 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
   }
 
   const message = `Create project - ${account} `
-  const { isLoading, isSuccess, signMessage } = useSignMessage({
+  const {
+    isLoading,
+    isSuccess,
+    signMessage,
+    reset: resetSignMessage
+  } = useSignMessage({
     message: message,
     onSuccess: async data => {
       const createCommunityForm = getValues()
@@ -86,6 +85,18 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
   const onSubmit = async () => {
     await signMessage()
   }
+
+  useEffect(() => {
+    if (account) {
+      reset()
+      resetSignMessage()
+      setCurrent(0)
+      setHasAgreeTerms(false)
+      setFileList([])
+      setValue('wallet', account.toLocaleLowerCase())
+      setError('logo', { type: 'required', message: `${t('v2.createProject.formMessages.required')}` })
+    }
+  }, [account, setError, setValue, t, reset, resetSignMessage])
 
   const steps = [
     {
