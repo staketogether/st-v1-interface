@@ -61,7 +61,7 @@ export default function LayoutHeader() {
         {poolDetail && <ProjectButton poolDetail={poolDetail} />}
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
-      <ProjectCreateModal account={account} />
+      <ProjectCreateModal account={account} poolDetail={poolDetail} />
     </Container>
   )
 }

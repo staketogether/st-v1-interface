@@ -365,7 +365,8 @@
         "description": "Description",
         "descriptionPt": "Description language pt",
         "descriptionEn": "Description language en",
-        "contract": "Contract"
+        "contract": "Contract",
+        "useVideo": "Use video"
       },
       "placeholder": {
         "email": "Enter your email for contact",
@@ -380,7 +381,8 @@
         "youtube": "Enter the link to your YouTube channel",
         "facebook": "Enter the link to your Facebook page",
         "description": "Enter a description of your project", 
-        "contract": "Enter the address of your project's smart contract"
+        "contract": "Enter the address of your project's smart contract",
+        "video" : "Enter the YouTube link to your project's video"
       },
       "status": {
         "approved": "Approved",

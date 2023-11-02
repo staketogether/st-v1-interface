@@ -13,12 +13,14 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { contentfulClient } from '@/config/apollo'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
 import { CreateProjectForm } from '@/types/Project'
+import { ContentfulWithLocale } from '@/types/ContentfulPool'
 
 type CommunityCreateModalProps = {
   account?: `0x${string}`
+  poolDetail: ContentfulWithLocale | null
 }
 
-export default function ProjectCreateModal({ account }: CommunityCreateModalProps) {
+export default function ProjectCreateModal({ account, poolDetail }: CommunityCreateModalProps) {
   const [current, setCurrent] = useState(0)
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
   const [previewOpen, setPreviewOpen] = useState(false)
@@ -140,6 +142,12 @@ export default function ProjectCreateModal({ account }: CommunityCreateModalProp
     }
   ]
   const { isOpenProjectCreateModal, setOpenProjectCreateModal } = useProjectCreateModal()
+
+  useEffect(() => {
+    if (poolDetail) {
+      setOpenProjectCreateModal(false)
+    }
+  }, [poolDetail, setOpenProjectCreateModal])
 
   const titleModal = current === 0 ? t('v2.createProject.title') : t('v2.createProject.linksToAnalyze')
   return (

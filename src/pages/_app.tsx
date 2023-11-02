@@ -14,6 +14,7 @@ import validEnv from '../config/env'
 import { config } from '../config/wagmi'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
+import { ConfigProvider } from 'antd'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
@@ -37,7 +38,15 @@ const App = ({ Component, pageProps }: AppProps) => {
         <ThemeProvider theme={lightTheme}>
           <WagmiConfig config={config}>
             <StyleSheetManager shouldForwardProp={isPropValid}>
-              <Component {...pageProps} />
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: lightTheme.colorV2.blue[1]
+                  }
+                }}
+              >
+                <Component {...pageProps} />
+              </ConfigProvider>
             </StyleSheetManager>
           </WagmiConfig>
         </ThemeProvider>

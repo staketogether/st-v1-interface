@@ -2,7 +2,7 @@ import Button from '@/components/shared/Button'
 import GenericInput from '@/components/shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProjectContentfulForm } from '@/types/Project'
-import { Modal, Upload, notification } from 'antd'
+import { Modal, Switch, Upload, notification } from 'antd'
 import React, { useState } from 'react'
 import {
   FieldErrors,
@@ -45,6 +45,7 @@ export default function ProjectEditForm({
   poolDetail
 }: ProjectAboutFormProps) {
   const [previewOpen, setPreviewOpen] = useState(false)
+  const [userVideo, setUserVideo] = useState(true)
   const [previewImage, setPreviewImage] = useState(poolDetail.logo.url ? poolDetail?.logo?.url : '')
   const [previewTitle, setPreviewTitle] = useState(poolDetail.logo.fileName ? poolDetail.logo.fileName : '')
   const [fileList, setFileList] = useState<UploadFile[]>(
@@ -112,7 +113,7 @@ export default function ProjectEditForm({
   const videoId = getVideoIdFromUrl(ProjectVideo)
 
   const opts = {
-    height: '250',
+    height: '237',
     width: '100%',
     style: {
       borderRadius: '8px'
@@ -167,20 +168,33 @@ export default function ProjectEditForm({
             }))}
           />
           <GenericInput
-            title={t('v2.createProject.form.descriptionPt')}
+            title={t('v2.createProject.form.description')}
             register={register('descriptionPt', { required: `${t('v2.createProject.formMessages.required')}` })}
             type='longText'
             error={errors.descriptionPt?.message}
           />
-          <GenericInput
-            title={t('v2.createProject.form.video')}
-            register={register('video', { required: `${t('v2.createProject.formMessages.required')}` })}
-            type='text'
-            error={errors.video?.message}
-          />
+          <ProjectCoverContainer>
+            <div>
+              <span>{t('v2.createProject.form.useVideo')}</span>
+              <Switch size='small' checked={userVideo} onChange={e => setUserVideo(e)} />
+            </div>
+            {userVideo && (
+              <GenericInput
+                title={t('v2.createProject.form.video')}
+                register={register('video', { required: `${t('v2.createProject.formMessages.required')}` })}
+                type='text'
+                error={errors.video?.message}
+                placeholder={t('v2.createProject.placeholder.video')}
+              />
+            )}
+            {!userVideo && <div>cover</div>}
+          </ProjectCoverContainer>
           {ProjectVideo && videoId && <YouTube videoId={videoId} opts={opts} />}
         </FormContainer>
-        <Button block icon={<CreateProjectIcon />} type='submit' label={`${t('save')}`} />
+        <Divider />
+        <footer>
+          <Button block icon={<CreateProjectIcon />} type='submit' label={`${t('save')}`} />
+        </footer>
       </Container>
       <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={() => setPreviewOpen(false)}>
         <div style={{ display: 'grid', placeItems: 'center' }}>
@@ -197,7 +211,17 @@ export default function ProjectEditForm({
   )
 }
 
-const { Container, CreateProjectIcon, UploadIcon, Form, FormContainer, LogoContainer, ErrorMessage } = {
+const {
+  Container,
+  CreateProjectIcon,
+  Divider,
+  ProjectCoverContainer,
+  UploadIcon,
+  Form,
+  FormContainer,
+  LogoContainer,
+  ErrorMessage
+} = {
   Container: styled.div`
     display: grid;
     flex-direction: column;
@@ -205,6 +229,9 @@ const { Container, CreateProjectIcon, UploadIcon, Form, FormContainer, LogoConta
     span {
       font-size: ${({ theme }) => theme.font.size[14]};
       color: ${({ theme }) => theme.colorV2.gray[1]};
+    }
+    > footer {
+      padding: 0px 24px 24px 24px;
     }
   `,
   Form: styled.form``,
@@ -214,8 +241,7 @@ const { Container, CreateProjectIcon, UploadIcon, Form, FormContainer, LogoConta
     gap: 6px;
     max-height: 500px;
     overflow: auto;
-    margin-bottom: 6px;
-    padding-right: 12px;
+    padding: 24px 16px 0px 24px;
 
     iframe {
       border-radius: ${({ theme }) => theme.size[8]};
@@ -284,6 +310,32 @@ const { Container, CreateProjectIcon, UploadIcon, Form, FormContainer, LogoConta
         align-items: center;
         flex-direction: column;
         justify-content: center;
+      }
+    }
+  `,
+  Divider: styled.div`
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid var(--border, rgba(0, 0, 0, 0.2));
+  `,
+  ProjectCoverContainer: styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    div {
+      &:nth-child(1) {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[8]};
+        position: absolute;
+        right: 0;
+        bottom: 69px;
+        > span {
+          color: ${({ theme }) => theme.colorV2.gray[1]};
+          font-size: 13px;
+          font-style: normal;
+          font-weight: 400;
+        }
       }
     }
   `,

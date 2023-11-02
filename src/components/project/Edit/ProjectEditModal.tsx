@@ -1,5 +1,5 @@
 import useProjectEditModal from '@/hooks/useProjectEditModal'
-import React from 'react'
+import React, { useState } from 'react'
 import Modal from '../../shared/Modal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import styled from 'styled-components'
@@ -14,12 +14,15 @@ import { contentfulClient } from '@/config/apollo'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
 import { useRouter } from 'next/router'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
+import Tabs, { TabsItems } from '@/components/shared/Tabs'
+import ProjectEditLinksForm from './ProjectEditLinksForm'
 
 type ProjectEditModalProps = {
   poolDetail: ContentfulWithLocale
 }
 
 export default function ProjectEditModal({ poolDetail }: ProjectEditModalProps) {
+  const [activeTab, setActiveTab] = useState<string>('sobre')
   const { t } = useLocaleTranslation()
   const { isOpenProjectEditModal, setProjectEditModal } = useProjectEditModal()
   const router = useRouter()
@@ -28,7 +31,6 @@ export default function ProjectEditModal({ poolDetail }: ProjectEditModalProps) 
     poolAddress: poolDetail.wallet,
     locale: otherLocale
   })
-
   const {
     register,
     handleSubmit,
@@ -55,6 +57,7 @@ export default function ProjectEditModal({ poolDetail }: ProjectEditModalProps) 
             : ''
           : '',
       wallet: poolDetail.wallet,
+      projectName: poolDetail.name,
       category: poolDetail?.category?.sys?.id
     }
   })
@@ -86,14 +89,11 @@ export default function ProjectEditModal({ poolDetail }: ProjectEditModalProps) 
     await signMessage()
   }
 
-  return (
-    <Modal
-      title={t('v2.editProject.title')}
-      onClose={() => setProjectEditModal(false)}
-      isOpen={isOpenProjectEditModal}
-      width={'auto'}
-    >
-      <Container>
+  const tabsItems: TabsItems[] = [
+    {
+      key: 'sobre',
+      label: 'sobre',
+      children: (
         <ProjectEditForm
           setValue={setValue}
           register={register}
@@ -105,6 +105,36 @@ export default function ProjectEditModal({ poolDetail }: ProjectEditModalProps) 
           isSubmitted={isSubmitted}
           poolDetail={poolDetail}
         />
+      )
+    },
+    {
+      key: 'links',
+      label: 'links',
+      children: (
+        <ProjectEditLinksForm
+          register={register}
+          errors={errors}
+          handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
+        />
+      )
+    }
+  ]
+
+  return (
+    <Modal
+      title={t('v2.editProject.title')}
+      onClose={() => setProjectEditModal(false)}
+      isOpen={isOpenProjectEditModal}
+      width={'auto'}
+      noPadding
+    >
+      <Container>
+        <Tabs
+          items={tabsItems}
+          defaultActiveKey={activeTab}
+          onChangeActiveTab={value => setActiveTab(value as string)}
+        />
       </Container>
     </Modal>
   )
@@ -114,7 +144,7 @@ const { Container } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 32px;
     width: 450px;
   `
 }

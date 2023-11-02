@@ -10,6 +10,7 @@ type ModalProps = {
   title?: string | ReactNode
   showHeader?: boolean
   className?: string
+  noPadding?: boolean
 }
 
 export default function Modal({
@@ -20,6 +21,7 @@ export default function Modal({
   width = 418,
   title,
   showHeader = true,
+  noPadding = false,
   className
 }: ModalProps) {
   if (!isOpen) {
@@ -28,7 +30,7 @@ export default function Modal({
   return (
     <>
       <Overlay />
-      <ModalWrapper width={width} className={className}>
+      <ModalWrapper width={width} className={`${className} ${noPadding && 'noPadding'}`}>
         {showHeader && (
           <header>
             {title && title}
@@ -62,15 +64,21 @@ const { ModalWrapper, Overlay, CloseButton } = {
             width: ${props.width};
           `}
     background-color: ${({ theme }) => theme.colorV2.white};
+    &.noPadding {
+      padding: 0;
+      > header {
+        padding: 24px 24px 0 24px;
+      }
+    }
     padding: ${({ theme }) => theme.size[24]};
     border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[300]};
 
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[16]};
 
-    header {
+    > header {
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: center;

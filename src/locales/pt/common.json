@@ -390,7 +390,8 @@
         "description": "Descrição",
         "descriptionPt": "Descrição linguagem pt",
         "descriptionEn": "Descrição linguagem en",
-        "contract": "Contrato"
+        "contract": "Contrato",
+         "useVideo": "Usar Video"
       },
       "placeholder":{
         "email": "Insira seu email para contato",
@@ -407,7 +408,8 @@
         "description": "Insira uma descrição do seu projeto",
         "descriptionPt": "Insira uma descrição do seu projeto em português",  
         "descriptionEn": "Insira uma descrição do seu projeto em inglês", 
-        "contract": "Insira o endereço do seu contrato"
+        "contract": "Insira o endereço do seu contrato",
+        "video": "Insira o link do youtube para o vídeo do seu projeto"
       },
       "status": {
         "approved": "Aprovado",
