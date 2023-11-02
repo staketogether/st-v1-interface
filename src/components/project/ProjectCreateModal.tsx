@@ -171,6 +171,6 @@ const { Container } = {
     display: grid;
     grid-template-columns: 1fr;
     gap: 12px;
-    width: 450px;
+    width: 420px;
   `
 }

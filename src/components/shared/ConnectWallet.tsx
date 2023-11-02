@@ -6,7 +6,11 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
 
-export default function ConnectWallet() {
+type ConnectWalletProps = {
+  useModal?: boolean
+}
+
+export default function ConnectWallet({ useModal: isCreateProject }: ConnectWalletProps) {
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
 
   const { connect, connectors } = useConnect()
@@ -51,7 +55,7 @@ export default function ConnectWallet() {
           </a>
         </span>
       </Terms>
-      <ContainerWalletConnect>
+      <ContainerWalletConnect className={`${isCreateProject && 'useModal'}`}>
         {connectors.map((connector, index) => {
           const walletName =
             connector.id === 'web3auth'
@@ -85,6 +89,15 @@ const { Container, ContainerWalletConnect, Terms } = {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[8]};
+
+    &.useModal {
+      div {
+        background: ${({ theme }) => theme.colorV2.gray[2]};
+        &:hover {
+          background: #e4e4e4;
+        }
+      }
+    }
     div {
       cursor: pointer;
       width: 100%;

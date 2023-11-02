@@ -120,7 +120,7 @@ export default function ProjectRegisterInfo({
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Container>
-        {!account && <ConnectWallet />}
+        {!account && <ConnectWallet useModal />}
         {account && (
           <>
             <Terms>
@@ -303,20 +303,28 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
     > span {
       > div {
         > div {
+          width: 80px !important;
+          height: 80px !important;
           border: none !important;
           background: ${({ theme }) => theme.colorV2.gray[2]} !important;
           box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2) !important;
           color: ${({ theme }) => theme.colorV2.gray[1]} !important;
-          font-weight: 500 !important;
+          font-weight: 400 !important;
+          font-size: ${({ theme }) => theme.font.size[13]} !important;
           margin: 0px !important;
-          border-radius: 50% !important;
           > div {
-            border-radius: 50% !important;
             padding: 0px !important;
           }
         }
+        margin: 0px !important;
+        border-radius: 50% !important;
+        > div {
+          border-radius: 50% !important;
+          padding: 0px !important;
+        }
       }
     }
+
     &.error {
       span {
         &.ant-upload {
