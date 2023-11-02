@@ -44,7 +44,7 @@ export default function ProjectEditForm({
   isSubmitted,
   poolDetail
 }: ProjectAboutFormProps) {
-  const [previewOpen, setPreviewOpen] = useState(false)
+  const [previewLogoOpen, setPreviewLogoOpen] = useState(false)
   const [userVideo, setUserVideo] = useState(true)
   const [previewImage, setPreviewImage] = useState(poolDetail.logo.url ? poolDetail?.logo?.url : '')
   const [previewTitle, setPreviewTitle] = useState(poolDetail.logo.fileName ? poolDetail.logo.fileName : '')
@@ -94,7 +94,7 @@ export default function ProjectEditForm({
       file.preview = await getBase64(file.originFileObj as RcFile)
     }
     setPreviewImage(file.url || (file.preview as string))
-    setPreviewOpen(true)
+    setPreviewLogoOpen(true)
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1))
   }
 
@@ -187,7 +187,20 @@ export default function ProjectEditForm({
                 placeholder={t('v2.createProject.placeholder.video')}
               />
             )}
-            {!userVideo && <div>cover</div>}
+            {!userVideo && (
+              <CoverContainer>
+                <span>Capa do projeto</span>
+                <CoverInputArea>
+                  <div>
+                    <div>
+                      <UploadIcon />
+                      <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
+                    </div>
+                    <span>Jpeg, PNG (820x480px)</span>
+                  </div>
+                </CoverInputArea>
+              </CoverContainer>
+            )}
           </ProjectCoverContainer>
           {ProjectVideo && videoId && <YouTube videoId={videoId} opts={opts} />}
         </FormContainer>
@@ -196,7 +209,12 @@ export default function ProjectEditForm({
           <Button block icon={<CreateProjectIcon />} type='submit' label={`${t('save')}`} />
         </footer>
       </Container>
-      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={() => setPreviewOpen(false)}>
+      <Modal
+        open={previewLogoOpen}
+        title={previewTitle}
+        footer={null}
+        onCancel={() => setPreviewLogoOpen(false)}
+      >
         <div style={{ display: 'grid', placeItems: 'center' }}>
           <Image
             alt='project image'
@@ -220,6 +238,8 @@ const {
   Form,
   FormContainer,
   LogoContainer,
+  CoverContainer,
+  CoverInputArea,
   ErrorMessage
 } = {
   Container: styled.div`
@@ -266,13 +286,18 @@ const {
           background: ${({ theme }) => theme.colorV2.gray[2]} !important;
           box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2) !important;
           color: ${({ theme }) => theme.colorV2.gray[1]} !important;
-          font-weight: 500 !important;
+          font-weight: 400 !important;
+          font-size: ${({ theme }) => theme.font.size[13]} !important;
           margin: 0px !important;
-          border-radius: 50% !important;
           > div {
-            border-radius: 50% !important;
             padding: 0px !important;
           }
+        }
+        margin: 0px !important;
+        border-radius: 50% !important;
+        > div {
+          border-radius: 50% !important;
+          padding: 0px !important;
         }
       }
     }
@@ -322,14 +347,14 @@ const {
     position: relative;
     display: flex;
     flex-direction: column;
-    div {
+    > div {
       &:nth-child(1) {
         display: flex;
         align-items: center;
         gap: ${({ theme }) => theme.size[8]};
         position: absolute;
-        right: 0;
-        bottom: 69px;
+        right: 0px;
+        top: -2px;
         > span {
           color: ${({ theme }) => theme.colorV2.gray[1]};
           font-size: 13px;
@@ -351,5 +376,52 @@ const {
   `,
   CreateProjectIcon: styled(PiPencilSimpleLine)`
     font-size: 15px;
+  `,
+  CoverContainer: styled.div`
+    display: grid;
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[4]};
+    font-size: ${({ theme }) => theme.font.size[13]};
+  `,
+  CoverInputArea: styled.div`
+    cursor: pointer;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(64, 74, 87, 0.2);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: ${({ theme }) => theme.size[8]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+
+    > div {
+      height: 80px;
+      width: 100%;
+      background: ${({ theme }) => theme.colorV2.gray[2]};
+      border-radius: 8px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: ${({ theme }) => theme.size[8]};
+
+      > div {
+        &:nth-child(1) {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+      span {
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        opacity: 0.4;
+      }
+    }
   `
 }

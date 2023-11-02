@@ -303,8 +303,6 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
     > span {
       > div {
         > div {
-          width: 80px !important;
-          height: 80px !important;
           border: none !important;
           background: ${({ theme }) => theme.colorV2.gray[2]} !important;
           box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2) !important;
