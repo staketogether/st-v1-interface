@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   FieldErrors,
   UseFormClearErrors,
@@ -78,6 +78,12 @@ export default function ProjectRegisterInfo({
     }
     return true
   }
+
+  useEffect(() => {
+    if (categories?.length) {
+      setValue('category', categories[0].sys.id)
+    }
+  }, [categories, setValue])
 
   const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
     setFileList(info.fileList)

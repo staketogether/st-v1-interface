@@ -90,6 +90,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
 
   useEffect(() => {
     if (account) {
+      console.log('entrei aq 2222')
       reset()
       resetSignMessage()
       setCurrent(0)
@@ -144,10 +145,10 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const { isOpenProjectCreateModal, setOpenProjectCreateModal } = useProjectCreateModal()
 
   useEffect(() => {
-    if (poolDetail) {
+    if (poolDetail && !isSuccess) {
       setOpenProjectCreateModal(false)
     }
-  }, [poolDetail, setOpenProjectCreateModal])
+  }, [isSuccess, poolDetail, setOpenProjectCreateModal])
 
   const titleModal = current === 0 ? t('v2.createProject.title') : t('v2.createProject.linksToAnalyze')
   return (
