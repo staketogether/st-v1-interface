@@ -1,5 +1,5 @@
 import useProjectEditModal from '@/hooks/useProjectEditModal'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from '../../shared/Modal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import styled from 'styled-components'
@@ -12,24 +12,25 @@ import axios from 'axios'
 import { notification } from 'antd'
 import { contentfulClient } from '@/config/apollo'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
-import { useRouter } from 'next/router'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import Tabs, { TabsItems } from '@/components/shared/Tabs'
 import ProjectEditLinksForm from './ProjectEditLinksForm'
 
 type ProjectEditModalProps = {
-  poolDetail: ContentfulWithLocale
+  poolDetailUs: ContentfulWithLocale
+  account: `0x${string}` | undefined
 }
 
-export default function ProjectEditModal({ poolDetail }: ProjectEditModalProps) {
+export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditModalProps) {
   const [activeTab, setActiveTab] = useState<string>('sobre')
+  const [language, setLanguage] = useState<'pt' | 'en'>('pt')
   const { t } = useLocaleTranslation()
   const { isOpenProjectEditModal, setProjectEditModal } = useProjectEditModal()
-  const router = useRouter()
-  const otherLocale = router.locale === 'en' ? 'pt' : 'en-US'
-  const otherLocaleContentful = useContentfulPoolDetails({
-    poolAddress: poolDetail.wallet,
-    locale: otherLocale
+
+  const poolDetailPt = useContentfulPoolDetails({
+    poolAddress: poolDetailUs.wallet,
+    fetchPolicy: 'network-only',
+    locale: 'pt'
   })
   const {
     register,
@@ -38,40 +39,33 @@ export default function ProjectEditModal({ poolDetail }: ProjectEditModalProps) 
     setValue,
     watch,
     getValues,
+    reset,
     clearErrors
   } = useForm<ProjectContentfulForm>({
     defaultValues: {
-      ...poolDetail,
+      ...poolDetailUs,
       logo: { base64: undefined, mimeType: undefined },
       cover: { base64: undefined, mimeType: undefined },
-      descriptionEn:
-        poolDetail.locale === 'en-Us'
-          ? poolDetail.description || otherLocaleContentful.poolDetail?.locale === 'en-US'
-            ? otherLocaleContentful.poolDetail?.description || ''
-            : ''
-          : '',
-      descriptionPt:
-        poolDetail.locale === 'pt'
-          ? poolDetail.description || otherLocaleContentful.poolDetail?.locale === 'pt'
-            ? otherLocaleContentful.poolDetail?.description || ''
-            : ''
-          : '',
-      wallet: poolDetail.wallet,
-      projectName: poolDetail.name,
-      category: poolDetail?.category?.sys?.id
+      descriptionEn: poolDetailUs.description || '',
+      descriptionPt: poolDetailPt.poolDetail?.description || '',
+      videoEn: poolDetailUs.video || '',
+      videoPt: poolDetailPt.poolDetail?.video || '',
+      wallet: poolDetailUs.wallet,
+      projectName: poolDetailUs.name,
+      category: poolDetailUs?.category?.sys?.id
     }
   })
-  const projectVideo = watch('video')
+  const projectVideo = watch(language === 'pt' ? 'videoPt' : 'videoEn')
 
-  const message = `Create project - ${poolDetail.wallet} `
-  const { signMessage } = useSignMessage({
+  const message = `Create project - ${poolDetailUs.wallet} `
+  const { signMessage, reset: resetSignMessage } = useSignMessage({
     message: message,
     onSuccess: async data => {
       const createCommunityForm = getValues()
       const signatureMessage = { signature: data, message: message }
 
       await axios.post('/api/project/update', {
-        form: { ...createCommunityForm, projectId: poolDetail.sys.id },
+        form: { ...createCommunityForm, projectId: poolDetailUs.sys.id },
         signatureMessage
       })
 
@@ -97,13 +91,14 @@ export default function ProjectEditModal({ poolDetail }: ProjectEditModalProps) 
         <ProjectEditForm
           setValue={setValue}
           register={register}
+          language={language}
           clearErrors={clearErrors}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
           errors={errors}
           projectVideo={projectVideo}
           isSubmitted={isSubmitted}
-          poolDetail={poolDetail}
+          poolDetail={poolDetailUs}
         />
       )
     },
@@ -121,9 +116,29 @@ export default function ProjectEditModal({ poolDetail }: ProjectEditModalProps) 
     }
   ]
 
+  useEffect(() => {
+    if (account) {
+      reset()
+      resetSignMessage()
+      setActiveTab('sobre')
+    }
+  }, [account, reset, resetSignMessage])
+
   return (
     <Modal
-      title={t('v2.editProject.title')}
+      title={
+        <Title>
+          <span>{`${t('v2.editProject.title')}`}</span>
+          <div>
+            <LanguageButton className={`${language === 'pt' && 'active'}`} onClick={() => setLanguage('pt')}>
+              PT
+            </LanguageButton>
+            <LanguageButton className={`${language === 'en' && 'active'}`} onClick={() => setLanguage('en')}>
+              EN
+            </LanguageButton>
+          </div>
+        </Title>
+      }
       onClose={() => setProjectEditModal(false)}
       isOpen={isOpenProjectEditModal}
       width={'auto'}
@@ -140,11 +155,48 @@ export default function ProjectEditModal({ poolDetail }: ProjectEditModalProps) 
   )
 }
 
-const { Container } = {
+const { Container, Title, LanguageButton } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
     gap: 32px;
     width: 450px;
+  `,
+  Title: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: ${({ theme }) => theme.size[8]};
+    > div {
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
+    }
+  `,
+  LanguageButton: styled.div`
+    width: 32px;
+    height: 32px;
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.colorV2.gray[2]};
+
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+
+    display: grid;
+    place-items: center;
+
+    font-size: 13px;
+    font-weight: 400;
+
+    cursor: pointer;
+    &:hover {
+      background: ${({ theme }) => theme.colorV2.blue[1]};
+      color: ${({ theme }) => theme.colorV2.white};
+    }
+    &.active {
+      background: ${({ theme }) => theme.colorV2.blue[1]};
+      color: ${({ theme }) => theme.colorV2.white};
+    }
   `
 }

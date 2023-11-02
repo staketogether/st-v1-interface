@@ -117,6 +117,7 @@ const { ModalWrapper, Overlay, CloseButton } = {
     align-items: center;
     justify-content: center;
     margin-left: auto;
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
 
     span {
       font-size: ${({ theme }) => theme.font.size[18]};

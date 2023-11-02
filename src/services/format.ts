@@ -22,7 +22,7 @@ export function formatNumberByLocale(num: string, lang?: string): string {
   }
 }
 
-export const getBase64 = (file: RcFile): Promise<string> => {
+export const getBase64 = (file: RcFile | File): Promise<string> => {
   return new Promise(resolve => {
     const reader = new FileReader()
 

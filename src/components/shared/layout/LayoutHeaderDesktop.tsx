@@ -20,7 +20,11 @@ export default function LayoutHeader() {
   const { setOpenProjectCreateModal: setCommunityCreateModal } = useProjectCreateModal()
   const { query } = useRouter()
   const { currency, network } = query
-  const { poolDetail } = useContentfulPoolDetails({ poolAddress: account, fetchPolicy: 'network-only' })
+  const { poolDetail: poolDetailUs } = useContentfulPoolDetails({
+    poolAddress: account,
+    fetchPolicy: 'network-only',
+    locale: 'en-US'
+  })
 
   return (
     <Container>
@@ -53,15 +57,15 @@ export default function LayoutHeader() {
         </Menu>
       </MenuContainer>
       <WalletContainer>
-        {!poolDetail && (
+        {!poolDetailUs && (
           <MenuButton onClick={() => setCommunityCreateModal(true)}>
             <CreateProjectIcon /> {t('v2.createProject.title')}
           </MenuButton>
         )}
-        {poolDetail && <ProjectButton poolDetail={poolDetail} />}
+        {poolDetailUs && <ProjectButton poolDetail={poolDetailUs} account={account} />}
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
-      <ProjectCreateModal account={account} poolDetail={poolDetail} />
+      <ProjectCreateModal account={account} poolDetail={poolDetailUs} />
     </Container>
   )
 }

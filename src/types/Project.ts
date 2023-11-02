@@ -15,7 +15,8 @@ export type CreateProjectForm = {
 
 export type ProjectContentfulForm = CreateProjectForm & {
   cover?: { base64: string; mimeType?: string }
-  video?: string
+  videoPt?: string
+  videoEn?: string
   youtube?: string
   facebook?: string
   discordName?: string

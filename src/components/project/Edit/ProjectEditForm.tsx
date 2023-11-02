@@ -3,7 +3,7 @@ import GenericInput from '@/components/shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProjectContentfulForm } from '@/types/Project'
 import { Modal, Switch, Upload, notification } from 'antd'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   FieldErrors,
   UseFormClearErrors,
@@ -31,6 +31,7 @@ type ProjectAboutFormProps = {
   errors: FieldErrors<ProjectContentfulForm>
   projectVideo: string | undefined
   poolDetail: ContentfulPool
+  language: 'pt' | 'en'
 }
 
 export default function ProjectEditForm({
@@ -42,12 +43,19 @@ export default function ProjectEditForm({
   errors,
   projectVideo: ProjectVideo,
   isSubmitted,
-  poolDetail
+  poolDetail,
+  language
 }: ProjectAboutFormProps) {
   const [previewLogoOpen, setPreviewLogoOpen] = useState(false)
+  const [previewCoverOpen, setPreviewCoverOpen] = useState(false)
   const [userVideo, setUserVideo] = useState(true)
-  const [previewImage, setPreviewImage] = useState(poolDetail.logo.url ? poolDetail?.logo?.url : '')
+  const [previewLogo, setPreviewLogo] = useState(poolDetail.logo.url ? poolDetail?.logo?.url : '')
   const [previewTitle, setPreviewTitle] = useState(poolDetail.logo.fileName ? poolDetail.logo.fileName : '')
+  const [previewCoverTitle, setPreviewCoverTitle] = useState(
+    poolDetail.cover?.fileName ? poolDetail.cover?.fileName : ''
+  )
+  const [previewCover, setPreviewCover] = useState(poolDetail.cover?.url ? poolDetail.cover?.url : '')
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [fileList, setFileList] = useState<UploadFile[]>(
     poolDetail.logo.url
       ? [
@@ -77,7 +85,6 @@ export default function ProjectEditForm({
 
   const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
     setFileList(info.fileList)
-
     if (info.file.status === 'done') {
       const file = await getBase64(info.fileList[0].originFileObj as RcFile)
       if (file) {
@@ -93,7 +100,7 @@ export default function ProjectEditForm({
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj as RcFile)
     }
-    setPreviewImage(file.url || (file.preview as string))
+    setPreviewLogo(file.url || (file.preview as string))
     setPreviewLogoOpen(true)
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1))
   }
@@ -120,6 +127,32 @@ export default function ProjectEditForm({
     },
     playerVars: {
       autoplay: 0
+    }
+  }
+
+  const handleClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return
+
+    const file = e.target.files[0]
+    if (file.size > 1048576) {
+      notification.warning({
+        message: `${t('v2.createProject.formMessages.sizeImage')}`,
+        placement: 'topRight'
+      })
+    } else {
+      const fileBase64 = await getBase64(file)
+      if (fileBase64) {
+        const [imageType, imageBase64] = fileBase64.split(',')
+        const mimeType = imageType.split(':')[1].split(';')[0]
+        setValue('cover', { base64: imageBase64, mimeType })
+        setPreviewCover(fileBase64)
+        setPreviewCoverTitle(file.name)
+        clearErrors('cover')
+      }
     }
   }
 
@@ -167,39 +200,96 @@ export default function ProjectEditForm({
               key: category.sys.id
             }))}
           />
-          <GenericInput
-            title={t('v2.createProject.form.description')}
-            register={register('descriptionPt', { required: `${t('v2.createProject.formMessages.required')}` })}
-            type='longText'
-            error={errors.descriptionPt?.message}
-          />
+          {language === 'en' && (
+            <GenericInput
+              title={t('v2.createProject.form.description')}
+              register={register('descriptionEn', {
+                maxLength: { value: 500, message: `${t('v2.createProject.formMessages.maxLength')} ${500}` }
+              })}
+              type='longText'
+              error={errors.descriptionPt?.message}
+            />
+          )}
+          {language === 'pt' && (
+            <GenericInput
+              title={t('v2.createProject.form.description')}
+              register={register('descriptionPt', {
+                maxLength: { value: 500, message: `${t('v2.createProject.formMessages.maxLength')} ${500}` }
+              })}
+              type='longText'
+              error={errors.descriptionPt?.message}
+            />
+          )}
           <ProjectCoverContainer>
             <div>
               <span>{t('v2.createProject.form.useVideo')}</span>
               <Switch size='small' checked={userVideo} onChange={e => setUserVideo(e)} />
             </div>
-            {userVideo && (
-              <GenericInput
-                title={t('v2.createProject.form.video')}
-                register={register('video', { required: `${t('v2.createProject.formMessages.required')}` })}
-                type='text'
-                error={errors.video?.message}
-                placeholder={t('v2.createProject.placeholder.video')}
-              />
+            {language === 'en' && userVideo && (
+              <>
+                {userVideo && (
+                  <GenericInput
+                    title={t('v2.createProject.form.video')}
+                    register={register('videoEn')}
+                    type='text'
+                    placeholder={t('v2.createProject.placeholder.video')}
+                  />
+                )}
+                {!userVideo && (
+                  <CoverContainer>
+                    <span>Capa do projeto</span>
+                    <CoverInputArea onClick={handleClick}>
+                      <div>
+                        <div>
+                          <UploadIcon />
+                          <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
+                        </div>
+                        <span>Jpeg, PNG (820x480px)</span>
+                      </div>
+                    </CoverInputArea>
+                    <input
+                      type='file'
+                      style={{ display: 'none' }}
+                      ref={fileInputRef}
+                      onChange={handleImageChange}
+                      accept='image/*'
+                    />
+                  </CoverContainer>
+                )}
+              </>
             )}
-            {!userVideo && (
-              <CoverContainer>
-                <span>Capa do projeto</span>
-                <CoverInputArea>
-                  <div>
-                    <div>
-                      <UploadIcon />
-                      <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
-                    </div>
-                    <span>Jpeg, PNG (820x480px)</span>
-                  </div>
-                </CoverInputArea>
-              </CoverContainer>
+            {language === 'pt' && userVideo && (
+              <>
+                {userVideo && (
+                  <GenericInput
+                    title={t('v2.createProject.form.video')}
+                    register={register('videoPt')}
+                    type='text'
+                    placeholder={t('v2.createProject.placeholder.video')}
+                  />
+                )}
+                {!userVideo && (
+                  <CoverContainer>
+                    <span>Capa do projeto</span>
+                    <CoverInputArea onClick={handleClick}>
+                      <div>
+                        <div>
+                          <UploadIcon />
+                          <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
+                        </div>
+                        <span>Jpeg, PNG (820x480px)</span>
+                      </div>
+                    </CoverInputArea>
+                    <input
+                      type='file'
+                      style={{ display: 'none' }}
+                      ref={fileInputRef}
+                      onChange={handleImageChange}
+                      accept='image/*'
+                    />
+                  </CoverContainer>
+                )}
+              </>
             )}
           </ProjectCoverContainer>
           {ProjectVideo && videoId && <YouTube videoId={videoId} opts={opts} />}
@@ -221,7 +311,23 @@ export default function ProjectEditForm({
             style={{ borderRadius: '8px' }}
             width={400}
             height={400}
-            src={previewImage}
+            src={previewLogo}
+          />
+        </div>
+      </Modal>
+      <Modal
+        open={previewCoverOpen}
+        title={previewCoverTitle}
+        footer={null}
+        onCancel={() => setPreviewCoverOpen(false)}
+      >
+        <div style={{ display: 'grid', placeItems: 'center' }}>
+          <Image
+            alt='project image'
+            style={{ borderRadius: '8px' }}
+            width={400}
+            height={400}
+            src={previewCover}
           />
         </div>
       </Modal>

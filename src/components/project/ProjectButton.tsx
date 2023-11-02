@@ -14,9 +14,10 @@ import useProjectEditModal from '@/hooks/useProjectEditModal'
 
 type ProjectCreateButtonProps = {
   poolDetail: ContentfulPool
+  account: `0x${string}` | undefined
 }
 
-export default function ProjectButton({ poolDetail }: ProjectCreateButtonProps) {
+export default function ProjectButton({ poolDetail, account }: ProjectCreateButtonProps) {
   const { t } = useLocaleTranslation()
   const { setProjectEditModal } = useProjectEditModal()
 
@@ -41,7 +42,7 @@ export default function ProjectButton({ poolDetail }: ProjectCreateButtonProps) 
             <Divider />
             <CreateProjectIcon />
           </Button>
-          <ProjectEditModal poolDetail={poolDetail} />
+          <ProjectEditModal poolDetailUs={poolDetail} account={account} />
         </>
       )}
       {poolDetail.status === 'reproved' && (
