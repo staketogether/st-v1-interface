@@ -4,41 +4,39 @@ import {
   UseFormClearErrors,
   UseFormHandleSubmit,
   UseFormRegister,
-  UseFormSetValue
+  UseFormSetValue,
+  UseFormTrigger
 } from 'react-hook-form'
 import styled from 'styled-components'
-import GenericInput from '../shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Modal, Upload, notification } from 'antd'
+import { Upload, notification } from 'antd'
 import { PiArrowRight, PiCloudArrowUpBold } from 'react-icons/pi'
 import type { UploadFile, RcFile, UploadProps } from 'antd/es/upload/interface'
 import type { UploadChangeParam } from 'antd/es/upload'
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
 import ConnectWallet from '../shared/ConnectWallet'
-import Image from 'next/image'
+
 import Button from '../shared/Button'
-import { getBase64 } from '@/services/format'
 import { CreateProjectForm } from '@/types/Project'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import Input from '../shared/inputs/Input'
+import Select from '../shared/inputs/Select'
+import TextArea from '../shared/inputs/TextArea'
+import ImgCrop from 'antd-img-crop'
 
 type ProjectRegisterInfoProps = {
   errors: FieldErrors<CreateProjectForm>
   formValues: CreateProjectForm
   hasAgreeTerms: boolean
   account?: `0x${string}`
-  previewOpen: boolean
   isSubmitted: boolean
-  previewImage: string
-  previewTitle: string
   fileList: UploadFile[]
   nextStep: () => void
+  trigger: UseFormTrigger<CreateProjectForm>
   register: UseFormRegister<CreateProjectForm>
   setValue: UseFormSetValue<CreateProjectForm>
   setHasAgreeTerms: (value: boolean) => void
   handleSubmit: UseFormHandleSubmit<CreateProjectForm, undefined>
-  setPreviewOpen: (value: boolean) => void
-  setPreviewImage: (value: string) => void
-  setPreviewTitle: (value: string) => void
   setFileList: (value: UploadFile[]) => void
   clearErrors: UseFormClearErrors<CreateProjectForm>
 }
@@ -47,25 +45,35 @@ export default function ProjectRegisterInfo({
   errors,
   account,
   hasAgreeTerms,
-  previewOpen,
-  previewImage,
-  previewTitle,
   isSubmitted,
   fileList,
   handleSubmit,
+  trigger,
   register,
   nextStep,
   setValue,
   setHasAgreeTerms,
-  setPreviewImage,
-  setPreviewOpen,
-  setPreviewTitle,
   setFileList,
   clearErrors
 }: ProjectRegisterInfoProps) {
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
   const { poolTypeTranslation } = usePoolTypeTranslation()
+
+  const onPreview = async (file: UploadFile) => {
+    let src = file.url as string
+    if (!src) {
+      src = await new Promise(resolve => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file.originFileObj as RcFile)
+        reader.onload = () => resolve(reader.result as string)
+      })
+    }
+    const image = new Image()
+    image.src = src
+    const imgWindow = window.open(src)
+    imgWindow?.document.write(image.outerHTML)
+  }
 
   const beforeUpload: UploadProps['beforeUpload'] = file => {
     const maxSize = 1 * 1024 * 1024
@@ -108,15 +116,6 @@ export default function ProjectRegisterInfo({
     }
   }
 
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile)
-    }
-    setPreviewImage(file.url || (file.preview as string))
-    setPreviewOpen(true)
-    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1))
-  }
-
   const onSubmit = () => {
     if (hasAgreeTerms) {
       nextStep()
@@ -151,47 +150,53 @@ export default function ProjectRegisterInfo({
                   className={`${errors.logo && isSubmitted && 'error'} ${hasAgreeTerms ? '' : 'disabled'}`}
                 >
                   <span>{t('v2.createProject.form.logo')}</span>
-                  <Upload
-                    listType='picture-circle'
-                    maxCount={1}
-                    fileList={fileList}
-                    onPreview={handlePreview}
-                    disabled={!hasAgreeTerms}
-                    onChange={handleChange}
-                    beforeUpload={beforeUpload}
-                    customRequest={async ({ onSuccess }) => {
-                      onSuccess && onSuccess('ok')
-                    }}
-                  >
-                    {fileList.length >= 1 ? null : (
-                      <div>
-                        <UploadIcon className={`${errors.logo && isSubmitted && 'error'}`} />
-                        <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
-                      </div>
-                    )}
-                  </Upload>
+                  <ImgCrop rotationSlider>
+                    <Upload
+                      listType='picture-circle'
+                      maxCount={1}
+                      fileList={fileList}
+                      disabled={!hasAgreeTerms}
+                      onChange={handleChange}
+                      beforeUpload={beforeUpload}
+                      onPreview={onPreview}
+                      customRequest={async ({ onSuccess }) => {
+                        onSuccess && onSuccess('ok')
+                      }}
+                    >
+                      {fileList.length >= 1 ? null : (
+                        <div>
+                          <UploadIcon className={`${errors.logo && isSubmitted && 'error'}`} />
+                          <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
+                        </div>
+                      )}
+                    </Upload>
+                  </ImgCrop>
                   <ErrorMessage>
                     {errors.logo && isSubmitted && `${t('v2.createProject.formMessages.required')}`}
                   </ErrorMessage>
                 </LogoContainer>
-                <GenericInput
+                <Input
                   title={t('v2.createProject.form.wallet') + '*'}
                   register={register('wallet', { required: `${t('v2.createProject.formMessages.required')}` })}
                   type='text'
                   disabled
+                  disabledLabel={!hasAgreeTerms}
                   error={errors.wallet?.message}
                 />
-                <GenericInput
+                <Input
                   title={t('v2.createProject.form.name') + '*'}
                   register={register('projectName', {
                     required: `${t('v2.createProject.formMessages.required')}`,
-                    maxLength: { value: 30, message: `${t('v2.createProject.formMessages.maxLength')} ${30}` }
+                    maxLength: { value: 30, message: `${t('v2.createProject.formMessages.maxLength')} ${30}` },
+                    onBlur: () => trigger('projectName')
                   })}
+                  maxLength={30}
                   type='text'
                   disabled={!hasAgreeTerms}
+                  disabledLabel={!hasAgreeTerms}
                   error={errors.projectName?.message}
                 />
-                <GenericInput
+                <Select
                   title={t('v2.createProject.form.category') + '*'}
                   register={register('category')}
                   type='select'
@@ -202,9 +207,12 @@ export default function ProjectRegisterInfo({
                     key: category.sys.id
                   }))}
                 />
-                <GenericInput
+                <Input
                   title={t('v2.createProject.form.email') + '*'}
                   disabled={!hasAgreeTerms}
+                  disabledLabel={!hasAgreeTerms}
+                  name='email'
+                  type='email'
                   register={register('email', {
                     required: `${t('v2.createProject.formMessages.required')}`,
                     maxLength: {
@@ -212,22 +220,33 @@ export default function ProjectRegisterInfo({
                       message: `${t('v2.createProject.formMessages.maxLength')} ${64}`
                     },
                     pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                       message: `${t('v2.createProject.formMessages.invalidEmail')}`
-                    }
+                    },
+                    onBlur: () => trigger('email')
                   })}
-                  type='text'
+                  maxLength={64}
+                  onKeyDown={e => {
+                    const validCharsRegex = /[A-Z0-9@._-]/i
+                    if (!validCharsRegex.test(e.key) && e.key !== 'Backspace') {
+                      e.preventDefault()
+                    }
+                  }}
                   error={errors.email?.message}
                   placeholder={t('v2.createProject.placeholder.email')}
                 />
-                <GenericInput
+                <TextArea
                   title={t('v2.createProject.form.about') + '*'}
                   disabled={!hasAgreeTerms}
                   register={register('aboutProject', {
                     required: `${t('v2.createProject.formMessages.required')}`,
-                    maxLength: { value: 320, message: `${t('v2.createProject.formMessages.maxLength')} ${320}` }
+                    maxLength: {
+                      value: 240,
+                      message: `${t('v2.createProject.formMessages.maxLength')} ${240}`
+                    },
+                    onBlur: () => trigger('aboutProject')
                   })}
-                  type='longText'
+                  maxLength={240}
                   error={errors.aboutProject?.message}
                   placeholder={t('v2.createProject.placeholder.about')}
                 />
@@ -243,11 +262,6 @@ export default function ProjectRegisterInfo({
           </>
         )}
       </Container>
-      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={() => setPreviewOpen(false)}>
-        <div style={{ display: 'grid', placeItems: 'center' }}>
-          <Image alt='example' style={{ borderRadius: '8px' }} width={400} height={400} src={previewImage} />
-        </div>
-      </Modal>
     </Form>
   )
 }
@@ -316,15 +330,11 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
           font-weight: 400 !important;
           font-size: ${({ theme }) => theme.font.size[13]} !important;
           margin: 0px !important;
-          > div {
-            padding: 0px !important;
-          }
         }
         margin: 0px !important;
         border-radius: 50% !important;
         > div {
           border-radius: 50% !important;
-          padding: 0px !important;
         }
       }
     }

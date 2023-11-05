@@ -367,11 +367,11 @@
       "seeMyProject": "Ver meu projeto",
       "form": {
         "logo": "Nome do Projeto",
-        "wallet": "Carteira responsável",
-        "name": "Nome do projeto",
+        "wallet": "Carteira Responsável",
+        "name": "Nome do Projeto",
         "category": "Categoria",
         "email": "Email",
-        "about": "Apresente seu projeto",
+        "about": "Apresente seu Projeto",
         "site": "Site",
         "twitter": "X (Twitter)",
         "instagram": "Instagram",
@@ -396,7 +396,7 @@
       "placeholder":{
         "email": "Insira seu email para contato",
         "about": "Conte nós um pouco mais sobre seu projeto",
-        "site": "Insira o URL do seu site",
+        "site": "https://www.seusite.com",
         "youtube": "Insira o URL do seu canal do youtube",
         "twitter": "Nome de usuário (e.g. @staketogether)",
         "instagram": "Nome de usuário (e.g. @staketogether)",

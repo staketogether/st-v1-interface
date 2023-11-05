@@ -336,7 +336,7 @@
       "title": "Create Project",
       "linksToAnalyze": "Links to Analyze",
       "terms": "I agree with the",
-      "termsAndConditions": "links to analyze",
+      "termsAndConditions": "links to Analyze",
       "send": "Send",
       "sent": "Sent",
       "seeMyProject": "See my project",
@@ -346,7 +346,7 @@
         "name": "Name",
         "category": "Category",
         "email": "Email",
-        "about": "Present your project",
+        "about": "Present your Project",
         "site": "Site",
         "twitter": "Twitter",
         "instagram": "Instagram",
@@ -366,12 +366,12 @@
         "descriptionPt": "Description language pt",
         "descriptionEn": "Description language en",
         "contract": "Contract",
-        "useVideo": "Use video"
+        "useVideo": "Use Video"
       },
       "placeholder": {
         "email": "Enter your email for contact",
         "about": "Tell us a bit more about your project",
-        "site": "Enter your website URL",
+        "site": "https://www.yourproject.com",
         "twitter": "Username (e.g. @staketogether)",
         "instagram": "Username (e.g. @staketogether)",
         "linkedin": "Username (e.g. @staketogether)",
@@ -387,7 +387,7 @@
       "status": {
         "approved": "Approved",
         "reproved": "Reproved",
-        "pending": "Under analysis"
+        "pending": "Under Analysis"
       },
       "formMessages" : {
         "required": "This field is required",

@@ -1,10 +1,13 @@
-export type CreateProjectForm = {
+export type RegisterInfo = {
   wallet?: string
+  email?: string
   projectName?: string
   logo?: { base64: string; mimeType?: string }
   category?: string
   aboutProject?: string
-  email?: string
+}
+
+export type LinksToAnalyze = {
   site?: string
   twitter?: string
   instagram?: string
@@ -12,6 +15,8 @@ export type CreateProjectForm = {
   discord?: string
   telegram?: string
 }
+
+export type CreateProjectForm = RegisterInfo & LinksToAnalyze
 
 export type ProjectContentfulForm = CreateProjectForm & {
   cover?: { base64: string; mimeType?: string }

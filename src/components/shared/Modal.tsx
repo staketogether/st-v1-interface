@@ -111,7 +111,7 @@ const { ModalWrapper, Overlay, CloseButton } = {
     border: 0;
     border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background: ${({ theme }) => theme.color.whiteAlpha[600]};
+    background: ${({ theme }) => theme.colorV2.gray[2]};
     transition: background 0.2s ease;
     display: flex;
     align-items: center;
@@ -127,7 +127,7 @@ const { ModalWrapper, Overlay, CloseButton } = {
     }
 
     &:hover {
-      background: ${({ theme }) => theme.colorV2.gray[2]};
+      background: #e4e4e4;
     }
   `
 }

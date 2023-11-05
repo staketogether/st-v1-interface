@@ -23,9 +23,6 @@ type CommunityCreateModalProps = {
 export default function ProjectCreateModal({ account, poolDetail }: CommunityCreateModalProps) {
   const [current, setCurrent] = useState(0)
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
-  const [previewOpen, setPreviewOpen] = useState(false)
-  const [previewImage, setPreviewImage] = useState('')
-  const [previewTitle, setPreviewTitle] = useState('')
   const [fileList, setFileList] = useState<UploadFile[]>([])
 
   const { t } = useLocaleTranslation()
@@ -38,6 +35,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
     reset,
     handleSubmit,
     setError,
+    trigger,
     clearErrors
   } = useForm<CreateProjectForm>()
   const formValues = getValues()
@@ -50,7 +48,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
     setCurrent(current - 1)
   }
 
-  const message = `Create project - ${account} `
+  const message = `Register Stake Together - ${account} `
   const {
     isLoading,
     isSuccess,
@@ -90,7 +88,6 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
 
   useEffect(() => {
     if (account) {
-      console.log('entrei aq 2222')
       reset()
       resetSignMessage()
       setCurrent(0)
@@ -115,14 +112,9 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
           account={account}
           formValues={formValues}
           hasAgreeTerms={hasAgreeTerms}
-          previewOpen={previewOpen}
-          previewImage={previewImage}
-          previewTitle={previewTitle}
           fileList={fileList}
+          trigger={trigger}
           setHasAgreeTerms={setHasAgreeTerms}
-          setPreviewOpen={setPreviewOpen}
-          setPreviewImage={setPreviewImage}
-          setPreviewTitle={setPreviewTitle}
           setFileList={setFileList}
         />
       )
@@ -133,6 +125,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
           register={register}
           errors={errors}
           handleSubmit={handleSubmit}
+          trigger={trigger}
           isLoading={isLoading}
           isSuccess={isSuccess}
           previewStep={previewStep}

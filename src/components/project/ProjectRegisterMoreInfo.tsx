@@ -1,13 +1,13 @@
 import { CreateProjectForm } from '@/types/Project'
 import React from 'react'
-import { FieldErrors, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+import { FieldErrors, UseFormHandleSubmit, UseFormRegister, UseFormTrigger } from 'react-hook-form'
 import styled from 'styled-components'
-import GenericInput from '../shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { PiArrowLeft, PiPencilSimpleLine } from 'react-icons/pi'
 import Button from '../shared/Button'
 import ProjectCreateLoading from './ProjectCreateLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
+import Input from '../shared/inputs/Input'
 
 type ProjectRegisterInfoProps = {
   formValues: CreateProjectForm
@@ -15,6 +15,7 @@ type ProjectRegisterInfoProps = {
   isSuccess: boolean
   errors: FieldErrors<CreateProjectForm>
   register: UseFormRegister<CreateProjectForm>
+  trigger: UseFormTrigger<CreateProjectForm>
   handleSubmit: UseFormHandleSubmit<CreateProjectForm, undefined>
   previewStep: () => void
   onSubmit: () => void
@@ -25,6 +26,7 @@ export default function ProjectRegisterMoreInfo({
   isSuccess,
   isLoading,
   errors,
+  trigger,
   previewStep,
   formValues,
   handleSubmit,
@@ -38,20 +40,30 @@ export default function ProjectRegisterMoreInfo({
       {isLoading && !isSuccess && <ProjectCreateLoading />}
       {!isLoading && !isSuccess && (
         <FormContainer>
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.site')}
             register={register('site', {
               pattern: {
-                value: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?$/,
+                value: new RegExp(
+                  `${/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi}`
+                ),
                 message: `${t('v2.createProject.formMessages.site')}`
               },
-              maxLength: { value: 120, message: `${t('v2.createProject.formMessages.maxLength')} ${120}` }
+              maxLength: { value: 120, message: `${t('v2.createProject.formMessages.maxLength')} ${120}` },
+              onBlur: () => trigger('site')
             })}
+            maxLength={120}
             type='text'
+            onKeyDown={e => {
+              // const validCharsRegex = /[A-Z0-9@._-]/i
+              // if (!validCharsRegex.test(e.key) && e.key !== 'Backspace') {
+              //   e.preventDefault()
+              // }
+            }}
             placeholder={t('v2.createProject.placeholder.site')}
             error={errors.site?.message}
           />
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.twitter')}
             register={register('twitter', {
               pattern: {
@@ -64,7 +76,7 @@ export default function ProjectRegisterMoreInfo({
             placeholder={t('v2.createProject.placeholder.twitter')}
             error={errors.twitter?.message}
           />
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.instagram')}
             register={register('instagram', {
               pattern: {
@@ -77,14 +89,14 @@ export default function ProjectRegisterMoreInfo({
             placeholder={t('v2.createProject.placeholder.instagram')}
             error={errors.instagram?.message}
           />
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.linkedin')}
             register={register('linkedin')}
             type='text'
             placeholder={t('v2.createProject.placeholder.linkedin')}
             error={errors.linkedin?.message}
           />
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.discordLink')}
             register={register('discord', {
               pattern: {
@@ -96,7 +108,7 @@ export default function ProjectRegisterMoreInfo({
             placeholder={t('v2.createProject.placeholder.discordLink')}
             error={errors.discord?.message}
           />
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.telegram')}
             register={register('telegram', {
               pattern: {
