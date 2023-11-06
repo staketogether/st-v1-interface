@@ -59,25 +59,6 @@ const { InputContainer, Content, ErrorMessage } = {
       }
     }
 
-    > input,
-    select {
-      color: ${({ theme }) => theme.color.black};
-      font-size: ${({ theme }) => theme.font.size[12]};
-      line-height: 22px;
-      height: 22px;
-    }
-    > input,
-    select,
-    textarea {
-      border: none;
-      width: inherit;
-      background: transparent;
-      &:hover,
-      &:focus {
-        border: none;
-        outline: none;
-      }
-    }
     > input {
       display: flex;
       width: 100%;
@@ -92,28 +73,6 @@ const { InputContainer, Content, ErrorMessage } = {
       &::-webkit-input-placeholder {
         color: ${({ theme }) => theme.colorV2.gray[1]};
         opacity: 0.5;
-      }
-
-      &[type='file'] {
-        display: none;
-      }
-    }
-
-    > textarea {
-      min-height: 15vh;
-      resize: vertical;
-      &:disabled {
-        cursor: not-allowed;
-      }
-
-      &::-webkit-input-placeholder {
-        color: ${({ theme }) => theme.colorV2.gray[1]};
-        opacity: 0.5;
-      }
-    }
-    > select {
-      &:disabled {
-        cursor: not-allowed;
       }
     }
   `,

@@ -1,12 +1,5 @@
 import React, { useEffect } from 'react'
-import {
-  FieldErrors,
-  UseFormClearErrors,
-  UseFormHandleSubmit,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormTrigger
-} from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Upload, notification } from 'antd'
@@ -17,7 +10,7 @@ import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCat
 import ConnectWallet from '../shared/ConnectWallet'
 
 import Button from '../shared/Button'
-import { CreateProjectForm } from '@/types/Project'
+import { ProjectCreateInfo } from '@/types/Project'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import Input from '../shared/inputs/Input'
 import Select from '../shared/inputs/Select'
@@ -25,40 +18,48 @@ import TextArea from '../shared/inputs/TextArea'
 import ImgCrop from 'antd-img-crop'
 
 type ProjectRegisterInfoProps = {
-  errors: FieldErrors<CreateProjectForm>
-  formValues: CreateProjectForm
   hasAgreeTerms: boolean
   account?: `0x${string}`
-  isSubmitted: boolean
+  current: number
   fileList: UploadFile[]
-  nextStep: () => void
-  trigger: UseFormTrigger<CreateProjectForm>
-  register: UseFormRegister<CreateProjectForm>
-  setValue: UseFormSetValue<CreateProjectForm>
+  nextStep: (data: ProjectCreateInfo) => void
   setHasAgreeTerms: (value: boolean) => void
-  handleSubmit: UseFormHandleSubmit<CreateProjectForm, undefined>
   setFileList: (value: UploadFile[]) => void
-  clearErrors: UseFormClearErrors<CreateProjectForm>
 }
 
 export default function ProjectRegisterInfo({
-  errors,
   account,
   hasAgreeTerms,
-  isSubmitted,
   fileList,
-  handleSubmit,
-  trigger,
-  register,
+  current,
   nextStep,
-  setValue,
   setHasAgreeTerms,
-  setFileList,
-  clearErrors
+  setFileList
 }: ProjectRegisterInfoProps) {
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
   const { poolTypeTranslation } = usePoolTypeTranslation()
+
+  const {
+    register,
+    formState: { errors, isSubmitted },
+    setValue,
+    reset,
+    handleSubmit,
+    setError,
+    trigger,
+    watch,
+    clearErrors
+  } = useForm<ProjectCreateInfo>()
+  const projectName = watch('projectName')
+
+  useEffect(() => {
+    if (account) {
+      reset()
+      setValue('wallet', account.toLocaleLowerCase())
+      setError('logo', { type: 'required', message: `${t('v2.createProject.formMessages.required')}` })
+    }
+  }, [account, setError, setValue, t, reset])
 
   const onPreview = async (file: UploadFile) => {
     let src = file.url as string
@@ -116,14 +117,14 @@ export default function ProjectRegisterInfo({
     }
   }
 
-  const onSubmit = () => {
+  const onSubmit: SubmitHandler<ProjectCreateInfo> = data => {
     if (hasAgreeTerms) {
-      nextStep()
+      nextStep(data)
     }
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)} className={current === 0 ? 'active' : ''}>
       <Container>
         {!account && <ConnectWallet useModal />}
         {account && (
@@ -144,13 +145,13 @@ export default function ProjectRegisterInfo({
                 </a>
               </span>
             </Terms>
-            <>
+            <Content>
               <FormContainer>
                 <LogoContainer
                   className={`${errors.logo && isSubmitted && 'error'} ${hasAgreeTerms ? '' : 'disabled'}`}
                 >
                   <span>{t('v2.createProject.form.logo')}</span>
-                  <ImgCrop rotationSlider>
+                  <ImgCrop cropShape='round' beforeCrop={beforeUpload}>
                     <Upload
                       listType='picture-circle'
                       maxCount={1}
@@ -186,12 +187,18 @@ export default function ProjectRegisterInfo({
                 <Input
                   title={t('v2.createProject.form.name') + '*'}
                   register={register('projectName', {
-                    required: `${t('v2.createProject.formMessages.required')}`,
-                    maxLength: { value: 30, message: `${t('v2.createProject.formMessages.maxLength')} ${30}` },
-                    onBlur: () => trigger('projectName')
+                    required: `${t('v2.createProject.formMessages.required')}`
                   })}
                   maxLength={30}
                   type='text'
+                  onChange={e => {
+                    console.log(e.target.value)
+                    if (/^[A-Za-z0-9 ]+$/.test(e.target.value) || e.target.value === '') {
+                      setValue('projectName', e.target.value)
+                    }
+                  }}
+                  onBlur={() => trigger('projectName')}
+                  value={projectName}
                   disabled={!hasAgreeTerms}
                   disabledLabel={!hasAgreeTerms}
                   error={errors.projectName?.message}
@@ -211,16 +218,12 @@ export default function ProjectRegisterInfo({
                   title={t('v2.createProject.form.email') + '*'}
                   disabled={!hasAgreeTerms}
                   disabledLabel={!hasAgreeTerms}
-                  name='email'
                   type='email'
                   register={register('email', {
                     required: `${t('v2.createProject.formMessages.required')}`,
-                    maxLength: {
-                      value: 64,
-                      message: `${t('v2.createProject.formMessages.maxLength')} ${64}`
-                    },
                     pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      value:
+                        /^([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}$/,
                       message: `${t('v2.createProject.formMessages.invalidEmail')}`
                     },
                     onBlur: () => trigger('email')
@@ -240,10 +243,6 @@ export default function ProjectRegisterInfo({
                   disabled={!hasAgreeTerms}
                   register={register('aboutProject', {
                     required: `${t('v2.createProject.formMessages.required')}`,
-                    maxLength: {
-                      value: 240,
-                      message: `${t('v2.createProject.formMessages.maxLength')} ${240}`
-                    },
                     onBlur: () => trigger('aboutProject')
                   })}
                   maxLength={240}
@@ -251,21 +250,34 @@ export default function ProjectRegisterInfo({
                   placeholder={t('v2.createProject.placeholder.about')}
                 />
               </FormContainer>
-              <Button
-                block
-                icon={<NextStepIcon />}
-                type='submit'
-                disabled={!hasAgreeTerms}
-                label={`${t('next')}`}
-              />
-            </>
+              <Footer>
+                <Button
+                  block
+                  icon={<NextStepIcon />}
+                  type='submit'
+                  disabled={!hasAgreeTerms}
+                  label={`${t('next')}`}
+                />
+              </Footer>
+            </Content>
           </>
         )}
       </Container>
     </Form>
   )
 }
-const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextStepIcon, ErrorMessage } = {
+const {
+  Container,
+  Content,
+  Terms,
+  UploadIcon,
+  Form,
+  Footer,
+  FormContainer,
+  LogoContainer,
+  NextStepIcon,
+  ErrorMessage
+} = {
   Container: styled.div`
     display: grid;
     flex-direction: column;
@@ -274,14 +286,25 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
       color: ${({ theme }) => theme.colorV2.gray[1]};
     }
   `,
-  Form: styled.form``,
+  Content: styled.div`
+    padding: 0px 2px;
+  `,
+  Footer: styled.footer`
+    padding: 0px 24px;
+  `,
+  Form: styled.form`
+    display: none;
+    &.active {
+      display: block;
+    }
+  `,
 
   Terms: styled.div`
     width: 100%;
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
-    padding: ${({ theme }) => theme.size[8]} 0;
+    padding: ${({ theme }) => theme.size[8]} 24px;
     margin-bottom: 24px;
 
     span {
@@ -307,6 +330,7 @@ const { Container, Terms, UploadIcon, Form, FormContainer, LogoContainer, NextSt
     overflow: auto;
     margin-bottom: 6px;
     padding-right: 12px;
+    padding: 0px 22px;
   `,
   LogoContainer: styled.div`
     display: flex;

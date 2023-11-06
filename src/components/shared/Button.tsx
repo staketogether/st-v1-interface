@@ -19,6 +19,7 @@ export default function Button({
   label,
   disabled,
   icon,
+  type = 'button',
   isLoading = false,
   small = false,
   block = false,
@@ -30,6 +31,7 @@ export default function Button({
     <Container
       onClick={onClick}
       disabled={disabled}
+      type={type}
       className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} `}
     >
       {icon}

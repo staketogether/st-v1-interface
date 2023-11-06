@@ -3,16 +3,16 @@ import Modal from '../shared/Modal'
 import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import styled from 'styled-components'
 import { notification } from 'antd'
+import { ProjectCreateInfo, ProjectLinksToAnalyze } from '@/types/Project'
 import type { UploadFile } from 'antd/es/upload/interface'
 import ProjectRegisterInfo from './ProjectRegisterInfo'
-import { useForm } from 'react-hook-form'
+
 import ProjectRegisterMoreInfo from './ProjectRegisterMoreInfo'
 import { useSignMessage } from 'wagmi'
 import axios from 'axios'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { contentfulClient } from '@/config/apollo'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
-import { CreateProjectForm } from '@/types/Project'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
 
 type CommunityCreateModalProps = {
@@ -22,26 +22,16 @@ type CommunityCreateModalProps = {
 
 export default function ProjectCreateModal({ account, poolDetail }: CommunityCreateModalProps) {
   const [current, setCurrent] = useState(0)
+  const [projectInfo, setProjectInfo] = useState<ProjectCreateInfo | null>(null)
+  const [createCommunityForm, setCreateCommunityForm] = useState<ProjectCreateInfo | null>(null)
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
 
   const { t } = useLocaleTranslation()
 
-  const {
-    register,
-    formState: { errors, isSubmitted },
-    getValues,
-    setValue,
-    reset,
-    handleSubmit,
-    setError,
-    trigger,
-    clearErrors
-  } = useForm<CreateProjectForm>()
-  const formValues = getValues()
-
-  const nextStep = () => {
+  const nextStep = (data: ProjectCreateInfo) => {
     setCurrent(current + 1)
+    setProjectInfo(data)
   }
 
   const previewStep = () => {
@@ -57,7 +47,6 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   } = useSignMessage({
     message: message,
     onSuccess: async data => {
-      const createCommunityForm = getValues()
       const signatureMessage = { signature: data, message: message }
 
       await axios.post('/api/project/create', {
@@ -82,38 +71,32 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
     }
   })
 
-  const onSubmit = async () => {
+  const registerLinksToAnalyze = async (data: ProjectLinksToAnalyze) => {
+    setCreateCommunityForm({
+      ...projectInfo,
+      ...data
+    })
     await signMessage()
   }
 
   useEffect(() => {
     if (account) {
-      reset()
       resetSignMessage()
       setCurrent(0)
       setHasAgreeTerms(false)
       setFileList([])
-      setValue('wallet', account.toLocaleLowerCase())
-      setError('logo', { type: 'required', message: `${t('v2.createProject.formMessages.required')}` })
     }
-  }, [account, setError, setValue, t, reset, resetSignMessage])
+  }, [account, t, resetSignMessage])
 
   const steps = [
     {
       content: (
         <ProjectRegisterInfo
-          setValue={setValue}
-          register={register}
-          clearErrors={clearErrors}
-          handleSubmit={handleSubmit}
-          errors={errors}
-          isSubmitted={isSubmitted}
           nextStep={nextStep}
           account={account}
-          formValues={formValues}
+          current={current}
           hasAgreeTerms={hasAgreeTerms}
           fileList={fileList}
-          trigger={trigger}
           setHasAgreeTerms={setHasAgreeTerms}
           setFileList={setFileList}
         />
@@ -122,15 +105,11 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
     {
       content: (
         <ProjectRegisterMoreInfo
-          register={register}
-          errors={errors}
-          handleSubmit={handleSubmit}
-          trigger={trigger}
+          registerLinksToAnalyze={registerLinksToAnalyze}
           isLoading={isLoading}
           isSuccess={isSuccess}
           previewStep={previewStep}
-          formValues={formValues}
-          onSubmit={onSubmit}
+          current={current}
         />
       )
     }
@@ -152,9 +131,11 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
       isOpen={isOpenProjectCreateModal}
       showCloseIcon={isLoading || isSuccess ? false : true}
       width={'auto'}
+      noPadding
     >
       <Container>
-        <div>{steps[current].content}</div>
+        <div>{steps[0].content}</div>
+        <div>{steps[1].content}</div>
       </Container>
     </Modal>
   )

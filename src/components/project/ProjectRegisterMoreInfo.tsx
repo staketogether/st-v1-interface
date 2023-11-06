@@ -1,6 +1,6 @@
-import { CreateProjectForm } from '@/types/Project'
+import { ProjectLinksToAnalyze } from '@/types/Project'
 import React from 'react'
-import { FieldErrors, UseFormHandleSubmit, UseFormRegister, UseFormTrigger } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { PiArrowLeft, PiPencilSimpleLine } from 'react-icons/pi'
@@ -10,32 +10,37 @@ import ProjectCreateSuccess from './ProjectCreateSuccess'
 import Input from '../shared/inputs/Input'
 
 type ProjectRegisterInfoProps = {
-  formValues: CreateProjectForm
   isLoading: boolean
   isSuccess: boolean
-  errors: FieldErrors<CreateProjectForm>
-  register: UseFormRegister<CreateProjectForm>
-  trigger: UseFormTrigger<CreateProjectForm>
-  handleSubmit: UseFormHandleSubmit<CreateProjectForm, undefined>
+  current: number
+  registerLinksToAnalyze: (data: ProjectLinksToAnalyze) => void
   previewStep: () => void
-  onSubmit: () => void
 }
 
 export default function ProjectRegisterMoreInfo({
-  register,
   isSuccess,
   isLoading,
-  errors,
-  trigger,
+  current,
   previewStep,
-  formValues,
-  handleSubmit,
-  onSubmit
+  registerLinksToAnalyze
 }: ProjectRegisterInfoProps) {
   const { t } = useLocaleTranslation()
 
+  const {
+    register,
+    formState: { errors },
+    getValues,
+    handleSubmit,
+    trigger
+  } = useForm<ProjectLinksToAnalyze>()
+  const formValues = getValues()
+
+  const onSubmit: SubmitHandler<ProjectLinksToAnalyze> = data => {
+    registerLinksToAnalyze(data)
+  }
+
   return (
-    <Container onSubmit={handleSubmit(onSubmit)}>
+    <Container onSubmit={handleSubmit(onSubmit)} className={current === 1 ? 'active' : ''}>
       {!isLoading && isSuccess && <ProjectCreateSuccess formValues={formValues} />}
       {isLoading && !isSuccess && <ProjectCreateLoading />}
       {!isLoading && !isSuccess && (
@@ -44,22 +49,13 @@ export default function ProjectRegisterMoreInfo({
             title={t('v2.createProject.form.site')}
             register={register('site', {
               pattern: {
-                value: new RegExp(
-                  `${/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi}`
-                ),
+                value: /[(https)://(www.)?a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_.~#?&=]*)/gi,
                 message: `${t('v2.createProject.formMessages.site')}`
               },
-              maxLength: { value: 120, message: `${t('v2.createProject.formMessages.maxLength')} ${120}` },
               onBlur: () => trigger('site')
             })}
             maxLength={120}
             type='text'
-            onKeyDown={e => {
-              // const validCharsRegex = /[A-Z0-9@._-]/i
-              // if (!validCharsRegex.test(e.key) && e.key !== 'Backspace') {
-              //   e.preventDefault()
-              // }
-            }}
             placeholder={t('v2.createProject.placeholder.site')}
             error={errors.site?.message}
           />
@@ -70,9 +66,11 @@ export default function ProjectRegisterMoreInfo({
                 value: /^[a-zA-Z_][a-zA-Z0-9_]{0,14}$/,
                 message: `${t('v2.createProject.formMessages.twitter')}`
               },
-              maxLength: { value: 15, message: `${t('v2.createProject.formMessages.maxLength')} ${15}` }
+              maxLength: { value: 15, message: `${t('v2.createProject.formMessages.maxLength')} ${15}` },
+              onBlur: () => trigger('twitter')
             })}
             type='text'
+            maxLength={15}
             placeholder={t('v2.createProject.placeholder.twitter')}
             error={errors.twitter?.message}
           />
@@ -83,9 +81,10 @@ export default function ProjectRegisterMoreInfo({
                 value: /^[a-zA-Z0-9._]{1,30}$/,
                 message: `${t('v2.createProject.formMessages.instagram')}`
               },
-              maxLength: { value: 30, message: `${t('v2.createProject.formMessages.maxLength')} ${30}` }
+              onBlur: () => trigger('instagram')
             })}
             type='text'
+            maxLength={30}
             placeholder={t('v2.createProject.placeholder.instagram')}
             error={errors.instagram?.message}
           />
@@ -93,6 +92,7 @@ export default function ProjectRegisterMoreInfo({
             title={t('v2.createProject.form.linkedin')}
             register={register('linkedin')}
             type='text'
+            maxLength={35}
             placeholder={t('v2.createProject.placeholder.linkedin')}
             error={errors.linkedin?.message}
           />
@@ -102,9 +102,11 @@ export default function ProjectRegisterMoreInfo({
               pattern: {
                 value: /^https:\/\/discord\.com\/invite\/[a-zA-Z0-9\-_]+$/,
                 message: `${t('v2.createProject.formMessages.discord')}`
-              }
+              },
+              onBlur: () => trigger('discord')
             })}
             type='text'
+            max={32}
             placeholder={t('v2.createProject.placeholder.discordLink')}
             error={errors.discord?.message}
           />
@@ -114,9 +116,11 @@ export default function ProjectRegisterMoreInfo({
               pattern: {
                 value: /^https:\/\/(t\.me|telegram\.me)\/[a-zA-Z0-9_]+$/,
                 message: `${t('v2.createProject.formMessages.telegram')}`
-              }
+              },
+              onBlur: () => trigger('telegram')
             })}
             type='text'
+            maxLength={50}
             placeholder={t('v2.createProject.placeholder.telegram')}
             error={errors.telegram?.message}
           />
@@ -130,7 +134,14 @@ export default function ProjectRegisterMoreInfo({
             type='submit'
             label={t('v2.createProject.form.register')}
           />
-          <Button onClick={previewStep} ghost label={t('goToBack')} icon={<PreviewStepIcon />} block />
+          <Button
+            type='button'
+            onClick={previewStep}
+            ghost
+            label={t('goToBack')}
+            icon={<PreviewStepIcon />}
+            block
+          />
         </FooterContainer>
       )}
     </Container>
@@ -138,11 +149,14 @@ export default function ProjectRegisterMoreInfo({
 }
 const { Container, FormContainer, PreviewStepIcon, FooterContainer, CreateProjectIcon } = {
   Container: styled.form`
-    display: grid;
-    flex-direction: column;
-    span {
-      font-size: ${({ theme }) => theme.font.size[14]};
-      color: ${({ theme }) => theme.colorV2.gray[1]};
+    display: none;
+    &.active {
+      display: grid;
+      flex-direction: column;
+      span {
+        font-size: ${({ theme }) => theme.font.size[14]};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+      }
     }
   `,
   FormContainer: styled.div`

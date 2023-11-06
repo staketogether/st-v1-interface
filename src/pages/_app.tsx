@@ -41,7 +41,8 @@ const App = ({ Component, pageProps }: AppProps) => {
               <ConfigProvider
                 theme={{
                   token: {
-                    colorPrimary: lightTheme.colorV2.blue[1]
+                    colorPrimary: lightTheme.colorV2.blue[1],
+                    borderRadius: 8
                   }
                 }}
               >
