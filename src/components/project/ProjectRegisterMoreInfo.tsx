@@ -1,15 +1,15 @@
-import { ProjectCreateInfo, ProjectLinksToAnalyze } from '@/types/Project'
-import React, { useEffect } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import styled from 'styled-components'
+import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProjectCreateInfo, ProjectLinksToAnalyze } from '@/types/Project'
+import { useEffect } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { PiArrowLeft, PiPencilSimpleLine } from 'react-icons/pi'
+import styled from 'styled-components'
+import { useNetwork, useSwitchNetwork } from 'wagmi'
 import Button from '../shared/Button'
+import Input from '../shared/inputs/Input'
 import ProjectCreateLoading from './ProjectCreateLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
-import Input from '../shared/inputs/Input'
-import chainConfig from '@/config/chain'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
 
 type ProjectRegisterMoreInfoProps = {
   isLoading: boolean
@@ -90,6 +90,12 @@ export default function ProjectRegisterMoreInfo({
               },
               onBlur: () => trigger('site')
             })}
+            onKeyDown={e => {
+              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]/
+              if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+                e.preventDefault()
+              }
+            }}
             maxLength={120}
             type='text'
             placeholder={t('v2.createProject.placeholder.site')}
