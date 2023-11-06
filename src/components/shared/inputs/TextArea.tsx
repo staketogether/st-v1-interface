@@ -56,6 +56,7 @@ const { InputContainer, Content, ErrorMessage } = {
     padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
     box-shadow: ${({ theme }) => theme.shadow[200]};
     background: ${({ theme }) => theme.colorV2.gray[2]};
+    border: 1px solid transparent;
 
     &.disabled {
       cursor: not-allowed;
