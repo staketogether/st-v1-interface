@@ -126,7 +126,11 @@ export default function ProjectRegisterInfo({
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className={current === 0 ? 'active' : ''}>
       <Container>
-        {!account && <ConnectWallet useModal />}
+        {!account && (
+          <ContainerLogin>
+            <ConnectWallet useModal />
+          </ContainerLogin>
+        )}
         {account && (
           <>
             <Terms>
@@ -269,6 +273,7 @@ export default function ProjectRegisterInfo({
 const {
   Container,
   Content,
+  ContainerLogin,
   Terms,
   UploadIcon,
   Form,
@@ -286,6 +291,9 @@ const {
       font-size: ${({ theme }) => theme.font.size[13]};
       color: ${({ theme }) => theme.colorV2.gray[1]};
     }
+  `,
+  ContainerLogin: styled.div`
+    padding: 24px;
   `,
   Content: styled.div`
     padding: 0px 2px;

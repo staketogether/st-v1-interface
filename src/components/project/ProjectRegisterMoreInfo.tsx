@@ -1,5 +1,5 @@
 import { ProjectCreateInfo, ProjectLinksToAnalyze } from '@/types/Project'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -13,6 +13,7 @@ type ProjectRegisterMoreInfoProps = {
   isLoading: boolean
   isSuccess: boolean
   current: number
+  account?: `0x${string}`
   projectInfo: ProjectCreateInfo | null
   registerLinksToAnalyze: (data: ProjectLinksToAnalyze) => void
   previewStep: () => void
@@ -22,6 +23,7 @@ export default function ProjectRegisterMoreInfo({
   isSuccess,
   isLoading,
   projectInfo,
+  account,
   current,
   previewStep,
   registerLinksToAnalyze
@@ -33,9 +35,14 @@ export default function ProjectRegisterMoreInfo({
     formState: { errors },
     getValues,
     handleSubmit,
-    trigger
+    trigger,
+    reset
   } = useForm<ProjectLinksToAnalyze>()
   const formValues = getValues()
+
+  useEffect(() => {
+    reset()
+  }, [account, t, reset])
 
   const onSubmit: SubmitHandler<ProjectLinksToAnalyze> = data => {
     registerLinksToAnalyze(data)

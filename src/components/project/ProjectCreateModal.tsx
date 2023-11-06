@@ -80,12 +80,10 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   }
 
   useEffect(() => {
-    if (account) {
-      resetSignMessage()
-      setCurrent(0)
-      setHasAgreeTerms(false)
-      setFileList([])
-    }
+    resetSignMessage()
+    setCurrent(0)
+    setHasAgreeTerms(false)
+    setFileList([])
   }, [account, t, resetSignMessage])
 
   const steps = [
