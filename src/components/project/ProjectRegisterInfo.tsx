@@ -181,10 +181,11 @@ export default function ProjectRegisterInfo({
                   </ErrorMessage>
                 </LogoContainer>
                 <Input
-                  title={t('v2.createProject.form.wallet') + '*'}
+                  title={t('v2.createProject.form.wallet')}
                   register={register('wallet', { required: `${t('v2.createProject.formMessages.required')}` })}
                   type='text'
                   disabled
+                  tooltip={t('v2.createProject.walletTooltip')}
                   disabledLabel={!hasAgreeTerms}
                   error={errors.wallet?.message}
                 />

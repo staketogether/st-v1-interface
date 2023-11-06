@@ -1,5 +1,7 @@
+import { Tooltip } from 'antd'
 import { InputHTMLAttributes } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
+import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -8,12 +10,29 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   register: UseFormRegisterReturn<string>
   disabled?: boolean
   disabledLabel?: boolean
+  tooltip?: string
 }
 
-export default function Input({ title, register, error, disabled, disabledLabel, ...props }: InputProps) {
+export default function Input({
+  title,
+  register,
+  error,
+  disabled,
+  tooltip,
+  disabledLabel,
+  ...props
+}: InputProps) {
   return (
     <Content className={` ${disabledLabel ? 'disabled' : ''}`}>
-      {title && <span>{title}</span>}
+      {title && !tooltip && <span>{title}</span>}
+      {title && tooltip && (
+        <span>
+          {title}
+          <Tooltip title={tooltip}>
+            <QuestionIcon />
+          </Tooltip>
+        </span>
+      )}
       <InputContainer className={`${disabled ? 'disabled' : ''} ${error ? 'error' : ''}`}>
         <input type='text' {...register} disabled={disabled} {...props} />
       </InputContainer>
@@ -22,7 +41,7 @@ export default function Input({ title, register, error, disabled, disabledLabel,
   )
 }
 
-const { InputContainer, Content, ErrorMessage } = {
+const { InputContainer, Content, ErrorMessage, QuestionIcon } = {
   Content: styled.div`
     display: flex;
     flex-direction: column;
@@ -32,6 +51,11 @@ const { InputContainer, Content, ErrorMessage } = {
       > span {
         opacity: 0.5;
       }
+    }
+    > span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
   `,
   InputContainer: styled.div`
@@ -79,5 +103,18 @@ const { InputContainer, Content, ErrorMessage } = {
   ErrorMessage: styled.span`
     color: ${({ theme }) => theme.color.red[300]} !important;
     height: 14px;
+  `,
+  QuestionIcon: styled(PiQuestion)`
+    font-size: ${({ theme }) => theme.font.size[16]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    margin-left: 2px;
+    display: flex;
+    align-items: center;
+
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    cursor: pointer;
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
   `
 }

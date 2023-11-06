@@ -340,6 +340,7 @@
       "send": "Send",
       "sent": "Sent",
       "seeMyProject": "See my project",
+      "walletTooltip": "The project registration will be linked to the connected wallet",
       "form": {
         "logo": "Project Logo",
         "wallet": "Wallet",
