@@ -27,7 +27,6 @@ export default function LayoutHeader() {
     locale: 'en-US'
   })
   const { screenWidth, breakpoints } = useResizeView()
-  console.log('screenWidth', screenWidth > breakpoints.lg)
   return (
     <Container>
       <MenuContainer>
