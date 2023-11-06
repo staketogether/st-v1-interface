@@ -35,7 +35,7 @@ export default function ProjectCreateSuccess({ formValues }: ProjectCreateSucces
         }
       />
       <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
-      <Button
+      <SuccessButton
         onClick={() => setCommunityCreateModal(false)}
         label={`${t('close')}`}
         icon={<></>}
@@ -45,12 +45,12 @@ export default function ProjectCreateSuccess({ formValues }: ProjectCreateSucces
   )
 }
 
-const { Container, MessageContainer } = {
+const { Container, MessageContainer, SuccessButton } = {
   Container: styled.div`
     width: 100%;
     display: grid;
     place-items: center;
-    padding: 0px 8px;
+    padding: 24px;
     gap: ${({ theme }) => theme.size[24]};
 
     > header {
@@ -58,13 +58,17 @@ const { Container, MessageContainer } = {
       align-items: center;
       gap: ${({ theme }) => theme.size[8]};
       margin-bottom: -10px;
-      > span {
-        color: ${({ theme }) => theme.color.green[500]};
+      color: ${({ theme }) => theme.color.green[500]};
+      span {
+        color: ${({ theme }) => theme.color.green[500]}!important;
         text-align: center;
         font-size: ${({ theme }) => theme.font.size[18]};
         font-weight: 500;
       }
     }
+  `,
+  SuccessButton: styled(Button)`
+    padding: 0px 48px;
   `,
   MessageContainer: styled.div`
     display: flex;

@@ -12,6 +12,7 @@ interface ButtonProps {
   small?: boolean
   block?: boolean
   ghost?: boolean
+  className?: string
 }
 
 export default function Button({
@@ -20,6 +21,7 @@ export default function Button({
   disabled,
   icon,
   type = 'button',
+  className,
   isLoading = false,
   small = false,
   block = false,
@@ -32,7 +34,7 @@ export default function Button({
       onClick={onClick}
       disabled={disabled}
       type={type}
-      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} `}
+      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${className}`}
     >
       {icon}
       {isLoading ? t('processing') : label}

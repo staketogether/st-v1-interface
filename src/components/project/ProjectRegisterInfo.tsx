@@ -281,6 +281,7 @@ const {
   Container: styled.div`
     display: grid;
     flex-direction: column;
+
     span {
       font-size: ${({ theme }) => theme.font.size[13]};
       color: ${({ theme }) => theme.colorV2.gray[1]};
@@ -290,7 +291,7 @@ const {
     padding: 0px 2px;
   `,
   Footer: styled.footer`
-    padding: 0px 24px;
+    padding: 0px 29px 0px 22px;
   `,
   Form: styled.form`
     display: none;

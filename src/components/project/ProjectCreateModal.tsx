@@ -107,6 +107,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
         <ProjectRegisterMoreInfo
           registerLinksToAnalyze={registerLinksToAnalyze}
           isLoading={isLoading}
+          projectInfo={projectInfo}
           isSuccess={isSuccess}
           previewStep={previewStep}
           current={current}

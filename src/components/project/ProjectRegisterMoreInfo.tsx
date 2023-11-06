@@ -1,4 +1,4 @@
-import { ProjectLinksToAnalyze } from '@/types/Project'
+import { ProjectCreateInfo, ProjectLinksToAnalyze } from '@/types/Project'
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import styled from 'styled-components'
@@ -9,10 +9,11 @@ import ProjectCreateLoading from './ProjectCreateLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
 import Input from '../shared/inputs/Input'
 
-type ProjectRegisterInfoProps = {
+type ProjectRegisterMoreInfoProps = {
   isLoading: boolean
   isSuccess: boolean
   current: number
+  projectInfo: ProjectCreateInfo | null
   registerLinksToAnalyze: (data: ProjectLinksToAnalyze) => void
   previewStep: () => void
 }
@@ -20,10 +21,11 @@ type ProjectRegisterInfoProps = {
 export default function ProjectRegisterMoreInfo({
   isSuccess,
   isLoading,
+  projectInfo,
   current,
   previewStep,
   registerLinksToAnalyze
-}: ProjectRegisterInfoProps) {
+}: ProjectRegisterMoreInfoProps) {
   const { t } = useLocaleTranslation()
 
   const {
@@ -41,7 +43,14 @@ export default function ProjectRegisterMoreInfo({
 
   return (
     <Container onSubmit={handleSubmit(onSubmit)} className={current === 1 ? 'active' : ''}>
-      {!isLoading && isSuccess && <ProjectCreateSuccess formValues={formValues} />}
+      {!isLoading && isSuccess && (
+        <ProjectCreateSuccess
+          formValues={{
+            ...formValues,
+            logo: { mimeType: projectInfo?.logo?.mimeType, base64: projectInfo?.logo?.base64 || '' }
+          }}
+        />
+      )}
       {isLoading && !isSuccess && <ProjectCreateLoading />}
       {!isLoading && !isSuccess && (
         <FormContainer>
@@ -150,6 +159,7 @@ export default function ProjectRegisterMoreInfo({
 const { Container, FormContainer, PreviewStepIcon, FooterContainer, CreateProjectIcon } = {
   Container: styled.form`
     display: none;
+    padding: 0px 2px;
     &.active {
       display: grid;
       flex-direction: column;
@@ -167,6 +177,7 @@ const { Container, FormContainer, PreviewStepIcon, FooterContainer, CreateProjec
     max-height: 450px;
     overflow: auto;
     padding-right: 12px;
+    padding: 0px 22px;
   `,
   FooterContainer: styled.div`
     width: 100%;
@@ -174,6 +185,7 @@ const { Container, FormContainer, PreviewStepIcon, FooterContainer, CreateProjec
     align-items: center;
     flex-direction: column;
     gap: 10px;
+    padding: 0px 29px 0px 22px;
   `,
   PreviewStepIcon: styled(PiArrowLeft)`
     font-size: 18px;

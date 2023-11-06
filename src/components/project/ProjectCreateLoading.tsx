@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from '../shared/LottieAnimation'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import Button from '../shared/Button'
 
 export default function ProjectCreateLoading() {
   const { t } = useLocaleTranslation()
@@ -11,7 +12,7 @@ export default function ProjectCreateLoading() {
       <div>
         <LottieAnimation animationData={loadingAnimation} height={60} loop />
         <h2>{t('v2.createProject.form.loadingMessage')}</h2>
-        <h2>{t('v2.stake.confirmModal.proceedInYourWallet')}</h2>
+        <Button icon={<></>} type='submit' label={`${t('v2.stake.confirmModal.proceedInYourWallet')}`} />
       </div>
     </Container>
   )
@@ -22,7 +23,7 @@ const { Container } = {
     width: 100%;
     display: grid;
     place-items: center;
-    padding: 24px 0;
+    padding: 48px 0;
 
     > div {
       h2 {
