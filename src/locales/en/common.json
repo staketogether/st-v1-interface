@@ -408,7 +408,7 @@
       },
       "successMessages": {  
         "title": "Project created successfully",
-        "description": "The project is under review, please await our team's response via email"
+        "description": "The project is under review, please await our team's response"
       }
     },
     "editProject": {
