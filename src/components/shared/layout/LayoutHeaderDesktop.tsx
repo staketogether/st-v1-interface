@@ -12,12 +12,13 @@ import ProjectCreateModal from '@/components/project/ProjectCreateModal'
 import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import ProjectButton from '@/components/project/ProjectButton'
+import useResizeView from '@/hooks/useResizeView'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   const { account, accountIsConnected } = useConnectedAccount()
-  const { setOpenProjectCreateModal: setCommunityCreateModal } = useProjectCreateModal()
+  const { setOpenProjectCreateModal } = useProjectCreateModal()
   const { query } = useRouter()
   const { currency, network } = query
   const { poolDetail: poolDetailUs } = useContentfulPoolDetails({
@@ -25,7 +26,8 @@ export default function LayoutHeader() {
     fetchPolicy: 'network-only',
     locale: 'en-US'
   })
-
+  const { screenWidth, breakpoints } = useResizeView()
+  console.log('screenWidth', screenWidth > breakpoints.lg)
   return (
     <Container>
       <MenuContainer>
@@ -58,14 +60,14 @@ export default function LayoutHeader() {
       </MenuContainer>
       <WalletContainer>
         {!poolDetailUs && (
-          <MenuButton onClick={() => setCommunityCreateModal(true)}>
+          <MenuButton onClick={() => setOpenProjectCreateModal(true)}>
             <CreateProjectIcon /> {t('v2.createProject.title')}
           </MenuButton>
         )}
         {poolDetailUs && <ProjectButton poolDetail={poolDetailUs} account={account} />}
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
-      <ProjectCreateModal account={account} poolDetail={poolDetailUs} />
+      {screenWidth > breakpoints.lg && <ProjectCreateModal account={account} poolDetail={poolDetailUs} />}
     </Container>
   )
 }

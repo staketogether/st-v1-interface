@@ -207,7 +207,7 @@ const { Container, FormContainer, PreviewStepIcon, FooterContainer, CreateProjec
     align-items: center;
     flex-direction: column;
     gap: 10px;
-    padding: 0px 29px 0px 22px;
+    padding: 0px 29px 12px 22px;
   `,
   PreviewStepIcon: styled(PiArrowLeft)`
     font-size: 18px;

@@ -43,6 +43,12 @@ const App = ({ Component, pageProps }: AppProps) => {
                   token: {
                     colorPrimary: lightTheme.colorV2.blue[1],
                     borderRadius: 8
+                  },
+                  components: {
+                    Modal: {
+                      zIndexBase: 10005,
+                      zIndexPopupBase: 10005
+                    }
                   }
                 }}
               >

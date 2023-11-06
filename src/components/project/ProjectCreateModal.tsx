@@ -145,6 +145,9 @@ const { Container } = {
     display: grid;
     grid-template-columns: 1fr;
     gap: 12px;
-    width: 420px;
+    width: 100%;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      width: 420px;
+    }
   `
 }

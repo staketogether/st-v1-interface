@@ -299,7 +299,7 @@ const {
     padding: 0px 2px;
   `,
   Footer: styled.footer`
-    padding: 0px 29px 0px 22px;
+    padding: 0px 29px 12px 22px;
   `,
   Form: styled.form`
     display: none;

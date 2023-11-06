@@ -53,7 +53,7 @@ const { ModalWrapper, Overlay, CloseButton } = {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 9999;
+    z-index: 1001;
 
     ${props =>
       Number.isInteger(props.width)
@@ -88,8 +88,8 @@ const { ModalWrapper, Overlay, CloseButton } = {
     }
 
     @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-      width: 340px;
-      max-width: 90%;
+      width: 100%;
+      max-width: 95%;
     }
   `,
   Overlay: styled.div`
@@ -103,7 +103,7 @@ const { ModalWrapper, Overlay, CloseButton } = {
     display: flex;
     justify-content: center;
     align-items: start;
-    z-index: 9998;
+    z-index: 1001;
   `,
   CloseButton: styled.button`
     width: 32px;
