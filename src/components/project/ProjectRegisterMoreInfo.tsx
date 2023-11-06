@@ -8,6 +8,8 @@ import Button from '../shared/Button'
 import ProjectCreateLoading from './ProjectCreateLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
 import Input from '../shared/inputs/Input'
+import chainConfig from '@/config/chain'
+import { useNetwork, useSwitchNetwork } from 'wagmi'
 
 type ProjectRegisterMoreInfoProps = {
   isLoading: boolean
@@ -29,7 +31,11 @@ export default function ProjectRegisterMoreInfo({
   registerLinksToAnalyze
 }: ProjectRegisterMoreInfoProps) {
   const { t } = useLocaleTranslation()
-
+  const chain = chainConfig()
+  console.log(chain)
+  const { chainId } = chain
+  const { chain: walletChainId } = useNetwork()
+  const isWrongNetwork = chainId !== walletChainId?.id
   const {
     register,
     formState: { errors },
@@ -44,7 +50,22 @@ export default function ProjectRegisterMoreInfo({
     reset()
   }, [account, t, reset])
 
+  const handleLabelButton = () => {
+    if (isWrongNetwork) {
+      return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
+    }
+    return t('v2.createProject.form.register')
+  }
+
+  const { switchNetworkAsync } = useSwitchNetwork({
+    chainId: chainId
+  })
+
   const onSubmit: SubmitHandler<ProjectLinksToAnalyze> = data => {
+    if (isWrongNetwork && switchNetworkAsync) {
+      switchNetworkAsync()
+      return
+    }
     registerLinksToAnalyze(data)
   }
 
@@ -144,12 +165,7 @@ export default function ProjectRegisterMoreInfo({
       )}
       {!isSuccess && !isLoading && (
         <FooterContainer>
-          <Button
-            block
-            icon={<CreateProjectIcon />}
-            type='submit'
-            label={t('v2.createProject.form.register')}
-          />
+          <Button block icon={<CreateProjectIcon />} label={handleLabelButton()} type='submit' />
           <Button
             type='button'
             onClick={previewStep}

@@ -12,8 +12,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const client = await CreateContentfulClient()
-  const entry = await client.getEntry(contentfulId)
-  console.log('entry', entry)
 
   res.send(`community created success`)
   return

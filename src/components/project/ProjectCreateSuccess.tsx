@@ -23,7 +23,6 @@ export default function ProjectCreateSuccess({ formValues }: ProjectCreateSucces
         <LottieAnimation animationData={successAnimation} height={52} width={52} />
         <span>{`${t('v2.createProject.successMessages.title')}`}</span>
       </header>
-
       <ProjectRegisteredCard
         projectLogo={`data:${formValues.logo?.mimeType};base64,${formValues.logo?.base64}`}
         projectName={formValues.projectName}

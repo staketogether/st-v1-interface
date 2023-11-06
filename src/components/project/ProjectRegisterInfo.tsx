@@ -196,7 +196,6 @@ export default function ProjectRegisterInfo({
                   maxLength={30}
                   type='text'
                   onChange={e => {
-                    console.log(e.target.value)
                     if (/^[A-Za-z0-9 ]+$/.test(e.target.value) || e.target.value === '') {
                       setValue('projectName', e.target.value)
                     }
