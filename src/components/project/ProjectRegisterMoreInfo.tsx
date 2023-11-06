@@ -32,7 +32,6 @@ export default function ProjectRegisterMoreInfo({
 }: ProjectRegisterMoreInfoProps) {
   const { t } = useLocaleTranslation()
   const chain = chainConfig()
-  console.log(chain)
   const { chainId } = chain
   const { chain: walletChainId } = useNetwork()
   const isWrongNetwork = chainId !== walletChainId?.id
