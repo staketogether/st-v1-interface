@@ -98,7 +98,7 @@ const { ModalWrapper, Overlay, CloseButton } = {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, rgba(143, 152, 214, 0.4) 0%, rgba(143, 152, 214, 0.8) 10%);
+    background: rgba(0, 0, 0, 0.55);
     transition: background-color 0.2s ease;
     display: flex;
     justify-content: center;

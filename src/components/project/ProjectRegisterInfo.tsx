@@ -353,6 +353,10 @@ const {
     padding: 24px 0 12px;
     margin-bottom: 12px;
 
+    a {
+      display: none;
+    }
+
     > span {
       > div {
         > div {

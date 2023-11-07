@@ -91,7 +91,7 @@ export default function ProjectRegisterMoreInfo({
               onBlur: () => trigger('site')
             })}
             onKeyDown={e => {
-              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=]/
+              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+;=]/
               if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
                 e.preventDefault()
               }
@@ -112,6 +112,12 @@ export default function ProjectRegisterMoreInfo({
               onBlur: () => trigger('twitter')
             })}
             type='text'
+            onKeyDown={e => {
+              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+=]/
+              if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+                e.preventDefault()
+              }
+            }}
             maxLength={15}
             placeholder={t('v2.createProject.placeholder.twitter')}
             error={errors.twitter?.message}
@@ -127,6 +133,12 @@ export default function ProjectRegisterMoreInfo({
             })}
             type='text'
             maxLength={30}
+            onKeyDown={e => {
+              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+=]/
+              if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+                e.preventDefault()
+              }
+            }}
             placeholder={t('v2.createProject.placeholder.instagram')}
             error={errors.instagram?.message}
           />
@@ -147,6 +159,12 @@ export default function ProjectRegisterMoreInfo({
               },
               onBlur: () => trigger('discord')
             })}
+            onKeyDown={e => {
+              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$,&'()*+,;=]/
+              if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+                e.preventDefault()
+              }
+            }}
             type='text'
             max={32}
             placeholder={t('v2.createProject.placeholder.discordLink')}
@@ -162,6 +180,12 @@ export default function ProjectRegisterMoreInfo({
               onBlur: () => trigger('telegram')
             })}
             type='text'
+            onKeyDown={e => {
+              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$,&'()*+,;=]/
+              if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+                e.preventDefault()
+              }
+            }}
             maxLength={50}
             placeholder={t('v2.createProject.placeholder.telegram')}
             error={errors.telegram?.message}
