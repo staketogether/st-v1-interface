@@ -10,6 +10,7 @@ import Button from '../shared/Button'
 import Input from '../shared/inputs/Input'
 import ProjectCreateLoading from './ProjectCreateLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
+import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 
 type ProjectRegisterMoreInfoProps = {
   isLoading: boolean
@@ -86,13 +87,13 @@ export default function ProjectRegisterMoreInfo({
             title={t('v2.createProject.form.site')}
             register={register('site', {
               pattern: {
-                value: /[(https)://(www.)?a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_.~#?&=]*)/gi,
+                value: projectRegexFields.site,
                 message: `${t('v2.createProject.formMessages.site')}`
               },
               onBlur: () => trigger('site')
             })}
             onKeyDown={e => {
-              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+;=]/
+              const validUrlCharsRegex = projectRegexOnKeyDown.url
               if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
                 e.preventDefault()
               }
@@ -106,14 +107,14 @@ export default function ProjectRegisterMoreInfo({
             title={t('v2.createProject.form.twitter')}
             register={register('twitter', {
               pattern: {
-                value: /^[a-zA-Z0-9_]+$/,
+                value: projectRegexFields.socialMedia,
                 message: `${t('v2.createProject.formMessages.twitter')}`
               },
               onBlur: () => trigger('twitter')
             })}
             type='text'
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              if (e.key.length === 1 && !e.key.match(/^[a-zA-Z0-9_]$/)) {
+              if (e.key.length === 1 && !e.key.match(projectRegexOnKeyDown.socialMedia)) {
                 e.preventDefault()
               }
             }}
@@ -125,7 +126,7 @@ export default function ProjectRegisterMoreInfo({
             title={t('v2.createProject.form.instagram')}
             register={register('instagram', {
               pattern: {
-                value: /^[a-zA-Z0-9_]+$/,
+                value: projectRegexFields.socialMedia,
                 message: `${t('v2.createProject.formMessages.instagram')}`
               },
               onBlur: () => trigger('instagram')
@@ -133,7 +134,7 @@ export default function ProjectRegisterMoreInfo({
             type='text'
             maxLength={30}
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              if (e.key.length === 1 && !e.key.match(/^[a-zA-Z0-9_]$/)) {
+              if (e.key.length === 1 && !e.key.match(projectRegexOnKeyDown.socialMedia)) {
                 e.preventDefault()
               }
             }}
@@ -152,13 +153,13 @@ export default function ProjectRegisterMoreInfo({
             title={t('v2.createProject.form.discordLink')}
             register={register('discord', {
               pattern: {
-                value: /^https:\/\/discord\.com\/invite\/[a-zA-Z0-9\-_]+$/,
+                value: projectRegexFields.discordInvite,
                 message: `${t('v2.createProject.formMessages.discord')}`
               },
               onBlur: () => trigger('discord')
             })}
             onKeyDown={e => {
-              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+;=]/
+              const validUrlCharsRegex = projectRegexOnKeyDown.url
               if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
                 e.preventDefault()
               }
@@ -172,14 +173,14 @@ export default function ProjectRegisterMoreInfo({
             title={t('v2.createProject.form.telegram')}
             register={register('telegram', {
               pattern: {
-                value: /^https:\/\/(t\.me|telegram\.me)\/[a-zA-Z0-9_]+$/,
+                value: projectRegexFields.telegramInvite,
                 message: `${t('v2.createProject.formMessages.telegram')}`
               },
               onBlur: () => trigger('telegram')
             })}
             type='text'
             onKeyDown={e => {
-              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+;=]/
+              const validUrlCharsRegex = projectRegexOnKeyDown.url
               if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
                 e.preventDefault()
               }

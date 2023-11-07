@@ -4,7 +4,7 @@ import Modal from '../../shared/Modal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import styled from 'styled-components'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
-import { ProjectContentfulForm } from '@/types/Project'
+import { EditProjectForm } from '@/types/Project'
 import { useForm } from 'react-hook-form'
 import ProjectEditForm from './ProjectEditForm'
 import { useNetwork, useSignMessage, useSwitchNetwork } from 'wagmi'
@@ -43,7 +43,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     trigger,
     reset,
     clearErrors
-  } = useForm<ProjectContentfulForm>({
+  } = useForm<EditProjectForm>({
     defaultValues: {
       ...poolDetailUs,
       logo: { base64: undefined, mimeType: undefined },
@@ -135,8 +135,10 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
         <ProjectEditLinksForm
           register={register}
           errors={errors}
+          trigger={trigger}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
+          labelButton={handleLabelButton()}
         />
       )
     }

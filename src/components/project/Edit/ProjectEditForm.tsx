@@ -1,6 +1,5 @@
 import Button from '@/components/shared/Button'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProjectContentfulForm } from '@/types/Project'
 import { Switch, Upload, notification } from 'antd'
 import React, { useRef, useState } from 'react'
 import {
@@ -23,17 +22,19 @@ import ImgCrop from 'antd-img-crop'
 import Input from '@/components/shared/inputs/Input'
 import Select from '@/components/shared/inputs/Select'
 import TextArea from '@/components/shared/inputs/TextArea'
+import { EditProjectForm } from '@/types/Project'
+import { projectRegexFields, projectRegexOnKeyDown } from '@/components/shared/regex'
 
 type ProjectAboutFormProps = {
-  register: UseFormRegister<ProjectContentfulForm>
-  handleSubmit: UseFormHandleSubmit<ProjectContentfulForm, undefined>
-  setValue: UseFormSetValue<ProjectContentfulForm>
-  clearErrors: UseFormClearErrors<ProjectContentfulForm>
+  register: UseFormRegister<EditProjectForm>
+  handleSubmit: UseFormHandleSubmit<EditProjectForm, undefined>
+  setValue: UseFormSetValue<EditProjectForm>
+  clearErrors: UseFormClearErrors<EditProjectForm>
   onSubmit: () => Promise<void>
   projectName?: string
-  trigger: UseFormTrigger<ProjectContentfulForm>
+  trigger: UseFormTrigger<EditProjectForm>
   isSubmitted: boolean
-  errors: FieldErrors<ProjectContentfulForm>
+  errors: FieldErrors<EditProjectForm>
   projectVideo: string | undefined
   poolDetail: ContentfulPool
   labelButton: string
@@ -183,7 +184,7 @@ export default function ProjectEditForm({
             maxLength={30}
             type='text'
             onChange={e => {
-              if (/^[A-Za-z0-9 ]+$/.test(e.target.value) || e.target.value === '') {
+              if (projectRegexFields.name.test(e.target.value) || e.target.value === '') {
                 setValue('projectName', e.target.value)
               }
             }}
@@ -231,13 +232,12 @@ export default function ProjectEditForm({
                     title={t('v2.createProject.form.video')}
                     register={register('videoEn', {
                       pattern: {
-                        value:
-                          /^(https?:\/\/)?(www\.youtube\.com\/watch\?v=|youtu\.be\/)[\w-]+(&[\w-]+)*(&t=\d+s)?$/,
+                        value: projectRegexFields.youtubeVideo,
                         message: `${t('v2.createProject.formMessages.youtube')}'`
                       }
                     })}
                     onKeyDown={e => {
-                      const validCharsRegex = /[A-Za-z0-9\-_.~:/?#[\]@!$&'()*+,;=]/
+                      const validCharsRegex = projectRegexOnKeyDown.url
                       if (!validCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
                         e.preventDefault()
                       }
@@ -278,13 +278,12 @@ export default function ProjectEditForm({
                     title={t('v2.createProject.form.video')}
                     register={register('videoPt', {
                       pattern: {
-                        value:
-                          /^(https?:\/\/)?(www\.youtube\.com\/watch\?v=|youtu\.be\/)[\w-]+(&[\w-]+)*(&t=\d+s)?$/,
+                        value: projectRegexFields.youtubeVideo,
                         message: `${t('v2.createProject.formMessages.youtube')}`
                       }
                     })}
                     onKeyDown={e => {
-                      const validCharsRegex = /[A-Za-z0-9\-_.~:/?#[\]@!$&'()*+,;=]/
+                      const validCharsRegex = projectRegexOnKeyDown.url
                       if (!validCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
                         e.preventDefault()
                       }

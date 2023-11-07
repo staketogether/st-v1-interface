@@ -379,7 +379,7 @@
         "discordName": "Enter the Name to your Discord server",
         "discordLink": "https://discord.com/invite/YourInviteCode",
         "telegram": "https://t.me/YourInviteCode",
-        "youtube": "Enter the link to your YouTube channel",
+        "youtube": "@YourChannel",
         "facebook": "Enter the link to your Facebook page",
         "description": "Enter a description of your project", 
         "contract": "Enter the address of your project's smart contract",

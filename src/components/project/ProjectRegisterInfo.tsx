@@ -16,6 +16,7 @@ import Input from '../shared/inputs/Input'
 import Select from '../shared/inputs/Select'
 import TextArea from '../shared/inputs/TextArea'
 import ImgCrop from 'antd-img-crop'
+import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 
 type ProjectRegisterInfoProps = {
   hasAgreeTerms: boolean
@@ -197,7 +198,7 @@ export default function ProjectRegisterInfo({
                   maxLength={30}
                   type='text'
                   onChange={e => {
-                    if (/^[A-Za-z0-9 ]+$/.test(e.target.value) || e.target.value === '') {
+                    if (projectRegexFields.name.test(e.target.value) || e.target.value === '') {
                       setValue('projectName', e.target.value)
                     }
                   }}
@@ -226,15 +227,14 @@ export default function ProjectRegisterInfo({
                   register={register('email', {
                     required: `${t('v2.createProject.formMessages.required')}`,
                     pattern: {
-                      value:
-                        /^([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}$/,
+                      value: projectRegexFields.email,
                       message: `${t('v2.createProject.formMessages.invalidEmail')}`
                     },
                     onBlur: () => trigger('email')
                   })}
                   maxLength={64}
                   onKeyDown={e => {
-                    const validCharsRegex = /[A-Z0-9@._-]/i
+                    const validCharsRegex = projectRegexOnKeyDown.email
                     if (!validCharsRegex.test(e.key) && e.key !== 'Backspace') {
                       e.preventDefault()
                     }

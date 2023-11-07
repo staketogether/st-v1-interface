@@ -1,23 +1,28 @@
 import Button from '@/components/shared/Button'
-import GenericInput from '@/components/shared/GenericInput'
+import Input from '@/components/shared/inputs/Input'
+import { projectRegexFields, projectRegexOnKeyDown } from '@/components/shared/regex'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProjectContentfulForm } from '@/types/Project'
+import { EditProjectForm } from '@/types/Project'
 import React from 'react'
-import { FieldErrors, UseFormHandleSubmit, UseFormRegister } from 'react-hook-form'
+import { FieldErrors, UseFormHandleSubmit, UseFormRegister, UseFormTrigger } from 'react-hook-form'
 import { PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 
 type ProjectEditLinksFormProps = {
-  register: UseFormRegister<ProjectContentfulForm>
-  handleSubmit: UseFormHandleSubmit<ProjectContentfulForm, undefined>
+  register: UseFormRegister<EditProjectForm>
+  handleSubmit: UseFormHandleSubmit<EditProjectForm, undefined>
+  trigger: UseFormTrigger<EditProjectForm>
   onSubmit: () => Promise<void>
-  errors: FieldErrors<ProjectContentfulForm>
+  labelButton: string
+  errors: FieldErrors<EditProjectForm>
 }
 
 export default function ProjectEditLinksForm({
   register,
   handleSubmit,
   onSubmit,
+  trigger,
+  labelButton,
   errors
 }: ProjectEditLinksFormProps) {
   const { t } = useLocaleTranslation()
@@ -26,102 +31,147 @@ export default function ProjectEditLinksForm({
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Container>
         <FormContainer>
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.site')}
             register={register('site', {
               pattern: {
-                value: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?$/,
+                value: projectRegexFields.site,
                 message: `${t('v2.createProject.formMessages.site')}`
               },
-              maxLength: { value: 120, message: `${t('v2.createProject.formMessages.maxLength')} ${120}` }
+              onBlur: () => trigger('site')
             })}
+            onKeyDown={e => {
+              const validUrlCharsRegex = projectRegexOnKeyDown.url
+              if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+                e.preventDefault()
+              }
+            }}
+            maxLength={120}
             type='text'
             placeholder={t('v2.createProject.placeholder.site')}
             error={errors.site?.message}
           />
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.youtube')}
             register={register('youtube', {
               pattern: {
-                value: /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?$/,
-                message: `${t('v2.createProject.formMessages.site')}`
+                value: projectRegexFields.youtubeChanel,
+                message: `${t('v2.createProject.formMessages.youtube')}`
               },
-              maxLength: { value: 120, message: `${t('v2.createProject.formMessages.maxLength')} ${120}` }
+              onBlur: () => trigger('youtube')
             })}
-            type='text'
+            maxLength={120}
+            onKeyDown={e => {
+              const validUrlCharsRegex = projectRegexOnKeyDown.youtubeChanel
+              if (
+                !validUrlCharsRegex.test(e.key) &&
+                e.key !== 'Backspace' &&
+                e.key !== 'Enter' &&
+                e.key !== 'Tab'
+              ) {
+                e.preventDefault()
+              }
+            }}
             placeholder={t('v2.createProject.placeholder.youtube')}
             error={errors.youtube?.message}
           />
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.twitter')}
             register={register('twitter', {
               pattern: {
-                value: /^[a-zA-Z_][a-zA-Z0-9_]{0,14}$/,
+                value: projectRegexFields.socialMedia,
                 message: `${t('v2.createProject.formMessages.twitter')}`
               },
-              maxLength: { value: 15, message: `${t('v2.createProject.formMessages.maxLength')} ${15}` }
+              onBlur: () => trigger('twitter')
             })}
             type='text'
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key.length === 1 && !e.key.match(projectRegexOnKeyDown.socialMedia)) {
+                e.preventDefault()
+              }
+            }}
+            maxLength={15}
             placeholder={t('v2.createProject.placeholder.twitter')}
             error={errors.twitter?.message}
           />
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.instagram')}
             register={register('instagram', {
               pattern: {
-                value: /^[a-zA-Z0-9._]{1,30}$/,
+                value: projectRegexFields.socialMedia,
                 message: `${t('v2.createProject.formMessages.instagram')}`
               },
-              maxLength: { value: 30, message: `${t('v2.createProject.formMessages.maxLength')} ${30}` }
+              onBlur: () => trigger('instagram')
             })}
             type='text'
+            maxLength={30}
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key.length === 1 && !e.key.match(projectRegexOnKeyDown.socialMedia)) {
+                e.preventDefault()
+              }
+            }}
             placeholder={t('v2.createProject.placeholder.instagram')}
             error={errors.instagram?.message}
           />
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.linkedin')}
             register={register('linkedin')}
             type='text'
             placeholder={t('v2.createProject.placeholder.linkedin')}
             error={errors.linkedin?.message}
           />
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.discordName')}
-            register={register('discordName', {
-              maxLength: { value: 30, message: `${t('v2.createProject.formMessages.maxLength')} ${30}` }
-            })}
+            register={register('discordName')}
             type='text'
+            maxLength={100}
             placeholder={t('v2.createProject.placeholder.discordName')}
             error={errors.discordName?.message}
           />
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.discordLink')}
             register={register('discord', {
               pattern: {
-                value: /^https:\/\/discord\.com\/invite\/[a-zA-Z0-9\-_]+$/,
+                value: projectRegexFields.discordInvite,
                 message: `${t('v2.createProject.formMessages.discord')}`
-              }
+              },
+              onBlur: () => trigger('discord')
             })}
+            onKeyDown={e => {
+              const validUrlCharsRegex = projectRegexOnKeyDown.url
+              if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+                e.preventDefault()
+              }
+            }}
             type='text'
+            max={32}
             placeholder={t('v2.createProject.placeholder.discordLink')}
             error={errors.discord?.message}
           />
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.telegram')}
             register={register('telegram', {
               pattern: {
-                value: /^https:\/\/(t\.me|telegram\.me)\/[a-zA-Z0-9_]+$/,
+                value: projectRegexFields.telegramInvite,
                 message: `${t('v2.createProject.formMessages.telegram')}`
-              }
+              },
+              onBlur: () => trigger('telegram')
             })}
             type='text'
+            onKeyDown={e => {
+              const validUrlCharsRegex = projectRegexOnKeyDown.url
+              if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+                e.preventDefault()
+              }
+            }}
+            maxLength={50}
             placeholder={t('v2.createProject.placeholder.telegram')}
             error={errors.telegram?.message}
           />
         </FormContainer>
         <Divider />
         <footer>
-          <Button block icon={<CreateProjectIcon />} type='submit' label={`${t('save')}`} />
+          <Button block icon={<CreateProjectIcon />} type='submit' label={labelButton} />
         </footer>
       </Container>
     </Form>
@@ -133,12 +183,13 @@ const { Container, CreateProjectIcon, Divider, Form, FormContainer } = {
     display: grid;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
+    padding: 0px 2px;
     span {
       font-size: ${({ theme }) => theme.font.size[14]};
       color: ${({ theme }) => theme.colorV2.gray[1]};
     }
     > footer {
-      padding: 0px 24px 24px 24px;
+      padding: 0px 22px 24px 24px;
     }
   `,
   Form: styled.form``,
@@ -148,7 +199,7 @@ const { Container, CreateProjectIcon, Divider, Form, FormContainer } = {
     gap: 6px;
     max-height: 500px;
     overflow: auto;
-    padding: 24px 16px 0px 24px;
+    padding: 24px 14px 0px 24px;
 
     iframe {
       border-radius: ${({ theme }) => theme.size[8]};

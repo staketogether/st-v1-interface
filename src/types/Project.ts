@@ -18,7 +18,7 @@ export type ProjectLinksToAnalyze = {
 
 export type CreateProjectForm = ProjectCreateInfo & ProjectLinksToAnalyze
 
-export type ProjectContentfulForm = CreateProjectForm & {
+export type EditProjectForm = CreateProjectForm & {
   cover?: { base64: string; mimeType?: string }
   videoPt?: string
   videoEn?: string
