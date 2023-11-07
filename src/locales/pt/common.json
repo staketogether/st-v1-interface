@@ -367,7 +367,7 @@
       "seeMyProject": "Ver meu projeto",
       "walletTooltip": "O cadastro do projeto ficará vinculado a carteira conectada",
       "form": {
-        "logo": "Nome do Projeto",
+        "logo": "Logo do Projeto",
         "wallet": "Carteira Responsável",
         "name": "Nome do Projeto",
         "category": "Categoria",
@@ -427,7 +427,8 @@
         "linkedin": "Linkedin invalido",
         "instagram": "Instagram invalido",
         "twitter": "Twitter Invalido",
-        "site": "URL do site invalido" 
+        "site": "URL do site invalido" ,
+        "youtube": "Insira um URL de vídeo válido do YouTube"
       },
       "messages": {
         "success": "Projeto cadastrado com sucesso",

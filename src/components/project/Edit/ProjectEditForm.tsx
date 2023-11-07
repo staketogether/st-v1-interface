@@ -1,25 +1,28 @@
 import Button from '@/components/shared/Button'
-import GenericInput from '@/components/shared/GenericInput'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProjectContentfulForm } from '@/types/Project'
-import { Modal, Switch, Upload, notification } from 'antd'
+import { Switch, Upload, notification } from 'antd'
 import React, { useRef, useState } from 'react'
 import {
   FieldErrors,
   UseFormClearErrors,
   UseFormHandleSubmit,
   UseFormRegister,
-  UseFormSetValue
+  UseFormSetValue,
+  UseFormTrigger
 } from 'react-hook-form'
 import { PiCloudArrowUp, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import type { UploadFile, RcFile, UploadProps } from 'antd/es/upload/interface'
 import type { UploadChangeParam } from 'antd/es/upload'
 import { getBase64 } from '@/services/format'
-import Image from 'next/image'
 import YouTube from 'react-youtube'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
+import ImgCrop from 'antd-img-crop'
+import Input from '@/components/shared/inputs/Input'
+import Select from '@/components/shared/inputs/Select'
+import TextArea from '@/components/shared/inputs/TextArea'
 
 type ProjectAboutFormProps = {
   register: UseFormRegister<ProjectContentfulForm>
@@ -27,10 +30,13 @@ type ProjectAboutFormProps = {
   setValue: UseFormSetValue<ProjectContentfulForm>
   clearErrors: UseFormClearErrors<ProjectContentfulForm>
   onSubmit: () => Promise<void>
+  projectName?: string
+  trigger: UseFormTrigger<ProjectContentfulForm>
   isSubmitted: boolean
   errors: FieldErrors<ProjectContentfulForm>
   projectVideo: string | undefined
   poolDetail: ContentfulPool
+  labelButton: string
   language: 'pt' | 'en'
 }
 
@@ -41,20 +47,15 @@ export default function ProjectEditForm({
   clearErrors,
   onSubmit,
   errors,
-  projectVideo: ProjectVideo,
+  trigger,
+  projectVideo,
   isSubmitted,
   poolDetail,
-  language
+  language,
+  labelButton,
+  projectName
 }: ProjectAboutFormProps) {
-  const [previewLogoOpen, setPreviewLogoOpen] = useState(false)
-  const [previewCoverOpen, setPreviewCoverOpen] = useState(false)
   const [userVideo, setUserVideo] = useState(true)
-  const [previewLogo, setPreviewLogo] = useState(poolDetail.logo.url ? poolDetail?.logo?.url : '')
-  const [previewTitle, setPreviewTitle] = useState(poolDetail.logo.fileName ? poolDetail.logo.fileName : '')
-  const [previewCoverTitle, setPreviewCoverTitle] = useState(
-    poolDetail.cover?.fileName ? poolDetail.cover?.fileName : ''
-  )
-  const [previewCover, setPreviewCover] = useState(poolDetail.cover?.url ? poolDetail.cover?.url : '')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [fileList, setFileList] = useState<UploadFile[]>(
     poolDetail.logo.url
@@ -83,28 +84,6 @@ export default function ProjectEditForm({
     return true
   }
 
-  const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
-    setFileList(info.fileList)
-    if (info.file.status === 'done') {
-      const file = await getBase64(info.fileList[0].originFileObj as RcFile)
-      if (file) {
-        const [imageType, imageBase64] = file.split(',')
-        const mimeType = imageType.split(':')[1].split(';')[0]
-        setValue('logo', { base64: imageBase64, mimeType })
-        clearErrors('logo')
-      }
-    }
-  }
-
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile)
-    }
-    setPreviewLogo(file.url || (file.preview as string))
-    setPreviewLogoOpen(true)
-    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1))
-  }
-
   function getVideoIdFromUrl(url?: string): string | null {
     if (!url) return ''
     const youtubeUrlPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/watch\?v=([A-Za-z0-9_-]+)/
@@ -117,7 +96,7 @@ export default function ProjectEditForm({
     }
   }
 
-  const videoId = getVideoIdFromUrl(ProjectVideo)
+  const videoId = getVideoIdFromUrl(projectVideo)
 
   const opts = {
     height: '237',
@@ -132,6 +111,19 @@ export default function ProjectEditForm({
 
   const handleClick = () => {
     fileInputRef.current?.click()
+  }
+
+  const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
+    setFileList(info.fileList)
+    if (info.file.status === 'done') {
+      const file = await getBase64(info.fileList[0].originFileObj as RcFile)
+      if (file) {
+        const [imageType, imageBase64] = file.split(',')
+        const mimeType = imageType.split(':')[1].split(';')[0]
+        setValue('logo', { base64: imageBase64, mimeType })
+        clearErrors('logo')
+      }
+    }
   }
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -149,8 +141,6 @@ export default function ProjectEditForm({
         const [imageType, imageBase64] = fileBase64.split(',')
         const mimeType = imageType.split(':')[1].split(';')[0]
         setValue('cover', { base64: imageBase64, mimeType })
-        setPreviewCover(fileBase64)
-        setPreviewCoverTitle(file.name)
         clearErrors('cover')
       }
     }
@@ -162,35 +152,46 @@ export default function ProjectEditForm({
         <FormContainer>
           <LogoContainer className={`${errors.logo && isSubmitted && 'error'} `}>
             <span>{t('v2.createProject.form.logo')}</span>
-            <Upload
-              listType='picture-circle'
-              maxCount={1}
-              fileList={fileList}
-              onPreview={handlePreview}
-              onChange={handleChange}
-              beforeUpload={beforeUpload}
-              customRequest={async ({ onSuccess }) => {
-                onSuccess && onSuccess('ok')
-              }}
-            >
-              {fileList.length >= 1 ? null : (
-                <div>
-                  <UploadIcon />
-                  <div style={{ opacity: '0.4' }}>{t('v2.createProject.form.upload')}</div>
-                </div>
-              )}
-            </Upload>
+            <ImgCrop cropShape='round' beforeCrop={beforeUpload}>
+              <Upload
+                listType='picture-circle'
+                maxCount={1}
+                fileList={fileList}
+                onChange={handleChange}
+                beforeUpload={beforeUpload}
+                customRequest={async ({ onSuccess }) => {
+                  onSuccess && onSuccess('ok')
+                }}
+              >
+                {fileList.length >= 1 ? null : (
+                  <div>
+                    <UploadIcon />
+                    <div style={{ opacity: '0.4' }}>{t('v2.createProject.form.upload')}</div>
+                  </div>
+                )}
+              </Upload>
+            </ImgCrop>
             <ErrorMessage>
               {errors.logo && isSubmitted && `${t('v2.createProject.formMessages.required')}`}
             </ErrorMessage>
           </LogoContainer>
-          <GenericInput
+          <Input
             title={t('v2.createProject.form.name')}
-            register={register('projectName', { required: `${t('v2.createProject.formMessages.required')}` })}
+            register={register('projectName', {
+              required: `${t('v2.createProject.formMessages.required')}`
+            })}
+            maxLength={30}
             type='text'
+            onChange={e => {
+              if (/^[A-Za-z0-9 ]+$/.test(e.target.value) || e.target.value === '') {
+                setValue('projectName', e.target.value)
+              }
+            }}
+            onBlur={() => trigger('projectName')}
+            value={projectName}
             error={errors.projectName?.message}
           />
-          <GenericInput
+          <Select
             title={t('v2.createProject.form.category') + '*'}
             register={register('category')}
             type='select'
@@ -201,22 +202,20 @@ export default function ProjectEditForm({
             }))}
           />
           {language === 'en' && (
-            <GenericInput
+            <TextArea
               title={t('v2.createProject.form.description')}
-              register={register('descriptionEn', {
-                maxLength: { value: 500, message: `${t('v2.createProject.formMessages.maxLength')} ${500}` }
-              })}
-              type='longText'
+              register={register('descriptionEn')}
+              maxLength={500}
+              onBlur={() => trigger('descriptionEn')}
               error={errors.descriptionPt?.message}
             />
           )}
           {language === 'pt' && (
-            <GenericInput
+            <TextArea
               title={t('v2.createProject.form.description')}
-              register={register('descriptionPt', {
-                maxLength: { value: 500, message: `${t('v2.createProject.formMessages.maxLength')} ${500}` }
-              })}
-              type='longText'
+              register={register('descriptionPt')}
+              maxLength={500}
+              onBlur={() => trigger('descriptionPt')}
               error={errors.descriptionPt?.message}
             />
           )}
@@ -228,9 +227,23 @@ export default function ProjectEditForm({
             {language === 'en' && userVideo && (
               <>
                 {userVideo && (
-                  <GenericInput
+                  <Input
                     title={t('v2.createProject.form.video')}
-                    register={register('videoEn')}
+                    register={register('videoEn', {
+                      pattern: {
+                        value:
+                          /^(https?:\/\/)?(www\.youtube\.com\/watch\?v=|youtu\.be\/)[\w-]+(&[\w-]+)*(&t=\d+s)?$/,
+                        message: `${t('v2.createProject.formMessages.youtube')}'`
+                      }
+                    })}
+                    onKeyDown={e => {
+                      const validCharsRegex = /[A-Za-z0-9\-_.~:/?#[\]@!$&'()*+,;=]/
+                      if (!validCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+                        e.preventDefault()
+                      }
+                    }}
+                    onBlur={() => trigger('videoEn')}
+                    error={errors.videoEn?.message}
                     type='text'
                     placeholder={t('v2.createProject.placeholder.video')}
                   />
@@ -261,11 +274,25 @@ export default function ProjectEditForm({
             {language === 'pt' && userVideo && (
               <>
                 {userVideo && (
-                  <GenericInput
+                  <Input
                     title={t('v2.createProject.form.video')}
-                    register={register('videoPt')}
+                    register={register('videoPt', {
+                      pattern: {
+                        value:
+                          /^(https?:\/\/)?(www\.youtube\.com\/watch\?v=|youtu\.be\/)[\w-]+(&[\w-]+)*(&t=\d+s)?$/,
+                        message: `${t('v2.createProject.formMessages.youtube')}`
+                      }
+                    })}
+                    onKeyDown={e => {
+                      const validCharsRegex = /[A-Za-z0-9\-_.~:/?#[\]@!$&'()*+,;=]/
+                      if (!validCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+                        e.preventDefault()
+                      }
+                    }}
+                    onBlur={() => trigger('videoPt')}
                     type='text'
                     placeholder={t('v2.createProject.placeholder.video')}
+                    error={errors.videoPt?.message}
                   />
                 )}
                 {!userVideo && (
@@ -292,45 +319,13 @@ export default function ProjectEditForm({
               </>
             )}
           </ProjectCoverContainer>
-          {ProjectVideo && videoId && <YouTube videoId={videoId} opts={opts} />}
+          {projectVideo && videoId && <YouTube videoId={videoId} opts={opts} />}
         </FormContainer>
         <Divider />
         <footer>
-          <Button block icon={<CreateProjectIcon />} type='submit' label={`${t('save')}`} />
+          <Button block icon={<CreateProjectIcon />} type='submit' label={labelButton} />
         </footer>
       </Container>
-      <Modal
-        open={previewLogoOpen}
-        title={previewTitle}
-        footer={null}
-        onCancel={() => setPreviewLogoOpen(false)}
-      >
-        <div style={{ display: 'grid', placeItems: 'center' }}>
-          <Image
-            alt='project image'
-            style={{ borderRadius: '8px' }}
-            width={400}
-            height={400}
-            src={previewLogo}
-          />
-        </div>
-      </Modal>
-      <Modal
-        open={previewCoverOpen}
-        title={previewCoverTitle}
-        footer={null}
-        onCancel={() => setPreviewCoverOpen(false)}
-      >
-        <div style={{ display: 'grid', placeItems: 'center' }}>
-          <Image
-            alt='project image'
-            style={{ borderRadius: '8px' }}
-            width={400}
-            height={400}
-            src={previewCover}
-          />
-        </div>
-      </Modal>
     </Form>
   )
 }
@@ -352,12 +347,13 @@ const {
     display: grid;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
+    padding: 0px 2px;
     span {
       font-size: ${({ theme }) => theme.font.size[14]};
       color: ${({ theme }) => theme.colorV2.gray[1]};
     }
     > footer {
-      padding: 0px 24px 24px 24px;
+      padding: 0px 22px 24px 24px;
     }
   `,
   Form: styled.form``,
@@ -367,7 +363,7 @@ const {
     gap: 6px;
     max-height: 500px;
     overflow: auto;
-    padding: 24px 16px 0px 24px;
+    padding: 24px 14px 0px 24px;
 
     iframe {
       border-radius: ${({ theme }) => theme.size[8]};
@@ -378,12 +374,16 @@ const {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
+    gap: ${({ theme }) => theme.size[8]};
 
     border-radius: 8px;
     border: 1px solid rgba(64, 74, 87, 0.2);
     padding: 24px 0 12px;
     margin-bottom: 12px;
+
+    a {
+      display: none;
+    }
 
     > span {
       > div {
@@ -395,18 +395,15 @@ const {
           font-weight: 400 !important;
           font-size: ${({ theme }) => theme.font.size[13]} !important;
           margin: 0px !important;
-          > div {
-            padding: 0px !important;
-          }
         }
         margin: 0px !important;
         border-radius: 50% !important;
         > div {
           border-radius: 50% !important;
-          padding: 0px !important;
         }
       }
     }
+
     &.error {
       span {
         &.ant-upload {
@@ -415,6 +412,7 @@ const {
         }
         > div {
           color: ${({ theme }) => theme.color.red[300]};
+
           > div {
             opacity: initial !important;
             &.ant-upload.ant-upload-select {

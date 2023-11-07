@@ -346,7 +346,7 @@ const {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
+    gap: ${({ theme }) => theme.size[8]};
 
     border-radius: 8px;
     border: 1px solid rgba(64, 74, 87, 0.2);

@@ -31,10 +31,22 @@ export default function ProjectRegisterMoreInfo({
   registerLinksToAnalyze
 }: ProjectRegisterMoreInfoProps) {
   const { t } = useLocaleTranslation()
+
   const chain = chainConfig()
-  const { chainId } = chain
   const { chain: walletChainId } = useNetwork()
+  const { chainId } = chain
   const isWrongNetwork = chainId !== walletChainId?.id
+  const handleLabelButton = () => {
+    if (isWrongNetwork) {
+      return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
+    }
+    return t('v2.createProject.form.register')
+  }
+
+  const { switchNetworkAsync } = useSwitchNetwork({
+    chainId: chainId
+  })
+
   const {
     register,
     formState: { errors },
@@ -48,17 +60,6 @@ export default function ProjectRegisterMoreInfo({
   useEffect(() => {
     reset()
   }, [account, t, reset])
-
-  const handleLabelButton = () => {
-    if (isWrongNetwork) {
-      return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
-    }
-    return t('v2.createProject.form.register')
-  }
-
-  const { switchNetworkAsync } = useSwitchNetwork({
-    chainId: chainId
-  })
 
   const onSubmit: SubmitHandler<ProjectLinksToAnalyze> = data => {
     if (isWrongNetwork && switchNetworkAsync) {
@@ -105,16 +106,14 @@ export default function ProjectRegisterMoreInfo({
             title={t('v2.createProject.form.twitter')}
             register={register('twitter', {
               pattern: {
-                value: /^[a-zA-Z_][a-zA-Z0-9_]{0,14}$/,
+                value: /^[a-zA-Z0-9_]+$/,
                 message: `${t('v2.createProject.formMessages.twitter')}`
               },
-              maxLength: { value: 15, message: `${t('v2.createProject.formMessages.maxLength')} ${15}` },
               onBlur: () => trigger('twitter')
             })}
             type='text'
-            onKeyDown={e => {
-              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+=]/
-              if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key.length === 1 && !e.key.match(/^[a-zA-Z0-9_]$/)) {
                 e.preventDefault()
               }
             }}
@@ -126,16 +125,15 @@ export default function ProjectRegisterMoreInfo({
             title={t('v2.createProject.form.instagram')}
             register={register('instagram', {
               pattern: {
-                value: /^[a-zA-Z0-9._]{1,30}$/,
+                value: /^[a-zA-Z0-9_]+$/,
                 message: `${t('v2.createProject.formMessages.instagram')}`
               },
               onBlur: () => trigger('instagram')
             })}
             type='text'
             maxLength={30}
-            onKeyDown={e => {
-              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+=]/
-              if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+            onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              if (e.key.length === 1 && !e.key.match(/^[a-zA-Z0-9_]$/)) {
                 e.preventDefault()
               }
             }}
@@ -160,7 +158,7 @@ export default function ProjectRegisterMoreInfo({
               onBlur: () => trigger('discord')
             })}
             onKeyDown={e => {
-              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$,&'()*+,;=]/
+              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+;=]/
               if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
                 e.preventDefault()
               }
@@ -181,7 +179,7 @@ export default function ProjectRegisterMoreInfo({
             })}
             type='text'
             onKeyDown={e => {
-              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$,&'()*+,;=]/
+              const validUrlCharsRegex = /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+;=]/
               if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
                 e.preventDefault()
               }

@@ -336,7 +336,7 @@
       "title": "Create Project",
       "linksToAnalyze": "Links to Analyze",
       "terms": "I agree with the",
-      "termsAndConditions": "links to Analyze",
+      "termsAndConditions": "Terms of Service",
       "send": "Send",
       "sent": "Sent",
       "seeMyProject": "See my project",
@@ -400,7 +400,8 @@
           "linkedin": "Invalid Linkedin",
           "instagram": "Invalid Instagram",
           "twitter": "Invalid Twitter",
-          "site": "Invalid site URL"
+          "site": "Invalid site URL",
+          "youtube": "Please enter a valid YouTube video URL"
       },
       "messages": {
         "success": "Project created successfully",

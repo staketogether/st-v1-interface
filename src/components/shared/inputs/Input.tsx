@@ -72,7 +72,9 @@ const { InputContainer, Content, ErrorMessage, QuestionIcon } = {
     &.disabled {
       cursor: not-allowed;
       color: ${({ theme }) => theme.color.blackAlpha[600]};
-      opacity: 0.5;
+      > input {
+        opacity: 0.5;
+      }
     }
 
     &.error {

@@ -7,7 +7,7 @@ import { ContentfulWithLocale } from '@/types/ContentfulPool'
 import { ProjectContentfulForm } from '@/types/Project'
 import { useForm } from 'react-hook-form'
 import ProjectEditForm from './ProjectEditForm'
-import { useSignMessage } from 'wagmi'
+import { useNetwork, useSignMessage, useSwitchNetwork } from 'wagmi'
 import axios from 'axios'
 import { notification } from 'antd'
 import { contentfulClient } from '@/config/apollo'
@@ -15,6 +15,7 @@ import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentf
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import Tabs, { TabsItems } from '@/components/shared/Tabs'
 import ProjectEditLinksForm from './ProjectEditLinksForm'
+import chainConfig from '@/config/chain'
 
 type ProjectEditModalProps = {
   poolDetailUs: ContentfulWithLocale
@@ -39,6 +40,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     setValue,
     watch,
     getValues,
+    trigger,
     reset,
     clearErrors
   } = useForm<ProjectContentfulForm>({
@@ -56,6 +58,23 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     }
   })
   const projectVideo = watch(language === 'pt' ? 'videoPt' : 'videoEn')
+  const projectName = watch('projectName')
+
+  const chain = chainConfig()
+  const { chain: walletChainId } = useNetwork()
+  const { chainId } = chain
+  const isWrongNetwork = chainId !== walletChainId?.id
+
+  const handleLabelButton = () => {
+    if (isWrongNetwork) {
+      return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
+    }
+    return t('save')
+  }
+
+  const { switchNetworkAsync } = useSwitchNetwork({
+    chainId: chainId
+  })
 
   const message = `Create project - ${poolDetailUs.wallet} `
   const { signMessage, reset: resetSignMessage } = useSignMessage({
@@ -80,6 +99,10 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   })
 
   const onSubmit = async () => {
+    if (isWrongNetwork && switchNetworkAsync) {
+      switchNetworkAsync()
+      return
+    }
     await signMessage()
   }
 
@@ -95,10 +118,13 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
           clearErrors={clearErrors}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
+          projectName={projectName}
+          trigger={trigger}
           errors={errors}
           projectVideo={projectVideo}
           isSubmitted={isSubmitted}
           poolDetail={poolDetailUs}
+          labelButton={handleLabelButton()}
         />
       )
     },
