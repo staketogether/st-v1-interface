@@ -19,7 +19,7 @@ type ProjectCreateButtonProps = {
 
 export default function ProjectButton({ poolDetail, account }: ProjectCreateButtonProps) {
   const { t } = useLocaleTranslation()
-  const { setProjectEditModal } = useProjectEditModal()
+  const { setProjectEditModal, isOpenProjectEditModal } = useProjectEditModal()
 
   return (
     <>
@@ -42,7 +42,7 @@ export default function ProjectButton({ poolDetail, account }: ProjectCreateButt
             <Divider />
             <CreateProjectIcon />
           </Button>
-          <ProjectEditModal poolDetailUs={poolDetail} account={account} />
+          {isOpenProjectEditModal && <ProjectEditModal poolDetailUs={poolDetail} account={account} />}
         </>
       )}
       {poolDetail.status === 'reproved' && (

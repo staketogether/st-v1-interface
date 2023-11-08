@@ -1,7 +1,7 @@
 import Button from '@/components/shared/Button'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Switch, Upload, notification } from 'antd'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   FieldErrors,
   UseFormClearErrors,
@@ -14,7 +14,7 @@ import { PiCloudArrowUp, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import type { UploadFile, RcFile, UploadProps } from 'antd/es/upload/interface'
 import type { UploadChangeParam } from 'antd/es/upload'
-import { getBase64 } from '@/services/format'
+import { getBase64, getVideoIdFromUrl } from '@/services/format'
 import YouTube from 'react-youtube'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
@@ -24,6 +24,7 @@ import Select from '@/components/shared/inputs/Select'
 import TextArea from '@/components/shared/inputs/TextArea'
 import { EditProjectForm } from '@/types/Project'
 import { projectRegexFields, projectRegexOnKeyDown } from '@/components/shared/regex'
+import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 
 type ProjectAboutFormProps = {
   register: UseFormRegister<EditProjectForm>
@@ -71,7 +72,14 @@ export default function ProjectEditForm({
       : []
   )
   const { t } = useLocaleTranslation()
+  const { poolTypeTranslation } = usePoolTypeTranslation()
+
   const { categories } = useContentfulCategoryCollection()
+  useEffect(() => {
+    if (categories?.length) {
+      setValue('category', categories[0].sys.id)
+    }
+  }, [categories, setValue])
 
   const beforeUpload: UploadProps['beforeUpload'] = file => {
     const maxSize = 1 * 1024 * 1024
@@ -83,18 +91,6 @@ export default function ProjectEditForm({
       return false || Upload.LIST_IGNORE
     }
     return true
-  }
-
-  function getVideoIdFromUrl(url?: string): string | null {
-    if (!url) return ''
-    const youtubeUrlPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/watch\?v=([A-Za-z0-9_-]+)/
-    const match = url.match(youtubeUrlPattern)
-
-    if (match && match[4]) {
-      return match[4]
-    } else {
-      return null
-    }
   }
 
   const videoId = getVideoIdFromUrl(projectVideo)
@@ -193,12 +189,12 @@ export default function ProjectEditForm({
             error={errors.projectName?.message}
           />
           <Select
-            title={t('v2.createProject.form.category') + '*'}
+            title={t('v2.createProject.form.category')}
             register={register('category')}
             type='select'
             error={errors.category ? t('v2.stakeProfileEdit.requiredField') : ''}
             options={categories?.map(category => ({
-              value: { label: category.name, value: category.sys.id },
+              value: { label: poolTypeTranslation(category.name), value: category.sys.id },
               key: category.sys.id
             }))}
           />

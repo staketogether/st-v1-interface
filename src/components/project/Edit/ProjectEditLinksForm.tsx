@@ -56,7 +56,7 @@ export default function ProjectEditLinksForm({
             register={register('youtube', {
               pattern: {
                 value: projectRegexFields.youtubeChanel,
-                message: `${t('v2.createProject.formMessages.youtube')}`
+                message: `${t('v2.createProject.formMessages.youtubeChanel')}`
               },
               onBlur: () => trigger('youtube')
             })}

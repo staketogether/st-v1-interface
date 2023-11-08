@@ -428,7 +428,8 @@
         "instagram": "Instagram invalido",
         "twitter": "Twitter Invalido",
         "site": "URL do site invalido" ,
-        "youtube": "Insira um URL de vídeo válido do YouTube"
+        "youtube": "Insira um URL de vídeo válido do YouTube",
+        "youtubeChanel": "Insira canal válido do YouTube"
       },
       "messages": {
         "success": "Projeto cadastrado com sucesso",

@@ -10,7 +10,7 @@ export const projectRegexFields = {
 }
 
 export const projectRegexOnKeyDown = {
-  email: /[A-Z0-9@._-]/,
+  email: /[A-Za-z0-9@._-]/,
   noSpecialCharacters: /[A-Za-z0-9 ]/,
   url: /[a-zA-Z0-9-._~:/?#[\]@!$&'()*+;=]/,
   socialMedia: /^[a-zA-Z0-9_]+$/,

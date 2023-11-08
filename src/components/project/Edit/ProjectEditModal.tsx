@@ -16,6 +16,8 @@ import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetail
 import Tabs, { TabsItems } from '@/components/shared/Tabs'
 import ProjectEditLinksForm from './ProjectEditLinksForm'
 import chainConfig from '@/config/chain'
+import GenericTransactionLoading from '@/components/shared/GenericTransactionLoading'
+import { useRouter } from 'next/router'
 
 type ProjectEditModalProps = {
   poolDetailUs: ContentfulWithLocale
@@ -27,6 +29,9 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   const [language, setLanguage] = useState<'pt' | 'en'>('pt')
   const { t } = useLocaleTranslation()
   const { isOpenProjectEditModal, setProjectEditModal } = useProjectEditModal()
+
+  const router = useRouter()
+  const { asPath } = router
 
   const poolDetailPt = useContentfulPoolDetails({
     poolAddress: poolDetailUs.wallet,
@@ -57,6 +62,16 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
       category: poolDetailUs?.category?.sys?.id
     }
   })
+
+  useEffect(() => {
+    if (poolDetailPt.poolDetail && poolDetailPt.poolDetail?.description) {
+      setValue('descriptionPt', poolDetailPt.poolDetail?.description)
+    }
+    if (poolDetailPt.poolDetail && poolDetailPt.poolDetail?.video) {
+      setValue('videoPt', poolDetailPt.poolDetail?.video)
+    }
+  }, [poolDetailPt.poolDetail, setValue])
+
   const projectVideo = watch(language === 'pt' ? 'videoPt' : 'videoEn')
   const projectName = watch('projectName')
 
@@ -76,8 +91,13 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     chainId: chainId
   })
 
-  const message = `Create project - ${poolDetailUs.wallet} `
-  const { signMessage, reset: resetSignMessage } = useSignMessage({
+  const message = `Stake Together Update - ${poolDetailUs.wallet} `
+  const {
+    signMessage,
+    reset: resetSignMessage,
+    isLoading,
+    isSuccess
+  } = useSignMessage({
     message: message,
     onSuccess: async data => {
       const createCommunityForm = getValues()
@@ -92,11 +112,37 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
         message: `${t('v2.createProject.messages.success')}`,
         placement: 'topRight'
       })
-      contentfulClient.refetchQueries({
-        include: [queryContentfulPoolByAddress]
+    },
+    onError: error => {
+      const { cause } = error as { cause?: { message?: string } }
+      notification.warning({
+        message: `${cause?.message}`,
+        placement: 'topRight'
       })
     }
   })
+
+  const handleReset = () => {
+    resetSignMessage()
+    setActiveTab('sobre')
+    reset()
+    contentfulClient.refetchQueries({
+      include: [queryContentfulPoolByAddress]
+    })
+
+    if (asPath.includes('deposit') || asPath.includes('withdraw')) {
+      router.push(asPath)
+    }
+    setProjectEditModal(false)
+  }
+
+  useEffect(() => {
+    if (account) {
+      resetSignMessage()
+      setActiveTab('sobre')
+      reset()
+    }
+  }, [account, reset, resetSignMessage])
 
   const onSubmit = async () => {
     if (isWrongNetwork && switchNetworkAsync) {
@@ -144,40 +190,49 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     }
   ]
 
-  useEffect(() => {
-    if (account) {
-      reset()
-      resetSignMessage()
-      setActiveTab('sobre')
-    }
-  }, [account, reset, resetSignMessage])
-
   return (
     <Modal
       title={
-        <Title>
-          <span>{`${t('v2.editProject.title')}`}</span>
-          <div>
-            <LanguageButton className={`${language === 'pt' && 'active'}`} onClick={() => setLanguage('pt')}>
-              PT
-            </LanguageButton>
-            <LanguageButton className={`${language === 'en' && 'active'}`} onClick={() => setLanguage('en')}>
-              EN
-            </LanguageButton>
-          </div>
-        </Title>
+        isLoading || isSuccess ? null : (
+          <Title>
+            <span>{`${t('v2.editProject.title')}`}</span>
+            <div>
+              <LanguageButton className={`${language === 'pt' && 'active'}`} onClick={() => setLanguage('pt')}>
+                PT
+              </LanguageButton>
+              <LanguageButton className={`${language === 'en' && 'active'}`} onClick={() => setLanguage('en')}>
+                EN
+              </LanguageButton>
+            </div>
+          </Title>
+        )
       }
+      showHeader={isLoading || isSuccess ? false : true}
       onClose={() => setProjectEditModal(false)}
       isOpen={isOpenProjectEditModal}
+      showCloseIcon={isLoading || isSuccess ? false : true}
       width={'auto'}
       noPadding
     >
       <Container>
-        <Tabs
-          items={tabsItems}
-          defaultActiveKey={activeTab}
-          onChangeActiveTab={value => setActiveTab(value as string)}
-        />
+        {(isLoading || isSuccess) && (
+          <GenericTransactionLoading
+            title={isSuccess ? 'Projeto Atualizado' : 'Atualizando Projeto'}
+            isLoading={isLoading}
+            isSuccess={isSuccess}
+            successButtonLabel='Fechar'
+            onSuccessAction={() => {
+              handleReset()
+            }}
+          />
+        )}
+        {!isLoading && !isSuccess && (
+          <Tabs
+            items={tabsItems}
+            defaultActiveKey={activeTab}
+            onChangeActiveTab={value => setActiveTab(value as string)}
+          />
+        )}
       </Container>
     </Modal>
   )
@@ -194,7 +249,7 @@ const { Container, Title, LanguageButton } = {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-right: ${({ theme }) => theme.size[8]};
+    margin-right: ${({ theme }) => theme.size[16]};
     > div {
       display: flex;
       align-items: center;

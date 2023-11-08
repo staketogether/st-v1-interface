@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
 import Button from '../shared/Button'
 import Input from '../shared/inputs/Input'
-import ProjectCreateLoading from './ProjectCreateLoading'
+import GenericTransactionLoading from '../shared/GenericTransactionLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 
@@ -80,7 +80,9 @@ export default function ProjectRegisterMoreInfo({
           }}
         />
       )}
-      {isLoading && !isSuccess && <ProjectCreateLoading />}
+      {isLoading && !isSuccess && (
+        <GenericTransactionLoading title={t('v2.createProject.form.loadingMessage')} />
+      )}
       {!isLoading && !isSuccess && (
         <FormContainer>
           <Input

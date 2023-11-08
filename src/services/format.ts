@@ -42,3 +42,15 @@ export const getBase64 = (file: RcFile | File): Promise<string> => {
     reader.readAsDataURL(file)
   })
 }
+
+export function getVideoIdFromUrl(url?: string): string | null {
+  if (!url) return ''
+  const youtubeUrlPattern = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/watch\?v=([A-Za-z0-9_-]+)/
+  const match = url.match(youtubeUrlPattern)
+
+  if (match && match[4]) {
+    return match[4]
+  } else {
+    return null
+  }
+}

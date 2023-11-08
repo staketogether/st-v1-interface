@@ -38,7 +38,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
     setCurrent(current - 1)
   }
 
-  const message = `Register Stake Together - ${account} `
+  const message = `Stake Together Register - ${account} `
   const {
     isLoading,
     isSuccess,
