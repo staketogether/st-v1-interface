@@ -364,8 +364,6 @@
         "discordName": "Discord Server name",
         "discordLink": "Discord Server Link",
         "description": "Description",
-        "descriptionPt": "Description language pt",
-        "descriptionEn": "Description language en",
         "contract": "Contract",
         "useVideo": "Use Video"
       },

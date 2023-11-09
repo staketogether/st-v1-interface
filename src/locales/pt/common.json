@@ -372,7 +372,7 @@
         "name": "Nome do Projeto",
         "category": "Categoria",
         "email": "Email",
-        "about": "Apresente seu Projeto",
+        "about": "Apresente seu projeto para nossa equipe",
         "site": "Site",
         "twitter": "X (Twitter)",
         "instagram": "Instagram",
@@ -407,8 +407,6 @@
         "telegram": "https://t.me/ConviteDoSeuServer",
         "facebook": "Insira o URL da sua página do Facebook",
         "description": "Insira uma descrição do seu projeto",
-        "descriptionPt": "Insira uma descrição do seu projeto em português",  
-        "descriptionEn": "Insira uma descrição do seu projeto em inglês", 
         "contract": "Insira o endereço do seu contrato",
         "video": "Insira o link do youtube para o vídeo do seu projeto"
       },
@@ -441,10 +439,10 @@
       }
     },
     "editProject": {
-      "title": "Edit Project",
+      "title": "Editar Projeto",
        "formTabs": {
           "about": {
-            "title": "Soubre",
+            "title": "Sobre",
             "cover": "Capa do Projeto"
           },
           "links" : {

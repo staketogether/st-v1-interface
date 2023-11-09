@@ -204,7 +204,9 @@ export default function ProjectEditForm({
               register={register('descriptionEn')}
               maxLength={500}
               onBlur={() => trigger('descriptionEn')}
+              placeholder={t('v2.createProject.placeholder.description')}
               error={errors.descriptionPt?.message}
+              showCharCounter
             />
           )}
           {language === 'pt' && (
@@ -213,7 +215,9 @@ export default function ProjectEditForm({
               register={register('descriptionPt')}
               maxLength={500}
               onBlur={() => trigger('descriptionPt')}
+              placeholder={t('v2.createProject.placeholder.description')}
               error={errors.descriptionPt?.message}
+              showCharCounter
             />
           )}
           <ProjectCoverContainer>
@@ -443,6 +447,7 @@ const {
     border-bottom: 1px solid var(--border, rgba(0, 0, 0, 0.2));
   `,
   ProjectCoverContainer: styled.div`
+    margin-top: 4px;
     position: relative;
     display: flex;
     flex-direction: column;

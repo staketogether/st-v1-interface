@@ -250,6 +250,7 @@ export default function ProjectRegisterInfo({
                     onBlur: () => trigger('aboutProject')
                   })}
                   maxLength={240}
+                  showCharCounter
                   error={errors.aboutProject?.message}
                   placeholder={t('v2.createProject.placeholder.about')}
                 />

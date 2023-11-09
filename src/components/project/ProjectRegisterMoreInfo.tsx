@@ -76,7 +76,8 @@ export default function ProjectRegisterMoreInfo({
         <ProjectCreateSuccess
           formValues={{
             ...formValues,
-            logo: { mimeType: projectInfo?.logo?.mimeType, base64: projectInfo?.logo?.base64 || '' }
+            logo: { mimeType: projectInfo?.logo?.mimeType, base64: projectInfo?.logo?.base64 || '' },
+            category: projectInfo?.category
           }}
         />
       )}

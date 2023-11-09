@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 import styled from 'styled-components'
 
@@ -8,13 +8,27 @@ type TextAreaProps = InputHTMLAttributes<HTMLTextAreaElement> & {
   register: UseFormRegisterReturn<string>
   disabled?: boolean
   placeholder?: string
+  showCharCounter?: boolean
+  maxLength?: number
 }
 
-export default function TextArea({ title, register, error, disabled, placeholder, ...props }: TextAreaProps) {
+export default function TextArea({
+  title,
+  register,
+  error,
+  disabled,
+  placeholder,
+  showCharCounter,
+  maxLength,
+  ...props
+}: TextAreaProps) {
+  const [inputCounter, setInputCounter] = useState(0)
   const handleInput = (event: React.FormEvent<HTMLTextAreaElement>) => {
     const target = event.currentTarget
-    target.style.height = 'auto' // Reset the height to 'auto'
-    target.style.height = `${target.scrollHeight}px` // Set the height to the scrollHeight to expand the textarea
+    const value = event.currentTarget.value
+    setInputCounter(value.length)
+    target.style.height = 'auto'
+    target.style.height = `${target.scrollHeight}px`
   }
   return (
     <Content className={`${disabled ? 'disabled' : ''}`}>
@@ -25,15 +39,21 @@ export default function TextArea({ title, register, error, disabled, placeholder
           {...register}
           disabled={disabled}
           placeholder={placeholder}
+          maxLength={maxLength}
           {...props}
         />
       </InputContainer>
-      <ErrorMessage>{error}</ErrorMessage>
+      <MessageContainer>
+        <ErrorMessage>{error && error}</ErrorMessage>
+        <CharacterCounting>
+          {showCharCounter && maxLength && `${inputCounter} / ${maxLength}`}
+        </CharacterCounting>
+      </MessageContainer>
     </Content>
   )
 }
 
-const { InputContainer, Content, ErrorMessage } = {
+const { InputContainer, Content, MessageContainer, ErrorMessage, CharacterCounting } = {
   Content: styled.div`
     display: flex;
     flex-direction: column;
@@ -95,8 +115,16 @@ const { InputContainer, Content, ErrorMessage } = {
       }
     }
   `,
+  MessageContainer: styled.span`
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  `,
   ErrorMessage: styled.span`
     color: ${({ theme }) => theme.color.red[300]} !important;
-    height: 14px;
+  `,
+  CharacterCounting: styled.span`
+    color: ${({ theme }) => theme.colorV2.gray[1]} !important;
   `
 }
