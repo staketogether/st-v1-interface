@@ -33,6 +33,7 @@ type ProjectAboutFormProps = {
   clearErrors: UseFormClearErrors<EditProjectForm>
   onSubmit: () => Promise<void>
   projectName?: string
+  projectDescription?: string
   trigger: UseFormTrigger<EditProjectForm>
   isSubmitted: boolean
   errors: FieldErrors<EditProjectForm>
@@ -57,6 +58,7 @@ export default function ProjectEditForm({
   errors,
   trigger,
   projectVideo,
+  projectDescription,
   isSubmitted,
   poolDetail,
   language,
@@ -227,6 +229,7 @@ export default function ProjectEditForm({
               title={t('v2.createProject.form.description')}
               register={register('descriptionEn')}
               maxLength={500}
+              value={projectDescription}
               onBlur={() => trigger('descriptionEn')}
               placeholder={t('v2.createProject.placeholder.description')}
               error={errors.descriptionPt?.message}
@@ -238,6 +241,7 @@ export default function ProjectEditForm({
               title={t('v2.createProject.form.description')}
               register={register('descriptionPt')}
               maxLength={500}
+              value={projectDescription || ''}
               onBlur={() => trigger('descriptionPt')}
               placeholder={t('v2.createProject.placeholder.description')}
               error={errors.descriptionPt?.message}
@@ -249,55 +253,9 @@ export default function ProjectEditForm({
               <span>{t('v2.createProject.form.useVideo')}</span>
               <Switch size='small' checked={userVideo} onChange={e => setUserVideo(e)} />
             </div>
-            {language === 'en' && userVideo && (
+            {userVideo && (
               <>
-                {userVideo && (
-                  <Input
-                    title={t('v2.createProject.form.video')}
-                    register={register('videoEn', {
-                      pattern: {
-                        value: projectRegexFields.youtubeVideo,
-                        message: `${t('v2.createProject.formMessages.youtube')}'`
-                      }
-                    })}
-                    onKeyDown={e => {
-                      const validCharsRegex = projectRegexOnKeyDown.url
-                      if (!validCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
-                        e.preventDefault()
-                      }
-                    }}
-                    onBlur={() => trigger('videoEn')}
-                    error={errors.videoEn?.message}
-                    type='text'
-                    placeholder={t('v2.createProject.placeholder.video')}
-                  />
-                )}
-                {!userVideo && (
-                  <CoverContainer>
-                    <span>{t('v2.editProject.formTabs.about.cover')}</span>
-                    <CoverInputArea onClick={handleClick}>
-                      <div>
-                        <div>
-                          <UploadIcon />
-                          <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
-                        </div>
-                        <span>Jpeg, PNG (820x480px)</span>
-                      </div>
-                    </CoverInputArea>
-                    <input
-                      type='file'
-                      style={{ display: 'none' }}
-                      ref={fileInputRef}
-                      onChange={handleImageCoverChange}
-                      accept='image/*'
-                    />
-                  </CoverContainer>
-                )}
-              </>
-            )}
-            {language === 'pt' && (
-              <>
-                {userVideo && (
+                {language === 'pt' && (
                   <Input
                     title={t('v2.createProject.form.video')}
                     register={register('videoPt', {
@@ -318,45 +276,67 @@ export default function ProjectEditForm({
                     error={errors.videoPt?.message}
                   />
                 )}
-                {!userVideo && (
-                  <CoverContainer>
-                    <span>{t('v2.editProject.formTabs.about.cover')}</span>
-                    {!cover && (
-                      <CoverInputArea onClick={handleClick}>
-                        <div>
-                          <div>
-                            <UploadIcon />
-                            <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
-                          </div>
-                          <span>Jpeg, PNG (820x480px)</span>
-                        </div>
-                      </CoverInputArea>
-                    )}
-                    {(projectCover?.base64 || cover) && (
-                      <CoverWrapper>
-                        {projectCover?.base64 && !cover && (
-                          <ImageCover
-                            src={`data:image/jpeg;base64,${projectCover.base64}`}
-                            alt={projectCover.mimeType}
-                          />
-                        )}
-                        {!projectCover?.base64 && cover && <ImageCover src={cover} alt={poolDetail.name} />}
-                        <CoverOverlay className='overlay'>
-                          <RemoveIcon onClick={handleRemoveCover} />
-                        </CoverOverlay>
-                      </CoverWrapper>
-                    )}
-
-                    <input
-                      type='file'
-                      style={{ display: 'none' }}
-                      ref={fileInputRef}
-                      onChange={handleImageCoverChange}
-                      accept='image/*'
-                    />
-                  </CoverContainer>
+                {language === 'en' && (
+                  <Input
+                    title={t('v2.createProject.form.video')}
+                    register={register('videoEn', {
+                      pattern: {
+                        value: projectRegexFields.youtubeVideo,
+                        message: `${t('v2.createProject.formMessages.youtube')}`
+                      }
+                    })}
+                    onKeyDown={e => {
+                      const validCharsRegex = projectRegexOnKeyDown.url
+                      if (!validCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter') {
+                        e.preventDefault()
+                      }
+                    }}
+                    onBlur={() => trigger('videoPt')}
+                    type='text'
+                    placeholder={t('v2.createProject.placeholder.video')}
+                    error={errors.videoPt?.message}
+                  />
                 )}
               </>
+            )}
+
+            {!userVideo && (
+              <CoverContainer>
+                <span>{t('v2.editProject.formTabs.about.cover')}</span>
+                {!cover && !projectCover && (
+                  <CoverInputArea onClick={handleClick}>
+                    <div>
+                      <div>
+                        <UploadIcon />
+                        <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
+                      </div>
+                      <span>Jpeg, PNG (820x480px)</span>
+                    </div>
+                  </CoverInputArea>
+                )}
+                {(projectCover?.base64 || cover) && (
+                  <CoverWrapper>
+                    {projectCover?.base64 && !cover && (
+                      <ImageCover
+                        src={`data:image/jpeg;base64,${projectCover.base64}`}
+                        alt={projectCover.mimeType}
+                      />
+                    )}
+                    {!projectCover?.base64 && cover && <ImageCover src={cover} alt={poolDetail.name} />}
+                    <CoverOverlay className='overlay'>
+                      <RemoveIcon onClick={handleRemoveCover} />
+                    </CoverOverlay>
+                  </CoverWrapper>
+                )}
+
+                <input
+                  type='file'
+                  style={{ display: 'none' }}
+                  ref={fileInputRef}
+                  onChange={handleImageCoverChange}
+                  accept='image/*'
+                />
+              </CoverContainer>
             )}
           </ProjectCoverContainer>
           {projectVideo && videoId && userVideo && <YouTube videoId={videoId} opts={opts} />}

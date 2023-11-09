@@ -440,6 +440,10 @@
     },
     "editProject": {
       "title": "Editar Projeto",
+        "messages": {
+          "success": "Alterações realizadas com sucesso",
+          "error": "Erro na criaçao do projeto"
+      },
        "formTabs": {
           "about": {
             "title": "Sobre",

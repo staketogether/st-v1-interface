@@ -347,7 +347,7 @@
         "name": "Name",
         "category": "Category",
         "email": "Email",
-        "about": "Present your Project",
+        "about": "Present your project to our team",
         "site": "Site",
         "twitter": "Twitter",
         "instagram": "Instagram",
@@ -413,6 +413,10 @@
     },
     "editProject": {
       "title": "Edit Project",
+       "messages": {
+          "success": "Project edited successfully",
+          "error": "Error creating project"
+       },
        "formTabs": {
           "about": {
             "title": "About",

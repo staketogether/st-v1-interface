@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useState } from 'react'
+import { InputHTMLAttributes, useEffect, useState } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 import styled from 'styled-components'
 
@@ -25,11 +25,17 @@ export default function TextArea({
   const [inputCounter, setInputCounter] = useState(0)
   const handleInput = (event: React.FormEvent<HTMLTextAreaElement>) => {
     const target = event.currentTarget
-    const value = event.currentTarget.value
-    setInputCounter(value.length)
+
     target.style.height = 'auto'
     target.style.height = `${target.scrollHeight}px`
   }
+  const { value } = props
+  useEffect(() => {
+    if (value) {
+      setInputCounter(String(value).length)
+    }
+  }, [value])
+
   return (
     <Content className={`${disabled ? 'disabled' : ''}`}>
       {title && <span>{title}</span>}

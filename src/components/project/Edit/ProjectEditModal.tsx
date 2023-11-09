@@ -80,6 +80,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   const projectVideo = watch(language === 'pt' ? 'videoPt' : 'videoEn')
   const projectName = watch('projectName')
   const projectCover = watch('cover')
+  const projectDescription = watch(language === 'pt' ? 'descriptionPt' : 'descriptionEn')
 
   const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
@@ -115,7 +116,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
       })
 
       notification.success({
-        message: `${t('v2.createProject.messages.success')}`,
+        message: `${t('v2.editProject.messages.success')}`,
         placement: 'topRight'
       })
     },
@@ -168,6 +169,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
           register={register}
           projectCover={projectCover}
           language={language}
+          projectDescription={projectDescription}
           clearErrors={clearErrors}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
