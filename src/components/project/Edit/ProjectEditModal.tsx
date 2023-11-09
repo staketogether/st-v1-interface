@@ -247,8 +247,11 @@ const { Container, Title, LanguageButton } = {
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
-    gap: 32px;
-    width: 450px;
+    gap: 12px;
+    width: 100%;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      width: 420px;
+    }
   `,
   Title: styled.div`
     display: flex;

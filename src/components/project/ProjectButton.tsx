@@ -15,9 +15,10 @@ import useProjectEditModal from '@/hooks/useProjectEditModal'
 type ProjectCreateButtonProps = {
   poolDetail: ContentfulPool
   account: `0x${string}` | undefined
+  isMobile?: boolean
 }
 
-export default function ProjectButton({ poolDetail, account }: ProjectCreateButtonProps) {
+export default function ProjectButton({ poolDetail, account, isMobile }: ProjectCreateButtonProps) {
   const { t } = useLocaleTranslation()
   const { setProjectEditModal, isOpenProjectEditModal } = useProjectEditModal()
 
@@ -25,7 +26,7 @@ export default function ProjectButton({ poolDetail, account }: ProjectCreateButt
     <>
       {poolDetail.status === 'pending' && (
         <Tooltip title={t('v2.createProject.status.pending')}>
-          <Button className='pending'>
+          <Button className={`${isMobile && 'isMobile'} 'pending'`}>
             <div>
               <CommunityLogo size={24} src={poolDetail.logo.url} alt={poolDetail.logo.fileName} />
               <ClockIcon src={clockYellow} width={12} height={12} alt='clock' />
@@ -36,10 +37,10 @@ export default function ProjectButton({ poolDetail, account }: ProjectCreateButt
       )}
       {poolDetail.status === 'approved' && (
         <>
-          <Button onClick={() => setProjectEditModal(true)}>
+          <Button onClick={() => setProjectEditModal(true)} className={`${isMobile && 'isMobile'}`}>
             <CommunityLogo size={24} src={poolDetail.logo.url} alt={poolDetail.logo.fileName} />
             <CommunityName $bold name={poolDetail.name} />
-            <Divider />
+            <Divider className={`${isMobile && 'isMobile'}`} />
             <CreateProjectIcon />
           </Button>
           {isOpenProjectEditModal && <ProjectEditModal poolDetailUs={poolDetail} account={account} />}
@@ -47,7 +48,7 @@ export default function ProjectButton({ poolDetail, account }: ProjectCreateButt
       )}
       {poolDetail.status === 'reproved' && (
         <Tooltip title={t('v2.createProject.status.reproved')}>
-          <Button>
+          <Button className={`${isMobile && 'isMobile'}`}>
             <div>
               <CommunityLogo size={24} src={poolDetail.logo.url} alt={poolDetail.logo.fileName} />
               <ReprovedIcon />
@@ -69,7 +70,7 @@ const { Button, ClockIcon, ReprovedIcon, Divider, CreateProjectIcon } = {
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.colorV2.gray[2]};
+    background: ${({ theme }) => theme.colorV2.gray[2]};
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
     padding: 0px 8px 0px 8px;
@@ -84,17 +85,24 @@ const { Button, ClockIcon, ReprovedIcon, Divider, CreateProjectIcon } = {
       padding: 0px 16px 0px 8px;
     }
 
+    &.isMobile {
+      background: transparent;
+      box-shadow: none;
+    }
+
     > div {
       margin-top: 3px;
       position: relative;
-      > img {
-      }
     }
   `,
   Divider: styled.span`
     height: 100%;
     width: 1px;
     background: rgba(0, 0, 0, 0.2);
+
+    &.isMobile {
+      display: none;
+    }
   `,
 
   ClockIcon: styled(Image)`

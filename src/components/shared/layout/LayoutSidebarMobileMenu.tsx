@@ -1,3 +1,4 @@
+import ProjectButton from '@/components/project/ProjectButton'
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
@@ -31,7 +32,6 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
         placement='right'
         size='default'
         onClose={() => {
-          console.log('aqu')
           setOpenSidebarMobileMenu(false)
         }}
         mask={true}
@@ -41,11 +41,18 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
           <ClosedSidebarButton onClick={() => setOpenSidebarMobileMenu(false)}>
             <CloseSidebar fontSize={14} />
           </ClosedSidebarButton>
+          <span>Menu</span>
         </HeaderContainer>
         <Container>
-          <MenuButton onClick={() => setOpenProjectCreateModal(true)}>
-            <CreateProjectIcon /> {t('v2.createProject.title')}
-          </MenuButton>
+          {poolDetailUs ? (
+            <MenuButton>
+              <ProjectButton poolDetail={poolDetailUs} account={account} isMobile />
+            </MenuButton>
+          ) : (
+            <MenuButton onClick={() => setOpenProjectCreateModal(true)}>
+              <CreateProjectIcon /> {t('v2.createProject.title')}
+            </MenuButton>
+          )}
         </Container>
         {screenWidth < breakpoints.lg && <ProjectCreateModal account={account} poolDetail={poolDetailUs} />}
       </DrawerContainer>
@@ -55,8 +62,8 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
 
 const {
   DrawerContainer,
-  HeaderContainer,
   CreateProjectIcon,
+  HeaderContainer,
   MenuButton,
   Container,
   CloseSidebar,
@@ -113,8 +120,13 @@ const {
     gap: ${({ theme }) => theme.size[12]};
   `,
   MenuButton: styled.button`
-    width: auto;
+    width: 100%;
     height: 32px;
+
+    background: ${({ theme }) => theme.colorV2.white};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    border-radius: ${({ theme }) => theme.size[8]};
+    font-size: 14px;
 
     display: flex;
     align-items: center;
@@ -122,7 +134,6 @@ const {
 
     border: none;
     padding: 0 ${({ theme }) => theme.size[12]};
-    background: transparent;
 
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.colorV2.gray[1]} !important;
