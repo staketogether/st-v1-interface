@@ -24,8 +24,13 @@ type ProjectEditModalProps = {
   account: `0x${string}` | undefined
 }
 
+export enum EditFormTabs {
+  ABOUT = 'about',
+  LINKS = 'links'
+}
+
 export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditModalProps) {
-  const [activeTab, setActiveTab] = useState<string>('sobre')
+  const [activeTab, setActiveTab] = useState<string>(EditFormTabs.ABOUT)
   const [language, setLanguage] = useState<'pt' | 'en'>('pt')
   const { t } = useLocaleTranslation()
   const { isOpenProjectEditModal, setProjectEditModal } = useProjectEditModal()
@@ -124,7 +129,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
 
   const handleReset = () => {
     resetSignMessage()
-    setActiveTab('sobre')
+    setActiveTab(EditFormTabs.ABOUT)
     reset()
     contentfulClient.refetchQueries({
       include: [queryContentfulPoolByAddress]
@@ -139,7 +144,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   useEffect(() => {
     if (account) {
       resetSignMessage()
-      setActiveTab('sobre')
+      setActiveTab(EditFormTabs.ABOUT)
       reset()
     }
   }, [account, reset, resetSignMessage])
@@ -154,8 +159,8 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
 
   const tabsItems: TabsItems[] = [
     {
-      key: 'sobre',
-      label: 'sobre',
+      key: EditFormTabs.ABOUT,
+      label: t('v2.editProject.formTabs.about.title'),
       children: (
         <ProjectEditForm
           setValue={setValue}
@@ -175,8 +180,8 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
       )
     },
     {
-      key: 'links',
-      label: 'links',
+      key: EditFormTabs.LINKS,
+      label: t('v2.editProject.formTabs.links.title'),
       children: (
         <ProjectEditLinksForm
           register={register}

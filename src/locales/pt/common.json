@@ -439,6 +439,18 @@
         "title": "Projeto enviado com sucesso!",
         "description": "O projeto está em análise, aguarde o retorno da nossa equipe"
       }
+    },
+    "editProject": {
+      "title": "Edit Project",
+       "formTabs": {
+          "about": {
+            "title": "Soubre",
+            "cover": "Capa do Projeto"
+          },
+          "links" : {
+            "title": "Links"
+          }
+       }
     }
   }
 }

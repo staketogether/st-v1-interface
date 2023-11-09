@@ -246,7 +246,7 @@ export default function ProjectEditForm({
                 )}
                 {!userVideo && (
                   <CoverContainer>
-                    <span>Capa do projeto</span>
+                    <span>{t('v2.editProject.formTabs.about.cover')}</span>
                     <CoverInputArea onClick={handleClick}>
                       <div>
                         <div>
@@ -292,7 +292,7 @@ export default function ProjectEditForm({
                 )}
                 {!userVideo && (
                   <CoverContainer>
-                    <span>Capa do projeto</span>
+                    <span>{t('v2.editProject.formTabs.about.cover')}</span>
                     <CoverInputArea onClick={handleClick}>
                       <div>
                         <div>

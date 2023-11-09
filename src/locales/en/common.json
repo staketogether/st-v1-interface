@@ -414,7 +414,16 @@
       }
     },
     "editProject": {
-      "title": "Edit Project"
+      "title": "Edit Project",
+       "formTabs": {
+          "about": {
+            "title": "About",
+            "cover": "Project Cover"
+          },
+          "links" : {
+            "title": "Links"
+          }
+       }
     }
   }
 }
