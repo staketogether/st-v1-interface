@@ -76,10 +76,14 @@ export default function ProjectEditForm({
 
   const { categories } = useContentfulCategoryCollection()
   useEffect(() => {
-    if (categories?.length) {
-      setValue('category', categories[0].sys.id)
+    console.log(poolDetail)
+    if (categories?.length && poolDetail.category) {
+      const category = categories.find(category => category.name === poolDetail.category.name)
+      if (category) {
+        setValue('category', category.sys.id)
+      }
     }
-  }, [categories, setValue])
+  }, [categories, poolDetail, poolDetail.category, setValue])
 
   const beforeUpload: UploadProps['beforeUpload'] = file => {
     const maxSize = 1 * 1024 * 1024
