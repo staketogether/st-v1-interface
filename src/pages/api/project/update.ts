@@ -77,6 +77,46 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   }
 
+  if (form.cover && form.cover.base64 && form.cover.mimeType) {
+    const decodedImage = Buffer.from(form.cover.base64, 'base64')
+    const logoUpload = await client.createAssetFromFiles({
+      fields: {
+        title: {
+          'en-US': `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
+          pt: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`
+        },
+        description: {
+          'en-US': '',
+          pt: ''
+        },
+        file: {
+          'en-US': {
+            fileName: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
+            file: decodedImage.buffer,
+            contentType: form.logo.mimeType
+          }
+        }
+      }
+    })
+    const assetCover = await logoUpload.processForAllLocales().then(res => res.publish())
+    entry.fields.cover = {
+      'en-US': {
+        sys: {
+          type: 'Link',
+          linkType: 'Asset',
+          id: assetCover.sys.id
+        }
+      },
+      pt: {
+        sys: {
+          type: 'Link',
+          linkType: 'Asset',
+          id: assetCover.sys.id
+        }
+      }
+    }
+  }
+
   entry.fields.name = { 'en-US': form.projectName, pt: form.projectName }
   entry.fields.category = {
     'en-US': {

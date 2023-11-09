@@ -267,7 +267,7 @@ export default function ProjectEditForm({
                 )}
               </>
             )}
-            {language === 'pt' && userVideo && (
+            {language === 'pt' && (
               <>
                 {userVideo && (
                   <Input
