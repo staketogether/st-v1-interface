@@ -35,31 +35,48 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(400).json({ message: 'as carteiras não são iguais' })
   }
 
-  // const decodedImage = Buffer.from(form.logo.base64, 'base64')
-
-  // const logoUpload = await client.createAssetFromFiles({
-  //   fields: {
-  //     title: {
-  //       'en-US': `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
-  //       pt: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`
-  //     },
-  //     description: {
-  //       'en-US': '',
-  //       pt: ''
-  //     },
-  //     file: {
-  //       'en-US': {
-  //         fileName: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
-  //         file: decodedImage.buffer,
-  //         contentType: form.logo.mimeType
-  //       }
-  //     }
-  //   }
-  // })
-
-  // const assetLogo = await logoUpload.processForAllLocales().then(res => res.publish())
-
   const entry = await client.getEntry(projectId)
+
+  if (form.logo && form.logo.base64 && form.logo.mimeType) {
+    const decodedImage = Buffer.from(form.logo.base64, 'base64')
+    const logoUpload = await client.createAssetFromFiles({
+      fields: {
+        title: {
+          'en-US': `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
+          pt: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`
+        },
+        description: {
+          'en-US': '',
+          pt: ''
+        },
+        file: {
+          'en-US': {
+            fileName: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
+            file: decodedImage.buffer,
+            contentType: form.logo.mimeType
+          }
+        }
+      }
+    })
+    const assetLogo = await logoUpload.processForAllLocales().then(res => res.publish())
+    entry.fields.logo = {
+      'en-US': {
+        sys: {
+          type: 'Link',
+          linkType: 'Asset',
+          id: assetLogo.sys.id
+        }
+      },
+      pt: {
+        sys: {
+          type: 'Link',
+          linkType: 'Asset',
+          id: assetLogo.sys.id
+        }
+      }
+    }
+  }
+
   entry.fields.name = { 'en-US': form.projectName, pt: form.projectName }
   entry.fields.category = {
     'en-US': {
@@ -72,15 +89,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   entry.fields.description = { 'en-US': form.descriptionEn, pt: form.descriptionPt }
   entry.fields.site = { 'en-US': form.site, pt: form.site }
+  entry.fields.youtube = { 'en-US': form.youtube, pt: form.youtube }
   entry.fields.twitter = { 'en-US': form.twitter, pt: form.twitter }
   entry.fields.instagram = { 'en-US': form.instagram, pt: form.instagram }
   entry.fields.linkedin = { 'en-US': form.linkedin, pt: form.linkedin }
   entry.fields.telegram = { 'en-US': form.telegram, pt: form.telegram }
-  entry.fields.email = { 'en-US': form.email, pt: form.email }
-  entry.fields.aboutProject = { 'en-US': form.aboutProject, pt: form.aboutProject }
   entry.fields.video = { 'en-US': form.videoEn, pt: form.videoPt }
 
   const updateEntry = await entry.update()
   await updateEntry.publish()
-  res.send(`project updated success`)
+  res.send(`Project updated success`)
 }

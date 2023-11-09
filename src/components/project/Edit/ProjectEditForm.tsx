@@ -314,7 +314,7 @@ export default function ProjectEditForm({
               </>
             )}
           </ProjectCoverContainer>
-          {projectVideo && videoId && <YouTube videoId={videoId} opts={opts} />}
+          {projectVideo && videoId && userVideo && <YouTube videoId={videoId} opts={opts} />}
         </FormContainer>
         <Divider />
         <footer>
