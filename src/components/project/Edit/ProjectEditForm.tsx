@@ -10,7 +10,7 @@ import {
   UseFormSetValue,
   UseFormTrigger
 } from 'react-hook-form'
-import { PiCloudArrowUp, PiPencilSimpleLine } from 'react-icons/pi'
+import { PiCloudArrowUp, PiPencilSimpleLine, PiTrashSimple } from 'react-icons/pi'
 import styled from 'styled-components'
 import type { UploadFile, RcFile, UploadProps } from 'antd/es/upload/interface'
 import type { UploadChangeParam } from 'antd/es/upload'
@@ -38,6 +38,12 @@ type ProjectAboutFormProps = {
   errors: FieldErrors<EditProjectForm>
   projectVideo: string | undefined
   poolDetail: ContentfulPool
+  projectCover:
+    | {
+        base64: string
+        mimeType?: string | undefined
+      }
+    | undefined
   labelButton: string
   language: 'pt' | 'en'
 }
@@ -55,10 +61,12 @@ export default function ProjectEditForm({
   poolDetail,
   language,
   labelButton,
+  projectCover,
   projectName
 }: ProjectAboutFormProps) {
   const [userVideo, setUserVideo] = useState(true)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [cover, setCover] = useState<string | undefined>(undefined)
   const [fileList, setFileList] = useState<UploadFile[]>(
     poolDetail.logo.url
       ? [
@@ -76,7 +84,6 @@ export default function ProjectEditForm({
 
   const { categories } = useContentfulCategoryCollection()
   useEffect(() => {
-    console.log(poolDetail)
     if (categories?.length && poolDetail.category) {
       const category = categories.find(category => category.name === poolDetail.category.name)
       if (category) {
@@ -84,6 +91,13 @@ export default function ProjectEditForm({
       }
     }
   }, [categories, poolDetail, poolDetail.category, setValue])
+
+  useEffect(() => {
+    if (poolDetail.cover?.url) {
+      setUserVideo(false)
+      setCover(poolDetail.cover?.url)
+    }
+  }, [poolDetail.cover])
 
   const beforeUpload: UploadProps['beforeUpload'] = file => {
     const maxSize = 1 * 1024 * 1024
@@ -127,7 +141,7 @@ export default function ProjectEditForm({
     }
   }
 
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageCoverChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return
 
     const file = e.target.files[0]
@@ -138,6 +152,7 @@ export default function ProjectEditForm({
       })
     } else {
       const fileBase64 = await getBase64(file)
+
       if (fileBase64) {
         const [imageType, imageBase64] = fileBase64.split(',')
         const mimeType = imageType.split(':')[1].split(';')[0]
@@ -145,6 +160,11 @@ export default function ProjectEditForm({
         clearErrors('cover')
       }
     }
+  }
+
+  const handleRemoveCover = () => {
+    setValue('cover', undefined)
+    setCover(undefined)
   }
 
   return (
@@ -268,7 +288,7 @@ export default function ProjectEditForm({
                       type='file'
                       style={{ display: 'none' }}
                       ref={fileInputRef}
-                      onChange={handleImageChange}
+                      onChange={handleImageCoverChange}
                       accept='image/*'
                     />
                   </CoverContainer>
@@ -301,20 +321,37 @@ export default function ProjectEditForm({
                 {!userVideo && (
                   <CoverContainer>
                     <span>{t('v2.editProject.formTabs.about.cover')}</span>
-                    <CoverInputArea onClick={handleClick}>
-                      <div>
+                    {!cover && (
+                      <CoverInputArea onClick={handleClick}>
                         <div>
-                          <UploadIcon />
-                          <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
+                          <div>
+                            <UploadIcon />
+                            <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
+                          </div>
+                          <span>Jpeg, PNG (820x480px)</span>
                         </div>
-                        <span>Jpeg, PNG (820x480px)</span>
-                      </div>
-                    </CoverInputArea>
+                      </CoverInputArea>
+                    )}
+                    {(projectCover?.base64 || cover) && (
+                      <CoverWrapper>
+                        {projectCover?.base64 && !cover && (
+                          <ImageCover
+                            src={`data:image/jpeg;base64,${projectCover.base64}`}
+                            alt={projectCover.mimeType}
+                          />
+                        )}
+                        {!projectCover?.base64 && cover && <ImageCover src={cover} alt={poolDetail.name} />}
+                        <CoverOverlay className='overlay'>
+                          <RemoveIcon onClick={handleRemoveCover} />
+                        </CoverOverlay>
+                      </CoverWrapper>
+                    )}
+
                     <input
                       type='file'
                       style={{ display: 'none' }}
                       ref={fileInputRef}
-                      onChange={handleImageChange}
+                      onChange={handleImageCoverChange}
                       accept='image/*'
                     />
                   </CoverContainer>
@@ -344,7 +381,11 @@ const {
   LogoContainer,
   CoverContainer,
   CoverInputArea,
-  ErrorMessage
+  RemoveIcon,
+  ErrorMessage,
+  ImageCover,
+  CoverWrapper,
+  CoverOverlay
 } = {
   Container: styled.div`
     display: grid;
@@ -492,6 +533,38 @@ const {
     gap: ${({ theme }) => theme.size[4]};
     font-size: ${({ theme }) => theme.font.size[13]};
   `,
+
+  ImageCover: styled.img`
+    width: 100% !important;
+    height: 237px !important;
+    border-radius: ${({ theme }) => theme.size[8]};
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  `,
+  CoverWrapper: styled.div`
+    position: relative;
+    width: 100%;
+    height: 237px;
+    border-radius: ${({ theme }) => theme.size[8]};
+    overflow: hidden;
+
+    &:hover .overlay {
+      display: flex;
+    }
+  `,
+  CoverOverlay: styled.div`
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    transition: opacity 0.5s ease;
+  `,
   CoverInputArea: styled.div`
     cursor: pointer;
     width: 100%;
@@ -531,5 +604,10 @@ const {
         opacity: 0.4;
       }
     }
+  `,
+  RemoveIcon: styled(PiTrashSimple)`
+    color: ${({ theme }) => theme.colorV2.white};
+    font-size: 20px;
+    cursor: pointer;
   `
 }

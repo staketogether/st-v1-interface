@@ -79,6 +79,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
 
   const projectVideo = watch(language === 'pt' ? 'videoPt' : 'videoEn')
   const projectName = watch('projectName')
+  const projectCover = watch('cover')
 
   const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
@@ -165,6 +166,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
         <ProjectEditForm
           setValue={setValue}
           register={register}
+          projectCover={projectCover}
           language={language}
           clearErrors={clearErrors}
           handleSubmit={handleSubmit}

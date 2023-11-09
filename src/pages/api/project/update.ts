@@ -77,13 +77,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   }
 
-  if (form.cover && form.cover.base64 && form.cover.mimeType) {
+  if (form.cover && form.cover.base64 && form.cover.mimeType && !form.videoEn && !form.videoPt) {
     const decodedImage = Buffer.from(form.cover.base64, 'base64')
-    const logoUpload = await client.createAssetFromFiles({
+    const coverUpload = await client.createAssetFromFiles({
       fields: {
         title: {
-          'en-US': `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
-          pt: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`
+          'en-US': `${form.projectName}-cover.${form.cover.mimeType.split('/')[1]}`,
+          pt: `${form.projectName}-logo.${form.cover.mimeType.split('/')[1]}`
         },
         description: {
           'en-US': '',
@@ -91,30 +91,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
         file: {
           'en-US': {
-            fileName: `${form.projectName}-logo.${form.logo.mimeType.split('/')[1]}`,
+            fileName: `${form.projectName}-logo.${form.cover.mimeType.split('/')[1]}`,
             file: decodedImage.buffer,
-            contentType: form.logo.mimeType
+            contentType: form.cover.mimeType
+          },
+          pt: {
+            fileName: `${form.projectName}-logo.${form.cover.mimeType.split('/')[1]}`,
+            file: decodedImage.buffer,
+            contentType: form.cover.mimeType
           }
         }
       }
     })
-    const assetCover = await logoUpload.processForAllLocales().then(res => res.publish())
+
+    const assetCover = await coverUpload.processForAllLocales().then(res => res.publish())
     entry.fields.cover = {
       'en-US': {
         sys: {
           type: 'Link',
           linkType: 'Asset',
-          id: assetCover.sys.id
+          id: assetCover.sys.id,
+          contentType: form.logo.mimeType
         }
       },
       pt: {
         sys: {
           type: 'Link',
           linkType: 'Asset',
-          id: assetCover.sys.id
+          id: assetCover.sys.id,
+          contentType: form.logo.mimeType
         }
       }
     }
+    entry.fields.video = { 'en-US': '', pt: '' }
   }
 
   entry.fields.name = { 'en-US': form.projectName, pt: form.projectName }
@@ -134,7 +143,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   entry.fields.instagram = { 'en-US': form.instagram, pt: form.instagram }
   entry.fields.linkedin = { 'en-US': form.linkedin, pt: form.linkedin }
   entry.fields.telegram = { 'en-US': form.telegram, pt: form.telegram }
-  entry.fields.video = { 'en-US': form.videoEn, pt: form.videoPt }
+  if (form.videoEn || form.videoPt) {
+    entry.fields.video = { 'en-US': form.videoEn, pt: form.videoPt }
+  }
 
   const updateEntry = await entry.update()
   await updateEntry.publish()
