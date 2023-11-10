@@ -206,7 +206,7 @@ export default function ProjectEditForm({
               >
                 {fileList.length >= 1 ? null : (
                   <div>
-                    <UploadIcon />
+                    <UploadIcon className={`${errors.logo && isSubmitted && 'error'}`} />
                     <div style={{ opacity: '0.4' }}>{t('v2.createProject.form.upload')}</div>
                   </div>
                 )}
@@ -520,6 +520,10 @@ const {
     font-size: 24px;
     color: ${({ theme }) => theme.colorV2.gray[1]};
     opacity: 0.4;
+
+    &.error {
+      color: ${({ theme }) => theme.color.red[300]};
+    }
   `,
   CreateProjectIcon: styled(PiPencilSimpleLine)`
     font-size: 15px;
