@@ -199,6 +199,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
         <ProjectEditLinksForm
           register={register}
           errors={errors}
+          isSubmitted={isSubmitted}
           trigger={trigger}
           handleSubmit={handleSubmit}
           onSubmit={onSubmit}
