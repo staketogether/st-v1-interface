@@ -62,7 +62,7 @@ export default function WalletLottery({ poolAddress }: WalletLotteryProps) {
   }
 
   return (
-    <Container>
+    <Container className={`${finishedDraw && result && 'result'}`}>
       {!starterDraw && !finishedDraw ? (
         <Button
           label={t('v2.draw.performDrawing')}
@@ -131,7 +131,14 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
     box-shadow: ${({ theme }) => theme.shadow[100]};
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.color.white};
-    padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]};
+    padding-top: ${({ theme }) => theme.size[24]};
+    padding-right: ${({ theme }) => theme.size[24]};
+    padding-bottom: ${({ theme }) => theme.size[24]};
+    padding-left: ${({ theme }) => theme.size[24]};
+
+    &.result {
+      padding-top: ${({ theme }) => theme.size[12]};
+    }
 
     font-size: ${({ theme }) => theme.font.size[14]};
 
@@ -206,7 +213,7 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
     border: 0;
     border-radius: ${({ theme }) => theme.size[8]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    background: ${({ theme }) => theme.color.whiteAlpha[600]};
+    background: ${({ theme }) => theme.colorV2.gray[2]};
     transition: background 0.2s ease;
 
     display: flex;
@@ -214,8 +221,8 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
     justify-content: center;
 
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 23px;
+    top: 23px;
 
     span {
       font-size: ${({ theme }) => theme.font.size[18]};
@@ -224,7 +231,7 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
       font-weight: 100;
     }
     &:hover {
-      color: ${({ theme }) => theme.colorV2.purple[1]};
+      background: #e4e4e4;
     }
   `
 }

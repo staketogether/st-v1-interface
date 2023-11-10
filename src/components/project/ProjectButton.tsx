@@ -46,8 +46,8 @@ export default function ProjectButton({ poolDetail, account, isMobile }: Project
           {isOpenProjectEditModal && <ProjectEditModal poolDetailUs={poolDetail} account={account} />}
         </>
       )}
-      {poolDetail.status === 'reproved' && (
-        <Tooltip title={t('v2.createProject.status.reproved')}>
+      {poolDetail.status === 'rejected' && (
+        <Tooltip title={t('v2.createProject.status.rejected')}>
           <Button className={`${isMobile && 'isMobile'}`}>
             <div>
               <CommunityLogo size={24} src={poolDetail.logo.url} alt={poolDetail.logo.fileName} />
