@@ -17,7 +17,7 @@ export default function ProjectCreateSuccess({ formValues }: ProjectCreateSucces
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
   const { setOpenProjectCreateModal: setCommunityCreateModal } = useProjectCreateModal()
-  console.log('form', formValues)
+
   return (
     <Container>
       <header>
