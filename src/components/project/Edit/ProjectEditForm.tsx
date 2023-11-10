@@ -7,6 +7,7 @@ import {
   UseFormClearErrors,
   UseFormHandleSubmit,
   UseFormRegister,
+  UseFormSetError,
   UseFormSetValue,
   UseFormTrigger
 } from 'react-hook-form'
@@ -39,6 +40,7 @@ type ProjectAboutFormProps = {
   errors: FieldErrors<EditProjectForm>
   projectVideo: string | undefined
   poolDetail: ContentfulPool
+  setError: UseFormSetError<EditProjectForm>
   projectCover:
     | {
         base64: string
@@ -59,6 +61,7 @@ export default function ProjectEditForm({
   trigger,
   projectVideo,
   projectDescription,
+  setError,
   isSubmitted,
   poolDetail,
   language,
@@ -69,6 +72,7 @@ export default function ProjectEditForm({
   const [userVideo, setUserVideo] = useState(true)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [cover, setCover] = useState<string | undefined>(undefined)
+  const modalRef = useRef<HTMLDivElement>(null)
   const [fileList, setFileList] = useState<UploadFile[]>(
     poolDetail.logo.url
       ? [
@@ -85,6 +89,20 @@ export default function ProjectEditForm({
   const { poolTypeTranslation } = usePoolTypeTranslation()
 
   const { categories } = useContentfulCategoryCollection()
+
+  useEffect(() => {
+    setError('logo', { type: 'required', message: `${t('v2.createProject.formMessages.required')}` })
+  }, [setError, t])
+
+  useEffect(() => {
+    if (isSubmitted && errors && modalRef.current && (errors.logo || errors.projectName)) {
+      modalRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }
+  }, [errors, isSubmitted, modalRef])
+
   useEffect(() => {
     if (categories?.length && poolDetail.category) {
       const category = categories.find(category => category.name === poolDetail.category.name)
@@ -172,7 +190,7 @@ export default function ProjectEditForm({
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Container>
-        <FormContainer>
+        <FormContainer ref={modalRef}>
           <LogoContainer className={`${errors.logo && isSubmitted && 'error'} `}>
             <span>{t('v2.createProject.form.logo')}</span>
             <ImgCrop cropShape='round' beforeCrop={beforeUpload}>

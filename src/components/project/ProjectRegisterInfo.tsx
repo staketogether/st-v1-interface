@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -40,7 +40,7 @@ export default function ProjectRegisterInfo({
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
   const { poolTypeTranslation } = usePoolTypeTranslation()
-
+  const modalRef = useRef<HTMLDivElement>(null)
   const {
     register,
     formState: { errors, isSubmitted },
@@ -53,6 +53,15 @@ export default function ProjectRegisterInfo({
     clearErrors
   } = useForm<ProjectCreateInfo>()
   const projectName = watch('projectName')
+
+  useEffect(() => {
+    if (isSubmitted && errors && modalRef.current && (errors.logo || errors.projectName)) {
+      modalRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }
+  }, [errors, isSubmitted, modalRef])
 
   useEffect(() => {
     if (account) {
@@ -151,7 +160,7 @@ export default function ProjectRegisterInfo({
               </span>
             </Terms>
             <Content>
-              <FormContainer>
+              <FormContainer ref={modalRef}>
                 <LogoContainer
                   className={`${errors.logo && isSubmitted && 'error'} ${hasAgreeTerms ? '' : 'disabled'}`}
                 >

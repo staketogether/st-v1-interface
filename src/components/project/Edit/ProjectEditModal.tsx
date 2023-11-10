@@ -49,6 +49,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     formState: { errors, isSubmitted },
     setValue,
     watch,
+    setError,
     getValues,
     trigger,
     reset,
@@ -67,6 +68,13 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
       category: poolDetailUs?.category?.sys?.id
     }
   })
+
+  useEffect(() => {
+    if (account?.toLocaleLowerCase() !== poolDetailUs.wallet.toLocaleLowerCase()) {
+      setProjectEditModal(false)
+      reset()
+    }
+  }, [account, poolDetailUs.wallet, reset, setProjectEditModal])
 
   useEffect(() => {
     if (poolDetailPt.poolDetail && poolDetailPt.poolDetail?.description) {
@@ -167,6 +175,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
         <ProjectEditForm
           setValue={setValue}
           register={register}
+          setError={setError}
           projectCover={projectCover}
           language={language}
           projectDescription={projectDescription}
