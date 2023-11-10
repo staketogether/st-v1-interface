@@ -37,6 +37,7 @@ type ProjectAboutFormProps = {
   projectDescription?: string
   trigger: UseFormTrigger<EditProjectForm>
   isSubmitted: boolean
+  submitCount: number
   errors: FieldErrors<EditProjectForm>
   projectVideo: string | undefined
   poolDetail: ContentfulPool
@@ -66,6 +67,7 @@ export default function ProjectEditForm({
   poolDetail,
   language,
   labelButton,
+  submitCount,
   projectCover,
   projectName
 }: ProjectAboutFormProps) {
@@ -95,13 +97,13 @@ export default function ProjectEditForm({
   }, [setError, t])
 
   useEffect(() => {
-    if (isSubmitted && errors && modalRef.current && (errors.logo || errors.projectName)) {
+    if (isSubmitted && submitCount && errors && modalRef.current && (errors.logo || errors.projectName)) {
       modalRef.current.scrollTo({
         top: 0,
         behavior: 'smooth'
       })
     }
-  }, [errors, isSubmitted, modalRef])
+  }, [errors, isSubmitted, modalRef, submitCount])
 
   useEffect(() => {
     if (categories?.length && poolDetail.category) {

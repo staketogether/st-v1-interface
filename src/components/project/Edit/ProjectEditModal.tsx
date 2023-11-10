@@ -46,7 +46,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitted },
+    formState: { errors, isSubmitted, submitCount },
     setValue,
     watch,
     setError,
@@ -187,6 +187,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
           errors={errors}
           projectVideo={projectVideo}
           isSubmitted={isSubmitted}
+          submitCount={submitCount}
           poolDetail={poolDetailUs}
           labelButton={handleLabelButton()}
         />
