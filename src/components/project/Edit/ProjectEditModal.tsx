@@ -237,10 +237,12 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
       <Container>
         {(isLoading || isSuccess) && (
           <GenericTransactionLoading
-            title={isSuccess ? 'Projeto Atualizado' : 'Atualizando Projeto'}
+            title={
+              isSuccess ? `${t('v2.editProject.messages.success')}` : `${t('v2.editProject.messages.loading')}`
+            }
             isLoading={isLoading}
             isSuccess={isSuccess}
-            successButtonLabel='Fechar'
+            successButtonLabel={t('close')}
             onSuccessAction={() => {
               handleReset()
             }}

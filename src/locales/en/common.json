@@ -414,9 +414,9 @@
     "editProject": {
       "title": "Edit Project",
        "messages": {
-          "success": "Project edited successfully",
-          "error": "Error creating project"
-       },
+          "success": "Project updated successfully",
+          "loading": "Updating project"
+        },
        "formTabs": {
           "about": {
             "title": "About",

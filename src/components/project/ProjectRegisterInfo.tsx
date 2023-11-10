@@ -53,6 +53,7 @@ export default function ProjectRegisterInfo({
     clearErrors
   } = useForm<ProjectCreateInfo>()
   const projectName = watch('projectName')
+  const aboutProject = watch('aboutProject')
 
   useEffect(() => {
     if (isSubmitted && errors && modalRef.current && (errors.logo || errors.projectName)) {
@@ -259,6 +260,7 @@ export default function ProjectRegisterInfo({
                     onBlur: () => trigger('aboutProject')
                   })}
                   maxLength={240}
+                  value={aboutProject}
                   showCharCounter
                   error={errors.aboutProject?.message}
                   placeholder={t('v2.createProject.placeholder.about')}
