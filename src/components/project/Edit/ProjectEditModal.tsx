@@ -264,7 +264,7 @@ const { Container, Title, LanguageButton } = {
     grid-template-columns: 1fr;
     gap: 12px;
     width: 100%;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       width: 420px;
     }
   `,
