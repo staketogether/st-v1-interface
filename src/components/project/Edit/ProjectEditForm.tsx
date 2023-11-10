@@ -93,10 +93,6 @@ export default function ProjectEditForm({
   const { categories } = useContentfulCategoryCollection()
 
   useEffect(() => {
-    setError('logo', { type: 'required', message: `${t('v2.createProject.formMessages.required')}` })
-  }, [setError, t])
-
-  useEffect(() => {
     if (isSubmitted && submitCount && errors && modalRef.current && (errors.logo || errors.projectName)) {
       modalRef.current.scrollTo({
         top: 0,
@@ -152,6 +148,9 @@ export default function ProjectEditForm({
 
   const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
     setFileList(info.fileList)
+    if (info.file.status === 'removed') {
+      setError('logo', { type: 'required', message: `${t('v2.createProject.formMessages.required')}` })
+    }
     if (info.file.status === 'done') {
       const file = await getBase64(info.fileList[0].originFileObj as RcFile)
       if (file) {
