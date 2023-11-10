@@ -412,7 +412,7 @@
       },
       "status": {
         "approved": "Aprovado",
-        "reproved": "Reprovado",
+        "rejected": "Rejeitado",
         "pending": "Em Análise"
       },
       "formMessages" : {

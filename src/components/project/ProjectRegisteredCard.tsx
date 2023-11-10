@@ -30,7 +30,7 @@ export default function ProjectRegisteredCard({
     switch (projectStatus) {
       case 'approved':
         return 'green'
-      case 'reproved':
+      case 'rejected':
         return 'red'
       default:
         return 'secondary'

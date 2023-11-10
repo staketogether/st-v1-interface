@@ -385,7 +385,7 @@
       },
       "status": {
         "approved": "Approved",
-        "reproved": "Reproved",
+        "rejected": "Rejected",
         "pending": "Under Analysis"
       },
       "formMessages" : {
