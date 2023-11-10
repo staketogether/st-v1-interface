@@ -2,18 +2,31 @@ import Wallet from '@/components/wallet/Wallet'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCellSignalFull, PiCurrencyEth, PiGift } from 'react-icons/pi'
+import { PiCellSignalFull, PiCurrencyEth, PiGift, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import ProjectCreateModal from '@/components/project/ProjectCreateModal'
+import useProjectCreateModal from '@/hooks/useProjectCreateModal'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
+import ProjectButton from '@/components/project/ProjectButton'
+import useResizeView from '@/hooks/useResizeView'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
+  const { account, accountIsConnected } = useConnectedAccount()
+  const { setOpenProjectCreateModal } = useProjectCreateModal()
   const { query } = useRouter()
   const { currency, network } = query
-
+  const { poolDetail: poolDetailUs } = useContentfulPoolDetails({
+    poolAddress: account,
+    fetchPolicy: 'network-only',
+    locale: 'en-US'
+  })
+  const { screenWidth, breakpoints } = useResizeView()
   return (
     <Container>
       <MenuContainer>
@@ -45,8 +58,15 @@ export default function LayoutHeader() {
         </Menu>
       </MenuContainer>
       <WalletContainer>
-        <Wallet />
+        {!poolDetailUs && (
+          <MenuButton onClick={() => setOpenProjectCreateModal(true)}>
+            <CreateProjectIcon /> {t('v2.createProject.title')}
+          </MenuButton>
+        )}
+        {poolDetailUs && <ProjectButton poolDetail={poolDetailUs} account={account} />}
+        <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
+      {screenWidth > breakpoints.lg && <ProjectCreateModal account={account} poolDetail={poolDetailUs} />}
     </Container>
   )
 }
@@ -60,7 +80,8 @@ const {
   Menu,
   MenuButton,
   InvestIcon,
-  IncentivesIcon
+  IncentivesIcon,
+  CreateProjectIcon
 } = {
   Container: styled.header`
     display: none;
@@ -100,6 +121,7 @@ const {
     display: grid;
     align-items: center;
     justify-content: flex-end;
+    gap: ${({ theme }) => theme.size[8]};
     grid-template-columns: auto auto;
   `,
   Menu: styled.nav`
@@ -146,6 +168,9 @@ const {
     font-size: 17px;
   `,
   GiftsIcon: styled(PiGift)`
+    font-size: 15px;
+  `,
+  CreateProjectIcon: styled(PiPencilSimpleLine)`
     font-size: 15px;
   `
 }

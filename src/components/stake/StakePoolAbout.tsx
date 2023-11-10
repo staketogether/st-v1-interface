@@ -3,6 +3,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateAddress } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import etherscan from '@assets/icons/etherscan.svg'
+import YouTube from 'react-youtube'
 import Image from 'next/image'
 import {
   PiDiscordLogo,
@@ -18,6 +19,7 @@ import {
 import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
+import { getVideoIdFromUrl } from '@/services/format'
 
 interface StakePoolAboutProps {
   poolDetail: ContentfulPool | null
@@ -25,21 +27,23 @@ interface StakePoolAboutProps {
 }
 
 export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutProps) {
-  const videoId = poolDetail?.video ? poolDetail?.video.split('v=')[1] : null
+  const videoId = getVideoIdFromUrl(poolDetail?.video)
+
   const { t } = useLocaleTranslation()
   const isEmpty = !poolDetail || (!poolDetail?.description && !poolDetail?.cover && !videoId)
+  const opts = {
+    height: '237',
+    width: '100%',
+    style: {
+      borderRadius: '8px'
+    },
+    playerVars: {
+      autoplay: 0
+    }
+  }
   return (
     <Container>
-      {!loading && videoId && (
-        <iframe
-          width='100%'
-          height='237'
-          src={`https://www.youtube.com/embed/${videoId}`}
-          title='community video'
-          allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
-          allowFullScreen
-        ></iframe>
-      )}
+      {!loading && videoId && <YouTube videoId={videoId} opts={opts} />}
       {!loading && !videoId && poolDetail && poolDetail.cover?.url && (
         <ImageCover src={poolDetail.cover.url} alt={poolDetail.cover.fileName} />
       )}
@@ -152,7 +156,7 @@ const {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[16]};
-    > iframe {
+    iframe {
       border-radius: ${({ theme }) => theme.size[8]};
     }
     > h1 {

@@ -35,7 +35,7 @@ export default function StakePoolInfo({
 }: StakeStatsProps) {
   const { t } = useLocaleTranslation()
 
-  const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(poolAddress)
+  const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails({ poolAddress })
 
   const tabsItems: TabsItems[] = [
     {

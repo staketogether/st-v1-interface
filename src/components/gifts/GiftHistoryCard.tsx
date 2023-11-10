@@ -12,7 +12,7 @@ type GiftHistoryCardProps = {
 }
 
 export default function GiftHistoryCard({ gift }: GiftHistoryCardProps) {
-  const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails(gift.address)
+  const { poolDetail, loading: poolDetailLoading } = useContentfulPoolDetails({ poolAddress: gift.address })
   const router = useRouter()
   const { t } = useLocaleTranslation()
 

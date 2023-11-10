@@ -1,10 +1,14 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
+  "save" : "Save",
   "projects": "Projects",
   "portfolio": "Portfolio",
   "stake": "Stake",
   "time": "Time",
+  "next": "Next",
+   "close": "Close",
+  "goToBack": "Go To Back",
   "account": "Account",
   "accounts": "Accounts",
   "days": "Days",
@@ -327,6 +331,101 @@
       "title": "Beacon Chain Withdrawals",
       "pending": "Pending",
       "claim": "Claim"
+    },
+    "createProject": {
+      "title": "Create Project",
+      "linksToAnalyze": "Links to Analyze",
+      "terms": "I agree with the",
+      "termsAndConditions": "Terms of Service",
+      "send": "Send",
+      "sent": "Sent",
+      "seeMyProject": "See my project",
+      "walletTooltip": "The project registration will be linked to the connected wallet",
+      "form": {
+        "logo": "Project Logo",
+        "wallet": "Wallet",
+        "name": "Name",
+        "category": "Category",
+        "email": "Email",
+        "about": "Present your project to our team",
+        "site": "Site",
+        "twitter": "Twitter",
+        "instagram": "Instagram",
+        "linkedin": "Linkedin",
+        "discord": "Discord",
+        "telegram": "Telegram",
+        "upload": "Upload",
+        "register": "Register Project",
+        "loadingMessage": "Submitting Project Registration",
+        "cover": "Cover",
+        "video": "Video",
+        "facebook": "Facebook",
+        "youtube": "Youtube channel",
+        "discordName": "Discord Server name",
+        "discordLink": "Discord Server Link",
+        "description": "Description",
+        "contract": "Contract",
+        "useVideo": "Use Video"
+      },
+      "placeholder": {
+        "email": "Enter your email for contact",
+        "about": "Tell us a bit more about your project",
+        "site": "https://www.yourproject.com",
+        "twitter": "Username (e.g. @staketogether)",
+        "instagram": "Username (e.g. @staketogether)",
+        "linkedin": "Username (e.g. @staketogether)",
+        "discordName": "Enter the Name to your Discord server",
+        "discordLink": "https://discord.com/invite/YourInviteCode",
+        "telegram": "https://t.me/YourInviteCode",
+        "youtube": "@YourChannel",
+        "facebook": "Enter the link to your Facebook page",
+        "description": "Enter a description of your project", 
+        "contract": "Enter the address of your project's smart contract",
+        "video" : "Enter the YouTube link to your project's video"
+      },
+      "status": {
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "pending": "Under Analysis"
+      },
+      "formMessages" : {
+        "required": "This field is required",
+        "invalidEmail": "Invalid email" ,
+        "sizeImage": "Image must smaller than 1MB",
+        "maxLength": "Maximum length exceeded",
+          "telegram": "Invalid telegram invite",
+          "discord": "Invalid discord invite",
+          "linkedin": "Invalid Linkedin",
+          "instagram": "Invalid Instagram",
+          "twitter": "Invalid Twitter",
+          "site": "Invalid site URL",
+          "youtube": "Please enter a valid YouTube video URL",
+          "youtubeChanel": "Please enter a valid YouTube channel"
+      },
+      "messages": {
+        "success": "Project created successfully",
+        "error": "Error creating project"
+      },
+      "successMessages": {  
+        "title": "Project created successfully",
+        "description": "The project is under review, please await our team's response"
+      }
+    },
+    "editProject": {
+      "title": "Edit Project",
+       "messages": {
+          "success": "Project edited successfully",
+          "error": "Error creating project"
+       },
+       "formTabs": {
+          "about": {
+            "title": "About",
+            "cover": "Project Cover"
+          },
+          "links" : {
+            "title": "Links"
+          }
+       }
     }
   }
 }

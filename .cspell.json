@@ -21,6 +21,7 @@
     "contentful",
     "fabricio",
     "firestore",
+    "gotas",
     "gtag",
     "hookz",
     "Hotjar",
@@ -47,6 +48,6 @@
     "usehooks",
     "viem",
     "wagmi",
-    "gotas"
+    "youtu"
   ]
 }

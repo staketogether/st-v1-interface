@@ -33,8 +33,8 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
   const [skipActivity, setSkipActivity] = useState(0)
 
   const { t } = useLocaleTranslation()
-  const { query } = useRouter()
-  const { locale } = useRouter()
+
+  const { query, locale } = useRouter()
 
   useEffect(() => {
     setTimeout(() => {
@@ -130,6 +130,7 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
               loading={false}
               listed={pool?.listed}
             />
+
             {poolDetail?.name ? (
               <CommunityName $larger name={poolDetail?.name} loading={false} />
             ) : (

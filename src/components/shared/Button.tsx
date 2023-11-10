@@ -3,28 +3,39 @@ import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
 interface ButtonProps {
-  onClick: () => void
+  onClick?: () => void
   label: string
+  type?: 'button' | 'submit' | 'submit'
   icon: ReactNode
-  isLoading: boolean
+  isLoading?: boolean
   disabled?: boolean
   small?: boolean
   block?: boolean
+  ghost?: boolean
+  className?: string
 }
 
 export default function Button({
   onClick,
   label,
   disabled,
-  isLoading,
   icon,
+  type = 'button',
+  className,
+  isLoading = false,
   small = false,
-  block = false
+  block = false,
+  ghost = false
 }: ButtonProps) {
   const { t } = useLocaleTranslation()
 
   return (
-    <Container onClick={onClick} disabled={disabled} className={`${small && 'small'} ${block && 'block'}`}>
+    <Container
+      onClick={onClick}
+      disabled={disabled}
+      type={type}
+      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${className}`}
+    >
       {icon}
       {isLoading ? t('processing') : label}
     </Container>
@@ -56,6 +67,17 @@ const { Container } = {
 
     &.block {
       width: 100%;
+    }
+
+    &.ghost {
+      background: transparent;
+      border: none;
+
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      &:hover {
+        background: transparent;
+        color: ${({ theme }) => theme.color.secondary};
+      }
     }
 
     &:hover {

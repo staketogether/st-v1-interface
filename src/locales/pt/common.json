@@ -1,10 +1,14 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
+  "save" : "Salvar",
   "projects": "Projetos",
   "portfolio": "Portfólio",
   "stake": "Depositar",
   "time": "Tempo",
+  "next": "Avançar",
+  "close": "Fechar",
+  "goToBack": "Voltar",
   "type": "Tipo",
   "value": "Valor",
   "account": "Conta",
@@ -318,6 +322,30 @@
       "lost": "Perdido",
       "notGift": "Você ainda não recebeu nenhum presente"
     },
+    "stakeProfileEdit": {
+      "communityName": "Nome do projeto",
+      "cover": "Cover",
+      "image": "Image",
+      "video": "Video",
+      "site": "Site",
+      "linkedin": "Linkedin",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "gotas": "Gotas",
+      "lens": "Lens",
+      "logo": "Logo",
+      "telegram": "Telegram",
+      "wallet": "Carteira responsável",
+      "category": "Categoria",
+      "twitter": "Twitter",
+      "youtube": "Canal do youtube",
+      "discord": "Discord",
+      "discordName": "Nome no discord",
+      "description": "Descrição",
+      "requiredField": "Esse campo é obrigatório",
+      "save": "Salvar",
+      "choseFile": "Enviar a imagem" 
+    },
     "draw": {
       "performDrawing": "Realizar Sorteio",
       "drawing": "Sorteando...",
@@ -328,6 +356,103 @@
       "title": "Saques da Beacon Chain",
       "pending": "Pendente",
       "claim": "Resgatar"
+    },
+    "createProject": {
+      "title": "Cadastrar Projeto",
+      "linksToAnalyze": "Links para Análise",
+      "terms": "Estou de acordo com os",
+      "termsAndConditions": "Termos de Cadastro",
+      "send": "Enviar",
+      "sent": "Enviado",
+      "seeMyProject": "Ver meu projeto",
+      "walletTooltip": "O cadastro do projeto ficará vinculado a carteira conectada",
+      "form": {
+        "logo": "Logo do Projeto",
+        "wallet": "Carteira Responsável",
+        "name": "Nome do Projeto",
+        "category": "Categoria",
+        "email": "Email",
+        "about": "Apresente seu projeto para nossa equipe",
+        "site": "Site",
+        "twitter": "X (Twitter)",
+        "instagram": "Instagram",
+        "linkedin": "Linkedin",
+        "discord": "Discord",
+        "telegram": "Telegram",
+        "upload": "Enviar",
+        "register": "Cadastrar Projeto",
+        "loadingMessage": "Enviando Cadastro do Projeto",
+        "cover": "Cover",
+        "video": "Video",
+        "facebook": "Facebook",
+        "youtube": "Canal do youtube",
+        "discordName": "Nome do seu servidor Discord",
+        "discordLink": "Link do seu servidor Discord",
+        "description": "Descrição",
+        "descriptionPt": "Descrição linguagem pt",
+        "descriptionEn": "Descrição linguagem en",
+        "contract": "Contrato",
+         "useVideo": "Usar Video"
+      },
+      "placeholder":{
+        "email": "Insira seu email para contato",
+        "about": "Conte nós um pouco mais sobre seu projeto",
+        "site": "https://www.seusite.com",
+        "youtube": "@SeuCanal",
+        "twitter": "Nome de usuário (e.g. @staketogether)",
+        "instagram": "Nome de usuário (e.g. @staketogether)",
+        "linkedin": "Nome de usuário (e.g. @staketogether)",
+        "discordLink": "https://discord.com/invite/ConviteDoSeuServer",
+        "discordName": "Insira o Nome do seu servidor Discord",
+        "telegram": "https://t.me/ConviteDoSeuServer",
+        "facebook": "Insira o URL da sua página do Facebook",
+        "description": "Insira uma descrição do seu projeto",
+        "contract": "Insira o endereço do seu contrato",
+        "video": "Insira o link do youtube para o vídeo do seu projeto"
+      },
+      "status": {
+        "approved": "Aprovado",
+        "rejected": "Rejeitado",
+        "pending": "Em Análise"
+      },
+      "formMessages" : {
+        "required": "Campo obrigatorio",
+        "invalidEmail": "Email invalido" ,
+        "sizeImage": "A imagem deve ter menos de 1MB!",
+        "maxLength": "O campo deve ter no máximo",
+        "telegram": "Convite do telegram invalido",
+        "discord": "Convite do discord invalido",
+        "linkedin": "Linkedin invalido",
+        "instagram": "Instagram invalido",
+        "twitter": "Twitter Invalido",
+        "site": "URL do site invalido" ,
+        "youtube": "Insira um URL de vídeo válido do YouTube",
+        "youtubeChanel": "Insira canal válido do YouTube"
+      },
+      "messages": {
+        "success": "Projeto cadastrado com sucesso",
+        "error": "Erro na criaçao do projeto"
+      },
+      "successMessages": {  
+        "title": "Projeto enviado com sucesso!",
+        "description": "O projeto está em análise, aguarde o retorno da nossa equipe"
+      }
+    },
+    "editProject": {
+      "title": "Editar Projeto",
+        "messages": {
+          "success": "Alterações realizadas com sucesso",
+          "error": "Erro na criaçao do projeto"
+      },
+       "formTabs": {
+          "about": {
+            "title": "Sobre",
+            "cover": "Capa do Projeto"
+          },
+          "links" : {
+            "title": "Links"
+          }
+       }
     }
   }
 }
