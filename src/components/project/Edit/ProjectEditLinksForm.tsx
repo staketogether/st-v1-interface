@@ -3,7 +3,7 @@ import Input from '@/components/shared/inputs/Input'
 import { projectRegexFields, projectRegexOnKeyDown } from '@/components/shared/regex'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { EditProjectForm } from '@/types/Project'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { FieldErrors, UseFormHandleSubmit, UseFormRegister, UseFormTrigger } from 'react-hook-form'
 import { PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
@@ -15,6 +15,7 @@ type ProjectEditLinksFormProps = {
   onSubmit: () => Promise<void>
   labelButton: string
   errors: FieldErrors<EditProjectForm>
+  isSubmitted: boolean
 }
 
 export default function ProjectEditLinksForm({
@@ -23,14 +24,25 @@ export default function ProjectEditLinksForm({
   onSubmit,
   trigger,
   labelButton,
+  isSubmitted,
   errors
 }: ProjectEditLinksFormProps) {
   const { t } = useLocaleTranslation()
+  const modalRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (isSubmitted && errors && modalRef.current && (errors.site || errors.youtube || errors.twitter)) {
+      modalRef.current.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }
+  }, [errors, isSubmitted, modalRef])
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Container>
-        <FormContainer>
+        <FormContainer ref={modalRef}>
           <Input
             title={t('v2.createProject.form.site')}
             register={register('site', {
