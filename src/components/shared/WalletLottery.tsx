@@ -168,7 +168,6 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
       display: flex;
       align-items: center;
       gap: 4px;
-      background: red;
       margin: 0 auto;
     }
   `,
