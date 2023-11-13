@@ -128,6 +128,8 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
     display: grid;
     grid-template-columns: 1fr;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     box-shadow: ${({ theme }) => theme.shadow[100]};
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.color.white};
@@ -189,6 +191,7 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
     > div {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
     }
   `,
@@ -221,8 +224,8 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
     justify-content: center;
 
     position: absolute;
-    right: 23px;
-    top: 23px;
+    right: 24px;
+    top: 24px;
 
     span {
       font-size: ${({ theme }) => theme.font.size[18]};
