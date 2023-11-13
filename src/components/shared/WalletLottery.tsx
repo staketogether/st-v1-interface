@@ -127,7 +127,11 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
+
     align-items: center;
+    justify-content: center;
+    text-align: center;
+
     box-shadow: ${({ theme }) => theme.shadow[100]};
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.color.white};
@@ -148,6 +152,7 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: ${({ theme }) => theme.size[24]};
     }
 
@@ -163,6 +168,7 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
       display: flex;
       align-items: center;
       gap: 4px;
+      margin: 0 auto;
     }
   `,
   ResultContainer: styled.div`
@@ -185,10 +191,12 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
     flex-direction: column;
     align-items: center;
     gap: 12px;
+    margin: 0 auto;
 
     > div {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
     }
   `,
@@ -221,8 +229,8 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
     justify-content: center;
 
     position: absolute;
-    right: 23px;
-    top: 23px;
+    right: 24px;
+    top: 24px;
 
     span {
       font-size: ${({ theme }) => theme.font.size[18]};
