@@ -127,9 +127,11 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr;
+
     align-items: center;
     justify-content: center;
     text-align: center;
+
     box-shadow: ${({ theme }) => theme.shadow[100]};
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.color.white};
@@ -188,6 +190,7 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
     flex-direction: column;
     align-items: center;
     gap: 12px;
+    margin: 0 auto;
 
     > div {
       display: flex;
