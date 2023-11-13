@@ -150,6 +150,7 @@ const { Container, GiftsIcon, ResultContainer, CopyIcon, Result, CloseButton } =
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: ${({ theme }) => theme.size[24]};
     }
 
