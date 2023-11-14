@@ -12,6 +12,10 @@ export const queryContentfulPoolByAddress = gql`
         }
         category {
           name
+          sys {
+            id
+            publishedAt
+          }
         }
         cover {
           url
@@ -23,6 +27,9 @@ export const queryContentfulPoolByAddress = gql`
           fileName
         }
         description
+        approvalModalViewed
+        email
+        aboutProject
         site
         twitter
         instagram

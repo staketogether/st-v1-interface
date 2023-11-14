@@ -1,5 +1,5 @@
 import { ContentfulPool } from '@/types/ContentfulPool'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
@@ -11,6 +11,8 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { PiPencilSimpleLine } from 'react-icons/pi'
 import ProjectEditModal from './Edit/ProjectEditModal'
 import useProjectEditModal from '@/hooks/useProjectEditModal'
+import useProjectResultModal from '@/hooks/useProjectResultModal'
+import ProjectResultModal from './result-modal/ProjectResultModal'
 
 type ProjectCreateButtonProps = {
   poolDetail: ContentfulPool
@@ -21,12 +23,23 @@ type ProjectCreateButtonProps = {
 export default function ProjectButton({ poolDetail, account, isMobile }: ProjectCreateButtonProps) {
   const { t } = useLocaleTranslation()
   const { setProjectEditModal, isOpenProjectEditModal } = useProjectEditModal()
+  const { setProjectResultModal, isOpenProjectResultModal } = useProjectResultModal()
+
+  const isProjectPending = poolDetail.status === 'pending'
+  const isProjectApproved = poolDetail.status === 'approved'
+  const isProjectRejected = poolDetail.status === 'rejected'
+
+  useEffect(() => {
+    if ((isProjectApproved || isProjectRejected) && !poolDetail.approvalModalViewed) {
+      setProjectResultModal(true)
+    }
+  }, [isProjectApproved, isProjectRejected, poolDetail, setProjectResultModal])
 
   return (
     <>
-      {poolDetail.status === 'pending' && (
+      {isProjectPending && (
         <Tooltip title={t('v2.createProject.status.pending')}>
-          <Button className={`${isMobile && 'isMobile'} 'pending'`}>
+          <Button className={`${isMobile && 'isMobile'} 'pending'`} onClick={() => setProjectResultModal(true)}>
             <div>
               <CommunityLogo size={24} src={poolDetail.logo.url} alt={poolDetail.logo.fileName} />
               <ClockIcon src={clockYellow} width={12} height={12} alt='clock' />
@@ -35,7 +48,7 @@ export default function ProjectButton({ poolDetail, account, isMobile }: Project
           </Button>
         </Tooltip>
       )}
-      {poolDetail.status === 'approved' && (
+      {isProjectApproved && (
         <>
           <Button onClick={() => setProjectEditModal(true)} className={`${isMobile && 'isMobile'}`}>
             <CommunityLogo size={24} src={poolDetail.logo.url} alt={poolDetail.logo.fileName} />
@@ -46,9 +59,9 @@ export default function ProjectButton({ poolDetail, account, isMobile }: Project
           {isOpenProjectEditModal && <ProjectEditModal poolDetailUs={poolDetail} account={account} />}
         </>
       )}
-      {poolDetail.status === 'rejected' && (
+      {isProjectRejected && (
         <Tooltip title={t('v2.createProject.status.rejected')}>
-          <Button className={`${isMobile && 'isMobile'}`}>
+          <Button className={`${isMobile && 'isMobile'}`} onClick={() => setProjectResultModal(true)}>
             <div>
               <CommunityLogo size={24} src={poolDetail.logo.url} alt={poolDetail.logo.fileName} />
               <ReprovedIcon />
@@ -57,6 +70,7 @@ export default function ProjectButton({ poolDetail, account, isMobile }: Project
           </Button>
         </Tooltip>
       )}
+      {isOpenProjectResultModal && <ProjectResultModal poolDetail={poolDetail} />}
     </>
   )
 }

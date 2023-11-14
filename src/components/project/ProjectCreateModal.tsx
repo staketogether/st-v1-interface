@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Modal from '../shared/Modal'
 import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import styled from 'styled-components'
@@ -26,6 +26,20 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const [createCommunityForm, setCreateCommunityForm] = useState<ProjectCreateInfo | null>(null)
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
+  const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') || false
+
+  useEffect(() => {
+    if (poolDetail && poolDetail.logo.url && isReappliedProject) {
+      setFileList([
+        {
+          uid: '1',
+          name: poolDetail?.logo.fileName,
+          status: 'done',
+          url: poolDetail?.logo?.url
+        }
+      ])
+    }
+  }, [poolDetail, isReappliedProject])
 
   const { t } = useLocaleTranslation()
 
@@ -38,6 +52,16 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
     setCurrent(current - 1)
   }
 
+  const reapplyProject = useCallback(
+    async (signatureMessage: { signature: `0x${string}`; message: string }, projectId: string) => {
+      await axios.post('/api/project/reapply', {
+        form: { ...createCommunityForm, projectId },
+        signatureMessage
+      })
+    },
+    [createCommunityForm]
+  )
+
   const message = `Stake Together Register - ${account} `
   const {
     isLoading,
@@ -49,18 +73,25 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
     onSuccess: async data => {
       const signatureMessage = { signature: data, message: message }
 
-      await axios.post('/api/project/create', {
-        form: createCommunityForm,
-        signatureMessage
-      })
-
-      notification.success({
-        message: `${t('v2.createProject.messages.success')}`,
-        placement: 'topRight'
-      })
-      contentfulClient.refetchQueries({
-        include: [queryContentfulPoolByAddress]
-      })
+      if (poolDetail && isReappliedProject) {
+        await reapplyProject(signatureMessage, poolDetail.sys.id)
+        notification.success({
+          message: `${t('v2.createProject.messages.reapplySuccess')}`,
+          placement: 'topRight'
+        })
+      } else {
+        await axios.post('/api/project/create', {
+          form: createCommunityForm,
+          signatureMessage
+        })
+        contentfulClient.refetchQueries({
+          include: [queryContentfulPoolByAddress]
+        })
+        notification.success({
+          message: `${t('v2.createProject.messages.success')}`,
+          placement: 'topRight'
+        })
+      }
     },
     onError: error => {
       const { cause } = error as { cause?: { message?: string } }
@@ -80,17 +111,20 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   }
 
   useEffect(() => {
-    resetSignMessage()
-    setCurrent(0)
-    setHasAgreeTerms(false)
-    setFileList([])
-  }, [account, t, resetSignMessage])
+    if (!poolDetail) {
+      resetSignMessage()
+      setCurrent(0)
+      setHasAgreeTerms(false)
+      setFileList([])
+    }
+  }, [account, t, resetSignMessage, poolDetail])
 
   const steps = [
     {
       content: (
         <ProjectRegisterInfo
           nextStep={nextStep}
+          poolDetail={poolDetail}
           account={account}
           current={current}
           hasAgreeTerms={hasAgreeTerms}
@@ -107,6 +141,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
           isLoading={isLoading}
           projectInfo={projectInfo}
           isSuccess={isSuccess}
+          poolDetail={poolDetail}
           previewStep={previewStep}
           current={current}
         />
@@ -116,12 +151,13 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const { isOpenProjectCreateModal, setOpenProjectCreateModal } = useProjectCreateModal()
 
   useEffect(() => {
-    if (poolDetail && !isSuccess) {
+    if (poolDetail && !isReappliedProject && !isSuccess) {
       setOpenProjectCreateModal(false)
     }
-  }, [isSuccess, poolDetail, setOpenProjectCreateModal])
+  }, [isSuccess, poolDetail, isReappliedProject, setOpenProjectCreateModal])
 
-  const titleModal = current === 0 ? t('v2.createProject.title') : t('v2.createProject.linksToAnalyze')
+  const createTitleModal = current === 0 ? t('v2.createProject.title') : t('v2.createProject.linksToAnalyze')
+  const titleModal = isReappliedProject ? t('v2.createProject.reapplyTitle') : createTitleModal
   return (
     <Modal
       title={isLoading || isSuccess ? null : titleModal}

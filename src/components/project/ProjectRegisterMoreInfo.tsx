@@ -11,6 +11,7 @@ import Input from '../shared/inputs/Input'
 import GenericTransactionLoading from '../shared/GenericTransactionLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
+import { ContentfulWithLocale } from '@/types/ContentfulPool'
 
 type ProjectRegisterMoreInfoProps = {
   isLoading: boolean
@@ -18,6 +19,7 @@ type ProjectRegisterMoreInfoProps = {
   current: number
   account?: `0x${string}`
   projectInfo: ProjectCreateInfo | null
+  poolDetail: ContentfulWithLocale | null
   registerLinksToAnalyze: (data: ProjectLinksToAnalyze) => void
   previewStep: () => void
 }
@@ -28,6 +30,7 @@ export default function ProjectRegisterMoreInfo({
   projectInfo,
   account,
   current,
+  poolDetail,
   previewStep,
   registerLinksToAnalyze
 }: ProjectRegisterMoreInfoProps) {
@@ -37,9 +40,14 @@ export default function ProjectRegisterMoreInfo({
   const { chain: walletChainId } = useNetwork()
   const { chainId } = chain
   const isWrongNetwork = chainId !== walletChainId?.id
+  const isProjectRejected = poolDetail?.status === 'rejected'
+  const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') || false
   const handleLabelButton = () => {
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
+    }
+    if (isReappliedProject) {
+      return t('v2.createProject.reapplyTitle')
     }
     return t('v2.createProject.form.register')
   }
@@ -52,6 +60,7 @@ export default function ProjectRegisterMoreInfo({
     register,
     formState: { errors },
     getValues,
+    setValue,
     handleSubmit,
     trigger,
     reset
@@ -59,8 +68,19 @@ export default function ProjectRegisterMoreInfo({
   const formValues = getValues()
 
   useEffect(() => {
-    reset()
-  }, [account, t, reset])
+    if (!poolDetail) {
+      reset()
+    }
+  }, [account, t, reset, poolDetail])
+
+  useEffect(() => {
+    if (poolDetail && isProjectRejected) {
+      setValue('site', poolDetail.site || '')
+      setValue('twitter', poolDetail.twitter || '')
+      setValue('instagram', poolDetail.instagram || '')
+      setValue('telegram', poolDetail.telegram || '')
+    }
+  }, [isProjectRejected, poolDetail, setValue])
 
   const onSubmit: SubmitHandler<ProjectLinksToAnalyze> = data => {
     if (isWrongNetwork && switchNetworkAsync) {
@@ -74,6 +94,7 @@ export default function ProjectRegisterMoreInfo({
     <Container onSubmit={handleSubmit(onSubmit)} className={current === 1 ? 'active' : ''}>
       {!isLoading && isSuccess && (
         <ProjectCreateSuccess
+          poolDetail={poolDetail}
           formValues={{
             ...formValues,
             logo: { mimeType: projectInfo?.logo?.mimeType, base64: projectInfo?.logo?.base64 || '' },
@@ -82,7 +103,13 @@ export default function ProjectRegisterMoreInfo({
         />
       )}
       {isLoading && !isSuccess && (
-        <GenericTransactionLoading title={t('v2.createProject.form.loadingMessage')} />
+        <GenericTransactionLoading
+          title={
+            isReappliedProject
+              ? t('v2.createProject.form.reapplyLoadingMessage')
+              : t('v2.createProject.form.loadingMessage')
+          }
+        />
       )}
       {!isLoading && !isSuccess && (
         <FormContainer>

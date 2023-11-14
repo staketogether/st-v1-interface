@@ -17,12 +17,14 @@ import Select from '../shared/inputs/Select'
 import TextArea from '../shared/inputs/TextArea'
 import ImgCrop from 'antd-img-crop'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
+import { ContentfulWithLocale } from '@/types/ContentfulPool'
 
 type ProjectRegisterInfoProps = {
   hasAgreeTerms: boolean
   account?: `0x${string}`
   current: number
   fileList: UploadFile[]
+  poolDetail: ContentfulWithLocale | null
   nextStep: (data: ProjectCreateInfo) => void
   setHasAgreeTerms: (value: boolean) => void
   setFileList: (value: UploadFile[]) => void
@@ -33,6 +35,7 @@ export default function ProjectRegisterInfo({
   hasAgreeTerms,
   fileList,
   current,
+  poolDetail,
   nextStep,
   setHasAgreeTerms,
   setFileList
@@ -41,6 +44,7 @@ export default function ProjectRegisterInfo({
   const { categories } = useContentfulCategoryCollection()
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const modalRef = useRef<HTMLDivElement>(null)
+
   const {
     register,
     formState: { errors, isSubmitted },
@@ -65,12 +69,22 @@ export default function ProjectRegisterInfo({
   }, [errors, isSubmitted, modalRef])
 
   useEffect(() => {
-    if (account) {
+    if (account && !poolDetail) {
       reset()
       setValue('wallet', account.toLocaleLowerCase())
       setError('logo', { type: 'required', message: `${t('v2.createProject.formMessages.required')}` })
     }
-  }, [account, setError, setValue, t, reset])
+  }, [account, setError, setValue, t, reset, poolDetail])
+
+  useEffect(() => {
+    if (poolDetail && poolDetail.status === 'rejected') {
+      setValue('wallet', poolDetail.wallet)
+      setValue('email', poolDetail.email || '')
+      setValue('projectName', poolDetail.name)
+      setValue('category', poolDetail.category?.sys?.id)
+      setValue('aboutProject', poolDetail.aboutProject)
+    }
+  }, [poolDetail, setValue])
 
   const onPreview = async (file: UploadFile) => {
     let src = file.url as string
@@ -100,10 +114,13 @@ export default function ProjectRegisterInfo({
   }
 
   useEffect(() => {
-    if (categories?.length) {
+    if (categories?.length && !poolDetail) {
       setValue('category', categories[0].sys.id)
     }
-  }, [categories, setValue])
+    if (poolDetail) {
+      setValue('category', poolDetail.category?.sys?.id)
+    }
+  }, [categories, poolDetail, setValue])
 
   const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
     setFileList(info.fileList)
