@@ -433,6 +433,7 @@
       },
       "messages": {
         "success": "Projeto cadastrado com sucesso",
+        "reapplySuccess": "Projeto reaplicado com sucesso",
         "error": "Erro na criaçao do projeto"
       },
       "successMessages": {

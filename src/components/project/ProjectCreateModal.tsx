@@ -75,6 +75,10 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
 
       if (poolDetail && isReplyProject) {
         await reapplyProject(signatureMessage, poolDetail.sys.id)
+        notification.success({
+          message: `${t('v2.createProject.messages.reapplySuccess')}`,
+          placement: 'topRight'
+        })
       } else {
         await axios.post('/api/project/create', {
           form: createCommunityForm,
@@ -83,12 +87,11 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
         contentfulClient.refetchQueries({
           include: [queryContentfulPoolByAddress]
         })
+        notification.success({
+          message: `${t('v2.createProject.messages.success')}`,
+          placement: 'topRight'
+        })
       }
-
-      notification.success({
-        message: `${t('v2.createProject.messages.success')}`,
-        placement: 'topRight'
-      })
     },
     onError: error => {
       const { cause } = error as { cause?: { message?: string } }
@@ -149,7 +152,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const { isOpenProjectCreateModal, setOpenProjectCreateModal } = useProjectCreateModal()
 
   useEffect(() => {
-    if (poolDetail && isReplyProject && !isSuccess) {
+    if (poolDetail && !isReplyProject && !isSuccess) {
       setOpenProjectCreateModal(false)
     }
   }, [isSuccess, poolDetail, isReplyProject, setOpenProjectCreateModal])

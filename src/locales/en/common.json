@@ -406,6 +406,7 @@
       },
       "messages": {
         "success": "Project created successfully",
+        "reapplySuccess": "Project reapplication submitted successfully",
         "error": "Error creating project"
       },
       "successMessages": {
