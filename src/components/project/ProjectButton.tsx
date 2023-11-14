@@ -1,5 +1,5 @@
 import { ContentfulPool } from '@/types/ContentfulPool'
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
@@ -11,6 +11,8 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { PiPencilSimpleLine } from 'react-icons/pi'
 import ProjectEditModal from './Edit/ProjectEditModal'
 import useProjectEditModal from '@/hooks/useProjectEditModal'
+import useProjectResultModal from '@/hooks/useProjectResultModal'
+import ProjectResultModal from './result-modal/ProjectResultModal'
 
 type ProjectCreateButtonProps = {
   poolDetail: ContentfulPool
@@ -21,6 +23,16 @@ type ProjectCreateButtonProps = {
 export default function ProjectButton({ poolDetail, account, isMobile }: ProjectCreateButtonProps) {
   const { t } = useLocaleTranslation()
   const { setProjectEditModal, isOpenProjectEditModal } = useProjectEditModal()
+  const { setProjectResultModal, isOpenProjectResultModal } = useProjectResultModal()
+
+  useEffect(() => {
+    if (
+      (poolDetail.status === 'approved' || poolDetail.status === 'rejected') &&
+      !poolDetail.approvalModalViewed
+    ) {
+      setProjectResultModal(true)
+    }
+  }, [poolDetail, setProjectResultModal])
 
   return (
     <>
@@ -48,7 +60,7 @@ export default function ProjectButton({ poolDetail, account, isMobile }: Project
       )}
       {poolDetail.status === 'rejected' && (
         <Tooltip title={t('v2.createProject.status.rejected')}>
-          <Button className={`${isMobile && 'isMobile'}`}>
+          <Button className={`${isMobile && 'isMobile'}`} onClick={() => setProjectResultModal(true)}>
             <div>
               <CommunityLogo size={24} src={poolDetail.logo.url} alt={poolDetail.logo.fileName} />
               <ReprovedIcon />
@@ -57,6 +69,7 @@ export default function ProjectButton({ poolDetail, account, isMobile }: Project
           </Button>
         </Tooltip>
       )}
+      {isOpenProjectResultModal && <ProjectResultModal poolDetail={poolDetail} />}
     </>
   )
 }

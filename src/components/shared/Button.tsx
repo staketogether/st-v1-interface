@@ -1,8 +1,8 @@
-import { ReactNode } from 'react'
+import { ReactNode, InputHTMLAttributes } from 'react'
 import styled from 'styled-components'
-import useLocaleTranslation from '../../hooks/useLocaleTranslation'
+import Loading from './icons/Loading'
 
-interface ButtonProps {
+type ButtonProps = InputHTMLAttributes<HTMLButtonElement> & {
   onClick?: () => void
   label: string
   type?: 'button' | 'submit' | 'submit'
@@ -27,17 +27,15 @@ export default function Button({
   block = false,
   ghost = false
 }: ButtonProps) {
-  const { t } = useLocaleTranslation()
-
   return (
     <Container
       onClick={onClick}
-      disabled={disabled}
+      disabled={disabled || isLoading}
       type={type}
       className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${className}`}
     >
-      {icon}
-      {isLoading ? t('processing') : label}
+      {isLoading ? <Loading size={small ? 14 : 16} /> : icon}
+      {label}
     </Container>
   )
 }

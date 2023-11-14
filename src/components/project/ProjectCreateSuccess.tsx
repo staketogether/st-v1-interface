@@ -8,15 +8,21 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
 import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import Button from '../shared/Button'
+import { ContentfulWithLocale } from '@/types/ContentfulPool'
+import { contentfulClient } from '@/config/apollo'
+import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
 
 type ProjectCreateSuccessProps = {
   formValues: CreateProjectForm
+  poolDetail: ContentfulWithLocale | null
 }
 
-export default function ProjectCreateSuccess({ formValues }: ProjectCreateSuccessProps) {
+export default function ProjectCreateSuccess({ formValues, poolDetail }: ProjectCreateSuccessProps) {
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
   const { setOpenProjectCreateModal: setCommunityCreateModal } = useProjectCreateModal()
+
+  const logo = poolDetail?.logo?.url || `data:${formValues.logo?.mimeType};base64,${formValues.logo?.base64}`
 
   return (
     <Container>
@@ -25,7 +31,7 @@ export default function ProjectCreateSuccess({ formValues }: ProjectCreateSucces
         <span>{`${t('v2.createProject.successMessages.title')}`}</span>
       </header>
       <ProjectRegisteredCard
-        projectLogo={`data:${formValues.logo?.mimeType};base64,${formValues.logo?.base64}`}
+        projectLogo={logo}
         projectName={formValues.projectName}
         projectStatus={'pending'}
         createAt={new Date().toISOString()}
@@ -36,7 +42,12 @@ export default function ProjectCreateSuccess({ formValues }: ProjectCreateSucces
       />
       <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
       <SuccessButton
-        onClick={() => setCommunityCreateModal(false)}
+        onClick={() => {
+          contentfulClient.refetchQueries({
+            include: [queryContentfulPoolByAddress]
+          })
+          setCommunityCreateModal(false)
+        }}
         label={`${t('close')}`}
         icon={<></>}
         isLoading={false}

@@ -23,6 +23,7 @@ export type ContentfulPool = {
   }
   cover: ContentfulImage
   video?: string
+  approvalModalViewed: boolean
   status: string
   image: ContentfulImage
   description?: string
@@ -31,6 +32,8 @@ export type ContentfulPool = {
   instagram?: string
   youtube?: string
   discord?: string
+  aboutProject?: string
+  email?: string
   discordName?: string
   gotas?: string
   lens?: string

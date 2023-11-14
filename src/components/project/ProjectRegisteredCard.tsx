@@ -44,9 +44,9 @@ export default function ProjectRegisteredCard({
       <CardHeader>
         {projectLogo && <CommunityLogo size={80} src={projectLogo} alt={projectName || ''} />}
         <div>
-          {projectName && <CommunityName name={projectName} $bold $color={theme.color.secondary} />}
+          {projectName && <CommunityName name={projectName} $large $bold $color={theme.color.secondary} />}
           <div>
-            {PoolFilterIcon({ iconSize: 16, value: ProjectCategory })}
+            {PoolFilterIcon({ iconSize: 14, value: ProjectCategory })}
             <span>{`${poolTypeTranslation(ProjectCategory)}`}</span>
           </div>
         </div>
@@ -71,6 +71,7 @@ const { CardContainer, CardHeader, CardInfo } = {
     display: flex;
     align-items: center;
     flex-direction: column;
+    width: 200px;
 
     padding: 16px;
     gap: ${({ theme }) => theme.size[4]};
@@ -113,7 +114,7 @@ const { CardContainer, CardHeader, CardInfo } = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: ${({ theme }) => theme.size[4]};
+    gap: 6px;
     padding: ${({ theme }) => theme.size[8]};
 
     border-radius: ${({ theme }) => theme.size[8]};
@@ -127,7 +128,7 @@ const { CardContainer, CardHeader, CardInfo } = {
       justify-content: space-between;
       gap: ${({ theme }) => theme.size[16]};
       > span {
-        font-size: ${({ theme }) => theme.font.size[14]};
+        font-size: ${({ theme }) => theme.font.size[13]};
         font-weight: 400;
 
         &.bold {

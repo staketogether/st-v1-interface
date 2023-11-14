@@ -1,13 +1,13 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
-  "save" : "Save",
+  "save": "Save",
   "projects": "Projects",
   "portfolio": "Portfolio",
   "stake": "Stake",
   "time": "Time",
   "next": "Next",
-   "close": "Close",
+  "close": "Close",
   "goToBack": "Go To Back",
   "account": "Account",
   "accounts": "Accounts",
@@ -379,53 +379,61 @@
         "telegram": "https://t.me/YourInviteCode",
         "youtube": "@YourChannel",
         "facebook": "Enter the link to your Facebook page",
-        "description": "Enter a description of your project", 
+        "description": "Enter a description of your project",
         "contract": "Enter the address of your project's smart contract",
-        "video" : "Enter the YouTube link to your project's video"
+        "video": "Enter the YouTube link to your project's video"
       },
       "status": {
         "approved": "Approved",
         "rejected": "Rejected",
         "pending": "Under Analysis"
       },
-      "formMessages" : {
+      "formMessages": {
         "required": "This field is required",
-        "invalidEmail": "Invalid email" ,
+        "invalidEmail": "Invalid email",
         "sizeImage": "Image must smaller than 1MB",
         "maxLength": "Maximum length exceeded",
-          "telegram": "Invalid telegram invite",
-          "discord": "Invalid discord invite",
-          "linkedin": "Invalid Linkedin",
-          "instagram": "Invalid Instagram",
-          "twitter": "Invalid Twitter",
-          "site": "Invalid site URL",
-          "youtube": "Please enter a valid YouTube video URL",
-          "youtubeChanel": "Please enter a valid YouTube channel"
+        "telegram": "Invalid telegram invite",
+        "discord": "Invalid discord invite",
+        "linkedin": "Invalid Linkedin",
+        "instagram": "Invalid Instagram",
+        "twitter": "Invalid Twitter",
+        "site": "Invalid site URL",
+        "youtube": "Please enter a valid YouTube video URL",
+        "youtubeChanel": "Please enter a valid YouTube channel"
       },
       "messages": {
         "success": "Project created successfully",
         "error": "Error creating project"
       },
-      "successMessages": {  
+      "successMessages": {
         "title": "Project created successfully",
         "description": "The project is under review, please await our team's response"
       }
     },
     "editProject": {
       "title": "Edit Project",
-       "messages": {
-          "success": "Project updated successfully",
-          "loading": "Updating project"
+      "messages": {
+        "success": "Project updated successfully",
+        "loading": "Updating project"
+      },
+      "formTabs": {
+        "about": {
+          "title": "About",
+          "cover": "Project Cover"
         },
-       "formTabs": {
-          "about": {
-            "title": "About",
-            "cover": "Project Cover"
-          },
-          "links" : {
-            "title": "Links"
-          }
-       }
+        "links": {
+          "title": "Links"
+        }
+      }
+    },
+    "resultModal": {
+      "title": {
+        "approved": "Congratulations, Project Approved!",
+        "rejected": "Unfortunately, your project has been rejected!"
+      },
+      "goToProjectPage": "Go to project page",
+      "reapplyProject": "Reapply Project"
     }
   }
 }

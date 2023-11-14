@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Modal from '../shared/Modal'
 import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import styled from 'styled-components'
@@ -27,6 +27,19 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
 
+  useEffect(() => {
+    if (poolDetail && poolDetail.logo.url && poolDetail.status === 'rejected') {
+      setFileList([
+        {
+          uid: '1',
+          name: poolDetail?.logo.fileName,
+          status: 'done',
+          url: poolDetail?.logo?.url
+        }
+      ])
+    }
+  }, [poolDetail])
+
   const { t } = useLocaleTranslation()
 
   const nextStep = (data: ProjectCreateInfo) => {
@@ -37,6 +50,16 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const previewStep = () => {
     setCurrent(current - 1)
   }
+
+  const reapplyProject = useCallback(
+    async (signatureMessage: { signature: `0x${string}`; message: string }, projectId: string) => {
+      await axios.post('/api/project/reapply', {
+        form: { ...createCommunityForm, projectId },
+        signatureMessage
+      })
+    },
+    [createCommunityForm]
+  )
 
   const message = `Stake Together Register - ${account} `
   const {
@@ -49,17 +72,21 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
     onSuccess: async data => {
       const signatureMessage = { signature: data, message: message }
 
-      await axios.post('/api/project/create', {
-        form: createCommunityForm,
-        signatureMessage
-      })
+      if (poolDetail && poolDetail.status === 'rejected') {
+        await reapplyProject(signatureMessage, poolDetail.sys.id)
+      } else {
+        await axios.post('/api/project/create', {
+          form: createCommunityForm,
+          signatureMessage
+        })
+        contentfulClient.refetchQueries({
+          include: [queryContentfulPoolByAddress]
+        })
+      }
 
       notification.success({
         message: `${t('v2.createProject.messages.success')}`,
         placement: 'topRight'
-      })
-      contentfulClient.refetchQueries({
-        include: [queryContentfulPoolByAddress]
       })
     },
     onError: error => {
@@ -80,17 +107,20 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   }
 
   useEffect(() => {
-    resetSignMessage()
-    setCurrent(0)
-    setHasAgreeTerms(false)
-    setFileList([])
-  }, [account, t, resetSignMessage])
+    if (!poolDetail) {
+      resetSignMessage()
+      setCurrent(0)
+      setHasAgreeTerms(false)
+      setFileList([])
+    }
+  }, [account, t, resetSignMessage, poolDetail])
 
   const steps = [
     {
       content: (
         <ProjectRegisterInfo
           nextStep={nextStep}
+          poolDetail={poolDetail}
           account={account}
           current={current}
           hasAgreeTerms={hasAgreeTerms}
@@ -107,6 +137,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
           isLoading={isLoading}
           projectInfo={projectInfo}
           isSuccess={isSuccess}
+          poolDetail={poolDetail}
           previewStep={previewStep}
           current={current}
         />
@@ -116,7 +147,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const { isOpenProjectCreateModal, setOpenProjectCreateModal } = useProjectCreateModal()
 
   useEffect(() => {
-    if (poolDetail && !isSuccess) {
+    if (poolDetail && poolDetail.status !== 'rejected' && !isSuccess) {
       setOpenProjectCreateModal(false)
     }
   }, [isSuccess, poolDetail, setOpenProjectCreateModal])

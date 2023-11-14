@@ -11,6 +11,7 @@ import Input from '../shared/inputs/Input'
 import GenericTransactionLoading from '../shared/GenericTransactionLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
+import { ContentfulWithLocale } from '@/types/ContentfulPool'
 
 type ProjectRegisterMoreInfoProps = {
   isLoading: boolean
@@ -18,6 +19,7 @@ type ProjectRegisterMoreInfoProps = {
   current: number
   account?: `0x${string}`
   projectInfo: ProjectCreateInfo | null
+  poolDetail: ContentfulWithLocale | null
   registerLinksToAnalyze: (data: ProjectLinksToAnalyze) => void
   previewStep: () => void
 }
@@ -28,6 +30,7 @@ export default function ProjectRegisterMoreInfo({
   projectInfo,
   account,
   current,
+  poolDetail,
   previewStep,
   registerLinksToAnalyze
 }: ProjectRegisterMoreInfoProps) {
@@ -52,6 +55,7 @@ export default function ProjectRegisterMoreInfo({
     register,
     formState: { errors },
     getValues,
+    setValue,
     handleSubmit,
     trigger,
     reset
@@ -59,8 +63,19 @@ export default function ProjectRegisterMoreInfo({
   const formValues = getValues()
 
   useEffect(() => {
-    reset()
-  }, [account, t, reset])
+    if (!poolDetail) {
+      reset()
+    }
+  }, [account, t, reset, poolDetail])
+
+  useEffect(() => {
+    if (poolDetail && poolDetail.status === 'rejected') {
+      setValue('site', poolDetail.site || '')
+      setValue('twitter', poolDetail.twitter || '')
+      setValue('instagram', poolDetail.instagram || '')
+      setValue('telegram', poolDetail.telegram || '')
+    }
+  }, [poolDetail, setValue])
 
   const onSubmit: SubmitHandler<ProjectLinksToAnalyze> = data => {
     if (isWrongNetwork && switchNetworkAsync) {
@@ -74,6 +89,7 @@ export default function ProjectRegisterMoreInfo({
     <Container onSubmit={handleSubmit(onSubmit)} className={current === 1 ? 'active' : ''}>
       {!isLoading && isSuccess && (
         <ProjectCreateSuccess
+          poolDetail={poolDetail}
           formValues={{
             ...formValues,
             logo: { mimeType: projectInfo?.logo?.mimeType, base64: projectInfo?.logo?.base64 || '' },
