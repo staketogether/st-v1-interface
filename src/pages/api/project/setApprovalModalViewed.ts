@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const entry = await client.getEntry(projectId)
-  console.log(entry)
+
   if (!entry.fields?.approvalModalViewed || !entry.fields?.approvalModalViewed['en-US']) {
     entry.fields.approvalModalViewed = { 'en-US': true }
     const updateEntry = await entry.update()

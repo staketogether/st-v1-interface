@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const entry = await client.getEntry(projectId)
-  console.log('entry', entry, form)
+
   if (form.logo && form.logo.base64 && form.logo.mimeType) {
     const decodedImage = Buffer.from(form.logo.base64, 'base64')
     const logoUpload = await client.createAssetFromFiles({
