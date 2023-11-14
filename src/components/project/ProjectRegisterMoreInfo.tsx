@@ -20,7 +20,6 @@ type ProjectRegisterMoreInfoProps = {
   account?: `0x${string}`
   projectInfo: ProjectCreateInfo | null
   poolDetail: ContentfulWithLocale | null
-  isReplyProject: boolean
   registerLinksToAnalyze: (data: ProjectLinksToAnalyze) => void
   previewStep: () => void
 }
@@ -30,7 +29,6 @@ export default function ProjectRegisterMoreInfo({
   isLoading,
   projectInfo,
   account,
-  isReplyProject,
   current,
   poolDetail,
   previewStep,
@@ -42,11 +40,13 @@ export default function ProjectRegisterMoreInfo({
   const { chain: walletChainId } = useNetwork()
   const { chainId } = chain
   const isWrongNetwork = chainId !== walletChainId?.id
+  const isProjectRejected = poolDetail?.status === 'rejected'
+  const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') || false
   const handleLabelButton = () => {
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
     }
-    if (isReplyProject) {
+    if (isReappliedProject) {
       return t('v2.createProject.reapplyTitle')
     }
     return t('v2.createProject.form.register')
@@ -74,13 +74,13 @@ export default function ProjectRegisterMoreInfo({
   }, [account, t, reset, poolDetail])
 
   useEffect(() => {
-    if (poolDetail && poolDetail.status === 'rejected') {
+    if (poolDetail && isProjectRejected) {
       setValue('site', poolDetail.site || '')
       setValue('twitter', poolDetail.twitter || '')
       setValue('instagram', poolDetail.instagram || '')
       setValue('telegram', poolDetail.telegram || '')
     }
-  }, [poolDetail, setValue])
+  }, [isProjectRejected, poolDetail, setValue])
 
   const onSubmit: SubmitHandler<ProjectLinksToAnalyze> = data => {
     if (isWrongNetwork && switchNetworkAsync) {
@@ -105,7 +105,7 @@ export default function ProjectRegisterMoreInfo({
       {isLoading && !isSuccess && (
         <GenericTransactionLoading
           title={
-            isReplyProject
+            isReappliedProject
               ? t('v2.createProject.form.reapplyLoadingMessage')
               : t('v2.createProject.form.loadingMessage')
           }

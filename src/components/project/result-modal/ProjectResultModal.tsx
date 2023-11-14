@@ -28,9 +28,9 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
   const { query, push } = useRouter()
   const { currency, network } = query
 
-  const isProjectHasPending = poolDetail.status === 'pending'
-  const isProjectHasApproved = poolDetail.status === 'approved'
-  const isProjectHasRejected = poolDetail.status === 'rejected'
+  const isProjectPending = poolDetail.status === 'pending'
+  const isProjectApproved = poolDetail.status === 'approved'
+  const isProjectRejected = poolDetail.status === 'rejected'
 
   const setModalIsViewed = useCallback(async () => {
     if (!isLoading && !poolDetail.approvalModalViewed) {
@@ -64,14 +64,14 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
       width={'auto'}
       noPadding
     >
-      <Container className={`${isProjectHasPending && 'pending'}`}>
-        {isProjectHasApproved && (
+      <Container className={`${isProjectPending && 'pending'}`}>
+        {isProjectApproved && (
           <header>
             <LottieAnimation animationData={successAnimation} height={52} width={52} />
             <span className='approved'>{`${t('v2.resultModal.title.approved')}`}</span>
           </header>
         )}
-        {isProjectHasRejected && (
+        {isProjectRejected && (
           <header>
             <span>{`${t('v2.resultModal.title.rejected')}`}</span>
           </header>
@@ -87,11 +87,11 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
             'education'
           }
         />
-        {isProjectHasPending && (
+        {isProjectPending && (
           <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
         )}
         <ActionContainer>
-          {isProjectHasPending && (
+          {isProjectPending && (
             <CloseButton
               onClick={() => setProjectResultModal(false)}
               label={`${t('close')}`}
@@ -99,7 +99,7 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
               isLoading={isLoading}
             />
           )}
-          {isProjectHasApproved && (
+          {isProjectApproved && (
             <>
               <Button
                 onClick={handleRedirectToPage}
@@ -116,7 +116,7 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
               />
             </>
           )}
-          {isProjectHasRejected && (
+          {isProjectRejected && (
             <>
               <CloseButton onClick={handleModalClose} label={`${t('close')}`} icon={<></>} isLoading={false} />
               <Button
