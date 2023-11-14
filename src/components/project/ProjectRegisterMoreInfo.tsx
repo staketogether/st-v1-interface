@@ -20,6 +20,7 @@ type ProjectRegisterMoreInfoProps = {
   account?: `0x${string}`
   projectInfo: ProjectCreateInfo | null
   poolDetail: ContentfulWithLocale | null
+  isReplyProject: boolean
   registerLinksToAnalyze: (data: ProjectLinksToAnalyze) => void
   previewStep: () => void
 }
@@ -29,6 +30,7 @@ export default function ProjectRegisterMoreInfo({
   isLoading,
   projectInfo,
   account,
+  isReplyProject,
   current,
   poolDetail,
   previewStep,
@@ -43,6 +45,9 @@ export default function ProjectRegisterMoreInfo({
   const handleLabelButton = () => {
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
+    }
+    if (isReplyProject) {
+      return t('v2.createProject.reapplyTitle')
     }
     return t('v2.createProject.form.register')
   }
@@ -98,7 +103,13 @@ export default function ProjectRegisterMoreInfo({
         />
       )}
       {isLoading && !isSuccess && (
-        <GenericTransactionLoading title={t('v2.createProject.form.loadingMessage')} />
+        <GenericTransactionLoading
+          title={
+            isReplyProject
+              ? t('v2.createProject.form.reapplyLoadingMessage')
+              : t('v2.createProject.form.loadingMessage')
+          }
+        />
       )}
       {!isLoading && !isSuccess && (
         <FormContainer>

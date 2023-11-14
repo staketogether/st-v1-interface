@@ -26,9 +26,10 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const [createCommunityForm, setCreateCommunityForm] = useState<ProjectCreateInfo | null>(null)
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
+  const isReplyProject = (poolDetail && poolDetail.status === 'rejected') || false
 
   useEffect(() => {
-    if (poolDetail && poolDetail.logo.url && poolDetail.status === 'rejected') {
+    if (poolDetail && poolDetail.logo.url && isReplyProject) {
       setFileList([
         {
           uid: '1',
@@ -38,7 +39,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
         }
       ])
     }
-  }, [poolDetail])
+  }, [poolDetail, isReplyProject])
 
   const { t } = useLocaleTranslation()
 
@@ -72,7 +73,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
     onSuccess: async data => {
       const signatureMessage = { signature: data, message: message }
 
-      if (poolDetail && poolDetail.status === 'rejected') {
+      if (poolDetail && isReplyProject) {
         await reapplyProject(signatureMessage, poolDetail.sys.id)
       } else {
         await axios.post('/api/project/create', {
@@ -136,6 +137,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
           registerLinksToAnalyze={registerLinksToAnalyze}
           isLoading={isLoading}
           projectInfo={projectInfo}
+          isReplyProject={isReplyProject}
           isSuccess={isSuccess}
           poolDetail={poolDetail}
           previewStep={previewStep}
@@ -147,12 +149,13 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const { isOpenProjectCreateModal, setOpenProjectCreateModal } = useProjectCreateModal()
 
   useEffect(() => {
-    if (poolDetail && poolDetail.status !== 'rejected' && !isSuccess) {
+    if (poolDetail && isReplyProject && !isSuccess) {
       setOpenProjectCreateModal(false)
     }
-  }, [isSuccess, poolDetail, setOpenProjectCreateModal])
+  }, [isSuccess, poolDetail, isReplyProject, setOpenProjectCreateModal])
 
-  const titleModal = current === 0 ? t('v2.createProject.title') : t('v2.createProject.linksToAnalyze')
+  const createTitleModal = current === 0 ? t('v2.createProject.title') : t('v2.createProject.linksToAnalyze')
+  const titleModal = isReplyProject ? t('v2.createProject.reapplyTitle') : createTitleModal
   return (
     <Modal
       title={isLoading || isSuccess ? null : titleModal}

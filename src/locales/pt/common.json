@@ -366,6 +366,7 @@
       "sent": "Enviado",
       "seeMyProject": "Ver meu projeto",
       "walletTooltip": "O cadastro do projeto ficará vinculado a carteira conectada",
+      "reapplyTitle": "Reaplicar Projeto",
       "form": {
         "logo": "Logo do Projeto",
         "wallet": "Carteira Responsável",
@@ -382,6 +383,7 @@
         "upload": "Enviar",
         "register": "Cadastrar Projeto",
         "loadingMessage": "Enviando Cadastro do Projeto",
+        "reapplyLoadingMessage": "Reaplicando Projeto",
         "cover": "Cover",
         "video": "Video",
         "facebook": "Facebook",

@@ -25,9 +25,12 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
   const { categories } = useContentfulCategoryCollection()
   const { isOpenProjectResultModal, setProjectResultModal } = useProjectResultModal()
   const { setOpenProjectCreateModal } = useProjectCreateModal()
-
   const { query, push } = useRouter()
   const { currency, network } = query
+
+  const isProjectHasPending = poolDetail.status === 'pending'
+  const isProjectHasApproved = poolDetail.status === 'approved'
+  const isProjectHasRejected = poolDetail.status === 'rejected'
 
   const setModalIsViewed = useCallback(async () => {
     if (!isLoading && !poolDetail.approvalModalViewed) {
@@ -61,14 +64,14 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
       width={'auto'}
       noPadding
     >
-      <Container>
-        {poolDetail.status === 'approved' && (
+      <Container className={`${isProjectHasPending && 'pending'}`}>
+        {isProjectHasApproved && (
           <header>
             <LottieAnimation animationData={successAnimation} height={52} width={52} />
             <span className='approved'>{`${t('v2.resultModal.title.approved')}`}</span>
           </header>
         )}
-        {poolDetail.status === 'rejected' && (
+        {isProjectHasRejected && (
           <header>
             <span>{`${t('v2.resultModal.title.rejected')}`}</span>
           </header>
@@ -84,8 +87,19 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
             'education'
           }
         />
+        {isProjectHasPending && (
+          <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
+        )}
         <ActionContainer>
-          {poolDetail.status === 'approved' && (
+          {isProjectHasPending && (
+            <CloseButton
+              onClick={() => setProjectResultModal(false)}
+              label={`${t('close')}`}
+              icon={<></>}
+              isLoading={isLoading}
+            />
+          )}
+          {isProjectHasApproved && (
             <>
               <Button
                 onClick={handleRedirectToPage}
@@ -102,15 +116,9 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
               />
             </>
           )}
-          {poolDetail.status === 'rejected' && (
+          {isProjectHasRejected && (
             <>
-              <Button
-                onClick={handleModalClose}
-                label={`${t('close')}`}
-                icon={<></>}
-                style={{ padding: '0px 48px' }}
-                isLoading={false}
-              />
+              <CloseButton onClick={handleModalClose} label={`${t('close')}`} icon={<></>} isLoading={false} />
               <Button
                 onClick={() => {
                   setProjectResultModal(false)
@@ -129,12 +137,16 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
   )
 }
 
-const { Container, ActionContainer } = {
+const { Container, ActionContainer, MessageContainer, CloseButton } = {
   Container: styled.div`
     width: 100%;
     display: grid;
     place-items: center;
     padding: 36px 34px 24px 34px;
+
+    &.pending {
+      padding: 24px;
+    }
 
     gap: ${({ theme }) => theme.size[24]};
 
@@ -159,5 +171,17 @@ const { Container, ActionContainer } = {
     align-items: center;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[8]};
+  `,
+  MessageContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[12]};
+    text-align: center;
+
+    font-size: ${({ theme }) => theme.font.size[15]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+  `,
+  CloseButton: styled(Button)`
+    padding: 0px 48px;
   `
 }

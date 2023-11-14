@@ -341,6 +341,7 @@
       "sent": "Sent",
       "seeMyProject": "See my project",
       "walletTooltip": "The project registration will be linked to the connected wallet",
+      "reapplyTitle": "Reapply Project",
       "form": {
         "logo": "Project Logo",
         "wallet": "Wallet",
@@ -357,6 +358,7 @@
         "upload": "Upload",
         "register": "Register Project",
         "loadingMessage": "Submitting Project Registration",
+        "reapplyLoadingMessage": "Submitting Project Reapplication",
         "cover": "Cover",
         "video": "Video",
         "facebook": "Facebook",

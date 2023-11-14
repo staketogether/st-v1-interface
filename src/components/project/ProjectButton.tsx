@@ -25,6 +25,10 @@ export default function ProjectButton({ poolDetail, account, isMobile }: Project
   const { setProjectEditModal, isOpenProjectEditModal } = useProjectEditModal()
   const { setProjectResultModal, isOpenProjectResultModal } = useProjectResultModal()
 
+  const isProjectHasPending = poolDetail.status === 'pending'
+  const isProjectHasApproved = poolDetail.status === 'approved'
+  const isProjectHasRejected = poolDetail.status === 'rejected'
+
   useEffect(() => {
     if (
       (poolDetail.status === 'approved' || poolDetail.status === 'rejected') &&
@@ -36,9 +40,9 @@ export default function ProjectButton({ poolDetail, account, isMobile }: Project
 
   return (
     <>
-      {poolDetail.status === 'pending' && (
+      {isProjectHasPending && (
         <Tooltip title={t('v2.createProject.status.pending')}>
-          <Button className={`${isMobile && 'isMobile'} 'pending'`}>
+          <Button className={`${isMobile && 'isMobile'} 'pending'`} onClick={() => setProjectResultModal(true)}>
             <div>
               <CommunityLogo size={24} src={poolDetail.logo.url} alt={poolDetail.logo.fileName} />
               <ClockIcon src={clockYellow} width={12} height={12} alt='clock' />
@@ -47,7 +51,7 @@ export default function ProjectButton({ poolDetail, account, isMobile }: Project
           </Button>
         </Tooltip>
       )}
-      {poolDetail.status === 'approved' && (
+      {isProjectHasApproved && (
         <>
           <Button onClick={() => setProjectEditModal(true)} className={`${isMobile && 'isMobile'}`}>
             <CommunityLogo size={24} src={poolDetail.logo.url} alt={poolDetail.logo.fileName} />
@@ -58,7 +62,7 @@ export default function ProjectButton({ poolDetail, account, isMobile }: Project
           {isOpenProjectEditModal && <ProjectEditModal poolDetailUs={poolDetail} account={account} />}
         </>
       )}
-      {poolDetail.status === 'rejected' && (
+      {isProjectHasRejected && (
         <Tooltip title={t('v2.createProject.status.rejected')}>
           <Button className={`${isMobile && 'isMobile'}`} onClick={() => setProjectResultModal(true)}>
             <div>
