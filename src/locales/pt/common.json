@@ -466,9 +466,29 @@
       "reapplyProject": "Reaplicar Projeto"
     },
     "panelProject": {
-      "title": "Aprovar Projeto",
-      "approve": "Aprovar",
-      "reject": "Rejeitar"
+      "sidebar": {
+        "title": "Aprovação de Projetos",
+        "analysis": "Em Análise",
+        "approved": "Aprovados"
+      },
+      "modal": {
+        "title": "Aprovar Projeto",
+        "approve": "Aprovar",
+        "reject": "Rejeitar",
+        "publishInContract": "Publicar no contrato",
+        "signProjectApproval": "Assinar aprovação do projeto",
+        "projectApprovedAndPublished": "Projeto aprovado e publicado com sucesso!",
+        "projectApproved": "Projeto Aprovado",
+        "projectRejected": "Projeto Rejeitado!"
+      },
+      "messages": {
+        "projectApproved": "Projeto Aprovado com sucesso",
+        "projectRejected": "Projeto Rejeitado com sucesso",
+        "projectRemoved": "Projeto Removido com sucesso",
+        "errorProjectRemove": "Erro ao remover projeto",
+        "projectAddedSuccessfully": "Projeto adicionado com sucesso",
+        "errorAddProject": "Erro ao adicionar projeto"
+      }
     }
   }
 }

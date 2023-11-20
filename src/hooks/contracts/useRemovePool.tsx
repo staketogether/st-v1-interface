@@ -3,12 +3,14 @@ import chainConfig from '../../config/chain'
 import { usePrepareStakeTogetherRemovePool, useStakeTogetherRemovePool } from '@/types/Contracts'
 import { useWaitForTransaction } from 'wagmi'
 import { notification } from 'antd'
+import useLocaleTranslation from '../useLocaleTranslation'
 
 export default function useRemovePool(projectAddress: `0x${string}`, disabled?: boolean) {
   const { contracts, chainId } = chainConfig()
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
+  const { t } = useLocaleTranslation()
 
   const {
     config,
@@ -36,7 +38,7 @@ export default function useRemovePool(projectAddress: `0x${string}`, disabled?: 
     onSuccess: () => {
       setAwaitWalletAction(false)
       notification.success({
-        message: `Projeto Removido com sucesso!`,
+        message: `${t('v2.panelProject.messages.projectRemoved')}`,
         placement: 'topRight'
       })
       resetState()
@@ -44,7 +46,7 @@ export default function useRemovePool(projectAddress: `0x${string}`, disabled?: 
     onError: () => {
       setAwaitWalletAction(false)
       notification.error({
-        message: `Erro ao Remover o projeto!`,
+        message: `${t('v2.panelProject.messages.errorProjectRemove')}`,
         placement: 'topRight'
       })
     }

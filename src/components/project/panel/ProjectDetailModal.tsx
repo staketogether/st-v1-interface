@@ -94,7 +94,7 @@ export default function ProjectDetailModal({
         signatureMessage
       })
       notification.success({
-        message: `${t('v2.createProject.messages.success')}`,
+        message: `${t('v2.panelProject.messages.projectApproved')}`,
         placement: 'topRight'
       })
       setIsApproved(true)
@@ -121,7 +121,7 @@ export default function ProjectDetailModal({
       })
 
       notification.success({
-        message: `Projeto Rejeitado com sucesso`,
+        message: `${t('v2.panelProject.messages.projectRejected')}`,
         placement: 'topRight'
       })
 
@@ -139,11 +139,13 @@ export default function ProjectDetailModal({
   const isLoading = approveIsLoading || rejectedIsLoading || isLoadingTransaction || awaitWalletAction
 
   const transactionTitle =
-    approveIsLoading || rejectedIsLoading ? 'Assine a aprovação do projeto' : 'Publicar projeto'
+    approveIsLoading || rejectedIsLoading
+      ? `${t('v2.panelProject.modal.signProjectApproval')}`
+      : `${t('v2.panelProject.modal.publishInContract')}`
 
   return (
     <Modal
-      title={isLoading ? null : t('v2.panelProject.title')}
+      title={isLoading ? null : t('v2.panelProject.modal.title')}
       onClose={handleCloseModal}
       isOpen={isOpenProjectDetailModal}
       showCloseIcon={isLoading ? false : true}
@@ -177,13 +179,17 @@ export default function ProjectDetailModal({
           {isApproved && (
             <RejectedContainer>
               <LottieAnimation animationData={successAnimation} height={50} />
-              <span>{isSuccess ? 'Projeto aprovado e publicado com sucesso!' : 'Projeto Aprovado!'}</span>
+              <span>
+                {isSuccess
+                  ? t('v2.panelProject.modal.projectApprovedAndPublished')
+                  : t('v2.panelProject.modal.projectApproved')}
+              </span>
             </RejectedContainer>
           )}
           {isRejected && (
             <RejectedContainer>
               <LottieAnimation animationData={errorAnimation} height={50} />
-              <span>Projeto reprovado!</span>
+              <span>{t('v2.panelProject.modal.projectRejected')}</span>
             </RejectedContainer>
           )}
           <ProjectContainer>
@@ -249,7 +255,7 @@ export default function ProjectDetailModal({
               className={`${showRejectOptionWhenContractIsNotPublished && 'contractIsNotPublished'}`}
             >
               <Button
-                label={'Publicar no Contrato'}
+                label={t('v2.panelProject.modal.publishInContract')}
                 block
                 disabled={prepareTransactionIsError || isLoadingTransaction || prepareTransactionIsError}
                 isLoading={isLoadingTransaction || awaitWalletAction}
@@ -257,7 +263,7 @@ export default function ProjectDetailModal({
               />
               {!isContractPublished && showRejectOptionWhenContractIsNotPublished && (
                 <Button
-                  label={t('v2.panelProject.reject')}
+                  label={t('v2.panelProject.modal.reject')}
                   block
                   color='red'
                   ghost
@@ -270,7 +276,7 @@ export default function ProjectDetailModal({
           {!isApproved && !isRejected && project.status !== 'approved' && (
             <FooterContainer>
               <Button
-                label={t('v2.panelProject.approve')}
+                label={t('v2.panelProject.modal.approve')}
                 block
                 color='green'
                 isLoading={approveIsLoading}
@@ -285,7 +291,7 @@ export default function ProjectDetailModal({
               />
             </FooterContainer>
           )}
-          {(isRejected || isSuccess) && <Button label={'Fechar'} block onClick={handleCloseModal} />}
+          {(isRejected || isSuccess) && <Button label={t('close')} block onClick={handleCloseModal} />}
         </Container>
       )}
     </Modal>

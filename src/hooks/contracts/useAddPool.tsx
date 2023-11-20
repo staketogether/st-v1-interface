@@ -3,12 +3,14 @@ import chainConfig from '../../config/chain'
 import { usePrepareStakeTogetherAddPool, useStakeTogetherAddPool } from '@/types/Contracts'
 import { useWaitForTransaction } from 'wagmi'
 import { notification } from 'antd'
+import useLocaleTranslation from '../useLocaleTranslation'
 
 export default function useAddPool(projectAddress: `0x${string}`) {
   const { contracts, chainId } = chainConfig()
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
+  const { t } = useLocaleTranslation()
 
   const {
     config,
@@ -36,14 +38,14 @@ export default function useAddPool(projectAddress: `0x${string}`) {
     onSuccess: () => {
       setAwaitWalletAction(false)
       notification.success({
-        message: `Projeto Adicionado com sucesso!`,
+        message: `${t('v2.panelProject.messages.projectAddedSuccessfully')}`,
         placement: 'topRight'
       })
     },
     onError: () => {
       setAwaitWalletAction(false)
       notification.error({
-        message: `Erro ao adicionar projeto!`,
+        message: `${t('v2.panelProject.messages.errorAddProject')}`,
         placement: 'topRight'
       })
     }

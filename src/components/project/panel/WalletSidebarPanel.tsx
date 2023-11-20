@@ -14,8 +14,8 @@ export default function WalletSidebarPanel({ setIsPanelActive }: WalletSidebarPa
 
   const tabsItems: TabsItems[] = [
     {
-      key: 'analise',
-      label: `Em Analise`,
+      key: 'analysis',
+      label: `${t('v2.panelProject.sidebar.analysis')}`,
       icon: <AnalysisIcon />,
       children: (
         <TabContainer>
@@ -25,7 +25,7 @@ export default function WalletSidebarPanel({ setIsPanelActive }: WalletSidebarPa
     },
     {
       key: 'approved',
-      label: `Aprovados`,
+      label: `${t('v2.panelProject.sidebar.approved')}`,
       icon: <ApprovedIcon />,
       children: (
         <TabContainer>
@@ -35,7 +35,7 @@ export default function WalletSidebarPanel({ setIsPanelActive }: WalletSidebarPa
     }
   ]
 
-  const activeTab = 'analise'
+  const activeTab = 'analysis'
 
   return (
     <>
@@ -43,7 +43,7 @@ export default function WalletSidebarPanel({ setIsPanelActive }: WalletSidebarPa
         <Button onClick={() => setIsPanelActive(false)}>
           <CloseIcon />
         </Button>
-        <h2>Aprovação de Projetos</h2>
+        <h2>{`${t('v2.panelProject.sidebar.title')}`}</h2>
       </Header>
       <Container>
         <Tabs items={tabsItems} defaultActiveKey={activeTab} />
