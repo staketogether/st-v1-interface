@@ -36,6 +36,7 @@ import WalletSidebarSettings from './WalletSidebarSettings'
 import Withdrawals from '../shared/Withdrawals'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
 import WalletSidebarPanel from '../project/panel/WalletSidebarPanel'
+import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -44,6 +45,8 @@ type WalletSidebarConnectedProps = {
 export default function WalletSidebarConnected({ address }: WalletSidebarConnectedProps) {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [isPanelActive, setIsPanelActive] = useState(false)
+
+  const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
   const { disconnect } = useDisconnect()
   const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
@@ -172,9 +175,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <CloseSidebar fontSize={14} />
             </ClosedSidebarButton>
             <Actions>
-              <Button onClick={() => setIsPanelActive(true)}>
-                <PanelIcon fontSize={16} />
-              </Button>
+              {userCanViewPanel && !verifyWalletLoading && (
+                <Button onClick={() => setIsPanelActive(true)}>
+                  <PanelIcon fontSize={16} />
+                </Button>
+              )}
               <Button onClick={() => setIsSettingsActive(true)}>
                 <SettingIcon fontSize={16} />
               </Button>
