@@ -75,14 +75,14 @@ const { Container, LoadingIcon } = {
     }
 
     &.green {
-      background: ${({ theme }) => theme.color.green[300]};
+      background: ${({ theme }) => theme.color.green[400]};
       &:hover {
         background: ${({ theme }) => theme.color.green[500]};
       }
     }
 
     &.red {
-      background: ${({ theme }) => theme.color.red[300]};
+      background: ${({ theme }) => theme.color.red[400]};
       &:hover {
         background: ${({ theme }) => theme.color.red[500]};
       }
