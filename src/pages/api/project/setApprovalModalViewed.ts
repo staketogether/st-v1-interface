@@ -12,14 +12,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(400).json({ message: 'sysId not found' })
   }
 
-  const client = await CreateContentfulClient()
-
-  if (!client) {
-    res.status(400).json({ message: 'client not found' })
-  }
-
-  const entry = await client.getEntry(projectId)
   try {
+    const client = await CreateContentfulClient()
+
+    if (!client) {
+      res.status(400).json({ message: 'client not found' })
+    }
+
+    const entry = await client.getEntry(projectId)
     if (!entry.fields?.approvalModalViewed || !entry.fields?.approvalModalViewed['en-US']) {
       entry.fields.approvalModalViewed = { 'en-US': true }
       const updateEntry = await entry.update()
