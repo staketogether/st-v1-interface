@@ -24,11 +24,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       entry.fields.approvalModalViewed = { 'en-US': true }
       const updateEntry = await entry.update()
       await updateEntry.publish()
-      res.send(`Project updated success`)
+      res.status(200).send(`Project updated success`)
     }
   } catch (error) {
     return res.status(500).json({ message: 'Something went wrong', error })
   }
 
-  res.send(`project has already viewed the modal`)
+  res.status(200).send(`project has already viewed the modal`)
 }
