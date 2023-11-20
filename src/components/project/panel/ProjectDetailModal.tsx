@@ -283,7 +283,7 @@ export default function ProjectDetailModal({
                 onClick={() => signMessage()}
               />
               <Button
-                label={t('v2.panelProject.reject')}
+                label={t('v2.panelProject.modal.reject')}
                 block
                 color='red'
                 isLoading={rejectedIsLoading}

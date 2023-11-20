@@ -50,18 +50,6 @@ export default function ApprovedButton({ project, projectSelected, openModal }: 
     awaitWalletAction
   } = useRemovePool(project.wallet, isPoolRegistered)
 
-  useEffect(() => {
-    const verifyIsSuccess = async () => {
-      if (isSuccess) {
-        refetch()
-        await contentfulClient.refetchQueries({
-          include: [queryContentfulPoolsListByStatus]
-        })
-      }
-    }
-    verifyIsSuccess()
-  }, [isSuccess, refetch])
-
   const rejectMessage = `Stake Together Rejected Project - ${project.wallet} `
   const { isLoading: rejectedIsLoading, signMessage: rejectedSignMessage } = useSignMessage({
     message: rejectMessage,
@@ -74,7 +62,10 @@ export default function ApprovedButton({ project, projectSelected, openModal }: 
         signatureMessage
       })
 
-      removePool()
+      refetch()
+      await contentfulClient.refetchQueries({
+        include: [queryContentfulPoolsListByStatus]
+      })
     },
     onError: error => {
       const { cause } = error as { cause?: { message?: string } }
@@ -85,13 +76,22 @@ export default function ApprovedButton({ project, projectSelected, openModal }: 
     }
   })
 
+  useEffect(() => {
+    const verifyIsSuccess = async () => {
+      if (isSuccess) {
+        rejectedSignMessage()
+      }
+    }
+    verifyIsSuccess()
+  }, [isSuccess, rejectedSignMessage])
+
   return isFetching ? (
     <Loading size={18} />
   ) : (
     <>
       {isPoolRegistered ? (
         <Button
-          onClick={() => rejectedSignMessage()}
+          onClick={removePool}
           isLoading={isLoadingTransaction || awaitWalletAction || rejectedIsLoading}
           icon={<TrashIcon />}
           label={''}
