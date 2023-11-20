@@ -53,7 +53,6 @@ const { Container, LoadingIcon } = {
     color: ${({ theme }) => theme.color.white};
     border-radius: ${props => props.theme.size[8]};
     background: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.primary};
     transition: background-color 0.2s ease;
     height: 48px;
     padding: 0px 16px;
