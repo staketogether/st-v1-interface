@@ -13,13 +13,15 @@ import axios from 'axios'
 import { notification } from 'antd'
 import { contentfulClient } from '@/config/apollo'
 import { queryContentfulPoolsListByStatus } from '@/queries/contentful/queryContentfulPoolsListByStatus'
+import useProjectDetailModal from '@/hooks/useProjectDetailModal'
 
 type ApprovedButtonProps = {
   project: ContentfulPool
+  projectSelected: `0x${string}` | undefined
   openModal: (isContractPublished: boolean) => void
 }
 
-export default function ApprovedButton({ project, openModal }: ApprovedButtonProps) {
+export default function ApprovedButton({ project, projectSelected, openModal }: ApprovedButtonProps) {
   const { contracts } = chain()
   const {
     data: isPoolRegistered,
@@ -29,6 +31,17 @@ export default function ApprovedButton({ project, openModal }: ApprovedButtonPro
     address: contracts.StakeTogether,
     args: [project.wallet]
   })
+
+  const { isOpenProjectDetailModal } = useProjectDetailModal()
+
+  useEffect(() => {
+    if (
+      !isOpenProjectDetailModal &&
+      projectSelected?.toLocaleLowerCase() === project.wallet.toLocaleLowerCase()
+    ) {
+      refetch()
+    }
+  }, [isOpenProjectDetailModal, project.wallet, projectSelected, refetch])
 
   const {
     isLoading: isLoadingTransaction,

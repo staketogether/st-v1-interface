@@ -54,6 +54,7 @@ export default function ApprovedList() {
                 <ApprovedButton
                   project={project}
                   openModal={isContractPublished => handleShowModal(project, isContractPublished)}
+                  projectSelected={projectSelected?.wallet}
                 />
               </ProjectContainer>
             ))}
