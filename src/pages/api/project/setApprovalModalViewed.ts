@@ -20,6 +20,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const entry = await client.getEntry(projectId)
+
+    if (!entry) {
+      return res.status(400).json({ message: 'project not found' })
+    }
+
     if (!entry.fields?.approvalModalViewed || !entry.fields?.approvalModalViewed['en-US']) {
       entry.fields.approvalModalViewed = { 'en-US': true }
       const updateEntry = await entry.update()
