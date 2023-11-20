@@ -2,6 +2,10 @@ import { CreateContentfulClient } from '@/config/contentful'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' })
+  }
+
   const { projectId } = req.body
 
   if (!projectId) {
@@ -15,12 +19,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const entry = await client.getEntry(projectId)
-
-  if (!entry.fields?.approvalModalViewed || !entry.fields?.approvalModalViewed['en-US']) {
-    entry.fields.approvalModalViewed = { 'en-US': true }
-    const updateEntry = await entry.update()
-    await updateEntry.publish()
-    res.send(`Project updated success`)
+  try {
+    if (!entry.fields?.approvalModalViewed || !entry.fields?.approvalModalViewed['en-US']) {
+      entry.fields.approvalModalViewed = { 'en-US': true }
+      const updateEntry = await entry.update()
+      await updateEntry.publish()
+      res.send(`Project updated success`)
+    }
+  } catch (error) {
+    return res.status(500).json({ message: 'Something went wrong', error })
   }
 
   res.send(`project has already viewed the modal`)
