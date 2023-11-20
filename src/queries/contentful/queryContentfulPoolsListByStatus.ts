@@ -1,15 +1,29 @@
 import { gql } from '@apollo/client'
 
-export const queryContentfulPoolsList = gql`
-  query PoolsList($locale: String) {
-    poolCollection(locale: $locale) {
+export const queryContentfulPoolsListByStatus = gql`
+  query PoolsList(
+    $locale: String
+    $status: String
+    $first: Int
+    $skip: Int
+    $nameContains: String
+    $walletContains: String
+  ) {
+    poolCollection(
+      locale: $locale
+      where: { status: $status, OR: [{ name_contains: $nameContains, wallet_contains: $walletContains }] }
+      skip: $skip
+      limit: $first
+    ) {
       items {
         wallet
-        name
         sys {
           id
           publishedAt
         }
+        aboutProject
+        email
+        name
         logo {
           url
           fileName

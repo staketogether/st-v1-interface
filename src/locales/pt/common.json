@@ -41,7 +41,7 @@
   "delegated": "Delegado",
   "delegatedAmount": "Quantidade Delegada",
   "searchPool": "Pesquisar Pools",
-  "emptyPool": "Pool não encontrado",
+  "projectEmpty": "Projeto não encontrado",
   "copyClipboard": "Copiar para Área de Transferência",
   "copiedToClipboard": "Endereço copiado",
   "addressCopiedToClipboard": "Address Copied",
@@ -464,6 +464,11 @@
       },
       "goToProjectPage": "Ir para página do projeto",
       "reapplyProject": "Reaplicar Projeto"
+    },
+    "panelProject": {
+      "title": "Aprovar Projeto",
+      "approve": "Aprovar",
+      "reject": "Rejeitar"
     }
   }
 }

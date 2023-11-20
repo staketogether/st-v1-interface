@@ -40,7 +40,7 @@
   "delegated": "Delegated",
   "delegatedAmount": "Delegated Amount",
   "searchPool": "Search Pools",
-  "emptyPool": "Pool Not Found",
+  "projectEmpty": "Project Not Found",
   "copyClipboard": "Copy to Clipboard",
   "copiedToClipboard": "Link copied, Share it now!",
   "addressCopiedToClipboard": "Address Copied",
@@ -437,6 +437,11 @@
       },
       "goToProjectPage": "Go to project page",
       "reapplyProject": "Reapply Project"
+    },
+    "panelProject": {
+      "title": "Approve projects",
+      "approve": "Approve",
+      "reject": "Reject"
     }
   }
 }
