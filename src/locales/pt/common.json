@@ -477,6 +477,7 @@
         "reject": "Rejeitar",
         "publishInContract": "Publicar no contrato",
         "signProjectApproval": "Assinar aprovação do projeto",
+        "signProjectReject": "Assinar a rejeição do projeto",
         "projectApprovedAndPublished": "Projeto aprovado e publicado com sucesso!",
         "projectApproved": "Projeto Aprovado",
         "projectRejected": "Projeto Rejeitado!"

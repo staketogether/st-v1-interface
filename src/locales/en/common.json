@@ -450,6 +450,7 @@
         "reject": "Reject",
         "publishInContract": "Publish in Contract",
         "signProjectApproval": "Sign Project Approval",
+        "signProjectReject": "Sign the rejection of the project",
         "projectApprovedAndPublished": "Project successfully approved and published!",
         "projectApproved": "Project Approved",
         "projectRejected": "Project Rejected!"

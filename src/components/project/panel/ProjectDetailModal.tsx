@@ -138,10 +138,15 @@ export default function ProjectDetailModal({
 
   const isLoading = approveIsLoading || rejectedIsLoading || isLoadingTransaction || awaitWalletAction
 
-  const transactionTitle =
-    approveIsLoading || rejectedIsLoading
-      ? `${t('v2.panelProject.modal.signProjectApproval')}`
-      : `${t('v2.panelProject.modal.publishInContract')}`
+  const handleTransactionTitle = () => {
+    if (approveIsLoading) {
+      return `${t('v2.panelProject.modal.signProjectApproval')}`
+    } else if (rejectedIsLoading) {
+      return `${t('v2.panelProject.modal.signProjectReject')}`
+    } else {
+      return `${t('v2.panelProject.modal.publishInContract')}`
+    }
+  }
 
   return (
     <Modal
@@ -154,17 +159,17 @@ export default function ProjectDetailModal({
     >
       {isLoading && (
         <GenericTransactionLoading
-          title={transactionTitle}
+          title={handleTransactionTitle()}
           bodyComponent={
             <ProjectContainer>
               <GapContainer>
                 <CommunityLogo
-                  size={24}
+                  size={32}
                   src={project?.logo.url}
                   alt={project?.logo.fileName || ''}
                   loading={false}
                 />
-                <CommunityName name={project.name} loading={false} />
+                <CommunityName name={project.name} loading={false} $bold />
               </GapContainer>
               <GapContainer>
                 {PoolFilterIcon({ iconSize: 16, value: project.category.name })}
