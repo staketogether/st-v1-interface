@@ -58,7 +58,7 @@ jobs:
           echo NEXT_PUBLIC_RECAPTCHA_SITE_KEY=1 >> .env
           echo NEXT_PUBLIC_CONTENTFUL_TOKEN=1 >> .env
           echo NEXT_PUBLIC_CONTENTFUL_SPACE=1 >> .env
-          echo NEXT_PUBLIC_SENTRY_DSN=1 >> .
+          echo NEXT_PUBLIC_SENTRY_DSN=1 >> .env
           echo NEXT_PUBLIC_RPC_GOERLI=1 >> .env
           echo NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT=1 >> .env
           echo NEXT_PUBLIC_CONTENTFUL_CMA_TOKEN=1 >> .env
