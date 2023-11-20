@@ -5,14 +5,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { projectId } = req.body
 
   if (!projectId) {
-    res.status(400).json({ message: 'sysId not found' })
+    return res.status(400).json({ message: 'sysId not found' })
   }
 
   try {
     const client = await CreateContentfulClient()
 
     if (!client) {
-      res.status(400).json({ message: 'client not found' })
+      return res.status(400).json({ message: 'client not found' })
     }
 
     const entry = await client.getEntry(projectId)
@@ -25,11 +25,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       entry.fields.approvalModalViewed = { 'en-US': true }
       const updateEntry = await entry.update()
       await updateEntry.publish()
-      res.status(200).send(`Project updated success`)
+      return res.status(200).send(`Project updated success`)
+    } else {
+      return res.status(200).send(`project has already viewed the modal`)
     }
   } catch (error) {
     return res.status(500).json({ message: 'Something went wrong', error })
   }
-
-  res.status(200).send(`project has already viewed the modal`)
 }
