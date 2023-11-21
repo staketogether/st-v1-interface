@@ -112,16 +112,18 @@ export default function StakeControl({
       label: t('withdraw'),
       icon: <WithdrawIcon />,
       children: stakeForm
-    },
-    {
+    }
+  ]
+  if (!isStakeTogetherPool) {
+    tabsItems.push({
       key: 'exchange',
       label: t('exchange'),
       tooltip: t('v2.stake.faucetTooltip'),
       tooltipOpen: tooltipHasOpen,
       icon: <DexIcon />,
       children: stakeForm
-    }
-  ]
+    })
+  }
 
   function copyToClipboard() {
     navigator.clipboard.writeText(window.location.toString())
@@ -131,6 +133,7 @@ export default function StakeControl({
   const titleDescription = isStakeTogetherPool
     ? t('v2.pages.deposit.stakeTogetherPoolDescription')
     : t('v2.pages.deposit.description')
+  const titleTvl = isStakeTogetherPool ? t('v2.stake.stakeTogetherPoolTvl') : t('v2.stake.tvl')
 
   return (
     <Container>
@@ -164,7 +167,7 @@ export default function StakeControl({
         <div>
           <span>
             <TooltipComponent text={t('v2.stake.tvlTooltip')} left={225} width={200}>
-              {`${t('v2.stake.tvl')}: `}
+              {`${titleTvl}: `}
               <QuestionIcon />
             </TooltipComponent>
           </span>

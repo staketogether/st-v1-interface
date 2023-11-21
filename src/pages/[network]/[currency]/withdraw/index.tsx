@@ -3,6 +3,7 @@ import { Metatags } from '@/components/shared/meta/Metatags'
 
 import StakeControl from '@/components/stake/StakeControl'
 import { contentfulClient } from '@/config/apollo'
+import chainConfig from '@/config/chain'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { GetServerSideProps } from 'next'
@@ -24,7 +25,7 @@ export default function Home({ poolAddress, poolDetail }: HomeProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const stakeTogetherPool = '0x1b11ecba5e34ca0d9baa8d281faf0901c941f638'
+  const { stakeTogetherPool } = chainConfig()
 
   const { data } = await contentfulClient.query<{ poolCollection: { items: ContentfulPool[] } }>({
     query: queryContentfulPoolByAddress,

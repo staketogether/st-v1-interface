@@ -9,6 +9,7 @@ export type ChainConfig = {
   name: string
   provider: ethers.JsonRpcProvider
   blockExplorer: BlockExplorerConfig
+  stakeTogetherPool: `0x${string}`
   subgraphs: {
     StakeTogether: string
     ContentFul: string
@@ -26,6 +27,7 @@ const configs: ChainConfig[] = [
     chainId: 5,
     name: 'goerli',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_GOERLI),
+    stakeTogetherPool: '0x498bfccfd33bc21010e96b0262d495374d8166d8',
     blockExplorer: {
       baseUrl: 'https://goerli.etherscan.io'
     },
