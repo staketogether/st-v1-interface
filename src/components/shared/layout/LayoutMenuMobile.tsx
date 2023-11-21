@@ -4,21 +4,18 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import { useRouter } from 'next/router'
-import { PiCellSignalFull, PiCurrencyEth, PiGift } from 'react-icons/pi'
+import { PiCellSignalFull, PiCodesandboxLogo, PiCurrencyEth } from 'react-icons/pi'
 function LayoutMenuMobile() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
-  const { query } = useRouter()
+  const { query, asPath } = useRouter()
   const { currency, network } = query
-
+  const isHome = asPath === `/${network}/${currency}` || asPath === `/${network}/${currency}/withdraw`
   return (
     <Container>
-      <NextLink
-        href={`/${network}/${currency}/invest`}
-        className={`${isActive('invest') || isActive('deposit') || isActive('withdraw') ? 'active' : ''}`}
-      >
+      <NextLink href={`/${network}/${currency}`} className={`${isHome ? 'active' : ''}`}>
         <InvestIcon />
-        {t('v2.header.invest')}
+        {t('v2.header.stake')}
       </NextLink>
       <NextLink
         href={`/${network}/${currency}/incentives`}
@@ -27,15 +24,25 @@ function LayoutMenuMobile() {
         <IncentivesIcon />
         {t('v2.header.incentives')}
       </NextLink>
-      <NextLink href={`/${network}/${currency}/gifts`} className={`${isActive('gifts') ? 'active' : ''}`}>
+      <NextLink
+        href={`/${network}/${currency}/project`}
+        className={`${
+          !isHome && (isActive('project') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
+        }`}
+      >
+        <ProjectsIcon />
+
+        {t('v2.header.projects')}
+      </NextLink>
+      {/* <NextLink href={`/${network}/${currency}/gifts`} className={`${isActive('gifts') ? 'active' : ''}`}>
         <GiftsIcon />
         {t('v2.header.gifts')}
-      </NextLink>
+      </NextLink> */}
     </Container>
   )
 }
 
-const { Container, NextLink, InvestIcon, IncentivesIcon, GiftsIcon } = {
+const { Container, NextLink, InvestIcon, ProjectsIcon, IncentivesIcon } = {
   Container: styled.nav`
     width: 100vw;
     position: fixed;
@@ -78,9 +85,12 @@ const { Container, NextLink, InvestIcon, IncentivesIcon, GiftsIcon } = {
   IncentivesIcon: styled(PiCellSignalFull)`
     font-size: 16px;
   `,
-  GiftsIcon: styled(PiGift)`
-    font-size: 14px;
+  ProjectsIcon: styled(PiCodesandboxLogo)`
+    font-size: 15px;
   `
+  // GiftsIcon: styled(PiGift)`
+  //   font-size: 14px;
+  // `
 }
 
 export default LayoutMenuMobile

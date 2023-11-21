@@ -25,9 +25,15 @@ interface StakeControlProps {
   poolAddress: `0x${string}`
   type: 'deposit' | 'withdraw' | 'exchange'
   poolDetail?: ContentfulPool
+  isStakeTogetherPool?: boolean
 }
 
-export default function StakeControl({ poolAddress, type, poolDetail }: StakeControlProps) {
+export default function StakeControl({
+  poolAddress,
+  type,
+  poolDetail,
+  isStakeTogetherPool
+}: StakeControlProps) {
   const [tooltipHasOpen, setTooltipHasOpen] = useState(false)
   const [skipMembers, setSkipMembers] = useState(0)
   const [skipActivity, setSkipActivity] = useState(0)
@@ -72,18 +78,24 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
 
   const router = useRouter()
   const handleSwitch = (type: string) => {
-    if (poolAddress) {
-      router.push(`/${network}/${currency}/invest/${type}/${poolAddress}`)
+    if (isStakeTogetherPool) {
       router.push(
         {
-          pathname: `/${network}/${currency}/invest/${type}/${poolAddress}`
+          pathname: `/${network}/${currency}/${type === 'deposit' ? '' : type}`
         },
         undefined,
         { shallow: true }
       )
-    } else {
-      router.push(`/${network}/${currency}/invest/${type}`)
+      return
     }
+
+    router.push(
+      {
+        pathname: `/${network}/${currency}/project/${type}/${poolAddress}`
+      },
+      undefined,
+      { shallow: true }
+    )
   }
 
   const { account } = useConnectedAccount()
@@ -116,34 +128,39 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
   }
 
   const activeTab = type
+  const titleDescription = isStakeTogetherPool
+    ? t('v2.pages.deposit.stakeTogetherPoolDescription')
+    : t('v2.pages.deposit.description')
 
   return (
     <Container>
-      <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
+      <LayoutTitle title={t('v2.pages.deposit.title')} description={titleDescription} />
       <TvlContainer>
-        <PoolTitle>
-          <div>
-            <CommunityLogo
-              size={32}
-              src={poolDetail?.logo?.url}
-              alt={poolDetail?.logo?.url || ''}
-              loading={false}
-              listed={pool?.listed}
-            />
+        {!isStakeTogetherPool && (
+          <PoolTitle>
+            <div>
+              <CommunityLogo
+                size={32}
+                src={poolDetail?.logo?.url}
+                alt={poolDetail?.logo?.url || ''}
+                loading={false}
+                listed={pool?.listed}
+              />
 
-            {poolDetail?.name ? (
-              <CommunityName $larger name={poolDetail?.name} loading={false} />
-            ) : (
-              <CommunityName $larger walletAddress={poolAddress} loading={false} />
-            )}
-          </div>
+              {poolDetail?.name ? (
+                <CommunityName $larger name={poolDetail?.name} loading={false} />
+              ) : (
+                <CommunityName $larger walletAddress={poolAddress} loading={false} />
+              )}
+            </div>
 
-          <Tooltip trigger='click' title={t('copiedToClipboard')}>
-            <ShareButton onClick={copyToClipboard}>
-              <ShareIcon />
-            </ShareButton>
-          </Tooltip>
-        </PoolTitle>
+            <Tooltip trigger='click' title={t('copiedToClipboard')}>
+              <ShareButton onClick={copyToClipboard}>
+                <ShareIcon />
+              </ShareButton>
+            </Tooltip>
+          </PoolTitle>
+        )}
         <div>
           <span>
             <TooltipComponent text={t('v2.stake.tvlTooltip')} left={225} width={200}>
@@ -202,7 +219,7 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
         poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
         loadMoreActivitiesItems={handleLoadMoreActivity}
       />
-      <WalletLottery poolAddress={poolAddress} />
+      {poolAddress === account && <WalletLottery poolAddress={poolAddress} />}
     </Container>
   )
 }

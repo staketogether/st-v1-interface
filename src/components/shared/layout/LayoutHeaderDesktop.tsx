@@ -2,7 +2,7 @@ import Wallet from '@/components/wallet/Wallet'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCellSignalFull, PiCurrencyEth, PiGift, PiPencilSimpleLine } from 'react-icons/pi'
+import { PiCellSignalFull, PiCodesandboxLogo, PiCurrencyEth, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -19,7 +19,7 @@ export default function LayoutHeader() {
   const { isActive } = useActiveRoute()
   const { account, accountIsConnected } = useConnectedAccount()
   const { setOpenProjectCreateModal } = useProjectCreateModal()
-  const { query } = useRouter()
+  const { query, asPath } = useRouter()
   const { currency, network } = query
   const { poolDetail: poolDetailUs } = useContentfulPoolDetails({
     poolAddress: account,
@@ -27,21 +27,20 @@ export default function LayoutHeader() {
     locale: 'en-US'
   })
   const { screenWidth, breakpoints } = useResizeView()
+  const isHome = asPath === `/${network}/${currency}` || asPath === `/${network}/${currency}/withdraw`
   return (
     <Container>
       <MenuContainer>
         <div>
-          <Logo href={`/${network}/${currency}/invest`}>
+          <Logo href={`/${network}/${currency}`}>
             <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={27} />
           </Logo>
         </div>
         <Menu>
-          <Link href={`/${network}/${currency}/invest`}>
-            <MenuButton
-              className={`${isActive('invest') || isActive('deposit') || isActive('withdraw') ? 'active' : ''}`}
-            >
+          <Link href={`/${network}/${currency}`}>
+            <MenuButton className={`${isHome ? 'active' : ''}`}>
               <InvestIcon />
-              {t('v2.header.invest')}
+              {t('v2.header.stake')}
             </MenuButton>
           </Link>
           <Link href={`/${network}/${currency}/incentives`}>
@@ -49,12 +48,22 @@ export default function LayoutHeader() {
               <IncentivesIcon /> {t('v2.header.incentives')}
             </MenuButton>
           </Link>
-          <Link href={`/${network}/${currency}/gifts`} legacyBehavior>
+          <Link href={`/${network}/${currency}/project`}>
+            <MenuButton
+              className={`${
+                !isHome && (isActive('project') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
+              }`}
+            >
+              <ProjectsIcon />
+              {t('v2.header.projects')}
+            </MenuButton>
+          </Link>
+          {/* <Link href={`/${network}/${currency}/gifts`} legacyBehavior>
             <MenuButton className={`${isActive('gifts') ? 'active' : ''}`}>
               <GiftsIcon />
               {t('v2.header.gifts')}
             </MenuButton>
-          </Link>
+          </Link> */}
         </Menu>
       </MenuContainer>
       <WalletContainer>
@@ -75,12 +84,12 @@ const {
   Container,
   MenuContainer,
   WalletContainer,
-  GiftsIcon,
   Logo,
   Menu,
   MenuButton,
   InvestIcon,
   IncentivesIcon,
+  ProjectsIcon,
   CreateProjectIcon
 } = {
   Container: styled.header`
@@ -167,9 +176,12 @@ const {
   IncentivesIcon: styled(PiCellSignalFull)`
     font-size: 17px;
   `,
-  GiftsIcon: styled(PiGift)`
+  ProjectsIcon: styled(PiCodesandboxLogo)`
     font-size: 15px;
   `,
+  // GiftsIcon: styled(PiGift)`
+  //   font-size: 15px;
+  // `,
   CreateProjectIcon: styled(PiPencilSimpleLine)`
     font-size: 15px;
   `

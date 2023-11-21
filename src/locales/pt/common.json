@@ -189,7 +189,8 @@
       },
       "deposit": {
         "title": "Investir Ethereum",
-        "description": "Deposite ETH para ganhar recompensas de staking de ethereum com o stpETH enquanto impulsiona os incentivos para o projeto"
+        "description": "Deposite ETH para ganhar recompensas de staking de ethereum com o stpETH enquanto impulsiona os incentivos para o projeto",
+        "stakeTogetherPoolDescription": "Deposite ETH para ganhar recompensas de staking de ethereum com o stpETH"
       },
       "incentives": {
         "title": "Incentivos",
@@ -206,7 +207,8 @@
       }
     },
     "header": {
-      "invest": "Investir",
+      "stake": "Stake",
+      "projects": "Projetos",
       "incentives": "Incentivos",
       "simulator": "Simulador",
       "gifts": "Presentes",

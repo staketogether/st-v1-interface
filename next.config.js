@@ -25,18 +25,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/goerli/usd/invest',
-        permanent: true
-      },
-      {
-        source: '/mainnet',
-        destination: '/mainnet/usd/invest',
-        permanent: true
-      },
-
-      {
-        source: '/goerli',
-        destination: '/goerli/usd/invest',
+        destination: '/goerli',
         permanent: true
       }
     ]
