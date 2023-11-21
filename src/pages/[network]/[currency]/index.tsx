@@ -1,5 +1,5 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
-import { MetaTagsPoolDetail } from '@/components/shared/meta/MetaTagsPoolDetail'
+import { Metatags } from '@/components/shared/meta/Metatags'
 
 import StakeControl from '@/components/stake/StakeControl'
 import { contentfulClient } from '@/config/apollo'
@@ -17,7 +17,7 @@ type HomeProps = {
 export default function Home({ poolAddress, poolDetail }: HomeProps) {
   return (
     <LayoutTemplate>
-      <MetaTagsPoolDetail poolDetail={poolDetail} />
+      <Metatags />
       <StakeControl isStakeTogetherPool poolAddress={poolAddress} type='deposit' poolDetail={poolDetail} />
     </LayoutTemplate>
   )
