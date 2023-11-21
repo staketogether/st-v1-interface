@@ -1,6 +1,6 @@
 import { Montserrat } from 'next/font/google'
 import NextNProgress from 'nextjs-progressbar'
-import { ReactNode } from 'react'
+import { ReactNode, useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 import { lightTheme } from '../../../styles/theme'
 import { Cloudflare } from '../scripts/Cloudflare'
@@ -12,6 +12,8 @@ import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
 import { FacebookPixel } from '../scripts/FacebookPixel'
+import { useRouter } from 'next/router'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -21,6 +23,30 @@ interface LayoutTemplateProps {
 
 export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   const isProduction = process.env.NODE_ENV == 'production'
+
+  const router = useRouter()
+  const { currency } = router.query
+  const { setItem, getItem } = useLocalStorage()
+
+  const changeCurrency = useCallback(
+    (newCurrency: string) => {
+      router.push({
+        pathname: router.pathname,
+        query: { ...router.query, currency: newCurrency }
+      })
+
+      setItem('currency', newCurrency)
+    },
+    [router, setItem]
+  )
+
+  useEffect(() => {
+    const userCurrencyConf = getItem('currency')
+    if (userCurrencyConf && userCurrencyConf !== currency) {
+      changeCurrency(userCurrencyConf)
+    }
+  }, [changeCurrency, currency, getItem])
+
   return (
     <Container className={montserrat.className}>
       {isProduction && (

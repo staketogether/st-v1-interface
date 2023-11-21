@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import { PiArrowLeft, PiCheckBold } from 'react-icons/pi'
+import { useCallback } from 'react'
 
 type WalletSlideBarSettingsProps = {
   setIsSettingsActive: (value: boolean) => void
@@ -19,14 +20,17 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
     router.push(router.pathname, router.asPath, { locale: newLocale })
   }
 
-  const changeCurrency = (newCurrency: string) => {
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, currency: newCurrency }
-    })
+  const changeCurrency = useCallback(
+    (newCurrency: string) => {
+      router.push({
+        pathname: router.pathname,
+        query: { ...router.query, currency: newCurrency }
+      })
 
-    setItem('currency', newCurrency)
-  }
+      setItem('currency', newCurrency)
+    },
+    [router, setItem]
+  )
 
   const changeNetwork = (newNetwork: string) => {
     router.push({
