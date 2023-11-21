@@ -8,7 +8,7 @@ import stIcon from '@assets/st-symbol.svg'
 import { Drawer, notification } from 'antd'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
 import {
   PiCaretRight,
@@ -113,6 +113,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       children: <WalletSidebarActivities accountActivities={accountActivities} />
     }
   ]
+
+  useEffect(() => {
+    if (address) {
+      setIsPanelActive(false)
+    }
+  }, [address])
 
   return (
     <DrawerContainer

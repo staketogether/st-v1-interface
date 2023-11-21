@@ -150,7 +150,7 @@ export default function ProjectDetailModal({
 
   return (
     <Modal
-      title={isLoading ? null : t('v2.panelProject.modal.title')}
+      title={isLoading || isRejected || isApproved ? null : t('v2.panelProject.modal.title')}
       onClose={handleCloseModal}
       isOpen={isOpenProjectDetailModal}
       showCloseIcon={isLoading ? false : true}
@@ -255,7 +255,7 @@ export default function ProjectDetailModal({
               </a>
             )}
           </GapContainer>
-          {(isApproved || project.status === 'approved') && !isSuccess && (
+          {(isApproved || project.status === 'approved') && !isRejected && !isSuccess && (
             <FooterContainer
               className={`${showRejectOptionWhenContractIsNotPublished && 'contractIsNotPublished'}`}
             >
