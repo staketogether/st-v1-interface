@@ -454,7 +454,8 @@
         "signProjectReject": "Sign the rejection of the project",
         "projectApprovedAndPublished": "Project successfully approved and published!",
         "projectApproved": "Project Approved",
-        "projectRejected": "Project Rejected!"
+        "projectRejected": "Project Rejected!",
+        "projectRemoved": "Project removed from contract"
       },
       "messages": {
         "projectApproved": "Project successfully approved",

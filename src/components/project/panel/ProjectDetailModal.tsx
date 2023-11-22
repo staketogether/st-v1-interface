@@ -170,9 +170,16 @@ export default function ProjectDetailModal({
     }
   }
 
+  const handleModalTitle = () => {
+    if (isContractPublished) {
+      return 'Remover Projeto'
+    }
+    return t('v2.panelProject.modal.title')
+  }
+
   return (
     <Modal
-      title={isLoading || isRejected || isApproved ? null : t('v2.panelProject.modal.title')}
+      title={isLoading || isRejected || isApproved ? null : handleModalTitle()}
       onClose={handleCloseModal}
       isOpen={isOpenProjectDetailModal}
       showCloseIcon={isLoading ? false : true}
@@ -217,7 +224,7 @@ export default function ProjectDetailModal({
             <RejectedContainer>
               <LottieAnimation animationData={errorAnimation} height={50} />
               {isSuccessRemoveTransaction ? (
-                <span>{'projeto removido do contrato'}</span>
+                <span>{t('v2.panelProject.modal.projectRemoved')}</span>
               ) : (
                 <span>{t('v2.panelProject.modal.projectRejected')}</span>
               )}
@@ -303,8 +310,7 @@ export default function ProjectDetailModal({
                   onClick={addPool}
                 />
               )}
-              {((!isContractPublished && showRejectOptionWhenContractIsNotPublished) ||
-                !!isContractPublished) && (
+              {((!isContractPublished && showRejectOptionWhenContractIsNotPublished) || isRemovedContract) && (
                 <Button
                   label={t('v2.panelProject.modal.reject')}
                   block
@@ -383,6 +389,7 @@ const {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: ${({ theme }) => theme.size[12]};
     border-radius: ${({ theme }) => theme.size[8]};
     padding: ${({ theme }) => theme.size[12]};
     background: ${({ theme }) => theme.colorV2.gray[2]};

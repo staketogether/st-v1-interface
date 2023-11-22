@@ -481,7 +481,8 @@
         "signProjectReject": "Assinar a rejeição do projeto",
         "projectApprovedAndPublished": "Projeto aprovado e publicado com sucesso!",
         "projectApproved": "Projeto Aprovado",
-        "projectRejected": "Projeto Rejeitado!"
+        "projectRejected": "Projeto Rejeitado!",
+        "projectRemoved": "Projeto removido do contrato"
       },
       "messages": {
         "projectApproved": "Projeto Aprovado com sucesso",
