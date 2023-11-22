@@ -26,8 +26,10 @@ export default function LayoutHeader() {
     fetchPolicy: 'network-only',
     locale: 'en-US'
   })
+  console.log(asPath)
   const { screenWidth, breakpoints } = useResizeView()
   const isHome = asPath === `/${network}/${currency}` || asPath === `/${network}/${currency}/withdraw`
+  console.log('isHome', isHome)
   return (
     <Container>
       <MenuContainer>

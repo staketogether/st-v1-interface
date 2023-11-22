@@ -190,7 +190,7 @@
       "deposit": {
         "title": "Deposit Ether",
         "description": "Deposit ETH to earn staking rewards with stpETH while boosting incentives for this project",
-        "stakeTogetherPoolDescription": "Deposit ETH to earn staking rewards with stpETH"
+        "stakeTogetherPoolDescription": "Deposit ETH to earn staking rewards"
       },
       "incentives": {
         "title": "Incentives",
