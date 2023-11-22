@@ -13,7 +13,7 @@ import { ContentfulPool } from '@/types/ContentfulPool'
 import { notification } from 'antd'
 import axios from 'axios'
 import errorAnimation from '@assets/animations/error-animation.json'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
 import {
   PiDiscordLogo,
@@ -29,6 +29,7 @@ import { useSignMessage } from 'wagmi'
 import LottieAnimation from '@/components/shared/LottieAnimation'
 import successAnimation from '@assets/animations/success-animation.json'
 import useAddPool from '@/hooks/contracts/useAddPool'
+import useRemovePool from '@/hooks/contracts/useRemovePool'
 
 type ProjectDetailModalProps = {
   project: ContentfulPool
@@ -43,6 +44,7 @@ export default function ProjectDetailModal({
 }: ProjectDetailModalProps) {
   const [isApproved, setIsApproved] = useState<boolean>(false)
   const [isRejected, setIsRejected] = useState<boolean>(false)
+  const [isRemovedContract, setIsRemovedContract] = useState<boolean>(false)
   const { isOpenProjectDetailModal, setProjectDetailModal } = useProjectDetailModal()
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
@@ -54,7 +56,21 @@ export default function ProjectDetailModal({
     resetState,
     prepareTransactionIsError,
     awaitWalletAction
-  } = useAddPool(project.wallet)
+  } = useAddPool(project.wallet, !isContractPublished)
+
+  const {
+    isLoading: isLoadingRemoveTransaction,
+    isSuccess: isSuccessRemoveTransaction,
+    removePool,
+    prepareTransactionIsError: prepareTransactionIsErrorRemove,
+    awaitWalletAction: awaitWalletActionRemove
+  } = useRemovePool(project.wallet, isContractPublished)
+
+  useEffect(() => {
+    if (isSuccessRemoveTransaction) {
+      setIsRemovedContract(true)
+    }
+  }, [isSuccessRemoveTransaction])
 
   function copyToClipboard() {
     navigator.clipboard.writeText(project.wallet)
@@ -136,7 +152,13 @@ export default function ProjectDetailModal({
     }
   })
 
-  const isLoading = approveIsLoading || rejectedIsLoading || isLoadingTransaction || awaitWalletAction
+  const isLoading =
+    approveIsLoading ||
+    rejectedIsLoading ||
+    isLoadingTransaction ||
+    awaitWalletAction ||
+    isLoadingRemoveTransaction ||
+    awaitWalletActionRemove
 
   const handleTransactionTitle = () => {
     if (approveIsLoading) {
@@ -191,10 +213,14 @@ export default function ProjectDetailModal({
               </span>
             </RejectedContainer>
           )}
-          {isRejected && (
+          {(isRejected || isSuccessRemoveTransaction) && (
             <RejectedContainer>
               <LottieAnimation animationData={errorAnimation} height={50} />
-              <span>{t('v2.panelProject.modal.projectRejected')}</span>
+              {isSuccessRemoveTransaction ? (
+                <span>{'projeto removido do contrato'}</span>
+              ) : (
+                <span>{t('v2.panelProject.modal.projectRejected')}</span>
+              )}
             </RejectedContainer>
           )}
           <ProjectContainer>
@@ -259,14 +285,26 @@ export default function ProjectDetailModal({
             <FooterContainer
               className={`${showRejectOptionWhenContractIsNotPublished && 'contractIsNotPublished'}`}
             >
-              <Button
-                label={t('v2.panelProject.modal.publishInContract')}
-                block
-                disabled={prepareTransactionIsError || isLoadingTransaction || prepareTransactionIsError}
-                isLoading={isLoadingTransaction || awaitWalletAction}
-                onClick={addPool}
-              />
-              {!isContractPublished && showRejectOptionWhenContractIsNotPublished && (
+              {isContractPublished && !isRemovedContract && (
+                <Button
+                  label={t('v2.panelProject.modal.remove')}
+                  block
+                  disabled={prepareTransactionIsErrorRemove || isLoadingRemoveTransaction}
+                  isLoading={isLoadingTransaction || awaitWalletAction}
+                  onClick={removePool}
+                />
+              )}
+              {!isContractPublished && (
+                <Button
+                  label={t('v2.panelProject.modal.publishInContract')}
+                  block
+                  disabled={prepareTransactionIsError || isLoadingTransaction || prepareTransactionIsError}
+                  isLoading={isLoadingTransaction || awaitWalletAction}
+                  onClick={addPool}
+                />
+              )}
+              {((!isContractPublished && showRejectOptionWhenContractIsNotPublished) ||
+                !!isContractPublished) && (
                 <Button
                   label={t('v2.panelProject.modal.reject')}
                   block

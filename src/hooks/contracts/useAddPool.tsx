@@ -5,7 +5,7 @@ import { useWaitForTransaction } from 'wagmi'
 import { notification } from 'antd'
 import useLocaleTranslation from '../useLocaleTranslation'
 
-export default function useAddPool(projectAddress: `0x${string}`) {
+export default function useAddPool(projectAddress: `0x${string}`, disabled?: boolean) {
   const { contracts, chainId } = chainConfig()
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
@@ -19,6 +19,7 @@ export default function useAddPool(projectAddress: `0x${string}`) {
   } = usePrepareStakeTogetherAddPool({
     chainId,
     address: contracts.StakeTogether,
+    enabled: !!disabled,
     args: [projectAddress, true],
     value: 0n,
     onError(error) {

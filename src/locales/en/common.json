@@ -448,6 +448,7 @@
         "title": "Approve Project",
         "approve": "Approve",
         "reject": "Reject",
+        "remove": "Contract Remover",
         "publishInContract": "Publish in Contract",
         "signProjectApproval": "Sign Project Approval",
         "signProjectReject": "Sign the rejection of the project",
