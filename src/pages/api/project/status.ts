@@ -46,7 +46,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const entry = await client.getEntry(projectId)
 
   entry.fields.status = { 'en-US': status }
+  entry.fields.approvalModalViewed = { 'en-US': false }
   const updateEntry = await entry.update()
-  await updateEntry.publish()
-  res.send(`Project updated success`)
+  const sys = await updateEntry.publish()
+  res.status(200).send(`Project updated success ${sys.sys.id} - ${sys.isPublished()}`)
 }

@@ -62,7 +62,7 @@ export default function ApprovedButton({ project, projectSelected, openModal }: 
         signatureMessage
       })
 
-      refetch()
+      await refetch()
       await contentfulClient.refetchQueries({
         include: [queryContentfulPoolsListByStatus]
       })
