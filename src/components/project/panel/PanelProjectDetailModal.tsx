@@ -31,17 +31,17 @@ import successAnimation from '@assets/animations/success-animation.json'
 import useAddPool from '@/hooks/contracts/useAddPool'
 import useRemovePool from '@/hooks/contracts/useRemovePool'
 
-type ProjectDetailModalProps = {
+type PanelProjectDetailModalProps = {
   project: ContentfulPool
   isContractPublished?: boolean
   showRejectOptionWhenContractIsNotPublished?: boolean
 }
 
-export default function ProjectDetailModal({
+export default function PanelProjectDetailModal({
   project,
   isContractPublished,
   showRejectOptionWhenContractIsNotPublished
-}: ProjectDetailModalProps) {
+}: PanelProjectDetailModalProps) {
   const [isApproved, setIsApproved] = useState<boolean>(false)
   const [isRejected, setIsRejected] = useState<boolean>(false)
   const [isRemovedContract, setIsRemovedContract] = useState<boolean>(false)

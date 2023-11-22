@@ -35,7 +35,7 @@ import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import Withdrawals from '../shared/Withdrawals'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
-import WalletSidebarPanel from '../project/panel/WalletSidebarPanel'
+import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 
 type WalletSidebarConnectedProps = {
@@ -131,7 +131,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       {isSettingsActive && !isPanelActive && (
         <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />
       )}
-      {isPanelActive && !isSettingsActive && <WalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
+      {isPanelActive && !isSettingsActive && <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
       {!isSettingsActive && !isPanelActive && (
         <>
           <HeaderContainer>

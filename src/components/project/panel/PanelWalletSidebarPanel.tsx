@@ -2,14 +2,14 @@ import styled from 'styled-components'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import { PiArrowLeft, PiClockClockwise, PiSealCheck } from 'react-icons/pi'
 import Tabs, { TabsItems } from '../../shared/Tabs'
-import Analysis from './Analysis'
-import ApprovedList from './ApprovedList'
+import PanelAnalysis from './PanelAnalysis'
+import PanelApprovedList from './PanelApprovedList'
 
-type WalletSidebarPanelProps = {
+type PanelWalletSidebarPanelProps = {
   setIsPanelActive: (value: boolean) => void
 }
 
-export default function WalletSidebarPanel({ setIsPanelActive }: WalletSidebarPanelProps) {
+export default function PanelWalletSidebarPanel({ setIsPanelActive }: PanelWalletSidebarPanelProps) {
   const { t } = useLocaleTranslation()
 
   const tabsItems: TabsItems[] = [
@@ -19,7 +19,7 @@ export default function WalletSidebarPanel({ setIsPanelActive }: WalletSidebarPa
       icon: <AnalysisIcon />,
       children: (
         <TabContainer>
-          <Analysis />
+          <PanelAnalysis />
         </TabContainer>
       )
     },
@@ -29,7 +29,7 @@ export default function WalletSidebarPanel({ setIsPanelActive }: WalletSidebarPa
       icon: <ApprovedIcon />,
       children: (
         <TabContainer>
-          <ApprovedList />
+          <PanelApprovedList />
         </TabContainer>
       )
     }

@@ -9,13 +9,13 @@ import styled from 'styled-components'
 import Button from '@/components/shared/Button'
 import useProjectDetailModal from '@/hooks/useProjectDetailModal'
 
-type ApprovedButtonProps = {
+type PanelApprovedButtonProps = {
   project: ContentfulPool
   projectSelected: `0x${string}` | undefined
   openModal: (isContractPublished: boolean) => void
 }
 
-export default function ApprovedButton({ project, projectSelected, openModal }: ApprovedButtonProps) {
+export default function PanelApprovedButton({ project, projectSelected, openModal }: PanelApprovedButtonProps) {
   const { contracts } = chain()
   const {
     data: isPoolRegistered,

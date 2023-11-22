@@ -5,22 +5,20 @@ import SearchInput from '@/components/shared/inputs/SearchInput'
 import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import React, { useState } from 'react'
+import { PiEye } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
-import ProjectDetailModal from './ProjectDetailModal'
+import PanelProjectDetailModal from './PanelProjectDetailModal'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import useProjectDetailModal from '@/hooks/useProjectDetailModal'
-import ApprovedButton from './ApprovedButton'
 
-export default function ApprovedList() {
+export default function PanelAnalysis() {
   const [search, setSearch] = useState<string>('')
-  const [projectSelected, setProjectSelected] = useState<
-    (ContentfulPool & { isContractPublished: boolean }) | null
-  >(null)
+  const [projectSelected, setProjectSelected] = useState<ContentfulPool | null>(null)
   const debouncedSearch = useDebounce(search, 300)
   const isSearchAddress = search.startsWith('0x')
   const { projectList, initialLoading, loadingFetchMore } = useContentfulProjectListByStatus({
-    status: 'approved',
+    status: 'pending',
     projectName: isSearchAddress ? undefined : debouncedSearch,
     projectAddress: isSearchAddress ? debouncedSearch : undefined
   })
@@ -28,8 +26,8 @@ export default function ApprovedList() {
   const { t } = useLocaleTranslation()
   const { isOpenProjectDetailModal, setProjectDetailModal } = useProjectDetailModal()
 
-  function handleShowModal(pool: ContentfulPool, isContractPublished: boolean) {
-    setProjectSelected({ ...pool, isContractPublished })
+  function handleShowModal(pool: ContentfulPool) {
+    setProjectSelected(pool)
     setProjectDetailModal(true)
   }
 
@@ -51,28 +49,20 @@ export default function ApprovedList() {
                   />
                   <CommunityName name={project.name} loading={false} />
                 </Project>
-                <ApprovedButton
-                  project={project}
-                  openModal={isContractPublished => handleShowModal(project, isContractPublished)}
-                  projectSelected={projectSelected?.wallet}
-                />
+                <ViewButton onClick={() => handleShowModal(project)}>
+                  <EyeIcon />
+                </ViewButton>
               </ProjectContainer>
             ))}
           {!projectList.length && !initialLoading && !loadingFetchMore && <span>{t('projectEmpty')}</span>}
         </Content>
       </Container>
-      {projectSelected && isOpenProjectDetailModal && (
-        <ProjectDetailModal
-          project={projectSelected}
-          isContractPublished={projectSelected.isContractPublished}
-          showRejectOptionWhenContractIsNotPublished
-        />
-      )}
+      {projectSelected && isOpenProjectDetailModal && <PanelProjectDetailModal project={projectSelected} />}
     </>
   )
 }
 
-const { Container, Content, ProjectContainer, Project } = {
+const { Container, Content, ProjectContainer, Project, ViewButton, EyeIcon } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -99,5 +89,33 @@ const { Container, Content, ProjectContainer, Project } = {
     display: flex;
     align-items: center;
     gap: 8px;
+  `,
+  ViewButton: styled.button`
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    background: ${({ theme }) => theme.colorV2.gray[2]};
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+
+    span {
+      font-size: ${({ theme }) => theme.font.size[18]};
+      color: ${({ theme }) => theme.color.blue[500]};
+      margin-bottom: 3px;
+      font-weight: 100;
+    }
+
+    &:hover {
+      background: #e4e4e4;
+    }
+  `,
+  EyeIcon: styled(PiEye)`
+    font-size: 16px;
   `
 }
