@@ -20,6 +20,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
+import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -129,10 +130,13 @@ export default function StakeControl({
     navigator.clipboard.writeText(window.location.toString())
   }
 
+  const { stakeTogether, stakeTogetherIsLoading } = useStakeTogether()
+
   const activeTab = type
   const titleDescription = isStakeTogetherPool
     ? t('v2.pages.deposit.stakeTogetherPoolDescription')
     : t('v2.pages.deposit.description')
+  const titleRewards = isStakeTogetherPool ? t('v2.stake.stakeTogetherPoolRewards') : t('generatedRewards')
   const titleTvl = isStakeTogetherPool ? t('v2.stake.stakeTogetherPoolTvl') : t('v2.stake.tvl')
 
   return (
@@ -171,27 +175,63 @@ export default function StakeControl({
               <QuestionIcon />
             </TooltipComponent>
           </span>
-          {!!pool?.poolBalance && !initialLoading ? (
-            <span className='primary'>{`${formatNumberByLocale(truncateWei(pool.poolBalance, 5), locale)}  ${t(
-              'eth.symbol'
-            )} `}</span>
+          {isStakeTogetherPool ? (
+            <div>
+              <>
+                {!!stakeTogether?.totalSupply && !stakeTogetherIsLoading ? (
+                  <span className='primary'>
+                    {`${formatNumberByLocale(truncateWei(stakeTogether.totalSupply, 5), locale)}  ${t(
+                      'eth.symbol'
+                    )} `}
+                  </span>
+                ) : (
+                  <SkeletonLoading height={14} width={100} />
+                )}
+              </>
+            </div>
           ) : (
-            <SkeletonLoading height={14} width={100} />
+            <>
+              {!!pool?.poolBalance && !initialLoading ? (
+                <span className='primary'>{`${formatNumberByLocale(
+                  truncateWei(pool.poolBalance, 5),
+                  locale
+                )}  ${t('eth.symbol')} `}</span>
+              ) : (
+                <SkeletonLoading height={14} width={100} />
+              )}
+            </>
           )}
         </div>
         <div>
           <span>
             <TooltipComponent text={t('v2.stake.rewardsTooltip')} left={126} width={350}>
-              {`${t('generatedRewards')}: `}
+              {`${titleRewards}: `}
               <QuestionIcon />
             </TooltipComponent>
           </span>
-          {!!pool?.totalRewards && !initialLoading ? (
-            <span className='green'>{`${formatNumberByLocale(truncateWei(pool?.totalRewards), locale)} ${t(
-              'lsd.symbol'
-            )} `}</span>
+          {isStakeTogetherPool ? (
+            <div>
+              <>
+                {!!stakeTogether?.totalRewards && !stakeTogetherIsLoading ? (
+                  <span className='green'>{`${formatNumberByLocale(
+                    truncateWei(stakeTogether?.totalRewards, 4),
+                    locale
+                  )} ${t('lsd.symbol')} `}</span>
+                ) : (
+                  <SkeletonLoading height={14} width={100} />
+                )}
+              </>
+            </div>
           ) : (
-            <SkeletonLoading height={14} width={100} />
+            <>
+              {!!pool?.totalRewards && !initialLoading ? (
+                <span className='green'>{`${formatNumberByLocale(truncateWei(pool?.totalRewards), locale)} ${t(
+                  'lsd.symbol'
+                )} `}</span>
+              ) : (
+                <SkeletonLoading height={14} width={100} />
+              )}
+            </>
           )}
         </div>
         <div>
