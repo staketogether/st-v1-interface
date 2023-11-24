@@ -6,43 +6,50 @@ type ButtonProps = InputHTMLAttributes<HTMLButtonElement> & {
   onClick?: () => void
   label: string
   type?: 'button' | 'submit' | 'submit'
-  icon: ReactNode
+  icon?: ReactNode
   isLoading?: boolean
   disabled?: boolean
   small?: boolean
   block?: boolean
   ghost?: boolean
   className?: string
+  color?: 'primary' | 'green' | 'red' | 'gray'
 }
 
 export default function Button({
   onClick,
   label,
   disabled,
-  icon,
+  icon = <></>,
   type = 'button',
   className,
   isLoading = false,
   small = false,
   block = false,
-  ghost = false
+  color = 'primary',
+  ghost = false,
+  ...props
 }: ButtonProps) {
   return (
     <Container
       onClick={onClick}
       disabled={disabled || isLoading}
       type={type}
-      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${className}`}
+      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${
+        color && `${color}`
+      }  ${className}`}
+      {...props}
     >
-      {isLoading ? <Loading size={small ? 14 : 16} /> : icon}
+      {isLoading ? <LoadingIcon size={small ? 14 : 16} className={color && `${color}`} /> : icon}
       {label}
     </Container>
   )
 }
 
-const { Container } = {
+const { Container, LoadingIcon } = {
   Container: styled.button`
     border: none;
+
     color: ${({ theme }) => theme.color.white};
     border-radius: ${props => props.theme.size[8]};
     background: ${({ theme }) => theme.color.primary};
@@ -67,14 +74,28 @@ const { Container } = {
       width: 100%;
     }
 
-    &.ghost {
-      background: transparent;
-      border: none;
-
-      color: ${({ theme }) => theme.colorV2.gray[1]};
+    &.green {
+      background: ${({ theme }) => theme.color.green[400]};
       &:hover {
-        background: transparent;
-        color: ${({ theme }) => theme.color.secondary};
+        background: ${({ theme }) => theme.color.green[500]};
+      }
+    }
+
+    &.red {
+      background: ${({ theme }) => theme.color.red[400]};
+      &:hover {
+        background: ${({ theme }) => theme.color.red[500]};
+      }
+    }
+
+    &.gray {
+      background: ${({ theme }) => theme.colorV2.gray[2]};
+      &:hover {
+        background: #e4e4e4;
+      }
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 1;
       }
     }
 
@@ -89,6 +110,43 @@ const { Container } = {
 
     &.wrong {
       background-color: ${({ theme }) => theme.color.red[400]};
+    }
+
+    &.ghost {
+      background: transparent;
+      border: none;
+
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      &:hover {
+        background: transparent;
+        color: ${({ theme }) => theme.color.secondary};
+      }
+
+      &.red {
+        color: ${({ theme }) => theme.color.red[300]};
+        &:hover {
+          color: ${({ theme }) => theme.color.red[500]};
+        }
+      }
+
+      &.green {
+        color: ${({ theme }) => theme.color.green[300]};
+        &:hover {
+          color: ${({ theme }) => theme.color.green[500]};
+        }
+      }
+
+      &.gray {
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        &:hover {
+          color: ${({ theme }) => theme.color.secondary};
+        }
+      }
+    }
+  `,
+  LoadingIcon: styled(Loading)`
+    &.gray {
+      color: ${({ theme }) => theme.colorV2.blue[1]};
     }
   `
 }

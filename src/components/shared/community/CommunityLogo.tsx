@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import styled from 'styled-components'
 import SkeletonLoading from '../icons/SkeletonLoading'
 import { PiEyeSlash } from 'react-icons/pi'
@@ -49,7 +48,7 @@ const { DefaultAvatar, Avatar, NotListed } = {
     color: white;
     font-size: 14px;
   `,
-  Avatar: styled(Image)<{ size: number }>`
+  Avatar: styled.img<{ size: number }>`
     border-radius: 100%;
     box-shadow: ${({ theme }) => theme.shadow[300]};
 
