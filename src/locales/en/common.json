@@ -40,7 +40,7 @@
   "delegated": "Delegated",
   "delegatedAmount": "Delegated Amount",
   "searchPool": "Search Pools",
-  "emptyPool": "Pool Not Found",
+  "projectEmpty": "Project Not Found",
   "copyClipboard": "Copy to Clipboard",
   "copiedToClipboard": "Link copied, Share it now!",
   "addressCopiedToClipboard": "Address Copied",
@@ -441,6 +441,34 @@
       },
       "goToProjectPage": "Go to project page",
       "reapplyProject": "Reapply Project"
+    },
+    "panelProject": {
+      "sidebar": {
+        "title": "Project Approval",
+        "analysis": "In Analysis",
+        "approved": "Approved"
+      },
+      "modal": {
+        "title": "Approve Project",
+        "approve": "Approve",
+        "reject": "Reject",
+        "remove": "Contract Remover",
+        "publishInContract": "Publish in Contract",
+        "signProjectApproval": "Sign Project Approval",
+        "signProjectReject": "Sign the rejection of the project",
+        "projectApprovedAndPublished": "Project successfully approved and published!",
+        "projectApproved": "Project Approved",
+        "projectRejected": "Project Rejected!",
+        "projectRemoved": "Project removed from contract"
+      },
+      "messages": {
+        "projectApproved": "Project successfully approved",
+        "projectRejected": "Project successfully rejected",
+        "projectRemoved": "Project successfully removed",
+        "errorProjectRemove": "Error removing project",
+        "projectAddedSuccessfully": "Project successfully added",
+        "errorAddProject": "Error adding project"
+      }
     }
   }
 }

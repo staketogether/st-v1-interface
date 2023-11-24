@@ -8,9 +8,17 @@ import stIcon from '@assets/st-symbol.svg'
 import { Drawer, notification } from 'antd'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
-import { PiCaretRight, PiChartBar, PiChartLine, PiChartPieSlice, PiGear, PiSignOut } from 'react-icons/pi'
+import {
+  PiCaretRight,
+  PiChalkboardTeacher,
+  PiChartBar,
+  PiChartLine,
+  PiChartPieSlice,
+  PiGear,
+  PiSignOut
+} from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
@@ -27,6 +35,8 @@ import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import Withdrawals from '../shared/Withdrawals'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
+import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
+import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -34,6 +44,9 @@ type WalletSidebarConnectedProps = {
 
 export default function WalletSidebarConnected({ address }: WalletSidebarConnectedProps) {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
+  const [isPanelActive, setIsPanelActive] = useState(false)
+
+  const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
   const { disconnect } = useDisconnect()
   const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
@@ -101,6 +114,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   ]
 
+  useEffect(() => {
+    if (address) {
+      setIsPanelActive(false)
+    }
+  }, [address])
+
   return (
     <DrawerContainer
       placement='right'
@@ -109,9 +128,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       mask={true}
       open={openSidebar}
     >
-      {isSettingsActive ? (
+      {isSettingsActive && !isPanelActive && (
         <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />
-      ) : (
+      )}
+      {isPanelActive && !isSettingsActive && <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
+      {!isSettingsActive && !isPanelActive && (
         <>
           <HeaderContainer>
             <HeaderUserContainer>
@@ -160,6 +181,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <CloseSidebar fontSize={14} />
             </ClosedSidebarButton>
             <Actions>
+              {userCanViewPanel && !verifyWalletLoading && (
+                <Button onClick={() => setIsPanelActive(true)}>
+                  <PanelIcon fontSize={16} />
+                </Button>
+              )}
               <Button onClick={() => setIsSettingsActive(true)}>
                 <SettingIcon fontSize={16} />
               </Button>
@@ -235,6 +261,7 @@ const {
   Logout,
   Button,
   SettingIcon,
+  PanelIcon,
   Actions,
   HeaderUserContainer,
   Web3AuthProfileImage,
@@ -381,6 +408,13 @@ const {
       color: ${({ theme }) => theme.colorV2.purple[1]} !important;
     }
   `,
+  PanelIcon: styled(PiChalkboardTeacher)`
+    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+    }
+  `,
   CloseSidebar: styled(PiCaretRight)`
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
   `,
@@ -417,8 +451,8 @@ const {
     color: ${({ theme }) => theme.color.primary};
   `,
   Actions: styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    align-items: center;
     gap: ${({ theme }) => theme.size[8]};
   `,
   Web3AuthProfileContainer: styled.div`

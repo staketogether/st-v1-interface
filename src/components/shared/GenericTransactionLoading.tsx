@@ -14,6 +14,7 @@ type GenericTransactionLoadingProps = {
   successButtonLabel?: string
   loadingButtonLabel?: string
   onSuccessAction?: () => void
+  bodyComponent?: React.ReactNode
 }
 
 export default function GenericTransactionLoading({
@@ -22,6 +23,7 @@ export default function GenericTransactionLoading({
   isSuccess,
   successButtonLabel,
   loadingButtonLabel,
+  bodyComponent,
   onSuccessAction
 }: GenericTransactionLoadingProps) {
   const { t } = useLocaleTranslation()
@@ -32,7 +34,7 @@ export default function GenericTransactionLoading({
         {isLoading && !isSuccess && <LottieAnimation animationData={loadingAnimation} height={60} loop />}
         {!isLoading && isSuccess && <LottieAnimation animationData={successAnimation} height={60} />}
         <h2>{title}</h2>
-
+        {bodyComponent && <>{bodyComponent}</>}
         <Button
           icon={<></>}
           type='submit'

@@ -71,7 +71,7 @@ const { CardContainer, CardHeader, CardInfo } = {
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 200px;
+    min-width: 200px;
 
     padding: 16px;
     gap: ${({ theme }) => theme.size[4]};
