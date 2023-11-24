@@ -99,8 +99,10 @@ export default function useDepositPool(
       !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n ? maxPriorityFeePerGas : undefined,
     onError(error) {
       const { cause } = error as { cause?: { reason?: string } }
-      if (cause && cause?.reason) {
-        setPrepareTransactionErrorMessage(cause.reason)
+      const { data } = cause as { data?: { errorName?: string } }
+
+      if (cause && data && data.errorName) {
+        setPrepareTransactionErrorMessage(data.errorName)
       }
     },
     onSuccess() {

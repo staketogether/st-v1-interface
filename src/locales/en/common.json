@@ -287,21 +287,24 @@
         "depositSuccessful": "Deposit Successful"
       },
       "withdrawErrorMessage": {
-        "FD": "Feature Disabled",
-        "IAB": "Insufficient Account Balance",
-        "WPLR": "Withdrawals Pool Limit Reached",
-        "WVLR": "Withdrawals Validator Limit Reached",
-        "MW": "Min Withdraw",
-        "ZA": "Zero Amount",
-        "IPB": "Insufficient Pool Balance",
-        "WFP": "Withdraw From Pool"
+        "FeatureDisabled": "Feature Disabled",
+        "InsufficientAccountBalance": "Insufficient Account Balance",
+        "WithdrawalsPoolLimitReached": "Withdrawals Pool Limit Reached",
+        "WithdrawalsValidatorLimitWasReached": "Withdrawals Validator Limit Reached",
+        "LessThanMinimumWithdraw": "Min Withdraw",
+        "ZeroAmount": "Zero Amount",
+        "InsufficientPoolBalance": "Insufficient Pool Balance",
+        "InsufficientBeaconBalance": "Insufficient Beacon Balance",
+        "WithdrawFromPool": "Withdraw From Pool",
+        "ListedInAntiFraud": "Listed in Anti-Fraud",
+        "EarlyTransfer": "Early Transfer"
       },
       "depositErrorMessage": {
-        "FD": "Feature Disabled",
-        "DLR": "Deposit Limit Reached",
-        "MD": "Min Deposit",
-        "PNF": "Pool Not Found",
-        "ZS": "Zero Supply"
+        "FeatureDisabled": "Feature Disabled",
+        "DepositLimitReached": "Deposit Limit Reached",
+        "LessThanMinimumDeposit": "Min Deposit",
+        "PoolNotFound": "Pool Not Found",
+        "ZeroAmount": "Zero Supply"
       }
     },
     "activities": {

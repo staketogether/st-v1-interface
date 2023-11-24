@@ -10,10 +10,6 @@ import { queryPool } from '../../queries/subgraph/queryPool'
 
 import { WithdrawType } from '@/types/Withdraw'
 import { ethers } from 'ethers'
-import {
-  usePrepareStakeTogetherWithdrawValidator,
-  useStakeTogetherWithdrawValidator
-} from '../../types/Contracts'
 
 import useLocaleTranslation from '../useLocaleTranslation'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
@@ -23,6 +19,7 @@ import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import { usePrepareStakeTogetherWithdrawBeacon, useStakeTogetherWithdrawBeacon } from '@/types/Contracts'
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
@@ -46,15 +43,17 @@ export default function useWithdrawValidator(
     config,
     isError: prepareTransactionIsError,
     isSuccess: prepareTransactionIsSuccess
-  } = usePrepareStakeTogetherWithdrawValidator({
+  } = usePrepareStakeTogetherWithdrawBeacon({
     address: contracts.StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
     enabled: isWithdrawEnabled,
     onError(error) {
       const { cause } = error as { cause?: { reason?: string } }
-      if (cause && cause?.reason) {
-        setPrepareTransactionErrorMessage(cause.reason)
+      const { data } = cause as { data?: { errorName?: string } }
+
+      if (cause && data && data.errorName) {
+        setPrepareTransactionErrorMessage(data.errorName)
       }
     },
     onSuccess() {
@@ -62,7 +61,7 @@ export default function useWithdrawValidator(
     }
   })
 
-  const tx = useStakeTogetherWithdrawValidator({
+  const tx = useStakeTogetherWithdrawBeacon({
     ...config,
     onSuccess: data => {
       if (data?.hash) {

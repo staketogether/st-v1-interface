@@ -56,7 +56,7 @@ export default function PanelProjectDetailModal({
     resetState,
     prepareTransactionIsError,
     awaitWalletAction
-  } = useAddPool(project.wallet, !isContractPublished)
+  } = useAddPool(project.wallet, !!(project.category.name === 'social'), !isContractPublished)
 
   const {
     isLoading: isLoadingRemoveTransaction,

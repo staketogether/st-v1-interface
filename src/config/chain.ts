@@ -28,7 +28,7 @@ const configs: ChainConfig[] = [
     chainId: 5,
     name: 'goerli',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_GOERLI),
-    stakeTogetherPool: '0x498bfccfd33bc21010e96b0262d495374d8166d8',
+    stakeTogetherPool: '0x2050A9E6d5995aA14630AA4f1FF9b24D8926a016',
     blockExplorer: {
       baseUrl: 'https://goerli.etherscan.io'
     },
@@ -40,7 +40,7 @@ const configs: ChainConfig[] = [
       StakeTogetherWrapper: '0x7CCeB44B5a455Ed42010B0651295B85E0be23c29'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/51080/stake-together/v0.0.48',
+      StakeTogether: 'https://api.studio.thegraph.com/query/51080/st-subgraph-goerli/version/latest',
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`
     }
   }

@@ -288,21 +288,24 @@
         "depositSuccessful": "Depósito realizado com sucesso"
       },
       "withdrawErrorMessage": {
-        "FD": "Funcionalidade Desativada",
-        "IAB": "Saldo Insuficiente na Conta",
-        "WPLR": "Limite de saque diario alcançado",
-        "WVLR": "Limite de Saque diario alcançado",
-        "MW": "Retirada Mínima",
-        "ZA": "Valor Zero",
-        "IPB": "Saldo Insuficiente no Pool",
-        "WFP": "Retirada do Pool"
+        "FeatureDisabled": "Funcionalidade Desativada",
+        "InsufficientAccountBalance": "Saldo Insuficiente na Conta",
+        "WithdrawalsPoolLimitReached": "Limite de saque diario alcançado",
+        "WithdrawalsValidatorLimitWasReached": "Limite de Saque diario alcançado",
+        "LessThanMinimumWithdraw": "Retirada Mínima",
+        "ZeroAmount": "Valor Zero",
+        "InsufficientPoolBalance": "Saldo Insuficiente no Pool",
+        "InsufficientBeaconBalance": "Saldo Insuficiente na Beacon Chain",
+        "WithdrawFromPool": "Retirada do Pool",
+        "ListedInAntiFraud": "Listado em Anti Fraude",
+        "EarlyTransfer": "Transferência Antecipada"
       },
       "depositErrorMessage": {
-        "FD": "Funcionalidade Desativada",
-        "DLR": "Limite de Depósito Alcançado",
-        "MD": "Depósito Mínimo",
-        "PNF": "Pool Não Encontrado",
-        "ZS": "Suprimento Zero"
+        "FeatureDisabled": "Funcionalidade Desativada",
+        "DepositLimitReached": "Limite de Depósito Alcançado",
+        "LessThanMinimumDeposit": "Depósito Mínimo",
+        "PoolNotFound": "Pool Não Encontrado",
+        "ZeroAmount": "Suprimento Zero"
       }
     },
     "activities": {
