@@ -15,10 +15,21 @@ import { ReadContractResult, WriteContractMode, PrepareWriteContractResult } fro
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const accessControlUpgradeableABI = [
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'AccessControlUnauthorizedAccount'
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -90,7 +101,7 @@ export const accessControlUpgradeableABI = [
     type: 'function',
     inputs: [
       { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' }
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
     ],
     name: 'renounceRole',
     outputs: []
@@ -115,11 +126,77 @@ export const accessControlUpgradeableABI = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Address
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const addressABI = [
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance'
+  },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' }
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Airdrop
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const airdropABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'AccessControlUnauthorizedAccount'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance'
+  },
+  { type: 'error', inputs: [], name: 'AlreadyClaimed' },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'InvalidProof' },
+  { type: 'error', inputs: [], name: 'ListedInAntiFraud' },
+  { type: 'error', inputs: [], name: 'MerkleRootAlreadySetForBlock' },
+  { type: 'error', inputs: [], name: 'MerkleRootNotSet' },
+  { type: 'error', inputs: [], name: 'NoExtraAmountAvailable' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'OnlyRouter' },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  { type: 'error', inputs: [], name: 'RouterAlreadySet' },
+  { type: 'error', inputs: [], name: 'StakeTogetherAlreadySet' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
+  },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  { type: 'error', inputs: [], name: 'ZeroAmount' },
   {
     type: 'event',
     anonymous: false,
@@ -128,21 +205,6 @@ export const airdropABI = [
       { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32', indexed: false }
     ],
     name: 'AddMerkleRoot'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false }
-    ],
-    name: 'AdminChanged'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded'
   },
   {
     type: 'event',
@@ -169,7 +231,7 @@ export const airdropABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -181,7 +243,7 @@ export const airdropABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveEther'
   },
   {
@@ -217,13 +279,13 @@ export const airdropABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'router', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'router', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetRouter'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetStakeTogether'
   },
   {
@@ -260,6 +322,13 @@ export const airdropABI = [
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
   },
   {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
@@ -273,7 +342,7 @@ export const airdropABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
-      { name: '_blockNumber', internalType: 'uint256', type: 'uint256' },
+      { name: '_reportBlock', internalType: 'uint256', type: 'uint256' },
       { name: '_index', internalType: 'uint256', type: 'uint256' },
       { name: '_account', internalType: 'address', type: 'address' },
       { name: '_sharesAmount', internalType: 'uint256', type: 'uint256' },
@@ -347,7 +416,7 @@ export const airdropABI = [
     type: 'function',
     inputs: [
       { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' }
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
     ],
     name: 'renounceRole',
     outputs: []
@@ -367,7 +436,7 @@ export const airdropABI = [
     type: 'function',
     inputs: [],
     name: 'router',
-    outputs: [{ name: '', internalType: 'contract Router', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IRouter', type: 'address' }]
   },
   {
     stateMutability: 'nonpayable',
@@ -388,7 +457,7 @@ export const airdropABI = [
     type: 'function',
     inputs: [],
     name: 'stakeTogether',
-    outputs: [{ name: '', internalType: 'contract StakeTogether', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IStakeTogether', type: 'address' }]
   },
   {
     stateMutability: 'view',
@@ -399,13 +468,6 @@ export const airdropABI = [
   },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'transferExtraAmount', outputs: [] },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unpause', outputs: [] },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
-    outputs: []
-  },
   {
     stateMutability: 'payable',
     type: 'function',
@@ -431,11 +493,31 @@ export const airdropABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const contextUpgradeableABI = [
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
+  }
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ECDSA
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const ecdsaABI = [
+  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
+  {
+    type: 'error',
+    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
+    name: 'ECDSAInvalidSignatureLength'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'ECDSAInvalidSignatureS'
   }
 ] as const
 
@@ -444,11 +526,13 @@ export const contextUpgradeableABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const eip712UpgradeableABI = [
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
   { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -473,10 +557,12 @@ export const eip712UpgradeableABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const erc165UpgradeableABI = [
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -489,10 +575,26 @@ export const erc165UpgradeableABI = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ERC1967UpgradeUpgradeable
+// ERC1967Utils
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const erc1967UpgradeUpgradeableABI = [
+export const erc1967UtilsABI = [
+  {
+    type: 'error',
+    inputs: [{ name: 'admin', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidAdmin'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'beacon', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidBeacon'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
   {
     type: 'event',
     anonymous: false,
@@ -511,12 +613,6 @@ export const erc1967UpgradeUpgradeableABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
-    name: 'Initialized'
-  },
-  {
-    type: 'event',
-    anonymous: false,
     inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
     name: 'Upgraded'
   }
@@ -527,6 +623,46 @@ export const erc1967UpgradeUpgradeableABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const erc20BurnableUpgradeableABI = [
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientAllowance'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientBalance'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender'
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
   {
     type: 'event',
     anonymous: false,
@@ -540,7 +676,7 @@ export const erc20BurnableUpgradeableABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -568,7 +704,7 @@ export const erc20BurnableUpgradeableABI = [
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'approve',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -583,7 +719,7 @@ export const erc20BurnableUpgradeableABI = [
   {
     stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    inputs: [{ name: 'value', internalType: 'uint256', type: 'uint256' }],
     name: 'burn',
     outputs: []
   },
@@ -592,7 +728,7 @@ export const erc20BurnableUpgradeableABI = [
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'burnFrom',
     outputs: []
@@ -603,26 +739,6 @@ export const erc20BurnableUpgradeableABI = [
     inputs: [],
     name: 'decimals',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'decreaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'addedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'increaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
   {
     stateMutability: 'view',
@@ -650,7 +766,7 @@ export const erc20BurnableUpgradeableABI = [
     type: 'function',
     inputs: [
       { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'transfer',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -661,7 +777,7 @@ export const erc20BurnableUpgradeableABI = [
     inputs: [
       { name: 'from', internalType: 'address', type: 'address' },
       { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'transferFrom',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -673,6 +789,78 @@ export const erc20BurnableUpgradeableABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const erc20PermitUpgradeableABI = [
+  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
+  {
+    type: 'error',
+    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
+    name: 'ECDSAInvalidSignatureLength'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'ECDSAInvalidSignatureS'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientAllowance'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientBalance'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'deadline', internalType: 'uint256', type: 'uint256' }],
+    name: 'ERC2612ExpiredSignature'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'signer', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' }
+    ],
+    name: 'ERC2612InvalidSigner'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'currentNonce', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'InvalidAccountNonce'
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
   {
     type: 'event',
     anonymous: false,
@@ -687,7 +875,7 @@ export const erc20PermitUpgradeableABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -722,7 +910,7 @@ export const erc20PermitUpgradeableABI = [
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'approve',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -742,16 +930,6 @@ export const erc20PermitUpgradeableABI = [
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }]
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'decreaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  },
-  {
     stateMutability: 'view',
     type: 'function',
     inputs: [],
@@ -765,16 +943,6 @@ export const erc20PermitUpgradeableABI = [
       { name: 'salt', internalType: 'bytes32', type: 'bytes32' },
       { name: 'extensions', internalType: 'uint256[]', type: 'uint256[]' }
     ]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'addedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'increaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
   {
     stateMutability: 'view',
@@ -824,7 +992,7 @@ export const erc20PermitUpgradeableABI = [
     type: 'function',
     inputs: [
       { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'transfer',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -835,7 +1003,7 @@ export const erc20PermitUpgradeableABI = [
     inputs: [
       { name: 'from', internalType: 'address', type: 'address' },
       { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'transferFrom',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -847,6 +1015,46 @@ export const erc20PermitUpgradeableABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const erc20UpgradeableABI = [
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientAllowance'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientBalance'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender'
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
   {
     type: 'event',
     anonymous: false,
@@ -860,7 +1068,7 @@ export const erc20UpgradeableABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -888,7 +1096,7 @@ export const erc20UpgradeableABI = [
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'approve',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -906,26 +1114,6 @@ export const erc20UpgradeableABI = [
     inputs: [],
     name: 'decimals',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'decreaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'addedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'increaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
   {
     stateMutability: 'view',
@@ -953,7 +1141,7 @@ export const erc20UpgradeableABI = [
     type: 'function',
     inputs: [
       { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'transfer',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -964,7 +1152,7 @@ export const erc20UpgradeableABI = [
     inputs: [
       { name: 'from', internalType: 'address', type: 'address' },
       { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'transferFrom',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -972,10 +1160,19 @@ export const erc20UpgradeableABI = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IAccessControlUpgradeable
+// IAccessControl
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const iAccessControlUpgradeableABI = [
+export const iAccessControlABI = [
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'AccessControlUnauthorizedAccount'
+  },
   {
     type: 'event',
     anonymous: false,
@@ -1038,7 +1235,7 @@ export const iAccessControlUpgradeableABI = [
     type: 'function',
     inputs: [
       { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' }
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
     ],
     name: 'renounceRole',
     outputs: []
@@ -1060,6 +1257,17 @@ export const iAccessControlUpgradeableABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const iAirdropABI = [
+  { type: 'error', inputs: [], name: 'AlreadyClaimed' },
+  { type: 'error', inputs: [], name: 'InvalidProof' },
+  { type: 'error', inputs: [], name: 'ListedInAntiFraud' },
+  { type: 'error', inputs: [], name: 'MerkleRootAlreadySetForBlock' },
+  { type: 'error', inputs: [], name: 'MerkleRootNotSet' },
+  { type: 'error', inputs: [], name: 'NoExtraAmountAvailable' },
+  { type: 'error', inputs: [], name: 'OnlyRouter' },
+  { type: 'error', inputs: [], name: 'RouterAlreadySet' },
+  { type: 'error', inputs: [], name: 'StakeTogetherAlreadySet' },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  { type: 'error', inputs: [], name: 'ZeroAmount' },
   {
     type: 'event',
     anonymous: false,
@@ -1094,19 +1302,19 @@ export const iAirdropABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveEther'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'router', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'router', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetRouter'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetStakeTogether'
   },
   {
@@ -1164,10 +1372,10 @@ export const iAirdropABI = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IBeaconUpgradeable
+// IBeacon
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const iBeaconUpgradeableABI = [
+export const iBeaconABI = [
   {
     stateMutability: 'view',
     type: 'function',
@@ -1223,10 +1431,63 @@ export const iDepositContractABI = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IERC165Upgradeable
+// IERC1155Errors
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const ierc165UpgradeableABI = [
+export const ierc1155ErrorsABI = [
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC1155InsufficientBalance'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC1155InvalidApprover'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'idsLength', internalType: 'uint256', type: 'uint256' },
+      { name: 'valuesLength', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC1155InvalidArrayLength'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'operator', internalType: 'address', type: 'address' }],
+    name: 'ERC1155InvalidOperator'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC1155InvalidReceiver'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC1155InvalidSender'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'operator', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' }
+    ],
+    name: 'ERC1155MissingApprovalForAll'
+  }
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IERC165
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const ierc165ABI = [
   {
     stateMutability: 'view',
     type: 'function',
@@ -1237,10 +1498,10 @@ export const ierc165UpgradeableABI = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IERC1822ProxiableUpgradeable
+// IERC1822Proxiable
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const ierc1822ProxiableUpgradeableABI = [
+export const ierc1822ProxiableABI = [
   {
     stateMutability: 'view',
     type: 'function',
@@ -1251,38 +1512,10 @@ export const ierc1822ProxiableUpgradeableABI = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IERC1967Upgradeable
+// IERC20
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const ierc1967UpgradeableABI = [
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false }
-    ],
-    name: 'AdminChanged'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
-    name: 'Upgraded'
-  }
-] as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IERC20MetadataUpgradeable
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export const ierc20MetadataUpgradeableABI = [
+export const ierc20ABI = [
   {
     type: 'event',
     anonymous: false,
@@ -1318,7 +1551,134 @@ export const ierc20MetadataUpgradeableABI = [
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  }
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IERC20Errors
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const ierc20ErrorsABI = [
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientAllowance'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientBalance'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender'
+  }
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IERC20Metadata
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const ierc20MetadataABI = [
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Approval'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Transfer'
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' }
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'approve',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -1363,7 +1723,7 @@ export const ierc20MetadataUpgradeableABI = [
     type: 'function',
     inputs: [
       { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'transfer',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -1374,7 +1734,7 @@ export const ierc20MetadataUpgradeableABI = [
     inputs: [
       { name: 'from', internalType: 'address', type: 'address' },
       { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'transferFrom',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -1382,10 +1742,10 @@ export const ierc20MetadataUpgradeableABI = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IERC20PermitUpgradeable
+// IERC20Permit
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const ierc20PermitUpgradeableABI = [
+export const ierc20PermitABI = [
   {
     stateMutability: 'view',
     type: 'function',
@@ -1418,92 +1778,10 @@ export const ierc20PermitUpgradeableABI = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IERC20Upgradeable
+// IERC5267
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const ierc20UpgradeableABI = [
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
-      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
-    ],
-    name: 'Approval'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address', indexed: true },
-      { name: 'to', internalType: 'address', type: 'address', indexed: true },
-      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
-    ],
-    name: 'Transfer'
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'spender', internalType: 'address', type: 'address' }
-    ],
-    name: 'allowance',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'approve',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'totalSupply',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'transfer',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'transferFrom',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  }
-] as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// IERC5267Upgradeable
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export const ierc5267UpgradeableABI = [
+export const ierc5267ABI = [
   { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
   {
     stateMutability: 'view',
@@ -1523,10 +1801,95 @@ export const ierc5267UpgradeableABI = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IERC721Errors
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const ierc721ErrorsABI = [
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+      { name: 'owner', internalType: 'address', type: 'address' }
+    ],
+    name: 'ERC721IncorrectOwner'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'operator', internalType: 'address', type: 'address' },
+      { name: 'tokenId', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC721InsufficientApproval'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC721InvalidApprover'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'operator', internalType: 'address', type: 'address' }],
+    name: 'ERC721InvalidOperator'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'ERC721InvalidOwner'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC721InvalidReceiver'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC721InvalidSender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'ERC721NonexistentToken'
+  }
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IRouter
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const iRouterABI = [
+  { type: 'error', inputs: [], name: 'AlreadyExecuted' },
+  { type: 'error', inputs: [], name: 'AlreadyReported' },
+  { type: 'error', inputs: [], name: 'BeaconBalanceTooLow' },
+  { type: 'error', inputs: [], name: 'BlockNumberNotReached' },
+  { type: 'error', inputs: [], name: 'ConfigNotSet' },
+  { type: 'error', inputs: [], name: 'ConsensusNotDelayed' },
+  { type: 'error', inputs: [], name: 'EarlyExecution' },
+  { type: 'error', inputs: [], name: 'IncreaseOraclesToUseMargin' },
+  { type: 'error', inputs: [], name: 'InsufficientEthBalance' },
+  { type: 'error', inputs: [], name: 'MarginTooHigh' },
+  { type: 'error', inputs: [], name: 'NoActiveConsensus' },
+  { type: 'error', inputs: [], name: 'NoPendingExecution' },
+  { type: 'error', inputs: [], name: 'OnlyActiveOracle' },
+  { type: 'error', inputs: [], name: 'OnlyStakeTogether' },
+  { type: 'error', inputs: [], name: 'OracleAlreadyBlacklisted' },
+  { type: 'error', inputs: [], name: 'OracleAlreadyReported' },
+  { type: 'error', inputs: [], name: 'OracleBlacklisted' },
+  { type: 'error', inputs: [], name: 'OracleExists' },
+  { type: 'error', inputs: [], name: 'OracleNotBlacklisted' },
+  { type: 'error', inputs: [], name: 'OracleNotExists' },
+  { type: 'error', inputs: [], name: 'PendingExecution' },
+  { type: 'error', inputs: [], name: 'QuorumNotReached' },
+  { type: 'error', inputs: [], name: 'ReportBlockShouldBeGreater' },
+  { type: 'error', inputs: [], name: 'ReportDelayBlocksTooHigh' },
+  { type: 'error', inputs: [], name: 'ReportRevoked' },
+  { type: 'error', inputs: [], name: 'RequiredMoreOracles' },
+  { type: 'error', inputs: [], name: 'SentinelExists' },
+  { type: 'error', inputs: [], name: 'SentinelNotExists' },
+  { type: 'error', inputs: [], name: 'StakeTogetherAlreadySet' },
+  { type: 'error', inputs: [], name: 'WithdrawBalanceTooLow' },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
   {
     type: 'event',
     anonymous: false,
@@ -1552,26 +1915,23 @@ export const iRouterABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true },
       {
         name: 'report',
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ],
         indexed: false
-      },
-      { name: 'hash', internalType: 'bytes32', type: 'bytes32', indexed: false }
+      }
     ],
     name: 'ConsensusApprove'
   },
@@ -1579,26 +1939,23 @@ export const iRouterABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true },
       {
         name: 'report',
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ],
         indexed: false
-      },
-      { name: 'hash', internalType: 'bytes32', type: 'bytes32', indexed: false }
+      }
     ],
     name: 'ConsensusFail'
   },
@@ -1606,39 +1963,37 @@ export const iRouterABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true },
       {
         name: 'report',
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ],
         indexed: false
-      },
-      { name: 'hash', internalType: 'bytes32', type: 'bytes32', indexed: false }
+      }
     ],
     name: 'ExecuteReport'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveEther'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveWithdrawEther'
   },
   {
@@ -1650,8 +2005,17 @@ export const iRouterABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true }
+    ],
     name: 'RevokeConsensusReport'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'bunkerMode', internalType: 'bool', type: 'bool', indexed: true }],
+    name: 'SetBunkerMode'
   },
   {
     type: 'event',
@@ -1662,14 +2026,12 @@ export const iRouterABI = [
         internalType: 'struct IRouter.Config',
         type: 'tuple',
         components: [
-          { name: 'bunkerMode', internalType: 'bool', type: 'bool' },
           { name: 'reportFrequency', internalType: 'uint256', type: 'uint256' },
           { name: 'reportDelayBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'reportNoConsensusMargin', internalType: 'uint256', type: 'uint256' },
-          { name: 'oracleBlackListLimit', internalType: 'uint256', type: 'uint256' },
           { name: 'oracleQuorum', internalType: 'uint256', type: 'uint256' }
         ],
-        indexed: false
+        indexed: true
       }
     ],
     name: 'SetConfig'
@@ -1677,38 +2039,30 @@ export const iRouterABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'epoch', internalType: 'uint256', type: 'uint256', indexed: false }],
-    name: 'SetLastExecutedEpoch'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetStakeTogether'
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
       {
         name: 'report',
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ],
-        indexed: false
-      },
-      { name: 'hash', internalType: 'bytes32', type: 'bytes32', indexed: false }
+        indexed: true
+      }
     ],
     name: 'SubmitReport'
   },
@@ -1717,15 +2071,6 @@ export const iRouterABI = [
     anonymous: false,
     inputs: [{ name: 'reportOracle', internalType: 'address', type: 'address', indexed: true }],
     name: 'UnBlacklistReportOracle'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true },
-      { name: 'validatorsHash', internalType: 'bytes32[]', type: 'bytes32[]', indexed: false }
-    ],
-    name: 'ValidatorsToRemove'
   },
   {
     stateMutability: 'nonpayable',
@@ -1757,15 +2102,13 @@ export const iRouterABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -1783,15 +2126,13 @@ export const iRouterABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -1818,15 +2159,13 @@ export const iRouterABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -1843,15 +2182,13 @@ export const iRouterABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -1890,6 +2227,13 @@ export const iRouterABI = [
     outputs: []
   },
   {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'reportBlock',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: '_reportBlock', internalType: 'uint256', type: 'uint256' }],
@@ -1905,23 +2249,14 @@ export const iRouterABI = [
         internalType: 'struct IRouter.Config',
         type: 'tuple',
         components: [
-          { name: 'bunkerMode', internalType: 'bool', type: 'bool' },
           { name: 'reportFrequency', internalType: 'uint256', type: 'uint256' },
           { name: 'reportDelayBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'reportNoConsensusMargin', internalType: 'uint256', type: 'uint256' },
-          { name: 'oracleBlackListLimit', internalType: 'uint256', type: 'uint256' },
           { name: 'oracleQuorum', internalType: 'uint256', type: 'uint256' }
         ]
       }
     ],
     name: 'setConfig',
-    outputs: []
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_epoch', internalType: 'uint256', type: 'uint256' }],
-    name: 'setLastExecutedEpoch',
     outputs: []
   },
   {
@@ -1940,15 +2275,13 @@ export const iRouterABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -1972,15 +2305,72 @@ export const iRouterABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const iStakeTogetherABI = [
+  { type: 'error', inputs: [], name: 'DepositLimitReached' },
+  { type: 'error', inputs: [], name: 'EarlyTransfer' },
+  { type: 'error', inputs: [], name: 'FeatureDisabled' },
+  { type: 'error', inputs: [], name: 'FlashLoan' },
+  { type: 'error', inputs: [], name: 'InsufficientAccountBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientAllowance' },
+  { type: 'error', inputs: [], name: 'InsufficientBeaconBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientPoolBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientShares' },
+  { type: 'error', inputs: [], name: 'InvalidLength' },
+  { type: 'error', inputs: [], name: 'InvalidSize' },
+  { type: 'error', inputs: [], name: 'InvalidSum' },
+  { type: 'error', inputs: [], name: 'InvalidTotalPercentage' },
+  { type: 'error', inputs: [], name: 'InvalidTotalSupply' },
+  { type: 'error', inputs: [], name: 'InvalidValue' },
+  { type: 'error', inputs: [], name: 'LessThanMinimumDeposit' },
+  { type: 'error', inputs: [], name: 'LessThanMinimumWithdraw' },
+  { type: 'error', inputs: [], name: 'ListedInAntiFraud' },
+  { type: 'error', inputs: [], name: 'MaxDelegations' },
+  { type: 'error', inputs: [], name: 'NotAuthorized' },
+  { type: 'error', inputs: [], name: 'NotEnoughBalanceOnPool' },
+  { type: 'error', inputs: [], name: 'NotEnoughPoolBalance' },
+  { type: 'error', inputs: [], name: 'NotInAntiFraudList' },
+  { type: 'error', inputs: [], name: 'NotIsCurrentValidatorOracle' },
+  { type: 'error', inputs: [], name: 'OnlyAirdrop' },
+  { type: 'error', inputs: [], name: 'OnlyRouter' },
+  { type: 'error', inputs: [], name: 'OnlyValidatorOracle' },
+  { type: 'error', inputs: [], name: 'PoolExists' },
+  { type: 'error', inputs: [], name: 'PoolNotFound' },
+  { type: 'error', inputs: [], name: 'RouterAlreadyHaveBalance' },
+  { type: 'error', inputs: [], name: 'ShouldAnticipateWithdraw' },
+  { type: 'error', inputs: [], name: 'ShouldBeZeroLength' },
+  { type: 'error', inputs: [], name: 'ValidatorExists' },
+  { type: 'error', inputs: [], name: 'ValidatorOracleExists' },
+  { type: 'error', inputs: [], name: 'ValidatorOracleNotFound' },
+  { type: 'error', inputs: [], name: 'WithdrawFromPool' },
+  { type: 'error', inputs: [], name: 'WithdrawZeroBalance' },
+  { type: 'error', inputs: [], name: 'WithdrawalsPoolLimitReached' },
+  { type: 'error', inputs: [], name: 'WithdrawalsValidatorLimitWasReached' },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  { type: 'error', inputs: [], name: 'ZeroAmount' },
+  { type: 'error', inputs: [], name: 'ZeroSupply' },
   {
     type: 'event',
     anonymous: false,
     inputs: [
       { name: 'pool', internalType: 'address', type: 'address', indexed: true },
       { name: 'listed', internalType: 'bool', type: 'bool', indexed: false },
+      { name: 'social', internalType: 'bool', type: 'bool', indexed: false },
+      { name: 'index', internalType: 'bool', type: 'bool', indexed: false },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
     ],
     name: 'AddPool'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'publicKey', internalType: 'bytes', type: 'bytes', indexed: false },
+      { name: 'withdrawalCredentials', internalType: 'bytes', type: 'bytes', indexed: false },
+      { name: 'signature', internalType: 'bytes', type: 'bytes', indexed: false },
+      { name: 'depositDataRoot', internalType: 'bytes32', type: 'bytes32', indexed: false }
+    ],
+    name: 'AddValidator'
   },
   {
     type: 'event',
@@ -1995,7 +2385,7 @@ export const iStakeTogetherABI = [
       { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
     ],
-    name: 'AnticipateWithdrawValidator'
+    name: 'AnticipateWithdrawBeacon'
   },
   {
     type: 'event',
@@ -2010,24 +2400,11 @@ export const iStakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'publicKey', internalType: 'bytes', type: 'bytes', indexed: false },
-      { name: 'withdrawalCredentials', internalType: 'bytes', type: 'bytes', indexed: false },
-      { name: 'signature', internalType: 'bytes', type: 'bytes', indexed: false },
-      { name: 'depositDataRoot', internalType: 'bytes32', type: 'bytes32', indexed: false }
-    ],
-    name: 'CreateValidator'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
       { name: 'to', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'depositType', internalType: 'enum IStakeTogether.DepositType', type: 'uint8', indexed: false },
-      { name: 'pool', internalType: 'address', type: 'address', indexed: false },
-      { name: 'referral', internalType: 'address', type: 'address', indexed: false }
+      { name: 'pool', internalType: 'address', type: 'address', indexed: true },
+      { name: 'referral', internalType: 'bytes', type: 'bytes', indexed: true }
     ],
     name: 'DepositBase'
   },
@@ -2038,7 +2415,7 @@ export const iStakeTogetherABI = [
       { name: 'sender', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
     ],
-    name: 'DepositLimitReached'
+    name: 'DepositLimitWasReached'
   },
   {
     type: 'event',
@@ -2073,8 +2450,8 @@ export const iStakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'sharesAmount', internalType: 'uint256', type: 'uint256', indexed: false }
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'sharesAmount', internalType: 'uint256', type: 'uint256', indexed: true }
     ],
     name: 'ProcessStakeRewards'
   },
@@ -2090,7 +2467,7 @@ export const iStakeTogetherABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveEther'
   },
   {
@@ -2108,7 +2485,17 @@ export const iStakeTogetherABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'account', internalType: 'address', type: 'address', indexed: true },
+      { name: 'isListed', internalType: 'bool', type: 'bool', indexed: false }
+    ],
+    name: 'SetAntiFraudStatus'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'SetBeaconBalance'
   },
   {
@@ -2129,6 +2516,8 @@ export const iStakeTogetherABI = [
           { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawDelay', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawBeaconDelay', internalType: 'uint256', type: 'uint256' },
           {
             name: 'feature',
             internalType: 'struct IStakeTogether.Feature',
@@ -2137,11 +2526,11 @@ export const iStakeTogetherABI = [
               { name: 'AddPool', internalType: 'bool', type: 'bool' },
               { name: 'Deposit', internalType: 'bool', type: 'bool' },
               { name: 'WithdrawPool', internalType: 'bool', type: 'bool' },
-              { name: 'WithdrawValidator', internalType: 'bool', type: 'bool' }
+              { name: 'WithdrawBeacon', internalType: 'bool', type: 'bool' }
             ]
           }
         ],
-        indexed: false
+        indexed: true
       }
     ],
     name: 'SetConfig'
@@ -2180,13 +2569,13 @@ export const iStakeTogetherABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'newValidatorSize', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'newValidatorSize', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'SetValidatorSize'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'SetWithdrawBalance'
   },
   {
@@ -2230,7 +2619,7 @@ export const iStakeTogetherABI = [
       { name: 'account', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'withdrawType', internalType: 'enum IStakeTogether.WithdrawType', type: 'uint8', indexed: false },
-      { name: 'pool', internalType: 'address', type: 'address', indexed: false }
+      { name: 'pool', internalType: 'address', type: 'address', indexed: true }
     ],
     name: 'WithdrawBase'
   },
@@ -2242,16 +2631,36 @@ export const iStakeTogetherABI = [
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'withdrawType', internalType: 'enum IStakeTogether.WithdrawType', type: 'uint8', indexed: false }
     ],
-    name: 'WithdrawalsLimitReached'
+    name: 'WithdrawalsLimitWasReached'
   },
   {
     stateMutability: 'payable',
     type: 'function',
     inputs: [
       { name: '_pool', internalType: 'address', type: 'address' },
-      { name: '_listed', internalType: 'bool', type: 'bool' }
+      { name: '_listed', internalType: 'bool', type: 'bool' },
+      { name: '_social', internalType: 'bool', type: 'bool' },
+      { name: '_index', internalType: 'bool', type: 'bool' }
     ],
     name: 'addPool',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'addToAntiFraud',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_publicKey', internalType: 'bytes', type: 'bytes' },
+      { name: '_signature', internalType: 'bytes', type: 'bytes' },
+      { name: '_depositDataRoot', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'addValidator',
     outputs: []
   },
   {
@@ -2275,7 +2684,7 @@ export const iStakeTogetherABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
-    name: 'anticipateWithdrawValidator',
+    name: 'anticipateWithdrawBeacon',
     outputs: []
   },
   {
@@ -2296,6 +2705,13 @@ export const iStakeTogetherABI = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
   },
   {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'beaconBalance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
@@ -2306,33 +2722,12 @@ export const iStakeTogetherABI = [
     outputs: []
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_publicKey', internalType: 'bytes', type: 'bytes' },
-      { name: '_signature', internalType: 'bytes', type: 'bytes' },
-      { name: '_depositDataRoot', internalType: 'bytes32', type: 'bytes32' }
-    ],
-    name: 'createValidator',
-    outputs: []
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_spender', internalType: 'address', type: 'address' },
-      { name: '_subtractedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'decreaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  },
-  {
     stateMutability: 'payable',
     type: 'function',
     inputs: [
       { name: '_to', internalType: 'address', type: 'address' },
       { name: '_pool', internalType: 'address', type: 'address' },
-      { name: '_referral', internalType: 'address', type: 'address' }
+      { name: '_referral', internalType: 'bytes', type: 'bytes' }
     ],
     name: 'depositDonation',
     outputs: []
@@ -2342,7 +2737,7 @@ export const iStakeTogetherABI = [
     type: 'function',
     inputs: [
       { name: '_pool', internalType: 'address', type: 'address' },
-      { name: '_referral', internalType: 'address', type: 'address' }
+      { name: '_referral', internalType: 'bytes', type: 'bytes' }
     ],
     name: 'depositPool',
     outputs: []
@@ -2369,26 +2764,38 @@ export const iStakeTogetherABI = [
     outputs: [{ name: '', internalType: 'enum IStakeTogether.FeeRole[4]', type: 'uint8[4]' }]
   },
   {
-    stateMutability: 'nonpayable',
+    stateMutability: 'view',
     type: 'function',
-    inputs: [
-      { name: '_spender', internalType: 'address', type: 'address' },
-      { name: '_addedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'increaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'getWithdrawBeaconBlock',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'getWithdrawBlock',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
   },
   {
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
+      { name: '_airdrop', internalType: 'address', type: 'address' },
+      { name: '_deposit', internalType: 'address', type: 'address' },
       { name: '_router', internalType: 'address', type: 'address' },
       { name: '_withdrawals', internalType: 'address', type: 'address' },
-      { name: '_depositContract', internalType: 'address', type: 'address' },
       { name: '_withdrawalCredentials', internalType: 'bytes', type: 'bytes' }
     ],
     name: 'initialize',
     outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'isListedInAntiFraud',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
   {
     stateMutability: 'view',
@@ -2402,7 +2809,14 @@ export const iStakeTogetherABI = [
     stateMutability: 'payable',
     type: 'function',
     inputs: [{ name: '_sharesAmount', internalType: 'uint256', type: 'uint256' }],
-    name: 'processStakeRewards',
+    name: 'processFeeRewards',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'removeFromAntiFraud',
     outputs: []
   },
   {
@@ -2444,6 +2858,8 @@ export const iStakeTogetherABI = [
           { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawDelay', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawBeaconDelay', internalType: 'uint256', type: 'uint256' },
           {
             name: 'feature',
             internalType: 'struct IStakeTogether.Feature',
@@ -2452,7 +2868,7 @@ export const iStakeTogetherABI = [
               { name: 'AddPool', internalType: 'bool', type: 'bool' },
               { name: 'Deposit', internalType: 'bool', type: 'bool' },
               { name: 'WithdrawPool', internalType: 'bool', type: 'bool' },
-              { name: 'WithdrawValidator', internalType: 'bool', type: 'bool' }
+              { name: 'WithdrawBeacon', internalType: 'bool', type: 'bool' }
             ]
           }
         ]
@@ -2560,6 +2976,23 @@ export const iStakeTogetherABI = [
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
   },
   {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'withdrawBalance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_amount', internalType: 'uint256', type: 'uint256' },
+      { name: '_pool', internalType: 'address', type: 'address' }
+    ],
+    name: 'withdrawBeacon',
+    outputs: []
+  },
+  {
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
@@ -2569,17 +3002,111 @@ export const iStakeTogetherABI = [
     name: 'withdrawPool',
     outputs: []
   },
+  { stateMutability: 'payable', type: 'receive' }
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IStakeTogetherWrapper
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const iStakeTogetherWrapperABI = [
+  { type: 'error', inputs: [], name: 'FlashLoan' },
+  { type: 'error', inputs: [], name: 'ListedInAntiFraud' },
+  { type: 'error', inputs: [], name: 'NoExtraAmountAvailable' },
+  { type: 'error', inputs: [], name: 'StakeTogetherAlreadySet' },
+  { type: 'error', inputs: [], name: 'TransferStpEthFailed' },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  { type: 'error', inputs: [], name: 'ZeroStpETHAmount' },
+  { type: 'error', inputs: [], name: 'ZeroWstpETHAmount' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
+    name: 'ReceiveEther'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: true }],
+    name: 'SetStakeTogether'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'wstpETHAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'stpETHAmount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Unwrapped'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'stpETHAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'wstpETHAmount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Wrapped'
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_stakeTogether', internalType: 'address', type: 'address' }],
+    name: 'setStakeTogether',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_wstpETH', internalType: 'uint256', type: 'uint256' }],
+    name: 'stpEthPerWstpETH',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
   {
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
-      { name: '_amount', internalType: 'uint256', type: 'uint256' },
-      { name: '_pool', internalType: 'address', type: 'address' }
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' }
     ],
-    name: 'withdrawValidator',
-    outputs: []
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
-  { stateMutability: 'payable', type: 'receive' }
+  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'transferExtraAmount', outputs: [] },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_from', internalType: 'address', type: 'address' },
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_wstpETH', internalType: 'uint256', type: 'uint256' }],
+    name: 'unwrap',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_stpETH', internalType: 'uint256', type: 'uint256' }],
+    name: 'wrap',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_stpETH', internalType: 'uint256', type: 'uint256' }],
+    name: 'wstpETHPerStpETH',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  }
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2587,28 +3114,40 @@ export const iStakeTogetherABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const iWithdrawalsABI = [
+  { type: 'error', inputs: [], name: 'EarlyBeaconTransfer' },
+  { type: 'error', inputs: [], name: 'FlashLoan' },
+  { type: 'error', inputs: [], name: 'InsufficientEthBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientStwBalance' },
+  { type: 'error', inputs: [], name: 'ListedInAntiFraud' },
+  { type: 'error', inputs: [], name: 'NoExtraAmountAvailable' },
+  { type: 'error', inputs: [], name: 'OnlyRouter' },
+  { type: 'error', inputs: [], name: 'OnlyStakeTogether' },
+  { type: 'error', inputs: [], name: 'RouterAlreadySet' },
+  { type: 'error', inputs: [], name: 'StakeTogetherAlreadySet' },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  { type: 'error', inputs: [], name: 'ZeroAmount' },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveEther'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveWithdrawEther'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'router', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'router', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetRouter'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetStakeTogether'
   },
   {
@@ -2654,7 +3193,28 @@ export const iWithdrawalsABI = [
     name: 'setStakeTogether',
     outputs: []
   },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'transferExtraAmount', outputs: [] },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_from', internalType: 'address', type: 'address' },
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unpause', outputs: [] },
   {
     stateMutability: 'nonpayable',
@@ -2671,13 +3231,27 @@ export const iWithdrawalsABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const initializableABI = [
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   }
 ] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Math
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const mathABI = [{ type: 'error', inputs: [], name: 'MathOverflowedMulDiv' }] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// MerkleProof
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const merkleProofABI = [{ type: 'error', inputs: [], name: 'MerkleProofInvalidMultiproof' }] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // MockAirdrop
@@ -2685,6 +3259,54 @@ export const initializableABI = [
 
 export const mockAirdropABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'AccessControlUnauthorizedAccount'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance'
+  },
+  { type: 'error', inputs: [], name: 'AlreadyClaimed' },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'InvalidProof' },
+  { type: 'error', inputs: [], name: 'ListedInAntiFraud' },
+  { type: 'error', inputs: [], name: 'MerkleRootAlreadySetForBlock' },
+  { type: 'error', inputs: [], name: 'MerkleRootNotSet' },
+  { type: 'error', inputs: [], name: 'NoExtraAmountAvailable' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'OnlyRouter' },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  { type: 'error', inputs: [], name: 'RouterAlreadySet' },
+  { type: 'error', inputs: [], name: 'StakeTogetherAlreadySet' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
+  },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  { type: 'error', inputs: [], name: 'ZeroAmount' },
   {
     type: 'event',
     anonymous: false,
@@ -2693,21 +3315,6 @@ export const mockAirdropABI = [
       { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32', indexed: false }
     ],
     name: 'AddMerkleRoot'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false }
-    ],
-    name: 'AdminChanged'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded'
   },
   {
     type: 'event',
@@ -2734,7 +3341,7 @@ export const mockAirdropABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -2746,7 +3353,7 @@ export const mockAirdropABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveEther'
   },
   {
@@ -2782,13 +3389,13 @@ export const mockAirdropABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'router', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'router', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetRouter'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetStakeTogether'
   },
   {
@@ -2825,6 +3432,13 @@ export const mockAirdropABI = [
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
   },
   {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
@@ -2838,7 +3452,7 @@ export const mockAirdropABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
-      { name: '_blockNumber', internalType: 'uint256', type: 'uint256' },
+      { name: '_reportBlock', internalType: 'uint256', type: 'uint256' },
       { name: '_index', internalType: 'uint256', type: 'uint256' },
       { name: '_account', internalType: 'address', type: 'address' },
       { name: '_sharesAmount', internalType: 'uint256', type: 'uint256' },
@@ -2913,7 +3527,7 @@ export const mockAirdropABI = [
     type: 'function',
     inputs: [
       { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' }
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
     ],
     name: 'renounceRole',
     outputs: []
@@ -2933,7 +3547,7 @@ export const mockAirdropABI = [
     type: 'function',
     inputs: [],
     name: 'router',
-    outputs: [{ name: '', internalType: 'contract Router', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IRouter', type: 'address' }]
   },
   {
     stateMutability: 'nonpayable',
@@ -2954,7 +3568,7 @@ export const mockAirdropABI = [
     type: 'function',
     inputs: [],
     name: 'stakeTogether',
-    outputs: [{ name: '', internalType: 'contract StakeTogether', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IStakeTogether', type: 'address' }]
   },
   {
     stateMutability: 'view',
@@ -2965,13 +3579,6 @@ export const mockAirdropABI = [
   },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'transferExtraAmount', outputs: [] },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unpause', outputs: [] },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
-    outputs: []
-  },
   {
     stateMutability: 'payable',
     type: 'function',
@@ -3048,7 +3655,270 @@ export const mockDepositContractABI = [
     inputs: [],
     name: 'get_deposit_root',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+      { name: 'account', internalType: 'address payable', type: 'address' }
+    ],
+    name: 'withdraw',
+    outputs: []
   }
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// MockFlashLoan
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const mockFlashLoanABI = [
+  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'AccessControlUnauthorizedAccount'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
+    name: 'Initialized'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
+    name: 'Paused'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'previousAdminRole', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'newAdminRole', internalType: 'bytes32', type: 'bytes32', indexed: true }
+    ],
+    name: 'RoleAdminChanged'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'account', internalType: 'address', type: 'address', indexed: true },
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true }
+    ],
+    name: 'RoleGranted'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'account', internalType: 'address', type: 'address', indexed: true },
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true }
+    ],
+    name: 'RoleRevoked'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
+    name: 'Unpaused'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Upgraded'
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'ADMIN_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'DEFAULT_ADMIN_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADER_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
+    stateMutability: 'payable',
+    type: 'function',
+    inputs: [
+      { name: '_pool', internalType: 'address', type: 'address' },
+      { name: '_referral', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'depositAndWithdraw',
+    outputs: []
+  },
+  { stateMutability: 'payable', type: 'function', inputs: [], name: 'doubleWithdraw', outputs: [] },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'role', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'getRoleAdmin',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' }
+    ],
+    name: 'grantRole',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' }
+    ],
+    name: 'hasRole',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_stakeTogether', internalType: 'address', type: 'address' },
+      { name: '_stakeTogetherWrapper', internalType: 'address', type: 'address' },
+      { name: '_withdrawals', internalType: 'address', type: 'address' }
+    ],
+    name: 'initialize',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'paused',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'proxiableUUID',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
+    ],
+    name: 'renounceRole',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' }
+    ],
+    name: 'revokeRole',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'stakeTogether',
+    outputs: [{ name: '', internalType: 'contract StakeTogether', type: 'address' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'stakeTogetherWrapper',
+    outputs: [{ name: '', internalType: 'contract StakeTogetherWrapper', type: 'address' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
+    name: 'supportsInterface',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'payable',
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'upgradeToAndCall',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'withdrawals',
+    outputs: [{ name: '', internalType: 'contract Withdrawals', type: 'address' }]
+  },
+  {
+    stateMutability: 'payable',
+    type: 'function',
+    inputs: [
+      { name: '_pool', internalType: 'address', type: 'address' },
+      { name: '_referral', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'wrapAndUnwrap',
+    outputs: []
+  },
+  { stateMutability: 'payable', type: 'receive' }
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3057,20 +3927,75 @@ export const mockDepositContractABI = [
 
 export const mockRouterABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'AccessControlUnauthorizedAccount'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  { type: 'error', inputs: [], name: 'AlreadyExecuted' },
+  { type: 'error', inputs: [], name: 'AlreadyReported' },
+  { type: 'error', inputs: [], name: 'BeaconBalanceTooLow' },
+  { type: 'error', inputs: [], name: 'BlockNumberNotReached' },
+  { type: 'error', inputs: [], name: 'ConfigNotSet' },
+  { type: 'error', inputs: [], name: 'ConsensusNotDelayed' },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  { type: 'error', inputs: [], name: 'EarlyExecution' },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'IncreaseOraclesToUseMargin' },
+  { type: 'error', inputs: [], name: 'InsufficientEthBalance' },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'MarginTooHigh' },
+  { type: 'error', inputs: [], name: 'MathOverflowedMulDiv' },
+  { type: 'error', inputs: [], name: 'NoActiveConsensus' },
+  { type: 'error', inputs: [], name: 'NoPendingExecution' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'OnlyActiveOracle' },
+  { type: 'error', inputs: [], name: 'OnlyStakeTogether' },
+  { type: 'error', inputs: [], name: 'OracleAlreadyBlacklisted' },
+  { type: 'error', inputs: [], name: 'OracleAlreadyReported' },
+  { type: 'error', inputs: [], name: 'OracleBlacklisted' },
+  { type: 'error', inputs: [], name: 'OracleExists' },
+  { type: 'error', inputs: [], name: 'OracleNotBlacklisted' },
+  { type: 'error', inputs: [], name: 'OracleNotExists' },
+  { type: 'error', inputs: [], name: 'PendingExecution' },
+  { type: 'error', inputs: [], name: 'QuorumNotReached' },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  { type: 'error', inputs: [], name: 'ReportBlockShouldBeGreater' },
+  { type: 'error', inputs: [], name: 'ReportDelayBlocksTooHigh' },
+  { type: 'error', inputs: [], name: 'ReportRevoked' },
+  { type: 'error', inputs: [], name: 'RequiredMoreOracles' },
+  { type: 'error', inputs: [], name: 'SentinelExists' },
+  { type: 'error', inputs: [], name: 'SentinelNotExists' },
+  { type: 'error', inputs: [], name: 'StakeTogetherAlreadySet' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
+  },
+  { type: 'error', inputs: [], name: 'WithdrawBalanceTooLow' },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
   {
     type: 'event',
     anonymous: false,
     inputs: [{ name: 'reportOracle', internalType: 'address', type: 'address', indexed: true }],
     name: 'AddReportOracle'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false }
-    ],
-    name: 'AdminChanged'
   },
   {
     type: 'event',
@@ -3084,12 +4009,6 @@ export const mockRouterABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded'
-  },
-  {
-    type: 'event',
-    anonymous: false,
     inputs: [{ name: 'reportOracle', internalType: 'address', type: 'address', indexed: true }],
     name: 'BlacklistReportOracle'
   },
@@ -3097,26 +4016,23 @@ export const mockRouterABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true },
       {
         name: 'report',
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ],
         indexed: false
-      },
-      { name: 'hash', internalType: 'bytes32', type: 'bytes32', indexed: false }
+      }
     ],
     name: 'ConsensusApprove'
   },
@@ -3124,26 +4040,23 @@ export const mockRouterABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true },
       {
         name: 'report',
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ],
         indexed: false
-      },
-      { name: 'hash', internalType: 'bytes32', type: 'bytes32', indexed: false }
+      }
     ],
     name: 'ConsensusFail'
   },
@@ -3151,33 +4064,31 @@ export const mockRouterABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true },
       {
         name: 'report',
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ],
         indexed: false
-      },
-      { name: 'hash', internalType: 'bytes32', type: 'bytes32', indexed: false }
+      }
     ],
     name: 'ExecuteReport'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -3189,13 +4100,13 @@ export const mockRouterABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveEther'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveWithdrawEther'
   },
   {
@@ -3207,7 +4118,10 @@ export const mockRouterABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true }
+    ],
     name: 'RevokeConsensusReport'
   },
   {
@@ -3243,20 +4157,24 @@ export const mockRouterABI = [
   {
     type: 'event',
     anonymous: false,
+    inputs: [{ name: 'bunkerMode', internalType: 'bool', type: 'bool', indexed: true }],
+    name: 'SetBunkerMode'
+  },
+  {
+    type: 'event',
+    anonymous: false,
     inputs: [
       {
         name: 'config',
         internalType: 'struct IRouter.Config',
         type: 'tuple',
         components: [
-          { name: 'bunkerMode', internalType: 'bool', type: 'bool' },
           { name: 'reportFrequency', internalType: 'uint256', type: 'uint256' },
           { name: 'reportDelayBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'reportNoConsensusMargin', internalType: 'uint256', type: 'uint256' },
-          { name: 'oracleBlackListLimit', internalType: 'uint256', type: 'uint256' },
           { name: 'oracleQuorum', internalType: 'uint256', type: 'uint256' }
         ],
-        indexed: false
+        indexed: true
       }
     ],
     name: 'SetConfig'
@@ -3264,38 +4182,30 @@ export const mockRouterABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'epoch', internalType: 'uint256', type: 'uint256', indexed: false }],
-    name: 'SetLastExecutedEpoch'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetStakeTogether'
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
       {
         name: 'report',
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ],
-        indexed: false
-      },
-      { name: 'hash', internalType: 'bytes32', type: 'bytes32', indexed: false }
+        indexed: true
+      }
     ],
     name: 'SubmitReport'
   },
@@ -3316,15 +4226,6 @@ export const mockRouterABI = [
     anonymous: false,
     inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
     name: 'Upgraded'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true },
-      { name: 'validatorsHash', internalType: 'bytes32[]', type: 'bytes32[]', indexed: false }
-    ],
-    name: 'ValidatorsToRemove'
   },
   {
     stateMutability: 'view',
@@ -3369,10 +4270,17 @@ export const mockRouterABI = [
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
   },
   {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
-      { name: '_epoch', internalType: 'uint256', type: 'uint256' },
+      { name: '_reportBlock', internalType: 'uint256', type: 'uint256' },
       { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' }
     ],
     name: 'addMerkleRoot',
@@ -3397,7 +4305,7 @@ export const mockRouterABI = [
     type: 'function',
     inputs: [],
     name: 'airdrop',
-    outputs: [{ name: '', internalType: 'contract Airdrop', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IAirdrop', type: 'address' }]
   },
   {
     stateMutability: 'nonpayable',
@@ -3410,13 +4318,18 @@ export const mockRouterABI = [
     stateMutability: 'view',
     type: 'function',
     inputs: [],
+    name: 'bunkermode',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
     name: 'config',
     outputs: [
-      { name: 'bunkerMode', internalType: 'bool', type: 'bool' },
       { name: 'reportFrequency', internalType: 'uint256', type: 'uint256' },
       { name: 'reportDelayBlock', internalType: 'uint256', type: 'uint256' },
       { name: 'reportNoConsensusMargin', internalType: 'uint256', type: 'uint256' },
-      { name: 'oracleBlackListLimit', internalType: 'uint256', type: 'uint256' },
       { name: 'oracleQuorum', internalType: 'uint256', type: 'uint256' }
     ]
   },
@@ -3436,15 +4349,13 @@ export const mockRouterABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -3472,15 +4383,13 @@ export const mockRouterABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -3535,15 +4444,13 @@ export const mockRouterABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -3560,15 +4467,13 @@ export const mockRouterABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -3604,13 +4509,6 @@ export const mockRouterABI = [
     name: 'lastExecutedBlock',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
   },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'lastExecutedEpoch',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
-  },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'pause', outputs: [] },
   {
     stateMutability: 'view',
@@ -3630,7 +4528,7 @@ export const mockRouterABI = [
     stateMutability: 'payable',
     type: 'function',
     inputs: [{ name: '_sharesAmount', internalType: 'uint256', type: 'uint256' }],
-    name: 'processStakeRewards',
+    name: 'processFeeRewards',
     outputs: []
   },
   {
@@ -3660,7 +4558,7 @@ export const mockRouterABI = [
     type: 'function',
     inputs: [
       { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' }
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
     ],
     name: 'renounceRole',
     outputs: []
@@ -3741,29 +4639,27 @@ export const mockRouterABI = [
   {
     stateMutability: 'nonpayable',
     type: 'function',
+    inputs: [{ name: '_bunkerMode', internalType: 'bool', type: 'bool' }],
+    name: 'setBunkerMode',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
     inputs: [
       {
         name: '_config',
         internalType: 'struct IRouter.Config',
         type: 'tuple',
         components: [
-          { name: 'bunkerMode', internalType: 'bool', type: 'bool' },
           { name: 'reportFrequency', internalType: 'uint256', type: 'uint256' },
           { name: 'reportDelayBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'reportNoConsensusMargin', internalType: 'uint256', type: 'uint256' },
-          { name: 'oracleBlackListLimit', internalType: 'uint256', type: 'uint256' },
           { name: 'oracleQuorum', internalType: 'uint256', type: 'uint256' }
         ]
       }
     ],
     name: 'setConfig',
-    outputs: []
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_epoch', internalType: 'uint256', type: 'uint256' }],
-    name: 'setLastExecutedEpoch',
     outputs: []
   },
   {
@@ -3785,7 +4681,7 @@ export const mockRouterABI = [
     type: 'function',
     inputs: [],
     name: 'stakeTogether',
-    outputs: [{ name: '', internalType: 'contract StakeTogether', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IStakeTogether', type: 'address' }]
   },
   {
     stateMutability: 'nonpayable',
@@ -3796,15 +4692,13 @@ export const mockRouterABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -3842,13 +4736,6 @@ export const mockRouterABI = [
   },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unpause', outputs: [] },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
-    outputs: []
-  },
-  {
     stateMutability: 'payable',
     type: 'function',
     inputs: [
@@ -3870,7 +4757,7 @@ export const mockRouterABI = [
     type: 'function',
     inputs: [],
     name: 'withdrawals',
-    outputs: [{ name: '', internalType: 'contract Withdrawals', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IWithdrawals', type: 'address' }]
   },
   { stateMutability: 'payable', type: 'receive' }
 ] as const
@@ -3881,15 +4768,180 @@ export const mockRouterABI = [
 
 export const mockStakeTogetherABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'AccessControlUnauthorizedAccount'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance'
+  },
+  { type: 'error', inputs: [], name: 'DepositLimitReached' },
+  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
+  {
+    type: 'error',
+    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
+    name: 'ECDSAInvalidSignatureLength'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'ECDSAInvalidSignatureS'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientAllowance'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientBalance'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'deadline', internalType: 'uint256', type: 'uint256' }],
+    name: 'ERC2612ExpiredSignature'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'signer', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' }
+    ],
+    name: 'ERC2612InvalidSigner'
+  },
+  { type: 'error', inputs: [], name: 'EarlyTransfer' },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'FeatureDisabled' },
+  { type: 'error', inputs: [], name: 'FlashLoan' },
+  { type: 'error', inputs: [], name: 'InsufficientAccountBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientAllowance' },
+  { type: 'error', inputs: [], name: 'InsufficientBeaconBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientPoolBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientShares' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'currentNonce', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'InvalidAccountNonce'
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'InvalidLength' },
+  { type: 'error', inputs: [], name: 'InvalidSize' },
+  { type: 'error', inputs: [], name: 'InvalidSum' },
+  { type: 'error', inputs: [], name: 'InvalidTotalPercentage' },
+  { type: 'error', inputs: [], name: 'InvalidTotalSupply' },
+  { type: 'error', inputs: [], name: 'InvalidValue' },
+  { type: 'error', inputs: [], name: 'LessThanMinimumDeposit' },
+  { type: 'error', inputs: [], name: 'LessThanMinimumWithdraw' },
+  { type: 'error', inputs: [], name: 'ListedInAntiFraud' },
+  { type: 'error', inputs: [], name: 'MathOverflowedMulDiv' },
+  { type: 'error', inputs: [], name: 'MaxDelegations' },
+  { type: 'error', inputs: [], name: 'NotAuthorized' },
+  { type: 'error', inputs: [], name: 'NotEnoughBalanceOnPool' },
+  { type: 'error', inputs: [], name: 'NotEnoughPoolBalance' },
+  { type: 'error', inputs: [], name: 'NotInAntiFraudList' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'NotIsCurrentValidatorOracle' },
+  { type: 'error', inputs: [], name: 'OnlyAirdrop' },
+  { type: 'error', inputs: [], name: 'OnlyRouter' },
+  { type: 'error', inputs: [], name: 'OnlyValidatorOracle' },
+  { type: 'error', inputs: [], name: 'PoolExists' },
+  { type: 'error', inputs: [], name: 'PoolNotFound' },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  { type: 'error', inputs: [], name: 'RouterAlreadyHaveBalance' },
+  { type: 'error', inputs: [], name: 'ShouldAnticipateWithdraw' },
+  { type: 'error', inputs: [], name: 'ShouldBeZeroLength' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
+  },
+  { type: 'error', inputs: [], name: 'ValidatorExists' },
+  { type: 'error', inputs: [], name: 'ValidatorOracleExists' },
+  { type: 'error', inputs: [], name: 'ValidatorOracleNotFound' },
+  { type: 'error', inputs: [], name: 'WithdrawFromPool' },
+  { type: 'error', inputs: [], name: 'WithdrawZeroBalance' },
+  { type: 'error', inputs: [], name: 'WithdrawalsPoolLimitReached' },
+  { type: 'error', inputs: [], name: 'WithdrawalsValidatorLimitWasReached' },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  { type: 'error', inputs: [], name: 'ZeroAmount' },
+  { type: 'error', inputs: [], name: 'ZeroSupply' },
   {
     type: 'event',
     anonymous: false,
     inputs: [
       { name: 'pool', internalType: 'address', type: 'address', indexed: true },
       { name: 'listed', internalType: 'bool', type: 'bool', indexed: false },
+      { name: 'social', internalType: 'bool', type: 'bool', indexed: false },
+      { name: 'index', internalType: 'bool', type: 'bool', indexed: false },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
     ],
     name: 'AddPool'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'publicKey', internalType: 'bytes', type: 'bytes', indexed: false },
+      { name: 'withdrawalCredentials', internalType: 'bytes', type: 'bytes', indexed: false },
+      { name: 'signature', internalType: 'bytes', type: 'bytes', indexed: false },
+      { name: 'depositDataRoot', internalType: 'bytes32', type: 'bytes32', indexed: false }
+    ],
+    name: 'AddValidator'
   },
   {
     type: 'event',
@@ -3901,19 +4953,10 @@ export const mockStakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false }
-    ],
-    name: 'AdminChanged'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
       { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
     ],
-    name: 'AnticipateWithdrawValidator'
+    name: 'AnticipateWithdrawBeacon'
   },
   {
     type: 'event',
@@ -3928,12 +4971,6 @@ export const mockStakeTogetherABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded'
-  },
-  {
-    type: 'event',
-    anonymous: false,
     inputs: [
       { name: 'account', internalType: 'address', type: 'address', indexed: true },
       { name: 'sharesAmount', internalType: 'uint256', type: 'uint256', indexed: false }
@@ -3944,24 +4981,11 @@ export const mockStakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'publicKey', internalType: 'bytes', type: 'bytes', indexed: false },
-      { name: 'withdrawalCredentials', internalType: 'bytes', type: 'bytes', indexed: false },
-      { name: 'signature', internalType: 'bytes', type: 'bytes', indexed: false },
-      { name: 'depositDataRoot', internalType: 'bytes32', type: 'bytes32', indexed: false }
-    ],
-    name: 'CreateValidator'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
       { name: 'to', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'depositType', internalType: 'enum IStakeTogether.DepositType', type: 'uint8', indexed: false },
-      { name: 'pool', internalType: 'address', type: 'address', indexed: false },
-      { name: 'referral', internalType: 'address', type: 'address', indexed: false }
+      { name: 'pool', internalType: 'address', type: 'address', indexed: true },
+      { name: 'referral', internalType: 'bytes', type: 'bytes', indexed: true }
     ],
     name: 'DepositBase'
   },
@@ -3972,13 +4996,13 @@ export const mockStakeTogetherABI = [
       { name: 'sender', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
     ],
-    name: 'DepositLimitReached'
+    name: 'DepositLimitWasReached'
   },
   { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -4020,8 +5044,8 @@ export const mockStakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'sharesAmount', internalType: 'uint256', type: 'uint256', indexed: false }
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'sharesAmount', internalType: 'uint256', type: 'uint256', indexed: true }
     ],
     name: 'ProcessStakeRewards'
   },
@@ -4037,7 +5061,7 @@ export const mockStakeTogetherABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveEther'
   },
   {
@@ -4085,7 +5109,17 @@ export const mockStakeTogetherABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'account', internalType: 'address', type: 'address', indexed: true },
+      { name: 'isListed', internalType: 'bool', type: 'bool', indexed: false }
+    ],
+    name: 'SetAntiFraudStatus'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'SetBeaconBalance'
   },
   {
@@ -4106,6 +5140,8 @@ export const mockStakeTogetherABI = [
           { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawDelay', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawBeaconDelay', internalType: 'uint256', type: 'uint256' },
           {
             name: 'feature',
             internalType: 'struct IStakeTogether.Feature',
@@ -4114,11 +5150,11 @@ export const mockStakeTogetherABI = [
               { name: 'AddPool', internalType: 'bool', type: 'bool' },
               { name: 'Deposit', internalType: 'bool', type: 'bool' },
               { name: 'WithdrawPool', internalType: 'bool', type: 'bool' },
-              { name: 'WithdrawValidator', internalType: 'bool', type: 'bool' }
+              { name: 'WithdrawBeacon', internalType: 'bool', type: 'bool' }
             ]
           }
         ],
-        indexed: false
+        indexed: true
       }
     ],
     name: 'SetConfig'
@@ -4157,13 +5193,13 @@ export const mockStakeTogetherABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'newValidatorSize', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'newValidatorSize', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'SetValidatorSize'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'SetWithdrawBalance'
   },
   {
@@ -4229,7 +5265,7 @@ export const mockStakeTogetherABI = [
       { name: 'account', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'withdrawType', internalType: 'enum IStakeTogether.WithdrawType', type: 'uint8', indexed: false },
-      { name: 'pool', internalType: 'address', type: 'address', indexed: false }
+      { name: 'pool', internalType: 'address', type: 'address', indexed: true }
     ],
     name: 'WithdrawBase'
   },
@@ -4241,13 +5277,27 @@ export const mockStakeTogetherABI = [
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'withdrawType', internalType: 'enum IStakeTogether.WithdrawType', type: 'uint8', indexed: false }
     ],
-    name: 'WithdrawalsLimitReached'
+    name: 'WithdrawalsLimitWasReached'
   },
   {
     stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'ADMIN_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'ANTI_FRAUD_MANAGER_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'ANTI_FRAUD_SENTINEL_ROLE',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
   },
   {
@@ -4282,6 +5332,13 @@ export const mockStakeTogetherABI = [
     stateMutability: 'view',
     type: 'function',
     inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
     name: 'VALIDATOR_ORACLE_MANAGER_ROLE',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
   },
@@ -4304,7 +5361,9 @@ export const mockStakeTogetherABI = [
     type: 'function',
     inputs: [
       { name: '_pool', internalType: 'address', type: 'address' },
-      { name: '_listed', internalType: 'bool', type: 'bool' }
+      { name: '_listed', internalType: 'bool', type: 'bool' },
+      { name: '_social', internalType: 'bool', type: 'bool' },
+      { name: '_index', internalType: 'bool', type: 'bool' }
     ],
     name: 'addPool',
     outputs: []
@@ -4313,8 +5372,33 @@ export const mockStakeTogetherABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'addToAntiFraud',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_publicKey', internalType: 'bytes', type: 'bytes' },
+      { name: '_signature', internalType: 'bytes', type: 'bytes' },
+      { name: '_depositDataRoot', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'addValidator',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
     name: 'addValidatorOracle',
     outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'airdrop',
+    outputs: [{ name: '', internalType: 'contract IAirdrop', type: 'address' }]
   },
   {
     stateMutability: 'view',
@@ -4330,7 +5414,7 @@ export const mockStakeTogetherABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
-    name: 'anticipateWithdrawValidator',
+    name: 'anticipateWithdrawBeacon',
     outputs: []
   },
   {
@@ -4360,7 +5444,7 @@ export const mockStakeTogetherABI = [
   {
     stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    inputs: [{ name: 'value', internalType: 'uint256', type: 'uint256' }],
     name: 'burn',
     outputs: []
   },
@@ -4369,7 +5453,7 @@ export const mockStakeTogetherABI = [
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'burnFrom',
     outputs: []
@@ -4399,6 +5483,8 @@ export const mockStakeTogetherABI = [
       { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
       { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
       { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
+      { name: 'withdrawDelay', internalType: 'uint256', type: 'uint256' },
+      { name: 'withdrawBeaconDelay', internalType: 'uint256', type: 'uint256' },
       {
         name: 'feature',
         internalType: 'struct IStakeTogether.Feature',
@@ -4407,21 +5493,10 @@ export const mockStakeTogetherABI = [
           { name: 'AddPool', internalType: 'bool', type: 'bool' },
           { name: 'Deposit', internalType: 'bool', type: 'bool' },
           { name: 'WithdrawPool', internalType: 'bool', type: 'bool' },
-          { name: 'WithdrawValidator', internalType: 'bool', type: 'bool' }
+          { name: 'WithdrawBeacon', internalType: 'bool', type: 'bool' }
         ]
       }
     ]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_publicKey', internalType: 'bytes', type: 'bytes' },
-      { name: '_signature', internalType: 'bytes', type: 'bytes' },
-      { name: '_depositDataRoot', internalType: 'bytes32', type: 'bytes32' }
-    ],
-    name: 'createValidator',
-    outputs: []
   },
   {
     stateMutability: 'view',
@@ -4438,20 +5513,10 @@ export const mockStakeTogetherABI = [
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }]
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_spender', internalType: 'address', type: 'address' },
-      { name: '_subtractedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'decreaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  },
-  {
     stateMutability: 'view',
     type: 'function',
     inputs: [],
-    name: 'depositContract',
+    name: 'deposit',
     outputs: [{ name: '', internalType: 'contract IDepositContract', type: 'address' }]
   },
   {
@@ -4460,7 +5525,7 @@ export const mockStakeTogetherABI = [
     inputs: [
       { name: '_to', internalType: 'address', type: 'address' },
       { name: '_pool', internalType: 'address', type: 'address' },
-      { name: '_referral', internalType: 'address', type: 'address' }
+      { name: '_referral', internalType: 'bytes', type: 'bytes' }
     ],
     name: 'depositDonation',
     outputs: []
@@ -4470,7 +5535,7 @@ export const mockStakeTogetherABI = [
     type: 'function',
     inputs: [
       { name: '_pool', internalType: 'address', type: 'address' },
-      { name: '_referral', internalType: 'address', type: 'address' }
+      { name: '_referral', internalType: 'bytes', type: 'bytes' }
     ],
     name: 'depositPool',
     outputs: []
@@ -4500,6 +5565,13 @@ export const mockStakeTogetherABI = [
   {
     stateMutability: 'view',
     type: 'function',
+    inputs: [{ name: '_feeType', internalType: 'enum IStakeTogether.FeeType', type: 'uint8' }],
+    name: 'getFee',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
     inputs: [{ name: '_role', internalType: 'enum IStakeTogether.FeeRole', type: 'uint8' }],
     name: 'getFeeAddress',
     outputs: [{ name: '', internalType: 'address', type: 'address' }]
@@ -4517,6 +5589,20 @@ export const mockStakeTogetherABI = [
     inputs: [{ name: 'role', internalType: 'bytes32', type: 'bytes32' }],
     name: 'getRoleAdmin',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'getWithdrawBeaconBlock',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'getWithdrawBlock',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
   },
   {
     stateMutability: 'nonpayable',
@@ -4542,25 +5628,30 @@ export const mockStakeTogetherABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
-      { name: '_spender', internalType: 'address', type: 'address' },
-      { name: '_addedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'increaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
+      { name: '_airdrop', internalType: 'address', type: 'address' },
+      { name: '_deposit', internalType: 'address', type: 'address' },
       { name: '_router', internalType: 'address', type: 'address' },
       { name: '_withdrawals', internalType: 'address', type: 'address' },
-      { name: '_depositContract', internalType: 'address', type: 'address' },
       { name: '_withdrawalCredentials', internalType: 'bytes', type: 'bytes' }
     ],
     name: 'initialize',
     outputs: []
   },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'initializeV2', outputs: [] },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_airdrop', internalType: 'address', type: 'address' }],
+    name: 'initializeV2Airdrop',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'isListedInAntiFraud',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
   {
     stateMutability: 'view',
     type: 'function',
@@ -4633,7 +5724,7 @@ export const mockStakeTogetherABI = [
     stateMutability: 'payable',
     type: 'function',
     inputs: [{ name: '_sharesAmount', internalType: 'uint256', type: 'uint256' }],
-    name: 'processStakeRewards',
+    name: 'processFeeRewards',
     outputs: []
   },
   {
@@ -4642,6 +5733,13 @@ export const mockStakeTogetherABI = [
     inputs: [],
     name: 'proxiableUUID',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'removeFromAntiFraud',
+    outputs: []
   },
   {
     stateMutability: 'nonpayable',
@@ -4662,7 +5760,7 @@ export const mockStakeTogetherABI = [
     type: 'function',
     inputs: [
       { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' }
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
     ],
     name: 'renounceRole',
     outputs: []
@@ -4682,7 +5780,7 @@ export const mockStakeTogetherABI = [
     type: 'function',
     inputs: [],
     name: 'router',
-    outputs: [{ name: '', internalType: 'contract Router', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IRouter', type: 'address' }]
   },
   {
     stateMutability: 'payable',
@@ -4709,6 +5807,8 @@ export const mockStakeTogetherABI = [
           { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawDelay', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawBeaconDelay', internalType: 'uint256', type: 'uint256' },
           {
             name: 'feature',
             internalType: 'struct IStakeTogether.Feature',
@@ -4717,7 +5817,7 @@ export const mockStakeTogetherABI = [
               { name: 'AddPool', internalType: 'bool', type: 'bool' },
               { name: 'Deposit', internalType: 'bool', type: 'bool' },
               { name: 'WithdrawPool', internalType: 'bool', type: 'bool' },
-              { name: 'WithdrawValidator', internalType: 'bool', type: 'bool' }
+              { name: 'WithdrawBeacon', internalType: 'bool', type: 'bool' }
             ]
           }
         ]
@@ -4867,13 +5967,6 @@ export const mockStakeTogetherABI = [
     outputs: []
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
-    outputs: []
-  },
-  {
     stateMutability: 'payable',
     type: 'function',
     inputs: [
@@ -4918,7 +6011,7 @@ export const mockStakeTogetherABI = [
       { name: '_amount', internalType: 'uint256', type: 'uint256' },
       { name: '_pool', internalType: 'address', type: 'address' }
     ],
-    name: 'withdrawPool',
+    name: 'withdrawBeacon',
     outputs: []
   },
   {
@@ -4928,7 +6021,7 @@ export const mockStakeTogetherABI = [
       { name: '_amount', internalType: 'uint256', type: 'uint256' },
       { name: '_pool', internalType: 'address', type: 'address' }
     ],
-    name: 'withdrawValidator',
+    name: 'withdrawPool',
     outputs: []
   },
   {
@@ -4943,26 +6036,132 @@ export const mockStakeTogetherABI = [
     type: 'function',
     inputs: [],
     name: 'withdrawals',
-    outputs: [{ name: '', internalType: 'contract Withdrawals', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IWithdrawals', type: 'address' }]
   },
   { stateMutability: 'payable', type: 'receive' }
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// MockWithdrawals
+// MockStakeTogetherWrapper
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const mockWithdrawalsABI = [
+export const mockStakeTogetherWrapperABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
   {
-    type: 'event',
-    anonymous: false,
+    type: 'error',
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false }
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
     ],
-    name: 'AdminChanged'
+    name: 'AccessControlUnauthorizedAccount'
   },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance'
+  },
+  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
+  {
+    type: 'error',
+    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
+    name: 'ECDSAInvalidSignatureLength'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'ECDSAInvalidSignatureS'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientAllowance'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientBalance'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'deadline', internalType: 'uint256', type: 'uint256' }],
+    name: 'ERC2612ExpiredSignature'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'signer', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' }
+    ],
+    name: 'ERC2612InvalidSigner'
+  },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'FlashLoan' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'currentNonce', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'InvalidAccountNonce'
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'ListedInAntiFraud' },
+  { type: 'error', inputs: [], name: 'NoExtraAmountAvailable' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  { type: 'error', inputs: [], name: 'StakeTogetherAlreadySet' },
+  { type: 'error', inputs: [], name: 'TransferStpEthFailed' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
+  },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  { type: 'error', inputs: [], name: 'ZeroStpETHAmount' },
+  { type: 'error', inputs: [], name: 'ZeroWstpETHAmount' },
   {
     type: 'event',
     anonymous: false,
@@ -4973,17 +6172,11 @@ export const mockWithdrawalsABI = [
     ],
     name: 'Approval'
   },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded'
-  },
   { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -4995,13 +6188,545 @@ export const mockWithdrawalsABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveEther'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'previousAdminRole', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'newAdminRole', internalType: 'bytes32', type: 'bytes32', indexed: true }
+    ],
+    name: 'RoleAdminChanged'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'account', internalType: 'address', type: 'address', indexed: true },
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true }
+    ],
+    name: 'RoleGranted'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'account', internalType: 'address', type: 'address', indexed: true },
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true }
+    ],
+    name: 'RoleRevoked'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: true }],
+    name: 'SetStakeTogether'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Transfer'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
+    name: 'Unpaused'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'wstpETHAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'stpETHAmount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Unwrapped'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Upgraded'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'stpETHAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'wstpETHAmount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Wrapped'
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'ADMIN_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'DEFAULT_ADMIN_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'DOMAIN_SEPARATOR',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADER_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' }
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: 'value', internalType: 'uint256', type: 'uint256' }],
+    name: 'burn',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'burnFrom',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'eip712Domain',
+    outputs: [
+      { name: 'fields', internalType: 'bytes1', type: 'bytes1' },
+      { name: 'name', internalType: 'string', type: 'string' },
+      { name: 'version', internalType: 'string', type: 'string' },
+      { name: 'chainId', internalType: 'uint256', type: 'uint256' },
+      { name: 'verifyingContract', internalType: 'address', type: 'address' },
+      { name: 'salt', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'extensions', internalType: 'uint256[]', type: 'uint256[]' }
+    ]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'role', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'getRoleAdmin',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' }
+    ],
+    name: 'grantRole',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' }
+    ],
+    name: 'hasRole',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'initialize', outputs: [] },
+  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'initializeV2', outputs: [] },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'nonces',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'pause', outputs: [] },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'paused',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'permit',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'proxiableUUID',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
+    ],
+    name: 'renounceRole',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' }
+    ],
+    name: 'revokeRole',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_stakeTogether', internalType: 'address', type: 'address' }],
+    name: 'setStakeTogether',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'stakeTogether',
+    outputs: [{ name: '', internalType: 'contract IStakeTogether', type: 'address' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_wstpETH', internalType: 'uint256', type: 'uint256' }],
+    name: 'stpEthPerWstpETH',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
+    name: 'supportsInterface',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'transferExtraAmount', outputs: [] },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_from', internalType: 'address', type: 'address' },
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unpause', outputs: [] },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_wstpETH', internalType: 'uint256', type: 'uint256' }],
+    name: 'unwrap',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'payable',
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'upgradeToAndCall',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'version',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_stpETH', internalType: 'uint256', type: 'uint256' }],
+    name: 'wrap',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_stpETH', internalType: 'uint256', type: 'uint256' }],
+    name: 'wstpETHPerStpETH',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  { stateMutability: 'payable', type: 'receive' }
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// MockWithdrawals
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const mockWithdrawalsABI = [
+  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'AccessControlUnauthorizedAccount'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance'
+  },
+  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
+  {
+    type: 'error',
+    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
+    name: 'ECDSAInvalidSignatureLength'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'ECDSAInvalidSignatureS'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientAllowance'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientBalance'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'deadline', internalType: 'uint256', type: 'uint256' }],
+    name: 'ERC2612ExpiredSignature'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'signer', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' }
+    ],
+    name: 'ERC2612InvalidSigner'
+  },
+  { type: 'error', inputs: [], name: 'EarlyBeaconTransfer' },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'FlashLoan' },
+  { type: 'error', inputs: [], name: 'InsufficientEthBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientStwBalance' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'currentNonce', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'InvalidAccountNonce'
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'ListedInAntiFraud' },
+  { type: 'error', inputs: [], name: 'NoExtraAmountAvailable' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'OnlyRouter' },
+  { type: 'error', inputs: [], name: 'OnlyStakeTogether' },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  { type: 'error', inputs: [], name: 'RouterAlreadySet' },
+  { type: 'error', inputs: [], name: 'StakeTogetherAlreadySet' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
+  },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  { type: 'error', inputs: [], name: 'ZeroAmount' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Approval'
+  },
+  { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
+    name: 'Initialized'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
+    name: 'Paused'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
+    name: 'ReceiveEther'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveWithdrawEther'
   },
   {
@@ -5037,13 +6762,13 @@ export const mockWithdrawalsABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'router', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'router', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetRouter'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetStakeTogether'
   },
   {
@@ -5108,6 +6833,13 @@ export const mockWithdrawalsABI = [
   {
     stateMutability: 'view',
     type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
     inputs: [
       { name: 'owner', internalType: 'address', type: 'address' },
       { name: 'spender', internalType: 'address', type: 'address' }
@@ -5120,7 +6852,7 @@ export const mockWithdrawalsABI = [
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'approve',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -5135,7 +6867,7 @@ export const mockWithdrawalsABI = [
   {
     stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    inputs: [{ name: 'value', internalType: 'uint256', type: 'uint256' }],
     name: 'burn',
     outputs: []
   },
@@ -5144,7 +6876,7 @@ export const mockWithdrawalsABI = [
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'burnFrom',
     outputs: []
@@ -5155,16 +6887,6 @@ export const mockWithdrawalsABI = [
     inputs: [],
     name: 'decimals',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'decreaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
   {
     stateMutability: 'view',
@@ -5206,16 +6928,6 @@ export const mockWithdrawalsABI = [
       { name: 'account', internalType: 'address', type: 'address' }
     ],
     name: 'hasRole',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'addedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'increaseAllowance',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'initialize', outputs: [] },
@@ -5287,7 +6999,7 @@ export const mockWithdrawalsABI = [
     type: 'function',
     inputs: [
       { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' }
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
     ],
     name: 'renounceRole',
     outputs: []
@@ -5307,7 +7019,7 @@ export const mockWithdrawalsABI = [
     type: 'function',
     inputs: [],
     name: 'router',
-    outputs: [{ name: '', internalType: 'contract Router', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IRouter', type: 'address' }]
   },
   {
     stateMutability: 'nonpayable',
@@ -5328,7 +7040,7 @@ export const mockWithdrawalsABI = [
     type: 'function',
     inputs: [],
     name: 'stakeTogether',
-    outputs: [{ name: '', internalType: 'contract StakeTogether', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IStakeTogether', type: 'address' }]
   },
   {
     stateMutability: 'view',
@@ -5355,8 +7067,8 @@ export const mockWithdrawalsABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'transfer',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -5366,21 +7078,14 @@ export const mockWithdrawalsABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: '_from', internalType: 'address', type: 'address' },
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'transferFrom',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unpause', outputs: [] },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
-    outputs: []
-  },
   {
     stateMutability: 'payable',
     type: 'function',
@@ -5409,14 +7114,48 @@ export const mockWithdrawalsABI = [
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// NoncesUpgradeable
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const noncesUpgradeableABI = [
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'currentNonce', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'InvalidAccountNonce'
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
+    name: 'Initialized'
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'nonces',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  }
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // PausableUpgradeable
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const pausableUpgradeableABI = [
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -5445,10 +7184,13 @@ export const pausableUpgradeableABI = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const reentrancyGuardUpgradeableABI = [
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   }
 ] as const
@@ -5459,20 +7201,75 @@ export const reentrancyGuardUpgradeableABI = [
 
 export const routerABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'AccessControlUnauthorizedAccount'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  { type: 'error', inputs: [], name: 'AlreadyExecuted' },
+  { type: 'error', inputs: [], name: 'AlreadyReported' },
+  { type: 'error', inputs: [], name: 'BeaconBalanceTooLow' },
+  { type: 'error', inputs: [], name: 'BlockNumberNotReached' },
+  { type: 'error', inputs: [], name: 'ConfigNotSet' },
+  { type: 'error', inputs: [], name: 'ConsensusNotDelayed' },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  { type: 'error', inputs: [], name: 'EarlyExecution' },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'IncreaseOraclesToUseMargin' },
+  { type: 'error', inputs: [], name: 'InsufficientEthBalance' },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'MarginTooHigh' },
+  { type: 'error', inputs: [], name: 'MathOverflowedMulDiv' },
+  { type: 'error', inputs: [], name: 'NoActiveConsensus' },
+  { type: 'error', inputs: [], name: 'NoPendingExecution' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'OnlyActiveOracle' },
+  { type: 'error', inputs: [], name: 'OnlyStakeTogether' },
+  { type: 'error', inputs: [], name: 'OracleAlreadyBlacklisted' },
+  { type: 'error', inputs: [], name: 'OracleAlreadyReported' },
+  { type: 'error', inputs: [], name: 'OracleBlacklisted' },
+  { type: 'error', inputs: [], name: 'OracleExists' },
+  { type: 'error', inputs: [], name: 'OracleNotBlacklisted' },
+  { type: 'error', inputs: [], name: 'OracleNotExists' },
+  { type: 'error', inputs: [], name: 'PendingExecution' },
+  { type: 'error', inputs: [], name: 'QuorumNotReached' },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  { type: 'error', inputs: [], name: 'ReportBlockShouldBeGreater' },
+  { type: 'error', inputs: [], name: 'ReportDelayBlocksTooHigh' },
+  { type: 'error', inputs: [], name: 'ReportRevoked' },
+  { type: 'error', inputs: [], name: 'RequiredMoreOracles' },
+  { type: 'error', inputs: [], name: 'SentinelExists' },
+  { type: 'error', inputs: [], name: 'SentinelNotExists' },
+  { type: 'error', inputs: [], name: 'StakeTogetherAlreadySet' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
+  },
+  { type: 'error', inputs: [], name: 'WithdrawBalanceTooLow' },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
   {
     type: 'event',
     anonymous: false,
     inputs: [{ name: 'reportOracle', internalType: 'address', type: 'address', indexed: true }],
     name: 'AddReportOracle'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false }
-    ],
-    name: 'AdminChanged'
   },
   {
     type: 'event',
@@ -5486,12 +7283,6 @@ export const routerABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded'
-  },
-  {
-    type: 'event',
-    anonymous: false,
     inputs: [{ name: 'reportOracle', internalType: 'address', type: 'address', indexed: true }],
     name: 'BlacklistReportOracle'
   },
@@ -5499,26 +7290,23 @@ export const routerABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true },
       {
         name: 'report',
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ],
         indexed: false
-      },
-      { name: 'hash', internalType: 'bytes32', type: 'bytes32', indexed: false }
+      }
     ],
     name: 'ConsensusApprove'
   },
@@ -5526,26 +7314,23 @@ export const routerABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true },
       {
         name: 'report',
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ],
         indexed: false
-      },
-      { name: 'hash', internalType: 'bytes32', type: 'bytes32', indexed: false }
+      }
     ],
     name: 'ConsensusFail'
   },
@@ -5553,33 +7338,31 @@ export const routerABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true },
       {
         name: 'report',
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ],
         indexed: false
-      },
-      { name: 'hash', internalType: 'bytes32', type: 'bytes32', indexed: false }
+      }
     ],
     name: 'ExecuteReport'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -5591,13 +7374,13 @@ export const routerABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveEther'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveWithdrawEther'
   },
   {
@@ -5609,7 +7392,10 @@ export const routerABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true }
+    ],
     name: 'RevokeConsensusReport'
   },
   {
@@ -5645,20 +7431,24 @@ export const routerABI = [
   {
     type: 'event',
     anonymous: false,
+    inputs: [{ name: 'bunkerMode', internalType: 'bool', type: 'bool', indexed: true }],
+    name: 'SetBunkerMode'
+  },
+  {
+    type: 'event',
+    anonymous: false,
     inputs: [
       {
         name: 'config',
         internalType: 'struct IRouter.Config',
         type: 'tuple',
         components: [
-          { name: 'bunkerMode', internalType: 'bool', type: 'bool' },
           { name: 'reportFrequency', internalType: 'uint256', type: 'uint256' },
           { name: 'reportDelayBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'reportNoConsensusMargin', internalType: 'uint256', type: 'uint256' },
-          { name: 'oracleBlackListLimit', internalType: 'uint256', type: 'uint256' },
           { name: 'oracleQuorum', internalType: 'uint256', type: 'uint256' }
         ],
-        indexed: false
+        indexed: true
       }
     ],
     name: 'SetConfig'
@@ -5666,38 +7456,30 @@ export const routerABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'epoch', internalType: 'uint256', type: 'uint256', indexed: false }],
-    name: 'SetLastExecutedEpoch'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetStakeTogether'
   },
   {
     type: 'event',
     anonymous: false,
     inputs: [
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
       {
         name: 'report',
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ],
-        indexed: false
-      },
-      { name: 'hash', internalType: 'bytes32', type: 'bytes32', indexed: false }
+        indexed: true
+      }
     ],
     name: 'SubmitReport'
   },
@@ -5718,15 +7500,6 @@ export const routerABI = [
     anonymous: false,
     inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
     name: 'Upgraded'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'reportBlock', internalType: 'uint256', type: 'uint256', indexed: true },
-      { name: 'validatorsHash', internalType: 'bytes32[]', type: 'bytes32[]', indexed: false }
-    ],
-    name: 'ValidatorsToRemove'
   },
   {
     stateMutability: 'view',
@@ -5771,6 +7544,13 @@ export const routerABI = [
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
   },
   {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
@@ -5789,7 +7569,7 @@ export const routerABI = [
     type: 'function',
     inputs: [],
     name: 'airdrop',
-    outputs: [{ name: '', internalType: 'contract Airdrop', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IAirdrop', type: 'address' }]
   },
   {
     stateMutability: 'nonpayable',
@@ -5802,13 +7582,18 @@ export const routerABI = [
     stateMutability: 'view',
     type: 'function',
     inputs: [],
+    name: 'bunkermode',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
     name: 'config',
     outputs: [
-      { name: 'bunkerMode', internalType: 'bool', type: 'bool' },
       { name: 'reportFrequency', internalType: 'uint256', type: 'uint256' },
       { name: 'reportDelayBlock', internalType: 'uint256', type: 'uint256' },
       { name: 'reportNoConsensusMargin', internalType: 'uint256', type: 'uint256' },
-      { name: 'oracleBlackListLimit', internalType: 'uint256', type: 'uint256' },
       { name: 'oracleQuorum', internalType: 'uint256', type: 'uint256' }
     ]
   },
@@ -5828,15 +7613,13 @@ export const routerABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -5864,15 +7647,13 @@ export const routerABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -5926,15 +7707,13 @@ export const routerABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -5951,15 +7730,13 @@ export const routerABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -5993,13 +7770,6 @@ export const routerABI = [
     type: 'function',
     inputs: [],
     name: 'lastExecutedBlock',
-    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'lastExecutedEpoch',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
   },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'pause', outputs: [] },
@@ -6044,7 +7814,7 @@ export const routerABI = [
     type: 'function',
     inputs: [
       { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' }
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
     ],
     name: 'renounceRole',
     outputs: []
@@ -6118,29 +7888,27 @@ export const routerABI = [
   {
     stateMutability: 'nonpayable',
     type: 'function',
+    inputs: [{ name: '_bunkerMode', internalType: 'bool', type: 'bool' }],
+    name: 'setBunkerMode',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
     inputs: [
       {
         name: '_config',
         internalType: 'struct IRouter.Config',
         type: 'tuple',
         components: [
-          { name: 'bunkerMode', internalType: 'bool', type: 'bool' },
           { name: 'reportFrequency', internalType: 'uint256', type: 'uint256' },
           { name: 'reportDelayBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'reportNoConsensusMargin', internalType: 'uint256', type: 'uint256' },
-          { name: 'oracleBlackListLimit', internalType: 'uint256', type: 'uint256' },
           { name: 'oracleQuorum', internalType: 'uint256', type: 'uint256' }
         ]
       }
     ],
     name: 'setConfig',
-    outputs: []
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: '_epoch', internalType: 'uint256', type: 'uint256' }],
-    name: 'setLastExecutedEpoch',
     outputs: []
   },
   {
@@ -6155,7 +7923,7 @@ export const routerABI = [
     type: 'function',
     inputs: [],
     name: 'stakeTogether',
-    outputs: [{ name: '', internalType: 'contract StakeTogether', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IStakeTogether', type: 'address' }]
   },
   {
     stateMutability: 'nonpayable',
@@ -6166,15 +7934,13 @@ export const routerABI = [
         internalType: 'struct IRouter.Report',
         type: 'tuple',
         components: [
-          { name: 'epoch', internalType: 'uint256', type: 'uint256' },
+          { name: 'reportBlock', internalType: 'uint256', type: 'uint256' },
           { name: 'merkleRoot', internalType: 'bytes32', type: 'bytes32' },
           { name: 'profitAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'profitShares', internalType: 'uint256', type: 'uint256' },
           { name: 'lossAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawAmount', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawRefundAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'routerExtraAmount', internalType: 'uint256', type: 'uint256' },
-          { name: 'validatorsToRemove', internalType: 'bytes32[]', type: 'bytes32[]' },
           { name: 'accumulatedReports', internalType: 'uint256', type: 'uint256' }
         ]
       }
@@ -6212,13 +7978,6 @@ export const routerABI = [
   },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unpause', outputs: [] },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
-    outputs: []
-  },
-  {
     stateMutability: 'payable',
     type: 'function',
     inputs: [
@@ -6240,7 +7999,7 @@ export const routerABI = [
     type: 'function',
     inputs: [],
     name: 'withdrawals',
-    outputs: [{ name: '', internalType: 'contract Withdrawals', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IWithdrawals', type: 'address' }]
   },
   { stateMutability: 'payable', type: 'receive' }
 ] as const
@@ -6251,15 +8010,180 @@ export const routerABI = [
 
 export const stakeTogetherABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'AccessControlUnauthorizedAccount'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance'
+  },
+  { type: 'error', inputs: [], name: 'DepositLimitReached' },
+  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
+  {
+    type: 'error',
+    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
+    name: 'ECDSAInvalidSignatureLength'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'ECDSAInvalidSignatureS'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientAllowance'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientBalance'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'deadline', internalType: 'uint256', type: 'uint256' }],
+    name: 'ERC2612ExpiredSignature'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'signer', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' }
+    ],
+    name: 'ERC2612InvalidSigner'
+  },
+  { type: 'error', inputs: [], name: 'EarlyTransfer' },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'FeatureDisabled' },
+  { type: 'error', inputs: [], name: 'FlashLoan' },
+  { type: 'error', inputs: [], name: 'InsufficientAccountBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientAllowance' },
+  { type: 'error', inputs: [], name: 'InsufficientBeaconBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientPoolBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientShares' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'currentNonce', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'InvalidAccountNonce'
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'InvalidLength' },
+  { type: 'error', inputs: [], name: 'InvalidSize' },
+  { type: 'error', inputs: [], name: 'InvalidSum' },
+  { type: 'error', inputs: [], name: 'InvalidTotalPercentage' },
+  { type: 'error', inputs: [], name: 'InvalidTotalSupply' },
+  { type: 'error', inputs: [], name: 'InvalidValue' },
+  { type: 'error', inputs: [], name: 'LessThanMinimumDeposit' },
+  { type: 'error', inputs: [], name: 'LessThanMinimumWithdraw' },
+  { type: 'error', inputs: [], name: 'ListedInAntiFraud' },
+  { type: 'error', inputs: [], name: 'MathOverflowedMulDiv' },
+  { type: 'error', inputs: [], name: 'MaxDelegations' },
+  { type: 'error', inputs: [], name: 'NotAuthorized' },
+  { type: 'error', inputs: [], name: 'NotEnoughBalanceOnPool' },
+  { type: 'error', inputs: [], name: 'NotEnoughPoolBalance' },
+  { type: 'error', inputs: [], name: 'NotInAntiFraudList' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'NotIsCurrentValidatorOracle' },
+  { type: 'error', inputs: [], name: 'OnlyAirdrop' },
+  { type: 'error', inputs: [], name: 'OnlyRouter' },
+  { type: 'error', inputs: [], name: 'OnlyValidatorOracle' },
+  { type: 'error', inputs: [], name: 'PoolExists' },
+  { type: 'error', inputs: [], name: 'PoolNotFound' },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  { type: 'error', inputs: [], name: 'RouterAlreadyHaveBalance' },
+  { type: 'error', inputs: [], name: 'ShouldAnticipateWithdraw' },
+  { type: 'error', inputs: [], name: 'ShouldBeZeroLength' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
+  },
+  { type: 'error', inputs: [], name: 'ValidatorExists' },
+  { type: 'error', inputs: [], name: 'ValidatorOracleExists' },
+  { type: 'error', inputs: [], name: 'ValidatorOracleNotFound' },
+  { type: 'error', inputs: [], name: 'WithdrawFromPool' },
+  { type: 'error', inputs: [], name: 'WithdrawZeroBalance' },
+  { type: 'error', inputs: [], name: 'WithdrawalsPoolLimitReached' },
+  { type: 'error', inputs: [], name: 'WithdrawalsValidatorLimitWasReached' },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  { type: 'error', inputs: [], name: 'ZeroAmount' },
+  { type: 'error', inputs: [], name: 'ZeroSupply' },
   {
     type: 'event',
     anonymous: false,
     inputs: [
       { name: 'pool', internalType: 'address', type: 'address', indexed: true },
       { name: 'listed', internalType: 'bool', type: 'bool', indexed: false },
+      { name: 'social', internalType: 'bool', type: 'bool', indexed: false },
+      { name: 'index', internalType: 'bool', type: 'bool', indexed: false },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
     ],
     name: 'AddPool'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'publicKey', internalType: 'bytes', type: 'bytes', indexed: false },
+      { name: 'withdrawalCredentials', internalType: 'bytes', type: 'bytes', indexed: false },
+      { name: 'signature', internalType: 'bytes', type: 'bytes', indexed: false },
+      { name: 'depositDataRoot', internalType: 'bytes32', type: 'bytes32', indexed: false }
+    ],
+    name: 'AddValidator'
   },
   {
     type: 'event',
@@ -6271,19 +8195,10 @@ export const stakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false }
-    ],
-    name: 'AdminChanged'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
       { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
     ],
-    name: 'AnticipateWithdrawValidator'
+    name: 'AnticipateWithdrawBeacon'
   },
   {
     type: 'event',
@@ -6298,12 +8213,6 @@ export const stakeTogetherABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded'
-  },
-  {
-    type: 'event',
-    anonymous: false,
     inputs: [
       { name: 'account', internalType: 'address', type: 'address', indexed: true },
       { name: 'sharesAmount', internalType: 'uint256', type: 'uint256', indexed: false }
@@ -6314,24 +8223,11 @@ export const stakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'oracle', internalType: 'address', type: 'address', indexed: true },
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'publicKey', internalType: 'bytes', type: 'bytes', indexed: false },
-      { name: 'withdrawalCredentials', internalType: 'bytes', type: 'bytes', indexed: false },
-      { name: 'signature', internalType: 'bytes', type: 'bytes', indexed: false },
-      { name: 'depositDataRoot', internalType: 'bytes32', type: 'bytes32', indexed: false }
-    ],
-    name: 'CreateValidator'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [
       { name: 'to', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'depositType', internalType: 'enum IStakeTogether.DepositType', type: 'uint8', indexed: false },
-      { name: 'pool', internalType: 'address', type: 'address', indexed: false },
-      { name: 'referral', internalType: 'address', type: 'address', indexed: false }
+      { name: 'pool', internalType: 'address', type: 'address', indexed: true },
+      { name: 'referral', internalType: 'bytes', type: 'bytes', indexed: true }
     ],
     name: 'DepositBase'
   },
@@ -6342,13 +8238,13 @@ export const stakeTogetherABI = [
       { name: 'sender', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }
     ],
-    name: 'DepositLimitReached'
+    name: 'DepositLimitWasReached'
   },
   { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -6390,8 +8286,8 @@ export const stakeTogetherABI = [
     type: 'event',
     anonymous: false,
     inputs: [
-      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
-      { name: 'sharesAmount', internalType: 'uint256', type: 'uint256', indexed: false }
+      { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true },
+      { name: 'sharesAmount', internalType: 'uint256', type: 'uint256', indexed: true }
     ],
     name: 'ProcessStakeRewards'
   },
@@ -6407,7 +8303,7 @@ export const stakeTogetherABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveEther'
   },
   {
@@ -6455,7 +8351,17 @@ export const stakeTogetherABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'account', internalType: 'address', type: 'address', indexed: true },
+      { name: 'isListed', internalType: 'bool', type: 'bool', indexed: false }
+    ],
+    name: 'SetAntiFraudStatus'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'SetBeaconBalance'
   },
   {
@@ -6476,6 +8382,8 @@ export const stakeTogetherABI = [
           { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawDelay', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawBeaconDelay', internalType: 'uint256', type: 'uint256' },
           {
             name: 'feature',
             internalType: 'struct IStakeTogether.Feature',
@@ -6484,11 +8392,11 @@ export const stakeTogetherABI = [
               { name: 'AddPool', internalType: 'bool', type: 'bool' },
               { name: 'Deposit', internalType: 'bool', type: 'bool' },
               { name: 'WithdrawPool', internalType: 'bool', type: 'bool' },
-              { name: 'WithdrawValidator', internalType: 'bool', type: 'bool' }
+              { name: 'WithdrawBeacon', internalType: 'bool', type: 'bool' }
             ]
           }
         ],
-        indexed: false
+        indexed: true
       }
     ],
     name: 'SetConfig'
@@ -6527,13 +8435,13 @@ export const stakeTogetherABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'newValidatorSize', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'newValidatorSize', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'SetValidatorSize'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'SetWithdrawBalance'
   },
   {
@@ -6599,7 +8507,7 @@ export const stakeTogetherABI = [
       { name: 'account', internalType: 'address', type: 'address', indexed: true },
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'withdrawType', internalType: 'enum IStakeTogether.WithdrawType', type: 'uint8', indexed: false },
-      { name: 'pool', internalType: 'address', type: 'address', indexed: false }
+      { name: 'pool', internalType: 'address', type: 'address', indexed: true }
     ],
     name: 'WithdrawBase'
   },
@@ -6611,13 +8519,27 @@ export const stakeTogetherABI = [
       { name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false },
       { name: 'withdrawType', internalType: 'enum IStakeTogether.WithdrawType', type: 'uint8', indexed: false }
     ],
-    name: 'WithdrawalsLimitReached'
+    name: 'WithdrawalsLimitWasReached'
   },
   {
     stateMutability: 'view',
     type: 'function',
     inputs: [],
     name: 'ADMIN_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'ANTI_FRAUD_MANAGER_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'ANTI_FRAUD_SENTINEL_ROLE',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
   },
   {
@@ -6652,6 +8574,13 @@ export const stakeTogetherABI = [
     stateMutability: 'view',
     type: 'function',
     inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
     name: 'VALIDATOR_ORACLE_MANAGER_ROLE',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
   },
@@ -6674,7 +8603,9 @@ export const stakeTogetherABI = [
     type: 'function',
     inputs: [
       { name: '_pool', internalType: 'address', type: 'address' },
-      { name: '_listed', internalType: 'bool', type: 'bool' }
+      { name: '_listed', internalType: 'bool', type: 'bool' },
+      { name: '_social', internalType: 'bool', type: 'bool' },
+      { name: '_index', internalType: 'bool', type: 'bool' }
     ],
     name: 'addPool',
     outputs: []
@@ -6683,8 +8614,33 @@ export const stakeTogetherABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'addToAntiFraud',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_publicKey', internalType: 'bytes', type: 'bytes' },
+      { name: '_signature', internalType: 'bytes', type: 'bytes' },
+      { name: '_depositDataRoot', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'addValidator',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
     name: 'addValidatorOracle',
     outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'airdrop',
+    outputs: [{ name: '', internalType: 'contract IAirdrop', type: 'address' }]
   },
   {
     stateMutability: 'view',
@@ -6700,7 +8656,7 @@ export const stakeTogetherABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [],
-    name: 'anticipateWithdrawValidator',
+    name: 'anticipateWithdrawBeacon',
     outputs: []
   },
   {
@@ -6730,7 +8686,7 @@ export const stakeTogetherABI = [
   {
     stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    inputs: [{ name: 'value', internalType: 'uint256', type: 'uint256' }],
     name: 'burn',
     outputs: []
   },
@@ -6739,7 +8695,7 @@ export const stakeTogetherABI = [
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'burnFrom',
     outputs: []
@@ -6769,6 +8725,8 @@ export const stakeTogetherABI = [
       { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
       { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
       { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
+      { name: 'withdrawDelay', internalType: 'uint256', type: 'uint256' },
+      { name: 'withdrawBeaconDelay', internalType: 'uint256', type: 'uint256' },
       {
         name: 'feature',
         internalType: 'struct IStakeTogether.Feature',
@@ -6777,21 +8735,10 @@ export const stakeTogetherABI = [
           { name: 'AddPool', internalType: 'bool', type: 'bool' },
           { name: 'Deposit', internalType: 'bool', type: 'bool' },
           { name: 'WithdrawPool', internalType: 'bool', type: 'bool' },
-          { name: 'WithdrawValidator', internalType: 'bool', type: 'bool' }
+          { name: 'WithdrawBeacon', internalType: 'bool', type: 'bool' }
         ]
       }
     ]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_publicKey', internalType: 'bytes', type: 'bytes' },
-      { name: '_signature', internalType: 'bytes', type: 'bytes' },
-      { name: '_depositDataRoot', internalType: 'bytes32', type: 'bytes32' }
-    ],
-    name: 'createValidator',
-    outputs: []
   },
   {
     stateMutability: 'view',
@@ -6808,20 +8755,10 @@ export const stakeTogetherABI = [
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }]
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: '_spender', internalType: 'address', type: 'address' },
-      { name: '_subtractedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'decreaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  },
-  {
     stateMutability: 'view',
     type: 'function',
     inputs: [],
-    name: 'depositContract',
+    name: 'deposit',
     outputs: [{ name: '', internalType: 'contract IDepositContract', type: 'address' }]
   },
   {
@@ -6830,7 +8767,7 @@ export const stakeTogetherABI = [
     inputs: [
       { name: '_to', internalType: 'address', type: 'address' },
       { name: '_pool', internalType: 'address', type: 'address' },
-      { name: '_referral', internalType: 'address', type: 'address' }
+      { name: '_referral', internalType: 'bytes', type: 'bytes' }
     ],
     name: 'depositDonation',
     outputs: []
@@ -6840,7 +8777,7 @@ export const stakeTogetherABI = [
     type: 'function',
     inputs: [
       { name: '_pool', internalType: 'address', type: 'address' },
-      { name: '_referral', internalType: 'address', type: 'address' }
+      { name: '_referral', internalType: 'bytes', type: 'bytes' }
     ],
     name: 'depositPool',
     outputs: []
@@ -6870,6 +8807,13 @@ export const stakeTogetherABI = [
   {
     stateMutability: 'view',
     type: 'function',
+    inputs: [{ name: '_feeType', internalType: 'enum IStakeTogether.FeeType', type: 'uint8' }],
+    name: 'getFee',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
     inputs: [{ name: '_role', internalType: 'enum IStakeTogether.FeeRole', type: 'uint8' }],
     name: 'getFeeAddress',
     outputs: [{ name: '', internalType: 'address', type: 'address' }]
@@ -6887,6 +8831,20 @@ export const stakeTogetherABI = [
     inputs: [{ name: 'role', internalType: 'bytes32', type: 'bytes32' }],
     name: 'getRoleAdmin',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'getWithdrawBeaconBlock',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'getWithdrawBlock',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
   },
   {
     stateMutability: 'nonpayable',
@@ -6912,23 +8870,21 @@ export const stakeTogetherABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
-      { name: '_spender', internalType: 'address', type: 'address' },
-      { name: '_addedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'increaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
+      { name: '_airdrop', internalType: 'address', type: 'address' },
+      { name: '_deposit', internalType: 'address', type: 'address' },
       { name: '_router', internalType: 'address', type: 'address' },
       { name: '_withdrawals', internalType: 'address', type: 'address' },
-      { name: '_depositContract', internalType: 'address', type: 'address' },
       { name: '_withdrawalCredentials', internalType: 'bytes', type: 'bytes' }
     ],
     name: 'initialize',
     outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'isListedInAntiFraud',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
   {
     stateMutability: 'view',
@@ -6992,7 +8948,7 @@ export const stakeTogetherABI = [
     stateMutability: 'payable',
     type: 'function',
     inputs: [{ name: '_sharesAmount', internalType: 'uint256', type: 'uint256' }],
-    name: 'processStakeRewards',
+    name: 'processFeeRewards',
     outputs: []
   },
   {
@@ -7001,6 +8957,13 @@ export const stakeTogetherABI = [
     inputs: [],
     name: 'proxiableUUID',
     outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_account', internalType: 'address', type: 'address' }],
+    name: 'removeFromAntiFraud',
+    outputs: []
   },
   {
     stateMutability: 'nonpayable',
@@ -7021,7 +8984,7 @@ export const stakeTogetherABI = [
     type: 'function',
     inputs: [
       { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' }
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
     ],
     name: 'renounceRole',
     outputs: []
@@ -7041,7 +9004,7 @@ export const stakeTogetherABI = [
     type: 'function',
     inputs: [],
     name: 'router',
-    outputs: [{ name: '', internalType: 'contract Router', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IRouter', type: 'address' }]
   },
   {
     stateMutability: 'payable',
@@ -7068,6 +9031,8 @@ export const stakeTogetherABI = [
           { name: 'validatorSize', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawalPoolLimit', internalType: 'uint256', type: 'uint256' },
           { name: 'withdrawalValidatorLimit', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawDelay', internalType: 'uint256', type: 'uint256' },
+          { name: 'withdrawBeaconDelay', internalType: 'uint256', type: 'uint256' },
           {
             name: 'feature',
             internalType: 'struct IStakeTogether.Feature',
@@ -7076,7 +9041,7 @@ export const stakeTogetherABI = [
               { name: 'AddPool', internalType: 'bool', type: 'bool' },
               { name: 'Deposit', internalType: 'bool', type: 'bool' },
               { name: 'WithdrawPool', internalType: 'bool', type: 'bool' },
-              { name: 'WithdrawValidator', internalType: 'bool', type: 'bool' }
+              { name: 'WithdrawBeacon', internalType: 'bool', type: 'bool' }
             ]
           }
         ]
@@ -7226,13 +9191,6 @@ export const stakeTogetherABI = [
     outputs: []
   },
   {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
-    outputs: []
-  },
-  {
     stateMutability: 'payable',
     type: 'function',
     inputs: [
@@ -7277,7 +9235,7 @@ export const stakeTogetherABI = [
       { name: '_amount', internalType: 'uint256', type: 'uint256' },
       { name: '_pool', internalType: 'address', type: 'address' }
     ],
-    name: 'withdrawPool',
+    name: 'withdrawBeacon',
     outputs: []
   },
   {
@@ -7287,7 +9245,7 @@ export const stakeTogetherABI = [
       { name: '_amount', internalType: 'uint256', type: 'uint256' },
       { name: '_pool', internalType: 'address', type: 'address' }
     ],
-    name: 'withdrawValidator',
+    name: 'withdrawPool',
     outputs: []
   },
   {
@@ -7302,9 +9260,551 @@ export const stakeTogetherABI = [
     type: 'function',
     inputs: [],
     name: 'withdrawals',
-    outputs: [{ name: '', internalType: 'contract Withdrawals', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IWithdrawals', type: 'address' }]
   },
   { stateMutability: 'payable', type: 'receive' }
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// StakeTogetherWrapper
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const stakeTogetherWrapperABI = [
+  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'AccessControlUnauthorizedAccount'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance'
+  },
+  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
+  {
+    type: 'error',
+    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
+    name: 'ECDSAInvalidSignatureLength'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'ECDSAInvalidSignatureS'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientAllowance'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientBalance'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'deadline', internalType: 'uint256', type: 'uint256' }],
+    name: 'ERC2612ExpiredSignature'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'signer', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' }
+    ],
+    name: 'ERC2612InvalidSigner'
+  },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'FlashLoan' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'currentNonce', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'InvalidAccountNonce'
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'ListedInAntiFraud' },
+  { type: 'error', inputs: [], name: 'NoExtraAmountAvailable' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  { type: 'error', inputs: [], name: 'StakeTogetherAlreadySet' },
+  { type: 'error', inputs: [], name: 'TransferStpEthFailed' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
+  },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  { type: 'error', inputs: [], name: 'ZeroStpETHAmount' },
+  { type: 'error', inputs: [], name: 'ZeroWstpETHAmount' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address', indexed: true },
+      { name: 'spender', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Approval'
+  },
+  { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
+    name: 'Initialized'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
+    name: 'Paused'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
+    name: 'ReceiveEther'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'previousAdminRole', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'newAdminRole', internalType: 'bytes32', type: 'bytes32', indexed: true }
+    ],
+    name: 'RoleAdminChanged'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'account', internalType: 'address', type: 'address', indexed: true },
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true }
+    ],
+    name: 'RoleGranted'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32', indexed: true },
+      { name: 'account', internalType: 'address', type: 'address', indexed: true },
+      { name: 'sender', internalType: 'address', type: 'address', indexed: true }
+    ],
+    name: 'RoleRevoked'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: true }],
+    name: 'SetStakeTogether'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      { name: 'value', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Transfer'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'account', internalType: 'address', type: 'address', indexed: false }],
+    name: 'Unpaused'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'wstpETHAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'stpETHAmount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Unwrapped'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address', indexed: true }],
+    name: 'Upgraded'
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      { name: 'stpETHAmount', internalType: 'uint256', type: 'uint256', indexed: false },
+      { name: 'wstpETHAmount', internalType: 'uint256', type: 'uint256', indexed: false }
+    ],
+    name: 'Wrapped'
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'ADMIN_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'DEFAULT_ADMIN_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'DOMAIN_SEPARATOR',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADER_ROLE',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' }
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: 'value', internalType: 'uint256', type: 'uint256' }],
+    name: 'burn',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'burnFrom',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'eip712Domain',
+    outputs: [
+      { name: 'fields', internalType: 'bytes1', type: 'bytes1' },
+      { name: 'name', internalType: 'string', type: 'string' },
+      { name: 'version', internalType: 'string', type: 'string' },
+      { name: 'chainId', internalType: 'uint256', type: 'uint256' },
+      { name: 'verifyingContract', internalType: 'address', type: 'address' },
+      { name: 'salt', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'extensions', internalType: 'uint256[]', type: 'uint256[]' }
+    ]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'role', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'getRoleAdmin',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' }
+    ],
+    name: 'grantRole',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' }
+    ],
+    name: 'hasRole',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'initialize', outputs: [] },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'nonces',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'pause', outputs: [] },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'paused',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' }
+    ],
+    name: 'permit',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'proxiableUUID',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
+    ],
+    name: 'renounceRole',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'role', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'account', internalType: 'address', type: 'address' }
+    ],
+    name: 'revokeRole',
+    outputs: []
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_stakeTogether', internalType: 'address', type: 'address' }],
+    name: 'setStakeTogether',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'stakeTogether',
+    outputs: [{ name: '', internalType: 'contract IStakeTogether', type: 'address' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_wstpETH', internalType: 'uint256', type: 'uint256' }],
+    name: 'stpEthPerWstpETH',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
+    name: 'supportsInterface',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'transferExtraAmount', outputs: [] },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_from', internalType: 'address', type: 'address' },
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
+  },
+  { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unpause', outputs: [] },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_wstpETH', internalType: 'uint256', type: 'uint256' }],
+    name: 'unwrap',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'payable',
+    type: 'function',
+    inputs: [
+      { name: 'newImplementation', internalType: 'address', type: 'address' },
+      { name: 'data', internalType: 'bytes', type: 'bytes' }
+    ],
+    name: 'upgradeToAndCall',
+    outputs: []
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'version',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_stpETH', internalType: 'uint256', type: 'uint256' }],
+    name: 'wrap',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '_stpETH', internalType: 'uint256', type: 'uint256' }],
+    name: 'wstpETHPerStpETH',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }]
+  },
+  { stateMutability: 'payable', type: 'receive' }
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Strings
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const stringsABI = [
+  {
+    type: 'error',
+    inputs: [
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+      { name: 'length', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'StringsInsufficientHexLength'
+  }
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -7313,24 +9813,29 @@ export const stakeTogetherABI = [
 
 export const uupsUpgradeableABI = [
   {
-    type: 'event',
-    anonymous: false,
-    inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false }
-    ],
-    name: 'AdminChanged'
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded'
-  },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -7343,15 +9848,15 @@ export const uupsUpgradeableABI = [
     stateMutability: 'view',
     type: 'function',
     inputs: [],
-    name: 'proxiableUUID',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
   },
   {
-    stateMutability: 'nonpayable',
+    stateMutability: 'view',
     type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
-    outputs: []
+    inputs: [],
+    name: 'proxiableUUID',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }]
   },
   {
     stateMutability: 'payable',
@@ -7371,15 +9876,125 @@ export const uupsUpgradeableABI = [
 
 export const withdrawalsABI = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { type: 'error', inputs: [], name: 'AccessControlBadConfirmation' },
   {
-    type: 'event',
-    anonymous: false,
+    type: 'error',
     inputs: [
-      { name: 'previousAdmin', internalType: 'address', type: 'address', indexed: false },
-      { name: 'newAdmin', internalType: 'address', type: 'address', indexed: false }
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'neededRole', internalType: 'bytes32', type: 'bytes32' }
     ],
-    name: 'AdminChanged'
+    name: 'AccessControlUnauthorizedAccount'
   },
+  {
+    type: 'error',
+    inputs: [{ name: 'target', internalType: 'address', type: 'address' }],
+    name: 'AddressEmptyCode'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'AddressInsufficientBalance'
+  },
+  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
+  {
+    type: 'error',
+    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
+    name: 'ECDSAInvalidSignatureLength'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'ECDSAInvalidSignatureS'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'implementation', internalType: 'address', type: 'address' }],
+    name: 'ERC1967InvalidImplementation'
+  },
+  { type: 'error', inputs: [], name: 'ERC1967NonPayable' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'allowance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientAllowance'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sender', internalType: 'address', type: 'address' },
+      { name: 'balance', internalType: 'uint256', type: 'uint256' },
+      { name: 'needed', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'ERC20InsufficientBalance'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'approver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidApprover'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'receiver', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidReceiver'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'spender', internalType: 'address', type: 'address' }],
+    name: 'ERC20InvalidSpender'
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'deadline', internalType: 'uint256', type: 'uint256' }],
+    name: 'ERC2612ExpiredSignature'
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'signer', internalType: 'address', type: 'address' },
+      { name: 'owner', internalType: 'address', type: 'address' }
+    ],
+    name: 'ERC2612InvalidSigner'
+  },
+  { type: 'error', inputs: [], name: 'EarlyBeaconTransfer' },
+  { type: 'error', inputs: [], name: 'EnforcedPause' },
+  { type: 'error', inputs: [], name: 'ExpectedPause' },
+  { type: 'error', inputs: [], name: 'FailedInnerCall' },
+  { type: 'error', inputs: [], name: 'FlashLoan' },
+  { type: 'error', inputs: [], name: 'InsufficientEthBalance' },
+  { type: 'error', inputs: [], name: 'InsufficientStwBalance' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'account', internalType: 'address', type: 'address' },
+      { name: 'currentNonce', internalType: 'uint256', type: 'uint256' }
+    ],
+    name: 'InvalidAccountNonce'
+  },
+  { type: 'error', inputs: [], name: 'InvalidInitialization' },
+  { type: 'error', inputs: [], name: 'ListedInAntiFraud' },
+  { type: 'error', inputs: [], name: 'NoExtraAmountAvailable' },
+  { type: 'error', inputs: [], name: 'NotInitializing' },
+  { type: 'error', inputs: [], name: 'OnlyRouter' },
+  { type: 'error', inputs: [], name: 'OnlyStakeTogether' },
+  { type: 'error', inputs: [], name: 'ReentrancyGuardReentrantCall' },
+  { type: 'error', inputs: [], name: 'RouterAlreadySet' },
+  { type: 'error', inputs: [], name: 'StakeTogetherAlreadySet' },
+  { type: 'error', inputs: [], name: 'UUPSUnauthorizedCallContext' },
+  {
+    type: 'error',
+    inputs: [{ name: 'slot', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'UUPSUnsupportedProxiableUUID'
+  },
+  { type: 'error', inputs: [], name: 'ZeroAddress' },
+  { type: 'error', inputs: [], name: 'ZeroAmount' },
   {
     type: 'event',
     anonymous: false,
@@ -7390,17 +10005,11 @@ export const withdrawalsABI = [
     ],
     name: 'Approval'
   },
-  {
-    type: 'event',
-    anonymous: false,
-    inputs: [{ name: 'beacon', internalType: 'address', type: 'address', indexed: true }],
-    name: 'BeaconUpgraded'
-  },
   { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'version', internalType: 'uint8', type: 'uint8', indexed: false }],
+    inputs: [{ name: 'version', internalType: 'uint64', type: 'uint64', indexed: false }],
     name: 'Initialized'
   },
   {
@@ -7412,13 +10021,13 @@ export const withdrawalsABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveEther'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: false }],
+    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256', indexed: true }],
     name: 'ReceiveWithdrawEther'
   },
   {
@@ -7454,13 +10063,13 @@ export const withdrawalsABI = [
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'router', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'router', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetRouter'
   },
   {
     type: 'event',
     anonymous: false,
-    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: false }],
+    inputs: [{ name: 'stakeTogether', internalType: 'address', type: 'address', indexed: true }],
     name: 'SetStakeTogether'
   },
   {
@@ -7525,6 +10134,13 @@ export const withdrawalsABI = [
   {
     stateMutability: 'view',
     type: 'function',
+    inputs: [],
+    name: 'UPGRADE_INTERFACE_VERSION',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }]
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
     inputs: [
       { name: 'owner', internalType: 'address', type: 'address' },
       { name: 'spender', internalType: 'address', type: 'address' }
@@ -7537,7 +10153,7 @@ export const withdrawalsABI = [
     type: 'function',
     inputs: [
       { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'approve',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -7552,7 +10168,7 @@ export const withdrawalsABI = [
   {
     stateMutability: 'nonpayable',
     type: 'function',
-    inputs: [{ name: 'amount', internalType: 'uint256', type: 'uint256' }],
+    inputs: [{ name: 'value', internalType: 'uint256', type: 'uint256' }],
     name: 'burn',
     outputs: []
   },
@@ -7561,7 +10177,7 @@ export const withdrawalsABI = [
     type: 'function',
     inputs: [
       { name: 'account', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: 'value', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'burnFrom',
     outputs: []
@@ -7572,16 +10188,6 @@ export const withdrawalsABI = [
     inputs: [],
     name: 'decimals',
     outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'decreaseAllowance',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
   {
     stateMutability: 'view',
@@ -7623,16 +10229,6 @@ export const withdrawalsABI = [
       { name: 'account', internalType: 'address', type: 'address' }
     ],
     name: 'hasRole',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', internalType: 'address', type: 'address' },
-      { name: 'addedValue', internalType: 'uint256', type: 'uint256' }
-    ],
-    name: 'increaseAllowance',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'initialize', outputs: [] },
@@ -7703,7 +10299,7 @@ export const withdrawalsABI = [
     type: 'function',
     inputs: [
       { name: 'role', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'account', internalType: 'address', type: 'address' }
+      { name: 'callerConfirmation', internalType: 'address', type: 'address' }
     ],
     name: 'renounceRole',
     outputs: []
@@ -7723,7 +10319,7 @@ export const withdrawalsABI = [
     type: 'function',
     inputs: [],
     name: 'router',
-    outputs: [{ name: '', internalType: 'contract Router', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IRouter', type: 'address' }]
   },
   {
     stateMutability: 'nonpayable',
@@ -7744,7 +10340,7 @@ export const withdrawalsABI = [
     type: 'function',
     inputs: [],
     name: 'stakeTogether',
-    outputs: [{ name: '', internalType: 'contract StakeTogether', type: 'address' }]
+    outputs: [{ name: '', internalType: 'contract IStakeTogether', type: 'address' }]
   },
   {
     stateMutability: 'view',
@@ -7771,8 +10367,8 @@ export const withdrawalsABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'transfer',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
@@ -7782,21 +10378,14 @@ export const withdrawalsABI = [
     stateMutability: 'nonpayable',
     type: 'function',
     inputs: [
-      { name: 'from', internalType: 'address', type: 'address' },
-      { name: 'to', internalType: 'address', type: 'address' },
-      { name: 'amount', internalType: 'uint256', type: 'uint256' }
+      { name: '_from', internalType: 'address', type: 'address' },
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' }
     ],
     name: 'transferFrom',
     outputs: [{ name: '', internalType: 'bool', type: 'bool' }]
   },
   { stateMutability: 'nonpayable', type: 'function', inputs: [], name: 'unpause', outputs: [] },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [{ name: 'newImplementation', internalType: 'address', type: 'address' }],
-    name: 'upgradeTo',
-    outputs: []
-  },
   {
     stateMutability: 'payable',
     type: 'function',
@@ -8220,6 +10809,25 @@ export function useAirdropUpgraderRole<
     TFunctionName,
     TSelectData
   >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link airdropABI}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`.
+ */
+export function useAirdropUpgradeInterfaceVersion<
+  TFunctionName extends 'UPGRADE_INTERFACE_VERSION',
+  TSelectData = ReadContractResult<typeof airdropABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof airdropABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: airdropABI,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
+    ...config
+  } as UseContractReadConfig<typeof airdropABI, TFunctionName, TSelectData>)
 }
 
 /**
@@ -8672,28 +11280,6 @@ export function useAirdropUnpause<TMode extends WriteContractMode = undefined>(
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link airdropABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function useAirdropUpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof airdropABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof airdropABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
-      } = {} as any
-) {
-  return useContractWrite<typeof airdropABI, 'upgradeTo', TMode>({
-    abi: airdropABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link airdropABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function useAirdropUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
@@ -8895,22 +11481,6 @@ export function usePrepareAirdropUnpause(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link airdropABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function usePrepareAirdropUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof airdropABI, 'upgradeTo'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: airdropABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof airdropABI, 'upgradeTo'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link airdropABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function usePrepareAirdropUpgradeToAndCall(
@@ -8947,30 +11517,6 @@ export function useAirdropAddMerkleRootEvent(
   return useContractEvent({ abi: airdropABI, eventName: 'AddMerkleRoot', ...config } as UseContractEventConfig<
     typeof airdropABI,
     'AddMerkleRoot'
-  >)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link airdropABI}__ and `eventName` set to `"AdminChanged"`.
- */
-export function useAirdropAdminChangedEvent(
-  config: Omit<UseContractEventConfig<typeof airdropABI, 'AdminChanged'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({ abi: airdropABI, eventName: 'AdminChanged', ...config } as UseContractEventConfig<
-    typeof airdropABI,
-    'AdminChanged'
-  >)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link airdropABI}__ and `eventName` set to `"BeaconUpgraded"`.
- */
-export function useAirdropBeaconUpgradedEvent(
-  config: Omit<UseContractEventConfig<typeof airdropABI, 'BeaconUpgraded'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({ abi: airdropABI, eventName: 'BeaconUpgraded', ...config } as UseContractEventConfig<
-    typeof airdropABI,
-    'BeaconUpgraded'
   >)
 }
 
@@ -9297,79 +11843,56 @@ export function useErc165UpgradeableInitializedEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc1967UpgradeUpgradeableABI}__.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc1967UtilsABI}__.
  */
-export function useErc1967UpgradeUpgradeableEvent<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof erc1967UpgradeUpgradeableABI, TEventName>, 'abi'> = {} as any
+export function useErc1967UtilsEvent<TEventName extends string>(
+  config: Omit<UseContractEventConfig<typeof erc1967UtilsABI, TEventName>, 'abi'> = {} as any
 ) {
-  return useContractEvent({ abi: erc1967UpgradeUpgradeableABI, ...config } as UseContractEventConfig<
-    typeof erc1967UpgradeUpgradeableABI,
+  return useContractEvent({ abi: erc1967UtilsABI, ...config } as UseContractEventConfig<
+    typeof erc1967UtilsABI,
     TEventName
   >)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc1967UpgradeUpgradeableABI}__ and `eventName` set to `"AdminChanged"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc1967UtilsABI}__ and `eventName` set to `"AdminChanged"`.
  */
-export function useErc1967UpgradeUpgradeableAdminChangedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof erc1967UpgradeUpgradeableABI, 'AdminChanged'>,
-    'abi' | 'eventName'
-  > = {} as any
+export function useErc1967UtilsAdminChangedEvent(
+  config: Omit<UseContractEventConfig<typeof erc1967UtilsABI, 'AdminChanged'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
-    abi: erc1967UpgradeUpgradeableABI,
+    abi: erc1967UtilsABI,
     eventName: 'AdminChanged',
     ...config
-  } as UseContractEventConfig<typeof erc1967UpgradeUpgradeableABI, 'AdminChanged'>)
+  } as UseContractEventConfig<typeof erc1967UtilsABI, 'AdminChanged'>)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc1967UpgradeUpgradeableABI}__ and `eventName` set to `"BeaconUpgraded"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc1967UtilsABI}__ and `eventName` set to `"BeaconUpgraded"`.
  */
-export function useErc1967UpgradeUpgradeableBeaconUpgradedEvent(
+export function useErc1967UtilsBeaconUpgradedEvent(
   config: Omit<
-    UseContractEventConfig<typeof erc1967UpgradeUpgradeableABI, 'BeaconUpgraded'>,
+    UseContractEventConfig<typeof erc1967UtilsABI, 'BeaconUpgraded'>,
     'abi' | 'eventName'
   > = {} as any
 ) {
   return useContractEvent({
-    abi: erc1967UpgradeUpgradeableABI,
+    abi: erc1967UtilsABI,
     eventName: 'BeaconUpgraded',
     ...config
-  } as UseContractEventConfig<typeof erc1967UpgradeUpgradeableABI, 'BeaconUpgraded'>)
+  } as UseContractEventConfig<typeof erc1967UtilsABI, 'BeaconUpgraded'>)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc1967UpgradeUpgradeableABI}__ and `eventName` set to `"Initialized"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc1967UtilsABI}__ and `eventName` set to `"Upgraded"`.
  */
-export function useErc1967UpgradeUpgradeableInitializedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof erc1967UpgradeUpgradeableABI, 'Initialized'>,
-    'abi' | 'eventName'
-  > = {} as any
+export function useErc1967UtilsUpgradedEvent(
+  config: Omit<UseContractEventConfig<typeof erc1967UtilsABI, 'Upgraded'>, 'abi' | 'eventName'> = {} as any
 ) {
-  return useContractEvent({
-    abi: erc1967UpgradeUpgradeableABI,
-    eventName: 'Initialized',
-    ...config
-  } as UseContractEventConfig<typeof erc1967UpgradeUpgradeableABI, 'Initialized'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc1967UpgradeUpgradeableABI}__ and `eventName` set to `"Upgraded"`.
- */
-export function useErc1967UpgradeUpgradeableUpgradedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof erc1967UpgradeUpgradeableABI, 'Upgraded'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: erc1967UpgradeUpgradeableABI,
-    eventName: 'Upgraded',
-    ...config
-  } as UseContractEventConfig<typeof erc1967UpgradeUpgradeableABI, 'Upgraded'>)
+  return useContractEvent({ abi: erc1967UtilsABI, eventName: 'Upgraded', ...config } as UseContractEventConfig<
+    typeof erc1967UtilsABI,
+    'Upgraded'
+  >)
 }
 
 /**
@@ -9595,50 +12118,6 @@ export function useErc20BurnableUpgradeableBurnFrom<TMode extends WriteContractM
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20BurnableUpgradeableABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function useErc20BurnableUpgradeableDecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof erc20BurnableUpgradeableABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof erc20BurnableUpgradeableABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof erc20BurnableUpgradeableABI, 'decreaseAllowance', TMode>({
-    abi: erc20BurnableUpgradeableABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20BurnableUpgradeableABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function useErc20BurnableUpgradeableIncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof erc20BurnableUpgradeableABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof erc20BurnableUpgradeableABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof erc20BurnableUpgradeableABI, 'increaseAllowance', TMode>({
-    abi: erc20BurnableUpgradeableABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20BurnableUpgradeableABI}__ and `functionName` set to `"transfer"`.
  */
 export function useErc20BurnableUpgradeableTransfer<TMode extends WriteContractMode = undefined>(
@@ -9743,38 +12222,6 @@ export function usePrepareErc20BurnableUpgradeableBurnFrom(
     functionName: 'burnFrom',
     ...config
   } as UsePrepareContractWriteConfig<typeof erc20BurnableUpgradeableABI, 'burnFrom'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20BurnableUpgradeableABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function usePrepareErc20BurnableUpgradeableDecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20BurnableUpgradeableABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: erc20BurnableUpgradeableABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof erc20BurnableUpgradeableABI, 'decreaseAllowance'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20BurnableUpgradeableABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function usePrepareErc20BurnableUpgradeableIncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20BurnableUpgradeableABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: erc20BurnableUpgradeableABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof erc20BurnableUpgradeableABI, 'increaseAllowance'>)
 }
 
 /**
@@ -10105,50 +12552,6 @@ export function useErc20PermitUpgradeableApprove<TMode extends WriteContractMode
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20PermitUpgradeableABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function useErc20PermitUpgradeableDecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof erc20PermitUpgradeableABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof erc20PermitUpgradeableABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof erc20PermitUpgradeableABI, 'decreaseAllowance', TMode>({
-    abi: erc20PermitUpgradeableABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20PermitUpgradeableABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function useErc20PermitUpgradeableIncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof erc20PermitUpgradeableABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof erc20PermitUpgradeableABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof erc20PermitUpgradeableABI, 'increaseAllowance', TMode>({
-    abi: erc20PermitUpgradeableABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20PermitUpgradeableABI}__ and `functionName` set to `"permit"`.
  */
 export function useErc20PermitUpgradeablePermit<TMode extends WriteContractMode = undefined>(
@@ -10243,38 +12646,6 @@ export function usePrepareErc20PermitUpgradeableApprove(
     functionName: 'approve',
     ...config
   } as UsePrepareContractWriteConfig<typeof erc20PermitUpgradeableABI, 'approve'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20PermitUpgradeableABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function usePrepareErc20PermitUpgradeableDecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20PermitUpgradeableABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: erc20PermitUpgradeableABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof erc20PermitUpgradeableABI, 'decreaseAllowance'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20PermitUpgradeableABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function usePrepareErc20PermitUpgradeableIncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20PermitUpgradeableABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: erc20PermitUpgradeableABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof erc20PermitUpgradeableABI, 'increaseAllowance'>)
 }
 
 /**
@@ -10577,50 +12948,6 @@ export function useErc20UpgradeableApprove<TMode extends WriteContractMode = und
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20UpgradeableABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function useErc20UpgradeableDecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof erc20UpgradeableABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof erc20UpgradeableABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof erc20UpgradeableABI, 'decreaseAllowance', TMode>({
-    abi: erc20UpgradeableABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20UpgradeableABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function useErc20UpgradeableIncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof erc20UpgradeableABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof erc20UpgradeableABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof erc20UpgradeableABI, 'increaseAllowance', TMode>({
-    abi: erc20UpgradeableABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20UpgradeableABI}__ and `functionName` set to `"transfer"`.
  */
 export function useErc20UpgradeableTransfer<TMode extends WriteContractMode = undefined>(
@@ -10690,38 +13017,6 @@ export function usePrepareErc20UpgradeableApprove(
     functionName: 'approve',
     ...config
   } as UsePrepareContractWriteConfig<typeof erc20UpgradeableABI, 'approve'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20UpgradeableABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function usePrepareErc20UpgradeableDecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20UpgradeableABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: erc20UpgradeableABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof erc20UpgradeableABI, 'decreaseAllowance'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20UpgradeableABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function usePrepareErc20UpgradeableIncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20UpgradeableABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: erc20UpgradeableABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof erc20UpgradeableABI, 'increaseAllowance'>)
 }
 
 /**
@@ -10811,272 +13106,260 @@ export function useErc20UpgradeableTransferEvent(
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iAccessControlABI}__.
  */
-export function useIAccessControlUpgradeableRead<
+export function useIAccessControlRead<
   TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof iAccessControlUpgradeableABI, TFunctionName>
+  TSelectData = ReadContractResult<typeof iAccessControlABI, TFunctionName>
 >(
-  config: Omit<
-    UseContractReadConfig<typeof iAccessControlUpgradeableABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
+  config: Omit<UseContractReadConfig<typeof iAccessControlABI, TFunctionName, TSelectData>, 'abi'> = {} as any
 ) {
-  return useContractRead({ abi: iAccessControlUpgradeableABI, ...config } as UseContractReadConfig<
-    typeof iAccessControlUpgradeableABI,
+  return useContractRead({ abi: iAccessControlABI, ...config } as UseContractReadConfig<
+    typeof iAccessControlABI,
     TFunctionName,
     TSelectData
   >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__ and `functionName` set to `"getRoleAdmin"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iAccessControlABI}__ and `functionName` set to `"getRoleAdmin"`.
  */
-export function useIAccessControlUpgradeableGetRoleAdmin<
+export function useIAccessControlGetRoleAdmin<
   TFunctionName extends 'getRoleAdmin',
-  TSelectData = ReadContractResult<typeof iAccessControlUpgradeableABI, TFunctionName>
+  TSelectData = ReadContractResult<typeof iAccessControlABI, TFunctionName>
 >(
   config: Omit<
-    UseContractReadConfig<typeof iAccessControlUpgradeableABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<typeof iAccessControlABI, TFunctionName, TSelectData>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return useContractRead({
-    abi: iAccessControlUpgradeableABI,
+    abi: iAccessControlABI,
     functionName: 'getRoleAdmin',
     ...config
-  } as UseContractReadConfig<typeof iAccessControlUpgradeableABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof iAccessControlABI, TFunctionName, TSelectData>)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__ and `functionName` set to `"hasRole"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iAccessControlABI}__ and `functionName` set to `"hasRole"`.
  */
-export function useIAccessControlUpgradeableHasRole<
+export function useIAccessControlHasRole<
   TFunctionName extends 'hasRole',
-  TSelectData = ReadContractResult<typeof iAccessControlUpgradeableABI, TFunctionName>
+  TSelectData = ReadContractResult<typeof iAccessControlABI, TFunctionName>
 >(
   config: Omit<
-    UseContractReadConfig<typeof iAccessControlUpgradeableABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<typeof iAccessControlABI, TFunctionName, TSelectData>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return useContractRead({
-    abi: iAccessControlUpgradeableABI,
+    abi: iAccessControlABI,
     functionName: 'hasRole',
     ...config
-  } as UseContractReadConfig<typeof iAccessControlUpgradeableABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof iAccessControlABI, TFunctionName, TSelectData>)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iAccessControlABI}__.
  */
-export function useIAccessControlUpgradeableWrite<
+export function useIAccessControlWrite<
   TFunctionName extends string,
   TMode extends WriteContractMode = undefined
 >(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof iAccessControlUpgradeableABI, string>['request']['abi'],
+        PrepareWriteContractResult<typeof iAccessControlABI, string>['request']['abi'],
         TFunctionName,
         TMode
       >
-    : UseContractWriteConfig<typeof iAccessControlUpgradeableABI, TFunctionName, TMode> & {
+    : UseContractWriteConfig<typeof iAccessControlABI, TFunctionName, TMode> & {
         abi?: never
       } = {} as any
 ) {
-  return useContractWrite<typeof iAccessControlUpgradeableABI, TFunctionName, TMode>({
-    abi: iAccessControlUpgradeableABI,
+  return useContractWrite<typeof iAccessControlABI, TFunctionName, TMode>({
+    abi: iAccessControlABI,
     ...config
   } as any)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__ and `functionName` set to `"grantRole"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iAccessControlABI}__ and `functionName` set to `"grantRole"`.
  */
-export function useIAccessControlUpgradeableGrantRole<TMode extends WriteContractMode = undefined>(
+export function useIAccessControlGrantRole<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof iAccessControlUpgradeableABI, 'grantRole'>['request']['abi'],
+        PrepareWriteContractResult<typeof iAccessControlABI, 'grantRole'>['request']['abi'],
         'grantRole',
         TMode
       > & { functionName?: 'grantRole' }
-    : UseContractWriteConfig<typeof iAccessControlUpgradeableABI, 'grantRole', TMode> & {
+    : UseContractWriteConfig<typeof iAccessControlABI, 'grantRole', TMode> & {
         abi?: never
         functionName?: 'grantRole'
       } = {} as any
 ) {
-  return useContractWrite<typeof iAccessControlUpgradeableABI, 'grantRole', TMode>({
-    abi: iAccessControlUpgradeableABI,
+  return useContractWrite<typeof iAccessControlABI, 'grantRole', TMode>({
+    abi: iAccessControlABI,
     functionName: 'grantRole',
     ...config
   } as any)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__ and `functionName` set to `"renounceRole"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iAccessControlABI}__ and `functionName` set to `"renounceRole"`.
  */
-export function useIAccessControlUpgradeableRenounceRole<TMode extends WriteContractMode = undefined>(
+export function useIAccessControlRenounceRole<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof iAccessControlUpgradeableABI, 'renounceRole'>['request']['abi'],
+        PrepareWriteContractResult<typeof iAccessControlABI, 'renounceRole'>['request']['abi'],
         'renounceRole',
         TMode
       > & { functionName?: 'renounceRole' }
-    : UseContractWriteConfig<typeof iAccessControlUpgradeableABI, 'renounceRole', TMode> & {
+    : UseContractWriteConfig<typeof iAccessControlABI, 'renounceRole', TMode> & {
         abi?: never
         functionName?: 'renounceRole'
       } = {} as any
 ) {
-  return useContractWrite<typeof iAccessControlUpgradeableABI, 'renounceRole', TMode>({
-    abi: iAccessControlUpgradeableABI,
+  return useContractWrite<typeof iAccessControlABI, 'renounceRole', TMode>({
+    abi: iAccessControlABI,
     functionName: 'renounceRole',
     ...config
   } as any)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__ and `functionName` set to `"revokeRole"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iAccessControlABI}__ and `functionName` set to `"revokeRole"`.
  */
-export function useIAccessControlUpgradeableRevokeRole<TMode extends WriteContractMode = undefined>(
+export function useIAccessControlRevokeRole<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof iAccessControlUpgradeableABI, 'revokeRole'>['request']['abi'],
+        PrepareWriteContractResult<typeof iAccessControlABI, 'revokeRole'>['request']['abi'],
         'revokeRole',
         TMode
       > & { functionName?: 'revokeRole' }
-    : UseContractWriteConfig<typeof iAccessControlUpgradeableABI, 'revokeRole', TMode> & {
+    : UseContractWriteConfig<typeof iAccessControlABI, 'revokeRole', TMode> & {
         abi?: never
         functionName?: 'revokeRole'
       } = {} as any
 ) {
-  return useContractWrite<typeof iAccessControlUpgradeableABI, 'revokeRole', TMode>({
-    abi: iAccessControlUpgradeableABI,
+  return useContractWrite<typeof iAccessControlABI, 'revokeRole', TMode>({
+    abi: iAccessControlABI,
     functionName: 'revokeRole',
     ...config
   } as any)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iAccessControlABI}__.
  */
-export function usePrepareIAccessControlUpgradeableWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iAccessControlUpgradeableABI, TFunctionName>,
-    'abi'
-  > = {} as any
+export function usePrepareIAccessControlWrite<TFunctionName extends string>(
+  config: Omit<UsePrepareContractWriteConfig<typeof iAccessControlABI, TFunctionName>, 'abi'> = {} as any
 ) {
-  return usePrepareContractWrite({
-    abi: iAccessControlUpgradeableABI,
-    ...config
-  } as UsePrepareContractWriteConfig<typeof iAccessControlUpgradeableABI, TFunctionName>)
+  return usePrepareContractWrite({ abi: iAccessControlABI, ...config } as UsePrepareContractWriteConfig<
+    typeof iAccessControlABI,
+    TFunctionName
+  >)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__ and `functionName` set to `"grantRole"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iAccessControlABI}__ and `functionName` set to `"grantRole"`.
  */
-export function usePrepareIAccessControlUpgradeableGrantRole(
+export function usePrepareIAccessControlGrantRole(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof iAccessControlUpgradeableABI, 'grantRole'>,
+    UsePrepareContractWriteConfig<typeof iAccessControlABI, 'grantRole'>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return usePrepareContractWrite({
-    abi: iAccessControlUpgradeableABI,
+    abi: iAccessControlABI,
     functionName: 'grantRole',
     ...config
-  } as UsePrepareContractWriteConfig<typeof iAccessControlUpgradeableABI, 'grantRole'>)
+  } as UsePrepareContractWriteConfig<typeof iAccessControlABI, 'grantRole'>)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__ and `functionName` set to `"renounceRole"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iAccessControlABI}__ and `functionName` set to `"renounceRole"`.
  */
-export function usePrepareIAccessControlUpgradeableRenounceRole(
+export function usePrepareIAccessControlRenounceRole(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof iAccessControlUpgradeableABI, 'renounceRole'>,
+    UsePrepareContractWriteConfig<typeof iAccessControlABI, 'renounceRole'>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return usePrepareContractWrite({
-    abi: iAccessControlUpgradeableABI,
+    abi: iAccessControlABI,
     functionName: 'renounceRole',
     ...config
-  } as UsePrepareContractWriteConfig<typeof iAccessControlUpgradeableABI, 'renounceRole'>)
+  } as UsePrepareContractWriteConfig<typeof iAccessControlABI, 'renounceRole'>)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__ and `functionName` set to `"revokeRole"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iAccessControlABI}__ and `functionName` set to `"revokeRole"`.
  */
-export function usePrepareIAccessControlUpgradeableRevokeRole(
+export function usePrepareIAccessControlRevokeRole(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof iAccessControlUpgradeableABI, 'revokeRole'>,
+    UsePrepareContractWriteConfig<typeof iAccessControlABI, 'revokeRole'>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return usePrepareContractWrite({
-    abi: iAccessControlUpgradeableABI,
+    abi: iAccessControlABI,
     functionName: 'revokeRole',
     ...config
-  } as UsePrepareContractWriteConfig<typeof iAccessControlUpgradeableABI, 'revokeRole'>)
+  } as UsePrepareContractWriteConfig<typeof iAccessControlABI, 'revokeRole'>)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iAccessControlABI}__.
  */
-export function useIAccessControlUpgradeableEvent<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof iAccessControlUpgradeableABI, TEventName>, 'abi'> = {} as any
+export function useIAccessControlEvent<TEventName extends string>(
+  config: Omit<UseContractEventConfig<typeof iAccessControlABI, TEventName>, 'abi'> = {} as any
 ) {
-  return useContractEvent({ abi: iAccessControlUpgradeableABI, ...config } as UseContractEventConfig<
-    typeof iAccessControlUpgradeableABI,
+  return useContractEvent({ abi: iAccessControlABI, ...config } as UseContractEventConfig<
+    typeof iAccessControlABI,
     TEventName
   >)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__ and `eventName` set to `"RoleAdminChanged"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iAccessControlABI}__ and `eventName` set to `"RoleAdminChanged"`.
  */
-export function useIAccessControlUpgradeableRoleAdminChangedEvent(
+export function useIAccessControlRoleAdminChangedEvent(
   config: Omit<
-    UseContractEventConfig<typeof iAccessControlUpgradeableABI, 'RoleAdminChanged'>,
+    UseContractEventConfig<typeof iAccessControlABI, 'RoleAdminChanged'>,
     'abi' | 'eventName'
   > = {} as any
 ) {
   return useContractEvent({
-    abi: iAccessControlUpgradeableABI,
+    abi: iAccessControlABI,
     eventName: 'RoleAdminChanged',
     ...config
-  } as UseContractEventConfig<typeof iAccessControlUpgradeableABI, 'RoleAdminChanged'>)
+  } as UseContractEventConfig<typeof iAccessControlABI, 'RoleAdminChanged'>)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__ and `eventName` set to `"RoleGranted"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iAccessControlABI}__ and `eventName` set to `"RoleGranted"`.
  */
-export function useIAccessControlUpgradeableRoleGrantedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof iAccessControlUpgradeableABI, 'RoleGranted'>,
-    'abi' | 'eventName'
-  > = {} as any
+export function useIAccessControlRoleGrantedEvent(
+  config: Omit<UseContractEventConfig<typeof iAccessControlABI, 'RoleGranted'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
-    abi: iAccessControlUpgradeableABI,
+    abi: iAccessControlABI,
     eventName: 'RoleGranted',
     ...config
-  } as UseContractEventConfig<typeof iAccessControlUpgradeableABI, 'RoleGranted'>)
+  } as UseContractEventConfig<typeof iAccessControlABI, 'RoleGranted'>)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iAccessControlUpgradeableABI}__ and `eventName` set to `"RoleRevoked"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iAccessControlABI}__ and `eventName` set to `"RoleRevoked"`.
  */
-export function useIAccessControlUpgradeableRoleRevokedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof iAccessControlUpgradeableABI, 'RoleRevoked'>,
-    'abi' | 'eventName'
-  > = {} as any
+export function useIAccessControlRoleRevokedEvent(
+  config: Omit<UseContractEventConfig<typeof iAccessControlABI, 'RoleRevoked'>, 'abi' | 'eventName'> = {} as any
 ) {
   return useContractEvent({
-    abi: iAccessControlUpgradeableABI,
+    abi: iAccessControlABI,
     eventName: 'RoleRevoked',
     ...config
-  } as UseContractEventConfig<typeof iAccessControlUpgradeableABI, 'RoleRevoked'>)
+  } as UseContractEventConfig<typeof iAccessControlABI, 'RoleRevoked'>)
 }
 
 /**
@@ -11522,41 +13805,36 @@ export function useIAirdropSetStakeTogetherEvent(
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iBeaconUpgradeableABI}__.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iBeaconABI}__.
  */
-export function useIBeaconUpgradeableRead<
+export function useIBeaconRead<
   TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof iBeaconUpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof iBeaconUpgradeableABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
-) {
-  return useContractRead({ abi: iBeaconUpgradeableABI, ...config } as UseContractReadConfig<
-    typeof iBeaconUpgradeableABI,
+  TSelectData = ReadContractResult<typeof iBeaconABI, TFunctionName>
+>(config: Omit<UseContractReadConfig<typeof iBeaconABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
+  return useContractRead({ abi: iBeaconABI, ...config } as UseContractReadConfig<
+    typeof iBeaconABI,
     TFunctionName,
     TSelectData
   >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link iBeaconUpgradeableABI}__ and `functionName` set to `"implementation"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iBeaconABI}__ and `functionName` set to `"implementation"`.
  */
-export function useIBeaconUpgradeableImplementation<
+export function useIBeaconImplementation<
   TFunctionName extends 'implementation',
-  TSelectData = ReadContractResult<typeof iBeaconUpgradeableABI, TFunctionName>
+  TSelectData = ReadContractResult<typeof iBeaconABI, TFunctionName>
 >(
   config: Omit<
-    UseContractReadConfig<typeof iBeaconUpgradeableABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<typeof iBeaconABI, TFunctionName, TSelectData>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return useContractRead({
-    abi: iBeaconUpgradeableABI,
+    abi: iBeaconABI,
     functionName: 'implementation',
     ...config
-  } as UseContractReadConfig<typeof iBeaconUpgradeableABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof iBeaconABI, TFunctionName, TSelectData>)
 }
 
 /**
@@ -11715,930 +13993,815 @@ export function useIDepositContractDepositEventEvent(
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc165UpgradeableABI}__.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc165ABI}__.
  */
-export function useIerc165UpgradeableRead<
+export function useIerc165Read<
   TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof ierc165UpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc165UpgradeableABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
-) {
-  return useContractRead({ abi: ierc165UpgradeableABI, ...config } as UseContractReadConfig<
-    typeof ierc165UpgradeableABI,
+  TSelectData = ReadContractResult<typeof ierc165ABI, TFunctionName>
+>(config: Omit<UseContractReadConfig<typeof ierc165ABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
+  return useContractRead({ abi: ierc165ABI, ...config } as UseContractReadConfig<
+    typeof ierc165ABI,
     TFunctionName,
     TSelectData
   >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc165UpgradeableABI}__ and `functionName` set to `"supportsInterface"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc165ABI}__ and `functionName` set to `"supportsInterface"`.
  */
-export function useIerc165UpgradeableSupportsInterface<
+export function useIerc165SupportsInterface<
   TFunctionName extends 'supportsInterface',
-  TSelectData = ReadContractResult<typeof ierc165UpgradeableABI, TFunctionName>
+  TSelectData = ReadContractResult<typeof ierc165ABI, TFunctionName>
 >(
   config: Omit<
-    UseContractReadConfig<typeof ierc165UpgradeableABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<typeof ierc165ABI, TFunctionName, TSelectData>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return useContractRead({
-    abi: ierc165UpgradeableABI,
+    abi: ierc165ABI,
     functionName: 'supportsInterface',
     ...config
-  } as UseContractReadConfig<typeof ierc165UpgradeableABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ierc165ABI, TFunctionName, TSelectData>)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc1822ProxiableUpgradeableABI}__.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc1822ProxiableABI}__.
  */
-export function useIerc1822ProxiableUpgradeableRead<
+export function useIerc1822ProxiableRead<
   TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof ierc1822ProxiableUpgradeableABI, TFunctionName>
+  TSelectData = ReadContractResult<typeof ierc1822ProxiableABI, TFunctionName>
 >(
   config: Omit<
-    UseContractReadConfig<typeof ierc1822ProxiableUpgradeableABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<typeof ierc1822ProxiableABI, TFunctionName, TSelectData>,
     'abi'
   > = {} as any
 ) {
-  return useContractRead({ abi: ierc1822ProxiableUpgradeableABI, ...config } as UseContractReadConfig<
-    typeof ierc1822ProxiableUpgradeableABI,
+  return useContractRead({ abi: ierc1822ProxiableABI, ...config } as UseContractReadConfig<
+    typeof ierc1822ProxiableABI,
     TFunctionName,
     TSelectData
   >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc1822ProxiableUpgradeableABI}__ and `functionName` set to `"proxiableUUID"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc1822ProxiableABI}__ and `functionName` set to `"proxiableUUID"`.
  */
-export function useIerc1822ProxiableUpgradeableProxiableUuid<
+export function useIerc1822ProxiableProxiableUuid<
   TFunctionName extends 'proxiableUUID',
-  TSelectData = ReadContractResult<typeof ierc1822ProxiableUpgradeableABI, TFunctionName>
+  TSelectData = ReadContractResult<typeof ierc1822ProxiableABI, TFunctionName>
 >(
   config: Omit<
-    UseContractReadConfig<typeof ierc1822ProxiableUpgradeableABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<typeof ierc1822ProxiableABI, TFunctionName, TSelectData>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return useContractRead({
-    abi: ierc1822ProxiableUpgradeableABI,
+    abi: ierc1822ProxiableABI,
     functionName: 'proxiableUUID',
     ...config
-  } as UseContractReadConfig<typeof ierc1822ProxiableUpgradeableABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ierc1822ProxiableABI, TFunctionName, TSelectData>)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc1967UpgradeableABI}__.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20ABI}__.
  */
-export function useIerc1967UpgradeableEvent<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof ierc1967UpgradeableABI, TEventName>, 'abi'> = {} as any
-) {
-  return useContractEvent({ abi: ierc1967UpgradeableABI, ...config } as UseContractEventConfig<
-    typeof ierc1967UpgradeableABI,
-    TEventName
-  >)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc1967UpgradeableABI}__ and `eventName` set to `"AdminChanged"`.
- */
-export function useIerc1967UpgradeableAdminChangedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof ierc1967UpgradeableABI, 'AdminChanged'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: ierc1967UpgradeableABI,
-    eventName: 'AdminChanged',
-    ...config
-  } as UseContractEventConfig<typeof ierc1967UpgradeableABI, 'AdminChanged'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc1967UpgradeableABI}__ and `eventName` set to `"BeaconUpgraded"`.
- */
-export function useIerc1967UpgradeableBeaconUpgradedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof ierc1967UpgradeableABI, 'BeaconUpgraded'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: ierc1967UpgradeableABI,
-    eventName: 'BeaconUpgraded',
-    ...config
-  } as UseContractEventConfig<typeof ierc1967UpgradeableABI, 'BeaconUpgraded'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc1967UpgradeableABI}__ and `eventName` set to `"Upgraded"`.
- */
-export function useIerc1967UpgradeableUpgradedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof ierc1967UpgradeableABI, 'Upgraded'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: ierc1967UpgradeableABI,
-    eventName: 'Upgraded',
-    ...config
-  } as UseContractEventConfig<typeof ierc1967UpgradeableABI, 'Upgraded'>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__.
- */
-export function useIerc20MetadataUpgradeableRead<
+export function useIerc20Read<
   TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof ierc20MetadataUpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
-) {
-  return useContractRead({ abi: ierc20MetadataUpgradeableABI, ...config } as UseContractReadConfig<
-    typeof ierc20MetadataUpgradeableABI,
+  TSelectData = ReadContractResult<typeof ierc20ABI, TFunctionName>
+>(config: Omit<UseContractReadConfig<typeof ierc20ABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
+  return useContractRead({ abi: ierc20ABI, ...config } as UseContractReadConfig<
+    typeof ierc20ABI,
     TFunctionName,
     TSelectData
   >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `functionName` set to `"allowance"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20ABI}__ and `functionName` set to `"allowance"`.
  */
-export function useIerc20MetadataUpgradeableAllowance<
+export function useIerc20Allowance<
   TFunctionName extends 'allowance',
-  TSelectData = ReadContractResult<typeof ierc20MetadataUpgradeableABI, TFunctionName>
+  TSelectData = ReadContractResult<typeof ierc20ABI, TFunctionName>
 >(
   config: Omit<
-    UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<typeof ierc20ABI, TFunctionName, TSelectData>,
     'abi' | 'functionName'
   > = {} as any
 ) {
-  return useContractRead({
-    abi: ierc20MetadataUpgradeableABI,
-    functionName: 'allowance',
-    ...config
-  } as UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>)
+  return useContractRead({ abi: ierc20ABI, functionName: 'allowance', ...config } as UseContractReadConfig<
+    typeof ierc20ABI,
+    TFunctionName,
+    TSelectData
+  >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `functionName` set to `"balanceOf"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20ABI}__ and `functionName` set to `"balanceOf"`.
  */
-export function useIerc20MetadataUpgradeableBalanceOf<
+export function useIerc20BalanceOf<
   TFunctionName extends 'balanceOf',
-  TSelectData = ReadContractResult<typeof ierc20MetadataUpgradeableABI, TFunctionName>
+  TSelectData = ReadContractResult<typeof ierc20ABI, TFunctionName>
 >(
   config: Omit<
-    UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<typeof ierc20ABI, TFunctionName, TSelectData>,
     'abi' | 'functionName'
   > = {} as any
 ) {
-  return useContractRead({
-    abi: ierc20MetadataUpgradeableABI,
-    functionName: 'balanceOf',
-    ...config
-  } as UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>)
+  return useContractRead({ abi: ierc20ABI, functionName: 'balanceOf', ...config } as UseContractReadConfig<
+    typeof ierc20ABI,
+    TFunctionName,
+    TSelectData
+  >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `functionName` set to `"decimals"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20ABI}__ and `functionName` set to `"totalSupply"`.
  */
-export function useIerc20MetadataUpgradeableDecimals<
-  TFunctionName extends 'decimals',
-  TSelectData = ReadContractResult<typeof ierc20MetadataUpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return useContractRead({
-    abi: ierc20MetadataUpgradeableABI,
-    functionName: 'decimals',
-    ...config
-  } as UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `functionName` set to `"name"`.
- */
-export function useIerc20MetadataUpgradeableName<
-  TFunctionName extends 'name',
-  TSelectData = ReadContractResult<typeof ierc20MetadataUpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return useContractRead({
-    abi: ierc20MetadataUpgradeableABI,
-    functionName: 'name',
-    ...config
-  } as UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `functionName` set to `"symbol"`.
- */
-export function useIerc20MetadataUpgradeableSymbol<
-  TFunctionName extends 'symbol',
-  TSelectData = ReadContractResult<typeof ierc20MetadataUpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return useContractRead({
-    abi: ierc20MetadataUpgradeableABI,
-    functionName: 'symbol',
-    ...config
-  } as UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `functionName` set to `"totalSupply"`.
- */
-export function useIerc20MetadataUpgradeableTotalSupply<
+export function useIerc20TotalSupply<
   TFunctionName extends 'totalSupply',
-  TSelectData = ReadContractResult<typeof ierc20MetadataUpgradeableABI, TFunctionName>
+  TSelectData = ReadContractResult<typeof ierc20ABI, TFunctionName>
 >(
   config: Omit<
-    UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<typeof ierc20ABI, TFunctionName, TSelectData>,
     'abi' | 'functionName'
   > = {} as any
 ) {
-  return useContractRead({
-    abi: ierc20MetadataUpgradeableABI,
-    functionName: 'totalSupply',
-    ...config
-  } as UseContractReadConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TSelectData>)
+  return useContractRead({ abi: ierc20ABI, functionName: 'totalSupply', ...config } as UseContractReadConfig<
+    typeof ierc20ABI,
+    TFunctionName,
+    TSelectData
+  >)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20ABI}__.
  */
-export function useIerc20MetadataUpgradeableWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined
->(
+export function useIerc20Write<TFunctionName extends string, TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ierc20MetadataUpgradeableABI, string>['request']['abi'],
+        PrepareWriteContractResult<typeof ierc20ABI, string>['request']['abi'],
         TFunctionName,
         TMode
       >
-    : UseContractWriteConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName, TMode> & {
+    : UseContractWriteConfig<typeof ierc20ABI, TFunctionName, TMode> & {
         abi?: never
       } = {} as any
 ) {
-  return useContractWrite<typeof ierc20MetadataUpgradeableABI, TFunctionName, TMode>({
-    abi: ierc20MetadataUpgradeableABI,
-    ...config
-  } as any)
+  return useContractWrite<typeof ierc20ABI, TFunctionName, TMode>({ abi: ierc20ABI, ...config } as any)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `functionName` set to `"approve"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20ABI}__ and `functionName` set to `"approve"`.
  */
-export function useIerc20MetadataUpgradeableApprove<TMode extends WriteContractMode = undefined>(
+export function useIerc20Approve<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ierc20MetadataUpgradeableABI, 'approve'>['request']['abi'],
+        PrepareWriteContractResult<typeof ierc20ABI, 'approve'>['request']['abi'],
         'approve',
         TMode
       > & { functionName?: 'approve' }
-    : UseContractWriteConfig<typeof ierc20MetadataUpgradeableABI, 'approve', TMode> & {
+    : UseContractWriteConfig<typeof ierc20ABI, 'approve', TMode> & {
         abi?: never
         functionName?: 'approve'
       } = {} as any
 ) {
-  return useContractWrite<typeof ierc20MetadataUpgradeableABI, 'approve', TMode>({
-    abi: ierc20MetadataUpgradeableABI,
+  return useContractWrite<typeof ierc20ABI, 'approve', TMode>({
+    abi: ierc20ABI,
     functionName: 'approve',
     ...config
   } as any)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `functionName` set to `"transfer"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20ABI}__ and `functionName` set to `"transfer"`.
  */
-export function useIerc20MetadataUpgradeableTransfer<TMode extends WriteContractMode = undefined>(
+export function useIerc20Transfer<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ierc20MetadataUpgradeableABI, 'transfer'>['request']['abi'],
+        PrepareWriteContractResult<typeof ierc20ABI, 'transfer'>['request']['abi'],
         'transfer',
         TMode
       > & { functionName?: 'transfer' }
-    : UseContractWriteConfig<typeof ierc20MetadataUpgradeableABI, 'transfer', TMode> & {
+    : UseContractWriteConfig<typeof ierc20ABI, 'transfer', TMode> & {
         abi?: never
         functionName?: 'transfer'
       } = {} as any
 ) {
-  return useContractWrite<typeof ierc20MetadataUpgradeableABI, 'transfer', TMode>({
-    abi: ierc20MetadataUpgradeableABI,
+  return useContractWrite<typeof ierc20ABI, 'transfer', TMode>({
+    abi: ierc20ABI,
     functionName: 'transfer',
     ...config
   } as any)
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `functionName` set to `"transferFrom"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20ABI}__ and `functionName` set to `"transferFrom"`.
  */
-export function useIerc20MetadataUpgradeableTransferFrom<TMode extends WriteContractMode = undefined>(
+export function useIerc20TransferFrom<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ierc20MetadataUpgradeableABI, 'transferFrom'>['request']['abi'],
+        PrepareWriteContractResult<typeof ierc20ABI, 'transferFrom'>['request']['abi'],
         'transferFrom',
         TMode
       > & { functionName?: 'transferFrom' }
-    : UseContractWriteConfig<typeof ierc20MetadataUpgradeableABI, 'transferFrom', TMode> & {
+    : UseContractWriteConfig<typeof ierc20ABI, 'transferFrom', TMode> & {
         abi?: never
         functionName?: 'transferFrom'
       } = {} as any
 ) {
-  return useContractWrite<typeof ierc20MetadataUpgradeableABI, 'transferFrom', TMode>({
-    abi: ierc20MetadataUpgradeableABI,
+  return useContractWrite<typeof ierc20ABI, 'transferFrom', TMode>({
+    abi: ierc20ABI,
     functionName: 'transferFrom',
     ...config
   } as any)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20ABI}__.
  */
-export function usePrepareIerc20MetadataUpgradeableWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName>,
-    'abi'
-  > = {} as any
+export function usePrepareIerc20Write<TFunctionName extends string>(
+  config: Omit<UsePrepareContractWriteConfig<typeof ierc20ABI, TFunctionName>, 'abi'> = {} as any
 ) {
-  return usePrepareContractWrite({
-    abi: ierc20MetadataUpgradeableABI,
-    ...config
-  } as UsePrepareContractWriteConfig<typeof ierc20MetadataUpgradeableABI, TFunctionName>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `functionName` set to `"approve"`.
- */
-export function usePrepareIerc20MetadataUpgradeableApprove(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ierc20MetadataUpgradeableABI, 'approve'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: ierc20MetadataUpgradeableABI,
-    functionName: 'approve',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof ierc20MetadataUpgradeableABI, 'approve'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `functionName` set to `"transfer"`.
- */
-export function usePrepareIerc20MetadataUpgradeableTransfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ierc20MetadataUpgradeableABI, 'transfer'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: ierc20MetadataUpgradeableABI,
-    functionName: 'transfer',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof ierc20MetadataUpgradeableABI, 'transfer'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `functionName` set to `"transferFrom"`.
- */
-export function usePrepareIerc20MetadataUpgradeableTransferFrom(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ierc20MetadataUpgradeableABI, 'transferFrom'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: ierc20MetadataUpgradeableABI,
-    functionName: 'transferFrom',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof ierc20MetadataUpgradeableABI, 'transferFrom'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__.
- */
-export function useIerc20MetadataUpgradeableEvent<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof ierc20MetadataUpgradeableABI, TEventName>, 'abi'> = {} as any
-) {
-  return useContractEvent({ abi: ierc20MetadataUpgradeableABI, ...config } as UseContractEventConfig<
-    typeof ierc20MetadataUpgradeableABI,
-    TEventName
-  >)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `eventName` set to `"Approval"`.
- */
-export function useIerc20MetadataUpgradeableApprovalEvent(
-  config: Omit<
-    UseContractEventConfig<typeof ierc20MetadataUpgradeableABI, 'Approval'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: ierc20MetadataUpgradeableABI,
-    eventName: 'Approval',
-    ...config
-  } as UseContractEventConfig<typeof ierc20MetadataUpgradeableABI, 'Approval'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20MetadataUpgradeableABI}__ and `eventName` set to `"Transfer"`.
- */
-export function useIerc20MetadataUpgradeableTransferEvent(
-  config: Omit<
-    UseContractEventConfig<typeof ierc20MetadataUpgradeableABI, 'Transfer'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: ierc20MetadataUpgradeableABI,
-    eventName: 'Transfer',
-    ...config
-  } as UseContractEventConfig<typeof ierc20MetadataUpgradeableABI, 'Transfer'>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20PermitUpgradeableABI}__.
- */
-export function useIerc20PermitUpgradeableRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof ierc20PermitUpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20PermitUpgradeableABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
-) {
-  return useContractRead({ abi: ierc20PermitUpgradeableABI, ...config } as UseContractReadConfig<
-    typeof ierc20PermitUpgradeableABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20PermitUpgradeableABI}__ and `functionName` set to `"DOMAIN_SEPARATOR"`.
- */
-export function useIerc20PermitUpgradeableDomainSeparator<
-  TFunctionName extends 'DOMAIN_SEPARATOR',
-  TSelectData = ReadContractResult<typeof ierc20PermitUpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20PermitUpgradeableABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return useContractRead({
-    abi: ierc20PermitUpgradeableABI,
-    functionName: 'DOMAIN_SEPARATOR',
-    ...config
-  } as UseContractReadConfig<typeof ierc20PermitUpgradeableABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20PermitUpgradeableABI}__ and `functionName` set to `"nonces"`.
- */
-export function useIerc20PermitUpgradeableNonces<
-  TFunctionName extends 'nonces',
-  TSelectData = ReadContractResult<typeof ierc20PermitUpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20PermitUpgradeableABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return useContractRead({
-    abi: ierc20PermitUpgradeableABI,
-    functionName: 'nonces',
-    ...config
-  } as UseContractReadConfig<typeof ierc20PermitUpgradeableABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20PermitUpgradeableABI}__.
- */
-export function useIerc20PermitUpgradeableWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ierc20PermitUpgradeableABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      >
-    : UseContractWriteConfig<typeof ierc20PermitUpgradeableABI, TFunctionName, TMode> & {
-        abi?: never
-      } = {} as any
-) {
-  return useContractWrite<typeof ierc20PermitUpgradeableABI, TFunctionName, TMode>({
-    abi: ierc20PermitUpgradeableABI,
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20PermitUpgradeableABI}__ and `functionName` set to `"permit"`.
- */
-export function useIerc20PermitUpgradeablePermit<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ierc20PermitUpgradeableABI, 'permit'>['request']['abi'],
-        'permit',
-        TMode
-      > & { functionName?: 'permit' }
-    : UseContractWriteConfig<typeof ierc20PermitUpgradeableABI, 'permit', TMode> & {
-        abi?: never
-        functionName?: 'permit'
-      } = {} as any
-) {
-  return useContractWrite<typeof ierc20PermitUpgradeableABI, 'permit', TMode>({
-    abi: ierc20PermitUpgradeableABI,
-    functionName: 'permit',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20PermitUpgradeableABI}__.
- */
-export function usePrepareIerc20PermitUpgradeableWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ierc20PermitUpgradeableABI, TFunctionName>,
-    'abi'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: ierc20PermitUpgradeableABI,
-    ...config
-  } as UsePrepareContractWriteConfig<typeof ierc20PermitUpgradeableABI, TFunctionName>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20PermitUpgradeableABI}__ and `functionName` set to `"permit"`.
- */
-export function usePrepareIerc20PermitUpgradeablePermit(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ierc20PermitUpgradeableABI, 'permit'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: ierc20PermitUpgradeableABI,
-    functionName: 'permit',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof ierc20PermitUpgradeableABI, 'permit'>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20UpgradeableABI}__.
- */
-export function useIerc20UpgradeableRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof ierc20UpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20UpgradeableABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
-) {
-  return useContractRead({ abi: ierc20UpgradeableABI, ...config } as UseContractReadConfig<
-    typeof ierc20UpgradeableABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20UpgradeableABI}__ and `functionName` set to `"allowance"`.
- */
-export function useIerc20UpgradeableAllowance<
-  TFunctionName extends 'allowance',
-  TSelectData = ReadContractResult<typeof ierc20UpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20UpgradeableABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return useContractRead({
-    abi: ierc20UpgradeableABI,
-    functionName: 'allowance',
-    ...config
-  } as UseContractReadConfig<typeof ierc20UpgradeableABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20UpgradeableABI}__ and `functionName` set to `"balanceOf"`.
- */
-export function useIerc20UpgradeableBalanceOf<
-  TFunctionName extends 'balanceOf',
-  TSelectData = ReadContractResult<typeof ierc20UpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20UpgradeableABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return useContractRead({
-    abi: ierc20UpgradeableABI,
-    functionName: 'balanceOf',
-    ...config
-  } as UseContractReadConfig<typeof ierc20UpgradeableABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20UpgradeableABI}__ and `functionName` set to `"totalSupply"`.
- */
-export function useIerc20UpgradeableTotalSupply<
-  TFunctionName extends 'totalSupply',
-  TSelectData = ReadContractResult<typeof ierc20UpgradeableABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof ierc20UpgradeableABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return useContractRead({
-    abi: ierc20UpgradeableABI,
-    functionName: 'totalSupply',
-    ...config
-  } as UseContractReadConfig<typeof ierc20UpgradeableABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20UpgradeableABI}__.
- */
-export function useIerc20UpgradeableWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ierc20UpgradeableABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      >
-    : UseContractWriteConfig<typeof ierc20UpgradeableABI, TFunctionName, TMode> & {
-        abi?: never
-      } = {} as any
-) {
-  return useContractWrite<typeof ierc20UpgradeableABI, TFunctionName, TMode>({
-    abi: ierc20UpgradeableABI,
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20UpgradeableABI}__ and `functionName` set to `"approve"`.
- */
-export function useIerc20UpgradeableApprove<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ierc20UpgradeableABI, 'approve'>['request']['abi'],
-        'approve',
-        TMode
-      > & { functionName?: 'approve' }
-    : UseContractWriteConfig<typeof ierc20UpgradeableABI, 'approve', TMode> & {
-        abi?: never
-        functionName?: 'approve'
-      } = {} as any
-) {
-  return useContractWrite<typeof ierc20UpgradeableABI, 'approve', TMode>({
-    abi: ierc20UpgradeableABI,
-    functionName: 'approve',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20UpgradeableABI}__ and `functionName` set to `"transfer"`.
- */
-export function useIerc20UpgradeableTransfer<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ierc20UpgradeableABI, 'transfer'>['request']['abi'],
-        'transfer',
-        TMode
-      > & { functionName?: 'transfer' }
-    : UseContractWriteConfig<typeof ierc20UpgradeableABI, 'transfer', TMode> & {
-        abi?: never
-        functionName?: 'transfer'
-      } = {} as any
-) {
-  return useContractWrite<typeof ierc20UpgradeableABI, 'transfer', TMode>({
-    abi: ierc20UpgradeableABI,
-    functionName: 'transfer',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20UpgradeableABI}__ and `functionName` set to `"transferFrom"`.
- */
-export function useIerc20UpgradeableTransferFrom<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof ierc20UpgradeableABI, 'transferFrom'>['request']['abi'],
-        'transferFrom',
-        TMode
-      > & { functionName?: 'transferFrom' }
-    : UseContractWriteConfig<typeof ierc20UpgradeableABI, 'transferFrom', TMode> & {
-        abi?: never
-        functionName?: 'transferFrom'
-      } = {} as any
-) {
-  return useContractWrite<typeof ierc20UpgradeableABI, 'transferFrom', TMode>({
-    abi: ierc20UpgradeableABI,
-    functionName: 'transferFrom',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20UpgradeableABI}__.
- */
-export function usePrepareIerc20UpgradeableWrite<TFunctionName extends string>(
-  config: Omit<UsePrepareContractWriteConfig<typeof ierc20UpgradeableABI, TFunctionName>, 'abi'> = {} as any
-) {
-  return usePrepareContractWrite({ abi: ierc20UpgradeableABI, ...config } as UsePrepareContractWriteConfig<
-    typeof ierc20UpgradeableABI,
+  return usePrepareContractWrite({ abi: ierc20ABI, ...config } as UsePrepareContractWriteConfig<
+    typeof ierc20ABI,
     TFunctionName
   >)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20UpgradeableABI}__ and `functionName` set to `"approve"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20ABI}__ and `functionName` set to `"approve"`.
  */
-export function usePrepareIerc20UpgradeableApprove(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ierc20UpgradeableABI, 'approve'>,
-    'abi' | 'functionName'
-  > = {} as any
+export function usePrepareIerc20Approve(
+  config: Omit<UsePrepareContractWriteConfig<typeof ierc20ABI, 'approve'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
-    abi: ierc20UpgradeableABI,
+    abi: ierc20ABI,
     functionName: 'approve',
     ...config
-  } as UsePrepareContractWriteConfig<typeof ierc20UpgradeableABI, 'approve'>)
+  } as UsePrepareContractWriteConfig<typeof ierc20ABI, 'approve'>)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20UpgradeableABI}__ and `functionName` set to `"transfer"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20ABI}__ and `functionName` set to `"transfer"`.
  */
-export function usePrepareIerc20UpgradeableTransfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof ierc20UpgradeableABI, 'transfer'>,
-    'abi' | 'functionName'
-  > = {} as any
+export function usePrepareIerc20Transfer(
+  config: Omit<UsePrepareContractWriteConfig<typeof ierc20ABI, 'transfer'>, 'abi' | 'functionName'> = {} as any
 ) {
   return usePrepareContractWrite({
-    abi: ierc20UpgradeableABI,
+    abi: ierc20ABI,
     functionName: 'transfer',
     ...config
-  } as UsePrepareContractWriteConfig<typeof ierc20UpgradeableABI, 'transfer'>)
+  } as UsePrepareContractWriteConfig<typeof ierc20ABI, 'transfer'>)
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20UpgradeableABI}__ and `functionName` set to `"transferFrom"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20ABI}__ and `functionName` set to `"transferFrom"`.
  */
-export function usePrepareIerc20UpgradeableTransferFrom(
+export function usePrepareIerc20TransferFrom(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof ierc20UpgradeableABI, 'transferFrom'>,
+    UsePrepareContractWriteConfig<typeof ierc20ABI, 'transferFrom'>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return usePrepareContractWrite({
-    abi: ierc20UpgradeableABI,
+    abi: ierc20ABI,
     functionName: 'transferFrom',
     ...config
-  } as UsePrepareContractWriteConfig<typeof ierc20UpgradeableABI, 'transferFrom'>)
+  } as UsePrepareContractWriteConfig<typeof ierc20ABI, 'transferFrom'>)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20UpgradeableABI}__.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20ABI}__.
  */
-export function useIerc20UpgradeableEvent<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof ierc20UpgradeableABI, TEventName>, 'abi'> = {} as any
+export function useIerc20Event<TEventName extends string>(
+  config: Omit<UseContractEventConfig<typeof ierc20ABI, TEventName>, 'abi'> = {} as any
 ) {
-  return useContractEvent({ abi: ierc20UpgradeableABI, ...config } as UseContractEventConfig<
-    typeof ierc20UpgradeableABI,
-    TEventName
+  return useContractEvent({ abi: ierc20ABI, ...config } as UseContractEventConfig<typeof ierc20ABI, TEventName>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20ABI}__ and `eventName` set to `"Approval"`.
+ */
+export function useIerc20ApprovalEvent(
+  config: Omit<UseContractEventConfig<typeof ierc20ABI, 'Approval'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({ abi: ierc20ABI, eventName: 'Approval', ...config } as UseContractEventConfig<
+    typeof ierc20ABI,
+    'Approval'
   >)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20UpgradeableABI}__ and `eventName` set to `"Approval"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20ABI}__ and `eventName` set to `"Transfer"`.
  */
-export function useIerc20UpgradeableApprovalEvent(
-  config: Omit<UseContractEventConfig<typeof ierc20UpgradeableABI, 'Approval'>, 'abi' | 'eventName'> = {} as any
+export function useIerc20TransferEvent(
+  config: Omit<UseContractEventConfig<typeof ierc20ABI, 'Transfer'>, 'abi' | 'eventName'> = {} as any
 ) {
-  return useContractEvent({
-    abi: ierc20UpgradeableABI,
-    eventName: 'Approval',
-    ...config
-  } as UseContractEventConfig<typeof ierc20UpgradeableABI, 'Approval'>)
+  return useContractEvent({ abi: ierc20ABI, eventName: 'Transfer', ...config } as UseContractEventConfig<
+    typeof ierc20ABI,
+    'Transfer'
+  >)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20UpgradeableABI}__ and `eventName` set to `"Transfer"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataABI}__.
  */
-export function useIerc20UpgradeableTransferEvent(
-  config: Omit<UseContractEventConfig<typeof ierc20UpgradeableABI, 'Transfer'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({
-    abi: ierc20UpgradeableABI,
-    eventName: 'Transfer',
-    ...config
-  } as UseContractEventConfig<typeof ierc20UpgradeableABI, 'Transfer'>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc5267UpgradeableABI}__.
- */
-export function useIerc5267UpgradeableRead<
+export function useIerc20MetadataRead<
   TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof ierc5267UpgradeableABI, TFunctionName>
+  TSelectData = ReadContractResult<typeof ierc20MetadataABI, TFunctionName>
 >(
-  config: Omit<
-    UseContractReadConfig<typeof ierc5267UpgradeableABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any
+  config: Omit<UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>, 'abi'> = {} as any
 ) {
-  return useContractRead({ abi: ierc5267UpgradeableABI, ...config } as UseContractReadConfig<
-    typeof ierc5267UpgradeableABI,
+  return useContractRead({ abi: ierc20MetadataABI, ...config } as UseContractReadConfig<
+    typeof ierc20MetadataABI,
     TFunctionName,
     TSelectData
   >)
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc5267UpgradeableABI}__ and `functionName` set to `"eip712Domain"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataABI}__ and `functionName` set to `"allowance"`.
  */
-export function useIerc5267UpgradeableEip712Domain<
-  TFunctionName extends 'eip712Domain',
-  TSelectData = ReadContractResult<typeof ierc5267UpgradeableABI, TFunctionName>
+export function useIerc20MetadataAllowance<
+  TFunctionName extends 'allowance',
+  TSelectData = ReadContractResult<typeof ierc20MetadataABI, TFunctionName>
 >(
   config: Omit<
-    UseContractReadConfig<typeof ierc5267UpgradeableABI, TFunctionName, TSelectData>,
+    UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return useContractRead({
-    abi: ierc5267UpgradeableABI,
-    functionName: 'eip712Domain',
+    abi: ierc20MetadataABI,
+    functionName: 'allowance',
     ...config
-  } as UseContractReadConfig<typeof ierc5267UpgradeableABI, TFunctionName, TSelectData>)
+  } as UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc5267UpgradeableABI}__.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataABI}__ and `functionName` set to `"balanceOf"`.
  */
-export function useIerc5267UpgradeableEvent<TEventName extends string>(
-  config: Omit<UseContractEventConfig<typeof ierc5267UpgradeableABI, TEventName>, 'abi'> = {} as any
+export function useIerc20MetadataBalanceOf<
+  TFunctionName extends 'balanceOf',
+  TSelectData = ReadContractResult<typeof ierc20MetadataABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
 ) {
-  return useContractEvent({ abi: ierc5267UpgradeableABI, ...config } as UseContractEventConfig<
-    typeof ierc5267UpgradeableABI,
+  return useContractRead({
+    abi: ierc20MetadataABI,
+    functionName: 'balanceOf',
+    ...config
+  } as UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataABI}__ and `functionName` set to `"decimals"`.
+ */
+export function useIerc20MetadataDecimals<
+  TFunctionName extends 'decimals',
+  TSelectData = ReadContractResult<typeof ierc20MetadataABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: ierc20MetadataABI,
+    functionName: 'decimals',
+    ...config
+  } as UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataABI}__ and `functionName` set to `"name"`.
+ */
+export function useIerc20MetadataName<
+  TFunctionName extends 'name',
+  TSelectData = ReadContractResult<typeof ierc20MetadataABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({ abi: ierc20MetadataABI, functionName: 'name', ...config } as UseContractReadConfig<
+    typeof ierc20MetadataABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataABI}__ and `functionName` set to `"symbol"`.
+ */
+export function useIerc20MetadataSymbol<
+  TFunctionName extends 'symbol',
+  TSelectData = ReadContractResult<typeof ierc20MetadataABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({ abi: ierc20MetadataABI, functionName: 'symbol', ...config } as UseContractReadConfig<
+    typeof ierc20MetadataABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20MetadataABI}__ and `functionName` set to `"totalSupply"`.
+ */
+export function useIerc20MetadataTotalSupply<
+  TFunctionName extends 'totalSupply',
+  TSelectData = ReadContractResult<typeof ierc20MetadataABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: ierc20MetadataABI,
+    functionName: 'totalSupply',
+    ...config
+  } as UseContractReadConfig<typeof ierc20MetadataABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20MetadataABI}__.
+ */
+export function useIerc20MetadataWrite<
+  TFunctionName extends string,
+  TMode extends WriteContractMode = undefined
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof ierc20MetadataABI, string>['request']['abi'],
+        TFunctionName,
+        TMode
+      >
+    : UseContractWriteConfig<typeof ierc20MetadataABI, TFunctionName, TMode> & {
+        abi?: never
+      } = {} as any
+) {
+  return useContractWrite<typeof ierc20MetadataABI, TFunctionName, TMode>({
+    abi: ierc20MetadataABI,
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20MetadataABI}__ and `functionName` set to `"approve"`.
+ */
+export function useIerc20MetadataApprove<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof ierc20MetadataABI, 'approve'>['request']['abi'],
+        'approve',
+        TMode
+      > & { functionName?: 'approve' }
+    : UseContractWriteConfig<typeof ierc20MetadataABI, 'approve', TMode> & {
+        abi?: never
+        functionName?: 'approve'
+      } = {} as any
+) {
+  return useContractWrite<typeof ierc20MetadataABI, 'approve', TMode>({
+    abi: ierc20MetadataABI,
+    functionName: 'approve',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20MetadataABI}__ and `functionName` set to `"transfer"`.
+ */
+export function useIerc20MetadataTransfer<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof ierc20MetadataABI, 'transfer'>['request']['abi'],
+        'transfer',
+        TMode
+      > & { functionName?: 'transfer' }
+    : UseContractWriteConfig<typeof ierc20MetadataABI, 'transfer', TMode> & {
+        abi?: never
+        functionName?: 'transfer'
+      } = {} as any
+) {
+  return useContractWrite<typeof ierc20MetadataABI, 'transfer', TMode>({
+    abi: ierc20MetadataABI,
+    functionName: 'transfer',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20MetadataABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function useIerc20MetadataTransferFrom<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof ierc20MetadataABI, 'transferFrom'>['request']['abi'],
+        'transferFrom',
+        TMode
+      > & { functionName?: 'transferFrom' }
+    : UseContractWriteConfig<typeof ierc20MetadataABI, 'transferFrom', TMode> & {
+        abi?: never
+        functionName?: 'transferFrom'
+      } = {} as any
+) {
+  return useContractWrite<typeof ierc20MetadataABI, 'transferFrom', TMode>({
+    abi: ierc20MetadataABI,
+    functionName: 'transferFrom',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20MetadataABI}__.
+ */
+export function usePrepareIerc20MetadataWrite<TFunctionName extends string>(
+  config: Omit<UsePrepareContractWriteConfig<typeof ierc20MetadataABI, TFunctionName>, 'abi'> = {} as any
+) {
+  return usePrepareContractWrite({ abi: ierc20MetadataABI, ...config } as UsePrepareContractWriteConfig<
+    typeof ierc20MetadataABI,
+    TFunctionName
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20MetadataABI}__ and `functionName` set to `"approve"`.
+ */
+export function usePrepareIerc20MetadataApprove(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof ierc20MetadataABI, 'approve'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: ierc20MetadataABI,
+    functionName: 'approve',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof ierc20MetadataABI, 'approve'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20MetadataABI}__ and `functionName` set to `"transfer"`.
+ */
+export function usePrepareIerc20MetadataTransfer(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof ierc20MetadataABI, 'transfer'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: ierc20MetadataABI,
+    functionName: 'transfer',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof ierc20MetadataABI, 'transfer'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20MetadataABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function usePrepareIerc20MetadataTransferFrom(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof ierc20MetadataABI, 'transferFrom'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: ierc20MetadataABI,
+    functionName: 'transferFrom',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof ierc20MetadataABI, 'transferFrom'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20MetadataABI}__.
+ */
+export function useIerc20MetadataEvent<TEventName extends string>(
+  config: Omit<UseContractEventConfig<typeof ierc20MetadataABI, TEventName>, 'abi'> = {} as any
+) {
+  return useContractEvent({ abi: ierc20MetadataABI, ...config } as UseContractEventConfig<
+    typeof ierc20MetadataABI,
     TEventName
   >)
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc5267UpgradeableABI}__ and `eventName` set to `"EIP712DomainChanged"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20MetadataABI}__ and `eventName` set to `"Approval"`.
  */
-export function useIerc5267UpgradeableEip712DomainChangedEvent(
+export function useIerc20MetadataApprovalEvent(
+  config: Omit<UseContractEventConfig<typeof ierc20MetadataABI, 'Approval'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({
+    abi: ierc20MetadataABI,
+    eventName: 'Approval',
+    ...config
+  } as UseContractEventConfig<typeof ierc20MetadataABI, 'Approval'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc20MetadataABI}__ and `eventName` set to `"Transfer"`.
+ */
+export function useIerc20MetadataTransferEvent(
+  config: Omit<UseContractEventConfig<typeof ierc20MetadataABI, 'Transfer'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({
+    abi: ierc20MetadataABI,
+    eventName: 'Transfer',
+    ...config
+  } as UseContractEventConfig<typeof ierc20MetadataABI, 'Transfer'>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20PermitABI}__.
+ */
+export function useIerc20PermitRead<
+  TFunctionName extends string,
+  TSelectData = ReadContractResult<typeof ierc20PermitABI, TFunctionName>
+>(config: Omit<UseContractReadConfig<typeof ierc20PermitABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
+  return useContractRead({ abi: ierc20PermitABI, ...config } as UseContractReadConfig<
+    typeof ierc20PermitABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20PermitABI}__ and `functionName` set to `"DOMAIN_SEPARATOR"`.
+ */
+export function useIerc20PermitDomainSeparator<
+  TFunctionName extends 'DOMAIN_SEPARATOR',
+  TSelectData = ReadContractResult<typeof ierc20PermitABI, TFunctionName>
+>(
   config: Omit<
-    UseContractEventConfig<typeof ierc5267UpgradeableABI, 'EIP712DomainChanged'>,
+    UseContractReadConfig<typeof ierc20PermitABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: ierc20PermitABI,
+    functionName: 'DOMAIN_SEPARATOR',
+    ...config
+  } as UseContractReadConfig<typeof ierc20PermitABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc20PermitABI}__ and `functionName` set to `"nonces"`.
+ */
+export function useIerc20PermitNonces<
+  TFunctionName extends 'nonces',
+  TSelectData = ReadContractResult<typeof ierc20PermitABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof ierc20PermitABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({ abi: ierc20PermitABI, functionName: 'nonces', ...config } as UseContractReadConfig<
+    typeof ierc20PermitABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20PermitABI}__.
+ */
+export function useIerc20PermitWrite<TFunctionName extends string, TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof ierc20PermitABI, string>['request']['abi'],
+        TFunctionName,
+        TMode
+      >
+    : UseContractWriteConfig<typeof ierc20PermitABI, TFunctionName, TMode> & {
+        abi?: never
+      } = {} as any
+) {
+  return useContractWrite<typeof ierc20PermitABI, TFunctionName, TMode>({
+    abi: ierc20PermitABI,
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link ierc20PermitABI}__ and `functionName` set to `"permit"`.
+ */
+export function useIerc20PermitPermit<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof ierc20PermitABI, 'permit'>['request']['abi'],
+        'permit',
+        TMode
+      > & { functionName?: 'permit' }
+    : UseContractWriteConfig<typeof ierc20PermitABI, 'permit', TMode> & {
+        abi?: never
+        functionName?: 'permit'
+      } = {} as any
+) {
+  return useContractWrite<typeof ierc20PermitABI, 'permit', TMode>({
+    abi: ierc20PermitABI,
+    functionName: 'permit',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20PermitABI}__.
+ */
+export function usePrepareIerc20PermitWrite<TFunctionName extends string>(
+  config: Omit<UsePrepareContractWriteConfig<typeof ierc20PermitABI, TFunctionName>, 'abi'> = {} as any
+) {
+  return usePrepareContractWrite({ abi: ierc20PermitABI, ...config } as UsePrepareContractWriteConfig<
+    typeof ierc20PermitABI,
+    TFunctionName
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link ierc20PermitABI}__ and `functionName` set to `"permit"`.
+ */
+export function usePrepareIerc20PermitPermit(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof ierc20PermitABI, 'permit'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: ierc20PermitABI,
+    functionName: 'permit',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof ierc20PermitABI, 'permit'>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc5267ABI}__.
+ */
+export function useIerc5267Read<
+  TFunctionName extends string,
+  TSelectData = ReadContractResult<typeof ierc5267ABI, TFunctionName>
+>(config: Omit<UseContractReadConfig<typeof ierc5267ABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
+  return useContractRead({ abi: ierc5267ABI, ...config } as UseContractReadConfig<
+    typeof ierc5267ABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link ierc5267ABI}__ and `functionName` set to `"eip712Domain"`.
+ */
+export function useIerc5267Eip712Domain<
+  TFunctionName extends 'eip712Domain',
+  TSelectData = ReadContractResult<typeof ierc5267ABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof ierc5267ABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({ abi: ierc5267ABI, functionName: 'eip712Domain', ...config } as UseContractReadConfig<
+    typeof ierc5267ABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc5267ABI}__.
+ */
+export function useIerc5267Event<TEventName extends string>(
+  config: Omit<UseContractEventConfig<typeof ierc5267ABI, TEventName>, 'abi'> = {} as any
+) {
+  return useContractEvent({ abi: ierc5267ABI, ...config } as UseContractEventConfig<
+    typeof ierc5267ABI,
+    TEventName
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link ierc5267ABI}__ and `eventName` set to `"EIP712DomainChanged"`.
+ */
+export function useIerc5267Eip712DomainChangedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof ierc5267ABI, 'EIP712DomainChanged'>,
     'abi' | 'eventName'
   > = {} as any
 ) {
   return useContractEvent({
-    abi: ierc5267UpgradeableABI,
+    abi: ierc5267ABI,
     eventName: 'EIP712DomainChanged',
     ...config
-  } as UseContractEventConfig<typeof ierc5267UpgradeableABI, 'EIP712DomainChanged'>)
+  } as UseContractEventConfig<typeof ierc5267ABI, 'EIP712DomainChanged'>)
 }
 
 /**
@@ -12729,6 +14892,25 @@ export function useIRouterIsReportOracleBlackListed<
     functionName: 'isReportOracleBlackListed',
     ...config
   } as UseContractReadConfig<typeof iRouterABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iRouterABI}__ and `functionName` set to `"reportBlock"`.
+ */
+export function useIRouterReportBlock<
+  TFunctionName extends 'reportBlock',
+  TSelectData = ReadContractResult<typeof iRouterABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof iRouterABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({ abi: iRouterABI, functionName: 'reportBlock', ...config } as UseContractReadConfig<
+    typeof iRouterABI,
+    TFunctionName,
+    TSelectData
+  >)
 }
 
 /**
@@ -13030,28 +15212,6 @@ export function useIRouterSetConfig<TMode extends WriteContractMode = undefined>
   return useContractWrite<typeof iRouterABI, 'setConfig', TMode>({
     abi: iRouterABI,
     functionName: 'setConfig',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iRouterABI}__ and `functionName` set to `"setLastExecutedEpoch"`.
- */
-export function useIRouterSetLastExecutedEpoch<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof iRouterABI, 'setLastExecutedEpoch'>['request']['abi'],
-        'setLastExecutedEpoch',
-        TMode
-      > & { functionName?: 'setLastExecutedEpoch' }
-    : UseContractWriteConfig<typeof iRouterABI, 'setLastExecutedEpoch', TMode> & {
-        abi?: never
-        functionName?: 'setLastExecutedEpoch'
-      } = {} as any
-) {
-  return useContractWrite<typeof iRouterABI, 'setLastExecutedEpoch', TMode>({
-    abi: iRouterABI,
-    functionName: 'setLastExecutedEpoch',
     ...config
   } as any)
 }
@@ -13362,22 +15522,6 @@ export function usePrepareIRouterSetConfig(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iRouterABI}__ and `functionName` set to `"setLastExecutedEpoch"`.
- */
-export function usePrepareIRouterSetLastExecutedEpoch(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iRouterABI, 'setLastExecutedEpoch'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: iRouterABI,
-    functionName: 'setLastExecutedEpoch',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof iRouterABI, 'setLastExecutedEpoch'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iRouterABI}__ and `functionName` set to `"setStakeTogether"`.
  */
 export function usePrepareIRouterSetStakeTogether(
@@ -13587,6 +15731,18 @@ export function useIRouterRevokeConsensusReportEvent(
 }
 
 /**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iRouterABI}__ and `eventName` set to `"SetBunkerMode"`.
+ */
+export function useIRouterSetBunkerModeEvent(
+  config: Omit<UseContractEventConfig<typeof iRouterABI, 'SetBunkerMode'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({ abi: iRouterABI, eventName: 'SetBunkerMode', ...config } as UseContractEventConfig<
+    typeof iRouterABI,
+    'SetBunkerMode'
+  >)
+}
+
+/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iRouterABI}__ and `eventName` set to `"SetConfig"`.
  */
 export function useIRouterSetConfigEvent(
@@ -13596,22 +15752,6 @@ export function useIRouterSetConfigEvent(
     typeof iRouterABI,
     'SetConfig'
   >)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iRouterABI}__ and `eventName` set to `"SetLastExecutedEpoch"`.
- */
-export function useIRouterSetLastExecutedEpochEvent(
-  config: Omit<
-    UseContractEventConfig<typeof iRouterABI, 'SetLastExecutedEpoch'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: iRouterABI,
-    eventName: 'SetLastExecutedEpoch',
-    ...config
-  } as UseContractEventConfig<typeof iRouterABI, 'SetLastExecutedEpoch'>)
 }
 
 /**
@@ -13653,19 +15793,6 @@ export function useIRouterUnBlacklistReportOracleEvent(
     eventName: 'UnBlacklistReportOracle',
     ...config
   } as UseContractEventConfig<typeof iRouterABI, 'UnBlacklistReportOracle'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iRouterABI}__ and `eventName` set to `"ValidatorsToRemove"`.
- */
-export function useIRouterValidatorsToRemoveEvent(
-  config: Omit<UseContractEventConfig<typeof iRouterABI, 'ValidatorsToRemove'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({
-    abi: iRouterABI,
-    eventName: 'ValidatorsToRemove',
-    ...config
-  } as UseContractEventConfig<typeof iRouterABI, 'ValidatorsToRemove'>)
 }
 
 /**
@@ -13723,6 +15850,25 @@ export function useIStakeTogetherBalanceOf<
 }
 
 /**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"beaconBalance"`.
+ */
+export function useIStakeTogetherBeaconBalance<
+  TFunctionName extends 'beaconBalance',
+  TSelectData = ReadContractResult<typeof iStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof iStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: iStakeTogetherABI,
+    functionName: 'beaconBalance',
+    ...config
+  } as UseContractReadConfig<typeof iStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"getFeeAddress"`.
  */
 export function useIStakeTogetherGetFeeAddress<
@@ -13756,6 +15902,63 @@ export function useIStakeTogetherGetFeesRoles<
   return useContractRead({
     abi: iStakeTogetherABI,
     functionName: 'getFeesRoles',
+    ...config
+  } as UseContractReadConfig<typeof iStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"getWithdrawBeaconBlock"`.
+ */
+export function useIStakeTogetherGetWithdrawBeaconBlock<
+  TFunctionName extends 'getWithdrawBeaconBlock',
+  TSelectData = ReadContractResult<typeof iStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof iStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: iStakeTogetherABI,
+    functionName: 'getWithdrawBeaconBlock',
+    ...config
+  } as UseContractReadConfig<typeof iStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"getWithdrawBlock"`.
+ */
+export function useIStakeTogetherGetWithdrawBlock<
+  TFunctionName extends 'getWithdrawBlock',
+  TSelectData = ReadContractResult<typeof iStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof iStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: iStakeTogetherABI,
+    functionName: 'getWithdrawBlock',
+    ...config
+  } as UseContractReadConfig<typeof iStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"isListedInAntiFraud"`.
+ */
+export function useIStakeTogetherIsListedInAntiFraud<
+  TFunctionName extends 'isListedInAntiFraud',
+  TSelectData = ReadContractResult<typeof iStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof iStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: iStakeTogetherABI,
+    functionName: 'isListedInAntiFraud',
     ...config
   } as UseContractReadConfig<typeof iStakeTogetherABI, TFunctionName, TSelectData>)
 }
@@ -13837,6 +16040,25 @@ export function useIStakeTogetherWeiByShares<
 }
 
 /**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"withdrawBalance"`.
+ */
+export function useIStakeTogetherWithdrawBalance<
+  TFunctionName extends 'withdrawBalance',
+  TSelectData = ReadContractResult<typeof iStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof iStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: iStakeTogetherABI,
+    functionName: 'withdrawBalance',
+    ...config
+  } as UseContractReadConfig<typeof iStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__.
  */
 export function useIStakeTogetherWrite<
@@ -13882,6 +16104,50 @@ export function useIStakeTogetherAddPool<TMode extends WriteContractMode = undef
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"addToAntiFraud"`.
+ */
+export function useIStakeTogetherAddToAntiFraud<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iStakeTogetherABI, 'addToAntiFraud'>['request']['abi'],
+        'addToAntiFraud',
+        TMode
+      > & { functionName?: 'addToAntiFraud' }
+    : UseContractWriteConfig<typeof iStakeTogetherABI, 'addToAntiFraud', TMode> & {
+        abi?: never
+        functionName?: 'addToAntiFraud'
+      } = {} as any
+) {
+  return useContractWrite<typeof iStakeTogetherABI, 'addToAntiFraud', TMode>({
+    abi: iStakeTogetherABI,
+    functionName: 'addToAntiFraud',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"addValidator"`.
+ */
+export function useIStakeTogetherAddValidator<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iStakeTogetherABI, 'addValidator'>['request']['abi'],
+        'addValidator',
+        TMode
+      > & { functionName?: 'addValidator' }
+    : UseContractWriteConfig<typeof iStakeTogetherABI, 'addValidator', TMode> & {
+        abi?: never
+        functionName?: 'addValidator'
+      } = {} as any
+) {
+  return useContractWrite<typeof iStakeTogetherABI, 'addValidator', TMode>({
+    abi: iStakeTogetherABI,
+    functionName: 'addValidator',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"addValidatorOracle"`.
  */
 export function useIStakeTogetherAddValidatorOracle<TMode extends WriteContractMode = undefined>(
@@ -13904,23 +16170,23 @@ export function useIStakeTogetherAddValidatorOracle<TMode extends WriteContractM
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawValidator"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawBeacon"`.
  */
-export function useIStakeTogetherAnticipateWithdrawValidator<TMode extends WriteContractMode = undefined>(
+export function useIStakeTogetherAnticipateWithdrawBeacon<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof iStakeTogetherABI, 'anticipateWithdrawValidator'>['request']['abi'],
-        'anticipateWithdrawValidator',
+        PrepareWriteContractResult<typeof iStakeTogetherABI, 'anticipateWithdrawBeacon'>['request']['abi'],
+        'anticipateWithdrawBeacon',
         TMode
-      > & { functionName?: 'anticipateWithdrawValidator' }
-    : UseContractWriteConfig<typeof iStakeTogetherABI, 'anticipateWithdrawValidator', TMode> & {
+      > & { functionName?: 'anticipateWithdrawBeacon' }
+    : UseContractWriteConfig<typeof iStakeTogetherABI, 'anticipateWithdrawBeacon', TMode> & {
         abi?: never
-        functionName?: 'anticipateWithdrawValidator'
+        functionName?: 'anticipateWithdrawBeacon'
       } = {} as any
 ) {
-  return useContractWrite<typeof iStakeTogetherABI, 'anticipateWithdrawValidator', TMode>({
+  return useContractWrite<typeof iStakeTogetherABI, 'anticipateWithdrawBeacon', TMode>({
     abi: iStakeTogetherABI,
-    functionName: 'anticipateWithdrawValidator',
+    functionName: 'anticipateWithdrawBeacon',
     ...config
   } as any)
 }
@@ -13965,50 +16231,6 @@ export function useIStakeTogetherClaimAirdrop<TMode extends WriteContractMode = 
   return useContractWrite<typeof iStakeTogetherABI, 'claimAirdrop', TMode>({
     abi: iStakeTogetherABI,
     functionName: 'claimAirdrop',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"createValidator"`.
- */
-export function useIStakeTogetherCreateValidator<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof iStakeTogetherABI, 'createValidator'>['request']['abi'],
-        'createValidator',
-        TMode
-      > & { functionName?: 'createValidator' }
-    : UseContractWriteConfig<typeof iStakeTogetherABI, 'createValidator', TMode> & {
-        abi?: never
-        functionName?: 'createValidator'
-      } = {} as any
-) {
-  return useContractWrite<typeof iStakeTogetherABI, 'createValidator', TMode>({
-    abi: iStakeTogetherABI,
-    functionName: 'createValidator',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function useIStakeTogetherDecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof iStakeTogetherABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof iStakeTogetherABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof iStakeTogetherABI, 'decreaseAllowance', TMode>({
-    abi: iStakeTogetherABI,
-    functionName: 'decreaseAllowance',
     ...config
   } as any)
 }
@@ -14080,28 +16302,6 @@ export function useIStakeTogetherForceNextValidatorOracle<TMode extends WriteCon
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function useIStakeTogetherIncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof iStakeTogetherABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof iStakeTogetherABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof iStakeTogetherABI, 'increaseAllowance', TMode>({
-    abi: iStakeTogetherABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"initialize"`.
  */
 export function useIStakeTogetherInitialize<TMode extends WriteContractMode = undefined>(
@@ -14146,23 +16346,45 @@ export function useIStakeTogetherPause<TMode extends WriteContractMode = undefin
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"processStakeRewards"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"processFeeRewards"`.
  */
-export function useIStakeTogetherProcessStakeRewards<TMode extends WriteContractMode = undefined>(
+export function useIStakeTogetherProcessFeeRewards<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof iStakeTogetherABI, 'processStakeRewards'>['request']['abi'],
-        'processStakeRewards',
+        PrepareWriteContractResult<typeof iStakeTogetherABI, 'processFeeRewards'>['request']['abi'],
+        'processFeeRewards',
         TMode
-      > & { functionName?: 'processStakeRewards' }
-    : UseContractWriteConfig<typeof iStakeTogetherABI, 'processStakeRewards', TMode> & {
+      > & { functionName?: 'processFeeRewards' }
+    : UseContractWriteConfig<typeof iStakeTogetherABI, 'processFeeRewards', TMode> & {
         abi?: never
-        functionName?: 'processStakeRewards'
+        functionName?: 'processFeeRewards'
       } = {} as any
 ) {
-  return useContractWrite<typeof iStakeTogetherABI, 'processStakeRewards', TMode>({
+  return useContractWrite<typeof iStakeTogetherABI, 'processFeeRewards', TMode>({
     abi: iStakeTogetherABI,
-    functionName: 'processStakeRewards',
+    functionName: 'processFeeRewards',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"removeFromAntiFraud"`.
+ */
+export function useIStakeTogetherRemoveFromAntiFraud<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iStakeTogetherABI, 'removeFromAntiFraud'>['request']['abi'],
+        'removeFromAntiFraud',
+        TMode
+      > & { functionName?: 'removeFromAntiFraud' }
+    : UseContractWriteConfig<typeof iStakeTogetherABI, 'removeFromAntiFraud', TMode> & {
+        abi?: never
+        functionName?: 'removeFromAntiFraud'
+      } = {} as any
+) {
+  return useContractWrite<typeof iStakeTogetherABI, 'removeFromAntiFraud', TMode>({
+    abi: iStakeTogetherABI,
+    functionName: 'removeFromAntiFraud',
     ...config
   } as any)
 }
@@ -14432,6 +16654,28 @@ export function useIStakeTogetherUpdateDelegations<TMode extends WriteContractMo
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"withdrawBeacon"`.
+ */
+export function useIStakeTogetherWithdrawBeacon<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iStakeTogetherABI, 'withdrawBeacon'>['request']['abi'],
+        'withdrawBeacon',
+        TMode
+      > & { functionName?: 'withdrawBeacon' }
+    : UseContractWriteConfig<typeof iStakeTogetherABI, 'withdrawBeacon', TMode> & {
+        abi?: never
+        functionName?: 'withdrawBeacon'
+      } = {} as any
+) {
+  return useContractWrite<typeof iStakeTogetherABI, 'withdrawBeacon', TMode>({
+    abi: iStakeTogetherABI,
+    functionName: 'withdrawBeacon',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"withdrawPool"`.
  */
 export function useIStakeTogetherWithdrawPool<TMode extends WriteContractMode = undefined>(
@@ -14449,28 +16693,6 @@ export function useIStakeTogetherWithdrawPool<TMode extends WriteContractMode = 
   return useContractWrite<typeof iStakeTogetherABI, 'withdrawPool', TMode>({
     abi: iStakeTogetherABI,
     functionName: 'withdrawPool',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"withdrawValidator"`.
- */
-export function useIStakeTogetherWithdrawValidator<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof iStakeTogetherABI, 'withdrawValidator'>['request']['abi'],
-        'withdrawValidator',
-        TMode
-      > & { functionName?: 'withdrawValidator' }
-    : UseContractWriteConfig<typeof iStakeTogetherABI, 'withdrawValidator', TMode> & {
-        abi?: never
-        functionName?: 'withdrawValidator'
-      } = {} as any
-) {
-  return useContractWrite<typeof iStakeTogetherABI, 'withdrawValidator', TMode>({
-    abi: iStakeTogetherABI,
-    functionName: 'withdrawValidator',
     ...config
   } as any)
 }
@@ -14504,6 +16726,38 @@ export function usePrepareIStakeTogetherAddPool(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"addToAntiFraud"`.
+ */
+export function usePrepareIStakeTogetherAddToAntiFraud(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'addToAntiFraud'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iStakeTogetherABI,
+    functionName: 'addToAntiFraud',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'addToAntiFraud'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"addValidator"`.
+ */
+export function usePrepareIStakeTogetherAddValidator(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'addValidator'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iStakeTogetherABI,
+    functionName: 'addValidator',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'addValidator'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"addValidatorOracle"`.
  */
 export function usePrepareIStakeTogetherAddValidatorOracle(
@@ -14520,19 +16774,19 @@ export function usePrepareIStakeTogetherAddValidatorOracle(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawValidator"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawBeacon"`.
  */
-export function usePrepareIStakeTogetherAnticipateWithdrawValidator(
+export function usePrepareIStakeTogetherAnticipateWithdrawBeacon(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'anticipateWithdrawValidator'>,
+    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'anticipateWithdrawBeacon'>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return usePrepareContractWrite({
     abi: iStakeTogetherABI,
-    functionName: 'anticipateWithdrawValidator',
+    functionName: 'anticipateWithdrawBeacon',
     ...config
-  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'anticipateWithdrawValidator'>)
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'anticipateWithdrawBeacon'>)
 }
 
 /**
@@ -14565,38 +16819,6 @@ export function usePrepareIStakeTogetherClaimAirdrop(
     functionName: 'claimAirdrop',
     ...config
   } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'claimAirdrop'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"createValidator"`.
- */
-export function usePrepareIStakeTogetherCreateValidator(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'createValidator'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: iStakeTogetherABI,
-    functionName: 'createValidator',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'createValidator'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function usePrepareIStakeTogetherDecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: iStakeTogetherABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'decreaseAllowance'>)
 }
 
 /**
@@ -14648,22 +16870,6 @@ export function usePrepareIStakeTogetherForceNextValidatorOracle(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function usePrepareIStakeTogetherIncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: iStakeTogetherABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'increaseAllowance'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"initialize"`.
  */
 export function usePrepareIStakeTogetherInitialize(
@@ -14696,19 +16902,35 @@ export function usePrepareIStakeTogetherPause(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"processStakeRewards"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"processFeeRewards"`.
  */
-export function usePrepareIStakeTogetherProcessStakeRewards(
+export function usePrepareIStakeTogetherProcessFeeRewards(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'processStakeRewards'>,
+    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'processFeeRewards'>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return usePrepareContractWrite({
     abi: iStakeTogetherABI,
-    functionName: 'processStakeRewards',
+    functionName: 'processFeeRewards',
     ...config
-  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'processStakeRewards'>)
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'processFeeRewards'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"removeFromAntiFraud"`.
+ */
+export function usePrepareIStakeTogetherRemoveFromAntiFraud(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'removeFromAntiFraud'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iStakeTogetherABI,
+    functionName: 'removeFromAntiFraud',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'removeFromAntiFraud'>)
 }
 
 /**
@@ -14904,6 +17126,22 @@ export function usePrepareIStakeTogetherUpdateDelegations(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"withdrawBeacon"`.
+ */
+export function usePrepareIStakeTogetherWithdrawBeacon(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'withdrawBeacon'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iStakeTogetherABI,
+    functionName: 'withdrawBeacon',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'withdrawBeacon'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"withdrawPool"`.
  */
 export function usePrepareIStakeTogetherWithdrawPool(
@@ -14917,22 +17155,6 @@ export function usePrepareIStakeTogetherWithdrawPool(
     functionName: 'withdrawPool',
     ...config
   } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'withdrawPool'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherABI}__ and `functionName` set to `"withdrawValidator"`.
- */
-export function usePrepareIStakeTogetherWithdrawValidator(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'withdrawValidator'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: iStakeTogetherABI,
-    functionName: 'withdrawValidator',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof iStakeTogetherABI, 'withdrawValidator'>)
 }
 
 /**
@@ -14960,6 +17182,22 @@ export function useIStakeTogetherAddPoolEvent(
 }
 
 /**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherABI}__ and `eventName` set to `"AddValidator"`.
+ */
+export function useIStakeTogetherAddValidatorEvent(
+  config: Omit<
+    UseContractEventConfig<typeof iStakeTogetherABI, 'AddValidator'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: iStakeTogetherABI,
+    eventName: 'AddValidator',
+    ...config
+  } as UseContractEventConfig<typeof iStakeTogetherABI, 'AddValidator'>)
+}
+
+/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherABI}__ and `eventName` set to `"AddValidatorOracle"`.
  */
 export function useIStakeTogetherAddValidatorOracleEvent(
@@ -14976,19 +17214,19 @@ export function useIStakeTogetherAddValidatorOracleEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherABI}__ and `eventName` set to `"AnticipateWithdrawValidator"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherABI}__ and `eventName` set to `"AnticipateWithdrawBeacon"`.
  */
-export function useIStakeTogetherAnticipateWithdrawValidatorEvent(
+export function useIStakeTogetherAnticipateWithdrawBeaconEvent(
   config: Omit<
-    UseContractEventConfig<typeof iStakeTogetherABI, 'AnticipateWithdrawValidator'>,
+    UseContractEventConfig<typeof iStakeTogetherABI, 'AnticipateWithdrawBeacon'>,
     'abi' | 'eventName'
   > = {} as any
 ) {
   return useContractEvent({
     abi: iStakeTogetherABI,
-    eventName: 'AnticipateWithdrawValidator',
+    eventName: 'AnticipateWithdrawBeacon',
     ...config
-  } as UseContractEventConfig<typeof iStakeTogetherABI, 'AnticipateWithdrawValidator'>)
+  } as UseContractEventConfig<typeof iStakeTogetherABI, 'AnticipateWithdrawBeacon'>)
 }
 
 /**
@@ -15005,22 +17243,6 @@ export function useIStakeTogetherBurnSharesEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherABI}__ and `eventName` set to `"CreateValidator"`.
- */
-export function useIStakeTogetherCreateValidatorEvent(
-  config: Omit<
-    UseContractEventConfig<typeof iStakeTogetherABI, 'CreateValidator'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: iStakeTogetherABI,
-    eventName: 'CreateValidator',
-    ...config
-  } as UseContractEventConfig<typeof iStakeTogetherABI, 'CreateValidator'>)
-}
-
-/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherABI}__ and `eventName` set to `"DepositBase"`.
  */
 export function useIStakeTogetherDepositBaseEvent(
@@ -15034,19 +17256,19 @@ export function useIStakeTogetherDepositBaseEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherABI}__ and `eventName` set to `"DepositLimitReached"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherABI}__ and `eventName` set to `"DepositLimitWasReached"`.
  */
-export function useIStakeTogetherDepositLimitReachedEvent(
+export function useIStakeTogetherDepositLimitWasReachedEvent(
   config: Omit<
-    UseContractEventConfig<typeof iStakeTogetherABI, 'DepositLimitReached'>,
+    UseContractEventConfig<typeof iStakeTogetherABI, 'DepositLimitWasReached'>,
     'abi' | 'eventName'
   > = {} as any
 ) {
   return useContractEvent({
     abi: iStakeTogetherABI,
-    eventName: 'DepositLimitReached',
+    eventName: 'DepositLimitWasReached',
     ...config
-  } as UseContractEventConfig<typeof iStakeTogetherABI, 'DepositLimitReached'>)
+  } as UseContractEventConfig<typeof iStakeTogetherABI, 'DepositLimitWasReached'>)
 }
 
 /**
@@ -15169,6 +17391,22 @@ export function useIStakeTogetherRemoveValidatorOracleEvent(
     eventName: 'RemoveValidatorOracle',
     ...config
   } as UseContractEventConfig<typeof iStakeTogetherABI, 'RemoveValidatorOracle'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherABI}__ and `eventName` set to `"SetAntiFraudStatus"`.
+ */
+export function useIStakeTogetherSetAntiFraudStatusEvent(
+  config: Omit<
+    UseContractEventConfig<typeof iStakeTogetherABI, 'SetAntiFraudStatus'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: iStakeTogetherABI,
+    eventName: 'SetAntiFraudStatus',
+    ...config
+  } as UseContractEventConfig<typeof iStakeTogetherABI, 'SetAntiFraudStatus'>)
 }
 
 /**
@@ -15354,19 +17592,415 @@ export function useIStakeTogetherWithdrawBaseEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherABI}__ and `eventName` set to `"WithdrawalsLimitReached"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherABI}__ and `eventName` set to `"WithdrawalsLimitWasReached"`.
  */
-export function useIStakeTogetherWithdrawalsLimitReachedEvent(
+export function useIStakeTogetherWithdrawalsLimitWasReachedEvent(
   config: Omit<
-    UseContractEventConfig<typeof iStakeTogetherABI, 'WithdrawalsLimitReached'>,
+    UseContractEventConfig<typeof iStakeTogetherABI, 'WithdrawalsLimitWasReached'>,
     'abi' | 'eventName'
   > = {} as any
 ) {
   return useContractEvent({
     abi: iStakeTogetherABI,
-    eventName: 'WithdrawalsLimitReached',
+    eventName: 'WithdrawalsLimitWasReached',
     ...config
-  } as UseContractEventConfig<typeof iStakeTogetherABI, 'WithdrawalsLimitReached'>)
+  } as UseContractEventConfig<typeof iStakeTogetherABI, 'WithdrawalsLimitWasReached'>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__.
+ */
+export function useIStakeTogetherWrapperRead<
+  TFunctionName extends string,
+  TSelectData = ReadContractResult<typeof iStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof iStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi'
+  > = {} as any
+) {
+  return useContractRead({ abi: iStakeTogetherWrapperABI, ...config } as UseContractReadConfig<
+    typeof iStakeTogetherWrapperABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"stpEthPerWstpETH"`.
+ */
+export function useIStakeTogetherWrapperStpEthPerWstpEth<
+  TFunctionName extends 'stpEthPerWstpETH',
+  TSelectData = ReadContractResult<typeof iStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof iStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'stpEthPerWstpETH',
+    ...config
+  } as UseContractReadConfig<typeof iStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"wstpETHPerStpETH"`.
+ */
+export function useIStakeTogetherWrapperWstpEthPerStpEth<
+  TFunctionName extends 'wstpETHPerStpETH',
+  TSelectData = ReadContractResult<typeof iStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof iStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'wstpETHPerStpETH',
+    ...config
+  } as UseContractReadConfig<typeof iStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__.
+ */
+export function useIStakeTogetherWrapperWrite<
+  TFunctionName extends string,
+  TMode extends WriteContractMode = undefined
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iStakeTogetherWrapperABI, string>['request']['abi'],
+        TFunctionName,
+        TMode
+      >
+    : UseContractWriteConfig<typeof iStakeTogetherWrapperABI, TFunctionName, TMode> & {
+        abi?: never
+      } = {} as any
+) {
+  return useContractWrite<typeof iStakeTogetherWrapperABI, TFunctionName, TMode>({
+    abi: iStakeTogetherWrapperABI,
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"setStakeTogether"`.
+ */
+export function useIStakeTogetherWrapperSetStakeTogether<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iStakeTogetherWrapperABI, 'setStakeTogether'>['request']['abi'],
+        'setStakeTogether',
+        TMode
+      > & { functionName?: 'setStakeTogether' }
+    : UseContractWriteConfig<typeof iStakeTogetherWrapperABI, 'setStakeTogether', TMode> & {
+        abi?: never
+        functionName?: 'setStakeTogether'
+      } = {} as any
+) {
+  return useContractWrite<typeof iStakeTogetherWrapperABI, 'setStakeTogether', TMode>({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'setStakeTogether',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"transfer"`.
+ */
+export function useIStakeTogetherWrapperTransfer<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iStakeTogetherWrapperABI, 'transfer'>['request']['abi'],
+        'transfer',
+        TMode
+      > & { functionName?: 'transfer' }
+    : UseContractWriteConfig<typeof iStakeTogetherWrapperABI, 'transfer', TMode> & {
+        abi?: never
+        functionName?: 'transfer'
+      } = {} as any
+) {
+  return useContractWrite<typeof iStakeTogetherWrapperABI, 'transfer', TMode>({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'transfer',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"transferExtraAmount"`.
+ */
+export function useIStakeTogetherWrapperTransferExtraAmount<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iStakeTogetherWrapperABI, 'transferExtraAmount'>['request']['abi'],
+        'transferExtraAmount',
+        TMode
+      > & { functionName?: 'transferExtraAmount' }
+    : UseContractWriteConfig<typeof iStakeTogetherWrapperABI, 'transferExtraAmount', TMode> & {
+        abi?: never
+        functionName?: 'transferExtraAmount'
+      } = {} as any
+) {
+  return useContractWrite<typeof iStakeTogetherWrapperABI, 'transferExtraAmount', TMode>({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'transferExtraAmount',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function useIStakeTogetherWrapperTransferFrom<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iStakeTogetherWrapperABI, 'transferFrom'>['request']['abi'],
+        'transferFrom',
+        TMode
+      > & { functionName?: 'transferFrom' }
+    : UseContractWriteConfig<typeof iStakeTogetherWrapperABI, 'transferFrom', TMode> & {
+        abi?: never
+        functionName?: 'transferFrom'
+      } = {} as any
+) {
+  return useContractWrite<typeof iStakeTogetherWrapperABI, 'transferFrom', TMode>({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'transferFrom',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"unwrap"`.
+ */
+export function useIStakeTogetherWrapperUnwrap<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iStakeTogetherWrapperABI, 'unwrap'>['request']['abi'],
+        'unwrap',
+        TMode
+      > & { functionName?: 'unwrap' }
+    : UseContractWriteConfig<typeof iStakeTogetherWrapperABI, 'unwrap', TMode> & {
+        abi?: never
+        functionName?: 'unwrap'
+      } = {} as any
+) {
+  return useContractWrite<typeof iStakeTogetherWrapperABI, 'unwrap', TMode>({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'unwrap',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"wrap"`.
+ */
+export function useIStakeTogetherWrapperWrap<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iStakeTogetherWrapperABI, 'wrap'>['request']['abi'],
+        'wrap',
+        TMode
+      > & { functionName?: 'wrap' }
+    : UseContractWriteConfig<typeof iStakeTogetherWrapperABI, 'wrap', TMode> & {
+        abi?: never
+        functionName?: 'wrap'
+      } = {} as any
+) {
+  return useContractWrite<typeof iStakeTogetherWrapperABI, 'wrap', TMode>({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'wrap',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__.
+ */
+export function usePrepareIStakeTogetherWrapperWrite<TFunctionName extends string>(
+  config: Omit<UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, TFunctionName>, 'abi'> = {} as any
+) {
+  return usePrepareContractWrite({ abi: iStakeTogetherWrapperABI, ...config } as UsePrepareContractWriteConfig<
+    typeof iStakeTogetherWrapperABI,
+    TFunctionName
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"setStakeTogether"`.
+ */
+export function usePrepareIStakeTogetherWrapperSetStakeTogether(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, 'setStakeTogether'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'setStakeTogether',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, 'setStakeTogether'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"transfer"`.
+ */
+export function usePrepareIStakeTogetherWrapperTransfer(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, 'transfer'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'transfer',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, 'transfer'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"transferExtraAmount"`.
+ */
+export function usePrepareIStakeTogetherWrapperTransferExtraAmount(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, 'transferExtraAmount'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'transferExtraAmount',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, 'transferExtraAmount'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function usePrepareIStakeTogetherWrapperTransferFrom(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, 'transferFrom'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'transferFrom',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, 'transferFrom'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"unwrap"`.
+ */
+export function usePrepareIStakeTogetherWrapperUnwrap(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, 'unwrap'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'unwrap',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, 'unwrap'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `functionName` set to `"wrap"`.
+ */
+export function usePrepareIStakeTogetherWrapperWrap(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, 'wrap'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iStakeTogetherWrapperABI,
+    functionName: 'wrap',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iStakeTogetherWrapperABI, 'wrap'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__.
+ */
+export function useIStakeTogetherWrapperEvent<TEventName extends string>(
+  config: Omit<UseContractEventConfig<typeof iStakeTogetherWrapperABI, TEventName>, 'abi'> = {} as any
+) {
+  return useContractEvent({ abi: iStakeTogetherWrapperABI, ...config } as UseContractEventConfig<
+    typeof iStakeTogetherWrapperABI,
+    TEventName
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `eventName` set to `"ReceiveEther"`.
+ */
+export function useIStakeTogetherWrapperReceiveEtherEvent(
+  config: Omit<
+    UseContractEventConfig<typeof iStakeTogetherWrapperABI, 'ReceiveEther'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: iStakeTogetherWrapperABI,
+    eventName: 'ReceiveEther',
+    ...config
+  } as UseContractEventConfig<typeof iStakeTogetherWrapperABI, 'ReceiveEther'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `eventName` set to `"SetStakeTogether"`.
+ */
+export function useIStakeTogetherWrapperSetStakeTogetherEvent(
+  config: Omit<
+    UseContractEventConfig<typeof iStakeTogetherWrapperABI, 'SetStakeTogether'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: iStakeTogetherWrapperABI,
+    eventName: 'SetStakeTogether',
+    ...config
+  } as UseContractEventConfig<typeof iStakeTogetherWrapperABI, 'SetStakeTogether'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `eventName` set to `"Unwrapped"`.
+ */
+export function useIStakeTogetherWrapperUnwrappedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof iStakeTogetherWrapperABI, 'Unwrapped'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: iStakeTogetherWrapperABI,
+    eventName: 'Unwrapped',
+    ...config
+  } as UseContractEventConfig<typeof iStakeTogetherWrapperABI, 'Unwrapped'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link iStakeTogetherWrapperABI}__ and `eventName` set to `"Wrapped"`.
+ */
+export function useIStakeTogetherWrapperWrappedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof iStakeTogetherWrapperABI, 'Wrapped'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: iStakeTogetherWrapperABI,
+    eventName: 'Wrapped',
+    ...config
+  } as UseContractEventConfig<typeof iStakeTogetherWrapperABI, 'Wrapped'>)
 }
 
 /**
@@ -15555,6 +18189,28 @@ export function useIWithdrawalsSetStakeTogether<TMode extends WriteContractMode 
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iWithdrawalsABI}__ and `functionName` set to `"transfer"`.
+ */
+export function useIWithdrawalsTransfer<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iWithdrawalsABI, 'transfer'>['request']['abi'],
+        'transfer',
+        TMode
+      > & { functionName?: 'transfer' }
+    : UseContractWriteConfig<typeof iWithdrawalsABI, 'transfer', TMode> & {
+        abi?: never
+        functionName?: 'transfer'
+      } = {} as any
+) {
+  return useContractWrite<typeof iWithdrawalsABI, 'transfer', TMode>({
+    abi: iWithdrawalsABI,
+    functionName: 'transfer',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iWithdrawalsABI}__ and `functionName` set to `"transferExtraAmount"`.
  */
 export function useIWithdrawalsTransferExtraAmount<TMode extends WriteContractMode = undefined>(
@@ -15572,6 +18228,28 @@ export function useIWithdrawalsTransferExtraAmount<TMode extends WriteContractMo
   return useContractWrite<typeof iWithdrawalsABI, 'transferExtraAmount', TMode>({
     abi: iWithdrawalsABI,
     functionName: 'transferExtraAmount',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link iWithdrawalsABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function useIWithdrawalsTransferFrom<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof iWithdrawalsABI, 'transferFrom'>['request']['abi'],
+        'transferFrom',
+        TMode
+      > & { functionName?: 'transferFrom' }
+    : UseContractWriteConfig<typeof iWithdrawalsABI, 'transferFrom', TMode> & {
+        abi?: never
+        functionName?: 'transferFrom'
+      } = {} as any
+) {
+  return useContractWrite<typeof iWithdrawalsABI, 'transferFrom', TMode>({
+    abi: iWithdrawalsABI,
+    functionName: 'transferFrom',
     ...config
   } as any)
 }
@@ -15729,6 +18407,22 @@ export function usePrepareIWithdrawalsSetStakeTogether(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iWithdrawalsABI}__ and `functionName` set to `"transfer"`.
+ */
+export function usePrepareIWithdrawalsTransfer(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iWithdrawalsABI, 'transfer'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iWithdrawalsABI,
+    functionName: 'transfer',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iWithdrawalsABI, 'transfer'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iWithdrawalsABI}__ and `functionName` set to `"transferExtraAmount"`.
  */
 export function usePrepareIWithdrawalsTransferExtraAmount(
@@ -15742,6 +18436,22 @@ export function usePrepareIWithdrawalsTransferExtraAmount(
     functionName: 'transferExtraAmount',
     ...config
   } as UsePrepareContractWriteConfig<typeof iWithdrawalsABI, 'transferExtraAmount'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link iWithdrawalsABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function usePrepareIWithdrawalsTransferFrom(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof iWithdrawalsABI, 'transferFrom'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: iWithdrawalsABI,
+    functionName: 'transferFrom',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof iWithdrawalsABI, 'transferFrom'>)
 }
 
 /**
@@ -15949,6 +18659,25 @@ export function useMockAirdropUpgraderRole<
   return useContractRead({
     abi: mockAirdropABI,
     functionName: 'UPGRADER_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof mockAirdropABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockAirdropABI}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`.
+ */
+export function useMockAirdropUpgradeInterfaceVersion<
+  TFunctionName extends 'UPGRADE_INTERFACE_VERSION',
+  TSelectData = ReadContractResult<typeof mockAirdropABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockAirdropABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockAirdropABI,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
     ...config
   } as UseContractReadConfig<typeof mockAirdropABI, TFunctionName, TSelectData>)
 }
@@ -16428,28 +19157,6 @@ export function useMockAirdropUnpause<TMode extends WriteContractMode = undefine
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockAirdropABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function useMockAirdropUpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockAirdropABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof mockAirdropABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
-      } = {} as any
-) {
-  return useContractWrite<typeof mockAirdropABI, 'upgradeTo', TMode>({
-    abi: mockAirdropABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockAirdropABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function useMockAirdropUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
@@ -16676,22 +19383,6 @@ export function usePrepareMockAirdropUnpause(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockAirdropABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function usePrepareMockAirdropUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof mockAirdropABI, 'upgradeTo'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: mockAirdropABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof mockAirdropABI, 'upgradeTo'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockAirdropABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function usePrepareMockAirdropUpgradeToAndCall(
@@ -16730,32 +19421,6 @@ export function useMockAirdropAddMerkleRootEvent(
     eventName: 'AddMerkleRoot',
     ...config
   } as UseContractEventConfig<typeof mockAirdropABI, 'AddMerkleRoot'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockAirdropABI}__ and `eventName` set to `"AdminChanged"`.
- */
-export function useMockAirdropAdminChangedEvent(
-  config: Omit<UseContractEventConfig<typeof mockAirdropABI, 'AdminChanged'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({
-    abi: mockAirdropABI,
-    eventName: 'AdminChanged',
-    ...config
-  } as UseContractEventConfig<typeof mockAirdropABI, 'AdminChanged'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockAirdropABI}__ and `eventName` set to `"BeaconUpgraded"`.
- */
-export function useMockAirdropBeaconUpgradedEvent(
-  config: Omit<UseContractEventConfig<typeof mockAirdropABI, 'BeaconUpgraded'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({
-    abi: mockAirdropABI,
-    eventName: 'BeaconUpgraded',
-    ...config
-  } as UseContractEventConfig<typeof mockAirdropABI, 'BeaconUpgraded'>)
 }
 
 /**
@@ -17055,6 +19720,28 @@ export function useMockDepositContractDeposit<TMode extends WriteContractMode = 
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockDepositContractABI}__ and `functionName` set to `"withdraw"`.
+ */
+export function useMockDepositContractWithdraw<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockDepositContractABI, 'withdraw'>['request']['abi'],
+        'withdraw',
+        TMode
+      > & { functionName?: 'withdraw' }
+    : UseContractWriteConfig<typeof mockDepositContractABI, 'withdraw', TMode> & {
+        abi?: never
+        functionName?: 'withdraw'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockDepositContractABI, 'withdraw', TMode>({
+    abi: mockDepositContractABI,
+    functionName: 'withdraw',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockDepositContractABI}__.
  */
 export function usePrepareMockDepositContractWrite<TFunctionName extends string>(
@@ -17083,6 +19770,22 @@ export function usePrepareMockDepositContractDeposit(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockDepositContractABI}__ and `functionName` set to `"withdraw"`.
+ */
+export function usePrepareMockDepositContractWithdraw(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockDepositContractABI, 'withdraw'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockDepositContractABI,
+    functionName: 'withdraw',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockDepositContractABI, 'withdraw'>)
+}
+
+/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockDepositContractABI}__.
  */
 export function useMockDepositContractEvent<TEventName extends string>(
@@ -17108,6 +19811,690 @@ export function useMockDepositContractDepositEventEvent(
     eventName: 'DepositEvent',
     ...config
   } as UseContractEventConfig<typeof mockDepositContractABI, 'DepositEvent'>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__.
+ */
+export function useMockFlashLoanRead<
+  TFunctionName extends string,
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(config: Omit<UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>, 'abi'> = {} as any) {
+  return useContractRead({ abi: mockFlashLoanABI, ...config } as UseContractReadConfig<
+    typeof mockFlashLoanABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"ADMIN_ROLE"`.
+ */
+export function useMockFlashLoanAdminRole<
+  TFunctionName extends 'ADMIN_ROLE',
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockFlashLoanABI,
+    functionName: 'ADMIN_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"DEFAULT_ADMIN_ROLE"`.
+ */
+export function useMockFlashLoanDefaultAdminRole<
+  TFunctionName extends 'DEFAULT_ADMIN_ROLE',
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockFlashLoanABI,
+    functionName: 'DEFAULT_ADMIN_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"UPGRADER_ROLE"`.
+ */
+export function useMockFlashLoanUpgraderRole<
+  TFunctionName extends 'UPGRADER_ROLE',
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockFlashLoanABI,
+    functionName: 'UPGRADER_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`.
+ */
+export function useMockFlashLoanUpgradeInterfaceVersion<
+  TFunctionName extends 'UPGRADE_INTERFACE_VERSION',
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockFlashLoanABI,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
+    ...config
+  } as UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"getRoleAdmin"`.
+ */
+export function useMockFlashLoanGetRoleAdmin<
+  TFunctionName extends 'getRoleAdmin',
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockFlashLoanABI,
+    functionName: 'getRoleAdmin',
+    ...config
+  } as UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"hasRole"`.
+ */
+export function useMockFlashLoanHasRole<
+  TFunctionName extends 'hasRole',
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({ abi: mockFlashLoanABI, functionName: 'hasRole', ...config } as UseContractReadConfig<
+    typeof mockFlashLoanABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"paused"`.
+ */
+export function useMockFlashLoanPaused<
+  TFunctionName extends 'paused',
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({ abi: mockFlashLoanABI, functionName: 'paused', ...config } as UseContractReadConfig<
+    typeof mockFlashLoanABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"proxiableUUID"`.
+ */
+export function useMockFlashLoanProxiableUuid<
+  TFunctionName extends 'proxiableUUID',
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockFlashLoanABI,
+    functionName: 'proxiableUUID',
+    ...config
+  } as UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"stakeTogether"`.
+ */
+export function useMockFlashLoanStakeTogether<
+  TFunctionName extends 'stakeTogether',
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockFlashLoanABI,
+    functionName: 'stakeTogether',
+    ...config
+  } as UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"stakeTogetherWrapper"`.
+ */
+export function useMockFlashLoanStakeTogetherWrapper<
+  TFunctionName extends 'stakeTogetherWrapper',
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockFlashLoanABI,
+    functionName: 'stakeTogetherWrapper',
+    ...config
+  } as UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"supportsInterface"`.
+ */
+export function useMockFlashLoanSupportsInterface<
+  TFunctionName extends 'supportsInterface',
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockFlashLoanABI,
+    functionName: 'supportsInterface',
+    ...config
+  } as UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"withdrawals"`.
+ */
+export function useMockFlashLoanWithdrawals<
+  TFunctionName extends 'withdrawals',
+  TSelectData = ReadContractResult<typeof mockFlashLoanABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockFlashLoanABI,
+    functionName: 'withdrawals',
+    ...config
+  } as UseContractReadConfig<typeof mockFlashLoanABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__.
+ */
+export function useMockFlashLoanWrite<
+  TFunctionName extends string,
+  TMode extends WriteContractMode = undefined
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockFlashLoanABI, string>['request']['abi'],
+        TFunctionName,
+        TMode
+      >
+    : UseContractWriteConfig<typeof mockFlashLoanABI, TFunctionName, TMode> & {
+        abi?: never
+      } = {} as any
+) {
+  return useContractWrite<typeof mockFlashLoanABI, TFunctionName, TMode>({
+    abi: mockFlashLoanABI,
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"depositAndWithdraw"`.
+ */
+export function useMockFlashLoanDepositAndWithdraw<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockFlashLoanABI, 'depositAndWithdraw'>['request']['abi'],
+        'depositAndWithdraw',
+        TMode
+      > & { functionName?: 'depositAndWithdraw' }
+    : UseContractWriteConfig<typeof mockFlashLoanABI, 'depositAndWithdraw', TMode> & {
+        abi?: never
+        functionName?: 'depositAndWithdraw'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockFlashLoanABI, 'depositAndWithdraw', TMode>({
+    abi: mockFlashLoanABI,
+    functionName: 'depositAndWithdraw',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"doubleWithdraw"`.
+ */
+export function useMockFlashLoanDoubleWithdraw<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockFlashLoanABI, 'doubleWithdraw'>['request']['abi'],
+        'doubleWithdraw',
+        TMode
+      > & { functionName?: 'doubleWithdraw' }
+    : UseContractWriteConfig<typeof mockFlashLoanABI, 'doubleWithdraw', TMode> & {
+        abi?: never
+        functionName?: 'doubleWithdraw'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockFlashLoanABI, 'doubleWithdraw', TMode>({
+    abi: mockFlashLoanABI,
+    functionName: 'doubleWithdraw',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"grantRole"`.
+ */
+export function useMockFlashLoanGrantRole<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockFlashLoanABI, 'grantRole'>['request']['abi'],
+        'grantRole',
+        TMode
+      > & { functionName?: 'grantRole' }
+    : UseContractWriteConfig<typeof mockFlashLoanABI, 'grantRole', TMode> & {
+        abi?: never
+        functionName?: 'grantRole'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockFlashLoanABI, 'grantRole', TMode>({
+    abi: mockFlashLoanABI,
+    functionName: 'grantRole',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"initialize"`.
+ */
+export function useMockFlashLoanInitialize<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockFlashLoanABI, 'initialize'>['request']['abi'],
+        'initialize',
+        TMode
+      > & { functionName?: 'initialize' }
+    : UseContractWriteConfig<typeof mockFlashLoanABI, 'initialize', TMode> & {
+        abi?: never
+        functionName?: 'initialize'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockFlashLoanABI, 'initialize', TMode>({
+    abi: mockFlashLoanABI,
+    functionName: 'initialize',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"renounceRole"`.
+ */
+export function useMockFlashLoanRenounceRole<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockFlashLoanABI, 'renounceRole'>['request']['abi'],
+        'renounceRole',
+        TMode
+      > & { functionName?: 'renounceRole' }
+    : UseContractWriteConfig<typeof mockFlashLoanABI, 'renounceRole', TMode> & {
+        abi?: never
+        functionName?: 'renounceRole'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockFlashLoanABI, 'renounceRole', TMode>({
+    abi: mockFlashLoanABI,
+    functionName: 'renounceRole',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"revokeRole"`.
+ */
+export function useMockFlashLoanRevokeRole<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockFlashLoanABI, 'revokeRole'>['request']['abi'],
+        'revokeRole',
+        TMode
+      > & { functionName?: 'revokeRole' }
+    : UseContractWriteConfig<typeof mockFlashLoanABI, 'revokeRole', TMode> & {
+        abi?: never
+        functionName?: 'revokeRole'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockFlashLoanABI, 'revokeRole', TMode>({
+    abi: mockFlashLoanABI,
+    functionName: 'revokeRole',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ */
+export function useMockFlashLoanUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockFlashLoanABI, 'upgradeToAndCall'>['request']['abi'],
+        'upgradeToAndCall',
+        TMode
+      > & { functionName?: 'upgradeToAndCall' }
+    : UseContractWriteConfig<typeof mockFlashLoanABI, 'upgradeToAndCall', TMode> & {
+        abi?: never
+        functionName?: 'upgradeToAndCall'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockFlashLoanABI, 'upgradeToAndCall', TMode>({
+    abi: mockFlashLoanABI,
+    functionName: 'upgradeToAndCall',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"wrapAndUnwrap"`.
+ */
+export function useMockFlashLoanWrapAndUnwrap<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockFlashLoanABI, 'wrapAndUnwrap'>['request']['abi'],
+        'wrapAndUnwrap',
+        TMode
+      > & { functionName?: 'wrapAndUnwrap' }
+    : UseContractWriteConfig<typeof mockFlashLoanABI, 'wrapAndUnwrap', TMode> & {
+        abi?: never
+        functionName?: 'wrapAndUnwrap'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockFlashLoanABI, 'wrapAndUnwrap', TMode>({
+    abi: mockFlashLoanABI,
+    functionName: 'wrapAndUnwrap',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__.
+ */
+export function usePrepareMockFlashLoanWrite<TFunctionName extends string>(
+  config: Omit<UsePrepareContractWriteConfig<typeof mockFlashLoanABI, TFunctionName>, 'abi'> = {} as any
+) {
+  return usePrepareContractWrite({ abi: mockFlashLoanABI, ...config } as UsePrepareContractWriteConfig<
+    typeof mockFlashLoanABI,
+    TFunctionName
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"depositAndWithdraw"`.
+ */
+export function usePrepareMockFlashLoanDepositAndWithdraw(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'depositAndWithdraw'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockFlashLoanABI,
+    functionName: 'depositAndWithdraw',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'depositAndWithdraw'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"doubleWithdraw"`.
+ */
+export function usePrepareMockFlashLoanDoubleWithdraw(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'doubleWithdraw'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockFlashLoanABI,
+    functionName: 'doubleWithdraw',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'doubleWithdraw'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"grantRole"`.
+ */
+export function usePrepareMockFlashLoanGrantRole(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'grantRole'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockFlashLoanABI,
+    functionName: 'grantRole',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'grantRole'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"initialize"`.
+ */
+export function usePrepareMockFlashLoanInitialize(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'initialize'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockFlashLoanABI,
+    functionName: 'initialize',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'initialize'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"renounceRole"`.
+ */
+export function usePrepareMockFlashLoanRenounceRole(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'renounceRole'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockFlashLoanABI,
+    functionName: 'renounceRole',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'renounceRole'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"revokeRole"`.
+ */
+export function usePrepareMockFlashLoanRevokeRole(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'revokeRole'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockFlashLoanABI,
+    functionName: 'revokeRole',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'revokeRole'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ */
+export function usePrepareMockFlashLoanUpgradeToAndCall(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'upgradeToAndCall'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockFlashLoanABI,
+    functionName: 'upgradeToAndCall',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'upgradeToAndCall'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockFlashLoanABI}__ and `functionName` set to `"wrapAndUnwrap"`.
+ */
+export function usePrepareMockFlashLoanWrapAndUnwrap(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'wrapAndUnwrap'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockFlashLoanABI,
+    functionName: 'wrapAndUnwrap',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockFlashLoanABI, 'wrapAndUnwrap'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockFlashLoanABI}__.
+ */
+export function useMockFlashLoanEvent<TEventName extends string>(
+  config: Omit<UseContractEventConfig<typeof mockFlashLoanABI, TEventName>, 'abi'> = {} as any
+) {
+  return useContractEvent({ abi: mockFlashLoanABI, ...config } as UseContractEventConfig<
+    typeof mockFlashLoanABI,
+    TEventName
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockFlashLoanABI}__ and `eventName` set to `"Initialized"`.
+ */
+export function useMockFlashLoanInitializedEvent(
+  config: Omit<UseContractEventConfig<typeof mockFlashLoanABI, 'Initialized'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({
+    abi: mockFlashLoanABI,
+    eventName: 'Initialized',
+    ...config
+  } as UseContractEventConfig<typeof mockFlashLoanABI, 'Initialized'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockFlashLoanABI}__ and `eventName` set to `"Paused"`.
+ */
+export function useMockFlashLoanPausedEvent(
+  config: Omit<UseContractEventConfig<typeof mockFlashLoanABI, 'Paused'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({ abi: mockFlashLoanABI, eventName: 'Paused', ...config } as UseContractEventConfig<
+    typeof mockFlashLoanABI,
+    'Paused'
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockFlashLoanABI}__ and `eventName` set to `"RoleAdminChanged"`.
+ */
+export function useMockFlashLoanRoleAdminChangedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockFlashLoanABI, 'RoleAdminChanged'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockFlashLoanABI,
+    eventName: 'RoleAdminChanged',
+    ...config
+  } as UseContractEventConfig<typeof mockFlashLoanABI, 'RoleAdminChanged'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockFlashLoanABI}__ and `eventName` set to `"RoleGranted"`.
+ */
+export function useMockFlashLoanRoleGrantedEvent(
+  config: Omit<UseContractEventConfig<typeof mockFlashLoanABI, 'RoleGranted'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({
+    abi: mockFlashLoanABI,
+    eventName: 'RoleGranted',
+    ...config
+  } as UseContractEventConfig<typeof mockFlashLoanABI, 'RoleGranted'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockFlashLoanABI}__ and `eventName` set to `"RoleRevoked"`.
+ */
+export function useMockFlashLoanRoleRevokedEvent(
+  config: Omit<UseContractEventConfig<typeof mockFlashLoanABI, 'RoleRevoked'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({
+    abi: mockFlashLoanABI,
+    eventName: 'RoleRevoked',
+    ...config
+  } as UseContractEventConfig<typeof mockFlashLoanABI, 'RoleRevoked'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockFlashLoanABI}__ and `eventName` set to `"Unpaused"`.
+ */
+export function useMockFlashLoanUnpausedEvent(
+  config: Omit<UseContractEventConfig<typeof mockFlashLoanABI, 'Unpaused'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({ abi: mockFlashLoanABI, eventName: 'Unpaused', ...config } as UseContractEventConfig<
+    typeof mockFlashLoanABI,
+    'Unpaused'
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockFlashLoanABI}__ and `eventName` set to `"Upgraded"`.
+ */
+export function useMockFlashLoanUpgradedEvent(
+  config: Omit<UseContractEventConfig<typeof mockFlashLoanABI, 'Upgraded'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({ abi: mockFlashLoanABI, eventName: 'Upgraded', ...config } as UseContractEventConfig<
+    typeof mockFlashLoanABI,
+    'Upgraded'
+  >)
 }
 
 /**
@@ -17239,6 +20626,25 @@ export function useMockRouterUpgraderRole<
 }
 
 /**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`.
+ */
+export function useMockRouterUpgradeInterfaceVersion<
+  TFunctionName extends 'UPGRADE_INTERFACE_VERSION',
+  TSelectData = ReadContractResult<typeof mockRouterABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockRouterABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockRouterABI,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
+    ...config
+  } as UseContractReadConfig<typeof mockRouterABI, TFunctionName, TSelectData>)
+}
+
+/**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"airdrop"`.
  */
 export function useMockRouterAirdrop<
@@ -17251,6 +20657,25 @@ export function useMockRouterAirdrop<
   > = {} as any
 ) {
   return useContractRead({ abi: mockRouterABI, functionName: 'airdrop', ...config } as UseContractReadConfig<
+    typeof mockRouterABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"bunkermode"`.
+ */
+export function useMockRouterBunkermode<
+  TFunctionName extends 'bunkermode',
+  TSelectData = ReadContractResult<typeof mockRouterABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockRouterABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({ abi: mockRouterABI, functionName: 'bunkermode', ...config } as UseContractReadConfig<
     typeof mockRouterABI,
     TFunctionName,
     TSelectData
@@ -17481,25 +20906,6 @@ export function useMockRouterLastExecutedBlock<
   return useContractRead({
     abi: mockRouterABI,
     functionName: 'lastExecutedBlock',
-    ...config
-  } as UseContractReadConfig<typeof mockRouterABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"lastExecutedEpoch"`.
- */
-export function useMockRouterLastExecutedEpoch<
-  TFunctionName extends 'lastExecutedEpoch',
-  TSelectData = ReadContractResult<typeof mockRouterABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof mockRouterABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return useContractRead({
-    abi: mockRouterABI,
-    functionName: 'lastExecutedEpoch',
     ...config
   } as UseContractReadConfig<typeof mockRouterABI, TFunctionName, TSelectData>)
 }
@@ -18027,23 +21433,23 @@ export function useMockRouterPause<TMode extends WriteContractMode = undefined>(
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"processStakeRewards"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"processFeeRewards"`.
  */
-export function useMockRouterProcessStakeRewards<TMode extends WriteContractMode = undefined>(
+export function useMockRouterProcessFeeRewards<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockRouterABI, 'processStakeRewards'>['request']['abi'],
-        'processStakeRewards',
+        PrepareWriteContractResult<typeof mockRouterABI, 'processFeeRewards'>['request']['abi'],
+        'processFeeRewards',
         TMode
-      > & { functionName?: 'processStakeRewards' }
-    : UseContractWriteConfig<typeof mockRouterABI, 'processStakeRewards', TMode> & {
+      > & { functionName?: 'processFeeRewards' }
+    : UseContractWriteConfig<typeof mockRouterABI, 'processFeeRewards', TMode> & {
         abi?: never
-        functionName?: 'processStakeRewards'
+        functionName?: 'processFeeRewards'
       } = {} as any
 ) {
-  return useContractWrite<typeof mockRouterABI, 'processStakeRewards', TMode>({
+  return useContractWrite<typeof mockRouterABI, 'processFeeRewards', TMode>({
     abi: mockRouterABI,
-    functionName: 'processStakeRewards',
+    functionName: 'processFeeRewards',
     ...config
   } as any)
 }
@@ -18203,6 +21609,28 @@ export function useMockRouterSetBeaconBalance<TMode extends WriteContractMode = 
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"setBunkerMode"`.
+ */
+export function useMockRouterSetBunkerMode<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockRouterABI, 'setBunkerMode'>['request']['abi'],
+        'setBunkerMode',
+        TMode
+      > & { functionName?: 'setBunkerMode' }
+    : UseContractWriteConfig<typeof mockRouterABI, 'setBunkerMode', TMode> & {
+        abi?: never
+        functionName?: 'setBunkerMode'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockRouterABI, 'setBunkerMode', TMode>({
+    abi: mockRouterABI,
+    functionName: 'setBunkerMode',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"setConfig"`.
  */
 export function useMockRouterSetConfig<TMode extends WriteContractMode = undefined>(
@@ -18220,28 +21648,6 @@ export function useMockRouterSetConfig<TMode extends WriteContractMode = undefin
   return useContractWrite<typeof mockRouterABI, 'setConfig', TMode>({
     abi: mockRouterABI,
     functionName: 'setConfig',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"setLastExecutedEpoch"`.
- */
-export function useMockRouterSetLastExecutedEpoch<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockRouterABI, 'setLastExecutedEpoch'>['request']['abi'],
-        'setLastExecutedEpoch',
-        TMode
-      > & { functionName?: 'setLastExecutedEpoch' }
-    : UseContractWriteConfig<typeof mockRouterABI, 'setLastExecutedEpoch', TMode> & {
-        abi?: never
-        functionName?: 'setLastExecutedEpoch'
-      } = {} as any
-) {
-  return useContractWrite<typeof mockRouterABI, 'setLastExecutedEpoch', TMode>({
-    abi: mockRouterABI,
-    functionName: 'setLastExecutedEpoch',
     ...config
   } as any)
 }
@@ -18352,28 +21758,6 @@ export function useMockRouterUnpause<TMode extends WriteContractMode = undefined
   return useContractWrite<typeof mockRouterABI, 'unpause', TMode>({
     abi: mockRouterABI,
     functionName: 'unpause',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function useMockRouterUpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockRouterABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof mockRouterABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
-      } = {} as any
-) {
-  return useContractWrite<typeof mockRouterABI, 'upgradeTo', TMode>({
-    abi: mockRouterABI,
-    functionName: 'upgradeTo',
     ...config
   } as any)
 }
@@ -18570,19 +21954,19 @@ export function usePrepareMockRouterPause(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"processStakeRewards"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"processFeeRewards"`.
  */
-export function usePrepareMockRouterProcessStakeRewards(
+export function usePrepareMockRouterProcessFeeRewards(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof mockRouterABI, 'processStakeRewards'>,
+    UsePrepareContractWriteConfig<typeof mockRouterABI, 'processFeeRewards'>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return usePrepareContractWrite({
     abi: mockRouterABI,
-    functionName: 'processStakeRewards',
+    functionName: 'processFeeRewards',
     ...config
-  } as UsePrepareContractWriteConfig<typeof mockRouterABI, 'processStakeRewards'>)
+  } as UsePrepareContractWriteConfig<typeof mockRouterABI, 'processFeeRewards'>)
 }
 
 /**
@@ -18698,6 +22082,22 @@ export function usePrepareMockRouterSetBeaconBalance(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"setBunkerMode"`.
+ */
+export function usePrepareMockRouterSetBunkerMode(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockRouterABI, 'setBunkerMode'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockRouterABI,
+    functionName: 'setBunkerMode',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockRouterABI, 'setBunkerMode'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"setConfig"`.
  */
 export function usePrepareMockRouterSetConfig(
@@ -18711,22 +22111,6 @@ export function usePrepareMockRouterSetConfig(
     functionName: 'setConfig',
     ...config
   } as UsePrepareContractWriteConfig<typeof mockRouterABI, 'setConfig'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"setLastExecutedEpoch"`.
- */
-export function usePrepareMockRouterSetLastExecutedEpoch(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof mockRouterABI, 'setLastExecutedEpoch'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: mockRouterABI,
-    functionName: 'setLastExecutedEpoch',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof mockRouterABI, 'setLastExecutedEpoch'>)
 }
 
 /**
@@ -18810,22 +22194,6 @@ export function usePrepareMockRouterUnpause(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function usePrepareMockRouterUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof mockRouterABI, 'upgradeTo'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: mockRouterABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof mockRouterABI, 'upgradeTo'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockRouterABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function usePrepareMockRouterUpgradeToAndCall(
@@ -18867,19 +22235,6 @@ export function useMockRouterAddReportOracleEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockRouterABI}__ and `eventName` set to `"AdminChanged"`.
- */
-export function useMockRouterAdminChangedEvent(
-  config: Omit<UseContractEventConfig<typeof mockRouterABI, 'AdminChanged'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({
-    abi: mockRouterABI,
-    eventName: 'AdminChanged',
-    ...config
-  } as UseContractEventConfig<typeof mockRouterABI, 'AdminChanged'>)
-}
-
-/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockRouterABI}__ and `eventName` set to `"AdvanceNextBlock"`.
  */
 export function useMockRouterAdvanceNextBlockEvent(
@@ -18893,19 +22248,6 @@ export function useMockRouterAdvanceNextBlockEvent(
     eventName: 'AdvanceNextBlock',
     ...config
   } as UseContractEventConfig<typeof mockRouterABI, 'AdvanceNextBlock'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockRouterABI}__ and `eventName` set to `"BeaconUpgraded"`.
- */
-export function useMockRouterBeaconUpgradedEvent(
-  config: Omit<UseContractEventConfig<typeof mockRouterABI, 'BeaconUpgraded'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({
-    abi: mockRouterABI,
-    eventName: 'BeaconUpgraded',
-    ...config
-  } as UseContractEventConfig<typeof mockRouterABI, 'BeaconUpgraded'>)
 }
 
 /**
@@ -19092,6 +22434,19 @@ export function useMockRouterRoleRevokedEvent(
 }
 
 /**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockRouterABI}__ and `eventName` set to `"SetBunkerMode"`.
+ */
+export function useMockRouterSetBunkerModeEvent(
+  config: Omit<UseContractEventConfig<typeof mockRouterABI, 'SetBunkerMode'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({
+    abi: mockRouterABI,
+    eventName: 'SetBunkerMode',
+    ...config
+  } as UseContractEventConfig<typeof mockRouterABI, 'SetBunkerMode'>)
+}
+
+/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockRouterABI}__ and `eventName` set to `"SetConfig"`.
  */
 export function useMockRouterSetConfigEvent(
@@ -19101,22 +22456,6 @@ export function useMockRouterSetConfigEvent(
     typeof mockRouterABI,
     'SetConfig'
   >)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockRouterABI}__ and `eventName` set to `"SetLastExecutedEpoch"`.
- */
-export function useMockRouterSetLastExecutedEpochEvent(
-  config: Omit<
-    UseContractEventConfig<typeof mockRouterABI, 'SetLastExecutedEpoch'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: mockRouterABI,
-    eventName: 'SetLastExecutedEpoch',
-    ...config
-  } as UseContractEventConfig<typeof mockRouterABI, 'SetLastExecutedEpoch'>)
 }
 
 /**
@@ -19189,22 +22528,6 @@ export function useMockRouterUpgradedEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockRouterABI}__ and `eventName` set to `"ValidatorsToRemove"`.
- */
-export function useMockRouterValidatorsToRemoveEvent(
-  config: Omit<
-    UseContractEventConfig<typeof mockRouterABI, 'ValidatorsToRemove'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: mockRouterABI,
-    eventName: 'ValidatorsToRemove',
-    ...config
-  } as UseContractEventConfig<typeof mockRouterABI, 'ValidatorsToRemove'>)
-}
-
-/**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__.
  */
 export function useMockStakeTogetherRead<
@@ -19238,6 +22561,44 @@ export function useMockStakeTogetherAdminRole<
   return useContractRead({
     abi: mockStakeTogetherABI,
     functionName: 'ADMIN_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"ANTI_FRAUD_MANAGER_ROLE"`.
+ */
+export function useMockStakeTogetherAntiFraudManagerRole<
+  TFunctionName extends 'ANTI_FRAUD_MANAGER_ROLE',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherABI,
+    functionName: 'ANTI_FRAUD_MANAGER_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"ANTI_FRAUD_SENTINEL_ROLE"`.
+ */
+export function useMockStakeTogetherAntiFraudSentinelRole<
+  TFunctionName extends 'ANTI_FRAUD_SENTINEL_ROLE',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherABI,
+    functionName: 'ANTI_FRAUD_SENTINEL_ROLE',
     ...config
   } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
 }
@@ -19319,6 +22680,25 @@ export function useMockStakeTogetherUpgraderRole<
 }
 
 /**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`.
+ */
+export function useMockStakeTogetherUpgradeInterfaceVersion<
+  TFunctionName extends 'UPGRADE_INTERFACE_VERSION',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherABI,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"VALIDATOR_ORACLE_MANAGER_ROLE"`.
  */
 export function useMockStakeTogetherValidatorOracleManagerRole<
@@ -19371,6 +22751,25 @@ export function useMockStakeTogetherValidatorOracleSentinelRole<
   return useContractRead({
     abi: mockStakeTogetherABI,
     functionName: 'VALIDATOR_ORACLE_SENTINEL_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"airdrop"`.
+ */
+export function useMockStakeTogetherAirdrop<
+  TFunctionName extends 'airdrop',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherABI,
+    functionName: 'airdrop',
     ...config
   } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
 }
@@ -19490,10 +22889,10 @@ export function useMockStakeTogetherDecimals<
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"depositContract"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"deposit"`.
  */
-export function useMockStakeTogetherDepositContract<
-  TFunctionName extends 'depositContract',
+export function useMockStakeTogetherDeposit<
+  TFunctionName extends 'deposit',
   TSelectData = ReadContractResult<typeof mockStakeTogetherABI, TFunctionName>
 >(
   config: Omit<
@@ -19503,7 +22902,7 @@ export function useMockStakeTogetherDepositContract<
 ) {
   return useContractRead({
     abi: mockStakeTogetherABI,
-    functionName: 'depositContract',
+    functionName: 'deposit',
     ...config
   } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
 }
@@ -19523,6 +22922,25 @@ export function useMockStakeTogetherEip712Domain<
   return useContractRead({
     abi: mockStakeTogetherABI,
     functionName: 'eip712Domain',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"getFee"`.
+ */
+export function useMockStakeTogetherGetFee<
+  TFunctionName extends 'getFee',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherABI,
+    functionName: 'getFee',
     ...config
   } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
 }
@@ -19585,6 +23003,44 @@ export function useMockStakeTogetherGetRoleAdmin<
 }
 
 /**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"getWithdrawBeaconBlock"`.
+ */
+export function useMockStakeTogetherGetWithdrawBeaconBlock<
+  TFunctionName extends 'getWithdrawBeaconBlock',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherABI,
+    functionName: 'getWithdrawBeaconBlock',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"getWithdrawBlock"`.
+ */
+export function useMockStakeTogetherGetWithdrawBlock<
+  TFunctionName extends 'getWithdrawBlock',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherABI,
+    functionName: 'getWithdrawBlock',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"hasRole"`.
  */
 export function useMockStakeTogetherHasRole<
@@ -19599,6 +23055,25 @@ export function useMockStakeTogetherHasRole<
   return useContractRead({
     abi: mockStakeTogetherABI,
     functionName: 'hasRole',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"isListedInAntiFraud"`.
+ */
+export function useMockStakeTogetherIsListedInAntiFraud<
+  TFunctionName extends 'isListedInAntiFraud',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherABI,
+    functionName: 'isListedInAntiFraud',
     ...config
   } as UseContractReadConfig<typeof mockStakeTogetherABI, TFunctionName, TSelectData>)
 }
@@ -20086,6 +23561,50 @@ export function useMockStakeTogetherAddPool<TMode extends WriteContractMode = un
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"addToAntiFraud"`.
+ */
+export function useMockStakeTogetherAddToAntiFraud<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'addToAntiFraud'>['request']['abi'],
+        'addToAntiFraud',
+        TMode
+      > & { functionName?: 'addToAntiFraud' }
+    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'addToAntiFraud', TMode> & {
+        abi?: never
+        functionName?: 'addToAntiFraud'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherABI, 'addToAntiFraud', TMode>({
+    abi: mockStakeTogetherABI,
+    functionName: 'addToAntiFraud',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"addValidator"`.
+ */
+export function useMockStakeTogetherAddValidator<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'addValidator'>['request']['abi'],
+        'addValidator',
+        TMode
+      > & { functionName?: 'addValidator' }
+    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'addValidator', TMode> & {
+        abi?: never
+        functionName?: 'addValidator'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherABI, 'addValidator', TMode>({
+    abi: mockStakeTogetherABI,
+    functionName: 'addValidator',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"addValidatorOracle"`.
  */
 export function useMockStakeTogetherAddValidatorOracle<TMode extends WriteContractMode = undefined>(
@@ -20108,26 +23627,23 @@ export function useMockStakeTogetherAddValidatorOracle<TMode extends WriteContra
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawValidator"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawBeacon"`.
  */
-export function useMockStakeTogetherAnticipateWithdrawValidator<TMode extends WriteContractMode = undefined>(
+export function useMockStakeTogetherAnticipateWithdrawBeacon<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof mockStakeTogetherABI,
-          'anticipateWithdrawValidator'
-        >['request']['abi'],
-        'anticipateWithdrawValidator',
+        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'anticipateWithdrawBeacon'>['request']['abi'],
+        'anticipateWithdrawBeacon',
         TMode
-      > & { functionName?: 'anticipateWithdrawValidator' }
-    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'anticipateWithdrawValidator', TMode> & {
+      > & { functionName?: 'anticipateWithdrawBeacon' }
+    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'anticipateWithdrawBeacon', TMode> & {
         abi?: never
-        functionName?: 'anticipateWithdrawValidator'
+        functionName?: 'anticipateWithdrawBeacon'
       } = {} as any
 ) {
-  return useContractWrite<typeof mockStakeTogetherABI, 'anticipateWithdrawValidator', TMode>({
+  return useContractWrite<typeof mockStakeTogetherABI, 'anticipateWithdrawBeacon', TMode>({
     abi: mockStakeTogetherABI,
-    functionName: 'anticipateWithdrawValidator',
+    functionName: 'anticipateWithdrawBeacon',
     ...config
   } as any)
 }
@@ -20221,50 +23737,6 @@ export function useMockStakeTogetherClaimAirdrop<TMode extends WriteContractMode
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"createValidator"`.
- */
-export function useMockStakeTogetherCreateValidator<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'createValidator'>['request']['abi'],
-        'createValidator',
-        TMode
-      > & { functionName?: 'createValidator' }
-    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'createValidator', TMode> & {
-        abi?: never
-        functionName?: 'createValidator'
-      } = {} as any
-) {
-  return useContractWrite<typeof mockStakeTogetherABI, 'createValidator', TMode>({
-    abi: mockStakeTogetherABI,
-    functionName: 'createValidator',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function useMockStakeTogetherDecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof mockStakeTogetherABI, 'decreaseAllowance', TMode>({
-    abi: mockStakeTogetherABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"depositDonation"`.
  */
 export function useMockStakeTogetherDepositDonation<TMode extends WriteContractMode = undefined>(
@@ -20353,28 +23825,6 @@ export function useMockStakeTogetherGrantRole<TMode extends WriteContractMode = 
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function useMockStakeTogetherIncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof mockStakeTogetherABI, 'increaseAllowance', TMode>({
-    abi: mockStakeTogetherABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"initialize"`.
  */
 export function useMockStakeTogetherInitialize<TMode extends WriteContractMode = undefined>(
@@ -20414,6 +23864,28 @@ export function useMockStakeTogetherInitializeV2<TMode extends WriteContractMode
   return useContractWrite<typeof mockStakeTogetherABI, 'initializeV2', TMode>({
     abi: mockStakeTogetherABI,
     functionName: 'initializeV2',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"initializeV2Airdrop"`.
+ */
+export function useMockStakeTogetherInitializeV2Airdrop<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'initializeV2Airdrop'>['request']['abi'],
+        'initializeV2Airdrop',
+        TMode
+      > & { functionName?: 'initializeV2Airdrop' }
+    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'initializeV2Airdrop', TMode> & {
+        abi?: never
+        functionName?: 'initializeV2Airdrop'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherABI, 'initializeV2Airdrop', TMode>({
+    abi: mockStakeTogetherABI,
+    functionName: 'initializeV2Airdrop',
     ...config
   } as any)
 }
@@ -20485,23 +23957,45 @@ export function useMockStakeTogetherPermit<TMode extends WriteContractMode = und
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"processStakeRewards"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"processFeeRewards"`.
  */
-export function useMockStakeTogetherProcessStakeRewards<TMode extends WriteContractMode = undefined>(
+export function useMockStakeTogetherProcessFeeRewards<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'processStakeRewards'>['request']['abi'],
-        'processStakeRewards',
+        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'processFeeRewards'>['request']['abi'],
+        'processFeeRewards',
         TMode
-      > & { functionName?: 'processStakeRewards' }
-    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'processStakeRewards', TMode> & {
+      > & { functionName?: 'processFeeRewards' }
+    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'processFeeRewards', TMode> & {
         abi?: never
-        functionName?: 'processStakeRewards'
+        functionName?: 'processFeeRewards'
       } = {} as any
 ) {
-  return useContractWrite<typeof mockStakeTogetherABI, 'processStakeRewards', TMode>({
+  return useContractWrite<typeof mockStakeTogetherABI, 'processFeeRewards', TMode>({
     abi: mockStakeTogetherABI,
-    functionName: 'processStakeRewards',
+    functionName: 'processFeeRewards',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"removeFromAntiFraud"`.
+ */
+export function useMockStakeTogetherRemoveFromAntiFraud<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'removeFromAntiFraud'>['request']['abi'],
+        'removeFromAntiFraud',
+        TMode
+      > & { functionName?: 'removeFromAntiFraud' }
+    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'removeFromAntiFraud', TMode> & {
+        abi?: never
+        functionName?: 'removeFromAntiFraud'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherABI, 'removeFromAntiFraud', TMode>({
+    abi: mockStakeTogetherABI,
+    functionName: 'removeFromAntiFraud',
     ...config
   } as any)
 }
@@ -20815,28 +24309,6 @@ export function useMockStakeTogetherUpdateDelegations<TMode extends WriteContrac
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function useMockStakeTogetherUpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
-      } = {} as any
-) {
-  return useContractWrite<typeof mockStakeTogetherABI, 'upgradeTo', TMode>({
-    abi: mockStakeTogetherABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function useMockStakeTogetherUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
@@ -20859,6 +24331,28 @@ export function useMockStakeTogetherUpgradeToAndCall<TMode extends WriteContract
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"withdrawBeacon"`.
+ */
+export function useMockStakeTogetherWithdrawBeacon<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'withdrawBeacon'>['request']['abi'],
+        'withdrawBeacon',
+        TMode
+      > & { functionName?: 'withdrawBeacon' }
+    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'withdrawBeacon', TMode> & {
+        abi?: never
+        functionName?: 'withdrawBeacon'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherABI, 'withdrawBeacon', TMode>({
+    abi: mockStakeTogetherABI,
+    functionName: 'withdrawBeacon',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"withdrawPool"`.
  */
 export function useMockStakeTogetherWithdrawPool<TMode extends WriteContractMode = undefined>(
@@ -20876,28 +24370,6 @@ export function useMockStakeTogetherWithdrawPool<TMode extends WriteContractMode
   return useContractWrite<typeof mockStakeTogetherABI, 'withdrawPool', TMode>({
     abi: mockStakeTogetherABI,
     functionName: 'withdrawPool',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"withdrawValidator"`.
- */
-export function useMockStakeTogetherWithdrawValidator<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockStakeTogetherABI, 'withdrawValidator'>['request']['abi'],
-        'withdrawValidator',
-        TMode
-      > & { functionName?: 'withdrawValidator' }
-    : UseContractWriteConfig<typeof mockStakeTogetherABI, 'withdrawValidator', TMode> & {
-        abi?: never
-        functionName?: 'withdrawValidator'
-      } = {} as any
-) {
-  return useContractWrite<typeof mockStakeTogetherABI, 'withdrawValidator', TMode>({
-    abi: mockStakeTogetherABI,
-    functionName: 'withdrawValidator',
     ...config
   } as any)
 }
@@ -20931,6 +24403,38 @@ export function usePrepareMockStakeTogetherAddPool(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"addToAntiFraud"`.
+ */
+export function usePrepareMockStakeTogetherAddToAntiFraud(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'addToAntiFraud'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherABI,
+    functionName: 'addToAntiFraud',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'addToAntiFraud'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"addValidator"`.
+ */
+export function usePrepareMockStakeTogetherAddValidator(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'addValidator'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherABI,
+    functionName: 'addValidator',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'addValidator'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"addValidatorOracle"`.
  */
 export function usePrepareMockStakeTogetherAddValidatorOracle(
@@ -20947,19 +24451,19 @@ export function usePrepareMockStakeTogetherAddValidatorOracle(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawValidator"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawBeacon"`.
  */
-export function usePrepareMockStakeTogetherAnticipateWithdrawValidator(
+export function usePrepareMockStakeTogetherAnticipateWithdrawBeacon(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'anticipateWithdrawValidator'>,
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'anticipateWithdrawBeacon'>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return usePrepareContractWrite({
     abi: mockStakeTogetherABI,
-    functionName: 'anticipateWithdrawValidator',
+    functionName: 'anticipateWithdrawBeacon',
     ...config
-  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'anticipateWithdrawValidator'>)
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'anticipateWithdrawBeacon'>)
 }
 
 /**
@@ -21027,38 +24531,6 @@ export function usePrepareMockStakeTogetherClaimAirdrop(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"createValidator"`.
- */
-export function usePrepareMockStakeTogetherCreateValidator(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'createValidator'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: mockStakeTogetherABI,
-    functionName: 'createValidator',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'createValidator'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function usePrepareMockStakeTogetherDecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: mockStakeTogetherABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'decreaseAllowance'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"depositDonation"`.
  */
 export function usePrepareMockStakeTogetherDepositDonation(
@@ -21123,22 +24595,6 @@ export function usePrepareMockStakeTogetherGrantRole(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function usePrepareMockStakeTogetherIncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: mockStakeTogetherABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'increaseAllowance'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"initialize"`.
  */
 export function usePrepareMockStakeTogetherInitialize(
@@ -21168,6 +24624,22 @@ export function usePrepareMockStakeTogetherInitializeV2(
     functionName: 'initializeV2',
     ...config
   } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'initializeV2'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"initializeV2Airdrop"`.
+ */
+export function usePrepareMockStakeTogetherInitializeV2Airdrop(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'initializeV2Airdrop'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherABI,
+    functionName: 'initializeV2Airdrop',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'initializeV2Airdrop'>)
 }
 
 /**
@@ -21219,19 +24691,35 @@ export function usePrepareMockStakeTogetherPermit(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"processStakeRewards"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"processFeeRewards"`.
  */
-export function usePrepareMockStakeTogetherProcessStakeRewards(
+export function usePrepareMockStakeTogetherProcessFeeRewards(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'processStakeRewards'>,
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'processFeeRewards'>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return usePrepareContractWrite({
     abi: mockStakeTogetherABI,
-    functionName: 'processStakeRewards',
+    functionName: 'processFeeRewards',
     ...config
-  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'processStakeRewards'>)
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'processFeeRewards'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"removeFromAntiFraud"`.
+ */
+export function usePrepareMockStakeTogetherRemoveFromAntiFraud(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'removeFromAntiFraud'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherABI,
+    functionName: 'removeFromAntiFraud',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'removeFromAntiFraud'>)
 }
 
 /**
@@ -21459,22 +24947,6 @@ export function usePrepareMockStakeTogetherUpdateDelegations(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function usePrepareMockStakeTogetherUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'upgradeTo'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: mockStakeTogetherABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'upgradeTo'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function usePrepareMockStakeTogetherUpgradeToAndCall(
@@ -21491,6 +24963,22 @@ export function usePrepareMockStakeTogetherUpgradeToAndCall(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"withdrawBeacon"`.
+ */
+export function usePrepareMockStakeTogetherWithdrawBeacon(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'withdrawBeacon'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherABI,
+    functionName: 'withdrawBeacon',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'withdrawBeacon'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"withdrawPool"`.
  */
 export function usePrepareMockStakeTogetherWithdrawPool(
@@ -21504,22 +24992,6 @@ export function usePrepareMockStakeTogetherWithdrawPool(
     functionName: 'withdrawPool',
     ...config
   } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'withdrawPool'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `functionName` set to `"withdrawValidator"`.
- */
-export function usePrepareMockStakeTogetherWithdrawValidator(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'withdrawValidator'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: mockStakeTogetherABI,
-    functionName: 'withdrawValidator',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherABI, 'withdrawValidator'>)
 }
 
 /**
@@ -21548,6 +25020,22 @@ export function useMockStakeTogetherAddPoolEvent(
 }
 
 /**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"AddValidator"`.
+ */
+export function useMockStakeTogetherAddValidatorEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherABI, 'AddValidator'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherABI,
+    eventName: 'AddValidator',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherABI, 'AddValidator'>)
+}
+
+/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"AddValidatorOracle"`.
  */
 export function useMockStakeTogetherAddValidatorOracleEvent(
@@ -21564,35 +25052,19 @@ export function useMockStakeTogetherAddValidatorOracleEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"AdminChanged"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"AnticipateWithdrawBeacon"`.
  */
-export function useMockStakeTogetherAdminChangedEvent(
+export function useMockStakeTogetherAnticipateWithdrawBeaconEvent(
   config: Omit<
-    UseContractEventConfig<typeof mockStakeTogetherABI, 'AdminChanged'>,
+    UseContractEventConfig<typeof mockStakeTogetherABI, 'AnticipateWithdrawBeacon'>,
     'abi' | 'eventName'
   > = {} as any
 ) {
   return useContractEvent({
     abi: mockStakeTogetherABI,
-    eventName: 'AdminChanged',
+    eventName: 'AnticipateWithdrawBeacon',
     ...config
-  } as UseContractEventConfig<typeof mockStakeTogetherABI, 'AdminChanged'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"AnticipateWithdrawValidator"`.
- */
-export function useMockStakeTogetherAnticipateWithdrawValidatorEvent(
-  config: Omit<
-    UseContractEventConfig<typeof mockStakeTogetherABI, 'AnticipateWithdrawValidator'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: mockStakeTogetherABI,
-    eventName: 'AnticipateWithdrawValidator',
-    ...config
-  } as UseContractEventConfig<typeof mockStakeTogetherABI, 'AnticipateWithdrawValidator'>)
+  } as UseContractEventConfig<typeof mockStakeTogetherABI, 'AnticipateWithdrawBeacon'>)
 }
 
 /**
@@ -21606,22 +25078,6 @@ export function useMockStakeTogetherApprovalEvent(
     eventName: 'Approval',
     ...config
   } as UseContractEventConfig<typeof mockStakeTogetherABI, 'Approval'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"BeaconUpgraded"`.
- */
-export function useMockStakeTogetherBeaconUpgradedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof mockStakeTogetherABI, 'BeaconUpgraded'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: mockStakeTogetherABI,
-    eventName: 'BeaconUpgraded',
-    ...config
-  } as UseContractEventConfig<typeof mockStakeTogetherABI, 'BeaconUpgraded'>)
 }
 
 /**
@@ -21641,22 +25097,6 @@ export function useMockStakeTogetherBurnSharesEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"CreateValidator"`.
- */
-export function useMockStakeTogetherCreateValidatorEvent(
-  config: Omit<
-    UseContractEventConfig<typeof mockStakeTogetherABI, 'CreateValidator'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: mockStakeTogetherABI,
-    eventName: 'CreateValidator',
-    ...config
-  } as UseContractEventConfig<typeof mockStakeTogetherABI, 'CreateValidator'>)
-}
-
-/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"DepositBase"`.
  */
 export function useMockStakeTogetherDepositBaseEvent(
@@ -21673,19 +25113,19 @@ export function useMockStakeTogetherDepositBaseEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"DepositLimitReached"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"DepositLimitWasReached"`.
  */
-export function useMockStakeTogetherDepositLimitReachedEvent(
+export function useMockStakeTogetherDepositLimitWasReachedEvent(
   config: Omit<
-    UseContractEventConfig<typeof mockStakeTogetherABI, 'DepositLimitReached'>,
+    UseContractEventConfig<typeof mockStakeTogetherABI, 'DepositLimitWasReached'>,
     'abi' | 'eventName'
   > = {} as any
 ) {
   return useContractEvent({
     abi: mockStakeTogetherABI,
-    eventName: 'DepositLimitReached',
+    eventName: 'DepositLimitWasReached',
     ...config
-  } as UseContractEventConfig<typeof mockStakeTogetherABI, 'DepositLimitReached'>)
+  } as UseContractEventConfig<typeof mockStakeTogetherABI, 'DepositLimitWasReached'>)
 }
 
 /**
@@ -21907,6 +25347,22 @@ export function useMockStakeTogetherRoleRevokedEvent(
     eventName: 'RoleRevoked',
     ...config
   } as UseContractEventConfig<typeof mockStakeTogetherABI, 'RoleRevoked'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"SetAntiFraudStatus"`.
+ */
+export function useMockStakeTogetherSetAntiFraudStatusEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherABI, 'SetAntiFraudStatus'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherABI,
+    eventName: 'SetAntiFraudStatus',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherABI, 'SetAntiFraudStatus'>)
 }
 
 /**
@@ -22138,19 +25594,1414 @@ export function useMockStakeTogetherWithdrawBaseEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"WithdrawalsLimitReached"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherABI}__ and `eventName` set to `"WithdrawalsLimitWasReached"`.
  */
-export function useMockStakeTogetherWithdrawalsLimitReachedEvent(
+export function useMockStakeTogetherWithdrawalsLimitWasReachedEvent(
   config: Omit<
-    UseContractEventConfig<typeof mockStakeTogetherABI, 'WithdrawalsLimitReached'>,
+    UseContractEventConfig<typeof mockStakeTogetherABI, 'WithdrawalsLimitWasReached'>,
     'abi' | 'eventName'
   > = {} as any
 ) {
   return useContractEvent({
     abi: mockStakeTogetherABI,
-    eventName: 'WithdrawalsLimitReached',
+    eventName: 'WithdrawalsLimitWasReached',
     ...config
-  } as UseContractEventConfig<typeof mockStakeTogetherABI, 'WithdrawalsLimitReached'>)
+  } as UseContractEventConfig<typeof mockStakeTogetherABI, 'WithdrawalsLimitWasReached'>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__.
+ */
+export function useMockStakeTogetherWrapperRead<
+  TFunctionName extends string,
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi'
+  > = {} as any
+) {
+  return useContractRead({ abi: mockStakeTogetherWrapperABI, ...config } as UseContractReadConfig<
+    typeof mockStakeTogetherWrapperABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"ADMIN_ROLE"`.
+ */
+export function useMockStakeTogetherWrapperAdminRole<
+  TFunctionName extends 'ADMIN_ROLE',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'ADMIN_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"DEFAULT_ADMIN_ROLE"`.
+ */
+export function useMockStakeTogetherWrapperDefaultAdminRole<
+  TFunctionName extends 'DEFAULT_ADMIN_ROLE',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'DEFAULT_ADMIN_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"DOMAIN_SEPARATOR"`.
+ */
+export function useMockStakeTogetherWrapperDomainSeparator<
+  TFunctionName extends 'DOMAIN_SEPARATOR',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'DOMAIN_SEPARATOR',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"UPGRADER_ROLE"`.
+ */
+export function useMockStakeTogetherWrapperUpgraderRole<
+  TFunctionName extends 'UPGRADER_ROLE',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'UPGRADER_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`.
+ */
+export function useMockStakeTogetherWrapperUpgradeInterfaceVersion<
+  TFunctionName extends 'UPGRADE_INTERFACE_VERSION',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"allowance"`.
+ */
+export function useMockStakeTogetherWrapperAllowance<
+  TFunctionName extends 'allowance',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'allowance',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"balanceOf"`.
+ */
+export function useMockStakeTogetherWrapperBalanceOf<
+  TFunctionName extends 'balanceOf',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'balanceOf',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"decimals"`.
+ */
+export function useMockStakeTogetherWrapperDecimals<
+  TFunctionName extends 'decimals',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'decimals',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"eip712Domain"`.
+ */
+export function useMockStakeTogetherWrapperEip712Domain<
+  TFunctionName extends 'eip712Domain',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'eip712Domain',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"getRoleAdmin"`.
+ */
+export function useMockStakeTogetherWrapperGetRoleAdmin<
+  TFunctionName extends 'getRoleAdmin',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'getRoleAdmin',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"hasRole"`.
+ */
+export function useMockStakeTogetherWrapperHasRole<
+  TFunctionName extends 'hasRole',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'hasRole',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"name"`.
+ */
+export function useMockStakeTogetherWrapperName<
+  TFunctionName extends 'name',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'name',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"nonces"`.
+ */
+export function useMockStakeTogetherWrapperNonces<
+  TFunctionName extends 'nonces',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'nonces',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"paused"`.
+ */
+export function useMockStakeTogetherWrapperPaused<
+  TFunctionName extends 'paused',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'paused',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"proxiableUUID"`.
+ */
+export function useMockStakeTogetherWrapperProxiableUuid<
+  TFunctionName extends 'proxiableUUID',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'proxiableUUID',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"stakeTogether"`.
+ */
+export function useMockStakeTogetherWrapperStakeTogether<
+  TFunctionName extends 'stakeTogether',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'stakeTogether',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"stpEthPerWstpETH"`.
+ */
+export function useMockStakeTogetherWrapperStpEthPerWstpEth<
+  TFunctionName extends 'stpEthPerWstpETH',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'stpEthPerWstpETH',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"supportsInterface"`.
+ */
+export function useMockStakeTogetherWrapperSupportsInterface<
+  TFunctionName extends 'supportsInterface',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'supportsInterface',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"symbol"`.
+ */
+export function useMockStakeTogetherWrapperSymbol<
+  TFunctionName extends 'symbol',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'symbol',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"totalSupply"`.
+ */
+export function useMockStakeTogetherWrapperTotalSupply<
+  TFunctionName extends 'totalSupply',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'totalSupply',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"version"`.
+ */
+export function useMockStakeTogetherWrapperVersion<
+  TFunctionName extends 'version',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'version',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"wstpETHPerStpETH"`.
+ */
+export function useMockStakeTogetherWrapperWstpEthPerStpEth<
+  TFunctionName extends 'wstpETHPerStpETH',
+  TSelectData = ReadContractResult<typeof mockStakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'wstpETHPerStpETH',
+    ...config
+  } as UseContractReadConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__.
+ */
+export function useMockStakeTogetherWrapperWrite<
+  TFunctionName extends string,
+  TMode extends WriteContractMode = undefined
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, string>['request']['abi'],
+        TFunctionName,
+        TMode
+      >
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, TFunctionName, TMode> & {
+        abi?: never
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, TFunctionName, TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"approve"`.
+ */
+export function useMockStakeTogetherWrapperApprove<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'approve'>['request']['abi'],
+        'approve',
+        TMode
+      > & { functionName?: 'approve' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'approve', TMode> & {
+        abi?: never
+        functionName?: 'approve'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'approve', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'approve',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"burn"`.
+ */
+export function useMockStakeTogetherWrapperBurn<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'burn'>['request']['abi'],
+        'burn',
+        TMode
+      > & { functionName?: 'burn' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'burn', TMode> & {
+        abi?: never
+        functionName?: 'burn'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'burn', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'burn',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"burnFrom"`.
+ */
+export function useMockStakeTogetherWrapperBurnFrom<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'burnFrom'>['request']['abi'],
+        'burnFrom',
+        TMode
+      > & { functionName?: 'burnFrom' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'burnFrom', TMode> & {
+        abi?: never
+        functionName?: 'burnFrom'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'burnFrom', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'burnFrom',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"grantRole"`.
+ */
+export function useMockStakeTogetherWrapperGrantRole<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'grantRole'>['request']['abi'],
+        'grantRole',
+        TMode
+      > & { functionName?: 'grantRole' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'grantRole', TMode> & {
+        abi?: never
+        functionName?: 'grantRole'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'grantRole', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'grantRole',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"initialize"`.
+ */
+export function useMockStakeTogetherWrapperInitialize<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'initialize'>['request']['abi'],
+        'initialize',
+        TMode
+      > & { functionName?: 'initialize' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'initialize', TMode> & {
+        abi?: never
+        functionName?: 'initialize'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'initialize', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'initialize',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"initializeV2"`.
+ */
+export function useMockStakeTogetherWrapperInitializeV2<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'initializeV2'>['request']['abi'],
+        'initializeV2',
+        TMode
+      > & { functionName?: 'initializeV2' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'initializeV2', TMode> & {
+        abi?: never
+        functionName?: 'initializeV2'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'initializeV2', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'initializeV2',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"pause"`.
+ */
+export function useMockStakeTogetherWrapperPause<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'pause'>['request']['abi'],
+        'pause',
+        TMode
+      > & { functionName?: 'pause' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'pause', TMode> & {
+        abi?: never
+        functionName?: 'pause'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'pause', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'pause',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"permit"`.
+ */
+export function useMockStakeTogetherWrapperPermit<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'permit'>['request']['abi'],
+        'permit',
+        TMode
+      > & { functionName?: 'permit' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'permit', TMode> & {
+        abi?: never
+        functionName?: 'permit'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'permit', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'permit',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"renounceRole"`.
+ */
+export function useMockStakeTogetherWrapperRenounceRole<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'renounceRole'>['request']['abi'],
+        'renounceRole',
+        TMode
+      > & { functionName?: 'renounceRole' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'renounceRole', TMode> & {
+        abi?: never
+        functionName?: 'renounceRole'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'renounceRole', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'renounceRole',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"revokeRole"`.
+ */
+export function useMockStakeTogetherWrapperRevokeRole<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'revokeRole'>['request']['abi'],
+        'revokeRole',
+        TMode
+      > & { functionName?: 'revokeRole' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'revokeRole', TMode> & {
+        abi?: never
+        functionName?: 'revokeRole'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'revokeRole', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'revokeRole',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"setStakeTogether"`.
+ */
+export function useMockStakeTogetherWrapperSetStakeTogether<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'setStakeTogether'>['request']['abi'],
+        'setStakeTogether',
+        TMode
+      > & { functionName?: 'setStakeTogether' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'setStakeTogether', TMode> & {
+        abi?: never
+        functionName?: 'setStakeTogether'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'setStakeTogether', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'setStakeTogether',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"transfer"`.
+ */
+export function useMockStakeTogetherWrapperTransfer<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'transfer'>['request']['abi'],
+        'transfer',
+        TMode
+      > & { functionName?: 'transfer' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'transfer', TMode> & {
+        abi?: never
+        functionName?: 'transfer'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'transfer', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'transfer',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"transferExtraAmount"`.
+ */
+export function useMockStakeTogetherWrapperTransferExtraAmount<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'transferExtraAmount'>['request']['abi'],
+        'transferExtraAmount',
+        TMode
+      > & { functionName?: 'transferExtraAmount' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'transferExtraAmount', TMode> & {
+        abi?: never
+        functionName?: 'transferExtraAmount'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'transferExtraAmount', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'transferExtraAmount',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function useMockStakeTogetherWrapperTransferFrom<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'transferFrom'>['request']['abi'],
+        'transferFrom',
+        TMode
+      > & { functionName?: 'transferFrom' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'transferFrom', TMode> & {
+        abi?: never
+        functionName?: 'transferFrom'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'transferFrom', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'transferFrom',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"unpause"`.
+ */
+export function useMockStakeTogetherWrapperUnpause<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'unpause'>['request']['abi'],
+        'unpause',
+        TMode
+      > & { functionName?: 'unpause' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'unpause', TMode> & {
+        abi?: never
+        functionName?: 'unpause'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'unpause', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'unpause',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"unwrap"`.
+ */
+export function useMockStakeTogetherWrapperUnwrap<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'unwrap'>['request']['abi'],
+        'unwrap',
+        TMode
+      > & { functionName?: 'unwrap' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'unwrap', TMode> & {
+        abi?: never
+        functionName?: 'unwrap'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'unwrap', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'unwrap',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ */
+export function useMockStakeTogetherWrapperUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'upgradeToAndCall'>['request']['abi'],
+        'upgradeToAndCall',
+        TMode
+      > & { functionName?: 'upgradeToAndCall' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'upgradeToAndCall', TMode> & {
+        abi?: never
+        functionName?: 'upgradeToAndCall'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'upgradeToAndCall', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'upgradeToAndCall',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"wrap"`.
+ */
+export function useMockStakeTogetherWrapperWrap<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof mockStakeTogetherWrapperABI, 'wrap'>['request']['abi'],
+        'wrap',
+        TMode
+      > & { functionName?: 'wrap' }
+    : UseContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'wrap', TMode> & {
+        abi?: never
+        functionName?: 'wrap'
+      } = {} as any
+) {
+  return useContractWrite<typeof mockStakeTogetherWrapperABI, 'wrap', TMode>({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'wrap',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__.
+ */
+export function usePrepareMockStakeTogetherWrapperWrite<TFunctionName extends string>(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, TFunctionName>,
+    'abi'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, TFunctionName>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"approve"`.
+ */
+export function usePrepareMockStakeTogetherWrapperApprove(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'approve'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'approve',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'approve'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"burn"`.
+ */
+export function usePrepareMockStakeTogetherWrapperBurn(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'burn'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'burn',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'burn'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"burnFrom"`.
+ */
+export function usePrepareMockStakeTogetherWrapperBurnFrom(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'burnFrom'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'burnFrom',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'burnFrom'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"grantRole"`.
+ */
+export function usePrepareMockStakeTogetherWrapperGrantRole(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'grantRole'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'grantRole',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'grantRole'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"initialize"`.
+ */
+export function usePrepareMockStakeTogetherWrapperInitialize(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'initialize'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'initialize',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'initialize'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"initializeV2"`.
+ */
+export function usePrepareMockStakeTogetherWrapperInitializeV2(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'initializeV2'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'initializeV2',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'initializeV2'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"pause"`.
+ */
+export function usePrepareMockStakeTogetherWrapperPause(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'pause'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'pause',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'pause'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"permit"`.
+ */
+export function usePrepareMockStakeTogetherWrapperPermit(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'permit'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'permit',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'permit'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"renounceRole"`.
+ */
+export function usePrepareMockStakeTogetherWrapperRenounceRole(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'renounceRole'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'renounceRole',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'renounceRole'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"revokeRole"`.
+ */
+export function usePrepareMockStakeTogetherWrapperRevokeRole(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'revokeRole'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'revokeRole',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'revokeRole'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"setStakeTogether"`.
+ */
+export function usePrepareMockStakeTogetherWrapperSetStakeTogether(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'setStakeTogether'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'setStakeTogether',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'setStakeTogether'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"transfer"`.
+ */
+export function usePrepareMockStakeTogetherWrapperTransfer(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'transfer'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'transfer',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'transfer'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"transferExtraAmount"`.
+ */
+export function usePrepareMockStakeTogetherWrapperTransferExtraAmount(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'transferExtraAmount'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'transferExtraAmount',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'transferExtraAmount'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function usePrepareMockStakeTogetherWrapperTransferFrom(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'transferFrom'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'transferFrom',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'transferFrom'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"unpause"`.
+ */
+export function usePrepareMockStakeTogetherWrapperUnpause(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'unpause'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'unpause',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'unpause'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"unwrap"`.
+ */
+export function usePrepareMockStakeTogetherWrapperUnwrap(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'unwrap'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'unwrap',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'unwrap'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ */
+export function usePrepareMockStakeTogetherWrapperUpgradeToAndCall(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'upgradeToAndCall'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'upgradeToAndCall',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'upgradeToAndCall'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `functionName` set to `"wrap"`.
+ */
+export function usePrepareMockStakeTogetherWrapperWrap(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'wrap'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: mockStakeTogetherWrapperABI,
+    functionName: 'wrap',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof mockStakeTogetherWrapperABI, 'wrap'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__.
+ */
+export function useMockStakeTogetherWrapperEvent<TEventName extends string>(
+  config: Omit<UseContractEventConfig<typeof mockStakeTogetherWrapperABI, TEventName>, 'abi'> = {} as any
+) {
+  return useContractEvent({ abi: mockStakeTogetherWrapperABI, ...config } as UseContractEventConfig<
+    typeof mockStakeTogetherWrapperABI,
+    TEventName
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"Approval"`.
+ */
+export function useMockStakeTogetherWrapperApprovalEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Approval'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'Approval',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Approval'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"EIP712DomainChanged"`.
+ */
+export function useMockStakeTogetherWrapperEip712DomainChangedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'EIP712DomainChanged'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'EIP712DomainChanged',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'EIP712DomainChanged'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"Initialized"`.
+ */
+export function useMockStakeTogetherWrapperInitializedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Initialized'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'Initialized',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Initialized'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"Paused"`.
+ */
+export function useMockStakeTogetherWrapperPausedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Paused'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'Paused',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Paused'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"ReceiveEther"`.
+ */
+export function useMockStakeTogetherWrapperReceiveEtherEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'ReceiveEther'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'ReceiveEther',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'ReceiveEther'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"RoleAdminChanged"`.
+ */
+export function useMockStakeTogetherWrapperRoleAdminChangedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'RoleAdminChanged'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'RoleAdminChanged',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'RoleAdminChanged'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"RoleGranted"`.
+ */
+export function useMockStakeTogetherWrapperRoleGrantedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'RoleGranted'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'RoleGranted',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'RoleGranted'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"RoleRevoked"`.
+ */
+export function useMockStakeTogetherWrapperRoleRevokedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'RoleRevoked'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'RoleRevoked',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'RoleRevoked'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"SetStakeTogether"`.
+ */
+export function useMockStakeTogetherWrapperSetStakeTogetherEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'SetStakeTogether'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'SetStakeTogether',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'SetStakeTogether'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"Transfer"`.
+ */
+export function useMockStakeTogetherWrapperTransferEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Transfer'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'Transfer',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Transfer'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"Unpaused"`.
+ */
+export function useMockStakeTogetherWrapperUnpausedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Unpaused'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'Unpaused',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Unpaused'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"Unwrapped"`.
+ */
+export function useMockStakeTogetherWrapperUnwrappedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Unwrapped'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'Unwrapped',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Unwrapped'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"Upgraded"`.
+ */
+export function useMockStakeTogetherWrapperUpgradedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Upgraded'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'Upgraded',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Upgraded'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockStakeTogetherWrapperABI}__ and `eventName` set to `"Wrapped"`.
+ */
+export function useMockStakeTogetherWrapperWrappedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Wrapped'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: mockStakeTogetherWrapperABI,
+    eventName: 'Wrapped',
+    ...config
+  } as UseContractEventConfig<typeof mockStakeTogetherWrapperABI, 'Wrapped'>)
 }
 
 /**
@@ -22241,6 +27092,25 @@ export function useMockWithdrawalsUpgraderRole<
   return useContractRead({
     abi: mockWithdrawalsABI,
     functionName: 'UPGRADER_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof mockWithdrawalsABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`.
+ */
+export function useMockWithdrawalsUpgradeInterfaceVersion<
+  TFunctionName extends 'UPGRADE_INTERFACE_VERSION',
+  TSelectData = ReadContractResult<typeof mockWithdrawalsABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof mockWithdrawalsABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: mockWithdrawalsABI,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
     ...config
   } as UseContractReadConfig<typeof mockWithdrawalsABI, TFunctionName, TSelectData>)
 }
@@ -22658,28 +27528,6 @@ export function useMockWithdrawalsBurnFrom<TMode extends WriteContractMode = und
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function useMockWithdrawalsDecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockWithdrawalsABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof mockWithdrawalsABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof mockWithdrawalsABI, 'decreaseAllowance', TMode>({
-    abi: mockWithdrawalsABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `functionName` set to `"grantRole"`.
  */
 export function useMockWithdrawalsGrantRole<TMode extends WriteContractMode = undefined>(
@@ -22697,28 +27545,6 @@ export function useMockWithdrawalsGrantRole<TMode extends WriteContractMode = un
   return useContractWrite<typeof mockWithdrawalsABI, 'grantRole', TMode>({
     abi: mockWithdrawalsABI,
     functionName: 'grantRole',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function useMockWithdrawalsIncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockWithdrawalsABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof mockWithdrawalsABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof mockWithdrawalsABI, 'increaseAllowance', TMode>({
-    abi: mockWithdrawalsABI,
-    functionName: 'increaseAllowance',
     ...config
   } as any)
 }
@@ -23032,28 +27858,6 @@ export function useMockWithdrawalsUnpause<TMode extends WriteContractMode = unde
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function useMockWithdrawalsUpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof mockWithdrawalsABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof mockWithdrawalsABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
-      } = {} as any
-) {
-  return useContractWrite<typeof mockWithdrawalsABI, 'upgradeTo', TMode>({
-    abi: mockWithdrawalsABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function useMockWithdrawalsUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
@@ -23158,22 +27962,6 @@ export function usePrepareMockWithdrawalsBurnFrom(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function usePrepareMockWithdrawalsDecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof mockWithdrawalsABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: mockWithdrawalsABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof mockWithdrawalsABI, 'decreaseAllowance'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `functionName` set to `"grantRole"`.
  */
 export function usePrepareMockWithdrawalsGrantRole(
@@ -23187,22 +27975,6 @@ export function usePrepareMockWithdrawalsGrantRole(
     functionName: 'grantRole',
     ...config
   } as UsePrepareContractWriteConfig<typeof mockWithdrawalsABI, 'grantRole'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function usePrepareMockWithdrawalsIncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof mockWithdrawalsABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: mockWithdrawalsABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof mockWithdrawalsABI, 'increaseAllowance'>)
 }
 
 /**
@@ -23430,22 +28202,6 @@ export function usePrepareMockWithdrawalsUnpause(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function usePrepareMockWithdrawalsUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof mockWithdrawalsABI, 'upgradeTo'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: mockWithdrawalsABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof mockWithdrawalsABI, 'upgradeTo'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function usePrepareMockWithdrawalsUpgradeToAndCall(
@@ -23490,22 +28246,6 @@ export function useMockWithdrawalsEvent<TEventName extends string>(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `eventName` set to `"AdminChanged"`.
- */
-export function useMockWithdrawalsAdminChangedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof mockWithdrawalsABI, 'AdminChanged'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: mockWithdrawalsABI,
-    eventName: 'AdminChanged',
-    ...config
-  } as UseContractEventConfig<typeof mockWithdrawalsABI, 'AdminChanged'>)
-}
-
-/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `eventName` set to `"Approval"`.
  */
 export function useMockWithdrawalsApprovalEvent(
@@ -23516,22 +28256,6 @@ export function useMockWithdrawalsApprovalEvent(
     eventName: 'Approval',
     ...config
   } as UseContractEventConfig<typeof mockWithdrawalsABI, 'Approval'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link mockWithdrawalsABI}__ and `eventName` set to `"BeaconUpgraded"`.
- */
-export function useMockWithdrawalsBeaconUpgradedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof mockWithdrawalsABI, 'BeaconUpgraded'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: mockWithdrawalsABI,
-    eventName: 'BeaconUpgraded',
-    ...config
-  } as UseContractEventConfig<typeof mockWithdrawalsABI, 'BeaconUpgraded'>)
 }
 
 /**
@@ -23737,6 +28461,72 @@ export function useMockWithdrawalsWithdrawEvent(
     eventName: 'Withdraw',
     ...config
   } as UseContractEventConfig<typeof mockWithdrawalsABI, 'Withdraw'>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link noncesUpgradeableABI}__.
+ */
+export function useNoncesUpgradeableRead<
+  TFunctionName extends string,
+  TSelectData = ReadContractResult<typeof noncesUpgradeableABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof noncesUpgradeableABI, TFunctionName, TSelectData>,
+    'abi'
+  > = {} as any
+) {
+  return useContractRead({ abi: noncesUpgradeableABI, ...config } as UseContractReadConfig<
+    typeof noncesUpgradeableABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link noncesUpgradeableABI}__ and `functionName` set to `"nonces"`.
+ */
+export function useNoncesUpgradeableNonces<
+  TFunctionName extends 'nonces',
+  TSelectData = ReadContractResult<typeof noncesUpgradeableABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof noncesUpgradeableABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: noncesUpgradeableABI,
+    functionName: 'nonces',
+    ...config
+  } as UseContractReadConfig<typeof noncesUpgradeableABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link noncesUpgradeableABI}__.
+ */
+export function useNoncesUpgradeableEvent<TEventName extends string>(
+  config: Omit<UseContractEventConfig<typeof noncesUpgradeableABI, TEventName>, 'abi'> = {} as any
+) {
+  return useContractEvent({ abi: noncesUpgradeableABI, ...config } as UseContractEventConfig<
+    typeof noncesUpgradeableABI,
+    TEventName
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link noncesUpgradeableABI}__ and `eventName` set to `"Initialized"`.
+ */
+export function useNoncesUpgradeableInitializedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof noncesUpgradeableABI, 'Initialized'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: noncesUpgradeableABI,
+    eventName: 'Initialized',
+    ...config
+  } as UseContractEventConfig<typeof noncesUpgradeableABI, 'Initialized'>)
 }
 
 /**
@@ -23991,6 +28781,25 @@ export function useRouterUpgraderRole<
 }
 
 /**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`.
+ */
+export function useRouterUpgradeInterfaceVersion<
+  TFunctionName extends 'UPGRADE_INTERFACE_VERSION',
+  TSelectData = ReadContractResult<typeof routerABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof routerABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: routerABI,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
+    ...config
+  } as UseContractReadConfig<typeof routerABI, TFunctionName, TSelectData>)
+}
+
+/**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"airdrop"`.
  */
 export function useRouterAirdrop<
@@ -24003,6 +28812,25 @@ export function useRouterAirdrop<
   > = {} as any
 ) {
   return useContractRead({ abi: routerABI, functionName: 'airdrop', ...config } as UseContractReadConfig<
+    typeof routerABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"bunkermode"`.
+ */
+export function useRouterBunkermode<
+  TFunctionName extends 'bunkermode',
+  TSelectData = ReadContractResult<typeof routerABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof routerABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({ abi: routerABI, functionName: 'bunkermode', ...config } as UseContractReadConfig<
     typeof routerABI,
     TFunctionName,
     TSelectData
@@ -24233,25 +29061,6 @@ export function useRouterLastExecutedBlock<
   return useContractRead({
     abi: routerABI,
     functionName: 'lastExecutedBlock',
-    ...config
-  } as UseContractReadConfig<typeof routerABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"lastExecutedEpoch"`.
- */
-export function useRouterLastExecutedEpoch<
-  TFunctionName extends 'lastExecutedEpoch',
-  TSelectData = ReadContractResult<typeof routerABI, TFunctionName>
->(
-  config: Omit<
-    UseContractReadConfig<typeof routerABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return useContractRead({
-    abi: routerABI,
-    functionName: 'lastExecutedEpoch',
     ...config
   } as UseContractReadConfig<typeof routerABI, TFunctionName, TSelectData>)
 }
@@ -24867,6 +29676,28 @@ export function useRouterRevokeRole<TMode extends WriteContractMode = undefined>
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"setBunkerMode"`.
+ */
+export function useRouterSetBunkerMode<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof routerABI, 'setBunkerMode'>['request']['abi'],
+        'setBunkerMode',
+        TMode
+      > & { functionName?: 'setBunkerMode' }
+    : UseContractWriteConfig<typeof routerABI, 'setBunkerMode', TMode> & {
+        abi?: never
+        functionName?: 'setBunkerMode'
+      } = {} as any
+) {
+  return useContractWrite<typeof routerABI, 'setBunkerMode', TMode>({
+    abi: routerABI,
+    functionName: 'setBunkerMode',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"setConfig"`.
  */
 export function useRouterSetConfig<TMode extends WriteContractMode = undefined>(
@@ -24884,28 +29715,6 @@ export function useRouterSetConfig<TMode extends WriteContractMode = undefined>(
   return useContractWrite<typeof routerABI, 'setConfig', TMode>({
     abi: routerABI,
     functionName: 'setConfig',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"setLastExecutedEpoch"`.
- */
-export function useRouterSetLastExecutedEpoch<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof routerABI, 'setLastExecutedEpoch'>['request']['abi'],
-        'setLastExecutedEpoch',
-        TMode
-      > & { functionName?: 'setLastExecutedEpoch' }
-    : UseContractWriteConfig<typeof routerABI, 'setLastExecutedEpoch', TMode> & {
-        abi?: never
-        functionName?: 'setLastExecutedEpoch'
-      } = {} as any
-) {
-  return useContractWrite<typeof routerABI, 'setLastExecutedEpoch', TMode>({
-    abi: routerABI,
-    functionName: 'setLastExecutedEpoch',
     ...config
   } as any)
 }
@@ -24994,28 +29803,6 @@ export function useRouterUnpause<TMode extends WriteContractMode = undefined>(
   return useContractWrite<typeof routerABI, 'unpause', TMode>({
     abi: routerABI,
     functionName: 'unpause',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function useRouterUpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof routerABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof routerABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
-      } = {} as any
-) {
-  return useContractWrite<typeof routerABI, 'upgradeTo', TMode>({
-    abi: routerABI,
-    functionName: 'upgradeTo',
     ...config
   } as any)
 }
@@ -25273,6 +30060,22 @@ export function usePrepareRouterRevokeRole(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"setBunkerMode"`.
+ */
+export function usePrepareRouterSetBunkerMode(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof routerABI, 'setBunkerMode'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: routerABI,
+    functionName: 'setBunkerMode',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof routerABI, 'setBunkerMode'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"setConfig"`.
  */
 export function usePrepareRouterSetConfig(
@@ -25283,22 +30086,6 @@ export function usePrepareRouterSetConfig(
     functionName: 'setConfig',
     ...config
   } as UsePrepareContractWriteConfig<typeof routerABI, 'setConfig'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"setLastExecutedEpoch"`.
- */
-export function usePrepareRouterSetLastExecutedEpoch(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof routerABI, 'setLastExecutedEpoch'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: routerABI,
-    functionName: 'setLastExecutedEpoch',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof routerABI, 'setLastExecutedEpoch'>)
 }
 
 /**
@@ -25363,19 +30150,6 @@ export function usePrepareRouterUnpause(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function usePrepareRouterUpgradeTo(
-  config: Omit<UsePrepareContractWriteConfig<typeof routerABI, 'upgradeTo'>, 'abi' | 'functionName'> = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: routerABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof routerABI, 'upgradeTo'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link routerABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function usePrepareRouterUpgradeToAndCall(
@@ -25413,18 +30187,6 @@ export function useRouterAddReportOracleEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link routerABI}__ and `eventName` set to `"AdminChanged"`.
- */
-export function useRouterAdminChangedEvent(
-  config: Omit<UseContractEventConfig<typeof routerABI, 'AdminChanged'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({ abi: routerABI, eventName: 'AdminChanged', ...config } as UseContractEventConfig<
-    typeof routerABI,
-    'AdminChanged'
-  >)
-}
-
-/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link routerABI}__ and `eventName` set to `"AdvanceNextBlock"`.
  */
 export function useRouterAdvanceNextBlockEvent(
@@ -25435,18 +30197,6 @@ export function useRouterAdvanceNextBlockEvent(
     eventName: 'AdvanceNextBlock',
     ...config
   } as UseContractEventConfig<typeof routerABI, 'AdvanceNextBlock'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link routerABI}__ and `eventName` set to `"BeaconUpgraded"`.
- */
-export function useRouterBeaconUpgradedEvent(
-  config: Omit<UseContractEventConfig<typeof routerABI, 'BeaconUpgraded'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({ abi: routerABI, eventName: 'BeaconUpgraded', ...config } as UseContractEventConfig<
-    typeof routerABI,
-    'BeaconUpgraded'
-  >)
 }
 
 /**
@@ -25621,6 +30371,18 @@ export function useRouterRoleRevokedEvent(
 }
 
 /**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link routerABI}__ and `eventName` set to `"SetBunkerMode"`.
+ */
+export function useRouterSetBunkerModeEvent(
+  config: Omit<UseContractEventConfig<typeof routerABI, 'SetBunkerMode'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({ abi: routerABI, eventName: 'SetBunkerMode', ...config } as UseContractEventConfig<
+    typeof routerABI,
+    'SetBunkerMode'
+  >)
+}
+
+/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link routerABI}__ and `eventName` set to `"SetConfig"`.
  */
 export function useRouterSetConfigEvent(
@@ -25630,22 +30392,6 @@ export function useRouterSetConfigEvent(
     typeof routerABI,
     'SetConfig'
   >)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link routerABI}__ and `eventName` set to `"SetLastExecutedEpoch"`.
- */
-export function useRouterSetLastExecutedEpochEvent(
-  config: Omit<
-    UseContractEventConfig<typeof routerABI, 'SetLastExecutedEpoch'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: routerABI,
-    eventName: 'SetLastExecutedEpoch',
-    ...config
-  } as UseContractEventConfig<typeof routerABI, 'SetLastExecutedEpoch'>)
 }
 
 /**
@@ -25714,19 +30460,6 @@ export function useRouterUpgradedEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link routerABI}__ and `eventName` set to `"ValidatorsToRemove"`.
- */
-export function useRouterValidatorsToRemoveEvent(
-  config: Omit<UseContractEventConfig<typeof routerABI, 'ValidatorsToRemove'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({
-    abi: routerABI,
-    eventName: 'ValidatorsToRemove',
-    ...config
-  } as UseContractEventConfig<typeof routerABI, 'ValidatorsToRemove'>)
-}
-
-/**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__.
  */
 export function useStakeTogetherRead<
@@ -25755,6 +30488,44 @@ export function useStakeTogetherAdminRole<
   return useContractRead({
     abi: stakeTogetherABI,
     functionName: 'ADMIN_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"ANTI_FRAUD_MANAGER_ROLE"`.
+ */
+export function useStakeTogetherAntiFraudManagerRole<
+  TFunctionName extends 'ANTI_FRAUD_MANAGER_ROLE',
+  TSelectData = ReadContractResult<typeof stakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherABI,
+    functionName: 'ANTI_FRAUD_MANAGER_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"ANTI_FRAUD_SENTINEL_ROLE"`.
+ */
+export function useStakeTogetherAntiFraudSentinelRole<
+  TFunctionName extends 'ANTI_FRAUD_SENTINEL_ROLE',
+  TSelectData = ReadContractResult<typeof stakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherABI,
+    functionName: 'ANTI_FRAUD_SENTINEL_ROLE',
     ...config
   } as UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>)
 }
@@ -25836,6 +30607,25 @@ export function useStakeTogetherUpgraderRole<
 }
 
 /**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`.
+ */
+export function useStakeTogetherUpgradeInterfaceVersion<
+  TFunctionName extends 'UPGRADE_INTERFACE_VERSION',
+  TSelectData = ReadContractResult<typeof stakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherABI,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"VALIDATOR_ORACLE_MANAGER_ROLE"`.
  */
 export function useStakeTogetherValidatorOracleManagerRole<
@@ -25890,6 +30680,25 @@ export function useStakeTogetherValidatorOracleSentinelRole<
     functionName: 'VALIDATOR_ORACLE_SENTINEL_ROLE',
     ...config
   } as UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"airdrop"`.
+ */
+export function useStakeTogetherAirdrop<
+  TFunctionName extends 'airdrop',
+  TSelectData = ReadContractResult<typeof stakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({ abi: stakeTogetherABI, functionName: 'airdrop', ...config } as UseContractReadConfig<
+    typeof stakeTogetherABI,
+    TFunctionName,
+    TSelectData
+  >)
 }
 
 /**
@@ -26007,10 +30816,10 @@ export function useStakeTogetherDecimals<
 }
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"depositContract"`.
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"deposit"`.
  */
-export function useStakeTogetherDepositContract<
-  TFunctionName extends 'depositContract',
+export function useStakeTogetherDeposit<
+  TFunctionName extends 'deposit',
   TSelectData = ReadContractResult<typeof stakeTogetherABI, TFunctionName>
 >(
   config: Omit<
@@ -26018,11 +30827,11 @@ export function useStakeTogetherDepositContract<
     'abi' | 'functionName'
   > = {} as any
 ) {
-  return useContractRead({
-    abi: stakeTogetherABI,
-    functionName: 'depositContract',
-    ...config
-  } as UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>)
+  return useContractRead({ abi: stakeTogetherABI, functionName: 'deposit', ...config } as UseContractReadConfig<
+    typeof stakeTogetherABI,
+    TFunctionName,
+    TSelectData
+  >)
 }
 
 /**
@@ -26042,6 +30851,25 @@ export function useStakeTogetherEip712Domain<
     functionName: 'eip712Domain',
     ...config
   } as UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"getFee"`.
+ */
+export function useStakeTogetherGetFee<
+  TFunctionName extends 'getFee',
+  TSelectData = ReadContractResult<typeof stakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({ abi: stakeTogetherABI, functionName: 'getFee', ...config } as UseContractReadConfig<
+    typeof stakeTogetherABI,
+    TFunctionName,
+    TSelectData
+  >)
 }
 
 /**
@@ -26102,6 +30930,44 @@ export function useStakeTogetherGetRoleAdmin<
 }
 
 /**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"getWithdrawBeaconBlock"`.
+ */
+export function useStakeTogetherGetWithdrawBeaconBlock<
+  TFunctionName extends 'getWithdrawBeaconBlock',
+  TSelectData = ReadContractResult<typeof stakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherABI,
+    functionName: 'getWithdrawBeaconBlock',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"getWithdrawBlock"`.
+ */
+export function useStakeTogetherGetWithdrawBlock<
+  TFunctionName extends 'getWithdrawBlock',
+  TSelectData = ReadContractResult<typeof stakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherABI,
+    functionName: 'getWithdrawBlock',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>)
+}
+
+/**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"hasRole"`.
  */
 export function useStakeTogetherHasRole<
@@ -26118,6 +30984,25 @@ export function useStakeTogetherHasRole<
     TFunctionName,
     TSelectData
   >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"isListedInAntiFraud"`.
+ */
+export function useStakeTogetherIsListedInAntiFraud<
+  TFunctionName extends 'isListedInAntiFraud',
+  TSelectData = ReadContractResult<typeof stakeTogetherABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherABI,
+    functionName: 'isListedInAntiFraud',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherABI, TFunctionName, TSelectData>)
 }
 
 /**
@@ -26603,6 +31488,50 @@ export function useStakeTogetherAddPool<TMode extends WriteContractMode = undefi
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"addToAntiFraud"`.
+ */
+export function useStakeTogetherAddToAntiFraud<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherABI, 'addToAntiFraud'>['request']['abi'],
+        'addToAntiFraud',
+        TMode
+      > & { functionName?: 'addToAntiFraud' }
+    : UseContractWriteConfig<typeof stakeTogetherABI, 'addToAntiFraud', TMode> & {
+        abi?: never
+        functionName?: 'addToAntiFraud'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherABI, 'addToAntiFraud', TMode>({
+    abi: stakeTogetherABI,
+    functionName: 'addToAntiFraud',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"addValidator"`.
+ */
+export function useStakeTogetherAddValidator<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherABI, 'addValidator'>['request']['abi'],
+        'addValidator',
+        TMode
+      > & { functionName?: 'addValidator' }
+    : UseContractWriteConfig<typeof stakeTogetherABI, 'addValidator', TMode> & {
+        abi?: never
+        functionName?: 'addValidator'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherABI, 'addValidator', TMode>({
+    abi: stakeTogetherABI,
+    functionName: 'addValidator',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"addValidatorOracle"`.
  */
 export function useStakeTogetherAddValidatorOracle<TMode extends WriteContractMode = undefined>(
@@ -26625,23 +31554,23 @@ export function useStakeTogetherAddValidatorOracle<TMode extends WriteContractMo
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawValidator"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawBeacon"`.
  */
-export function useStakeTogetherAnticipateWithdrawValidator<TMode extends WriteContractMode = undefined>(
+export function useStakeTogetherAnticipateWithdrawBeacon<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof stakeTogetherABI, 'anticipateWithdrawValidator'>['request']['abi'],
-        'anticipateWithdrawValidator',
+        PrepareWriteContractResult<typeof stakeTogetherABI, 'anticipateWithdrawBeacon'>['request']['abi'],
+        'anticipateWithdrawBeacon',
         TMode
-      > & { functionName?: 'anticipateWithdrawValidator' }
-    : UseContractWriteConfig<typeof stakeTogetherABI, 'anticipateWithdrawValidator', TMode> & {
+      > & { functionName?: 'anticipateWithdrawBeacon' }
+    : UseContractWriteConfig<typeof stakeTogetherABI, 'anticipateWithdrawBeacon', TMode> & {
         abi?: never
-        functionName?: 'anticipateWithdrawValidator'
+        functionName?: 'anticipateWithdrawBeacon'
       } = {} as any
 ) {
-  return useContractWrite<typeof stakeTogetherABI, 'anticipateWithdrawValidator', TMode>({
+  return useContractWrite<typeof stakeTogetherABI, 'anticipateWithdrawBeacon', TMode>({
     abi: stakeTogetherABI,
-    functionName: 'anticipateWithdrawValidator',
+    functionName: 'anticipateWithdrawBeacon',
     ...config
   } as any)
 }
@@ -26735,50 +31664,6 @@ export function useStakeTogetherClaimAirdrop<TMode extends WriteContractMode = u
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"createValidator"`.
- */
-export function useStakeTogetherCreateValidator<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof stakeTogetherABI, 'createValidator'>['request']['abi'],
-        'createValidator',
-        TMode
-      > & { functionName?: 'createValidator' }
-    : UseContractWriteConfig<typeof stakeTogetherABI, 'createValidator', TMode> & {
-        abi?: never
-        functionName?: 'createValidator'
-      } = {} as any
-) {
-  return useContractWrite<typeof stakeTogetherABI, 'createValidator', TMode>({
-    abi: stakeTogetherABI,
-    functionName: 'createValidator',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function useStakeTogetherDecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof stakeTogetherABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof stakeTogetherABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof stakeTogetherABI, 'decreaseAllowance', TMode>({
-    abi: stakeTogetherABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"depositDonation"`.
  */
 export function useStakeTogetherDepositDonation<TMode extends WriteContractMode = undefined>(
@@ -26867,28 +31752,6 @@ export function useStakeTogetherGrantRole<TMode extends WriteContractMode = unde
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function useStakeTogetherIncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof stakeTogetherABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof stakeTogetherABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof stakeTogetherABI, 'increaseAllowance', TMode>({
-    abi: stakeTogetherABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"initialize"`.
  */
 export function useStakeTogetherInitialize<TMode extends WriteContractMode = undefined>(
@@ -26955,23 +31818,45 @@ export function useStakeTogetherPermit<TMode extends WriteContractMode = undefin
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"processStakeRewards"`.
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"processFeeRewards"`.
  */
-export function useStakeTogetherProcessStakeRewards<TMode extends WriteContractMode = undefined>(
+export function useStakeTogetherProcessFeeRewards<TMode extends WriteContractMode = undefined>(
   config: TMode extends 'prepared'
     ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof stakeTogetherABI, 'processStakeRewards'>['request']['abi'],
-        'processStakeRewards',
+        PrepareWriteContractResult<typeof stakeTogetherABI, 'processFeeRewards'>['request']['abi'],
+        'processFeeRewards',
         TMode
-      > & { functionName?: 'processStakeRewards' }
-    : UseContractWriteConfig<typeof stakeTogetherABI, 'processStakeRewards', TMode> & {
+      > & { functionName?: 'processFeeRewards' }
+    : UseContractWriteConfig<typeof stakeTogetherABI, 'processFeeRewards', TMode> & {
         abi?: never
-        functionName?: 'processStakeRewards'
+        functionName?: 'processFeeRewards'
       } = {} as any
 ) {
-  return useContractWrite<typeof stakeTogetherABI, 'processStakeRewards', TMode>({
+  return useContractWrite<typeof stakeTogetherABI, 'processFeeRewards', TMode>({
     abi: stakeTogetherABI,
-    functionName: 'processStakeRewards',
+    functionName: 'processFeeRewards',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"removeFromAntiFraud"`.
+ */
+export function useStakeTogetherRemoveFromAntiFraud<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherABI, 'removeFromAntiFraud'>['request']['abi'],
+        'removeFromAntiFraud',
+        TMode
+      > & { functionName?: 'removeFromAntiFraud' }
+    : UseContractWriteConfig<typeof stakeTogetherABI, 'removeFromAntiFraud', TMode> & {
+        abi?: never
+        functionName?: 'removeFromAntiFraud'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherABI, 'removeFromAntiFraud', TMode>({
+    abi: stakeTogetherABI,
+    functionName: 'removeFromAntiFraud',
     ...config
   } as any)
 }
@@ -27285,28 +32170,6 @@ export function useStakeTogetherUpdateDelegations<TMode extends WriteContractMod
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function useStakeTogetherUpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof stakeTogetherABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof stakeTogetherABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
-      } = {} as any
-) {
-  return useContractWrite<typeof stakeTogetherABI, 'upgradeTo', TMode>({
-    abi: stakeTogetherABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function useStakeTogetherUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
@@ -27329,6 +32192,28 @@ export function useStakeTogetherUpgradeToAndCall<TMode extends WriteContractMode
 }
 
 /**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"withdrawBeacon"`.
+ */
+export function useStakeTogetherWithdrawBeacon<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherABI, 'withdrawBeacon'>['request']['abi'],
+        'withdrawBeacon',
+        TMode
+      > & { functionName?: 'withdrawBeacon' }
+    : UseContractWriteConfig<typeof stakeTogetherABI, 'withdrawBeacon', TMode> & {
+        abi?: never
+        functionName?: 'withdrawBeacon'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherABI, 'withdrawBeacon', TMode>({
+    abi: stakeTogetherABI,
+    functionName: 'withdrawBeacon',
+    ...config
+  } as any)
+}
+
+/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"withdrawPool"`.
  */
 export function useStakeTogetherWithdrawPool<TMode extends WriteContractMode = undefined>(
@@ -27346,28 +32231,6 @@ export function useStakeTogetherWithdrawPool<TMode extends WriteContractMode = u
   return useContractWrite<typeof stakeTogetherABI, 'withdrawPool', TMode>({
     abi: stakeTogetherABI,
     functionName: 'withdrawPool',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"withdrawValidator"`.
- */
-export function useStakeTogetherWithdrawValidator<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof stakeTogetherABI, 'withdrawValidator'>['request']['abi'],
-        'withdrawValidator',
-        TMode
-      > & { functionName?: 'withdrawValidator' }
-    : UseContractWriteConfig<typeof stakeTogetherABI, 'withdrawValidator', TMode> & {
-        abi?: never
-        functionName?: 'withdrawValidator'
-      } = {} as any
-) {
-  return useContractWrite<typeof stakeTogetherABI, 'withdrawValidator', TMode>({
-    abi: stakeTogetherABI,
-    functionName: 'withdrawValidator',
     ...config
   } as any)
 }
@@ -27401,6 +32264,38 @@ export function usePrepareStakeTogetherAddPool(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"addToAntiFraud"`.
+ */
+export function usePrepareStakeTogetherAddToAntiFraud(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'addToAntiFraud'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherABI,
+    functionName: 'addToAntiFraud',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'addToAntiFraud'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"addValidator"`.
+ */
+export function usePrepareStakeTogetherAddValidator(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'addValidator'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherABI,
+    functionName: 'addValidator',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'addValidator'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"addValidatorOracle"`.
  */
 export function usePrepareStakeTogetherAddValidatorOracle(
@@ -27417,19 +32312,19 @@ export function usePrepareStakeTogetherAddValidatorOracle(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawValidator"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"anticipateWithdrawBeacon"`.
  */
-export function usePrepareStakeTogetherAnticipateWithdrawValidator(
+export function usePrepareStakeTogetherAnticipateWithdrawBeacon(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'anticipateWithdrawValidator'>,
+    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'anticipateWithdrawBeacon'>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return usePrepareContractWrite({
     abi: stakeTogetherABI,
-    functionName: 'anticipateWithdrawValidator',
+    functionName: 'anticipateWithdrawBeacon',
     ...config
-  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'anticipateWithdrawValidator'>)
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'anticipateWithdrawBeacon'>)
 }
 
 /**
@@ -27497,38 +32392,6 @@ export function usePrepareStakeTogetherClaimAirdrop(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"createValidator"`.
- */
-export function usePrepareStakeTogetherCreateValidator(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'createValidator'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: stakeTogetherABI,
-    functionName: 'createValidator',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'createValidator'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function usePrepareStakeTogetherDecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: stakeTogetherABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'decreaseAllowance'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"depositDonation"`.
  */
 export function usePrepareStakeTogetherDepositDonation(
@@ -27593,22 +32456,6 @@ export function usePrepareStakeTogetherGrantRole(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function usePrepareStakeTogetherIncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: stakeTogetherABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'increaseAllowance'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"initialize"`.
  */
 export function usePrepareStakeTogetherInitialize(
@@ -27657,19 +32504,35 @@ export function usePrepareStakeTogetherPermit(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"processStakeRewards"`.
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"processFeeRewards"`.
  */
-export function usePrepareStakeTogetherProcessStakeRewards(
+export function usePrepareStakeTogetherProcessFeeRewards(
   config: Omit<
-    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'processStakeRewards'>,
+    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'processFeeRewards'>,
     'abi' | 'functionName'
   > = {} as any
 ) {
   return usePrepareContractWrite({
     abi: stakeTogetherABI,
-    functionName: 'processStakeRewards',
+    functionName: 'processFeeRewards',
     ...config
-  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'processStakeRewards'>)
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'processFeeRewards'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"removeFromAntiFraud"`.
+ */
+export function usePrepareStakeTogetherRemoveFromAntiFraud(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'removeFromAntiFraud'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherABI,
+    functionName: 'removeFromAntiFraud',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'removeFromAntiFraud'>)
 }
 
 /**
@@ -27897,22 +32760,6 @@ export function usePrepareStakeTogetherUpdateDelegations(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function usePrepareStakeTogetherUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'upgradeTo'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: stakeTogetherABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'upgradeTo'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function usePrepareStakeTogetherUpgradeToAndCall(
@@ -27929,6 +32776,22 @@ export function usePrepareStakeTogetherUpgradeToAndCall(
 }
 
 /**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"withdrawBeacon"`.
+ */
+export function usePrepareStakeTogetherWithdrawBeacon(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'withdrawBeacon'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherABI,
+    functionName: 'withdrawBeacon',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'withdrawBeacon'>)
+}
+
+/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"withdrawPool"`.
  */
 export function usePrepareStakeTogetherWithdrawPool(
@@ -27942,22 +32805,6 @@ export function usePrepareStakeTogetherWithdrawPool(
     functionName: 'withdrawPool',
     ...config
   } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'withdrawPool'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherABI}__ and `functionName` set to `"withdrawValidator"`.
- */
-export function usePrepareStakeTogetherWithdrawValidator(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'withdrawValidator'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: stakeTogetherABI,
-    functionName: 'withdrawValidator',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof stakeTogetherABI, 'withdrawValidator'>)
 }
 
 /**
@@ -27985,6 +32832,19 @@ export function useStakeTogetherAddPoolEvent(
 }
 
 /**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"AddValidator"`.
+ */
+export function useStakeTogetherAddValidatorEvent(
+  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'AddValidator'>, 'abi' | 'eventName'> = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherABI,
+    eventName: 'AddValidator',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherABI, 'AddValidator'>)
+}
+
+/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"AddValidatorOracle"`.
  */
 export function useStakeTogetherAddValidatorOracleEvent(
@@ -28001,32 +32861,19 @@ export function useStakeTogetherAddValidatorOracleEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"AdminChanged"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"AnticipateWithdrawBeacon"`.
  */
-export function useStakeTogetherAdminChangedEvent(
-  config: Omit<UseContractEventConfig<typeof stakeTogetherABI, 'AdminChanged'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({
-    abi: stakeTogetherABI,
-    eventName: 'AdminChanged',
-    ...config
-  } as UseContractEventConfig<typeof stakeTogetherABI, 'AdminChanged'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"AnticipateWithdrawValidator"`.
- */
-export function useStakeTogetherAnticipateWithdrawValidatorEvent(
+export function useStakeTogetherAnticipateWithdrawBeaconEvent(
   config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'AnticipateWithdrawValidator'>,
+    UseContractEventConfig<typeof stakeTogetherABI, 'AnticipateWithdrawBeacon'>,
     'abi' | 'eventName'
   > = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
-    eventName: 'AnticipateWithdrawValidator',
+    eventName: 'AnticipateWithdrawBeacon',
     ...config
-  } as UseContractEventConfig<typeof stakeTogetherABI, 'AnticipateWithdrawValidator'>)
+  } as UseContractEventConfig<typeof stakeTogetherABI, 'AnticipateWithdrawBeacon'>)
 }
 
 /**
@@ -28039,22 +32886,6 @@ export function useStakeTogetherApprovalEvent(
     typeof stakeTogetherABI,
     'Approval'
   >)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"BeaconUpgraded"`.
- */
-export function useStakeTogetherBeaconUpgradedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'BeaconUpgraded'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: stakeTogetherABI,
-    eventName: 'BeaconUpgraded',
-    ...config
-  } as UseContractEventConfig<typeof stakeTogetherABI, 'BeaconUpgraded'>)
 }
 
 /**
@@ -28071,22 +32902,6 @@ export function useStakeTogetherBurnSharesEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"CreateValidator"`.
- */
-export function useStakeTogetherCreateValidatorEvent(
-  config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'CreateValidator'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: stakeTogetherABI,
-    eventName: 'CreateValidator',
-    ...config
-  } as UseContractEventConfig<typeof stakeTogetherABI, 'CreateValidator'>)
-}
-
-/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"DepositBase"`.
  */
 export function useStakeTogetherDepositBaseEvent(
@@ -28100,19 +32915,19 @@ export function useStakeTogetherDepositBaseEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"DepositLimitReached"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"DepositLimitWasReached"`.
  */
-export function useStakeTogetherDepositLimitReachedEvent(
+export function useStakeTogetherDepositLimitWasReachedEvent(
   config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'DepositLimitReached'>,
+    UseContractEventConfig<typeof stakeTogetherABI, 'DepositLimitWasReached'>,
     'abi' | 'eventName'
   > = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
-    eventName: 'DepositLimitReached',
+    eventName: 'DepositLimitWasReached',
     ...config
-  } as UseContractEventConfig<typeof stakeTogetherABI, 'DepositLimitReached'>)
+  } as UseContractEventConfig<typeof stakeTogetherABI, 'DepositLimitWasReached'>)
 }
 
 /**
@@ -28315,6 +33130,22 @@ export function useStakeTogetherRoleRevokedEvent(
     eventName: 'RoleRevoked',
     ...config
   } as UseContractEventConfig<typeof stakeTogetherABI, 'RoleRevoked'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"SetAntiFraudStatus"`.
+ */
+export function useStakeTogetherSetAntiFraudStatusEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherABI, 'SetAntiFraudStatus'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherABI,
+    eventName: 'SetAntiFraudStatus',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherABI, 'SetAntiFraudStatus'>)
 }
 
 /**
@@ -28533,19 +33364,1373 @@ export function useStakeTogetherWithdrawBaseEvent(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"WithdrawalsLimitReached"`.
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherABI}__ and `eventName` set to `"WithdrawalsLimitWasReached"`.
  */
-export function useStakeTogetherWithdrawalsLimitReachedEvent(
+export function useStakeTogetherWithdrawalsLimitWasReachedEvent(
   config: Omit<
-    UseContractEventConfig<typeof stakeTogetherABI, 'WithdrawalsLimitReached'>,
+    UseContractEventConfig<typeof stakeTogetherABI, 'WithdrawalsLimitWasReached'>,
     'abi' | 'eventName'
   > = {} as any
 ) {
   return useContractEvent({
     abi: stakeTogetherABI,
-    eventName: 'WithdrawalsLimitReached',
+    eventName: 'WithdrawalsLimitWasReached',
     ...config
-  } as UseContractEventConfig<typeof stakeTogetherABI, 'WithdrawalsLimitReached'>)
+  } as UseContractEventConfig<typeof stakeTogetherABI, 'WithdrawalsLimitWasReached'>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__.
+ */
+export function useStakeTogetherWrapperRead<
+  TFunctionName extends string,
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi'
+  > = {} as any
+) {
+  return useContractRead({ abi: stakeTogetherWrapperABI, ...config } as UseContractReadConfig<
+    typeof stakeTogetherWrapperABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"ADMIN_ROLE"`.
+ */
+export function useStakeTogetherWrapperAdminRole<
+  TFunctionName extends 'ADMIN_ROLE',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'ADMIN_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"DEFAULT_ADMIN_ROLE"`.
+ */
+export function useStakeTogetherWrapperDefaultAdminRole<
+  TFunctionName extends 'DEFAULT_ADMIN_ROLE',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'DEFAULT_ADMIN_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"DOMAIN_SEPARATOR"`.
+ */
+export function useStakeTogetherWrapperDomainSeparator<
+  TFunctionName extends 'DOMAIN_SEPARATOR',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'DOMAIN_SEPARATOR',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"UPGRADER_ROLE"`.
+ */
+export function useStakeTogetherWrapperUpgraderRole<
+  TFunctionName extends 'UPGRADER_ROLE',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'UPGRADER_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`.
+ */
+export function useStakeTogetherWrapperUpgradeInterfaceVersion<
+  TFunctionName extends 'UPGRADE_INTERFACE_VERSION',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"allowance"`.
+ */
+export function useStakeTogetherWrapperAllowance<
+  TFunctionName extends 'allowance',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'allowance',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"balanceOf"`.
+ */
+export function useStakeTogetherWrapperBalanceOf<
+  TFunctionName extends 'balanceOf',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'balanceOf',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"decimals"`.
+ */
+export function useStakeTogetherWrapperDecimals<
+  TFunctionName extends 'decimals',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'decimals',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"eip712Domain"`.
+ */
+export function useStakeTogetherWrapperEip712Domain<
+  TFunctionName extends 'eip712Domain',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'eip712Domain',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"getRoleAdmin"`.
+ */
+export function useStakeTogetherWrapperGetRoleAdmin<
+  TFunctionName extends 'getRoleAdmin',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'getRoleAdmin',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"hasRole"`.
+ */
+export function useStakeTogetherWrapperHasRole<
+  TFunctionName extends 'hasRole',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'hasRole',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"name"`.
+ */
+export function useStakeTogetherWrapperName<
+  TFunctionName extends 'name',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'name',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"nonces"`.
+ */
+export function useStakeTogetherWrapperNonces<
+  TFunctionName extends 'nonces',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'nonces',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"paused"`.
+ */
+export function useStakeTogetherWrapperPaused<
+  TFunctionName extends 'paused',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'paused',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"proxiableUUID"`.
+ */
+export function useStakeTogetherWrapperProxiableUuid<
+  TFunctionName extends 'proxiableUUID',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'proxiableUUID',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"stakeTogether"`.
+ */
+export function useStakeTogetherWrapperStakeTogether<
+  TFunctionName extends 'stakeTogether',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'stakeTogether',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"stpEthPerWstpETH"`.
+ */
+export function useStakeTogetherWrapperStpEthPerWstpEth<
+  TFunctionName extends 'stpEthPerWstpETH',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'stpEthPerWstpETH',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"supportsInterface"`.
+ */
+export function useStakeTogetherWrapperSupportsInterface<
+  TFunctionName extends 'supportsInterface',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'supportsInterface',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"symbol"`.
+ */
+export function useStakeTogetherWrapperSymbol<
+  TFunctionName extends 'symbol',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'symbol',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"totalSupply"`.
+ */
+export function useStakeTogetherWrapperTotalSupply<
+  TFunctionName extends 'totalSupply',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'totalSupply',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"version"`.
+ */
+export function useStakeTogetherWrapperVersion<
+  TFunctionName extends 'version',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'version',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"wstpETHPerStpETH"`.
+ */
+export function useStakeTogetherWrapperWstpEthPerStpEth<
+  TFunctionName extends 'wstpETHPerStpETH',
+  TSelectData = ReadContractResult<typeof stakeTogetherWrapperABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'wstpETHPerStpETH',
+    ...config
+  } as UseContractReadConfig<typeof stakeTogetherWrapperABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__.
+ */
+export function useStakeTogetherWrapperWrite<
+  TFunctionName extends string,
+  TMode extends WriteContractMode = undefined
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, string>['request']['abi'],
+        TFunctionName,
+        TMode
+      >
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, TFunctionName, TMode> & {
+        abi?: never
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, TFunctionName, TMode>({
+    abi: stakeTogetherWrapperABI,
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"approve"`.
+ */
+export function useStakeTogetherWrapperApprove<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'approve'>['request']['abi'],
+        'approve',
+        TMode
+      > & { functionName?: 'approve' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'approve', TMode> & {
+        abi?: never
+        functionName?: 'approve'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'approve', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'approve',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"burn"`.
+ */
+export function useStakeTogetherWrapperBurn<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'burn'>['request']['abi'],
+        'burn',
+        TMode
+      > & { functionName?: 'burn' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'burn', TMode> & {
+        abi?: never
+        functionName?: 'burn'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'burn', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'burn',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"burnFrom"`.
+ */
+export function useStakeTogetherWrapperBurnFrom<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'burnFrom'>['request']['abi'],
+        'burnFrom',
+        TMode
+      > & { functionName?: 'burnFrom' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'burnFrom', TMode> & {
+        abi?: never
+        functionName?: 'burnFrom'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'burnFrom', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'burnFrom',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"grantRole"`.
+ */
+export function useStakeTogetherWrapperGrantRole<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'grantRole'>['request']['abi'],
+        'grantRole',
+        TMode
+      > & { functionName?: 'grantRole' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'grantRole', TMode> & {
+        abi?: never
+        functionName?: 'grantRole'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'grantRole', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'grantRole',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"initialize"`.
+ */
+export function useStakeTogetherWrapperInitialize<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'initialize'>['request']['abi'],
+        'initialize',
+        TMode
+      > & { functionName?: 'initialize' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'initialize', TMode> & {
+        abi?: never
+        functionName?: 'initialize'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'initialize', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'initialize',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"pause"`.
+ */
+export function useStakeTogetherWrapperPause<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'pause'>['request']['abi'],
+        'pause',
+        TMode
+      > & { functionName?: 'pause' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'pause', TMode> & {
+        abi?: never
+        functionName?: 'pause'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'pause', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'pause',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"permit"`.
+ */
+export function useStakeTogetherWrapperPermit<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'permit'>['request']['abi'],
+        'permit',
+        TMode
+      > & { functionName?: 'permit' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'permit', TMode> & {
+        abi?: never
+        functionName?: 'permit'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'permit', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'permit',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"renounceRole"`.
+ */
+export function useStakeTogetherWrapperRenounceRole<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'renounceRole'>['request']['abi'],
+        'renounceRole',
+        TMode
+      > & { functionName?: 'renounceRole' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'renounceRole', TMode> & {
+        abi?: never
+        functionName?: 'renounceRole'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'renounceRole', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'renounceRole',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"revokeRole"`.
+ */
+export function useStakeTogetherWrapperRevokeRole<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'revokeRole'>['request']['abi'],
+        'revokeRole',
+        TMode
+      > & { functionName?: 'revokeRole' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'revokeRole', TMode> & {
+        abi?: never
+        functionName?: 'revokeRole'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'revokeRole', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'revokeRole',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"setStakeTogether"`.
+ */
+export function useStakeTogetherWrapperSetStakeTogether<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'setStakeTogether'>['request']['abi'],
+        'setStakeTogether',
+        TMode
+      > & { functionName?: 'setStakeTogether' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'setStakeTogether', TMode> & {
+        abi?: never
+        functionName?: 'setStakeTogether'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'setStakeTogether', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'setStakeTogether',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"transfer"`.
+ */
+export function useStakeTogetherWrapperTransfer<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'transfer'>['request']['abi'],
+        'transfer',
+        TMode
+      > & { functionName?: 'transfer' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'transfer', TMode> & {
+        abi?: never
+        functionName?: 'transfer'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'transfer', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'transfer',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"transferExtraAmount"`.
+ */
+export function useStakeTogetherWrapperTransferExtraAmount<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'transferExtraAmount'>['request']['abi'],
+        'transferExtraAmount',
+        TMode
+      > & { functionName?: 'transferExtraAmount' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'transferExtraAmount', TMode> & {
+        abi?: never
+        functionName?: 'transferExtraAmount'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'transferExtraAmount', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'transferExtraAmount',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function useStakeTogetherWrapperTransferFrom<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'transferFrom'>['request']['abi'],
+        'transferFrom',
+        TMode
+      > & { functionName?: 'transferFrom' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'transferFrom', TMode> & {
+        abi?: never
+        functionName?: 'transferFrom'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'transferFrom', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'transferFrom',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"unpause"`.
+ */
+export function useStakeTogetherWrapperUnpause<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'unpause'>['request']['abi'],
+        'unpause',
+        TMode
+      > & { functionName?: 'unpause' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'unpause', TMode> & {
+        abi?: never
+        functionName?: 'unpause'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'unpause', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'unpause',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"unwrap"`.
+ */
+export function useStakeTogetherWrapperUnwrap<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'unwrap'>['request']['abi'],
+        'unwrap',
+        TMode
+      > & { functionName?: 'unwrap' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'unwrap', TMode> & {
+        abi?: never
+        functionName?: 'unwrap'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'unwrap', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'unwrap',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ */
+export function useStakeTogetherWrapperUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'upgradeToAndCall'>['request']['abi'],
+        'upgradeToAndCall',
+        TMode
+      > & { functionName?: 'upgradeToAndCall' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'upgradeToAndCall', TMode> & {
+        abi?: never
+        functionName?: 'upgradeToAndCall'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'upgradeToAndCall', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'upgradeToAndCall',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"wrap"`.
+ */
+export function useStakeTogetherWrapperWrap<TMode extends WriteContractMode = undefined>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<typeof stakeTogetherWrapperABI, 'wrap'>['request']['abi'],
+        'wrap',
+        TMode
+      > & { functionName?: 'wrap' }
+    : UseContractWriteConfig<typeof stakeTogetherWrapperABI, 'wrap', TMode> & {
+        abi?: never
+        functionName?: 'wrap'
+      } = {} as any
+) {
+  return useContractWrite<typeof stakeTogetherWrapperABI, 'wrap', TMode>({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'wrap',
+    ...config
+  } as any)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__.
+ */
+export function usePrepareStakeTogetherWrapperWrite<TFunctionName extends string>(
+  config: Omit<UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, TFunctionName>, 'abi'> = {} as any
+) {
+  return usePrepareContractWrite({ abi: stakeTogetherWrapperABI, ...config } as UsePrepareContractWriteConfig<
+    typeof stakeTogetherWrapperABI,
+    TFunctionName
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"approve"`.
+ */
+export function usePrepareStakeTogetherWrapperApprove(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'approve'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'approve',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'approve'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"burn"`.
+ */
+export function usePrepareStakeTogetherWrapperBurn(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'burn'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'burn',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'burn'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"burnFrom"`.
+ */
+export function usePrepareStakeTogetherWrapperBurnFrom(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'burnFrom'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'burnFrom',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'burnFrom'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"grantRole"`.
+ */
+export function usePrepareStakeTogetherWrapperGrantRole(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'grantRole'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'grantRole',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'grantRole'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"initialize"`.
+ */
+export function usePrepareStakeTogetherWrapperInitialize(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'initialize'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'initialize',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'initialize'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"pause"`.
+ */
+export function usePrepareStakeTogetherWrapperPause(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'pause'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'pause',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'pause'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"permit"`.
+ */
+export function usePrepareStakeTogetherWrapperPermit(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'permit'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'permit',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'permit'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"renounceRole"`.
+ */
+export function usePrepareStakeTogetherWrapperRenounceRole(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'renounceRole'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'renounceRole',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'renounceRole'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"revokeRole"`.
+ */
+export function usePrepareStakeTogetherWrapperRevokeRole(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'revokeRole'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'revokeRole',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'revokeRole'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"setStakeTogether"`.
+ */
+export function usePrepareStakeTogetherWrapperSetStakeTogether(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'setStakeTogether'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'setStakeTogether',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'setStakeTogether'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"transfer"`.
+ */
+export function usePrepareStakeTogetherWrapperTransfer(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'transfer'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'transfer',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'transfer'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"transferExtraAmount"`.
+ */
+export function usePrepareStakeTogetherWrapperTransferExtraAmount(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'transferExtraAmount'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'transferExtraAmount',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'transferExtraAmount'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function usePrepareStakeTogetherWrapperTransferFrom(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'transferFrom'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'transferFrom',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'transferFrom'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"unpause"`.
+ */
+export function usePrepareStakeTogetherWrapperUnpause(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'unpause'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'unpause',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'unpause'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"unwrap"`.
+ */
+export function usePrepareStakeTogetherWrapperUnwrap(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'unwrap'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'unwrap',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'unwrap'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"upgradeToAndCall"`.
+ */
+export function usePrepareStakeTogetherWrapperUpgradeToAndCall(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'upgradeToAndCall'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'upgradeToAndCall',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'upgradeToAndCall'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `functionName` set to `"wrap"`.
+ */
+export function usePrepareStakeTogetherWrapperWrap(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'wrap'>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return usePrepareContractWrite({
+    abi: stakeTogetherWrapperABI,
+    functionName: 'wrap',
+    ...config
+  } as UsePrepareContractWriteConfig<typeof stakeTogetherWrapperABI, 'wrap'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__.
+ */
+export function useStakeTogetherWrapperEvent<TEventName extends string>(
+  config: Omit<UseContractEventConfig<typeof stakeTogetherWrapperABI, TEventName>, 'abi'> = {} as any
+) {
+  return useContractEvent({ abi: stakeTogetherWrapperABI, ...config } as UseContractEventConfig<
+    typeof stakeTogetherWrapperABI,
+    TEventName
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"Approval"`.
+ */
+export function useStakeTogetherWrapperApprovalEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Approval'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'Approval',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Approval'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"EIP712DomainChanged"`.
+ */
+export function useStakeTogetherWrapperEip712DomainChangedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'EIP712DomainChanged'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'EIP712DomainChanged',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'EIP712DomainChanged'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"Initialized"`.
+ */
+export function useStakeTogetherWrapperInitializedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Initialized'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'Initialized',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Initialized'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"Paused"`.
+ */
+export function useStakeTogetherWrapperPausedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Paused'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'Paused',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Paused'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"ReceiveEther"`.
+ */
+export function useStakeTogetherWrapperReceiveEtherEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'ReceiveEther'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'ReceiveEther',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'ReceiveEther'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"RoleAdminChanged"`.
+ */
+export function useStakeTogetherWrapperRoleAdminChangedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'RoleAdminChanged'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'RoleAdminChanged',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'RoleAdminChanged'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"RoleGranted"`.
+ */
+export function useStakeTogetherWrapperRoleGrantedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'RoleGranted'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'RoleGranted',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'RoleGranted'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"RoleRevoked"`.
+ */
+export function useStakeTogetherWrapperRoleRevokedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'RoleRevoked'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'RoleRevoked',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'RoleRevoked'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"SetStakeTogether"`.
+ */
+export function useStakeTogetherWrapperSetStakeTogetherEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'SetStakeTogether'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'SetStakeTogether',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'SetStakeTogether'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"Transfer"`.
+ */
+export function useStakeTogetherWrapperTransferEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Transfer'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'Transfer',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Transfer'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"Unpaused"`.
+ */
+export function useStakeTogetherWrapperUnpausedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Unpaused'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'Unpaused',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Unpaused'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"Unwrapped"`.
+ */
+export function useStakeTogetherWrapperUnwrappedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Unwrapped'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'Unwrapped',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Unwrapped'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"Upgraded"`.
+ */
+export function useStakeTogetherWrapperUpgradedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Upgraded'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'Upgraded',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Upgraded'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link stakeTogetherWrapperABI}__ and `eventName` set to `"Wrapped"`.
+ */
+export function useStakeTogetherWrapperWrappedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Wrapped'>,
+    'abi' | 'eventName'
+  > = {} as any
+) {
+  return useContractEvent({
+    abi: stakeTogetherWrapperABI,
+    eventName: 'Wrapped',
+    ...config
+  } as UseContractEventConfig<typeof stakeTogetherWrapperABI, 'Wrapped'>)
 }
 
 /**
@@ -28562,6 +34747,25 @@ export function useUupsUpgradeableRead<
     TFunctionName,
     TSelectData
   >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link uupsUpgradeableABI}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`.
+ */
+export function useUupsUpgradeableUpgradeInterfaceVersion<
+  TFunctionName extends 'UPGRADE_INTERFACE_VERSION',
+  TSelectData = ReadContractResult<typeof uupsUpgradeableABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof uupsUpgradeableABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: uupsUpgradeableABI,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
+    ...config
+  } as UseContractReadConfig<typeof uupsUpgradeableABI, TFunctionName, TSelectData>)
 }
 
 /**
@@ -28607,28 +34811,6 @@ export function useUupsUpgradeableWrite<
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link uupsUpgradeableABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function useUupsUpgradeableUpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof uupsUpgradeableABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof uupsUpgradeableABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
-      } = {} as any
-) {
-  return useContractWrite<typeof uupsUpgradeableABI, 'upgradeTo', TMode>({
-    abi: uupsUpgradeableABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link uupsUpgradeableABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function useUupsUpgradeableUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
@@ -28663,22 +34845,6 @@ export function usePrepareUupsUpgradeableWrite<TFunctionName extends string>(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link uupsUpgradeableABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function usePrepareUupsUpgradeableUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof uupsUpgradeableABI, 'upgradeTo'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: uupsUpgradeableABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof uupsUpgradeableABI, 'upgradeTo'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link uupsUpgradeableABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function usePrepareUupsUpgradeableUpgradeToAndCall(
@@ -28704,38 +34870,6 @@ export function useUupsUpgradeableEvent<TEventName extends string>(
     typeof uupsUpgradeableABI,
     TEventName
   >)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link uupsUpgradeableABI}__ and `eventName` set to `"AdminChanged"`.
- */
-export function useUupsUpgradeableAdminChangedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof uupsUpgradeableABI, 'AdminChanged'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: uupsUpgradeableABI,
-    eventName: 'AdminChanged',
-    ...config
-  } as UseContractEventConfig<typeof uupsUpgradeableABI, 'AdminChanged'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link uupsUpgradeableABI}__ and `eventName` set to `"BeaconUpgraded"`.
- */
-export function useUupsUpgradeableBeaconUpgradedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof uupsUpgradeableABI, 'BeaconUpgraded'>,
-    'abi' | 'eventName'
-  > = {} as any
-) {
-  return useContractEvent({
-    abi: uupsUpgradeableABI,
-    eventName: 'BeaconUpgraded',
-    ...config
-  } as UseContractEventConfig<typeof uupsUpgradeableABI, 'BeaconUpgraded'>)
 }
 
 /**
@@ -28853,6 +34987,25 @@ export function useWithdrawalsUpgraderRole<
   return useContractRead({
     abi: withdrawalsABI,
     functionName: 'UPGRADER_ROLE',
+    ...config
+  } as UseContractReadConfig<typeof withdrawalsABI, TFunctionName, TSelectData>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link withdrawalsABI}__ and `functionName` set to `"UPGRADE_INTERFACE_VERSION"`.
+ */
+export function useWithdrawalsUpgradeInterfaceVersion<
+  TFunctionName extends 'UPGRADE_INTERFACE_VERSION',
+  TSelectData = ReadContractResult<typeof withdrawalsABI, TFunctionName>
+>(
+  config: Omit<
+    UseContractReadConfig<typeof withdrawalsABI, TFunctionName, TSelectData>,
+    'abi' | 'functionName'
+  > = {} as any
+) {
+  return useContractRead({
+    abi: withdrawalsABI,
+    functionName: 'UPGRADE_INTERFACE_VERSION',
     ...config
   } as UseContractReadConfig<typeof withdrawalsABI, TFunctionName, TSelectData>)
 }
@@ -29267,28 +35420,6 @@ export function useWithdrawalsBurnFrom<TMode extends WriteContractMode = undefin
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link withdrawalsABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function useWithdrawalsDecreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof withdrawalsABI, 'decreaseAllowance'>['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof withdrawalsABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof withdrawalsABI, 'decreaseAllowance', TMode>({
-    abi: withdrawalsABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link withdrawalsABI}__ and `functionName` set to `"grantRole"`.
  */
 export function useWithdrawalsGrantRole<TMode extends WriteContractMode = undefined>(
@@ -29306,28 +35437,6 @@ export function useWithdrawalsGrantRole<TMode extends WriteContractMode = undefi
   return useContractWrite<typeof withdrawalsABI, 'grantRole', TMode>({
     abi: withdrawalsABI,
     functionName: 'grantRole',
-    ...config
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link withdrawalsABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function useWithdrawalsIncreaseAllowance<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof withdrawalsABI, 'increaseAllowance'>['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof withdrawalsABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any
-) {
-  return useContractWrite<typeof withdrawalsABI, 'increaseAllowance', TMode>({
-    abi: withdrawalsABI,
-    functionName: 'increaseAllowance',
     ...config
   } as any)
 }
@@ -29619,28 +35728,6 @@ export function useWithdrawalsUnpause<TMode extends WriteContractMode = undefine
 }
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link withdrawalsABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function useWithdrawalsUpgradeTo<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof withdrawalsABI, 'upgradeTo'>['request']['abi'],
-        'upgradeTo',
-        TMode
-      > & { functionName?: 'upgradeTo' }
-    : UseContractWriteConfig<typeof withdrawalsABI, 'upgradeTo', TMode> & {
-        abi?: never
-        functionName?: 'upgradeTo'
-      } = {} as any
-) {
-  return useContractWrite<typeof withdrawalsABI, 'upgradeTo', TMode>({
-    abi: withdrawalsABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as any)
-}
-
-/**
  * Wraps __{@link useContractWrite}__ with `abi` set to __{@link withdrawalsABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function useWithdrawalsUpgradeToAndCall<TMode extends WriteContractMode = undefined>(
@@ -29742,22 +35829,6 @@ export function usePrepareWithdrawalsBurnFrom(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link withdrawalsABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function usePrepareWithdrawalsDecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof withdrawalsABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: withdrawalsABI,
-    functionName: 'decreaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof withdrawalsABI, 'decreaseAllowance'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link withdrawalsABI}__ and `functionName` set to `"grantRole"`.
  */
 export function usePrepareWithdrawalsGrantRole(
@@ -29771,22 +35842,6 @@ export function usePrepareWithdrawalsGrantRole(
     functionName: 'grantRole',
     ...config
   } as UsePrepareContractWriteConfig<typeof withdrawalsABI, 'grantRole'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link withdrawalsABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function usePrepareWithdrawalsIncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof withdrawalsABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: withdrawalsABI,
-    functionName: 'increaseAllowance',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof withdrawalsABI, 'increaseAllowance'>)
 }
 
 /**
@@ -29995,22 +36050,6 @@ export function usePrepareWithdrawalsUnpause(
 }
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link withdrawalsABI}__ and `functionName` set to `"upgradeTo"`.
- */
-export function usePrepareWithdrawalsUpgradeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof withdrawalsABI, 'upgradeTo'>,
-    'abi' | 'functionName'
-  > = {} as any
-) {
-  return usePrepareContractWrite({
-    abi: withdrawalsABI,
-    functionName: 'upgradeTo',
-    ...config
-  } as UsePrepareContractWriteConfig<typeof withdrawalsABI, 'upgradeTo'>)
-}
-
-/**
  * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link withdrawalsABI}__ and `functionName` set to `"upgradeToAndCall"`.
  */
 export function usePrepareWithdrawalsUpgradeToAndCall(
@@ -30055,19 +36094,6 @@ export function useWithdrawalsEvent<TEventName extends string>(
 }
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link withdrawalsABI}__ and `eventName` set to `"AdminChanged"`.
- */
-export function useWithdrawalsAdminChangedEvent(
-  config: Omit<UseContractEventConfig<typeof withdrawalsABI, 'AdminChanged'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({
-    abi: withdrawalsABI,
-    eventName: 'AdminChanged',
-    ...config
-  } as UseContractEventConfig<typeof withdrawalsABI, 'AdminChanged'>)
-}
-
-/**
  * Wraps __{@link useContractEvent}__ with `abi` set to __{@link withdrawalsABI}__ and `eventName` set to `"Approval"`.
  */
 export function useWithdrawalsApprovalEvent(
@@ -30077,19 +36103,6 @@ export function useWithdrawalsApprovalEvent(
     typeof withdrawalsABI,
     'Approval'
   >)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link withdrawalsABI}__ and `eventName` set to `"BeaconUpgraded"`.
- */
-export function useWithdrawalsBeaconUpgradedEvent(
-  config: Omit<UseContractEventConfig<typeof withdrawalsABI, 'BeaconUpgraded'>, 'abi' | 'eventName'> = {} as any
-) {
-  return useContractEvent({
-    abi: withdrawalsABI,
-    eventName: 'BeaconUpgraded',
-    ...config
-  } as UseContractEventConfig<typeof withdrawalsABI, 'BeaconUpgraded'>)
 }
 
 /**
