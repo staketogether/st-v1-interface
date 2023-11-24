@@ -50,7 +50,7 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
   const handleRedirectToPage = () => {
     setIsRedirect(true)
     handleModalClose()
-    push(`/${network}/${currency}/invest/deposit/${poolDetail.wallet}`)
+    push(`/${network}/${currency}/project/deposit/${poolDetail.wallet}`)
     setIsRedirect(false)
   }
 

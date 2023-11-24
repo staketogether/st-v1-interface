@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
+import chainConfig from '@/config/chain'
 
 type WalletSideBarPoolsDelegatedProps = {
   accountDelegations: Delegation[]
@@ -25,6 +26,8 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
 
+  const { stakeTogetherPool } = chainConfig()
+
   return (
     <Container>
       {accountDelegations.length === 0 && (
@@ -34,13 +37,12 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
       )}
       {accountDelegations.map((delegation, index) => {
         const poolMetadata = handleMetadataPools(delegation.delegated.address)
-
+        const urlRedirect =
+          stakeTogetherPool?.toLowerCase() === delegation.delegated.address.toLowerCase()
+            ? `/${network}/${currency}`
+            : `/${network}/${currency}/project/deposit/${delegation.delegated.address}`
         return (
-          <DelegatedPool
-            key={index}
-            href={`/${network}/${currency}/invest/deposit/${delegation.delegated.address}`}
-            onClick={() => setOpenSidebar(false)}
-          >
+          <DelegatedPool key={index} href={urlRedirect} onClick={() => setOpenSidebar(false)}>
             <div>
               <Project>
                 <CommunityLogo
