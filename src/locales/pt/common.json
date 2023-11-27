@@ -108,7 +108,7 @@
     "app": "Instalar App",
     "website": "Site",
     "smartContract": "Contrato Inteligente",
-    "audit": "Auditoria"
+    "audit": "Auditorias"
   },
   "soon": "Em Breve",
   "addSethToWallet": {
@@ -188,9 +188,9 @@
         "description": "Invista em staking de ethereum, apoie projetos e ganhe recompensas juntos"
       },
       "deposit": {
-        "title": "Investir Ethereum",
-        "description": "Deposite ETH para ganhar recompensas de staking de ethereum com o stpETH enquanto impulsiona os incentivos para o projeto",
-        "stakeTogetherPoolDescription": "Deposite ETH para ganhar recompensas de Staking"
+        "title": "Stake de Ethereum",
+        "description": "Deposite ETH para ganhar recompensas de staking enquanto impulsiona os incentivos para o projeto",
+        "stakeTogetherPoolDescription": "Deposite ETH para ganhar recompensas de staking"
       },
       "incentives": {
         "title": "Incentivos",
@@ -263,7 +263,7 @@
       "rewardsTooltip": "Recompensas geradas pelos incentivos em stake nesse projeto",
       "faucetTooltip": "Experimente o protocolo, pegue goerli ethereum aqui",
       "annualRewards": "Recompensas Anuais de Staking",
-      "infoEmptyState": "Nenhuma informação disponível",
+      "infoEmptyState": "Dados não disponíveis",
       "descriptionForm": {
         "receive": "Você Vai Receber:",
         "receiveTooltip": "Quando você deposita ETH, você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",

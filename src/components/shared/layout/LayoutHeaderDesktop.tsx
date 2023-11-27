@@ -1,4 +1,10 @@
+import ProjectButton from '@/components/project/ProjectButton'
+import ProjectCreateModal from '@/components/project/ProjectCreateModal'
 import Wallet from '@/components/wallet/Wallet'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useProjectCreateModal from '@/hooks/useProjectCreateModal'
+import useResizeView from '@/hooks/useResizeView'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -7,12 +13,6 @@ import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
-import ProjectCreateModal from '@/components/project/ProjectCreateModal'
-import useProjectCreateModal from '@/hooks/useProjectCreateModal'
-import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
-import ProjectButton from '@/components/project/ProjectButton'
-import useResizeView from '@/hooks/useResizeView'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
@@ -44,11 +44,6 @@ export default function LayoutHeader() {
               {t('v2.header.stake')}
             </MenuButton>
           </Link>
-          <Link href={`/${network}/${currency}/incentives`}>
-            <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
-              <IncentivesIcon /> {t('v2.header.incentives')}
-            </MenuButton>
-          </Link>
           <Link href={`/${network}/${currency}/project`}>
             <MenuButton
               className={`${
@@ -59,12 +54,11 @@ export default function LayoutHeader() {
               {t('v2.header.projects')}
             </MenuButton>
           </Link>
-          {/* <Link href={`/${network}/${currency}/gifts`} legacyBehavior>
-            <MenuButton className={`${isActive('gifts') ? 'active' : ''}`}>
-              <GiftsIcon />
-              {t('v2.header.gifts')}
+          <Link href={`/${network}/${currency}/incentives`}>
+            <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
+              <IncentivesIcon /> {t('v2.header.incentives')}
             </MenuButton>
-          </Link> */}
+          </Link>
         </Menu>
       </MenuContainer>
       <WalletContainer>
