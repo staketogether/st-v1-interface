@@ -15,5 +15,5 @@ export type STFeature = {
   AddPool: boolean
   Deposit: boolean
   WithdrawPool: boolean
-  WithdrawValidator: boolean
+  WithdrawBeacon: boolean
 }
