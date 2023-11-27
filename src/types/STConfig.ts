@@ -7,7 +7,9 @@ export type STConfig = {
   poolSize: bigint
   validatorSize: bigint
   withdrawPoolLimit: bigint
+  withdrawDelay: bigint
   withdrawalValidatorLimit: bigint
+  withdrawBeaconDelay: bigint
   feature: STFeature
 }
 

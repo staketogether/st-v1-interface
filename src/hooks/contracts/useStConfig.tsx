@@ -25,6 +25,8 @@ export default function useStConfig() {
         validatorSize: data[6],
         withdrawPoolLimit: data[7],
         withdrawalValidatorLimit: data[8],
+        withdrawDelay: data[9],
+        withdrawBeaconDelay: data[10],
         feature: data[11]
       }
       setSTConfig(config)

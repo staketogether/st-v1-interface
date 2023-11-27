@@ -33,6 +33,7 @@ import { formatNumberByLocale } from '../../services/format'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeExchange from './StakeExchange'
+import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw' | 'exchange'
@@ -43,7 +44,7 @@ type StakeFormProps = {
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
-
+  useGetWithdrawBlock(accountAddress)
   const {
     balance: ethBalance,
     isLoading: balanceLoading,
