@@ -257,6 +257,7 @@
       "apy": "Annual Percentage Yield",
       "apyTooltip": " Annual Percentage Yield represents the depositor's investment return over one year, considering auto-reinvestment and compound interest. (APY)",
       "tvl": "Total Invested with Project",
+      "withdrawBlocked": "Withdraw Blocked",
       "stakeTogetherPoolTvl": "Total Invested",
       "stakeTogetherPoolRewards": "Staking Rewards",
       "tvlTooltip": "Total Invested with the Project refers to the total amount of ETH deposited into the project. The more ETH, the greater the incentives for project. (Project TVL)",
@@ -297,7 +298,7 @@
         "InsufficientBeaconBalance": "Insufficient Beacon Balance",
         "WithdrawFromPool": "Withdraw From Pool",
         "ListedInAntiFraud": "Listed in Anti-Fraud",
-        "EarlyTransfer": "Early Transfer"
+        "EarlyTransfer": "Blocked Withdrawal"
       },
       "depositErrorMessage": {
         "FeatureDisabled": "Feature Disabled",

@@ -257,6 +257,7 @@
       "apy": "Rendimento Percentual Anual",
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
       "tvl": "Total Investido com o Projeto",
+      "withdrawBlocked": "Saque bloqueado por",
       "stakeTogetherPoolTvl": "Valor Total Investido",
       "stakeTogetherPoolRewards": "Recompensas de Staking",
       "tvlTooltip": "Total Investido com o Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto. (TVL do Projeto)",
@@ -298,7 +299,7 @@
         "InsufficientBeaconBalance": "Saldo Insuficiente na Beacon Chain",
         "WithdrawFromPool": "Retirada do Pool",
         "ListedInAntiFraud": "Listado em Anti Fraude",
-        "EarlyTransfer": "Transferência Antecipada"
+        "EarlyTransfer": "Saque Bloqueado"
       },
       "depositErrorMessage": {
         "FeatureDisabled": "Funcionalidade Desativada",
