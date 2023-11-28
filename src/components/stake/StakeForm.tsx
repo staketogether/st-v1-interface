@@ -32,13 +32,12 @@ import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckered
 import { formatNumberByLocale } from '../../services/format'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
-import StakeExchange from './StakeExchange'
-import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
 import { Tooltip } from 'antd'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
+import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
 
 type StakeFormProps = {
-  type: 'deposit' | 'withdraw' | 'exchange'
+  type: 'deposit' | 'withdraw'
   poolAddress: `0x${string}`
   accountAddress?: `0x${string}`
 }
@@ -46,7 +45,6 @@ type StakeFormProps = {
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
-
   const {
     balance: ethBalance,
     isLoading: balanceLoading,
@@ -309,14 +307,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       return
     }
     setAmount(truncateWei(balance, 18))
-  }
-
-  if (type === 'exchange') {
-    return (
-      <StakeContainer>
-        <StakeExchange walletAddress={accountAddress} onBuyEthIsSuccess={onBuyEthIsSuccess} />
-      </StakeContainer>
-    )
   }
 
   return (

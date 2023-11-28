@@ -3,6 +3,7 @@ import { globalConfig } from '@/config/global'
 import useGetFaucet from '@/hooks/useGetFaucet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 
+import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import dollar from '@assets/icons/dollar.png'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import { ethers } from 'ethers'
@@ -15,7 +16,6 @@ import useCoinConversion from '../../hooks/useCoinConversion'
 import useWalletSidebarConnectWallet from '../../hooks/useWalletSidebarConnectWallet'
 import { truncateWei } from '../../services/truncate'
 import Button from '../shared/Button'
-import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 
 type StakeExchangeProps = {
   walletAddress?: `0x${string}`

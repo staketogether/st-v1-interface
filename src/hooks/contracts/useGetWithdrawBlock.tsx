@@ -1,6 +1,6 @@
+import chain from '@/config/chain'
 import { useStakeTogetherGetWithdrawBlock } from '@/types/Contracts'
 import { useEffect, useState } from 'react'
-import chain from '@/config/chain'
 import useBlockCountdown from '../useBlockCountdown'
 
 export default function useGetWithdrawBlock(walletAddress: `0x${string}` | undefined, enabled = true) {

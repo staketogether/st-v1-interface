@@ -1,12 +1,13 @@
 import usePool from '@/hooks/subgraphs/usePool'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
+import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { PiArrowDown, PiArrowUp, PiCurrencyEth, PiQuestion, PiShareNetwork } from 'react-icons/pi'
+import { useState } from 'react'
+import { PiArrowDown, PiArrowUp, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
@@ -20,11 +21,10 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
-import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
-  type: 'deposit' | 'withdraw' | 'exchange'
+  type: 'deposit' | 'withdraw'
   poolDetail?: ContentfulPool
   isStakeTogetherPool?: boolean
 }
@@ -35,22 +35,12 @@ export default function StakeControl({
   poolDetail,
   isStakeTogetherPool
 }: StakeControlProps) {
-  const [tooltipHasOpen, setTooltipHasOpen] = useState(false)
   const [skipMembers, setSkipMembers] = useState(0)
   const [skipActivity, setSkipActivity] = useState(0)
 
   const { t } = useLocaleTranslation()
 
   const { query, locale } = useRouter()
-
-  useEffect(() => {
-    setTimeout(() => {
-      setTooltipHasOpen(true)
-    }, 3000)
-    setTimeout(() => {
-      setTooltipHasOpen(false)
-    }, 8000)
-  }, [])
 
   const { currency, network } = query
 
@@ -115,16 +105,6 @@ export default function StakeControl({
       children: stakeForm
     }
   ]
-  if (!isStakeTogetherPool) {
-    tabsItems.push({
-      key: 'exchange',
-      label: t('exchange'),
-      tooltip: t('v2.stake.faucetTooltip'),
-      tooltipOpen: tooltipHasOpen,
-      icon: <DexIcon />,
-      children: stakeForm
-    })
-  }
 
   function copyToClipboard() {
     navigator.clipboard.writeText(window.location.toString())
@@ -136,12 +116,28 @@ export default function StakeControl({
   const titleDescription = isStakeTogetherPool
     ? t('v2.pages.deposit.stakeTogetherPoolDescription')
     : t('v2.pages.deposit.description')
-  const titleRewards = isStakeTogetherPool ? t('v2.stake.stakeTogetherPoolRewards') : t('generatedRewards')
-  const titleTvl = isStakeTogetherPool ? t('v2.stake.stakeTogetherPoolTvl') : t('v2.stake.tvl')
+
+  const titleTvl = isStakeTogetherPool ? t('v2.stake.st.tvl') : t('v2.stake.tvl')
+  const titleRewards = isStakeTogetherPool ? t('v2.stake.st.rewards') : t('v2.stake.rewards')
+  const titleApy = isStakeTogetherPool ? t('v2.stake.st.apy') : t('v2.stake.apy')
+
+  const titleTvlTooltip = isStakeTogetherPool ? t('v2.stake.st.tvlTooltip') : t('v2.stake.tvlTooltip')
+  const titleRewardsTooltip = isStakeTogetherPool
+    ? t('v2.stake.st.rewardsTooltip')
+    : t('v2.stake.rewardsTooltip')
+  const titleApyTooltip = isStakeTogetherPool ? t('v2.stake.st.apyTooltip') : t('v2.stake.apyTooltip')
 
   return (
     <Container>
       <LayoutTitle title={t('v2.pages.deposit.title')} description={titleDescription} />
+
+      <Form>
+        <Tabs
+          items={tabsItems}
+          defaultActiveKey={activeTab}
+          onChangeActiveTab={value => handleSwitch(value as string)}
+        />
+      </Form>
       <TvlContainer>
         {!isStakeTogetherPool && (
           <PoolTitle>
@@ -153,14 +149,12 @@ export default function StakeControl({
                 loading={false}
                 listed={pool?.listed}
               />
-
               {poolDetail?.name ? (
                 <CommunityName $larger name={poolDetail?.name} loading={false} />
               ) : (
                 <CommunityName $larger walletAddress={poolAddress} loading={false} />
               )}
             </div>
-
             <Tooltip trigger='click' title={t('copiedToClipboard')}>
               <ShareButton onClick={copyToClipboard}>
                 <ShareIcon />
@@ -170,7 +164,7 @@ export default function StakeControl({
         )}
         <div>
           <span>
-            <TooltipComponent text={t('v2.stake.tvlTooltip')} left={225} width={200}>
+            <TooltipComponent text={titleTvlTooltip} left={225} width={200}>
               {`${titleTvl}: `}
               <QuestionIcon />
             </TooltipComponent>
@@ -204,7 +198,7 @@ export default function StakeControl({
         </div>
         <div>
           <span>
-            <TooltipComponent text={t('v2.stake.rewardsTooltip')} left={126} width={350}>
+            <TooltipComponent text={titleRewardsTooltip} left={126} width={350}>
               {`${titleRewards}: `}
               <QuestionIcon />
             </TooltipComponent>
@@ -236,21 +230,14 @@ export default function StakeControl({
         </div>
         <div>
           <span>
-            <TooltipComponent text={t('v2.stake.apyTooltip')} left={225} width={200}>
-              {`${t('v2.stake.apy')}: `}
+            <TooltipComponent text={titleApyTooltip} left={225} width={200}>
+              {`${titleApy}: `}
               <QuestionIcon />
             </TooltipComponent>
           </span>
           <span className='green'>{`${apy}%`}</span>
         </div>
       </TvlContainer>
-      <Form>
-        <Tabs
-          items={tabsItems}
-          defaultActiveKey={activeTab}
-          onChangeActiveTab={value => handleSwitch(value as string)}
-        />
-      </Form>
       <StakePoolInfo
         poolAddress={poolAddress}
         poolData={pool}
@@ -276,8 +263,7 @@ const {
   ShareButton,
   ShareIcon,
   PoolTitle,
-  WithdrawIcon,
-  DexIcon
+  WithdrawIcon
 } = {
   Container: styled.div`
     display: grid;
@@ -292,7 +278,7 @@ const {
     display: flex;
     padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]};
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 
     box-shadow: ${({ theme }) => theme.shadow[100]};
     border-radius: ${({ theme }) => theme.size[8]};
@@ -313,12 +299,12 @@ const {
 
       &.green {
         color: ${({ theme }) => theme.color.green[500]};
-        font-weight: 500;
+        font-weight: 400;
         font-size: 15px;
       }
       &.primary {
         color: ${({ theme }) => theme.colorV2.blue[3]};
-        font-weight: 500;
+        font-weight: 400;
         font-size: 15px;
       }
     }
@@ -352,9 +338,6 @@ const {
     font-size: 15px;
   `,
   WithdrawIcon: styled(PiArrowUp)`
-    font-size: 15px;
-  `,
-  DexIcon: styled(PiCurrencyEth)`
     font-size: 15px;
   `,
   QuestionIcon: styled(PiQuestion)`

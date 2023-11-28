@@ -1,10 +1,9 @@
 import useActiveRoute from '@/hooks/useActiveRoute'
-
 import Link from 'next/link'
-import styled from 'styled-components'
-import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import { useRouter } from 'next/router'
 import { PiCellSignalFull, PiCodesandboxLogo, PiCurrencyEth } from 'react-icons/pi'
+import styled from 'styled-components'
+import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 function LayoutMenuMobile() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
@@ -18,13 +17,6 @@ function LayoutMenuMobile() {
         {t('v2.header.stake')}
       </NextLink>
       <NextLink
-        href={`/${network}/${currency}/incentives`}
-        className={`${isActive('incentives') ? 'active' : ''}`}
-      >
-        <IncentivesIcon />
-        {t('v2.header.incentives')}
-      </NextLink>
-      <NextLink
         href={`/${network}/${currency}/project`}
         className={`${
           !isHome && (isActive('project') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
@@ -34,10 +26,13 @@ function LayoutMenuMobile() {
 
         {t('v2.header.projects')}
       </NextLink>
-      {/* <NextLink href={`/${network}/${currency}/gifts`} className={`${isActive('gifts') ? 'active' : ''}`}>
-        <GiftsIcon />
-        {t('v2.header.gifts')}
-      </NextLink> */}
+      <NextLink
+        href={`/${network}/${currency}/incentives`}
+        className={`${isActive('incentives') ? 'active' : ''}`}
+      >
+        <IncentivesIcon />
+        {t('v2.header.incentives')}
+      </NextLink>
     </Container>
   )
 }
