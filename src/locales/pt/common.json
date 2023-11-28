@@ -43,7 +43,7 @@
   "searchPool": "Pesquisar Pools",
   "projectEmpty": "Projeto não encontrado",
   "copyClipboard": "Copiar para Área de Transferência",
-  "copiedToClipboard": "Endereço copiado",
+  "copiedToClipboard": "Endereço Copiado",
   "addressCopiedToClipboard": "Address Copied",
   "deposit": "Depositar",
   "withdraw": "Sacar",
@@ -184,11 +184,11 @@
   "v2": {
     "pages": {
       "invest": {
-        "title": "Stake Ether com Projects",
+        "title": "Stake Ether com um Projeto",
         "description": "Escolha um Projeto, Stake Ether e Ganhe Recompensas de Staking de Ethereum Juntos"
       },
       "deposit": {
-        "title": "Stake de Ether com Projeto",
+        "title": "Stake de Ether",
         "description": "Deposite Ether para Ganhar Recompensas de Staking enquanto Gera Incentivos para o Projeto",
         "stakeTogetherPoolDescription": "Deposite Ether para Ganhar Recompensas de Staking"
       },
