@@ -148,8 +148,8 @@
     "rate": "Taxa",
     "bestRate": "Melhor Taxa",
     "liquidity": "Liquidez",
-    "waitingTime": "Espera",
-    "instantly": "Imediatamente",
+    "waitingTime": "Prazo",
+    "instantly": "Imediato",
     "tooltipPool": "Saques da Pool ficam no Contrato Inteligente e são processados instantaneamente.",
     "tooltipBeaconChain": "Saque do Validador ficam na Beacon Chain e são processados pelos oráculos da Stake Together de acordo com a fila da beacon chain e são processados com no mínimo 1 dia."
   },
@@ -184,13 +184,13 @@
   "v2": {
     "pages": {
       "invest": {
-        "title": "Investir com Projetos",
-        "description": "Invista em staking de ethereum, apoie projetos e ganhe recompensas juntos"
+        "title": "Stake Ether com Projects",
+        "description": "Escolha um Projeto, Stake Ether e Ganhe Recompensas de Staking de Ethereum Juntos"
       },
       "deposit": {
-        "title": "Stake de Ethereum",
-        "description": "Deposite ETH para ganhar recompensas de staking enquanto impulsiona os incentivos para o projeto",
-        "stakeTogetherPoolDescription": "Deposite ETH para ganhar recompensas de staking"
+        "title": "Stake de Ether com Projeto",
+        "description": "Deposite Ether para Ganhar Recompensas de Staking enquanto Gera Incentivos para o Projeto",
+        "stakeTogetherPoolDescription": "Deposite Ether para Ganhar Recompensas de Staking"
       },
       "incentives": {
         "title": "Incentivos",
@@ -242,7 +242,7 @@
         "validators": "Validadores DVT",
         "totalProjects": "Projetos"
       },
-      "emptyList": "Nenhum resultado encontrado",
+      "emptyList": "Nenhum Resultado Encontrado",
       "emptyButton": "Limpar",
       "search": "Pesquisar",
       "list": {
@@ -255,19 +255,19 @@
     },
     "stake": {
       "st": {
-        "apy": "Rendimento Anual Percentual",
+        "apy": "Rendimento Anual",
         "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
         "tvl": "Valor Total Investido",
         "tvlTooltip": "Valor Total Investido refere-se à quantidade total de ETH depositado no protocolo Stake Together.",
-        "rewards": "Recompensas",
+        "rewards": "Recompensas Geradas",
         "rewardsTooltip": "Recompensas geradas pelo staking de ethereum."
       },
-      "apy": "Rendimento Anual Percentual",
+      "apy": "Rendimento Anual",
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
-      "tvl": "Valor Total Investido no Projeto",
+      "tvl": "Valor Total Investido",
       "tvlTooltip": "Valor Total Investido com o Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto. (TVL do Projeto)",
       "rewardsTooltip": "Recompensas geradas pelos incentivos em staking.",
-      "rewards": "Recompensas",
+      "rewards": "Recompensas Geradas",
       "faucetTooltip": "Experimente o protocolo, pegue goerli ethereum aqui",
       "annualRewards": "Recompensas Anuais de Staking",
       "infoEmptyState": "Dados Não Disponíveis",
@@ -276,7 +276,7 @@
         "receiveTooltip": "Quando você deposita ETH, você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",
         "exchange": "Câmbio:",
         "exchangeTooltip": "Câmbio é a equivalência entre ETH e stpETH.",
-        "rewards": "Taxa de Recompensas de Staking:",
+        "rewards": "Taxa de Recompensas:",
         "rewardsTooltip": "Taxa de Recompensas Futuras é a taxa que é descontada sobre as recompenas futuras de staking com base no valor anual depositado.",
         "operation": "Taxa de Operação:",
         "operationTooltip": "Taxa de Operação é a taxa que é descontada sobre o deposito."
@@ -284,15 +284,15 @@
       "confirmModal": {
         "depositTitle": "Revisar Pedido de Deposito",
         "withdrawTitle": "Revisar Pedido de Saque",
-        "deposit": "Você está depositando",
-        "withdrawing": "Você está sacando",
-        "youWillReceive": "Você receberá",
+        "deposit": "Você está Depositando",
+        "withdrawing": "Você Está Sacando",
+        "youWillReceive": "Você Receberá",
         "confirmWithdraw": "Confirmar Saque",
         "confirmDeposit": "Confirmar Depósito",
-        "transactionSubmitted": "Transação enviada",
-        "proceedInYourWallet": "Prossiga em sua carteira",
-        "withdrawSuccessful": "Saque realizada com sucesso",
-        "depositSuccessful": "Depósito realizado com sucesso"
+        "transactionSubmitted": "Processando Transação",
+        "proceedInYourWallet": "Continue na Carteira",
+        "withdrawSuccessful": "Saque Realizada com Sucesso",
+        "depositSuccessful": "Depósito Realizado com Sucesso"
       },
       "withdrawErrorMessage": {
         "FeatureDisabled": "Funcionalidade Desativada",
@@ -349,7 +349,7 @@
       "lens": "Lens",
       "logo": "Logo",
       "telegram": "Telegram",
-      "wallet": "Carteira responsável",
+      "wallet": "Carteira do Projeto",
       "category": "Categoria",
       "twitter": "Twitter",
       "youtube": "Canal do youtube",
@@ -383,7 +383,7 @@
       "reapplyTitle": "Reaplicar Projeto",
       "form": {
         "logo": "Logo do Projeto",
-        "wallet": "Carteira Responsável",
+        "wallet": "Carteira do Projeto",
         "name": "Nome do Projeto",
         "category": "Categoria",
         "email": "Email",

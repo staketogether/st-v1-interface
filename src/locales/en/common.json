@@ -184,8 +184,8 @@
   "v2": {
     "pages": {
       "invest": {
-        "title": "Invest with Projects",
-        "description": "Invest in ethereum staking, support projects, and earn rewards together"
+        "title": "Stake Ether with Projects",
+        "description": "Choose a Project, Stake Ether and Earn Ethereum Staking Rewards Together"
       },
       "deposit": {
         "title": "Stake Ether",
@@ -242,7 +242,7 @@
         "validators": "DVT Validators",
         "totalProjects": "Projects"
       },
-      "emptyList": "No results found",
+      "emptyList": "Results Not Found",
       "emptyButton": "Clean",
       "search": "Search...",
       "list": {

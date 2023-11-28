@@ -6,8 +6,8 @@ import { truncateWei } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { PiArrowDown, PiArrowUp, PiCurrencyEth, PiQuestion, PiShareNetwork } from 'react-icons/pi'
+import { useState } from 'react'
+import { PiArrowDown, PiArrowUp, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
@@ -24,7 +24,7 @@ import StakePoolInfo from './StakePoolInfo'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
-  type: 'deposit' | 'withdraw' | 'exchange'
+  type: 'deposit' | 'withdraw'
   poolDetail?: ContentfulPool
   isStakeTogetherPool?: boolean
 }
@@ -35,22 +35,12 @@ export default function StakeControl({
   poolDetail,
   isStakeTogetherPool
 }: StakeControlProps) {
-  const [tooltipHasOpen, setTooltipHasOpen] = useState(false)
   const [skipMembers, setSkipMembers] = useState(0)
   const [skipActivity, setSkipActivity] = useState(0)
 
   const { t } = useLocaleTranslation()
 
   const { query, locale } = useRouter()
-
-  useEffect(() => {
-    setTimeout(() => {
-      setTooltipHasOpen(true)
-    }, 3000)
-    setTimeout(() => {
-      setTooltipHasOpen(false)
-    }, 8000)
-  }, [])
 
   const { currency, network } = query
 
@@ -115,16 +105,6 @@ export default function StakeControl({
       children: stakeForm
     }
   ]
-  if (!isStakeTogetherPool) {
-    tabsItems.push({
-      key: 'exchange',
-      label: t('exchange'),
-      tooltip: t('v2.stake.faucetTooltip'),
-      tooltipOpen: tooltipHasOpen,
-      icon: <DexIcon />,
-      children: stakeForm
-    })
-  }
 
   function copyToClipboard() {
     navigator.clipboard.writeText(window.location.toString())
@@ -283,8 +263,7 @@ const {
   ShareButton,
   ShareIcon,
   PoolTitle,
-  WithdrawIcon,
-  DexIcon
+  WithdrawIcon
 } = {
   Container: styled.div`
     display: grid;
@@ -359,9 +338,6 @@ const {
     font-size: 15px;
   `,
   WithdrawIcon: styled(PiArrowUp)`
-    font-size: 15px;
-  `,
-  DexIcon: styled(PiCurrencyEth)`
     font-size: 15px;
   `,
   QuestionIcon: styled(PiQuestion)`
