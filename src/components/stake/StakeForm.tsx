@@ -28,10 +28,13 @@ import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
 import { useRouter } from 'next/router'
-import { PiArrowDown, PiArrowLineRight, PiArrowUp } from 'react-icons/pi'
+import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckeredDuotone } from 'react-icons/pi'
 import { formatNumberByLocale } from '../../services/format'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
+import { Tooltip } from 'antd'
+import StakeWithdrawCounter from './StakeWithdrawCounter'
+import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -42,7 +45,6 @@ type StakeFormProps = {
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
-  // useGetWithdrawBlock(accountAddress)
   const {
     balance: ethBalance,
     isLoading: balanceLoading,
@@ -60,6 +62,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const [withdrawTypeSelected, setWithdrawTypeSelected] = useState(WithdrawType.POOL)
   const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
     useWithdrawPoolBalance()
+  const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock(
+    accountAddress,
+    withdrawTypeSelected === WithdrawType.POOL
+  )
 
   const {
     withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
@@ -247,12 +253,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         await delegationSharesRefetch()
         await handleWithdrawBalanceRefetch()
         resetState()
+        getWithdrawBlock()
       }
     }
 
     handleSuccessfulAction()
   }, [
     delegationSharesRefetch,
+    getWithdrawBlock,
     handleWithdrawBalanceRefetch,
     isOpenStakeConfirmModal,
     isSuccess,
@@ -380,9 +388,21 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               insufficientMinDeposit ||
               isLoadingFees ||
               insufficientWithdrawalEthBalance ||
-              prepareTransactionIsError
+              prepareTransactionIsError ||
+              !!withdrawTimeLeft
             }
           />
+        )}
+        {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
+          <CardBlock>
+            <div>
+              <PiShieldCheckeredDuotone /> <span>{t('v2.stake.withdrawBlocked')}</span>
+              <Tooltip title={t('v2.stake.withdrawBlockedTooltip')}>
+                <PiQuestion />
+              </Tooltip>
+            </div>
+            <StakeWithdrawCounter withdrawTimeLeft={withdrawTimeLeft} />
+          </CardBlock>
         )}
         {accountAddress && (
           <StakeDescriptionCheckout
@@ -417,6 +437,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
 const {
   StakeContainer,
+  CardBlock,
   CardInfoContainer,
   CardInfo,
   CardInfoData,
@@ -428,6 +449,42 @@ const {
     display: grid;
     gap: ${({ theme }) => theme.size[24]};
     padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]};
+  `,
+  CardBlock: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    gap: 12px;
+
+    border-radius: 8px;
+    border: 1px solid ${({ theme }) => theme.colorV2.gray[1]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    opacity: 0.7;
+    > header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      > h4 {
+        font-size: 14px;
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+
+        font-weight: 400;
+
+        display: flex;
+      }
+    }
+    div:nth-child(1) {
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[4]};
+    }
+    div:nth-child(2) {
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
+    }
   `,
   CardInfoContainer: styled.div`
     display: grid;
@@ -517,6 +574,7 @@ const {
       }
     }
   `,
+
   ConnectWalletIcon: styled(PiArrowLineRight)`
     font-size: 16px;
   `,

@@ -7,6 +7,8 @@ const useBlockCountdown = (targetBlock: number) => {
 
   useEffect(() => {
     const provider = chainConfig().provider
+    const averageBlockTimeSeconds = 15
+    let intervalId: NodeJS.Timeout | null = null
 
     const fetchBlockTime = async () => {
       try {
@@ -14,33 +16,30 @@ const useBlockCountdown = (targetBlock: number) => {
         const remainingBlocks: number = targetBlock - currentBlock
 
         if (remainingBlocks > 0) {
-          const currentBlockInfo = await provider.getBlock(currentBlock)
-          const previousBlockNumber: number = (currentBlockInfo && currentBlockInfo.number - 1) || 0
-          const previousBlock = await provider.getBlock(previousBlockNumber)
-
-          let averageBlockTime: number = 0
-          if (currentBlockInfo && previousBlock) {
-            averageBlockTime = currentBlockInfo.timestamp - previousBlock.timestamp
-          }
-          const remainingTime: number = remainingBlocks * averageBlockTime * 1000
+          const remainingTime: number = remainingBlocks * averageBlockTimeSeconds * 1000
           setTimeLeft(remainingTime)
         } else {
           setTimeLeft(0)
+          if (intervalId) {
+            clearInterval(intervalId)
+            intervalId = null
+          }
         }
       } catch (error) {
-        console.error('Erro ao buscar informações do bloco:', error)
         setTimeLeft(null)
       }
     }
 
     fetchBlockTime()
 
-    const intervalId = setInterval(fetchBlockTime, 30000)
+    intervalId = setInterval(fetchBlockTime, 30000)
 
     return () => {
-      clearInterval(intervalId)
+      if (intervalId) {
+        clearInterval(intervalId)
+      }
     }
-  }, [targetBlock, timeLeft])
+  }, [targetBlock])
 
   return timeLeft
 }
