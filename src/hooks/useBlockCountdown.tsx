@@ -7,7 +7,7 @@ const useBlockCountdown = (targetBlock: number) => {
 
   useEffect(() => {
     const provider = chainConfig().provider
-    const averageBlockTimeSeconds = 15 // Média de tempo fixa entre blocos em segundos
+    const averageBlockTimeSeconds = 15
     let intervalId: NodeJS.Timeout | null = null
 
     const fetchBlockTime = async () => {
@@ -26,7 +26,6 @@ const useBlockCountdown = (targetBlock: number) => {
           }
         }
       } catch (error) {
-        console.error('Erro ao buscar informações do bloco:', error)
         setTimeLeft(null)
       }
     }
