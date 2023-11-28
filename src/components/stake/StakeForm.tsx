@@ -388,7 +388,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               insufficientMinDeposit ||
               isLoadingFees ||
               insufficientWithdrawalEthBalance ||
-              prepareTransactionIsError
+              prepareTransactionIsError ||
+              !!withdrawTimeLeft
             }
           />
         )}
@@ -396,7 +397,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           <CardBlock>
             <div>
               <PiShieldCheckeredDuotone /> <span>{t('v2.stake.withdrawBlocked')}</span>
-              <Tooltip title={'description here'}>
+              <Tooltip title={t('v2.stake.withdrawBlockedTooltip')}>
                 <PiQuestion />
               </Tooltip>
             </div>
