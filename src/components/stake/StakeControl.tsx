@@ -1,5 +1,6 @@
 import usePool from '@/hooks/subgraphs/usePool'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
+import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
@@ -20,7 +21,6 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
-import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -136,12 +136,28 @@ export default function StakeControl({
   const titleDescription = isStakeTogetherPool
     ? t('v2.pages.deposit.stakeTogetherPoolDescription')
     : t('v2.pages.deposit.description')
-  const titleRewards = isStakeTogetherPool ? t('v2.stake.stakeTogetherPoolRewards') : t('generatedRewards')
-  const titleTvl = isStakeTogetherPool ? t('v2.stake.stakeTogetherPoolTvl') : t('v2.stake.tvl')
+
+  const titleTvl = isStakeTogetherPool ? t('v2.stake.st.tvl') : t('v2.stake.tvl')
+  const titleRewards = isStakeTogetherPool ? t('v2.stake.st.rewards') : t('v2.stake.rewards')
+  const titleApy = isStakeTogetherPool ? t('v2.stake.st.apy') : t('v2.stake.apy')
+
+  const titleTvlTooltip = isStakeTogetherPool ? t('v2.stake.st.tvlTooltip') : t('v2.stake.tvlTooltip')
+  const titleRewardsTooltip = isStakeTogetherPool
+    ? t('v2.stake.st.rewardsTooltip')
+    : t('v2.stake.rewardsTooltip')
+  const titleApyTooltip = isStakeTogetherPool ? t('v2.stake.st.apyTooltip') : t('v2.stake.apyTooltip')
 
   return (
     <Container>
       <LayoutTitle title={t('v2.pages.deposit.title')} description={titleDescription} />
+
+      <Form>
+        <Tabs
+          items={tabsItems}
+          defaultActiveKey={activeTab}
+          onChangeActiveTab={value => handleSwitch(value as string)}
+        />
+      </Form>
       <TvlContainer>
         {!isStakeTogetherPool && (
           <PoolTitle>
@@ -153,14 +169,12 @@ export default function StakeControl({
                 loading={false}
                 listed={pool?.listed}
               />
-
               {poolDetail?.name ? (
                 <CommunityName $larger name={poolDetail?.name} loading={false} />
               ) : (
                 <CommunityName $larger walletAddress={poolAddress} loading={false} />
               )}
             </div>
-
             <Tooltip trigger='click' title={t('copiedToClipboard')}>
               <ShareButton onClick={copyToClipboard}>
                 <ShareIcon />
@@ -170,7 +184,7 @@ export default function StakeControl({
         )}
         <div>
           <span>
-            <TooltipComponent text={t('v2.stake.tvlTooltip')} left={225} width={200}>
+            <TooltipComponent text={titleTvlTooltip} left={225} width={200}>
               {`${titleTvl}: `}
               <QuestionIcon />
             </TooltipComponent>
@@ -204,7 +218,7 @@ export default function StakeControl({
         </div>
         <div>
           <span>
-            <TooltipComponent text={t('v2.stake.rewardsTooltip')} left={126} width={350}>
+            <TooltipComponent text={titleRewardsTooltip} left={126} width={350}>
               {`${titleRewards}: `}
               <QuestionIcon />
             </TooltipComponent>
@@ -236,21 +250,14 @@ export default function StakeControl({
         </div>
         <div>
           <span>
-            <TooltipComponent text={t('v2.stake.apyTooltip')} left={225} width={200}>
-              {`${t('v2.stake.apy')}: `}
+            <TooltipComponent text={titleApyTooltip} left={225} width={200}>
+              {`${titleApy}: `}
               <QuestionIcon />
             </TooltipComponent>
           </span>
           <span className='green'>{`${apy}%`}</span>
         </div>
       </TvlContainer>
-      <Form>
-        <Tabs
-          items={tabsItems}
-          defaultActiveKey={activeTab}
-          onChangeActiveTab={value => handleSwitch(value as string)}
-        />
-      </Form>
       <StakePoolInfo
         poolAddress={poolAddress}
         poolData={pool}
@@ -313,12 +320,12 @@ const {
 
       &.green {
         color: ${({ theme }) => theme.color.green[500]};
-        font-weight: 500;
+        font-weight: 400;
         font-size: 15px;
       }
       &.primary {
         color: ${({ theme }) => theme.colorV2.blue[3]};
-        font-weight: 500;
+        font-weight: 400;
         font-size: 15px;
       }
     }

@@ -254,13 +254,20 @@
       }
     },
     "stake": {
-      "apy": "Rendimento Percentual Anual",
+      "st": {
+        "apy": "Rendimento Anual Percentual",
+        "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
+        "tvl": "Valor Total Investido",
+        "tvlTooltip": "Valor Total Investido refere-se à quantidade total de ETH depositado no protocolo Stake Together.",
+        "rewards": "Recompensas",
+        "rewardsTooltip": "Recompensas geradas pelo staking de ethereum."
+      },
+      "apy": "Rendimento Anual Percentual",
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
-      "tvl": "Total Investido com o Projeto",
-      "stakeTogetherPoolTvl": "Valor Total Investido",
-      "stakeTogetherPoolRewards": "Recompensas de Staking",
-      "tvlTooltip": "Total Investido com o Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto. (TVL do Projeto)",
-      "rewardsTooltip": "Recompensas geradas pelos incentivos em stake nesse projeto",
+      "tvl": "Valor Total Investido no Projeto",
+      "tvlTooltip": "Valor Total Investido com o Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto. (TVL do Projeto)",
+      "rewardsTooltip": "Recompensas geradas pelos incentivos em staking.",
+      "rewards": "Recompensas",
       "faucetTooltip": "Experimente o protocolo, pegue goerli ethereum aqui",
       "annualRewards": "Recompensas Anuais de Staking",
       "infoEmptyState": "Dados não disponíveis",
