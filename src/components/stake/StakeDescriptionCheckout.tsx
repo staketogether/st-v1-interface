@@ -1,10 +1,10 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
+import { WithdrawType } from '@/types/Withdraw'
 import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import TooltipComponent from '../shared/TooltipComponent'
-import { WithdrawType } from '@/types/Withdraw'
 
 type StakeDescriptionCheckoutProps = {
   type: 'deposit' | 'withdraw'
@@ -103,7 +103,7 @@ const { StakeInfo, QuestionIcon } = {
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
+    gap: ${({ theme }) => theme.size[8]};
     font-size: ${({ theme }) => theme.size[12]};
 
     > div {

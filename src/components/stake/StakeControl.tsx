@@ -299,7 +299,7 @@ const {
     display: flex;
     padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]};
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
 
     box-shadow: ${({ theme }) => theme.shadow[100]};
     border-radius: ${({ theme }) => theme.size[8]};

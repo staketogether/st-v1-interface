@@ -6,9 +6,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiLink, PiListDashes } from 'react-icons/pi'
 import styled from 'styled-components'
+import Loading from '../shared/icons/Loading'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
-import Loading from '../shared/icons/Loading'
 
 type StakeActivityProps = {
   poolActivities: PoolActivity[]
@@ -84,7 +84,7 @@ export default function StakeActivity({
           <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />
         )}
       </List>
-      {poolActivities.length < Number(activityCount) && (
+      {poolActivities.length > 0 && poolActivities.length < Number(activityCount) && (
         <LoadMoreButton onClick={loadMoreActivitiesItems}>
           {poolActivitiesFetchMoreLoading && <Loading />}
           {!poolActivitiesFetchMoreLoading && <PiListDashes />}

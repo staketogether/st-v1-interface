@@ -1,13 +1,13 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import { WithdrawType } from '@/types/Withdraw'
+import { ethers } from 'ethers'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { PiQuestion, PiStack, PiStackSimple } from 'react-icons/pi'
 import styled from 'styled-components'
 import TooltipComponent from '../shared/TooltipComponent'
-import { ethers } from 'ethers'
-import { useEffect, useState } from 'react'
-import { formatNumberByLocale } from '@/services/format'
-import { useRouter } from 'next/router'
 
 type StakeWithdrawSwitchTypesProps = {
   withdrawTypeSelected: WithdrawType
@@ -109,7 +109,7 @@ export default function StakeWithdrawSwitchTypes({
           <div>
             <span>{t('withdrawCardsType.waitingTime')}</span>
             <div>
-              <span className='purple'>~1-3 {t('days')}</span>
+              <span className='purple'>~2-4 {t('days')}</span>
             </div>
           </div>
         </RateInfo>

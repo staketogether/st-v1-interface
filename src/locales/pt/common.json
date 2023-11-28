@@ -270,13 +270,13 @@
       "rewards": "Recompensas",
       "faucetTooltip": "Experimente o protocolo, pegue goerli ethereum aqui",
       "annualRewards": "Recompensas Anuais de Staking",
-      "infoEmptyState": "Dados não disponíveis",
+      "infoEmptyState": "Dados Não Disponíveis",
       "descriptionForm": {
-        "receive": "Você Vai Receber:",
+        "receive": "Você Recebe:",
         "receiveTooltip": "Quando você deposita ETH, você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",
         "exchange": "Câmbio:",
         "exchangeTooltip": "Câmbio é a equivalência entre ETH e stpETH.",
-        "rewards": "Taxa de Recompensas Futuras:",
+        "rewards": "Taxa de Recompensas de Staking:",
         "rewardsTooltip": "Taxa de Recompensas Futuras é a taxa que é descontada sobre as recompenas futuras de staking com base no valor anual depositado.",
         "operation": "Taxa de Operação:",
         "operationTooltip": "Taxa de Operação é a taxa que é descontada sobre o deposito."
