@@ -15,7 +15,7 @@
   "accounts": "Contas",
   "days": "Dias",
   "rewards": "Recompensas",
-  "generatedRewards": "Recompensas Geradas",
+  "generatedRewards": "Recompensas geradas",
   "delegates": "Delegados",
   "processing": "Processando...",
   "invested": "Investidos",
@@ -35,7 +35,7 @@
   "max": "Max",
   "rank": "Rank",
   "action": "Depositando...",
-  "youReceive": "Você Recebe",
+  "youReceive": "Você recebe",
   "delegation": "Delegação",
   "fee": "Taxa",
   "delegated": "Delegado",
@@ -44,7 +44,7 @@
   "projectEmpty": "Projeto não encontrado",
   "copyClipboard": "Copiar para Área de Transferência",
   "copiedToClipboard": "Endereço Copiado",
-  "addressCopiedToClipboard": "Address Copied",
+  "addressCopiedToClipboard": "Endereço Copiado",
   "deposit": "Depositar",
   "withdraw": "Sacar",
   "loading": "Carregando...",
@@ -75,7 +75,7 @@
   },
   "wse": {
     "name": "Stake Together Withdrawals",
-    "symbol": "stwETH "
+    "symbol": "stwETH"
   },
   "form": {
     "deposit": "Depositar Ether",
@@ -84,12 +84,11 @@
     "connectWallet": "Conectar Carteira",
     "selectPool": "Selecionar Pool",
     "insufficientFunds": "Saldo insuficiente",
-    "insufficientMinDeposit": "Valor mínimo de depósito insuficiente",
-    "insufficientLiquidity": "Liquidez insuficiente para saque",
-    "amount": "Quantidade"
+    "insufficientMinDeposit": "Valor mínimo",
+    "insufficientLiquidity": "Liquidez insuficiente para saque"
   },
   "noDelegations": "Sem Delegações",
-  "noStake": "Você ainda não depositou ethereum",
+  "noStake": "Você ainda não depositou Ethereum",
   "noRewards": "Recompensas são distribuídas diariamente",
   "noActivities": "Você ainda não tem atividades em sua conta",
   "notifications": {
@@ -125,10 +124,10 @@
     "modalButton": "Pegar ETH",
     "altImage": "Icon Carteira",
     "labelInput": "Digite abaixo o código de resgate:",
-    "inputPlaceHolder": "código",
+    "inputPlaceHolder": "Código",
     "successMessage": "Você resgatou",
     "messageTitleInit": "A compra de ETH é",
-    "messageTitleFinish": "na rede goerli",
+    "messageTitleFinish": "na rede Goerli",
     "free": "gratuita"
   },
   "getFaucetErrorMessages": {
@@ -139,7 +138,7 @@
     "invalidPasscode": "Código Inválido",
     "faucetIsEmpty": "Sem ETH Disponível para Faucet",
     "addressHasAlready": "Sua carteira já recebeu ETH",
-    "userIpHasAlready": "Seu Ip já recebeu ETH"
+    "userIpHasAlready": "Seu IP já recebeu ETH"
   },
   "withdrawCardsType": {
     "pool": "Pool",
@@ -151,7 +150,7 @@
     "waitingTime": "Prazo",
     "instantly": "Imediato",
     "tooltipPool": "Saques da Pool ficam no Contrato Inteligente e são processados instantaneamente.",
-    "tooltipBeaconChain": "Saque do Validador ficam na Beacon Chain e são processados pelos oráculos da Stake Together de acordo com a fila da beacon chain e são processados com no mínimo 1 dia."
+    "tooltipBeaconChain": "Saque do Validador ficam na Beacon Chain e são processados pelos oráculos da Stake Together de acordo com a fila da Beacon Chain e são processados com no mínimo 1 dia."
   },
   "gas": {
     "alt": "Preço do gás da rede"
@@ -167,11 +166,11 @@
       "pool": "Projetos",
       "poolDescription": "50% dos Incentivos são destinados para os projetos na Stake Together",
       "social": "Stake de Impacto Social",
-      "socialDescription": "10% dos Incentivos são destinados para fazer depositos em projetos de impacto social",
+      "socialDescription": "10% dos Incentivos são destinados para fazer depósitos em projetos de impacto social",
       "early": "Primeiros Stakers",
-      "earlyDescription": "20% dos Incentivos gerados nos 3 primeiros meses são destinados para as pessoas que fizerem depositos no primeiro mês",
+      "earlyDescription": "20% dos Incentivos gerados nos 3 primeiros meses são destinados para as pessoas que fizerem depósitos no primeiro mês",
       "gifts": "Presentes",
-      "giftsDescription": "20% dos incentivos são destinados para pessoas fazem staking e tem o aplicativo da stake together instalado"
+      "giftsDescription": "20% dos incentivos são destinados para pessoas que fazem staking e têm o aplicativo da Stake Together instalado"
     },
     "total": "Total",
     "countdown": {
@@ -185,12 +184,12 @@
     "pages": {
       "invest": {
         "title": "Stake Ether com um Projeto",
-        "description": "Escolha um Projeto, Stake Ether e Ganhe Recompensas de Staking de Ethereum Juntos"
+        "description": "Escolha um projeto, stake ether e ganhe recompensas de staking de ethereum Juntos"
       },
       "deposit": {
         "title": "Stake de Ether",
-        "description": "Deposite Ether para Ganhar Recompensas de Staking enquanto Gera Incentivos para o Projeto",
-        "stakeTogetherPoolDescription": "Deposite Ether para Ganhar Recompensas de Staking"
+        "description": "Deposite ether para ganhar recompensas de staking enquanto gera incentivos para o projeto",
+        "stakeTogetherPoolDescription": "Deposite ether para ganhar recompensas de staking"
       },
       "incentives": {
         "title": "Incentivos",
@@ -255,52 +254,52 @@
     },
     "stake": {
       "st": {
-        "apy": "Rendimento Anual",
+        "apy": "Rendimento anual",
         "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
-        "tvl": "Valor Total Investido",
-        "tvlTooltip": "Valor Total Investido refere-se à quantidade total de ETH depositado no protocolo Stake Together.",
-        "rewards": "Recompensas Geradas",
+        "tvl": "Valor total investido",
+        "tvlTooltip": "Valor total investido refere-se à quantidade total de ETH depositado no protocolo Stake Together.",
+        "rewards": "Recompensas geradas",
         "rewardsTooltip": "Recompensas geradas pelo staking de ethereum."
       },
-      "apy": "Rendimento Anual",
+      "apy": "Rendimento anual",
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
-      "tvl": "Valor Total Investido",
-      "tvlTooltip": "Valor Total Investido com o Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto. (TVL do Projeto)",
-      "withdrawBlocked": "Saque Bloqueado",
-      "withdrawBlockedTooltip": "O Saque está bloqueado para este projeto. O Saque será liberado em 30 dias após o último depósito.",
-      "rewards": "Recompensas Geradas",
+      "tvl": "Valor total investido",
+      "tvlTooltip": "Valor total investido com o projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto. (TVL do Projeto)",
+      "withdrawBlocked": "Atraso de Saque",
+      "withdrawBlockedTooltip": "O atraso de saque é um mecanismo de segurança para evitar diluição de recompensas.",
+      "rewards": "Recompensas geradas",
       "rewardsTooltip": "Recompensas geradas pelos incentivos em staking.",
       "faucetTooltip": "Experimente o protocolo, pegue goerli ethereum aqui",
-      "annualRewards": "Recompensas Anuais de Staking",
-      "infoEmptyState": "Dados Não Disponíveis",
+      "annualRewards": "Recompensas anuais de staking",
+      "infoEmptyState": "Dados não disponíveis",
       "descriptionForm": {
-        "receive": "Você Recebe:",
+        "receive": "Você recebe:",
         "receiveTooltip": "Quando você deposita ETH, você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",
         "exchange": "Câmbio:",
         "exchangeTooltip": "Câmbio é a equivalência entre ETH e stpETH.",
-        "rewards": "Taxa de Recompensas:",
-        "rewardsTooltip": "Taxa de Recompensas Futuras é a taxa que é descontada sobre as recompenas futuras de staking com base no valor anual depositado.",
-        "operation": "Taxa de Operação:",
-        "operationTooltip": "Taxa de Operação é a taxa que é descontada sobre o deposito."
+        "rewards": "Taxa de recompensas:",
+        "rewardsTooltip": "Taxa de recompensas é a taxa que é descontada sobre as recompenas futuras de staking com base no valor anual depositado.",
+        "operation": "Taxa de operação:",
+        "operationTooltip": "Taxa de operação é a taxa que é descontada sobre o deposito."
       },
       "confirmModal": {
-        "depositTitle": "Revisar Pedido de Deposito",
-        "withdrawTitle": "Revisar Pedido de Saque",
-        "deposit": "Você está Depositando",
-        "withdrawing": "Você Está Sacando",
+        "depositTitle": "Revisar Deposito",
+        "withdrawTitle": "Revisar Saque",
+        "deposit": "Você está depositando",
+        "withdrawing": "Você está sacando",
         "youWillReceive": "Você Receberá",
         "confirmWithdraw": "Confirmar Saque",
         "confirmDeposit": "Confirmar Depósito",
         "transactionSubmitted": "Processando Transação",
         "proceedInYourWallet": "Continue na Carteira",
-        "withdrawSuccessful": "Saque Realizada com Sucesso",
-        "depositSuccessful": "Depósito Realizado com Sucesso"
+        "withdrawSuccessful": "Saque Realizado",
+        "depositSuccessful": "Depósito Realizado"
       },
       "withdrawErrorMessage": {
         "FeatureDisabled": "Funcionalidade Desativada",
         "InsufficientAccountBalance": "Saldo Insuficiente na Conta",
-        "WithdrawalsPoolLimitReached": "Limite de saque diario alcançado",
-        "WithdrawalsValidatorLimitWasReached": "Limite de Saque diario alcançado",
+        "WithdrawalsPoolLimitReached": "Limite de saque diário alcançado",
+        "WithdrawalsValidatorLimitWasReached": "Limite de Saque diário alcançado",
         "LessThanMinimumWithdraw": "Retirada Mínima",
         "ZeroAmount": "Valor Zero",
         "InsufficientPoolBalance": "Saldo Insuficiente no Pool",
@@ -322,8 +321,8 @@
       "donationDeposit": "Doação",
       "withdraw": "Saque",
       "withdrawPool": "Saque",
-      "transfer": "Transferencia",
-      "withdrawValidator": "Saque Validatores"
+      "transfer": "Transferência",
+      "withdrawValidator": "Saque Validadores"
     },
     "gifts": {
       "countdown": "Tempo para Resgatar",
@@ -434,23 +433,23 @@
         "pending": "Em Análise"
       },
       "formMessages": {
-        "required": "Campo obrigatorio",
-        "invalidEmail": "Email invalido",
+        "required": "Campo obrigatório",
+        "invalidEmail": "Email inválido",
         "sizeImage": "A imagem deve ter menos de 1MB!",
         "maxLength": "O campo deve ter no máximo",
-        "telegram": "Convite do telegram invalido",
-        "discord": "Convite do discord invalido",
-        "linkedin": "Linkedin invalido",
-        "instagram": "Instagram invalido",
-        "twitter": "Twitter Invalido",
-        "site": "URL do site invalido",
+        "telegram": "Convite do telegram inválido",
+        "discord": "Convite do discord inválido",
+        "linkedin": "Linkedin inválido",
+        "instagram": "Instagram inválido",
+        "twitter": "Twitter inválido",
+        "site": "URL do site inválido",
         "youtube": "Insira um URL de vídeo válido do YouTube",
-        "youtubeChanel": "Insira canal válido do YouTube"
+        "youtubeChanel": "Insira um canal válido do YouTube"
       },
       "messages": {
         "success": "Projeto cadastrado com sucesso",
         "reapplySuccess": "Projeto reaplicado com sucesso",
-        "error": "Erro na criaçao do projeto"
+        "error": "Erro na criação do projeto"
       },
       "successMessages": {
         "title": "Projeto enviado com sucesso!",

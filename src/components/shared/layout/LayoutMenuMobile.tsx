@@ -1,7 +1,7 @@
 import useActiveRoute from '@/hooks/useActiveRoute'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCellSignalFull, PiCodesandboxLogo, PiCurrencyEth } from 'react-icons/pi'
+import { PiCodesandboxLogo, PiCurrencyEth } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 function LayoutMenuMobile() {
@@ -26,18 +26,18 @@ function LayoutMenuMobile() {
 
         {t('v2.header.projects')}
       </NextLink>
-      <NextLink
+      {/* <NextLink
         href={`/${network}/${currency}/incentives`}
         className={`${isActive('incentives') ? 'active' : ''}`}
       >
         <IncentivesIcon />
         {t('v2.header.incentives')}
-      </NextLink>
+      </NextLink> */}
     </Container>
   )
 }
 
-const { Container, NextLink, InvestIcon, ProjectsIcon, IncentivesIcon } = {
+const { Container, NextLink, InvestIcon, ProjectsIcon } = {
   Container: styled.nav`
     width: 100vw;
     position: fixed;
@@ -77,9 +77,9 @@ const { Container, NextLink, InvestIcon, ProjectsIcon, IncentivesIcon } = {
   InvestIcon: styled(PiCurrencyEth)`
     font-size: 14px;
   `,
-  IncentivesIcon: styled(PiCellSignalFull)`
-    font-size: 16px;
-  `,
+  // IncentivesIcon: styled(PiCellSignalFull)`
+  //   font-size: 16px;
+  // `,
   ProjectsIcon: styled(PiCodesandboxLogo)`
     font-size: 15px;
   `
