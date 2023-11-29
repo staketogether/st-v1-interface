@@ -27,9 +27,10 @@ export const queryContentfulPoolByAddress = gql`
           fileName
         }
         description
-        approvalModalViewed
+        acceptedTermsOfUse
         email
         aboutProject
+        approvalModalViewed
         site
         twitter
         instagram
