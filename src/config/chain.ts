@@ -48,19 +48,19 @@ const configs: ChainConfig[] = [
     chainId: 5,
     name: 'goerli',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_GOERLI),
-    stakeTogetherPool: '0x3BdFaA0b55B4F6F3F9cFC6bbB1F582a1c6A0FD69',
+    stakeTogetherPool: '0xdC4d86Da67B12DFD72F41B782ac1D04394506196',
     blockExplorer: {
       baseUrl: 'https://goerli.etherscan.io'
     },
     contracts: {
-      Airdrop: '0x911c93905Cd9667C7ce63626E94A17715550d14A',
-      Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
-      Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
-      StakeTogether: '0xe1c5D93dcA424F5DBC00A361C96a2E10766cB88F',
-      StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+      Airdrop: '0x1011E6EDFEE18B55E4A9E81Ee927c8E8771C6FBe',
+      Withdrawals: '0x8E261aaD364997f1da72e8b886b64c1a950CD081',
+      Router: '0xa3128B8f902Ee7A7618264709F2308759ac0ad3e',
+      StakeTogether: '0xdF18a49Dff8CF441Fda56F2007Be7Ac60ACFECf7',
+      StakeTogetherWrapper: '0xB43a1a44Bb0d6012F9Ab575e4fDC37F77ffCAA27'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/51080/st-subgraph-goerli/version/latest',
+      StakeTogether: 'http://localhost:8000/subgraphs/name/st-v2-goerli',
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`
     }
   }
