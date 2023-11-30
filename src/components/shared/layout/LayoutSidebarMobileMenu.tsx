@@ -1,4 +1,3 @@
-import ProjectButton from '@/components/project/ProjectButton'
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
@@ -7,9 +6,9 @@ import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import useResizeView from '@/hooks/useResizeView'
 
 import { Drawer } from 'antd'
-import React from 'react'
 import { PiCaretRight, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
+import ProjectButton from '../../project/ProjectButton'
 type LayoutSidebarMobileMenuProps = {
   account?: `0x${string}`
 }

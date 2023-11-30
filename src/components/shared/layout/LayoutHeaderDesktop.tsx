@@ -1,4 +1,3 @@
-import ProjectButton from '@/components/project/ProjectButton'
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
 import Wallet from '@/components/wallet/Wallet'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
@@ -13,6 +12,7 @@ import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
+import ProjectButton from '../../project/ProjectButton'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
