@@ -1,29 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Modal from './Modal'
 import useConfirmTermsModal from '@/hooks/useConfirmTermsModal'
 import styled from 'styled-components'
 import axios from 'axios'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
 import Button from './Button'
+import { globalConfig } from '@/config/global'
 
 type ConfirmTermsModalProps = {
   poolDetail: ContentfulWithLocale
 }
 
 export default function ConfirmTermsModal({ poolDetail }: ConfirmTermsModalProps) {
+  const [loading, setLoading] = useState(false)
   const { isOpen, setOpen } = useConfirmTermsModal()
-  const linkTerms =
-    'https://university.staketogether.org/en/articles/8646402-terms-and-conditions-for-onboarding-into-stake-together-liquid-staking-pool'
+  const linkTerms = globalConfig.createProjectTermsOfUse
 
   const handleConfirmTerms = async () => {
+    setLoading(true)
     await axios.post('/api/project/setAgreeTermsOfUser', {
       projectId: poolDetail.sys.id
     })
     setOpen(false)
+    setLoading(false)
   }
   return (
     <Modal
-      title={<h1 style={{ textAlign: 'center' }}>Terms of service</h1>}
+      title={<h1 style={{ textAlign: 'center', marginTop: '12px' }}>Terms of service</h1>}
       onClose={() => setOpen(false)}
       isOpen={isOpen}
       width={'auto'}
@@ -38,7 +41,7 @@ export default function ConfirmTermsModal({ poolDetail }: ConfirmTermsModalProps
           of service for owning a project on the Stake Together platform.
         </span>
 
-        <Button isLoading={false} onClick={handleConfirmTerms} label={'Accept Terms of Service'} />
+        <Button isLoading={loading} onClick={handleConfirmTerms} label={'Accept Terms of Service'} />
       </Terms>
     </Modal>
   )

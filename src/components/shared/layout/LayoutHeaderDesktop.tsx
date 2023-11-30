@@ -29,13 +29,16 @@ export default function LayoutHeader() {
     fetchPolicy: 'network-only',
     locale: 'en-US'
   })
+
   const { isOpen: confirmTermsModalIsOpen, setOpen: setConfirmTermsModal } = useConfirmTermsModal()
   const { screenWidth, breakpoints } = useResizeView()
+
   useEffect(() => {
-    if (poolDetailUs?.acceptedTermsOfUse === false) {
+    if (!poolDetailUs?.acceptedTermsOfUse && poolDetailUs?.status === 'approved') {
       setConfirmTermsModal(true)
     }
   }, [poolDetailUs, setConfirmTermsModal])
+
   return (
     <Container>
       <MenuContainer>
