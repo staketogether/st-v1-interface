@@ -28,7 +28,7 @@ const configs: ChainConfig[] = [
     chainId: 1,
     name: 'mainnet',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_MAINNET),
-    stakeTogetherPool: '0x',
+    stakeTogetherPool: '0x7D316EF9d95649fD2d8bE426B01FF531c560379a',
     blockExplorer: {
       baseUrl: 'https://etherscan.io'
     },
@@ -40,7 +40,7 @@ const configs: ChainConfig[] = [
       StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/51080/st-subgraph-goerli/version/latest',
+      StakeTogether: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`
     }
   },
@@ -60,7 +60,7 @@ const configs: ChainConfig[] = [
       StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/51080/st-subgraph-goerli/v0.0.9',
+      StakeTogether: 'https://api.studio.thegraph.com/query/60033/stake-together-goerli/version/latest',
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`
     }
   }
