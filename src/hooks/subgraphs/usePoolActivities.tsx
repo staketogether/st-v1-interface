@@ -12,7 +12,11 @@ export default function usePoolActivities(
   const [loadingFetchMore, setLoadingFetchMore] = useState<boolean>(false)
 
   const { data, loading, fetchMore } = useQuery<{ poolActivities: PoolActivity[] }>(queryPoolActivities, {
-    variables: { poolAddress: poolAddress, first: pagination?.first || 10, skip: pagination?.skip || 0 }
+    variables: {
+      poolAddress: poolAddress.toLocaleLowerCase(),
+      first: pagination?.first || 10,
+      skip: pagination?.skip || 0
+    }
   })
 
   const loadMore = (variables: { poolAddress: string; first: number; skip: number }) => {
