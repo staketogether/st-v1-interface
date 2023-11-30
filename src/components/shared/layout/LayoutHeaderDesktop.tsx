@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import ProjectButton from '../../project/ProjectButton'
+import { ProjectButton } from '../../project/ProjectButton'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()

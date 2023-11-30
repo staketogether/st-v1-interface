@@ -8,7 +8,7 @@ import useResizeView from '@/hooks/useResizeView'
 import { Drawer } from 'antd'
 import { PiCaretRight, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
-import ProjectButton from '../../project/ProjectButton'
+import { ProjectButton } from '../../project/ProjectButton'
 type LayoutSidebarMobileMenuProps = {
   account?: `0x${string}`
 }

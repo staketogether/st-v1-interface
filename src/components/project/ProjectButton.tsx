@@ -20,7 +20,7 @@ type ProjectCreateButtonProps = {
   isMobile?: boolean
 }
 
-export default function ProjectButton({ poolDetail, account, isMobile }: ProjectCreateButtonProps) {
+export function ProjectButton({ poolDetail, account, isMobile }: ProjectCreateButtonProps) {
   const { t } = useLocaleTranslation()
   const { setProjectEditModal, isOpenProjectEditModal } = useProjectEditModal()
   const { setProjectResultModal, isOpenProjectResultModal } = useProjectResultModal()
