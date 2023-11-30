@@ -9,6 +9,8 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import { PiListBold } from 'react-icons/pi'
 import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
 import LayoutSidebarMobileMenu from './LayoutSidebarMobileMenu'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
+import ConfirmTermsModal from '../ConfirmTermsModal'
 
 export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
@@ -16,6 +18,12 @@ export default function LayoutHeaderMobile() {
   const { currency, network } = query
   const { account, accountIsConnected } = useConnectedAccount()
   const { setOpenSidebarMobileMenu } = useLayoutSidebarMobileMenu()
+
+  const { poolDetail } = useContentfulPoolDetails({
+    poolAddress: account,
+    fetchPolicy: 'network-only',
+    locale: 'en-US'
+  })
 
   return (
     <>
@@ -32,7 +40,8 @@ export default function LayoutHeaderMobile() {
           </WalletContainer>
         </Content>
       </Container>
-      <LayoutSidebarMobileMenu account={account} />
+      <LayoutSidebarMobileMenu account={account} poolDetail={poolDetail} />
+      {poolDetail && <ConfirmTermsModal poolDetail={poolDetail} />}
     </>
   )
 }

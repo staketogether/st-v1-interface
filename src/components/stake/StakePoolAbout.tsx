@@ -30,7 +30,8 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
   const videoId = getVideoIdFromUrl(poolDetail?.video)
 
   const { t } = useLocaleTranslation()
-  const isEmpty = !poolDetail || (!poolDetail?.description && !poolDetail?.cover && !videoId)
+  const isEmpty =
+    !poolDetail || (!poolDetail?.description && !poolDetail?.cover && !videoId && poolDetail?.logo)
   const opts = {
     height: '237',
     width: '100%',

@@ -206,6 +206,12 @@
         "description": "Invest in Ethereum with the projectName project using Stake Together and maximize your profits while supporting your favorite projects through the Blockchain."
       }
     },
+    "termsOfService": {
+      "agree": "I agree to the",
+      "termsOfService": "Terms of Service",
+      "message": "of service for owning a project on the Stake Together platform.",
+      "acceptTermsOfService": "Accept Terms of Service"
+    },
     "header": {
       "invest": "Invest",
       "incentives": "Incentives",

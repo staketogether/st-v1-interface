@@ -1,6 +1,5 @@
 import ProjectButton from '@/components/project/ProjectButton'
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
-import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useProjectCreateModal from '@/hooks/useProjectCreateModal'
@@ -10,20 +9,17 @@ import { Drawer } from 'antd'
 import React from 'react'
 import { PiCaretRight, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
+import { ContentfulWithLocale } from '@/types/ContentfulPool'
 type LayoutSidebarMobileMenuProps = {
   account?: `0x${string}`
+  poolDetail: ContentfulWithLocale | null
 }
 
-export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobileMenuProps) {
+export default function LayoutSidebarMobileMenu({ account, poolDetail }: LayoutSidebarMobileMenuProps) {
   const { openSidebarMobileMenu, setOpenSidebarMobileMenu } = useLayoutSidebarMobileMenu()
   const { setOpenProjectCreateModal } = useProjectCreateModal()
   const { t } = useLocaleTranslation()
 
-  const { poolDetail: poolDetailUs } = useContentfulPoolDetails({
-    poolAddress: account,
-    fetchPolicy: 'network-only',
-    locale: 'en-US'
-  })
   const { screenWidth, breakpoints } = useResizeView()
 
   return (
@@ -44,9 +40,9 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
           <span>Menu</span>
         </HeaderContainer>
         <Container>
-          {poolDetailUs ? (
+          {poolDetail ? (
             <MenuButton>
-              <ProjectButton poolDetail={poolDetailUs} account={account} isMobile />
+              <ProjectButton poolDetail={poolDetail} account={account} isMobile />
             </MenuButton>
           ) : (
             <MenuButton onClick={() => setOpenProjectCreateModal(true)}>
@@ -54,7 +50,7 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
             </MenuButton>
           )}
         </Container>
-        {screenWidth < breakpoints.lg && <ProjectCreateModal account={account} poolDetail={poolDetailUs} />}
+        {screenWidth < breakpoints.lg && <ProjectCreateModal account={account} poolDetail={poolDetail} />}
       </DrawerContainer>
     </>
   )

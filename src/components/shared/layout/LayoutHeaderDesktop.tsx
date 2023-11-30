@@ -13,6 +13,9 @@ import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import ProjectButton from '@/components/project/ProjectButton'
 import useResizeView from '@/hooks/useResizeView'
+import { useEffect } from 'react'
+import useConfirmTermsModal from '@/hooks/useConfirmTermsModal'
+import ConfirmTermsModal from '../ConfirmTermsModal'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
@@ -26,7 +29,16 @@ export default function LayoutHeader() {
     fetchPolicy: 'network-only',
     locale: 'en-US'
   })
+
+  const { isOpen: confirmTermsModalIsOpen, setOpen: setConfirmTermsModal } = useConfirmTermsModal()
   const { screenWidth, breakpoints } = useResizeView()
+
+  useEffect(() => {
+    if (!poolDetailUs?.acceptedTermsOfUse && poolDetailUs?.status === 'approved') {
+      setConfirmTermsModal(true)
+    }
+  }, [poolDetailUs, setConfirmTermsModal])
+
   return (
     <Container>
       <MenuContainer>
@@ -67,6 +79,7 @@ export default function LayoutHeader() {
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
       {screenWidth > breakpoints.lg && <ProjectCreateModal account={account} poolDetail={poolDetailUs} />}
+      {confirmTermsModalIsOpen && poolDetailUs && <ConfirmTermsModal poolDetail={poolDetailUs} />}
     </Container>
   )
 }
