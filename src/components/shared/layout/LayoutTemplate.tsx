@@ -22,27 +22,29 @@ interface LayoutTemplateProps {
 export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   const isProduction = process.env.NODE_ENV == 'production'
   return (
-    <Container className={montserrat.className}>
-      {isProduction && (
-        <>
-          <GoogleTag />
-          <Hotjar />
-          <Cloudflare />
-          <FacebookPixel />
-          <Intercom />
-        </>
-      )}
-      <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
-      <Wrapper>
-        <Content>
-          <LayoutHeaderDesktop />
-          <LayoutHeaderMobile />
-          <Body>{children}</Body>
-        </Content>
-      </Wrapper>
-      <LayoutMenuMobile />
-      <LayoutFooter />
-    </Container>
+    <>
+      <Container className={montserrat.className}>
+        {isProduction && (
+          <>
+            <GoogleTag />
+            <Hotjar />
+            <Cloudflare />
+            <FacebookPixel />
+            <Intercom />
+          </>
+        )}
+        <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
+        <Wrapper>
+          <Content>
+            <LayoutHeaderDesktop />
+            <LayoutHeaderMobile />
+            <Body>{children}</Body>
+          </Content>
+        </Wrapper>
+        <LayoutMenuMobile />
+        <LayoutFooter />
+      </Container>
+    </>
   )
 }
 

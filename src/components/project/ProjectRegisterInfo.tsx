@@ -18,6 +18,7 @@ import TextArea from '../shared/inputs/TextArea'
 import ImgCrop from 'antd-img-crop'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
+import { globalConfig } from '@/config/global'
 
 type ProjectRegisterInfoProps = {
   hasAgreeTerms: boolean
@@ -171,7 +172,7 @@ export default function ProjectRegisterInfo({
 
               <span>
                 {t('v2.createProject.terms')}{' '}
-                <a href={'#'} target='_blank'>
+                <a href={globalConfig.createProjectTermsOfUse} target='_blank'>
                   {' '}
                   {t('v2.createProject.termsAndConditions')}
                 </a>

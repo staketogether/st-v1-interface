@@ -42,6 +42,7 @@ export type ContentfulPool = {
   whatsapp?: string
   telegram?: string
   contract?: string
+  acceptedTermsOfUse?: boolean
   sys: Sys
 }
 
