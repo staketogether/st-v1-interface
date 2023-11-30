@@ -12,6 +12,7 @@ import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
 import { FacebookPixel } from '../scripts/FacebookPixel'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -21,6 +22,7 @@ interface LayoutTemplateProps {
 
 export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   const isProduction = process.env.NODE_ENV == 'production'
+  const { t } = useLocaleTranslation()
   return (
     <>
       <Container className={montserrat.className}>
@@ -38,6 +40,7 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
           <Content>
             <LayoutHeaderDesktop />
             <LayoutHeaderMobile />
+            <Deprecated>{t('v2.deprecatedMessage')}</Deprecated>
             <Body>{children}</Body>
           </Content>
         </Wrapper>
@@ -48,7 +51,7 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   )
 }
 
-const { Container, Wrapper, Content, Body } = {
+const { Container, Wrapper, Content, Body, Deprecated } = {
   Container: styled.div`
     width: 100%;
     display: grid;
@@ -78,6 +81,17 @@ const { Container, Wrapper, Content, Body } = {
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       padding: 0;
     }
+  `,
+  Deprecated: styled.div`
+    padding: ${({ theme }) => theme.size[12]};
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.colorV2.blue[1]};
+    color: ${({ theme }) => theme.colorV2.white};
+    font-size: ${({ theme }) => theme.font.size[12]};
+    display: grid;
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
+    margin: 0 auto;
+    text-align: center;
   `,
   Content: styled.div`
     display: grid;

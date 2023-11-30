@@ -182,6 +182,7 @@
     }
   },
   "v2": {
+    "deprecatedMessage": "The beta version is deprecated in favor of final version. The withdrawals are being processed on beacon chain.",
     "pages": {
       "invest": {
         "title": "Invest with Projects",
