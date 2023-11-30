@@ -84,11 +84,10 @@ const { Container, Wrapper, Content, Body, Deprecated } = {
   `,
   Deprecated: styled.div`
     padding: ${({ theme }) => theme.size[12]};
-    border-radius: ${({ theme }) => theme.size[12]};
+    border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.colorV2.blue[1]};
     color: ${({ theme }) => theme.colorV2.white};
     font-size: ${({ theme }) => theme.font.size[12]};
-    opacity: 0.5;
     display: grid;
     grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
     margin: 0 auto;

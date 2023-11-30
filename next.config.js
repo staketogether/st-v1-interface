@@ -67,7 +67,7 @@ module.exports = withSentryConfig(
     silent: true,
 
     org: "stake-together",
-    project: "st-interface",
+    project: "st-v1-interface",
   },
   {
     // For all available options, see:
