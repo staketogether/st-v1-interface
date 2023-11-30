@@ -48,7 +48,7 @@ const configs: ChainConfig[] = [
     chainId: 5,
     name: 'goerli',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_GOERLI),
-    stakeTogetherPool: '0x',
+    stakeTogetherPool: '0x3BdFaA0b55B4F6F3F9cFC6bbB1F582a1c6A0FD69',
     blockExplorer: {
       baseUrl: 'https://goerli.etherscan.io'
     },
