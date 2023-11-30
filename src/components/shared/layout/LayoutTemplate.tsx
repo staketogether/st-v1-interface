@@ -89,8 +89,10 @@ const { Container, Wrapper, Content, Body, Deprecated } = {
     color: ${({ theme }) => theme.colorV2.white};
     font-size: ${({ theme }) => theme.font.size[12]};
     opacity: 0.5;
+    display: grid;
     grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
     margin: 0 auto;
+    text-align: center;
   `,
   Content: styled.div`
     display: grid;
