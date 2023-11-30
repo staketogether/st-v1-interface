@@ -208,7 +208,8 @@
     "termsOfService": {
       "agree": "Eu concordo com os",
       "termsOfService": "Termos de Serviço",
-      "message": "de serviço para possuir um projeto na plataforma Stake Together."
+      "message": "de serviço para possuir um projeto na plataforma Stake Together.",
+      "acceptTermsOfService": "Aceitar os Termos de Serviço"
     },
     "header": {
       "invest": "Investir",

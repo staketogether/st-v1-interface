@@ -43,7 +43,11 @@ export default function ConfirmTermsModal({ poolDetail }: ConfirmTermsModalProps
           {t('v2.termsOfService.message')}
         </span>
 
-        <Button isLoading={loading} onClick={handleConfirmTerms} label={'Accept Terms of Service'} />
+        <Button
+          isLoading={loading}
+          onClick={handleConfirmTerms}
+          label={t('v2.termsOfService.acceptTermsOfService')}
+        />
       </Terms>
     </Modal>
   )
