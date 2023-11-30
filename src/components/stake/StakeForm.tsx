@@ -309,6 +309,20 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     setAmount(truncateWei(balance, 18))
   }
 
+  const canDeposit = insufficientFunds ||
+    amountIsEmpty ||
+    insufficientMinDeposit ||
+    isLoadingFees ||
+    prepareTransactionIsError
+
+  const canWithdraw = insufficientFunds ||
+    insufficientWithdrawalBalance ||
+    amountIsEmpty ||
+    isLoadingFees ||
+    insufficientWithdrawalEthBalance ||
+    prepareTransactionIsError ||
+    !!withdrawTimeLeft
+
   return (
     <>
       <StakeContainer>
@@ -382,14 +396,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             label={handleLabelButton()}
             icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
             disabled={
-              insufficientFunds ||
-              insufficientWithdrawalBalance ||
-              amountIsEmpty ||
-              insufficientMinDeposit ||
-              isLoadingFees ||
-              insufficientWithdrawalEthBalance ||
-              prepareTransactionIsError ||
-              !!withdrawTimeLeft
+              type === 'deposit' ? canDeposit : canWithdraw
             }
           />
         )}
