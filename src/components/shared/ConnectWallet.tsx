@@ -1,7 +1,6 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import { capitalize } from '@/services/truncate'
-import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
@@ -17,20 +16,13 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
   const { t } = useLocaleTranslation()
 
   const handleConnectorImage = useWalletProviderImage()
-  const router = useRouter()
 
   function handleTermsAndConditionsExternalLink() {
-    if (router.locale === 'en') {
-      return 'https://docs.staketogether.app/stake-together/v/stake-together-en/documentation/terms-and-conditions'
-    }
-    return 'https://docs.staketogether.app/stake-together/documentation/termos-de-uso'
+    return 'https://university.staketogether.org/en/articles/8646463-terms-and-conditions'
   }
 
   function handlePrivacyPolicyExternalLink() {
-    if (router.locale === 'en') {
-      return 'https://docs.staketogether.app/stake-together/v/stake-together-en/documentation/privacy-policies'
-    }
-    return 'https://docs.staketogether.app/stake-together/documentation/politicas-de-privacidade'
+    return 'https://university.staketogether.org/en/articles/8646517-privacy-policy'
   }
 
   return (
