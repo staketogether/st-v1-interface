@@ -434,15 +434,15 @@
       }
     },
     "editProject": {
-      "title": "Editar Projeto",
+      "title": "Edit Project",
       "messages": {
-        "success": "Projeto atualizado com sucesso",
-        "loading": "Atualizando projeto"
+        "success": "Project updated successfully",
+        "loading": "Updating project"
       },
       "formTabs": {
         "about": {
-          "title": "Sobre",
-          "cover": "Capa do Projeto"
+          "title": "About",
+          "cover": "Project Cover",
         },
         "links": {
           "title": "Links"
@@ -451,38 +451,38 @@
     },
     "resultModal": {
       "title": {
-        "approved": "Parabéns, Projeto Aprovado!",
-        "rejected": "Infelizmente, seu projeto foi rejeitado!"
+        "approved": "Congrats, Project Approved!",
+        "rejected": "Unfortunately, your project has been rejected!"
       },
-      "goToProjectPage": "Ir para a página do projeto",
-      "reapplyProject": "Reaplicar Projeto"
+      "goToProjectPage": "Go to project's page",
+      "reapplyProject": "Reapply Project"
     },
     "panelProject": {
       "sidebar": {
-        "title": "Aprovação do Projeto",
-        "analysis": "Em Análise",
-        "approved": "Aprovado"
+        "title": "Project Approval",
+        "analysis": "On Analysys",
+        "approved": "Approved"
       },
       "modal": {
-        "title": "Aprovar Projeto",
-        "approve": "Aprovar",
-        "reject": "Rejeitar",
-        "remove": "Remover Contrato",
-        "publishInContract": "Publicar no Contrato",
-        "signProjectApproval": "Assinar Aprovação do Projeto",
-        "signProjectReject": "Assinar a rejeição do projeto",
-        "projectApprovedAndPublished": "Projeto aprovado e publicado com sucesso!",
-        "projectApproved": "Projeto Aprovado",
-        "projectRejected": "Projeto Rejeitado!",
-        "projectRemoved": "Projeto removido do contrato"
+        "title": "Approve Project",
+        "approve": "Approve",
+        "reject": "Reject",
+        "remove": "Remove Contract",
+        "publishInContract": "Publish on Contract",
+        "signProjectApproval": "Sign Project Approval",
+        "signProjectReject": "Sign Project Rejection",
+        "projectApprovedAndPublished": "Project Approved and Published successfully!",
+        "projectApproved": "Project Approved!",
+        "projectRejected": "Project Rejected!",
+        "projectRemoved": "Project Removed!"
       },
       "messages": {
-        "projectApproved": "Projeto aprovado com sucesso",
-        "projectRejected": "Projeto rejeitado com sucesso",
-        "projectRemoved": "Projeto removido com sucesso",
-        "errorProjectRemove": "Erro ao remover o projeto",
-        "projectAddedSuccessfully": "Projeto adicionado com sucesso",
-        "errorAddProject": "Erro ao adicionar o projeto"
+        "projectApproved": "Project approved successfully",
+        "projectRejected": "Project rejected successfully",
+        "projectRemoved": "Project removed successfully",
+        "errorProjectRemove": "Error removing project",
+        "projectAddedSuccessfully": "Project added successfully",
+        "errorAddProject": "Error adding project",
       }
     }
   }
