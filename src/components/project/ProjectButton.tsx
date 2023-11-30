@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import ProjectResultModal from './result-modal/ProjectResultModal'
-import { ProjectEditModal } from './edit/ProjectEditModal'
+import ProjectEditModal from './edit/ProjectEditModal'
 
 type ProjectCreateButtonProps = {
   poolDetail: ContentfulPool

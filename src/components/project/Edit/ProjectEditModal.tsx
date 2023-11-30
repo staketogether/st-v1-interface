@@ -29,7 +29,7 @@ export enum EditFormTabs {
   LINKS = 'links'
 }
 
-export function ProjectEditModal({ poolDetailUs, account }: ProjectEditModalProps) {
+export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditModalProps) {
   const [activeTab, setActiveTab] = useState<string>(EditFormTabs.ABOUT)
   const [language, setLanguage] = useState<'pt' | 'en'>('pt')
   const { t } = useLocaleTranslation()
