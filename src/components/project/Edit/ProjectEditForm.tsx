@@ -27,7 +27,7 @@ import { EditProjectForm } from '@/types/Project'
 import { projectRegexFields, projectRegexOnKeyDown } from '@/components/shared/regex'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 
-type ProjectAboutFormProps = {
+type ProjectEditFormProps = {
   register: UseFormRegister<EditProjectForm>
   handleSubmit: UseFormHandleSubmit<EditProjectForm, undefined>
   setValue: UseFormSetValue<EditProjectForm>
@@ -70,7 +70,7 @@ export default function ProjectEditForm({
   submitCount,
   projectCover,
   projectName
-}: ProjectAboutFormProps) {
+}: ProjectEditFormProps) {
   const [userVideo, setUserVideo] = useState(true)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [cover, setCover] = useState<string | undefined>(undefined)
