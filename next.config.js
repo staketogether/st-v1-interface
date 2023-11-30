@@ -8,7 +8,7 @@ const withPWA = require('next-pwa')({
   disable: process.env.NODE_ENV === 'development'
 })
 
-const { withSentryConfig } = require("@sentry/nextjs");
+const { withSentryConfig } = require('@sentry/nextjs')
 
 const nextConfig = {
   i18n,
@@ -33,7 +33,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/goerli/',
+        destination: '/mainnet/',
         permanent: false
       },
       {
@@ -54,14 +54,14 @@ module.exports = withSentryConfig(
   withPWA(nextConfig),
   {
     silent: true,
-    org: "stake-together",
-    project: "st-interface",
+    org: 'stake-together',
+    project: 'st-v1-interface'
   },
   {
     widenClientFileUpload: true,
     transpileClientSDK: true,
-    tunnelRoute: "/monitoring",
+    tunnelRoute: '/monitoring',
     hideSourceMaps: true,
-    disableLogger: true,
+    disableLogger: true
   }
 )

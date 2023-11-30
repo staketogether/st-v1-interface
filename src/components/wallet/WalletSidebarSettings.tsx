@@ -1,9 +1,9 @@
 import { useRouter } from 'next/router'
+import { useCallback } from 'react'
+import { PiArrowLeft, PiCheckBold } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-import { PiArrowLeft, PiCheckBold } from 'react-icons/pi'
-import { useCallback } from 'react'
 
 type WalletSlideBarSettingsProps = {
   setIsSettingsActive: (value: boolean) => void
@@ -61,10 +61,6 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
       </SettingContainer>
       <SettingContainer>
         <h3>{t('settings.currency')}</h3>
-        <div onClick={() => changeCurrency('brl')} className={`${currency === 'brl' ? 'active' : ''}`}>
-          <span>BRL</span>
-          {currency === 'brl' && <CheckedIcon />}
-        </div>
         <div onClick={() => changeCurrency('usd')} className={`${currency === 'usd' ? 'active' : ''}`}>
           <span>USD</span>
           {currency === 'usd' && <CheckedIcon />}
@@ -73,9 +69,17 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
           <span>EUR</span>
           {currency === 'eur' && <CheckedIcon />}
         </div>
+        <div onClick={() => changeCurrency('brl')} className={`${currency === 'brl' ? 'active' : ''}`}>
+          <span>BRL</span>
+          {currency === 'brl' && <CheckedIcon />}
+        </div>
       </SettingContainer>
       <SettingContainer>
         <h3>{t('settings.network')}</h3>
+        <div onClick={() => changeNetwork('mainnet')} className={`${network === 'mainnet' ? 'active' : ''}`}>
+          <span>Mainnet</span>
+          {network === 'mainnet' && <CheckedIcon />}
+        </div>
         <div onClick={() => changeNetwork('goerli')} className={`${network === 'goerli' ? 'active' : ''}`}>
           <span>Goerli</span>
           {network === 'goerli' && <CheckedIcon />}
