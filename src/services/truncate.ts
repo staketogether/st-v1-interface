@@ -9,7 +9,7 @@ function sliceString(value: string, decimals: number) {
   return formattedValue
 }
 
-export function truncateWei(wei: bigint, maxDecimals = 4): string {
+export function truncateWei(wei: bigint, maxDecimals = 4, smallValue = false): string {
   if (!wei || wei.toString() === '0') {
     return '0'
   }
@@ -17,7 +17,7 @@ export function truncateWei(wei: bigint, maxDecimals = 4): string {
   const formatWei = ethers.formatEther(wei)
   const formattedValue = sliceString(formatWei, maxDecimals)
 
-  if (parseFloat(formattedValue) < 0.00001) {
+  if (parseFloat(formattedValue) < 0.00001 && !smallValue) {
     return '>0.00001'
   }
 

@@ -213,7 +213,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const estimatedGasCost = type === 'deposit' ? depositEstimatedCost : withdrawData.withdrawEstimatedCost
   const txHash = type === 'deposit' ? depositTxHash : withdrawData.withdrawTxHash
   const resetState = type === 'deposit' ? depositResetState : withdrawData.withdrawResetState
-  console.log(amount)
+
   const amountBigNumber = ethers.parseEther(amount || '0')
 
   const insufficientMinDeposit = type === 'deposit' && amountBigNumber < minDepositAmount && amount.length > 0
@@ -310,7 +310,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       })
       return
     }
-    setAmount(truncateWei(balance, 18))
+
+    setAmount(truncateWei(balance, 18, true))
   }
 
   const canDeposit =
