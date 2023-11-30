@@ -6,6 +6,7 @@ import axios from 'axios'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
 import Button from './Button'
 import { globalConfig } from '@/config/global'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 
 type ConfirmTermsModalProps = {
   poolDetail: ContentfulWithLocale
@@ -15,6 +16,7 @@ export default function ConfirmTermsModal({ poolDetail }: ConfirmTermsModalProps
   const [loading, setLoading] = useState(false)
   const { isOpen, setOpen } = useConfirmTermsModal()
   const linkTerms = globalConfig.createProjectTermsOfUse
+  const { t } = useLocaleTranslation()
 
   const handleConfirmTerms = async () => {
     setLoading(true)
@@ -34,11 +36,11 @@ export default function ConfirmTermsModal({ poolDetail }: ConfirmTermsModalProps
     >
       <Terms>
         <span>
-          I agree to the{' '}
+          {t('v2.termsOfService.agree')}{' '}
           <a href={linkTerms} target='_blank'>
-            Terms of Service{' '}
+            {t('v2.termsOfService.termsOfService')}{' '}
           </a>{' '}
-          of service for owning a project on the Stake Together platform.
+          {t('v2.termsOfService.message')}
         </span>
 
         <Button isLoading={loading} onClick={handleConfirmTerms} label={'Accept Terms of Service'} />
