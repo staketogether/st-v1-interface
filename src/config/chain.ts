@@ -60,7 +60,7 @@ const configs: ChainConfig[] = [
       StakeTogetherWrapper: '0xB43a1a44Bb0d6012F9Ab575e4fDC37F77ffCAA27'
     },
     subgraphs: {
-      StakeTogether: 'http://localhost:8000/subgraphs/name/st-v2-goerli',
+      StakeTogether: 'https://api.studio.thegraph.com/query/51080/st-subgraph-goerli/v0.0.6-exp',
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`
     }
   }
