@@ -41,6 +41,12 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
       autoplay: 0
     }
   }
+  const handleProjectSite = () => {
+    if (poolDetail && (poolDetail.site?.startsWith('https://') || poolDetail.site?.startsWith('http://'))) {
+      return poolDetail.site
+    }
+    return `https://${poolDetail?.site}`
+  }
   return (
     <Container>
       {!loading && videoId && <YouTube videoId={videoId} opts={opts} />}
@@ -61,7 +67,7 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
       {!loading && poolDetail && (
         <SocialContainer>
           {poolDetail?.site && (
-            <Social href={poolDetail.site} target='_blank'>
+            <Social href={handleProjectSite()} target='_blank'>
               <SiteIcon />
               <span>{poolDetail.site.replace('https://', '')}</span>
             </Social>
