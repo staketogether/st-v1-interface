@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useEnsAvatar, useEnsName } from 'wagmi'
-import chainConfig from '../config/chain'
+import useActiveChain from "@/hooks/useActiveChain";
 
 export default function useEns(address: `0x${string}`) {
-  const { chainId } = chainConfig()
+  const { chainId } = useActiveChain()
 
   const [name, setName] = useState<string | undefined>(undefined)
   const [avatar, setAvatar] = useState<string | undefined>(undefined)

@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import useGiftByWalletAddress from '@/hooks/useGiftByWalletAddress'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -15,6 +14,7 @@ import Button from '../shared/Button'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import GiftCountDown from './GiftCountDown'
+import useActiveChain from "@/hooks/useActiveChain";
 
 type GiftAccountConnectedProps = {
   account: `0x${string}`
@@ -23,7 +23,7 @@ type GiftAccountConnectedProps = {
 export default function GiftAccountConnected({ account }: GiftAccountConnectedProps) {
   const { t } = useLocaleTranslation()
 
-  const chain = chainConfig()
+  const { config: chain } = useActiveChain()
   const { chain: walletChainId } = useNetwork()
   const isWrongNetwork = chain.chainId !== walletChainId?.id
 

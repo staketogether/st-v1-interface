@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import { PiLink } from 'react-icons/pi'
 import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
+import useActiveChain from "@/hooks/useActiveChain";
 
 type WalletSidebarActivities = {
   accountActivities: AccountActivity[]
@@ -15,7 +16,8 @@ type WalletSidebarActivities = {
 export default function WalletSidebarActivities({ accountActivities }: WalletSidebarActivities) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
-  const { blockExplorer } = chainConfig()
+  const { config: chain } = useActiveChain()
+  const { blockExplorer } = chain
   const getLocale = () => {
     return locale === 'en' ? 'en-US' : 'pt-BR'
   }

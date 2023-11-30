@@ -23,6 +23,7 @@ import {
 } from '../../types/Contracts'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
+import useActiveChain from "@/hooks/useActiveChain";
 
 export default function useDepositPool(
   netDepositAmount: bigint,
@@ -43,7 +44,8 @@ export default function useDepositPool(
   const [failedToExecute, setFailedToExecute] = useState(false)
 
   const { registerDeposit } = useMixpanelAnalytics()
-  const { contracts, chainId } = chainConfig()
+  const { config: chain } = useActiveChain()
+  const { contracts, chainId } = chain
 
   const amountEstimatedGas = ethers.parseUnits('0.001', 18)
 

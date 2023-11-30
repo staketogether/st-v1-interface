@@ -16,6 +16,7 @@ import useCoinConversion from '../../hooks/useCoinConversion'
 import useWalletSidebarConnectWallet from '../../hooks/useWalletSidebarConnectWallet'
 import { truncateWei } from '../../services/truncate'
 import Button from '../shared/Button'
+import useActiveChain from "@/hooks/useActiveChain";
 
 type StakeExchangeProps = {
   walletAddress?: `0x${string}`
@@ -32,7 +33,7 @@ export default function StakeExchange({ walletAddress, onBuyEthIsSuccess }: Stak
     onBuyEthIsSuccess && onBuyEthIsSuccess()
     setIsSuccess(true)
   }
-  const chain = chainConfig()
+  const { config: chain } = useActiveChain()
   const { getFaucet, txHash, isLoading, isError, errorMessage, amount } = useGetFaucet(handleSuccess)
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
 

@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import Loading from '../shared/icons/Loading'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
+import useActiveChain from "@/hooks/useActiveChain";
 
 type StakeActivityProps = {
   poolActivities: PoolActivity[]
@@ -27,7 +28,8 @@ export default function StakeActivity({
 }: StakeActivityProps) {
   const router = useRouter()
   const { t } = useLocaleTranslation()
-  const { blockExplorer } = chainConfig()
+  const { config } = useActiveChain()
+  const { blockExplorer } = config
   const hasActivities = poolActivities.length > 0
 
   if (poolActivitiesLoading) {

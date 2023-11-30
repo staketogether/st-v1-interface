@@ -2,6 +2,7 @@ import chainConfig from '@/config/chain'
 import { creatorPasscodeConverter } from '@/types/CreatorPasscode'
 import { ethers } from 'ethers'
 import { firestore } from '../../../firebase'
+import { Network } from "@/types/Network";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -14,7 +15,7 @@ export default async function handler(req, res) {
     return res.status(500).json({ message: 'Faucet wallet is not configured' })
   }
 
-  const chain = chainConfig()
+  const chain = chainConfig(Network.Goerli)
   const creatorPassCodes = (
     await firestore.collection('creators').withConverter(creatorPasscodeConverter).get()
   ).docs.map(doc => {

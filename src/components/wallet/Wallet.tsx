@@ -5,6 +5,7 @@ import WalletDisconnectedButton from './WalletConnectButton'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletSidebarConnected from './WalletSidebarConnected'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import useActiveChain from "@/hooks/useActiveChain";
 
 type WalletProps = {
   account: `0x${string}` | undefined
@@ -14,7 +15,7 @@ type WalletProps = {
 export default function Wallet({ account, accountIsConnected }: WalletProps) {
   const { registerConnectWallet } = useMixpanelAnalytics()
   const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
-  const chain = chainConfig()
+  const { config: chain } = useActiveChain()
 
   useEffect(() => {
     if (accountIsConnected && account) {

@@ -11,6 +11,7 @@ import styled from 'styled-components'
 import Modal from '../shared/Modal'
 import Loading from '../shared/icons/Loading'
 import { PiXCircle } from 'react-icons/pi'
+import useActiveChain from "@/hooks/useActiveChain";
 
 type WalletBuyEthModalProps = {
   walletAddress: `0x${string}`
@@ -32,7 +33,7 @@ export default function WalletBuyEthModal({ walletAddress, onBuyEthIsSuccess }: 
     setImage(ethGifSuccess)
     setIsSuccess(true)
   }
-  const chain = chainConfig()
+  const { config: chain } = useActiveChain()
   const { getFaucet, txHash, isLoading, isError, errorMessage, amount } = useGetFaucet(handleSuccess)
 
   useEffect(() => {

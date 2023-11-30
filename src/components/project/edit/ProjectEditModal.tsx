@@ -18,6 +18,7 @@ import { useNetwork, useSignMessage, useSwitchNetwork } from 'wagmi'
 import Modal from '../../shared/Modal'
 import ProjectEditForm from './ProjectEditForm'
 import ProjectEditLinksForm from './ProjectEditLinksForm'
+import useActiveChain from "@/hooks/useActiveChain";
 
 type ProjectEditModalProps = {
   poolDetailUs: ContentfulWithLocale
@@ -37,6 +38,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
 
   const router = useRouter()
   const { asPath } = router
+  const { config: chain } = useActiveChain()
 
   const poolDetailPt = useContentfulPoolDetails({
     poolAddress: poolDetailUs.wallet,
@@ -90,7 +92,6 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   const projectCover = watch('cover')
   const projectDescription = watch(language === 'pt' ? 'descriptionPt' : 'descriptionEn')
 
-  const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
   const { chainId } = chain
   const isWrongNetwork = chainId !== walletChainId?.id

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
 import { useStakeTogetherWeiByShares } from '@/types/Contracts'
+import useActiveChain from "@/hooks/useActiveChain";
 
 export default function useWeiByShares(sharesAmount?: string) {
-  const { contracts } = chainConfig()
+  const { config: chain } = useActiveChain()
+  const { contracts } = chain
 
   const [balance, setBalance] = useState<bigint>(0n)
   const [loading, setLoading] = useState<boolean>(false)

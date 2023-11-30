@@ -12,6 +12,7 @@ import { WithdrawType } from '@/types/Withdraw'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from '../shared/LottieAnimation'
 import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
+import useActiveChain from "@/hooks/useActiveChain";
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -35,7 +36,7 @@ export default function StakeTransactionLoading({
   withdrawTypeSelected
 }: StakeTransactionLoadingProps) {
   const { t } = useLocaleTranslation()
-  const chain = chainConfig()
+  const { config: chain } = useActiveChain()
   const isWithdraw = type === 'withdraw'
   const { addToWalletAction } = useAddSethToWallet()
   const { addToWalletAction: addStwEthToWalletAction } = useAddStwEthToWallet()

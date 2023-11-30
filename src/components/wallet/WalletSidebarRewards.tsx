@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiLink } from 'react-icons/pi'
 import styled, { useTheme } from 'styled-components'
+import useActiveChain from "@/hooks/useActiveChain";
 
 type WalletSidebarRewards = {
   accountRewards: AccountReward[]
@@ -16,7 +17,8 @@ export default function WalletSidebarRewards({ accountRewards }: WalletSidebarRe
   const { t } = useLocaleTranslation()
   const theme = useTheme()
   const { locale } = useRouter()
-  const { blockExplorer } = chainConfig()
+  const { config: chain } = useActiveChain()
+  const { blockExplorer } = chain
 
   return (
     <Container>

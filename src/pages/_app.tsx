@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import useSettingsCurrency from '@/hooks/useSettingCurrency'
 import { ApolloProvider } from '@apollo/client'
@@ -15,12 +14,13 @@ import { config } from '../config/wagmi'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
 import { ConfigProvider } from 'antd'
+import useActiveChain from "@/hooks/useActiveChain";
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
   const router = useRouter()
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
-  const chain = chainConfig()
+  const { chainId } = useActiveChain()
   useSettingsCurrency()
   useEffect(() => {
     initMixpanel()
@@ -28,9 +28,9 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   useEffect(() => {
     router.events.on('routeChangeComplete', () => {
-      registerPageView(chain.chainId)
+      registerPageView(chainId)
     })
-  }, [chain.chainId, registerPageView, router.events])
+  }, [chainId, registerPageView, router.events])
 
   return (
     <>
