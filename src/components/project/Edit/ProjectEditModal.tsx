@@ -1,23 +1,23 @@
-import useProjectEditModal from '@/hooks/useProjectEditModal'
-import React, { useEffect, useState } from 'react'
-import Modal from '../../shared/Modal'
+import GenericTransactionLoading from '@/components/shared/GenericTransactionLoading'
+import Tabs, { TabsItems } from '@/components/shared/Tabs'
+import { contentfulClient } from '@/config/apollo'
+import chainConfig from '@/config/chain'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import styled from 'styled-components'
+import useProjectEditModal from '@/hooks/useProjectEditModal'
+import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
 import { EditProjectForm } from '@/types/Project'
-import { useForm } from 'react-hook-form'
-import ProjectEditForm from './ProjectEditForm'
-import { useNetwork, useSignMessage, useSwitchNetwork } from 'wagmi'
-import axios from 'axios'
 import { notification } from 'antd'
-import { contentfulClient } from '@/config/apollo'
-import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
-import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
-import Tabs, { TabsItems } from '@/components/shared/Tabs'
-import ProjectEditLinksForm from './ProjectEditLinksForm'
-import chainConfig from '@/config/chain'
-import GenericTransactionLoading from '@/components/shared/GenericTransactionLoading'
+import axios from 'axios'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import styled from 'styled-components'
+import { useNetwork, useSignMessage, useSwitchNetwork } from 'wagmi'
+import Modal from '../../shared/Modal'
+import ProjectEditForm from './ProjectEditForm'
+import ProjectEditLinksForm from './ProjectEditLinksForm'
 
 type ProjectEditModalProps = {
   poolDetailUs: ContentfulWithLocale
@@ -29,7 +29,7 @@ export enum EditFormTabs {
   LINKS = 'links'
 }
 
-export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditModalProps) {
+export function ProjectEditModal({ poolDetailUs, account }: ProjectEditModalProps) {
   const [activeTab, setActiveTab] = useState<string>(EditFormTabs.ABOUT)
   const [language, setLanguage] = useState<'pt' | 'en'>('pt')
   const { t } = useLocaleTranslation()
