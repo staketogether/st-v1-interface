@@ -32,7 +32,7 @@ import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckered
 import { formatNumberByLocale } from '../../services/format'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
-import { Tooltip } from 'antd'
+import { Tooltip, notification } from 'antd'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
 
@@ -304,18 +304,20 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const handleInputMaxValue = () => {
     if (estimatedGasCost && type === 'deposit') {
       setAmount(truncateWei(ethBalance - estimatedGasCost, 18))
+      notification.info({
+        message: `${t('v2.stake.maxDepositButtonMessage')}`,
+        placement: 'topRight'
+      })
       return
     }
     setAmount(truncateWei(balance, 18))
   }
 
-  const canDeposit = insufficientFunds ||
-    amountIsEmpty ||
-    insufficientMinDeposit ||
-    isLoadingFees ||
-    prepareTransactionIsError
+  const canDeposit =
+    insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
 
-  const canWithdraw = insufficientFunds ||
+  const canWithdraw =
+    insufficientFunds ||
     insufficientWithdrawalBalance ||
     amountIsEmpty ||
     isLoadingFees ||
@@ -395,9 +397,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             onClick={openStakeConfirmation}
             label={handleLabelButton()}
             icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
-            disabled={
-              type === 'deposit' ? canDeposit : canWithdraw
-            }
+            disabled={type === 'deposit' ? canDeposit : canWithdraw}
           />
         )}
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (

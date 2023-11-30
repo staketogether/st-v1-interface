@@ -272,6 +272,7 @@
       "faucetTooltip": "Experimente o protocolo, pegue goerli ethereum aqui",
       "annualRewards": "Recompensas anuais de staking",
       "infoEmptyState": "Dados não disponíveis",
+      "maxDepositButtonMessage": "A função de máximo no ether nativo sempre deixa um valor para efetuar a transação",
       "descriptionForm": {
         "receive": "Você recebe:",
         "receiveTooltip": "Quando você deposita ETH, você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",
