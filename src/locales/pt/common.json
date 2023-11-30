@@ -182,6 +182,7 @@
     }
   },
   "v2": {
+    "deprecatedMessage": "A versão do beta está descontinuada em favor da versão final. Os saques na beacon chain estão sendo processados.",
     "pages": {
       "invest": {
         "title": "Investir com Projetos",
