@@ -264,9 +264,9 @@
       "tvl": "Total Investido com o Projeto",
       "tvlTooltip": "Total Investido com o Projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto. (TVL do Projeto)",
       "rewardsTooltip": "Recompensas geradas pelos incentivos em stake nesse projeto",
-      "faucetTooltip": "Experimente o protocolo, pegue goerli ethereum aqui",
-      "annualRewards": "Recompensas Anuais de Staking",
       "infoEmptyState": "Nenhuma informação disponível",
+      "faucetTooltip": "Experimente o protocolo, pegue goerli ethereum aqui",
+      "maxDepositButtonMessage": "The max function in native Ether always leaves a value to execute the transaction",
       "descriptionForm": {
         "receive": "Você Vai Receber:",
         "receiveTooltip": "Quando você deposita ETH, você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",

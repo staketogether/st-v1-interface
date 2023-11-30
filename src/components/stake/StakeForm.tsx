@@ -33,6 +33,7 @@ import { formatNumberByLocale } from '../../services/format'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeExchange from './StakeExchange'
+import { notification } from 'antd'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw' | 'exchange'
@@ -297,6 +298,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const handleInputMaxValue = () => {
     if (estimatedGasCost && type === 'deposit') {
       setAmount(truncateWei(ethBalance - estimatedGasCost, 18))
+      notification.info({
+        message: `${t('v2.stake.maxDepositButtonMessage')}`,
+        placement: 'topRight'
+      })
       return
     }
     setAmount(truncateWei(balance, 18))
