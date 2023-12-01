@@ -200,3 +200,7 @@ input::-webkit-inner-spin-button {
   padding: 0;
   font-family: __Montserrat_80eb8d, __Montserrat_Fallback_80eb8d !important;
 }
+
+.ant-drawer {
+  z-index: 10 !important;
+}

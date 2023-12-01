@@ -28,7 +28,7 @@ const configs: ChainConfig[] = [
     chainId: 1,
     name: 'mainnet',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_MAINNET),
-    stakeTogetherPool: '0x7D316EF9d95649fD2d8bE426B01FF531c560379a',
+    stakeTogetherPool: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
     blockExplorer: {
       baseUrl: 'https://etherscan.io'
     },

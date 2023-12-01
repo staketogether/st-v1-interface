@@ -80,10 +80,12 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
           <span>Mainnet</span>
           {network === 'mainnet' && <CheckedIcon />}
         </div>
-        <div onClick={() => changeNetwork('goerli')} className={`${network === 'goerli' ? 'active' : ''}`}>
-          <span>Goerli</span>
-          {network === 'goerli' && <CheckedIcon />}
-        </div>
+        {/* 
+          <div onClick={() => changeNetwork('goerli')} className={`${network === 'goerli' ? 'active' : ''}`}>
+            <span>Goerli</span>
+            {network === 'goerli' && <CheckedIcon />}
+          </div>
+        */}
       </SettingContainer>
     </>
   )
