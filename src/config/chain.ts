@@ -40,7 +40,8 @@ const configs: ChainConfig[] = [
       StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
+      StakeTogether:
+        'https://gateway.thegraph.com/api/e7678a6379d4afdf3d25bbd9c45242f3/subgraphs/id/7pMsfXSRvC4NJ45eAMXiqgpxanvXhpMZFs8VKFz6bXyc',
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`
     }
   },
