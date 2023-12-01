@@ -1,4 +1,4 @@
-import { goerli, mainnet } from 'viem/chains'
+import { mainnet } from 'viem/chains'
 import { configureChains, createConfig } from 'wagmi'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
@@ -6,7 +6,7 @@ import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
 
 const { chains, publicClient } = configureChains(
-  [mainnet, goerli],
+  [mainnet],
   [
     jsonRpcProvider({
       rpc: () => ({
@@ -14,12 +14,12 @@ const { chains, publicClient } = configureChains(
         chainId: 1
       })
     }),
-    jsonRpcProvider({
-      rpc: () => ({
-        http: `${process.env.NEXT_PUBLIC_RPC_GOERLI}`,
-        chainId: 5
-      })
-    }),
+    // jsonRpcProvider({
+    //   rpc: () => ({
+    //     http: `${process.env.NEXT_PUBLIC_RPC_GOERLI}`,
+    //     chainId: 5
+    //   })
+    // }),
     publicProvider()
   ],
   {
