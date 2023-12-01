@@ -16,15 +16,13 @@ import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
-import useActiveChain from "@/hooks/useActiveChain";
 
 export default function useWithdrawalsStwEth(
   withdrawAmount: bigint,
   accountAddress: `0x${string}`,
   enabled: boolean
 ) {
-  const { config: chain } = useActiveChain()
-  const { contracts, chainId } = chain
+  const { contracts, chainId } = chainConfig()
   const [notify, setNotify] = useState(false)
 
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)

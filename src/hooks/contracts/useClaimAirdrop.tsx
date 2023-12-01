@@ -6,7 +6,6 @@ import { airdropABI, useAirdropClaim, usePrepareAirdropClaim } from '@/types/Con
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
-import useActiveChain from "@/hooks/useActiveChain";
 
 interface UseClaimAirdropProps {
   epoch?: bigint
@@ -23,8 +22,7 @@ export const useClaimAirdrop = ({
   sharesAmount,
   merkleProof
 }: UseClaimAirdropProps) => {
-  const { config: chain } = useActiveChain()
-  const { chainId, contracts } = chain
+  const { chainId, contracts } = chainConfig()
   const isAirdropReady = Boolean(!!epoch && !!index && !!accountAddress && !!sharesAmount && !!merkleProof)
 
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)

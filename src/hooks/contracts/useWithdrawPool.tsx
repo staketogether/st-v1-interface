@@ -23,7 +23,6 @@ import {
 } from '../../types/Contracts'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
-import useActiveChain from "@/hooks/useActiveChain";
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -36,8 +35,7 @@ export default function useWithdrawPool(
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
-  const { config: chain } = useActiveChain()
-  const { contracts, chainId } = chain
+  const { contracts, chainId } = chainConfig()
 
   const { registerWithdraw } = useMixpanelAnalytics()
   const amountEstimatedGas = ethers.parseUnits('0.001', 18)

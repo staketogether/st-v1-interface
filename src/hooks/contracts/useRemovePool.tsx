@@ -4,10 +4,9 @@ import { usePrepareStakeTogetherRemovePool, useStakeTogetherRemovePool } from '@
 import { useWaitForTransaction } from 'wagmi'
 import { notification } from 'antd'
 import useLocaleTranslation from '../useLocaleTranslation'
-import useActiveChain from "@/hooks/useActiveChain";
 
 export default function useRemovePool(projectAddress: `0x${string}`, disabled?: boolean) {
-  const { contracts, chainId } = useActiveChain()
+  const { contracts, chainId } = chainConfig()
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)

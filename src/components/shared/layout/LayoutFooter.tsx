@@ -1,13 +1,12 @@
+import chainConfig from '@/config/chain'
 import styled from 'styled-components'
 import packageData from '../../../../package.json'
 import { globalConfig } from '../../../config/global'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import useActiveChain from "@/hooks/useActiveChain";
 
 export default function LayoutFooter() {
   const date = new Date()
-  const { config } = useActiveChain()
-  const { blockExplorer, contracts } = config
+  const { blockExplorer, contracts } = chainConfig()
   const { websiteUrl, auditUrl } = globalConfig
 
   const { t } = useLocaleTranslation()

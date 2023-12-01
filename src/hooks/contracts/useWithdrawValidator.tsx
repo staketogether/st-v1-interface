@@ -20,7 +20,6 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { usePrepareStakeTogetherWithdrawBeacon, useStakeTogetherWithdrawBeacon } from '@/types/Contracts'
-import useActiveChain from "@/hooks/useActiveChain";
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
@@ -35,8 +34,7 @@ export default function useWithdrawValidator(
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
 
-  const { config: chain } = useActiveChain()
-  const { contracts, chainId } = chain
+  const { contracts, chainId } = chainConfig()
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
   const isWithdrawEnabled = enabled && amount > 0n

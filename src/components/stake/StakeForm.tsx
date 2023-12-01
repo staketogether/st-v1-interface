@@ -35,7 +35,6 @@ import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import { Tooltip, notification } from 'antd'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
-import useActiveChain from "@/hooks/useActiveChain";
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -269,7 +268,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     resetState
   ])
 
-  const { config: chain } = useActiveChain()
+  const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
   const isWrongNetwork = chain.chainId !== walletChainId?.id
   const { switchNetworkAsync } = useSwitchNetwork({

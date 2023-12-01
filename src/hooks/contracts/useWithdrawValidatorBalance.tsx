@@ -1,12 +1,10 @@
 import chainConfig from '@/config/chain'
 import { useStakeTogetherBeaconBalance } from '@/types/Contracts'
 import { useEffect, useState } from 'react'
-import useActiveChain from "@/hooks/useActiveChain";
 
 export const useWithdrawValidatorBalance = () => {
   const [liquidityValidatorsBalance, setLiquidityValidatorsBalance] = useState(0n)
-  const { config: chain } = useActiveChain()
-  const { contracts } = chain
+  const { contracts } = chainConfig()
 
   const { data, isFetching, refetch } = useStakeTogetherBeaconBalance({
     address: contracts.StakeTogether

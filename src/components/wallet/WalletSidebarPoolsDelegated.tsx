@@ -10,7 +10,6 @@ import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import chainConfig from '@/config/chain'
-import useActiveChain from "@/hooks/useActiveChain";
 
 type WalletSideBarPoolsDelegatedProps = {
   accountDelegations: Delegation[]
@@ -26,8 +25,8 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
-  const { config } = useActiveChain()
-  const { stakeTogetherPool } = config
+
+  const { stakeTogetherPool } = chainConfig()
 
   return (
     <Container>

@@ -1,10 +1,9 @@
+import chainConfig from '@/config/chain'
 import { useEffect, useState } from 'react'
 import { useBalance } from 'wagmi'
-import useActiveChain from "@/hooks/useActiveChain";
 
 export const useWithdrawPoolBalance = () => {
-  const { config: chain } = useActiveChain()
-  const { chainId, contracts } = chain
+  const { chainId, contracts } = chainConfig()
   const [liquidityPoolBalance, setLiquidityPoolBalance] = useState(0n)
 
   const { data, isFetching, refetch } = useBalance({

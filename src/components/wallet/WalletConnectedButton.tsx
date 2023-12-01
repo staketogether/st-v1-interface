@@ -11,7 +11,6 @@ import useWalletSidebar from '../../hooks/useWalletSidebar'
 
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import WalletName from './WalletName'
-import useActiveChain from "@/hooks/useActiveChain";
 
 type WalletConnectedButtonProps = {
   address: `0x${string}`
@@ -21,7 +20,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   const { setOpenSidebar } = useWalletSidebar()
   const { t } = useLocaleTranslation()
 
-  const { config: chain } = useActiveChain()
+  const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
   const isWrongNetwork = chain.chainId !== walletChainId?.id
   const { switchNetworkAsync } = useSwitchNetwork({

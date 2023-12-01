@@ -8,19 +8,18 @@ import Link from 'next/link'
 import { PiArrowLineRight, PiCheckCircle, PiHandCoins, PiLink, PiQuestion, PiXCircle } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useNetwork } from 'wagmi'
+import chainConfig from '../../config/chain'
 import useIncentives from '../../hooks/useIncentives'
 import { truncateWei } from '../../services/truncate'
 import Button from '../shared/Button'
 import TooltipComponent from '../shared/TooltipComponent'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import NextAirdropCountdown from './NextAirdropCountdown'
-import useActiveChain from "@/hooks/useActiveChain";
 
 export default function IncentivesControl() {
   const { account } = useConnectedAccount()
   const { incentives, amount } = useIncentives(account)
   const { t } = useLocaleTranslation()
-  const { config: chain } = useActiveChain()
 
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
@@ -31,6 +30,7 @@ export default function IncentivesControl() {
     sharesAmount: 0n
   })
 
+  const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
   const isWrongNetwork = chain.chainId !== walletChainId?.id
 

@@ -4,11 +4,9 @@ import { usePrepareStakeTogetherAddPool, useStakeTogetherAddPool } from '@/types
 import { useWaitForTransaction } from 'wagmi'
 import { notification } from 'antd'
 import useLocaleTranslation from '../useLocaleTranslation'
-import useActiveChain from "@/hooks/useActiveChain";
 
 export default function useAddPool(projectAddress: `0x${string}`, isSocial: boolean, disabled?: boolean) {
-  const { config: chain } = useActiveChain()
-  const { contracts, chainId } = chain
+  const { contracts, chainId } = chainConfig()
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)

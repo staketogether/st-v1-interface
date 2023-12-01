@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react'
 
 import chainConfig from '@/config/chain'
-import useActiveChain from "@/hooks/useActiveChain";
 
 const useBlockCountdown = (targetBlock: number) => {
   const [timeLeft, setTimeLeft] = useState<number | null>(null)
-  const { config } = useActiveChain()
 
   useEffect(() => {
-    const { provider } = config
+    const provider = chainConfig().provider
     const averageBlockTimeSeconds = 15
     let intervalId: NodeJS.Timeout | null = null
 
@@ -41,7 +39,7 @@ const useBlockCountdown = (targetBlock: number) => {
         clearInterval(intervalId)
       }
     }
-  }, [config, targetBlock])
+  }, [targetBlock])
 
   return timeLeft
 }

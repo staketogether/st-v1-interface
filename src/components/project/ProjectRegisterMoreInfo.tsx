@@ -12,7 +12,6 @@ import GenericTransactionLoading from '../shared/GenericTransactionLoading'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
-import useActiveChain from "@/hooks/useActiveChain";
 
 type ProjectRegisterMoreInfoProps = {
   isLoading: boolean
@@ -36,8 +35,8 @@ export default function ProjectRegisterMoreInfo({
   registerLinksToAnalyze
 }: ProjectRegisterMoreInfoProps) {
   const { t } = useLocaleTranslation()
-  const { config: chain } = useActiveChain()
 
+  const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
   const { chainId } = chain
   const isWrongNetwork = chainId !== walletChainId?.id
