@@ -45,7 +45,7 @@ export default function useDepositPool(
   const { registerDeposit } = useMixpanelAnalytics()
   const { contracts, chainId } = chainConfig()
 
-  const amountEstimatedGas = ethers.parseUnits('0.001', 18)
+  const amountEstimatedGas = ethers.parseUnits('0.01', 18)
 
   const isDepositEnabled = enabled && netDepositAmount > 0n
 
