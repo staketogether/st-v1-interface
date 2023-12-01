@@ -71,7 +71,6 @@ export default function useDepositPool(
     const handleEstimateGasPrice = async () => {
       const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
         await estimateGas()
-      console.log(estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas)
       setDepositEstimatedGas(estimatedGas)
       setEstimateGasCost(estimatedCost)
       setMaxFeePerGas(estimatedMaxFeePerGas)
@@ -191,8 +190,6 @@ export default function useDepositPool(
       setFailedToExecute(false)
     }
   }, [accountAddress, notify, netDepositAmount, failedToExecute, isError, poolAddress, t])
-
-  console.log(estimateGasCost)
 
   return {
     deposit,
