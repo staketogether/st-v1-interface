@@ -84,6 +84,7 @@
     "connectWallet": "Connect Wallet",
     "selectPool": "Select Pool",
     "insufficientFunds": "Insufficient Funds",
+    "insufficientFundsPerGas": "Insufficient funds for gas",
     "insufficientMinDeposit": "Minimum Deposit is",
     "insufficientLiquidity": "Available Liquidity for",
     "amount": "Amount"
@@ -365,6 +366,7 @@
         "logo": "Project Logo",
         "wallet": "Wallet",
         "name": "Name",
+
         "category": "Category",
         "email": "Email",
         "about": "Present your project to our team",

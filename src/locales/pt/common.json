@@ -84,6 +84,7 @@
     "connectWallet": "Conectar Carteira",
     "selectPool": "Selecionar Pool",
     "insufficientFunds": "Saldo insuficiente",
+    "insufficientFundsPerGas": "Saldo insuficiente para o gás",
     "insufficientMinDeposit": "Valor mínimo",
     "insufficientLiquidity": "Liquidez insuficiente para saque"
   },
