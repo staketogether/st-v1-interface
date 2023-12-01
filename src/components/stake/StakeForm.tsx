@@ -310,7 +310,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       })
       return
     }
-    setAmount(truncateWei(balance, 18))
+    setAmount(truncateWei(balance, 18, true))
   }
 
   const canDeposit =
@@ -372,6 +372,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             withdrawTypeSelected={withdrawTypeSelected}
             selectWithdrawType={setWithdrawTypeSelected}
             withdrawAmount={inputAmount}
+            withdrawTimeLeft={withdrawTimeLeft}
           />
         )}
         <StakeFormInput

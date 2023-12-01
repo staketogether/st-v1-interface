@@ -184,7 +184,7 @@
     "pages": {
       "invest": {
         "title": "Stake Ether com um Projeto",
-        "description": "Escolha um projeto, stake ether e ganhe recompensas de staking de ethereum Juntos"
+        "description": "Escolha um projeto, stake ether e ganhe recompensas de staking de ethereum juntos"
       },
       "deposit": {
         "title": "Stake de Ether",
@@ -249,7 +249,7 @@
         "type": "Categoria",
         "people": "Pessoas",
         "invested": "Investidos",
-        "rewards": "Recompensas"
+        "rewards": "Recompensas do projeto"
       }
     },
     "stake": {

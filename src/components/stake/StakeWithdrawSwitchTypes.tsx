@@ -8,12 +8,14 @@ import { useEffect, useState } from 'react'
 import { PiQuestion, PiStack, PiStackSimple } from 'react-icons/pi'
 import styled from 'styled-components'
 import TooltipComponent from '../shared/TooltipComponent'
+import StakeWithdrawCounter from './StakeWithdrawCounter'
 
 type StakeWithdrawSwitchTypesProps = {
   withdrawTypeSelected: WithdrawType
   selectWithdrawType: (value: WithdrawType) => void
   liquidityPoolBalance: bigint
   liquidityValidatorsBalance: bigint
+  withdrawTimeLeft: number
   withdrawAmount: string
 }
 
@@ -22,6 +24,7 @@ export default function StakeWithdrawSwitchTypes({
   liquidityPoolBalance,
   liquidityValidatorsBalance,
   withdrawAmount,
+  withdrawTimeLeft,
   selectWithdrawType
 }: StakeWithdrawSwitchTypesProps) {
   const [disabledWithdrawLiquidity, setDisabledWithdrawLiquidity] = useState(false)
@@ -75,7 +78,11 @@ export default function StakeWithdrawSwitchTypes({
           <div>
             <span>{t('withdrawCardsType.waitingTime')}</span>
             <div>
-              <span className='purple'>{t('withdrawCardsType.instantly')}</span>
+              {withdrawTimeLeft > 0 ? (
+                <StakeWithdrawCounter withdrawTimeLeft={withdrawTimeLeft} />
+              ) : (
+                <span className='purple'>01d</span>
+              )}
             </div>
           </div>
         </RateInfo>
@@ -178,6 +185,12 @@ const { Container, Card, RateInfo, PoolIcon, ValidatorsIcon, QuestionIcon } = {
       justify-content: space-between;
       align-items: center;
       height: 12px;
+
+      div {
+        &.purple {
+          color: ${({ theme }) => theme.colorV2.purple[1]};
+        }
+      }
 
       span {
         font-size: 12px;
