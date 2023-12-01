@@ -226,7 +226,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const amountIsEmpty = amountBigNumber === 0n || !amount
 
   const errorLabel =
-    ((insufficientFunds || insufficientFundsPerGas) && t('form.insufficientFunds')) ||
+    (insufficientFunds && t('form.insufficientFunds')) ||
+    (insufficientFundsPerGas && t('form.insufficientFundsPerGas')) ||
     (insufficientMinDeposit &&
       `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
     (insufficientWithdrawalBalance &&
@@ -302,8 +303,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   }
 
   const handleInputMaxValue = () => {
-    if (estimatedGasCost && type === 'deposit') {
-      setAmount(truncateWei(ethBalance - estimatedGasCost, 18))
+    if (estimatedGasCost && type === 'deposit' && ethBalance > ethers.parseEther('0.01')) {
+      setAmount(truncateWei(ethBalance - estimatedGasCost, 18, true))
       notification.info({
         message: `${t('v2.stake.maxDepositButtonMessage')}`,
         placement: 'topRight'
