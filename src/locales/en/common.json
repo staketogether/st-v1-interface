@@ -442,7 +442,7 @@
       "formTabs": {
         "about": {
           "title": "About",
-          "cover": "Project Cover",
+          "cover": "Project Cover"
         },
         "links": {
           "title": "Links"
@@ -482,7 +482,7 @@
         "projectRemoved": "Project removed successfully",
         "errorProjectRemove": "Error removing project",
         "projectAddedSuccessfully": "Project added successfully",
-        "errorAddProject": "Error adding project",
+        "errorAddProject": "Error adding project"
       }
     }
   }
