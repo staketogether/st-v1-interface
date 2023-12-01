@@ -45,7 +45,7 @@ export default function useDepositPool(
   const { registerDeposit } = useMixpanelAnalytics()
   const { contracts, chainId } = chainConfig()
 
-  const amountEstimatedGas = ethers.parseUnits('0.001', 18)
+  const amountEstimatedGas = ethers.parseUnits('0.01', 18)
 
   const isDepositEnabled = enabled && netDepositAmount > 0n
 
@@ -71,6 +71,7 @@ export default function useDepositPool(
     const handleEstimateGasPrice = async () => {
       const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
         await estimateGas()
+      console.log(estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas)
       setDepositEstimatedGas(estimatedGas)
       setEstimateGasCost(estimatedCost)
       setMaxFeePerGas(estimatedMaxFeePerGas)
@@ -190,6 +191,8 @@ export default function useDepositPool(
       setFailedToExecute(false)
     }
   }, [accountAddress, notify, netDepositAmount, failedToExecute, isError, poolAddress, t])
+
+  console.log(estimateGasCost)
 
   return {
     deposit,
