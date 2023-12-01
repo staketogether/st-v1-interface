@@ -20,6 +20,6 @@ export const globalConfig: GlobalConfig = {
   apy: '5.1',
   fees: {
     operation: '0.3',
-    rewards: '0.45'
+    rewards: '9'
   }
 }
