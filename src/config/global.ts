@@ -1,37 +1,25 @@
-import { BigNumber, utils } from 'ethers'
-
-export interface GlobalConfig {
-  app: {
-    name: string
-  }
-  fee: {
-    account: BigNumber
-    protocol: BigNumber
-  }
-  eth: {
-    name: string
-    symbol: string
-  }
-  ceth: {
-    name: string
-    symbol: string
+interface GlobalConfig {
+  url: string
+  websiteUrl: string
+  auditUrl: string
+  appUrl: string
+  recaptchakey: string
+  apy: string
+  fees: {
+    operation: string
+    rewards: string
   }
 }
 
-export const globalConfig = {
-  app: {
-    name: process.env.APP_NAME as string
-  },
-  fee: {
-    account: utils.parseEther('0.03'),
-    protocol: utils.parseEther('0.06')
-  },
-  eth: {
-    name: 'Ether',
-    symbol: 'ETH'
-  },
-  ceth: {
-    name: 'Community Ether',
-    symbol: 'CETH'
+export const globalConfig: GlobalConfig = {
+  url: 'https://app.staketogether.org',
+  websiteUrl: 'https://staketogether.org',
+  appUrl: 'https://app.staketogether.org',
+  auditUrl: 'https://github.com/staketogether/st-v1-contracts/tree/main/audits',
+  recaptchakey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string,
+  apy: '5.1',
+  fees: {
+    operation: '0.3',
+    rewards: '0.45'
   }
 }

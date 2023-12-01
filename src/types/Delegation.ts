@@ -1,6 +1,15 @@
-import { BigNumber } from 'ethers'
+import { Account } from './Account'
+import { PoolSubgraph } from './Pool'
 
 export type Delegation = {
-  account: `0x${string}`
-  amount: BigNumber
+  id: string
+  delegate: Account
+  delegated: PoolSubgraph
+  delegationBalance: bigint
+  delegationShares: bigint
+}
+
+export type DelegationMap = {
+  pool: `0x${string}`
+  percentage: bigint
 }

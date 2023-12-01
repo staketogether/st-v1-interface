@@ -143,13 +143,11 @@ img {
 html,
 body {
   font-size: 62.5%;
-  font-weight: 400;
-  font-family: var(--font-montserrat);
+  font-family: __Montserrat_80eb8d, __Montserrat_Fallback_80eb8d !important;
   text-rendering: optimizeLegibility;
   height: 100%;
-  color: #373b8a;
-  background: rgb(143, 152, 214);
-  background: linear-gradient(180deg, rgba(143, 152, 214, 0.2) 0%, rgba(143, 152, 214, 1) 50%);
+  color: #404a57;
+  min-width: 375px;
 }
 
 button {
@@ -164,6 +162,7 @@ input::-webkit-inner-spin-button {
 }
 
 ::-webkit-scrollbar {
+  height: 8px;
   width: 8px;
 }
 
@@ -185,4 +184,23 @@ input::-webkit-inner-spin-button {
 }
 ::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+.ant-drawer-content-wrapper {
+  width: auto !important;
+}
+
+.torus-widget__btn {
+  background: #283b8a !important;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: __Montserrat_80eb8d, __Montserrat_Fallback_80eb8d !important;
+}
+
+.ant-drawer {
+  z-index: 10 !important;
 }

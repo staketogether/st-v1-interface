@@ -1,36 +1,41 @@
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import useEns from '../../../hooks/useEns'
+import SkeletonLoading from '../icons/SkeletonLoading'
 
 type EnsAvatarProps = {
   address: `0x${string}`
+  size?: number
 }
 
-export default function EnsAvatar({ address }: EnsAvatarProps) {
-  const { avatar } = useEns(address)
+export default function EnsAvatar({ address, size = 24 }: EnsAvatarProps) {
+  const { avatar, avatarLoading } = useEns(address)
 
-  const [avatarEl, setAvatarEl] = useState(<DefaultAvatar />)
+  if (avatarLoading) {
+    return <SkeletonLoading $borderRadius='50%' width={size} height={size} />
+  }
 
-  useEffect(() => {
-    if (avatar) {
-      setAvatarEl(<Avatar width={24} height={24} src={avatar} alt={address} />)
-    } else {
-      setAvatarEl(<DefaultAvatar />)
-    }
-  }, [address, avatar])
-
-  return avatarEl
+  return avatar ? (
+    <Avatar width={size} height={size} src={avatar} alt={address} size={size} />
+  ) : (
+    <DefaultAvatar size={size} />
+  )
 }
 
 const { DefaultAvatar, Avatar } = {
-  DefaultAvatar: styled.div`
-    background-color: ${({ theme }) => theme.color.purple[200]};
+  DefaultAvatar: styled.div<{ size: number }>`
+    background-color: ${({ theme }) => theme.color.blue[600]};
     border-radius: 100%;
-    width: 24px;
-    height: 24px;
+
+    width: ${props => `${props.size}px`};
+    height: ${props => `${props.size}px`};
+    box-shadow: ${({ theme }) => theme.shadow[300]};
   `,
-  Avatar: styled(Image)`
+  Avatar: styled(Image)<{ size: number }>`
     border-radius: 100%;
+    box-shadow: ${({ theme }) => theme.shadow[300]};
+
+    width: ${props => `${props.size}px`};
+    height: ${props => `${props.size}px`};
   `
 }

@@ -1,18 +1,489 @@
 {
-  "explore": "Explore",
-  "footer": "All rights reserved.",
-  "balance": "balance",
-  "selectCommunity": "Select a community",
+  "stakeTogether": "Stake Together",
+  "pools": "Pools",
+  "save": "Save",
+  "projects": "Projects",
+  "portfolio": "Portfolio",
+  "stake": "Stake",
+  "time": "Time",
+  "next": "Next",
+  "close": "Close",
+  "goToBack": "Go To Back",
+  "account": "Account",
+  "accounts": "Accounts",
+  "days": "Days",
+  "type": "Type",
+  "value": "Value",
+  "rewards": "Rewards",
+  "generatedRewards": "Generated Rewards",
+  "delegates": "Delegates",
+  "processing": "Processing...",
+  "invested": "Invested",
+  "staked": "Staked",
+  "unstake": "Unstake",
+  "members": "Members",
+  "delegations": "Delegations to Pools",
+  "balance": "Balance",
+  "poolBalance": "Pool Balance",
+  "selectPool": "Select Pool",
+  "exchange": "Get Faucet",
+  "buy": "Buy",
+  "sell": "Sell",
+  "available": "Available",
+  "receive": "Receive",
+  "getEthFaucet": "Get ETH Faucet",
+  "max": "Max",
+  "rank": "Rank",
   "action": "Staking...",
-  "youReceive": "You receive",
   "delegation": "Delegation",
   "fee": "Fee",
-  "staked": "Staked",
   "delegated": "Delegated",
-  "members": "Members",
-  "wallet": "Connect Wallet",
-  "stake": "Stake",
-  "searchCommunity": "Search Communities",
-  "emptyCommunity": "community not found",
-  "copyClipboard": "Copy to clipboard"
+  "delegatedAmount": "Delegated Amount",
+  "searchPool": "Search Pools",
+  "projectEmpty": "Project Not Found",
+  "copyClipboard": "Copy to Clipboard",
+  "copiedToClipboard": "Link copied, Share it now!",
+  "addressCopiedToClipboard": "Address Copied",
+  "deposit": "Deposit",
+  "withdraw": "Withdraw",
+  "loading": "Loading...",
+  "loadMore": "Load More",
+  "apr": "APR",
+  "pnl": "PNL",
+  "wrongNetwork": "Wrong Network",
+  "switch": "Switch to",
+  "about": "About",
+  "activities": "Activities",
+  "analytics": "Analytics",
+  "activity": "Activity",
+  "success": "Success",
+  "viewOnExplorer": "View on Explorer",
+  "try": "Try Again",
+  "availableToStake": "Available",
+  "amount": "Amount",
+  "tx": "TX",
+  "rewardsTooltip": "Your rewards balance is automatically converted into your staked balance.",
+  "poolDetail": "Pool Detail",
+  "learnMore": "Learn More",
+  "eth": {
+    "name": "Ether",
+    "symbol": "ETH"
+  },
+  "lsd": {
+    "name": "ST Staked Ether",
+    "symbol": "stpETH"
+  },
+  "wse": {
+    "name": "Stake Together Withdrawals",
+    "symbol": "stwETH"
+  },
+  "form": {
+    "deposit": "Deposit Ether",
+    "withdraw": "Withdraw Ether",
+    "inputAmount": "Enter Amount",
+    "connectWallet": "Connect Wallet",
+    "selectPool": "Select Pool",
+    "insufficientFunds": "Insufficient Funds",
+    "insufficientMinDeposit": "Minimum Deposit is",
+    "insufficientLiquidity": "Available Liquidity for",
+    "amount": "Amount"
+  },
+  "noDelegations": "No Delegations",
+  "noStake": "You have not deposited Ethereum yet",
+  "noRewards": "Rewards are distributed daily",
+  "noActivities": "You have not performed any activities yet",
+  "notifications": {
+    "depositSuccess": "Deposit Successful",
+    "depositError": "Failed to Deposit",
+    "withdrawSuccess": "Withdrawal Successful",
+    "withdrawError": "Failed to Withdraw"
+  },
+  "settings": {
+    "title": "Settings",
+    "currency": "Currency",
+    "locale": "Language",
+    "network": "Network"
+  },
+  "footer": {
+    "app": "Install App",
+    "website": "Website",
+    "smartContract": "Smart Contract",
+    "audit": "Audits"
+  },
+  "soon": "Coming Soon",
+  "addSethToWallet": {
+    "add": "Add",
+    "yourWallet": "to wallet"
+  },
+  "connectWalletSideBar": {
+    "connectButton": "Enter with",
+    "title": "Enter with"
+  },
+  "buyEth": {
+    "button": "Get ETH",
+    "modalTitle": "Get ETH",
+    "modalButton": "Get ETH",
+    "altImage": "Wallet Icon",
+    "labelInput": "Enter the redemption code below:",
+    "inputPlaceHolder": "code",
+    "successMessage": "You have redeemed",
+    "messageTitleInit": "The purchase of ETH is",
+    "messageTitleFinish": "on the Goerli network",
+    "free": "free"
+  },
+  "getFaucetErrorMessages": {
+    "addressIsRequired": "Address is required",
+    "passcodeIsRequired": "Passcode is required",
+    "invalidAddress": "Invalid address",
+    "noPassCodes": "No Code Found",
+    "invalidPasscode": "Invalid Code",
+    "faucetIsEmpty": "No more ETH available",
+    "addressHasAlready": "Your wallet has already received ETH",
+    "userIpHasAlready": "Your IP has already received ETH"
+  },
+  "withdrawCardsType": {
+    "pool": "Pool",
+    "lendingPool": "Lending Pool",
+    "beaconChain": "Beacon Chain",
+    "bestRate": "Best Rate",
+    "rate": "Rate",
+    "liquidity": "Liquidity",
+    "waitingTime": "Waiting Time",
+    "instantly": "Instantly",
+    "tooltipPool": "Withdrawals from the Pool remain in the Smart Contract and are processed instantly.",
+    "tooltipBeaconChain": "Validator withdrawals stay in the Beacon Chain and are processed by Stake Together's oracles according to the Beacon Chain queue and take a minimum of 1 day to process."
+  },
+  "gas": {
+    "alt": "Network gas price"
+  },
+  "airdrop": {
+    "claim": "Claim",
+    "available": "Check Eligibility",
+    "infoEnter": "Enter and verify if you have incentives to receive",
+    "infoClaim": "Claim incentives to your account",
+    "eligibilityCriteria": "Eligibility Criteria",
+    "learnMore": "Learn More",
+    "incentives": {
+      "pool": "Projects",
+      "poolDescription": "50% of the Incentives are allocated for having a project in Stake Together",
+      "social": "Social Impact Stake",
+      "socialDescription": "10% of the Incentives are allocated for making deposits in social impact projects",
+      "early": "Early Adopter",
+      "earlyDescription": "20% of the Incentives from the first 3 months are allocated for people who make deposits in the first month",
+      "gifts": "Gifts",
+      "giftsDescription": "20% of the Incentives are allocated for sending gifts for people who have a staked and Stake Together App installed"
+    },
+    "total": "Total",
+    "countdown": {
+      "next": "Next Airdrop",
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes"
+    }
+  },
+  "v2": {
+    "pages": {
+      "invest": {
+        "title": "Stake Ether with Projects",
+        "description": "Choose a project, stake ether and earn ethereum staking rewards together"
+      },
+      "deposit": {
+        "title": "Stake Ether",
+        "description": "Deposit ether to earn ethereum staking rewards while boosting incentives for this project",
+        "stakeTogetherPoolDescription": "Deposit ether to earn ethereum staking rewards"
+      },
+      "incentives": {
+        "title": "Incentives",
+        "description": "Weekly incentives in Ethereum in Stake (stpETH) are sent through the perpetual airdrop to supporters and users."
+      },
+      "gifts": {
+        "title": "Projects' Gifts",
+        "description": "Receive gifts in stpETH from your favorite projects, ranging from a small coffee or a free lunch to international trips."
+      }
+    },
+    "meta": {
+      "stake": {
+        "description": "Invest in Ethereum with the projectName project using Stake Together and maximize your profits while supporting your favorite projects through the Blockchain."
+      }
+    },
+    "header": {
+      "stake": "Stake",
+      "projects": "Projects",
+      "incentives": "Incentives",
+      "simulator": "Simulator",
+      "gifts": "Gifts",
+      "enter": "Enter",
+      "exit": "Exit",
+      "support": "Support"
+    },
+    "sidebar": {
+      "percentageProfit": "Profit",
+      "disconnected": {
+        "iAgreeToThe": "I agree to the",
+        "terms&conditions": "Terms",
+        "and": "and",
+        "privacyPolicy": "Privacy Policies"
+      }
+    },
+    "pools": {
+      "title": "Projects",
+      "filter": {
+        "all": "All",
+        "education": "Education",
+        "social": "Social Impact",
+        "technology": "Technology",
+        "collectibles": "Collectibles"
+      },
+      "status": {
+        "totalSupply": "Staked",
+        "totalRewards": "Rewards",
+        "gifts": "Gifts",
+        "totalAccounts": "Accounts",
+        "validators": "DVT Validators",
+        "totalProjects": "Projects"
+      },
+      "emptyList": "Results Not Found",
+      "emptyButton": "Clean",
+      "search": "Search...",
+      "list": {
+        "name": "Name",
+        "type": "Category",
+        "people": "People",
+        "invested": "Invested",
+        "rewards": "Rewards"
+      }
+    },
+    "stake": {
+      "st": {
+        "apy": "APY",
+        "apyTooltip": "Annual Percentage Yield represents the depositor's investment return over one year, considering auto-reinvestment and compound interest. (APY)",
+        "tvl": "TVL",
+        "tvlTooltip": "Total ETH Value Locked on Stake Together Protocol.",
+        "rewards": "Rewards",
+        "rewardsTooltip": "Rewards generated by ethereum staking."
+      },
+      "apy": "Annual Percentage Yield",
+      "apyTooltip": " Annual Percentage Yield represents the depositor's investment return over one year, considering auto-reinvestment and compound interest. (APY)",
+      "tvl": "Project TVL",
+      "tvlTooltip": "Total Invested with the Project refers to the total amount of ETH deposited into the project. The more ETH, the greater the incentives for the project. (Project TVL)",
+      "withdrawBlocked": "Withdraw Delay",
+      "withdrawBlockedTooltip": "As security mechanism, withdrawals are delayed after a deposit to prevent rewards from being diluted.",
+      "stakeTogetherPoolTvl": "Total Invested",
+      "stakeTogetherPoolRewards": "Staking Rewards",
+      "rewards": "Rewards",
+      "rewardsTooltip": "Rewards generated by incentives by stakers in this project",
+      "infoEmptyState": "Data not available",
+      "faucetTooltip": "Try the protocol, get Goerli Ethereum here",
+      "maxDepositButtonMessage": "The max function in native Ether always leaves a value to execute the transaction",
+      "descriptionForm": {
+        "receive": "You receive:",
+        "receiveTooltip": "When you deposit ETH, you receive the stpETH token in return. The stpETH receives staking rewards daily.",
+        "exchange": "Exchange:",
+        "exchangeTooltip": "Exchange is the equivalence between ETH and stpETH.",
+        "rewards": "Staking rewards fee:",
+        "rewardsTooltip": "Staking Rewards fee is the fee that is deducted from the staking rewards.",
+        "operation": "Operation fee:",
+        "operationTooltip": "Operation fee is the fee that is deducted from the deposit."
+      },
+      "confirmModal": {
+        "depositTitle": "Review Stake Request",
+        "withdrawTitle": "Review Withdraw Request",
+        "deposit": "You deposit",
+        "withdrawing": "You are withdrawing",
+        "youWillReceive": "You will receive",
+        "confirmWithdraw": "Confirm Withdraw",
+        "confirmDeposit": "Confirm Deposit",
+        "transactionSubmitted": "Transaction submitted",
+        "proceedInYourWallet": "Proceed in your wallet",
+        "withdrawSuccessful": "Withdraw Successful",
+        "depositSuccessful": "Deposit Successful"
+      },
+      "withdrawErrorMessage": {
+        "FeatureDisabled": "Feature Disabled",
+        "InsufficientAccountBalance": "Insufficient Account Balance",
+        "WithdrawalsPoolLimitReached": "Withdrawals Pool Limit Reached",
+        "WithdrawalsValidatorLimitWasReached": "Withdrawals Validator Limit Reached",
+        "LessThanMinimumWithdraw": "Min Withdraw",
+        "ZeroAmount": "Zero Amount",
+        "InsufficientPoolBalance": "Insufficient Pool Balance",
+        "InsufficientBeaconBalance": "Insufficient Beacon Balance",
+        "WithdrawFromPool": "Withdraw From Pool",
+        "ListedInAntiFraud": "Listed in Anti-Fraud",
+        "EarlyTransfer": "Blocked Withdrawal"
+      },
+      "depositErrorMessage": {
+        "FeatureDisabled": "Feature Disabled",
+        "DepositLimitReached": "Deposit Limit Reached",
+        "LessThanMinimumDeposit": "Min Deposit",
+        "PoolNotFound": "Pool Not Found",
+        "ZeroAmount": "Zero Supply"
+      }
+    },
+    "activities": {
+      "deposit": "Deposit",
+      "donationDeposit": "Donation",
+      "withdraw": "Withdraw",
+      "withdrawPool": "Withdraw",
+      "transfer": "Transfer",
+      "withdrawValidator": "Withdraw Validator"
+    },
+    "gifts": {
+      "countdown": "Time to Redeem",
+      "ActionButton": "Claim",
+      "sent": "sent a",
+      "coffee": {
+        "title": "Coffee",
+        "description": "Start your day happy with a delicious coffee."
+      },
+      "titleOfAccount": "Enter your account to verify your gifts",
+      "claimed": "claimed",
+      "lost": "Lost",
+      "notGift": "You haven't received any gifts yet"
+    },
+    "draw": {
+      "performDrawing": "Conducting Drawing",
+      "drawing": "Drawing",
+      "result": "Result",
+      "conductANewDraw": "Conduct Drawing"
+    },
+    "withdrawals": {
+      "title": "Beacon Chain Withdrawals",
+      "pending": "Pending",
+      "claim": "Claim"
+    },
+    "createProject": {
+      "title": "Create Project",
+      "linksToAnalyze": "Links to Analyze",
+      "terms": "I agree with the",
+      "termsAndConditions": "Terms of Service",
+      "send": "Send",
+      "sent": "Sent",
+      "seeMyProject": "See my project",
+      "walletTooltip": "The project registration will be linked to the connected wallet",
+      "reapplyTitle": "Reapply Project",
+      "form": {
+        "logo": "Project Logo",
+        "wallet": "Wallet",
+        "name": "Name",
+        "category": "Category",
+        "email": "Email",
+        "about": "Present your project to our team",
+        "site": "Site",
+        "twitter": "Twitter",
+        "instagram": "Instagram",
+        "linkedin": "Linkedin",
+        "discord": "Discord",
+        "telegram": "Telegram",
+        "upload": "Upload",
+        "register": "Register Project",
+        "loadingMessage": "Submitting Project Registration",
+        "reapplyLoadingMessage": "Submitting Project Reapplication",
+        "cover": "Cover",
+        "video": "Video",
+        "facebook": "Facebook",
+        "youtube": "Youtube channel",
+        "discordName": "Discord Server name",
+        "discordLink": "Discord Server Link",
+        "description": "Description",
+        "contract": "Contract",
+        "useVideo": "Use Video"
+      },
+      "placeholder": {
+        "email": "Enter your email for contact",
+        "about": "Tell us a bit more about your project",
+        "site": "https://www.yourproject.com",
+        "twitter": "Username (e.g. @staketogether)",
+        "instagram": "Username (e.g. @staketogether)",
+        "linkedin": "Username (e.g. @staketogether)",
+        "discordName": "Enter the Name to your Discord server",
+        "discordLink": "https://discord.com/invite/YourInviteCode",
+        "telegram": "https://t.me/YourInviteCode",
+        "youtube": "@YourChannel",
+        "facebook": "Enter the link to your Facebook page",
+        "description": "Enter a description of your project",
+        "contract": "Enter the address of your project's smart contract",
+        "video": "Enter the YouTube link to your project's video"
+      },
+      "status": {
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "pending": "Under Analysis"
+      },
+      "formMessages": {
+        "required": "This field is required",
+        "invalidEmail": "Invalid email",
+        "sizeImage": "Image must be smaller than 1MB",
+        "maxLength": "Maximum length exceeded",
+        "telegram": "Invalid telegram invite",
+        "discord": "Invalid discord invite",
+        "linkedin": "Invalid Linkedin",
+        "instagram": "Invalid Instagram",
+        "twitter": "Invalid Twitter",
+        "site": "Invalid site URL",
+        "youtube": "Please enter a valid YouTube video URL",
+        "youtubeChanel": "Please enter a valid YouTube channel"
+      },
+      "messages": {
+        "success": "Project created successfully",
+        "reapplySuccess": "Project reapplication submitted successfully",
+        "error": "Error creating project"
+      },
+      "successMessages": {
+        "title": "Project created successfully",
+        "description": "The project is under review, please await our team's response"
+      }
+    },
+    "editProject": {
+      "title": "Edit Project",
+      "messages": {
+        "success": "Project updated successfully",
+        "loading": "Updating project"
+      },
+      "formTabs": {
+        "about": {
+          "title": "About",
+          "cover": "Project Cover"
+        },
+        "links": {
+          "title": "Links"
+        }
+      }
+    },
+    "resultModal": {
+      "title": {
+        "approved": "Congrats, Project Approved!",
+        "rejected": "Unfortunately, your project has been rejected!"
+      },
+      "goToProjectPage": "Go to project's page",
+      "reapplyProject": "Reapply Project"
+    },
+    "panelProject": {
+      "sidebar": {
+        "title": "Project Approval",
+        "analysis": "On Analysys",
+        "approved": "Approved"
+      },
+      "modal": {
+        "title": "Approve Project",
+        "approve": "Approve",
+        "reject": "Reject",
+        "remove": "Remove Contract",
+        "publishInContract": "Publish on Contract",
+        "signProjectApproval": "Sign Project Approval",
+        "signProjectReject": "Sign Project Rejection",
+        "projectApprovedAndPublished": "Project Approved and Published successfully!",
+        "projectApproved": "Project Approved!",
+        "projectRejected": "Project Rejected!",
+        "projectRemoved": "Project Removed!"
+      },
+      "messages": {
+        "projectApproved": "Project approved successfully",
+        "projectRejected": "Project rejected successfully",
+        "projectRemoved": "Project removed successfully",
+        "errorProjectRemove": "Error removing project",
+        "projectAddedSuccessfully": "Project added successfully",
+        "errorAddProject": "Error adding project"
+      }
+    }
+  }
 }

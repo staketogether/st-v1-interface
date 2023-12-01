@@ -1,67 +1,48 @@
-import { connectorsForWallets } from '@rainbow-me/rainbowkit'
-import { metaMaskWallet } from '@rainbow-me/rainbowkit/wallets'
-import { configureChains, createClient, goerli, mainnet } from 'wagmi'
+import { goerli, mainnet } from 'viem/chains'
+import { configureChains, createConfig } from 'wagmi'
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
-import chainConfig from './chain'
+import { publicProvider } from 'wagmi/providers/public'
 
-const wagmiChain = () => {
-  const { chainId } = chainConfig()
-
-  const localhost = {
-    id: 31337,
-    name: 'Hardhat',
-    network: 'localhost',
-    nativeCurrency: {
-      name: 'Hardhat Ether',
-      symbol: 'HETH',
-      decimals: 18
-    },
-    rpcUrls: {
-      default: {
-        http: ['http://localhost:8545']
-      },
-      public: {
-        http: ['http://localhost:8545']
-      }
-    }
-  }
-
-  if (chainId === 1) {
-    return mainnet
-  }
-
-  if (chainId === 5) {
-    return goerli
-  }
-
-  if (chainId === 31337) {
-    return localhost
-  }
-
-  throw new Error('Chain not supported')
-}
-
-const { chains, provider } = configureChains(
-  [wagmiChain()],
+const { chains, publicClient } = configureChains(
+  [mainnet, goerli],
   [
     jsonRpcProvider({
       rpc: () => ({
-        http: chainConfig().provider.connection.url
+        http: `${process.env.NEXT_PUBLIC_RPC_MAINNET}`,
+        chainId: 1
       })
-    })
-  ]
+    }),
+    jsonRpcProvider({
+      rpc: () => ({
+        http: `${process.env.NEXT_PUBLIC_RPC_GOERLI}`,
+        chainId: 5
+      })
+    }),
+    publicProvider()
+  ],
+  {
+    retryCount: 1
+  }
 )
 
-const connectors = connectorsForWallets([
-  {
-    groupName: 'Recommended',
-    wallets: [metaMaskWallet({ chains })]
-  }
-])
+const connectors = [
+  // ...Web3AuthConnectorInstance(chains),
+  new MetaMaskConnector({ chains }),
+  new WalletConnectConnector({
+    chains,
+    options: {
+      projectId: String(process.env.NEXT_PUBLIC_WALLET_CONNECT),
+      showQrModal: true
+    }
+  })
+]
 
-export { chains }
-export const wagmiClient = createClient({
+const config = createConfig({
   autoConnect: true,
   connectors,
-  provider
+  publicClient
 })
+
+export { chains, config }

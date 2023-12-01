@@ -4,20 +4,18 @@ import chainConfig from '../../config/chain'
 
 export default function useEthBalanceOf(address?: `0x${string}`) {
   const { chainId } = chainConfig()
+  const [balance, setBalance] = useState<bigint>(0n)
 
-  const [balance, setBalance] = useState<string>('0')
-
-  const { data } = useBalance({
+  const { data, isFetching, refetch } = useBalance({
     address,
-    watch: true,
     chainId
   })
 
-  const ethBalance = data?.value?.toString() || '0'
+  const ethBalance = data?.value || 0n
 
   useEffect(() => {
     setBalance(ethBalance)
   }, [ethBalance])
 
-  return balance
+  return { balance, isLoading: isFetching, refetch }
 }

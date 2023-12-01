@@ -1,12 +1,17 @@
 /** @type {import('next').NextConfig} */
 const { i18n } = require('./next-i18next.config')
 
-/** @type {import('next').NextConfig} */
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development'
+})
+
+const { withSentryConfig } = require('@sentry/nextjs')
+
 const nextConfig = {
   i18n,
-  experimental: {
-    appDir: false
-  },
   swcMinify: true,
   reactStrictMode: true,
   compiler: {
@@ -21,15 +26,42 @@ const nextConfig = {
       }
     ]
   },
+  async rewrites() {
+    return []
+  },
   async redirects() {
     return [
       {
         source: '/',
-        destination: '/explore',
-        permanent: true
+        destination: '/mainnet/',
+        permanent: false
+      },
+      {
+        source: '/mainnet',
+        destination: '/mainnet/brl',
+        permanent: false
+      },
+      {
+        source: '/goerli',
+        destination: '/goerli/brl',
+        permanent: false
       }
     ]
   }
 }
 
-module.exports = nextConfig
+module.exports = withSentryConfig(
+  withPWA(nextConfig),
+  {
+    silent: true,
+    org: 'stake-together',
+    project: 'st-v1-interface'
+  },
+  {
+    widenClientFileUpload: true,
+    transpileClientSDK: true,
+    tunnelRoute: '/monitoring',
+    hideSourceMaps: true,
+    disableLogger: true
+  }
+)
