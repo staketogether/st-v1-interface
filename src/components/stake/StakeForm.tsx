@@ -27,14 +27,14 @@ import StakeConfirmModal from './StakeConfirmModal'
 import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
+import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
+import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckeredDuotone } from 'react-icons/pi'
 import { formatNumberByLocale } from '../../services/format'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
-import { Tooltip, notification } from 'antd'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
-import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -298,7 +298,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   }
 
   const handleInputMaxValue = () => {
-    if (estimatedGasCost && type === 'deposit' && ethBalance > ethers.parseEther('0.02')) {
+    if (estimatedGasCost && type === 'deposit' && ethBalance > ethers.parseEther('0.01')) {
       setAmount(truncateWei(ethBalance - estimatedGasCost, 18, true))
       notification.info({
         message: `${t('v2.stake.maxDepositButtonMessage')}`,
