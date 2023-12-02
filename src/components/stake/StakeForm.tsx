@@ -309,8 +309,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     setAmount(truncateWei(balance, 18, true))
   }
 
-  const canDeposit =
-    insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
+  const canDeposit = insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees
 
   const canWithdraw =
     insufficientFunds ||
