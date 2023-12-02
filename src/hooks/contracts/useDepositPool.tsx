@@ -37,9 +37,9 @@ export default function useDepositPool(
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
 
-  const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
-  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
-  const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
+  // const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
+  // const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
+  // const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
   const [failedToExecute, setFailedToExecute] = useState(false)
 
   const { registerDeposit } = useMixpanelAnalytics()
@@ -69,12 +69,11 @@ export default function useDepositPool(
 
   useEffect(() => {
     const handleEstimateGasPrice = async () => {
-      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-        await estimateGas()
-      setDepositEstimatedGas(estimatedGas)
+      const { estimatedCost } = await estimateGas()
+      // setDepositEstimatedGas(estimatedGas)
       setEstimateGasCost(estimatedCost)
-      setMaxFeePerGas(estimatedMaxFeePerGas)
-      setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
+      // setMaxFeePerGas(estimatedMaxFeePerGas)
+      // setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
     }
 
     if (estimateGasCost === 0n) {
@@ -93,10 +92,6 @@ export default function useDepositPool(
     account: accountAddress,
     enabled: accountAddress && isDepositEnabled,
     value: grossDepositAmount,
-    gas: !!depositEstimatedGas && depositEstimatedGas > 0n ? depositEstimatedGas : undefined,
-    maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n ? maxFeePerGas : undefined,
-    maxPriorityFeePerGas:
-      !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n ? maxPriorityFeePerGas : undefined,
     onError(error) {
       if (!error) {
         return
