@@ -218,8 +218,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const insufficientMinDeposit = type === 'deposit' && amountBigNumber < minDepositAmount && amount.length > 0
   const insufficientFunds = amountBigNumber > balance
-  const insufficientFundsPerGas = type === 'deposit' && amountBigNumber > balance - estimatedGasCost
-  const insufficientWithdrawalEthBalance = type === 'withdraw' && ethBalance < estimatedGasCost
 
   const insufficientWithdrawalBalance =
     type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
@@ -227,13 +225,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
-    (insufficientFundsPerGas && t('form.insufficientFundsPerGas')) ||
     (insufficientMinDeposit &&
       `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
     (insufficientWithdrawalBalance &&
       `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
-    (insufficientWithdrawalEthBalance &&
-      `${t('form.insufficientFunds')} ${truncateWei(estimatedGasCost, 6)} ${t('eth.symbol')}`) ||
     (prepareTransactionErrorMessage &&
       `${
         type === 'deposit'
@@ -303,7 +298,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   }
 
   const handleInputMaxValue = () => {
-    if (estimatedGasCost && type === 'deposit' && ethBalance > ethers.parseEther('0.01')) {
+    if (estimatedGasCost && type === 'deposit' && ethBalance > ethers.parseEther('0.03')) {
       setAmount(truncateWei(ethBalance - estimatedGasCost, 18, true))
       notification.info({
         message: `${t('v2.stake.maxDepositButtonMessage')}`,
@@ -322,7 +317,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     insufficientWithdrawalBalance ||
     amountIsEmpty ||
     isLoadingFees ||
-    insufficientWithdrawalEthBalance ||
     prepareTransactionIsError ||
     !!withdrawTimeLeft
 
