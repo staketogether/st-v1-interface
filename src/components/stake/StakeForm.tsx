@@ -295,7 +295,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
     }
-    if (errorLabel) {
+    if (errorLabel && amount.length > 0) {
       return errorLabel
     }
 
@@ -303,7 +303,13 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   }
 
   const handleInputMaxValue = () => {
-    if (estimatedGasCost && type === 'deposit' && ethBalance > ethers.parseEther('0.01')) {
+    console.log('estimatedGasCost', truncateWei(estimatedGasCost, 18))
+    if (
+      estimatedGasCost &&
+      type === 'deposit' &&
+      ethBalance > ethers.parseEther('0.01') &&
+      ethBalance > estimatedGasCost
+    ) {
       setAmount(truncateWei(ethBalance - estimatedGasCost, 18, true))
       notification.info({
         message: `${t('v2.stake.maxDepositButtonMessage')}`,
@@ -315,7 +321,12 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   }
 
   const canDeposit =
-    insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
+    insufficientFunds ||
+    insufficientFundsPerGas ||
+    amountIsEmpty ||
+    insufficientMinDeposit ||
+    isLoadingFees ||
+    prepareTransactionIsError
 
   const canWithdraw =
     insufficientFunds ||
