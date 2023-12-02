@@ -298,7 +298,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   }
 
   const handleInputMaxValue = () => {
-    if (estimatedGasCost && type === 'deposit' && ethBalance > ethers.parseEther('0.03')) {
+    if (estimatedGasCost && type === 'deposit' && ethBalance > ethers.parseEther('0.02')) {
       setAmount(truncateWei(ethBalance - estimatedGasCost, 18, true))
       notification.info({
         message: `${t('v2.stake.maxDepositButtonMessage')}`,
