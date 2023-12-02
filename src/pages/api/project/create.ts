@@ -122,6 +122,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
       telegram: {
         'en-US': form.telegram
+      },
+      acceptedTermsOfUse: {
+        'en-US': true
       }
     }
 
