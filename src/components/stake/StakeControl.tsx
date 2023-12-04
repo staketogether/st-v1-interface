@@ -118,13 +118,9 @@ export default function StakeControl({
     : t('v2.pages.deposit.description')
 
   const titleTvl = isStakeTogetherPool ? t('v2.stake.st.tvl') : t('v2.stake.tvl')
-  const titleRewards = isStakeTogetherPool ? t('v2.stake.st.rewards') : t('v2.stake.rewards')
   const titleApy = isStakeTogetherPool ? t('v2.stake.st.apy') : t('v2.stake.apy')
 
   const titleTvlTooltip = isStakeTogetherPool ? t('v2.stake.st.tvlTooltip') : t('v2.stake.tvlTooltip')
-  const titleRewardsTooltip = isStakeTogetherPool
-    ? t('v2.stake.st.rewardsTooltip')
-    : t('v2.stake.rewardsTooltip')
   const titleApyTooltip = isStakeTogetherPool ? t('v2.stake.st.apyTooltip') : t('v2.stake.apyTooltip')
 
   return (
@@ -190,38 +186,6 @@ export default function StakeControl({
                   truncateWei(pool.poolBalance, 5),
                   locale
                 )}  ${t('eth.symbol')} `}</span>
-              ) : (
-                <SkeletonLoading height={14} width={100} />
-              )}
-            </>
-          )}
-        </div>
-        <div>
-          <span>
-            <TooltipComponent text={titleRewardsTooltip} left={126} width={350}>
-              {`${titleRewards}: `}
-              <QuestionIcon />
-            </TooltipComponent>
-          </span>
-          {isStakeTogetherPool ? (
-            <div>
-              <>
-                {!!stakeTogether?.totalRewards && !stakeTogetherIsLoading ? (
-                  <span className='green'>{`${formatNumberByLocale(
-                    truncateWei(stakeTogether?.totalRewards, 4),
-                    locale
-                  )} ${t('lsd.symbol')} `}</span>
-                ) : (
-                  <SkeletonLoading height={14} width={100} />
-                )}
-              </>
-            </div>
-          ) : (
-            <>
-              {!!pool?.totalRewards && !initialLoading ? (
-                <span className='green'>{`${formatNumberByLocale(truncateWei(pool?.totalRewards), locale)} ${t(
-                  'lsd.symbol'
-                )} `}</span>
               ) : (
                 <SkeletonLoading height={14} width={100} />
               )}
