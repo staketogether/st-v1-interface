@@ -122,7 +122,6 @@ export default function PoolsControl({ pools }: PoolsListProps) {
           <span>{t('v2.pools.list.type')}</span>
           <span>{t('v2.pools.list.people')}</span>
           <span>{t('v2.pools.list.invested')}</span>
-          <span>{t('v2.pools.list.rewards')}</span>
         </header>
         {!poolsFilterBySearch.length && (
           <PoolsEmptyState handleClickButton={clearFilter} key='pool-row-empty' />
@@ -206,10 +205,9 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
 
     > header {
       display: none;
-      grid-template-columns: 0.9fr 0.7fr 0.5fr 0.7fr 0.7fr;
+      grid-template-columns: 0.9fr 0.7fr 0.5fr 0.7fr;
       gap: 8px;
       align-items: center;
-      /* background: ${({ theme }) => theme.color.white}; */
       padding: 0 16px;
       border-radius: 8px;
 

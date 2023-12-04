@@ -198,38 +198,6 @@ export default function StakeControl({
         </div>
         <div>
           <span>
-            <TooltipComponent text={titleRewardsTooltip} left={126} width={350}>
-              {`${titleRewards}: `}
-              <QuestionIcon />
-            </TooltipComponent>
-          </span>
-          {isStakeTogetherPool ? (
-            <div>
-              <>
-                {!!stakeTogether?.totalRewards && !stakeTogetherIsLoading ? (
-                  <span className='green'>{`${formatNumberByLocale(
-                    truncateWei(stakeTogether?.totalRewards, 4),
-                    locale
-                  )} ${t('lsd.symbol')} `}</span>
-                ) : (
-                  <SkeletonLoading height={14} width={100} />
-                )}
-              </>
-            </div>
-          ) : (
-            <>
-              {!!pool?.totalRewards && !initialLoading ? (
-                <span className='green'>{`${formatNumberByLocale(truncateWei(pool?.totalRewards), locale)} ${t(
-                  'lsd.symbol'
-                )} `}</span>
-              ) : (
-                <SkeletonLoading height={14} width={100} />
-              )}
-            </>
-          )}
-        </div>
-        <div>
-          <span>
             <TooltipComponent text={titleApyTooltip} left={225} width={200}>
               {`${titleApy}: `}
               <QuestionIcon />

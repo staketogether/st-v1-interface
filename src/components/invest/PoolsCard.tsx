@@ -47,13 +47,6 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
             <span className='blue'>{t('eth.symbol')}</span>
           </div>
         </div>
-        <div>
-          <div>{t('v2.pools.list.rewards')}</div>
-          <div className='green'>
-            {truncateWei(pool.totalRewards, 6)}
-            <span className='green'>{t('lsd.symbol')}</span>
-          </div>
-        </div>
       </CardInfo>
     </Card>
   )
