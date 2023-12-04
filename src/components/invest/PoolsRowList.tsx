@@ -46,10 +46,6 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
             {formatNumberByLocale(truncateWei(pool.poolBalance, 6), locale)}
             <Text className='blue'>{t('eth.symbol')}</Text>
           </Text>
-          <Text className='green'>
-            {formatNumberByLocale(truncateWei(pool.totalRewards, 6), locale)}
-            <Text className='green'>{t('lsd.symbol')}</Text>
-          </Text>
         </>
       )}
     </Row>
@@ -60,7 +56,7 @@ const { Row, Name, TypeContainer, Text } = {
   Row: styled(Link)`
     display: none;
     height: 48px;
-    grid-template-columns: 0.9fr 0.7fr 0.5fr 0.7fr 0.7fr;
+    grid-template-columns: 0.9fr 0.7fr 0.5fr 0.7fr;
     gap: 8px;
     align-items: center;
     background: ${({ theme }) => theme.color.white};
