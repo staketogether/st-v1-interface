@@ -138,7 +138,7 @@ const { Title, Container, List, Row, Project, LoadMoreButton } = {
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
+    background: ${({ theme }) => theme.colorV2.gray[2]};
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
     padding: 0 ${({ theme }) => theme.size[16]};
