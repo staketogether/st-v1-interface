@@ -2,7 +2,7 @@ import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import { Delegation } from '@/types/Delegation'
 import { Progress, Slider } from 'antd'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import { PiArrowCounterClockwise, PiPlus, PiQuestion } from 'react-icons/pi'
@@ -29,6 +29,7 @@ export default function UpdateDelegationsModal({
   userAccount
 }: UpdateDelegationsModalProps) {
   const [delegationForm, setDelegationForm] = useState<UpdateDelegationForm[]>([])
+  const theme = useTheme()
 
   useEffect(() => {
     function handleFormValue(value: Delegation) {
@@ -173,7 +174,11 @@ export default function UpdateDelegationsModal({
                 </TooltipComponent>
               </span>
               <div>
-                <Progress percent={Number(remainingValue.toFixed(0))} style={{ margin: 0 }} />
+                <Progress
+                  percent={Number(remainingValue.toFixed(0))}
+                  style={{ margin: 0 }}
+                  strokeColor={theme.colorV2.blue[1]}
+                />
                 <Button
                   icon={<PiPlus />}
                   small
