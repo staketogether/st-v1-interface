@@ -509,6 +509,20 @@
         "projectAddedSuccessfully": "Projeto adicionado com sucesso",
         "errorAddProject": "Erro ao adicionar projeto"
       }
+    },
+    "updateDelegations": {
+      "modalTitle": "Atualização de delegações",
+      "availableForDistribution": "Valor disponivel para distribuição",
+      "availableForDistributionTooltip": "Distribuição de recompensa dos projetos",
+      "labelButton": "Atualizar as Delegações",
+      "listPoolsModalTitle": "Selecionar projetos",
+      "transactionMessages": {
+        "transactionTitle": "Revisar Pedido de Update",
+        "successful": "Delegações atualizadas com sucesso",
+        "confirmButton": "Confirmar",
+        "transactionLoading": "Atualizando Delegações",
+        "walletError": "Erro ao atualizar delegações"
+      }
     }
   }
 }
