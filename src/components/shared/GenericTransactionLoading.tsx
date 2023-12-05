@@ -88,6 +88,8 @@ const { Container } = {
     }
 
     a {
+      font-size: ${({ theme }) => theme.font.size[14]};
+      margin: 0 auto;
       text-decoration: none;
       color: ${({ theme }) => theme.color.primary};
       display: flex;

@@ -25,7 +25,6 @@ export default function WalletSidebarPortfolio({ accountDelegations }: WalletSid
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
   const { stakeTogetherPool } = chainConfig()
-
   return (
     <Container>
       {accountDelegations.length === 0 && (

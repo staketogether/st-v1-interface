@@ -40,7 +40,6 @@ export default function useUpdateDelegations(
   const { t } = useLocaleTranslation()
   // const { registerWithdraw } = useMixpanelAnalytics()
   const isUpdateDelegationEnabled = enabled
-
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
     contractAddress: contracts.StakeTogether,
@@ -54,7 +53,7 @@ export default function useUpdateDelegations(
       ]
     ],
     abi: stakeTogetherABI,
-    skip: !enabled || estimateGasCost > 0n
+    skip: estimateGasCost > 0n
   })
 
   useEffect(() => {
@@ -121,6 +120,7 @@ export default function useUpdateDelegations(
     hash: txHash,
     confirmations: 2,
     onSuccess: () => {
+      setAwaitWalletAction(false)
       apolloClient.refetchQueries({
         include: [
           queryAccount,
@@ -142,6 +142,7 @@ export default function useUpdateDelegations(
       })
     },
     onError: () => {
+      setAwaitWalletAction(false)
       notification.error({
         message: t('v2.updateDelegations.transactionMessages.walletError'),
         placement: 'topRight'
@@ -150,7 +151,6 @@ export default function useUpdateDelegations(
   })
 
   const resetState = () => {
-    setAwaitWalletAction(false)
     setTxHash(undefined)
   }
 

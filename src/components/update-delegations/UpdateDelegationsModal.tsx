@@ -67,12 +67,12 @@ export default function UpdateDelegationsModal({
     const sum: bigint = array.reduce((accumulator, item) => {
       return accumulator + item.percentage
     }, BigInt(0))
-
     const oneEth: bigint = ethers.parseEther('1')
     return sum === oneEth
   }
 
   const isEnabled = verifySumEth(updateDelegationsFormat)
+
   const {
     updateDelegations,
     isLoading: updateDelegationsLoading,
@@ -80,17 +80,11 @@ export default function UpdateDelegationsModal({
     txHash,
     awaitWalletAction,
     resetState
-  } = useUpdateDelegations(isEnabled, updateDelegationsFormat, userAccount)
-
-  useEffect(() => {
-    const handleSuccessfulAction = async () => {
-      if (isSuccess) {
-        resetState()
-      }
-    }
-
-    handleSuccessfulAction()
-  }, [isSuccess, resetState])
+  } = useUpdateDelegations(
+    isEnabled,
+    updateDelegationsFormat.filter(pool => pool.percentage > 0n),
+    userAccount
+  )
 
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
@@ -136,33 +130,40 @@ export default function UpdateDelegationsModal({
     }
     setDelegationForm([...delegationForm, newProject])
   }
+  const isLoadingTransaction = isLoading || awaitWalletAction
+
+  const handleCloseModal = () => {
+    setOpenSidebar(false)
+    resetState()
+  }
 
   return (
     <>
       <Modal
         title={<Title>{t('v2.updateDelegations.modalTitle')}</Title>}
-        showHeader={isLoading || isSuccess || awaitWalletAction ? false : true}
-        showCloseIcon={isLoading || isSuccess || awaitWalletAction ? false : true}
+        showHeader={isSuccess || isLoadingTransaction ? false : true}
+        showCloseIcon={isSuccess || isLoadingTransaction ? false : true}
         isOpen={openSidebar}
-        onClose={() => setOpenSidebar(false)}
+        onClose={handleCloseModal}
       >
-        {isLoading || isSuccess || awaitWalletAction ? (
+        {isSuccess || isLoadingTransaction ? (
           <GenericTransactionLoading
             title={
               (isSuccess && `${t('v2.updateDelegations.transactionMessages.successful')}`) ||
               `${t('v2.updateDelegations.transactionMessages.transactionLoading')}`
             }
-            isLoading={isLoading || awaitWalletAction}
+            isLoading={isLoadingTransaction}
             isSuccess={isSuccess}
             txHash={txHash}
             noPadding
             successButtonLabel={t('close')}
             bodyComponent={
-              <ReviewUpdateDelegationsRequest poolsList={poolsList} delegationForm={delegationForm} />
+              <ReviewUpdateDelegationsRequest
+                poolsList={poolsList}
+                delegationForm={delegationForm.filter(pool => pool.percentage > 0n)}
+              />
             }
-            onSuccessAction={() => {
-              setOpenSidebar(false)
-            }}
+            onSuccessAction={handleCloseModal}
           />
         ) : (
           <CardContainer>
@@ -241,6 +242,7 @@ export default function UpdateDelegationsModal({
           isOpen={addProjectModal}
           handleCloseModal={() => setAddProjectModal(false)}
           handleAddNewProject={handleAddNewProject}
+          delegationAddress={delegationForm.map(pool => pool.address)}
         />
       }
     </>

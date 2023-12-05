@@ -1,7 +1,7 @@
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { UpdateDelegationForm } from '@/types/UpdateDelegation'
 import React from 'react'
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import { Progress } from 'antd'
@@ -18,6 +18,7 @@ export default function ReviewUpdateDelegationsRequest({
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
+  const theme = useTheme()
   return (
     <Container>
       {delegationForm.map(pool => {
@@ -38,7 +39,11 @@ export default function ReviewUpdateDelegationsRequest({
                 <CommunityName walletAddress={pool.address} loading={false} />
               )}
             </Project>
-            <Progress percent={Number(pool.percentage.toFixed(0))} style={{ margin: 0 }} />
+            <Progress
+              percent={Number(pool.percentage.toFixed(0))}
+              style={{ margin: 0 }}
+              strokeColor={theme.colorV2.blue[1]}
+            />
           </Row>
         )
       })}
