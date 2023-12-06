@@ -48,10 +48,6 @@ const App = ({ Component, pageProps }: AppProps) => {
                     Modal: {
                       zIndexBase: 10005,
                       zIndexPopupBase: 10005
-                    },
-                    Slider: {
-                      trackBg: lightTheme.colorV2.blue[1],
-                      trackHoverBg: lightTheme.colorV2.blue[2]
                     }
                   }
                 }}

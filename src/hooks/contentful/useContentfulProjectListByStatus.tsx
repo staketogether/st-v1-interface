@@ -10,7 +10,6 @@ type useContentfulProjectListByStatusProps = {
   pagination?: { first: number; skip: number }
   projectAddress?: string
   projectName?: string
-  excludeProjectAddress?: `0x${string}`[]
 }
 
 export default function useContentfulProjectListByStatus({
@@ -18,15 +17,13 @@ export default function useContentfulProjectListByStatus({
   projectAddress,
   projectName,
   status,
-  pagination = { first: 10, skip: 0 },
-  excludeProjectAddress
+  pagination = { first: 10, skip: 0 }
 }: useContentfulProjectListByStatusProps) {
   const [projectList, setProjectList] = useState<ContentfulPool[]>([])
-  const [totalProjects, setTotalProjects] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [loadingFetchMore, setLoadingFetchMore] = useState<boolean>(false)
 
-  const { data, loading, fetchMore } = useQuery<{ poolCollection: { total: number; items: ContentfulPool[] } }>(
+  const { data, loading, fetchMore } = useQuery<{ poolCollection: { items: ContentfulPool[] } }>(
     queryContentfulPoolsListByStatus,
     {
       variables: {
@@ -35,14 +32,13 @@ export default function useContentfulProjectListByStatus({
         first: pagination.first,
         skip: pagination.skip,
         walletContains: projectAddress || null,
-        nameContains: projectName || null,
-        walletNotIn: excludeProjectAddress || null
+        nameContains: projectName || null
       },
       client: contentfulClient
     }
   )
 
-  const loadMore = (variables: { first: number; skip: number }) => {
+  const loadMore = (variables: { poolAddress: string; first: number; skip: number }) => {
     setLoadingFetchMore(true)
     fetchMore({
       variables,
@@ -53,7 +49,6 @@ export default function useContentfulProjectListByStatus({
         }
         return {
           poolCollection: {
-            ...fetchMoreResult.poolCollection,
             items: [...prev.poolCollection.items, ...fetchMoreResult.poolCollection.items]
           }
         }
@@ -63,7 +58,6 @@ export default function useContentfulProjectListByStatus({
 
   useEffect(() => {
     setProjectList(data?.poolCollection.items || [])
-    setTotalProjects(data?.poolCollection.total || 0)
   }, [data])
 
   useEffect(() => {
@@ -73,7 +67,6 @@ export default function useContentfulProjectListByStatus({
   return {
     projectList,
     initialLoading: isLoading,
-    totalProjects,
     loadingFetchMore: loadingFetchMore || isLoading,
     loadMore
   }

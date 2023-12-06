@@ -8,18 +8,13 @@ export const queryContentfulPoolsListByStatus = gql`
     $skip: Int
     $nameContains: String
     $walletContains: String
-    $walletNotIn: [String]
   ) {
     poolCollection(
       locale: $locale
-      where: {
-        status: $status
-        OR: [{ name_contains: $nameContains, wallet_contains: $walletContains, wallet_not_in: $walletNotIn }]
-      }
+      where: { status: $status, OR: [{ name_contains: $nameContains, wallet_contains: $walletContains }] }
       skip: $skip
       limit: $first
     ) {
-      total
       items {
         wallet
         sys {

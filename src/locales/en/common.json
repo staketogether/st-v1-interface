@@ -486,20 +486,6 @@
         "projectAddedSuccessfully": "Project added successfully",
         "errorAddProject": "Error adding project"
       }
-    },
-    "updateDelegations": {
-      "modalTitle": "Update Delegations",
-      "availableForDistribution": "Amount available for distribution",
-      "availableForDistributionTooltip": "Project reward's distribution",
-      "labelButton": "Update Delegations",
-      "listPoolsModalTitle": "Select projects",
-      "transactionMessages": {
-        "transactionTitle": "Review Update Request",
-        "successful": "Delegations updated successfully",
-        "confirmButton": "Confirm",
-        "transactionLoading": "Updating Delegations",
-        "walletError": "Failed to update delegations"
-      }
     }
   }
 }

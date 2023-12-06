@@ -4,7 +4,7 @@ export type Account = {
   id: string
   address: `0x${string}`
   balance: bigint
-  shares: bigint
+  shares: string
   totalDeposited: string
   totalRewards: bigint
   profitPercentage: bigint

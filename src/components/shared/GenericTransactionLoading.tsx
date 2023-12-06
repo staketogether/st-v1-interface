@@ -4,10 +4,7 @@ import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from './LottieAnimation'
 import successAnimation from '@assets/animations/success-animation.json'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import Image from 'next/image'
 import Button from './Button'
-import chainConfig from '@/config/chain'
-import etherscan from '@assets/icons/etherscan.svg'
 
 type GenericTransactionLoadingProps = {
   title: string
@@ -18,8 +15,6 @@ type GenericTransactionLoadingProps = {
   loadingButtonLabel?: string
   onSuccessAction?: () => void
   bodyComponent?: React.ReactNode
-  noPadding?: boolean
-  txHash?: `0x${string}` | undefined
 }
 
 export default function GenericTransactionLoading({
@@ -29,15 +24,12 @@ export default function GenericTransactionLoading({
   successButtonLabel,
   loadingButtonLabel,
   bodyComponent,
-  txHash,
-  noPadding,
   onSuccessAction
 }: GenericTransactionLoadingProps) {
   const { t } = useLocaleTranslation()
   const buttonMessage = isSuccess ? successButtonLabel : loadingButtonLabel
-  const chain = chainConfig()
   return (
-    <Container className={`${noPadding && 'noPadding'}`}>
+    <Container>
       <div>
         {isLoading && !isSuccess && <LottieAnimation animationData={loadingAnimation} height={60} loop />}
         {!isLoading && isSuccess && <LottieAnimation animationData={successAnimation} height={60} />}
@@ -49,12 +41,6 @@ export default function GenericTransactionLoading({
           label={buttonMessage || t('v2.stake.confirmModal.proceedInYourWallet')}
           onClick={() => isSuccess && onSuccessAction && onSuccessAction()}
         />
-        {isSuccess && txHash && (
-          <a href={`${chain.blockExplorer.baseUrl}/tx/${txHash}`} target='_blank' rel='noopener noreferrer'>
-            <Image src={etherscan} alt='etherscan icon' width={20} height={20} />
-            <span>{t('viewOnExplorer')}</span>
-          </a>
-        )}
       </div>
     </Container>
   )
@@ -67,12 +53,7 @@ const { Container } = {
     place-items: center;
     padding: 48px 0;
 
-    &.noPadding {
-      padding: 0;
-    }
-
     > div {
-      width: 100%;
       h2 {
         font-size: ${({ theme }) => theme.font.size[18]};
         color: ${({ theme }) => theme.color.primary};
@@ -85,19 +66,6 @@ const { Container } = {
       text-align: center;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[24]};
-    }
-
-    a {
-      font-size: ${({ theme }) => theme.font.size[14]};
-      margin: 0 auto;
-      text-decoration: none;
-      color: ${({ theme }) => theme.color.primary};
-      display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[4]};
-      &:hover {
-        color: ${({ theme }) => theme.color.secondary};
-      }
     }
   `
 }

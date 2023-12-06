@@ -20,7 +20,6 @@ export default function useStAccount(address: `0x${string}`) {
   const [accountBalance, setAccountBalance] = useState<bigint>(0n)
   const [accountTotalRewards, setAccountTotalRewards] = useState<bigint>(0n)
   const [accountProfitPercentage, setAccountProfitPercentage] = useState<bigint>(0n)
-  const [accountShare, setAccountShare] = useState<bigint>(0n)
 
   const { data: accountData, loading } = useQuery<{ account: Account }>(queryAccount, {
     variables: { id: address.toLowerCase() }
@@ -50,15 +49,6 @@ export default function useStAccount(address: `0x${string}`) {
       setAccountBalance(account.balance)
       setAccountTotalRewards(account.totalRewards)
       setAccountProfitPercentage(account.profitPercentage)
-      setAccountShare(account.shares)
-    } else {
-      setAccount(undefined)
-      setAccountDelegations([])
-      setAccountSentDelegationsCount(0n)
-      setAccountBalance(0n)
-      setAccountTotalRewards(0n)
-      setAccountProfitPercentage(0n)
-      setAccountShare(0n)
     }
   }, [accountData])
 
@@ -92,7 +82,6 @@ export default function useStAccount(address: `0x${string}`) {
     accountRewards,
     accountBalance,
     accountTotalRewards,
-    accountShare,
     accountDelegations,
     accountSentDelegationsCount,
     accountProfitPercentage,

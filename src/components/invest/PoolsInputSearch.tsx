@@ -5,13 +5,12 @@ import styled from 'styled-components'
 type PoolsInputSearchProps = {
   search: string
   setSearch: (value: string) => void
-  gray?: boolean
 }
 
-export default function PoolsInputSearch({ search, setSearch, gray = false }: PoolsInputSearchProps) {
+export default function PoolsInputSearch({ search, setSearch }: PoolsInputSearchProps) {
   const { t } = useLocaleTranslation()
   return (
-    <InputSearchArea className={`${search.length > 0 ? 'selected' : ''} ${gray ? 'gray' : ''}`}>
+    <InputSearchArea className={search.length > 0 ? 'selected' : ''}>
       <button>
         <PiMagnifyingGlass fontSize={16} />
       </button>
@@ -45,19 +44,6 @@ const { InputSearchArea, InputSearch } = {
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
-    &.gray {
-      background: ${({ theme }) => theme.colorV2.gray[2]};
-      &:hover {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-        background: ${({ theme }) => theme.colorV2.gray[2]};
-      }
-      &.active {
-        background: ${({ theme }) => theme.colorV2.gray[2]};
-      }
-      &.selected {
-        background: ${({ theme }) => theme.colorV2.gray[2]};
-      }
-    }
     &:hover {
       color: ${({ theme }) => theme.colorV2.purple[1]};
       background: ${({ theme }) => theme.color.whiteAlpha[700]};
@@ -80,7 +66,7 @@ const { InputSearchArea, InputSearch } = {
     }
 
     &.selected {
-      background: ${({ theme }) => theme.color.white};
+      background: ${({ theme }) => theme.color.white} !important;
     }
 
     button {
