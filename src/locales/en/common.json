@@ -190,8 +190,9 @@
       },
       "deposit": {
         "title": "Stake Ether",
-        "description": "Deposit ether to earn ethereum staking rewards while boosting incentives for this project",
-        "stakeTogetherPoolDescription": "Deposit ether to earn ethereum staking rewards"
+        "description": "Stake ETH, receive stpETH, and start earning rewards",
+        "stakeTogetherPoolDescription": "Would you like to support a specific project? Click",
+        "here": "here"
       },
       "incentives": {
         "title": "Incentives",

@@ -113,9 +113,7 @@ export default function StakeControl({
   const { stakeTogether, stakeTogetherIsLoading } = useStakeTogether()
 
   const activeTab = type
-  const titleDescription = isStakeTogetherPool
-    ? t('v2.pages.deposit.stakeTogetherPoolDescription')
-    : t('v2.pages.deposit.description')
+  const titleDescription = t('v2.pages.deposit.description')
 
   const titleTvl = isStakeTogetherPool ? t('v2.stake.st.tvl') : t('v2.stake.tvl')
   const titleApy = isStakeTogetherPool ? t('v2.stake.st.apy') : t('v2.stake.apy')
@@ -125,7 +123,11 @@ export default function StakeControl({
 
   return (
     <Container>
-      <LayoutTitle title={t('v2.pages.deposit.title')} description={titleDescription} />
+      <LayoutTitle
+        title={t('v2.pages.deposit.title')}
+        description={titleDescription}
+        isStakeTogetherPool={isStakeTogetherPool}
+      />
 
       <Form>
         <Tabs

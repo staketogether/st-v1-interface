@@ -21,6 +21,7 @@ export default function LayoutHeader() {
   const { setOpenProjectCreateModal } = useProjectCreateModal()
   const { query, asPath } = useRouter()
   const { currency, network } = query
+
   const { poolDetail: poolDetailUs } = useContentfulPoolDetails({
     poolAddress: account,
     fetchPolicy: 'network-only',
