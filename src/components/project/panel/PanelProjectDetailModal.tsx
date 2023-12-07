@@ -51,10 +51,10 @@ export default function PanelProjectDetailModal({
 
   const {
     isLoading: isLoadingTransaction,
-    isSuccess,
+    isSuccess: addPoolIsSuccess,
     addPool,
     resetState,
-    prepareTransactionIsError,
+    prepareTransactionIsError: addPoolTransactionIsError,
     awaitWalletAction
   } = useAddPool(project.wallet, !!(project.category.name === 'social'), !isContractPublished)
 
@@ -123,6 +123,12 @@ export default function PanelProjectDetailModal({
       })
     }
   })
+
+  useEffect(() => {
+    if (addPoolIsSuccess) {
+      signMessage()
+    }
+  }, [addPoolIsSuccess, signMessage])
 
   const rejectMessage = `Stake Together Rejected Project - ${project.wallet} `
   const { isLoading: rejectedIsLoading, signMessage: rejectedSignMessage } = useSignMessage({
@@ -214,7 +220,7 @@ export default function PanelProjectDetailModal({
             <RejectedContainer>
               <LottieAnimation animationData={successAnimation} height={50} />
               <span>
-                {isSuccess
+                {addPoolIsSuccess
                   ? t('v2.panelProject.modal.projectApprovedAndPublished')
                   : t('v2.panelProject.modal.projectApproved')}
               </span>
@@ -288,7 +294,7 @@ export default function PanelProjectDetailModal({
               </a>
             )}
           </GapContainer>
-          {(isApproved || project.status === 'approved') && !isRejected && !isSuccess && (
+          {(isApproved || project.status === 'approved') && !isRejected && !addPoolIsSuccess && (
             <FooterContainer
               className={`${showRejectOptionWhenContractIsNotPublished && 'contractIsNotPublished'}`}
             >
@@ -305,7 +311,7 @@ export default function PanelProjectDetailModal({
                 <Button
                   label={t('v2.panelProject.modal.publishInContract')}
                   block
-                  disabled={prepareTransactionIsError || isLoadingTransaction || prepareTransactionIsError}
+                  disabled={addPoolTransactionIsError || isLoadingTransaction || addPoolTransactionIsError}
                   isLoading={isLoadingTransaction || awaitWalletAction}
                   onClick={addPool}
                 />
@@ -328,8 +334,9 @@ export default function PanelProjectDetailModal({
                 label={t('v2.panelProject.modal.approve')}
                 block
                 color='green'
-                isLoading={approveIsLoading}
-                onClick={() => signMessage()}
+                isLoading={approveIsLoading || isLoadingTransaction || awaitWalletAction}
+                disabled={addPoolTransactionIsError}
+                onClick={addPool}
               />
               <Button
                 label={t('v2.panelProject.modal.reject')}
@@ -340,7 +347,7 @@ export default function PanelProjectDetailModal({
               />
             </FooterContainer>
           )}
-          {(isRejected || isSuccess) && <Button label={t('close')} block onClick={handleCloseModal} />}
+          {(isRejected || addPoolIsSuccess) && <Button label={t('close')} block onClick={handleCloseModal} />}
         </Container>
       )}
     </Modal>
