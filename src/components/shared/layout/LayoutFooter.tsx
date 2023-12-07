@@ -3,13 +3,20 @@ import styled from 'styled-components'
 import packageData from '../../../../package.json'
 import { globalConfig } from '../../../config/global'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
+import { useRouter } from 'next/router'
 
 export default function LayoutFooter() {
   const date = new Date()
   const { blockExplorer, contracts } = chainConfig()
   const { websiteUrl, auditUrl } = globalConfig
+  const router = useRouter()
 
   const { t } = useLocaleTranslation()
+  const documentationUrl = router.locale
+    ? router.locale === 'en'
+      ? globalConfig.stakeTogetherUniversityUrlEn
+      : globalConfig.stakeTogetherUniversityUrlBr
+    : globalConfig.stakeTogetherUniversityUrlEn
 
   return (
     <Container>
@@ -23,8 +30,13 @@ export default function LayoutFooter() {
           </a>
         </span>
         <span>
-          <a href={`${auditUrl}`} target='_blank'>
+          <a href={auditUrl} target='_blank'>
             {t('footer.audit')}
+          </a>
+        </span>
+        <span>
+          <a href={documentationUrl} target='_blank'>
+            {t('footer.documentation')}
           </a>
         </span>
       </div>

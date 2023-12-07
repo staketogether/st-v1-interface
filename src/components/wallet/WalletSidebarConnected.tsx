@@ -4,7 +4,6 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import ethIcon from '@assets/icons/eth-icon.svg'
-import stIcon from '@assets/st-symbol.svg'
 import { Drawer, notification } from 'antd'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -37,6 +36,7 @@ import Withdrawals from '../shared/Withdrawals'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
 import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
+import StpethIcon from '../shared/StpethIcon'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -206,7 +206,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             </InfoCard>
             <InfoCard>
               <h4>
-                {t('invested')} <Image src={stIcon} width={18} height={18} alt={t('lsd.symbol')} />
+                {t('invested')} <StpethIcon size={18} />
               </h4>
               <div>
                 <span className='purple'>{formatNumberByLocale(truncateWei(accountBalance, 5), locale)}</span>
@@ -351,6 +351,9 @@ const {
       font-size: 13px;
       font-weight: 400;
       color: ${({ theme }) => theme.colorV2.blue[1]};
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
 
       img {
         box-shadow: ${({ theme }) => theme.shadow[100]};

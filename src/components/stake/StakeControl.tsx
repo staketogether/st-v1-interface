@@ -7,7 +7,7 @@ import { ContentfulPool } from '@/types/ContentfulPool'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { PiArrowDown, PiArrowUp, PiQuestion, PiShareNetwork } from 'react-icons/pi'
+import { PiArrowDown, PiArrowUp, PiQuestion, PiShareNetwork, PiUsers } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
@@ -128,38 +128,66 @@ export default function StakeControl({
         description={titleDescription}
         isStakeTogetherPool={isStakeTogetherPool}
       />
-
-      <Form>
-        <Tabs
-          items={tabsItems}
-          defaultActiveKey={activeTab}
-          onChangeActiveTab={value => handleSwitch(value as string)}
-        />
-      </Form>
-      <TvlContainer>
+      <FormContainer>
         {!isStakeTogetherPool && (
-          <PoolTitle>
-            <div>
-              <CommunityLogo
-                size={32}
-                src={poolDetail?.logo?.url}
-                alt={poolDetail?.logo?.url || ''}
-                loading={false}
-                listed={pool?.listed}
-              />
-              {poolDetail?.name ? (
-                <CommunityName $larger name={poolDetail?.name} loading={false} />
-              ) : (
-                <CommunityName $larger walletAddress={poolAddress} loading={false} />
-              )}
-            </div>
-            <Tooltip trigger='click' title={t('copiedToClipboard')}>
-              <ShareButton onClick={copyToClipboard}>
-                <ShareIcon />
-              </ShareButton>
-            </Tooltip>
-          </PoolTitle>
+          <ProjectBackgroundContainer>
+            <ProjectTitle>
+              <div>
+                <ProjectLogoContainer>
+                  <CommunityLogo
+                    size={32}
+                    src={poolDetail?.logo?.url}
+                    alt={poolDetail?.logo?.url || ''}
+                    loading={false}
+                    listed={pool?.listed}
+                  />
+                </ProjectLogoContainer>
+                {poolDetail?.name ? (
+                  <CommunityName $larger name={poolDetail?.name} loading={false} $color='white' />
+                ) : (
+                  <CommunityName $larger walletAddress={poolAddress} loading={false} $color='white' />
+                )}
+              </div>
+              <Tooltip trigger='click' title={t('copiedToClipboard')}>
+                <ShareButton onClick={copyToClipboard}>
+                  <ShareIcon />
+                </ShareButton>
+              </Tooltip>
+            </ProjectTitle>
+            <ProjectDataInfoContainer>
+              <div>
+                <span>{`${t('v2.stake.tvl')}:`}</span>
+                <Tooltip title={titleTvlTooltip}>
+                  <QuestionIcon />
+                </Tooltip>
+                <span className='bold'>
+                  {!!pool?.poolBalance && !initialLoading ? (
+                    <span className='primary'>{`${formatNumberByLocale(
+                      truncateWei(pool.poolBalance, 5),
+                      locale
+                    )}  ${t('eth.symbol')} `}</span>
+                  ) : (
+                    <SkeletonLoading height={14} width={100} />
+                  )}
+                </span>
+              </div>
+              <div>
+                <MembersIcon />
+                {!initialLoading ? `${pool?.receivedDelegationsCount}` : <SkeletonLoading width={20} />}
+              </div>
+            </ProjectDataInfoContainer>
+          </ProjectBackgroundContainer>
         )}
+        <Form>
+          <Tabs
+            items={tabsItems}
+            defaultActiveKey={activeTab}
+            onChangeActiveTab={value => handleSwitch(value as string)}
+          />
+        </Form>
+      </FormContainer>
+      <TvlContainer>
+        <header>{`Stake together ${t('v2.stake.statistics')}`}</header>
         <div>
           <span>
             <TooltipComponent text={titleTvlTooltip} left={225} width={200}>
@@ -167,33 +195,22 @@ export default function StakeControl({
               <QuestionIcon />
             </TooltipComponent>
           </span>
-          {isStakeTogetherPool ? (
-            <div>
-              <>
-                {!!stakeTogether?.totalSupply && !stakeTogetherIsLoading ? (
-                  <span className='primary'>
-                    {`${formatNumberByLocale(truncateWei(stakeTogether.totalSupply, 5), locale)}  ${t(
-                      'eth.symbol'
-                    )} `}
-                  </span>
-                ) : (
-                  <SkeletonLoading height={14} width={100} />
-                )}
-              </>
-            </div>
-          ) : (
+
+          <div>
             <>
-              {!!pool?.poolBalance && !initialLoading ? (
-                <span className='primary'>{`${formatNumberByLocale(
-                  truncateWei(pool.poolBalance, 5),
-                  locale
-                )}  ${t('eth.symbol')} `}</span>
+              {!!stakeTogether?.totalSupply && !stakeTogetherIsLoading ? (
+                <span className='primary'>
+                  {`${formatNumberByLocale(truncateWei(stakeTogether.totalSupply, 5), locale)}  ${t(
+                    'eth.symbol'
+                  )} `}
+                </span>
               ) : (
                 <SkeletonLoading height={14} width={100} />
               )}
             </>
-          )}
+          </div>
         </div>
+
         <div>
           <span>
             <TooltipComponent text={titleApyTooltip} left={225} width={200}>
@@ -225,13 +242,18 @@ export default function StakeControl({
 const {
   Container,
   Form,
+  MembersIcon,
   EthIcon,
   TvlContainer,
   QuestionIcon,
   ShareButton,
   ShareIcon,
-  PoolTitle,
-  WithdrawIcon
+  ProjectTitle,
+  WithdrawIcon,
+  FormContainer,
+  ProjectLogoContainer,
+  ProjectBackgroundContainer,
+  ProjectDataInfoContainer
 } = {
   Container: styled.div`
     display: grid;
@@ -251,6 +273,13 @@ const {
     box-shadow: ${({ theme }) => theme.shadow[100]};
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.color.white};
+
+    > header {
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      font-size: ${({ theme }) => theme.font.size[15]};
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
 
     div {
       display: flex;
@@ -275,6 +304,94 @@ const {
         font-weight: 400;
         font-size: 15px;
       }
+    }
+  `,
+  FormContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+  `,
+  ProjectBackgroundContainer: styled.div`
+    border-radius: 8px 8px 0px 0px;
+    background: ${({ theme }) => theme.colorV2.purple[3]};
+
+    display: flex;
+    height: 200px;
+    padding: 24px 24px 32px 24px;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    align-self: stretch;
+
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+  `,
+  QuestionIcon: styled(PiQuestion)`
+    font-size: ${({ theme }) => theme.font.size[16]};
+
+    margin-left: 2px;
+    display: flex;
+    align-items: center;
+
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    cursor: pointer;
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
+  `,
+  ProjectLogoContainer: styled.span`
+    border-radius: 100%;
+    border: 1px solid ${({ theme }) => theme.color.white};
+  `,
+  MembersIcon: styled(PiUsers)`
+    font-size: ${({ theme }) => theme.font.size[16]};
+  `,
+  ProjectDataInfoContainer: styled.div`
+    width: 100%;
+
+    border-radius: 8px;
+    background: #fff;
+    padding: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+
+    span {
+      &.bold {
+        font-size: 15px;
+        font-weight: 500;
+      }
+    }
+
+    div {
+      &:nth-child(1) {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      &:nth-child(2) {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+  `,
+  ProjectTitle: styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    > div {
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[12]};
     }
   `,
   Form: styled.div`
@@ -308,16 +425,6 @@ const {
   WithdrawIcon: styled(PiArrowUp)`
     font-size: 15px;
   `,
-  QuestionIcon: styled(PiQuestion)`
-    width: 14px;
-    height: 14px;
-    margin-left: 3px;
-    color: ${({ theme }) => theme.colorV2.gray[1]};
-    cursor: pointer;
-    &:hover {
-      color: ${({ theme }) => theme.color.secondary};
-    }
-  `,
   ShareButton: styled.button`
     border: none;
     width: 32px;
@@ -333,7 +440,7 @@ const {
 
     background-color: ${({ theme }) => theme.colorV2.blue[1]};
     color: ${({ theme }) => theme.colorV2.white};
-    box-shadow: ${({ theme }) => theme.shadow[300]};
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
 
     &:hover {
       background-color: ${({ theme }) => theme.colorV2.purple[1]};
@@ -341,16 +448,5 @@ const {
   `,
   ShareIcon: styled(PiShareNetwork)`
     font-size: ${({ theme }) => theme.font.size[15]};
-  `,
-  PoolTitle: styled.div`
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-
-    > div {
-      display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[12]};
-    }
   `
 }

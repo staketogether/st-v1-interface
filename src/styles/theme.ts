@@ -44,7 +44,8 @@ export const lightTheme: Theme = {
     },
     purple: {
       1: '#774bc7',
-      2: '#b993ff'
+      2: '#b993ff',
+      3: '#5F62A1'
     },
     transparent: 'transparent',
     background: '#eef2fd',

@@ -5,7 +5,7 @@ import { useRef } from 'react'
 import styled from 'styled-components'
 import useCoinConversion from '../../hooks/useCoinConversion'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-import { truncateDecimal } from '../../services/truncate'
+import { truncateDecimal, truncateWei } from '../../services/truncate'
 
 interface StakeInputProps {
   value: string
@@ -13,6 +13,8 @@ interface StakeInputProps {
   balanceLoading: boolean
   type: 'deposit' | 'withdraw'
   handleMaxValue: () => void
+  minDepositAmount?: bigint
+  minWithdrawAmount?: bigint
   disabled?: boolean
   hasError?: boolean
 }
@@ -24,7 +26,9 @@ export default function StakeFormInput({
   type,
   handleMaxValue,
   disabled,
-  hasError
+  hasError,
+  minDepositAmount,
+  minWithdrawAmount
 }: StakeInputProps) {
   const { t } = useLocaleTranslation()
 
@@ -88,6 +92,9 @@ export default function StakeFormInput({
           </MaxValue>
         </Content>
       </div>
+      <span>{`${type === 'deposit' ? t('v2.stake.minAmount') : t('v2.stake.minWithdraw')} ${
+        type === 'deposit' ? truncateWei(minDepositAmount || 0n) : truncateWei(minWithdrawAmount || 0n)
+      } ${type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')}`}</span>
     </Container>
   )
 }

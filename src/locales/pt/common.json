@@ -1,6 +1,7 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
+  "addToWalletTooltip": "Adicionar stpETH  a sua carteira",
   "save": "Salvar",
   "projects": "Projetos",
   "portfolio": "Portfólio",
@@ -108,7 +109,8 @@
     "app": "Instalar App",
     "website": "Site",
     "smartContract": "Contrato Inteligente",
-    "audit": "Auditorias"
+    "audit": "Auditorias",
+    "documentation": "Documentação"
   },
   "soon": "Em Breve",
   "addSethToWallet": {
@@ -263,6 +265,9 @@
         "rewards": "Recompensas geradas",
         "rewardsTooltip": "Recompensas geradas pelo staking de ethereum."
       },
+      "statistics": "Estatísticas",
+      "minAmount": "Deposito minimo",
+      "minWithdraw": "Saque minimo",
       "apy": "Rendimento anual",
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
       "tvl": "Valor total investido",
