@@ -35,6 +35,8 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   const { t } = useLocaleTranslation()
   const { isOpenProjectEditModal, setProjectEditModal } = useProjectEditModal()
 
+  const userIsOwner = account?.toLocaleLowerCase() === poolDetailUs.wallet.toLocaleLowerCase()
+
   const router = useRouter()
   const { asPath } = router
 
@@ -59,6 +61,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
       ...poolDetailUs,
       logo: { base64: undefined, mimeType: undefined },
       cover: { base64: undefined, mimeType: undefined },
+      headerCover: { base64: undefined, mimeType: undefined },
       descriptionEn: poolDetailUs.description || '',
       descriptionPt: poolDetailPt.poolDetail?.description || '',
       videoEn: poolDetailUs.video || '',
@@ -70,11 +73,11 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   })
 
   useEffect(() => {
-    if (account?.toLocaleLowerCase() !== poolDetailUs.wallet.toLocaleLowerCase()) {
+    if (!userIsOwner) {
       setProjectEditModal(false)
       reset()
     }
-  }, [account, poolDetailUs.wallet, reset, setProjectEditModal])
+  }, [account, poolDetailUs.wallet, reset, setProjectEditModal, userIsOwner])
 
   useEffect(() => {
     if (poolDetailPt.poolDetail && poolDetailPt.poolDetail?.description) {
@@ -88,6 +91,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   const projectVideo = watch(language === 'pt' ? 'videoPt' : 'videoEn')
   const projectName = watch('projectName')
   const projectCover = watch('cover')
+  const projectHeaderCover = watch('headerCover')
   const projectDescription = watch(language === 'pt' ? 'descriptionPt' : 'descriptionEn')
 
   const chain = chainConfig()
@@ -137,16 +141,17 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     }
   })
 
-  const handleReset = () => {
-    resetSignMessage()
-    setActiveTab(EditFormTabs.ABOUT)
-    reset()
-    contentfulClient.refetchQueries({
+  const handleReset = async () => {
+    await contentfulClient.refetchQueries({
       include: [queryContentfulPoolByAddress]
     })
 
-    if (asPath.includes('deposit') || asPath.includes('withdraw')) {
-      router.push(asPath)
+    resetSignMessage()
+    setActiveTab(EditFormTabs.ABOUT)
+    reset()
+
+    if (asPath.includes('deposit') || (asPath.includes('withdraw') && userIsOwner)) {
+      router.reload()
     }
     setProjectEditModal(false)
   }
@@ -176,6 +181,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
           setValue={setValue}
           register={register}
           setError={setError}
+          projectHeaderCover={projectHeaderCover}
           projectCover={projectCover}
           language={language}
           projectDescription={projectDescription}

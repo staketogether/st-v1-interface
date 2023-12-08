@@ -372,7 +372,6 @@
         "logo": "Project Logo",
         "wallet": "Wallet",
         "name": "Name",
-
         "category": "Category",
         "email": "Email",
         "about": "Present your project to our team",
@@ -386,7 +385,8 @@
         "register": "Register Project",
         "loadingMessage": "Submitting Project Registration",
         "reapplyLoadingMessage": "Submitting Project Reapplication",
-        "cover": "Cover",
+        "cover": "Description Cover",
+        "headerCover": "Profile Cover",
         "video": "Video",
         "facebook": "Facebook",
         "youtube": "Youtube channel",
@@ -449,8 +449,7 @@
       },
       "formTabs": {
         "about": {
-          "title": "About",
-          "cover": "Project Cover"
+          "title": "About"
         },
         "links": {
           "title": "Links"

@@ -8,7 +8,7 @@ import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { PiArrowDown, PiArrowUp, PiQuestion, PiShareNetwork, PiUsers } from 'react-icons/pi'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import { formatNumberByLocale } from '../../services/format'
@@ -21,6 +21,8 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
+import useFaq from '@/hooks/contentful/useFaq'
+import Collapse from '../shared/Collapse'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -47,6 +49,8 @@ export default function StakeControl({
   const { apy } = globalConfig
 
   const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress)
+
+  const { faqList, isLoading: faqIsLoading } = useFaq()
 
   const handleLoadMoreMembers = () => {
     const newSkip = skipMembers + 10
@@ -130,7 +134,7 @@ export default function StakeControl({
       />
       <FormContainer>
         {!isStakeTogetherPool && (
-          <ProjectBackgroundContainer>
+          <ProjectBackgroundContainer imageUrl={poolDetail?.image?.url}>
             <ProjectTitle>
               <div>
                 <ProjectLogoContainer>
@@ -235,6 +239,19 @@ export default function StakeControl({
       {poolAddress.toLocaleLowerCase() === account?.toLocaleLowerCase() && (
         <WalletLottery poolAddress={poolAddress} />
       )}
+      <CollapseContainer>
+        {faqIsLoading && (
+          <>
+            <SkeletonLoading height={56} />
+            <SkeletonLoading height={56} />
+            <SkeletonLoading height={56} />
+          </>
+        )}
+        {!faqIsLoading &&
+          faqList?.map((faq, index) => {
+            return <Collapse key={`faq-row-${index}`} question={faq.question} answer={faq.answer} />
+          })}
+      </CollapseContainer>
     </Container>
   )
 }
@@ -244,6 +261,7 @@ const {
   Form,
   MembersIcon,
   EthIcon,
+  CollapseContainer,
   TvlContainer,
   QuestionIcon,
   ShareButton,
@@ -310,10 +328,21 @@ const {
     display: flex;
     flex-direction: column;
   `,
-  ProjectBackgroundContainer: styled.div`
+  ProjectBackgroundContainer: styled.div<{ imageUrl?: string }>`
     border-radius: 8px 8px 0px 0px;
-    background: ${({ theme }) => theme.colorV2.purple[3]};
 
+    ${({ imageUrl }) =>
+      imageUrl
+        ? css`
+            background-image: url(${imageUrl});
+            height: 468px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+          `
+        : css`
+            background: ${({ theme }) => theme.colorV2.purple[3]};
+          `};
     display: flex;
     height: 200px;
     padding: 24px 24px 32px 24px;
@@ -448,5 +477,10 @@ const {
   `,
   ShareIcon: styled(PiShareNetwork)`
     font-size: ${({ theme }) => theme.font.size[15]};
+  `,
+  CollapseContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[8]};
   `
 }
