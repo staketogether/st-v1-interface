@@ -491,6 +491,10 @@
         "projectAddedSuccessfully": "Project added successfully",
         "errorAddProject": "Error adding project"
       }
+    },
+    "university": {
+      "title": "Want to learn more about Stake Together? Visit",
+      "button": "University Stake Together"
     }
   }
 }

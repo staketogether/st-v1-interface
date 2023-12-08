@@ -23,6 +23,7 @@ import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
 import useFaq from '@/hooks/contentful/useFaq'
 import Collapse from '../shared/Collapse'
+import Button from '../shared/Button'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -124,6 +125,15 @@ export default function StakeControl({
 
   const titleTvlTooltip = isStakeTogetherPool ? t('v2.stake.st.tvlTooltip') : t('v2.stake.tvlTooltip')
   const titleApyTooltip = isStakeTogetherPool ? t('v2.stake.st.apyTooltip') : t('v2.stake.apyTooltip')
+
+  const handleUniversity = () => {
+    const documentationUrl = router.locale
+      ? router.locale === 'en'
+        ? globalConfig.stakeTogetherUniversityUrlEn
+        : globalConfig.stakeTogetherUniversityUrlBr
+      : globalConfig.stakeTogetherUniversityUrlEn
+    window.open(documentationUrl, '_blank')
+  }
 
   return (
     <Container>
@@ -252,6 +262,10 @@ export default function StakeControl({
             return <Collapse key={`faq-row-${index}`} question={faq.question} answer={faq.answer} />
           })}
       </CollapseContainer>
+      <UniversityContainer>
+        <span>{t('v2.university.title')}</span>
+        <Button label={t('v2.university.button')} onClick={handleUniversity} />
+      </UniversityContainer>
     </Container>
   )
 }
@@ -271,7 +285,8 @@ const {
   FormContainer,
   ProjectLogoContainer,
   ProjectBackgroundContainer,
-  ProjectDataInfoContainer
+  ProjectDataInfoContainer,
+  UniversityContainer
 } = {
   Container: styled.div`
     display: grid;
@@ -482,5 +497,14 @@ const {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[8]};
+  `,
+  UniversityContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[12]};
+
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
   `
 }

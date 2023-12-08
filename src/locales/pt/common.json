@@ -515,6 +515,10 @@
         "projectAddedSuccessfully": "Projeto adicionado com sucesso",
         "errorAddProject": "Erro ao adicionar projeto"
       }
+    },
+    "university": {
+      "title": "Quer aprender mais sobre a Stake Together? Acesse",
+      "button": "Universidade Stake Together"
     }
   }
 }
