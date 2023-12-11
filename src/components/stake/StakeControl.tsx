@@ -249,6 +249,7 @@ export default function StakeControl({
       {poolAddress.toLocaleLowerCase() === account?.toLocaleLowerCase() && (
         <WalletLottery poolAddress={poolAddress} />
       )}
+      <FaqTitle>FAQ</FaqTitle>
       <CollapseContainer>
         {faqIsLoading && (
           <>
@@ -279,6 +280,7 @@ const {
   TvlContainer,
   QuestionIcon,
   ShareButton,
+  FaqTitle,
   ShareIcon,
   ProjectTitle,
   WithdrawIcon,
@@ -506,5 +508,10 @@ const {
     text-align: center;
     font-size: 14px;
     font-weight: 500;
+  `,
+  FaqTitle: styled.h3`
+    font-size: ${({ theme }) => theme.font.size[15]};
+    font-weight: 500;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
   `
 }

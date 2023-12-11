@@ -33,21 +33,29 @@ const { Container, PlusIcon } = {
   Container: styled.div<{ size: number }>`
     width: ${({ size }) => `${size}px`};
     height: ${({ size }) => `${size}px`};
+
     position: relative;
     cursor: pointer;
+
+    img {
+      background: ${({ theme }) => theme.colorV2.purple[4]};
+      box-shadow: ${({ theme }) => theme.shadow[300]};
+      border-radius: 100%;
+    }
+
     > div {
       display: flex;
       padding: 2px;
       align-items: center;
 
-      background: ${({ theme }) => theme.colorV2.gray[2]};
+      background: ${({ theme }) => theme.colorV2.blue[1]};
       border-radius: 99px;
 
       position: absolute;
       bottom: -3px;
       right: -3px;
 
-      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+      color: ${({ theme }) => theme.colorV2.white};
     }
   `,
   PlusIcon: styled(PiPlusBold)`

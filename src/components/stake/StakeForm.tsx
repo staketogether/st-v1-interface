@@ -354,7 +354,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               )}
             </CardInfoData>
             <div>
-              <StpethIcon />
+              <StpethIcon showPlusIcon />
             </div>
           </CardInfo>
         </CardInfoContainer>
@@ -516,11 +516,6 @@ const {
 
     gap: ${({ theme }) => theme.size[16]};
     height: 32px;
-
-    img {
-      box-shadow: ${({ theme }) => theme.shadow[300]};
-      border-radius: 100%;
-    }
   `,
   CardInfoData: styled.div`
     display: flex;
