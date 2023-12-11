@@ -57,6 +57,7 @@ const { Container, Row, Project } = {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    padding: 0 24px;
   `,
   Row: styled.div`
     display: grid;
