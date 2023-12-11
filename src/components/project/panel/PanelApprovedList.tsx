@@ -22,7 +22,8 @@ export default function PanelApprovedList() {
   const { projectList, initialLoading, loadingFetchMore } = useContentfulProjectListByStatus({
     status: 'approved',
     projectName: isSearchAddress ? undefined : debouncedSearch,
-    projectAddress: isSearchAddress ? debouncedSearch : undefined
+    projectAddress: isSearchAddress ? debouncedSearch : undefined,
+    pagination: { first: 100, skip: 0 }
   })
 
   const { t } = useLocaleTranslation()

@@ -20,7 +20,8 @@ export default function PanelAnalysis() {
   const { projectList, initialLoading, loadingFetchMore } = useContentfulProjectListByStatus({
     status: 'pending',
     projectName: isSearchAddress ? undefined : debouncedSearch,
-    projectAddress: isSearchAddress ? debouncedSearch : undefined
+    projectAddress: isSearchAddress ? debouncedSearch : undefined,
+    pagination: { first: 100, skip: 0 }
   })
 
   const { t } = useLocaleTranslation()
