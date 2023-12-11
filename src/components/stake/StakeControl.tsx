@@ -347,7 +347,7 @@ const {
   `,
   ProjectBackgroundContainer: styled.div<{ imageUrl?: string }>`
     border-radius: 8px 8px 0px 0px;
-
+    margin-bottom: -${({ theme }) => theme.size[8]};
     ${({ imageUrl }) =>
       imageUrl
         ? css`

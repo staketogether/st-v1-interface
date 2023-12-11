@@ -1,4 +1,3 @@
-import chain from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateAddress } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
@@ -20,6 +19,7 @@ import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 import { getVideoIdFromUrl } from '@/services/format'
+import { Tooltip } from 'antd'
 
 interface StakePoolAboutProps {
   poolDetail: ContentfulPool | null
@@ -54,7 +54,80 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
         <ImageCover src={poolDetail.cover.url} alt={poolDetail.cover.fileName} />
       )}
       {loading && <SkeletonLoading height={237} width={420} />}
-
+      {!loading && poolDetail && (
+        <SocialRowContainer>
+          {poolDetail?.site && (
+            <Tooltip title={handleProjectSite()}>
+              <Social href={handleProjectSite()} target='_blank'>
+                <SiteIcon />
+              </Social>
+            </Tooltip>
+          )}
+          {poolDetail?.contract && (
+            <Tooltip title={truncateAddress(poolDetail.contract)}>
+              <Social href={handleProjectSite()} target='_blank'>
+                <Image src={etherscan} alt='etherscan' width={20} height={20} />
+              </Social>
+            </Tooltip>
+          )}
+          {poolDetail?.linkedin && (
+            <Tooltip title={poolDetail.linkedin}>
+              <Social href={`https://www.linkedin.com/in/${poolDetail.linkedin}`} target='_blank'>
+                <LinkedinIcon />
+              </Social>
+            </Tooltip>
+          )}
+          {poolDetail?.instagram && (
+            <Tooltip title={poolDetail.instagram}>
+              <Social href={`https://www.instagram.com/${poolDetail.instagram}`} target='_blank'>
+                <InstagramIcon />
+              </Social>
+            </Tooltip>
+          )}
+          {poolDetail?.facebook && (
+            <Tooltip title={poolDetail.facebook}>
+              <Social href={`https://www.facebook.com/${poolDetail.facebook}`} target='_blank'>
+                <FacebookIcon />
+              </Social>
+            </Tooltip>
+          )}
+          {poolDetail?.twitter && (
+            <Tooltip title={poolDetail.twitter}>
+              <Social href={`https://twitter.com/${poolDetail.twitter}`} target='_blank'>
+                <TwitterIcon />
+              </Social>
+            </Tooltip>
+          )}
+          {poolDetail?.youtube && (
+            <Tooltip title={poolDetail.youtube}>
+              <Social href={`https://www.youtube.com/${poolDetail.youtube}`} target='_blank'>
+                <YoutubeIcon />
+              </Social>
+            </Tooltip>
+          )}
+          {poolDetail?.discord && (
+            <Tooltip title={poolDetail.discordName || poolDetail.discord}>
+              <Social href={`https://discord.com/invite/${poolDetail.discord}`} target='_blank'>
+                <DiscordIcon />
+              </Social>
+            </Tooltip>
+          )}
+          {poolDetail?.telegram && (
+            <Tooltip title={poolDetail.name}>
+              <Social href={`https://t.me/joinchat/${poolDetail.telegram}`} target='_blank'>
+                <TelegramIcon />
+              </Social>
+            </Tooltip>
+          )}
+          {poolDetail?.whatsapp && (
+            <Tooltip title={poolDetail.name}>
+              <Social href={`https://chat.whatsapp.com/${poolDetail.whatsapp}`} target='_blank'>
+                <WhatsAppIcon />
+              </Social>
+            </Tooltip>
+          )}
+        </SocialRowContainer>
+      )}
       {!loading && poolDetail?.description && <Description>{poolDetail.description}</Description>}
       {loading && (
         <DescriptionLoading>
@@ -64,70 +137,6 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
         </DescriptionLoading>
       )}
 
-      {!loading && poolDetail && (
-        <SocialContainer>
-          {poolDetail?.site && (
-            <Social href={handleProjectSite()} target='_blank'>
-              <SiteIcon />
-              <span>{poolDetail.site.replace('https://', '')}</span>
-            </Social>
-          )}
-          {poolDetail?.contract && (
-            <Social href={`${chain().blockExplorer.baseUrl}/address/${poolDetail.contract}`} target='_blank'>
-              <Image src={etherscan} alt='etherscan' width={20} height={20} />
-              <span>{truncateAddress(poolDetail.contract)}</span>
-            </Social>
-          )}
-          {poolDetail?.linkedin && (
-            <Social href={`https://www.linkedin.com/in/${poolDetail.linkedin}`} target='_blank'>
-              <LinkedinIcon />
-              <span>{poolDetail.linkedin}</span>
-            </Social>
-          )}
-          {poolDetail?.instagram && (
-            <Social href={`https://www.instagram.com/${poolDetail.instagram}`} target='_blank'>
-              <InstagramIcon />
-              <span>{poolDetail.instagram}</span>
-            </Social>
-          )}
-          {poolDetail?.facebook && (
-            <Social href={`https://www.facebook.com/${poolDetail.facebook}`} target='_blank'>
-              <FacebookIcon />
-              <span>{poolDetail.facebook}</span>
-            </Social>
-          )}
-          {poolDetail?.twitter && (
-            <Social href={`https://twitter.com/${poolDetail.twitter}`} target='_blank'>
-              <TwitterIcon />
-              <span>{poolDetail.twitter}</span>
-            </Social>
-          )}
-          {poolDetail?.youtube && (
-            <Social href={`https://www.youtube.com/${poolDetail.youtube}`} target='_blank'>
-              <YoutubeIcon />
-              <span>{poolDetail.youtube}</span>
-            </Social>
-          )}
-          {poolDetail?.discord && (
-            <Social href={`https://discord.com/invite/${poolDetail.discord}`} target='_blank'>
-              <DiscordIcon />
-              <span>{poolDetail.discordName}</span>
-            </Social>
-          )}
-          {poolDetail?.telegram && (
-            <Social href={`https://t.me/joinchat/${poolDetail.telegram}`} target='_blank'>
-              <TelegramIcon />
-              <span>Telegram</span>
-            </Social>
-          )}
-          {poolDetail?.whatsapp && (
-            <Social href={`https://chat.whatsapp.com/${poolDetail.whatsapp}`} target='_blank'>
-              <WhatsAppIcon />
-              <span>Whatsapp</span>
-            </Social>
-          )}
-        </SocialContainer>
-      )}
       {loading && (
         <SocialContainer>
           <SkeletonLoading height={40} />
@@ -156,7 +165,8 @@ const {
   DiscordIcon,
   YoutubeIcon,
   TelegramIcon,
-  WhatsAppIcon
+  WhatsAppIcon,
+  SocialRowContainer
 } = {
   Container: styled.section`
     display: flex;
@@ -171,6 +181,11 @@ const {
       font-weight: 500;
       color: ${({ theme }) => theme.colorV2.gray[1]};
     }
+  `,
+  SocialRowContainer: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[24]};
   `,
   ImageCover: styled.img`
     width: 100% !important;
@@ -203,15 +218,10 @@ const {
   `,
   Social: styled.a`
     cursor: pointer;
-    padding: ${({ theme }) => theme.size[8]};
 
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
-
-    border-radius: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.color.blackAlpha[50]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
 
     span {
       font-size: ${({ theme }) => theme.font.size[13]};
