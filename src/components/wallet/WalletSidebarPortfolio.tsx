@@ -70,6 +70,7 @@ const { Container, DelegatedPool, EmptyContainer, Project } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
+    gap: 16px;
     > div {
       display: flex;
       align-items: center;
@@ -93,7 +94,7 @@ const { Container, DelegatedPool, EmptyContainer, Project } = {
     align-items: center;
     align-self: stretch;
     border-radius: ${({ theme }) => theme.size[8]};
-    padding: ${({ theme }) => theme.size[8]};
+
     transition: background-color 0.1s ease;
     &:hover {
       background: ${({ theme }) => theme.color.blackAlpha[100]};

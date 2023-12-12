@@ -521,15 +521,15 @@ const {
     align-items: center;
     justify-content: center;
     > div {
-      justify-self: center;
       display: flex;
       align-items: center;
       gap: 8px;
+      padding-left: 12px;
     }
     > button {
       position: absolute;
       justify-self: flex-end;
-      margin-right: 16px;
+      margin-right: 12px;
     }
   `
 }
