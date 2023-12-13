@@ -4,11 +4,14 @@ import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import useResizeView from '@/hooks/useResizeView'
-
+import packageData from '../../../../package.json'
 import { Drawer } from 'antd'
-import { PiCaretRight, PiPencilSimpleLine } from 'react-icons/pi'
+import { PiArrowSquareOut, PiCaretRight, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import { ProjectButton } from '../../project/ProjectButton'
+import { useRouter } from 'next/router'
+import chainConfig from '@/config/chain'
+import { globalConfig } from '@/config/global'
 type LayoutSidebarMobileMenuProps = {
   account?: `0x${string}`
 }
@@ -24,6 +27,15 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
     locale: 'en-US'
   })
   const { screenWidth, breakpoints } = useResizeView()
+  const router = useRouter()
+  const date = new Date()
+  const { blockExplorer, contracts } = chainConfig()
+  const { websiteUrl, auditUrl } = globalConfig
+  const documentationUrl = router.locale
+    ? router.locale === 'en'
+      ? globalConfig.stakeTogetherUniversityUrlEn
+      : globalConfig.stakeTogetherUniversityUrlBr
+    : globalConfig.stakeTogetherUniversityUrlEn
 
   return (
     <>
@@ -38,20 +50,39 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
       >
         <HeaderContainer>
           <ClosedSidebarButton onClick={() => setOpenSidebarMobileMenu(false)}>
-            <CloseSidebar fontSize={14} />
+            <CloseSidebar fontSize={15} />
           </ClosedSidebarButton>
           <span>Menu</span>
         </HeaderContainer>
         <Container>
-          {poolDetailUs ? (
-            <MenuButton>
-              <ProjectButton poolDetail={poolDetailUs} account={account} isMobile />
-            </MenuButton>
-          ) : (
-            <MenuButton onClick={() => setOpenProjectCreateModal(true)}>
-              <CreateProjectIcon /> {t('v2.createProject.title')}
-            </MenuButton>
-          )}
+          <TopContainer>
+            {poolDetailUs ? (
+              <MenuButton>
+                <ProjectButton poolDetail={poolDetailUs} account={account} isMobile />
+              </MenuButton>
+            ) : (
+              <MenuButton onClick={() => setOpenProjectCreateModal(true)}>
+                <CreateProjectIcon /> {t('v2.createProject.title')}
+              </MenuButton>
+            )}
+          </TopContainer>
+          <FooterContainer>
+            <FooterContent>
+              <a href={`${blockExplorer.baseUrl}/address/${contracts.StakeTogether}`} target='_blank'>
+                {t('footer.smartContract')} <PiArrowSquareOut />
+              </a>
+              <a href={auditUrl} target='_blank'>
+                {t('footer.audit')} <PiArrowSquareOut />
+              </a>
+              <a href={documentationUrl} target='_blank'>
+                {t('footer.documentation')} <PiArrowSquareOut />
+              </a>
+              <a href={`${websiteUrl}`} target='_blank'>
+                {t('footer.website')} <PiArrowSquareOut />
+              </a>
+              <a href={websiteUrl}>{`© ${date.getFullYear()} Stake Together | v${packageData.version} `}</a>
+            </FooterContent>
+          </FooterContainer>
         </Container>
         {screenWidth < breakpoints.lg && <ProjectCreateModal account={account} poolDetail={poolDetailUs} />}
       </DrawerContainer>
@@ -65,8 +96,11 @@ const {
   HeaderContainer,
   MenuButton,
   Container,
+  FooterContent,
   CloseSidebar,
-  ClosedSidebarButton
+  ClosedSidebarButton,
+  TopContainer,
+  FooterContainer
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.colorV2.foreground} !important;
@@ -114,9 +148,9 @@ const {
   `,
   Container: styled.div`
     display: flex;
-    align-items: center;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
+    justify-content: space-between;
+    height: 100%;
   `,
   MenuButton: styled.button`
     width: 100%;
@@ -125,7 +159,7 @@ const {
     background: ${({ theme }) => theme.colorV2.white};
     box-shadow: ${({ theme }) => theme.shadow[100]};
     border-radius: ${({ theme }) => theme.size[8]};
-    font-size: 14px;
+    font-size: ${({ theme }) => theme.font.size[15]};
 
     display: flex;
     align-items: center;
@@ -134,7 +168,6 @@ const {
     border: none;
     padding: 0 ${({ theme }) => theme.size[12]};
 
-    font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.colorV2.gray[1]} !important;
 
     &.active {
@@ -142,6 +175,52 @@ const {
     }
   `,
   CreateProjectIcon: styled(PiPencilSimpleLine)`
-    font-size: 15px;
+    font-size: ${({ theme }) => theme.font.size[15]};
+  `,
+  TopContainer: styled.div`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[12]};
+  `,
+  FooterContainer: styled.div`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[12]};
+
+    padding-bottom: 60px;
+  `,
+  FooterContent: styled.div`
+    width: 100%;
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    border-radius: 8px;
+    background: ${({ theme }) => theme.colorV2.white};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    a {
+      width: 100%;
+      text-decoration: none;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+
+      font-size: ${({ theme }) => theme.font.size[15]};
+      font-weight: 500;
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+
+      &:last-child {
+        border-top: 1px solid ${({ theme }) => theme.colorV2.gray[1]};
+        padding-top: 8px;
+      }
+    }
   `
 }
