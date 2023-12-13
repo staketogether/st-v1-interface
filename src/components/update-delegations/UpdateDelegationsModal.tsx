@@ -5,7 +5,7 @@ import { Progress, Slider } from 'antd'
 import styled, { useTheme } from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { PiArrowCounterClockwise, PiMinusBold, PiPlusBold, PiQuestion } from 'react-icons/pi'
+import { PiArrowCounterClockwise, PiPlusBold, PiQuestion } from 'react-icons/pi'
 import { useEffect, useState } from 'react'
 import Button from '../shared/Button'
 import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'
@@ -192,11 +192,11 @@ export default function UpdateDelegationsModal({
                   strokeColor={theme.colorV2.blue[1]}
                 />
                 <Button
-                  icon={<PiPlusBold style={{ fontSize: '12px' }} />}
                   small
+                  icon={<PiPlusBold style={{ fontSize: '12px' }} />}
                   isLoading={false}
                   onClick={() => setAddProjectModal(true)}
-                  label={''}
+                  label={'Add'}
                   disabled={false}
                 />
               </div>
@@ -233,11 +233,10 @@ export default function UpdateDelegationsModal({
                       />
                       <span>{`${delegation.percentage.toFixed(0)}%`}</span>
                       <Button
-                        icon={<PiMinusBold style={{ fontSize: '12px' }} />}
                         small
                         isLoading={false}
                         onClick={() => handleSlideChange(delegation, 0, true)}
-                        label={''}
+                        label={'x'}
                         disabled={false}
                       />
                     </div>
@@ -368,7 +367,7 @@ const {
 
     > div {
       display: grid;
-      grid-template-columns: 1fr 32px;
+      grid-template-columns: 1fr auto;
       gap: 8px;
       align-items: center;
     }

@@ -6,10 +6,14 @@ import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
 type WalletSlideBarSettingsProps = {
-  setIsSettingsActive: (value: boolean) => void
+  setIsSettingsActive?: (value: boolean) => void
+  showBackButton?: boolean
 }
 
-export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSlideBarSettingsProps) {
+export default function WalletSidebarSettings({
+  setIsSettingsActive,
+  showBackButton = true
+}: WalletSlideBarSettingsProps) {
   const { t } = useLocaleTranslation()
 
   const router = useRouter()
@@ -43,9 +47,11 @@ export default function WalletSidebarSettings({ setIsSettingsActive }: WalletSli
   return (
     <>
       <Header>
-        <Button onClick={() => setIsSettingsActive(false)}>
-          <CloseIcon />
-        </Button>
+        {showBackButton && (
+          <Button onClick={() => setIsSettingsActive && setIsSettingsActive(false)}>
+            <CloseIcon />
+          </Button>
+        )}
         <h2>{t('settings.title')}</h2>
       </Header>
       <SettingContainer>
@@ -122,6 +128,7 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon } = {
     }
   `,
   Header: styled.div`
+    min-height: 32px;
     width: 100%;
     display: grid;
     grid-template-columns: 32px 1fr;

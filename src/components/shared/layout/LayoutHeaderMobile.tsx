@@ -6,16 +6,20 @@ import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import { useRouter } from 'next/router'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
-import { PiListBold } from 'react-icons/pi'
+import { PiGear, PiListBold } from 'react-icons/pi'
 import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
 import LayoutSidebarMobileMenu from './LayoutSidebarMobileMenu'
+import useWalletSidebarMobileSettings from '@/hooks/useWalletSidebarMobileSettings'
+import WalletSidebarMobileSetting from '@/components/wallet/WalletSidebarMobileSetting'
 
 export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
+
   const { query } = useRouter()
   const { currency, network } = query
   const { account, accountIsConnected } = useConnectedAccount()
   const { setOpenSidebarMobileMenu } = useLayoutSidebarMobileMenu()
+  const { setWalletSidebarMobileSettings } = useWalletSidebarMobileSettings()
 
   return (
     <>
@@ -29,15 +33,23 @@ export default function LayoutHeaderMobile() {
             <MenuContainer onClick={() => setOpenSidebarMobileMenu(true)}>
               <MenuIcon />
             </MenuContainer>
+            <MenuContainer
+              onClick={() => {
+                setWalletSidebarMobileSettings(true)
+              }}
+            >
+              <SettingIcon />
+            </MenuContainer>
           </WalletContainer>
         </Content>
       </Container>
       <LayoutSidebarMobileMenu account={account} />
+      <WalletSidebarMobileSetting />
     </>
   )
 }
 
-const { Container, Content, WalletContainer, Logo, MenuContainer, MenuIcon } = {
+const { Container, Content, WalletContainer, Logo, MenuContainer, SettingIcon, MenuIcon } = {
   Container: styled.header`
     display: grid;
     gap: ${({ theme }) => theme.size[24]};
@@ -76,5 +88,8 @@ const { Container, Content, WalletContainer, Logo, MenuContainer, MenuIcon } = {
   Logo: styled(Link)`
     width: 40px;
     height: 32px;
+  `,
+  SettingIcon: styled(PiGear)`
+    font-size: 18px;
   `
 }
