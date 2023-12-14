@@ -501,5 +501,9 @@
         "walletError": "Failed to update delegations"
       }
     }
+  },
+  "vulnerabilityMessage": {
+    "header": "\uD83D\uDEA8 Attention!",
+    "message": "Due to vulnerabilities on Ledger, we've decided to switch off our front-end as a precautionary measure.\n\nPlease be careful you all and do not interact with any dapps right now! \n\nWe'll keep you updated as soon as we have more information. \n\nFor more information, please check our Twitter: "
   }
 }
