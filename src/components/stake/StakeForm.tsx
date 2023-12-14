@@ -202,6 +202,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const isLoading = depositLoading || withdrawData.withdrawLoading
   const isSuccess = depositSuccess || withdrawData.withdrawSuccess
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const prepareTransactionIsError =
     type === 'deposit' ? depositPrepareTransactionIsError : withdrawData.prepareTransactionIsError
   const prepareTransactionErrorMessage =
@@ -221,6 +222,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const insufficientWithdrawalBalance =
     type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const amountIsEmpty = amountBigNumber === 0n || !amount
 
   const errorLabel =
