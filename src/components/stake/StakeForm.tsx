@@ -202,6 +202,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const isLoading = depositLoading || withdrawData.withdrawLoading
   const isSuccess = depositSuccess || withdrawData.withdrawSuccess
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const prepareTransactionIsError =
     type === 'deposit' ? depositPrepareTransactionIsError : withdrawData.prepareTransactionIsError
   const prepareTransactionErrorMessage =
@@ -221,6 +222,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const insufficientWithdrawalBalance =
     type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const amountIsEmpty = amountBigNumber === 0n || !amount
 
   const errorLabel =
@@ -309,15 +311,19 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     setAmount(truncateWei(balance, 18, true))
   }
 
-  const canDeposit = insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees
 
-  const canWithdraw =
-    insufficientFunds ||
-    insufficientWithdrawalBalance ||
-    amountIsEmpty ||
-    isLoadingFees ||
-    prepareTransactionIsError ||
-    !!withdrawTimeLeft
+  // const cantDeposit = insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees
+  //
+  // const cantWithdraw =
+  //   insufficientFunds ||
+  //   insufficientWithdrawalBalance ||
+  //   amountIsEmpty ||
+  //   isLoadingFees ||
+  //   prepareTransactionIsError ||
+  //   !!withdrawTimeLeft
+
+  const cantDeposit = true
+  const cantWithdraw = true
 
   return (
     <>
@@ -392,7 +398,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             onClick={openStakeConfirmation}
             label={handleLabelButton()}
             icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
-            disabled={type === 'deposit' ? canDeposit : canWithdraw}
+            disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
           />
         )}
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (

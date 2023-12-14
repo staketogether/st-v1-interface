@@ -229,6 +229,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                     small={true}
                     label={'Edit'}
                     icon={<EditIcon />}
+                    disabled
                     onClick={() => setOpenSidebarEditPortfolio(true)}
                   />
                 )}
