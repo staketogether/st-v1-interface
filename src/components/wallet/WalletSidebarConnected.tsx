@@ -29,19 +29,19 @@ import useWalletSidebar from '../../hooks/useWalletSidebar'
 import { formatNumberByLocale } from '../../services/format'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
 
-import EnsAvatar from '../shared/ens/EnsAvatar'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import WalletBuyEthModal from './WalletBuyEthModal'
-import WalletSidebarSettings from './WalletSidebarSettings'
-import Withdrawals from '../shared/Withdrawals'
-import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
-import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
-import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
+import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
+import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
+import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
 import Button from '../shared/Button'
 import Card from '../shared/Card'
+import Withdrawals from '../shared/Withdrawals'
+import EnsAvatar from '../shared/ens/EnsAvatar'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
+import WalletBuyEthModal from './WalletBuyEthModal'
 import WalletSidebarPortfolio from './WalletSidebarPortfolio'
-import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
+import WalletSidebarSettings from './WalletSidebarSettings'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -229,7 +229,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                     small={true}
                     label={'Edit'}
                     icon={<EditIcon />}
-                    disabled
                     onClick={() => setOpenSidebarEditPortfolio(true)}
                   />
                 )}

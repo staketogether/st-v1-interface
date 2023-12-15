@@ -524,9 +524,5 @@
         "walletError": "Erro ao atualizar delegações"
       }
     }
-  },
-  "vulnerabilityMessage": {
-    "header": "\uD83D\uDEA8 Atenção",
-    "message": "Devido às vulnerabilidades generalizadas no dia de hoje, atualizamos o pacote do front e decidimos pausar as operações na Stake Together provisoriamente enquanto aguardarmos que o problema seja solucionado. \n\nNão interaja com nenhum dapp e fique atento às novidades!\n\nAcompanhe pelo nosso Twitter: "
   }
 }
