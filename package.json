@@ -21,7 +21,6 @@
     "@apollo/client": "^3.8.8",
     "@emotion/is-prop-valid": "^1.2.1",
     "@lottiefiles/react-lottie-player": "^3.5.3",
-    "@sentry/nextjs": "^7.88.0",
     "@wagmi/cli": "^1.5.2",
     "@web3auth/base": "^7.2.0",
     "@web3auth/ethereum-provider": "^7.2.0",

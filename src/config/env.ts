@@ -29,9 +29,6 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_CONTENTFUL_SPACE) {
     throw new Error('NEXT_PUBLIC_CONTENTFUL_SPACE not found in env')
   }
-  if (!process.env.NEXT_PUBLIC_SENTRY_DSN) {
-    throw new Error('NEXT_PUBLIC_SENTRY_DSN not found in env')
-  }
   if (!process.env.NEXT_PUBLIC_RPC_GOERLI) {
     throw new Error('NEXT_PUBLIC_RPC_GOERLI not found in env')
   }
