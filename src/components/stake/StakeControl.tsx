@@ -7,13 +7,12 @@ import { ContentfulPool } from '@/types/ContentfulPool'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { PiArrowDown, PiArrowUp, PiQuestion, PiShareNetwork, PiUsers } from 'react-icons/pi'
+import { PiArrowDown, PiArrowUp, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled, { css } from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import { formatNumberByLocale } from '../../services/format'
 import Tabs, { TabsItems } from '../shared/Tabs'
-import TooltipComponent from '../shared/TooltipComponent'
 import WalletLottery from '../shared/WalletLottery'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
@@ -23,7 +22,8 @@ import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
 import useFaq from '@/hooks/contentful/useFaq'
 import Collapse from '../shared/Collapse'
-import Button from '../shared/Button'
+import Image from 'next/image'
+import togetherUniversity from '@assets/images/together-university.png'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -170,11 +170,15 @@ export default function StakeControl({
             </ProjectTitle>
             <ProjectDataInfoContainer>
               <div>
-                <span>{`${t('v2.stake.tvl')}:`}</span>
-                <Tooltip title={titleTvlTooltip}>
-                  <QuestionIcon />
-                </Tooltip>
-                <span className='bold'>
+                <div>
+                  <DataTitle className='gray'>
+                    {`${t('v2.stake.tvl')}`}
+                    <Tooltip title={titleTvlTooltip}>
+                      <QuestionIcon />
+                    </Tooltip>
+                  </DataTitle>
+                </div>
+                <DataInfo className='bold purple'>
                   {!!pool?.poolBalance && !initialLoading ? (
                     <span className='primary'>{`${formatNumberByLocale(
                       truncateWei(pool.poolBalance, 5),
@@ -183,11 +187,26 @@ export default function StakeControl({
                   ) : (
                     <SkeletonLoading height={14} width={100} />
                   )}
-                </span>
+                </DataInfo>
               </div>
               <div>
-                <MembersIcon />
-                {!initialLoading ? `${pool?.receivedDelegationsCount}` : <SkeletonLoading width={20} />}
+                <div>
+                  <DataTitle className='align-right'>
+                    {`${t('v2.stake.rewards')}`}
+                    <Tooltip title={t('v2.stake.rewardsTooltip')}>
+                      <QuestionIcon />
+                    </Tooltip>
+                  </DataTitle>
+                </div>
+                <DataInfo className='bold green '>
+                  {!!pool?.totalRewards && !initialLoading ? (
+                    <span>{`${formatNumberByLocale(truncateWei(pool.totalRewards, 5), locale)}  ${t(
+                      'lsd.symbol'
+                    )} `}</span>
+                  ) : (
+                    <SkeletonLoading height={14} width={100} />
+                  )}
+                </DataInfo>
               </div>
             </ProjectDataInfoContainer>
           </ProjectBackgroundContainer>
@@ -204,16 +223,16 @@ export default function StakeControl({
         <header>{`Stake together ${t('v2.stake.statistics')}`}</header>
         <div>
           <span>
-            <TooltipComponent text={titleTvlTooltip} left={225} width={200}>
-              {`${titleTvl}: `}
+            {`${titleTvl}: `}
+            <Tooltip title={titleTvlTooltip}>
               <QuestionIcon />
-            </TooltipComponent>
+            </Tooltip>
           </span>
 
           <div>
             <>
               {!!stakeTogether?.totalSupply && !stakeTogetherIsLoading ? (
-                <span className='primary'>
+                <span className='purple'>
                   {`${formatNumberByLocale(truncateWei(stakeTogether.totalSupply, 5), locale)}  ${t(
                     'eth.symbol'
                   )} `}
@@ -227,12 +246,35 @@ export default function StakeControl({
 
         <div>
           <span>
-            <TooltipComponent text={titleApyTooltip} left={225} width={200}>
-              {`${titleApy}: `}
+            {`${titleApy}: `}
+            <Tooltip title={titleApyTooltip}>
               <QuestionIcon />
-            </TooltipComponent>
+            </Tooltip>
           </span>
           <span className='green'>{`${apy}%`}</span>
+        </div>
+
+        <div>
+          <span>
+            {t('v2.stake.rewards')}
+            <Tooltip title={t('v2.stake.st.rewardsTooltip')}>
+              <QuestionIcon />
+            </Tooltip>
+          </span>
+
+          <div>
+            <>
+              {!!stakeTogether?.totalRewards && !stakeTogetherIsLoading ? (
+                <span className='green'>
+                  {`${formatNumberByLocale(truncateWei(stakeTogether.totalRewards, 5), locale)}  ${t(
+                    'lsd.symbol'
+                  )} `}
+                </span>
+              ) : (
+                <SkeletonLoading height={14} width={100} />
+              )}
+            </>
+          </div>
         </div>
       </TvlContainer>
       <StakePoolInfo
@@ -263,9 +305,10 @@ export default function StakeControl({
             return <Collapse key={`faq-row-${index}`} question={faq.question} answer={faq.answer} />
           })}
       </CollapseContainer>
-      <UniversityContainer>
+      <UniversityContainer onClick={handleUniversity}>
+        <Image src={togetherUniversity} alt='Together University' />
         <span>{t('v2.university.title')}</span>
-        <Button label={t('v2.university.button')} onClick={handleUniversity} />
+        <span className='link'>{t('knowMore')}</span>
       </UniversityContainer>
     </Container>
   )
@@ -274,7 +317,6 @@ export default function StakeControl({
 const {
   Container,
   Form,
-  MembersIcon,
   EthIcon,
   CollapseContainer,
   TvlContainer,
@@ -288,6 +330,8 @@ const {
   ProjectLogoContainer,
   ProjectBackgroundContainer,
   ProjectDataInfoContainer,
+  DataTitle,
+  DataInfo,
   UniversityContainer
 } = {
   Container: styled.div`
@@ -326,6 +370,9 @@ const {
       font-size: 14px;
       line-height: 15px;
       height: 15px;
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[4]};
 
       color: ${({ theme }) => theme.colorV2.gray[1]};
 
@@ -388,45 +435,50 @@ const {
     border-radius: 100%;
     border: 1px solid ${({ theme }) => theme.color.white};
   `,
-  MembersIcon: styled(PiUsers)`
-    font-size: ${({ theme }) => theme.font.size[16]};
-  `,
   ProjectDataInfoContainer: styled.div`
     width: 100%;
 
     border-radius: 8px;
-    background: #fff;
+    background: ${({ theme }) => theme.colorV2.white};
     padding: 8px;
 
-    display: flex;
+    display: grid;
     align-items: center;
+    grid-template-columns: auto auto;
     justify-content: space-between;
     gap: 4px;
 
     box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
 
-    font-size: 13px;
-    font-style: normal;
-    font-weight: 400;
-
-    span {
-      &.bold {
-        font-size: 15px;
-        font-weight: 500;
-      }
-    }
-
     div {
-      &:nth-child(1) {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-      }
-      &:nth-child(2) {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+  `,
+  DataTitle: styled.span`
+    font-size: 13px;
+    color: ${({ theme }) => theme.colorV2.black};
+    opacity: 0.5;
+
+    display: flex;
+    align-items: center;
+
+    gap: 2px;
+    &.align-right {
+      align-self: end;
+    }
+  `,
+  DataInfo: styled.span`
+    font-size: 15px;
+    color: ${({ theme }) => theme.colorV2.blue[1]};
+    font-weight: 500;
+
+    &.green {
+      color: ${({ theme }) => theme.color.green[500]};
+    }
+    &.purple {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
     }
   `,
   ProjectTitle: styled.div`
@@ -501,13 +553,29 @@ const {
     gap: ${({ theme }) => theme.size[8]};
   `,
   UniversityContainer: styled.div`
+    border-radius: 8px;
+    background: ${({ theme }) => theme.colorV2.white};
+    padding: ${({ theme }) => theme.size[24]};
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
+    gap: ${({ theme }) => theme.size[24]};
 
+    box-shadow: ${({ theme }) => theme.shadow[200]};
+    cursor: pointer;
     text-align: center;
-    font-size: 14px;
-    font-weight: 500;
+    img {
+      margin: 0 auto;
+    }
+    span {
+      font-size: 15px;
+      font-weight: 500;
+      color: ${({ theme }) => theme.colorV2.black};
+      opacity: 0.5;
+      &.link {
+        color: ${({ theme }) => theme.colorV2.blue[3]};
+        opacity: 1;
+      }
+    }
   `,
   FaqTitle: styled.h3`
     font-size: ${({ theme }) => theme.font.size[15]};

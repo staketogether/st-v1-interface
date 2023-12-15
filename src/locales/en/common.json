@@ -66,6 +66,7 @@
   "rewardsTooltip": "Your rewards balance is automatically converted into your staked balance.",
   "poolDetail": "Pool Detail",
   "learnMore": "Learn More",
+  "knowMore": "Know More",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
