@@ -1,16 +1,14 @@
-// Web3Auth Libraries
 import { CHAIN_NAMESPACES } from '@web3auth/base'
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider'
 import { Web3AuthNoModal } from '@web3auth/no-modal'
 import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
 import { TorusWalletConnectorPlugin } from '@web3auth/torus-wallet-connector-plugin'
 import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
-// eslint-disable-next-line import/named
-import { Chain } from 'wagmi'
-const name = 'Stake Together'
+import * as ChainConfig from 'viem/chains'
+
 const iconUrl = 'https://images.toruswallet.io/web3auth-logo-white.svg'
 
-export default function Web3AuthConnectorInstance(chains: Chain[]) {
+export default function Web3AuthConnectorInstance(chains: ChainConfig.Chain[]) {
   const chainConfig = {
     chainNamespace: CHAIN_NAMESPACES.EIP155,
     chainId: '0x' + chains[0].id.toString(16),
@@ -35,11 +33,9 @@ export default function Web3AuthConnectorInstance(chains: Chain[]) {
       network: 'cyan',
       uxMode: 'redirect',
       whiteLabel: {
-        name,
         logoLight: iconUrl,
         logoDark: iconUrl,
-        defaultLanguage: 'en',
-        dark: false
+        defaultLanguage: 'en'
       }
     }
   })
