@@ -29,7 +29,7 @@ export default function LayoutHeader() {
   })
   const { screenWidth, breakpoints } = useResizeView()
   const isHome = asPath === `/${network}/${currency}` || asPath === `/${network}/${currency}/withdraw`
-  console.log('isHome', isHome, rest)
+  console.log('isHome', isHome, rest, asPath)
 
   return (
     <Container>
