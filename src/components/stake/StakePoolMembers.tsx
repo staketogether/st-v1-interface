@@ -100,6 +100,7 @@ const { Container, DelegationsContainer, LoadMoreButton } = {
     overflow-y: auto;
   `,
   LoadMoreButton: styled.button`
+    width: 100%;
     display: flex;
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
@@ -108,7 +109,7 @@ const { Container, DelegationsContainer, LoadMoreButton } = {
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.color.whiteAlpha[300]};
+    background: ${({ theme }) => theme.colorV2.gray[2]};
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
     padding: 0 ${({ theme }) => theme.size[16]};
@@ -116,7 +117,7 @@ const { Container, DelegationsContainer, LoadMoreButton } = {
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      background: #e4e4e4;
     }
 
     &.active {

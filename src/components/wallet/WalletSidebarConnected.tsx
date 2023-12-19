@@ -4,7 +4,6 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import ethIcon from '@assets/icons/eth-icon.svg'
-import stIcon from '@assets/st-symbol.svg'
 import { Drawer, notification } from 'antd'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -30,6 +29,7 @@ import { formatNumberByLocale } from '../../services/format'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
 
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
+import StpEthIcon from '../shared/StpethIcon'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
 import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
@@ -187,7 +187,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             </InfoCard>
             <InfoCard>
               <h4>
-                {t('invested')} <Image src={stIcon} width={18} height={18} alt={t('lsd.symbol')} />
+                {t('invested')} <StpEthIcon size={18} />
               </h4>
               <div>
                 <span className='purple'>{formatNumberByLocale(truncateWei(accountBalance, 5), locale)}</span>
@@ -355,6 +355,9 @@ const {
       font-size: 13px;
       font-weight: 400;
       color: ${({ theme }) => theme.colorV2.blue[1]};
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
 
       img {
         box-shadow: ${({ theme }) => theme.shadow[100]};
@@ -518,15 +521,15 @@ const {
     align-items: center;
     justify-content: center;
     > div {
-      justify-self: center;
       display: flex;
       align-items: center;
       gap: 8px;
+      padding-left: 12px;
     }
     > button {
       position: absolute;
       justify-self: flex-end;
-      margin-right: 16px;
+      margin-right: 12px;
     }
   `
 }

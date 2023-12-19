@@ -19,6 +19,7 @@ type GenericTransactionLoadingProps = {
   onSuccessAction?: () => void
   bodyComponent?: React.ReactNode
   noPadding?: boolean
+  noModalPadding?: boolean
   txHash?: `0x${string}` | undefined
 }
 
@@ -31,13 +32,14 @@ export default function GenericTransactionLoading({
   bodyComponent,
   txHash,
   noPadding,
+  noModalPadding,
   onSuccessAction
 }: GenericTransactionLoadingProps) {
   const { t } = useLocaleTranslation()
   const buttonMessage = isSuccess ? successButtonLabel : loadingButtonLabel
   const chain = chainConfig()
   return (
-    <Container className={`${noPadding && 'noPadding'}`}>
+    <Container className={`${noPadding && 'noPadding'} ${noModalPadding && 'noModalPadding'}`}>
       <div>
         {isLoading && !isSuccess && <LottieAnimation animationData={loadingAnimation} height={60} loop />}
         {!isLoading && isSuccess && <LottieAnimation animationData={successAnimation} height={60} />}
@@ -70,7 +72,9 @@ const { Container } = {
     &.noPadding {
       padding: 0;
     }
-
+    &.noModalPadding {
+      padding: 48px 24px;
+    }
     > div {
       width: 100%;
       h2 {

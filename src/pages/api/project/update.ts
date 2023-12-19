@@ -125,7 +125,76 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     entry.fields.video = { 'en-US': '', pt: '' }
   }
+  if (form.removeCover) {
+    const assetIdEn = entry.fields.cover['en-US'].sys.id
 
+    const asset = await client.getAsset(assetIdEn)
+    const assetUnpublish = await asset.unpublish()
+    await assetUnpublish.delete()
+
+    entry.fields.cover['en-US'] = null
+    entry.fields.cover.pt = null
+  }
+
+  if (form.headerCover && form.headerCover.base64 && form.headerCover.mimeType) {
+    const decodedImage = Buffer.from(form.headerCover.base64, 'base64')
+    const headerCoverUpload = await client.createAssetFromFiles({
+      fields: {
+        title: {
+          'en-US': `${form.projectName}-headerCover.${form.headerCover.mimeType.split('/')[1]}`,
+          pt: `${form.projectName}-headerCover.${form.headerCover.mimeType.split('/')[1]}`
+        },
+        description: {
+          'en-US': '',
+          pt: ''
+        },
+        file: {
+          'en-US': {
+            fileName: `${form.projectName}-img.${form.headerCover.mimeType.split('/')[1]}`,
+            file: decodedImage.buffer,
+            contentType: form.headerCover.mimeType
+          },
+          pt: {
+            fileName: `${form.projectName}-img.${form.headerCover.mimeType.split('/')[1]}`,
+            file: decodedImage.buffer,
+            contentType: form.headerCover.mimeType
+          }
+        }
+      }
+    })
+
+    const assetHeaderCover = await headerCoverUpload.processForAllLocales().then(res => res.publish())
+    entry.fields.image = {
+      'en-US': {
+        sys: {
+          type: 'Link',
+          linkType: 'Asset',
+          id: assetHeaderCover.sys.id,
+          contentType: form.logo.mimeType
+        }
+      },
+      pt: {
+        sys: {
+          type: 'Link',
+          linkType: 'Asset',
+          id: assetHeaderCover.sys.id,
+          contentType: form.logo.mimeType
+        }
+      }
+    }
+  }
+
+  if (form.removeHeaderCover && entry.fields.image) {
+    const assetIdEn = entry.fields.image['en-US'].sys.id
+
+    const asset = await client.getAsset(assetIdEn)
+    const assetUnpublish = await asset.unpublish()
+    await assetUnpublish.delete()
+
+    entry.fields.image['en-US'] = null
+    entry.fields.image.pt = null
+  }
+  console.log(entry.fields.image)
   entry.fields.name = { 'en-US': form.projectName, pt: form.projectName }
   entry.fields.category = {
     'en-US': {
@@ -148,6 +217,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const updateEntry = await entry.update()
-  await updateEntry.publish()
+  const publishEntry = await updateEntry.unpublish()
+  await publishEntry.publish()
   res.send(`Project updated success`)
 }

@@ -57,8 +57,7 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
-
-    padding: 8px;
+    gap: 16px;
 
     > header {
       display: flex;
@@ -105,7 +104,6 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
     display: grid;
     grid-template-columns: 30px 0.9fr 0.9fr 1fr;
     align-items: center;
-    padding: 8px;
 
     &:hover {
       background: ${({ theme }) => theme.colorV2.gray[2]};

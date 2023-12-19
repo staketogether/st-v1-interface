@@ -51,7 +51,7 @@ const { Container, Reward, RewardsHeader, EmptyContainer } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
-    padding: ${({ theme }) => theme.size[8]};
+    gap: 16px;
 
     div > span:nth-child(2) > span {
       color: ${({ theme }) => theme.color.secondary};
@@ -81,20 +81,13 @@ const { Container, Reward, RewardsHeader, EmptyContainer } = {
     font-size: ${({ theme }) => theme.font.size[12]};
   `,
   Reward: styled(Link)`
-    height: 32px;
     display: grid;
     grid-template-columns: 20px auto 1fr;
     gap: ${({ theme }) => theme.size[8]};
-    padding: 8px;
 
     border-radius: ${({ theme }) => theme.size[8]};
 
     align-items: center;
-
-    &:hover {
-      background: ${({ theme }) => theme.colorV2.gray[4]};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
-    }
 
     > span {
       display: flex;

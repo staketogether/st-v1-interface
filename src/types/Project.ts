@@ -20,6 +20,7 @@ export type CreateProjectForm = ProjectCreateInfo & ProjectLinksToAnalyze
 
 export type EditProjectForm = CreateProjectForm & {
   cover?: { base64: string; mimeType?: string }
+  headerCover?: { base64: string; mimeType?: string }
   videoPt?: string
   videoEn?: string
   youtube?: string
@@ -29,4 +30,6 @@ export type EditProjectForm = CreateProjectForm & {
   descriptionPt?: string
   descriptionEn?: string
   contract?: string
+  removeCover?: boolean
+  removeHeaderCover?: boolean
 }

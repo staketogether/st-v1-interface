@@ -5,7 +5,7 @@ import { Progress, Slider } from 'antd'
 import styled, { useTheme } from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { PiArrowCounterClockwise, PiPlus, PiQuestion } from 'react-icons/pi'
+import { PiArrowCounterClockwise, PiPlusBold, PiQuestion } from 'react-icons/pi'
 import { useEffect, useState } from 'react'
 import Button from '../shared/Button'
 import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'
@@ -90,34 +90,44 @@ export default function UpdateDelegationsModal({
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
 
-  function handleUpdateForm(delegation: UpdateDelegationForm, valuePercentage: number, valueDecimal: number) {
+  function handleUpdateForm(
+    delegation: UpdateDelegationForm,
+    valuePercentage: number,
+    valueDecimal: number,
+    removeProject?: boolean
+  ) {
     const updateDelegation = delegationForm.map(delegationForm => {
       if (delegationForm.address === delegation.address) {
         return { ...delegationForm, percentage: valuePercentage, poolBalanceDecimal: valueDecimal }
       }
       return { ...delegationForm }
     })
-    setDelegationForm(updateDelegation)
+    const delegationFilter = removeProject
+      ? updateDelegation.filter(pool => {
+          return pool.address.toLocaleLowerCase() !== delegation.address.toLocaleLowerCase()
+        })
+      : updateDelegation
+    setDelegationForm(delegationFilter)
   }
 
-  function handleSlideChange(delegation: UpdateDelegationForm, value: number) {
+  function handleSlideChange(delegation: UpdateDelegationForm, value: number, removeProject?: boolean) {
     const valuePercentage = (value / Number(accountTotalShares)) * 100
     const roundedPercentage = Math.round(valuePercentage * 100) / 100
 
     if (roundedPercentage < delegation.percentage) {
       setRemainingValue(remainingValue + (delegation.percentage - roundedPercentage))
-      handleUpdateForm(delegation, roundedPercentage, value)
+      handleUpdateForm(delegation, roundedPercentage, value, removeProject)
       return
     }
     const deferenceValue = roundedPercentage - delegation.percentage
     if (deferenceValue <= remainingValue) {
       setRemainingValue(remainingValue - deferenceValue)
-      handleUpdateForm(delegation, roundedPercentage, value)
+      handleUpdateForm(delegation, roundedPercentage, value, removeProject)
       return
     }
     if (remainingValue > 0) {
       const maxValue = delegation.percentage + remainingValue
-      handleUpdateForm(delegation, maxValue, value)
+      handleUpdateForm(delegation, maxValue, value, removeProject)
       setRemainingValue(0)
     }
   }
@@ -144,6 +154,7 @@ export default function UpdateDelegationsModal({
         showHeader={isSuccess || isLoadingTransaction ? false : true}
         showCloseIcon={isSuccess || isLoadingTransaction ? false : true}
         isOpen={openSidebar}
+        noPadding
         onClose={handleCloseModal}
       >
         {isSuccess || isLoadingTransaction ? (
@@ -155,7 +166,7 @@ export default function UpdateDelegationsModal({
             isLoading={isLoadingTransaction}
             isSuccess={isSuccess}
             txHash={txHash}
-            noPadding
+            noModalPadding
             successButtonLabel={t('close')}
             bodyComponent={
               <ReviewUpdateDelegationsRequest
@@ -181,15 +192,16 @@ export default function UpdateDelegationsModal({
                   strokeColor={theme.colorV2.blue[1]}
                 />
                 <Button
-                  icon={<PiPlus />}
                   small
+                  icon={<PiPlusBold style={{ fontSize: '12px' }} />}
                   isLoading={false}
                   onClick={() => setAddProjectModal(true)}
-                  label={''}
+                  label={'Add'}
                   disabled={false}
                 />
               </div>
             </AvailableValueContainer>
+            <Divider />
             <CommunitiesContainer>
               {delegationForm.map((delegation, index) => {
                 const poolMetadata = handleMetadataPools(delegation.address)
@@ -217,22 +229,32 @@ export default function UpdateDelegationsModal({
                         max={Number(accountTotalShares)}
                         tooltip={{ formatter: () => `${delegation.percentage.toFixed(0)}%` }}
                         onChange={e => handleSlideChange(delegation, e)}
+                        style={{ margin: 0 }}
                       />
                       <span>{`${delegation.percentage.toFixed(0)}%`}</span>
+                      <Button
+                        small
+                        isLoading={false}
+                        onClick={() => handleSlideChange(delegation, 0, true)}
+                        label={'x'}
+                        disabled={false}
+                      />
                     </div>
                   </DelegatedPool>
                 )
               })}
             </CommunitiesContainer>
-
-            <Button
-              icon={<PiArrowCounterClockwise />}
-              block
-              isLoading={updateDelegationsLoading || awaitWalletAction}
-              onClick={updateDelegations}
-              label={t('v2.updateDelegations.labelButton')}
-              disabled={!isEnabled}
-            />
+            <Divider />
+            <ActionContainer>
+              <Button
+                icon={<PiArrowCounterClockwise />}
+                block
+                isLoading={updateDelegationsLoading || awaitWalletAction}
+                onClick={updateDelegations}
+                label={t('v2.updateDelegations.labelButton')}
+                disabled={!isEnabled}
+              />
+            </ActionContainer>
           </CardContainer>
         )}
       </Modal>
@@ -254,21 +276,23 @@ const {
   CommunitiesContainer,
   DelegatedPool,
   Project,
+  ActionContainer,
   AvailableValueContainer,
   CardContainer,
-  QuestionIcon
+  QuestionIcon,
+  Divider
 } = {
   Title: styled.header`
     width: 100%;
-    text-align: center;
   `,
   DelegatedPool: styled.div`
     display: grid;
     grid-template-columns: 1fr;
     flex-direction: column;
     align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
 
-    padding: 0px ${({ theme }) => theme.size[8]};
+    padding: 0px 20px 0px 24px;
     border-radius: ${({ theme }) => theme.size[8]};
     transition: background-color 0.1s ease;
 
@@ -291,7 +315,7 @@ const {
     div {
       &:nth-child(2) {
         display: grid;
-        grid-template-columns: 1fr 60px;
+        grid-template-columns: 1fr 60px 32px;
         align-items: center;
         gap: 8px;
         > span {
@@ -316,9 +340,10 @@ const {
   CommunitiesContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 24px;
     max-height: 500px;
     overflow-y: auto;
+    margin-right: 4px;
   `,
   Project: styled.div`
     font-size: 13px;
@@ -327,13 +352,22 @@ const {
       font-size: 13px;
     }
   `,
+  Divider: styled.div`
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid var(--border, rgba(0, 0, 0, 0.2));
+  `,
+  ActionContainer: styled.div`
+    padding: 0px 24px 24px 24px;
+  `,
   AvailableValueContainer: styled.div`
-    padding: 0px 8px;
+    padding: 8px 24px 0px 24px;
     display: flex;
     flex-direction: column;
 
     > div {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto;
       gap: 8px;
       align-items: center;
     }

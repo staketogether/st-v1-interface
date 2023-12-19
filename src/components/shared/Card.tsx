@@ -54,10 +54,10 @@ const { Container, WithdrawContainer, DefaultHeader } = {
     display: flex;
     gap: ${({ theme }) => theme.size[8]};
     align-items: center;
-    justify-content: center;
+    padding: 0px 12px;
   `,
   WithdrawContainer: styled.div`
     width: 100%;
-    padding: ${({ theme }) => theme.size[8]};
+    padding: 16px ${({ theme }) => theme.size[12]};
   `
 }

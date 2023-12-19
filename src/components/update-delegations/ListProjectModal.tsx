@@ -6,7 +6,7 @@ import Modal from '../shared/Modal'
 import { useDebounce } from 'usehooks-ts'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { PiPlus } from 'react-icons/pi'
+import { PiArrowLeft, PiPlus } from 'react-icons/pi'
 import Button from '../shared/Button'
 import PoolsInputSearch from '../invest/PoolsInputSearch'
 import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
@@ -50,10 +50,14 @@ export default function ListProjectModal({
       title={<Title>{t('v2.updateDelegations.listPoolsModalTitle')}</Title>}
       isOpen={isOpen}
       onClose={handleCloseModal}
+      noPadding
       showCloseIcon={true}
     >
       <Container>
-        <PoolsInputSearch search={search} setSearch={value => setSearch(value)} gray />
+        <HeaderContainer>
+          <PoolsInputSearch search={search} setSearch={value => setSearch(value)} gray />
+        </HeaderContainer>
+        <Divider />
         <List>
           {!!(!initialLoading && !projectList.length) && (
             <PoolsEmptyState handleClickButton={() => setSearch('')} key='pool-row-empty' />
@@ -90,6 +94,7 @@ export default function ListProjectModal({
               )
             })}
         </List>
+
         {projectList.length > 0 && projectList.length < totalProjects && (
           <LoadMoreButton onClick={handleLoadMore}>
             {loadingFetchMore && <Loading />}
@@ -98,13 +103,16 @@ export default function ListProjectModal({
           </LoadMoreButton>
         )}
       </Container>
+      <Divider />
+      <ActionContainer>
+        <Button icon={<PiArrowLeft />} block onClick={handleCloseModal} label={t('goToBack')} />
+      </ActionContainer>
     </Modal>
   )
 }
-const { Title, Container, List, Row, Project, LoadMoreButton } = {
+const { Title, Container, List, Divider, ActionContainer, Row, HeaderContainer, Project, LoadMoreButton } = {
   Title: styled.header`
     width: 100%;
-    text-align: center;
   `,
   Container: styled.div`
     display: flex;
@@ -117,18 +125,27 @@ const { Title, Container, List, Row, Project, LoadMoreButton } = {
     gap: 8px;
     max-height: 500px;
     overflow-y: auto;
+    margin-right: 4px;
+  `,
+  HeaderContainer: styled.div`
+    padding: 8px 24px 0px;
   `,
   Row: styled.div`
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
+    padding: 0px 20px 0px 24px;
   `,
   Project: styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
   `,
-
+  Divider: styled.div`
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid var(--border, rgba(0, 0, 0, 0.2));
+  `,
   LoadMoreButton: styled.button`
     display: flex;
     gap: ${({ theme }) => theme.size[4]};
@@ -144,13 +161,17 @@ const { Title, Container, List, Row, Project, LoadMoreButton } = {
     padding: 0 ${({ theme }) => theme.size[16]};
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
-
+    margin: 0 24px 8px;
+    transition: 0.2s ease-in-out background;
     &:hover {
-      background-color: ${({ theme }) => theme.color.whiteAlpha[800]};
+      background: #e4e4e4;
     }
 
     &.active {
       color: ${({ theme }) => theme.color.secondary};
     }
+  `,
+  ActionContainer: styled.div`
+    padding: 8px 24px 24px 24px;
   `
 }
