@@ -14,9 +14,9 @@ export default function LayoutFooter() {
   const { t } = useLocaleTranslation()
   const documentationUrl = router.locale
     ? router.locale === 'en'
-      ? globalConfig.stakeTogetherUniversityUrlEn
-      : globalConfig.stakeTogetherUniversityUrlBr
-    : globalConfig.stakeTogetherUniversityUrlEn
+      ? globalConfig.docsEn
+      : globalConfig.docsPt
+    : globalConfig.docsEn
 
   return (
     <Container>

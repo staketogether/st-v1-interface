@@ -24,9 +24,10 @@ import { Tooltip } from 'antd'
 interface StakePoolAboutProps {
   poolDetail: ContentfulPool | null
   loading: boolean
+  isStakeTogetherPool: boolean
 }
 
-export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutProps) {
+export default function StakePoolAbout({ poolDetail, loading, isStakeTogetherPool }: StakePoolAboutProps) {
   const videoId = getVideoIdFromUrl(poolDetail?.video)
 
   const { t } = useLocaleTranslation()
@@ -54,7 +55,7 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
         <ImageCover src={poolDetail.cover.url} alt={poolDetail.cover.fileName} />
       )}
       {loading && <SkeletonLoading height={237} width={420} />}
-      {!loading && poolDetail && (
+      {!loading && poolDetail && !isStakeTogetherPool && (
         <SocialRowContainer>
           {poolDetail?.site && (
             <Tooltip title={handleProjectSite()}>
@@ -231,10 +232,7 @@ const {
     }
 
     &:hover {
-      background: ${({ theme }) => theme.color.blackAlpha[100]};
-
-      svg,
-      img {
+      svg {
         color: ${({ theme }) => theme.colorV2.purple[1]};
       }
     }

@@ -20,6 +20,7 @@ interface StakeStatsProps {
   poolActivitiesFetchMoreLoading: boolean
   poolActivitiesLoading: boolean
   loadMoreActivitiesItems: () => void
+  isStakeTogetherPool: boolean
 }
 
 export default function StakePoolInfo({
@@ -31,6 +32,7 @@ export default function StakePoolInfo({
   poolActivities,
   poolActivitiesFetchMoreLoading,
   poolActivitiesLoading,
+  isStakeTogetherPool,
   loadMoreActivitiesItems
 }: StakeStatsProps) {
   const { t } = useLocaleTranslation()
@@ -44,7 +46,11 @@ export default function StakePoolInfo({
       icon: <AboutIcon />,
       children: (
         <TabContainer>
-          <StakePoolAbout poolDetail={poolDetail} loading={poolDetailLoading} />
+          <StakePoolAbout
+            isStakeTogetherPool={isStakeTogetherPool}
+            poolDetail={poolDetail}
+            loading={poolDetailLoading}
+          />
         </TabContainer>
       )
     },

@@ -220,7 +220,7 @@ export default function StakeControl({
         </Form>
       </FormContainer>
       <TvlContainer>
-        <header>{`Stake together ${t('v2.stake.statistics')}`}</header>
+        <header>{`${t('v2.stake.statistics')}`}</header>
         <div>
           <span>
             {`${titleTvl}: `}
@@ -287,6 +287,7 @@ export default function StakeControl({
         poolActivitiesLoading={poolActivitiesLoading}
         poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
         loadMoreActivitiesItems={handleLoadMoreActivity}
+        isStakeTogetherPool={!!isStakeTogetherPool}
       />
       {poolAddress.toLocaleLowerCase() === account?.toLocaleLowerCase() && (
         <WalletLottery poolAddress={poolAddress} />
@@ -308,7 +309,6 @@ export default function StakeControl({
       <UniversityContainer onClick={handleUniversity}>
         <Image src={togetherUniversity} alt='Together University' />
         <span>{t('v2.university.title')}</span>
-        <span className='link'>{t('knowMore')}</span>
       </UniversityContainer>
     </Container>
   )
@@ -558,13 +558,15 @@ const {
     padding: ${({ theme }) => theme.size[24]};
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[16]};
 
     box-shadow: ${({ theme }) => theme.shadow[200]};
     cursor: pointer;
     text-align: center;
+    transition: 0.2s ease-in-out background;
     img {
       margin: 0 auto;
+      mix-blend-mode: multiply;
     }
     span {
       font-size: 15px;
@@ -575,6 +577,9 @@ const {
         color: ${({ theme }) => theme.colorV2.blue[3]};
         opacity: 1;
       }
+    }
+    &:hover {
+      background: #e4e4e4;
     }
   `,
   FaqTitle: styled.h3`

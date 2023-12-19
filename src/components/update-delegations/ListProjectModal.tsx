@@ -162,7 +162,7 @@ const { Title, Container, List, Divider, ActionContainer, Row, HeaderContainer, 
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[100]};
     margin: 0 24px 8px;
-
+    transition: 0.2s ease-in-out background;
     &:hover {
       background: #e4e4e4;
     }

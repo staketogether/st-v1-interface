@@ -7,6 +7,8 @@ interface GlobalConfig {
   apy: string
   stakeTogetherUniversityUrlBr: string
   stakeTogetherUniversityUrlEn: string
+  docsPt: string
+  docsEn: string
   fees: {
     operation: string
     rewards: string
@@ -20,6 +22,8 @@ export const globalConfig: GlobalConfig = {
   auditUrl: 'https://github.com/staketogether/st-v1-contracts/tree/main/audits',
   stakeTogetherUniversityUrlEn: 'https://university.staketogether.org/en/collections/6550996-documentation',
   stakeTogetherUniversityUrlBr: 'https://university.staketogether.org/pt/collections/6550996-documentation',
+  docsPt: 'https://docs.staketogether.org',
+  docsEn: 'https://docs.staketogether.org/stake-together/v/stake-together-en/stake-together/what-we-do',
   recaptchakey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string,
   apy: '5.1',
   fees: {

@@ -192,7 +192,7 @@
       },
       "deposit": {
         "title": "Stake de Ether",
-        "description": "Stake ETH, receba stpETH e comece a ganhar recompensas",
+        "description": "Faça Stake de Ether e receba recompensas de staking",
         "stakeTogetherPoolDescription": "Gostaria de apoiar um projeto especifico? Clique",
         "here": "aqui"
       },
@@ -266,7 +266,7 @@
         "rewards": "Recompensas geradas",
         "rewardsTooltip": "Recompensas geradas pelo staking de ethereum."
       },
-      "statistics": "Estatísticas",
+      "statistics": "Status do Protocolo",
       "minAmount": "Deposito minimo",
       "minWithdraw": "Saque minimo",
       "apy": "Rendimento anual",

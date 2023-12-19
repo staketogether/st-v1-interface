@@ -197,7 +197,6 @@ const {
     padding: 16px;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
 
     border-radius: 8px;
     background: ${({ theme }) => theme.colorV2.white};
@@ -211,15 +210,16 @@ const {
       align-items: center;
       justify-content: center;
       align-items: center;
-      gap: 4px;
+      padding: 4px 0;
 
-      font-size: ${({ theme }) => theme.font.size[15]};
+      font-size: ${({ theme }) => theme.font.size[14]};
       font-weight: 500;
       color: ${({ theme }) => theme.colorV2.gray[1]};
+      opacity: 0.8;
 
       &:last-child {
         border-top: 1px solid ${({ theme }) => theme.colorV2.gray[1]};
-        padding-top: 8px;
+        padding-top: 4px;
       }
     }
   `
