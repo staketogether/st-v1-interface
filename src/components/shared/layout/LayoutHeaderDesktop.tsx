@@ -31,7 +31,7 @@ export default function LayoutHeader() {
   const basePath = `/[network]/[currency]`
   const withdrawBasePath = `/[network]/[currency]/withdraw`
   const isHome = (pathname === basePath || pathname === withdrawBasePath) && isReady
-  console.log('isHome', isHome, pathname)
+
   return (
     <Container>
       <MenuContainer>
