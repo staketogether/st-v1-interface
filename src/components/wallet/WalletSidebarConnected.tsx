@@ -29,7 +29,7 @@ import { formatNumberByLocale } from '../../services/format'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
 
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
-import StpethIcon from '../shared/StpethIcon'
+import StpEthIcon from '../shared/StpethIcon'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
 import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
@@ -187,7 +187,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             </InfoCard>
             <InfoCard>
               <h4>
-                {t('invested')} <StpethIcon size={18} />
+                {t('invested')} <StpEthIcon size={18} />
               </h4>
               <div>
                 <span className='purple'>{formatNumberByLocale(truncateWei(accountBalance, 5), locale)}</span>

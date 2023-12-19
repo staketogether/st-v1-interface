@@ -7,12 +7,12 @@ import { Tooltip } from 'antd'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 
-type StpethIconProps = {
+type StpEthIconProps = {
   size?: number
   showPlusIcon?: boolean
 }
 
-export default function StpethIcon({ size = 32, showPlusIcon }: StpethIconProps) {
+export default function StpEthIcon({ size = 32, showPlusIcon }: StpEthIconProps) {
   const { addToWalletAction } = useAddSethToWallet()
   const { t } = useLocaleTranslation()
   return (

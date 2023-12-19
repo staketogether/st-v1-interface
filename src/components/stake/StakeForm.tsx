@@ -34,7 +34,7 @@ import { formatNumberByLocale } from '../../services/format'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
-import StpethIcon from '../shared/StpethIcon'
+import StpEthIcon from '../shared/StpethIcon'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -356,7 +356,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               )}
             </CardInfoData>
             <div>
-              <StpethIcon showPlusIcon />
+              <StpEthIcon showPlusIcon />
             </div>
           </CardInfo>
         </CardInfoContainer>
