@@ -19,7 +19,7 @@ export default function LayoutHeader() {
   const { isActive } = useActiveRoute()
   const { account, accountIsConnected } = useConnectedAccount()
   const { setOpenProjectCreateModal } = useProjectCreateModal()
-  const { query, asPath } = useRouter()
+  const { query, asPath, ...rest } = useRouter()
   const { currency, network } = query
 
   const { poolDetail: poolDetailUs } = useContentfulPoolDetails({
@@ -29,6 +29,7 @@ export default function LayoutHeader() {
   })
   const { screenWidth, breakpoints } = useResizeView()
   const isHome = asPath === `/${network}/${currency}` || asPath === `/${network}/${currency}/withdraw`
+  console.log('isHome', isHome, rest)
 
   return (
     <Container>

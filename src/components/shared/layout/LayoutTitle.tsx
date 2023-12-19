@@ -47,4 +47,11 @@ const Description = styled.p`
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
+  a {
+    color: ${({ theme }) => theme.colorV2.purple[1]};
+    opacity: 0.7;
+    &:hover {
+      opacity: 1;
+    }
+  }
 `
