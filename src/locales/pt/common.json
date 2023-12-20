@@ -1,6 +1,7 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
+  "addToWalletTooltip": "Adicionar stpETH  a sua carteira",
   "save": "Salvar",
   "projects": "Projetos",
   "portfolio": "Portfólio",
@@ -65,6 +66,7 @@
   "rewardsTooltip": "O saldo de suas recompensas é automaticamente convertido em seu saldo de stake.",
   "poolDetail": "Detalhes da Pool",
   "learnMore": "Leia mais",
+  "knowMore": "Saiba mais",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -108,7 +110,8 @@
     "app": "Instalar App",
     "website": "Site",
     "smartContract": "Contrato Inteligente",
-    "audit": "Auditorias"
+    "audit": "Auditorias",
+    "documentation": "Documentação"
   },
   "soon": "Em Breve",
   "addSethToWallet": {
@@ -189,8 +192,9 @@
       },
       "deposit": {
         "title": "Stake de Ether",
-        "description": "Deposite ether para ganhar recompensas de staking enquanto gera incentivos para o projeto",
-        "stakeTogetherPoolDescription": "Deposite ether para ganhar recompensas de staking"
+        "description": "Faça Stake de Ether e receba recompensas de staking",
+        "stakeTogetherPoolDescription": "Gostaria de apoiar um projeto especifico? Clique",
+        "here": "aqui"
       },
       "incentives": {
         "title": "Incentivos",
@@ -262,6 +266,9 @@
         "rewards": "Recompensas geradas",
         "rewardsTooltip": "Recompensas geradas pelo staking de ethereum."
       },
+      "statistics": "Status do Protocolo",
+      "minAmount": "Deposito minimo",
+      "minWithdraw": "Saque minimo",
       "apy": "Rendimento anual",
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
       "tvl": "Valor total investido",
@@ -508,6 +515,24 @@
         "errorProjectRemove": "Erro ao remover projeto",
         "projectAddedSuccessfully": "Projeto adicionado com sucesso",
         "errorAddProject": "Erro ao adicionar projeto"
+      }
+    },
+    "university": {
+      "title": "Quer aprender mais sobre a Stake Together? Acesse",
+      "button": "Universidade Stake Together"
+    },
+    "updateDelegations": {
+      "modalTitle": "Atualização de delegações",
+      "availableForDistribution": "Valor disponivel para distribuição",
+      "availableForDistributionTooltip": "Distribuição de recompensa dos projetos",
+      "labelButton": "Atualizar as Delegações",
+      "listPoolsModalTitle": "Selecionar projetos",
+      "transactionMessages": {
+        "transactionTitle": "Revisar Pedido de Update",
+        "successful": "Delegações atualizadas com sucesso",
+        "confirmButton": "Confirmar",
+        "transactionLoading": "Atualizando Delegações",
+        "walletError": "Erro ao atualizar delegações"
       }
     }
   }

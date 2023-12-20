@@ -10,7 +10,6 @@ import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { WithdrawType } from '@/types/Withdraw'
 import ethIcon from '@assets/icons/eth-icon.svg'
-import stSymbol from '@assets/st-symbol.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
@@ -35,6 +34,7 @@ import { formatNumberByLocale } from '../../services/format'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
+import StpEthIcon from '../shared/StpethIcon'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -202,6 +202,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const isLoading = depositLoading || withdrawData.withdrawLoading
   const isSuccess = depositSuccess || withdrawData.withdrawSuccess
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const prepareTransactionIsError =
     type === 'deposit' ? depositPrepareTransactionIsError : withdrawData.prepareTransactionIsError
   const prepareTransactionErrorMessage =
@@ -221,6 +222,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const insufficientWithdrawalBalance =
     type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const amountIsEmpty = amountBigNumber === 0n || !amount
 
   const errorLabel =
@@ -309,9 +311,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     setAmount(truncateWei(balance, 18, true))
   }
 
-  const canDeposit = insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees
+  const cantDeposit = insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees
 
-  const canWithdraw =
+  const cantWithdraw =
     insufficientFunds ||
     insufficientWithdrawalBalance ||
     amountIsEmpty ||
@@ -354,7 +356,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               )}
             </CardInfoData>
             <div>
-              <Image src={stSymbol} width={30} height={30} alt='stpEth' />
+              <StpEthIcon showPlusIcon />
             </div>
           </CardInfo>
         </CardInfoContainer>
@@ -377,6 +379,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           disabled={isWrongNetwork || isLoading || !accountAddress}
           hasError={insufficientFunds || insufficientWithdrawalBalance || insufficientMinDeposit}
           type={type}
+          minDepositAmount={stConfig?.minDepositAmount}
+          minWithdrawAmount={stConfig?.minWithdrawAmount}
         />
         {!accountAddress && (
           <Button
@@ -392,7 +396,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             onClick={openStakeConfirmation}
             label={handleLabelButton()}
             icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
-            disabled={type === 'deposit' ? canDeposit : canWithdraw}
+            disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
           />
         )}
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
@@ -514,24 +518,6 @@ const {
 
     gap: ${({ theme }) => theme.size[16]};
     height: 32px;
-
-    img {
-      box-shadow: ${({ theme }) => theme.shadow[300]};
-      border-radius: 100%;
-    }
-
-    > div {
-      display: grid;
-      align-items: center;
-      justify-content: flex-start;
-      height: 32px;
-
-      > div {
-        display: flex;
-        justify-content: flex-start;
-        align-self: flex-start;
-      }
-    }
   `,
   CardInfoData: styled.div`
     display: flex;
@@ -580,10 +566,10 @@ const {
   ConnectWalletIcon: styled(PiArrowLineRight)`
     font-size: 16px;
   `,
-  DepositIcon: styled(PiArrowUp)`
+  DepositIcon: styled(PiArrowDown)`
     font-size: 16px;
   `,
-  WithdrawIcon: styled(PiArrowDown)`
+  WithdrawIcon: styled(PiArrowUp)`
     font-size: 16px;
   `
 }

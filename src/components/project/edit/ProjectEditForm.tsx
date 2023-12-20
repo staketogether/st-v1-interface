@@ -48,6 +48,12 @@ type ProjectEditFormProps = {
         mimeType?: string | undefined
       }
     | undefined
+  projectHeaderCover:
+    | {
+        base64: string
+        mimeType?: string | undefined
+      }
+    | undefined
   labelButton: string
   language: 'pt' | 'en'
 }
@@ -62,6 +68,7 @@ export default function ProjectEditForm({
   trigger,
   projectVideo,
   projectDescription,
+  projectHeaderCover,
   setError,
   isSubmitted,
   poolDetail,
@@ -73,7 +80,9 @@ export default function ProjectEditForm({
 }: ProjectEditFormProps) {
   const [userVideo, setUserVideo] = useState(true)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const headerCoverRef = useRef<HTMLInputElement>(null)
   const [cover, setCover] = useState<string | undefined>(undefined)
+  const [headerCover, setHeaderCover] = useState<string | undefined>(undefined)
   const modalRef = useRef<HTMLDivElement>(null)
   const [fileList, setFileList] = useState<UploadFile[]>(
     poolDetail.logo.url
@@ -117,6 +126,12 @@ export default function ProjectEditForm({
     }
   }, [poolDetail.cover])
 
+  useEffect(() => {
+    if (poolDetail.image?.url) {
+      setHeaderCover(poolDetail.image?.url)
+    }
+  }, [poolDetail.image?.url])
+
   const beforeUpload: UploadProps['beforeUpload'] = file => {
     const maxSize = 1 * 1024 * 1024
     if (file.size > maxSize) {
@@ -146,6 +161,10 @@ export default function ProjectEditForm({
     fileInputRef.current?.click()
   }
 
+  const handleHeaderCoverClick = () => {
+    headerCoverRef.current?.click()
+  }
+
   const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
     setFileList(info.fileList)
     if (info.file.status === 'removed') {
@@ -162,7 +181,10 @@ export default function ProjectEditForm({
     }
   }
 
-  const handleImageCoverChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageCoverChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    coverType: 'cover' | 'headerCover'
+  ) => {
     if (!e.target.files) return
 
     const file = e.target.files[0]
@@ -177,15 +199,26 @@ export default function ProjectEditForm({
       if (fileBase64) {
         const [imageType, imageBase64] = fileBase64.split(',')
         const mimeType = imageType.split(':')[1].split(';')[0]
-        setValue('cover', { base64: imageBase64, mimeType })
-        clearErrors('cover')
+        setValue(coverType, { base64: imageBase64, mimeType })
+        clearErrors(coverType)
+        if (coverType === 'cover') {
+          setValue('removeCover', false)
+        } else {
+          setValue('removeHeaderCover', false)
+        }
       }
     }
   }
 
-  const handleRemoveCover = () => {
-    setValue('cover', undefined)
-    setCover(undefined)
+  const handleRemoveCover = (coverType: 'cover' | 'headerCover') => {
+    setValue(coverType, undefined)
+    if (coverType === 'cover') {
+      setCover(undefined)
+      setValue('removeCover', true)
+      return
+    }
+    setHeaderCover(undefined)
+    setValue('removeHeaderCover', true)
   }
 
   return (
@@ -320,8 +353,8 @@ export default function ProjectEditForm({
             )}
 
             {!userVideo && (
-              <CoverContainer>
-                <span>{t('v2.editProject.formTabs.about.cover')}</span>
+              <CoverContainer style={{ marginBottom: '18px' }}>
+                <span>{t('v2.createProject.form.cover')}</span>
                 {!cover && !projectCover?.base64 && (
                   <CoverInputArea onClick={handleClick}>
                     <div>
@@ -343,7 +376,7 @@ export default function ProjectEditForm({
                     )}
                     {!projectCover?.base64 && cover && <ImageCover src={cover} alt={poolDetail.name} />}
                     <CoverOverlay className='overlay'>
-                      <RemoveIcon onClick={handleRemoveCover} />
+                      <RemoveIcon onClick={() => handleRemoveCover('cover')} />
                     </CoverOverlay>
                   </CoverWrapper>
                 )}
@@ -352,13 +385,50 @@ export default function ProjectEditForm({
                   type='file'
                   style={{ display: 'none' }}
                   ref={fileInputRef}
-                  onChange={handleImageCoverChange}
+                  onChange={e => handleImageCoverChange(e, 'cover')}
                   accept='image/*'
                 />
               </CoverContainer>
             )}
           </ProjectCoverContainer>
           {projectVideo && videoId && userVideo && <YouTube videoId={videoId} opts={opts} />}
+          <CoverContainer>
+            <span>{t('v2.createProject.form.headerCover')}</span>
+            {!headerCover && !projectHeaderCover?.base64 && (
+              <CoverInputArea onClick={handleHeaderCoverClick}>
+                <div>
+                  <div>
+                    <UploadIcon />
+                    <div style={{ opacity: '0.6' }}>{t('v2.createProject.form.upload')}</div>
+                  </div>
+                  <span>Jpeg, PNG (468x200px)</span>
+                </div>
+              </CoverInputArea>
+            )}
+            {(projectHeaderCover?.base64 || headerCover) && (
+              <CoverWrapper>
+                {projectHeaderCover?.base64 && !headerCover && (
+                  <ImageCover
+                    src={`data:image/jpeg;base64,${projectHeaderCover.base64}`}
+                    alt={projectHeaderCover.mimeType}
+                  />
+                )}
+                {!projectHeaderCover?.base64 && headerCover && (
+                  <ImageCover src={headerCover} alt={poolDetail.name} />
+                )}
+                <CoverOverlay className='overlay'>
+                  <RemoveIcon onClick={() => handleRemoveCover('headerCover')} />
+                </CoverOverlay>
+              </CoverWrapper>
+            )}
+            <input
+              type='file'
+              style={{ display: 'none' }}
+              ref={headerCoverRef}
+              onChange={e => handleImageCoverChange(e, 'headerCover')}
+              accept='image/*'
+            />
+          </CoverContainer>
         </FormContainer>
         <Divider />
         <footer>
@@ -544,6 +614,7 @@ const {
     object-fit: cover;
     transition: transform 0.3s ease;
   `,
+
   CoverWrapper: styled.div`
     position: relative;
     width: 100%;

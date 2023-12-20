@@ -40,7 +40,6 @@ next-env.d.ts
 #
 public/sw.js
 public/workbox-*
-# Sentry Auth Token
-.sentryclirc
+
 
 public/sw.js.map

@@ -4,7 +4,6 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import ethIcon from '@assets/icons/eth-icon.svg'
-import stIcon from '@assets/st-symbol.svg'
 import { Drawer, notification } from 'antd'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -17,6 +16,7 @@ import {
   PiChartLine,
   PiChartPieSlice,
   PiGear,
+  PiPen,
   PiSignOut
 } from 'react-icons/pi'
 import styled from 'styled-components'
@@ -27,16 +27,21 @@ import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 import { formatNumberByLocale } from '../../services/format'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
-import Tabs, { TabsItems } from '../shared/Tabs'
+
+import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
+import StpEthIcon from '../shared/StpethIcon'
+import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
+import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
+import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
+import Button from '../shared/Button'
+import Card from '../shared/Card'
+import Withdrawals from '../shared/Withdrawals'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 import WalletBuyEthModal from './WalletBuyEthModal'
-import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
+import WalletSidebarPortfolio from './WalletSidebarPortfolio'
 import WalletSidebarSettings from './WalletSidebarSettings'
-import Withdrawals from '../shared/Withdrawals'
-import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
-import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
-import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -57,6 +62,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { name, nameLoading } = useEns(address)
 
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
+  const { setOpenSidebar: setOpenSidebarEditPortfolio } = useWalletSidebarEditPortfolio()
 
   const handleWalletProviderImage = useWalletProviderImage()
 
@@ -68,7 +74,9 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountRewards,
     accountActivities,
     accountProfitPercentage,
-    accountTotalRewards
+    accountTotalRewards,
+    accountIsLoading,
+    accountShare
   } = useStAccount(address)
   function disconnectWallet() {
     setOpenSidebar(false)
@@ -86,33 +94,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const onBuyEthIsSuccess = () => {
     refetch()
   }
-
-  const tabRewards: TabsItems[] = [
-    {
-      key: 'rewards',
-      label: t('rewards'),
-      icon: <AnalyticsIcon />,
-      children: <WalletSidebarRewards accountRewards={accountRewards} />
-    }
-  ]
-
-  const tabPortfolio: TabsItems[] = [
-    {
-      key: 'portfolio',
-      label: t('portfolio'),
-      icon: <PoolsIcon />,
-      children: <WalletSidebarPoolsDelegated accountDelegations={accountDelegations} />
-    }
-  ]
-
-  const tabActivities: TabsItems[] = [
-    {
-      key: 'activity',
-      label: t('activity'),
-      icon: <ActivitiesIcon />,
-      children: <WalletSidebarActivities accountActivities={accountActivities} />
-    }
-  ]
 
   useEffect(() => {
     if (address) {
@@ -182,16 +163,16 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             </ClosedSidebarButton>
             <Actions>
               {userCanViewPanel && !verifyWalletLoading && (
-                <Button onClick={() => setIsPanelActive(true)}>
+                <SidebarButton onClick={() => setIsPanelActive(true)}>
                   <PanelIcon fontSize={16} />
-                </Button>
+                </SidebarButton>
               )}
-              <Button onClick={() => setIsSettingsActive(true)}>
+              <SidebarButton onClick={() => setIsSettingsActive(true)}>
                 <SettingIcon fontSize={16} />
-              </Button>
-              <Button onClick={() => disconnectWallet()}>
+              </SidebarButton>
+              <SidebarButton onClick={() => disconnectWallet()}>
                 <Logout fontSize={14} />
-              </Button>
+              </SidebarButton>
             </Actions>
           </HeaderContainer>
           <InfoContainer>
@@ -206,7 +187,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             </InfoCard>
             <InfoCard>
               <h4>
-                {t('invested')} <Image src={stIcon} width={18} height={18} alt={t('lsd.symbol')} />
+                {t('invested')} <StpEthIcon size={18} />
               </h4>
               <div>
                 <span className='purple'>{formatNumberByLocale(truncateWei(accountBalance, 5), locale)}</span>
@@ -236,18 +217,40 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           {stwETHBalance > 0n && (
             <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />
           )}
-          <TabsArea>
-            <Tabs items={tabPortfolio} defaultActiveKey='portfolio' gray />
-          </TabsArea>
-          <TabsArea>
-            <Tabs items={tabRewards} defaultActiveKey='rewards' gray />
-          </TabsArea>
-          <TabsArea>
-            <Tabs items={tabActivities} defaultActiveKey='activity' gray />
-          </TabsArea>
+          <Card
+            header={
+              <PortfolioHeader>
+                <div>
+                  <PoolsIcon />
+                  {t('portfolio')}
+                </div>
+                {accountDelegations.length > 0 && !accountIsLoading && (
+                  <Button
+                    small={true}
+                    label={'Edit'}
+                    icon={<EditIcon />}
+                    onClick={() => setOpenSidebarEditPortfolio(true)}
+                  />
+                )}
+              </PortfolioHeader>
+            }
+          >
+            <WalletSidebarPortfolio accountDelegations={accountDelegations} />
+          </Card>
+          <Card title={t('rewards')} icon={<AnalyticsIcon />}>
+            <WalletSidebarRewards accountRewards={accountRewards} />
+          </Card>
+          <Card title={t('activity')} icon={<ActivitiesIcon />}>
+            <WalletSidebarActivities accountActivities={accountActivities} />
+          </Card>
         </>
       )}
       <WalletBuyEthModal walletAddress={address} onBuyEthIsSuccess={onBuyEthIsSuccess} />
+      <UpdateDelegationsModal
+        accountDelegations={accountDelegations}
+        accountTotalShares={accountShare}
+        userAccount={address}
+      />
     </DrawerContainer>
   )
 }
@@ -259,7 +262,6 @@ const {
   CloseSidebar,
   ClosedSidebarButton,
   Logout,
-  Button,
   SettingIcon,
   PanelIcon,
   Actions,
@@ -271,9 +273,11 @@ const {
   PoolsIcon,
   AnalyticsIcon,
   ActivitiesIcon,
-  TabsArea,
+  SidebarButton,
+  EditIcon,
   WalletAddressContainer,
-  InfoCard
+  InfoCard,
+  PortfolioHeader
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.colorV2.foreground} !important;
@@ -351,6 +355,9 @@ const {
       font-size: 13px;
       font-weight: 400;
       color: ${({ theme }) => theme.colorV2.blue[1]};
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
 
       img {
         box-shadow: ${({ theme }) => theme.shadow[100]};
@@ -383,6 +390,9 @@ const {
         }
       }
     }
+  `,
+  EditIcon: styled(PiPen)`
+    font-size: 14px;
   `,
 
   ClosedSidebarButton: styled.button`
@@ -418,7 +428,7 @@ const {
   CloseSidebar: styled(PiCaretRight)`
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
   `,
-  Button: styled.button`
+  SidebarButton: styled.button`
     display: grid;
     align-items: center;
     justify-content: center;
@@ -472,11 +482,6 @@ const {
       height: 14px;
     }
   `,
-  TabsArea: styled.div`
-    background: ${({ theme }) => theme.colorV2.white};
-    border-radius: 8px;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-  `,
   Web3AuthProfileImage: styled(Image)`
     border-radius: 50%;
   `,
@@ -507,5 +512,24 @@ const {
   `,
   ActivitiesIcon: styled(PiChartLine)`
     font-size: 16px;
+  `,
+  PortfolioHeader: styled.header`
+    width: 100%;
+    display: grid;
+    position: relative;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    justify-content: center;
+    > div {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-left: 12px;
+    }
+    > button {
+      position: absolute;
+      justify-self: flex-end;
+      margin-right: 12px;
+    }
   `
 }

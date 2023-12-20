@@ -1,9 +1,12 @@
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Montserrat } from 'next/font/google'
+import { useRouter } from 'next/router'
 import NextNProgress from 'nextjs-progressbar'
 import { ReactNode, useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 import { lightTheme } from '../../../styles/theme'
 import { Cloudflare } from '../scripts/Cloudflare'
+import { FacebookPixel } from '../scripts/FacebookPixel'
 import { GoogleTag } from '../scripts/GoogleTag'
 import { Hotjar } from '../scripts/Hotjar'
 import { Intercom } from '../scripts/Intercom'
@@ -11,9 +14,6 @@ import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
-import { FacebookPixel } from '../scripts/FacebookPixel'
-import { useRouter } from 'next/router'
-import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 

@@ -45,6 +45,8 @@ export default interface Theme {
     purple: {
       1: string
       2: string
+      3: string
+      4: string
     }
     transparent: string
     background: string
