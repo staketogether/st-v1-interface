@@ -1,10 +1,13 @@
+import useFaq from '@/hooks/contentful/useFaq'
 import usePool from '@/hooks/subgraphs/usePool'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
+import togetherUniversity from '@assets/images/together-university.png'
 import { Tooltip } from 'antd'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { PiArrowDown, PiArrowUp, PiQuestion, PiShareNetwork } from 'react-icons/pi'
@@ -12,6 +15,7 @@ import styled, { css } from 'styled-components'
 import { globalConfig } from '../../config/global'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import { formatNumberByLocale } from '../../services/format'
+import Collapse from '../shared/Collapse'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import WalletLottery from '../shared/WalletLottery'
 import CommunityLogo from '../shared/community/CommunityLogo'
@@ -20,10 +24,6 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
-import useFaq from '@/hooks/contentful/useFaq'
-import Collapse from '../shared/Collapse'
-import Image from 'next/image'
-import togetherUniversity from '@assets/images/together-university.png'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -432,8 +432,13 @@ const {
     }
   `,
   ProjectLogoContainer: styled.span`
+    width: 32px;
+    height: 32px;
     border-radius: 100%;
-    border: 1px solid ${({ theme }) => theme.color.white};
+
+    img {
+      border: 1px solid ${({ theme }) => theme.color.white};
+    }
   `,
   ProjectDataInfoContainer: styled.div`
     width: 100%;

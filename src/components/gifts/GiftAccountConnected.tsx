@@ -183,7 +183,7 @@ const {
   Empty: styled.span`
     font-size: 16px;
     font-weight: 400;
-    color: ${({ theme }) => theme.colorV2.gray[1]};
+    color: ${({ theme }) => theme.color.whiteAlpha[400]};
     text-align: center;
   `,
   Content: styled.div`
