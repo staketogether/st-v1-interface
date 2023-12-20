@@ -28,8 +28,7 @@ const connectors = [
   new InjectedConnector({
     chains,
     options: {
-      name: 'Rabby',
-      shimDisconnect: false
+      name: 'Rabby'
     }
   }),
   new WalletConnectConnector({
