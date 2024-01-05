@@ -59,6 +59,7 @@ export default interface Theme {
       3: string
       4: string
       5: string
+      6: string
     }
   }
   color: {

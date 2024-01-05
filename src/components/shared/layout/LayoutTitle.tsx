@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 type LayoutTitleProps = {
   title: string
-  description: string
+  description?: string
   className?: string
   isStakeTogetherPool?: boolean
 }
@@ -18,7 +18,7 @@ export default function LayoutTitle({ title, description, className, isStakeToge
   return (
     <Container className={className}>
       <Title>{title}</Title>
-      <Description>{description}</Description>
+      {description && <Description>{description}</Description>}
       {isStakeTogetherPool && (
         <Description>
           {`${stakeTogetherPoolDescription}`}{' '}
