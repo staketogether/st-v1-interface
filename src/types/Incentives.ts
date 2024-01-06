@@ -5,7 +5,7 @@ export interface Incentives {
 export interface ReportIncentive {
   id: string
   account: {
-    address: string
+    address: `0x${string}`
   }
   poolOwnerAmount: bigint
   earlyAdopterAmount: bigint

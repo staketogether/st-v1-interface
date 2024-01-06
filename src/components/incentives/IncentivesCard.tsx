@@ -15,6 +15,7 @@ import { useNetwork } from 'wagmi'
 import { ReportIncentive } from '@/types/Incentives'
 import IncentiveConfirmTransactionModal from './IncentiveConfirmTransactionModal'
 import useIncentiveConfirmTransactionModal from '@/hooks/useIncentiveConfirmTransactionModal'
+import useReportIncentivesPerReportBlock from '@/hooks/subgraphs/useReportIncentivesPerReportBlock'
 
 type IncentivesCardProps = {
   reportIncentive: ReportIncentive
@@ -26,6 +27,16 @@ export default function IncentivesCard({ reportIncentive }: IncentivesCardProps)
   const isDisabled = !!reportIncentive.redeemBlock
   const { t } = useLocaleTranslation()
   const { isOpen, setIsOpen } = useIncentiveConfirmTransactionModal()
+  const {
+    isLoading: userProofLoading,
+    merkleTree,
+    userProof
+  } = useReportIncentivesPerReportBlock(
+    reportIncentive.reportBlock,
+    reportIncentive.account.address,
+    isDisabled
+  )
+  const buttonDisabled = userProofLoading || isDisabled || !merkleTree || !userProof
 
   const router = useRouter()
   const incentiveTotalAmount = formatNumberByLocale(truncateWei(reportIncentive.totalAmount, 4), router.locale)
@@ -70,7 +81,13 @@ export default function IncentivesCard({ reportIncentive }: IncentivesCardProps)
           <span>{`${handleMouth(Number(mouth))} ${year}`}</span>
           <span className='green'>{`${incentiveTotalAmount} ${t('lsd.symbol')}`}</span>
         </div>
-        <Claim onClick={() => setIsOpen(true)} label={handleLabelButton()} small width={120} />
+        <Claim
+          onClick={() => setIsOpen(true)}
+          disabled={buttonDisabled}
+          label={handleLabelButton()}
+          small
+          width={120}
+        />
       </Container>
       {isOpen && (
         <IncentiveConfirmTransactionModal
@@ -78,6 +95,8 @@ export default function IncentivesCard({ reportIncentive }: IncentivesCardProps)
           year={year}
           incentiveTotalAmount={incentiveTotalAmount}
           reportIncentive={reportIncentive}
+          userProof={userProof}
+          merkleTree={merkleTree}
         />
       )}
     </>

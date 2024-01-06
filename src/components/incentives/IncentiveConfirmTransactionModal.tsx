@@ -12,23 +12,32 @@ import Button from '../shared/Button'
 import chainConfig from '@/config/chain'
 import { useNetwork } from 'wagmi'
 import styled from 'styled-components'
+import { StandardMerkleTree } from '@openzeppelin/merkle-tree'
+import useUserAirdropClaim from '@/hooks/contracts/useAirdropClaim'
+import GenericTransactionLoading from '../shared/GenericTransactionLoading'
 
 type IncentiveConfirmTransactionModalProps = {
   mouth: string
   year: number
   incentiveTotalAmount: string
   reportIncentive: ReportIncentive
+  merkleTree: StandardMerkleTree<[bigint, bigint, string, bigint]> | null
+  userProof: string[]
 }
 
 export default function IncentiveConfirmTransactionModal({
   incentiveTotalAmount,
   mouth,
   year,
-  reportIncentive
+  reportIncentive,
+  userProof
 }: IncentiveConfirmTransactionModalProps) {
   const { isOpen, setIsOpen } = useIncentiveConfirmTransactionModal()
 
   const { t } = useLocaleTranslation()
+  const { claim, isLoading, isSuccess, awaitWalletAction, resetState, txHash, prepareTransactionIsError } =
+    useUserAirdropClaim(reportIncentive, reportIncentive.account.address, userProof, true)
+  const isLoadingTransaction = isLoading || awaitWalletAction
 
   const router = useRouter()
   const poolOwnerAmount =
@@ -54,49 +63,97 @@ export default function IncentiveConfirmTransactionModal({
   }
 
   const handleCloseModal = () => {
+    resetState()
     setIsOpen(false)
   }
+
+  const disabledClaim =
+    prepareTransactionIsError || !userProof || isLoading || isLoadingTransaction || isSuccess
+
   return (
     <Modal
       title={'Resgaar Incentivo'}
-      // showHeader={isSuccess || isLoadingTransaction ? false : true}
-      // showCloseIcon={isSuccess || isLoadingTransaction ? false : true}
+      showHeader={isSuccess || isLoadingTransaction ? false : true}
+      showCloseIcon={isSuccess || isLoadingTransaction ? false : true}
       isOpen={isOpen}
       onClose={handleCloseModal}
     >
-      <Container>
-        <span>Clique em resgatar para transferir o stpETH para sua carteira</span>
-        <IncentiveDetailContainer>
-          <header>
-            <h3>{`${mouth} ${year}`}</h3>
-            <span className='green'>{incentiveTotalAmount}</span>
-          </header>
-          <DescriptionContainer>
-            {!!poolOwnerAmount && (
-              <div>
-                <CheckIcon />
-                <span>Proprietario de Pool</span>
-                <span className={'green'}>{`${poolOwnerAmount} ${t('lsd.symbol')}`}</span>
-              </div>
-            )}
-            {!!earlyAdopterAmount && (
-              <div>
-                <CheckIcon />
-                <span>Early Adopters</span>
-                <span className={'green'}>{`${earlyAdopterAmount} ${t('lsd.symbol')}`}</span>
-              </div>
-            )}
-            {!!socialImpactAmount && (
-              <div>
-                <CheckIcon />
-                <span>Social Impact</span>
-                <span className={'green'}>{`${socialImpactAmount} ${t('lsd.symbol')}`}</span>
-              </div>
-            )}
-          </DescriptionContainer>
-        </IncentiveDetailContainer>
-        <Button onClick={() => {}} label={handleLabelButton()} block />
-      </Container>
+      {isSuccess || isLoadingTransaction ? (
+        <GenericTransactionLoading
+          title={(isSuccess && `sucesso`) || `loading...`}
+          isLoading={isLoadingTransaction}
+          isSuccess={isSuccess}
+          txHash={txHash}
+          noModalPadding
+          successButtonLabel={t('close')}
+          bodyComponent={
+            <IncentiveDetailContainer>
+              <header>
+                <h3>{`${mouth} ${year}`}</h3>
+                <span className='green'>{`${incentiveTotalAmount} ${t('lsd.symbol')}`}</span>
+              </header>
+              <DescriptionContainer>
+                {!!poolOwnerAmount && (
+                  <div>
+                    <CheckIcon />
+                    <span>Proprietario de Pool</span>
+                    <span className={'green'}>{`${poolOwnerAmount} ${t('lsd.symbol')}`}</span>
+                  </div>
+                )}
+                {!!earlyAdopterAmount && (
+                  <div>
+                    <CheckIcon />
+                    <span>Early Adopters</span>
+                    <span className={'green'}>{`${earlyAdopterAmount} ${t('lsd.symbol')}`}</span>
+                  </div>
+                )}
+                {!!socialImpactAmount && (
+                  <div>
+                    <CheckIcon />
+                    <span>Social Impact</span>
+                    <span className={'green'}>{`${socialImpactAmount} ${t('lsd.symbol')}`}</span>
+                  </div>
+                )}
+              </DescriptionContainer>
+            </IncentiveDetailContainer>
+          }
+          onSuccessAction={handleCloseModal}
+        />
+      ) : (
+        <Container>
+          <span>Clique em resgatar para transferir o stpETH para sua carteira</span>
+          <IncentiveDetailContainer>
+            <header>
+              <h3>{`${mouth} ${year}`}</h3>
+              <span className='green'>{`${incentiveTotalAmount} ${t('lsd.symbol')}`}</span>
+            </header>
+            <DescriptionContainer>
+              {!!poolOwnerAmount && (
+                <div>
+                  <CheckIcon />
+                  <span>Proprietario de Pool</span>
+                  <span className={'green'}>{`${poolOwnerAmount} ${t('lsd.symbol')}`}</span>
+                </div>
+              )}
+              {!!earlyAdopterAmount && (
+                <div>
+                  <CheckIcon />
+                  <span>Early Adopters</span>
+                  <span className={'green'}>{`${earlyAdopterAmount} ${t('lsd.symbol')}`}</span>
+                </div>
+              )}
+              {!!socialImpactAmount && (
+                <div>
+                  <CheckIcon />
+                  <span>Social Impact</span>
+                  <span className={'green'}>{`${socialImpactAmount} ${t('lsd.symbol')}`}</span>
+                </div>
+              )}
+            </DescriptionContainer>
+          </IncentiveDetailContainer>
+          <Button onClick={claim} disabled={disabledClaim} label={handleLabelButton()} block />
+        </Container>
+      )}
     </Modal>
   )
 }
