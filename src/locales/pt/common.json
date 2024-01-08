@@ -534,6 +534,27 @@
         "transactionLoading": "Atualizando Delegações",
         "walletError": "Erro ao atualizar delegações"
       }
+    },
+    "incentives": {
+      "title": "Incentivos",
+      "nextPayment": "Próximo incentivo será pago em:",
+      "days": "Dias",
+      "incentivesAvailable": "Incentivos Disponíveis",
+      "ownerPool": "Proprietario da Pool",
+      "earlyAdopters": "Primeiros usuários",
+      "socialImpact": "Impacto Social",
+      "pending": "Pendente",
+      "ransomed": "Resgatados",
+      "myIncentives": "Meus Incentivos",
+      "claim": "Resgatar",
+      "connectWalletMessage": "Conecte sua carteira para verificar se você está elegível",
+      "transactionModal": {
+        "title": "Resgatar Incentivos",
+        "description": "Clique em resgatar para transferir o stpETH para sua carteira",
+        "loadingMessage": "Você está resgatando",
+        "successMessage": "Resgatado com sucesso",
+        "transactionSuccessMessage": "Incentivo Resgatado!"
+      }
     }
   }
 }

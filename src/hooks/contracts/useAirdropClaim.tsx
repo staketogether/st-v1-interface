@@ -7,14 +7,14 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { notification } from 'antd'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-import { airdropABI, useAirdropClaim, usePrepareAirdropClaim } from '../../types/Contracts'
-import useEstimateTxInfo from '../useEstimateTxInfo'
+import { useAirdropClaim, usePrepareAirdropClaim } from '../../types/Contracts'
+
 import useLocaleTranslation from '../useLocaleTranslation'
 import { ReportIncentive } from '@/types/Incentives'
 
@@ -24,7 +24,6 @@ export default function useUserAirdropClaim(
   userProof: string[],
   enabled: boolean
 ) {
-  const [estimateGasCost, setEstimateGasCost] = useState(0n)
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
@@ -32,30 +31,6 @@ export default function useUserAirdropClaim(
   const { t } = useLocaleTranslation()
   // const { registerWithdraw } = useMixpanelAnalytics()
   const isUpdateDelegationEnabled = enabled
-  const { estimateGas } = useEstimateTxInfo({
-    account: accountAddress,
-    contractAddress: contracts.Airdrop,
-    functionName: 'claim',
-    args: [
-      BigInt(reportIncentive.reportBlock),
-      BigInt(reportIncentive.index),
-      accountAddress,
-      reportIncentive.sharesAmount,
-      userProof as `0x${string}`[]
-    ],
-    abi: airdropABI,
-    skip: estimateGasCost > 0n
-  })
-
-  useEffect(() => {
-    const handleEstimateGas = async () => {
-      const { estimatedCost } = await estimateGas()
-      if (estimatedCost > 0n) {
-        setEstimateGasCost(estimatedCost)
-      }
-    }
-    handleEstimateGas()
-  }, [estimateGas])
 
   const {
     config,
@@ -101,7 +76,7 @@ export default function useUserAirdropClaim(
     },
     onError: () => {
       notification.error({
-        message: t('v2.updateDelegations.transactionMessages.walletError'),
+        message: t('v2.incentives.transactionModal.transactionErrorMessage'),
         placement: 'topRight'
       })
       setAwaitWalletAction(false)
@@ -134,14 +109,14 @@ export default function useUserAirdropClaim(
       })
 
       notification.success({
-        message: t('v2.updateDelegations.transactionMessages.successful'),
+        message: t('v2.incentives.transactionModal.transactionSuccessMessage'),
         placement: 'topRight'
       })
     },
     onError: () => {
       setAwaitWalletAction(false)
       notification.error({
-        message: t('v2.updateDelegations.transactionMessages.walletError'),
+        message: t('v2.incentives.transactionModal.transactionErrorMessage'),
         placement: 'topRight'
       })
     }
@@ -153,7 +128,6 @@ export default function useUserAirdropClaim(
 
   return {
     claim,
-    estimateGasCost,
     isLoading,
     isSuccess,
     awaitWalletAction,

@@ -70,9 +70,35 @@ export default function IncentiveConfirmTransactionModal({
   const disabledClaim =
     prepareTransactionIsError || !userProof || isLoading || isLoadingTransaction || isSuccess
 
+  const descriptionIncentives = (
+    <DescriptionContainer>
+      {!!poolOwnerAmount && (
+        <div>
+          <CheckIcon />
+          <span>{t('v2.incentives.ownerPool')}</span>
+          <span className={'green'}>{`${poolOwnerAmount} ${t('lsd.symbol')}`}</span>
+        </div>
+      )}
+      {!!earlyAdopterAmount && (
+        <div>
+          <CheckIcon />
+          <span>{t('v2.incentives.earlyAdopters')}</span>
+          <span className={'green'}>{`${earlyAdopterAmount} ${t('lsd.symbol')}`}</span>
+        </div>
+      )}
+      {!!socialImpactAmount && (
+        <div>
+          <CheckIcon />
+          <span>{t('v2.incentives.socialImpact')}</span>
+          <span className={'green'}>{`${socialImpactAmount} ${t('lsd.symbol')}`}</span>
+        </div>
+      )}
+    </DescriptionContainer>
+  )
+
   return (
     <Modal
-      title={'Resgaar Incentivo'}
+      title={t('v2.incentives.myIncentives')}
       showHeader={isSuccess || isLoadingTransaction ? false : true}
       showCloseIcon={isSuccess || isLoadingTransaction ? false : true}
       isOpen={isOpen}
@@ -80,7 +106,10 @@ export default function IncentiveConfirmTransactionModal({
     >
       {isSuccess || isLoadingTransaction ? (
         <GenericTransactionLoading
-          title={(isSuccess && `sucesso`) || `loading...`}
+          title={
+            (isSuccess && `${t('v2.incentives.transactionModal.successMessage')}`) ||
+            `${t('v2.incentives.transactionModal.loadingMessage')}`
+          }
           isLoading={isLoadingTransaction}
           isSuccess={isSuccess}
           txHash={txHash}
@@ -92,64 +121,20 @@ export default function IncentiveConfirmTransactionModal({
                 <h3>{`${mouth} ${year}`}</h3>
                 <span className='green'>{`${incentiveTotalAmount} ${t('lsd.symbol')}`}</span>
               </header>
-              <DescriptionContainer>
-                {!!poolOwnerAmount && (
-                  <div>
-                    <CheckIcon />
-                    <span>Proprietario de Pool</span>
-                    <span className={'green'}>{`${poolOwnerAmount} ${t('lsd.symbol')}`}</span>
-                  </div>
-                )}
-                {!!earlyAdopterAmount && (
-                  <div>
-                    <CheckIcon />
-                    <span>Early Adopters</span>
-                    <span className={'green'}>{`${earlyAdopterAmount} ${t('lsd.symbol')}`}</span>
-                  </div>
-                )}
-                {!!socialImpactAmount && (
-                  <div>
-                    <CheckIcon />
-                    <span>Social Impact</span>
-                    <span className={'green'}>{`${socialImpactAmount} ${t('lsd.symbol')}`}</span>
-                  </div>
-                )}
-              </DescriptionContainer>
+              {descriptionIncentives}
             </IncentiveDetailContainer>
           }
           onSuccessAction={handleCloseModal}
         />
       ) : (
         <Container>
-          <span>Clique em resgatar para transferir o stpETH para sua carteira</span>
+          <span>{t('v2.incentives.transactionModal.description')}</span>
           <IncentiveDetailContainer>
             <header>
               <h3>{`${mouth} ${year}`}</h3>
               <span className='green'>{`${incentiveTotalAmount} ${t('lsd.symbol')}`}</span>
             </header>
-            <DescriptionContainer>
-              {!!poolOwnerAmount && (
-                <div>
-                  <CheckIcon />
-                  <span>Proprietario de Pool</span>
-                  <span className={'green'}>{`${poolOwnerAmount} ${t('lsd.symbol')}`}</span>
-                </div>
-              )}
-              {!!earlyAdopterAmount && (
-                <div>
-                  <CheckIcon />
-                  <span>Early Adopters</span>
-                  <span className={'green'}>{`${earlyAdopterAmount} ${t('lsd.symbol')}`}</span>
-                </div>
-              )}
-              {!!socialImpactAmount && (
-                <div>
-                  <CheckIcon />
-                  <span>Social Impact</span>
-                  <span className={'green'}>{`${socialImpactAmount} ${t('lsd.symbol')}`}</span>
-                </div>
-              )}
-            </DescriptionContainer>
+            {descriptionIncentives}
           </IncentiveDetailContainer>
           <Button onClick={claim} disabled={disabledClaim} label={handleLabelButton()} block />
         </Container>
@@ -211,7 +196,7 @@ const { Container, IncentiveDetailContainer, CheckIcon, DescriptionContainer } =
     gap: ${({ theme }) => theme.size[8]};
     div {
       display: grid;
-      grid-template-columns: 24px 1fr auto;
+      grid-template-columns: auto 1fr auto;
       gap: ${({ theme }) => theme.size[12]};
       align-items: center;
     }

@@ -18,7 +18,7 @@ export default function IncentivesUserBalances({ walletAddress }: IncentivesUser
   return (
     <UserInfoContainer>
       <div>
-        <span>Resgatados</span>
+        <span>{t('v2.incentives.ransomed')}</span>
         {accountIsLoading && <SkeletonLoading width={100} height={20} />}
         {!!(!accountIsLoading && accountData && accountData?.redeemedIncentivesAmount) && (
           <span>{`${formatNumberByLocale(truncateWei(accountData?.redeemedIncentivesAmount, 4), locale)} ${t(
@@ -27,7 +27,7 @@ export default function IncentivesUserBalances({ walletAddress }: IncentivesUser
         )}
       </div>
       <div>
-        <span>Pendentes</span>
+        <span>{t('v2.incentives.pending')}</span>
         {accountIsLoading && <SkeletonLoading width={100} height={20} />}
         {!!(!accountIsLoading && accountData && accountData?.pendingIncentivesAmount) && (
           <span className='green'>{`${formatNumberByLocale(

@@ -25,34 +25,34 @@ export default function IncentivesControl() {
     <Container>
       <LayoutTitle title={t('v2.pages.incentives.title')} />
       <IncentivesContainer>
-        <h2>Próximo incentivo será pago em:</h2>
+        <h2>{t('v2.incentives.nextPayment')}</h2>
         <Progress
           type='circle'
           percent={22}
           format={percent => (
             <DaysContainer>
-              <span>{percent}</span> <span>dias</span>
+              <span>{percent}</span> <span>{t('v2.incentives.days')}</span>
             </DaysContainer>
           )}
           strokeColor={theme.color.green[500]}
         />
         <IncentivesDescriptions>
           <header>
-            <span>Incentivos Disponíveis</span>
-            <a href='#'>Saiba mais</a>
+            <span>{t('v2.incentives.incentivesAvailable')}</span>
+            <a href='#'>{t('knowMore')}</a>
           </header>
           <div>
             <div>
               <Image src={ethIcon} alt='eth icon' />
-              <span>Proprietario de Pool</span>
+              <span>{t('v2.incentives.ownerPool')}</span>
             </div>
             <div>
               <Image src={ethIcon} alt='eth icon' />
-              <span>Early Adopters</span>
+              <span>{t('v2.incentives.earlyAdopters')}</span>
             </div>
             <div>
               <Image src={ethIcon} alt='eth icon' />
-              <span>Social Impact</span>
+              <span>{t('v2.incentives.socialImpact')}</span>
             </div>
           </div>
         </IncentivesDescriptions>
@@ -60,7 +60,7 @@ export default function IncentivesControl() {
           <>
             <IncentivesUserBalances walletAddress={account} />
             <MyIncentivesContainer>
-              <h3>Meus Incentivos</h3>
+              <h3>{t('v2.incentives.myIncentives')}</h3>
               <div>
                 {isLoading && (
                   <>
@@ -77,7 +77,7 @@ export default function IncentivesControl() {
           </>
         ) : (
           <DisconnectedContainer>
-            <span>Conecte sua carteira para verificar se você está elegível.</span>
+            <span>{t('v2.incentives.connectWalletMessage')}</span>
             <Button
               onClick={() => setOpenSidebarConnectWallet(!openSidebarConnectWallet)}
               label={t('connectWallet')}

@@ -511,6 +511,26 @@
         "transactionLoading": "Updating Delegations",
         "walletError": "Failed to update delegations"
       }
+    },
+    "incentives": {
+      "title": "Incentives",
+      "nextPayment": "Next incentive will be paid in:",
+      "days": "Days",
+      "incentivesAvailable": "Available Incentives",
+      "ownerPool": "Pool Owner",
+      "earlyAdopters": "Early Adopters",
+      "socialImpact": "Social Impact",
+      "pending": "Pending",
+      "ransomed": "Ransomed",
+      "myIncentives": "My Incentives",
+      "claim": "Claim",
+      "connectWalletMessage": "Connect your wallet to verify if you are eligible",
+      "transactionModal": {
+        "title": "Redeem Incentives",
+        "description": "Click on redeem to transfer the stpETH to your wallet",
+        "loadingMessage": "You are redeeming",
+        "successMessage": "Successfully redeemed"
+      }
     }
   }
 }
