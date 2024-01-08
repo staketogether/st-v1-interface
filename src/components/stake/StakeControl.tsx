@@ -5,9 +5,7 @@ import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
-import togetherUniversity from '@assets/images/together-university.png'
 import { Tooltip } from 'antd'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { PiArrowDown, PiArrowUp, PiQuestion, PiShareNetwork } from 'react-icons/pi'
@@ -125,15 +123,6 @@ export default function StakeControl({
 
   const titleTvlTooltip = isStakeTogetherPool ? t('v2.stake.st.tvlTooltip') : t('v2.stake.tvlTooltip')
   const titleApyTooltip = isStakeTogetherPool ? t('v2.stake.st.apyTooltip') : t('v2.stake.apyTooltip')
-
-  const handleUniversity = () => {
-    const documentationUrl = router.locale
-      ? router.locale === 'en'
-        ? globalConfig.stakeTogetherUniversityUrlEn
-        : globalConfig.stakeTogetherUniversityUrlBr
-      : globalConfig.stakeTogetherUniversityUrlEn
-    window.open(documentationUrl, '_blank')
-  }
 
   return (
     <Container>
@@ -306,10 +295,6 @@ export default function StakeControl({
             return <Collapse key={`faq-row-${index}`} question={faq.question} answer={faq.answer} />
           })}
       </CollapseContainer>
-      <UniversityContainer onClick={handleUniversity}>
-        <Image src={togetherUniversity} alt='Together University' />
-        <span>{t('v2.university.title')}</span>
-      </UniversityContainer>
     </Container>
   )
 }
@@ -331,8 +316,7 @@ const {
   ProjectBackgroundContainer,
   ProjectDataInfoContainer,
   DataTitle,
-  DataInfo,
-  UniversityContainer
+  DataInfo
 } = {
   Container: styled.div`
     display: grid;
@@ -556,36 +540,6 @@ const {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[8]};
-  `,
-  UniversityContainer: styled.div`
-    border-radius: 8px;
-    background: ${({ theme }) => theme.colorV2.white};
-    padding: ${({ theme }) => theme.size[24]};
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[16]};
-
-    box-shadow: ${({ theme }) => theme.shadow[200]};
-    cursor: pointer;
-    text-align: center;
-    transition: 0.2s ease-in-out background;
-    img {
-      margin: 0 auto;
-      mix-blend-mode: multiply;
-    }
-    span {
-      font-size: 15px;
-      font-weight: 500;
-      color: ${({ theme }) => theme.colorV2.black};
-      opacity: 0.5;
-      &.link {
-        color: ${({ theme }) => theme.colorV2.blue[3]};
-        opacity: 1;
-      }
-    }
-    &:hover {
-      background: #e4e4e4;
-    }
   `,
   FaqTitle: styled.h3`
     font-size: ${({ theme }) => theme.font.size[15]};
