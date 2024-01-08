@@ -553,7 +553,8 @@
         "description": "Clique em resgatar para transferir o stpETH para sua carteira",
         "loadingMessage": "Você está resgatando",
         "successMessage": "Resgatado com sucesso",
-        "transactionSuccessMessage": "Incentivo Resgatado!"
+        "transactionSuccessMessage": "Incentivo Resgatado!",
+        "transactionErrorMessage": "Erro ao resgatar os incentivos"
       }
     }
   }
