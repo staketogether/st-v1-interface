@@ -44,6 +44,26 @@ const configs: ChainConfig[] = [
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`
     }
   }
+  // {
+  //   chainId: 5,
+  //   name: 'goerli',
+  //   provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_GOERLI),
+  //   stakeTogetherPool: '0x3BdFaA0b55B4F6F3F9cFC6bbB1F582a1c6A0FD69',
+  //   blockExplorer: {
+  //     baseUrl: 'https://goerli.etherscan.io'
+  //   },
+  //   contracts: {
+  //     Airdrop: '0x911c93905Cd9667C7ce63626E94A17715550d14A',
+  //     Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+  //     Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+  //     StakeTogether: '0xe1c5D93dcA424F5DBC00A361C96a2E10766cB88F',
+  //     StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+  //   },
+  //   subgraphs: {
+  //     StakeTogether: 'https://api.studio.thegraph.com/query/51080/st-subgraph-goerli/v0.0.11',
+  //     ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`
+  //   }
+  // }
 ]
 
 export default function chainConfig(): ChainConfig {

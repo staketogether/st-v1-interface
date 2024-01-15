@@ -281,6 +281,7 @@
       "annualRewards": "Recompensas anuais de staking",
       "infoEmptyState": "Dados não disponíveis",
       "maxDepositButtonMessage": "A função de máximo no ether nativo sempre deixa um valor para efetuar a transação",
+      "userRejectedTheRequest": "Transação Rejeitada",
       "descriptionForm": {
         "receive": "Você recebe:",
         "receiveTooltip": "Quando você deposita ETH, você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",
@@ -315,14 +316,17 @@
         "InsufficientBeaconBalance": "Saldo Insuficiente na Beacon Chain",
         "WithdrawFromPool": "Retirada do Pool",
         "ListedInAntiFraud": "Listado em Anti Fraude",
-        "EarlyTransfer": "Saque Bloqueado"
+        "EarlyTransfer": "Saque Bloqueado",
+        "insufficientGasBalance": "Saldo Insuficiente para o Gás"
       },
       "depositErrorMessage": {
         "FeatureDisabled": "Funcionalidade Desativada",
         "DepositLimitReached": "Limite de Depósito Alcançado",
         "LessThanMinimumDeposit": "Depósito Mínimo",
         "PoolNotFound": "Pool Não Encontrado",
-        "ZeroAmount": "Suprimento Zero"
+        "ZeroAmount": "Suprimento Zero",
+        "insufficientGasBalance": "Saldo Insuficiente para o Gás",
+        "useMaxButton": "Utilize o botão Max"
       }
     },
     "activities": {
