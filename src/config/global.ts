@@ -27,7 +27,7 @@ export const globalConfig: GlobalConfig = {
   recaptchakey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string,
   apy: '5.1',
   fees: {
-    operation: '0.3',
-    rewards: '9'
+    operation: '0',
+    rewards: '8'
   }
 }
