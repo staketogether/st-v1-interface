@@ -12,19 +12,19 @@ import { truncateWei } from '@/services/truncate'
 import chainConfig from '@/config/chain'
 import { formatNumberByLocale } from '@/services/format'
 import { useNetwork } from 'wagmi'
-import { ReportIncentive } from '@/types/Incentives'
+import { AccountClaimableReports } from '@/types/Incentives'
 import IncentiveConfirmTransactionModal from './IncentiveConfirmTransactionModal'
 import useIncentiveConfirmTransactionModal from '@/hooks/useIncentiveConfirmTransactionModal'
 import useReportIncentivesPerReportBlock from '@/hooks/subgraphs/useReportIncentivesPerReportBlock'
 
 type IncentivesCardProps = {
-  reportIncentive: ReportIncentive
+  reportIncentive: AccountClaimableReports
 }
 
 export default function IncentivesCard({ reportIncentive }: IncentivesCardProps) {
   const [mouth, setMouth] = useState<number>(0)
   const [year, setYear] = useState<number>(0)
-  const isDisabled = !!reportIncentive.redeemBlock
+  const isDisabled = !reportIncentive.claimed
   const { t } = useLocaleTranslation()
   const { isOpen, setIsOpen } = useIncentiveConfirmTransactionModal()
   const {

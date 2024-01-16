@@ -1,19 +1,14 @@
 export interface Incentives {
-  reportIncentives: ReportIncentive[]
+  accountClaimableReports: AccountClaimableReports[]
 }
 
-export interface ReportIncentive {
+export interface AccountClaimableReports {
   id: string
+  reportBlock: string
+  merkleRoot: string
+  timestamp: string
+  claimed: boolean
   account: {
     address: `0x${string}`
   }
-  poolOwnerAmount: bigint
-  earlyAdopterAmount: bigint
-  socialImpactAmount: bigint
-  totalAmount: bigint
-  reportBlock: string
-
-  index: number
-  redeemBlock: number
-  sharesAmount: bigint
 }

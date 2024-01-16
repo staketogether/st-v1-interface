@@ -16,10 +16,10 @@ import { queryPool } from '../../queries/subgraph/queryPool'
 import { useAirdropClaim, usePrepareAirdropClaim } from '../../types/Contracts'
 
 import useLocaleTranslation from '../useLocaleTranslation'
-import { ReportIncentive } from '@/types/Incentives'
+import { AccountClaimableReports } from '@/types/Incentives'
 
 export default function useUserAirdropClaim(
-  reportIncentive: ReportIncentive,
+  reportIncentive: AccountClaimableReports,
   accountAddress: `0x${string}`,
   userProof: string[],
   enabled: boolean

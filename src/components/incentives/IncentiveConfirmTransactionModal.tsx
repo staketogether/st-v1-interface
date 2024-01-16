@@ -4,7 +4,7 @@ import useIncentiveConfirmTransactionModal from '@/hooks/useIncentiveConfirmTran
 
 import { PiCheckCircle } from 'react-icons/pi'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ReportIncentive } from '@/types/Incentives'
+import { AccountClaimableReports } from '@/types/Incentives'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import { useRouter } from 'next/router'
@@ -20,7 +20,7 @@ type IncentiveConfirmTransactionModalProps = {
   mouth: string
   year: number
   incentiveTotalAmount: string
-  reportIncentive: ReportIncentive
+  reportIncentive: AccountClaimableReports
   merkleTree: StandardMerkleTree<[bigint, bigint, string, bigint]> | null
   userProof: string[]
 }
