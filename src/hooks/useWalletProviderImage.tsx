@@ -3,6 +3,7 @@ import coinbase from '@assets/icons/wallets/CoinbaseWallet.svg'
 import facebook from '@assets/icons/wallets/Facebook.svg'
 import google from '@assets/icons/wallets/Google.svg'
 import metamask from '@assets/icons/wallets/Metamask.svg'
+import rabby from '@assets/icons/wallets/Rabby.svg'
 import walletConnect from '@assets/icons/wallets/WalletConnect.svg'
 import Image from 'next/image'
 
@@ -11,6 +12,8 @@ export default function useWalletProviderImage() {
     switch (walletName) {
       case 'MetaMask':
         return <Image src={metamask} alt={'metamask'} width={size} height={size} />
+      case 'Rabby':
+        return <Image src={rabby} alt={'rabby'} width={size} height={size} />
       case 'WalletConnect':
         return <Image src={walletConnect} alt={'walletConnect'} width={size} height={size} />
       case 'Coinbase Wallet':

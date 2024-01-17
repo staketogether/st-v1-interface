@@ -1,5 +1,6 @@
 import { mainnet } from 'viem/chains'
 import { configureChains, createConfig } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
@@ -30,6 +31,12 @@ const { chains, publicClient } = configureChains(
 const connectors = [
   // ...Web3AuthConnectorInstance(chains),
   new MetaMaskConnector({ chains }),
+  new InjectedConnector({
+    chains,
+    options: {
+      name: 'Rabby'
+    }
+  }),
   new WalletConnectConnector({
     chains,
     options: {

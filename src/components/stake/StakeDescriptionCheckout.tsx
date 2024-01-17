@@ -74,17 +74,6 @@ export default function StakeDescriptionCheckout({
       {type === 'deposit' && (
         <div>
           <span>
-            {`${t('v2.stake.descriptionForm.operation')} `}
-            <TooltipComponent text={t('v2.stake.descriptionForm.operationTooltip')}>
-              <QuestionIcon />
-            </TooltipComponent>
-          </span>
-          <span>{fees.operation}%</span>
-        </div>
-      )}
-      {type === 'deposit' && (
-        <div>
-          <span>
             {`${t('v2.stake.descriptionForm.rewards')} `}
             <TooltipComponent text={t('v2.stake.descriptionForm.rewardsTooltip')}>
               <QuestionIcon />
