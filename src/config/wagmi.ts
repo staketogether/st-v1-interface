@@ -5,7 +5,6 @@ import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
-import Web3AuthConnectorInstance from './web3Auth'
 
 const { chains, publicClient } = configureChains(
   [mainnet],
@@ -24,7 +23,7 @@ const { chains, publicClient } = configureChains(
 )
 
 const connectors = [
-  ...Web3AuthConnectorInstance(chains),
+  // ...Web3AuthConnectorInstance(chains),
   new MetaMaskConnector({ chains }),
   new InjectedConnector({
     chains,
