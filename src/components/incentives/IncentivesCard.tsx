@@ -15,7 +15,7 @@ import { useNetwork } from 'wagmi'
 import { AccountClaimableReports } from '@/types/Incentives'
 import IncentiveConfirmTransactionModal from './IncentiveConfirmTransactionModal'
 import useIncentiveConfirmTransactionModal from '@/hooks/useIncentiveConfirmTransactionModal'
-import useReportIncentivesPerReportBlock from '@/hooks/subgraphs/useReportIncentivesPerReportBlock'
+import useAccountReportMerkleData from '@/hooks/subgraphs/useAccountReportMerkleData'
 
 type IncentivesCardProps = {
   reportIncentive: AccountClaimableReports
@@ -24,22 +24,20 @@ type IncentivesCardProps = {
 export default function IncentivesCard({ reportIncentive }: IncentivesCardProps) {
   const [mouth, setMouth] = useState<number>(0)
   const [year, setYear] = useState<number>(0)
-  const isDisabled = !reportIncentive.claimed
+  const isDisabled = reportIncentive.claimed
   const { t } = useLocaleTranslation()
   const { isOpen, setIsOpen } = useIncentiveConfirmTransactionModal()
-  const {
-    isLoading: userProofLoading,
-    merkleTree,
-    userProof
-  } = useReportIncentivesPerReportBlock(
+  const { isLoading: userProofLoading, accountReportMerkleData } = useAccountReportMerkleData(
     reportIncentive.reportBlock,
-    reportIncentive.account.address,
-    isDisabled
+    reportIncentive.account.address
   )
-  const buttonDisabled = userProofLoading || isDisabled || !merkleTree || !userProof
+  const buttonDisabled = userProofLoading || isDisabled || !accountReportMerkleData
 
   const router = useRouter()
-  const incentiveTotalAmount = formatNumberByLocale(truncateWei(reportIncentive.totalAmount, 4), router.locale)
+  const incentiveTotalAmount = formatNumberByLocale(
+    truncateWei(BigInt(accountReportMerkleData?.weiAmount || 0n), 4),
+    router.locale
+  )
   function handleMouth(mes: number): string {
     const locale = router.locale ? (router.locale === 'en' ? 'en-US' : router.locale) : 'en'
     Settings.defaultLocale = locale
@@ -89,14 +87,14 @@ export default function IncentivesCard({ reportIncentive }: IncentivesCardProps)
           width={120}
         />
       </Container>
-      {isOpen && (
+      {isOpen && accountReportMerkleData && accountReportMerkleData.proof && (
         <IncentiveConfirmTransactionModal
           mouth={handleMouth(Number(mouth))}
           year={year}
+          accountReportMerkleData={accountReportMerkleData}
           incentiveTotalAmount={incentiveTotalAmount}
           reportIncentive={reportIncentive}
-          userProof={userProof}
-          merkleTree={merkleTree}
+          userProof={accountReportMerkleData?.proof}
         />
       )}
     </>

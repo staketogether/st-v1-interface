@@ -537,8 +537,6 @@
     },
     "incentives": {
       "title": "Incentivos",
-      "nextPayment": "Próximo incentivo será pago em:",
-      "days": "Dias",
       "incentivesAvailable": "Incentivos Disponíveis",
       "ownerPool": "Proprietario da Pool",
       "earlyAdopters": "Primeiros usuários",
@@ -552,8 +550,7 @@
         "title": "Resgatar Incentivos",
         "description": "Clique em resgatar para transferir o stpETH para sua carteira",
         "loadingMessage": "Você está resgatando",
-        "successMessage": "Resgatado com sucesso",
-        "transactionSuccessMessage": "Incentivo Resgatado!",
+        "successMessage": "Incentivo Resgatado!",
         "transactionErrorMessage": "Erro ao resgatar os incentivos"
       }
     }

@@ -514,8 +514,6 @@
     },
     "incentives": {
       "title": "Incentives",
-      "nextPayment": "Next incentive will be paid in:",
-      "days": "Days",
       "incentivesAvailable": "Available Incentives",
       "ownerPool": "Pool Owner",
       "earlyAdopters": "Early Adopters",
@@ -529,7 +527,8 @@
         "title": "Redeem Incentives",
         "description": "Click on redeem to transfer the stpETH to your wallet",
         "loadingMessage": "You are redeeming",
-        "successMessage": "Successfully redeemed"
+        "successMessage": "Successfully redeemed",
+        "transactionErrorMessage": "Error redeeming"
       }
     }
   }

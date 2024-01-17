@@ -7,7 +7,7 @@ export default function useIncentivesPerAccount(account?: string) {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [incentivesPerAccount, setIncentivesPerAccount] = useState<AccountClaimableReports[]>([])
   useQuery<Incentives>(queryReportIncentivesPerAccount, {
-    variables: { account: account?.toLowerCase() },
+    variables: { accountAddress: account?.toLowerCase() },
     onCompleted: data => {
       setIsLoading(false)
       setIncentivesPerAccount(data.accountClaimableReports)

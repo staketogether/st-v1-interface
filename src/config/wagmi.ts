@@ -11,7 +11,7 @@ const { chains, publicClient } = configureChains(
     // jsonRpcProvider({
     //   rpc: () => ({
     //     http: `${process.env.NEXT_PUBLIC_RPC_MAINNET}`,
-    //     chainId: 5
+    //     chainId: 1
     //   })
     // }),
     jsonRpcProvider({

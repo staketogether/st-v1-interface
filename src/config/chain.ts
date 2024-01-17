@@ -13,6 +13,7 @@ export type ChainConfig = {
   subgraphs: {
     StakeTogether: string
     ContentFul: string
+    stBackend: string
   }
   contracts: {
     Airdrop: `0x${string}`
@@ -60,8 +61,9 @@ const configs: ChainConfig[] = [
       StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/51080/st-subgraph-goerli/v0.2.3',
-      ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`
+      StakeTogether: 'https://api.studio.thegraph.com/proxy/51080/st-subgraph-goerli/v0.2.7',
+      ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`,
+      stBackend: 'https://st-report-airdrop-merkle-thz2yhu72a-ue.a.run.app/graphql'
     }
   }
 ]
