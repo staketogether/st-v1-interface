@@ -203,6 +203,9 @@
       "gifts": {
         "title": "Presentes dos Projetos",
         "description": "Receba presentes em stpETH de seus projetos favoritos, desde um cafezinho, almoço grátis ou até viagens internacionais."
+      },
+      "analytics": {
+        "title": "Analytics"
       }
     },
     "meta": {
@@ -218,7 +221,8 @@
       "gifts": "Presentes",
       "enter": "Entrar",
       "exit": "Sair",
-      "support": "Suporte"
+      "support": "Suporte",
+      "analytics": "Analytics"
     },
     "sidebar": {
       "percentageProfit": "Lucro",

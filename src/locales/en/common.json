@@ -219,7 +219,8 @@
       "gifts": "Gifts",
       "enter": "Enter",
       "exit": "Exit",
-      "support": "Support"
+      "support": "Support",
+      "analytics": "Analytics"
     },
     "sidebar": {
       "percentageProfit": "Profit",

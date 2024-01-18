@@ -57,6 +57,12 @@ export default function LayoutHeader() {
               {t('v2.header.projects')}
             </MenuButton>
           </Link>
+          <Link href={`/${network}/${currency}/analytics`}>
+            <MenuButton className={`${!isHome && isActive('analytics') ? 'active' : ''}`}>
+              <ProjectsIcon />
+              {t('v2.header.analytics')}
+            </MenuButton>
+          </Link>
           {/* <Link href={`/${network}/${currency}/incentives`}>
             <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
               <IncentivesIcon /> {t('v2.header.incentives')}
