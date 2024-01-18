@@ -19,9 +19,10 @@ import useAccountReportMerkleData from '@/hooks/subgraphs/useAccountReportMerkle
 
 type IncentivesCardProps = {
   reportIncentive: AccountClaimableReports
+  index: number
 }
 
-export default function IncentivesCard({ reportIncentive }: IncentivesCardProps) {
+export default function IncentivesCard({ reportIncentive, index }: IncentivesCardProps) {
   const [mouth, setMouth] = useState<number>(0)
   const [year, setYear] = useState<number>(0)
   const isDisabled = reportIncentive.claimed
@@ -47,16 +48,38 @@ export default function IncentivesCard({ reportIncentive }: IncentivesCardProps)
 
   const { provider } = chainConfig()
   useEffect(() => {
+    function handleIndex() {
+      switch (index) {
+        case 1:
+          return 12
+        case 2:
+          return 1
+        case 3:
+          return 2
+        case 4:
+          return 3
+        case 5:
+          return 4
+        case 6:
+          return 5
+        case 7:
+          return 6
+        case 8:
+          return 7
+        default:
+          return 12
+      }
+    }
     async function getBlockMonthAndYear() {
       const block = await provider.getBlock(Number(reportIncentive.reportBlock))
       if (block) {
         const date = new Date(block.timestamp * 1000)
         setYear(date.getFullYear())
-        setMouth(date.getMonth() + 1)
+        setMouth(handleIndex())
       }
     }
     getBlockMonthAndYear()
-  }, [reportIncentive.reportBlock, provider])
+  }, [reportIncentive.reportBlock, provider, index])
 
   const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()

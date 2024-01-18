@@ -52,8 +52,8 @@ export default function IncentivesControl() {
                   </>
                 )}
                 {!isLoading &&
-                  incentivesPerAccount.map(incentive => (
-                    <IncentivesCard key={incentive.id} reportIncentive={incentive} />
+                  incentivesPerAccount.map((incentive, index) => (
+                    <IncentivesCard key={incentive.id} reportIncentive={incentive} index={index} />
                   ))}
               </div>
             </MyIncentivesContainer>
