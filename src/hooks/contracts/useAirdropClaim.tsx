@@ -15,13 +15,13 @@ import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import { airdropABI, useAirdropClaim, usePrepareAirdropClaim } from '../../types/Contracts'
 
-import useLocaleTranslation from '../useLocaleTranslation'
-import { AccountClaimableReports } from '@/types/Incentives'
-import { AccountReportMerkleData } from '@/types/AccountReportMerkleData'
-import useEstimateTxInfo from '../useEstimateTxInfo'
-import useConnectedAccount from '../useConnectedAccount'
-import { queryAccountReportMerkleData } from '@/queries/subgraph/queryReportIncentivesPerReportBlock'
 import { queryReportIncentivesPerAccount } from '@/queries/subgraph/queryReportIncentivesPerAccount'
+import { queryAccountReportMerkleData } from '@/queries/subgraph/queryReportIncentivesPerReportBlock'
+import { AccountReportMerkleData } from '@/types/AccountReportMerkleData'
+import { AccountClaimableReports } from '@/types/Incentives'
+import useConnectedAccount from '../useConnectedAccount'
+import useEstimateTxInfo from '../useEstimateTxInfo'
+import useLocaleTranslation from '../useLocaleTranslation'
 
 export default function useUserAirdropClaim(
   reportIncentive: AccountClaimableReports,
@@ -41,7 +41,7 @@ export default function useUserAirdropClaim(
 
   const { contracts } = chainConfig()
   const { web3AuthUserInfo } = useConnectedAccount()
-  // const { registerWithdraw } = useMixpanelAnalytics()
+
   const isUpdateDelegationEnabled = enabled
   const { t } = useLocaleTranslation()
 

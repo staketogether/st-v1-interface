@@ -7,6 +7,7 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { notification } from 'antd'
+import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
@@ -20,7 +21,6 @@ import {
 } from '../../types/Contracts'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
-import { ethers } from 'ethers'
 
 export type PoolData = {
   pool: `0x${string}`
@@ -38,7 +38,7 @@ export default function useUpdateDelegations(
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
   const { contracts, stakeTogetherPool } = chainConfig()
   const { t } = useLocaleTranslation()
-  // const { registerWithdraw } = useMixpanelAnalytics()
+
   const isUpdateDelegationEnabled = enabled
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
