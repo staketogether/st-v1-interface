@@ -7,74 +7,96 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { notification } from 'antd'
-import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-import {
-  stakeTogetherABI,
-  usePrepareStakeTogetherUpdateDelegations,
-  useStakeTogetherUpdateDelegations
-} from '../../types/Contracts'
+import { airdropABI, useAirdropClaim, usePrepareAirdropClaim } from '../../types/Contracts'
+
+import { queryReportIncentivesPerAccount } from '@/queries/subgraph/queryReportIncentivesPerAccount'
+import { queryAccountReportMerkleData } from '@/queries/subgraph/queryReportIncentivesPerReportBlock'
+import { AccountReportMerkleData } from '@/types/AccountReportMerkleData'
+import { AccountClaimableReports } from '@/types/Incentives'
+import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 
-export type PoolData = {
-  pool: `0x${string}`
-  percentage: bigint
-}
-
-export default function useUpdateDelegations(
-  enabled: boolean,
-  updateDelegationPools: PoolData[],
-  accountAddress?: `0x${string}`
+export default function useUserAirdropClaim(
+  reportIncentive: AccountClaimableReports,
+  accountReportMerkleData: AccountReportMerkleData,
+  accountAddress: `0x${string}`,
+  userProof: string[],
+  enabled: boolean
 ) {
-  const [estimateGasCost, setEstimateGasCost] = useState(0n)
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
-  const { contracts, stakeTogetherPool } = chainConfig()
-  const { t } = useLocaleTranslation()
+
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
+  const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
+  const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
+
+  const { contracts } = chainConfig()
+  const { web3AuthUserInfo } = useConnectedAccount()
 
   const isUpdateDelegationEnabled = enabled
+  const { t } = useLocaleTranslation()
+
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
-    contractAddress: contracts.StakeTogether,
-    functionName: 'UpdateDelegations',
+    functionName: 'airdropClaim',
     args: [
-      [
-        {
-          pool: stakeTogetherPool,
-          percentage: ethers.parseUnits('1', 18)
-        }
-      ]
+      BigInt(reportIncentive.reportBlock),
+      BigInt(accountReportMerkleData.index),
+      accountAddress,
+      BigInt(accountReportMerkleData.sharesAmount),
+      accountReportMerkleData.proof as `0x${string}`[]
     ],
-    abi: stakeTogetherABI,
-    skip: estimateGasCost > 0n
+    contractAddress: contracts.Airdrop,
+    abi: airdropABI,
+    skip: !isUpdateDelegationEnabled
   })
 
   useEffect(() => {
-    const handleEstimateGas = async () => {
-      const { estimatedCost } = await estimateGas()
-      if (estimatedCost > 0n) {
-        setEstimateGasCost(estimatedCost)
-      }
+    const handleEstimateGasPrice = async () => {
+      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
+        await estimateGas()
+      setDepositEstimatedGas(estimatedGas)
+      setEstimateGasCost(estimatedCost)
+      setMaxFeePerGas(estimatedMaxFeePerGas)
+      setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
     }
-    handleEstimateGas()
-  }, [estimateGas])
+
+    if (estimateGasCost === 0n) {
+      handleEstimateGasPrice()
+    }
+  }, [estimateGas, estimateGasCost])
 
   const {
     config,
     isError: prepareTransactionIsError,
     isSuccess: prepareTransactionIsSuccess
-  } = usePrepareStakeTogetherUpdateDelegations({
-    address: contracts.StakeTogether,
-    args: [updateDelegationPools],
+  } = usePrepareAirdropClaim({
+    address: contracts.Airdrop,
+    args: [
+      BigInt(reportIncentive.reportBlock),
+      BigInt(accountReportMerkleData.index),
+      accountAddress,
+      BigInt(accountReportMerkleData.sharesAmount),
+      accountReportMerkleData.proof as `0x${string}`[]
+    ],
     account: accountAddress,
     enabled: isUpdateDelegationEnabled,
+    gas:
+      !!depositEstimatedGas && depositEstimatedGas > 0n && !!web3AuthUserInfo ? depositEstimatedGas : undefined,
+    maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
+    maxPriorityFeePerGas:
+      !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo
+        ? maxPriorityFeePerGas
+        : undefined,
     onError(error) {
       if (!error) {
         return
@@ -95,7 +117,7 @@ export default function useUpdateDelegations(
       setPrepareTransactionErrorMessage('')
     }
   })
-  const tx = useStakeTogetherUpdateDelegations({
+  const tx = useAirdropClaim({
     ...config,
     onSuccess: data => {
       if (data?.hash) {
@@ -103,15 +125,15 @@ export default function useUpdateDelegations(
       }
     },
     onError: () => {
+      setAwaitWalletAction(false)
       notification.error({
-        message: t('v2.updateDelegations.transactionMessages.walletError'),
+        message: t('v2.incentives.transactionModal.transactionErrorMessage'),
         placement: 'topRight'
       })
-      setAwaitWalletAction(false)
     }
   })
 
-  const updateDelegations = () => {
+  const claim = () => {
     setAwaitWalletAction(true)
     tx.write?.()
   }
@@ -132,19 +154,21 @@ export default function useUpdateDelegations(
           queryPoolActivities,
           queryPools,
           queryPoolsMarketShare,
-          queryStakeTogether
+          queryStakeTogether,
+          queryAccountReportMerkleData,
+          queryReportIncentivesPerAccount
         ]
       })
 
       notification.success({
-        message: t('v2.updateDelegations.transactionMessages.successful'),
+        message: t('v2.incentives.transactionModal.successMessage'),
         placement: 'topRight'
       })
     },
     onError: () => {
       setAwaitWalletAction(false)
       notification.error({
-        message: t('v2.updateDelegations.transactionMessages.walletError'),
+        message: t('v2.incentives.transactionModal.transactionErrorMessage'),
         placement: 'topRight'
       })
     }
@@ -155,8 +179,7 @@ export default function useUpdateDelegations(
   }
 
   return {
-    updateDelegations,
-    estimateGasCost,
+    claim,
     isLoading,
     isSuccess,
     awaitWalletAction,
