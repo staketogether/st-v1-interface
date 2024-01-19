@@ -14,7 +14,6 @@ import { formatNumberByLocale } from '@/services/format'
 import { useNetwork } from 'wagmi'
 import { AccountClaimableReports } from '@/types/Incentives'
 import IncentiveConfirmTransactionModal from './IncentiveConfirmTransactionModal'
-import useIncentiveConfirmTransactionModal from '@/hooks/useIncentiveConfirmTransactionModal'
 import useAccountReportMerkleData from '@/hooks/subgraphs/useAccountReportMerkleData'
 
 type IncentivesCardProps = {
@@ -25,9 +24,9 @@ type IncentivesCardProps = {
 export default function IncentivesCard({ reportIncentive, index }: IncentivesCardProps) {
   const [mouth, setMouth] = useState<number>(0)
   const [year, setYear] = useState<number>(0)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const isDisabled = reportIncentive.claimed
   const { t } = useLocaleTranslation()
-  const { isOpen, setIsOpen } = useIncentiveConfirmTransactionModal()
   const { isLoading: userProofLoading, accountReportMerkleData } = useAccountReportMerkleData(
     reportIncentive.reportBlock,
     reportIncentive.account.address
@@ -115,6 +114,8 @@ export default function IncentivesCard({ reportIncentive, index }: IncentivesCar
         <IncentiveConfirmTransactionModal
           mouth={handleMouth(Number(mouth))}
           year={year}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
           accountReportMerkleData={accountReportMerkleData}
           incentiveTotalAmount={incentiveTotalAmount}
           reportIncentive={reportIncentive}

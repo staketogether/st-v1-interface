@@ -1,6 +1,5 @@
 import React from 'react'
 import Modal from '../shared/Modal'
-import useIncentiveConfirmTransactionModal from '@/hooks/useIncentiveConfirmTransactionModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { AccountClaimableReports } from '@/types/Incentives'
 import Button from '../shared/Button'
@@ -18,6 +17,8 @@ type IncentiveConfirmTransactionModalProps = {
   reportIncentive: AccountClaimableReports
   accountReportMerkleData: AccountReportMerkleData
   userProof: string[]
+  isOpen: boolean
+  setIsOpen: (value: boolean) => void
 }
 
 export default function IncentiveConfirmTransactionModal({
@@ -26,10 +27,10 @@ export default function IncentiveConfirmTransactionModal({
   year,
   reportIncentive,
   accountReportMerkleData,
-  userProof
+  userProof,
+  isOpen,
+  setIsOpen
 }: IncentiveConfirmTransactionModalProps) {
-  const { isOpen, setIsOpen } = useIncentiveConfirmTransactionModal()
-
   const { t } = useLocaleTranslation()
   const { claim, isLoading, isSuccess, awaitWalletAction, resetState, txHash, prepareTransactionIsError } =
     useUserAirdropClaim(
