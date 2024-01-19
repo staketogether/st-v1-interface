@@ -177,9 +177,6 @@ const {
   ProjectsIcon: styled(PiCodesandboxLogo)`
     font-size: 15px;
   `,
-  // GiftsIcon: styled(PiGift)`
-  //   font-size: 15px;
-  // `,
   CreateProjectIcon: styled(PiPencilSimpleLine)`
     font-size: 15px;
   `
