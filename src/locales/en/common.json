@@ -523,6 +523,7 @@
       "myIncentives": "My Incentives",
       "claim": "Claim",
       "connectWalletMessage": "Connect your wallet to verify if you are eligible",
+      "noDataMessage": "No incentives available",
       "transactionModal": {
         "title": "Redeem Incentives",
         "description": "Click on redeem to transfer the stpETH to your wallet",

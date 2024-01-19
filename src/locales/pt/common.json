@@ -546,6 +546,7 @@
       "myIncentives": "Meus Incentivos",
       "claim": "Resgatar",
       "connectWalletMessage": "Conecte sua carteira para verificar se você está elegível",
+      "noDataMessage": "Você ainda não tem incentivos para resgatar",
       "transactionModal": {
         "title": "Resgatar Incentivos",
         "description": "Clique em resgatar para transferir o stpETH para sua carteira",

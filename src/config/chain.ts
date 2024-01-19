@@ -45,28 +45,28 @@ const configs: ChainConfig[] = [
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`,
       stBackend: 'https://st-report-airdrop-merkle-thz2yhu72a-ue.a.run.app/graphql'
     }
-  },
-  {
-    chainId: 5,
-    name: 'goerli',
-    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_GOERLI),
-    stakeTogetherPool: '0x3BdFaA0b55B4F6F3F9cFC6bbB1F582a1c6A0FD69',
-    blockExplorer: {
-      baseUrl: 'https://goerli.etherscan.io'
-    },
-    contracts: {
-      Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
-      Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
-      Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
-      StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
-      StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
-    },
-    subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/proxy/51080/st-subgraph-goerli/v0.2.8',
-      ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`,
-      stBackend: 'https://st-report-airdrop-merkle-thz2yhu72a-ue.a.run.app/graphql'
-    }
   }
+  // {
+  //   chainId: 5,
+  //   name: 'goerli',
+  //   provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_GOERLI),
+  //   stakeTogetherPool: '0x3BdFaA0b55B4F6F3F9cFC6bbB1F582a1c6A0FD69',
+  //   blockExplorer: {
+  //     baseUrl: 'https://goerli.etherscan.io'
+  //   },
+  //   contracts: {
+  //     Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
+  //     Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+  //     Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+  //     StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+  //     StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+  //   },
+  //   subgraphs: {
+  //     StakeTogether: 'https://api.studio.thegraph.com/proxy/51080/st-subgraph-goerli/v0.2.8',
+  //     ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`,
+  //     stBackend: 'https://st-report-airdrop-merkle-thz2yhu72a-ue.a.run.app/graphql'
+  //   }
+  // }
 ]
 
 export default function chainConfig(): ChainConfig {

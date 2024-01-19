@@ -44,6 +44,9 @@ export default function IncentivesControl() {
           <>
             <MyIncentivesContainer>
               <h3>{t('v2.incentives.myIncentives')}</h3>
+              {!!(!isLoading && !incentivesPerAccount.length) && (
+                <NoIncentivesAvailable>{t('v2.incentives.noDataMessage')}</NoIncentivesAvailable>
+              )}
               <div>
                 {isLoading && (
                   <>
@@ -73,105 +76,118 @@ export default function IncentivesControl() {
   )
 }
 
-const { Container, IncentivesContainer, DisconnectedContainer, IncentivesDescriptions, MyIncentivesContainer } =
-  {
-    Container: styled.div`
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      max-width: 468px;
-      gap: ${({ theme }) => theme.size[24]};
-    `,
-    IncentivesContainer: styled.div`
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+const {
+  Container,
+  IncentivesContainer,
+  NoIncentivesAvailable,
+  DisconnectedContainer,
+  IncentivesDescriptions,
+  MyIncentivesContainer
+} = {
+  Container: styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 468px;
+    gap: ${({ theme }) => theme.size[24]};
+  `,
+  IncentivesContainer: styled.div`
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-      gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[24]};
 
-      border-radius: 8px;
-      background: ${({ theme }) => theme.colorV2.white};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
-      h2 {
-        text-align: center;
-        font-size: ${({ theme }) => theme.font.size[15]};
-        font-weight: 500;
-        color: ${({ theme }) => theme.colorV2.gray[1]};
-      }
-    `,
-    IncentivesDescriptions: styled.div`
-      width: 100%;
-      display: flex;
-      padding: 12px;
-      flex-direction: column;
-      gap: 12px;
-
-      border-radius: 8px;
-      border: ${({ theme }) => theme.colorV2.gray[6]} 1px solid;
-
+    border-radius: 8px;
+    background: ${({ theme }) => theme.colorV2.white};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    h2 {
+      text-align: center;
       font-size: ${({ theme }) => theme.font.size[15]};
-      font-weight: 400;
+      font-weight: 500;
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+    }
+  `,
+  IncentivesDescriptions: styled.div`
+    width: 100%;
+    display: flex;
+    padding: 12px;
+    flex-direction: column;
+    gap: 12px;
 
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        a {
-          font-size: ${({ theme }) => theme.font.size[13]};
-        }
-      }
-      div {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        height: 90px;
-        > div {
-          width: 100%;
-          border-radius: 8px;
-          display: flex;
-          padding: 12px;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          gap: 10px;
+    border-radius: 8px;
+    border: ${({ theme }) => theme.colorV2.gray[6]} 1px solid;
 
-          border-radius: 8px;
-          background: ${({ theme }) => theme.colorV2.gray[2]};
-        }
-      }
-    `,
+    font-size: ${({ theme }) => theme.font.size[15]};
+    font-weight: 400;
 
-    DisconnectedContainer: styled.div`
-      width: 100%;
+    header {
       display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[12]};
-
-      > span {
-        color: ${({ theme }) => theme.colorV2.gray[1]};
-        text-align: center;
-
-        font-size: 13px;
-        font-weight: 400;
+      align-items: center;
+      justify-content: space-between;
+      a {
+        font-size: ${({ theme }) => theme.font.size[13]};
       }
-    `,
-    MyIncentivesContainer: styled.div`
-      width: 100%;
+    }
+    div {
       display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[12]};
-
-      > h3 {
-        color: ${({ theme }) => theme.colorV2.gray[1]};
-        font-size: 13px;
-        font-weight: 500;
-      }
+      align-items: center;
+      gap: 12px;
+      height: 90px;
       > div {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: ${({ theme }) => theme.size[12]};
+        width: 100%;
+        border-radius: 8px;
+        display: flex;
+        padding: 12px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+
+        border-radius: 8px;
+        background: ${({ theme }) => theme.colorV2.gray[2]};
       }
-    `
-  }
+    }
+  `,
+
+  DisconnectedContainer: styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[12]};
+
+    > span {
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      text-align: center;
+
+      font-size: 13px;
+      font-weight: 400;
+    }
+  `,
+  MyIncentivesContainer: styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[12]};
+
+    > h3 {
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    > div {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: ${({ theme }) => theme.size[12]};
+    }
+  `,
+  NoIncentivesAvailable: styled.span`
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+  `
+}
