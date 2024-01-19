@@ -88,6 +88,7 @@ export default function useStAccount(address: `0x${string}`) {
 
   return {
     account,
+    accountData: accountData?.account,
     accountActivities,
     accountRewards,
     accountBalance,
