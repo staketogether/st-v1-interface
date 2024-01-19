@@ -14,6 +14,8 @@ import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
+import { Alert } from "antd";
+import useLocaleTranslation from "@/hooks/useLocaleTranslation";
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -27,6 +29,8 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   const router = useRouter()
   const { currency } = router.query
   const { setItem, getItem } = useLocalStorage()
+
+  const { t } = useLocaleTranslation()
 
   const changeCurrency = useCallback(
     (newCurrency: string) => {
@@ -63,7 +67,17 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
         <Content>
           <LayoutHeaderDesktop />
           <LayoutHeaderMobile />
-          <Body>{children}</Body>
+          <Body>
+            <Alert
+              message={t('v2.warning.indexing.title')}
+              description={t('v2.warning.indexing.description')}
+              type="warning"
+              showIcon
+              closable
+              style={{ width: '100%', maxWidth: '468px' }}
+            />
+            {children}
+          </Body>
         </Content>
       </Wrapper>
       <LayoutMenuMobile />
