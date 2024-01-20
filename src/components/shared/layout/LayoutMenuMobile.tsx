@@ -26,13 +26,6 @@ function LayoutMenuMobile() {
 
         {t('v2.header.projects')}
       </NextLink>
-      {/* <NextLink
-        href={`/${network}/${currency}/incentives`}
-        className={`${isActive('incentives') ? 'active' : ''}`}
-      >
-        <IncentivesIcon />
-        {t('v2.header.incentives')}
-      </NextLink> */}
     </Container>
   )
 }
