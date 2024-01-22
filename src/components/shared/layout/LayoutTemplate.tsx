@@ -68,14 +68,6 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
           <LayoutHeaderDesktop />
           <LayoutHeaderMobile />
           <Body>
-            <Alert
-              message={t('v2.warning.indexing.title')}
-              description={t('v2.warning.indexing.description')}
-              type="warning"
-              showIcon
-              closable
-              style={{ width: '100%', maxWidth: '468px' }}
-            />
             {children}
           </Body>
         </Content>
