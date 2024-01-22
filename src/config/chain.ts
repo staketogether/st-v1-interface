@@ -14,6 +14,7 @@ export type ChainConfig = {
     StakeTogether: string
     ContentFul: string
     stBackend: string
+    analytics: string
   }
   contracts: {
     Airdrop: `0x${string}`
@@ -43,7 +44,8 @@ const configs: ChainConfig[] = [
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`,
-      stBackend: 'https://st-report-airdrop-merkle-thz2yhu72a-ue.a.run.app/graphql'
+      stBackend: 'https://st-report-airdrop-merkle-thz2yhu72a-ue.a.run.app/graphql',
+      analytics: 'http://164.92.89.8/graphql'
     }
   },
   {
@@ -64,7 +66,8 @@ const configs: ChainConfig[] = [
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/proxy/51080/st-subgraph-goerli/v0.2.8',
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`,
-      stBackend: 'https://st-report-airdrop-merkle-thz2yhu72a-ue.a.run.app/graphql'
+      stBackend: 'https://st-report-airdrop-merkle-thz2yhu72a-ue.a.run.app/graphql',
+      analytics: 'http://164.92.89.8/graphql'
     }
   }
 ]

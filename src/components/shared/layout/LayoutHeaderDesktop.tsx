@@ -7,7 +7,7 @@ import useResizeView from '@/hooks/useResizeView'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCellSignalFull, PiCodesandboxLogo, PiCurrencyEth, PiPencilSimpleLine } from 'react-icons/pi'
+import { PiChartLine, PiCodesandboxLogo, PiCurrencyEth, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -59,15 +59,15 @@ export default function LayoutHeader() {
           </Link>
           <Link href={`/${network}/${currency}/analytics`}>
             <MenuButton className={`${!isHome && isActive('analytics') ? 'active' : ''}`}>
-              <ProjectsIcon />
+              <AnalyticsIcon />
               {t('v2.header.analytics')}
             </MenuButton>
           </Link>
-          <Link href={`/${network}/${currency}/incentives`}>
+          {/* <Link href={`/${network}/${currency}/incentives`}>
             <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
               <IncentivesIcon /> {t('v2.header.incentives')}
             </MenuButton>
-          </Link>
+          </Link> */}
         </Menu>
       </MenuContainer>
       <WalletContainer>
@@ -87,13 +87,14 @@ export default function LayoutHeader() {
 const {
   Container,
   MenuContainer,
-  IncentivesIcon,
+  // IncentivesIcon,
   WalletContainer,
   Logo,
   Menu,
   MenuButton,
   InvestIcon,
   ProjectsIcon,
+  AnalyticsIcon,
   CreateProjectIcon
 } = {
   Container: styled.header`
@@ -177,13 +178,16 @@ const {
   InvestIcon: styled(PiCurrencyEth)`
     font-size: 15px;
   `,
-  IncentivesIcon: styled(PiCellSignalFull)`
-    font-size: 17px;
-  `,
+  // IncentivesIcon: styled(PiCellSignalFull)`
+  //   font-size: 17px;
+  // `,
   ProjectsIcon: styled(PiCodesandboxLogo)`
     font-size: 15px;
   `,
   CreateProjectIcon: styled(PiPencilSimpleLine)`
+    font-size: 15px;
+  `,
+  AnalyticsIcon: styled(PiChartLine)`
     font-size: 15px;
   `
 }

@@ -27,6 +27,14 @@ export const stBackendClient = new ApolloClient({
   connectToDevTools: true
 })
 
+export const analyticsClient = new ApolloClient({
+  uri: chainConfig().subgraphs.analytics,
+  ssrMode: typeof window === 'undefined',
+  cache: new InMemoryCache(),
+
+  connectToDevTools: true
+})
+
 const authLink = setContext((_, { headers }) => {
   return {
     headers: {

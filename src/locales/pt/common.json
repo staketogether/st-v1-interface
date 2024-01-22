@@ -558,6 +558,43 @@
         "successMessage": "Incentivo Resgatado!",
         "transactionErrorMessage": "Erro ao resgatar os incentivos"
       }
+    },
+    "analytics": {
+      "general": {
+        "title": "Geral",
+        "EthereumPrice": "Preço do Ethereum",
+        "SingleWallets": "Carteiras Únicas",
+        "DepositNumbers": "Número de Depósitos",
+        "WithdrawalNumbers": "Número de Saques"
+      },
+      "rewards": {
+        "title": "Rewards",
+        "ethereumStaking": "Staking de Ethereum",
+        "projects": "Projetos",
+        "incentives": "Incentivos"
+      },
+      "proofOfReserves": {
+        "title": "Proof of Reserves",
+        "contracts": "Contratos",
+        "validators": "Validadores"
+      },
+      "contracts": {
+        "title": "Contratos",
+        "contract": "Contrato",
+        "balance": "Saldo",
+        "link": "Link",
+        "viewInExecutionLayer": "Ver na Execution Layer"
+      },
+      "validators": {
+        "title": "Validadores",
+        "totalValidators": "Total de Validadores",
+        "averageValidatorPerformance": "Performance Média dos Validadores",
+        "address": "Endereço",
+        "balance": "Saldo",
+        "performance": "Performance",
+        "link": "Link",
+        "viewOnBeaconChain": "Ver na Beacon Chain"
+      }
     }
   }
 }
