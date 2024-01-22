@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { PiCodesandboxLogo, PiCurrencyEth } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
+
 function LayoutMenuMobile() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
