@@ -18,11 +18,7 @@ export default function useAnalyticsData() {
       setValidators(data.analytics.validators)
     },
     onError: error => {
-      console.log(error.clientErrors)
-      console.log(error.graphQLErrors)
-      console.log(error.networkError)
-      console.log(error.message)
-      console.log(error.name)
+      console.log(error)
       setIsLoading(false)
     },
     client: analyticsClient
