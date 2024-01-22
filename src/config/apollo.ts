@@ -30,12 +30,19 @@ export const stBackendClient = new ApolloClient({
 export const analyticsClient = new ApolloClient({
   uri: chainConfig().subgraphs.analytics,
   ssrMode: typeof window === 'undefined',
+
   cache: new InMemoryCache(),
 
-  connectToDevTools: true
+  connectToDevTools: true,
+  link: new HttpLink({
+    uri: chainConfig().subgraphs.analytics,
+    fetchOptions: {
+      mode: 'no-cors'
+    }
+  })
 })
 
-const authLink = setContext((_, { headers }) => {
+const contentfulAuthorization = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
@@ -49,7 +56,7 @@ const httpLink = new HttpLink({
 })
 
 export const contentfulClient = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: contentfulAuthorization.concat(httpLink),
   ssrMode: typeof window === 'undefined',
   cache: new InMemoryCache(),
   connectToDevTools: true
