@@ -35,10 +35,7 @@ export const analyticsClient = new ApolloClient({
 
   connectToDevTools: true,
   link: new HttpLink({
-    uri: chainConfig().subgraphs.analytics,
-    fetchOptions: {
-      mode: 'cors'
-    }
+    uri: chainConfig().subgraphs.analytics
   })
 })
 
