@@ -1,13 +1,13 @@
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import styled from 'styled-components'
-import LayoutTitle from '../shared/layout/LayoutTitle'
-import Image from 'next/image'
 import ethIcon from '@assets/icons/currency-Eth.svg'
 import useIncentivesPerAccount from '@/hooks/subgraphs/incentives/useIncentivesPerAccount'
+import Image from 'next/image'
+import styled from 'styled-components'
 import Button from '../shared/Button'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import LayoutTitle from '../shared/layout/LayoutTitle'
 import IncentivesCard from './IncentivesCard'
 
 export default function IncentivesControl() {
@@ -127,7 +127,7 @@ const {
       align-items: center;
       justify-content: space-between;
       a {
-        font-size: ${({ theme }) => theme.font.size[13]};
+        font-size: ${({ theme }) => theme.font.size[12]};
       }
     }
     div {
@@ -174,8 +174,8 @@ const {
 
     > h3 {
       color: ${({ theme }) => theme.colorV2.gray[1]};
-      font-size: 13px;
-      font-weight: 500;
+      font-size: 14px;
+      font-weight: 400;
     }
 
     > div {
@@ -186,8 +186,12 @@ const {
   `,
   NoIncentivesAvailable: styled.span`
     color: ${({ theme }) => theme.colorV2.gray[1]};
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     text-align: center;
+    background: ${({ theme }) => theme.colorV2.gray[2]};
+    padding: 32px;
+    border-radius: 8px;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
   `
 }
