@@ -37,7 +37,7 @@ export const analyticsClient = new ApolloClient({
   link: new HttpLink({
     uri: chainConfig().subgraphs.analytics,
     fetchOptions: {
-      mode: 'no-cors'
+      mode: 'cors'
     }
   })
 })
