@@ -202,6 +202,9 @@
         "title": "Incentives",
         "description": "Weekly incentives in Ethereum in Stake (stpETH) are sent through the perpetual airdrop to supporters and users."
       },
+      "analytics": {
+        "title": "Analytics"
+      },
       "gifts": {
         "title": "Projects' Gifts",
         "description": "Receive gifts in stpETH from your favorite projects, ranging from a small coffee or a free lunch to international trips."
@@ -220,7 +223,8 @@
       "gifts": "Gifts",
       "enter": "Enter",
       "exit": "Exit",
-      "support": "Support"
+      "support": "Support",
+      "analytics": "Analytics"
     },
     "sidebar": {
       "percentageProfit": "Profit",
@@ -530,6 +534,43 @@
         "loadingMessage": "You are redeeming",
         "successMessage": "Successfully redeemed",
         "transactionErrorMessage": "Error redeeming"
+      }
+    },
+    "analytics": {
+      "general": {
+        "title": "General",
+        "EthereumPrice": "Ethereum Price",
+        "SingleWallets": "Unique Wallets",
+        "DepositNumbers": "Number of Deposits",
+        "WithdrawalNumbers": "Number of Withdrawals"
+      },
+      "rewards": {
+        "title": "Rewards",
+        "ethereumStaking": "Ethereum Staking",
+        "projects": "Projects",
+        "incentives": "Incentives"
+      },
+      "proofOfReserves": {
+        "title": "Proof of Reserves",
+        "contracts": "Contracts",
+        "validators": "Validators"
+      },
+      "contracts": {
+        "title": "Contracts",
+        "contract": "Contract",
+        "balance": "Balance",
+        "link": "Link",
+        "viewInExecutionLayer": "View in Execution Layer"
+      },
+      "validators": {
+        "title": "Validators",
+        "totalValidators": "Total Validators",
+        "averageValidatorPerformance": "Average Validator Performance",
+        "address": "Address",
+        "balance": "Balance",
+        "performance": "Performance",
+        "link": "Link",
+        "viewOnBeaconChain": "View on Beacon Chain"
       }
     },
     "warning": {

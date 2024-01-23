@@ -6,12 +6,14 @@ import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import useResizeView from '@/hooks/useResizeView'
 import packageData from '../../../../package.json'
 import { Drawer } from 'antd'
-import { PiArrowSquareOut, PiCaretRight, PiPencilSimpleLine } from 'react-icons/pi'
+import { PiArrowSquareOut, PiCaretRight, PiChartLine, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import { ProjectButton } from '../../project/ProjectButton'
 import { useRouter } from 'next/router'
 import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
+import Link from 'next/link'
+import useActiveRoute from '@/hooks/useActiveRoute'
 type LayoutSidebarMobileMenuProps = {
   account?: `0x${string}`
 }
@@ -27,15 +29,22 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
     locale: 'en-US'
   })
   const { screenWidth, breakpoints } = useResizeView()
-  const router = useRouter()
+  const { isActive } = useActiveRoute()
+  const { query, isReady, pathname, locale } = useRouter()
+  const { currency, network } = query
+
   const date = new Date()
   const { blockExplorer, contracts } = chainConfig()
   const { websiteUrl, auditUrl } = globalConfig
-  const documentationUrl = router.locale
-    ? router.locale === 'en'
+  const documentationUrl = locale
+    ? locale === 'en'
       ? globalConfig.stakeTogetherUniversityUrlEn
       : globalConfig.stakeTogetherUniversityUrlBr
     : globalConfig.stakeTogetherUniversityUrlEn
+
+  const basePath = `/[network]/[currency]`
+  const withdrawBasePath = `/[network]/[currency]/withdraw`
+  const isHome = (pathname === basePath || pathname === withdrawBasePath) && isReady
 
   return (
     <>
@@ -65,6 +74,11 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
                 <CreateProjectIcon /> {t('v2.createProject.title')}
               </MenuButton>
             )}
+            <MenuButton className={`${!isHome && isActive('analytics') ? 'active' : ''}`}>
+              <Link href={`/${network}/${currency}/analytics`}>
+                <AnalyticsIcon /> {t('v2.header.analytics')}
+              </Link>
+            </MenuButton>
           </TopContainer>
           <FooterContainer>
             <FooterContent>
@@ -100,6 +114,7 @@ const {
   CloseSidebar,
   ClosedSidebarButton,
   TopContainer,
+  AnalyticsIcon,
   FooterContainer
 } = {
   DrawerContainer: styled(Drawer)`
@@ -168,10 +183,15 @@ const {
     border: none;
     padding: 0 ${({ theme }) => theme.size[12]};
 
-    color: ${({ theme }) => theme.colorV2.gray[1]} !important;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    a {
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+    }
 
     &.active {
-      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+      a {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
     }
   `,
   CreateProjectIcon: styled(PiPencilSimpleLine)`
@@ -222,5 +242,8 @@ const {
         padding-top: 4px;
       }
     }
+  `,
+  AnalyticsIcon: styled(PiChartLine)`
+    font-size: 15px;
   `
 }

@@ -15,6 +15,7 @@ import { config } from '../config/wagmi'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
 import { ConfigProvider } from 'antd'
+import useGetCurrencyPrice from '@/hooks/useGetCurrencyPrice'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
@@ -22,6 +23,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
   const chain = chainConfig()
   useSettingsCurrency()
+  useGetCurrencyPrice()
   useEffect(() => {
     initMixpanel()
   }, [initMixpanel])

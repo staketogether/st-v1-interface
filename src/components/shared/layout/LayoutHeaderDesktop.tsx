@@ -7,7 +7,7 @@ import useResizeView from '@/hooks/useResizeView'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCodesandboxLogo, PiCurrencyEth, PiPencilSimpleLine } from 'react-icons/pi'
+import { PiCodesandboxLogo, PiCurrencyEth, PiPencilSimpleLine, PiChartLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -57,6 +57,17 @@ export default function LayoutHeader() {
               {t('v2.header.projects')}
             </MenuButton>
           </Link>
+          <Link href={`/${network}/${currency}/analytics`}>
+            <MenuButton className={`${!isHome && isActive('analytics') ? 'active' : ''}`}>
+              <AnalyticsIcon />
+              {t('v2.header.analytics')}
+            </MenuButton>
+          </Link>
+          {/* <Link href={`/${network}/${currency}/incentives`}>
+            <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
+              <IncentivesIcon /> {t('v2.header.incentives')}
+            </MenuButton>
+          </Link> */}
         </Menu>
       </MenuContainer>
       <WalletContainer>
@@ -82,6 +93,7 @@ const {
   MenuButton,
   InvestIcon,
   ProjectsIcon,
+  AnalyticsIcon,
   CreateProjectIcon
 } = {
   Container: styled.header`
@@ -169,6 +181,9 @@ const {
     font-size: 15px;
   `,
   CreateProjectIcon: styled(PiPencilSimpleLine)`
+    font-size: 15px;
+  `,
+  AnalyticsIcon: styled(PiChartLine)`
     font-size: 15px;
   `
 }
