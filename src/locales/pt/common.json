@@ -3,6 +3,7 @@
   "pools": "Pools",
   "addToWalletTooltip": "Adicionar stpETH  a sua carteira",
   "save": "Salvar",
+  "connectWallet": "Conectar Carteira",
   "projects": "Projetos",
   "portfolio": "Portfólio",
   "stake": "Depositar",
@@ -83,7 +84,6 @@
     "deposit": "Depositar Ether",
     "withdraw": "Sacar Ether",
     "inputAmount": "Informe a Quantidade",
-    "connectWallet": "Conectar Carteira",
     "selectPool": "Selecionar Pool",
     "insufficientFunds": "Saldo insuficiente",
     "insufficientFundsPerGas": "Saldo insuficiente para o gás",
@@ -533,6 +533,32 @@
         "confirmButton": "Confirmar",
         "transactionLoading": "Atualizando Delegações",
         "walletError": "Erro ao atualizar delegações"
+      }
+    },
+    "incentives": {
+      "title": "Incentivos",
+      "incentivesAvailable": "Incentivos Disponíveis",
+      "ownerPool": "Proprietario da Pool",
+      "earlyAdopters": "Primeiros usuários",
+      "socialImpact": "Impacto Social",
+      "pending": "Pendente",
+      "Redeemed": "Resgatados",
+      "myIncentives": "Meus Incentivos",
+      "claim": "Resgatar",
+      "connectWalletMessage": "Conecte sua carteira para verificar se você está elegível",
+      "noDataMessage": "Você ainda não tem incentivos para resgatar",
+      "transactionModal": {
+        "title": "Resgatar Incentivos",
+        "description": "Clique em resgatar para transferir o stpETH para sua carteira",
+        "loadingMessage": "Você está resgatando",
+        "successMessage": "Incentivo Resgatado!",
+        "transactionErrorMessage": "Erro ao resgatar os incentivos"
+      }
+    },
+    "warning": {
+      "indexing": {
+        "title": "Estamos tendo problemas com a indexação dos dados",
+        "description": "Você pode ter problemas com a visualização dos dados, mas não se preocupe, seus fundos estão seguros. Estamos trabalhando para resolver o problema o mais rápido possível."
       }
     }
   }

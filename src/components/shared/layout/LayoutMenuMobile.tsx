@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { PiCodesandboxLogo, PiCurrencyEth } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
+
 function LayoutMenuMobile() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
@@ -26,13 +27,6 @@ function LayoutMenuMobile() {
 
         {t('v2.header.projects')}
       </NextLink>
-      {/* <NextLink
-        href={`/${network}/${currency}/incentives`}
-        className={`${isActive('incentives') ? 'active' : ''}`}
-      >
-        <IncentivesIcon />
-        {t('v2.header.incentives')}
-      </NextLink> */}
     </Container>
   )
 }

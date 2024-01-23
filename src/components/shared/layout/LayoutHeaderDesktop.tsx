@@ -57,11 +57,6 @@ export default function LayoutHeader() {
               {t('v2.header.projects')}
             </MenuButton>
           </Link>
-          {/* <Link href={`/${network}/${currency}/incentives`}>
-            <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
-              <IncentivesIcon /> {t('v2.header.incentives')}
-            </MenuButton>
-          </Link> */}
         </Menu>
       </MenuContainer>
       <WalletContainer>
@@ -170,15 +165,9 @@ const {
   InvestIcon: styled(PiCurrencyEth)`
     font-size: 15px;
   `,
-  // IncentivesIcon: styled(PiCellSignalFull)`
-  //   font-size: 17px;
-  // `,
   ProjectsIcon: styled(PiCodesandboxLogo)`
     font-size: 15px;
   `,
-  // GiftsIcon: styled(PiGift)`
-  //   font-size: 15px;
-  // `,
   CreateProjectIcon: styled(PiPencilSimpleLine)`
     font-size: 15px;
   `

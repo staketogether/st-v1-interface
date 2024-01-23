@@ -15,6 +15,12 @@ const { chains, publicClient } = configureChains(
         chainId: 1
       })
     }),
+    // jsonRpcProvider({
+    //   rpc: () => ({
+    //     http: `${process.env.NEXT_PUBLIC_RPC_GOERLI}`,
+    //     chainId: 5
+    //   })
+    // }),
     publicProvider()
   ],
   {
