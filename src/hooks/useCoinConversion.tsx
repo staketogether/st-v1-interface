@@ -1,14 +1,14 @@
 import { useReactiveVar } from '@apollo/client/react/hooks/useReactiveVar'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { usdPriceVar } from './useGetCurrencyPrice'
+import { currencyPriceVar } from './useGetCurrencyPrice'
 
 export default function useCoinConversion(amountValue: string) {
   const [coinPrice, setCoinPrice] = useState<string | undefined>('0')
   const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter()
   const currency = router.query.currency
-  const usdPrice = useReactiveVar(usdPriceVar)
+  const currencyPrice = useReactiveVar(currencyPriceVar)
 
   const symbol = () => {
     switch (currency) {
@@ -24,14 +24,18 @@ export default function useCoinConversion(amountValue: string) {
   }
 
   useEffect(() => {
-    if (usdPrice && amountValue) {
-      const priceCalc = Number(amountValue) * usdPrice
+    const normalizedAmount = amountValue.replace(',', '.')
+    const amount = Number(normalizedAmount)
+
+    if (!isNaN(amount) && !isNaN(currencyPrice)) {
+      const priceCalc = amount * currencyPrice
       setCoinPrice(priceCalc.toString())
       setLoading(false)
-      return
+    } else {
+      setCoinPrice('0')
+      setLoading(false)
     }
-    setCoinPrice('0')
-  }, [amountValue, usdPrice])
+  }, [amountValue, currencyPrice])
 
   return { price: coinPrice, loading, settingCurrency: currency, symbol }
 }

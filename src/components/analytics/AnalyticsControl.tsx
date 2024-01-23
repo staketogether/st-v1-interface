@@ -25,6 +25,7 @@ export default function AnalyticsControl() {
   const ethPrice = formatNumberByLocale(truncateDecimal(eth || '0', 2), locale)
   const tvl = formatNumberByLocale(truncateDecimal(String(analytics?.totalValueLocked) || '0', 2), locale)
   const { price: tvlUsdPrice } = useCoinConversion(tvl)
+  console.log(tvlUsdPrice)
   const tvlUsdPriceFormatted = formatNumberByLocale(truncateDecimal(tvlUsdPrice || '0', 2), locale)
   const totalAccounts = analytics?.accountsCount
   const depositedCount = analytics?.depositsCount

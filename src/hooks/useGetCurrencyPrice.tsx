@@ -3,12 +3,12 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-export const usdPriceVar = makeVar(0)
+export const currencyPriceVar = makeVar(0)
 
 export default function useGetCurrencyPrice() {
   const router = useRouter()
   const currency = router.query.currency
-  const usdPrice = useReactiveVar(usdPriceVar)
+  const currencyPrice = useReactiveVar(currencyPriceVar)
 
   useEffect(() => {
     const fetchPrice = async () => {
@@ -24,12 +24,12 @@ export default function useGetCurrencyPrice() {
         const data = await axios.get(url, config)
         const response = data as { data: [{ current_price: number }] }
         if (response && response.data[0] && response.data[0].current_price) {
-          usdPriceVar(response.data[0].current_price)
+          currencyPriceVar(response.data[0].current_price)
         }
       } catch (error) {
-        console.error('Error fetching ETH to USD price:', error)
+        console.error(`Error fetching ETH to ${currency} price:`, error)
       }
     }
-    if (!usdPrice) fetchPrice()
-  }, [currency, usdPrice])
+    if (!currencyPrice) fetchPrice()
+  }, [currency, currencyPrice])
 }
