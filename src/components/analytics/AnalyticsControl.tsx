@@ -41,11 +41,6 @@ export default function AnalyticsControl() {
     truncateDecimal(String(analytics?.totalPoolRewards) || '0', 2),
     locale
   )
-  const { price: totalPoolsRewardsUsd } = useCoinConversion(totalPoolsRewards)
-  const totalRewardsUsdPoolsFormatted = formatNumberByLocale(
-    truncateDecimal(totalPoolsRewardsUsd || '0', 2),
-    locale
-  )
   const poolsCount = analytics?.poolsCount
 
   const totalContractsBalance = formatNumberByLocale(

@@ -7,11 +7,11 @@ export const currencyPriceVar = makeVar(0)
 
 export default function useGetCurrencyPrice() {
   const router = useRouter()
-  const currency = router.query.currency
+  const currency = router.query.currency as string
   const currencyPrice = useReactiveVar(currencyPriceVar)
 
   useEffect(() => {
-    const fetchPrice = async () => {
+    async function fetchData() {
       const config = {
         params: {
           refreshInterval: 60 * 1000 * 5, // 5m Interval
@@ -30,6 +30,6 @@ export default function useGetCurrencyPrice() {
         console.error(`Error fetching ETH to ${currency} price:`, error)
       }
     }
-    if (!currencyPrice) fetchPrice()
+    fetchData()
   }, [currency, currencyPrice])
 }
