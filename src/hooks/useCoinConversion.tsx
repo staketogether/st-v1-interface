@@ -1,14 +1,14 @@
-import axios from 'axios'
+import { useReactiveVar } from '@apollo/client/react/hooks/useReactiveVar'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { currencyPriceVar } from './useGetCurrencyPrice'
 
 export default function useCoinConversion(amountValue: string) {
   const [coinPrice, setCoinPrice] = useState<string | undefined>('0')
   const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState<unknown>(null)
-  const [conversionPrice, setConversionPrice] = useState(0)
   const router = useRouter()
   const currency = router.query.currency
+  const currencyPrice = useReactiveVar(currencyPriceVar)
 
   const symbol = () => {
     switch (currency) {
@@ -24,39 +24,18 @@ export default function useCoinConversion(amountValue: string) {
   }
 
   useEffect(() => {
-    const fetchPrice = async () => {
-      const config = {
-        params: {
-          refreshInterval: 60 * 1000 * 5, // 5m Interval
-          revalidateOnFocus: false,
-          refreshWhenHidden: false
-        }
-      }
-      const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&symbols=eth`
-      try {
-        const data = await axios.get(url, config)
-        const response = data as { data: [{ current_price: number }] }
-        if (response && response.data[0] && response.data[0].current_price) {
-          setConversionPrice(response.data[0].current_price)
-        }
-        setLoading(false)
-      } catch (error) {
-        console.error('Error fetching ETH to USD price:', error)
-        setError(error)
-        setLoading(false)
-      }
-    }
-    fetchPrice()
-  }, [currency])
+    const normalizedAmount = amountValue.replace(',', '.')
+    const amount = Number(normalizedAmount)
 
-  useEffect(() => {
-    if (conversionPrice && amountValue) {
-      const priceCalc = Number(amountValue) * conversionPrice
+    if (!isNaN(amount) && !isNaN(currencyPrice)) {
+      const priceCalc = amount * currencyPrice
       setCoinPrice(priceCalc.toString())
-      return
+      setLoading(false)
+    } else {
+      setCoinPrice('0')
+      setLoading(false)
     }
-    setCoinPrice('0')
-  }, [amountValue, conversionPrice])
+  }, [amountValue, currencyPrice])
 
-  return { price: coinPrice, loading, error, settingCurrency: currency, symbol }
+  return { price: coinPrice, loading, settingCurrency: currency, symbol }
 }

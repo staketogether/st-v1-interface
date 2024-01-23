@@ -58,7 +58,8 @@ export const lightTheme: Theme = {
       2: '#f3f3f3',
       3: '#f9f9f9',
       4: '#F0F0F0',
-      5: '#ADB1B5'
+      5: '#ADB1B5',
+      6: '#A0A5AB'
     }
   },
   color: {

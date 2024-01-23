@@ -32,6 +32,7 @@
     "lexend",
     "luxon",
     "members",
+    "Merkle",
     "Metatags",
     "nextjs",
     "openlogin",
@@ -41,6 +42,7 @@
     "Passcode",
     "plusplus",
     "Português",
+    "Rabby",
     "rainbowkit",
     "recaptchakey",
     "staketogether",
@@ -48,9 +50,9 @@
     "TawkTo",
     "Unstake",
     "usehooks",
+    "validatorindex",
     "viem",
     "wagmi",
-    "youtu",
-    "Rabby"
+    "youtu"
   ]
 }
