@@ -157,7 +157,7 @@ export default function AnalyticsControl() {
                 <SkeletonLoading width={120} />
               ) : (
                 <>
-                  <span className='purple'>{`${totalRewardsUsdPoolsFormatted} ${t('eth.symbol')}`}</span>
+                  <span className='purple'>{`${totalPoolsRewards} ${t('eth.symbol')}`}</span>
                   <span>{`${poolsCount} ${t('v2.analytics.rewards.projects')}`}</span>
                 </>
               )}
