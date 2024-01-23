@@ -272,7 +272,7 @@ export default function AnalyticsControl() {
                 <SkeletonLoading width={120} />
               ) : (
                 <>
-                  <span className='green'>{`${validatorMeanPerformance}%`}</span>
+                  <span className='green'>{`${validatorMeanPerformance?.toFixed(2)}%`}</span>
                 </>
               )}
             </header>
