@@ -14,7 +14,7 @@ import { formatNumberByLocale } from '@/services/format'
 import { useNetwork } from 'wagmi'
 import { AccountClaimableReports } from '@/types/Incentives'
 import IncentiveConfirmTransactionModal from './IncentiveConfirmTransactionModal'
-import useAccountReportMerkleData from '@/hooks/subgraphs/useAccountReportMerkleData'
+import useAccountReportMerkleData from '@/hooks/subgraphs/incentives/useAccountReportMerkleData'
 
 type IncentivesCardProps = {
   reportIncentive: AccountClaimableReports
