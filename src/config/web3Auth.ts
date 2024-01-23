@@ -22,7 +22,7 @@ export default function Web3AuthConnectorInstance(chains: ChainConfig.Chain[]) {
   const web3AuthInstance = new Web3AuthNoModal({
     clientId: String(process.env.NEXT_PUBLIC_WEB3_AUTH_ID),
     chainConfig,
-    web3AuthNetwork: 'sapphire_mainnet'
+    web3AuthNetwork: 'sapphire_devnet'
   })
 
   const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } })
