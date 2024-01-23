@@ -41,11 +41,6 @@ export default function AnalyticsControl() {
     truncateDecimal(String(analytics?.totalPoolRewards) || '0', 2),
     locale
   )
-  const { price: totalPoolsRewardsUsd } = useCoinConversion(totalPoolsRewards)
-  const totalRewardsUsdPoolsFormatted = formatNumberByLocale(
-    truncateDecimal(totalPoolsRewardsUsd || '0', 2),
-    locale
-  )
   const poolsCount = analytics?.poolsCount
 
   const totalContractsBalance = formatNumberByLocale(
@@ -157,7 +152,7 @@ export default function AnalyticsControl() {
                 <SkeletonLoading width={120} />
               ) : (
                 <>
-                  <span className='purple'>{`${totalRewardsUsdPoolsFormatted} ${t('eth.symbol')}`}</span>
+                  <span className='purple'>{`${totalPoolsRewards} ${t('eth.symbol')}`}</span>
                   <span>{`${poolsCount} ${t('v2.analytics.rewards.projects')}`}</span>
                 </>
               )}
