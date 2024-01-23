@@ -17,8 +17,7 @@ export default function useAnalyticsData() {
       setAnalytics(data.analytics.stakeTogether)
       setValidators(data.analytics.validators)
     },
-    onError: error => {
-      console.log(error)
+    onError: () => {
       setIsLoading(false)
     },
     client: analyticsClient
