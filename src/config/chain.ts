@@ -67,7 +67,7 @@ const configs: ChainConfig[] = [
       StakeTogether: 'https://api.studio.thegraph.com/proxy/51080/st-subgraph-goerli/v0.2.8',
       ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`,
       stBackend: 'https://st-report-airdrop-merkle-thz2yhu72a-ue.a.run.app/graphql',
-      analytics: 'https://164.92.89.8/graphql'
+      analytics: 'https://st-analytics-api-ddfui.ondigitalocean.app/graphql'
     }
   }
 ]
