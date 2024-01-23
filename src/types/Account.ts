@@ -8,9 +8,6 @@ export type Account = {
   totalDeposited: string
   totalRewards: bigint
   profitPercentage: bigint
-  pendingIncentivesAmount: bigint
-  redeemedIncentivesAmount: bigint
-  reportIncentivesCount: bigint
   delegations: Delegation[]
   sentDelegationsCount: bigint
 }
