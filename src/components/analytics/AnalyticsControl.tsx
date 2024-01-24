@@ -12,8 +12,8 @@ import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
 import chainConfig from '@/config/chain'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
-import { PiArrowSquareOut } from 'react-icons/pi'
 import Link from 'next/link'
+import AnalyticsValidatorRow from './AnalyticsValidatorRow'
 
 export default function AnalyticsControl() {
   const { t } = useLocaleTranslation()
@@ -37,11 +37,17 @@ export default function AnalyticsControl() {
     truncateDecimal(totalRewardsUsdPrice || '0', 2),
     locale
   )
+
+  const poolsCount = analytics?.poolsCount
   const totalPoolsRewards = formatNumberByLocale(
     truncateDecimal(String(analytics?.totalPoolRewards) || '0', 2),
     locale
   )
-  const poolsCount = analytics?.poolsCount
+  const { price: totalPoolsRewardsUsdPrice } = useCoinConversion(totalPoolsRewards)
+  const totalPoolsRewardsUsdPriceFormatted = formatNumberByLocale(
+    truncateDecimal(totalPoolsRewardsUsdPrice || '0', 2),
+    locale
+  )
 
   const totalContractsBalance = formatNumberByLocale(
     truncateDecimal(String(analytics?.contractBalance) || '0', 2),
@@ -147,13 +153,13 @@ export default function AnalyticsControl() {
           </Card>
           <Card>
             <header>
-              <span>{t('v2.analytics.rewards.projects')}</span>
+              <span>{`${poolsCount} ${t('v2.analytics.rewards.projects')}`}</span>
               {isLoading ? (
                 <SkeletonLoading width={120} />
               ) : (
                 <>
                   <span className='purple'>{`${totalPoolsRewards} ${t('eth.symbol')}`}</span>
-                  <span>{`${poolsCount} ${t('v2.analytics.rewards.projects')}`}</span>
+                  <span>{`${symbol()} ${totalPoolsRewardsUsdPriceFormatted}`}</span>
                 </>
               )}
             </header>
@@ -285,22 +291,7 @@ export default function AnalyticsControl() {
             {!isLoading &&
               validators.length &&
               validators.map((validator, index) => (
-                <ValidatorTableRow
-                  key={validator.publicKey}
-                  href={`https://beaconcha.in/validator/${validator.validatorindex}`}
-                  target='_blank'
-                >
-                  <span>{index + 1}</span>
-                  <span>{`${validator.validatorindex}`}</span>
-                  <span>{`${formatNumberByLocale(truncateDecimal(String(validator.balance), 4), locale)} ${t(
-                    'eth.symbol'
-                  )}`}</span>
-                  <span>{`${validator.effectivenessPercentage.toFixed(2)}%`}</span>
-                  <span>
-                    <LinkIcon />
-                    {t('v2.analytics.validators.viewOnBeaconChain')}
-                  </span>
-                </ValidatorTableRow>
+                <AnalyticsValidatorRow index={index} validator={validator} key={validator.publicKey} />
               ))}
           </div>
         </ValidatorsTable>
@@ -309,17 +300,7 @@ export default function AnalyticsControl() {
   )
 }
 
-const {
-  Container,
-  Content,
-  LinkIcon,
-  Card,
-  ContractsTable,
-  ContractContainer,
-  ContractTableRow,
-  ValidatorTableRow,
-  ValidatorsTable
-} = {
+const { Container, Content, Card, ContractsTable, ContractContainer, ContractTableRow, ValidatorsTable } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -373,7 +354,6 @@ const {
   Card: styled.article`
     padding: ${({ theme }) => theme.size[12]};
     width: 100%;
-    height: 160px;
 
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.colorV2.white};
@@ -524,45 +504,5 @@ const {
         gap: ${({ theme }) => theme.size[12]};
       }
     }
-  `,
-  ValidatorTableRow: styled(Link)`
-    padding: 12px;
-    border-radius: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.colorV2.white};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    span {
-      &:nth-child(4) {
-        color: ${({ theme }) => theme.color.green[500]};
-      }
-      &:last-child {
-        color: ${({ theme }) => theme.colorV2.blue[3]};
-        display: flex;
-        align-items: center;
-        gap: ${({ theme }) => theme.size[8]};
-      }
-    }
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      height: 42px;
-      display: grid;
-      grid-template-columns: 40px 1fr 1fr 1fr 1fr;
-      gap: ${({ theme }) => theme.size[12]};
-      align-items: center;
-      padding: 0px 24px;
-    }
-
-    &:hover {
-      background: #e4e4e4;
-    }
-  `,
-  LinkIcon: styled(PiArrowSquareOut)`
-    font-size: ${({ theme }) => theme.font.size[16]};
-    color: ${({ theme }) => theme.colorV2.blue[3]};
   `
 }
