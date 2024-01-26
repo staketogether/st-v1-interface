@@ -10,6 +10,7 @@ import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { WithdrawType } from '@/types/Withdraw'
 import ethIcon from '@assets/icons/eth-icon.svg'
+import pixImage from '@assets/images/pix-image.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
@@ -35,6 +36,7 @@ import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 import StpEthIcon from '../shared/StpethIcon'
+import BuyEthControlModal from '../onRamp/BuyEthControlModal'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -399,6 +401,11 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
           />
         )}
+        {type === 'deposit' && (
+          <OnRampButton>
+            <Image src={pixImage} width={32} height={32} alt='pix image' /> Comprar ETH com PIX
+          </OnRampButton>
+        )}
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
           <CardBlock>
             <div>
@@ -437,6 +444,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       {accountAddress && (
         <WalletBuyEthModal walletAddress={accountAddress} onBuyEthIsSuccess={onBuyEthIsSuccess} />
       )}
+      {type === 'deposit' && <BuyEthControlModal />}
     </>
   )
 }
@@ -449,6 +457,7 @@ const {
   CardInfoData,
   ConnectWalletIcon,
   DepositIcon,
+  OnRampButton,
   WithdrawIcon
 } = {
   StakeContainer: styled.div`
@@ -571,5 +580,20 @@ const {
   `,
   WithdrawIcon: styled(PiArrowUp)`
     font-size: 16px;
+  `,
+  OnRampButton: styled.button`
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+
+    border-radius: ${({ theme }) => theme.size[8]};
+    border: 1px solid #00bdae;
+    background: ${({ theme }) => theme.colorV2.white};
+    color: #00bdae;
+
+    font-weight: 500;
+    font-size: ${({ theme }) => theme.font.size[15]};
   `
 }
