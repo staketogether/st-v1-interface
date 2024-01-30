@@ -16,6 +16,11 @@ import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
 import { ConfigProvider } from 'antd'
 import useGetCurrencyPrice from '@/hooks/useGetCurrencyPrice'
+import dynamic from 'next/dynamic'
+
+const MoonPayProvider = dynamic(() => import('@moonpay/moonpay-react').then(mod => mod.MoonPayProvider), {
+  ssr: false
+})
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
@@ -60,7 +65,9 @@ const App = ({ Component, pageProps }: AppProps) => {
                   }
                 }}
               >
-                <Component {...pageProps} />
+                <MoonPayProvider apiKey='pk_test_YyKn4onO582L7VeVZu2jFjP4uLN9LROA' debug>
+                  <Component {...pageProps} />
+                </MoonPayProvider>
               </ConfigProvider>
             </StyleSheetManager>
           </WagmiConfig>

@@ -35,6 +35,10 @@ import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 import StpEthIcon from '../shared/StpethIcon'
+import dynamic from 'next/dynamic'
+const MoonPayBuyWidget = dynamic(() => import('@moonpay/moonpay-react').then(mod => mod.MoonPayBuyWidget), {
+  ssr: false
+})
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -437,6 +441,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       {accountAddress && (
         <WalletBuyEthModal walletAddress={accountAddress} onBuyEthIsSuccess={onBuyEthIsSuccess} />
       )}
+
+      <MoonPayBuyWidget
+        variant='overlay'
+        baseCurrencyCode='usd'
+        baseCurrencyAmount='100'
+        defaultCurrencyCode='eth'
+        visible
+      />
     </>
   )
 }
