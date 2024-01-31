@@ -47,6 +47,7 @@ type StakeFormProps = {
 }
 
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
+  const [visible, setVisible] = useState(false)
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
   const {
@@ -395,13 +396,17 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           />
         )}
         {accountAddress && (
-          <Button
-            isLoading={isLoading || isLoadingFees}
-            onClick={openStakeConfirmation}
-            label={handleLabelButton()}
-            icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
-            disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
-          />
+          <>
+            <Button
+              isLoading={isLoading || isLoadingFees}
+              onClick={openStakeConfirmation}
+              label={handleLabelButton()}
+              icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
+              disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
+            />
+
+            <Button onClick={() => setVisible(true)} label={'Buy Crypto'} />
+          </>
         )}
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
           <CardBlock>
@@ -438,17 +443,17 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         withdrawTypeSelected={withdrawTypeSelected}
       />
 
+      <MoonPayBuyWidget
+        variant='overlay'
+        baseCurrencyCode='brl'
+        baseCurrencyAmount='200'
+        defaultCurrencyCode='eth'
+        visible={visible}
+      />
+
       {accountAddress && (
         <WalletBuyEthModal walletAddress={accountAddress} onBuyEthIsSuccess={onBuyEthIsSuccess} />
       )}
-
-      <MoonPayBuyWidget
-        variant='overlay'
-        baseCurrencyCode='usd'
-        baseCurrencyAmount='100'
-        defaultCurrencyCode='eth'
-        visible
-      />
     </>
   )
 }

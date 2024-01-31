@@ -24,6 +24,7 @@ const MoonPayProvider = dynamic(() => import('@moonpay/moonpay-react').then(mod 
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
+
   const router = useRouter()
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
   const chain = chainConfig()
@@ -65,7 +66,7 @@ const App = ({ Component, pageProps }: AppProps) => {
                   }
                 }}
               >
-                <MoonPayProvider apiKey='pk_test_YyKn4onO582L7VeVZu2jFjP4uLN9LROA' debug>
+                <MoonPayProvider apiKey={process.env.NEXT_PUBLIC_MOONPAY_CODE as string} debug>
                   <Component {...pageProps} />
                 </MoonPayProvider>
               </ConfigProvider>
