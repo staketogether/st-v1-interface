@@ -23,7 +23,8 @@ export default function PanelApprovedButton({ project, projectSelected, openModa
     refetch
   } = useStakeTogetherPools({
     address: contracts.StakeTogether,
-    args: [project.wallet]
+    args: [project.wallet],
+    enabled: !!project.wallet
   })
 
   const { isOpenProjectDetailModal } = useProjectDetailModal()
