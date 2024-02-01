@@ -81,7 +81,7 @@ export default function StakeWithdrawSwitchTypes({
               {withdrawTimeLeft > 0 ? (
                 <StakeWithdrawCounter withdrawTimeLeft={withdrawTimeLeft} />
               ) : (
-                <span className='purple'>01d</span>
+                <span className='purple'>{`${t('immediate')}`}</span>
               )}
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function StakeWithdrawSwitchTypes({
           <div>
             <span>{t('withdrawCardsType.waitingTime')}</span>
             <div>
-              <span className='purple'>~2-4 {t('days')}</span>
+              <span className='purple'>{`7-14 ${t('days')}`}</span>
             </div>
           </div>
         </RateInfo>
