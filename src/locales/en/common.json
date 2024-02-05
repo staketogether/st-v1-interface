@@ -480,6 +480,7 @@
       "modal": {
         "title": "Approve Project",
         "approve": "Approve",
+        "approveBd": "Approve on BD",
         "reject": "Reject",
         "remove": "Remove Contract",
         "publishInContract": "Publish on Contract",

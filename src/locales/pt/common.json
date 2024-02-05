@@ -503,6 +503,7 @@
       "modal": {
         "title": "Aprovar Projeto",
         "approve": "Aprovar",
+        "approveBd": "Aprovar no BD",
         "reject": "Rejeitar",
         "remove": "Contract Remover",
         "publishInContract": "Publicar no contrato",
