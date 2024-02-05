@@ -1,18 +1,17 @@
-import React from 'react'
-import styled from 'styled-components'
-import LayoutTitle from '../shared/layout/LayoutTitle'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import useAnalyticsData from '@/hooks/subgraphs/analytics/useAnalyticsData'
-import useCoinConversion from '@/hooks/useCoinConversion'
-import { truncateDecimal, truncateWei } from '@/services/truncate'
-import { formatNumberByLocale } from '@/services/format'
-import { useRouter } from 'next/router'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import etherscan from '@assets/icons/etherscan.svg'
-import Image from 'next/image'
 import chainConfig from '@/config/chain'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
+import useAnalyticsData from '@/hooks/subgraphs/analytics/useAnalyticsData'
+import useCoinConversion from '@/hooks/useCoinConversion'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { formatNumberByLocale } from '@/services/format'
+import { truncateDecimal, truncateWei } from '@/services/truncate'
+import etherscan from '@assets/icons/etherscan.svg'
+import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import styled from 'styled-components'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import LayoutTitle from '../shared/layout/LayoutTitle'
 import AnalyticsValidatorRow from './AnalyticsValidatorRow'
 
 export default function AnalyticsControl() {
@@ -112,7 +111,7 @@ export default function AnalyticsControl() {
           <Card>
             <header>
               <span>APR</span>
-              <span className='green'>5%</span>
+              <span className='green'>5.1%</span>
             </header>
           </Card>
           <Card>
