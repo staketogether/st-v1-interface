@@ -41,7 +41,7 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_CONTENTFUL_CMA_TOKEN) {
     throw new Error('NEXT_PUBLIC_CONTENTFUL_CMA_TOKEN not found in env')
   }
-  if (!process.env.NEXT_PUBLIC_MOONPAY_CODE) {
-    throw new Error('NEXT_PUBLIC_MOONPAY_CODE not found in env')
+  if (!process.env.NEXT_PUBLIC_TRANSAK_API_KEY) {
+    throw new Error('NEXT_PUBLIC_TRANSAK_API_KEY not found in env')
   }
 }

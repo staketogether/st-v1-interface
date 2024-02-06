@@ -62,7 +62,7 @@ jobs:
           echo NEXT_PUBLIC_RPC_MAINNET=1 >> .env
           echo NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT=1 >> .env
           echo NEXT_PUBLIC_CONTENTFUL_CMA_TOKEN=1 >> .env
-          echo NEXT_NEXT_PUBLIC_MOONPAY_CODE=1 >> .env
+          echo NEXT_PUBLIC_TRANSAK_API_KEY=1 >> .env
 
       - name: Install dependencies
         run: pnpm install

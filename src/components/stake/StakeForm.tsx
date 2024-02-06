@@ -35,10 +35,7 @@ import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 import StpEthIcon from '../shared/StpethIcon'
-import dynamic from 'next/dynamic'
-const MoonPayBuyWidget = dynamic(() => import('@moonpay/moonpay-react').then(mod => mod.MoonPayBuyWidget), {
-  ssr: false
-})
+import useTransak from '@/hooks/useTransak'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -47,7 +44,6 @@ type StakeFormProps = {
 }
 
 export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
-  const [visible, setVisible] = useState(false)
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
   const {
@@ -57,6 +53,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   } = useEthBalanceOf(accountAddress)
 
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
+  const { onInit } = useTransak()
 
   const {
     delegationBalance,
@@ -405,7 +402,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
             />
 
-            <Button onClick={() => setVisible(true)} label={'Buy Crypto'} />
+            <Button onClick={onInit} label={t('buyCryptoTitle')} />
           </>
         )}
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
@@ -441,14 +438,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         transactionIsSuccess={isSuccess}
         onClose={() => setOpenStakeConfirmModal(false)}
         withdrawTypeSelected={withdrawTypeSelected}
-      />
-
-      <MoonPayBuyWidget
-        variant='overlay'
-        baseCurrencyCode='brl'
-        baseCurrencyAmount='200'
-        defaultCurrencyCode='eth'
-        visible={visible}
       />
 
       {accountAddress && (
