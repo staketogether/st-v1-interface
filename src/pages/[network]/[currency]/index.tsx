@@ -9,6 +9,7 @@ import { ContentfulPool } from '@/types/ContentfulPool'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import React from 'react'
+import RangoWidget from "@/components/shared/RangoWidget";
 
 type HomeProps = {
   poolAddress: `0x${string}`
@@ -19,6 +20,7 @@ export default function Home({ poolAddress, poolDetail }: HomeProps) {
   return (
     <LayoutTemplate>
       <Metatags />
+      <RangoWidget />
       <StakeControl isStakeTogetherPool poolAddress={poolAddress} type='deposit' poolDetail={poolDetail} />
     </LayoutTemplate>
   )

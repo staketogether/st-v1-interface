@@ -19,6 +19,13 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
   const getLocale = () => {
     return locale === 'en' ? 'en-US' : 'pt-BR'
   }
+  const activityColor = (type: string, isNegative: boolean) => {
+    if (type.includes('transfer')) {
+      return isNegative ? 'red' : 'green'
+    }
+
+    return !type.includes('deposit') || isNegative ? 'red' : 'green'
+  }
 
   return (
     <Container>
@@ -43,7 +50,7 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
             </span>
             <span>{truncateTimestamp(activity.timestamp, getLocale())}</span>
             <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
-            <span className={`${activity.type.includes('deposit') ? 'green' : 'red'}`}>
+            <span className={`${activityColor(activity.type, activity.amount.startsWith('-'))}`}>
               {`${formatNumberByLocale(truncateWei(BigInt(activity.amount), 5), locale)} ${t('eth.symbol')}`}
             </span>
           </Row>

@@ -13,6 +13,14 @@ interface GlobalConfig {
     operation: string
     rewards: string
   }
+  rango: {
+    apiKey: string
+    affiliateRef: string
+    affiliatePercentage: number
+    wallets: {
+      ETH: string
+    }
+  }
 }
 
 export const globalConfig: GlobalConfig = {
@@ -29,5 +37,13 @@ export const globalConfig: GlobalConfig = {
   fees: {
     operation: '0',
     rewards: '8'
+  },
+  rango: {
+    apiKey: process.env.NEXT_PUBLIC_RANGO_API_KEY as string,
+    affiliateRef: process.env.NEXT_PUBLIC_RANGO_AFFILIATE_REF as string,
+    affiliatePercentage: 0.3,
+    wallets: {
+      ETH: '0x',
+    }
   }
 }
