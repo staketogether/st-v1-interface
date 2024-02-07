@@ -35,6 +35,7 @@ import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 import StpEthIcon from '../shared/StpethIcon'
+import useTransak from '@/hooks/useTransak'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -52,6 +53,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   } = useEthBalanceOf(accountAddress)
 
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
+  const { onInit } = useTransak()
 
   const {
     delegationBalance,
@@ -391,13 +393,17 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           />
         )}
         {accountAddress && (
-          <Button
-            isLoading={isLoading || isLoadingFees}
-            onClick={openStakeConfirmation}
-            label={handleLabelButton()}
-            icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
-            disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
-          />
+          <>
+            <Button
+              isLoading={isLoading || isLoadingFees}
+              onClick={openStakeConfirmation}
+              label={handleLabelButton()}
+              icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
+              disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
+            />
+
+            <Button onClick={onInit} label={t('buyCryptoTitle')} />
+          </>
         )}
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
           <CardBlock>

@@ -19,6 +19,7 @@ import useGetCurrencyPrice from '@/hooks/useGetCurrencyPrice'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
+
   const router = useRouter()
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
   const chain = chainConfig()

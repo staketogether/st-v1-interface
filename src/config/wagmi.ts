@@ -1,4 +1,4 @@
-import { goerli } from 'viem/chains'
+import { goerli, mainnet } from 'viem/chains'
 import { configureChains, createConfig } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
@@ -7,19 +7,37 @@ import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
 import Web3AuthConnectorInstance from './web3Auth'
 
+const handleNetwork = () => {
+  const chainId = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID as string)
+  switch (chainId) {
+    case 1:
+      return mainnet
+    case 5:
+      return goerli
+    default:
+      return mainnet
+  }
+}
+
+const handleRpcProvider = (): string => {
+  const chainId = parseInt(process.env.NEXT_PUBLIC_CHAIN_ID as string)
+  switch (chainId) {
+    case 1:
+      return `${process.env.NEXT_PUBLIC_RPC_MAINNET}` as string
+    case 5:
+      return `${process.env.NEXT_PUBLIC_RPC_GOERLI}` as string
+    default:
+      return `${process.env.NEXT_PUBLIC_RPC_MAINNET}` as string
+  }
+}
+
 const { chains, publicClient } = configureChains(
-  [goerli],
+  [handleNetwork()],
   [
-    // jsonRpcProvider({
-    //   rpc: () => ({
-    //     http: `${process.env.NEXT_PUBLIC_RPC_MAINNET}`,
-    //     chainId: 1
-    //   })
-    // }),
     jsonRpcProvider({
       rpc: () => ({
-        http: `${process.env.NEXT_PUBLIC_RPC_GOERLI}`,
-        chainId: 5
+        http: handleRpcProvider(),
+        chainId: `${process.env.NEXT_PUBLIC_CHAIN_ID}`
       })
     }),
     publicProvider()
