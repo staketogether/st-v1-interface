@@ -127,7 +127,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     netDepositAmount,
     ethers.parseUnits(inputAmount, 18),
     poolAddress,
-    type === 'deposit' && ethBalance > minDepositAmount && !isLoadingFees,
+    type === 'deposit',
     accountAddress
   )
 
@@ -204,7 +204,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const isLoading = depositLoading || withdrawData.withdrawLoading
   const isSuccess = depositSuccess || withdrawData.withdrawSuccess
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const prepareTransactionIsError =
     type === 'deposit' ? depositPrepareTransactionIsError : withdrawData.prepareTransactionIsError
   const prepareTransactionErrorMessage =
@@ -214,6 +213,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
 
   const estimatedGasCost = type === 'deposit' ? depositEstimatedCost : withdrawData.withdrawEstimatedCost
+
   const txHash = type === 'deposit' ? depositTxHash : withdrawData.withdrawTxHash
   const resetState = type === 'deposit' ? depositResetState : withdrawData.withdrawResetState
 
@@ -224,7 +224,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const insufficientWithdrawalBalance =
     type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const amountIsEmpty = amountBigNumber === 0n || !amount
 
   const errorLabel =
@@ -303,17 +302,18 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const handleInputMaxValue = () => {
     if (estimatedGasCost && type === 'deposit' && ethBalance > ethers.parseEther('0.01')) {
-      setAmount(truncateWei(ethBalance - estimatedGasCost, 18, true))
       notification.info({
         message: `${t('v2.stake.maxDepositButtonMessage')}`,
         placement: 'topRight'
       })
+      setAmount(truncateWei(ethBalance - estimatedGasCost, 18, true))
       return
     }
     setAmount(truncateWei(balance, 18, true))
   }
 
-  const cantDeposit = insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees
+  const cantDeposit =
+    insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
 
   const cantWithdraw =
     insufficientFunds ||
