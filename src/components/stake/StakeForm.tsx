@@ -31,7 +31,6 @@ import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckeredDuotone } from 'react-icons/pi'
 import { formatNumberByLocale } from '../../services/format'
-import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 import StpEthIcon from '../shared/StpethIcon'
@@ -53,7 +52,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   } = useEthBalanceOf(accountAddress)
 
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
-  const { onInit } = useTransak()
+
+  const handleRefetchEthBalance = useCallback(() => {
+    refetchEthBalance()
+  }, [refetchEthBalance])
+
+  const { onInit } = useTransak({
+    onSuccess: handleRefetchEthBalance
+  })
 
   const {
     delegationBalance,
@@ -93,10 +99,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         return withdrawPoolBalanceRefetch()
     }
   }, [withdrawPoolBalanceRefetch, withdrawValidatorsBalanceRefetch, withdrawTypeSelected])
-
-  const onBuyEthIsSuccess = () => {
-    refetchEthBalance()
-  }
 
   const [amount, setAmount] = useState<string>('')
 
@@ -392,7 +394,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             icon={<ConnectWalletIcon />}
           />
         )}
-        {accountAddress && (
+        {accountAddress && type === 'deposit' && (
           <>
             <Button
               isLoading={isLoading || isLoadingFees}
@@ -439,10 +441,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         onClose={() => setOpenStakeConfirmModal(false)}
         withdrawTypeSelected={withdrawTypeSelected}
       />
-
-      {accountAddress && (
-        <WalletBuyEthModal walletAddress={accountAddress} onBuyEthIsSuccess={onBuyEthIsSuccess} />
-      )}
     </>
   )
 }

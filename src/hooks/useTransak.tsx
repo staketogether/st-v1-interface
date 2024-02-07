@@ -5,7 +5,11 @@ import useLocaleTranslation from './useLocaleTranslation'
 import { useRouter } from 'next/router'
 import useConnectedAccount from './useConnectedAccount'
 
-export default function useTransak() {
+type TransakProps = {
+  onSuccess?: () => void
+}
+
+export default function useTransak(config?: TransakProps) {
   const { t } = useLocaleTranslation()
   const theme = useTheme()
   const defaultTransakConfig: TransakConfig = useMemo(
@@ -61,13 +65,14 @@ export default function useTransak() {
 
     Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, orderData => {
       console.log(orderData)
+      config && config.onSuccess && config.onSuccess()
       transak.close()
     })
 
     return () => {
       transak.close()
     }
-  }, [transak, transakConfig])
+  }, [config, transak, transakConfig])
 
   const onInit = () => {
     transak.init()
