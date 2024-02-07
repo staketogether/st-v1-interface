@@ -14,12 +14,6 @@ dependencies:
   '@lottiefiles/react-lottie-player':
     specifier: ^3.5.3
     version: 3.5.3(react@18.2.0)
-  '@moonpay/moonpay-js':
-    specifier: ^0.4.1
-    version: 0.4.1
-  '@moonpay/moonpay-react':
-    specifier: ^1.5.3
-    version: 1.5.3(react@18.2.0)
   '@transak/transak-sdk':
     specifier: ^2.1.3
     version: 2.1.3
@@ -2159,18 +2153,6 @@ packages:
       superstruct: 1.0.3
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /@moonpay/moonpay-js@0.4.1:
-    resolution: {integrity: sha512-qsASC39CzBaKyislkQGftMOfZk0Elppojg9IhffJXYEMo0GR2jfctcMloAL6YFP4MwAmbIYugDK7aeHLlWjU+A==}
-    dev: false
-
-  /@moonpay/moonpay-react@1.5.3(react@18.2.0):
-    resolution: {integrity: sha512-l1IEWmPj7IgWk2eDfuq7e9caZZKG71nX15/vjBQVP6P4kxtBVfV46DclUV7vUystlj2/1eiudt3tZsBIvF+INw==}
-    peerDependencies:
-      react: '>=16'
-    dependencies:
-      react: 18.2.0
     dev: false
 
   /@motionone/animation@10.15.1:
