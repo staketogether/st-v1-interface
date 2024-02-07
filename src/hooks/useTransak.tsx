@@ -15,7 +15,7 @@ export default function useTransak(config?: TransakProps) {
   const defaultTransakConfig: TransakConfig = useMemo(
     () => ({
       apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY as string,
-      environment: Transak.ENVIRONMENTS.STAGING,
+      environment: Transak.ENVIRONMENTS.PRODUCTION,
       network: 'ethereum',
       exchangeScreenTitle: t('buyCryptoTitle'),
       defaultNetwork: 'ethereum',
