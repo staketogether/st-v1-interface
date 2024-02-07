@@ -21,8 +21,6 @@
     "@apollo/client": "^3.8.8",
     "@emotion/is-prop-valid": "^1.2.1",
     "@lottiefiles/react-lottie-player": "^3.5.3",
-    "@moonpay/moonpay-js": "^0.4.1",
-    "@moonpay/moonpay-react": "^1.5.3",
     "@transak/transak-sdk": "^2.1.3",
     "@wagmi/cli": "^1.5.2",
     "@web3auth/base": "^7.2.0",
