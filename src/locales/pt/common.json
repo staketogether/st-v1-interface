@@ -69,7 +69,8 @@
   "poolDetail": "Detalhes da Pool",
   "learnMore": "Leia mais",
   "knowMore": "Saiba mais",
-  "buyCryptoTitle": "Comprar Cripto",
+  "buyCryptoTitle": "Comprar ETH",
+  "sellCryptoTitle": "Vender ETH",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"

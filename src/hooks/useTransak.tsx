@@ -7,6 +7,7 @@ import useConnectedAccount from './useConnectedAccount'
 
 type TransakProps = {
   onSuccess?: () => void
+  productsAvailed: 'BUY' | 'SELL'
 }
 
 export default function useTransak(config?: TransakProps) {
@@ -17,16 +18,15 @@ export default function useTransak(config?: TransakProps) {
       apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY as string,
       environment: Transak.ENVIRONMENTS.PRODUCTION,
       network: 'ethereum',
-      exchangeScreenTitle: t('buyCryptoTitle'),
+      exchangeScreenTitle: config?.productsAvailed === 'SELL' ? t('sellCryptoTitle') : t('buyCryptoTitle'),
       defaultNetwork: 'ethereum',
-      colorMode: 'DARK',
+      colorMode: 'LIGHT',
       themeColor: theme.colorV2.blue[1],
-      textColors: theme.colorV2.white,
-      productsAvailed: ['BUY'],
+      productsAvailed: config?.productsAvailed,
       hideMenu: true,
       cryptoCurrencyList: 'ETH'
     }),
-    [t, theme]
+    [config?.productsAvailed, t, theme.colorV2.blue]
   )
 
   const [transakConfig, setTransakConfig] = useState<TransakConfig>(defaultTransakConfig)

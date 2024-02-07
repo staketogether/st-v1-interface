@@ -57,8 +57,14 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     refetchEthBalance()
   }, [refetchEthBalance])
 
-  const { onInit } = useTransak({
-    onSuccess: handleRefetchEthBalance
+  const { onInit: buyCrypto } = useTransak({
+    onSuccess: handleRefetchEthBalance,
+    productsAvailed: 'BUY'
+  })
+
+  const { onInit: sellCrypto } = useTransak({
+    onSuccess: handleRefetchEthBalance,
+    productsAvailed: 'SELL'
   })
 
   const {
@@ -404,9 +410,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
               disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
             />
 
-            <Button onClick={onInit} label={t('buyCryptoTitle')} />
+            <Button onClick={buyCrypto} label={t('buyCryptoTitle')} />
           </>
         )}
+
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
           <CardBlock>
             <div>
@@ -418,6 +425,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             <StakeWithdrawCounter withdrawTimeLeft={withdrawTimeLeft} />
           </CardBlock>
         )}
+
+        {type === 'withdraw' && accountAddress && <Button onClick={sellCrypto} label={t('sellCryptoTitle')} />}
         {accountAddress && (
           <StakeDescriptionCheckout
             amount={amount}
