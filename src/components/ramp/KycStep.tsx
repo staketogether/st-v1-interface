@@ -17,7 +17,7 @@ type KycForm = {
   birthDate: string
 }
 
-export default function CheckoutStep() {
+export default function KycStep() {
   const { t } = useLocaleTranslation()
 
   const {
@@ -67,6 +67,29 @@ export default function CheckoutStep() {
         </div>
       </KycLevelContainer>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          title={'Tipo de pessoa'}
+          disabled={false}
+          disabledLabel={false}
+          type='string'
+          register={register('name', {
+            required: `${t('v2.createProject.formMessages.required')}`,
+            pattern: {
+              value: projectRegexFields.email,
+              message: `${t('v2.createProject.formMessages.invalidEmail')}`
+            },
+            onBlur: () => trigger('name')
+          })}
+          maxLength={64}
+          onKeyDown={e => {
+            const validCharsRegex = projectRegexOnKeyDown.email
+            if (!validCharsRegex.test(e.key) && e.key !== 'Backspace') {
+              e.preventDefault()
+            }
+          }}
+          error={errors.name?.message}
+          placeholder={'Insira seu nome igual ao do seu documento'}
+        />
         <Input
           title={'Nome Completo'}
           disabled={false}

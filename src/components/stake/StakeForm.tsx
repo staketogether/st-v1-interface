@@ -32,7 +32,6 @@ import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckeredDuotone } from 'react-icons/pi'
 import { formatNumberByLocale } from '../../services/format'
-import BuyEthControlModal from '../onRamp/BuyEthControlModal'
 import StpEthIcon from '../shared/StpethIcon'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
@@ -443,7 +442,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       {accountAddress && (
         <WalletBuyEthModal walletAddress={accountAddress} onBuyEthIsSuccess={onBuyEthIsSuccess} />
       )}
-      {type === 'deposit' && <BuyEthControlModal />}
     </>
   )
 }

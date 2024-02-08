@@ -16,12 +16,16 @@ import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
 import { ConfigProvider } from 'antd'
 import useGetCurrencyPrice from '@/hooks/useGetCurrencyPrice'
+import { SWRConfig } from 'swr'
+import axios from 'axios'
+import { globalConfig } from '@/config/global'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
   const router = useRouter()
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
   const chain = chainConfig()
+  const { backendUrl } = globalConfig
 
   useSettingsCurrency()
   useGetCurrencyPrice()
@@ -60,7 +64,11 @@ const App = ({ Component, pageProps }: AppProps) => {
                   }
                 }}
               >
-                <Component {...pageProps} />
+                <SWRConfig value={{
+                  fetcher: (uri: string) => axios.get(`${backendUrl}/${uri}`).then(res => res.data)
+                }}>
+                  <Component {...pageProps} />
+                </SWRConfig>
               </ConfigProvider>
             </StyleSheetManager>
           </WagmiConfig>
