@@ -1,21 +1,40 @@
-import Button from '@/components/shared/Button'
-import React from 'react'
-import { PiArrowDown, PiArrowRight, PiCaretDown, PiClock } from 'react-icons/pi'
-import styled from 'styled-components'
+import Button from '@/components/shared/Button';
+import useQuoteBrla from '@/hooks/ramp/useQuote';
+import { PaymentMethodType } from '@/types/payment-method.type';
+import { ProviderType } from '@/types/provider.type';
+import { useEffect, useState } from 'react';
+import { PiArrowDown, PiArrowRight, PiCaretDown, PiClock } from 'react-icons/pi';
+
+import styled from 'styled-components';
 
 export default function QuotationStep() {
+
+  // const [quote, setQuote] = useState<Quote>()
+  const [value, setValue] = useState<number | string>(0);
+  const { quote } = useQuoteBrla(1, 'brl', Number(value), 0, ProviderType.brla, PaymentMethodType.pix)
+
+  const handleChange = (amount: string) => {
+    setValue(amount)
+  }
+
+  useEffect(() => {
+    console.log('quote-1', quote)
+  }, [quote])
+
   return (
     <Container>
       <header>Compre Ethereum direto via PIX:</header>
       <BoxValuesContainer>
         <InputContainer>
           <div>BRL</div>
-          <input type='text' />
+          <input type='text' onChange={(({ target }) => handleChange(target.value))} />
+
+
         </InputContainer>
         <ArrowDown />
         <InputContainer>
-          <div>BRL</div>
-          <input type='text' />
+          <div>ETH {quote?.amountCrypto}</div>
+          <input type='text' value={quote?.amountCrypto} />
         </InputContainer>
       </BoxValuesContainer>
       <PriceInfoContainer>
@@ -33,7 +52,7 @@ export default function QuotationStep() {
           <PiCaretDown />
         </div>
       </DescriptionDetail>
-      <Button onClick={() => {}} label={'Continuar'} icon={<PiArrowRight />} />
+      <Button onClick={() => { }} label={'Continuar'} icon={<PiArrowRight />} />
       <footer>
         Ao continuar você concorda com nossas <a href='#'>políticas.</a>
       </footer>

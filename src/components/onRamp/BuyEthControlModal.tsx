@@ -1,5 +1,4 @@
 import Modal from '@/components/shared/Modal'
-import React from 'react'
 import QuotationStep from './QuotationStep'
 import CheckoutStep from './checkoutStep'
 
@@ -10,8 +9,8 @@ export default function BuyEthControlModal() {
   }
 
   return (
-    <Modal title={'Comprar ETH com PIX'} isOpen={true} onClose={() => {}} width={'auto'}>
-      {steps.checkout}
+    <Modal title={'Comprar ETH com PIX'} isOpen={true} onClose={() => { }} width={'auto'}>
+      {steps.quotation}
     </Modal>
   )
 }

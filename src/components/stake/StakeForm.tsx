@@ -32,11 +32,11 @@ import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckeredDuotone } from 'react-icons/pi'
 import { formatNumberByLocale } from '../../services/format'
+import BuyEthControlModal from '../onRamp/BuyEthControlModal'
+import StpEthIcon from '../shared/StpethIcon'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
-import StpEthIcon from '../shared/StpethIcon'
-import BuyEthControlModal from '../onRamp/BuyEthControlModal'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -234,10 +234,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     (insufficientWithdrawalBalance &&
       `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
     (prepareTransactionErrorMessage &&
-      `${
-        type === 'deposit'
-          ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
-          : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
+      `${type === 'deposit'
+        ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
+        : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
       }`) ||
     ''
 
