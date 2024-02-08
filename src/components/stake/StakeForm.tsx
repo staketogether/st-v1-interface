@@ -36,7 +36,7 @@ import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 import StpEthIcon from '../shared/StpethIcon'
-import BuyEthControlModal from '../onRamp/BuyEthControlModal'
+import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
