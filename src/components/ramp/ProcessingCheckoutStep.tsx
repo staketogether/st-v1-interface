@@ -1,4 +1,4 @@
-export default function CheckoutStep() {
+export default function ProcessingCheckoutStep() {
   return (
     <div>
       <h1>KycStep</h1>

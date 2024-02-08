@@ -1,12 +1,12 @@
 import Modal from '@/components/shared/Modal'
 import React from 'react'
 import QuotationStep from './QuotationStep'
-import CheckoutStep from './CheckoutStep'
+import KycStep from './KycStep'
 
 export default function BuyEthControlModal() {
   const steps = {
     quotation: <QuotationStep />,
-    checkout: <CheckoutStep />
+    checkout: <KycStep />
   }
 
   return (
