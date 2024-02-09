@@ -18,9 +18,13 @@ export default function QuotationStep() {
   const { t } = useLocaleTranslation()
 
   const handleChange = (amount: string) => {
-    if (Number(amount) > 300) {
-      setValue(amount)
 
+    const regex = /^\d*\.?\d{0,2}$/;
+    const newValue = amount;
+
+
+    if (regex.test(newValue) || newValue === '' || newValue === '.') {
+      setValue(newValue);
     }
   }
 
@@ -47,12 +51,12 @@ export default function QuotationStep() {
       <BoxValuesContainer>
         <InputContainer>
           <div>BRL</div>
-          <input type='text' onChange={(({ target }) => handleChange(target.value))} />
+          <input type='text' onChange={(({ target }) => handleChange(target.value))} value={value} />
         </InputContainer>
         <ArrowDown />
         <InputContainer>
           <div>ETH</div>
-          <input type='text' value={quote?.amountCrypto} disabled />
+          <input type='text' value={quote?.amountCrypto ?? 0} disabled />
         </InputContainer>
       </BoxValuesContainer>
       <PriceInfoContainer>
