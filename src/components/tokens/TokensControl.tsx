@@ -3,19 +3,33 @@ import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 
+type Network = 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana'
+
+type Products = {
+  id: number
+  name: string
+  image: string
+  symbol: string
+  icon: string
+  networks: Network[]
+  apy: number
+  airdrops: boolean
+  enabled: boolean
+}
+
 export default function TokensControl() {
   const { t } = useLocaleTranslation()
 
-  const products = [
+  const products: Products[] = [
     {
       id: 1,
       name: 'Ethereum Staking',
       image: 'https://picsum.photos/1',
       symbol: 'stpETH',
       icon: 'https://picsum.photos/2',
-      networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
+      networks: ['ethereum'],
       apy: 6.1,
-      airdrops: ['stake-together', 'layer-zero'],
+      airdrops: true,
       enabled: true
     },
     {
@@ -26,7 +40,7 @@ export default function TokensControl() {
       icon: 'https://picsum.photos/4',
       networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
       apy: 10.5,
-      airdrops: ['stake-together', 'layer-zero', 'eigen-layer'],
+      airdrops: true,
       enabled: false
     },
     {
@@ -37,7 +51,7 @@ export default function TokensControl() {
       icon: 'https://picsum.photos/6',
       networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
       apy: 10.5,
-      airdrops: ['stake-together', 'layer-zero', 'celestia'],
+      airdrops: false,
       enabled: false
     },
     {
@@ -48,7 +62,7 @@ export default function TokensControl() {
       icon: 'https://picsum.photos/8',
       networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
       apy: 10.5,
-      airdrops: ['stake-together', 'layer-zero'],
+      airdrops: false,
       enabled: false
     },
     {
@@ -59,7 +73,7 @@ export default function TokensControl() {
       icon: 'https://picsum.photos/10',
       networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
       apy: 10.5,
-      airdrops: ['stake-together', 'layer-zero'],
+      airdrops: false,
       enabled: false
     },
     {
@@ -70,7 +84,7 @@ export default function TokensControl() {
       icon: 'https://picsum.photos/12',
       networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
       apy: 10.5,
-      airdrops: ['stake-together', 'layer-zero'],
+      airdrops: false,
       enabled: false
     },
     {
@@ -81,7 +95,7 @@ export default function TokensControl() {
       icon: 'https://picsum.photos/14',
       networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
       apy: 10.5,
-      airdrops: ['stake-together', 'layer-zero'],
+      airdrops: false,
       enabled: false
     },
     {
@@ -92,7 +106,7 @@ export default function TokensControl() {
       icon: 'https://picsum.photos/16',
       networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
       apy: 10.5,
-      airdrops: ['stake-together', 'layer-zero'],
+      airdrops: false,
       enabled: false
     }
   ]
@@ -105,87 +119,46 @@ export default function TokensControl() {
     solana: 'https://picsum.photos/34'
   }
 
-  const airdrops = {
-    'stake-together': 'https://picsum.photos/40',
-    'layer-zero': 'https://picsum.photos/41',
-    'eigen-layer': 'https://picsum.photos/42',
-    celestia: 'https://picsum.photos/43'
-  }
-
   const productsHeader = [
-    t('tokens.products.name'),
-    t('tokens.products.token'),
-    t('tokens.products.apy'),
-    t('tokens.products.networks'),
-    t('tokens.products.airdrops')
+    t('v2.tokens.products.name'),
+    t('v2.tokens.products.token'),
+    t('v2.tokens.products.networks'),
+    t('v2.tokens.products.apy'),
+    t('v2.tokens.products.airdrops')
   ]
 
   return (
     <Container>
       <Content>
-        <LayoutTitle title={t('tokens.title')} />
+        <LayoutTitle title={t('v2.tokens.title')} />
         <Products>
           <ProductsHeader>
-            {productsHeader.map(header => (
-              <div>{header}</div>
+            {productsHeader.map((header, i) => (
+              <span key={`header-${i}`}>{header}</span>
             ))}
           </ProductsHeader>
 
           {products.map(product => (
-            <ProductItem key={product.id} className={`${!product.enabled ? 'enabled' : ''}`}>
-              <div>
-                <div>
-                  <Image src={product.image} width={24} height={24} alt={product.name} />
-                </div>
-                <div>{product.name}</div>
-              </div>
-              <div>
-                <div>
-                  <Image src={product.icon} width={24} height={24} alt={product.symbol} />
-                </div>
-                <div>{product.symbol}</div>
-              </div>
-              <div>{product.apy}</div>
+            <ProductItem key={product.id} className={`${!product.enabled && 'disabled'}`}>
+              <ImageContainer>
+                <Image src={product.image} width={24} height={24} alt={product.name} />
+                <span>{product.name}</span>
+              </ImageContainer>
+
+              <ImageContainer>
+                <Image src={product.icon} width={24} height={24} alt={product.symbol} />
+                <span>{product.symbol}</span>
+              </ImageContainer>
+
+              <span className='green'>{product.apy}</span>
+
               <IconsArea>
                 {product.networks.map(network => (
-                  <>
-                    {network === 'ethereum' && (
-                      <Image src={networks[network]} width={24} height={24} alt={network} />
-                    )}
-                    {network === 'optimism' && (
-                      <Image src={networks[network]} width={24} height={24} alt={network} />
-                    )}
-                    {network === 'arbitrum' && (
-                      <Image src={networks[network]} width={24} height={24} alt={network} />
-                    )}
-                    {network === 'polygon' && (
-                      <Image src={networks[network]} width={24} height={24} alt={network} />
-                    )}
-                    {network === 'solana' && (
-                      <Image src={networks[network]} width={24} height={24} alt={network} />
-                    )}
-                  </>
+                  <Image src={networks[network]} width={24} height={24} alt={network} key={network} />
                 ))}
               </IconsArea>
 
-              <div>
-                {product.airdrops.map(airdrop => (
-                  <>
-                    {airdrop === 'stake-together' && (
-                      <Image src={airdrops[airdrop]} width={24} height={24} alt={airdrop} />
-                    )}
-                    {airdrop === 'layer-zero' && (
-                      <Image src={airdrops[airdrop]} width={24} height={24} alt={airdrop} />
-                    )}
-                    {airdrop === 'eigen-layer' && (
-                      <Image src={airdrops[airdrop]} width={24} height={24} alt={airdrop} />
-                    )}
-                    {airdrop === 'celestia' && (
-                      <Image src={airdrops[airdrop]} width={24} height={24} alt={airdrop} />
-                    )}
-                  </>
-                ))}
-              </div>
+              <span className={`green`}>{product.airdrops ? 'Yes' : '-'}</span>
             </ProductItem>
           ))}
         </Products>
@@ -194,7 +167,7 @@ export default function TokensControl() {
   )
 }
 
-const { Container, Content, Products, ProductsHeader, ProductItem, IconsArea } = {
+const { Container, Content, Products, ProductsHeader, ProductItem, IconsArea, ImageContainer } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -214,49 +187,68 @@ const { Container, Content, Products, ProductsHeader, ProductItem, IconsArea } =
     }
   `,
   Products: styled.div`
-    display: grid;
-    grid-template-columns: 1fr;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     gap: 12px;
   `,
-  ProductsHeader: styled.div`
+  ProductsHeader: styled.header`
     display: grid;
-    grid-template-columns: 1fr 0.7fr 0.5fr 1fr 1fr;
+    grid-template-columns: 1fr 0.7fr 1fr 0.5fr 1fr;
     gap: 16px;
-    color: ${({ theme }) => theme.colorV2.blue[1]};
-    font-size: 12px;
-    font-weight: 500;
+
     padding: 0 12px;
+
+    span {
+      color: ${({ theme }) => theme.colorV2.blue[1]};
+      font-family: Montserrat;
+      font-size: 13px;
+      font-weight: 500;
+    }
   `,
   ProductItem: styled.div`
     display: grid;
-    grid-template-columns: 1fr 0.7fr 0.5fr 1fr 1fr;
+    grid-template-columns: 1fr 0.7fr 1fr 0.5fr 1fr;
+
     box-shadow: ${({ theme }) => theme.shadow[100]};
     background: ${({ theme }) => theme.colorV2.white};
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 14px;
+
+    border-radius: ${({ theme }) => theme.size[8]};
+    padding: ${({ theme }) => theme.size[12]};
+
     align-items: center;
-    gap: 16px;
-
+    gap: ${({ theme }) => theme.size[16]};
     cursor: pointer;
-
-    div {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
 
     img {
       border-radius: 100%;
       box-shadow: ${({ theme }) => theme.shadow[100]};
     }
 
-    &.enabled {
-      background: ${({ theme }) => theme.colorV2.white};
+    span {
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      font-size: ${({ theme }) => theme.font.size[14]};
+      font-weight: 400;
+
+      &.green {
+        color: ${({ theme }) => theme.color.green[500]};
+      }
+    }
+
+    &.disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
     }
   `,
+  ImageContainer: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+  `,
+
   IconsArea: styled.div`
     display: flex;
-    gap: 16px;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[12]};
   `
 }

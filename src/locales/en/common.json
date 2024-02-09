@@ -585,16 +585,16 @@
         "title": "We are experiencing a delay in the indexing of data on the Ethereum network.",
         "description": "You may experience a delay in the display of your transactions and balances, but rest assured that your funds are safe. We are working to resolve this issue as soon as possible."
       }
-    }
-  },
-  "tokens": {
-    "title": "Products",
-    "products": {
-      "name": "Name",
-      "token": "Token",
-      "apy": "APY",
-      "networks": "Networks",
-      "airdrops": "Airdrops"
+    },
+    "tokens": {
+      "title": "Staking Products",
+      "products": {
+        "name": "Name",
+        "token": "Token",
+        "apy": "APY",
+        "networks": "Networks",
+        "airdrops": "Airdrops"
+      }
     }
   }
 }

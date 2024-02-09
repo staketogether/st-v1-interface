@@ -609,16 +609,16 @@
         "title": "Estamos tendo problemas com a indexação dos dados",
         "description": "Você pode ter problemas com a visualização dos dados, mas não se preocupe, seus fundos estão seguros. Estamos trabalhando para resolver o problema o mais rápido possível."
       }
-    }
-  },
-  "tokens": {
-    "title": "Products",
-    "products": {
-      "name": "Nome",
-      "token": "Token",
-      "apy": "APY",
-      "networks": "Redes",
-      "airdrops": "Airdrops"
+    },
+    "tokens": {
+      "title": "Produtos de Staking",
+      "products": {
+        "name": "Nome",
+        "token": "Token",
+        "apy": "APY",
+        "networks": "Redes",
+        "airdrops": "Airdrops"
+      }
     }
   }
 }
