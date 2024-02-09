@@ -31,10 +31,10 @@ import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckeredDuotone } from 'react-icons/pi'
 import { formatNumberByLocale } from '../../services/format'
-import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 import StpEthIcon from '../shared/StpethIcon'
+import useTransak from '@/hooks/useTransak'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -52,6 +52,20 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   } = useEthBalanceOf(accountAddress)
 
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
+
+  const handleRefetchEthBalance = useCallback(() => {
+    refetchEthBalance()
+  }, [refetchEthBalance])
+
+  const { onInit: buyCrypto } = useTransak({
+    onSuccess: handleRefetchEthBalance,
+    productsAvailed: 'BUY'
+  })
+
+  const { onInit: sellCrypto } = useTransak({
+    onSuccess: handleRefetchEthBalance,
+    productsAvailed: 'SELL'
+  })
 
   const {
     delegationBalance,
@@ -92,10 +106,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     }
   }, [withdrawPoolBalanceRefetch, withdrawValidatorsBalanceRefetch, withdrawTypeSelected])
 
-  const onBuyEthIsSuccess = () => {
-    refetchEthBalance()
-  }
-
   const [amount, setAmount] = useState<string>('')
 
   const debouncedAmount = useDebounce(amount, 1000)
@@ -125,7 +135,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     netDepositAmount,
     ethers.parseUnits(inputAmount, 18),
     poolAddress,
-    type === 'deposit' && ethBalance > minDepositAmount && !isLoadingFees,
+    type === 'deposit',
     accountAddress
   )
 
@@ -202,7 +212,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const isLoading = depositLoading || withdrawData.withdrawLoading
   const isSuccess = depositSuccess || withdrawData.withdrawSuccess
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const prepareTransactionIsError =
     type === 'deposit' ? depositPrepareTransactionIsError : withdrawData.prepareTransactionIsError
   const prepareTransactionErrorMessage =
@@ -212,6 +221,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   const actionLabel = type === 'deposit' ? t('form.deposit') : t('form.withdraw')
 
   const estimatedGasCost = type === 'deposit' ? depositEstimatedCost : withdrawData.withdrawEstimatedCost
+
   const txHash = type === 'deposit' ? depositTxHash : withdrawData.withdrawTxHash
   const resetState = type === 'deposit' ? depositResetState : withdrawData.withdrawResetState
 
@@ -222,7 +232,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const insufficientWithdrawalBalance =
     type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const amountIsEmpty = amountBigNumber === 0n || !amount
 
   const errorLabel =
@@ -301,17 +310,18 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const handleInputMaxValue = () => {
     if (estimatedGasCost && type === 'deposit' && ethBalance > ethers.parseEther('0.01')) {
-      setAmount(truncateWei(ethBalance - estimatedGasCost, 18, true))
       notification.info({
         message: `${t('v2.stake.maxDepositButtonMessage')}`,
         placement: 'topRight'
       })
+      setAmount(truncateWei(ethBalance - estimatedGasCost, 18, true))
       return
     }
     setAmount(truncateWei(balance, 18, true))
   }
 
-  const cantDeposit = insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees
+  const cantDeposit =
+    insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
 
   const cantWithdraw =
     insufficientFunds ||
@@ -390,15 +400,20 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             icon={<ConnectWalletIcon />}
           />
         )}
-        {accountAddress && (
-          <Button
-            isLoading={isLoading || isLoadingFees}
-            onClick={openStakeConfirmation}
-            label={handleLabelButton()}
-            icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
-            disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
-          />
+        {accountAddress && type === 'deposit' && (
+          <>
+            <Button
+              isLoading={isLoading || isLoadingFees}
+              onClick={openStakeConfirmation}
+              label={handleLabelButton()}
+              icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
+              disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
+            />
+
+            <Button onClick={buyCrypto} label={t('buyCryptoTitle')} />
+          </>
         )}
+
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
           <CardBlock>
             <div>
@@ -410,6 +425,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             <StakeWithdrawCounter withdrawTimeLeft={withdrawTimeLeft} />
           </CardBlock>
         )}
+
+        {type === 'withdraw' && accountAddress && <Button onClick={sellCrypto} label={t('sellCryptoTitle')} />}
         {accountAddress && (
           <StakeDescriptionCheckout
             amount={amount}
@@ -433,10 +450,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         onClose={() => setOpenStakeConfirmModal(false)}
         withdrawTypeSelected={withdrawTypeSelected}
       />
-
-      {accountAddress && (
-        <WalletBuyEthModal walletAddress={accountAddress} onBuyEthIsSuccess={onBuyEthIsSuccess} />
-      )}
     </>
   )
 }

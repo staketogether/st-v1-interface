@@ -39,7 +39,6 @@ import Withdrawals from '../shared/Withdrawals'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
-import WalletBuyEthModal from './WalletBuyEthModal'
 import WalletSidebarPortfolio from './WalletSidebarPortfolio'
 import WalletSidebarSettings from './WalletSidebarSettings'
 
@@ -56,7 +55,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
-  const { balance: ethBalance, refetch } = useEthBalanceOf(address)
+  const { balance: ethBalance } = useEthBalanceOf(address)
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
   const { name, nameLoading } = useEns(address)
@@ -89,10 +88,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       message: `${t('copiedToClipboard')}`,
       placement: 'topRight'
     })
-  }
-
-  const onBuyEthIsSuccess = () => {
-    refetch()
   }
 
   useEffect(() => {
@@ -245,7 +240,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           </Card>
         </>
       )}
-      <WalletBuyEthModal walletAddress={address} onBuyEthIsSuccess={onBuyEthIsSuccess} />
       <UpdateDelegationsModal
         accountDelegations={accountDelegations}
         accountTotalShares={accountShare}

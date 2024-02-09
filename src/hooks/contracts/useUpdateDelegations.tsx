@@ -21,6 +21,7 @@ import {
 } from '../../types/Contracts'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
+import useConnectedAccount from '../useConnectedAccount'
 
 export type PoolData = {
   pool: `0x${string}`
@@ -32,39 +33,51 @@ export default function useUpdateDelegations(
   updateDelegationPools: PoolData[],
   accountAddress?: `0x${string}`
 ) {
-  const [estimateGasCost, setEstimateGasCost] = useState(0n)
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
+
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
+  const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
+  const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
+
+  // const { registerWithdraw } = useMixpanelAnalytics()
   const { contracts, stakeTogetherPool } = chainConfig()
+  const { web3AuthUserInfo } = useConnectedAccount()
   const { t } = useLocaleTranslation()
 
+  const updateDelegationEstimatedGas: PoolData[] = [
+    {
+      pool: stakeTogetherPool,
+      percentage: ethers.parseUnits('1', 18)
+    }
+  ]
   const isUpdateDelegationEnabled = enabled
+
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
     contractAddress: contracts.StakeTogether,
-    functionName: 'UpdateDelegations',
-    args: [
-      [
-        {
-          pool: stakeTogetherPool,
-          percentage: ethers.parseUnits('1', 18)
-        }
-      ]
-    ],
+    functionName: 'updateDelegations',
+    args: [updateDelegationEstimatedGas],
     abi: stakeTogetherABI,
     skip: estimateGasCost > 0n
   })
 
   useEffect(() => {
-    const handleEstimateGas = async () => {
-      const { estimatedCost } = await estimateGas()
-      if (estimatedCost > 0n) {
-        setEstimateGasCost(estimatedCost)
-      }
+    const handleEstimateGasPrice = async () => {
+      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
+        await estimateGas()
+      setEstimatedGas(estimatedGas)
+      setEstimateGasCost(estimatedCost)
+      setMaxFeePerGas(estimatedMaxFeePerGas)
+      setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
     }
-    handleEstimateGas()
-  }, [estimateGas])
+
+    if (estimateGasCost === 0n) {
+      handleEstimateGasPrice()
+    }
+  }, [estimateGas, estimateGasCost])
 
   const {
     config,
@@ -75,13 +88,35 @@ export default function useUpdateDelegations(
     args: [updateDelegationPools],
     account: accountAddress,
     enabled: isUpdateDelegationEnabled,
+    gas: !!estimatedGas && estimatedGas > 0n && !!web3AuthUserInfo ? estimatedGas : undefined,
+    maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
+    maxPriorityFeePerGas:
+      !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo
+        ? maxPriorityFeePerGas
+        : undefined,
     onError(error) {
       if (!error) {
         return
       }
-      const { cause } = error as { cause?: { reason?: string } }
 
-      if (!cause) {
+      const { cause } = error as { cause?: { reason?: string; message?: string } }
+
+      if (
+        (!cause || !cause.reason) &&
+        !!web3AuthUserInfo &&
+        cause?.message &&
+        cause.message.includes(
+          'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
+        )
+      ) {
+        notification.warning({
+          message: `${t('v2.stake.depositErrorMessage.insufficientGasBalance')}, ${t(
+            'v2.stake.depositErrorMessage.useMaxButton'
+          )}`,
+          placement: 'topRight'
+        })
+        setPrepareTransactionErrorMessage('insufficientGasBalance')
+
         return
       }
 
