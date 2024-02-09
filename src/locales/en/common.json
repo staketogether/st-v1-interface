@@ -578,6 +578,18 @@
         "title": "We are experiencing a delay in the indexing of data on the Ethereum network.",
         "description": "You may experience a delay in the display of your transactions and balances, but rest assured that your funds are safe. We are working to resolve this issue as soon as possible."
       }
+    },
+    "ramp": {
+      "kyc": {
+        "title": "KYC - Conheça seu Cliente",
+        "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Clique no botão abaixo para começar."
+      },
+      "quote": {
+        "title": "Buy Ethereum directly by PIX",
+        "updateQuote": "Price updates at",
+        "terms": "By continuing, you agree to our",
+        "policies": "policies"
+      }
     }
   }
 }

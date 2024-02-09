@@ -1,66 +1,74 @@
 import Button from '@/components/shared/Button';
 import useQuoteBrla from '@/hooks/ramp/useQuote';
+import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { PaymentMethodType } from '@/types/payment-method.type';
 import { ProviderType } from '@/types/provider.type';
 import { useEffect, useState } from 'react';
-import { PiArrowDown, PiArrowRight, PiCaretDown, PiClock } from 'react-icons/pi';
+import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi';
 
 import styled from 'styled-components';
 
 export default function QuotationStep() {
 
-  // const [quote, setQuote] = useState<Quote>()
+  const initialSeconds = 5;
   const [value, setValue] = useState<number | string>(0);
   const { quote } = useQuoteBrla(1, 'brl', Number(value), 0, ProviderType.brla, PaymentMethodType.pix)
+  const [seconds, setSeconds] = useState<number>(5);
+  const [timerStarted, setTimerStarted] = useState<boolean>(false);
+  const { t } = useLocaleTranslation()
 
   const handleChange = (amount: string) => {
-    setValue(amount)
+    if (Number(amount) > 300) {
+      setValue(amount)
+
+    }
   }
 
   useEffect(() => {
-    console.log('quote-1', quote)
-  }, [quote])
+    let timer: NodeJS.Timeout;
+    if (timerStarted && seconds > 0) {
+      timer = setTimeout(() => {
+        setSeconds(seconds - 1);
+      }, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [timerStarted, seconds]);
 
+  useEffect(() => {
+    if (quote) {
+      setSeconds(initialSeconds);
+      setTimerStarted(false);
+      setTimerStarted(true);
+    }
+  }, [quote])
   return (
     <Container>
-      <header>Compre Ethereum direto via PIX:</header>
+      <header>{t('v2.ramp.quote.title')}:</header>
       <BoxValuesContainer>
         <InputContainer>
           <div>BRL</div>
           <input type='text' onChange={(({ target }) => handleChange(target.value))} />
-
-
         </InputContainer>
         <ArrowDown />
         <InputContainer>
-          <div>ETH {quote?.amountCrypto}</div>
-          <input type='text' value={quote?.amountCrypto} />
+          <div>ETH</div>
+          <input type='text' value={quote?.amountCrypto} disabled />
         </InputContainer>
       </BoxValuesContainer>
       <PriceInfoContainer>
-        <span>
-          Melhor preço: <span className='blue'>1 ETH = 9.117,67 BRL</span>
-        </span>
         <span className='gray'>
-          <PiClock style={{ fontSize: 16 }} /> <span>Preço atualiza em 5s</span>
+          <PiClock style={{ fontSize: 16 }} /> <span>{t('v2.ramp.quote.updateQuote')} {seconds}s</span>
         </span>
       </PriceInfoContainer>
-      <DescriptionDetail>
-        <span>Total</span>
-        <div>
-          <span>R$18.XXX,XX</span>
-          <PiCaretDown />
-        </div>
-      </DescriptionDetail>
-      <Button onClick={() => { }} label={'Continuar'} icon={<PiArrowRight />} />
+      <Button onClick={() => { }} label={`${t('next')}`} icon={<PiArrowRight />} />
       <footer>
-        Ao continuar você concorda com nossas <a href='#'>políticas.</a>
+        {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
       </footer>
     </Container>
   )
 }
 
-const { Container, DescriptionDetail, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoContainer } = {
+const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoContainer } = {
   Container: styled.div`
     width: 372px;
     color: ${({ theme }) => theme.colorV2.gray[1]};
@@ -148,24 +156,6 @@ const { Container, DescriptionDetail, InputContainer, ArrowDown, BoxValuesContai
           color: ${({ theme }) => theme.colorV2.blue[1]};
         }
       }
-    }
-  `,
-  DescriptionDetail: styled.div`
-    width: 100%;
-    padding: ${({ theme }) => theme.size[12]};
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-
-    border-radius: ${({ theme }) => theme.size[8]};
-    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
-
-    > div {
-      display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[8]};
     }
   `
 }

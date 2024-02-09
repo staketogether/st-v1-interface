@@ -606,6 +606,12 @@
       "kyc": {
         "title": "KYC - Conheça seu Cliente",
         "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Clique no botão abaixo para começar."
+      },
+      "quote": {
+        "title": "Compre Ethereum direto via PIX",
+        "updateQuote": "Preço atualiza em",
+        "terms": "Ao continuar você concorda com nossas",
+        "policies": "políticas"
       }
     }
   }
