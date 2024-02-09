@@ -13,19 +13,19 @@ function LayoutMenuMobile() {
   const isHome = asPath === `/${network}/${currency}` || asPath === `/${network}/${currency}/withdraw`
   return (
     <Container>
-      <NextLink href={`/${network}/${currency}`} className={`${isHome ? 'active' : ''}`}>
+      <NextLink href={`/${network}/${currency}/products`} className={`${isHome ? 'active' : ''}`}>
         <InvestIcon />
-        {t('v2.header.stake')}
+        {t('v2.header.products')}
       </NextLink>
       <NextLink
-        href={`/${network}/${currency}/project`}
+        href={`/${network}/${currency}/pools`}
         className={`${
-          !isHome && (isActive('project') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
+          !isHome && (isActive('pools') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
         }`}
       >
         <ProjectsIcon />
 
-        {t('v2.header.projects')}
+        {t('v2.header.pools')}
       </NextLink>
     </Container>
   )

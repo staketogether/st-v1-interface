@@ -219,6 +219,8 @@
     "header": {
       "stake": "Stake",
       "projects": "Projetos",
+      "pools": "Pools",
+      "products": "Produtos",
       "incentives": "Incentivos",
       "simulator": "Simulador",
       "gifts": "Presentes",
@@ -608,6 +610,16 @@
       "indexing": {
         "title": "Estamos tendo problemas com a indexação dos dados",
         "description": "Você pode ter problemas com a visualização dos dados, mas não se preocupe, seus fundos estão seguros. Estamos trabalhando para resolver o problema o mais rápido possível."
+      }
+    },
+    "tokens": {
+      "title": "Produtos de Staking",
+      "products": {
+        "name": "Nome",
+        "token": "Token",
+        "apy": "APY",
+        "networks": "Redes",
+        "airdrops": "Airdrops"
       }
     }
   },
