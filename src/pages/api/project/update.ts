@@ -194,7 +194,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     entry.fields.image['en-US'] = null
     entry.fields.image.pt = null
   }
-  console.log(entry.fields.image)
+
   entry.fields.name = { 'en-US': form.projectName, pt: form.projectName }
   entry.fields.category = {
     'en-US': {

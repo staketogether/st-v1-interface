@@ -112,17 +112,16 @@ export default function StakeTransactionLoading({
           <span>{t('addSethToWallet.yourWallet')}</span>
         </AddAssetInWalletButton>
       )}
-      <DescriptionAction>
-        {walletActionLoading && !transactionIsSuccess && !transactionLoading && (
-          <span>{t('v2.stake.confirmModal.proceedInYourWallet')}</span>
-        )}
-        {transactionIsSuccess && (
-          <a href={`${chain.blockExplorer.baseUrl}/tx/${txHash}`} target='_blank' rel='noopener noreferrer'>
-            <Image src={etherscan} alt='etherscan icon' width={20} height={20} />
-            <span>{t('viewOnExplorer')}</span>
-          </a>
-        )}
-      </DescriptionAction>
+
+      {walletActionLoading && !transactionIsSuccess && !transactionLoading && (
+        <DescriptionAction>{t('v2.stake.confirmModal.proceedInYourWallet')}</DescriptionAction>
+      )}
+      {transactionIsSuccess && (
+        <a href={`${chain.blockExplorer.baseUrl}/tx/${txHash}`} target='_blank' rel='noopener noreferrer'>
+          <Image src={etherscan} alt='etherscan icon' width={20} height={20} />
+          <DescriptionAction>{t('viewOnExplorer')}</DescriptionAction>
+        </a>
+      )}
     </Container>
   )
 }
@@ -151,6 +150,18 @@ const {
     }
     span {
       &.purple {
+        color: ${({ theme }) => theme.color.secondary};
+      }
+    }
+    a {
+      text-decoration: none;
+      color: ${({ theme }) => theme.color.primary};
+
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[4]};
+
+      &:hover {
         color: ${({ theme }) => theme.color.secondary};
       }
     }
@@ -187,18 +198,6 @@ const {
     color: ${({ theme }) => theme.color.primary};
 
     font-weight: 500;
-    a {
-      text-decoration: none;
-      color: ${({ theme }) => theme.color.primary};
-
-      display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[4]};
-
-      &:hover {
-        color: ${({ theme }) => theme.color.secondary};
-      }
-    }
   `,
   SuccessIcon: styled(PiCheckCircle)`
     color: ${({ theme }) => theme.color.green[300]};

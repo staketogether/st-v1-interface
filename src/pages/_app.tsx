@@ -22,6 +22,7 @@ import { lightTheme } from '../styles/theme'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
+
   const router = useRouter()
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
   const chain = chainConfig()
