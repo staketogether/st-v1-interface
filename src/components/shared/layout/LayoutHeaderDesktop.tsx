@@ -36,25 +36,25 @@ export default function LayoutHeader() {
     <Container>
       <MenuContainer>
         <div>
-          <Logo href={`/${network}/${currency}`}>
+          <Logo href={`/${network}/${currency}/products`}>
             <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={27} />
           </Logo>
         </div>
         <Menu>
-          <Link href={`/${network}/${currency}`}>
-            <MenuButton className={`${isHome ? 'active' : ''}`}>
+          <Link href={`/${network}/${currency}/products`}>
+            <MenuButton className={`${isHome || isActive('products') ? 'active' : ''}`}>
               <InvestIcon />
-              {t('v2.header.stake')}
+              {t('v2.header.products')}
             </MenuButton>
           </Link>
-          <Link href={`/${network}/${currency}/project`}>
+          <Link href={`/${network}/${currency}/pools`}>
             <MenuButton
               className={`${
-                !isHome && (isActive('project') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
+                !isHome && (isActive('pools') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
               }`}
             >
               <ProjectsIcon />
-              {t('v2.header.projects')}
+              {t('v2.header.pools')}
             </MenuButton>
           </Link>
           <Link href={`/${network}/${currency}/analytics`}>

@@ -219,6 +219,8 @@
     "header": {
       "stake": "Stake",
       "projects": "Projetos",
+      "pools": "Pools",
+      "products": "Produtos",
       "incentives": "Incentivos",
       "simulator": "Simulador",
       "gifts": "Presentes",

@@ -220,6 +220,8 @@
     },
     "header": {
       "stake": "Stake",
+      "products": "Products",
+      "pools": "Pools",
       "projects": "Projects",
       "incentives": "Incentives",
       "simulator": "Simulator",

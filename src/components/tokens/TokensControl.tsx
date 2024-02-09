@@ -2,134 +2,187 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import LayoutTitle from '../shared/layout/LayoutTitle'
+import NetworkIcons from '../shared/NetworkIcons'
+import StakingIcons, { StakingProduct } from './StakingIcons'
+import stIcon from '@assets/st-symbol.svg'
+import AirdropIcons, { Airdrop } from './AirdropIcons'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 type Network = 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana'
+
+type NetworkWrap = {
+  network: Network
+  enabled: boolean
+}
 
 type Products = {
   id: number
   name: string
-  image: string
   symbol: string
-  icon: string
-  networks: Network[]
+  icon: StakingProduct
+  networks: NetworkWrap[]
   apy: number
-  airdrops: boolean
+  airdrops: Airdrop[]
   enabled: boolean
+  urlRedirect: string
 }
 
 export default function TokensControl() {
   const { t } = useLocaleTranslation()
+  const { query } = useRouter()
+  const { currency, network } = query
 
   const products: Products[] = [
     {
       id: 1,
       name: 'Ethereum Staking',
-      image: 'https://picsum.photos/1',
+      icon: 'ethereum',
       symbol: 'stpETH',
-      icon: 'https://picsum.photos/2',
-      networks: ['ethereum'],
-      apy: 6.1,
-      airdrops: true,
-      enabled: true
+      networks: [
+        { network: 'ethereum', enabled: true },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
+      apy: 5.1,
+      airdrops: ['stakeTogether', 'layerZero'],
+      enabled: true,
+      urlRedirect: `/${network}/${currency}`
     },
     {
       id: 2,
       name: 'Ethereum ReStaking',
-      image: 'https://picsum.photos/3',
       symbol: 'stpRETH',
-      icon: 'https://picsum.photos/4',
-      networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
+      icon: 'EthereumRestaking',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
       apy: 10.5,
-      airdrops: true,
-      enabled: false
+      airdrops: ['stakeTogether', 'layerZero', 'eigenLayer'],
+      enabled: false,
+      urlRedirect: '/'
     },
     {
       id: 3,
       name: 'Celestia Staking',
-      image: 'https://picsum.photos/5',
       symbol: 'stpTIA',
-      icon: 'https://picsum.photos/6',
-      networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
+      icon: 'celestia',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
       apy: 10.5,
-      airdrops: false,
-      enabled: false
+      airdrops: ['stakeTogether', 'layerZero', 'celestia'],
+      enabled: false,
+      urlRedirect: '/'
     },
     {
       id: 4,
       name: 'Polygon Staking',
-      image: 'https://picsum.photos/7',
       symbol: 'stpPOL',
-      icon: 'https://picsum.photos/8',
-      networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
+      icon: 'polygon',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
       apy: 10.5,
-      airdrops: false,
-      enabled: false
+      airdrops: ['stakeTogether', 'layerZero'],
+      enabled: false,
+      urlRedirect: '/'
     },
     {
       id: 5,
       name: 'Solana Staking',
-      image: 'https://picsum.photos/9',
       symbol: 'stpSOL',
-      icon: 'https://picsum.photos/10',
-      networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
+      icon: 'solana',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
       apy: 10.5,
-      airdrops: false,
-      enabled: false
+      airdrops: ['stakeTogether', 'layerZero'],
+      enabled: false,
+      urlRedirect: '/'
     },
     {
       id: 6,
       name: 'Cosmos Staking',
-      image: 'https://picsum.photos/11',
       symbol: 'stpATOM',
-      icon: 'https://picsum.photos/12',
-      networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
+      icon: 'cosmos',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
       apy: 10.5,
-      airdrops: false,
-      enabled: false
+      airdrops: ['stakeTogether', 'layerZero'],
+      enabled: false,
+      urlRedirect: '/'
     },
     {
       id: 7,
       name: 'Near Staking',
-      image: 'https://picsum.photos/13',
       symbol: 'stpNear',
-      icon: 'https://picsum.photos/14',
-      networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
+      icon: 'near',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
       apy: 10.5,
-      airdrops: false,
-      enabled: false
+      airdrops: ['stakeTogether', 'layerZero'],
+      enabled: false,
+      urlRedirect: '/'
     },
     {
       id: 8,
       name: 'Polkadot Staking',
-      image: 'https://picsum.photos/15',
       symbol: 'stpKSM',
-      icon: 'https://picsum.photos/16',
-      networks: ['ethereum', 'optimism', 'arbitrum', 'polygon', 'solana'],
+      icon: 'polkadot',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
       apy: 10.5,
-      airdrops: false,
-      enabled: false
+      airdrops: ['stakeTogether', 'layerZero'],
+      enabled: false,
+      urlRedirect: '/'
     }
   ]
-
-  const networks = {
-    ethereum: 'https://picsum.photos/30',
-    optimism: 'https://picsum.photos/31',
-    arbitrum: 'https://picsum.photos/32',
-    polygon: 'https://picsum.photos/33',
-    solana: 'https://picsum.photos/34'
-  }
 
   const productsHeader = [
     t('v2.tokens.products.name'),
     t('v2.tokens.products.token'),
-    t('v2.tokens.products.networks'),
     t('v2.tokens.products.apy'),
+    t('v2.tokens.products.networks'),
     t('v2.tokens.products.airdrops')
   ]
 
   return (
     <Container>
-      <Content>
+      <DesktopContent>
         <LayoutTitle title={t('v2.tokens.title')} />
         <Products>
           <ProductsHeader>
@@ -137,64 +190,162 @@ export default function TokensControl() {
               <span key={`header-${i}`}>{header}</span>
             ))}
           </ProductsHeader>
+          <nav>
+            {products.map(product => (
+              <ProductItem
+                href={product.urlRedirect}
+                key={product.id}
+                className={`${!product.enabled && 'disabled'}`}
+                style={{
+                  pointerEvents: !product.enabled ? 'none' : undefined
+                }}
+              >
+                <ImageContainer>
+                  <StakingIcons stakingProduct={product.icon} size={24} />
+                  <span>{product.name}</span>
+                </ImageContainer>
 
-          {products.map(product => (
-            <ProductItem key={product.id} className={`${!product.enabled && 'disabled'}`}>
+                <ImageContainer>
+                  <Image src={stIcon} width={24} height={24} alt={product.symbol} />
+                  <span>{product.symbol}</span>
+                </ImageContainer>
+
+                <span className='green'>{`${product.apy}%`}</span>
+
+                <IconsArea>
+                  {product.networks.map(network => (
+                    <NetworkIcons
+                      network={network.network}
+                      size={24}
+                      key={network.network}
+                      enabled={network.enabled}
+                    />
+                  ))}
+                </IconsArea>
+
+                <IconsArea>
+                  {product.airdrops.map(airdrop => (
+                    <AirdropIcons airdrop={airdrop} size={24} key={airdrop} />
+                  ))}
+                </IconsArea>
+              </ProductItem>
+            ))}
+          </nav>
+        </Products>
+      </DesktopContent>
+      <MobileContent>
+        <LayoutTitle title={t('v2.tokens.title')} />
+        {products.map(product => (
+          <ProductCard
+            href={product.urlRedirect}
+            key={product.id}
+            className={`${!product.enabled && 'disabled'}`}
+            style={{
+              pointerEvents: !product.enabled ? 'none' : undefined
+            }}
+          >
+            <header>
               <ImageContainer>
-                <Image src={product.image} width={24} height={24} alt={product.name} />
+                <StakingIcons stakingProduct={product.icon} size={22} />
                 <span>{product.name}</span>
               </ImageContainer>
-
-              <ImageContainer>
-                <Image src={product.icon} width={24} height={24} alt={product.symbol} />
-                <span>{product.symbol}</span>
-              </ImageContainer>
-
-              <span className='green'>{product.apy}</span>
-
-              <IconsArea>
-                {product.networks.map(network => (
-                  <Image src={networks[network]} width={24} height={24} alt={network} key={network} />
-                ))}
-              </IconsArea>
-
-              <span className={`green`}>{product.airdrops ? 'Yes' : '-'}</span>
-            </ProductItem>
-          ))}
-        </Products>
-      </Content>
+              <div>
+                <span className='opacity'>{t('v2.tokens.products.apy')}</span>
+                <span className='green'>{`${product.apy}%`}</span>
+              </div>
+            </header>
+            <div>
+              <div>
+                <span className='opacity'>{t('v2.tokens.products.token')}</span>
+                <ImageContainer>
+                  <Image src={stIcon} width={16} height={16} alt={product.symbol} />
+                  <span>{product.symbol}</span>
+                </ImageContainer>
+              </div>
+              <div>
+                <span className='opacity'>{t('v2.tokens.products.networks')}</span>
+                <IconsArea>
+                  {product.networks.map(network => (
+                    <NetworkIcons
+                      network={network.network}
+                      size={16}
+                      key={network.network}
+                      enabled={network.enabled}
+                    />
+                  ))}
+                </IconsArea>
+              </div>
+              <div>
+                <span className='opacity'>{t('v2.tokens.products.airdrops')}</span>
+                <IconsArea>
+                  {product.airdrops.map(airdrop => (
+                    <AirdropIcons airdrop={airdrop} size={16} key={airdrop} />
+                  ))}
+                </IconsArea>
+              </div>
+            </div>
+          </ProductCard>
+        ))}
+      </MobileContent>
     </Container>
   )
 }
 
-const { Container, Content, Products, ProductsHeader, ProductItem, IconsArea, ImageContainer } = {
+const {
+  Container,
+  DesktopContent,
+  MobileContent,
+  Products,
+  ProductsHeader,
+  ProductItem,
+  IconsArea,
+  ImageContainer,
+  ProductCard
+} = {
   Container: styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[32]};
   `,
-  Content: styled.div`
-    width: 100%;
+  DesktopContent: styled.div`
+    display: none;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[24]};
+
+      > h2 {
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        font-size: 20px;
+        font-weight: 400;
+      }
+    }
+  `,
+  MobileContent: styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
-
-    > h2 {
-      color: ${({ theme }) => theme.colorV2.gray[1]};
-      font-size: 20px;
-      font-weight: 400;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      display: none;
     }
   `,
   Products: styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: ${({ theme }) => theme.size[8]};
+    nav {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[8]};
+    }
   `,
   ProductsHeader: styled.header`
     display: grid;
-    grid-template-columns: 1fr 0.7fr 1fr 0.5fr 1fr;
+    grid-template-columns: 1fr 0.7fr 0.5fr 1fr 1fr;
     gap: 16px;
 
     padding: 0 12px;
@@ -206,9 +357,9 @@ const { Container, Content, Products, ProductsHeader, ProductItem, IconsArea, Im
       font-weight: 500;
     }
   `,
-  ProductItem: styled.div`
+  ProductItem: styled(Link)`
     display: grid;
-    grid-template-columns: 1fr 0.7fr 1fr 0.5fr 1fr;
+    grid-template-columns: 1fr 0.7fr 0.5fr 1fr 1fr;
 
     box-shadow: ${({ theme }) => theme.shadow[100]};
     background: ${({ theme }) => theme.colorV2.white};
@@ -222,7 +373,6 @@ const { Container, Content, Products, ProductsHeader, ProductItem, IconsArea, Im
 
     img {
       border-radius: 100%;
-      box-shadow: ${({ theme }) => theme.shadow[100]};
     }
 
     span {
@@ -247,8 +397,59 @@ const { Container, Content, Products, ProductsHeader, ProductItem, IconsArea, Im
   `,
 
   IconsArea: styled.div`
+    width: 100%;
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[12]};
+  `,
+  ProductCard: styled(Link)`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[12]};
+    padding: ${({ theme }) => theme.size[12]};
+
+    font-size: ${({ theme }) => theme.font.size[15]};
+    font-weight: 400;
+
+    border-radius: ${({ theme }) => theme.size[12]};
+    background: ${({ theme }) => theme.colorV2.white};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    span {
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      &.opacity {
+        opacity: 0.8;
+      }
+      &.green {
+        color: ${({ theme }) => theme.color.green[500]};
+      }
+    }
+
+    header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      > div {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[4]};
+      }
+    }
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[8]};
+      > div {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: ${({ theme }) => theme.size[8]};
+        align-items: center;
+      }
+    }
+    &.disabled {
+      opacity: 0.5;
+    }
   `
 }
