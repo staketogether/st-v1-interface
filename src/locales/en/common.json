@@ -598,5 +598,15 @@
         "airdrops": "Airdrops"
       }
     }
+  },
+  "tokens": {
+    "title": "Products",
+    "products": {
+      "name": "Name",
+      "token": "Token",
+      "apy": "APY",
+      "networks": "Networks",
+      "airdrops": "Airdrops"
+    }
   }
 }
