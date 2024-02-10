@@ -143,7 +143,7 @@ img {
 html,
 body {
   font-size: 62.5%;
-  font-family: __Montserrat_dbb16c, __Montserrat_Fallback_dbb16c !important;
+  font-family: __Montserrat_80eb8d, __Montserrat_Fallback_80eb8d !important;
   text-rendering: optimizeLegibility;
   height: 100%;
   color: #404a57;
@@ -198,7 +198,7 @@ input::-webkit-inner-spin-button {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: __Montserrat_dbb16c, __Montserrat_Fallback_dbb16c !important;
+  font-family: __Montserrat_80eb8d, __Montserrat_Fallback_80eb8d !important;
 }
 
 .ant-drawer {
