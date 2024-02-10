@@ -400,19 +400,17 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
             icon={<ConnectWalletIcon />}
           />
         )}
-        {accountAddress && type === 'deposit' && (
-          <>
-            <Button
-              isLoading={isLoading || isLoadingFees}
-              onClick={openStakeConfirmation}
-              label={handleLabelButton()}
-              icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
-              disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
-            />
-
-            <Button onClick={buyCrypto} label={t('buyCryptoTitle')} />
-          </>
+        {accountAddress && (
+          <Button
+            isLoading={isLoading || isLoadingFees}
+            onClick={openStakeConfirmation}
+            label={handleLabelButton()}
+            icon={type === 'deposit' ? <DepositIcon /> : <WithdrawIcon />}
+            disabled={type === 'deposit' ? cantDeposit : cantWithdraw}
+          />
         )}
+
+        {type === 'deposit' && accountAddress && <Button onClick={buyCrypto} label={t('buyCryptoTitle')} />}
 
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
           <CardBlock>
