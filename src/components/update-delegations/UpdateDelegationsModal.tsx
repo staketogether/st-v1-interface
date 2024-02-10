@@ -79,7 +79,9 @@ export default function UpdateDelegationsModal({
     isSuccess,
     txHash,
     awaitWalletAction,
-    resetState
+    resetState,
+    prepareTransactionIsError,
+    prepareTransactionErrorMessage
   } = useUpdateDelegations(
     isEnabled,
     updateDelegationsFormat.filter(pool => pool.percentage > 0n),
@@ -145,6 +147,15 @@ export default function UpdateDelegationsModal({
   const handleCloseModal = () => {
     setOpenSidebar(false)
     resetState()
+  }
+
+  const disabledButton = prepareTransactionIsError || !isEnabled
+
+  const handleLabelButton = () => {
+    if (prepareTransactionIsError) {
+      return prepareTransactionErrorMessage
+    }
+    return t('v2.updateDelegations.labelButton')
   }
 
   return (
@@ -251,8 +262,8 @@ export default function UpdateDelegationsModal({
                 block
                 isLoading={updateDelegationsLoading || awaitWalletAction}
                 onClick={updateDelegations}
-                label={t('v2.updateDelegations.labelButton')}
-                disabled={!isEnabled}
+                label={handleLabelButton()}
+                disabled={disabledButton}
               />
             </ActionContainer>
           </CardContainer>

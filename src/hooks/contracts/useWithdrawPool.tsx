@@ -23,6 +23,8 @@ import {
 } from '../../types/Contracts'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
+import useStConfig from './useStConfig'
+import useConnectedAccount from '../useConnectedAccount'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -30,36 +32,48 @@ export default function useWithdrawPool(
   enabled: boolean,
   accountAddress?: `0x${string}`
 ) {
-  const [estimateGasCost, setEstimateGasCost] = useState(0n)
-  const [notify, setNotify] = useState(false)
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
-  const { contracts, chainId } = chainConfig()
+
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
+  const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
+  const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerWithdraw } = useMixpanelAnalytics()
-  const amountEstimatedGas = ethers.parseUnits('0.001', 18)
+  const { contracts, chainId } = chainConfig()
+  const { web3AuthUserInfo } = useConnectedAccount()
+  const { stConfig, loading: stConfigLoading } = useStConfig()
+  const { t } = useLocaleTranslation()
+
+  const amountEstimatedGas = stConfig?.minWithdrawAmount || 0n
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
-  const isWithdrawEnabled = enabled && amount > 0n
+  const isWithdrawEnabled = enabled && amount > 0n && !stConfigLoading
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
     contractAddress: contracts.StakeTogether,
     functionName: 'withdrawPool',
-    args: [amountEstimatedGas],
+    args: [amountEstimatedGas, poolAddress],
     abi: stakeTogetherABI,
-    skip: !enabled || estimateGasCost > 0n
+    skip: !isWithdrawEnabled || estimateGasCost > 0n
   })
 
   useEffect(() => {
-    const handleEstimateGas = async () => {
-      const { estimatedCost } = await estimateGas()
-      if (estimatedCost > 0n) {
-        setEstimateGasCost(estimatedCost)
-      }
+    const handleEstimateGasPrice = async () => {
+      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
+        await estimateGas()
+      setEstimatedGas(estimatedGas)
+      setEstimateGasCost(estimatedCost)
+      setMaxFeePerGas(estimatedMaxFeePerGas)
+      setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
     }
-    handleEstimateGas()
-  }, [estimateGas])
+
+    if (estimateGasCost === 0n) {
+      handleEstimateGasPrice()
+    }
+  }, [estimateGas, estimateGasCost])
 
   const {
     config,
@@ -70,8 +84,36 @@ export default function useWithdrawPool(
     args: [amount, poolAddress],
     account: accountAddress,
     enabled: isWithdrawEnabled,
+    gas: !!estimatedGas && estimatedGas > 0n && !!web3AuthUserInfo ? estimatedGas : undefined,
+    maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
+    maxPriorityFeePerGas:
+      !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo
+        ? maxPriorityFeePerGas
+        : undefined,
     onError(error) {
-      const { cause } = error as { cause?: { reason?: string } }
+      if (!error) {
+        return
+      }
+
+      const { cause } = error as { cause?: { reason?: string; message?: string } }
+
+      if (
+        (!cause || !cause.reason) &&
+        !!web3AuthUserInfo &&
+        cause?.message &&
+        cause.message.includes(
+          'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
+        )
+      ) {
+        notification.warning({
+          message: `${t('v2.stake.insufficientGasBalance')}, ${t('v2.stake.useMaxButton')}`,
+          placement: 'topRight'
+        })
+        setPrepareTransactionErrorMessage('insufficientGasBalance')
+
+        return
+      }
+
       const { data } = cause as { data?: { errorName?: string } }
 
       if (cause && data && data.errorName) {
@@ -90,6 +132,10 @@ export default function useWithdrawPool(
       }
     },
     onError: () => {
+      notification.error({
+        message: `${t('v2.stake.userRejectedTheRequest')}`,
+        placement: 'topRight'
+      })
       setAwaitWalletAction(false)
     }
   })
@@ -97,23 +143,17 @@ export default function useWithdrawPool(
   const withdrawPool = () => {
     setAwaitWalletAction(true)
     tx.write?.()
-    setNotify(true)
   }
 
-  const { isLoading, isSuccess, isError } = useWaitForTransaction({
+  const { isLoading, isSuccess } = useWaitForTransaction({
     hash: txHash,
-    confirmations: 2
-  })
-
-  const { t } = useLocaleTranslation()
-
-  const resetState = () => {
-    setAwaitWalletAction(false)
-    setTxHash(undefined)
-  }
-
-  useEffect(() => {
-    if (isSuccess && withdrawAmount && accountAddress) {
+    confirmations: 2,
+    onSuccess: () => {
+      setAwaitWalletAction(false)
+      notification.success({
+        message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,
+        placement: 'topRight'
+      })
       apolloClient.refetchQueries({
         include: [
           queryAccount,
@@ -128,29 +168,23 @@ export default function useWithdrawPool(
           queryStakeTogether
         ]
       })
-
-      registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.POOL)
-      if (notify) {
-        notification.success({
-          message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,
-          placement: 'topRight'
-        })
-        setNotify(false)
+      if (accountAddress) {
+        registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.POOL)
       }
+    },
+    onError: () => {
+      notification.error({
+        message: `${t('notifications.withdrawError')} ${withdrawAmount} ${t('eth.symbol')}`,
+        placement: 'topRight'
+      })
+      setAwaitWalletAction(false)
     }
-  }, [accountAddress, chainId, notify, isSuccess, poolAddress, registerWithdraw, t, withdrawAmount])
+  })
 
-  useEffect(() => {
-    if (isError) {
-      if (notify) {
-        notification.error({
-          message: `${t('notifications.withdrawError')} ${withdrawAmount} ${t('eth.symbol')}`,
-          placement: 'topRight'
-        })
-        setNotify(false)
-      }
-    }
-  }, [accountAddress, isError, notify, poolAddress, t, withdrawAmount])
+  const resetState = () => {
+    setAwaitWalletAction(false)
+    setTxHash(undefined)
+  }
 
   return {
     withdrawPool,

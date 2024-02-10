@@ -19,11 +19,17 @@ export default function useAddPool(projectAddress: `0x${string}`, isSocial: bool
   } = usePrepareStakeTogetherAddPool({
     chainId,
     address: contracts.StakeTogether,
-    enabled: !!disabled,
+    enabled: disabled,
     args: [projectAddress, true, isSocial, false],
     value: 0n,
     onError(error) {
-      const { cause } = error as { cause?: { reason?: string } }
+      console.error(error)
+      if (!error) {
+        return
+      }
+
+      const { cause } = error as { cause?: { reason?: string; message?: string } }
+
       const { data } = cause as { data?: { errorName?: string } }
 
       if (cause && data && data.errorName) {
@@ -63,6 +69,10 @@ export default function useAddPool(projectAddress: `0x${string}`, isSocial: bool
     },
     onError: () => {
       setAwaitWalletAction(false)
+      notification.error({
+        message: `${t('v2.stake.userRejectedTheRequest')}`,
+        placement: 'topRight'
+      })
     }
   })
 

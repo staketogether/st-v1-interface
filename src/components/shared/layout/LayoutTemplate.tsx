@@ -28,7 +28,6 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   const { currency } = router.query
   const { setItem, getItem } = useLocalStorage()
 
-
   const changeCurrency = useCallback(
     (newCurrency: string) => {
       router.push({
@@ -64,9 +63,7 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
         <Content>
           <LayoutHeaderDesktop />
           <LayoutHeaderMobile />
-          <Body>
-            {children}
-          </Body>
+          <Body>{children}</Body>
         </Content>
       </Wrapper>
       <LayoutMenuMobile />

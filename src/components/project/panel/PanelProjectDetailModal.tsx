@@ -30,6 +30,7 @@ import LottieAnimation from '@/components/shared/LottieAnimation'
 import successAnimation from '@assets/animations/success-animation.json'
 import useAddPool from '@/hooks/contracts/useAddPool'
 import useRemovePool from '@/hooks/contracts/useRemovePool'
+import usePool from '@/hooks/subgraphs/usePool'
 
 type PanelProjectDetailModalProps = {
   project: ContentfulPool
@@ -48,6 +49,8 @@ export default function PanelProjectDetailModal({
   const { isOpenProjectDetailModal, setProjectDetailModal } = useProjectDetailModal()
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
+
+  const { pool: subgraphPool } = usePool(project.wallet, !!isContractPublished)
 
   const {
     isLoading: isLoadingTransaction,
@@ -190,7 +193,6 @@ export default function PanelProjectDetailModal({
       isOpen={isOpenProjectDetailModal}
       showCloseIcon={isLoading ? false : true}
       showHeader={isLoading ? false : true}
-      noPadding={isLoading ? true : false}
     >
       {isLoading && (
         <GenericTransactionLoading
@@ -330,14 +332,25 @@ export default function PanelProjectDetailModal({
           )}
           {!isApproved && !isRejected && project.status !== 'approved' && (
             <FooterContainer>
-              <Button
-                label={t('v2.panelProject.modal.approve')}
-                block
-                color='green'
-                isLoading={approveIsLoading || isLoadingTransaction || awaitWalletAction}
-                disabled={addPoolTransactionIsError}
-                onClick={addPool}
-              />
+              {!subgraphPool?.listed ? (
+                <Button
+                  label={t('v2.panelProject.modal.approve')}
+                  block
+                  color='green'
+                  isLoading={approveIsLoading || isLoadingTransaction || awaitWalletAction}
+                  disabled={addPoolTransactionIsError}
+                  onClick={addPool}
+                />
+              ) : (
+                <Button
+                  label={t('v2.panelProject.modal.approveBd')}
+                  block
+                  color='green'
+                  isLoading={approveIsLoading || isLoadingTransaction || awaitWalletAction}
+                  onClick={() => signMessage()}
+                />
+              )}
+
               <Button
                 label={t('v2.panelProject.modal.reject')}
                 block

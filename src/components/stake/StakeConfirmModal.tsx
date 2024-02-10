@@ -49,9 +49,10 @@ export default function StakeConfirmModal({
       title={walletActionLoading ? undefined : <Header>{titleModal}</Header>}
       isOpen={isOpen}
       onClose={onClose}
+      showHeader={transactionIsSuccess || !(walletActionLoading || transactionLoading) ? true : false}
       showCloseIcon={!(walletActionLoading || transactionLoading) || transactionIsSuccess}
     >
-      {walletActionLoading || transactionLoading ? (
+      {walletActionLoading || transactionLoading || transactionIsSuccess ? (
         <StakeTransactionLoading
           walletActionLoading={walletActionLoading}
           transactionLoading={transactionLoading}

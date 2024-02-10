@@ -3,7 +3,7 @@ import { queryPool } from '../../queries/subgraph/queryPool'
 import { PoolSubgraph } from '../../types/Pool'
 import { useState } from 'react'
 
-export default function usePool(address?: string) {
+export default function usePool(address?: string, skip?: boolean) {
   const [loadingFetchMore, setLoadingFetchMore] = useState<boolean>(false)
 
   const {
@@ -16,7 +16,7 @@ export default function usePool(address?: string) {
       first: 10,
       skip: 0
     },
-    skip: !address?.length
+    skip: !address?.length || skip
   })
 
   const loadMore = async (variables: { id: string; first: number; skip: number }) => {
