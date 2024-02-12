@@ -22,9 +22,8 @@ const useEstimateTxInfo = ({
   value,
   skip
 }: UseEstimateTxInfoProps) => {
-  const { data, isLoading } = useFeeData({ enabled: !skip })
+  const { data, isLoading: gasPriceLoading } = useFeeData({ enabled: !skip })
 
-  const gasPriceLoading = isLoading
   const networkGasPriceGwei = data && data.gasPrice ? data.gasPrice : 0n
   const maxFeePerGas = data && data.maxFeePerGas ? data?.maxFeePerGas : 0n
   const maxPriorityFeePerGas = data && data.maxPriorityFeePerGas ? data?.maxPriorityFeePerGas : 0n
@@ -58,7 +57,7 @@ const useEstimateTxInfo = ({
         estimatedCost: (estimatedCost * 3n) / 2n,
         estimatedMaxFeePerGas: (maxFeePerGas * 3n) / 2n,
         estimatedMaxPriorityFeePerGas: (maxPriorityFeePerGas * 3n) / 2n,
-        error: true
+        error: false
       }
     } catch {
       return {

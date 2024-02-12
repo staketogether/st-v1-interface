@@ -69,6 +69,8 @@
   "poolDetail": "Pool Detail",
   "learnMore": "Learn More",
   "knowMore": "Know More",
+  "buyCryptoTitle": "Buy ETH",
+  "sellCryptoTitle": "Sell ETH",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -289,6 +291,8 @@
       "infoEmptyState": "Data not available",
       "faucetTooltip": "Try the protocol, get Goerli Ethereum here",
       "maxDepositButtonMessage": "The max function in native Ether always leaves a value to execute the transaction",
+      "userRejectedTheRequest": "Transaction Rejected",
+      "insufficientGasBalance": "Insufficient Balance For Gas",
       "descriptionForm": {
         "receive": "You receive:",
         "receiveTooltip": "When you deposit ETH, you receive the stpETH token in return. The stpETH receives staking rewards daily.",
@@ -330,7 +334,8 @@
         "DepositLimitReached": "Deposit Limit Reached",
         "LessThanMinimumDeposit": "Min Deposit",
         "PoolNotFound": "Pool Not Found",
-        "ZeroAmount": "Zero Supply"
+        "ZeroAmount": "Zero Supply",
+        "useMaxButton": "Use Max Button"
       }
     },
     "activities": {
@@ -481,6 +486,7 @@
       "modal": {
         "title": "Approve Project",
         "approve": "Approve",
+        "approveBd": "Approve on BD",
         "reject": "Reject",
         "remove": "Remove Contract",
         "publishInContract": "Publish on Contract",
@@ -586,6 +592,16 @@
         "title": "New Stake Together Feature",
         "description": "Incentive Airdrop is now available in your wallet. Check your eligibility and enjoy the benefits now!"
       }
+    }
+  },
+  "tokens": {
+    "title": "Products",
+    "products": {
+      "name": "Name",
+      "token": "Token",
+      "apy": "APY",
+      "networks": "Networks",
+      "airdrops": "Airdrops"
     }
   }
 }
