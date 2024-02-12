@@ -45,9 +45,11 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
             </span>
             <span>{truncateTimestamp(activity.timestamp, getLocale())}</span>
             <span className={`${activity.type} purple`}>{t(`v2.activities.${activity.type}`)}</span>
-            <span className={`${activity.type.includes('deposit') ? 'green' : 'red'}`}>
-              {`${formatNumberByLocale(truncateWei(BigInt(activity.amount), 5), locale)} ${t('eth.symbol')}`}
-            </span>
+            {activity.type != 'airdropClaim' && (
+              <span className={`${activity.type.includes('deposit') ? 'green' : 'red'}`}>
+                {`${formatNumberByLocale(truncateWei(BigInt(activity.amount), 5), locale)} ${t('eth.symbol')}`}
+              </span>
+            )}
           </Row>
         )
       })}
