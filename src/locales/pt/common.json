@@ -342,7 +342,8 @@
       "withdraw": "Saque",
       "withdrawPool": "Saque",
       "transfer": "Transferência",
-      "withdrawValidator": "Saque Validadores"
+      "withdrawValidator": "Saque Validadores",
+      "airdropClaim": "Incentivos"
     },
     "gifts": {
       "countdown": "Tempo para Resgatar",
@@ -608,6 +609,12 @@
       "indexing": {
         "title": "Estamos tendo problemas com a indexação dos dados",
         "description": "Você pode ter problemas com a visualização dos dados, mas não se preocupe, seus fundos estão seguros. Estamos trabalhando para resolver o problema o mais rápido possível."
+      }
+    },
+    "notifyBar": {
+      "incentives": {
+        "title": "Novidade Stake Together",
+        "description": "Airdrop de Incentivos já está disponível em sua carteira. Verifique sua elegibilidade e aproveite os benefícios agora!"
       }
     }
   },

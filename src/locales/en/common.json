@@ -344,7 +344,8 @@
       "withdraw": "Withdraw",
       "withdrawPool": "Withdraw",
       "transfer": "Transfer",
-      "withdrawValidator": "Withdraw Validator"
+      "withdrawValidator": "Withdraw Validator",
+      "airdropClaim": "Incentives"
     },
     "gifts": {
       "countdown": "Time to Redeem",
@@ -584,6 +585,12 @@
       "indexing": {
         "title": "We are experiencing a delay in the indexing of data on the Ethereum network.",
         "description": "You may experience a delay in the display of your transactions and balances, but rest assured that your funds are safe. We are working to resolve this issue as soon as possible."
+      }
+    },
+    "notifyBar": {
+      "incentives": {
+        "title": "New Stake Together Feature",
+        "description": "Incentive Airdrop is now available in your wallet. Check your eligibility and enjoy the benefits now!"
       }
     }
   },
