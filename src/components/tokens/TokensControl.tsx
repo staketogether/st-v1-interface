@@ -310,6 +310,11 @@ const {
   `,
   DesktopContent: styled.div`
     display: none;
+
+    img {
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+    }
+
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       width: 100%;
       display: flex;
@@ -327,6 +332,11 @@ const {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
+
+    img {
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+    }
+
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: none;
     }

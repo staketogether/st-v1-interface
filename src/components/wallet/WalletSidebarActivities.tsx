@@ -20,8 +20,6 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
     return locale === 'en' ? 'en-US' : 'pt-BR'
   }
 
-  console.log(accountActivities[0].type)
-
   return (
     <Container>
       {accountActivities.length === 0 && (
