@@ -100,7 +100,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
 
   return (
     <Container>
-      <LayoutTitle title={t('v2.pages.invest.title')} description={t('v2.pages.invest.description')} />
+      <LayoutTitle title={t('v2.pages.invest.title')} description={''} />
       <FiltersContainer>
         <Filters>
           {filterTypes.map(filter => (

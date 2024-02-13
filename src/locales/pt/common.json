@@ -190,11 +190,11 @@
   "v2": {
     "pages": {
       "invest": {
-        "title": "Stake Ether com um Projeto",
+        "title": "Pools de Delegação",
         "description": "Escolha um projeto, stake ether e ganhe recompensas de staking de ethereum juntos"
       },
       "deposit": {
-        "title": "Stake de Ether",
+        "title": "Staking de Ethereum",
         "description": "Faça Stake de Ether e receba recompensas de staking",
         "stakeTogetherPoolDescription": "Gostaria de apoiar um projeto especifico? Clique",
         "here": "aqui"
@@ -219,6 +219,8 @@
     "header": {
       "stake": "Stake",
       "projects": "Projetos",
+      "pools": "Pools",
+      "products": "Produtos",
       "incentives": "Incentivos",
       "simulator": "Simulador",
       "gifts": "Presentes",
@@ -394,22 +396,22 @@
       "claim": "Resgatar"
     },
     "createProject": {
-      "title": "Cadastrar Projeto",
+      "title": "Cadastrar Pool",
       "linksToAnalyze": "Links para Análise",
       "terms": "Estou de acordo com os",
       "termsAndConditions": "Termos de Cadastro",
       "send": "Enviar",
       "sent": "Enviado",
-      "seeMyProject": "Ver meu projeto",
-      "walletTooltip": "O cadastro do projeto ficará vinculado a carteira conectada",
-      "reapplyTitle": "Reaplicar Projeto",
+      "seeMyProject": "Ver minha pool",
+      "walletTooltip": "O cadastro da pool ficará vinculado a carteira conectada",
+      "reapplyTitle": "Reaplicar Pool",
       "form": {
-        "logo": "Logo do Projeto",
-        "wallet": "Carteira do Projeto",
-        "name": "Nome do Projeto",
+        "logo": "Logo da Pool",
+        "wallet": "Carteira do Pool",
+        "name": "Nome da Pool",
         "category": "Categoria",
         "email": "Email",
-        "about": "Apresente seu projeto para nossa equipe",
+        "about": "Apresente sua pool para nossa equipe",
         "site": "Site",
         "twitter": "X (Twitter)",
         "instagram": "Instagram",
@@ -417,9 +419,9 @@
         "discord": "Discord",
         "telegram": "Telegram",
         "upload": "Enviar",
-        "register": "Cadastrar Projeto",
-        "loadingMessage": "Enviando Cadastro do Projeto",
-        "reapplyLoadingMessage": "Reaplicando Projeto",
+        "register": "Cadastrar Pool",
+        "loadingMessage": "Enviando Cadastro do Pool",
+        "reapplyLoadingMessage": "Reaplicando Pool",
         "cover": "Cover",
         "video": "Video",
         "facebook": "Facebook",
@@ -609,6 +611,16 @@
       "indexing": {
         "title": "Estamos tendo problemas com a indexação dos dados",
         "description": "Você pode ter problemas com a visualização dos dados, mas não se preocupe, seus fundos estão seguros. Estamos trabalhando para resolver o problema o mais rápido possível."
+      }
+    },
+    "tokens": {
+      "title": "Produtos de Staking",
+      "products": {
+        "name": "Nome",
+        "token": "Token",
+        "apy": "APY",
+        "networks": "Redes",
+        "airdrops": "Airdrops"
       }
     },
     "notifyBar": {

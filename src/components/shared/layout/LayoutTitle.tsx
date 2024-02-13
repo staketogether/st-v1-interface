@@ -1,6 +1,3 @@
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
 type LayoutTitleProps = {
@@ -10,21 +7,11 @@ type LayoutTitleProps = {
   isStakeTogetherPool?: boolean
 }
 
-export default function LayoutTitle({ title, description, className, isStakeTogetherPool }: LayoutTitleProps) {
-  const { t } = useLocaleTranslation()
-  const stakeTogetherPoolDescription = t('v2.pages.deposit.stakeTogetherPoolDescription')
-  const { query } = useRouter()
-  const { currency, network } = query
+export default function LayoutTitle({ title, description, className }: LayoutTitleProps) {
   return (
     <Container className={className}>
       <Title>{title}</Title>
       {description && <Description>{description}</Description>}
-      {isStakeTogetherPool && (
-        <Description>
-          {`${stakeTogetherPoolDescription}`}{' '}
-          <Link href={`/${network}/${currency}/project`}>{t('v2.pages.deposit.here')}</Link>
-        </Description>
-      )}
     </Container>
   )
 }

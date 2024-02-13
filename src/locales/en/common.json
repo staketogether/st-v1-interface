@@ -192,11 +192,11 @@
   "v2": {
     "pages": {
       "invest": {
-        "title": "Stake Ether with Projects",
+        "title": "Delegation Pools",
         "description": "Choose a project, stake ether and earn ethereum staking rewards together"
       },
       "deposit": {
-        "title": "Stake Ether",
+        "title": "Ethereum Staking",
         "description": "Stake Ether and receive staking rewards",
         "stakeTogetherPoolDescription": "Would you like to support a specific project? Click",
         "here": "here"
@@ -220,6 +220,8 @@
     },
     "header": {
       "stake": "Stake",
+      "products": "Products",
+      "pools": "Pools",
       "projects": "Projects",
       "incentives": "Incentives",
       "simulator": "Simulator",
@@ -372,22 +374,22 @@
       "claim": "Claim"
     },
     "createProject": {
-      "title": "Create Project",
+      "title": "Create Pool",
       "linksToAnalyze": "Links to Analyze",
       "terms": "I agree with the",
       "termsAndConditions": "Terms of Service",
       "send": "Send",
       "sent": "Sent",
-      "seeMyProject": "See my project",
-      "walletTooltip": "The project registration will be linked to the connected wallet",
-      "reapplyTitle": "Reapply Project",
+      "seeMyProject": "See my pool",
+      "walletTooltip": "The pool registration will be linked to the connected wallet",
+      "reapplyTitle": "Reapply Pool",
       "form": {
-        "logo": "Project Logo",
+        "logo": "Pool's Logo",
         "wallet": "Wallet",
         "name": "Name",
         "category": "Category",
         "email": "Email",
-        "about": "Present your project to our team",
+        "about": "Present your pool to our team",
         "site": "Site",
         "twitter": "Twitter",
         "instagram": "Instagram",
@@ -585,6 +587,16 @@
       "indexing": {
         "title": "We are experiencing a delay in the indexing of data on the Ethereum network.",
         "description": "You may experience a delay in the display of your transactions and balances, but rest assured that your funds are safe. We are working to resolve this issue as soon as possible."
+      }
+    },
+    "tokens": {
+      "title": "Staking Products",
+      "products": {
+        "name": "Name",
+        "token": "Token",
+        "apy": "APY",
+        "networks": "Networks",
+        "airdrops": "Airdrops"
       }
     },
     "notifyBar": {
