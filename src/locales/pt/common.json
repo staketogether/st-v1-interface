@@ -69,6 +69,8 @@
   "poolDetail": "Detalhes da Pool",
   "learnMore": "Leia mais",
   "knowMore": "Saiba mais",
+  "buyCryptoTitle": "Comprar ETH",
+  "sellCryptoTitle": "Vender ETH",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -217,6 +219,8 @@
     "header": {
       "stake": "Stake",
       "projects": "Projetos",
+      "pools": "Pools",
+      "products": "Produtos",
       "incentives": "Incentivos",
       "simulator": "Simulador",
       "gifts": "Presentes",
@@ -286,6 +290,7 @@
       "annualRewards": "Recompensas anuais de staking",
       "infoEmptyState": "Dados não disponíveis",
       "maxDepositButtonMessage": "A função de máximo no ether nativo sempre deixa um valor para efetuar a transação",
+      "userRejectedTheRequest": "Transação Rejeitada",
       "descriptionForm": {
         "receive": "Você recebe:",
         "receiveTooltip": "Quando você deposita ETH, você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",
@@ -320,14 +325,17 @@
         "InsufficientBeaconBalance": "Saldo Insuficiente na Beacon Chain",
         "WithdrawFromPool": "Retirada do Pool",
         "ListedInAntiFraud": "Listado em Anti Fraude",
-        "EarlyTransfer": "Saque Bloqueado"
+        "EarlyTransfer": "Saque Bloqueado",
+        "insufficientGasBalance": "Saldo Insuficiente para o Gás"
       },
       "depositErrorMessage": {
         "FeatureDisabled": "Funcionalidade Desativada",
         "DepositLimitReached": "Limite de Depósito Alcançado",
         "LessThanMinimumDeposit": "Depósito Mínimo",
         "PoolNotFound": "Pool Não Encontrado",
-        "ZeroAmount": "Suprimento Zero"
+        "ZeroAmount": "Suprimento Zero",
+        "insufficientGasBalance": "Saldo Insuficiente para o Gás",
+        "useMaxButton": "Utilize o botão Max"
       }
     },
     "activities": {
@@ -603,6 +611,26 @@
         "title": "Estamos tendo problemas com a indexação dos dados",
         "description": "Você pode ter problemas com a visualização dos dados, mas não se preocupe, seus fundos estão seguros. Estamos trabalhando para resolver o problema o mais rápido possível."
       }
+    },
+    "tokens": {
+      "title": "Produtos de Staking",
+      "products": {
+        "name": "Nome",
+        "token": "Token",
+        "apy": "APY",
+        "networks": "Redes",
+        "airdrops": "Airdrops"
+      }
+    }
+  },
+  "tokens": {
+    "title": "Products",
+    "products": {
+      "name": "Nome",
+      "token": "Token",
+      "apy": "APY",
+      "networks": "Redes",
+      "airdrops": "Airdrops"
     }
   }
 }
