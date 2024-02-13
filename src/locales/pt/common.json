@@ -344,7 +344,8 @@
       "withdraw": "Saque",
       "withdrawPool": "Saque",
       "transfer": "Transferência",
-      "withdrawValidator": "Saque Validadores"
+      "withdrawValidator": "Saque Validadores",
+      "airdropClaim": "Incentivos"
     },
     "gifts": {
       "countdown": "Tempo para Resgatar",
@@ -620,6 +621,12 @@
         "apy": "APY",
         "networks": "Redes",
         "airdrops": "Airdrops"
+      }
+    },
+    "notifyBar": {
+      "incentives": {
+        "title": "Novidade Stake Together",
+        "description": "Airdrop de Incentivos já está disponível em sua carteira. Verifique sua elegibilidade e aproveite os benefícios agora!"
       }
     }
   },

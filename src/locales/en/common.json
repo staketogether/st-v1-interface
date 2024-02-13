@@ -346,7 +346,8 @@
       "withdraw": "Withdraw",
       "withdrawPool": "Withdraw",
       "transfer": "Transfer",
-      "withdrawValidator": "Withdraw Validator"
+      "withdrawValidator": "Withdraw Validator",
+      "airdropClaim": "Incentives"
     },
     "gifts": {
       "countdown": "Time to Redeem",
@@ -596,6 +597,12 @@
         "apy": "APY",
         "networks": "Networks",
         "airdrops": "Airdrops"
+      }
+    },
+    "notifyBar": {
+      "incentives": {
+        "title": "New Stake Together Feature",
+        "description": "Incentive Airdrop is now available in your wallet. Check your eligibility and enjoy the benefits now!"
       }
     }
   },
