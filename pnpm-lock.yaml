@@ -16,7 +16,7 @@ dependencies:
     version: 3.5.3(react@18.2.0)
   '@rango-dev/widget-embedded':
     specifier: ^0.22.3
-    version: 0.22.3(@rango-dev/wallets-core@0.27.0)(@sentry/browser@7.99.0)(@types/react@18.2.45)(i18next@23.7.11)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(uuid@9.0.0)
+    version: 0.22.3(@rango-dev/wallets-core@0.28.0)(@sentry/browser@7.99.0)(@types/react@18.2.45)(i18next@23.7.11)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(uuid@8.3.2)
   '@transak/transak-sdk':
     specifier: ^2.1.3
     version: 2.1.3
@@ -2045,74 +2045,6 @@ packages:
       '@ethersproject/strings': 5.7.0
     dev: false
 
-  /@fastify/busboy@1.2.1:
-    resolution: {integrity: sha512-7PQA7EH43S0CxcOa9OeAnaeA0oQ+e/DHNPZwSQM9CQHW76jle5+OvLdibRp/Aafs9KXbLhxyjOTkRjWUbQEd3Q==}
-    engines: {node: '>=14'}
-    dependencies:
-      text-decoding: 1.0.0
-    dev: false
-
-  /@firebase/app-check-interop-types@0.3.0:
-    resolution: {integrity: sha512-xAxHPZPIgFXnI+vb4sbBjZcde7ZluzPPaSK7Lx3/nmuVk4TjZvnL8ONnkd4ERQKL8WePQySU+pRcWkh8rDf5Sg==}
-    dev: false
-
-  /@firebase/app-types@0.9.0:
-    resolution: {integrity: sha512-AeweANOIo0Mb8GiYm3xhTEBVCmPwTYAu9Hcd2qSkLuga/6+j9b1Jskl5bpiSQWy9eJ/j5pavxj6eYogmnuzm+Q==}
-    dev: false
-
-  /@firebase/auth-interop-types@0.2.1:
-    resolution: {integrity: sha512-VOaGzKp65MY6P5FI84TfYKBXEPi6LmOCSMMzys6o2BN2LOsqy7pCuZCup7NYnfbk5OkkQKzvIfHOzTm0UDpkyg==}
-    dev: false
-
-  /@firebase/component@0.6.4:
-    resolution: {integrity: sha512-rLMyrXuO9jcAUCaQXCMjCMUsWrba5fzHlNK24xz5j2W6A/SRmK8mZJ/hn7V0fViLbxC0lPMtrK1eYzk6Fg03jA==}
-    dependencies:
-      '@firebase/util': 1.9.3
-      tslib: 2.6.2
-    dev: false
-
-  /@firebase/database-compat@1.0.2:
-    resolution: {integrity: sha512-09ryJnXDvuycsxn8aXBzLhBTuCos3HEnCOBWY6hosxfYlNCGnLvG8YMlbSAt5eNhf7/00B095AEfDsdrrLjxqA==}
-    dependencies:
-      '@firebase/component': 0.6.4
-      '@firebase/database': 1.0.2
-      '@firebase/database-types': 1.0.0
-      '@firebase/logger': 0.4.0
-      '@firebase/util': 1.9.3
-      tslib: 2.6.2
-    dev: false
-
-  /@firebase/database-types@1.0.0:
-    resolution: {integrity: sha512-SjnXStoE0Q56HcFgNQ+9SsmJc0c8TqGARdI/T44KXy+Ets3r6x/ivhQozT66bMnCEjJRywYoxNurRTMlZF8VNg==}
-    dependencies:
-      '@firebase/app-types': 0.9.0
-      '@firebase/util': 1.9.3
-    dev: false
-
-  /@firebase/database@1.0.2:
-    resolution: {integrity: sha512-8X6NBJgUQzDz0xQVaCISoOLINKat594N2eBbMR3Mu/MH/ei4WM+aAMlsNzngF22eljXu1SILP5G3evkyvsG3Ng==}
-    dependencies:
-      '@firebase/app-check-interop-types': 0.3.0
-      '@firebase/auth-interop-types': 0.2.1
-      '@firebase/component': 0.6.4
-      '@firebase/logger': 0.4.0
-      '@firebase/util': 1.9.3
-      faye-websocket: 0.11.4
-      tslib: 2.6.2
-    dev: false
-
-  /@firebase/logger@0.4.0:
-    resolution: {integrity: sha512-eRKSeykumZ5+cJPdxxJRgAC3G5NknY2GwEbKfymdnXtnT0Ucm4pspfR6GT4MUQEDuJwRVbVcSx85kgJulMoFFA==}
-    dependencies:
-      tslib: 2.6.2
-    dev: false
-
-  /@firebase/util@1.9.3:
-    resolution: {integrity: sha512-DY02CRhOZwpzO36fHpuVysz6JZrscPiBXD0fXp6qSrL9oNOx5KWICKdR95C0lSITzxp0TZosVyHqzatE8JbcjA==}
-    dependencies:
-      tslib: 2.6.2
-    dev: false
-
   /@floating-ui/core@1.6.0:
     resolution: {integrity: sha512-PcF++MykgmTj3CIyOQbKA/hDzOAiqI3mhuoN44WRCopIs1sgoDoU4oty4Jtqaj/y3oDU6fnVSm4QG0a3t5i0+g==}
     dependencies:
@@ -2140,73 +2072,6 @@ packages:
   /@floating-ui/utils@0.2.1:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
     dev: false
-
-  /@google-cloud/firestore@7.1.0:
-    resolution: {integrity: sha512-kkTC0Sb9r2lONuFF8Tr2wFfBfk0DT1/EKcTKOhsuoXUVClv3jCqGYVPtHgQsHFjdOsubS+tx9G5D5WG+obB2DA==}
-    engines: {node: '>=14.0.0'}
-    requiresBuild: true
-    dependencies:
-      fast-deep-equal: 3.1.3
-      functional-red-black-tree: 1.0.1
-      google-gax: 4.0.5
-      protobufjs: 7.2.5
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
-    optional: true
-
-  /@google-cloud/paginator@5.0.0:
-    resolution: {integrity: sha512-87aeg6QQcEPxGCOthnpUjvw4xAZ57G7pL8FS0C4e/81fr3FjkpUpibf1s2v5XGyGhUVGF4Jfg7yEcxqn2iUw1w==}
-    engines: {node: '>=14.0.0'}
-    requiresBuild: true
-    dependencies:
-      arrify: 2.0.1
-      extend: 3.0.2
-    dev: false
-    optional: true
-
-  /@google-cloud/projectify@4.0.0:
-    resolution: {integrity: sha512-MmaX6HeSvyPbWGwFq7mXdo0uQZLGBYCwziiLIGq5JVX+/bdI3SAq6bP98trV5eTWfLuvsMcIC1YJOF2vfteLFA==}
-    engines: {node: '>=14.0.0'}
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@google-cloud/promisify@4.0.0:
-    resolution: {integrity: sha512-Orxzlfb9c67A15cq2JQEyVc7wEsmFBmHjZWZYQMUyJ1qivXyMwdyNOs9odi79hze+2zqdTtu1E19IM/FtqZ10g==}
-    engines: {node: '>=14'}
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@google-cloud/storage@7.7.0:
-    resolution: {integrity: sha512-EMCEY+6JiIkx7Dt8NXVGGjy1vRdSGdHkoqZoqjJw7cEBkT7ZkX0c7puedfn1MamnzW5SX4xoa2jVq5u7OWBmkQ==}
-    engines: {node: '>=14'}
-    requiresBuild: true
-    dependencies:
-      '@google-cloud/paginator': 5.0.0
-      '@google-cloud/projectify': 4.0.0
-      '@google-cloud/promisify': 4.0.0
-      abort-controller: 3.0.0
-      async-retry: 1.3.3
-      compressible: 2.0.18
-      duplexify: 4.1.2
-      ent: 2.2.0
-      fast-xml-parser: 4.3.2
-      gaxios: 6.1.1
-      google-auth-library: 9.4.1
-      mime: 3.0.0
-      mime-types: 2.1.35
-      p-limit: 3.1.0
-      retry-request: 7.0.1
-      teeny-request: 9.0.0
-      uuid: 8.3.2
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-    dev: false
-    optional: true
 
   /@graphql-typed-document-node/core@3.2.0(graphql@16.8.1):
     resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
@@ -4293,10 +4158,10 @@ packages:
     resolution: {integrity: sha512-YTXZB0bJrXWCrQ4/LRTgwr/3UrAzR8I/6KnJnpv7NodacBmVBjBFmXS6m38JZ/5yGJZWmCqAxY4qUJpxYSch1g==}
     dependencies:
       idb: 7.1.1
-      uuid: 9.0.0
+      uuid: 9.0.1
     dev: false
 
-  /@rango-dev/queue-manager-rango-preset@0.27.0(@rango-dev/queue-manager-core@0.25.0)(@rango-dev/queue-manager-react@0.25.0)(@rango-dev/wallets-core@0.27.0)(@rango-dev/wallets-shared@0.27.0)(@sentry/browser@7.99.0)(bignumber.js@9.1.2)(rango-sdk@0.1.45)(rango-types@0.1.59)(uuid@9.0.0):
+  /@rango-dev/queue-manager-rango-preset@0.27.0(@rango-dev/queue-manager-core@0.25.0)(@rango-dev/queue-manager-react@0.25.0)(@rango-dev/wallets-core@0.28.0)(@rango-dev/wallets-shared@0.27.0)(@sentry/browser@7.99.0)(bignumber.js@9.1.2)(rango-sdk@0.1.45)(rango-types@0.1.59)(uuid@8.3.2):
     resolution: {integrity: sha512-GC0T1JkXGCYtblKGOa1mFII9hruzoIcRwyDwGPuGItH6GDY/nO5BiGS+E9A2nVIQU9XSbG5EFl+cgQCN4n4Irw==}
     peerDependencies:
       '@rango-dev/queue-manager-core': '*'
@@ -4311,14 +4176,14 @@ packages:
     dependencies:
       '@rango-dev/queue-manager-core': 0.25.0
       '@rango-dev/queue-manager-react': 0.25.0(@rango-dev/queue-manager-core@0.25.0)(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0)
-      '@rango-dev/wallets-core': 0.27.0(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0)
+      '@rango-dev/wallets-core': 0.28.0(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0)
       '@rango-dev/wallets-shared': 0.27.0
       '@sentry/browser': 7.99.0
       bignumber.js: 9.1.2
       mitt: 3.0.1
       rango-sdk: 0.1.45
       rango-types: 0.1.59
-      uuid: 9.0.0
+      uuid: 8.3.2
     dev: false
 
   /@rango-dev/queue-manager-react@0.25.0(@rango-dev/queue-manager-core@0.25.0)(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0):
@@ -4416,20 +4281,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@rango-dev/wallets-core@0.27.0(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-uF8nyPaYzh8Jc/0rLvmKc3Nzyk6bTozB6MWM9/KLQd/QkvQVAjquk98rd1bYgu+DRJwWqI4aDP0PrK11sxU7/A==}
-    peerDependencies:
-      '@types/react': ^17.0.0 || ^18.0.0
-      react: ^17.0.0 || ^18.0.0
-      react-dom: ^17.0.0 || ^18.0.0
-    dependencies:
-      '@rango-dev/wallets-shared': 0.26.0
-      '@types/react': 18.2.45
-      rango-types: 0.1.59
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
   /@rango-dev/wallets-core@0.28.0(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-K64aHUf01huoIYqwbDqG4kj89dQH6/e/QCrET7t4S2CnqSbfYhqUuqO6HDmXEkFRh/TapLKUMJpX+o++0Rao4g==}
     peerDependencies:
@@ -4465,12 +4316,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@rango-dev/wallets-shared@0.26.0:
-    resolution: {integrity: sha512-wyJdqrxum4Gw/ZDPAktHnfCbCNSd87ADJxVw80S58Tf8vEdgvz26mtrgKhT+/i4VNnrAhdoggDceL8y33S+2hg==}
-    dependencies:
-      rango-types: 0.1.59
-    dev: false
-
   /@rango-dev/wallets-shared@0.27.0:
     resolution: {integrity: sha512-XcVcVrMw++mC43/i5aOTBjnf13zCQGhWG6iP8g9gt4uvIvbWDiNfBsMq951K7/OPpPBy1XkQlqip0QPDdPcrHA==}
     dependencies:
@@ -4481,7 +4326,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@rango-dev/widget-embedded@0.22.3(@rango-dev/wallets-core@0.27.0)(@sentry/browser@7.99.0)(@types/react@18.2.45)(i18next@23.7.11)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(uuid@9.0.0):
+  /@rango-dev/widget-embedded@0.22.3(@rango-dev/wallets-core@0.28.0)(@sentry/browser@7.99.0)(@types/react@18.2.45)(i18next@23.7.11)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(uuid@8.3.2):
     resolution: {integrity: sha512-HI8Aj0OornkwrH3G1vdiC7Ta9QDvTa0IRqE4oD/OAoqirL7D3UwFRS03DPpebStxfNJKop7PQaIa69VsjLJFaA==}
     peerDependencies:
       react: '>=16'
@@ -4491,7 +4336,7 @@ packages:
       '@lingui/react': 4.2.1(react@18.2.0)
       '@rango-dev/provider-all': 0.27.0(react@18.2.0)(typescript@5.3.3)
       '@rango-dev/queue-manager-core': 0.25.0
-      '@rango-dev/queue-manager-rango-preset': 0.27.0(@rango-dev/queue-manager-core@0.25.0)(@rango-dev/queue-manager-react@0.25.0)(@rango-dev/wallets-core@0.27.0)(@rango-dev/wallets-shared@0.27.0)(@sentry/browser@7.99.0)(bignumber.js@9.1.2)(rango-sdk@0.1.45)(rango-types@0.1.59)(uuid@9.0.0)
+      '@rango-dev/queue-manager-rango-preset': 0.27.0(@rango-dev/queue-manager-core@0.25.0)(@rango-dev/queue-manager-react@0.25.0)(@rango-dev/wallets-core@0.28.0)(@rango-dev/wallets-shared@0.27.0)(@sentry/browser@7.99.0)(bignumber.js@9.1.2)(rango-sdk@0.1.45)(rango-types@0.1.59)(uuid@8.3.2)
       '@rango-dev/queue-manager-react': 0.25.0(@rango-dev/queue-manager-core@0.25.0)(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0)
       '@rango-dev/ui': 0.28.1(@lingui/core@4.2.1)(@lingui/react@4.2.1)(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0)
       '@rango-dev/wallets-react': 0.13.0(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0)
@@ -5382,12 +5227,6 @@ packages:
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
-
-  /@types/jsonwebtoken@9.0.2:
-    resolution: {integrity: sha512-drE6uz7QBKq1fYqqoFKTDRdFCPHd5TCub75BM+D+cMx7NU9hUz7SESLfC2fSCXVFMO5Yj8sOWHuGqPgjc+fz0Q==}
-    dependencies:
-      '@types/node': 20.10.4
-    dev: false
 
   /@types/long@4.0.2:
     resolution: {integrity: sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==}
@@ -10456,10 +10295,6 @@ packages:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
 
-  /jose@4.14.4:
-    resolution: {integrity: sha512-j8GhLiKmUAh+dsFXlX1aJCbt5KMibuKb+d7j1JaOJG6s2UjX1PQlW+OKB/sD4a/5ZYF4RcmYmLSndOoU3Lt/3g==}
-    dev: false
-
   /js-crypto-env@0.3.2:
     resolution: {integrity: sha512-F1uHiCkSOo36qBuuZABA4sBf+xeFBzhJZ0Sd7af8FAruszIhm1Xxv+Zr5Ne90Zlh7/fnxCsrdkj0N8f0a3lVlQ==}
     dev: false
@@ -10525,14 +10360,6 @@ packages:
     resolution: {integrity: sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==}
     engines: {node: '>=4'}
     hasBin: true
-
-  /json-bigint@1.0.0:
-    resolution: {integrity: sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==}
-    requiresBuild: true
-    dependencies:
-      bignumber.js: 9.1.2
-    dev: false
-    optional: true
 
   /json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
@@ -10697,10 +10524,6 @@ packages:
 
   /libsodium@0.7.13:
     resolution: {integrity: sha512-mK8ju0fnrKXXfleL53vtp9xiPq5hKM0zbDQtcxQIsSmxNgSxqCj6R7Hl9PkrNe2j29T4yoDaF7DJLK9/i5iWUw==}
-    dev: false
-
-  /limiter@1.1.5:
-    resolution: {integrity: sha512-FWWMIEOxz3GwUI4Ts/IvgVy6LPvoMPgjMdQ185nN6psJyBJ4yOpzqm695/h5umdLJg2vW3GR5iG11MAkR2AzJA==}
     dev: false
 
   /lines-and-columns@1.2.4:
@@ -11772,15 +11595,6 @@ packages:
       object-assign: 4.1.1
       react-is: 16.13.1
 
-  /proto3-json-serializer@2.0.0:
-    resolution: {integrity: sha512-FB/YaNrpiPkyQNSNPilpn8qn0KdEfkgmJ9JP93PQyF/U4bAiXY5BiUdDhiDO4S48uSQ6AesklgVlrKiqZPzegw==}
-    engines: {node: '>=14.0.0'}
-    requiresBuild: true
-    dependencies:
-      protobufjs: 7.2.5
-    dev: false
-    optional: true
-
   /protobufjs@6.10.3:
     resolution: {integrity: sha512-yvAslS0hNdBhlSKckI4R1l7wunVilX66uvrjzE4MimiAt7/qw1nLpMhZrn/ObuUTM/c3Xnfl01LYMdcSJe6dwg==}
     hasBin: true
@@ -11840,26 +11654,6 @@ packages:
       '@types/node': 20.10.4
       long: 4.0.0
     dev: false
-
-  /protobufjs@7.2.5:
-    resolution: {integrity: sha512-gGXRSXvxQ7UiPgfw8gevrfRWcTlSbOFg+p/N+JVJEK5VhueL2miT6qTymqAmjr1Q5WbOCyJbyrk6JfWKwlFn6A==}
-    engines: {node: '>=12.0.0'}
-    requiresBuild: true
-    dependencies:
-      '@protobufjs/aspromise': 1.1.2
-      '@protobufjs/base64': 1.1.2
-      '@protobufjs/codegen': 2.0.4
-      '@protobufjs/eventemitter': 1.1.0
-      '@protobufjs/fetch': 1.1.0
-      '@protobufjs/float': 1.0.2
-      '@protobufjs/inquire': 1.1.0
-      '@protobufjs/path': 1.1.2
-      '@protobufjs/pool': 1.1.0
-      '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.10.4
-      long: 5.2.3
-    dev: false
-    optional: true
 
   /proxy-compare@2.5.1:
     resolution: {integrity: sha512-oyfc0Tx87Cpwva5ZXezSp5V9vht1c7dZBhvuV/y3ctkgMVUmiAGDVeeB0dKhGSyT0v1ZTEQYpe/RXlBVBNuCLA==}
@@ -13949,6 +13743,11 @@ packages:
 
   /uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
+    dev: false
+
+  /uuid@9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
     dev: false
 

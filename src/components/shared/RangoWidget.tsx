@@ -1,18 +1,25 @@
-import { Widget } from "@rango-dev/widget-embedded";
-import { NoSSR } from "next/dist/shared/lib/lazy-dynamic/dynamic-no-ssr";
 import { globalConfig } from "@/config/global";
+import dynamic from 'next/dist/shared/lib/dynamic'
+import { WidgetConfig } from '@rango-dev/widget-embedded'
+
+const Widget = dynamic(() => import('@rango-dev/widget-embedded').then(module => module.Widget), {
+  ssr: false
+})
 
 export default function RangoWidget() {
-  const config = {
+  const config: WidgetConfig = {
     apiKey: globalConfig.rango.apiKey,
-    walletConnectProjectId: `${process.env.NEXT_PUBLIC_WALLET_CONNECT}`,
+    wallets: ['metamask',
+      'trust-wallet',
+      'keplr',
+      'phantom'],
     affiliate: {
       ref: globalConfig.rango.affiliateRef,
       percent: globalConfig.rango.affiliatePercentage
     },
     theme: {
       singleTheme: true,
-      mode: "light",
+      mode: 'light',
       colors: {
         light: {
           primary: '#373B8A',
@@ -24,12 +31,9 @@ export default function RangoWidget() {
         }
       },
       borderRadius: 8,
-      secondaryBorderRadius: 8,
+      secondaryBorderRadius: 8
     }
   }
 
-  return <NoSSR>
-    <Widget config={config}/>
-  </NoSSR>
-
+  return <Widget config={config} />
 }
