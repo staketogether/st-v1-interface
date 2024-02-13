@@ -1,13 +1,13 @@
+import stIcon from '@assets/st-symbol.svg'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-import LayoutTitle from '../shared/layout/LayoutTitle'
 import NetworkIcons from '../shared/NetworkIcons'
-import StakingIcons, { StakingProduct } from './StakingIcons'
-import stIcon from '@assets/st-symbol.svg'
+import LayoutTitle from '../shared/layout/LayoutTitle'
 import AirdropIcons, { Airdrop } from './AirdropIcons'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import StakingIcons, { StakingProduct } from './StakingIcons'
 
 type Network = 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana'
 
@@ -63,7 +63,7 @@ export default function TokensControl() {
         { network: 'polygon', enabled: false },
         { network: 'solana', enabled: false }
       ],
-      apy: 10.5,
+      apy: 11.1,
       airdrops: ['stakeTogether', 'layerZero', 'eigenLayer'],
       enabled: false,
       urlRedirect: '/'
@@ -80,7 +80,7 @@ export default function TokensControl() {
         { network: 'polygon', enabled: false },
         { network: 'solana', enabled: false }
       ],
-      apy: 10.5,
+      apy: 14.5,
       airdrops: ['stakeTogether', 'layerZero', 'celestia'],
       enabled: false,
       urlRedirect: '/'
@@ -97,7 +97,7 @@ export default function TokensControl() {
         { network: 'polygon', enabled: false },
         { network: 'solana', enabled: false }
       ],
-      apy: 10.5,
+      apy: 5.2,
       airdrops: ['stakeTogether', 'layerZero'],
       enabled: false,
       urlRedirect: '/'
@@ -114,7 +114,7 @@ export default function TokensControl() {
         { network: 'polygon', enabled: false },
         { network: 'solana', enabled: false }
       ],
-      apy: 10.5,
+      apy: 7.6,
       airdrops: ['stakeTogether', 'layerZero'],
       enabled: false,
       urlRedirect: '/'
@@ -131,7 +131,7 @@ export default function TokensControl() {
         { network: 'polygon', enabled: false },
         { network: 'solana', enabled: false }
       ],
-      apy: 10.5,
+      apy: 13.7,
       airdrops: ['stakeTogether', 'layerZero'],
       enabled: false,
       urlRedirect: '/'
@@ -148,7 +148,7 @@ export default function TokensControl() {
         { network: 'polygon', enabled: false },
         { network: 'solana', enabled: false }
       ],
-      apy: 10.5,
+      apy: 8.8,
       airdrops: ['stakeTogether', 'layerZero'],
       enabled: false,
       urlRedirect: '/'
@@ -165,7 +165,7 @@ export default function TokensControl() {
         { network: 'polygon', enabled: false },
         { network: 'solana', enabled: false }
       ],
-      apy: 10.5,
+      apy: 9,
       airdrops: ['stakeTogether', 'layerZero'],
       enabled: false,
       urlRedirect: '/'
