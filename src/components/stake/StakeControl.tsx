@@ -85,7 +85,7 @@ export default function StakeControl({
 
     router.push(
       {
-        pathname: `/${network}/${currency}/project/${type}/${poolAddress}`
+        pathname: `/${network}/${currency}/pools/${type}/${poolAddress}`
       },
       undefined,
       { shallow: true }

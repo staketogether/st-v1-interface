@@ -37,7 +37,7 @@ export default function WalletSidebarPortfolio({ accountDelegations }: WalletSid
         const urlRedirect =
           stakeTogetherPool?.toLowerCase() === delegation.delegated.address.toLowerCase()
             ? `/${network}/${currency}`
-            : `/${network}/${currency}/project/deposit/${delegation.delegated.address}`
+            : `/${network}/${currency}/pools/deposit/${delegation.delegated.address}`
         return (
           <DelegatedPool key={index} href={urlRedirect} onClick={() => setOpenSidebar(false)}>
             <div>
