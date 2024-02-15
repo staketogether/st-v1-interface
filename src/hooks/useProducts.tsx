@@ -1,33 +1,13 @@
-import { Airdrop, StakingProduct } from '@/types/Product'
+import { Product } from '@/types/Product'
 import { useRouter } from 'next/router'
 
-export type Network = 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana'
-
-export type NetworkWrap = {
-  network: Network
-  enabled: boolean
-}
-
-export type Products = {
-  id: number
-  name: string
-  symbol: string
-  icon: StakingProduct
-  networks: NetworkWrap[]
-  apy: number
-  airdrops: Airdrop[]
-  enabled: boolean
-  urlRedirect: string
-}
-
-export default function useProducts(productName) {
+export default function useProducts() {
   const { query } = useRouter()
   const { currency, network } = query
-
-  const productsList: Products[] = [
+  const productsList: Product[] = [
     {
       id: 1,
-      name: 'Ethereum Staking',
+      name: 'ethereum',
       icon: 'ethereum',
       symbol: 'stpETH',
       networks: [
@@ -39,12 +19,15 @@ export default function useProducts(productName) {
       ],
       apy: 5.1,
       airdrops: ['stakeTogether', 'layerZero'],
+      scan: 'https://etherscan.io/',
+      contractAddress: '0x1234567890',
+      description: 'EthereumDescription',
       enabled: true,
       urlRedirect: `/${network}/${currency}`
     },
     {
       id: 2,
-      name: 'Ethereum ReStaking',
+      name: 'restaking',
       symbol: 'stpRETH',
       icon: 'EthereumRestaking',
       networks: [
@@ -56,12 +39,15 @@ export default function useProducts(productName) {
       ],
       apy: 11.1,
       airdrops: ['stakeTogether', 'layerZero', 'eigenLayer'],
+      scan: 'https://etherscan.io/',
+      contractAddress: '0x1234567890',
+      description: 'EthereumDescription',
       enabled: false,
       urlRedirect: '/'
     },
     {
       id: 3,
-      name: 'Celestia Staking',
+      name: 'celestia',
       symbol: 'stpTIA',
       icon: 'celestia',
       networks: [
@@ -73,12 +59,15 @@ export default function useProducts(productName) {
       ],
       apy: 14.5,
       airdrops: ['stakeTogether', 'layerZero', 'celestia'],
+      scan: 'https://etherscan.io/',
+      contractAddress: '0x1234567890',
+      description: 'EthereumDescription',
       enabled: false,
       urlRedirect: '/'
     },
     {
       id: 4,
-      name: 'Polygon Staking',
+      name: 'polygon',
       symbol: 'stpPOL',
       icon: 'polygon',
       networks: [
@@ -90,12 +79,15 @@ export default function useProducts(productName) {
       ],
       apy: 5.2,
       airdrops: ['stakeTogether', 'layerZero'],
+      scan: 'https://etherscan.io/',
+      contractAddress: '0x1234567890',
+      description: 'EthereumDescription',
       enabled: false,
       urlRedirect: '/'
     },
     {
       id: 5,
-      name: 'Solana Staking',
+      name: 'solana',
       symbol: 'stpSOL',
       icon: 'solana',
       networks: [
@@ -107,12 +99,15 @@ export default function useProducts(productName) {
       ],
       apy: 7.6,
       airdrops: ['stakeTogether', 'layerZero'],
+      scan: 'https://etherscan.io/',
+      contractAddress: '0x1234567890',
+      description: 'EthereumDescription',
       enabled: false,
       urlRedirect: '/'
     },
     {
       id: 6,
-      name: 'Cosmos Staking',
+      name: 'cosmos',
       symbol: 'stpATOM',
       icon: 'cosmos',
       networks: [
@@ -124,12 +119,15 @@ export default function useProducts(productName) {
       ],
       apy: 13.7,
       airdrops: ['stakeTogether', 'layerZero'],
+      scan: 'https://etherscan.io/',
+      contractAddress: '0x1234567890',
+      description: 'EthereumDescription',
       enabled: false,
       urlRedirect: '/'
     },
     {
       id: 7,
-      name: 'Near Staking',
+      name: 'near',
       symbol: 'stpNear',
       icon: 'near',
       networks: [
@@ -141,12 +139,15 @@ export default function useProducts(productName) {
       ],
       apy: 8.8,
       airdrops: ['stakeTogether', 'layerZero'],
+      scan: 'https://etherscan.io/',
+      contractAddress: '0x1234567890',
+      description: 'EthereumDescription',
       enabled: false,
       urlRedirect: '/'
     },
     {
       id: 8,
-      name: 'Polkadot Staking',
+      name: 'polkadot',
       symbol: 'stpKSM',
       icon: 'polkadot',
       networks: [
@@ -158,6 +159,9 @@ export default function useProducts(productName) {
       ],
       apy: 9,
       airdrops: ['stakeTogether', 'layerZero'],
+      scan: 'https://etherscan.io/',
+      contractAddress: '0x1234567890',
+      description: 'EthereumDescription',
       enabled: false,
       urlRedirect: '/'
     }

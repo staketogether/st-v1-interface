@@ -23,8 +23,7 @@ export default function Home({ poolAddress, poolDetail }: HomeProps) {
       {/* <StakeControl isStakeTogetherPool poolAddress={poolAddress} type='deposit' poolDetail={poolDetail} /> */}
       <NewStakeControl
         isStakeTogetherPool
-        productName='Ethereum Staking'
-        productIcon='ethereum'
+        productName='ethereum'
         poolAddress={poolAddress}
         type='deposit'
         poolDetail={poolDetail}

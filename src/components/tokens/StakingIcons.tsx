@@ -8,10 +8,10 @@ import NearIcon from '@assets/network/near.svg'
 import cosmosIcon from '@assets/network/cosmos.svg'
 import celestiaIcon from '@assets/network/celestia.svg'
 import restaking from '@assets/network/restaking.svg'
-import { StakingProduct } from '@/types/Product'
+import { StakingProductIcon } from '@/types/Product'
 
 type NetworkIconProps = {
-  stakingProduct: StakingProduct
+  stakingProduct: StakingProductIcon
   size: number
 }
 

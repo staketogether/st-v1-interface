@@ -1,6 +1,16 @@
-export type StakingProduct =
+export type StakingProductIcon =
   | 'ethereum'
   | 'EthereumRestaking'
+  | 'polygon'
+  | 'solana'
+  | 'celestia'
+  | 'cosmos'
+  | 'near'
+  | 'polkadot'
+
+export type StakingProduct =
+  | 'ethereum'
+  | 'restaking'
   | 'polygon'
   | 'solana'
   | 'celestia'
@@ -20,6 +30,16 @@ export type Airdrop =
   | 'polkadot'
   | 'ethereum'
 
+export type ProductSymbol =
+  | 'stpETH'
+  | 'stpRETH'
+  | 'stpPOL'
+  | 'stpSOL'
+  | 'stpTIA'
+  | 'stpNear'
+  | 'stpKSM'
+  | 'stpATOM'
+
 export type Network = 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana'
 
 export type NetworkWrap = {
@@ -27,13 +47,16 @@ export type NetworkWrap = {
   enabled: boolean
 }
 
-export type Products = {
+export type Product = {
   id: number
-  name: string
-  symbol: string
-  icon: StakingProduct
+  name: StakingProduct
+  symbol: ProductSymbol
+  icon: StakingProductIcon
   networks: NetworkWrap[]
   apy: number
+  description: string
+  scan: string
+  contractAddress: `0x${string}`
   airdrops: Airdrop[]
   enabled: boolean
   urlRedirect: string

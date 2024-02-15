@@ -1,5 +1,3 @@
-import stIcon from '@assets/st-symbol.svg'
-import Image from 'next/image'
 import Link from 'next/link'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
@@ -7,150 +5,11 @@ import NetworkIcons from '../shared/NetworkIcons'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import AirdropIcons from './AirdropIcons'
 import StakingIcons from './StakingIcons'
+import useProducts from '@/hooks/useProducts'
+import SymbolIcons from './SymbolIcons'
 
 export default function TokensControl() {
   const { t } = useLocaleTranslation()
-  const { query } = useRouter()
-  const { currency, network } = query
-
-  const products: Products[] = [
-    {
-      id: 1,
-      name: 'ethereum',
-      icon: 'ethereum',
-      symbol: 'stpETH',
-      networks: [
-        { network: 'ethereum', enabled: true },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 5.1,
-      airdrops: ['stakeTogether', 'layerZero'],
-      enabled: true,
-      urlRedirect: `/${network}/${currency}`
-    },
-    {
-      id: 2,
-      name: 'restaking',
-      symbol: 'stpRETH',
-      icon: 'EthereumRestaking',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 11.1,
-      airdrops: ['stakeTogether', 'layerZero', 'eigenLayer'],
-      enabled: false,
-      urlRedirect: '/'
-    },
-    {
-      id: 3,
-      name: 'celestia',
-      symbol: 'stpTIA',
-      icon: 'celestia',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 14.5,
-      airdrops: ['stakeTogether', 'layerZero', 'celestia'],
-      enabled: false,
-      urlRedirect: '/'
-    },
-    {
-      id: 4,
-      name: 'polygon',
-      symbol: 'stpPOL',
-      icon: 'polygon',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 5.2,
-      airdrops: ['stakeTogether', 'layerZero'],
-      enabled: false,
-      urlRedirect: '/'
-    },
-    {
-      id: 5,
-      name: 'solana',
-      symbol: 'stpSOL',
-      icon: 'solana',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 7.6,
-      airdrops: ['stakeTogether', 'layerZero'],
-      enabled: false,
-      urlRedirect: '/'
-    },
-    {
-      id: 6,
-      name: 'cosmos',
-      symbol: 'stpATOM',
-      icon: 'cosmos',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 13.7,
-      airdrops: ['stakeTogether', 'layerZero'],
-      enabled: false,
-      urlRedirect: '/'
-    },
-    {
-      id: 7,
-      name: 'near',
-      symbol: 'stpNear',
-      icon: 'near',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 8.8,
-      airdrops: ['stakeTogether', 'layerZero'],
-      enabled: false,
-      urlRedirect: '/'
-    },
-    {
-      id: 8,
-      name: 'polkadot',
-      symbol: 'stpKSM',
-      icon: 'polkadot',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 9,
-      airdrops: ['stakeTogether', 'layerZero'],
-      enabled: false,
-      urlRedirect: '/'
-    }
-  ]
 
   const productsHeader = [
     t('v2.tokens.products.name'),
@@ -159,6 +18,8 @@ export default function TokensControl() {
     t('v2.tokens.products.networks'),
     t('v2.tokens.products.airdrops')
   ]
+
+  const { productsList } = useProducts()
 
   return (
     <Container>
@@ -171,7 +32,7 @@ export default function TokensControl() {
             ))}
           </ProductsHeader>
           <nav>
-            {products.map(product => (
+            {productsList.map(product => (
               <ProductItem
                 href={product.urlRedirect}
                 key={product.id}
@@ -186,7 +47,7 @@ export default function TokensControl() {
                 </ImageContainer>
 
                 <ImageContainer>
-                  <Image src={stIcon} width={24} height={24} alt={product.symbol} />
+                  <SymbolIcons productSymbol={product.symbol} size={24} />
                   <span>{product.symbol}</span>
                 </ImageContainer>
 
@@ -215,7 +76,7 @@ export default function TokensControl() {
       </DesktopContent>
       <MobileContent>
         <LayoutTitle title={t('v2.tokens.title')} />
-        {products.map(product => (
+        {productsList.map(product => (
           <ProductCard
             href={product.urlRedirect}
             key={product.id}
@@ -238,7 +99,7 @@ export default function TokensControl() {
               <div>
                 <span className='opacity'>{t('v2.tokens.products.token')}</span>
                 <ImageContainer>
-                  <Image src={stIcon} width={16} height={16} alt={product.symbol} />
+                  <SymbolIcons productSymbol={product.symbol} size={24} />
                   <span>{product.symbol}</span>
                 </ImageContainer>
               </div>
