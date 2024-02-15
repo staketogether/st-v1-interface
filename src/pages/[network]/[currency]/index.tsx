@@ -1,7 +1,8 @@
+import NewStakeControl from '@/components/new-stake/NewStakeControl'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 
-import StakeControl from '@/components/stake/StakeControl'
+// import StakeControl from '@/components/stake/StakeControl'
 import { contentfulClient } from '@/config/apollo'
 import chainConfig from '@/config/chain'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
@@ -19,7 +20,15 @@ export default function Home({ poolAddress, poolDetail }: HomeProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <StakeControl isStakeTogetherPool poolAddress={poolAddress} type='deposit' poolDetail={poolDetail} />
+      {/* <StakeControl isStakeTogetherPool poolAddress={poolAddress} type='deposit' poolDetail={poolDetail} /> */}
+      <NewStakeControl
+        isStakeTogetherPool
+        productName='Ethereum Staking'
+        productIcon='ethereum'
+        poolAddress={poolAddress}
+        type='deposit'
+        poolDetail={poolDetail}
+      />
     </LayoutTemplate>
   )
 }

@@ -12,18 +12,7 @@ import eigenLayer from '@assets/airdrop/eigenLayer.svg'
 import layerZero from '@assets/airdrop/layerZero.svg'
 import stIcon from '@assets/st-symbol.svg'
 import styled from 'styled-components'
-
-export type Airdrop =
-  | 'layerZero'
-  | 'eigenLayer'
-  | 'stakeTogether'
-  | 'polygon'
-  | 'solana'
-  | 'celestia'
-  | 'cosmos'
-  | 'near'
-  | 'polkadot'
-  | 'ethereum'
+import { Airdrop } from '@/types/Product'
 
 type NetworkIconProps = {
   airdrop: Airdrop
