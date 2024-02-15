@@ -445,6 +445,16 @@ const { Container, Content, Card, ContractsTable, ContractContainer, ContractTab
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
 
+    border: 1px solid ${({ theme }) => theme.colorV2.white};
+
+    &:hover {
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+
+      * {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
+    }
+
     span {
       &:first-child {
         font-size: ${({ theme }) => theme.font.size[15]};
@@ -470,10 +480,6 @@ const { Container, Content, Card, ContractsTable, ContractContainer, ContractTab
       grid-template-columns: 264px auto 200px;
       gap: ${({ theme }) => theme.size[8]};
       align-items: center;
-    }
-
-    &:hover {
-      background: #e4e4e4;
     }
   `,
   ValidatorsTable: styled.main`

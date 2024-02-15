@@ -47,14 +47,14 @@ export default function LayoutHeader() {
               {t('v2.header.products')}
             </MenuButton>
           </Link>
-          <Link href={`/${network}/${currency}/pools`}>
+          <Link href={`/${network}/${currency}/projects`}>
             <MenuButton
               className={`${
-                !isHome && (isActive('pools') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
+                !isHome && (isActive('projects') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
               }`}
             >
               <ProjectsIcon />
-              {t('v2.header.pools')}
+              {t('v2.header.projects')}
             </MenuButton>
           </Link>
           <Link href={`/${network}/${currency}/analytics`}>
@@ -63,11 +63,6 @@ export default function LayoutHeader() {
               {t('v2.header.analytics')}
             </MenuButton>
           </Link>
-          {/* <Link href={`/${network}/${currency}/incentives`}>
-            <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
-              <IncentivesIcon /> {t('v2.header.incentives')}
-            </MenuButton>
-          </Link> */}
         </Menu>
       </MenuContainer>
       <WalletContainer>

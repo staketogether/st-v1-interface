@@ -36,7 +36,7 @@ export default function TokensControl() {
   const products: Products[] = [
     {
       id: 1,
-      name: 'Ethereum Staking',
+      name: 'ethereum',
       icon: 'ethereum',
       symbol: 'stpETH',
       networks: [
@@ -53,7 +53,7 @@ export default function TokensControl() {
     },
     {
       id: 2,
-      name: 'Ethereum ReStaking',
+      name: 'restaking',
       symbol: 'stpRETH',
       icon: 'EthereumRestaking',
       networks: [
@@ -70,7 +70,7 @@ export default function TokensControl() {
     },
     {
       id: 3,
-      name: 'Celestia Staking',
+      name: 'celestia',
       symbol: 'stpTIA',
       icon: 'celestia',
       networks: [
@@ -87,7 +87,7 @@ export default function TokensControl() {
     },
     {
       id: 4,
-      name: 'Polygon Staking',
+      name: 'polygon',
       symbol: 'stpPOL',
       icon: 'polygon',
       networks: [
@@ -104,7 +104,7 @@ export default function TokensControl() {
     },
     {
       id: 5,
-      name: 'Solana Staking',
+      name: 'solana',
       symbol: 'stpSOL',
       icon: 'solana',
       networks: [
@@ -121,7 +121,7 @@ export default function TokensControl() {
     },
     {
       id: 6,
-      name: 'Cosmos Staking',
+      name: 'cosmos',
       symbol: 'stpATOM',
       icon: 'cosmos',
       networks: [
@@ -138,7 +138,7 @@ export default function TokensControl() {
     },
     {
       id: 7,
-      name: 'Near Staking',
+      name: 'near',
       symbol: 'stpNear',
       icon: 'near',
       networks: [
@@ -155,7 +155,7 @@ export default function TokensControl() {
     },
     {
       id: 8,
-      name: 'Polkadot Staking',
+      name: 'polkadot',
       symbol: 'stpKSM',
       icon: 'polkadot',
       networks: [
@@ -202,7 +202,7 @@ export default function TokensControl() {
               >
                 <ImageContainer>
                   <StakingIcons stakingProduct={product.icon} size={24} />
-                  <span>{product.name}</span>
+                  <span>{t(`v2.products.${product.name}`)}</span>
                 </ImageContainer>
 
                 <ImageContainer>
@@ -247,7 +247,7 @@ export default function TokensControl() {
             <header>
               <ImageContainer>
                 <StakingIcons stakingProduct={product.icon} size={22} />
-                <span>{product.name}</span>
+                <span>{t(`v2.products.${product.name}`)}</span>
               </ImageContainer>
               <div>
                 <span className='opacity'>{t('v2.tokens.products.apy')}</span>
@@ -379,6 +379,17 @@ const {
 
     align-items: center;
     gap: ${({ theme }) => theme.size[16]};
+
+    border: 1px solid ${({ theme }) => theme.colorV2.white};
+
+    &:hover {
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+
+      * {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
+    }
+
     cursor: pointer;
 
     img {

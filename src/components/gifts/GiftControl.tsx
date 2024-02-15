@@ -44,7 +44,7 @@ const { Container, NextImage, GiftCard, Title, ConnectWalletIcon } = {
     gap: ${({ theme }) => theme.size[24]};
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       gap: ${({ theme }) => theme.size[24]};
-      max-width: 468px;
+      max-width: 420px;
     }
   `,
   NextImage: styled(Image)`

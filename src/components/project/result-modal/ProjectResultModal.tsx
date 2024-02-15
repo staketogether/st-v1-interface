@@ -1,18 +1,18 @@
-import React, { useCallback, useState } from 'react'
-import styled from 'styled-components'
-import successAnimation from '@assets/animations/success-animation.json'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
 import LottieAnimation from '@/components/shared/LottieAnimation'
+import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import successAnimation from '@assets/animations/success-animation.json'
+import { useCallback, useState } from 'react'
+import styled from 'styled-components'
 
 import Button from '@/components/shared/Button'
-import { ContentfulPool } from '@/types/ContentfulPool'
-import ProjectRegisteredCard from '../ProjectRegisteredCard'
 import Modal from '@/components/shared/Modal'
+import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import useProjectResultModal from '@/hooks/useProjectResultModal'
+import { ContentfulPool } from '@/types/ContentfulPool'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import useProjectCreateModal from '@/hooks/useProjectCreateModal'
+import ProjectRegisteredCard from '../ProjectRegisteredCard'
 
 type ProjectResultModalProps = {
   poolDetail: ContentfulPool
@@ -50,7 +50,7 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
   const handleRedirectToPage = () => {
     setIsRedirect(true)
     handleModalClose()
-    push(`/${network}/${currency}/pools/deposit/${poolDetail.wallet}`)
+    push(`/${network}/${currency}/projects/deposit/${poolDetail.wallet}`)
     setIsRedirect(false)
   }
 

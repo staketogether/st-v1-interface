@@ -3,6 +3,7 @@
   "pools": "Pools",
   "addToWalletTooltip": "Add stpETH to your wallet",
   "save": "Save",
+  "edit": "Edit",
   "connectWallet": "Connect Wallet",
   "projects": "Projects",
   "portfolio": "Portfolio",
@@ -69,8 +70,8 @@
   "poolDetail": "Pool Detail",
   "learnMore": "Learn More",
   "knowMore": "Know More",
-  "buyCryptoTitle": "Buy ETH",
-  "sellCryptoTitle": "Sell ETH",
+  "buyCryptoTitle": "Buy Ether",
+  "sellCryptoTitle": "Sell Ether",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -192,7 +193,7 @@
   "v2": {
     "pages": {
       "invest": {
-        "title": "Delegation Pools",
+        "title": "Projects",
         "description": "Choose a project, stake ether and earn ethereum staking rewards together"
       },
       "deposit": {
@@ -220,7 +221,7 @@
     },
     "header": {
       "stake": "Stake",
-      "products": "Products",
+      "products": "Invest",
       "pools": "Pools",
       "projects": "Projects",
       "incentives": "Incentives",
@@ -590,7 +591,7 @@
       }
     },
     "tokens": {
-      "title": "Staking Products",
+      "title": "Products",
       "products": {
         "name": "Name",
         "token": "Token",
@@ -599,21 +600,21 @@
         "airdrops": "Airdrops"
       }
     },
+    "products": {
+      "ethereum": "Staking de Polkadot",
+      "restaking": "ReStaking de Ethereum ",
+      "celestia": "Staking de Celestia",
+      "polygon": "Staking de Polygon ",
+      "solana": "Staking de Solana",
+      "cosmos": "Staking de Cosmos",
+      "near": "Staking de Near ",
+      "polkadot": "Staking de Polkadot"
+    },
     "notifyBar": {
       "incentives": {
         "title": "New Stake Together Feature",
         "description": "Incentive Airdrop is now available in your wallet. Check your eligibility and enjoy the benefits now!"
       }
-    }
-  },
-  "tokens": {
-    "title": "Products",
-    "products": {
-      "name": "Name",
-      "token": "Token",
-      "apy": "APY",
-      "networks": "Networks",
-      "airdrops": "Airdrops"
     }
   }
 }
