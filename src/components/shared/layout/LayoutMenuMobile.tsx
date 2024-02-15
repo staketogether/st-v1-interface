@@ -18,14 +18,14 @@ function LayoutMenuMobile() {
         {t('v2.header.products')}
       </NextLink>
       <NextLink
-        href={`/${network}/${currency}/pools`}
+        href={`/${network}/${currency}/projects`}
         className={`${
-          !isHome && (isActive('pools') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
+          !isHome && (isActive('projects') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
         }`}
       >
         <ProjectsIcon />
 
-        {t('v2.header.pools')}
+        {t('v2.header.projects')}
       </NextLink>
     </Container>
   )

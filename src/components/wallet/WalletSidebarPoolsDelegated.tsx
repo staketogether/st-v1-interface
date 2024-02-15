@@ -1,3 +1,4 @@
+import chainConfig from '@/config/chain'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebar from '@/hooks/useWalletSidebar'
@@ -9,7 +10,6 @@ import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import chainConfig from '@/config/chain'
 
 type WalletSideBarPoolsDelegatedProps = {
   accountDelegations: Delegation[]
@@ -40,7 +40,7 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
         const urlRedirect =
           stakeTogetherPool?.toLowerCase() === delegation.delegated.address.toLowerCase()
             ? `/${network}/${currency}`
-            : `/${network}/${currency}/pools/deposit/${delegation.delegated.address}`
+            : `/${network}/${currency}/projects/deposit/${delegation.delegated.address}`
         return (
           <DelegatedPool key={index} href={urlRedirect} onClick={() => setOpenSidebar(false)}>
             <div>

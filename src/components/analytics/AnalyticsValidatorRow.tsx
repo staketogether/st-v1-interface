@@ -5,7 +5,6 @@ import { truncateDecimal } from '@/services/truncate'
 import { ValidatorsData } from '@/types/Analytics'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { PiArrowSquareOut } from 'react-icons/pi'
 import styled from 'styled-components'
 
@@ -85,8 +84,14 @@ const { ValidatorTableRow, LinkIcon } = {
       padding: 0px 24px;
     }
 
+    border: 1px solid ${({ theme }) => theme.colorV2.white};
+
     &:hover {
-      background: #e4e4e4;
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+
+      * {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
     }
   `,
   LinkIcon: styled(PiArrowSquareOut)`

@@ -8,54 +8,36 @@ export function Metatags() {
     <Head>
       {i18n.language == 'pt' && (
         <>
-          <title>Stake Together - Staking de Ethereum</title>
-          <meta name='title' content='Stake Together - Staking de Ethereum' />
-          <meta
-            name='description'
-            content='Invista em Ethereum com a Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain'
-          />
+          <title>Stake Together - Staking Investments</title>
+          <meta name='title' content='Stake Together - Staking Investments' />
+          <meta name='description' content='Invest on Ethereum' />
           <meta property='og:type' content='website' />
-          <meta property='og:url' content='https://beta.staketogether.app' />
-          <meta property='og:title' content='Stake Together - Staking de Ethereum' />
-          <meta
-            property='og:description'
-            content='Invista em Ethereum com a Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain'
-          />
+          <meta property='og:url' content='https://app.staketogether.org' />
+          <meta property='og:title' content='Stake Together - Staking Investments' />
+          <meta property='og:description' content='Stake Together - Staking Investments' />
           <meta property='og:image' content={`/assets/icons/stake-together/meta.png`} />
           <meta property='twitter:card' content='summary_large_image' />
-          <meta property='twitter:url' content='https://beta.staketogether.app' />
-          <meta property='twitter:title' content='Stake Together - Staking de Ethereum' />
-          <meta
-            property='twitter:description'
-            content='Invista em Ethereum com a Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain'
-          />
+          <meta property='twitter:url' content='https://app.staketogether.org' />
+          <meta property='twitter:title' content='Stake Together - Staking Investments' />
+          <meta property='twitter:description' content='Stake Together - Staking Investments' />
           <meta property='twitter:image' content={`/assets/icons/stake-together/meta.png`} />
         </>
       )}
 
       {i18n.language != 'pt' && (
         <>
-          <title>Stake Together - Ethereum Staking</title>
-          <meta name='title' content='Stake Together - Ethereum Staking' />
-          <meta
-            name='description'
-            content='Invest in Ethereum with Stake Together and maximize your profits while supporting your favorite projects through the Blockchain.'
-          />
+          <title>Stake Together - Investimentos Cripto em Staking</title>
+          <meta name='title' content='Stake Together - Investimentos Cripto em Staking' />
+          <meta name='description' content='Invest on Ethereum' />
           <meta property='og:type' content='website' />
-          <meta property='og:url' content='https://beta.staketogether.app' />
-          <meta property='og:title' content='Stake Together - Ethereum Staking' />
-          <meta
-            property='og:description'
-            content='Invest in Ethereum with Stake Together and maximize your profits while supporting your favorite projects through the Blockchain.'
-          />
+          <meta property='og:url' content='https://app.staketogether.org' />
+          <meta property='og:title' content='Stake Together - Investimentos Cripto em Staking' />
+          <meta property='og:description' content='Stake Together - Investimentos Cripto em Staking' />
           <meta property='og:image' content={`/assets/icons/stake-together/meta.png`} />
           <meta property='twitter:card' content='summary_large_image' />
-          <meta property='twitter:url' content='https://beta.staketogether.app' />
-          <meta property='twitter:title' content='Stake Together - Ethereum Staking' />
-          <meta
-            property='twitter:description'
-            content='Invest in Ethereum with Stake Together and maximize your profits while supporting your favorite projects through the Blockchain.'
-          />
+          <meta property='twitter:url' content='https://app.staketogether.org' />
+          <meta property='twitter:title' content='Stake Together - Investimentos Cripto em Staking' />
+          <meta property='twitter:description' content='Stake Together - Investimentos Cripto em Staking' />
           <meta property='twitter:image' content={`/assets/icons/stake-together/meta.png`} />
         </>
       )}

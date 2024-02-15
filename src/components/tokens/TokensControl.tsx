@@ -10,6 +10,147 @@ import StakingIcons from './StakingIcons'
 
 export default function TokensControl() {
   const { t } = useLocaleTranslation()
+  const { query } = useRouter()
+  const { currency, network } = query
+
+  const products: Products[] = [
+    {
+      id: 1,
+      name: 'ethereum',
+      icon: 'ethereum',
+      symbol: 'stpETH',
+      networks: [
+        { network: 'ethereum', enabled: true },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
+      apy: 5.1,
+      airdrops: ['stakeTogether', 'layerZero'],
+      enabled: true,
+      urlRedirect: `/${network}/${currency}`
+    },
+    {
+      id: 2,
+      name: 'restaking',
+      symbol: 'stpRETH',
+      icon: 'EthereumRestaking',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
+      apy: 11.1,
+      airdrops: ['stakeTogether', 'layerZero', 'eigenLayer'],
+      enabled: false,
+      urlRedirect: '/'
+    },
+    {
+      id: 3,
+      name: 'celestia',
+      symbol: 'stpTIA',
+      icon: 'celestia',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
+      apy: 14.5,
+      airdrops: ['stakeTogether', 'layerZero', 'celestia'],
+      enabled: false,
+      urlRedirect: '/'
+    },
+    {
+      id: 4,
+      name: 'polygon',
+      symbol: 'stpPOL',
+      icon: 'polygon',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
+      apy: 5.2,
+      airdrops: ['stakeTogether', 'layerZero'],
+      enabled: false,
+      urlRedirect: '/'
+    },
+    {
+      id: 5,
+      name: 'solana',
+      symbol: 'stpSOL',
+      icon: 'solana',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
+      apy: 7.6,
+      airdrops: ['stakeTogether', 'layerZero'],
+      enabled: false,
+      urlRedirect: '/'
+    },
+    {
+      id: 6,
+      name: 'cosmos',
+      symbol: 'stpATOM',
+      icon: 'cosmos',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
+      apy: 13.7,
+      airdrops: ['stakeTogether', 'layerZero'],
+      enabled: false,
+      urlRedirect: '/'
+    },
+    {
+      id: 7,
+      name: 'near',
+      symbol: 'stpNear',
+      icon: 'near',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
+      apy: 8.8,
+      airdrops: ['stakeTogether', 'layerZero'],
+      enabled: false,
+      urlRedirect: '/'
+    },
+    {
+      id: 8,
+      name: 'polkadot',
+      symbol: 'stpKSM',
+      icon: 'polkadot',
+      networks: [
+        { network: 'ethereum', enabled: false },
+        { network: 'optimism', enabled: false },
+        { network: 'arbitrum', enabled: false },
+        { network: 'polygon', enabled: false },
+        { network: 'solana', enabled: false }
+      ],
+      apy: 9,
+      airdrops: ['stakeTogether', 'layerZero'],
+      enabled: false,
+      urlRedirect: '/'
+    }
+  ]
 
   const productsHeader = [
     t('v2.tokens.products.name'),
@@ -41,7 +182,7 @@ export default function TokensControl() {
               >
                 <ImageContainer>
                   <StakingIcons stakingProduct={product.icon} size={24} />
-                  <span>{product.name}</span>
+                  <span>{t(`v2.products.${product.name}`)}</span>
                 </ImageContainer>
 
                 <ImageContainer>
@@ -86,7 +227,7 @@ export default function TokensControl() {
             <header>
               <ImageContainer>
                 <StakingIcons stakingProduct={product.icon} size={22} />
-                <span>{product.name}</span>
+                <span>{t(`v2.products.${product.name}`)}</span>
               </ImageContainer>
               <div>
                 <span className='opacity'>{t('v2.tokens.products.apy')}</span>
@@ -218,6 +359,17 @@ const {
 
     align-items: center;
     gap: ${({ theme }) => theme.size[16]};
+
+    border: 1px solid ${({ theme }) => theme.colorV2.white};
+
+    &:hover {
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+
+      * {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
+    }
+
     cursor: pointer;
 
     img {
