@@ -1,4 +1,4 @@
-import { Product } from '@/types/Product'
+import { Product, StakingProduct } from '@/types/Product'
 import { useRouter } from 'next/router'
 
 export default function useProducts() {
@@ -167,5 +167,9 @@ export default function useProducts() {
     }
   ]
 
-  return { productsList }
+  function findProduct(productName: StakingProduct) {
+    return productsList.find(product => product.name === productName) || productsList[0]
+  }
+
+  return { productsList, findProduct }
 }

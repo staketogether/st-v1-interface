@@ -14,8 +14,8 @@ type NewStakeControlProps = {
 }
 
 export default function NewStakeControl({ productName }: NewStakeControlProps) {
-  const { productsList } = useProducts()
-  const product = productsList.find(product => product.name === productName) || productsList[0]
+  const { findProduct } = useProducts()
+  const product = findProduct(productName)
 
   return (
     <Container>
