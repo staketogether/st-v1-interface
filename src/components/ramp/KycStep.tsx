@@ -1,36 +1,54 @@
-import React from 'react'
-import styled from 'styled-components'
+import useKycCreate, { KycCreate, TypeAccount } from '@/hooks/ramp/useKycCreate'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import ethIcon from '@assets/icons/eth-icon.svg'
 import brla from '@assets/images/BRLA.svg'
 import Image from 'next/image'
-import { PiArrowRight } from 'react-icons/pi'
-import ethIcon from '@assets/icons/eth-icon.svg'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { PiArrowRight } from 'react-icons/pi'
+import styled from 'styled-components'
+import { useAccount } from 'wagmi'
+import Button from '../shared/Button'
 import Input from '../shared/inputs/Input'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import Button from '../shared/Button'
 
-type KycForm = {
-  name: string
-  email: string
-  cpf: string
-  birthDate: string
-}
+
+
 
 export default function KycStep() {
   const { t } = useLocaleTranslation()
+  const { address } = useAccount()
+  const [formData, setFormaData] = useState<KycCreate>()
 
   const {
     register,
     handleSubmit,
     trigger,
-    formState: { errors }
-  } = useForm<KycForm>()
+    watch,
+    formState: { errors },
 
-  const onSubmit = (data: KycForm) => {
+  } = useForm<KycCreate>({
+    defaultValues: {
+      accountType: TypeAccount.CPF
+    }
+  })
+
+  const { data, error } = useKycCreate('brla', address, formData)
+
+  const chooseAccountType = watch('accountType')
+
+  const onSubmit = (data: KycCreate) => {
     console.log('realizar envio do form', data)
+
+    setFormaData(data)
   }
 
+  useEffect(() => {
+    console.log('errors', errors)
+    console.log('typeTest', chooseAccountType)
+    console.log('data', data)
+    console.log('error', error)
+  }, [data, error, errors, chooseAccountType])
   return (
     <Container>
       <header>
@@ -66,58 +84,46 @@ export default function KycStep() {
           <div>R$ 9.000,00</div>
         </div>
       </KycLevelContainer>
-      <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
+        <ContainerRadio>
+          <span>Tipo de conta</span>
+          <div>
+            <InputRadio>
+              <label>CPF</label>
+              <input type='radio' id='typeAccount' value={TypeAccount.CPF} {...register('accountType', {
+                required: `${t('v2.createProject.formMessages.required')}`,
+                onChange: (event: ChangeEvent<HTMLInputElement>) => console.log(event.target.value)
+
+              })} />
+            </InputRadio>
+            <InputRadio>
+              <label>CNPJ</label>
+              <input type='radio' id='typeAccount' value={TypeAccount.CNPJ}  {...register('accountType', {
+                required: `${t('v2.createProject.formMessages.required')}`,
+                onChange: (event: ChangeEvent<HTMLInputElement>) => console.log(event.target.value)
+
+              })} />
+            </InputRadio>
+          </div>
+        </ContainerRadio>
         <Input
-          title={'Tipo de pessoa'}
+          title={`${chooseAccountType === TypeAccount.CPF ? 'Nome Completo' : 'Nome Social'}`}
           disabled={false}
           disabledLabel={false}
-          type='string'
-          register={register('name', {
+
+          register={register('fullName', {
             required: `${t('v2.createProject.formMessages.required')}`,
-            pattern: {
-              value: projectRegexFields.email,
-              message: `${t('v2.createProject.formMessages.invalidEmail')}`
-            },
-            onBlur: () => trigger('name')
+            onBlur: () => trigger('fullName')
           })}
           maxLength={64}
-          onKeyDown={e => {
-            const validCharsRegex = projectRegexOnKeyDown.email
-            if (!validCharsRegex.test(e.key) && e.key !== 'Backspace') {
-              e.preventDefault()
-            }
-          }}
-          error={errors.name?.message}
-          placeholder={'Insira seu nome igual ao do seu documento'}
-        />
-        <Input
-          title={'Nome Completo'}
-          disabled={false}
-          disabledLabel={false}
-          type='string'
-          register={register('name', {
-            required: `${t('v2.createProject.formMessages.required')}`,
-            pattern: {
-              value: projectRegexFields.email,
-              message: `${t('v2.createProject.formMessages.invalidEmail')}`
-            },
-            onBlur: () => trigger('name')
-          })}
-          maxLength={64}
-          onKeyDown={e => {
-            const validCharsRegex = projectRegexOnKeyDown.email
-            if (!validCharsRegex.test(e.key) && e.key !== 'Backspace') {
-              e.preventDefault()
-            }
-          }}
-          error={errors.name?.message}
+          error={errors.fullName?.message}
           placeholder={'Insira seu nome igual ao do seu documento'}
         />
         <Input
           title={'Email'}
           disabled={false}
           disabledLabel={false}
-          type='email'
+
           register={register('email', {
             required: `${t('v2.createProject.formMessages.required')}`,
             pattern: {
@@ -136,59 +142,39 @@ export default function KycStep() {
           error={errors.email?.message}
           placeholder={'Insira seu e-mail para contato'}
         />
+
         <Input
-          title={'CPF'}
+          title={chooseAccountType.toUpperCase()}
           disabled={false}
           disabledLabel={false}
-          type='string'
-          register={register('cpf', {
+
+          register={register('cpfOrCnpj', {
             required: `${t('v2.createProject.formMessages.required')}`,
-            pattern: {
-              value: projectRegexFields.email,
-              message: `${t('v2.createProject.formMessages.invalidEmail')}`
-            },
-            onBlur: () => trigger('name')
           })}
           maxLength={64}
-          onKeyDown={e => {
-            const validCharsRegex = projectRegexOnKeyDown.email
-            if (!validCharsRegex.test(e.key) && e.key !== 'Backspace') {
-              e.preventDefault()
-            }
-          }}
-          error={errors.name?.message}
-          placeholder={'000.000.000-00'}
+          error={errors.cpfOrCnpj?.message}
+          placeholder={`${chooseAccountType === TypeAccount.CPF ? '000.000.000-00' : '00.000.000/00000-00'}`}
         />
         <Input
-          title={'Data de nascimento'}
+          title={`${chooseAccountType === TypeAccount.CPF ? 'Data Nascimento' : 'Data fundação'}`}
           disabled={false}
           disabledLabel={false}
-          type='string'
+
           register={register('birthDate', {
             required: `${t('v2.createProject.formMessages.required')}`,
-            pattern: {
-              value: projectRegexFields.email,
-              message: `${t('v2.createProject.formMessages.invalidEmail')}`
-            },
             onBlur: () => trigger('birthDate')
           })}
           maxLength={64}
-          onKeyDown={e => {
-            const validCharsRegex = projectRegexOnKeyDown.email
-            if (!validCharsRegex.test(e.key) && e.key !== 'Backspace') {
-              e.preventDefault()
-            }
-          }}
-          error={errors.name?.message}
+          error={errors.cpfOrCnpj?.message}
           placeholder={'00/00/00'}
         />
+        <Button form='kycForm' type='submit' label={'Continuar'} icon={<PiArrowRight />} />
       </FormContainer>
-      <Button onClick={() => {}} label={'Continuar'} icon={<PiArrowRight />} />
     </Container>
   )
 }
 
-const { Container, KycLevelContainer, FormContainer } = {
+const { Container, KycLevelContainer, FormContainer, InputRadio, ContainerRadio } = {
   Container: styled.div`
     width: 420px;
 
@@ -269,6 +255,77 @@ const { Container, KycLevelContainer, FormContainer } = {
   FormContainer: styled.form`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[8]};
+  `,
+  ContainerRadio: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[8]};
+    height: 77px;
+    width: 100%;
+    font-size: ${({ theme }) => theme.font.size[13]};
+    > div {
+      display: flex;
+      flex-direction: row;
+      gap: ${({ theme }) => theme.size[24]};
+      width: 100%;
+      display: flex;
+      border-radius: ${({ theme }) => theme.size[8]};
+      background: ${({ theme }) => theme.colorV2.gray[2]};
+      padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
+      box-shadow: ${({ theme }) => theme.shadow[200]};
+      background: ${({ theme }) => theme.colorV2.gray[2]};
+      border: 1px solid transparent;
+      &.disabled {
+        cursor: not-allowed;
+        color: ${({ theme }) => theme.color.blackAlpha[600]};
+        > input {
+          opacity: 0.5;
+        }
+      }
+
+      &.error {
+        border: 1px solid ${({ theme }) => theme.color.red[300]};
+        color: ${({ theme }) => theme.color.red[300]};
+          > input {
+            color: ${({ theme }) => theme.color.red[300]};
+          }
+        }
+
+        > input {
+          display: flex;
+          width: 100%;
+          border: none;
+          outline: none;
+          background: none;
+
+          &:disabled {
+          cursor: not-allowed;
+          }
+
+          &::-webkit-input-placeholder {
+            color: ${({ theme }) => theme.colorV2.gray[1]};
+            opacity: 0.5;
+          } 
+        }
+      }
+    
+  `,
+  InputRadio: styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: ${({ theme }) => theme.size[4]};
+    font-size: ${({ theme }) => theme.font.size[13]};
+    &.disabled {
+      > span {
+        opacity: 0.5;
+      }
+    }
+    > span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
   `
 }

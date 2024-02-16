@@ -1,6 +1,6 @@
 import Modal from '@/components/shared/Modal'
-import QuotationStep from './QuotationStep'
 import KycStep from './KycStep'
+import QuotationStep from './QuotationStep'
 
 export default function BuyEthControlModal() {
   const steps = {
@@ -10,7 +10,7 @@ export default function BuyEthControlModal() {
 
   return (
     <Modal title={'Comprar ETH com PIX'} isOpen={true} onClose={() => { }} width={'auto'}>
-      {steps.quotation}
+      {steps.checkout}
     </Modal>
   )
 }
