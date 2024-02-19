@@ -5,6 +5,11 @@
   "engines": {
     "node": "18.x"
   },
+  "pnpm": {
+    "overrides": {
+      "@walletconnect/modal": "2.6.2"
+    }
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -52,7 +57,6 @@
     "react-i18next": "^13.5.0",
     "react-icons": "^4.12.0",
     "react-jazzicon": "^1.0.4",
-    "react-no-ssr": "^1.1.0",
     "react-youtube": "^10.1.0",
     "sharp": "^0.33.0",
     "usehooks-ts": "^2.9.1",
