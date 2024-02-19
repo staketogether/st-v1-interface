@@ -1,4 +1,5 @@
 import Button from '@/components/shared/Button';
+import { StepBuyEth, amountValue, stepBuyCrypto } from '@/hooks/ramp/useControlModal';
 import useQuoteBrla from '@/hooks/ramp/useQuote';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { PaymentMethodType } from '@/types/payment-method.type';
@@ -17,6 +18,7 @@ export default function QuotationStep() {
   const [timerStarted, setTimerStarted] = useState<boolean>(false);
   const { t } = useLocaleTranslation()
 
+
   const handleChange = (amount: string) => {
 
     const regex = /^\d*\.?\d{0,2}$/;
@@ -25,6 +27,7 @@ export default function QuotationStep() {
 
     if (regex.test(newValue) || newValue === '' || newValue === '.') {
       setValue(newValue);
+      amountValue(newValue)
     }
   }
 
@@ -64,7 +67,7 @@ export default function QuotationStep() {
           <PiClock style={{ fontSize: 16 }} /> <span>{t('v2.ramp.quote.updateQuote')} {seconds}s</span>
         </span>
       </PriceInfoContainer>
-      <Button onClick={() => { }} label={`${t('next')}`} icon={<PiArrowRight />} />
+      <Button onClick={() => { stepBuyCrypto(StepBuyEth.Checkout) }} label={`${t('next')}`} icon={<PiArrowRight />} />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
       </footer>

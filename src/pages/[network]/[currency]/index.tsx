@@ -1,3 +1,4 @@
+import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 
@@ -8,7 +9,6 @@ import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentf
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import React from 'react'
 
 type HomeProps = {
   poolAddress: `0x${string}`
@@ -20,6 +20,7 @@ export default function Home({ poolAddress, poolDetail }: HomeProps) {
     <LayoutTemplate>
       <Metatags />
       <StakeControl isStakeTogetherPool poolAddress={poolAddress} type='deposit' poolDetail={poolDetail} />
+      <BuyEthControlModal />
     </LayoutTemplate>
   )
 }
