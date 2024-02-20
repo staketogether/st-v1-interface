@@ -1,10 +1,7 @@
-import { amountValue, quoteVar } from '@/hooks/ramp/useControlModal'
+import { quoteVar } from '@/hooks/ramp/useControlModal'
 import useKycCreate, { KycCreate, TypeAccount } from '@/hooks/ramp/useKycCreate'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'
-import ethIcon from '@assets/icons/eth-icon.svg'
-import brla from '@assets/images/BRLA.svg'
-import Image from 'next/image'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { PiArrowRight } from 'react-icons/pi'
@@ -13,6 +10,7 @@ import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
 import Input from '../shared/inputs/Input'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
+import SwapInfo from './SwapInfo'
 
 
 
@@ -38,7 +36,6 @@ export default function KycStep() {
   const { data, error } = useKycCreate('brla', address, formData)
 
   const chooseAccountType = watch('accountType')
-  const value = useReactiveVar(amountValue)
   const quote = useReactiveVar(quoteVar)
 
   const onSubmit = (data: KycCreate) => {
@@ -55,23 +52,7 @@ export default function KycStep() {
   }, [data, error, errors, chooseAccountType])
   return (
     <Container>
-      <header>
-        <div>
-          <div>
-            <Image src={brla} width={16} height={16} alt='brla' />
-            BRLA
-          </div>
-          <div>{quote?.amountFiat}</div>
-        </div>
-        <PiArrowRight style={{ fontSize: 24 }} />
-        <div>
-          <div>
-            <Image src={ethIcon} width={16} height={16} alt='brla' />
-            ETH
-          </div>
-          <div className='align-right'>{quote?.amountCrypto}</div>
-        </div>
-      </header>
+      <SwapInfo />
       <h2>Check out</h2>
       <span>Para continuar com o processo de compra precisamos de alguns dados</span>
       <KycLevelContainer>

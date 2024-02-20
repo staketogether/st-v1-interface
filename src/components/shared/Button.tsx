@@ -1,4 +1,4 @@
-import { ReactNode, InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, ReactNode } from 'react'
 import styled from 'styled-components'
 import Loading from './icons/Loading'
 
@@ -10,6 +10,7 @@ type ButtonProps = InputHTMLAttributes<HTMLButtonElement> & {
   isLoading?: boolean
   disabled?: boolean
   small?: boolean
+  iconLeft?: boolean
   block?: boolean
   ghost?: boolean
   className?: string
@@ -26,22 +27,25 @@ export default function Button({
   isLoading = false,
   small = false,
   block = false,
+  iconLeft = false,
   color = 'primary',
   ghost = false,
   ...props
 }: ButtonProps) {
+
+  const getIcon = () => (isLoading ? <LoadingIcon size={small ? 14 : 16} className={color && `${color}`} /> : icon)
   return (
     <Container
       onClick={onClick}
       disabled={disabled || isLoading}
       type={type}
-      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${
-        color && `${color}`
-      }  ${className}`}
+      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${color && `${color}`
+        }  ${className}`}
       {...props}
     >
-      {isLoading ? <LoadingIcon size={small ? 14 : 16} className={color && `${color}`} /> : icon}
+      {!iconLeft && getIcon()}
       {label}
+      {iconLeft && getIcon()}
     </Container>
   )
 }
@@ -142,6 +146,12 @@ const { Container, LoadingIcon } = {
           color: ${({ theme }) => theme.color.secondary};
         }
       }
+    }
+    &.outline {
+      background: transparent;
+      color: ${({ theme }) => theme.color.primary};
+      border: 1px solid ${({ theme }) => theme.color.primary};
+      font-weight: 500;
     }
   `,
   LoadingIcon: styled(Loading)`
