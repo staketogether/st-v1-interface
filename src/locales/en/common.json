@@ -591,7 +591,7 @@
       }
     },
     "tokens": {
-      "title": "Products",
+      "title": "Invest",
       "products": {
         "name": "Name",
         "token": "Token",
@@ -601,14 +601,14 @@
       }
     },
     "products": {
-      "ethereum": "Staking de Polkadot",
-      "restaking": "ReStaking de Ethereum ",
-      "celestia": "Staking de Celestia",
-      "polygon": "Staking de Polygon ",
-      "solana": "Staking de Solana",
-      "cosmos": "Staking de Cosmos",
-      "near": "Staking de Near ",
-      "polkadot": "Staking de Polkadot"
+      "ethereum": "Ethereum Staking",
+      "restaking": "Ethereum ReStaking ",
+      "celestia": "Celestia Staking",
+      "polygon": "Polygon Staking",
+      "solana": "Solana Staking",
+      "cosmos": "Cosmos Staking",
+      "near": "Near Staking",
+      "polkadot": "Polkadot Staking"
     },
     "notifyBar": {
       "incentives": {
