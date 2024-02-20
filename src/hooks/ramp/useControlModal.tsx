@@ -12,5 +12,5 @@ export enum StepBuyEth {
 }
 export const openModal = makeVar(true)
 export const amountValue = makeVar<string | number>('0')
-export const stepBuyCrypto = makeVar<StepBuyEth>(StepBuyEth.Success)
+export const stepBuyCrypto = makeVar<StepBuyEth>(StepBuyEth.ProcessingKyc)
 export const quoteVar = makeVar<Quote | undefined>(undefined)

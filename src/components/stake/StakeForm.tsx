@@ -28,7 +28,7 @@ import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
-import { openModal } from '@/hooks/ramp/useControlModal'
+import { StepBuyEth, openModal, stepBuyCrypto } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
@@ -322,6 +322,12 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     setAmount(truncateWei(balance, 18, true))
   }
 
+  const handleActiveRamp = () => {
+    // reset process
+    stepBuyCrypto(StepBuyEth.Quotation)
+    openModal(true)
+  }
+
   const cantDeposit =
     insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
 
@@ -416,7 +422,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           </>
         )}
         {type === 'deposit' && (
-          <OnRampButton onClick={() => openModal(true)}>
+          <OnRampButton onClick={handleActiveRamp}>
             <Image src={pixImage} width={32} height={32} alt='pix image' /> Comprar ETH com PIX
           </OnRampButton>
         )}

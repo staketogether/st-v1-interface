@@ -1,13 +1,26 @@
-import line from '@assets/icons/line.svg';
 import processing from '@assets/images/processing.svg';
 import Image from 'next/image';
-import { PiClockLight } from 'react-icons/pi';
+import { PiCircleLight, PiClockLight } from 'react-icons/pi';
 import styled, { useTheme } from "styled-components";
 import SwapInfo from './SwapInfo';
+import ValidationList from './ValidationList';
 
 export default function ProcessingKycStep() {
 
   const theme = useTheme()
+  const validationSteps = [
+    {
+      icon: <PiClockLight size={32} color={theme.color.secondary} />,
+      text: 'Processando Cadastro',
+      disable: false
+    },
+    {
+      icon: <PiCircleLight size={32} color={theme.color.secondary} />,
+      text: 'Gerando QR Code',
+      disable: true
+    }
+  ]
+
   return (
     <Container>
       <Header>
@@ -15,24 +28,12 @@ export default function ProcessingKycStep() {
         <span>Processando Cadastro</span>
       </Header>
       <SwapInfo />
-      <StatusContainer>
-        <Status>
-          <PiClockLight size={32} color={theme.color.secondary} />
-          <span>Validando KYC</span>
-        </Status>
-        <Divider>
-          <Image src={line} alt='' width={0} height={17} />
-        </Divider>
-        <Status className='disabled'>
-          <PiClockLight size={32} color={theme.color.secondary} />
-          <span>Validando KYC</span>
-        </Status>
-      </StatusContainer>
+      <ValidationList validationSteps={validationSteps} />
     </Container>
   )
 }
 
-const { Container, Header, StatusContainer, Status, Divider } = {
+const { Container, Header } = {
   Container: styled.div`
     width: 420px;
     display: flex;
@@ -54,32 +55,5 @@ const { Container, Header, StatusContainer, Status, Divider } = {
       letter-spacing: 0em;
       text-align: left;
     }
-  `,
-  StatusContainer: styled.div`
-    display: grid;
-    gap: ${({ theme }) => theme.size[4]};
-    padding: ${({ theme }) => theme.size[24]};
-    padding: ${({ theme }) => theme.size[24]};
-    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
-    border-radius: ${({ theme }) => theme.size[8]};
-  
-  `,
-  Status: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
-      > span {
-        font-size: 15px;
-        font-weight: 500;
-        line-height: 18px;
-        letter-spacing: 0em;
-        text-align: left;
-      }
-    &.disabled {
-      filter: grayscale(1);
-    }
-  `,
-  Divider: styled.div`
-    margin-left: 16px;
   `
 }
