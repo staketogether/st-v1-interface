@@ -6,10 +6,11 @@ export enum StepBuyEth {
     KycStep = 'KycStep',
     ProcessingKyc = 'ProcessingKyc',
     ProcessingCheckoutStep = 'ProcessingCheckoutStep',
-    Checkout = 'Checkout'
+    Checkout = 'Checkout',
+    Success = 'Success'
 
 }
 export const openModal = makeVar(true)
 export const amountValue = makeVar<string | number>('0')
-export const stepBuyCrypto = makeVar<StepBuyEth>(StepBuyEth.Checkout)
+export const stepBuyCrypto = makeVar<StepBuyEth>(StepBuyEth.Success)
 export const quoteVar = makeVar<Quote | undefined>(undefined)
