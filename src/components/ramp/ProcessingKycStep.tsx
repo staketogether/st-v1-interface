@@ -1,9 +1,6 @@
-import processing from '@assets/images/processing.svg';
-import Image from 'next/image';
 import { PiCircleLight, PiClockLight } from 'react-icons/pi';
-import styled, { useTheme } from "styled-components";
-import SwapInfo from './SwapInfo';
-import ValidationList from './ValidationList';
+import { useTheme } from "styled-components";
+import WrapProcessingStep from './WrapProcessingStep';
 
 export default function ProcessingKycStep() {
 
@@ -21,39 +18,5 @@ export default function ProcessingKycStep() {
     }
   ]
 
-  return (
-    <Container>
-      <Header>
-        <Image src={processing} width={80} alt='processing' />
-        <span>Processando Cadastro</span>
-      </Header>
-      <SwapInfo />
-      <ValidationList validationSteps={validationSteps} />
-    </Container>
-  )
-}
-
-const { Container, Header } = {
-  Container: styled.div`
-    width: 420px;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  `,
-  Header: styled.div`
-    display: flex;
-    gap: ${({ theme }) => theme.size[12]};
-    flex-direction: column;
-    align-items: center;
-    > img {
-      width: 80px;
-    };
-    > span {
-      font-size: 18px;
-      font-weight: 500;
-      line-height: 22px;
-      letter-spacing: 0em;
-      text-align: left;
-    }
-  `
+  return (<WrapProcessingStep validationSteps={validationSteps} title={'Processando Cadastro'} />)
 }
