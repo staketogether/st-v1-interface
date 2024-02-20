@@ -4,12 +4,15 @@ import { PiArrowLeft, PiArrowUpRight, PiCopy } from 'react-icons/pi'
 import styled from 'styled-components'
 import StakingIcons from '../tokens/StakingIcons'
 import SymbolIcons from '../tokens/SymbolIcons'
+import chainConfig from '@/config/chain'
+import { truncateAddress } from '@/services/truncate'
 
 type ProductInfoProps = {
   product: Product
 }
 
 export default function ProductInfo({ product }: ProductInfoProps) {
+  const { contracts } = chainConfig()
   return (
     <ProductContainer>
       <header>
@@ -91,7 +94,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       <ProductBodyContainer>
         <h2>Contract address</h2>
         <span className='copy'>
-          0x012390128398492384 <PiCopy style={{ fontSize: 16 }} />
+          {truncateAddress(contracts.StakeTogether)} <PiCopy style={{ fontSize: 16 }} />
         </span>
       </ProductBodyContainer>
     </ProductContainer>
@@ -108,7 +111,6 @@ const {
   StatisticContainer
 } = {
   ProductContainer: styled.div`
-    height: 500px;
     flex: 1;
     display: flex;
     flex-direction: column;

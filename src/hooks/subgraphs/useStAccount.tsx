@@ -8,7 +8,7 @@ import { AccountActivity } from '@/types/AccountActivity'
 import { AccountReward } from '@/types/AccountReward'
 import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
 
-export default function useStAccount(address: `0x${string}`) {
+export default function useStAccount(address?: `0x${string}`) {
   const [account, setAccount] = useState<Account | undefined>(undefined)
   const [accountActivities, setAccountActivities] = useState<AccountActivity[]>([])
   const [accountRewards, setAccountRewards] = useState<AccountReward[]>([])
@@ -23,20 +23,23 @@ export default function useStAccount(address: `0x${string}`) {
   const [accountShare, setAccountShare] = useState<bigint>(0n)
 
   const { data: accountData, loading } = useQuery<{ account: Account }>(queryAccount, {
-    variables: { id: address.toLowerCase() }
+    variables: { id: address?.toLowerCase() },
+    skip: !address
   })
 
   const { data: activitiesData, loading: activitiesLoading } = useQuery<{
     accountActivities: AccountActivity[]
   }>(queryAccountActivities, {
-    variables: { accountAddress: address.toLowerCase(), first: 10, skip: 0 }
+    variables: { accountAddress: address?.toLowerCase(), first: 10, skip: 0 },
+    skip: !address
   })
 
   const { data: rewardsData, loading: rewardsLoading } = useQuery<{ accountRewards: AccountReward[] }>(
     queryAccountRewards,
     {
       variables: {
-        accountAddress: address.toLowerCase()
+        accountAddress: address?.toLowerCase(),
+        skip: !address
       }
     }
   )
