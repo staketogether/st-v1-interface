@@ -1,5 +1,6 @@
 import Modal from '@/components/shared/Modal';
 import { StepBuyEth, openModal, stepBuyCrypto } from '@/hooks/ramp/useControlModal';
+import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { useReactiveVar } from '@apollo/client';
 import CheckoutStep from './CheckoutStep';
 import KycStep from './KycStep';
@@ -11,7 +12,7 @@ import SuccessStep from './SuccessStep';
 
 
 export default function BuyEthControlModal() {
-
+  const { t } = useLocaleTranslation()
 
   const steps = {
     Quotation: <QuotationStep />,
@@ -24,7 +25,7 @@ export default function BuyEthControlModal() {
 
   const controlModal = useReactiveVar(openModal)
   const currentStep = useReactiveVar(stepBuyCrypto)
-  const title = currentStep === StepBuyEth.Success ? 'Deposito concluido com sucesso!' : 'Comprar ETH com PIX'
+  const title = currentStep === StepBuyEth.Success ? t('v2.ramp.success') : t('v2.ramp.title')
 
   return (
     <Modal

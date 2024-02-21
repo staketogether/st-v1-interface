@@ -4,6 +4,9 @@ import useQuoteBrla from '@/hooks/ramp/useQuote';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { PaymentMethodType } from '@/types/payment-method.type';
 import { ProviderType } from '@/types/provider.type';
+import brlBrla from '@assets/icons/brl-brla.svg';
+import eth from '@assets/icons/eth-icon.svg';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi';
 
@@ -53,21 +56,27 @@ export default function QuotationStep() {
       <header>{t('v2.ramp.quote.title')}:</header>
       <BoxValuesContainer>
         <InputContainer>
-          <div>BRL</div>
+          <div>
+            <Image src={brlBrla} width={36} height={24} alt='BRL' />
+            <span>BRL</span>
+          </div>
           <input type='text' onChange={(({ target }) => handleChange(target.value))} value={value} />
         </InputContainer>
         <ArrowDown />
         <InputContainer>
-          <div>ETH</div>
+          <div>
+            <Image src={eth} width={36} height={24} alt='BRL' />
+            <span>ETH</span>
+          </div>
           <input type='text' value={quote?.amountCrypto ?? 0} disabled />
         </InputContainer>
       </BoxValuesContainer>
       <PriceInfoContainer>
         <span className='gray'>
-          <PiClock style={{ fontSize: 16 }} /> <span>{t('v2.ramp.quote.updateQuote')} {seconds}s</span>
+          <PiClock style={{ fontSize: 16 }} /> <span>{t('v2.ramp.quote.updateQuote')} {quote?.amountCrypto ? seconds : 5}s</span>
         </span>
       </PriceInfoContainer>
-      <Button onClick={() => { stepBuyCrypto(StepBuyEth.KycStep) }} label={`${t('next')}`} icon={<PiArrowRight />} />
+      <Button onClick={() => { stepBuyCrypto(StepBuyEth.KycStep) }} label={t('next')} icon={<PiArrowRight />} />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
       </footer>
@@ -120,6 +129,9 @@ const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoConta
 
     > div {
       font-size: ${({ theme }) => theme.font.size[15]};
+      display: flex;
+      flex-direction: row;
+      align-items: center;
     }
 
     input {

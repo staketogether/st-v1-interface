@@ -1,3 +1,4 @@
+import useLocaleTranslation from "@/hooks/useLocaleTranslation"
 import { QRCode } from "antd"
 import { PiCopy } from "react-icons/pi"
 import styled from "styled-components"
@@ -5,13 +6,14 @@ import Button from "../shared/Button"
 import SwapInfo from "./SwapInfo"
 
 export default function CheckoutStep() {
+  const { t } = useLocaleTranslation()
   return (
     <Container>
       <SwapInfo />
       <PixArea>
         <Header>
           <div>
-            <span>Valor a ser pago:</span>
+            <span>{t('v2.ramp.amountToBePaid')}:</span>
             <span>R$ 9.935,34</span>
           </div>
           <span>
@@ -21,18 +23,18 @@ export default function CheckoutStep() {
           </span>
         </Header>
         <Body>
-          <span>Use o QR Code do Pix para pagar</span>
+          <span>{t('v2.ramp.useThePixQRCode')}</span>
           <Code value="heyc 123123123" />
-          <Button form='kycForm' type='submit' label={'Copiar código do QR Code'} icon={<PiCopy />} iconLeft />
+          <Button form='kycForm' type='submit' label={t('v2.ramp.copyQrCode')} icon={<PiCopy />} iconLeft />
         </Body>
 
 
       </PixArea>
       <KeyPixArea>
-        <span>Ou use a Chave Pix</span>
+        <span>{t('v2.ramp.orUseThePixKey')}</span>
         <Button type="button" label="fa9a63e7-359d-46bd-8838-8ca249f153a0" icon={<PiCopy />} iconLeft className="ghost" />
       </KeyPixArea>
-      <Button type="button" label="Cancelar Depósito" className="outline" block />
+      <Button type="button" label={t('v2.ramp.cancelDeposit')} className="outline" block />
     </Container>
   )
 }

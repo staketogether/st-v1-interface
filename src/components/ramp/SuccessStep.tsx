@@ -1,10 +1,12 @@
 import { openModal } from '@/hooks/ramp/useControlModal';
+import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { PiCheckCircleFill } from 'react-icons/pi';
 import styled, { useTheme } from 'styled-components';
 import Button from '../shared/Button';
 
 export default function SuccessStep() {
     const theme = useTheme()
+    const { t } = useLocaleTranslation()
     return (
         <Container>
             <PiCheckCircleFill size={80} color={theme.color.green[500]} />
@@ -12,15 +14,15 @@ export default function SuccessStep() {
                 <div>
                     <span>1.0 ETH</span>
                 </div>
-                <span>Seus ETH já estão disponível na sua conta!</span>
+                <span>{t('v2.ramp.yourEths')}</span>
             </DepositToken>
             <DepositInfo>
                 <Info>
-                    <span>Você recebeu</span>
+                    <span>{t('v2.ramp.youReceived')}</span>
                     <span className='right secondary'>1.0 ETH</span>
                 </Info>
                 <Info>
-                    <span>Câmbio</span>
+                    <span>{t('v2.ramp.exchange')}</span>
                     <div className='right'>
                         <span className='green'>9.356,35</span>
                         <span>=</span>
@@ -36,7 +38,7 @@ export default function SuccessStep() {
                     <span className='right'>R$9117,67</span>
                 </Info>
                 <Info>
-                    <span>Taxa de rede</span>
+                    <span>{t('v2.ramp.networkFee')}</span>
                     <span className='right grayLight'>1.0 ETH</span>
                 </Info>
                 <Info>
@@ -45,7 +47,7 @@ export default function SuccessStep() {
                 </Info>
 
             </DepositInfo>
-            <Button type="button" label="Fechar" onClick={() => openModal(false)} />
+            <Button type="button" label={t('next')} onClick={() => openModal(false)} />
         </Container>
     )
 

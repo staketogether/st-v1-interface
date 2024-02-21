@@ -1,7 +1,5 @@
-import { quoteVar } from '@/hooks/ramp/useControlModal'
 import useKycCreate, { KycCreate, TypeAccount } from '@/hooks/ramp/useKycCreate'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { useReactiveVar } from '@apollo/client'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { PiArrowRight } from 'react-icons/pi'
@@ -36,8 +34,6 @@ export default function KycStep() {
   const { data, error } = useKycCreate('brla', address, formData)
 
   const chooseAccountType = watch('accountType')
-  const quote = useReactiveVar(quoteVar)
-
   const onSubmit = (data: KycCreate) => {
     console.log('realizar envio do form', data)
 
@@ -53,25 +49,27 @@ export default function KycStep() {
   return (
     <Container>
       <SwapInfo />
-      <h2>Check out</h2>
-      <span>Para continuar com o processo de compra precisamos de alguns dados</span>
+
+      <h2>{t('v2.ramp.checkOut')}</h2>
+      <span>{t('v2.ramp.kyc.description')}</span>
+
       <KycLevelContainer>
         <div>
-          <div>Nível KYC</div>
+          <div>{t('v2.ramp.kyc.level')}</div>
           <div>1</div>
         </div>
         <div>
-          <div>Limite</div>
+          <div>{t('v2.ramp.kyc.limit')}</div>
           <div>R$ 10.000,00</div>
         </div>
         <div>
-          <div>Limite usado</div>
+          <div>{t('v2.ramp.kyc.usedLimit')}</div>
           <div>R$ 9.000,00</div>
         </div>
       </KycLevelContainer>
       <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
         <ContainerRadio>
-          <span>Tipo de conta</span>
+          <span>{t('v2.ramp.kyc.typeAccount')}</span>
           <div>
             <InputRadio>
               <label>CPF</label>
@@ -92,7 +90,7 @@ export default function KycStep() {
           </div>
         </ContainerRadio>
         <Input
-          title={`${chooseAccountType === TypeAccount.CPF ? 'Nome Completo' : 'Nome Social'}`}
+          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')}`}
           disabled={false}
           disabledLabel={false}
 
@@ -102,7 +100,7 @@ export default function KycStep() {
           })}
           maxLength={64}
           error={errors.fullName?.message}
-          placeholder={'Insira seu nome igual ao do seu documento'}
+          placeholder={t('v2.ramp.kyc.namePlaceholder')}
         />
         <Input
           title={'Email'}
@@ -125,7 +123,7 @@ export default function KycStep() {
             }
           }}
           error={errors.email?.message}
-          placeholder={'Insira seu e-mail para contato'}
+          placeholder={t('v2.ramp.kyc.emailPlaceholder')}
         />
 
         <Input
@@ -141,7 +139,7 @@ export default function KycStep() {
           placeholder={`${chooseAccountType === TypeAccount.CPF ? '000.000.000-00' : '00.000.000/00000-00'}`}
         />
         <Input
-          title={`${chooseAccountType === TypeAccount.CPF ? 'Data Nascimento' : 'Data fundação'}`}
+          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')}`}
           disabled={false}
           disabledLabel={false}
 
@@ -153,7 +151,7 @@ export default function KycStep() {
           error={errors.cpfOrCnpj?.message}
           placeholder={'00/00/00'}
         />
-        <Button form='kycForm' type='submit' label={'Continuar'} icon={<PiArrowRight />} />
+        <Button form='kycForm' type='submit' label={t('next')} icon={<PiArrowRight />} />
       </FormContainer>
     </Container>
   )
@@ -169,48 +167,14 @@ const { Container, KycLevelContainer, FormContainer, InputRadio, ContainerRadio 
 
     color: ${({ theme }) => theme.colorV2.gray[1]};
 
-    Header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: ${({ theme }) => theme.size[8]};
-      padding: 8px 16px;
-
-      border-radius: ${({ theme }) => theme.size[8]};
-      background: ${({ theme }) => theme.colorV2.gray[2]};
-
-      div {
-        display: flex;
-        flex-direction: column;
-        gap: ${({ theme }) => theme.size[8]};
-
-        div {
-          font-weight: 500;
-          &.align-right {
-            text-align: right;
-          }
-          &:first-child {
-            font-size: ${({ theme }) => theme.font.size[15]};
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: ${({ theme }) => theme.size[8]};
-          }
-          &:last-child {
-            font-size: 20px;
-          }
-        }
-      }
-
-      h2 {
+    h2 {
         font-size: ${({ theme }) => theme.font.size[15]};
         font-weight: 500;
       }
 
-      span {
-        font-size: ${({ theme }) => theme.font.size[13]};
-        font-weight: 400;
-      }
+    span {
+      font-size: ${({ theme }) => theme.font.size[13]};
+      font-weight: 400;
     }
   `,
   KycLevelContainer: styled.div`
