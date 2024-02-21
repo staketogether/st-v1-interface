@@ -7,7 +7,7 @@ export const projectRegexFields = {
   telegramInvite: /^https:\/\/(t\.me|telegram\.me)\/.+$/,
   youtubeVideo: /^(https?:\/\/)?(www\.youtube\.com\/watch\?v=|youtu\.be\/)[\w-]+(&[\w-]+)*(&t=\d+s)?$/,
   youtubeChanel: /^@([a-zA-Z0-9\-.]+)$/,
-  cpf: /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/
+  cpf: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/
 }
 
 export const projectRegexOnKeyDown = {
