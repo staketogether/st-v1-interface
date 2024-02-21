@@ -1,4 +1,3 @@
-import { ContentfulPool } from '@/types/ContentfulPool'
 import React from 'react'
 import styled from 'styled-components'
 import { StakingProduct } from '@/types/Product'
@@ -7,21 +6,18 @@ import ProductInfo from './ProductInfo'
 import EthereumFormControl from './ethereum/EthereumFormControl'
 
 type NewStakeControlProps = {
-  poolAddress: `0x${string}`
   type: 'deposit' | 'withdraw'
-  poolDetail?: ContentfulPool
-  isStakeTogetherPool?: boolean
   productName: StakingProduct
 }
 
-export default function NewStakeControl({ productName }: NewStakeControlProps) {
+export default function NewStakeControl({ productName, type }: NewStakeControlProps) {
   const { findProduct } = useProducts()
   const product = findProduct(productName)
 
   const handleProductAction = () => {
     switch (productName) {
       case 'ethereum':
-        return <EthereumFormControl />
+        return <EthereumFormControl type={type} />
 
       default:
         return <div>Product not Available</div>

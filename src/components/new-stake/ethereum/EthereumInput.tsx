@@ -14,6 +14,7 @@ type EthereumInputProps = {
   ethBalanceLoading: boolean
   hasError: boolean
   onChange: (value: string) => void
+  onMaxFunction?: () => void
 }
 
 export default function EthereumInput({
@@ -21,7 +22,8 @@ export default function EthereumInput({
   ethBalanceLoading,
   ethAmountValue,
   hasError,
-  onChange
+  onChange,
+  onMaxFunction
 }: EthereumInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
@@ -72,7 +74,9 @@ export default function EthereumInput({
         <CoinActionContainer>
           <StakingIcons stakingProduct='ethereum' size={32} />
           <span>{t('eth.symbol')}</span>
-          <span className='max'>MAX</span>
+          <span className='max' onClick={onMaxFunction}>
+            MAX
+          </span>
         </CoinActionContainer>
         <input
           type='text'
@@ -104,6 +108,7 @@ const { InputContent, CoinActionContainer, SelectOption } = {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: ${({ theme }) => theme.size[8]};
 
       font-size: ${({ theme }) => theme.font.size[13]};
       font-weight: 400;
@@ -142,6 +147,7 @@ const { InputContent, CoinActionContainer, SelectOption } = {
         color: ${({ theme }) => theme.colorV2.purple[1]};
         font-size: ${({ theme }) => theme.font.size[13]};
         font-weight: 400;
+        cursor: pointer;
       }
     }
   `,
