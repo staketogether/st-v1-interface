@@ -1,3 +1,5 @@
+import { quoteVar } from '@/hooks/ramp/useControlModal';
+import { useReactiveVar } from '@apollo/client';
 import ethIcon from '@assets/icons/eth-icon.svg';
 import brla from '@assets/images/BRLA.svg';
 import Image from 'next/image';
@@ -5,6 +7,8 @@ import { PiArrowRight } from 'react-icons/pi';
 import styled from "styled-components";
 
 export default function SwapInfo() {
+
+  const quote = useReactiveVar(quoteVar)
   return (
     <Container>
       <SwapToken>
@@ -12,15 +16,15 @@ export default function SwapInfo() {
           <Image src={brla} width={16} height={16} alt='brla' />
           <span>BRLA</span>
         </div>
-        <span>9.935,34</span>
+        <span>{quote?.amountFiat}</span>
       </SwapToken>
       <PiArrowRight size={24} />
       <SwapToken className='left'>
         <div>
-          <Image src={ethIcon} width={16} height={16} alt='brla' />
+          <Image src={ethIcon} width={16} height={16} alt='eth' />
           <span>ETH</span>
         </div>
-        <span>0.6</span>
+        <span>{quote?.amountCrypto}</span>
       </SwapToken>
     </Container>
   )

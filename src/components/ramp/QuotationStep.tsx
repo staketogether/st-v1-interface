@@ -1,5 +1,6 @@
 import Button from '@/components/shared/Button';
 import { StepBuyEth, amountValue, stepBuyCrypto } from '@/hooks/ramp/useControlModal';
+import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo';
 import useQuoteBrla from '@/hooks/ramp/useQuote';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { PaymentMethodType } from '@/types/payment-method.type';
@@ -11,12 +12,15 @@ import { useEffect, useState } from 'react';
 import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi';
 
 import styled from 'styled-components';
+import { useAccount } from 'wagmi';
 
 export default function QuotationStep() {
 
   const initialSeconds = 5;
   const [value, setValue] = useState<number | string>(0);
   const { quote } = useQuoteBrla(1, 'brl', Number(value), 0, ProviderType.brla, PaymentMethodType.pix)
+  const { address } = useAccount()
+  const { kycLevelInfo } = useKycLevelInfo('brla', address)
   const [seconds, setSeconds] = useState<number>(5);
   const [timerStarted, setTimerStarted] = useState<boolean>(false);
   const { t } = useLocaleTranslation()
@@ -76,7 +80,7 @@ export default function QuotationStep() {
           <PiClock style={{ fontSize: 16 }} /> <span>{t('v2.ramp.quote.updateQuote')} {quote?.amountCrypto ? seconds : 5}s</span>
         </span>
       </PriceInfoContainer>
-      <Button onClick={() => { stepBuyCrypto(StepBuyEth.KycStep) }} label={t('next')} icon={<PiArrowRight />} />
+      <Button onClick={() => { !kycLevelInfo?.level ? stepBuyCrypto(StepBuyEth.ProcessingKyc) : stepBuyCrypto(StepBuyEth.KycStep) }} label={t('next')} icon={<PiArrowRight />} />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
       </footer>

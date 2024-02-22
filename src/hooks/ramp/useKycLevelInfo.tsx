@@ -10,8 +10,8 @@ interface KycLevelInfo {
   }
 }
 
-export default function useKycLevelInfo(provider: 'brla' | 'transak', taxId: string) {
-  const { data, error } = useSWR<KycLevelInfo>(`api/ramp/kyc/${provider}/${taxId}/info`)
+export default function useKycLevelInfo(provider: 'brla' | 'transak', taxId?: string) {
+  const { data, error } = useSWR<KycLevelInfo>(taxId && `api/ramp/kyc/${provider}/${taxId}/info`)
 
   return {
     kycLevelInfo: data,
