@@ -50,6 +50,7 @@ export type NetworkWrap = {
 export type Product = {
   id: number
   name: StakingProduct
+  title: string
   symbol: ProductSymbol
   icon: StakingProductIcon
   networks: NetworkWrap[]

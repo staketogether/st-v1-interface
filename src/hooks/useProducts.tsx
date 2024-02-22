@@ -8,6 +8,7 @@ export default function useProducts() {
     {
       id: 1,
       name: 'ethereum',
+      title: 'Staking de Ethereum',
       icon: 'ethereum',
       symbol: 'stpETH',
       networks: [
@@ -20,14 +21,15 @@ export default function useProducts() {
       apy: 5.1,
       airdrops: ['stakeTogether', 'layerZero'],
       scan: 'https://etherscan.io/',
-      contractAddress: '0x1234567890',
-      description: 'EthereumDescription',
+      contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+      description: 'ethereumDescription',
       enabled: true,
       urlRedirect: `/${network}/${currency}`
     },
     {
       id: 2,
       name: 'restaking',
+      title: 'Restaking',
       symbol: 'stpRETH',
       icon: 'EthereumRestaking',
       networks: [
@@ -41,13 +43,14 @@ export default function useProducts() {
       airdrops: ['stakeTogether', 'layerZero', 'eigenLayer'],
       scan: 'https://etherscan.io/',
       contractAddress: '0x1234567890',
-      description: 'EthereumDescription',
+      description: 'ethereumDescription',
       enabled: false,
       urlRedirect: '/'
     },
     {
       id: 3,
       name: 'celestia',
+      title: 'Celestia',
       symbol: 'stpTIA',
       icon: 'celestia',
       networks: [
@@ -61,13 +64,14 @@ export default function useProducts() {
       airdrops: ['stakeTogether', 'layerZero', 'celestia'],
       scan: 'https://etherscan.io/',
       contractAddress: '0x1234567890',
-      description: 'EthereumDescription',
+      description: 'ethereumDescription',
       enabled: false,
       urlRedirect: '/'
     },
     {
       id: 4,
       name: 'polygon',
+      title: 'Polygon',
       symbol: 'stpPOL',
       icon: 'polygon',
       networks: [
@@ -81,13 +85,14 @@ export default function useProducts() {
       airdrops: ['stakeTogether', 'layerZero'],
       scan: 'https://etherscan.io/',
       contractAddress: '0x1234567890',
-      description: 'EthereumDescription',
+      description: 'ethereumDescription',
       enabled: false,
       urlRedirect: '/'
     },
     {
       id: 5,
       name: 'solana',
+      title: 'Solana',
       symbol: 'stpSOL',
       icon: 'solana',
       networks: [
@@ -108,6 +113,7 @@ export default function useProducts() {
     {
       id: 6,
       name: 'cosmos',
+      title: 'Cosmos',
       symbol: 'stpATOM',
       icon: 'cosmos',
       networks: [
@@ -128,6 +134,7 @@ export default function useProducts() {
     {
       id: 7,
       name: 'near',
+      title: 'Near',
       symbol: 'stpNear',
       icon: 'near',
       networks: [
@@ -148,6 +155,7 @@ export default function useProducts() {
     {
       id: 8,
       name: 'polkadot',
+      title: 'Polkadot',
       symbol: 'stpKSM',
       icon: 'polkadot',
       networks: [

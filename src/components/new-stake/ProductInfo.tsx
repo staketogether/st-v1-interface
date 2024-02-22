@@ -6,6 +6,7 @@ import StakingIcons from '../tokens/StakingIcons'
 import SymbolIcons from '../tokens/SymbolIcons'
 import chainConfig from '@/config/chain'
 import { truncateAddress } from '@/services/truncate'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 
 type ProductInfoProps = {
   product: Product
@@ -13,17 +14,18 @@ type ProductInfoProps = {
 
 export default function ProductInfo({ product }: ProductInfoProps) {
   const { contracts } = chainConfig()
+  const { t } = useLocaleTranslation()
   return (
     <ProductContainer>
       <header>
         <HeaderBackAction>
           <PiArrowLeft />
-          <span>Back</span>
+          <span>{t('goToBack')}</span>
         </HeaderBackAction>
 
         <HeaderProduct>
           <StakingIcons stakingProduct={product.icon} size={36} />
-          {product.name}
+          {product.title}
         </HeaderProduct>
 
         <HeaderDescribeInfo>
@@ -38,10 +40,10 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         </HeaderDescribeInfo>
       </header>
       <ProductBodyContainer>
-        <h2>Estatísticas</h2>
+        <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>
           <div>
-            <span>Market Cap</span>
+            <span>{t('v2.ethereumStaking.marketCap')}</span>
             <span className='valueItem'>$256,128.61</span>
           </div>
           <div>
@@ -49,30 +51,24 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             <span className='valueItem'>$256,128.61</span>
           </div>
           <div>
-            <span>Menor Valor 52 semanas</span>
+            <span>{t('v2.ethereumStaking.lowestValueWeeks')}</span>
             <span className='valueItem'>$256,128.61</span>
           </div>
           <div>
-            <span>Maior Valor 52 semanas</span>
+            <span>{t('v2.ethereumStaking.highestValueWeeks')}</span>
             <span className='valueItem'>$256,128.61</span>
           </div>
         </StatisticContainer>
       </ProductBodyContainer>
       <ProductBodyContainer>
-        <h2>Descrição</h2>
-        <span>
-          Stake Together é um protocolo de staking líquido para blockchains Proof of Stake (PoS). Ele fornece um
-          token líquido que representa sua garantia apostada e os ganhos ao longo do tempo. Stake Together
-          elimina a necessidade de gerenciar infraestrutura e permite a participação contínua em finanças
-          descentralizadas (DeFi). wstpETH é cunhado e queimado conforme stpETH é envolvido (wrapped) e
-          desenrolado (unwrapped).
-        </span>
+        <h2>{t('v2.ethereumStaking.description')}</h2>
+        <span>{t(`v2.ethereumStaking.${product.description}`)}</span>
       </ProductBodyContainer>
       <ProductBodyContainer>
         <h2>Links</h2>
         <LinksContainer>
           <a href='#' target='blank'>
-            <span>Scan</span>
+            <span>Etherscan</span>
             <span>
               <PiArrowUpRight />
             </span>
@@ -92,7 +88,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         </LinksContainer>
       </ProductBodyContainer>
       <ProductBodyContainer>
-        <h2>Contract address</h2>
+        <h2>{t('v2.ethereumStaking.contractAddress')}</h2>
         <span className='copy'>
           {truncateAddress(contracts.StakeTogether)} <PiCopy style={{ fontSize: 16 }} />
         </span>

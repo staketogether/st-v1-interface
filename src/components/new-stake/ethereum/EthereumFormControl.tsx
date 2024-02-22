@@ -7,6 +7,7 @@ import EthereumWithdraw from './EthereumWithdraw'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useStAccount from '@/hooks/subgraphs/useStAccount'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 
 type EthereumFormControlProps = {
   type: 'deposit' | 'withdraw'
@@ -15,6 +16,8 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
   const { query } = useRouter()
   const { currency, network } = query
   const { account } = useConnectedAccount()
+  const { t } = useLocaleTranslation()
+
   const {
     balance: ethBalance,
     isLoading: ethBalanceLoading,
@@ -28,10 +31,10 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
         <nav>
           <ul>
             <li className={`${type === 'deposit' && 'activated'}`}>
-              <Link href={`/${network}/${currency}/`}>Investir</Link>
+              <Link href={`/${network}/${currency}/`}>{t('v2.ethereumStaking.actions.invest')}</Link>
             </li>
             <li className={`${type === 'withdraw' && 'activated'}`}>
-              <Link href={`/${network}/${currency}/withdraw`}>Resgatar</Link>
+              <Link href={`/${network}/${currency}/withdraw`}>{t('v2.ethereumStaking.actions.withdraw')}</Link>
             </li>
           </ul>
         </nav>

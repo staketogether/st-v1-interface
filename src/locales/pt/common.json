@@ -642,11 +642,19 @@
     },
     "ethereumStaking": {
       "title": "Staking de Ethereum",
-      "description": "Stake Together é um protocolo de staking líquido para blockchains Proof of Stake (PoS). Ele fornece um
-          token líquido que representa sua garantia apostada e os ganhos ao longo do tempo. Stake Together
-          elimina a necessidade de gerenciar infraestrutura e permite a participação contínua em finanças
-          descentralizadas (DeFi). wstpETH é cunhado e queimado conforme stpETH é envolvido (wrapped) e
-          desenrolado (unwrapped)."
+      "description": "Descrição",
+      "statistics": "Estatísticas",
+      "ethereumDescription": "Stake Ethereum e ganhe recompensas de staking de Ethereum",
+      "contractAddress": "Endereço do Contrato",
+      "marketCap": "Valor de mercado",
+      "lowestValueWeeks": "Menor Valor 52 semanas",
+      "highestValueWeeks": "Maior Valor 52 semanas",
+      "actions": {
+        "invest": "Investir",
+        "withdraw": "Resgatar",
+        "operationFee": "Taxa de Operação",
+        "balance": "Saldo"
+      }
     }
   }
 }
