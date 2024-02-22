@@ -1,12 +1,9 @@
 import Button from '@/components/shared/Button'
 import React, { useEffect, useState } from 'react'
-import { PiArrowDown, PiArrowLineRight, PiQuestion } from 'react-icons/pi'
+import { PiArrowDown, PiArrowLineRight } from 'react-icons/pi'
 import styled from 'styled-components'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
-import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
-import useStAccount from '@/hooks/subgraphs/useStAccount'
 import { useDebounce } from 'usehooks-ts'
 import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
 import { ethers } from 'ethers'
@@ -23,24 +20,32 @@ import StakeConfirmModal from '@/components/stake/StakeConfirmModal'
 import { WithdrawType } from '@/types/Withdraw'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { notification } from 'antd'
+import EthereumDescription from './EthereumDescription'
 
 type EthereumDepositProps = {
   type: 'deposit' | 'withdraw'
+  ethBalance: bigint
+  ethBalanceLoading: boolean
+  ethBalanceRefetch: () => void
+  stpETHBalance: bigint
+  stpETHBalanceLoading: boolean
+  account: `0x${string}` | undefined
 }
 
-export default function EthereumDeposit({ type }: EthereumDepositProps) {
+export default function EthereumDeposit({
+  type,
+  account,
+  ethBalance,
+  ethBalanceLoading,
+  ethBalanceRefetch,
+  stpETHBalance,
+  stpETHBalanceLoading
+}: EthereumDepositProps) {
   const [amount, setAmount] = useState<string>('')
 
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
 
-  const { account } = useConnectedAccount()
-  const {
-    balance: ethBalance,
-    isLoading: ethBalanceLoading,
-    refetch: ethBalanceRefetch
-  } = useEthBalanceOf(account)
-  const { accountBalance: stpETHBalance, accountIsLoading: stpETHBalanceLoading } = useStAccount(account)
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
@@ -179,29 +184,7 @@ export default function EthereumDeposit({ type }: EthereumDepositProps) {
             icon={<ConnectWalletIcon />}
           />
         )}
-        <DescriptionContainer>
-          <div>
-            <div>
-              <span>
-                Cambio:
-                <QuestionIcon />
-              </span>
-            </div>
-            <div>
-              <span className='purple'>1 ETH = </span>
-              <span className='blue'> 0.98 stpETH</span>
-            </div>
-          </div>
-          <div>
-            <div>
-              <span>
-                Taxa de Operação:
-                <QuestionIcon />
-              </span>
-            </div>
-            <span>0.3%</span>
-          </div>
-        </DescriptionContainer>
+        <EthereumDescription />
       </Container>
       <StakeConfirmModal
         amount={amount}
@@ -220,7 +203,7 @@ export default function EthereumDeposit({ type }: EthereumDepositProps) {
   )
 }
 
-const { Container, InputContainer, DescriptionContainer, QuestionIcon, DividerBox, ConnectWalletIcon } = {
+const { Container, InputContainer, DividerBox, ConnectWalletIcon } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -246,44 +229,6 @@ const { Container, InputContainer, DescriptionContainer, QuestionIcon, DividerBo
     border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
     background-color: ${({ theme }) => theme.colorV2.white};
     z-index: 2;
-  `,
-  DescriptionContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
-
-    font-size: 13px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.colorV2.gray[1]};
-
-    span {
-      display: flex;
-      align-items: center;
-      &.blue {
-        color: ${({ theme }) => theme.colorV2.blue[1]};
-      }
-      &.purple {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-      }
-    }
-
-    div {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      div {
-        display: flex;
-        align-items: center;
-        gap: ${({ theme }) => theme.size[4]};
-      }
-    }
-  `,
-  QuestionIcon: styled(PiQuestion)`
-    color: ${({ theme }) => theme.colorV2.gray[1]};
-    cursor: pointer;
-    &:hover {
-      color: ${({ theme }) => theme.color.secondary};
-    }
   `,
   ConnectWalletIcon: styled(PiArrowLineRight)`
     font-size: 16px;

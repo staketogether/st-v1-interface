@@ -639,6 +639,14 @@
         "title": "Novidade Stake Together",
         "description": "Airdrop de Incentivos já está disponível em sua carteira. Verifique sua elegibilidade e aproveite os benefícios agora!"
       }
+    },
+    "ethereumStaking": {
+      "title": "Staking de Ethereum",
+      "description": "Stake Together é um protocolo de staking líquido para blockchains Proof of Stake (PoS). Ele fornece um
+          token líquido que representa sua garantia apostada e os ganhos ao longo do tempo. Stake Together
+          elimina a necessidade de gerenciar infraestrutura e permite a participação contínua em finanças
+          descentralizadas (DeFi). wstpETH é cunhado e queimado conforme stpETH é envolvido (wrapped) e
+          desenrolado (unwrapped)."
     }
   }
 }

@@ -53,7 +53,11 @@ export default function EthereumShowReceiveCoin({
       </div>
       <div>
         <CoinActionContainer>
-          {type === 'deposit' ? <StpEthIcon size={32} /> : <StakingIcons stakingProduct='ethereum' size={32} />}
+          {type === 'deposit' ? (
+            <StpEthIcon size={32} showPlusIcon />
+          ) : (
+            <StakingIcons stakingProduct='ethereum' size={32} />
+          )}
           <span>{type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')}</span>
         </CoinActionContainer>
         <input type='text' placeholder='0' value={amountValue} disabled />

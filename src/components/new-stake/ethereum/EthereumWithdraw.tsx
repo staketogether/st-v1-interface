@@ -4,9 +4,6 @@ import { PiArrowDown, PiArrowLineRight, PiQuestion, PiShieldCheckeredDuotone } f
 import styled from 'styled-components'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
-import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
-import useStAccount from '@/hooks/subgraphs/useStAccount'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
@@ -27,12 +24,27 @@ import { ethers } from 'ethers'
 import StakeConfirmModal from '@/components/stake/StakeConfirmModal'
 import StakeWithdrawCounter from '@/components/stake/StakeWithdrawCounter'
 import { Tooltip } from 'antd'
+import EthereumDescription from './EthereumDescription'
 
 type EthereumWithdrawProps = {
   type: 'deposit' | 'withdraw'
+  ethBalance: bigint
+  ethBalanceLoading: boolean
+  ethBalanceRefetch: () => void
+  stpETHBalance: bigint
+  stpETHBalanceLoading: boolean
+  account: `0x${string}` | undefined
 }
 
-export default function EthereumWithdraw({ type }: EthereumWithdrawProps) {
+export default function EthereumWithdraw({
+  type,
+  account,
+  ethBalance,
+  ethBalanceLoading,
+  ethBalanceRefetch,
+  stpETHBalance,
+  stpETHBalanceLoading
+}: EthereumWithdrawProps) {
   const [amount, setAmount] = useState<string>('')
 
   const debouncedAmount = useDebounce(amount, 1000)
@@ -42,15 +54,6 @@ export default function EthereumWithdraw({ type }: EthereumWithdrawProps) {
 
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
-
-  const { account } = useConnectedAccount()
-
-  const {
-    balance: ethBalance,
-    isLoading: ethBalanceLoading,
-    refetch: ethBalanceRefetch
-  } = useEthBalanceOf(account)
-  const { accountBalance: stpETHBalance, accountIsLoading: stpETHBalanceLoading } = useStAccount(account)
 
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
@@ -282,29 +285,7 @@ export default function EthereumWithdraw({ type }: EthereumWithdrawProps) {
           </CardBlock>
         )}
 
-        <DescriptionContainer>
-          <div>
-            <div>
-              <span>
-                Cambio:
-                <QuestionIcon />
-              </span>
-            </div>
-            <div>
-              <span className='purple'>1 ETH = </span>
-              <span className='blue'> 1 stpETH</span>
-            </div>
-          </div>
-          <div>
-            <div>
-              <span>
-                Taxa de Operação:
-                <QuestionIcon />
-              </span>
-            </div>
-            <span>0.3%</span>
-          </div>
-        </DescriptionContainer>
+        <EthereumDescription />
       </Container>
       <StakeConfirmModal
         amount={amount}
@@ -323,15 +304,7 @@ export default function EthereumWithdraw({ type }: EthereumWithdrawProps) {
   )
 }
 
-const {
-  Container,
-  InputContainer,
-  CardBlock,
-  DescriptionContainer,
-  QuestionIcon,
-  DividerBox,
-  ConnectWalletIcon
-} = {
+const { Container, InputContainer, CardBlock, DividerBox, ConnectWalletIcon } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -358,44 +331,7 @@ const {
     background-color: ${({ theme }) => theme.colorV2.white};
     z-index: 2;
   `,
-  DescriptionContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
 
-    font-size: 13px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.colorV2.gray[1]};
-
-    span {
-      display: flex;
-      align-items: center;
-      &.blue {
-        color: ${({ theme }) => theme.colorV2.blue[1]};
-      }
-      &.purple {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-      }
-    }
-
-    div {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      div {
-        display: flex;
-        align-items: center;
-        gap: ${({ theme }) => theme.size[4]};
-      }
-    }
-  `,
-  QuestionIcon: styled(PiQuestion)`
-    color: ${({ theme }) => theme.colorV2.gray[1]};
-    cursor: pointer;
-    &:hover {
-      color: ${({ theme }) => theme.color.secondary};
-    }
-  `,
   ConnectWalletIcon: styled(PiArrowLineRight)`
     font-size: 16px;
   `,

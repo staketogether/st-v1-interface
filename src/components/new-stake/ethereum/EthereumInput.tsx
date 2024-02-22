@@ -75,7 +75,11 @@ export default function EthereumInput({
       </div>
       <div>
         <CoinActionContainer>
-          {type === 'deposit' ? <StakingIcons stakingProduct='ethereum' size={32} /> : <StpEthIcon size={32} />}
+          {type === 'deposit' ? (
+            <StakingIcons stakingProduct='ethereum' size={32} />
+          ) : (
+            <StpEthIcon size={32} showPlusIcon />
+          )}
           <span>{type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')}</span>
           <span className='max' onClick={onMaxFunction}>
             MAX

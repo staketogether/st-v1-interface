@@ -4,6 +4,9 @@ import EthereumDeposit from './EthereumDeposit'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import EthereumWithdraw from './EthereumWithdraw'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useStAccount from '@/hooks/subgraphs/useStAccount'
+import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 
 type EthereumFormControlProps = {
   type: 'deposit' | 'withdraw'
@@ -11,6 +14,13 @@ type EthereumFormControlProps = {
 export default function EthereumFormControl({ type }: EthereumFormControlProps) {
   const { query } = useRouter()
   const { currency, network } = query
+  const { account } = useConnectedAccount()
+  const {
+    balance: ethBalance,
+    isLoading: ethBalanceLoading,
+    refetch: ethBalanceRefetch
+  } = useEthBalanceOf(account)
+  const { accountBalance: stpETHBalance, accountIsLoading: stpETHBalanceLoading } = useStAccount(account)
 
   return (
     <EthereumContainer>
@@ -26,7 +36,29 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
           </ul>
         </nav>
       </header>
-      <div>{type === 'deposit' ? <EthereumDeposit type={type} /> : <EthereumWithdraw type={type} />}</div>
+      <div>
+        {type === 'deposit' ? (
+          <EthereumDeposit
+            type={type}
+            ethBalance={ethBalance}
+            ethBalanceLoading={ethBalanceLoading}
+            ethBalanceRefetch={ethBalanceRefetch}
+            stpETHBalance={stpETHBalance}
+            stpETHBalanceLoading={stpETHBalanceLoading}
+            account={account}
+          />
+        ) : (
+          <EthereumWithdraw
+            type={type}
+            ethBalance={ethBalance}
+            ethBalanceLoading={ethBalanceLoading}
+            ethBalanceRefetch={ethBalanceRefetch}
+            stpETHBalance={stpETHBalance}
+            stpETHBalanceLoading={stpETHBalanceLoading}
+            account={account}
+          />
+        )}
+      </div>
     </EthereumContainer>
   )
 }
