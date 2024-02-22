@@ -2,9 +2,10 @@ import useActiveRoute from '@/hooks/useActiveRoute'
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCellSignalFull, PiCurrencyEth, PiGift } from 'react-icons/pi'
+import { PiCurrencyEth } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
+
 function LayoutMenuMobile() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
@@ -62,12 +63,6 @@ const { Container, NextLink, InvestIcon } = {
     }
   `,
   InvestIcon: styled(PiCurrencyEth)`
-    font-size: 14px;
-  `,
-  IncentivesIcon: styled(PiCellSignalFull)`
-    font-size: 16px;
-  `,
-  GiftsIcon: styled(PiGift)`
     font-size: 14px;
   `
 }
