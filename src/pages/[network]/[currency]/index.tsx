@@ -19,7 +19,7 @@ export default function Home({ poolAddress, poolDetail }: HomeProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <StakeControl isStakeTogetherPool poolAddress={poolAddress} type='deposit' poolDetail={poolDetail} />
+      <StakeControl isStakeTogetherPool poolAddress={poolAddress} type="deposit" poolDetail={poolDetail} />
     </LayoutTemplate>
   )
 }
