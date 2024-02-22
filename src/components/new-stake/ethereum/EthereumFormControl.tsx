@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import EthereumDeposit from './EthereumDeposit'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import EthereumWithdraw from './EthereumWithdraw'
 
 type EthereumFormControlProps = {
   type: 'deposit' | 'withdraw'
@@ -25,7 +26,7 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
           </ul>
         </nav>
       </header>
-      <div>{<EthereumDeposit />}</div>
+      <div>{type === 'deposit' ? <EthereumDeposit type={type} /> : <EthereumWithdraw type={type} />}</div>
     </EthereumContainer>
   )
 }

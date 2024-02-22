@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useBalance } from 'wagmi'
 import chainConfig from '../../config/chain'
 
@@ -13,9 +13,13 @@ export default function useEthBalanceOf(address?: `0x${string}`) {
 
   const ethBalance = data?.value || 0n
 
+  const handleRefetch = useCallback(() => {
+    refetch()
+  }, [refetch])
+
   useEffect(() => {
     setBalance(ethBalance)
   }, [ethBalance])
 
-  return { balance, isLoading: isFetching, refetch }
+  return { balance, isLoading: isFetching, refetch: handleRefetch }
 }

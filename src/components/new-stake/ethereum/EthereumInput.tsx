@@ -1,3 +1,4 @@
+import StpEthIcon from '@/components/shared/StpethIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import StakingIcons from '@/components/tokens/StakingIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -10,20 +11,22 @@ import styled from 'styled-components'
 
 type EthereumInputProps = {
   ethAmountValue: string
-  ethBalance: bigint
-  ethBalanceLoading: boolean
+  balance: bigint
+  balanceLoading: boolean
   hasError: boolean
   onChange: (value: string) => void
   onMaxFunction?: () => void
+  type: 'deposit' | 'withdraw'
 }
 
 export default function EthereumInput({
-  ethBalance,
-  ethBalanceLoading,
+  balance,
+  balanceLoading,
   ethAmountValue,
   hasError,
   onChange,
-  onMaxFunction
+  onMaxFunction,
+  type
 }: EthereumInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
@@ -62,18 +65,18 @@ export default function EthereumInput({
             }
           ]}
         />
-        {ethBalanceLoading ? (
+        {balanceLoading ? (
           <SkeletonLoading width={120} />
         ) : (
-          <span>{`Balance: ${formatNumberByLocale(truncateWei(ethBalance, 5), locale)} ${t(
-            'eth.symbol'
-          )}`}</span>
+          <span>{`Balance: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${
+            type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
+          }`}</span>
         )}
       </div>
       <div>
         <CoinActionContainer>
-          <StakingIcons stakingProduct='ethereum' size={32} />
-          <span>{t('eth.symbol')}</span>
+          {type === 'deposit' ? <StakingIcons stakingProduct='ethereum' size={32} /> : <StpEthIcon size={32} />}
+          <span>{type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')}</span>
           <span className='max' onClick={onMaxFunction}>
             MAX
           </span>

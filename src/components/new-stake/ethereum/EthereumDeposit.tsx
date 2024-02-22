@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowLineRight, PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 import EthereumInput from './EthereumInput'
-import EthereumStpETHInput from './EthereumInputStpETH'
+import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useStAccount from '@/hooks/subgraphs/useStAccount'
@@ -24,14 +24,22 @@ import { WithdrawType } from '@/types/Withdraw'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { notification } from 'antd'
 
-export default function EthereumDeposit() {
+type EthereumDepositProps = {
+  type: 'deposit' | 'withdraw'
+}
+
+export default function EthereumDeposit({ type }: EthereumDepositProps) {
   const [amount, setAmount] = useState<string>('')
 
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
 
   const { account } = useConnectedAccount()
-  const { balance: ethBalance, isLoading: ethBalanceLoading } = useEthBalanceOf(account)
+  const {
+    balance: ethBalance,
+    isLoading: ethBalanceLoading,
+    refetch: ethBalanceRefetch
+  } = useEthBalanceOf(account)
   const { accountBalance: stpETHBalance, accountIsLoading: stpETHBalanceLoading } = useStAccount(account)
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
@@ -74,11 +82,12 @@ export default function EthereumDeposit() {
       if (isSuccess && !isOpenStakeConfirmModal) {
         setAmount('')
         resetState()
+        await ethBalanceRefetch()
       }
     }
 
     handleSuccessfulAction()
-  }, [isOpenStakeConfirmModal, isSuccess, resetState])
+  }, [ethBalanceRefetch, isOpenStakeConfirmModal, isSuccess, resetState])
 
   const amountBigNumber = ethers.parseEther(amount || '0')
   const amountIsEmpty = amountBigNumber === 0n || !amount
@@ -143,18 +152,20 @@ export default function EthereumDeposit() {
             onChange={value => {
               setAmount(value)
             }}
+            type={type}
             hasError={cantDeposit}
-            ethBalance={ethBalance}
-            ethBalanceLoading={ethBalanceLoading}
+            balance={ethBalance}
+            balanceLoading={ethBalanceLoading}
             onMaxFunction={handleInputMaxValue}
           />
           <DividerBox>
             <PiArrowDown style={{ fontSize: 16 }} />
           </DividerBox>
-          <EthereumStpETHInput
-            sptETHAmountValue={formatNumberByLocale(truncateWei(youReceiveDeposit, 5), locale)}
-            stpETHBalance={stpETHBalance}
-            stpETHBalanceLoading={stpETHBalanceLoading}
+          <EthereumShowReceiveCoin
+            amountValue={formatNumberByLocale(truncateWei(youReceiveDeposit, 5), locale)}
+            balance={stpETHBalance}
+            balanceLoading={stpETHBalanceLoading}
+            type={type}
           />
         </InputContainer>
         {!!account && (

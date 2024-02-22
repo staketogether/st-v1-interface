@@ -10,15 +10,17 @@ import React from 'react'
 import styled from 'styled-components'
 
 type EthereumStpETHInputProps = {
-  sptETHAmountValue: string
-  stpETHBalance: bigint
-  stpETHBalanceLoading: boolean
+  amountValue: string
+  balance: bigint
+  balanceLoading: boolean
+  type: 'deposit' | 'withdraw'
 }
 
-export default function EthereumStpETHInput({
-  sptETHAmountValue,
-  stpETHBalance,
-  stpETHBalanceLoading
+export default function EthereumShowReceiveCoin({
+  amountValue,
+  balance,
+  balanceLoading,
+  type
 }: EthereumStpETHInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
@@ -41,20 +43,20 @@ export default function EthereumStpETHInput({
             }
           ]}
         />
-        {stpETHBalanceLoading ? (
+        {balanceLoading ? (
           <SkeletonLoading width={120} />
         ) : (
-          <span>{`Balance: ${formatNumberByLocale(truncateWei(stpETHBalance, 5), locale)} ${t(
-            'lsd.symbol'
-          )}`}</span>
+          <span>{`Balance: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${
+            type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
+          }`}</span>
         )}
       </div>
       <div>
         <CoinActionContainer>
-          <StpEthIcon size={32} />
-          <span>{t('lsd.symbol')}</span>
+          {type === 'deposit' ? <StpEthIcon size={32} /> : <StakingIcons stakingProduct='ethereum' size={32} />}
+          <span>{type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')}</span>
         </CoinActionContainer>
-        <input type='text' placeholder='0' value={sptETHAmountValue} disabled />
+        <input type='text' placeholder='0' value={amountValue} disabled />
       </div>
     </InputContent>
   )
