@@ -3,17 +3,17 @@ import { PaymentMethodType } from '@/types/payment-method.type'
 import axios from 'axios'
 import useSWR from 'swr'
 
-interface BuyRamp {
+export interface BuyRamp {
   id: string
   due: string
   brCode: string
 }
-interface BuyRampRequest {
-  chainId: string
+export interface BuyRampRequest {
+  chainId: number
   paymentMethod: PaymentMethodType
   fiatCurrencyCode: string
   amount: number
-  taxId: string
+  accountAddress: string
   receiverAddress: string
 
 }
@@ -21,7 +21,7 @@ export default function useBuyRamp(provider: 'brla' | 'transak', request?: BuyRa
 
   const { backendUrl } = globalConfig
   const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, request).then(res => res.data)
-  const { data, error } = useSWR<BuyRamp>(request && `api/ramp/kyc/${provider}`, fetcher)
+  const { data, error } = useSWR<BuyRamp>(request && `api/ramp/buy/${provider}`, fetcher)
 
   return {
     buyRampResponse: data,
