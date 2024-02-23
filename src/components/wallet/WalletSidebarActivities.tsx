@@ -42,10 +42,12 @@ export default function WalletSidebarActivities({ accountActivities }: WalletSid
               <ExternalLink />
             </span>
             <span>{truncateTimestamp(activity.timestamp, getLocale())}</span>
-            <span className='purple'>{t(`v2.activities.${activity.type}`)}</span>
-            <span className={`${activity.type.includes('deposit') ? 'green' : 'red'}`}>
-              {`${formatNumberByLocale(truncateWei(BigInt(activity.amount), 5), locale)} ${t('eth.symbol')}`}
-            </span>
+            <span className={`${activity.type} purple`}>{t(`v2.activities.${activity.type}`)}</span>
+            {activity.type != 'airdropClaim' && (
+              <span className={`${activity.type.includes('deposit') ? 'green' : 'red'}`}>
+                {`${formatNumberByLocale(truncateWei(BigInt(activity.amount), 5), locale)} ${t('eth.symbol')}`}
+              </span>
+            )}
           </Row>
         )
       })}
@@ -101,9 +103,9 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
   Row: styled(Link)`
     cursor: pointer;
 
-    display: grid;
-    grid-template-columns: 30px 0.9fr 0.9fr 1fr;
+    display: flex;
     align-items: center;
+    gap: 8px;
 
     &:hover {
       background: ${({ theme }) => theme.colorV2.gray[2]};
@@ -117,8 +119,19 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
       display: flex;
       align-items: center;
 
+      &:nth-child(2) {
+        width: 90px;
+      }
+
       &.purple {
         color: ${({ theme }) => theme.color.secondary};
+      }
+
+      &.airdropClaim {
+        border-radius: 99px;
+        background: ${({ theme }) => theme.colorV2.purple[1]};
+        color: ${({ theme }) => theme.colorV2.white};
+        padding: ${({ theme }) => theme.size[4]};
       }
 
       &.green {
@@ -131,7 +144,7 @@ const { Container, Row, ActivitiesHeader, ExternalLink, EmptyContainer } = {
     }
 
     > span:last-of-type {
-      justify-self: end;
+      margin-left: auto;
     }
   `,
   ExternalLink: styled(PiLink)`

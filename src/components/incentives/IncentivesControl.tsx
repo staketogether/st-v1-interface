@@ -1,8 +1,8 @@
+import useIncentivesPerAccount from '@/hooks/subgraphs/incentives/useIncentivesPerAccount'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import ethIcon from '@assets/icons/currency-Eth.svg'
-import useIncentivesPerAccount from '@/hooks/subgraphs/incentives/useIncentivesPerAccount'
 import Image from 'next/image'
 import styled from 'styled-components'
 import Button from '../shared/Button'
@@ -88,7 +88,7 @@ const {
     width: 100%;
     display: flex;
     flex-direction: column;
-    max-width: 468px;
+    max-width: 420px;
     gap: ${({ theme }) => theme.size[24]};
   `,
   IncentivesContainer: styled.div`

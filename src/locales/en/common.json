@@ -3,6 +3,7 @@
   "pools": "Pools",
   "addToWalletTooltip": "Add stpETH to your wallet",
   "save": "Save",
+  "edit": "Edit",
   "connectWallet": "Connect Wallet",
   "projects": "Projects",
   "portfolio": "Portfolio",
@@ -69,8 +70,8 @@
   "poolDetail": "Pool Detail",
   "learnMore": "Learn More",
   "knowMore": "Know More",
-  "buyCryptoTitle": "Buy ETH",
-  "sellCryptoTitle": "Sell ETH",
+  "buyCryptoTitle": "Buy Ether",
+  "sellCryptoTitle": "Sell Ether",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -192,11 +193,11 @@
   "v2": {
     "pages": {
       "invest": {
-        "title": "Stake Ether with Projects",
+        "title": "Projects",
         "description": "Choose a project, stake ether and earn ethereum staking rewards together"
       },
       "deposit": {
-        "title": "Stake Ether",
+        "title": "Ethereum Staking",
         "description": "Stake Ether and receive staking rewards",
         "stakeTogetherPoolDescription": "Would you like to support a specific project? Click",
         "here": "here"
@@ -220,6 +221,8 @@
     },
     "header": {
       "stake": "Stake",
+      "products": "Invest",
+      "pools": "Pools",
       "projects": "Projects",
       "incentives": "Incentives",
       "simulator": "Simulator",
@@ -344,7 +347,8 @@
       "withdraw": "Withdraw",
       "withdrawPool": "Withdraw",
       "transfer": "Transfer",
-      "withdrawValidator": "Withdraw Validator"
+      "withdrawValidator": "Withdraw Validator",
+      "airdropClaim": "Incentives"
     },
     "gifts": {
       "countdown": "Time to Redeem",
@@ -371,22 +375,22 @@
       "claim": "Claim"
     },
     "createProject": {
-      "title": "Create Project",
+      "title": "Create Pool",
       "linksToAnalyze": "Links to Analyze",
       "terms": "I agree with the",
       "termsAndConditions": "Terms of Service",
       "send": "Send",
       "sent": "Sent",
-      "seeMyProject": "See my project",
-      "walletTooltip": "The project registration will be linked to the connected wallet",
-      "reapplyTitle": "Reapply Project",
+      "seeMyProject": "See my pool",
+      "walletTooltip": "The pool registration will be linked to the connected wallet",
+      "reapplyTitle": "Reapply Pool",
       "form": {
-        "logo": "Project Logo",
+        "logo": "Pool's Logo",
         "wallet": "Wallet",
         "name": "Name",
         "category": "Category",
         "email": "Email",
-        "about": "Present your project to our team",
+        "about": "Present your pool to our team",
         "site": "Site",
         "twitter": "Twitter",
         "instagram": "Instagram",
@@ -586,6 +590,32 @@
         "description": "You may experience a delay in the display of your transactions and balances, but rest assured that your funds are safe. We are working to resolve this issue as soon as possible."
       }
     },
+    "tokens": {
+      "title": "Invest",
+      "products": {
+        "name": "Name",
+        "token": "Token",
+        "apy": "APY",
+        "networks": "Networks",
+        "airdrops": "Airdrops"
+      }
+    },
+    "products": {
+      "ethereum": "Ethereum Staking",
+      "restaking": "Ethereum ReStaking ",
+      "celestia": "Celestia Staking",
+      "polygon": "Polygon Staking",
+      "solana": "Solana Staking",
+      "cosmos": "Cosmos Staking",
+      "near": "Near Staking",
+      "polkadot": "Polkadot Staking"
+    },
+    "notifyBar": {
+      "incentives": {
+        "title": "New Stake Together Feature",
+        "description": "Incentive Airdrop is now available in your wallet. Check your eligibility and enjoy the benefits now!"
+      }
+    },
     "ramp": {
       "title": "Buy Ethereum with PIX",
       "success": "Deposit was complete with success",
@@ -625,16 +655,6 @@
         "terms": "By continuing, you agree to our",
         "policies": "policies"
       }
-    }
-  },
-  "tokens": {
-    "title": "Products",
-    "products": {
-      "name": "Name",
-      "token": "Token",
-      "apy": "APY",
-      "networks": "Networks",
-      "airdrops": "Airdrops"
     }
   }
 }

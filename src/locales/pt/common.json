@@ -3,6 +3,7 @@
   "pools": "Pools",
   "addToWalletTooltip": "Adicionar stpETH  a sua carteira",
   "save": "Salvar",
+  "edit": "Editar",
   "connectWallet": "Conectar Carteira",
   "projects": "Projetos",
   "portfolio": "Portfólio",
@@ -25,7 +26,7 @@
   "staked": "Em Stake",
   "unstake": "Desfazer Stake",
   "members": "Membros",
-  "delegations": "Delegações para Pools",
+  "delegations": "Delegações para Projetos",
   "balance": "Saldo",
   "poolBalance": "Saldo na Pool",
   "selectPool": "Selecionar Pool",
@@ -43,7 +44,7 @@
   "fee": "Taxa",
   "delegated": "Delegado",
   "delegatedAmount": "Quantidade Delegada",
-  "searchPool": "Pesquisar Pools",
+  "searchPool": "Pesquisar Projetos",
   "projectEmpty": "Projeto não encontrado",
   "copyClipboard": "Copiar para Área de Transferência",
   "copiedToClipboard": "Endereço Copiado",
@@ -69,8 +70,8 @@
   "poolDetail": "Detalhes da Pool",
   "learnMore": "Leia mais",
   "knowMore": "Saiba mais",
-  "buyCryptoTitle": "Comprar ETH",
-  "sellCryptoTitle": "Vender ETH",
+  "buyCryptoTitle": "Comprar Ether",
+  "sellCryptoTitle": "Vender Vender",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -190,11 +191,11 @@
   "v2": {
     "pages": {
       "invest": {
-        "title": "Stake Ether com um Projeto",
+        "title": "Projetos",
         "description": "Escolha um projeto, stake ether e ganhe recompensas de staking de ethereum juntos"
       },
       "deposit": {
-        "title": "Stake de Ether",
+        "title": "Staking de Ethereum",
         "description": "Faça Stake de Ether e receba recompensas de staking",
         "stakeTogetherPoolDescription": "Gostaria de apoiar um projeto especifico? Clique",
         "here": "aqui"
@@ -219,6 +220,8 @@
     "header": {
       "stake": "Stake",
       "projects": "Projetos",
+      "pools": "Pools",
+      "products": "Investir",
       "incentives": "Incentivos",
       "simulator": "Simulador",
       "gifts": "Presentes",
@@ -342,7 +345,8 @@
       "withdraw": "Saque",
       "withdrawPool": "Saque",
       "transfer": "Transferência",
-      "withdrawValidator": "Saque Validadores"
+      "withdrawValidator": "Saque Validadores",
+      "airdropClaim": "Incentivos"
     },
     "gifts": {
       "countdown": "Tempo para Resgatar",
@@ -393,7 +397,7 @@
       "claim": "Resgatar"
     },
     "createProject": {
-      "title": "Cadastrar Projeto",
+      "title": "Cadastrar Projetos",
       "linksToAnalyze": "Links para Análise",
       "terms": "Estou de acordo com os",
       "termsAndConditions": "Termos de Cadastro",
@@ -576,13 +580,13 @@
         "WithdrawalNumbers": "Número de Saques"
       },
       "rewards": {
-        "title": "Rewards",
+        "title": "Recompensas",
         "ethereumStaking": "Staking de Ethereum",
         "projects": "Projetos",
         "incentives": "Incentivos"
       },
       "proofOfReserves": {
-        "title": "Proof of Reserves",
+        "title": "Prova de Reservas",
         "contracts": "Contratos",
         "validators": "Validadores"
       },
@@ -608,6 +612,32 @@
       "indexing": {
         "title": "Estamos tendo problemas com a indexação dos dados",
         "description": "Você pode ter problemas com a visualização dos dados, mas não se preocupe, seus fundos estão seguros. Estamos trabalhando para resolver o problema o mais rápido possível."
+      }
+    },
+    "tokens": {
+      "title": "Investir",
+      "products": {
+        "name": "Nome",
+        "token": "Token",
+        "apy": "APY",
+        "networks": "Redes",
+        "airdrops": "Airdrops"
+      }
+    },
+    "products": {
+      "ethereum": "Staking de Ethereum",
+      "restaking": "ReStaking de Ethereum ",
+      "celestia": "Staking de Celestia",
+      "polygon": "Staking de Polygon ",
+      "solana": "Staking de Solana",
+      "cosmos": "Staking de Cosmos",
+      "near": "Staking de Near ",
+      "polkadot": "Staking de Polkadot"
+    },
+    "notifyBar": {
+      "incentives": {
+        "title": "Novidade Stake Together",
+        "description": "Airdrop de Incentivos já está disponível em sua carteira. Verifique sua elegibilidade e aproveite os benefícios agora!"
       }
     },
     "ramp": {
@@ -649,16 +679,6 @@
         "terms": "Ao continuar você concorda com nossas",
         "policies": "políticas"
       }
-    }
-  },
-  "tokens": {
-    "title": "Products",
-    "products": {
-      "name": "Nome",
-      "token": "Token",
-      "apy": "APY",
-      "networks": "Redes",
-      "airdrops": "Airdrops"
     }
   }
 }

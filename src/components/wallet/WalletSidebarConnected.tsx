@@ -29,12 +29,12 @@ import { formatNumberByLocale } from '../../services/format'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
 
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
-import StpEthIcon from '../shared/StpethIcon'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
 import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
 import Button from '../shared/Button'
 import Card from '../shared/Card'
+import StpEthIcon from '../shared/StpethIcon'
 import Withdrawals from '../shared/Withdrawals'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
@@ -217,12 +217,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <PortfolioHeader>
                 <div>
                   <PoolsIcon />
-                  {t('portfolio')}
+                  {t('delegations')}
                 </div>
                 {accountDelegations.length > 0 && !accountIsLoading && (
                   <Button
                     small={true}
-                    label={'Edit'}
+                    label={t('edit')}
                     icon={<EditIcon />}
                     onClick={() => setOpenSidebarEditPortfolio(true)}
                   />

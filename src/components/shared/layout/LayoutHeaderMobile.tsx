@@ -1,16 +1,16 @@
 import Wallet from '@/components/wallet/Wallet'
+import WalletSidebarMobileSetting from '@/components/wallet/WalletSidebarMobileSetting'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import useWalletSidebarMobileSettings from '@/hooks/useWalletSidebarMobileSettings'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { PiGear, PiListBold } from 'react-icons/pi'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
-import { useRouter } from 'next/router'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
-import { PiGear, PiListBold } from 'react-icons/pi'
-import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
 import LayoutSidebarMobileMenu from './LayoutSidebarMobileMenu'
-import useWalletSidebarMobileSettings from '@/hooks/useWalletSidebarMobileSettings'
-import WalletSidebarMobileSetting from '@/components/wallet/WalletSidebarMobileSetting'
 
 export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
@@ -25,7 +25,7 @@ export default function LayoutHeaderMobile() {
     <>
       <Container>
         <Content>
-          <Logo href={`/${network}/${currency}`}>
+          <Logo href={`/${network}/${currency}/product`}>
             <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
           </Logo>
           <WalletContainer>

@@ -55,7 +55,6 @@ jobs:
           echo NEXT_PUBLIC_FIREBASE_CREDENTIALS_CLIENT_EMAIL=1 >> .env
           echo NEXT_PUBLIC_FIREBASE_CREDENTIALS_PRIVATE_KEY=1 >> .env
           echo NEXT_PUBLIC_FIREBASE_CREDENTIALS_PROJECT_ID=1 >> .env
-          echo NEXT_PUBLIC_RECAPTCHA_SITE_KEY=1 >> .env
           echo NEXT_PUBLIC_CONTENTFUL_TOKEN=1 >> .env
           echo NEXT_PUBLIC_CONTENTFUL_SPACE=1 >> .env
           echo NEXT_PUBLIC_RPC_GOERLI=1 >> .env

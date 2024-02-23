@@ -1,7 +1,5 @@
-import useFaq from '@/hooks/contentful/useFaq'
 import usePool from '@/hooks/subgraphs/usePool'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
-import useStakeTogether from '@/hooks/subgraphs/useStakeTogether'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
@@ -10,10 +8,8 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { PiArrowDown, PiArrowUp, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled, { css } from 'styled-components'
-import { globalConfig } from '../../config/global'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import { formatNumberByLocale } from '../../services/format'
-import Collapse from '../shared/Collapse'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import WalletLottery from '../shared/WalletLottery'
 import CommunityLogo from '../shared/community/CommunityLogo'
@@ -45,11 +41,7 @@ export default function StakeControl({
 
   const { currency, network } = query
 
-  const { apy } = globalConfig
-
   const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress)
-
-  const { faqList, isLoading: faqIsLoading } = useFaq()
 
   const handleLoadMoreMembers = () => {
     const newSkip = skipMembers + 10
@@ -113,22 +105,15 @@ export default function StakeControl({
     navigator.clipboard.writeText(window.location.toString())
   }
 
-  const { stakeTogether, stakeTogetherIsLoading } = useStakeTogether()
-
   const activeTab = type
-  const titleDescription = t('v2.pages.deposit.description')
-
-  const titleTvl = isStakeTogetherPool ? t('v2.stake.st.tvl') : t('v2.stake.tvl')
-  const titleApy = isStakeTogetherPool ? t('v2.stake.st.apy') : t('v2.stake.apy')
 
   const titleTvlTooltip = isStakeTogetherPool ? t('v2.stake.st.tvlTooltip') : t('v2.stake.tvlTooltip')
-  const titleApyTooltip = isStakeTogetherPool ? t('v2.stake.st.apyTooltip') : t('v2.stake.apyTooltip')
 
   return (
     <Container>
       <LayoutTitle
         title={t('v2.pages.deposit.title')}
-        description={titleDescription}
+        description={''}
         isStakeTogetherPool={isStakeTogetherPool}
       />
       <FormContainer>
@@ -208,64 +193,6 @@ export default function StakeControl({
           />
         </Form>
       </FormContainer>
-      <TvlContainer>
-        <header>{`${t('v2.stake.statistics')}`}</header>
-        <div>
-          <span>
-            {`${titleTvl}: `}
-            <Tooltip title={titleTvlTooltip}>
-              <QuestionIcon />
-            </Tooltip>
-          </span>
-
-          <div>
-            <>
-              {!!stakeTogether?.totalSupply && !stakeTogetherIsLoading ? (
-                <span className='purple'>
-                  {`${formatNumberByLocale(truncateWei(stakeTogether.totalSupply, 5), locale)}  ${t(
-                    'eth.symbol'
-                  )} `}
-                </span>
-              ) : (
-                <SkeletonLoading height={14} width={100} />
-              )}
-            </>
-          </div>
-        </div>
-
-        <div>
-          <span>
-            {`${titleApy}: `}
-            <Tooltip title={titleApyTooltip}>
-              <QuestionIcon />
-            </Tooltip>
-          </span>
-          <span className='green'>{`${apy}%`}</span>
-        </div>
-
-        <div>
-          <span>
-            {t('v2.stake.rewards')}
-            <Tooltip title={t('v2.stake.st.rewardsTooltip')}>
-              <QuestionIcon />
-            </Tooltip>
-          </span>
-
-          <div>
-            <>
-              {!!stakeTogether?.totalRewards && !stakeTogetherIsLoading ? (
-                <span className='green'>
-                  {`${formatNumberByLocale(truncateWei(stakeTogether.totalRewards, 5), locale)}  ${t(
-                    'lsd.symbol'
-                  )} `}
-                </span>
-              ) : (
-                <SkeletonLoading height={14} width={100} />
-              )}
-            </>
-          </div>
-        </div>
-      </TvlContainer>
       <StakePoolInfo
         poolAddress={poolAddress}
         poolData={pool}
@@ -281,20 +208,6 @@ export default function StakeControl({
       {poolAddress.toLocaleLowerCase() === account?.toLocaleLowerCase() && (
         <WalletLottery poolAddress={poolAddress} />
       )}
-      <FaqTitle>FAQ</FaqTitle>
-      <CollapseContainer>
-        {faqIsLoading && (
-          <>
-            <SkeletonLoading height={56} />
-            <SkeletonLoading height={56} />
-            <SkeletonLoading height={56} />
-          </>
-        )}
-        {!faqIsLoading &&
-          faqList?.map((faq, index) => {
-            return <Collapse key={`faq-row-${index}`} question={faq.question} answer={faq.answer} />
-          })}
-      </CollapseContainer>
     </Container>
   )
 }
@@ -303,11 +216,8 @@ const {
   Container,
   Form,
   EthIcon,
-  CollapseContainer,
-  TvlContainer,
   QuestionIcon,
   ShareButton,
-  FaqTitle,
   ShareIcon,
   ProjectTitle,
   WithdrawIcon,
@@ -324,52 +234,7 @@ const {
     gap: ${({ theme }) => theme.size[24]};
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       gap: ${({ theme }) => theme.size[24]};
-      max-width: 468px;
-    }
-  `,
-  TvlContainer: styled.div`
-    display: flex;
-    padding: ${({ theme }) => theme.size[24]} ${({ theme }) => theme.size[24]};
-    flex-direction: column;
-    gap: 8px;
-
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    border-radius: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.color.white};
-
-    > header {
-      color: ${({ theme }) => theme.colorV2.gray[1]};
-      font-size: ${({ theme }) => theme.font.size[15]};
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
-
-    div {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    span {
-      font-size: 14px;
-      line-height: 15px;
-      height: 15px;
-      display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[4]};
-
-      color: ${({ theme }) => theme.colorV2.gray[1]};
-
-      &.green {
-        color: ${({ theme }) => theme.color.green[500]};
-        font-weight: 400;
-        font-size: 15px;
-      }
-      &.primary {
-        color: ${({ theme }) => theme.colorV2.blue[3]};
-        font-weight: 400;
-        font-size: 15px;
-      }
+      max-width: 420px;
     }
   `,
   FormContainer: styled.div`
@@ -383,7 +248,7 @@ const {
       imageUrl
         ? css`
             background-image: url(${imageUrl});
-            height: 468px;
+            height: 420px;
             width: 100%;
             background-size: cover;
             background-position: center;
@@ -535,15 +400,5 @@ const {
   `,
   ShareIcon: styled(PiShareNetwork)`
     font-size: ${({ theme }) => theme.font.size[15]};
-  `,
-  CollapseContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
-  `,
-  FaqTitle: styled.h3`
-    font-size: ${({ theme }) => theme.font.size[15]};
-    font-weight: 500;
-    color: ${({ theme }) => theme.colorV2.gray[1]};
   `
 }
