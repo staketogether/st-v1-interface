@@ -3,9 +3,9 @@ import { makeVar } from "@apollo/client";
 import { BuyRamp } from "./useBuyRamp";
 import { KycLevelInfo } from "./useKycLevelInfo";
 
-export enum StepBuyEth {
+export enum BrlaBuyEthStep {
     Quotation = 'Quotation',
-    KycStep = 'KycStep',
+    Kyc = 'Kyc',
     ProcessingKyc = 'ProcessingKyc',
     ProcessingCheckoutStep = 'ProcessingCheckoutStep',
     Checkout = 'Checkout',
@@ -13,8 +13,8 @@ export enum StepBuyEth {
 
 }
 export const openModal = makeVar(false)
-export const amountValue = makeVar<string | number>('0')
-export const stepBuyCrypto = makeVar<StepBuyEth>(StepBuyEth.Quotation)
+export const fiatAmountVar = makeVar<string>('0')
+export const stepsControlBuyCrypto = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.Quotation)
 export const quoteVar = makeVar<Quote | undefined>(undefined)
 export const qrCodeVar = makeVar<BuyRamp | null>(null)
 export const kycLevel = makeVar<KycLevelInfo | null>(null)

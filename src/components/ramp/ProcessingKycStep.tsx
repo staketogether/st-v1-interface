@@ -1,5 +1,5 @@
 import useBuyRamp, { BuyRampRequest } from '@/hooks/ramp/useBuyRamp';
-import { StepBuyEth, qrCodeVar, quoteVar, stepBuyCrypto } from '@/hooks/ramp/useControlModal';
+import { BrlaBuyEthStep, qrCodeVar, quoteVar, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { PaymentMethodType } from '@/types/payment-method.type';
 import { useReactiveVar } from '@apollo/client';
@@ -34,7 +34,7 @@ export default function ProcessingKycStep() {
   useEffect(() => {
     if (buyRampResponse?.brCode) {
       qrCodeVar(buyRampResponse)
-      stepBuyCrypto(StepBuyEth.Checkout)
+      stepsControlBuyCrypto(BrlaBuyEthStep.Checkout)
     }
 
   }, [buyRampResponse])
