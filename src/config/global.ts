@@ -3,7 +3,6 @@ interface GlobalConfig {
   websiteUrl: string
   auditUrl: string
   appUrl: string
-  recaptchakey: string
   apy: string
   stakeTogetherUniversityUrlBr: string
   stakeTogetherUniversityUrlEn: string
@@ -25,7 +24,6 @@ export const globalConfig: GlobalConfig = {
   stakeTogetherUniversityUrlBr: 'https://university.staketogether.org/pt/collections/6550996-documentation',
   docsPt: 'https://docs.staketogether.org',
   docsEn: 'https://docs.staketogether.org/stake-together/v/stake-together-en/stake-together/what-we-do',
-  recaptchakey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY as string,
   backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://st-report-airdrop-merkle-thz2yhu72a-ue.a.run.app',
   apy: '5.1',
   fees: {

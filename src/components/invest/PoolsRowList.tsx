@@ -64,9 +64,18 @@ const { Row, Name, TypeContainer, Text } = {
     box-shadow: ${({ theme }) => theme.shadow[100]};
     border-radius: 8px;
 
+    border: 1px solid ${({ theme }) => theme.colorV2.white};
+
     &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[700]};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+
+      * {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
+
+      > div > span {
+        color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+      }
 
       > button {
         background-color: ${({ theme }) => theme.color.secondary};

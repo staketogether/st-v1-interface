@@ -1,3 +1,4 @@
+import chainConfig from '@/config/chain'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebar from '@/hooks/useWalletSidebar'
@@ -9,7 +10,6 @@ import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import chainConfig from '@/config/chain'
 
 type WalletSideBarPoolsDelegatedProps = {
   accountDelegations: Delegation[]

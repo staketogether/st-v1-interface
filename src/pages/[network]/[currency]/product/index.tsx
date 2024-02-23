@@ -1,15 +1,15 @@
-import GiftControl from '@/components/gifts/GiftControl'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
+
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import React from 'react'
+import TokensControl from '../../../../components/tokens/TokensControl'
 
-export default function Gifts() {
+export default function Tokens() {
   return (
     <LayoutTemplate>
       <Metatags />
-      <GiftControl />
+      <TokensControl />
     </LayoutTemplate>
   )
 }

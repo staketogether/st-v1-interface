@@ -7,7 +7,7 @@ import useResizeView from '@/hooks/useResizeView'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCodesandboxLogo, PiCurrencyEth, PiPencilSimpleLine, PiChartLine } from 'react-icons/pi'
+import { PiChartLine, PiCodesandboxLogo, PiCurrencyEth, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -36,21 +36,21 @@ export default function LayoutHeader() {
     <Container>
       <MenuContainer>
         <div>
-          <Logo href={`/${network}/${currency}`}>
+          <Logo href={`/${network}/${currency}/product`}>
             <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={27} />
           </Logo>
         </div>
         <Menu>
-          <Link href={`/${network}/${currency}`}>
-            <MenuButton className={`${isHome ? 'active' : ''}`}>
+          <Link href={`/${network}/${currency}/product`}>
+            <MenuButton className={`${isHome || isActive('products') ? 'active' : ''}`}>
               <InvestIcon />
-              {t('v2.header.stake')}
+              {t('v2.header.products')}
             </MenuButton>
           </Link>
           <Link href={`/${network}/${currency}/project`}>
             <MenuButton
               className={`${
-                !isHome && (isActive('project') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
+                !isHome && (isActive('projects') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
               }`}
             >
               <ProjectsIcon />
@@ -63,11 +63,6 @@ export default function LayoutHeader() {
               {t('v2.header.analytics')}
             </MenuButton>
           </Link>
-          {/* <Link href={`/${network}/${currency}/incentives`}>
-            <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
-              <IncentivesIcon /> {t('v2.header.incentives')}
-            </MenuButton>
-          </Link> */}
         </Menu>
       </MenuContainer>
       <WalletContainer>

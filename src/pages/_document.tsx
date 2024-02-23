@@ -27,7 +27,7 @@ export default class AppDocument extends Document {
         <Head>
           <meta name='title' content='Stake Together - Staking de Ethereum' />
           <meta property='og:type' content='website' />
-          <meta property='og:url' content='https://beta.staketogether.app' />
+          <meta property='og:url' content='https://app.staketogether.org' />
           <meta property='og:title' content='Stake Together - Staking de Ethereum' key='title' />
         </Head>
         <body>
