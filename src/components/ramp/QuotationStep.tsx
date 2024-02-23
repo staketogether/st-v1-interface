@@ -81,7 +81,7 @@ export default function QuotationStep() {
           <PiClock style={{ fontSize: 16 }} /> <span>{t('v2.ramp.quote.updateQuote')} {quote?.amountCrypto ? seconds : 5}s</span>
         </span>
       </PriceInfoContainer>
-      <Button onClick={() => { !kycLevelInfo?.level ? stepBuyCrypto(StepBuyEth.ProcessingKyc) : stepBuyCrypto(StepBuyEth.KycStep) }} label={t('next')} icon={<PiArrowRight />} />
+      <Button onClick={() => { kycLevelInfo?.level ? stepBuyCrypto(StepBuyEth.ProcessingKyc) : stepBuyCrypto(StepBuyEth.KycStep) }} label={t('next')} icon={<PiArrowRight />} />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
       </footer>

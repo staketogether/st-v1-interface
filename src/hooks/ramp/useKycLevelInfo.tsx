@@ -1,6 +1,7 @@
 import useSWR from 'swr'
+import { kycLevel } from './useControlModal'
 
-interface KycLevelInfo {
+export interface KycLevelInfo {
   level: number
   limits: {
     limitBurn: number
@@ -13,6 +14,7 @@ interface KycLevelInfo {
 export default function useKycLevelInfo(provider: 'brla' | 'transak', taxId?: string) {
   const { data, error } = useSWR<KycLevelInfo>(taxId && `api/ramp/kyc/${provider}/${taxId}/info`)
 
+  kycLevel(data)
   return {
     kycLevelInfo: data,
     isLoading: !error && !data,

@@ -16,7 +16,7 @@ export default function SwapInfo() {
           <Image src={brla} width={16} height={16} alt='brla' />
           <span>BRLA</span>
         </div>
-        <span>{quote?.amountFiat}</span>
+        <span>{quote?.amountBrl}</span>
       </SwapToken>
       <PiArrowRight size={24} />
       <SwapToken className='left'>
@@ -24,7 +24,7 @@ export default function SwapInfo() {
           <Image src={ethIcon} width={16} height={16} alt='eth' />
           <span>ETH</span>
         </div>
-        <span>{quote?.amountCrypto}</span>
+        <span>{quote?.amountToken}</span>
       </SwapToken>
     </Container>
   )

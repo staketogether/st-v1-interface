@@ -1,5 +1,7 @@
+import { qrCodeVar, quoteVar } from "@/hooks/ramp/useControlModal"
 import useLocaleTranslation from "@/hooks/useLocaleTranslation"
-import { QRCode } from "antd"
+import { useReactiveVar } from "@apollo/client"
+import { QRCode, notification } from "antd"
 import { PiCopy } from "react-icons/pi"
 import styled from "styled-components"
 import Button from "../shared/Button"
@@ -7,6 +9,16 @@ import SwapInfo from "./SwapInfo"
 
 export default function CheckoutStep() {
   const { t } = useLocaleTranslation()
+  const qrCode = useReactiveVar(qrCodeVar)
+  const quote = useReactiveVar(quoteVar)
+
+  const handleCopyClipboard = () => {
+    navigator.clipboard.writeText(qrCode?.brCode ?? '')
+    notification.success({
+      message: `código copiado com sucesso`,
+      placement: 'topRight'
+    })
+  }
   return (
     <Container>
       <SwapInfo />
@@ -14,7 +26,7 @@ export default function CheckoutStep() {
         <Header>
           <div>
             <span>{t('v2.ramp.amountToBePaid')}:</span>
-            <span>R$ 9.935,34</span>
+            <span>R$ {quote?.amountBrl}</span>
           </div>
           <span>
             Para `Nome da empresa responsável`
@@ -24,15 +36,15 @@ export default function CheckoutStep() {
         </Header>
         <Body>
           <span>{t('v2.ramp.useThePixQRCode')}</span>
-          <Code value="heyc 123123123" />
-          <Button form='kycForm' type='submit' label={t('v2.ramp.copyQrCode')} icon={<PiCopy />} iconLeft />
+          <Code value={qrCode?.brCode ?? ''} />
+          <Button form='kycForm' type='submit' label={t('v2.ramp.copyQrCode')} icon={<PiCopy />} iconLeft onClick={handleCopyClipboard} />
         </Body>
 
 
       </PixArea>
       <KeyPixArea>
         <span>{t('v2.ramp.orUseThePixKey')}</span>
-        <Button type="button" label="fa9a63e7-359d-46bd-8838-8ca249f153a0" icon={<PiCopy />} iconLeft className="ghost" />
+        <Button type="button" label={qrCode?.brCode ?? ''} icon={<PiCopy />} iconLeft className="ghost" fontSize={10} />
       </KeyPixArea>
       <Button type="button" label={t('v2.ramp.cancelDeposit')} className="outline" block />
     </Container>

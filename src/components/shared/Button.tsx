@@ -15,6 +15,7 @@ type ButtonProps = InputHTMLAttributes<HTMLButtonElement> & {
   ghost?: boolean
   className?: string
   color?: 'primary' | 'green' | 'red' | 'gray'
+  fontSize?: number
 }
 
 export default function Button({
@@ -30,6 +31,7 @@ export default function Button({
   iconLeft = false,
   color = 'primary',
   ghost = false,
+  fontSize = 16,
   ...props
 }: ButtonProps) {
 
@@ -39,8 +41,10 @@ export default function Button({
       onClick={onClick}
       disabled={disabled || isLoading}
       type={type}
+      fontSize={fontSize}
       className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${color && `${color}`
         }  ${className}`}
+
       {...props}
     >
       {!iconLeft && getIcon()}
@@ -51,7 +55,7 @@ export default function Button({
 }
 
 const { Container, LoadingIcon } = {
-  Container: styled.button`
+  Container: styled.button<{ fontSize?: number }>`
     border: none;
 
     color: ${({ theme }) => theme.color.white};
@@ -61,7 +65,7 @@ const { Container, LoadingIcon } = {
     height: 48px;
     padding: 0px 16px;
 
-    font-size: ${({ theme }) => theme.font.size[16]};
+    font-size: ${({ theme, fontSize }) => fontSize ? `${fontSize}px` : theme.font.size[16]};
 
     display: flex;
     align-items: center;

@@ -19,11 +19,12 @@ export default function ProcessingKycStep() {
   const { buyRampResponse } = useBuyRamp('brla', rampData)
   useEffect(() => {
     if (address && quote) {
+      console.log('init')
       setRampData({
         chainId: 1,
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
-        amount: Number(quote.amountFiat),
+        amount: Number(quote.amountBrl),
         accountAddress: address,
         receiverAddress: address
       })
