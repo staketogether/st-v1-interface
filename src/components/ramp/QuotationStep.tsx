@@ -5,6 +5,7 @@ import useQuoteBrla from '@/hooks/ramp/useQuote';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { PaymentMethodType } from '@/types/payment-method.type';
 import { ProviderType } from '@/types/provider.type';
+import { useReactiveVar } from '@apollo/client';
 import brlBrla from '@assets/icons/brl-brla.svg';
 import eth from '@assets/icons/eth-icon.svg';
 import Image from 'next/image';
@@ -15,9 +16,9 @@ import styled from 'styled-components';
 import { useAccount } from 'wagmi';
 
 export default function QuotationStep() {
-
   const initialSeconds = 5;
-  const [value, setValue] = useState<number | string>(0);
+  const queryValue = useReactiveVar(amountValue)
+  const [value, setValue] = useState<number | string>(queryValue ?? 0);
   const { quote } = useQuoteBrla(1, 'brl', Number(value), 0, ProviderType.brla, PaymentMethodType.pix)
   const { address } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', address)
