@@ -1,5 +1,5 @@
 import Button from '@/components/shared/Button';
-import { StepBuyEth, amountValue, stepBuyCrypto } from '@/hooks/ramp/useControlModal';
+import { BrlaBuyEthStep, fiatAmountVar, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal';
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo';
 import useQuoteBrla from '@/hooks/ramp/useQuote';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
@@ -9,7 +9,7 @@ import { useReactiveVar } from '@apollo/client';
 import brlBrla from '@assets/icons/brl-brla.svg';
 import eth from '@assets/icons/eth-icon.svg';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi';
 
 import styled from 'styled-components';
@@ -17,8 +17,8 @@ import { useAccount } from 'wagmi';
 
 export default function QuotationStep() {
   const initialSeconds = 5;
-  const queryValue = useReactiveVar(amountValue)
-  const [value, setValue] = useState<number | string>(queryValue ?? 0);
+  const fiatAmount = useReactiveVar(fiatAmountVar)
+  const [value, setValue] = useState<number | string>(fiatAmount ?? 0);
   const { quote } = useQuoteBrla(1, 'brl', Number(value), 0, ProviderType.brla, PaymentMethodType.pix)
   const { address } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', address)
@@ -35,7 +35,7 @@ export default function QuotationStep() {
 
     if (regex.test(newValue) || newValue === '' || newValue === '.') {
       setValue(newValue);
-      amountValue(newValue)
+      fiatAmountVar(newValue)
     }
   }
 
@@ -56,6 +56,16 @@ export default function QuotationStep() {
       setTimerStarted(true);
     }
   }, [quote])
+
+  const handleNext = useCallback(() => {
+    if (!kycLevelInfo?.level) {
+      stepsControlBuyCrypto(BrlaBuyEthStep.Kyc)
+      return
+    }
+
+    stepsControlBuyCrypto(BrlaBuyEthStep.Checkout)
+  }, [kycLevelInfo?.level])
+
   return (
     <Container>
       <header>{t('v2.ramp.quote.title')}:</header>
@@ -81,7 +91,8 @@ export default function QuotationStep() {
           <PiClock style={{ fontSize: 16 }} /> <span>{t('v2.ramp.quote.updateQuote')} {quote?.amountCrypto ? seconds : 5}s</span>
         </span>
       </PriceInfoContainer>
-      <Button onClick={() => { !kycLevelInfo?.level ? stepBuyCrypto(StepBuyEth.ProcessingKyc) : stepBuyCrypto(StepBuyEth.KycStep) }} label={t('next')} icon={<PiArrowRight />} />
+      <Button
+        onClick={handleNext} disabled={Number(fiatAmount) <= 0} label={t('next')} icon={<PiArrowRight />} />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
       </footer>

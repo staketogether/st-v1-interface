@@ -1,5 +1,5 @@
 import Modal from '@/components/shared/Modal';
-import { StepBuyEth, openModal, stepBuyCrypto } from '@/hooks/ramp/useControlModal';
+import { BrlaBuyEthStep, openModal, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { useReactiveVar } from '@apollo/client';
 import CheckoutStep from './CheckoutStep';
@@ -9,14 +9,12 @@ import ProcessingKycStep from './ProcessingKycStep';
 import QuotationStep from './QuotationStep';
 import SuccessStep from './SuccessStep';
 
-
-
 export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
 
   const steps = {
     Quotation: <QuotationStep />,
-    KycStep: <KycStep />,
+    Kyc: <KycStep />,
     ProcessingKyc: <ProcessingKycStep />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep />,
     Checkout: <CheckoutStep />,
@@ -24,8 +22,8 @@ export default function BuyEthControlModal() {
   }
 
   const controlModal = useReactiveVar(openModal)
-  const currentStep = useReactiveVar(stepBuyCrypto)
-  const title = currentStep === StepBuyEth.Success ? t('v2.ramp.success') : t('v2.ramp.title')
+  const currentStep = useReactiveVar(stepsControlBuyCrypto)
+  const title = currentStep === BrlaBuyEthStep.Success ? t('v2.ramp.success') : t('v2.ramp.title')
 
   return (
     <Modal
@@ -34,7 +32,7 @@ export default function BuyEthControlModal() {
       isOpen={controlModal}
       onClose={() => { openModal(false) }}
       width={'auto'}
-      showCloseIcon={currentStep !== StepBuyEth.Success}>
+      showCloseIcon={currentStep !== BrlaBuyEthStep.Success}>
       {steps[currentStep]}
     </Modal>
   )

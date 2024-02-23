@@ -28,7 +28,7 @@ import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
-import { StepBuyEth, openModal, stepBuyCrypto } from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, openModal, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
@@ -324,7 +324,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const handleActiveRamp = () => {
     // reset process
-    stepBuyCrypto(StepBuyEth.Quotation)
+    stepsControlBuyCrypto(BrlaBuyEthStep.Quotation)
     openModal(true)
   }
 

@@ -5,7 +5,7 @@ import { Metatags } from '@/components/shared/meta/Metatags'
 import StakeControl from '@/components/stake/StakeControl'
 import { contentfulClient } from '@/config/apollo'
 import chainConfig from '@/config/chain'
-import { amountValue, openModal } from '@/hooks/ramp/useControlModal'
+import { fiatAmountVar, openModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
 import { ContentfulPool } from '@/types/ContentfulPool'
@@ -28,7 +28,7 @@ export default function Home({ poolAddress, poolDetail }: HomeProps) {
 
   useEffect(() => {
     if (router.query?.buy && (router.query.payment === 'pix' && router.query.provider == 'brla')) {
-      amountValue(router.query?.amount?.toString() ?? '100')
+      fiatAmountVar(router.query?.amount?.toString() ?? '100')
       openModal(true)
     } else if (router.query.payment === 'credit') {
       buyCrypto()

@@ -1,4 +1,4 @@
-import useLocaleTranslation from "@/hooks/useLocaleTranslation"
+  import useLocaleTranslation from "@/hooks/useLocaleTranslation"
 import { PiArrowsClockwise, PiCheckCircleFill, PiClockLight } from "react-icons/pi"
 import { useTheme } from "styled-components"
 import WrapProcessingStep from "./WrapProcessingStep"
