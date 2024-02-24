@@ -21,6 +21,7 @@ import { WithdrawType } from '@/types/Withdraw'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { notification } from 'antd'
 import EthereumDescription from './EthereumDescription'
+import EthereumProjectSelect from './EthereumProjectSelect'
 
 type EthereumDepositProps = {
   type: 'deposit' | 'withdraw'
@@ -42,6 +43,9 @@ export default function EthereumDeposit({
   stpETHBalanceLoading
 }: EthereumDepositProps) {
   const [amount, setAmount] = useState<string>('')
+  const [isActivatedDelegation, setIsActivatedDelegation] = useState(false)
+  const { stakeTogetherPool, chainId, name } = chainConfig()
+  const [poolDelegatedSelected, setPoolDelegatedSelected] = useState<`0x${string}`>(stakeTogetherPool)
 
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
@@ -59,7 +63,6 @@ export default function EthereumDeposit({
 
   const { stConfig } = useStConfig()
   const minDepositAmount = stConfig?.minDepositAmount || 0n
-  const { stakeTogetherPool, chainId, name } = chainConfig()
 
   const { chain: walletChainId } = useNetwork()
   const isWrongNetwork = chainId !== walletChainId?.id
@@ -77,7 +80,7 @@ export default function EthereumDeposit({
   } = useDepositPool(
     youReceiveDeposit,
     ethers.parseUnits(inputAmount, 18),
-    stakeTogetherPool,
+    poolDelegatedSelected,
     !isWrongNetwork,
     account
   )
@@ -173,6 +176,12 @@ export default function EthereumDeposit({
             type={type}
           />
         </InputContainer>
+        <EthereumProjectSelect
+          isActivatedDelegation={isActivatedDelegation}
+          onChange={e => setIsActivatedDelegation(e)}
+          poolDelegatedSelected={poolDelegatedSelected}
+          handleDelegationChange={e => setPoolDelegatedSelected(e)}
+        />
         {!!account && (
           <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantDeposit} />
         )}
