@@ -1,5 +1,6 @@
-import { openModal } from '@/hooks/ramp/useControlModal';
+import { openModal, quoteVar } from '@/hooks/ramp/useControlModal';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
+import { useReactiveVar } from '@apollo/client';
 import { PiCheckCircleFill } from 'react-icons/pi';
 import styled, { useTheme } from 'styled-components';
 import Button from '../shared/Button';
@@ -7,47 +8,54 @@ import Button from '../shared/Button';
 export default function SuccessStep() {
     const theme = useTheme()
     const { t } = useLocaleTranslation()
+    const quote = useReactiveVar(quoteVar)
+
+    const exchange = (Number(quote?.amountBrl) / Number(quote?.amountToken)).toFixed(2)
     return (
         <Container>
             <PiCheckCircleFill size={80} color={theme.color.green[500]} />
             <DepositToken>
                 <div>
-                    <span>1.0 ETH</span>
+                    <span>{quote?.amountToken} ETH</span>
                 </div>
                 <span>{t('v2.ramp.yourEths')}</span>
             </DepositToken>
             <DepositInfo>
                 <Info>
                     <span>{t('v2.ramp.youReceived')}</span>
-                    <span className='right secondary'>1.0 ETH</span>
+                    <span className='right secondary'>{quote?.amountToken} ETH</span>
                 </Info>
                 <Info>
                     <span>{t('v2.ramp.exchange')}</span>
                     <div className='right'>
-                        <span className='green'>9.356,35</span>
+                        <span className='green'>R$ {exchange}</span>
                         <span>=</span>
-                        <span className='secondary'>1stpETH</span>
+                        <span className='secondary'>1 ETH</span>
                     </div>
                 </Info>
                 <Info>
                     <div>
-                        <span className='green'>9.356,35</span>
-                        <span>=</span>
-                        <span className='secondary'>1stpETH</span>
+                        <span className='green'>{quote?.amountToken} ETH</span>
+                        <span>x</span>
+                        <span className='secondary'>R$ {exchange}</span>
                     </div>
-                    <span className='right'>R$9117,67</span>
+                    <span className='right'>R$ {(Number(quote?.amountToken) * Number(exchange)).toFixed(2)}</span>
                 </Info>
                 <Info>
                     <span>{t('v2.ramp.networkFee')}</span>
-                    <span className='right grayLight'>1.0 ETH</span>
+                    <span className='right grayLight'>{quote?.gasFee} ETH</span>
+                </Info>
+                <Info>
+                    <span>{t('v2.ramp.serviceCharge')}</span>
+                    <span className='right grayLight'>R$ {quote?.markupFee ? Number(quote?.markupFee) / 100 : 0}</span>
                 </Info>
                 <Info>
                     <span className='bold'>Total</span>
-                    <span className='right bold'>1.0 ETH</span>
+                    <span className='right bold'>{quote?.amountToken} ETH</span>
                 </Info>
 
             </DepositInfo>
-            <Button type="button" label={t('next')} onClick={() => openModal(false)} />
+            <Button type="button" label={t('close')} onClick={() => openModal(false)} />
         </Container>
     )
 

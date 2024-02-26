@@ -17,6 +17,8 @@ export default function ProcessingKycStep() {
   const [rampData, setRampData] = useState<BuyRampRequest | undefined>(undefined)
   const { t } = useLocaleTranslation()
   const { buyRampResponse } = useBuyRamp('brla', rampData)
+
+
   useEffect(() => {
     if (address && quote) {
       console.log('init')

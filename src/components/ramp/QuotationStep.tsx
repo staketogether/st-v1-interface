@@ -63,7 +63,7 @@ export default function QuotationStep() {
       return
     }
 
-    stepsControlBuyCrypto(BrlaBuyEthStep.Checkout)
+    stepsControlBuyCrypto(BrlaBuyEthStep.ProcessingKyc)
   }, [kycLevelInfo?.level])
 
   return (
@@ -83,7 +83,7 @@ export default function QuotationStep() {
             <Image src={eth} width={36} height={24} alt='BRL' />
             <span>ETH</span>
           </div>
-          <input type='text' value={quote?.amountCrypto ?? 0} disabled />
+          <input type='text' value={quote?.amountToken ?? 0} disabled />
         </InputContainer>
       </BoxValuesContainer>
       <PriceInfoContainer>

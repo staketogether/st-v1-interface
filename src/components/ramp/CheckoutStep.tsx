@@ -1,7 +1,10 @@
-import { qrCodeVar, quoteVar } from "@/hooks/ramp/useControlModal"
+import { BrlaBuyEthStep, qrCodeVar, quoteVar, stepsControlBuyCrypto } from "@/hooks/ramp/useControlModal"
+import useVerifyActivity from "@/hooks/ramp/useVerifyActivity"
 import useLocaleTranslation from "@/hooks/useLocaleTranslation"
+import { ProviderType } from "@/types/provider.type"
 import { useReactiveVar } from "@apollo/client"
 import { QRCode, notification } from "antd"
+import { useEffect } from "react"
 import { PiCopy } from "react-icons/pi"
 import styled from "styled-components"
 import Button from "../shared/Button"
@@ -11,6 +14,7 @@ export default function CheckoutStep() {
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
   const quote = useReactiveVar(quoteVar)
+  const { activity } = useVerifyActivity(ProviderType.brla, qrCode?.id)
 
   const handleCopyClipboard = () => {
     navigator.clipboard.writeText(qrCode?.brCode ?? '')
@@ -19,6 +23,12 @@ export default function CheckoutStep() {
       placement: 'topRight'
     })
   }
+
+  useEffect(() => {
+    if (activity?.type === 'pix-to-token' && activity.status === 'posted') {
+      stepsControlBuyCrypto(BrlaBuyEthStep.ProcessingCheckoutStep)
+    }
+  }, [activity])
   return (
     <Container>
       <SwapInfo />
