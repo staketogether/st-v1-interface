@@ -23,15 +23,20 @@ export default function useKycCreate(provider: 'brla' | 'transak', taxId?: strin
   const { backendUrl } = globalConfig
   const isValid = provider && taxId && kycData
   const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, { ...kycData, }).then(res => res.data)
-  const { data, error } = useSWR<{ id: string }>(isValid ? `api/ramp/kyc/${provider}/${taxId}/verify` : null, fetcher, {
+  const { data, error, mutate, isLoading } = useSWR<{ id: string }>(isValid ? `api/ramp/kyc/${provider}/${taxId}/verify` : null, fetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
-    revalidateOnReconnect: false
+    revalidateOnReconnect: false,
+    errorRetryCount: 1,
+    shouldRetryOnError: false,
+    revalidateOnMount: false
+
   })
 
   return {
     data,
-    isLoading: !error && !data && isValid,
-    error
+    isLoading,
+    error,
+    mutate
   }
 }

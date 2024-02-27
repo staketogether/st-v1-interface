@@ -32,11 +32,15 @@ export default function KycStep() {
     }
   })
 
-  const { data, isLoading } = useKycCreate('brla', address, formData)
-
+  const { data, mutate, isLoading } = useKycCreate('brla', address, formData)
+  let isCalled = false
   const chooseAccountType = watch('accountType')
   const onSubmit = (data: KycCreate) => {
+    isCalled = true
     setFormaData(data)
+    if (isCalled) {
+      mutate()
+    }
   }
 
   useEffect(() => {
@@ -45,6 +49,8 @@ export default function KycStep() {
       stepsControlBuyCrypto(BrlaBuyEthStep.ProcessingKyc)
     }
   }, [data])
+
+
   return (
     <Container>
       <SwapInfo />
