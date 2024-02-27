@@ -18,3 +18,4 @@ export const stepsControlBuyCrypto = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.Quot
 export const quoteVar = makeVar<Quote | undefined>(undefined)
 export const qrCodeVar = makeVar<BuyRamp | null>(null)
 export const kycLevel = makeVar<KycLevelInfo | null>(null)
+export const kycId = makeVar<string | null>(null)

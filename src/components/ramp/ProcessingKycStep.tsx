@@ -1,7 +1,9 @@
 import useBuyRamp, { BuyRampRequest } from '@/hooks/ramp/useBuyRamp';
-import { BrlaBuyEthStep, qrCodeVar, quoteVar, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal';
+import { BrlaBuyEthStep, kycId, kycLevel, qrCodeVar, quoteVar, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal';
+import useVerifyActivity from '@/hooks/ramp/useVerifyActivity';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { PaymentMethodType } from '@/types/payment-method.type';
+import { ProviderType } from '@/types/provider.type';
 import { useReactiveVar } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { PiCircleLight, PiClockLight } from 'react-icons/pi';
@@ -17,11 +19,14 @@ export default function ProcessingKycStep() {
   const [rampData, setRampData] = useState<BuyRampRequest | undefined>(undefined)
   const { t } = useLocaleTranslation()
   const { buyRampResponse } = useBuyRamp('brla', rampData)
-
+  const kycActivity = useReactiveVar(kycId)
+  const kyc = useReactiveVar(kycLevel)
+  const kycActivityId = kyc?.level && kycActivity ? undefined : kycActivity
+  const { activity } = useVerifyActivity(ProviderType.brla, kycActivityId ?? undefined)
 
   useEffect(() => {
-    if (address && quote) {
-      console.log('init')
+    if (address && quote && (kyc?.level || activity?.status === 'success')) {
+
       setRampData({
         chainId: 1,
         paymentMethod: PaymentMethodType.pix,
@@ -31,7 +36,7 @@ export default function ProcessingKycStep() {
         receiverAddress: address
       })
     }
-  }, [address, quote])
+  }, [activity?.status, address, kyc?.level, quote])
 
   useEffect(() => {
     if (buyRampResponse?.brCode) {
@@ -40,16 +45,18 @@ export default function ProcessingKycStep() {
     }
 
   }, [buyRampResponse])
+
+
   const validationSteps = [
     {
       icon: <PiClockLight size={32} color={theme.color.secondary} />,
       text: t('v2.ramp.processingRegistration'),
-      disable: false
+      disable: !kycActivityId
     },
     {
       icon: <PiCircleLight size={32} color={theme.color.secondary} />,
       text: t('v2.ramp.generatingQRCode'),
-      disable: true
+      disable: activity?.status !== 'success'
     }
   ]
 

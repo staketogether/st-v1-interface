@@ -1,3 +1,4 @@
+import { BrlaBuyEthStep, kycId, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal'
 import useKycCreate, { KycCreate, TypeAccount } from '@/hooks/ramp/useKycCreate'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ChangeEvent, useEffect, useState } from 'react'
@@ -31,21 +32,19 @@ export default function KycStep() {
     }
   })
 
-  const { data, error } = useKycCreate('brla', address, formData)
+  const { data, isLoading } = useKycCreate('brla', address, formData)
 
   const chooseAccountType = watch('accountType')
   const onSubmit = (data: KycCreate) => {
-    console.log('realizar envio do form', data)
-
     setFormaData(data)
   }
 
   useEffect(() => {
-    console.log('errors', errors)
-    console.log('typeTest', chooseAccountType)
-    console.log('data', data)
-    console.log('error', error)
-  }, [data, error, errors, chooseAccountType])
+    if (data?.id) {
+      kycId(data?.id)
+      stepsControlBuyCrypto(BrlaBuyEthStep.ProcessingKyc)
+    }
+  }, [data])
   return (
     <Container>
       <SwapInfo />
@@ -151,7 +150,7 @@ export default function KycStep() {
           error={errors.cpfOrCnpj?.message}
           placeholder={'00/00/00'}
         />
-        <Button form='kycForm' type='submit' label={t('next')} icon={<PiArrowRight />} />
+        <Button form='kycForm' type='submit' label={t('next')} icon={<PiArrowRight />} disabled={isLoading} />
       </FormContainer>
     </Container>
   )

@@ -21,8 +21,9 @@ export interface KycCreate {
 
 export default function useKycCreate(provider: 'brla' | 'transak', taxId?: string, kycData?: KycCreate) {
   const { backendUrl } = globalConfig
+  const isValid = provider && taxId && kycData
   const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, { ...kycData, }).then(res => res.data)
-  const { data, error } = useSWR(provider && taxId && kycData ? `api/ramp/kyc/${provider}/${taxId}/verify` : null, fetcher, {
+  const { data, error } = useSWR<{ id: string }>(isValid ? `api/ramp/kyc/${provider}/${taxId}/verify` : null, fetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false
@@ -30,7 +31,7 @@ export default function useKycCreate(provider: 'brla' | 'transak', taxId?: strin
 
   return {
     data,
-    isLoading: !error && !data,
+    isLoading: !error && !data && isValid,
     error
   }
 }
