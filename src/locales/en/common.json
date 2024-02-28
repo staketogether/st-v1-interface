@@ -608,7 +608,8 @@
       "solana": "Solana Staking",
       "cosmos": "Cosmos Staking",
       "near": "Near Staking",
-      "polkadot": "Polkadot Staking"
+      "polkadot": "Polkadot Staking",
+      "productNotAvailable": "Product not available"
     },
     "notifyBar": {
       "incentives": {

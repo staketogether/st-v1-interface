@@ -49,6 +49,7 @@ export default function EthereumWithdraw({
 
   const debouncedAmount = useDebounce(amount, 1000)
   const inputAmount = amount ? debouncedAmount || '0' : '0'
+  const blankPoolAddress = '0x0000000000000000000000000000000000000000'
 
   const [withdrawTypeSelected, setWithdrawTypeSelected] = useState(WithdrawType.POOL)
 
@@ -83,13 +84,10 @@ export default function EthereumWithdraw({
   }
 
   const handleWithdrawBalanceRefetch = useCallback(() => {
-    switch (withdrawTypeSelected) {
-      case WithdrawType.VALIDATOR:
-        return withdrawValidatorsBalanceRefetch()
-
-      default:
-        return withdrawPoolBalanceRefetch()
+    if (withdrawTypeSelected) {
+      return withdrawValidatorsBalanceRefetch()
     }
+    return withdrawPoolBalanceRefetch()
   }, [withdrawPoolBalanceRefetch, withdrawValidatorsBalanceRefetch, withdrawTypeSelected])
 
   const {
@@ -103,12 +101,7 @@ export default function EthereumWithdraw({
     prepareTransactionIsError: withdrawPoolPrepareTransactionIsError,
     prepareTransactionIsSuccess: withdrawPoolPrepareTransactionIsSuccess,
     prepareTransactionErrorMessage: withdrawPoolPrepareTransactionErrorMessage
-  } = useWithdrawPool(
-    inputAmount,
-    '0x0000000000000000000000000000000000000000',
-    withdrawTypeSelected === WithdrawType.POOL,
-    account
-  )
+  } = useWithdrawPool(inputAmount, blankPoolAddress, withdrawTypeSelected === WithdrawType.POOL, account)
 
   const {
     withdrawValidator,
@@ -123,40 +116,37 @@ export default function EthereumWithdraw({
     prepareTransactionErrorMessage: withdrawValidatorPrepareTransactionErrorMessage
   } = useWithdrawValidator(
     inputAmount,
-    '0x0000000000000000000000000000000000000000',
+    blankPoolAddress,
     withdrawTypeSelected === WithdrawType.VALIDATOR,
     account
   )
 
   const handleWithdraw = () => {
-    switch (withdrawTypeSelected) {
-      case WithdrawType.VALIDATOR:
-        return {
-          withdraw: withdrawValidator,
-          withdrawLoading: withdrawValidatorLoading,
-          withdrawSuccess: withdrawValidatorSuccess,
-          withdrawEstimatedCost: withdrawValidatorEstimatedCost,
-          withdrawAwaitWalletAction: withdrawValidatorAwaitWalletAction,
-          withdrawResetState: withdrawValidatorResetState,
-          withdrawTxHash: withdrawValidatorTxHash,
-          prepareTransactionIsError: withdrawValidatorPrepareTransactionIsError,
-          prepareTransactionIsSuccess: withdrawValidatorPrepareTransactionIsSuccess,
-          prepareTransactionErrorMessage: withdrawValidatorPrepareTransactionErrorMessage
-        }
-
-      default:
-        return {
-          withdraw: withdrawPool,
-          withdrawLoading: withdrawPoolLoading,
-          withdrawSuccess: withdrawPoolSuccess,
-          withdrawEstimatedCost: withdrawPoolEstimatedCost,
-          withdrawAwaitWalletAction: withdrawPoolAwaitWalletAction,
-          withdrawResetState: withdrawPoolResetState,
-          withdrawTxHash: withdrawPoolTxHash,
-          prepareTransactionIsError: withdrawPoolPrepareTransactionIsError,
-          prepareTransactionIsSuccess: withdrawPoolPrepareTransactionIsSuccess,
-          prepareTransactionErrorMessage: withdrawPoolPrepareTransactionErrorMessage
-        }
+    if (withdrawTypeSelected === WithdrawType.VALIDATOR) {
+      return {
+        withdraw: withdrawValidator,
+        withdrawLoading: withdrawValidatorLoading,
+        withdrawSuccess: withdrawValidatorSuccess,
+        withdrawEstimatedCost: withdrawValidatorEstimatedCost,
+        withdrawAwaitWalletAction: withdrawValidatorAwaitWalletAction,
+        withdrawResetState: withdrawValidatorResetState,
+        withdrawTxHash: withdrawValidatorTxHash,
+        prepareTransactionIsError: withdrawValidatorPrepareTransactionIsError,
+        prepareTransactionIsSuccess: withdrawValidatorPrepareTransactionIsSuccess,
+        prepareTransactionErrorMessage: withdrawValidatorPrepareTransactionErrorMessage
+      }
+    }
+    return {
+      withdraw: withdrawPool,
+      withdrawLoading: withdrawPoolLoading,
+      withdrawSuccess: withdrawPoolSuccess,
+      withdrawEstimatedCost: withdrawPoolEstimatedCost,
+      withdrawAwaitWalletAction: withdrawPoolAwaitWalletAction,
+      withdrawResetState: withdrawPoolResetState,
+      withdrawTxHash: withdrawPoolTxHash,
+      prepareTransactionIsError: withdrawPoolPrepareTransactionIsError,
+      prepareTransactionIsSuccess: withdrawPoolPrepareTransactionIsSuccess,
+      prepareTransactionErrorMessage: withdrawPoolPrepareTransactionErrorMessage
     }
   }
 
@@ -166,11 +156,10 @@ export default function EthereumWithdraw({
     const handleSuccessfulAction = async () => {
       if (withdrawData.withdrawSuccess && !isOpenStakeConfirmModal) {
         setAmount('')
-        await handleWithdrawBalanceRefetch()
+        Promise.all([await handleWithdrawBalanceRefetch(), await ethBalanceRefetch()])
         withdrawPoolBalanceRefetch()
         withdrawData.withdrawResetState
         getWithdrawBlock()
-        await ethBalanceRefetch()
       }
     }
 

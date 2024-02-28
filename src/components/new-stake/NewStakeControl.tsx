@@ -4,6 +4,7 @@ import { StakingProduct } from '@/types/Product'
 import useProducts from '@/hooks/useProducts'
 import ProductInfo from './ProductInfo'
 import EthereumFormControl from './ethereum/EthereumFormControl'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 
 type NewStakeControlProps = {
   type: 'deposit' | 'withdraw'
@@ -12,6 +13,7 @@ type NewStakeControlProps = {
 
 export default function NewStakeControl({ productName, type }: NewStakeControlProps) {
   const { findProduct } = useProducts()
+  const { t } = useLocaleTranslation()
   const product = findProduct(productName)
 
   const handleProductAction = () => {
@@ -20,7 +22,7 @@ export default function NewStakeControl({ productName, type }: NewStakeControlPr
         return <EthereumFormControl type={type} />
 
       default:
-        return <div>Product not Available</div>
+        return <div>{t('v2.products.productNotAvailable')}</div>
     }
   }
 

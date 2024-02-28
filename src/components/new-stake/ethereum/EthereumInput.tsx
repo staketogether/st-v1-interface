@@ -31,10 +31,6 @@ export default function EthereumInput({
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
 
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`)
-  }
-
   function handleChangeValue(value: string) {
     if (value.includes(',')) {
       value = value.replace(',', '.')
@@ -52,7 +48,6 @@ export default function EthereumInput({
         <Select
           defaultValue='Ethereum'
           style={{ width: 139 }}
-          onChange={handleChange}
           value={'ethereum'}
           options={[
             {

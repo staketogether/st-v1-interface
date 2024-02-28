@@ -53,7 +53,8 @@ export default function ProductInfo({ product }: ProductInfoProps) {
     const currentDate = new Date()
 
     const currentTimestamp = currentDate.getTime()
-    const pastDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000)
+    const subtract7Days = currentDate.getTime() - 7 * 24 * 60 * 60 * 1000
+    const pastDate = new Date(subtract7Days)
     const pastTimestamp = pastDate.getTime()
 
     return { currentTimestamp, pastTimestamp }
@@ -71,7 +72,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       })
       .then(res => res.data)
   const { data, isLoading: dataChartLoading } = useSWR<{ price_history: [number, number][] }>(
-    `mobula/marketHistory`,
+    `mobula/market-history`,
     fetcher
   )
 
@@ -91,7 +92,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       })
       .then(res => res.data)
   const { data: assetData, isLoading } = useSWR<MarketAssetData>(
-    `mobula/marketAssetData`,
+    `mobula/market-asset-data`,
     fetcherMarketAssetData
   )
 

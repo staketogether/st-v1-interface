@@ -11,7 +11,7 @@ export default function EthereumDescription() {
       <div>
         <div>
           <span>
-            {`${t('v2.stake.descriptionForm.exchange')}`}
+            {t('v2.stake.descriptionForm.exchange')}
             <Tooltip title={t('v2.stake.descriptionForm.exchangeTooltip')}>
               <QuestionIcon />
             </Tooltip>
