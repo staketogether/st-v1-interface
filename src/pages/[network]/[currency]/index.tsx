@@ -1,9 +1,13 @@
 import NewStakeControl from '@/components/new-stake/NewStakeControl'
+import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
-import StakeControl from '@/components/stake/StakeControl'
+import { fiatAmountVar, openModal } from '@/hooks/ramp/useControlModal'
+import useTransak from '@/hooks/useTransak'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 export default function Home() {
 
@@ -21,11 +25,12 @@ export default function Home() {
       buyCrypto()
     }
   }, [buyCrypto, router, router.events, router.query?.amount, router.query?.buy])
+
   return (
     <LayoutTemplate>
       <Metatags />
       <NewStakeControl productName='ethereum' type='deposit' />
-      <StakeControl isStakeTogetherPool poolAddress={poolAddress} type='deposit' poolDetail={poolDetail} />
+      <BuyEthControlModal />
     </LayoutTemplate>
   )
 }
