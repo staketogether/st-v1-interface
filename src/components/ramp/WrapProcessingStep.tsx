@@ -1,17 +1,15 @@
-import processing from '@assets/images/processing.svg';
-import Image from 'next/image';
-import styled from "styled-components";
-import SwapInfo from './SwapInfo';
-import ValidationList, { ValidationSteps } from './ValidationList';
+import styled from 'styled-components'
+import SwapInfo from './SwapInfo'
+import ValidationList, { ValidationSteps } from './ValidationList'
+import loadingAnimation from '@assets/animations/loading-animation.json'
+import LottieAnimation from '@/components/shared/LottieAnimation'
+import React from 'react'
 
 export default function WrapProcessingStep({ validationSteps, title }: { validationSteps: ValidationSteps[], title: string }) {
-
-
-
   return (
     <Container>
       <Header>
-        <Image src={processing} width={80} alt='processing' />
+        <LottieAnimation animationData={loadingAnimation} height={60} loop />
         <span>{title}</span>
       </Header>
       <SwapInfo />
