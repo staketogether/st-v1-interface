@@ -632,7 +632,8 @@
       "solana": "Staking de Solana",
       "cosmos": "Staking de Cosmos",
       "near": "Staking de Near ",
-      "polkadot": "Staking de Polkadot"
+      "polkadot": "Staking de Polkadot",
+      "productNotAvailable": "Produto Indisponivel"
     },
     "notifyBar": {
       "incentives": {
@@ -680,6 +681,22 @@
         "updateQuote": "Preço atualiza em",
         "terms": "Ao continuar você concorda com nossas",
         "policies": "políticas"
+      }
+    },
+    "ethereumStaking": {
+      "title": "Staking de Ethereum",
+      "description": "Descrição",
+      "statistics": "Estatísticas",
+      "ethereumDescription": "Stake Ethereum e ganhe recompensas de staking de Ethereum",
+      "contractAddress": "Endereço do Contrato",
+      "marketCap": "Valor de mercado",
+      "priceChange": "Variaço de preço (1 ano)",
+      "highestValueWeeks": "Maior Valor 52 semanas",
+      "actions": {
+        "invest": "Investir",
+        "withdraw": "Resgatar",
+        "operationFee": "Taxa de Operação",
+        "balance": "Saldo"
       }
     }
   }

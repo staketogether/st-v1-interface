@@ -31,6 +31,7 @@ export default interface Theme {
       15: string
       16: string
       18: string
+      20: string
       22: string
       24: string
       32: string

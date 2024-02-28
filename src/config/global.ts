@@ -8,11 +8,11 @@ interface GlobalConfig {
   stakeTogetherUniversityUrlEn: string
   docsPt: string
   docsEn: string
+  backendUrl: string
   fees: {
     operation: string
     rewards: string
   }
-  backendUrl: string
 }
 
 export const globalConfig: GlobalConfig = {

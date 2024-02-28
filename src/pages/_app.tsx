@@ -1,7 +1,8 @@
 import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
-import useGetCurrencyPrice from '@/hooks/useGetCurrencyPrice'
+import useGetCurrencyPerEthPrice from '@/hooks/useGetCurrencyPrice'
+import useGetQuotUsdForCurrency from '@/hooks/useGetUsdConversionRatesPrice'
 import useSettingsCurrency from '@/hooks/useSettingCurrency'
 import { ApolloProvider } from '@apollo/client'
 import isPropValid from '@emotion/is-prop-valid'
@@ -22,6 +23,7 @@ import { lightTheme } from '../styles/theme'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
+  const { backendUrl } = globalConfig
 
   const router = useRouter()
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
@@ -29,7 +31,8 @@ const App = ({ Component, pageProps }: AppProps) => {
   const { backendUrl } = globalConfig
 
   useSettingsCurrency()
-  useGetCurrencyPrice()
+  useGetCurrencyPerEthPrice()
+  useGetQuotUsdForCurrency()
 
   useEffect(() => {
     initMixpanel()
@@ -42,7 +45,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   }, [chain.chainId, registerPageView, router.events])
 
   return (
-
     <ApolloProvider client={apolloClient}>
       <ThemeProvider theme={lightTheme}>
         <WagmiConfig config={config}>
@@ -65,9 +67,16 @@ const App = ({ Component, pageProps }: AppProps) => {
                 }
               }}
             >
-              <SWRConfig value={{
-                fetcher: (uri: string) => axios.get(`${backendUrl}/${uri}`).then(res => res.data)
-              }}>
+              <SWRConfig
+                value={{
+                  revalidateIfStale: false,
+                  revalidateOnFocus: false,
+                  revalidateOnReconnect: false,
+                  errorRetryCount: 1,
+                  shouldRetryOnError: false,
+                  fetcher: (uri: string) => axios.get(`${backendUrl}/${uri}`).then(res => res.data)
+                }}
+              >
                 <Component {...pageProps} />
               </SWRConfig>
             </ConfigProvider>

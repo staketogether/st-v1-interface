@@ -8,19 +8,10 @@ import NearIcon from '@assets/network/near.svg'
 import cosmosIcon from '@assets/network/cosmos.svg'
 import celestiaIcon from '@assets/network/celestia.svg'
 import restaking from '@assets/network/restaking.svg'
-
-export type StakingProduct =
-  | 'ethereum'
-  | 'EthereumRestaking'
-  | 'polygon'
-  | 'solana'
-  | 'celestia'
-  | 'cosmos'
-  | 'near'
-  | 'polkadot'
+import { StakingProductIcon } from '@/types/Product'
 
 type NetworkIconProps = {
-  stakingProduct: StakingProduct
+  stakingProduct: StakingProductIcon
   size: number
 }
 
