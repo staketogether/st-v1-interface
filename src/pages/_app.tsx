@@ -28,7 +28,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   const router = useRouter()
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
   const chain = chainConfig()
-  const { backendUrl } = globalConfig
 
   useSettingsCurrency()
   useGetCurrencyPerEthPrice()
