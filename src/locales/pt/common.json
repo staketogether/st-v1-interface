@@ -660,6 +660,7 @@
       "networkFee": "Taxa de rede",
       "serviceCharge": "Taxa de serviço",
       "youReceived": "Você recebeu",
+      "copyCodeSuccess": "código copiado com sucesso",
       "kyc": {
         "title": "KYC - Conheça seu Cliente",
         "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Clique no botão abaixo para começar.",

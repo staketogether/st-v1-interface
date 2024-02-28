@@ -19,7 +19,7 @@ export default function CheckoutStep() {
   const handleCopyClipboard = () => {
     navigator.clipboard.writeText(qrCode?.brCode ?? '')
     notification.success({
-      message: `código copiado com sucesso`,
+      message: t('v2.ramp.copyCodeSuccess'),
       placement: 'topRight'
     })
   }
@@ -64,7 +64,7 @@ export default function CheckoutStep() {
 const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
   Container: styled.div`
     width: 420px;
-    font-size: 13px;
+    font-size: ${({ theme }) => theme.font.size[13]};
     font-weight: 400;
     display: flex;
     flex-direction: column;
@@ -73,18 +73,18 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
   PixArea: styled.div`
     display: grid;
     grid-template-rows: 127px 1fr;
-    border: 1px solid #A0A5AB;
-    border-radius: 8px;
+    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+    border-radius: ${({ theme }) => theme.size[8]};
   `,
   Header: styled.div`
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    background: linear-gradient(0deg, #F3F3F3, #F3F3F3),
-      linear-gradient(0deg, #A0A5AB, #A0A5AB);
+    background: linear-gradient(0deg, ${({ theme }) => theme.colorV2.gray[6]}, ${({ theme }) => theme.colorV2.gray[6]}),
+      linear-gradient(0deg, ${({ theme }) => theme.colorV2.gray[6]}, ${({ theme }) => theme.colorV2.gray[6]});
 
-    padding: 12px;
-    border-radius: 8px 8px 0px 0px;
-    gap: 12px;
+    padding: ${({ theme }) => theme.size[12]};
+    border-radius: ${({ theme }) => theme.size[8]} ${({ theme }) => theme.size[8]} 0px 0px;
+    gap: ${({ theme }) => theme.size[12]};
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -94,7 +94,7 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
       flex-direction: column;
       align-items: center;
       > span:last-child {
-        font-size: 22px;
+        font-size: ${({ theme }) => theme.font.size[22]};
         font-weight: 500;
         line-height: 27px;
         letter-spacing: 0em;
@@ -113,12 +113,12 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    padding: 24px;
+    gap: ${({ theme }) => theme.size[12]};
+    padding: ${({ theme }) => theme.size[24]};
     > span {
       //styleName: text 15 bold;
 
-      font-size: 15px;
+      font-size: ${({ theme }) => theme.font.size[15]};
       font-weight: 500;
       line-height: 18px;
       letter-spacing: 0em;
@@ -137,10 +137,10 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 12px;
-    gap: 12px;
-    border: 1px solid #A0A5AB;
-    border-radius: 8px;
+    padding: ${({ theme }) => theme.size[12]};
+    gap: ${({ theme }) => theme.size[12]};
+    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+    border-radius: ${({ theme }) => theme.size[8]};
 
   
   `

@@ -6,8 +6,6 @@ import ValidationList, { ValidationSteps } from './ValidationList';
 
 export default function WrapProcessingStep({ validationSteps, title }: { validationSteps: ValidationSteps[], title: string }) {
 
-
-
   return (
     <Container>
       <Header>
@@ -25,7 +23,7 @@ const { Container, Header } = {
     width: 420px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: ${({ theme }) => theme.size[24]};
   `,
   Header: styled.div`
     display: flex;
@@ -36,7 +34,7 @@ const { Container, Header } = {
       width: 80px;
     };
     > span {
-      font-size: 18px;
+      font-size: ${({ theme }) => theme.font.size[18]};
       font-weight: 500;
       line-height: 22px;
       letter-spacing: 0em;

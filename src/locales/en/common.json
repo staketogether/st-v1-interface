@@ -636,6 +636,7 @@
       "networkFee": "Network fee",
       "serviceCharge": "Service charge",
       "youReceived": "You received",
+      "copyCodeSuccess": "code copied successfully",
       "kyc": {
         "title": "KYC - Know your client",
         "description": "To buy ETH, you need to go through a KYC verification process. Click the button below to get started.",

@@ -22,13 +22,14 @@ type HomeProps = {
 
 export default function Home({ poolAddress, poolDetail }: HomeProps) {
   const router = useRouter()
+  const minAmount = '100'
   const { onInit: buyCrypto } = useTransak({
     productsAvailed: 'BUY'
   })
 
   useEffect(() => {
     if (router.query?.buy && (router.query.payment === 'pix' && router.query.provider == 'brla')) {
-      fiatAmountVar(router.query?.amount?.toString() ?? '100')
+      fiatAmountVar(router.query?.amount?.toString() ?? minAmount)
       openModal(true)
     } else if (router.query.payment === 'credit') {
       buyCrypto()
