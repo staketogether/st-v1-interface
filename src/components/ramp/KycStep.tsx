@@ -49,25 +49,18 @@ export default function KycStep() {
     const timestamp = Math.floor(newBirthDay.getTime() / 1000);
     let payload: KycPayload = {
       fullName: data.fullName,
-      email: data.fullName,
+      email: data.email,
       cpf: data.cpfOrCnpj,
       birthDateTimestamp: timestamp
     }
 
-
-
     if (chooseAccountType === TypeAccount.CNPJ) {
-
       payload = {
-        ...payload,
+        companyName: data.fullName,
+        email: data.email,
         cnpj: data.cpfOrCnpj,
         startDateTImestamp: timestamp
       }
-
-      // clear data
-      delete payload.cpf
-      delete payload.birthDateTimestamp
-
     }
 
 

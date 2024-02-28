@@ -20,6 +20,7 @@ export interface KycCreate {
 
 
 export interface KycPayload {
+  companyName?: string
   fullName?: string
   email?: string
   cpf?: string
