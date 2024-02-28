@@ -608,12 +608,29 @@
       "solana": "Solana Staking",
       "cosmos": "Cosmos Staking",
       "near": "Near Staking",
-      "polkadot": "Polkadot Staking"
+      "polkadot": "Polkadot Staking",
+      "productNotAvailable": "Product not available"
     },
     "notifyBar": {
       "incentives": {
         "title": "New Stake Together Feature",
         "description": "Incentive Airdrop is now available in your wallet. Check your eligibility and enjoy the benefits now!"
+      }
+    },
+    "ethereumStaking": {
+      "title": "Staking de Ethereum",
+      "description": "Description",
+      "statistics": "Statistics",
+      "ethereumDescription": "Ethereum is a decentralized platform that enables smart contracts and decentralized applications to be built and operated without any downtime, fraud, control, or interference from a third party. Ethereum is not just a platform but also a programming language running on a blockchain, helping developers to build and publish distributed applications.",
+      "contractAddress": "Contract Address",
+      "marketCap": "Market Cap",
+      "priceChange": "Price Change (1y)",
+      "highestValueWeeks": "Highest Value in the Last 52 Weeks",
+      "actions": {
+        "invest": "Invest",
+        "withdraw": "Withdraw",
+        "operationFee": "Operation Fee",
+        "balance": "Balance"
       }
     }
   }

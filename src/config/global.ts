@@ -8,6 +8,7 @@ interface GlobalConfig {
   stakeTogetherUniversityUrlEn: string
   docsPt: string
   docsEn: string
+  backendUrl: string
   fees: {
     operation: string
     rewards: string
@@ -23,6 +24,7 @@ export const globalConfig: GlobalConfig = {
   stakeTogetherUniversityUrlBr: 'https://university.staketogether.org/pt/collections/6550996-documentation',
   docsPt: 'https://docs.staketogether.org',
   docsEn: 'https://docs.staketogether.org/stake-together/v/stake-together-en/stake-together/what-we-do',
+  backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://st-report-airdrop-merkle-thz2yhu72a-ue.a.run.app',
   apy: '5.1',
   fees: {
     operation: '0',

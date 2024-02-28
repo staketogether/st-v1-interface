@@ -15,17 +15,23 @@ import { config } from '../config/wagmi'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
 import { ConfigProvider } from 'antd'
-import useGetCurrencyPrice from '@/hooks/useGetCurrencyPrice'
+import useGetCurrencyPerEthPrice from '@/hooks/useGetCurrencyPrice'
+import axios from 'axios'
+import { SWRConfig } from 'swr'
+import { globalConfig } from '@/config/global'
+import useGetQuotUsdForCurrency from '@/hooks/useGetUsdConversionRatesPrice'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
+  const { backendUrl } = globalConfig
 
   const router = useRouter()
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
   const chain = chainConfig()
 
   useSettingsCurrency()
-  useGetCurrencyPrice()
+  useGetCurrencyPerEthPrice()
+  useGetQuotUsdForCurrency()
 
   useEffect(() => {
     initMixpanel()
@@ -61,7 +67,18 @@ const App = ({ Component, pageProps }: AppProps) => {
                   }
                 }}
               >
-                <Component {...pageProps} />
+                <SWRConfig
+                  value={{
+                    revalidateIfStale: false,
+                    revalidateOnFocus: false,
+                    revalidateOnReconnect: false,
+                    errorRetryCount: 1,
+                    shouldRetryOnError: false,
+                    fetcher: (uri: string) => axios.get(`${backendUrl}/${uri}`).then(res => res.data)
+                  }}
+                >
+                  <Component {...pageProps} />
+                </SWRConfig>
               </ConfigProvider>
             </StyleSheetManager>
           </WagmiConfig>

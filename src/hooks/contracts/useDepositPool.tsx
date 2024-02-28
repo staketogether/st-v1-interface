@@ -49,6 +49,7 @@ export default function useDepositPool(
 
   const amountEstimatedGas = stConfig?.minDepositAmount || 0n
   const isDepositEnabled = enabled && netDepositAmount > 0n && !stConfigLoading
+  const isDepositEstimatedGas = !enabled && stConfigLoading
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
 
@@ -59,7 +60,7 @@ export default function useDepositPool(
     contractAddress: contracts.StakeTogether,
     abi: stakeTogetherABI,
     value: amountEstimatedGas,
-    skip: !isDepositEnabled || estimateGasCost > 0n
+    skip: isDepositEstimatedGas && estimateGasCost > 0n
   })
 
   useEffect(() => {

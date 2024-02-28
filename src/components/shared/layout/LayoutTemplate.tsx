@@ -93,13 +93,13 @@ const { Container, Wrapper, Content, Body } = {
     width: 100%;
     display: grid;
 
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
     grid-template-columns: 1fr;
     justify-content: center;
     place-items: start center;
     padding: ${({ theme }) => theme.size[16]};
 
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
       padding: 0;
     }
   `,
@@ -115,7 +115,7 @@ const { Container, Wrapper, Content, Body } = {
   `,
   Body: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
     gap: ${props => props.theme.size[32]};
     justify-content: center;
     place-items: center;
