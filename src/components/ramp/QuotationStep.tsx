@@ -8,6 +8,7 @@ import { ProviderType } from '@/types/provider.type';
 import { useReactiveVar } from '@apollo/client';
 import brlBrla from '@assets/icons/brl-brla.svg';
 import eth from '@assets/icons/eth-icon.svg';
+import { ethers } from 'ethers';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi';
@@ -26,14 +27,16 @@ export default function QuotationStep() {
   const [timerStarted, setTimerStarted] = useState<boolean>(false);
   const { t } = useLocaleTranslation()
 
+  const limit = ethers.toBigInt(value ?? 0) > ethers.toBigInt(kycLevelInfo?.limits.limitSwapBuy ?? 0)
+  const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
 
   const handleChange = (amount: string) => {
 
     const regex = /^\d*\.?\d{0,2}$/;
-    const newValue = amount;
+    const newValue = amount.replace(/\D/g, '');
 
 
-    if (regex.test(newValue) || newValue === '' || newValue === '.') {
+    if (regex.test(newValue) && newValue !== '' && newValue !== '.') {
       setValue(newValue);
       fiatAmountVar(newValue)
     }
@@ -70,12 +73,12 @@ export default function QuotationStep() {
     <Container>
       <header>{t('v2.ramp.quote.title')}:</header>
       <BoxValuesContainer>
-        <InputContainer>
+        <InputContainer className={`${error ? 'error' : ''}`}>
           <div>
             <Image src={brlBrla} width={36} height={24} alt='BRL' />
             <span>BRL</span>
           </div>
-          <input type='text' onChange={(({ target }) => handleChange(target.value))} value={value} />
+          <input type='number' onChange={(({ target }) => handleChange(target.value))} value={value} min={0} step={1} />
         </InputContainer>
         <ArrowDown />
         <InputContainer>
@@ -83,7 +86,7 @@ export default function QuotationStep() {
             <Image src={eth} width={36} height={24} alt='BRL' />
             <span>ETH</span>
           </div>
-          <input type='text' value={quote?.amountToken ?? 0} disabled />
+          <input type='number' value={quote?.amountToken ?? 0} disabled />
         </InputContainer>
       </BoxValuesContainer>
       <PriceInfoContainer>
@@ -92,7 +95,7 @@ export default function QuotationStep() {
         </span>
       </PriceInfoContainer>
       <Button
-        onClick={handleNext} disabled={Number(fiatAmount) <= 0} label={t('next')} icon={<PiArrowRight />} />
+        onClick={handleNext} disabled={Number(fiatAmount) <= 0 || error} label={t('next')} icon={<PiArrowRight />} />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
       </footer>
@@ -130,7 +133,6 @@ const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoConta
   `,
   InputContainer: styled.div`
     width: 100%;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -142,6 +144,13 @@ const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoConta
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
     font-weight: 500;
+
+    border: 1px solid transparent;
+
+    &.error {
+      border: 1px solid ${({ theme }) => theme.color.red[300]};
+    }
+    
 
     > div {
       font-size: ${({ theme }) => theme.font.size[15]};
