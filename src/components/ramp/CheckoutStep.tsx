@@ -25,7 +25,8 @@ export default function CheckoutStep() {
   }
 
   useEffect(() => {
-    if (activity?.type === 'pix-to-token' && activity.status === 'posted') {
+    // If activity exists, it means that the payment is being processed
+    if (activity?.type === 'pix-to-token') {
       stepsControlBuyCrypto(BrlaBuyEthStep.ProcessingCheckoutStep)
     }
   }, [activity])

@@ -19,17 +19,21 @@ export default function ProcessingCheckoutStep() {
     setTimeout(() => stepsControlBuyCrypto(BrlaBuyEthStep.Success), timeToRedirect)
   }
 
+  const isPaymentIdentified = activity?.status === 'posted'  || activity?.status === 'success'
+  const paymentIdentifiedIcon = isPaymentIdentified ? <PiCheckCircleFill size={32} color={theme.color.green[500]} /> : <PiClockLight size={32} color={theme.color.secondary} />
+
+  const isMintingBrla = activity?.status !== 'success'
+  const mintingBrlaIcon = isMintingBrla ? <PiClockLight size={32} color={theme.color.secondary} /> : <PiCheckCircleFill size={32} color={theme.color.green[500]} />
 
   const validationSteps = [
     {
-      icon: <PiCheckCircleFill size={32} color={theme.color.green[500]} />,
+      icon: paymentIdentifiedIcon,
       text: t('v2.ramp.paymentIdentified'),
-      disable: activity?.status !== 'posted' && activity?.status !== 'queued' && activity?.status !== 'success'
     },
     {
-      icon: <PiClockLight size={32} color={theme.color.secondary} />,
+      icon: mintingBrlaIcon,
       text: t('v2.ramp.mintingBRLA'),
-      disable: activity?.status !== 'queued' && activity?.status === 'posted'
+      disable: !isPaymentIdentified
     }
   ]
 

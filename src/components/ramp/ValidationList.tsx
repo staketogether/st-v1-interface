@@ -6,7 +6,7 @@ import styled from "styled-components";
 export interface ValidationSteps {
     icon: ReactNode
     text: string
-    disable: boolean
+    disable?: boolean
 }
 
 export default function ValidationList({ validationSteps }: Readonly<{ validationSteps: ValidationSteps[] }>) {
