@@ -647,7 +647,7 @@
       "ethereumDescription": "Stake Ethereum e ganhe recompensas de staking de Ethereum",
       "contractAddress": "Endereço do Contrato",
       "marketCap": "Valor de mercado",
-      "lowestValueWeeks": "Menor Valor 52 semanas",
+      "priceChange": "Variaço de preço (1 ano)",
       "highestValueWeeks": "Maior Valor 52 semanas",
       "actions": {
         "invest": "Investir",

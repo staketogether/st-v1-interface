@@ -36,10 +36,18 @@ const { Container, ActionContainer } = {
   Container: styled.div`
     width: 100%;
     min-width: 100%;
-    display: grid;
-    grid-template-columns: 1fr minmax(320px, 400px);
+
+    display: flex;
+    flex-direction: column-reverse;
+
     gap: ${({ theme }) => theme.size[24]};
-    align-items: start;
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      display: grid;
+      grid-template-columns: 1fr minmax(320px, 400px);
+      gap: ${({ theme }) => theme.size[24]};
+      align-items: start;
+    }
   `,
   ActionContainer: styled.div`
     width: 100%;
