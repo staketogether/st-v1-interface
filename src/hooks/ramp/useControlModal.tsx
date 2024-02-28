@@ -19,3 +19,11 @@ export const quoteVar = makeVar<Quote | undefined>(undefined)
 export const qrCodeVar = makeVar<BuyRamp | null>(null)
 export const kycLevel = makeVar<KycLevelInfo | null>(null)
 export const kycId = makeVar<string | null>(null)
+export const clearModal = () => {
+    qrCodeVar(null)
+    kycLevel(null)
+    kycId(null)
+    quoteVar(undefined)
+    fiatAmountVar('0')
+    openModal(false)
+}

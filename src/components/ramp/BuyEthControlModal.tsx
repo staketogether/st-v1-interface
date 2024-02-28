@@ -1,5 +1,5 @@
 import Modal from '@/components/shared/Modal';
-import { BrlaBuyEthStep, openModal, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal';
+import { BrlaBuyEthStep, clearModal, openModal, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { useReactiveVar } from '@apollo/client';
 import CheckoutStep from './CheckoutStep';
@@ -30,7 +30,7 @@ export default function BuyEthControlModal() {
       className={currentStep.toLowerCase()}
       title={title}
       isOpen={controlModal}
-      onClose={() => { openModal(false) }}
+      onClose={clearModal}
       width={'auto'}
       showCloseIcon={currentStep !== BrlaBuyEthStep.Success}>
       {steps[currentStep]}

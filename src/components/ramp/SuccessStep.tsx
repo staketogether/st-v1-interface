@@ -1,4 +1,4 @@
-import { openModal, quoteVar } from '@/hooks/ramp/useControlModal';
+import { clearModal, quoteVar } from '@/hooks/ramp/useControlModal';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { useReactiveVar } from '@apollo/client';
 import { PiCheckCircleFill } from 'react-icons/pi';
@@ -55,7 +55,7 @@ export default function SuccessStep() {
                 </Info>
 
             </DepositInfo>
-            <Button type="button" label={t('close')} onClick={() => openModal(false)} />
+            <Button type="button" label={t('close')} onClick={() => clearModal()} />
         </Container>
     )
 
