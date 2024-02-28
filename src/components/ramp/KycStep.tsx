@@ -18,6 +18,8 @@ export default function KycStep() {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const [formData, setFormaData] = useState<KycCreate>()
+  const [cpfOrCnpj, setCpfOrCnpj] = useState<string>()
+  const [birthDay, setBirthDay] = useState<string>()
 
   const {
     register,
@@ -51,6 +53,47 @@ export default function KycStep() {
   }, [data])
 
 
+  useEffect(() => {
+    setCpfOrCnpj('')
+  }, [chooseAccountType])
+
+  const cpfMask = (value: string) => {
+    const response = value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1')
+    setCpfOrCnpj(response)
+  }
+
+  const cnpjMask = (value: string) => {
+    const response = value
+      .replace(/\D+/g, '')
+      .replace(/(\d{2})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1/$2')
+      .replace(/(\d{4})(\d)/, '$1-$2')
+      .replace(/(-\d{2})\d+?$/, '$1')
+    setCpfOrCnpj(response)
+  }
+
+  const handleMaskDate = (value: string) => {
+    setBirthDay(value
+      .replace(/\D+/g, '')
+      .replace(/^(\d{2})(\d{2})(\d+)$/, '$1/$2/$3')
+    )
+
+  }
+
+  const handleMaskCpfOrCnpj = (value: string) => {
+
+    if (chooseAccountType === TypeAccount.CPF) {
+      cpfMask(value)
+      return
+    }
+    cnpjMask(value)
+  }
   return (
     <Container>
       <SwapInfo />
@@ -139,6 +182,8 @@ export default function KycStep() {
           register={register('cpfOrCnpj', {
             required: `${t('v2.createProject.formMessages.required')}`,
           })}
+          value={cpfOrCnpj}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => handleMaskCpfOrCnpj(event.target.value)}
           maxLength={64}
           error={errors.cpfOrCnpj?.message}
           placeholder={`${chooseAccountType === TypeAccount.CPF ? '000.000.000-00' : '00.000.000/00000-00'}`}
@@ -152,9 +197,11 @@ export default function KycStep() {
             required: `${t('v2.createProject.formMessages.required')}`,
             onBlur: () => trigger('birthDate')
           })}
-          maxLength={64}
+          value={birthDay}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => handleMaskDate(event.target.value)}
+          maxLength={10}
           error={errors.cpfOrCnpj?.message}
-          placeholder={'00/00/00'}
+          placeholder={'00/00/0000'}
         />
         <Button form='kycForm' type='submit' label={t('next')} icon={<PiArrowRight />} disabled={isLoading} />
       </FormContainer>
