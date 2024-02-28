@@ -19,7 +19,17 @@ export interface KycCreate {
 }
 
 
-export default function useKycCreate(provider: 'brla' | 'transak', taxId?: string, kycData?: KycCreate) {
+export interface KycPayload {
+  fullName?: string
+  email?: string
+  cpf?: string
+  birthDateTimestamp?: number
+  cnpj?: string
+  startDateTImestamp?: number
+}
+
+
+export default function useKycCreate(provider: 'brla' | 'transak', taxId?: string, kycData?: KycPayload) {
   const { backendUrl } = globalConfig
   const isValid = provider && taxId && kycData
   const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, { ...kycData, }).then(res => res.data)

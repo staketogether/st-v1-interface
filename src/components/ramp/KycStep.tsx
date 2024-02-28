@@ -1,5 +1,5 @@
 import { BrlaBuyEthStep, kycId, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal'
-import useKycCreate, { KycCreate, TypeAccount } from '@/hooks/ramp/useKycCreate'
+import useKycCreate, { KycCreate, KycPayload, TypeAccount } from '@/hooks/ramp/useKycCreate'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -17,7 +17,7 @@ import SwapInfo from './SwapInfo'
 export default function KycStep() {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
-  const [formData, setFormaData] = useState<KycCreate>()
+  const [formData, setFormaData] = useState<KycPayload>()
   const [cpfOrCnpj, setCpfOrCnpj] = useState<string>()
   const [birthDay, setBirthDay] = useState<string>()
 
@@ -38,8 +38,41 @@ export default function KycStep() {
   let isCalled = false
   const chooseAccountType = watch('accountType')
   const onSubmit = (data: KycCreate) => {
+
+
+    if (!data?.birthDate) {
+      return
+    }
+
+    const date = data.birthDate.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/, '$3-$2-$1');
+    const newBirthDay = new Date(date)
+    const timestamp = Math.floor(newBirthDay.getTime() / 1000);
+    let payload: KycPayload = {
+      fullName: data.fullName,
+      email: data.fullName,
+      cpf: data.cpfOrCnpj,
+      birthDateTimestamp: timestamp
+    }
+
+
+
+    if (chooseAccountType === TypeAccount.CNPJ) {
+
+      payload = {
+        ...payload,
+        cnpj: data.cpfOrCnpj,
+        startDateTImestamp: timestamp
+      }
+
+      // clear data
+      delete payload.cpf
+      delete payload.birthDateTimestamp
+
+    }
+
+
     isCalled = true
-    setFormaData(data)
+    setFormaData(payload)
     if (isCalled) {
       mutate()
     }
