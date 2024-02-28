@@ -10,6 +10,7 @@ import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { WithdrawType } from '@/types/Withdraw'
 import ethIcon from '@assets/icons/eth-icon.svg'
+import pixImage from '@assets/images/pix-image.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
@@ -27,6 +28,7 @@ import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
+import { BrlaBuyEthStep, openModal, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
@@ -35,6 +37,7 @@ import { formatNumberByLocale } from '../../services/format'
 import StpEthIcon from '../shared/StpethIcon'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
+
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -241,10 +244,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     (insufficientWithdrawalBalance &&
       `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
     (prepareTransactionErrorMessage &&
-      `${
-        type === 'deposit'
-          ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
-          : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
+      `${type === 'deposit'
+        ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
+        : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
       }`) ||
     ''
 
@@ -318,6 +320,12 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
       return
     }
     setAmount(truncateWei(balance, 18, true))
+  }
+
+  const handleActiveRamp = () => {
+    // reset process
+    stepsControlBuyCrypto(BrlaBuyEthStep.Quotation)
+    openModal(true)
   }
 
   const cantDeposit =
@@ -411,6 +419,11 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         )}
 
         {type === 'deposit' && accountAddress && <Button onClick={buyCrypto} label={t('buyCryptoTitle')} />}
+        {type === 'deposit' && (
+          <OnRampButton onClick={handleActiveRamp}>
+            <Image src={pixImage} width={32} height={32} alt='pix image' /> Comprar ETH com PIX
+          </OnRampButton>
+        )}
 
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
           <CardBlock>
@@ -460,6 +473,7 @@ const {
   CardInfoData,
   ConnectWalletIcon,
   DepositIcon,
+  OnRampButton,
   WithdrawIcon
 } = {
   StakeContainer: styled.div`
@@ -582,5 +596,20 @@ const {
   `,
   WithdrawIcon: styled(PiArrowUp)`
     font-size: 16px;
+  `,
+  OnRampButton: styled.button`
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+
+    border-radius: ${({ theme }) => theme.size[8]};
+    border: 1px solid #00bdae;
+    background: ${({ theme }) => theme.colorV2.white};
+    color: #00bdae;
+
+    font-weight: 500;
+    font-size: ${({ theme }) => theme.font.size[15]};
   `
 }

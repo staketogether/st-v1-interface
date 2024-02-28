@@ -641,6 +641,48 @@
         "description": "Airdrop de Incentivos já está disponível em sua carteira. Verifique sua elegibilidade e aproveite os benefícios agora!"
       }
     },
+    "ramp": {
+      "title": "Comprar ETH com PIX",
+      "success": "Deposito concluido com sucesso!",
+      "checkOut": "Check out",
+      "processingRegistration": "Processando Cadastro",
+      "processingPayment": "Processando Pagamento",
+      "generatingQRCode": "Gerando QR Code",
+      "paymentIdentified": "Pagamento identificado",
+      "mintingBRLA": "Mintagem BRLA na Blockchain",
+      "swapBrlToEth": "Swap  BRLA para ETH",
+      "amountToBePaid": "Valor a ser pago",
+      "useThePixQRCode": "Use o QR Code do Pix para pagar",
+      "orUseThePixKey": "Ou use a Chave Pix",
+      "cancelDeposit": "Cancelar Depósito",
+      "copyQrCode": "Copiar código do QR Code",
+      "yourEths": "Seus ETH já estão disponível na sua conta!",
+      "exchange": "Câmbio",
+      "networkFee": "Taxa de rede",
+      "serviceCharge": "Taxa de serviço",
+      "youReceived": "Você recebeu",
+      "copyCodeSuccess": "código copiado com sucesso",
+      "kyc": {
+        "title": "KYC - Conheça seu Cliente",
+        "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Clique no botão abaixo para começar.",
+        "level": "Nível KYC",
+        "limit": "Limite",
+        "usedLimit": "Limite usado",
+        "typeAccount": "Tipo de conta",
+        "fullName": "Nome Completo",
+        "namePlaceholder": "Insira seu nome igual ao do seu documento",
+        "emailPlaceholder": "Insira seu e-mail para contato",
+        "companyName": "Nome Social",
+        "birthday": "Data de nascimento",
+        "foundationDate": "Data de fundação"
+      },
+      "quote": {
+        "title": "Compre Ethereum direto via PIX",
+        "updateQuote": "Preço atualiza em",
+        "terms": "Ao continuar você concorda com nossas",
+        "policies": "políticas"
+      }
+    },
     "ethereumStaking": {
       "title": "Staking de Ethereum",
       "description": "Descrição",

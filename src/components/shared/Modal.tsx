@@ -100,6 +100,13 @@ const { ModalWrapper, Overlay, CloseButton } = {
       font-weight: 500;
     }
 
+    &.success {
+      > header {
+        text-align: center;
+        color: ${({ theme }) => theme.color.green[500]}
+      }
+    }
+
     @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
       width: 100%;
       max-width: 95%;
