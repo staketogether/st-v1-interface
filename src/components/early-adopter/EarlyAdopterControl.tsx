@@ -3,44 +3,56 @@ import styled from 'styled-components'
 import Button from '../shared/Button'
 import nftEarlyAdopter from '@assets/images/nft-early-adopter.png'
 import Image from 'next/image'
+import EarlyAdopterFormModal from './EarlyAdopterForm'
+import { useAccount } from 'wagmi'
 export default function EarlyAdopterControl() {
   const [openModal, setOpenModal] = React.useState(false)
+  const { address } = useAccount()
   return (
-    <Container>
-      <MessageContainer>
-        <header>
-          <h1 className='purple'>Early Adopter</h1>
-          <h1>Stake Together</h1>
-        </header>
-        <p>
-          Faça parte da comunidade de Early Adopters Stake Together, ganhe um NFT exclusivo e tenha acesso ao
-          nosso programa de Incentivos e Airdrops.
-        </p>
-        <span>1x NFT por carteira, Ends March 31 at XX time</span>
-        <Button label={'Participar'} onClick={() => setOpenModal(true)} />
-      </MessageContainer>
-      <ImageContainer>
-        <NftCard>
-          <Image src={nftEarlyAdopter} alt='gifts' />
-          <div>
-            <span>Stake Together Early Adopters </span>
-          </div>
-          <div>
-            <span className='small'>0% minted</span>
-            <span className='small'>0/1000</span>
-          </div>
-        </NftCard>
-      </ImageContainer>
-    </Container>
+    <>
+      <Container>
+        <MessageContainer>
+          <header>
+            <h1 className='purple'>Early Adopter</h1>
+            <h1>Stake Together</h1>
+          </header>
+          <p>
+            Join the Early Adopters Stake Together community, earn an exclusive NFT, and gain access to our
+            Incentives and Airdrops program
+          </p>
+          <span>1x NFT by wallet, ends march 31 at 11PM time</span>
+          <Button label={'Participate'} onClick={() => setOpenModal(true)} />
+        </MessageContainer>
+        <ImageContainer>
+          <NftCard>
+            <Image src={nftEarlyAdopter} alt='gifts' />
+            <div>
+              <span>Stake Together Early Adopters </span>
+            </div>
+            <div>
+              <span className='small'>0% minted</span>
+              <span className='small'>0/1000</span>
+            </div>
+          </NftCard>
+        </ImageContainer>
+      </Container>
+      <EarlyAdopterFormModal isOpen={openModal} setIsOpen={setOpenModal} walletAddress={address} />
+    </>
   )
 }
 const { Container, MessageContainer, ImageContainer, NftCard } = {
   Container: styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
-    align-items: flex-start;
-    padding-top: 60px;
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: ${({ theme }) => theme.size[24]};
+      align-items: flex-start;
+      padding-top: 60px;
+    }
   `,
   MessageContainer: styled.div`
     display: flex;
@@ -53,20 +65,30 @@ const { Container, MessageContainer, ImageContainer, NftCard } = {
 
       gap: ${({ theme }) => theme.size[4]};
       h1 {
-        font-size: 48px;
-        font-weight: 600;
+        font-size: 44px;
+        font-weight: 500;
         color: ${({ theme }) => theme.colorV2.blue[1]};
         &.purple {
           color: ${({ theme }) => theme.colorV2.purple[1]};
         }
       }
+      @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+        h1 {
+          font-size: 48px;
+        }
+      }
     }
 
     > p {
-      font-size: 20px;
+      font-size: 18px;
       color: ${({ theme }) => theme.colorV2.gray[1]};
       opacity: 0.8;
       line-height: 28px;
+    }
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      p {
+        font-size: 20px;
+      }
     }
 
     > span {
@@ -81,8 +103,15 @@ const { Container, MessageContainer, ImageContainer, NftCard } = {
       border-radius: 8px;
 
       color: ${({ theme }) => theme.colorV2.blue[1]};
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 500;
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      span {
+        font-size: 15px;
+        text-align: start;
+      }
     }
   `,
   ImageContainer: styled.div`
