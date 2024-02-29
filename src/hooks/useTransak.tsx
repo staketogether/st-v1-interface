@@ -1,9 +1,9 @@
 import { Transak, TransakConfig } from '@transak/transak-sdk'
+import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { useTheme } from 'styled-components'
-import useLocaleTranslation from './useLocaleTranslation'
-import { useRouter } from 'next/router'
 import useConnectedAccount from './useConnectedAccount'
+import useLocaleTranslation from './useLocaleTranslation'
 
 type TransakProps = {
   onSuccess?: () => void
@@ -13,6 +13,7 @@ type TransakProps = {
 export default function useTransak(config?: TransakProps) {
   const { t } = useLocaleTranslation()
   const theme = useTheme()
+  const [isClosed, setIsClosed] = useState(false)
   const defaultTransakConfig: TransakConfig = useMemo(
     () => ({
       apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY as string,
@@ -51,12 +52,12 @@ export default function useTransak(config?: TransakProps) {
   }, [transakConfig])
 
   useEffect(() => {
-    Transak.on('*', data => {
-      console.log(data)
-    })
 
     Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => {
-      console.log('Transak SDK closed!')
+      setIsClosed(true)
+    })
+    Transak.on(Transak.EVENTS.TRANSAK_WIDGET_INITIALISED, () => {
+      setIsClosed(false)
     })
 
     Transak.on(Transak.EVENTS.TRANSAK_ORDER_CREATED, orderData => {
@@ -81,5 +82,5 @@ export default function useTransak(config?: TransakProps) {
   const onClose = () => {
     transak.close()
   }
-  return { transak, onInit, onClose }
+  return { transak, onInit, onClose, isClosed }
 }

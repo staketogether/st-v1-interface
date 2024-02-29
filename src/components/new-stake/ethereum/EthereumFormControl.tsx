@@ -1,13 +1,14 @@
-import React from 'react'
+import Button from '@/components/shared/Button'
+import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
+import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import useStAccount from '@/hooks/subgraphs/useStAccount'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import EthereumDeposit from './EthereumDeposit'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
 import EthereumWithdraw from './EthereumWithdraw'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
-import useStAccount from '@/hooks/subgraphs/useStAccount'
-import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 
 type EthereumFormControlProps = {
   type: 'deposit' | 'withdraw'
@@ -25,6 +26,8 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
   } = useEthBalanceOf(account)
   const { accountBalance: stpETHBalance, accountIsLoading: stpETHBalanceLoading } = useStAccount(account)
 
+
+
   return (
     <EthereumContainer>
       <header>
@@ -38,6 +41,7 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
             </li>
           </ul>
         </nav>
+        <Button label={`${t('buy')} ETH`} width={133} height={32} onClick={openQuoteEthModal} />
       </header>
       <div>
         {type === 'deposit' ? (

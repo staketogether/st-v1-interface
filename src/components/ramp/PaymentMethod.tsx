@@ -1,19 +1,33 @@
-import { BrlaBuyEthStep, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal';
+import { BrlaBuyEthStep, openBrlaModalVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal';
+import useTransak from '@/hooks/useTransak';
 import CreditCard from '@assets/images/master-visa.svg';
 import Pix from '@assets/images/pix-full.svg';
 import Image from 'next/image';
+import { useEffect } from 'react';
 import styled from "styled-components";
 import Button from '../shared/Button';
 
 export default function PaymentMethod() {
 
+    const { onInit, isClosed } = useTransak({
+        productsAvailed: 'BUY'
+    })
 
     const handlePix = () => {
-        stepsControlBuyCrypto(BrlaBuyEthStep.Quotation)
+        stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
     }
     const handleCreditCard = () => {
-        stepsControlBuyCrypto(BrlaBuyEthStep.MethodPayment)
+        stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
+        onInit()
     }
+
+    useEffect(() => {
+        if (isClosed) {
+            openBrlaModalVar(false)
+        }
+    }, [isClosed])
+
+
     return (
         <Container>
             <Button title='Pix'
@@ -28,7 +42,7 @@ export default function PaymentMethod() {
             <Button title='Cartão Crédito'
                 height={56}
                 padding='12px'
-                onClick={() => console.log('')}
+                onClick={handleCreditCard}
                 label='Cartão Crédito' iconLeft block
                 className="outline eachSide"
                 color="gray"

@@ -1,3 +1,4 @@
+import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo';
 import { Quote } from "@/types/quote.type";
 import { makeVar } from "@apollo/client";
 import { BuyRamp } from "./useBuyRamp";
@@ -13,18 +14,24 @@ export enum BrlaBuyEthStep {
     Success = 'Success'
 
 }
-export const openModal = makeVar(true)
+export const openBrlaModalVar = makeVar(false)
 export const fiatAmountVar = makeVar<string>('0')
-export const stepsControlBuyCrypto = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.MethodPayment)
+export const stepsControlBuyCryptoVar = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.Quotation)
 export const quoteVar = makeVar<Quote | undefined>(undefined)
 export const qrCodeVar = makeVar<BuyRamp | null>(null)
-export const kycLevel = makeVar<KycLevelInfo | null>(null)
-export const kycId = makeVar<string | null>(null)
+export const kycLevelVar = makeVar<KycLevelInfo | null>(null)
+export const kycIdVar = makeVar<string | null>(null)
+export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
 export const clearModal = () => {
     qrCodeVar(null)
-    kycLevel(null)
-    kycId(null)
+    kycLevelVar(null)
+    kycIdVar(null)
     quoteVar(undefined)
     fiatAmountVar('0')
-    openModal(false)
+    openBrlaModalVar(false)
+}
+
+export const openQuoteEthModal = () => {
+    stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
+    openBrlaModalVar(true)
 }

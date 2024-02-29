@@ -1,4 +1,4 @@
-import { BrlaBuyEthStep, kycId, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, kycIdVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useKycCreate, { KycCreate, KycPayload, TypeAccount } from '@/hooks/ramp/useKycCreate'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ChangeEvent, useEffect, useState } from 'react'
@@ -80,8 +80,8 @@ export default function KycStep() {
 
   useEffect(() => {
     if (data?.id) {
-      kycId(data?.id)
-      stepsControlBuyCrypto(BrlaBuyEthStep.ProcessingKyc)
+      kycIdVar(data?.id)
+      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
     }
   }, [data])
 

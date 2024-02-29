@@ -1,4 +1,4 @@
-import { BrlaBuyEthStep, qrCodeVar, stepsControlBuyCrypto } from "@/hooks/ramp/useControlModal"
+import { BrlaBuyEthStep, qrCodeVar, stepsControlBuyCryptoVar } from "@/hooks/ramp/useControlModal"
 import useVerifyActivity from "@/hooks/ramp/useVerifyActivity"
 import useLocaleTranslation from "@/hooks/useLocaleTranslation"
 import { ProviderType } from "@/types/provider.type"
@@ -16,7 +16,7 @@ export default function ProcessingCheckoutStep() {
   const { activity } = useVerifyActivity(ProviderType.brla, qrCode?.id)
 
   if (activity?.status === 'success') {
-    setTimeout(() => stepsControlBuyCrypto(BrlaBuyEthStep.Success), timeToRedirect)
+    setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Success), timeToRedirect)
   }
 
 
