@@ -9,9 +9,9 @@ export default function useQuoteRamp(
     chainId: number, fiatCurrencyCode: string, amount?: number, isCryptoAmount: number = 0, provider?: ProviderType, paymentMethod?: PaymentMethodType
 ) {
     const url = `api/ramp/quote/${provider}?chainId=${chainId}&paymentMethod=${paymentMethod}&fiatCurrencyCode=${fiatCurrencyCode}&amount=${amount}&isCryptoAmount=${isCryptoAmount}`
-    const { data, error } = useSWR<Quote>((chainId && fiatCurrencyCode && amount && provider && paymentMethod) ? url : null, { refreshInterval: 5000 })
+    const { data, error, isLoading, isValidating } = useSWR<Quote>((chainId && fiatCurrencyCode && amount && provider && paymentMethod) ? url : null, { refreshInterval: 6000, revalidateOnMount: true })
     quoteVar(data)
-    return { quote: data, error }
+    return { quote: data, error, isLoading, isValidating }
 
 
 }

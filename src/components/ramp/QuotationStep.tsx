@@ -1,5 +1,5 @@
 import Button from '@/components/shared/Button';
-import { BrlaBuyEthStep, fiatAmountVar, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal';
+import { BrlaBuyEthStep, fiatAmountVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal';
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo';
 import useQuoteBrla from '@/hooks/ramp/useQuote';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
@@ -20,7 +20,7 @@ export default function QuotationStep() {
   const initialSeconds = 5;
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0);
-  const { quote } = useQuoteBrla(1, 'brl', Number(value), 0, ProviderType.brla, PaymentMethodType.pix)
+  const { quote, isValidating: quoteIsValidating } = useQuoteBrla(1, 'brl', Number(value), 0, ProviderType.brla, PaymentMethodType.pix)
   const { address } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', address)
   const [seconds, setSeconds] = useState<number>(5);
@@ -53,20 +53,19 @@ export default function QuotationStep() {
   }, [timerStarted, seconds]);
 
   useEffect(() => {
-    if (quote) {
+    if (!quoteIsValidating) {
       setSeconds(initialSeconds);
-      setTimerStarted(false);
       setTimerStarted(true);
     }
-  }, [quote])
+  }, [quoteIsValidating])
 
   const handleNext = useCallback(() => {
     if (!kycLevelInfo?.level) {
-      stepsControlBuyCrypto(BrlaBuyEthStep.Kyc)
+      stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc)
       return
     }
 
-    stepsControlBuyCrypto(BrlaBuyEthStep.ProcessingKyc)
+    stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
   }, [kycLevelInfo?.level])
 
   return (
@@ -91,7 +90,7 @@ export default function QuotationStep() {
       </BoxValuesContainer>
       <PriceInfoContainer>
         <span className='gray'>
-          <PiClock style={{ fontSize: 16 }} /> <span>{t('v2.ramp.quote.updateQuote')} {quote?.amountCrypto ? seconds : 5}s</span>
+          <PiClock style={{ fontSize: 16 }} /> <span>{t('v2.ramp.quote.updateQuote')} {quote?.amountToken ? seconds : 5}s</span>
         </span>
       </PriceInfoContainer>
       <Button

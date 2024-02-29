@@ -1,5 +1,5 @@
 import Modal from '@/components/shared/Modal';
-import { BrlaBuyEthStep, clearModal, openModal, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal';
+import { BrlaBuyEthStep, clearModal, openBrlaModalVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { useReactiveVar } from '@apollo/client';
 import CheckoutStep from './CheckoutStep';
@@ -21,8 +21,8 @@ export default function BuyEthControlModal() {
     Success: <SuccessStep />
   }
 
-  const controlModal = useReactiveVar(openModal)
-  const currentStep = useReactiveVar(stepsControlBuyCrypto)
+  const controlModal = useReactiveVar(openBrlaModalVar)
+  const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
   const title = currentStep === BrlaBuyEthStep.Success ? t('v2.ramp.success') : t('v2.ramp.title')
 
   return (

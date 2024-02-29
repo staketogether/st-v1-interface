@@ -1,4 +1,4 @@
-import { BrlaBuyEthStep, qrCodeVar, quoteVar, stepsControlBuyCrypto } from "@/hooks/ramp/useControlModal"
+import { BrlaBuyEthStep, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from "@/hooks/ramp/useControlModal"
 import useVerifyActivity from "@/hooks/ramp/useVerifyActivity"
 import useLocaleTranslation from "@/hooks/useLocaleTranslation"
 import { ProviderType } from "@/types/provider.type"
@@ -9,11 +9,15 @@ import { PiCopy } from "react-icons/pi"
 import styled from "styled-components"
 import Button from "../shared/Button"
 import SwapInfo from "./SwapInfo"
+import usePixBankInfo from '@/hooks/ramp/usePixBankInfo'
+import { useAccount } from 'wagmi'
 
 export default function CheckoutStep() {
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
   const quote = useReactiveVar(quoteVar)
+  const { address } = useAccount()
+  const { pixBankInfo } = usePixBankInfo(ProviderType.brla, qrCode?.id, address)
   const { activity } = useVerifyActivity(ProviderType.brla, qrCode?.id)
 
   const handleCopyClipboard = () => {
@@ -26,7 +30,7 @@ export default function CheckoutStep() {
 
   useEffect(() => {
     if (activity?.type === 'pix-to-token' && activity.status === 'posted') {
-      stepsControlBuyCrypto(BrlaBuyEthStep.ProcessingCheckoutStep)
+      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingCheckoutStep)
     }
   }, [activity])
   return (
@@ -39,9 +43,9 @@ export default function CheckoutStep() {
             <span>R$ {quote?.amountBrl}</span>
           </div>
           <span>
-            Para `Nome da empresa responsável`
-            Banco: 237 - Bradesco
-            Identificador: ##########
+            Para {pixBankInfo?.name}
+            {pixBankInfo?.taxId}
+            Banco: {pixBankInfo?.bankName}
           </span>
         </Header>
         <Body>

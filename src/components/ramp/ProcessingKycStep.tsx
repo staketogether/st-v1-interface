@@ -1,5 +1,5 @@
 import useBuyRamp, { BuyRampRequest } from '@/hooks/ramp/useBuyRamp';
-import { BrlaBuyEthStep, kycId, kycLevel, qrCodeVar, quoteVar, stepsControlBuyCrypto } from '@/hooks/ramp/useControlModal';
+import { BrlaBuyEthStep, kycIdVar, kycLevelVar, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal';
 import useVerifyActivity from '@/hooks/ramp/useVerifyActivity';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { PaymentMethodType } from '@/types/payment-method.type';
@@ -19,8 +19,8 @@ export default function ProcessingKycStep() {
   const [rampData, setRampData] = useState<BuyRampRequest | undefined>(undefined)
   const { t } = useLocaleTranslation()
   const { buyRampResponse } = useBuyRamp('brla', rampData)
-  const kycActivity = useReactiveVar(kycId)
-  const kyc = useReactiveVar(kycLevel)
+  const kycActivity = useReactiveVar(kycIdVar)
+  const kyc = useReactiveVar(kycLevelVar)
   const kycActivityId = kyc?.level && kycActivity ? undefined : kycActivity
   const { activity } = useVerifyActivity(ProviderType.brla, kycActivityId ?? undefined)
 
@@ -41,7 +41,7 @@ export default function ProcessingKycStep() {
   useEffect(() => {
     if (buyRampResponse?.brCode) {
       qrCodeVar(buyRampResponse)
-      stepsControlBuyCrypto(BrlaBuyEthStep.Checkout)
+      stepsControlBuyCryptoVar(BrlaBuyEthStep.Checkout)
     }
 
   }, [buyRampResponse])
