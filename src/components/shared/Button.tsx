@@ -16,6 +16,8 @@ type ButtonProps = InputHTMLAttributes<HTMLButtonElement> & {
   className?: string
   color?: 'primary' | 'green' | 'red' | 'gray'
   fontSize?: number
+  height?: number
+  padding?: string
 }
 
 export default function Button({
@@ -32,6 +34,8 @@ export default function Button({
   color = 'primary',
   ghost = false,
   fontSize = 16,
+  height,
+  padding,
   ...props
 }: ButtonProps) {
 
@@ -42,6 +46,8 @@ export default function Button({
       disabled={disabled || isLoading}
       type={type}
       fontSize={fontSize}
+      height={height}
+      padding={padding}
       className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${color && `${color}`
         }  ${className}`}
 
@@ -55,18 +61,15 @@ export default function Button({
 }
 
 const { Container, LoadingIcon } = {
-  Container: styled.button<{ fontSize?: number }>`
+  Container: styled.button<{ fontSize?: number, height?: number, padding?: string }>`
     border: none;
-
     color: ${({ theme }) => theme.color.white};
     border-radius: ${props => props.theme.size[8]};
     background: ${({ theme }) => theme.color.primary};
     transition: background-color 0.2s ease;
-    height: 48px;
-    padding: 0px 16px;
-
+    height: ${({ height }) => height ? `${height}px` : '48px'};
+    padding: ${({ padding }) => padding ?? '0px 16px'};
     font-size: ${({ theme, fontSize }) => fontSize ? `${fontSize}px` : theme.font.size[16]};
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,11 +154,28 @@ const { Container, LoadingIcon } = {
         }
       }
     }
+    
     &.outline {
       background: transparent;
       color: ${({ theme }) => theme.color.primary};
       border: 1px solid ${({ theme }) => theme.color.primary};
       font-weight: 500;
+      &.gray {
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        border: 1px solid ${({ theme }) => theme.colorV2.gray[1]};
+        &:hover {
+          color: ${({ theme }) => theme.color.secondary};
+        }
+      }
+    }
+
+    &.eachSide {
+      justify-content: inherit;
+
+      > * {
+        margin: 0 0 0 auto;
+      }
+
     }
   `,
   LoadingIcon: styled(Loading)`

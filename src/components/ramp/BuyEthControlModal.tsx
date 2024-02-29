@@ -4,6 +4,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation';
 import { useReactiveVar } from '@apollo/client';
 import CheckoutStep from './CheckoutStep';
 import KycStep from './KycStep';
+import PaymentMethod from './PaymentMethod';
 import ProcessingCheckoutStep from './ProcessingCheckoutStep';
 import ProcessingKycStep from './ProcessingKycStep';
 import QuotationStep from './QuotationStep';
@@ -13,6 +14,7 @@ export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
 
   const steps = {
+    MethodPayment: <PaymentMethod />,
     Quotation: <QuotationStep />,
     Kyc: <KycStep />,
     ProcessingKyc: <ProcessingKycStep />,
@@ -23,8 +25,11 @@ export default function BuyEthControlModal() {
 
   const controlModal = useReactiveVar(openModal)
   const currentStep = useReactiveVar(stepsControlBuyCrypto)
-  const title = currentStep === BrlaBuyEthStep.Success ? t('v2.ramp.success') : t('v2.ramp.title')
-
+  const titleList: { [key: string]: string } = {
+    'Success': t('v2.ramp.success'),
+    'MethodPayment': 'Provedores',
+  }
+  const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title')
   return (
     <Modal
       className={currentStep.toLowerCase()}
