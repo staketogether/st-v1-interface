@@ -72,7 +72,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       })
       .then(res => res.data)
   const { data, isLoading: dataChartLoading } = useSWR<{ price_history: [number, number][] }>(
-    `mobula/market-history`,
+    `api/mobula/market-history`,
     fetcher
   )
 
@@ -92,7 +92,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       })
       .then(res => res.data)
   const { data: assetData, isLoading } = useSWR<MarketAssetData>(
-    `mobula/market-asset-data`,
+    `api/mobula/market-asset-data`,
     fetcherMarketAssetData
   )
 
