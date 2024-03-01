@@ -10,7 +10,6 @@ import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { WithdrawType } from '@/types/Withdraw'
 import ethIcon from '@assets/icons/eth-icon.svg'
-import pixImage from '@assets/images/pix-image.svg'
 import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
@@ -28,8 +27,6 @@ import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
-import { BrlaBuyEthStep, openBrlaModalVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
-import useTransak from '@/hooks/useTransak'
 import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckeredDuotone } from 'react-icons/pi'
@@ -37,6 +34,7 @@ import { formatNumberByLocale } from '../../services/format'
 import StpEthIcon from '../shared/StpethIcon'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
+import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
@@ -54,20 +52,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
   } = useEthBalanceOf(accountAddress)
 
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
-
-  const handleRefetchEthBalance = useCallback(() => {
-    refetchEthBalance()
-  }, [refetchEthBalance])
-
-  const { onInit: buyCrypto } = useTransak({
-    onSuccess: handleRefetchEthBalance,
-    productsAvailed: 'BUY'
-  })
-
-  const { onInit: sellCrypto } = useTransak({
-    onSuccess: handleRefetchEthBalance,
-    productsAvailed: 'SELL'
-  })
 
   const {
     delegationBalance,
@@ -322,12 +306,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     setAmount(truncateWei(balance, 18, true))
   }
 
-  const handleActiveRamp = () => {
-    // reset process
-    stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
-    openBrlaModalVar(true)
-  }
-
   const cantDeposit =
     insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
 
@@ -360,7 +338,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           <CardInfo>
             <CardInfoData>
               <header>
-                <h4>{t('invested')}</h4>
+                <h4>{t('investedOnProject')}</h4>
               </header>
               {delegationSharesLoading ? (
                 <SkeletonLoading height={20} width={120} />
@@ -418,11 +396,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           />
         )}
 
-        {type === 'deposit' && accountAddress && <Button onClick={buyCrypto} label={t('buyCryptoTitle')} />}
-        {type === 'deposit' && (
-          <OnRampButton onClick={handleActiveRamp}>
-            <Image src={pixImage} width={32} height={32} alt='pix image' /> Comprar ETH com PIX
-          </OnRampButton>
+        {type === 'deposit' && accountAddress && (
+          <Button onClick={openQuoteEthModal} label={t('buyCryptoTitle')} />
         )}
 
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
@@ -437,7 +412,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           </CardBlock>
         )}
 
-        {type === 'withdraw' && accountAddress && <Button onClick={sellCrypto} label={t('sellCryptoTitle')} />}
         {accountAddress && (
           <StakeDescriptionCheckout
             amount={amount}
@@ -473,7 +447,6 @@ const {
   CardInfoData,
   ConnectWalletIcon,
   DepositIcon,
-  OnRampButton,
   WithdrawIcon
 } = {
   StakeContainer: styled.div`
@@ -596,20 +569,5 @@ const {
   `,
   WithdrawIcon: styled(PiArrowUp)`
     font-size: 16px;
-  `,
-  OnRampButton: styled.button`
-    height: 48px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
-
-    border-radius: ${({ theme }) => theme.size[8]};
-    border: 1px solid #00bdae;
-    background: ${({ theme }) => theme.colorV2.white};
-    color: #00bdae;
-
-    font-weight: 500;
-    font-size: ${({ theme }) => theme.font.size[15]};
   `
 }
