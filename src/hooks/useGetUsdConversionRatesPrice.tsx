@@ -10,7 +10,7 @@ export default function useGetUsdConversionRatesPrice() {
   const { backendUrl } = globalConfig
   const fetcher = (uri: string) => axios.get(`${backendUrl}/${uri}`).then(res => res.data)
 
-  useSWR<ExchangeRateApiResponse>(`api/fiat-currency-quote/usd-quotations`, fetcher, {
+  useSWR<ExchangeRateApiResponse>(`fiat-currency-quote/usd-quotations`, fetcher, {
     onSuccess: data => {
       const priceQuotation = data.conversion_rates
 
