@@ -25,7 +25,10 @@ export default function WrapProcessingStep({
 
 const { Container, Header } = {
   Container: styled.div`
-    max-width: 372px;
+    width: auto;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      min-width: 372px;
+    }
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};

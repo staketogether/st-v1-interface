@@ -235,7 +235,10 @@ export default function KycStep() {
 
 const { Container, KycLevelContainer, FormContainer, InputRadio, ContainerRadio } = {
   Container: styled.div`
-    max-width: 372px;
+    width: auto;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      min-width: 372px;
+    }
 
     display: grid;
     grid-template-columns: 1fr;
