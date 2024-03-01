@@ -25,7 +25,7 @@ const nextConfig = {
         permanent: false
       },
       {
-        source: 'brl/mainnet',
+        source: '/mainnet/brl',
         destination: 'mainnet/brl/product',
         permanent: false
       }
