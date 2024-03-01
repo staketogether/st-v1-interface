@@ -38,8 +38,8 @@ export default function Button({
   padding,
   ...props
 }: ButtonProps) {
-
-  const getIcon = () => (isLoading ? <LoadingIcon size={small ? 14 : 16} className={color && `${color}`} /> : icon)
+  const getIcon = () =>
+    isLoading ? <LoadingIcon size={small ? 14 : 16} className={color && `${color}`} /> : icon
   return (
     <Container
       onClick={onClick}
@@ -48,9 +48,9 @@ export default function Button({
       fontSize={fontSize}
       height={height}
       padding={padding}
-      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${color && `${color}`
-        }  ${className}`}
-
+      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${
+        color && `${color}`
+      }  ${className}`}
       {...props}
     >
       {!iconLeft && getIcon()}
@@ -61,15 +61,15 @@ export default function Button({
 }
 
 const { Container, LoadingIcon } = {
-  Container: styled.button<{ fontSize?: number, height?: number, padding?: string }>`
+  Container: styled.button<{ fontSize?: number; height?: number; padding?: string }>`
     border: none;
     color: ${({ theme }) => theme.color.white};
     border-radius: ${props => props.theme.size[8]};
     background: ${({ theme }) => theme.color.primary};
     transition: background-color 0.2s ease;
-    height: ${({ height }) => height ? `${height}px` : '48px'};
+    height: ${({ height }) => (height ? `${height}px` : '48px')};
     padding: ${({ padding }) => padding ?? '0px 16px'};
-    font-size: ${({ theme, fontSize }) => fontSize ? `${fontSize}px` : theme.font.size[16]};
+    font-size: ${({ theme, fontSize }) => (fontSize ? `${fontSize}px` : theme.font.size[16])};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -154,7 +154,7 @@ const { Container, LoadingIcon } = {
         }
       }
     }
-    
+
     &.outline {
       background: transparent;
       color: ${({ theme }) => theme.color.primary};
@@ -162,7 +162,7 @@ const { Container, LoadingIcon } = {
       font-weight: 500;
       &.gray {
         color: ${({ theme }) => theme.colorV2.gray[1]};
-        border: 1px solid ${({ theme }) => theme.colorV2.gray[1]};
+        border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
         &:hover {
           color: ${({ theme }) => theme.color.secondary};
         }
@@ -175,7 +175,6 @@ const { Container, LoadingIcon } = {
       > * {
         margin: 0 0 0 auto;
       }
-
     }
   `,
   LoadingIcon: styled(Loading)`

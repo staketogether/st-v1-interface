@@ -25,7 +25,7 @@ export default function WrapProcessingStep({
 
 const { Container, Header } = {
   Container: styled.div`
-    width: 420px;
+    max-width: 372px;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};

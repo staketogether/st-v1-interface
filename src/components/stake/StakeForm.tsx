@@ -38,7 +38,6 @@ import StpEthIcon from '../shared/StpethIcon'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 
-
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
   poolAddress: `0x${string}`
@@ -244,9 +243,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     (insufficientWithdrawalBalance &&
       `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
     (prepareTransactionErrorMessage &&
-      `${type === 'deposit'
-        ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
-        : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
+      `${
+        type === 'deposit'
+          ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
+          : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
       }`) ||
     ''
 

@@ -1,14 +1,14 @@
-import { BrlaBuyEthStep, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from "@/hooks/ramp/useControlModal"
-import useVerifyActivity from "@/hooks/ramp/useVerifyActivity"
-import useLocaleTranslation from "@/hooks/useLocaleTranslation"
-import { ProviderType } from "@/types/provider.type"
-import { useReactiveVar } from "@apollo/client"
-import { QRCode, notification } from "antd"
-import { useEffect } from "react"
-import { PiCopy } from "react-icons/pi"
-import styled from "styled-components"
-import Button from "../shared/Button"
-import SwapInfo from "./SwapInfo"
+import { BrlaBuyEthStep, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import useVerifyActivity from '@/hooks/ramp/useVerifyActivity'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProviderType } from '@/types/provider.type'
+import { useReactiveVar } from '@apollo/client'
+import { QRCode, notification } from 'antd'
+import { useEffect } from 'react'
+import { PiCopy } from 'react-icons/pi'
+import styled from 'styled-components'
+import Button from '../shared/Button'
+import SwapInfo from './SwapInfo'
 import usePixBankInfo from '@/hooks/ramp/usePixBankInfo'
 import { useAccount } from 'wagmi'
 
@@ -51,23 +51,35 @@ export default function CheckoutStep() {
         <Body>
           <span>{t('v2.ramp.useThePixQRCode')}</span>
           <Code value={qrCode?.brCode ?? ''} />
-          <Button form='kycForm' type='submit' label={t('v2.ramp.copyQrCode')} icon={<PiCopy />} iconLeft onClick={handleCopyClipboard} />
+          <Button
+            form='kycForm'
+            type='submit'
+            label={t('v2.ramp.copyQrCode')}
+            icon={<PiCopy />}
+            iconLeft
+            onClick={handleCopyClipboard}
+          />
         </Body>
-
-
       </PixArea>
       <KeyPixArea>
         <span>{t('v2.ramp.orUseThePixKey')}</span>
-        <Button type="button" label={qrCode?.brCode ?? ''} icon={<PiCopy />} iconLeft className="ghost" fontSize={10} />
+        <Button
+          type='button'
+          label={qrCode?.brCode ?? ''}
+          icon={<PiCopy />}
+          iconLeft
+          className='ghost'
+          fontSize={10}
+        />
       </KeyPixArea>
-      <Button type="button" label={t('v2.ramp.cancelDeposit')} className="outline" block />
+      <Button type='button' label={t('v2.ramp.cancelDeposit')} className='outline' block />
     </Container>
   )
 }
 
 const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
   Container: styled.div`
-    width: 420px;
+    max-width: 372px;
     font-size: ${({ theme }) => theme.font.size[13]};
     font-weight: 400;
     display: flex;
@@ -83,7 +95,11 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
   Header: styled.div`
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    background: linear-gradient(0deg, ${({ theme }) => theme.colorV2.gray[6]}, ${({ theme }) => theme.colorV2.gray[6]}),
+    background: linear-gradient(
+        0deg,
+        ${({ theme }) => theme.colorV2.gray[6]},
+        ${({ theme }) => theme.colorV2.gray[6]}
+      ),
       linear-gradient(0deg, ${({ theme }) => theme.colorV2.gray[6]}, ${({ theme }) => theme.colorV2.gray[6]});
 
     padding: ${({ theme }) => theme.size[12]};
@@ -103,14 +119,11 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
         line-height: 27px;
         letter-spacing: 0em;
         text-align: left;
-
       }
     }
     > span {
       text-align: center;
     }
-
-
   `,
   Body: styled.div`
     display: flex;
@@ -127,15 +140,12 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
       line-height: 18px;
       letter-spacing: 0em;
       text-align: left;
-
     }
-  
   `,
   Code: styled(QRCode)`
     border: none;
     width: 120px !important;
     height: 120px !important;
-  
   `,
   KeyPixArea: styled.div`
     display: flex;
@@ -145,7 +155,5 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
     gap: ${({ theme }) => theme.size[12]};
     border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
     border-radius: ${({ theme }) => theme.size[8]};
-
-  
   `
 }

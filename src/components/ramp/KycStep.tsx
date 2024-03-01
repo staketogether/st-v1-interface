@@ -11,9 +11,6 @@ import Input from '../shared/inputs/Input'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 import SwapInfo from './SwapInfo'
 
-
-
-
 export default function KycStep() {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
@@ -26,8 +23,7 @@ export default function KycStep() {
     handleSubmit,
     trigger,
     watch,
-    formState: { errors },
-
+    formState: { errors }
   } = useForm<KycCreate>({
     defaultValues: {
       accountType: TypeAccount.CPF
@@ -38,15 +34,13 @@ export default function KycStep() {
   let isCalled = false
   const chooseAccountType = watch('accountType')
   const onSubmit = (data: KycCreate) => {
-
-
     if (!data?.birthDate) {
       return
     }
 
-    const date = data.birthDate.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/, '$3-$2-$1');
+    const date = data.birthDate.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/, '$3-$2-$1')
     const newBirthDay = new Date(date)
-    const timestamp = Math.floor(newBirthDay.getTime() / 1000);
+    const timestamp = Math.floor(newBirthDay.getTime() / 1000)
     let payload: KycPayload = {
       fullName: data.fullName,
       email: data.fullName,
@@ -54,10 +48,7 @@ export default function KycStep() {
       birthDateTimestamp: timestamp
     }
 
-
-
     if (chooseAccountType === TypeAccount.CNPJ) {
-
       payload = {
         ...payload,
         cnpj: data.cpfOrCnpj,
@@ -67,9 +58,7 @@ export default function KycStep() {
       // clear data
       delete payload.cpf
       delete payload.birthDateTimestamp
-
     }
-
 
     isCalled = true
     setFormaData(payload)
@@ -84,7 +73,6 @@ export default function KycStep() {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
     }
   }, [data])
-
 
   useEffect(() => {
     setCpfOrCnpj('')
@@ -112,15 +100,10 @@ export default function KycStep() {
   }
 
   const handleMaskDate = (value: string) => {
-    setBirthDay(value
-      .replace(/\D+/g, '')
-      .replace(/^(\d{2})(\d{2})(\d+)$/, '$1/$2/$3')
-    )
-
+    setBirthDay(value.replace(/\D+/g, '').replace(/^(\d{2})(\d{2})(\d+)$/, '$1/$2/$3'))
   }
 
   const handleMaskCpfOrCnpj = (value: string) => {
-
     if (chooseAccountType === TypeAccount.CPF) {
       cpfMask(value)
       return
@@ -154,27 +137,36 @@ export default function KycStep() {
           <div>
             <InputRadio>
               <label>CPF</label>
-              <input type='radio' id='typeAccount' value={TypeAccount.CPF} {...register('accountType', {
-                required: `${t('v2.createProject.formMessages.required')}`,
-                onChange: (event: ChangeEvent<HTMLInputElement>) => console.log(event.target.value)
-
-              })} />
+              <input
+                type='radio'
+                id='typeAccount'
+                value={TypeAccount.CPF}
+                {...register('accountType', {
+                  required: `${t('v2.createProject.formMessages.required')}`,
+                  onChange: (event: ChangeEvent<HTMLInputElement>) => console.log(event.target.value)
+                })}
+              />
             </InputRadio>
             <InputRadio>
               <label>CNPJ</label>
-              <input type='radio' id='typeAccount' value={TypeAccount.CNPJ}  {...register('accountType', {
-                required: `${t('v2.createProject.formMessages.required')}`,
-                onChange: (event: ChangeEvent<HTMLInputElement>) => console.log(event.target.value)
-
-              })} />
+              <input
+                type='radio'
+                id='typeAccount'
+                value={TypeAccount.CNPJ}
+                {...register('accountType', {
+                  required: `${t('v2.createProject.formMessages.required')}`,
+                  onChange: (event: ChangeEvent<HTMLInputElement>) => console.log(event.target.value)
+                })}
+              />
             </InputRadio>
           </div>
         </ContainerRadio>
         <Input
-          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')}`}
+          title={`${
+            chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')
+          }`}
           disabled={false}
           disabledLabel={false}
-
           register={register('fullName', {
             required: `${t('v2.createProject.formMessages.required')}`,
             onBlur: () => trigger('fullName')
@@ -187,7 +179,6 @@ export default function KycStep() {
           title={'Email'}
           disabled={false}
           disabledLabel={false}
-
           register={register('email', {
             required: `${t('v2.createProject.formMessages.required')}`,
             pattern: {
@@ -211,9 +202,8 @@ export default function KycStep() {
           title={chooseAccountType.toUpperCase()}
           disabled={false}
           disabledLabel={false}
-
           register={register('cpfOrCnpj', {
-            required: `${t('v2.createProject.formMessages.required')}`,
+            required: `${t('v2.createProject.formMessages.required')}`
           })}
           value={cpfOrCnpj}
           onChange={(event: ChangeEvent<HTMLInputElement>) => handleMaskCpfOrCnpj(event.target.value)}
@@ -222,10 +212,11 @@ export default function KycStep() {
           placeholder={`${chooseAccountType === TypeAccount.CPF ? '000.000.000-00' : '00.000.000/00000-00'}`}
         />
         <Input
-          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')}`}
+          title={`${
+            chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')
+          }`}
           disabled={false}
           disabledLabel={false}
-
           register={register('birthDate', {
             required: `${t('v2.createProject.formMessages.required')}`,
             onBlur: () => trigger('birthDate')
@@ -244,7 +235,7 @@ export default function KycStep() {
 
 const { Container, KycLevelContainer, FormContainer, InputRadio, ContainerRadio } = {
   Container: styled.div`
-    width: 420px;
+    max-width: 372px;
 
     display: grid;
     grid-template-columns: 1fr;
@@ -253,9 +244,9 @@ const { Container, KycLevelContainer, FormContainer, InputRadio, ContainerRadio 
     color: ${({ theme }) => theme.colorV2.gray[1]};
 
     h2 {
-        font-size: ${({ theme }) => theme.font.size[15]};
-        font-weight: 500;
-      }
+      font-size: ${({ theme }) => theme.font.size[15]};
+      font-weight: 500;
+    }
 
     span {
       font-size: ${({ theme }) => theme.font.size[13]};
@@ -321,29 +312,28 @@ const { Container, KycLevelContainer, FormContainer, InputRadio, ContainerRadio 
       &.error {
         border: 1px solid ${({ theme }) => theme.color.red[300]};
         color: ${({ theme }) => theme.color.red[300]};
-          > input {
-            color: ${({ theme }) => theme.color.red[300]};
-          }
-        }
-
         > input {
-          display: flex;
-          width: 100%;
-          border: none;
-          outline: none;
-          background: none;
-
-          &:disabled {
-          cursor: not-allowed;
-          }
-
-          &::-webkit-input-placeholder {
-            color: ${({ theme }) => theme.colorV2.gray[1]};
-            opacity: 0.5;
-          } 
+          color: ${({ theme }) => theme.color.red[300]};
         }
       }
-    
+
+      > input {
+        display: flex;
+        width: 100%;
+        border: none;
+        outline: none;
+        background: none;
+
+        &:disabled {
+          cursor: not-allowed;
+        }
+
+        &::-webkit-input-placeholder {
+          color: ${({ theme }) => theme.colorV2.gray[1]};
+          opacity: 0.5;
+        }
+      }
+    }
   `,
   InputRadio: styled.div`
     display: flex;
@@ -360,6 +350,5 @@ const { Container, KycLevelContainer, FormContainer, InputRadio, ContainerRadio 
       align-items: center;
       gap: 4px;
     }
-
   `
 }

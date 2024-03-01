@@ -1,61 +1,66 @@
-import Button from '@/components/shared/Button';
-import { BrlaBuyEthStep, fiatAmountVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal';
-import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo';
-import useQuoteBrla from '@/hooks/ramp/useQuote';
-import useLocaleTranslation from '@/hooks/useLocaleTranslation';
-import { PaymentMethodType } from '@/types/payment-method.type';
-import { ProviderType } from '@/types/provider.type';
-import { useReactiveVar } from '@apollo/client';
-import brlBrla from '@assets/icons/brl-brla.svg';
-import eth from '@assets/icons/eth-icon.svg';
-import { ethers } from 'ethers';
-import Image from 'next/image';
-import { useCallback, useEffect, useState } from 'react';
-import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi';
+import Button from '@/components/shared/Button'
+import { BrlaBuyEthStep, fiatAmountVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
+import useQuoteBrla from '@/hooks/ramp/useQuote'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { PaymentMethodType } from '@/types/payment-method.type'
+import { ProviderType } from '@/types/provider.type'
+import { useReactiveVar } from '@apollo/client'
+import brlBrla from '@assets/icons/brl-brla.svg'
+import eth from '@assets/icons/eth-icon.svg'
+import { ethers } from 'ethers'
+import Image from 'next/image'
+import { useCallback, useEffect, useState } from 'react'
+import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi'
 
-import styled from 'styled-components';
-import { useAccount } from 'wagmi';
+import styled from 'styled-components'
+import { useAccount } from 'wagmi'
 
 export default function QuotationStep() {
-  const initialSeconds = 5;
+  const initialSeconds = 5
   const fiatAmount = useReactiveVar(fiatAmountVar)
-  const [value, setValue] = useState<number | string>(fiatAmount ?? 0);
-  const { quote, isValidating: quoteIsValidating } = useQuoteBrla(1, 'brl', Number(value), 0, ProviderType.brla, PaymentMethodType.pix)
+  const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
+  const { quote, isValidating: quoteIsValidating } = useQuoteBrla(
+    1,
+    'brl',
+    Number(value),
+    0,
+    ProviderType.brla,
+    PaymentMethodType.pix
+  )
   const { address } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', address)
-  const [seconds, setSeconds] = useState<number>(5);
-  const [timerStarted, setTimerStarted] = useState<boolean>(false);
+  const [seconds, setSeconds] = useState<number>(5)
+  const [timerStarted, setTimerStarted] = useState<boolean>(false)
   const { t } = useLocaleTranslation()
 
   const limit = ethers.toBigInt(value ?? 0) > ethers.toBigInt(kycLevelInfo?.limits.limitSwapBuy ?? 0)
   const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
 
   const handleChange = (amount: string) => {
-
-    const regex = /^\d*\.?\d{0,2}$/;
-    const newValue = amount.replace(/\D/g, '');
-
+    const regex = /^\d*\.?\d{0,2}$/
+    const newValue = amount.replace(/\D/g, '')
 
     if (regex.test(newValue) && newValue !== '' && newValue !== '.') {
-      setValue(newValue);
+      setValue(newValue)
       fiatAmountVar(newValue)
     }
   }
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: NodeJS.Timeout
     if (timerStarted && seconds > 0) {
       timer = setTimeout(() => {
-        setSeconds(seconds - 1);
-      }, 1000);
+        setSeconds(seconds - 1)
+      }, 1000)
     }
-    return () => clearTimeout(timer);
-  }, [timerStarted, seconds]);
+    return () => clearTimeout(timer)
+  }, [timerStarted, seconds])
 
   useEffect(() => {
     if (!quoteIsValidating) {
-      setSeconds(initialSeconds);
-      setTimerStarted(true);
+      setSeconds(initialSeconds)
+      setTimerStarted(true)
     }
   }, [quoteIsValidating])
 
@@ -77,7 +82,13 @@ export default function QuotationStep() {
             <Image src={brlBrla} width={36} height={24} alt='BRL' />
             <span>BRL</span>
           </div>
-          <input type='number' onChange={(({ target }) => handleChange(target.value))} value={value} min={0} step={1} />
+          <input
+            type='number'
+            onChange={({ target }) => handleChange(target.value)}
+            value={value}
+            min={0}
+            step={1}
+          />
         </InputContainer>
         <ArrowDown />
         <InputContainer>
@@ -90,11 +101,18 @@ export default function QuotationStep() {
       </BoxValuesContainer>
       <PriceInfoContainer>
         <span className='gray'>
-          <PiClock style={{ fontSize: 16 }} /> <span>{t('v2.ramp.quote.updateQuote')} {quote?.amountToken ? seconds : 5}s</span>
+          <PiClock style={{ fontSize: 16 }} />{' '}
+          <span>
+            {t('v2.ramp.quote.updateQuote')} {quote?.amountToken ? seconds : 5}s
+          </span>
         </span>
       </PriceInfoContainer>
       <Button
-        onClick={handleNext} disabled={Number(fiatAmount) <= 0 || error} label={t('next')} icon={<PiArrowRight />} />
+        onClick={handleNext}
+        disabled={Number(fiatAmount) <= 0 || error}
+        label={t('next')}
+        icon={<PiArrowRight />}
+      />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
       </footer>
@@ -104,7 +122,7 @@ export default function QuotationStep() {
 
 const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoContainer } = {
   Container: styled.div`
-    width: 372px;
+    max-width: 372px;
     color: ${({ theme }) => theme.colorV2.gray[1]};
 
     > header {
@@ -149,7 +167,6 @@ const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoConta
     &.error {
       border: 1px solid ${({ theme }) => theme.color.red[300]};
     }
-    
 
     > div {
       font-size: ${({ theme }) => theme.font.size[15]};

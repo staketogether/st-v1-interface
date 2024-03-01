@@ -59,7 +59,7 @@ export default function PaymentMethod() {
 
 const { Container } = {
   Container: styled.div`
-    min-width: 420px;
+    max-width: 372px;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};

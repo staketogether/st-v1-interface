@@ -61,7 +61,7 @@ export default function SuccessStep() {
 
 const { Container, DepositToken, DepositInfo, Info } = {
   Container: styled.div`
-    width: 420px;
+    max-width: 372px;
     display: flex;
     flex-direction: column;
     gap: ${({ theme: { size } }) => size[24]};
