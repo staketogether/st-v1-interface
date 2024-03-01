@@ -25,6 +25,11 @@ const nextConfig = {
         permanent: false
       },
       {
+        source: '/mainnet/brl',
+        destination: '/mainnet/brl/product',
+        permanent: false
+      },
+      {
         source: '/mainnet',
         destination: '/mainnet/brl/product',
         permanent: false
