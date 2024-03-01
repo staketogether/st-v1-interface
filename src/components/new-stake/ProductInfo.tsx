@@ -64,7 +64,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const { backendUrl } = globalConfig
   const fetcher = (uri: string) =>
     axios
-      .get(`${backendUrl}/${uri}`, {
+      .get(`${backendUrl}/api/${uri}`, {
         params: {
           from: pastTimestamp,
           to: currentTimestamp
@@ -72,7 +72,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       })
       .then(res => res.data)
   const { data, isLoading: dataChartLoading } = useSWR<{ price_history: [number, number][] }>(
-    `api/mobula/market-history`,
+    `mobula/market-history`,
     fetcher
   )
 
@@ -83,7 +83,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
   const fetcherMarketAssetData = (uri: string) =>
     axios
-      .get(`${backendUrl}/${uri}`, {
+      .get(`${backendUrl}/api/${uri}`, {
         params: {
           asset: 'Ethereum',
           blockchain: 'ethereum',
@@ -92,7 +92,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       })
       .then(res => res.data)
   const { data: assetData, isLoading } = useSWR<MarketAssetData>(
-    `api/mobula/market-asset-data`,
+    `mobula/market-asset-data`,
     fetcherMarketAssetData
   )
 
