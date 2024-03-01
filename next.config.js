@@ -21,17 +21,12 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/mainnet/product',
+        destination: 'mainnet/brl/product',
         permanent: false
       },
       {
-        source: '/mainnet/brl',
-        destination: '/mainnet/brl/product',
-        permanent: false
-      },
-      {
-        source: '/mainnet',
-        destination: '/mainnet/brl/product',
+        source: 'brl/mainnet',
+        destination: 'mainnet/brl/product',
         permanent: false
       }
     ]
