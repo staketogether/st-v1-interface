@@ -10,7 +10,6 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 export default function Home() {
-
   const router = useRouter()
   const minAmount = '100'
   const { onInit: buyCrypto } = useTransak({
@@ -18,7 +17,7 @@ export default function Home() {
   })
 
   useEffect(() => {
-    if (router.query?.buy && (router.query.payment === 'pix' && router.query.provider == 'brla')) {
+    if (router.query?.buy && router.query.payment === 'pix' && router.query.provider == 'brla') {
       fiatAmountVar(router.query?.amount?.toString() ?? minAmount)
       openBrlaModalVar(true)
     } else if (router.query.payment === 'credit') {

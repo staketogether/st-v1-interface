@@ -24,7 +24,7 @@ export default function useProducts() {
       contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
       description: 'ethereumDescription',
       enabled: true,
-      urlRedirect: `/${network}/${currency}`
+      urlRedirect: `/${network}/${currency}/product/ethereum`
     },
     {
       id: 2,

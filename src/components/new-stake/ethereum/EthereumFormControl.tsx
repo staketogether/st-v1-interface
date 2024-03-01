@@ -26,22 +26,24 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
   } = useEthBalanceOf(account)
   const { accountBalance: stpETHBalance, accountIsLoading: stpETHBalanceLoading } = useStAccount(account)
 
-
-
   return (
     <EthereumContainer>
       <header>
         <nav>
           <ul>
             <li className={`${type === 'deposit' && 'activated'}`}>
-              <Link href={`/${network}/${currency}/`}>{t('v2.ethereumStaking.actions.invest')}</Link>
+              <Link href={`/${network}/${currency}/product/ethereum`}>
+                {t('v2.ethereumStaking.actions.invest')}
+              </Link>
             </li>
             <li className={`${type === 'withdraw' && 'activated'}`}>
-              <Link href={`/${network}/${currency}/withdraw`}>{t('v2.ethereumStaking.actions.withdraw')}</Link>
+              <Link href={`/${network}/${currency}/product/ethereum/withdraw`}>
+                {t('v2.ethereumStaking.actions.withdraw')}
+              </Link>
             </li>
           </ul>
         </nav>
-        <Button label={`${t('buy')} ETH`} width={133} height={32} onClick={openQuoteEthModal} />
+        <Button label={`${t('buy')} ETH`} width={133} height={32} onClick={openQuoteEthModal} small />
       </header>
       <div>
         {type === 'deposit' ? (

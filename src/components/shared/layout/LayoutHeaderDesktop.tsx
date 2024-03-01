@@ -29,8 +29,7 @@ export default function LayoutHeader() {
   })
   const { screenWidth, breakpoints } = useResizeView()
   const basePath = `/[network]/[currency]`
-  const withdrawBasePath = `/[network]/[currency]/withdraw`
-  const isHome = (pathname === basePath || pathname === withdrawBasePath) && isReady
+  const isHome = pathname === basePath && isReady
 
   return (
     <Container>
@@ -42,7 +41,7 @@ export default function LayoutHeader() {
         </div>
         <Menu>
           <Link href={`/${network}/${currency}/product`}>
-            <MenuButton className={`${isHome || isActive('products') ? 'active' : ''}`}>
+            <MenuButton className={`${isHome || isActive('product') ? 'active' : ''}`}>
               <InvestIcon />
               {t('v2.header.products')}
             </MenuButton>

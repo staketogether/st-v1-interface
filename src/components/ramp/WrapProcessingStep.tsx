@@ -1,15 +1,20 @@
-import processing from '@assets/images/processing.svg';
-import Image from 'next/image';
-import styled from "styled-components";
-import SwapInfo from './SwapInfo';
-import ValidationList, { ValidationSteps } from './ValidationList';
+import styled from 'styled-components'
+import SwapInfo from './SwapInfo'
+import ValidationList, { ValidationSteps } from './ValidationList'
+import loadingAnimation from '@assets/animations/loading-animation.json'
+import LottieAnimation from '../shared/LottieAnimation'
 
-export default function WrapProcessingStep({ validationSteps, title }: { validationSteps: ValidationSteps[], title: string }) {
-
+export default function WrapProcessingStep({
+  validationSteps,
+  title
+}: {
+  validationSteps: ValidationSteps[]
+  title: string
+}) {
   return (
     <Container>
       <Header>
-        <Image src={processing} width={80} alt='processing' />
+        <LottieAnimation animationData={loadingAnimation} height={80} loop />
         <span>{title}</span>
       </Header>
       <SwapInfo />
@@ -32,7 +37,7 @@ const { Container, Header } = {
     align-items: center;
     > img {
       width: 80px;
-    };
+    }
     > span {
       font-size: ${({ theme }) => theme.font.size[18]};
       font-weight: 500;
