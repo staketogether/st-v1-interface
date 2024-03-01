@@ -47,11 +47,7 @@ export default function LayoutHeader() {
             </MenuButton>
           </Link>
           <Link href={`/${network}/${currency}/project`}>
-            <MenuButton
-              className={`${
-                !isHome && (isActive('projects') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
-              }`}
-            >
+            <MenuButton className={`${!isHome && isActive('project') ? 'active' : ''}`}>
               <ProjectsIcon />
               {t('v2.header.projects')}
             </MenuButton>

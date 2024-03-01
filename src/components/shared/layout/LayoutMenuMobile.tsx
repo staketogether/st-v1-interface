@@ -23,9 +23,7 @@ function LayoutMenuMobile() {
       </NextLink>
       <NextLink
         href={`/${network}/${currency}/project`}
-        className={`${
-          !isHome && (isActive('projects') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
-        }`}
+        className={`${!isHome && isActive('project') ? 'active' : ''}`}
       >
         <ProjectsIcon />
         {t('v2.header.projects')}
