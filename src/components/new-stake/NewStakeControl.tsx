@@ -2,13 +2,24 @@ import React from 'react'
 import styled from 'styled-components'
 import { StakingProduct } from '@/types/Product'
 import useProducts from '@/hooks/useProducts'
-import ProductInfo from './ProductInfo'
-import EthereumFormControl from './ethereum/EthereumFormControl'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import dynamic from 'next/dynamic'
+
+const ProductInfo = dynamic(() => import('./ProductInfo'), {
+  ssr: false,
+  loading: () => <div>Loading...</div>,
+  suspense: true
+})
+
+const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
+  ssr: false,
+  loading: () => <div>Loading...</div>
+})
 
 type NewStakeControlProps = {
   type: 'deposit' | 'withdraw'
   productName: StakingProduct
+  suspense: true
 }
 
 export default function NewStakeControl({ productName, type }: NewStakeControlProps) {

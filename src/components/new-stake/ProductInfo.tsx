@@ -7,7 +7,6 @@ import SymbolIcons from '../tokens/SymbolIcons'
 import chainConfig from '@/config/chain'
 import { truncateAddress } from '@/services/truncate'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import EthereumLineChart from './ethereum/EthereumLineChart'
 import axios from 'axios'
 import useSWR from 'swr'
 import { globalConfig } from '@/config/global'
@@ -15,6 +14,7 @@ import { useRouter } from 'next/router'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import Link from 'next/link'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
+import TradingViewComponent from '@/components/shared/TradingViewComponent'
 
 type ProductInfoProps = {
   product: Product
@@ -49,37 +49,8 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const { currency, network } = query
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
-  const getTimestamps = (): { currentTimestamp: number; pastTimestamp: number } => {
-    const currentDate = new Date()
-
-    const currentTimestamp = currentDate.getTime()
-    const subtract7Days = currentDate.getTime() - 7 * 24 * 60 * 60 * 1000
-    const pastDate = new Date(subtract7Days)
-    const pastTimestamp = pastDate.getTime()
-
-    return { currentTimestamp, pastTimestamp }
-  }
-  const { currentTimestamp, pastTimestamp } = getTimestamps()
 
   const { backendUrl } = globalConfig
-  const fetcher = (uri: string) =>
-    axios
-      .get(`${backendUrl}/api/${uri}`, {
-        params: {
-          from: pastTimestamp,
-          to: currentTimestamp
-        }
-      })
-      .then(res => res.data)
-  const { data, isLoading: dataChartLoading } = useSWR<{ price_history: [number, number][] }>(
-    `mobula/market-history`,
-    fetcher
-  )
-
-  const chartDataMapped =
-    data?.price_history &&
-    data?.price_history.length &&
-    data?.price_history.map(([timestamp, price]) => [timestamp, price])
 
   const fetcherMarketAssetData = (uri: string) =>
     axios
@@ -125,11 +96,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           </div>
         </HeaderDescribeInfo>
       </header>
-      {chartDataMapped && !dataChartLoading ? (
-        <EthereumLineChart data={chartDataMapped} />
-      ) : (
-        <SkeletonLoading height={327} />
-      )}
+      <TradingViewComponent />
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>
