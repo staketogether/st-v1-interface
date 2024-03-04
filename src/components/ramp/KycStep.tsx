@@ -43,7 +43,7 @@ export default function KycStep() {
     const timestamp = Math.floor(newBirthDay.getTime() / 1000)
     let payload: KycPayload = {
       fullName: data.fullName,
-      email: data.fullName,
+      email: data.email,
       cpf: data.cpfOrCnpj,
       birthDateTimestamp: timestamp
     }
