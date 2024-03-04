@@ -8,22 +8,25 @@ import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import brlBrla from '@assets/icons/brl-brla.svg'
 import eth from '@assets/icons/eth-icon.svg'
-import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi'
 
 import styled from 'styled-components'
+import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 
 export default function QuotationStep() {
   const initialSeconds = 5
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
+  const debounceValue = useDebounce(value, 300)
+
+
   const { quote, isValidating: quoteIsValidating } = useQuoteBrla(
     1,
     'brl',
-    Number(value),
+    debounceValue ? Number(debounceValue) : 0,
     0,
     ProviderType.brla,
     PaymentMethodType.pix
@@ -33,18 +36,25 @@ export default function QuotationStep() {
   const [seconds, setSeconds] = useState<number>(5)
   const [timerStarted, setTimerStarted] = useState<boolean>(false)
   const { t } = useLocaleTranslation()
-
-  const limit = ethers.toBigInt(value ?? 0) > ethers.toBigInt(kycLevelInfo?.limits.limitSwapBuy ?? 0)
+  const limit = BigInt(debounceValue ?? 0) > BigInt(kycLevelInfo?.limits.limitSwapBuy ?? 0)
   const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
 
-  const handleChange = (amount: string) => {
-    const regex = /^\d*\.?\d{0,2}$/
-    const newValue = amount.replace(/\D/g, '')
-
-    if (regex.test(newValue) && newValue !== '' && newValue !== '.') {
-      setValue(newValue)
-      fiatAmountVar(newValue)
+  const handleChange = (value: string) => {
+    if (value.includes(',')) {
+      value = value.replace(',', '.')
     }
+    const regex = /^(\d+(\.\d*)?|\.\d+)$/
+    if (!value || regex.test(value)) {
+      if (value.length > 19 + value.split('.')[0].length) return
+
+      setValue(value)
+      fiatAmountVar(value)
+    }
+
+    // if (regex.test(newValue) && newValue !== '' && newValue !== '.') {
+    //   setValue(newValue)
+    //   fiatAmountVar(newValue)
+    // }
   }
 
   useEffect(() => {
@@ -65,7 +75,6 @@ export default function QuotationStep() {
   }, [quoteIsValidating])
 
   const handleNext = useCallback(() => {
-    console.log('address', address)
     if (!address) {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.ConnectWallet)
       return
