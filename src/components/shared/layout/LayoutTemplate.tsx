@@ -98,9 +98,8 @@ const { Container, Wrapper, Content, Body } = {
     place-items: start center;
     padding: ${({ theme }) => theme.size[16]};
 
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
       grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
-      padding: 0;
     }
   `,
   Content: styled.div`
@@ -116,6 +115,7 @@ const { Container, Wrapper, Content, Body } = {
   Body: styled.div`
     display: grid;
     grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
+
     gap: ${props => props.theme.size[32]};
     justify-content: center;
     place-items: center;

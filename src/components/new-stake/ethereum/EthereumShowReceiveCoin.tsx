@@ -81,6 +81,7 @@ const { InputContent, CoinActionContainer, SelectOption } = {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: ${({ theme }) => theme.size[16]};
 
       font-size: ${({ theme }) => theme.font.size[13]};
       font-weight: 400;
@@ -114,6 +115,7 @@ const { InputContent, CoinActionContainer, SelectOption } = {
     span {
       font-size: ${({ theme }) => theme.font.size[20]};
       font-weight: 400;
+      text-align: end;
 
       &.max {
         color: ${({ theme }) => theme.colorV2.purple[1]};

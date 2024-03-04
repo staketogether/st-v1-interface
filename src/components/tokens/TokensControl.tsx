@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import NetworkIcons from '../shared/NetworkIcons'
 import LayoutTitle from '../shared/layout/LayoutTitle'
-import AirdropIcons from './AirdropIcons'
 import StakingIcons from './StakingIcons'
 import useProducts from '@/hooks/useProducts'
 import SymbolIcons from './SymbolIcons'
@@ -15,8 +14,7 @@ export default function TokensControl() {
     t('v2.tokens.products.name'),
     t('v2.tokens.products.token'),
     t('v2.tokens.products.apy'),
-    t('v2.tokens.products.networks'),
-    t('v2.tokens.products.airdrops')
+    t('v2.tokens.products.networks')
   ]
 
   const { productsList } = useProducts()
@@ -61,12 +59,6 @@ export default function TokensControl() {
                       key={network.network}
                       enabled={network.enabled}
                     />
-                  ))}
-                </IconsArea>
-
-                <IconsArea>
-                  {product.airdrops.map(airdrop => (
-                    <AirdropIcons airdrop={airdrop} size={24} key={airdrop} />
                   ))}
                 </IconsArea>
               </ProductItem>
@@ -116,14 +108,6 @@ export default function TokensControl() {
                   ))}
                 </IconsArea>
               </div>
-              <div>
-                <span className='opacity'>{t('v2.tokens.products.airdrops')}</span>
-                <IconsArea>
-                  {product.airdrops.map(airdrop => (
-                    <AirdropIcons airdrop={airdrop} size={16} key={airdrop} />
-                  ))}
-                </IconsArea>
-              </div>
             </div>
           </ProductCard>
         ))}
@@ -154,6 +138,7 @@ const {
 
     img {
       box-shadow: ${({ theme }) => theme.shadow[100]};
+      border-radius: 100%;
     }
 
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {

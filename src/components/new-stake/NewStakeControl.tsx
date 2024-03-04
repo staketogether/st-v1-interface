@@ -52,7 +52,7 @@ const { Container, ActionContainer } = {
 
     display: flex;
     flex-direction: column-reverse;
-
+    align-items: center;
     gap: ${({ theme }) => theme.size[24]};
 
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
@@ -63,9 +63,6 @@ const { Container, ActionContainer } = {
     }
   `,
   ActionContainer: styled.div`
-    width: 100%;
-    flex: 1;
-
     padding: ${({ theme }) => theme.size[24]};
     background-color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${({ theme }) => theme.size[8]};

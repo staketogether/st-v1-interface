@@ -40,6 +40,7 @@ export default function NetworkIcons({ network, size, enabled = true }: NetworkI
 
 const { NetworkIcon } = {
   NetworkIcon: styled(Image)`
+    border-radius: 100%;
     &.disabled {
       filter: grayscale(100%);
     }

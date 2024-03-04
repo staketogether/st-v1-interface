@@ -22,15 +22,6 @@ export default function EthereumDescription() {
           <span className='blue'> 1 stpETH</span>
         </div>
       </div>
-      <div>
-        <div>
-          <span>
-            Taxa de Operação:
-            <QuestionIcon />
-          </span>
-        </div>
-        <span>0.3%</span>
-      </div>
     </DescriptionContainer>
   )
 }

@@ -9,6 +9,7 @@ import cosmosIcon from '@assets/network/cosmos.svg'
 import celestiaIcon from '@assets/network/celestia.svg'
 import restaking from '@assets/network/restaking.svg'
 import { StakingProductIcon } from '@/types/Product'
+import styled from 'styled-components'
 
 type NetworkIconProps = {
   stakingProduct: StakingProductIcon
@@ -27,5 +28,17 @@ export default function StakingIcons({ stakingProduct, size }: NetworkIconProps)
     polkadot: polkadotIcon
   }
 
-  return <Image src={stakingProductsIcons[stakingProduct]} width={size} height={size} alt={stakingProduct} />
+  return (
+    <Warper>
+      <Image src={stakingProductsIcons[stakingProduct]} width={size} height={size} alt={stakingProduct} />
+    </Warper>
+  )
+}
+
+const { Warper } = {
+  Warper: styled.div`
+    img {
+      border-radius: 100%;
+    }
+  `
 }
