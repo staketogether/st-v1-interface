@@ -130,27 +130,15 @@ export default function KycStep() {
     cnpjMask(value)
   }
   return (
-    <Container>
-      <SwapInfo />
+    <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
+      <Container>
+        <SwapInfo />
 
-      <h2>{t('v2.ramp.checkOut')}</h2>
-      <span>{t('v2.ramp.kyc.description')}</span>
+        <h2>{t('v2.ramp.checkOut')}</h2>
+        <span>{t('v2.ramp.kyc.description')}</span>
 
-      <KycLevelContainer>
-        <div>
-          <div>{t('v2.ramp.kyc.level')}</div>
-          <div>1</div>
-        </div>
-        <div>
-          <div>{t('v2.ramp.kyc.limit')}</div>
-          <div>R$ 10.000,00</div>
-        </div>
-        <div>
-          <div>{t('v2.ramp.kyc.usedLimit')}</div>
-          <div>R$ 9.000,00</div>
-        </div>
-      </KycLevelContainer>
-      <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
+
+
         <ContainerRadio>
           <span>{t('v2.ramp.kyc.typeAccount')}</span>
           <div>
@@ -244,18 +232,31 @@ export default function KycStep() {
           error={errors.cpfOrCnpj?.message}
           placeholder={'DD/MM/YYYY'}
         />
+      </Container>
+      <Footer>
         <Button form='kycForm' type='submit' label={t('next')} icon={<PiArrowRight />} disabled={isLoading} />
-      </FormContainer>
-    </Container>
+      </Footer>
+    </FormContainer>
   )
 }
 
-const { Container, KycLevelContainer, FormContainer, InputRadio, ContainerRadio } = {
+const { Container, FormContainer, InputRadio, ContainerRadio, Footer } = {
+  FormContainer: styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[8]};
+    max-height: 450px;
+    margin-right: 5px;
+  `,
   Container: styled.div`
+    padding: 0 ${({ theme }) => theme.size[24]};
     width: auto;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       min-width: 372px;
     }
+
+    
+    overflow-y: scroll;
 
     display: grid;
     grid-template-columns: 1fr;
@@ -273,34 +274,9 @@ const { Container, KycLevelContainer, FormContainer, InputRadio, ContainerRadio 
       font-weight: 400;
     }
   `,
-  KycLevelContainer: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: ${({ theme }) => theme.size[8]};
-    padding: ${({ theme }) => theme.size[8]};
-    border-radius: ${({ theme }) => theme.size[8]};
-    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
-
-    div {
-      display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[4]};
-      &:first-child {
-        font-size: 13px;
-        font-weight: 400;
-      }
-      &:last-child {
-        font-size: ${({ theme }) => theme.font.size[15]};
-        font-weight: 500;
-      }
-    }
-  `,
-  FormContainer: styled.form`
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
+  Footer: styled.div`
+    padding: 16px 29px 24px 24px;
+    display: grid;
   `,
   ContainerRadio: styled.div`
     display: flex;

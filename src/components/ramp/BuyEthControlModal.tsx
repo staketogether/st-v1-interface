@@ -76,6 +76,7 @@ export default function BuyEthControlModal() {
         onClose={clearModal}
         width={'auto'}
         showCloseIcon={currentStep !== BrlaBuyEthStep.Success}
+        noPadding={currentStep === BrlaBuyEthStep.Kyc || currentStep === BrlaBuyEthStep.Checkout}
       >
         {steps[currentStep]}
       </Modal>
