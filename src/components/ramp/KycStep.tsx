@@ -241,8 +241,8 @@ export default function KycStep() {
           value={birthDay}
           onChange={(event: ChangeEvent<HTMLInputElement>) => handleMaskDate(event.target.value)}
           maxLength={10}
-          error={errors.birthDate?.message}
-          placeholder={'00/00/0000'}
+          error={errors.cpfOrCnpj?.message}
+          placeholder={'DD/MM/YYYY'}
         />
         <Button form='kycForm' type='submit' label={t('next')} icon={<PiArrowRight />} disabled={isLoading} />
       </FormContainer>
