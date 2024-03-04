@@ -278,7 +278,7 @@
         "rewardsTooltip": "Recompensas geradas pelo staking de ethereum."
       },
       "statistics": "Status do Protocolo",
-      "minAmount": "Deposito minimo",
+      "minAmount": "Depósito minimo",
       "minWithdraw": "Saque minimo",
       "apy": "Rendimento anual",
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
@@ -469,7 +469,8 @@
         "twitter": "Twitter inválido",
         "site": "URL do site inválido",
         "youtube": "Insira um URL de vídeo válido do YouTube",
-        "youtubeChanel": "Insira um canal válido do YouTube"
+        "youtubeChanel": "Insira um canal válido do YouTube",
+        "invalidCpf": "CPF inválido"
       },
       "messages": {
         "success": "Projeto cadastrado com sucesso",

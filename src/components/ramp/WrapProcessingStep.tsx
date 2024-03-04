@@ -1,8 +1,8 @@
+import loadingAnimation from '@assets/animations/loading-animation.json'
 import styled from 'styled-components'
+import LottieAnimation from '../shared/LottieAnimation'
 import SwapInfo from './SwapInfo'
 import ValidationList, { ValidationSteps } from './ValidationList'
-import loadingAnimation from '@assets/animations/loading-animation.json'
-import LottieAnimation from '../shared/LottieAnimation'
 
 export default function WrapProcessingStep({
   validationSteps,
@@ -25,7 +25,7 @@ export default function WrapProcessingStep({
 
 const { Container, Header } = {
   Container: styled.div`
-    width: auto;
+    min-width:320px;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       min-width: 372px;
     }

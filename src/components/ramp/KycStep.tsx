@@ -23,6 +23,7 @@ export default function KycStep() {
     handleSubmit,
     trigger,
     watch,
+    setError,
     formState: { errors }
   } = useForm<KycCreate>({
     defaultValues: {
@@ -30,8 +31,18 @@ export default function KycStep() {
     }
   })
 
-  const { data, mutate, isLoading } = useKycCreate('brla', address, formData)
-  let isCalled = false
+  const handleSuccess = (data: { id?: string }) => {
+    if (data?.id) {
+      kycIdVar(data?.id)
+      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
+    }
+  }
+  const handleError = () => {
+    setError('email', { type: 'invalid', message: t('v2.createProject.formMessages.invalidEmail') })
+    setError('cpfOrCnpj', { type: 'invalid', message: t('v2.createProject.formMessages.invalidCpf') })
+  }
+  const { mutate, isLoading } = useKycCreate('brla', address, formData, handleSuccess, handleError)
+
   const chooseAccountType = watch('accountType')
   const onSubmit = (data: KycCreate) => {
     if (!data?.birthDate) {
@@ -43,7 +54,7 @@ export default function KycStep() {
     const timestamp = Math.floor(newBirthDay.getTime() / 1000)
     let payload: KycPayload = {
       fullName: data.fullName,
-      email: data.fullName,
+      email: data.email,
       cpf: data.cpfOrCnpj,
       birthDateTimestamp: timestamp
     }
@@ -59,24 +70,32 @@ export default function KycStep() {
       delete payload.cpf
       delete payload.birthDateTimestamp
     }
-
-    isCalled = true
     setFormaData(payload)
-    if (isCalled) {
-      mutate()
-    }
   }
 
   useEffect(() => {
-    if (data?.id) {
-      kycIdVar(data?.id)
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
+    if (formData) {
+      mutate()
     }
-  }, [data])
+  }, [formData, mutate])
 
   useEffect(() => {
     setCpfOrCnpj('')
   }, [chooseAccountType])
+
+
+  useEffect(() => {
+    console.log('errors', errors)
+  }, [errors])
+
+
+  // useEffect(() => {
+  //   if (error) {
+  //     console.log('error', error)
+  //     setError('email', { type: 'focus' }, { shouldFocus: true })
+  //     // setError('cpfOrCnpj', { type: 'validate' })
+  //   }
+  // }, [error, setError, t])
 
   const cpfMask = (value: string) => {
     const response = value
@@ -111,27 +130,15 @@ export default function KycStep() {
     cnpjMask(value)
   }
   return (
-    <Container>
-      <SwapInfo />
+    <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
+      <Container>
+        <SwapInfo />
 
-      <h2>{t('v2.ramp.checkOut')}</h2>
-      <span>{t('v2.ramp.kyc.description')}</span>
+        <h2>{t('v2.ramp.checkOut')}</h2>
+        <span>{t('v2.ramp.kyc.description')}</span>
 
-      <KycLevelContainer>
-        <div>
-          <div>{t('v2.ramp.kyc.level')}</div>
-          <div>1</div>
-        </div>
-        <div>
-          <div>{t('v2.ramp.kyc.limit')}</div>
-          <div>R$ 10.000,00</div>
-        </div>
-        <div>
-          <div>{t('v2.ramp.kyc.usedLimit')}</div>
-          <div>R$ 9.000,00</div>
-        </div>
-      </KycLevelContainer>
-      <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
+
+
         <ContainerRadio>
           <span>{t('v2.ramp.kyc.typeAccount')}</span>
           <div>
@@ -162,9 +169,8 @@ export default function KycStep() {
           </div>
         </ContainerRadio>
         <Input
-          title={`${
-            chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')
-          }`}
+          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')
+            }`}
           disabled={false}
           disabledLabel={false}
           register={register('fullName', {
@@ -212,9 +218,8 @@ export default function KycStep() {
           placeholder={`${chooseAccountType === TypeAccount.CPF ? '000.000.000-00' : '00.000.000/00000-00'}`}
         />
         <Input
-          title={`${
-            chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')
-          }`}
+          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')
+            }`}
           disabled={false}
           disabledLabel={false}
           register={register('birthDate', {
@@ -225,20 +230,33 @@ export default function KycStep() {
           onChange={(event: ChangeEvent<HTMLInputElement>) => handleMaskDate(event.target.value)}
           maxLength={10}
           error={errors.cpfOrCnpj?.message}
-          placeholder={'00/00/0000'}
+          placeholder={'DD/MM/YYYY'}
         />
+      </Container>
+      <Footer>
         <Button form='kycForm' type='submit' label={t('next')} icon={<PiArrowRight />} disabled={isLoading} />
-      </FormContainer>
-    </Container>
+      </Footer>
+    </FormContainer>
   )
 }
 
-const { Container, KycLevelContainer, FormContainer, InputRadio, ContainerRadio } = {
+const { Container, FormContainer, InputRadio, ContainerRadio, Footer } = {
+  FormContainer: styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[8]};
+    max-height: 450px;
+    margin-right: 5px;
+  `,
   Container: styled.div`
+    padding: 0 ${({ theme }) => theme.size[24]};
     width: auto;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       min-width: 372px;
     }
+
+    
+    overflow-y: scroll;
 
     display: grid;
     grid-template-columns: 1fr;
@@ -256,34 +274,9 @@ const { Container, KycLevelContainer, FormContainer, InputRadio, ContainerRadio 
       font-weight: 400;
     }
   `,
-  KycLevelContainer: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: ${({ theme }) => theme.size[8]};
-    padding: ${({ theme }) => theme.size[8]};
-    border-radius: ${({ theme }) => theme.size[8]};
-    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
-
-    div {
-      display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[4]};
-      &:first-child {
-        font-size: 13px;
-        font-weight: 400;
-      }
-      &:last-child {
-        font-size: ${({ theme }) => theme.font.size[15]};
-        font-weight: 500;
-      }
-    }
-  `,
-  FormContainer: styled.form`
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
+  Footer: styled.div`
+    padding: 16px 29px 24px 24px;
+    display: grid;
   `,
   ContainerRadio: styled.div`
     display: flex;

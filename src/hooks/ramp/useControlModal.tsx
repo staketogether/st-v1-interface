@@ -8,6 +8,7 @@ export enum BrlaBuyEthStep {
     MethodPayment = 'MethodPayment',
     Quotation = 'Quotation',
     Kyc = 'Kyc',
+    ConnectWallet = 'ConnectWallet',
     ProcessingKyc = 'ProcessingKyc',
     ProcessingCheckoutStep = 'ProcessingCheckoutStep',
     Checkout = 'Checkout',

@@ -8,22 +8,27 @@ import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import brlBrla from '@assets/icons/brl-brla.svg'
 import eth from '@assets/icons/eth-icon.svg'
-import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi'
 
 import styled from 'styled-components'
+import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 export default function QuotationStep() {
   const initialSeconds = 5
+  const minValue = 300
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
+  const debounceValue = useDebounce(value, 300)
+
+
   const { quote, isValidating: quoteIsValidating } = useQuoteBrla(
     1,
     'brl',
-    Number(value),
+    debounceValue ? Number(debounceValue) : 0,
     0,
     ProviderType.brla,
     PaymentMethodType.pix
@@ -33,17 +38,20 @@ export default function QuotationStep() {
   const [seconds, setSeconds] = useState<number>(5)
   const [timerStarted, setTimerStarted] = useState<boolean>(false)
   const { t } = useLocaleTranslation()
-
-  const limit = ethers.toBigInt(value ?? 0) > ethers.toBigInt(kycLevelInfo?.limits.limitSwapBuy ?? 0)
+  const limit = BigInt(debounceValue ?? 0) > BigInt(kycLevelInfo?.limits.limitSwapBuy ?? 0)
   const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
+  const errorMinValue = BigInt(debounceValue) < minValue
 
-  const handleChange = (amount: string) => {
-    const regex = /^\d*\.?\d{0,2}$/
-    const newValue = amount.replace(/\D/g, '')
+  const handleChange = (value: string) => {
+    if (value.includes(',')) {
+      value = value.replace(',', '.')
+    }
+    const regex = /^(\d+(\.\d*)?|\.\d+)$/
+    if (!value || regex.test(value)) {
+      if (value.length > 19 + value.split('.')[0].length) return
 
-    if (regex.test(newValue) && newValue !== '' && newValue !== '.') {
-      setValue(newValue)
-      fiatAmountVar(newValue)
+      setValue(value)
+      fiatAmountVar(value)
     }
   }
 
@@ -65,13 +73,33 @@ export default function QuotationStep() {
   }, [quoteIsValidating])
 
   const handleNext = useCallback(() => {
+    if (!address) {
+      stepsControlBuyCryptoVar(BrlaBuyEthStep.ConnectWallet)
+      return
+    }
+
     if (!kycLevelInfo?.level) {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc)
       return
     }
 
+
     stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
-  }, [kycLevelInfo?.level])
+  }, [address, kycLevelInfo?.level])
+
+
+  const handleLabelButton = () => {
+
+    if (error) {
+      return `${t('v2.stake.depositErrorMessage.DepositLimitReached')}`
+    }
+
+    if (BigInt(debounceValue) < minValue) {
+      return `${t('v2.stake.minAmount')} R$${minValue}`
+    }
+
+    return t('next')
+  }
 
   return (
     <Container>
@@ -96,7 +124,7 @@ export default function QuotationStep() {
             <Image src={eth} width={36} height={24} alt='BRL' />
             <span>ETH</span>
           </div>
-          <input type='number' value={quote?.amountToken ?? 0} disabled />
+          {quoteIsValidating ? <SkeletonLoading width={60} height={20} /> : <input type='number' value={quote?.amountToken ?? 0} disabled />}
         </InputContainer>
       </BoxValuesContainer>
       <PriceInfoContainer>
@@ -109,9 +137,9 @@ export default function QuotationStep() {
       </PriceInfoContainer>
       <Button
         onClick={handleNext}
-        disabled={Number(fiatAmount) <= 0 || error}
-        label={t('next')}
-        icon={<PiArrowRight />}
+        disabled={BigInt(debounceValue) < minValue || error || quoteIsValidating}
+        label={handleLabelButton()}
+        icon={!error && !errorMinValue && <PiArrowRight />}
       />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
@@ -153,6 +181,7 @@ const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoConta
   `,
   InputContainer: styled.div`
     width: 100%;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: space-between;

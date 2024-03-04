@@ -3,12 +3,18 @@ import Modal from '@/components/shared/Modal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'
 
+import { globalConfig } from '@/config/global'
 import {
   BrlaBuyEthStep,
   clearModal,
   openBrlaModalVar,
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
+import axios from 'axios'
+import { useEffect } from 'react'
+import { SWRConfig } from 'swr'
+import { useAccount } from 'wagmi'
+import ConnectWallet from '../shared/ConnectWallet'
 import CheckoutStep from './CheckoutStep'
 import KycStep from './KycStep'
 import PaymentMethod from './PaymentMethod'
@@ -16,17 +22,16 @@ import ProcessingCheckoutStep from './ProcessingCheckoutStep'
 import ProcessingKycStep from './ProcessingKycStep'
 import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
-import { SWRConfig } from 'swr'
-import axios from 'axios'
-import { globalConfig } from '@/config/global'
 
 export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
+  const { address } = useAccount()
 
   const steps = {
     MethodPayment: <PaymentMethod />,
     Quotation: <QuotationStep />,
     Kyc: <KycStep />,
+    ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep />,
     Checkout: <CheckoutStep />,
@@ -41,6 +46,12 @@ export default function BuyEthControlModal() {
   }
   const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title')
   const { backendUrl } = globalConfig
+
+  useEffect(() => {
+    if (address && currentStep === BrlaBuyEthStep.ConnectWallet) {
+      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
+    }
+  }, [address, currentStep])
 
   return (
     <SWRConfig
@@ -65,6 +76,7 @@ export default function BuyEthControlModal() {
         onClose={clearModal}
         width={'auto'}
         showCloseIcon={currentStep !== BrlaBuyEthStep.Success}
+        noPadding={currentStep === BrlaBuyEthStep.Kyc || currentStep === BrlaBuyEthStep.Checkout}
       >
         {steps[currentStep]}
       </Modal>

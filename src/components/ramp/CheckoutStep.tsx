@@ -1,4 +1,5 @@
-import { BrlaBuyEthStep, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, clearModal, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import usePixBankInfo from '@/hooks/ramp/usePixBankInfo'
 import useVerifyActivity from '@/hooks/ramp/useVerifyActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProviderType } from '@/types/provider.type'
@@ -7,10 +8,9 @@ import { QRCode, notification } from 'antd'
 import { useEffect } from 'react'
 import { PiCopy } from 'react-icons/pi'
 import styled from 'styled-components'
+import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
 import SwapInfo from './SwapInfo'
-import usePixBankInfo from '@/hooks/ramp/usePixBankInfo'
-import { useAccount } from 'wagmi'
 
 export default function CheckoutStep() {
   const { t } = useLocaleTranslation()
@@ -35,49 +35,54 @@ export default function CheckoutStep() {
   }, [activity])
   return (
     <Container>
-      <SwapInfo />
-      <PixArea>
-        <Header>
-          <div>
-            <span>{t('v2.ramp.amountToBePaid')}:</span>
-            <span>R$ {quote?.amountBrl}</span>
-          </div>
-          <span>
-            Para {pixBankInfo?.name}
-            {pixBankInfo?.taxId}
-            Banco: {pixBankInfo?.bankName}
-          </span>
-        </Header>
-        <Body>
-          <span>{t('v2.ramp.useThePixQRCode')}</span>
-          <Code value={qrCode?.brCode ?? ''} />
+
+      <Body>
+        <SwapInfo />
+        <PixArea>
+          <Header>
+            <div>
+              <span>{t('v2.ramp.amountToBePaid')}:</span>
+              <span>R$ {quote?.amountBrl}</span>
+            </div>
+            <span>
+              Para {pixBankInfo?.name}
+              {pixBankInfo?.taxId}
+              Banco: {pixBankInfo?.bankName}
+            </span>
+          </Header>
+          <QrCodeArea>
+            <span>{t('v2.ramp.useThePixQRCode')}</span>
+            <Code value={qrCode?.brCode ?? ''} />
+            <Button
+              form='kycForm'
+              type='submit'
+              label={t('v2.ramp.copyQrCode')}
+              icon={<PiCopy />}
+              iconLeft
+              onClick={handleCopyClipboard}
+            />
+          </QrCodeArea>
+        </PixArea>
+        <KeyPixArea>
+          <span>{t('v2.ramp.orUseThePixKey')}</span>
           <Button
-            form='kycForm'
-            type='submit'
-            label={t('v2.ramp.copyQrCode')}
+            type='button'
+            label={qrCode?.brCode ?? ''}
             icon={<PiCopy />}
             iconLeft
-            onClick={handleCopyClipboard}
+            className='ghost'
+            fontSize={10}
           />
-        </Body>
-      </PixArea>
-      <KeyPixArea>
-        <span>{t('v2.ramp.orUseThePixKey')}</span>
-        <Button
-          type='button'
-          label={qrCode?.brCode ?? ''}
-          icon={<PiCopy />}
-          iconLeft
-          className='ghost'
-          fontSize={10}
-        />
-      </KeyPixArea>
-      <Button type='button' label={t('v2.ramp.cancelDeposit')} className='outline' block />
+        </KeyPixArea>
+      </Body>
+      <Footer>
+        <Button type='button' label={t('v2.ramp.cancelDeposit')} className='outline' block onClick={clearModal} />
+      </Footer>
     </Container>
   )
 }
 
-const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
+const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer } = {
   Container: styled.div`
     width: auto;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
@@ -85,9 +90,17 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
     }
     font-size: ${({ theme }) => theme.font.size[13]};
     font-weight: 400;
+
+    gap: 24px;
+    margin-right: 5px;
+  `,
+  Body: styled.div`
+    padding: 0 ${({ theme }) => theme.size[24]};
+    overflow-y: scroll;
+    max-height: 470px;
+    gap: 24px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
   `,
   PixArea: styled.div`
     display: grid;
@@ -128,7 +141,7 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
       text-align: center;
     }
   `,
-  Body: styled.div`
+  QrCodeArea: styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -144,6 +157,10 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea } = {
       letter-spacing: 0em;
       text-align: left;
     }
+  `,
+  Footer: styled.div`
+    padding: 16px 29px 24px 24px;
+    display: grid;
   `,
   Code: styled(QRCode)`
     border: none;

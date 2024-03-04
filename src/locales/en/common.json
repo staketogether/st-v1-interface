@@ -446,7 +446,8 @@
         "twitter": "Invalid Twitter",
         "site": "Invalid site URL",
         "youtube": "Please enter a valid YouTube video URL",
-        "youtubeChanel": "Please enter a valid YouTube channel"
+        "youtubeChanel": "Please enter a valid YouTube channel",
+        "invalidCpf": "Invalid CPF"
       },
       "messages": {
         "success": "Project created successfully",
