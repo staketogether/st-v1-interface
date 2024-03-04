@@ -29,7 +29,13 @@ export interface KycPayload {
 }
 
 
-export default function useKycCreate(provider: 'brla' | 'transak', taxId?: string, kycData?: KycPayload) {
+export default function useKycCreate(
+  provider: 'brla' | 'transak',
+  taxId?: string,
+  kycData?: KycPayload,
+  onSuccessCallback?: (data: { id: string; }) => void,
+  onErrorCallback?: () => void
+) {
   const { backendUrl } = globalConfig
   const isValid = provider && taxId && kycData
   const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, { ...kycData, }).then(res => res.data)
@@ -39,8 +45,9 @@ export default function useKycCreate(provider: 'brla' | 'transak', taxId?: strin
     revalidateOnReconnect: false,
     errorRetryCount: 1,
     shouldRetryOnError: false,
-    revalidateOnMount: false
-
+    revalidateOnMount: false,
+    onSuccess: (data) => onSuccessCallback && onSuccessCallback(data),
+    onError: () => onErrorCallback && onErrorCallback()
   })
 
   return {

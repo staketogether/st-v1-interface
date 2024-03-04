@@ -65,13 +65,20 @@ export default function QuotationStep() {
   }, [quoteIsValidating])
 
   const handleNext = useCallback(() => {
+    console.log('address', address)
+    if (!address) {
+      stepsControlBuyCryptoVar(BrlaBuyEthStep.ConnectWallet)
+      return
+    }
+
     if (!kycLevelInfo?.level) {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc)
       return
     }
 
+
     stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
-  }, [kycLevelInfo?.level])
+  }, [address, kycLevelInfo?.level])
 
   return (
     <Container>

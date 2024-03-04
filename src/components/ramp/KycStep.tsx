@@ -23,6 +23,7 @@ export default function KycStep() {
     handleSubmit,
     trigger,
     watch,
+    setError,
     formState: { errors }
   } = useForm<KycCreate>({
     defaultValues: {
@@ -30,8 +31,18 @@ export default function KycStep() {
     }
   })
 
-  const { data, mutate, isLoading } = useKycCreate('brla', address, formData)
-  let isCalled = false
+  const handleSuccess = (data: { id?: string }) => {
+    if (data?.id) {
+      kycIdVar(data?.id)
+      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
+    }
+  }
+  const handleError = () => {
+    setError('email', { type: 'invalid', message: t('v2.createProject.formMessages.invalidEmail') })
+    setError('cpfOrCnpj', { type: 'invalid', message: t('v2.createProject.formMessages.invalidCpf') })
+  }
+  const { mutate, isLoading } = useKycCreate('brla', address, formData, handleSuccess, handleError)
+
   const chooseAccountType = watch('accountType')
   const onSubmit = (data: KycCreate) => {
     if (!data?.birthDate) {
@@ -43,7 +54,7 @@ export default function KycStep() {
     const timestamp = Math.floor(newBirthDay.getTime() / 1000)
     let payload: KycPayload = {
       fullName: data.fullName,
-      email: data.fullName,
+      email: data.email,
       cpf: data.cpfOrCnpj,
       birthDateTimestamp: timestamp
     }
@@ -59,24 +70,32 @@ export default function KycStep() {
       delete payload.cpf
       delete payload.birthDateTimestamp
     }
-
-    isCalled = true
     setFormaData(payload)
-    if (isCalled) {
-      mutate()
-    }
   }
 
   useEffect(() => {
-    if (data?.id) {
-      kycIdVar(data?.id)
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
+    if (formData) {
+      mutate()
     }
-  }, [data])
+  }, [formData, mutate])
 
   useEffect(() => {
     setCpfOrCnpj('')
   }, [chooseAccountType])
+
+
+  useEffect(() => {
+    console.log('errors', errors)
+  }, [errors])
+
+
+  // useEffect(() => {
+  //   if (error) {
+  //     console.log('error', error)
+  //     setError('email', { type: 'focus' }, { shouldFocus: true })
+  //     // setError('cpfOrCnpj', { type: 'validate' })
+  //   }
+  // }, [error, setError, t])
 
   const cpfMask = (value: string) => {
     const response = value
@@ -162,9 +181,8 @@ export default function KycStep() {
           </div>
         </ContainerRadio>
         <Input
-          title={`${
-            chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')
-          }`}
+          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')
+            }`}
           disabled={false}
           disabledLabel={false}
           register={register('fullName', {
@@ -212,9 +230,8 @@ export default function KycStep() {
           placeholder={`${chooseAccountType === TypeAccount.CPF ? '000.000.000-00' : '00.000.000/00000-00'}`}
         />
         <Input
-          title={`${
-            chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')
-          }`}
+          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')
+            }`}
           disabled={false}
           disabledLabel={false}
           register={register('birthDate', {
@@ -224,7 +241,7 @@ export default function KycStep() {
           value={birthDay}
           onChange={(event: ChangeEvent<HTMLInputElement>) => handleMaskDate(event.target.value)}
           maxLength={10}
-          error={errors.cpfOrCnpj?.message}
+          error={errors.birthDate?.message}
           placeholder={'00/00/0000'}
         />
         <Button form='kycForm' type='submit' label={t('next')} icon={<PiArrowRight />} disabled={isLoading} />
