@@ -15,9 +15,11 @@ import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 export default function QuotationStep() {
   const initialSeconds = 5
+  const minValue = 300
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
   const debounceValue = useDebounce(value, 300)
@@ -38,6 +40,7 @@ export default function QuotationStep() {
   const { t } = useLocaleTranslation()
   const limit = BigInt(debounceValue ?? 0) > BigInt(kycLevelInfo?.limits.limitSwapBuy ?? 0)
   const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
+  const errorMinValue = BigInt(debounceValue) < minValue
 
   const handleChange = (value: string) => {
     if (value.includes(',')) {
@@ -50,11 +53,6 @@ export default function QuotationStep() {
       setValue(value)
       fiatAmountVar(value)
     }
-
-    // if (regex.test(newValue) && newValue !== '' && newValue !== '.') {
-    //   setValue(newValue)
-    //   fiatAmountVar(newValue)
-    // }
   }
 
   useEffect(() => {
@@ -89,6 +87,20 @@ export default function QuotationStep() {
     stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
   }, [address, kycLevelInfo?.level])
 
+
+  const handleLabelButton = () => {
+
+    if (error) {
+      return `${t('v2.stake.depositErrorMessage.DepositLimitReached')}`
+    }
+
+    if (BigInt(debounceValue) < minValue) {
+      return `${t('v2.stake.minAmount')} R$${minValue}`
+    }
+
+    return t('next')
+  }
+
   return (
     <Container>
       <header>{t('v2.ramp.quote.title')}:</header>
@@ -112,7 +124,7 @@ export default function QuotationStep() {
             <Image src={eth} width={36} height={24} alt='BRL' />
             <span>ETH</span>
           </div>
-          <input type='number' value={quote?.amountToken ?? 0} disabled />
+          {quoteIsValidating ? <SkeletonLoading width={60} height={20} /> : <input type='number' value={quote?.amountToken ?? 0} disabled />}
         </InputContainer>
       </BoxValuesContainer>
       <PriceInfoContainer>
@@ -125,9 +137,9 @@ export default function QuotationStep() {
       </PriceInfoContainer>
       <Button
         onClick={handleNext}
-        disabled={Number(fiatAmount) <= 0 || error}
-        label={t('next')}
-        icon={<PiArrowRight />}
+        disabled={BigInt(debounceValue) < minValue || error || quoteIsValidating}
+        label={handleLabelButton()}
+        icon={!error && !errorMinValue && <PiArrowRight />}
       />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
@@ -169,6 +181,7 @@ const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoConta
   `,
   InputContainer: styled.div`
     width: 100%;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: space-between;

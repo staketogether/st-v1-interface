@@ -278,7 +278,7 @@
         "rewardsTooltip": "Recompensas geradas pelo staking de ethereum."
       },
       "statistics": "Status do Protocolo",
-      "minAmount": "Deposito minimo",
+      "minAmount": "Depósito minimo",
       "minWithdraw": "Saque minimo",
       "apy": "Rendimento anual",
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
