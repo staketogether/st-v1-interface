@@ -1,4 +1,5 @@
 import { BrlaBuyEthStep, openBrlaModalVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useTransak from '@/hooks/useTransak'
 import CreditCard from '@assets/images/master-visa.svg'
 import Pix from '@assets/images/pix-full.svg'
@@ -8,6 +9,7 @@ import styled from 'styled-components'
 import Button from '../shared/Button'
 
 export default function PaymentMethod() {
+  const { t } = useLocaleTranslation()
   const { onInit, isClosed } = useTransak({
     productsAvailed: 'BUY'
   })
@@ -42,11 +44,11 @@ export default function PaymentMethod() {
         icon={<Image src={Pix} width={90} height={32} alt='' />}
       />
       <Button
-        title='Cartão Crédito'
+        title={t('v2.ramp.creditCard')}
         height={56}
         padding='12px'
         onClick={handleCreditCard}
-        label='Cartão Crédito'
+        label={t('v2.ramp.creditCard')}
         iconLeft
         block
         className='outline eachSide'

@@ -4,8 +4,10 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'
 
 import { globalConfig } from '@/config/global'
+import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
+  changeWalletAddress,
   clearModal,
   openBrlaModalVar,
   stepsControlBuyCryptoVar
@@ -26,6 +28,7 @@ import SuccessStep from './SuccessStep'
 export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
+  const { refetch } = useEthBalanceOf(address)
 
   const steps = {
     MethodPayment: <PaymentMethod />,
@@ -42,7 +45,7 @@ export default function BuyEthControlModal() {
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
   const titleList: { [key: string]: string } = {
     Success: t('v2.ramp.success'),
-    MethodPayment: 'Provedores'
+    MethodPayment: t('v2.ramp.provider')
   }
   const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title')
   const { backendUrl } = globalConfig
@@ -50,8 +53,17 @@ export default function BuyEthControlModal() {
   useEffect(() => {
     if (address && currentStep === BrlaBuyEthStep.ConnectWallet) {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
+      return
     }
-  }, [address, currentStep])
+
+    if (address && currentStep === BrlaBuyEthStep.Success) {
+      refetch()
+      return
+    }
+    changeWalletAddress()
+  }, [address, currentStep, refetch])
+
+
 
   return (
     <SWRConfig

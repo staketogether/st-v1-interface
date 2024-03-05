@@ -137,7 +137,7 @@ export default function QuotationStep() {
       </PriceInfoContainer>
       <Button
         onClick={handleNext}
-        disabled={BigInt(debounceValue) < minValue || error || quoteIsValidating}
+        disabled={BigInt(debounceValue) < minValue || error || quoteIsValidating || !quote?.amountBrl}
         label={handleLabelButton()}
         icon={!error && !errorMinValue && <PiArrowRight />}
       />

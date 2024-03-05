@@ -84,7 +84,7 @@ export default function CheckoutStep() {
 
 const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer } = {
   Container: styled.div`
-    width: auto;
+    max-width: 420px;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       min-width: 372px;
     }

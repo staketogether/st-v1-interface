@@ -246,6 +246,7 @@ const { Container, FormContainer, InputRadio, ContainerRadio, Footer } = {
     flex-direction: column;
     gap: ${({ theme }) => theme.size[8]};
     max-height: 450px;
+    max-width: 420px;
     margin-right: 5px;
   `,
   Container: styled.div`
