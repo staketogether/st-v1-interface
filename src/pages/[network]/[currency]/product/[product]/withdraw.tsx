@@ -46,7 +46,11 @@ export default function Home({ product, assetData }: HomeProps) {
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = [
     { params: { network: 'mainnet', currency: 'usd', product: 'ethereum' } },
-    { params: { network: 'mainnet', currency: 'brl', product: 'ethereum' } }
+    { params: { network: 'mainnet', currency: 'brl', product: 'ethereum' } },
+    { params: { network: 'mainnet', currency: 'eur', product: 'ethereum' } },
+    { params: { network: 'goerli', currency: 'usd', product: 'ethereum' } },
+    { params: { network: 'goerli', currency: 'brl', product: 'ethereum' } },
+    { params: { network: 'goerli', currency: 'eur', product: 'ethereum' } }
   ]
 
   return { paths, fallback: 'blocking' }
