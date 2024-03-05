@@ -4,10 +4,14 @@ import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import NetworkIcons from '../shared/NetworkIcons'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import StakingIcons from './StakingIcons'
-import useProducts from '@/hooks/useProducts'
 import SymbolIcons from './SymbolIcons'
+import { Product } from '@/types/Product'
 
-export default function TokensControl() {
+type ProductItemProps = {
+  productsList: Product[]
+}
+
+export default function TokensControl({ productsList }: ProductItemProps) {
   const { t } = useLocaleTranslation()
 
   const productsHeader = [
@@ -16,8 +20,6 @@ export default function TokensControl() {
     t('v2.tokens.products.apy'),
     t('v2.tokens.products.networks')
   ]
-
-  const { productsList } = useProducts()
 
   return (
     <Container>
@@ -128,10 +130,11 @@ const {
   ProductCard
 } = {
   Container: styled.div`
-    width: 100%;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[32]};
+    align-items: center;
+    justify-content: center;
   `,
   DesktopContent: styled.div`
     display: none;
@@ -146,6 +149,9 @@ const {
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[24]};
+
+      align-items: center;
+      justify-content: center;
 
       > h2 {
         color: ${({ theme }) => theme.colorV2.gray[1]};
@@ -168,20 +174,21 @@ const {
     }
   `,
   Products: styled.div`
-    width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: ${({ theme }) => theme.size[8]};
     nav {
       width: 100%;
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
       gap: ${({ theme }) => theme.size[8]};
     }
   `,
   ProductsHeader: styled.header`
     display: grid;
-    grid-template-columns: 1fr 0.7fr 0.5fr 1fr 1fr;
+    grid-template-columns: 400px 200px 200px 230px;
     gap: 16px;
 
     padding: 0 12px;
@@ -195,7 +202,7 @@ const {
   `,
   ProductItem: styled(Link)`
     display: grid;
-    grid-template-columns: 1fr 0.7fr 0.5fr 1fr 1fr;
+    grid-template-columns: 400px 200px 200px 230px;
 
     box-shadow: ${({ theme }) => theme.shadow[100]};
     background: ${({ theme }) => theme.colorV2.white};

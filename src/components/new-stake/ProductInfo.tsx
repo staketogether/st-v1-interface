@@ -1,4 +1,4 @@
-import { Product } from '@/types/Product'
+import { Product, ProductMarketAssetData } from '@/types/Product'
 import React from 'react'
 import { PiArrowLeft, PiCopy } from 'react-icons/pi'
 import styled from 'styled-components'
@@ -7,65 +7,24 @@ import SymbolIcons from '../tokens/SymbolIcons'
 import chainConfig from '@/config/chain'
 import { truncateAddress } from '@/services/truncate'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import axios from 'axios'
-import useSWR from 'swr'
-import { globalConfig } from '@/config/global'
+
 import { useRouter } from 'next/router'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import Link from 'next/link'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import TradingViewComponent from '@/components/shared/TradingViewComponent'
 
 type ProductInfoProps = {
   product: Product
+  assetData: ProductMarketAssetData
 }
 
-export type MarketAssetData = {
-  data: {
-    ath: number
-    atl: number
-    is_listed: boolean
-    liquidity: number
-    liquidity_change_24h: number
-    market_cap: number
-    market_cap_diluted: number
-    off_chain_volume: number
-    price: number
-    price_change_1h: number
-    price_change_1m: number
-    price_change_1y: number
-    price_change_24h: number
-    price_change_7d: number
-    volume: number
-    volume_7d: number
-    volume_change_24h: number
-  }
-}
-
-export default function ProductInfo({ product }: ProductInfoProps) {
+export default function ProductInfo({ product, assetData }: ProductInfoProps) {
   const { contracts } = chainConfig()
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency, network } = query
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
-
-  const { backendUrl } = globalConfig
-
-  const fetcherMarketAssetData = (uri: string) =>
-    axios
-      .get(`${backendUrl}/api/${uri}`, {
-        params: {
-          asset: 'Ethereum',
-          blockchain: 'ethereum',
-          symbol: 'eth'
-        }
-      })
-      .then(res => res.data)
-  const { data: assetData, isLoading } = useSWR<MarketAssetData>(
-    `mobula/market-asset-data`,
-    fetcherMarketAssetData
-  )
 
   return (
     <ProductContainer>
@@ -86,12 +45,9 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             <span className='symbol'>{product.symbol}</span>
           </div>
           <div>
-            {isLoading ? (
-              <SkeletonLoading width={120} />
-            ) : (
-              <span className='CoinValue'>{`${handleQuotePrice(assetData?.data?.price || 0)}
+            <span className='CoinValue'>{`${handleQuotePrice(assetData?.data?.price || 0)}
                `}</span>
-            )}
+
             <span className='apy'>{`APY:${product.apy}%`}</span>
           </div>
         </HeaderDescribeInfo>
@@ -102,27 +58,18 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         <StatisticContainer>
           <div>
             <span>{t('v2.ethereumStaking.marketCap')}</span>
-            {isLoading ? (
-              <SkeletonLoading width={120} />
-            ) : (
-              <span className='valueItem'>{`${handleQuotePrice(assetData?.data?.market_cap || 0)}`}</span>
-            )}
+
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.data?.market_cap || 0)}`}</span>
           </div>
           <div>
             <span>Volume</span>
-            {isLoading ? (
-              <SkeletonLoading width={120} />
-            ) : (
-              <span className='valueItem'>{`${handleQuotePrice(assetData?.data?.volume || 0)}`}</span>
-            )}
+
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.data?.volume || 0)}`}</span>
           </div>
           <div>
             <span>{t('v2.ethereumStaking.priceChange')}</span>
-            {isLoading ? (
-              <SkeletonLoading width={120} />
-            ) : (
-              <span className='valueItem'>{`${assetData?.data?.price_change_1y.toFixed(2)}%`}</span>
-            )}
+
+            <span className='valueItem'>{`${assetData?.data?.price_change_1y.toFixed(2)}%`}</span>
           </div>
         </StatisticContainer>
       </ProductBodyContainer>

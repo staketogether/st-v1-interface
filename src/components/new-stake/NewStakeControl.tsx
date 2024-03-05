@@ -1,15 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { StakingProduct } from '@/types/Product'
-import useProducts from '@/hooks/useProducts'
+import { Product, ProductMarketAssetData } from '@/types/Product'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import dynamic from 'next/dynamic'
-
-const ProductInfo = dynamic(() => import('./ProductInfo'), {
-  ssr: false,
-  loading: () => <div>Loading...</div>,
-  suspense: true
-})
+import ProductInfo from './ProductInfo'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -19,16 +13,15 @@ const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl
 
 type NewStakeControlProps = {
   type: 'deposit' | 'withdraw'
-  productName: StakingProduct
+  product: Product
+  assetData: ProductMarketAssetData
 }
 
-export default function NewStakeControl({ productName, type }: NewStakeControlProps) {
-  const { findProduct } = useProducts()
+export default function NewStakeControl({ product, type, assetData }: NewStakeControlProps) {
   const { t } = useLocaleTranslation()
-  const product = findProduct(productName)
 
   const handleProductAction = () => {
-    switch (productName) {
+    switch (product.name) {
       case 'ethereum':
         return <EthereumFormControl type={type} />
 
@@ -39,7 +32,7 @@ export default function NewStakeControl({ productName, type }: NewStakeControlPr
 
   return (
     <Container>
-      <ProductInfo product={product} />
+      <ProductInfo product={product} assetData={assetData} />
       <ActionContainer>{handleProductAction()}</ActionContainer>
     </Container>
   )
