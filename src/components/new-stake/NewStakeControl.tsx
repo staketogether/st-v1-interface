@@ -13,13 +13,13 @@ const ProductInfo = dynamic(() => import('./ProductInfo'), {
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
-  loading: () => <div>Loading...</div>
+  loading: () => <div>Loading...</div>,
+  suspense: true
 })
 
 type NewStakeControlProps = {
   type: 'deposit' | 'withdraw'
   productName: StakingProduct
-  suspense: true
 }
 
 export default function NewStakeControl({ productName, type }: NewStakeControlProps) {
