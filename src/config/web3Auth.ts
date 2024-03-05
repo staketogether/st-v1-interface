@@ -20,9 +20,11 @@ export default function Web3AuthConnectorInstance(chains: ChainConfig.Chain[]) {
   }
 
   const web3AuthInstance = new Web3AuthNoModal({
-    clientId: String(process.env.NEXT_PUBLIC_WEB3_AUTH_ID),
+    clientId: chains[0].testnet
+      ? String(process.env.NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID)
+      : String(process.env.NEXT_PUBLIC_WEB3_AUTH_ID),
     chainConfig,
-    web3AuthNetwork: 'sapphire_mainnet'
+    web3AuthNetwork: chains[0].testnet ? 'sapphire_devnet' : 'sapphire_mainnet'
   })
 
   const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } })
@@ -30,7 +32,7 @@ export default function Web3AuthConnectorInstance(chains: ChainConfig.Chain[]) {
   const openloginAdapterInstance = new OpenloginAdapter({
     privateKeyProvider,
     adapterSettings: {
-      network: 'mainnet',
+      network: chains[0].testnet ? 'testnet' : 'mainnet',
       uxMode: 'redirect',
       whiteLabel: {
         logoLight: iconUrl,

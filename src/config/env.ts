@@ -41,4 +41,7 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_TRANSAK_API_KEY) {
     throw new Error('NEXT_PUBLIC_TRANSAK_API_KEY not found in env')
   }
+  if (!process.env.NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID) {
+    throw new Error('NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID not found in env')
+  }
 }
