@@ -3,10 +3,10 @@ import useVerifyActivity from '@/hooks/ramp/useVerifyActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
+import { useEffect } from 'react'
 import { PiCheckCircleFill, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import WrapProcessingStep from './WrapProcessingStep'
-import { useEffect } from 'react'
 
 export default function ProcessingCheckoutStep() {
   const theme = useTheme()
@@ -30,12 +30,12 @@ export default function ProcessingCheckoutStep() {
     {
       icon: <PiCheckCircleFill size={32} color={theme.color.green[500]} />,
       text: t('v2.ramp.paymentIdentified'),
-      disable: activity?.status !== 'posted' && activity?.status !== 'queued' && activity?.status !== 'success'
+      disable: activity?.status !== 'posted' && activity?.status !== 'success'
     },
     {
       icon: <PiClockLight size={32} color={theme.color.secondary} />,
       text: t('v2.ramp.mintingBRLA'),
-      disable: activity?.status !== 'queued' && activity?.status === 'posted'
+      disable: activity?.status !== 'success'
     }
   ]
 
