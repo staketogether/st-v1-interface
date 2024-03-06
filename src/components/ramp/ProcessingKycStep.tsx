@@ -25,11 +25,11 @@ export default function ProcessingKycStep() {
   const { address } = useAccount()
   const [rampData, setRampData] = useState<BuyRampRequest | undefined>(undefined)
   const { t } = useLocaleTranslation()
-  const { buyRampResponse } = useBuyRamp('brla', rampData)
+  const { buyRampResponse, isError: isErrorBuyRamp } = useBuyRamp('brla', rampData)
   const kycActivity = useReactiveVar(kycIdVar)
   const kyc = useReactiveVar(kycLevelVar)
   const kycActivityId = kyc?.level && kycActivity ? undefined : kycActivity
-  const { activity } = useVerifyActivity(ProviderType.brla, kycActivityId ?? undefined)
+  const { activity, isError } = useVerifyActivity(ProviderType.brla, kycActivityId ?? undefined)
   const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc ? undefined : address)
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function ProcessingKycStep() {
     if (activity?.status === 'error') {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.Error)
     }
-  }, [activity?.status])
+  }, [activity?.status, isError, isErrorBuyRamp])
 
   useEffect(() => {
     if (buyRampResponse?.brCode) {

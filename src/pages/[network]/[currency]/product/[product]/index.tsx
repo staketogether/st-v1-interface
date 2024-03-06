@@ -20,7 +20,7 @@ export type HomeProps = {
 
 export default function Home({ product, assetData }: HomeProps) {
   const router = useRouter()
-  const minAmount = '100'
+  const minAmount = '300'
   const { onInit: buyCrypto } = useTransak({
     productsAvailed: 'BUY'
   })

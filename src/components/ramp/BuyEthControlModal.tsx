@@ -7,6 +7,7 @@ import { globalConfig } from '@/config/global'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
+  changeWalletAddress,
   clearModal,
   openBrlaModalVar,
   stepsControlBuyCryptoVar
@@ -17,13 +18,13 @@ import { SWRConfig } from 'swr'
 import { useAccount } from 'wagmi'
 import ConnectWallet from '../shared/ConnectWallet'
 import CheckoutStep from './CheckoutStep'
+import GenericErrorComponent from './GenericErrorComponent'
 import KycStep from './KycStep'
 import PaymentMethod from './PaymentMethod'
 import ProcessingCheckoutStep from './ProcessingCheckoutStep'
 import ProcessingKycStep from './ProcessingKycStep'
 import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
-import GenericErrorComponent from './GenericErrorComponent'
 
 export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()

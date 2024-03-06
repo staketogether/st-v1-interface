@@ -641,7 +641,7 @@
       "serviceCharge": "Service charge",
       "youReceived": "You received",
       "copyCodeSuccess": "code copied successfully",
-      "provider": "Provider",
+      "provider": "Choose your payment method",
       "creditCard": "Credit Card",
       "kyc": {
         "title": "KYC - Know your client",
