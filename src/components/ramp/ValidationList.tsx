@@ -7,7 +7,6 @@ export interface ValidationSteps {
   icon: ReactNode
   text: string
   subText?: string
-  disable: boolean
 }
 
 export default function ValidationList({ validationSteps }: Readonly<{ validationSteps: ValidationSteps[] }>) {
@@ -16,7 +15,7 @@ export default function ValidationList({ validationSteps }: Readonly<{ validatio
     <StatusContainer>
       {validationSteps.map((step, index) => (
         <>
-          <Status key={index} className={step.disable ? 'disabled' : ''}>
+          <Status key={index}>
             {step.icon}
             <div>
               <span>{step.text}</span>

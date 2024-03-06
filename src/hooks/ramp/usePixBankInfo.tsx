@@ -12,10 +12,8 @@ export default function usePixBankInfo(provider: 'brla' | 'transak', pixKey?: st
     accountAddress && pixKey && `api/ramp/buy/${provider}/pix-bank-info/${pixKey}/${accountAddress}`, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
-    revalidateOnReconnect: false,
     errorRetryCount: 1,
-    shouldRetryOnError: false,
-    revalidateOnMount: false,
+
   })
 
   pixBankInfoVar(data)

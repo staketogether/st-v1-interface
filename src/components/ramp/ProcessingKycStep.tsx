@@ -14,7 +14,7 @@ import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import { useEffect, useState } from 'react'
-import { PiCircleLight, PiClockLight } from 'react-icons/pi'
+import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import { useAccount } from 'wagmi'
 import WrapProcessingStep from './WrapProcessingStep'
@@ -31,6 +31,17 @@ export default function ProcessingKycStep() {
   const kycActivityId = kyc?.level && kycActivity ? undefined : kycActivity
   const { activity, isError } = useVerifyActivity(ProviderType.brla, kycActivityId ?? undefined)
   const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc ? undefined : address)
+
+  const getIcon = (moment: 'waiting' | 'process' | 'success') => {
+
+    const icons = {
+      waiting: <PiCircleLight size={32} color={theme.color.secondary} />,
+      process: <PiClockLight size={32} color={theme.color.secondary} />,
+      success: <PiCheckCircleFill size={32} color={theme.color.green[500]} />
+    }
+
+    return icons[moment]
+  }
 
   useEffect(() => {
     if (address && quote && (kyc?.level || activity?.status === 'success')) {
@@ -55,6 +66,7 @@ export default function ProcessingKycStep() {
     }
   }, [activity?.status, isError, isErrorBuyRamp])
 
+  console.log('kycActivityId', kycActivityId)
   useEffect(() => {
     if (buyRampResponse?.brCode) {
       qrCodeVar(buyRampResponse)
@@ -64,13 +76,13 @@ export default function ProcessingKycStep() {
 
   const validationSteps = [
     {
-      icon: <PiClockLight size={32} color={theme.color.secondary} />,
+      icon: getIcon(kycActivityId ? 'process' : 'success'),
       text: t('v2.ramp.processingRegistration'),
       subText: t('v2.ramp.kyc.processTime'),
       disable: !kycActivityId
     },
     {
-      icon: <PiCircleLight size={32} color={theme.color.secondary} />,
+      icon: activity?.status === 'success' ? getIcon('success') : getIcon(kycActivityId ? 'process' : 'waiting'),
       text: t('v2.ramp.generatingQRCode'),
       disable: activity?.status !== 'success'
     }

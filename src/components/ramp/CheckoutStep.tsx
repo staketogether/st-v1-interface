@@ -29,7 +29,7 @@ export default function CheckoutStep() {
   }
 
   useEffect(() => {
-    if (activity?.type === 'pix-to-token' && (activity.status !== 'error')) {
+    if (activity?.type === 'pix-to-token' && (activity.status !== 'error' && activity.status !== 'created')) {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingCheckoutStep)
     }
   }, [activity])
