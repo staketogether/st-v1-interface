@@ -655,7 +655,8 @@
         "emailPlaceholder": "Enter your contact email",
         "companyName": "Company name",
         "birthday": "Birthday",
-        "foundationDate": "Foundation date"
+        "foundationDate": "Foundation date",
+        "processTime": "This process can take up to 1 minute"
       },
       "quote": {
         "title": "Buy Ethereum directly by PIX",

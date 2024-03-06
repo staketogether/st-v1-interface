@@ -66,6 +66,7 @@ export default function ProcessingKycStep() {
     {
       icon: <PiClockLight size={32} color={theme.color.secondary} />,
       text: t('v2.ramp.processingRegistration'),
+      subText: t('v2.ramp.kyc.processTime'),
       disable: !kycActivityId
     },
     {

@@ -679,7 +679,8 @@
         "emailPlaceholder": "Insira seu e-mail para contato",
         "companyName": "Nome Social",
         "birthday": "Data de nascimento",
-        "foundationDate": "Data de fundação"
+        "foundationDate": "Data de fundação",
+        "processTime": "Esse processo pode levar até 1 minuto"
       },
       "quote": {
         "title": "Compre Ethereum direto via PIX",
