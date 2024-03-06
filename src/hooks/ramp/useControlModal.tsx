@@ -17,7 +17,7 @@ export enum BrlaBuyEthStep {
 }
 export const openBrlaModalVar = makeVar(false)
 export const fiatAmountVar = makeVar<string>('0')
-export const stepsControlBuyCryptoVar = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.Quotation)
+export const stepsControlBuyCryptoVar = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.MethodPayment)
 export const quoteVar = makeVar<Quote | undefined>(undefined)
 export const qrCodeVar = makeVar<BuyRamp | null>(null)
 export const kycLevelVar = makeVar<KycLevelInfo | null>(null)

@@ -7,6 +7,7 @@ import { globalConfig } from '@/config/global'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
+  changeWalletAddress,
   clearModal,
   openBrlaModalVar,
   stepsControlBuyCryptoVar
@@ -61,8 +62,13 @@ export default function BuyEthControlModal() {
       refetch()
       return
     }
-    // changeWalletAddress()
   }, [address, currentStep, refetch])
+
+  useEffect(() => {
+    if (address) {
+      changeWalletAddress()
+    }
+  }, [address])
 
   return (
     <SWRConfig
