@@ -1,11 +1,12 @@
-import { BrlaBuyEthStep, qrCodeVar, stepsControlBuyCryptoVar } from "@/hooks/ramp/useControlModal"
-import useVerifyActivity from "@/hooks/ramp/useVerifyActivity"
-import useLocaleTranslation from "@/hooks/useLocaleTranslation"
-import { ProviderType } from "@/types/provider.type"
-import { useReactiveVar } from "@apollo/client"
-import { PiCheckCircleFill, PiClockLight } from "react-icons/pi"
-import { useTheme } from "styled-components"
-import WrapProcessingStep from "./WrapProcessingStep"
+import { BrlaBuyEthStep, qrCodeVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import useVerifyActivity from '@/hooks/ramp/useVerifyActivity'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProviderType } from '@/types/provider.type'
+import { useReactiveVar } from '@apollo/client'
+import { PiCheckCircleFill, PiClockLight } from 'react-icons/pi'
+import { useTheme } from 'styled-components'
+import WrapProcessingStep from './WrapProcessingStep'
+import { useEffect } from 'react'
 
 export default function ProcessingCheckoutStep() {
   const theme = useTheme()
@@ -19,6 +20,11 @@ export default function ProcessingCheckoutStep() {
     setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Success), timeToRedirect)
   }
 
+  useEffect(() => {
+    if (activity?.status === 'error') {
+      stepsControlBuyCryptoVar(BrlaBuyEthStep.Error)
+    }
+  }, [activity?.status])
 
   const validationSteps = [
     {
@@ -33,6 +39,5 @@ export default function ProcessingCheckoutStep() {
     }
   ]
 
-
-  return (<WrapProcessingStep validationSteps={validationSteps} title={t('v2.ramp.processingPayment')} />)
+  return <WrapProcessingStep validationSteps={validationSteps} title={t('v2.ramp.processingPayment')} />
 }

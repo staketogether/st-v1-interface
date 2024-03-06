@@ -23,6 +23,7 @@ import ProcessingCheckoutStep from './ProcessingCheckoutStep'
 import ProcessingKycStep from './ProcessingKycStep'
 import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
+import GenericErrorComponent from './GenericErrorComponent'
 
 export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
@@ -37,7 +38,8 @@ export default function BuyEthControlModal() {
     ProcessingKyc: <ProcessingKycStep />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep />,
     Checkout: <CheckoutStep />,
-    Success: <SuccessStep />
+    Success: <SuccessStep />,
+    error: <GenericErrorComponent />
   }
 
   const controlModal = useReactiveVar(openBrlaModalVar)
@@ -61,7 +63,11 @@ export default function BuyEthControlModal() {
     }
   }, [address, currentStep, refetch])
 
-
+  useEffect(() => {
+    if (address) {
+      changeWalletAddress()
+    }
+  }, [address])
 
   return (
     <SWRConfig

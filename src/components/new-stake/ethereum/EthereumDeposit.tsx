@@ -48,7 +48,25 @@ export default function EthereumDeposit({
   const [poolDelegatedSelected, setPoolDelegatedSelected] = useState<`0x${string}`>(stakeTogetherPool)
 
   const { t } = useLocaleTranslation()
-  const { locale } = useRouter()
+  const { locale, push, pathname, query } = useRouter()
+
+  const handleAddProjectOnRoute = (projectAddress: `0x${string}`) => {
+    push(
+      {
+        pathname: pathname,
+        query: { ...query, projectAddress }
+      },
+      undefined,
+      { shallow: true }
+    )
+  }
+
+  useEffect(() => {
+    if (query.projectAddress) {
+      setIsActivatedDelegation(true)
+      setPoolDelegatedSelected(query.projectAddress as `0x${string}`)
+    }
+  }, [query.projectAddress])
 
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
@@ -180,7 +198,9 @@ export default function EthereumDeposit({
           isActivatedDelegation={isActivatedDelegation}
           onChange={e => setIsActivatedDelegation(e)}
           poolDelegatedSelected={poolDelegatedSelected}
-          handleDelegationChange={e => setPoolDelegatedSelected(e)}
+          handleDelegationChange={project => {
+            handleAddProjectOnRoute(project)
+          }}
         />
         {!!account && (
           <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantDeposit} />

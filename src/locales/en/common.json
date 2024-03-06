@@ -73,6 +73,7 @@
   "knowMore": "Know More",
   "buyCryptoTitle": "Buy Ether",
   "sellCryptoTitle": "Sell Ether",
+  "genericErrorMessage": "Sorry! Something went wrong. Please try again",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
