@@ -7,7 +7,6 @@ import { globalConfig } from '@/config/global'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
-  changeWalletAddress,
   clearModal,
   openBrlaModalVar,
   stepsControlBuyCryptoVar
@@ -24,6 +23,7 @@ import ProcessingCheckoutStep from './ProcessingCheckoutStep'
 import ProcessingKycStep from './ProcessingKycStep'
 import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
+import GenericErrorComponent from './GenericErrorComponent'
 
 export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
@@ -38,7 +38,8 @@ export default function BuyEthControlModal() {
     ProcessingKyc: <ProcessingKycStep />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep />,
     Checkout: <CheckoutStep />,
-    Success: <SuccessStep />
+    Success: <SuccessStep />,
+    error: <GenericErrorComponent />
   }
 
   const controlModal = useReactiveVar(openBrlaModalVar)
@@ -60,10 +61,8 @@ export default function BuyEthControlModal() {
       refetch()
       return
     }
-    changeWalletAddress()
+    // changeWalletAddress()
   }, [address, currentStep, refetch])
-
-
 
   return (
     <SWRConfig
