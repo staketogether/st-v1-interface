@@ -1,15 +1,12 @@
 import { Product, ProductMarketAssetData } from '@/types/Product'
 import React from 'react'
-import { PiArrowLeft, PiCopy } from 'react-icons/pi'
+import { PiCopy } from 'react-icons/pi'
 import styled from 'styled-components'
 import StakingIcons from '../tokens/StakingIcons'
 import SymbolIcons from '../tokens/SymbolIcons'
 import chainConfig from '@/config/chain'
 import { truncateAddress } from '@/services/truncate'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-
-import { useRouter } from 'next/router'
-import Link from 'next/link'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import TradingViewComponent from '@/components/shared/TradingViewComponent'
 
@@ -21,19 +18,12 @@ type ProductInfoProps = {
 export default function ProductInfo({ product, assetData }: ProductInfoProps) {
   const { contracts } = chainConfig()
   const { t } = useLocaleTranslation()
-  const { query } = useRouter()
-  const { currency, network } = query
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
   return (
     <ProductContainer>
       <header>
-        <HeaderBackAction href={`/${network}/${currency}/product`}>
-          <PiArrowLeft />
-          <span>{t('goToBack')}</span>
-        </HeaderBackAction>
-
         <HeaderProduct>
           <StakingIcons stakingProduct={product.icon} size={36} />
           {product.title}
@@ -88,14 +78,7 @@ export default function ProductInfo({ product, assetData }: ProductInfoProps) {
   )
 }
 
-const {
-  ProductContainer,
-  ProductBodyContainer,
-  HeaderBackAction,
-  HeaderProduct,
-  HeaderDescribeInfo,
-  StatisticContainer
-} = {
+const { ProductContainer, ProductBodyContainer, HeaderProduct, HeaderDescribeInfo, StatisticContainer } = {
   ProductContainer: styled.div`
     flex: 1;
     display: flex;
@@ -108,16 +91,7 @@ const {
       gap: ${({ theme }) => theme.size[12]};
     }
   `,
-  HeaderBackAction: styled(Link)`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[4]};
-    font-size: ${({ theme }) => theme.font.size[15]};
 
-    color: ${({ theme }) => theme.colorV2.gray[1]};
-    opacity: 0.6;
-    cursor: pointer;
-  `,
   HeaderProduct: styled.div`
     display: flex;
     align-items: center;
