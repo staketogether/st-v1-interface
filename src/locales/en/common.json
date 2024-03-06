@@ -660,7 +660,10 @@
         "title": "Buy Ethereum directly by PIX",
         "updateQuote": "Price updates at",
         "terms": "By continuing, you agree to our",
-        "policies": "policies"
+        "policies": "policies",
+        "requiredKyc": "KYC registration required",
+        "requiredUpdateKyc": "KYC registration update required",
+        "price": "Preço"
       }
     },
     "ethereumStaking": {

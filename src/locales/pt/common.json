@@ -684,7 +684,10 @@
         "title": "Compre Ethereum direto via PIX",
         "updateQuote": "Preço atualiza em",
         "terms": "Ao continuar você concorda com nossas",
-        "policies": "políticas"
+        "policies": "políticas",
+        "requiredKyc": "Necessário o cadastro de KYC",
+        "requiredUpdateKyc": "Necessário atualização do cadastro de KYC",
+        "price": "Preço"
       }
     },
     "ethereumStaking": {
