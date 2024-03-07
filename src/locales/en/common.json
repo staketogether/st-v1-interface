@@ -656,7 +656,8 @@
         "companyName": "Company name",
         "birthday": "Birthday",
         "foundationDate": "Foundation date",
-        "processTime": "This process can take up to 1 minute"
+        "processTime": "This process can take up to 1 minute",
+        "info": "KYC: Know Your Customer. A process to verify the customer's identity, preventing fraud, and ensuring secure transactions."
       },
       "quote": {
         "title": "Buy Ethereum directly by PIX",
@@ -665,7 +666,11 @@
         "policies": "policies",
         "requiredKyc": "KYC registration required",
         "requiredUpdateKyc": "KYC registration update required",
-        "price": "Preço"
+        "price": "Price"
+      },
+      "checkout": {
+        "for": "For",
+        "bank": "Bank"
       }
     },
     "ethereumStaking": {

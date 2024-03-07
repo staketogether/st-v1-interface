@@ -45,9 +45,9 @@ export default function CheckoutStep() {
               <span>R$ {quote?.amountBrl}</span>
             </div>
             <span>
-              Para {pixBankInfo?.name}
+              {t('v2.ramp.checkout.for')} {pixBankInfo?.name}
               {pixBankInfo?.taxId}
-              Banco: {pixBankInfo?.bankName}
+              {t('v2.ramp.checkout.bank')}: {pixBankInfo?.bankName}
             </span>
           </Header>
           <QrCodeArea>

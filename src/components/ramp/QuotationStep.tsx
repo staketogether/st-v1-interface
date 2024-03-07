@@ -112,7 +112,6 @@ export default function QuotationStep() {
   return (
     <Container>
       <KycLevel amountValue={Number(debounceValue)} />
-      <header>{t('v2.ramp.quote.title')}:</header>
       <BoxValuesContainer>
         <InputContainer className={`${error ? 'error' : ''}`}>
           <div>

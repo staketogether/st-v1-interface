@@ -1,11 +1,10 @@
+import CommunityLogo from '@/components/shared/community/CommunityLogo'
+import CommunityName from '@/components/shared/community/CommunityName'
+import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Select, Switch, Tooltip } from 'antd'
-import React from 'react'
-import styled from 'styled-components'
 import { PiQuestion } from 'react-icons/pi'
-import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
-import CommunityName from '@/components/shared/community/CommunityName'
-import CommunityLogo from '@/components/shared/community/CommunityLogo'
+import styled from 'styled-components'
 
 type EthereumProjectSelectProps = {
   isActivatedDelegation: boolean
@@ -39,7 +38,7 @@ export default function EthereumProjectSelect({
     <Container>
       <div>
         <span>
-          Delegaçao
+          {t('delegation')}
           <Tooltip title={t('v2.stake.descriptionForm.exchangeTooltip')}>
             <QuestionIcon />
           </Tooltip>

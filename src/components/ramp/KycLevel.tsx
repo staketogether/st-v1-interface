@@ -1,6 +1,7 @@
 import useLocaleTranslation from "@/hooks/useLocaleTranslation";
 import { useReactiveVar } from "@apollo/client";
-import { PiInfoThin } from "react-icons/pi";
+import { Tooltip } from "antd";
+import { PiInfoThin, PiQuestion } from "react-icons/pi";
 import styled from "styled-components";
 import { kycLevelVar } from '../../hooks/ramp/useControlModal';
 
@@ -21,7 +22,12 @@ export function KycLevel({ amountValue }: { amountValue: number }) {
         <Container>
             <KycInfo>
                 <div>
-                    <div>{t('v2.ramp.kyc.level')}</div>
+                    <Level>
+                        <span>{t('v2.ramp.kyc.level')}</span>
+                        <Tooltip title={t('v2.ramp.kyc.info')}>
+                            <QuestionIcon />
+                        </Tooltip>
+                    </Level>
                     <div>{kycLevel?.level ?? 1}</div>
                 </div>
                 <div>
@@ -46,7 +52,7 @@ export function KycLevel({ amountValue }: { amountValue: number }) {
     )
 }
 
-const { Container, KycInfo } = {
+const { Container, KycInfo, QuestionIcon, Level } = {
     Container: styled.div`
         display: flex;
         flex-direction: column;
@@ -92,4 +98,15 @@ const { Container, KycInfo } = {
             }
         }
   `,
+    QuestionIcon: styled(PiQuestion)`
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        cursor: pointer;
+        &:hover {
+            color: ${({ theme }) => theme.color.secondary};
+        }
+  `,
+    Level: styled.div`
+        display: flex;
+        flex-direction: row !important; 
+  `
 }

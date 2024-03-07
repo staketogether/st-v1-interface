@@ -43,7 +43,6 @@ const { Container, SwapToken } = {
   `,
   SwapToken: styled.div`
     padding: 8px  16px;
-    /* margin: 0 auto; */
     > div {
       display: flex;
       flex-direction: row;
@@ -66,6 +65,9 @@ const { Container, SwapToken } = {
     }
     &.left {
       margin: 0 0 0 auto;
+      > div {
+        justify-content: right;
+      }
     }
 
     `

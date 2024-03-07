@@ -16,7 +16,7 @@ export enum BrlaBuyEthStep {
   Error = 'error'
 }
 export const openBrlaModalVar = makeVar(false)
-export const fiatAmountVar = makeVar<string>('0')
+export const fiatAmountVar = makeVar<string>('')
 export const stepsControlBuyCryptoVar = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.MethodPayment)
 export const quoteVar = makeVar<Quote | undefined>(undefined)
 export const qrCodeVar = makeVar<BuyRamp | null>(null)
@@ -28,7 +28,7 @@ export const clearModal = () => {
   kycLevelVar(null)
   kycIdVar(null)
   quoteVar(undefined)
-  fiatAmountVar('0')
+  fiatAmountVar('')
   openBrlaModalVar(false)
 }
 
@@ -42,6 +42,6 @@ export const changeWalletAddress = () => {
   kycLevelVar(null)
   kycIdVar(null)
   quoteVar(undefined)
-  fiatAmountVar('0')
+  fiatAmountVar('')
   stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
 }
