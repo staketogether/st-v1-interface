@@ -16,10 +16,13 @@ type ProductInfoProps = {
 }
 
 export default function ProductInfo({ product, assetData }: ProductInfoProps) {
-  const { contracts } = chainConfig()
+  const { isTestnet } = chainConfig()
   const { t } = useLocaleTranslation()
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
+  const stakeTogetherContractAddress = !isTestnet
+    ? product.contracts.mainnet.StakeTogether
+    : product.contracts.testnet.StakeTogether || `0x`
 
   return (
     <ProductContainer>
@@ -71,7 +74,7 @@ export default function ProductInfo({ product, assetData }: ProductInfoProps) {
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.contractAddress')}</h2>
         <span className='copy'>
-          {truncateAddress(contracts.StakeTogether)} <PiCopy style={{ fontSize: 16 }} />
+          {truncateAddress(stakeTogetherContractAddress)} <PiCopy style={{ fontSize: 16 }} />
         </span>
       </ProductBodyContainer>
     </ProductContainer>

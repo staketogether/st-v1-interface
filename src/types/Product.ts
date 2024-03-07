@@ -9,8 +9,8 @@ export type StakingProductIcon =
   | 'polkadot'
 
 export type StakingProduct =
-  | 'ethereum'
-  | 'restaking'
+  | 'ethereum-stake'
+  | 'ethereum-restaking'
   | 'polygon'
   | 'solana'
   | 'celestia'

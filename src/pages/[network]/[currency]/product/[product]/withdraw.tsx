@@ -3,7 +3,7 @@ import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { handleProductConfig } from '@/config/product'
+import { productList } from '@/config/product'
 import { fiatAmountVar, openBrlaModalVar } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { Product, ProductMarketAssetData } from '@/types/Product'
@@ -45,12 +45,9 @@ export default function Home({ product, assetData }: HomeProps) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = [
-    { params: { network: 'mainnet', currency: 'usd', product: 'ethereum' } },
-    { params: { network: 'mainnet', currency: 'brl', product: 'ethereum' } },
-    { params: { network: 'mainnet', currency: 'eur', product: 'ethereum' } },
-    { params: { network: 'goerli', currency: 'usd', product: 'ethereum' } },
-    { params: { network: 'goerli', currency: 'brl', product: 'ethereum' } },
-    { params: { network: 'goerli', currency: 'eur', product: 'ethereum' } }
+    { params: { network: 'ethereum', currency: 'usd', product: 'ethereum-stake' } },
+    { params: { network: 'ethereum', currency: 'brl', product: 'ethereum-stake' } },
+    { params: { network: 'ethereum', currency: 'eur', product: 'ethereum-stake' } }
   ]
 
   return { paths, fallback: 'blocking' }
@@ -75,9 +72,9 @@ async function fetchProductAssetData(
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
-  const { network, currency, product } = params as { network: string; currency: string; product: string }
-  const productsList = handleProductConfig(network, currency)
-  const findProduct = productsList.find(item => item.name === product)
+  const { product } = params as { network: string; currency: string; product: string }
+
+  const findProduct = productList.find(item => item.name === product)
 
   if (!findProduct) {
     return {

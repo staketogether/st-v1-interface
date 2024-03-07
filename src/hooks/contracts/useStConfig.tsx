@@ -1,15 +1,17 @@
-import chain from '@/config/chain'
-
 import { useStakeTogetherConfig } from '@/types/Contracts'
 import { useState } from 'react'
 import { STConfig } from '../../types/STConfig'
+import chainConfig from '@/config/chain'
+import { getContractsByProductName } from '@/config/product'
+import { StakingProduct } from '@/types/Product'
 
-export default function useStConfig() {
+export default function useStConfig({ productName }: { productName: StakingProduct }) {
   const [stConfig, setSTConfig] = useState<STConfig | null>(null)
-  const { contracts } = chain()
+  const { isTestnet } = chainConfig()
+  const { StakeTogether } = getContractsByProductName({ productName, isTestnet })
 
   const { isFetching } = useStakeTogetherConfig({
-    address: contracts.StakeTogether,
+    address: StakeTogether,
     onSuccess(data) {
       if (data) {
         const config: STConfig = {

@@ -604,8 +604,8 @@
       }
     },
     "products": {
-      "ethereum": "Ethereum Staking",
-      "restaking": "Ethereum ReStaking ",
+      "ethereum-stake": "Ethereum Staking",
+      "ethereum-restaking": "Ethereum ReStaking ",
       "celestia": "Celestia Staking",
       "polygon": "Polygon Staking",
       "solana": "Solana Staking",

@@ -9,13 +9,15 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import EthereumDeposit from './EthereumDeposit'
 import EthereumWithdraw from './EthereumWithdraw'
+import { Product } from '@/types/Product'
 
 type EthereumFormControlProps = {
   type: 'deposit' | 'withdraw'
+  product: Product
 }
-export default function EthereumFormControl({ type }: EthereumFormControlProps) {
+export default function EthereumFormControl({ type, product }: EthereumFormControlProps) {
   const { query } = useRouter()
-  const { currency, network } = query
+  const { currency } = query as { currency: string }
   const { account } = useConnectedAccount()
   const { t } = useLocaleTranslation()
 
@@ -32,12 +34,12 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
         <nav>
           <ul>
             <li className={`${type === 'deposit' && 'activated'}`}>
-              <Link href={`/${network}/${currency}/product/ethereum`}>
+              <Link href={product.urlRedirect.replace('currency', currency)}>
                 {t('v2.ethereumStaking.actions.invest')}
               </Link>
             </li>
             <li className={`${type === 'withdraw' && 'activated'}`}>
-              <Link href={`/${network}/${currency}/product/ethereum/withdraw`}>
+              <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>
                 {t('v2.ethereumStaking.actions.withdraw')}
               </Link>
             </li>
@@ -55,6 +57,7 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
             stpETHBalance={stpETHBalance}
             stpETHBalanceLoading={stpETHBalanceLoading}
             account={account}
+            product={product}
           />
         ) : (
           <EthereumWithdraw
@@ -65,6 +68,7 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
             stpETHBalance={stpETHBalance}
             stpETHBalanceLoading={stpETHBalanceLoading}
             account={account}
+            product={product}
           />
         )}
       </div>

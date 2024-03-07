@@ -628,8 +628,8 @@
       }
     },
     "products": {
-      "ethereum": "Staking de Ethereum",
-      "restaking": "ReStaking de Ethereum ",
+      "ethereum-stake": "Staking de Ethereum",
+      "ethereum-restaking": "ReStaking de Ethereum ",
       "celestia": "Staking de Celestia",
       "polygon": "Staking de Polygon ",
       "solana": "Staking de Solana",

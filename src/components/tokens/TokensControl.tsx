@@ -6,6 +6,7 @@ import LayoutTitle from '../shared/layout/LayoutTitle'
 import StakingIcons from './StakingIcons'
 import SymbolIcons from './SymbolIcons'
 import { Product } from '@/types/Product'
+import { useRouter } from 'next/router'
 
 type ProductItemProps = {
   productsList: Product[]
@@ -13,6 +14,8 @@ type ProductItemProps = {
 
 export default function TokensControl({ productsList }: ProductItemProps) {
   const { t } = useLocaleTranslation()
+  const { query } = useRouter()
+  const { currency } = query as { currency: string }
 
   const productsHeader = [
     t('v2.tokens.products.name'),
@@ -34,7 +37,7 @@ export default function TokensControl({ productsList }: ProductItemProps) {
           <nav>
             {productsList.map(product => (
               <ProductItem
-                href={product.urlRedirect}
+                href={product.urlRedirect.replace('currency', currency)}
                 key={product.id}
                 className={`${!product.enabled && 'disabled'}`}
                 style={{
@@ -72,7 +75,7 @@ export default function TokensControl({ productsList }: ProductItemProps) {
         <LayoutTitle title={t('v2.tokens.title')} />
         {productsList.map(product => (
           <ProductCard
-            href={product.urlRedirect}
+            href={product.urlRedirect.replace('currency', currency)}
             key={product.id}
             className={`${!product.enabled && 'disabled'}`}
             style={{

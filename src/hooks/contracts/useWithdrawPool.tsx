@@ -25,11 +25,13 @@ import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
 import useConnectedAccount from '../useConnectedAccount'
+import { Product } from '@/types/Product'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
+  product: Product,
   accountAddress?: `0x${string}`
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -42,9 +44,10 @@ export default function useWithdrawPool(
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerWithdraw } = useMixpanelAnalytics()
-  const { contracts, chainId } = chainConfig()
+  const { chainId, isTestnet } = chainConfig()
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { stConfig, loading: stConfigLoading } = useStConfig()
+  const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name })
+  const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
   const { t } = useLocaleTranslation()
 
   const amountEstimatedGas = stConfig?.minWithdrawAmount || 0n
@@ -53,7 +56,7 @@ export default function useWithdrawPool(
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
-    contractAddress: contracts.StakeTogether,
+    contractAddress: StakeTogether,
     functionName: 'withdrawPool',
     args: [amountEstimatedGas, poolAddress],
     abi: stakeTogetherABI,
@@ -80,7 +83,7 @@ export default function useWithdrawPool(
     isError: prepareTransactionIsError,
     isSuccess: prepareTransactionIsSuccess
   } = usePrepareStakeTogetherWithdrawPool({
-    address: contracts.StakeTogether,
+    address: StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
     enabled: isWithdrawEnabled,

@@ -24,13 +24,15 @@ import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
 import useConnectedAccount from '../useConnectedAccount'
+import { Product } from '@/types/Product'
 
 export default function useDepositPool(
   netDepositAmount: bigint,
   grossDepositAmount: bigint,
   poolAddress: `0x${string}`,
   enabled: boolean,
-  accountAddress?: `0x${string}`
+  product: Product,
+  accountAddress: `0x${string}` | undefined
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
@@ -42,22 +44,24 @@ export default function useDepositPool(
   const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerDeposit } = useMixpanelAnalytics()
-  const { contracts, chainId } = chainConfig()
+  const { chainId, isTestnet } = chainConfig()
+
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { stConfig, loading: stConfigLoading } = useStConfig()
+  const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name })
   const { t } = useLocaleTranslation()
 
   const amountEstimatedGas = stConfig?.minDepositAmount || 0n
   const isDepositEnabled = enabled && netDepositAmount > 0n && !stConfigLoading
   const isDepositEstimatedGas = !enabled && stConfigLoading
+  const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
 
   const { estimateGas } = useEstimateTxInfo({
-    account: accountAddress,
+    account: StakeTogether,
     functionName: 'depositPool',
     args: [poolAddress, referral],
-    contractAddress: contracts.StakeTogether,
+    contractAddress: StakeTogether,
     abi: stakeTogetherABI,
     value: amountEstimatedGas,
     skip: isDepositEstimatedGas && estimateGasCost > 0n
@@ -93,7 +97,7 @@ export default function useDepositPool(
     isSuccess: prepareTransactionIsSuccess
   } = usePrepareStakeTogetherDepositPool({
     chainId,
-    address: contracts.StakeTogether,
+    address: StakeTogether,
     args: [poolAddress, referral],
     account: accountAddress,
     enabled: accountAddress && isDepositEnabled,

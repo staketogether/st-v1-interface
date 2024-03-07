@@ -25,8 +25,8 @@ export default function NewStakeControl({ product, type, assetData }: NewStakeCo
 
   const handleProductAction = () => {
     switch (product.name) {
-      case 'ethereum':
-        return <EthereumFormControl type={type} />
+      case 'ethereum-stake':
+        return <EthereumFormControl product={product} type={type} />
 
       default:
         return <div>{t('v2.products.productNotAvailable')}</div>

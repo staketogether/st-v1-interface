@@ -26,11 +26,13 @@ import {
 } from '@/types/Contracts'
 import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
+import { Product } from '@/types/Product'
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
+  product: Product,
   accountAddress?: `0x${string}`
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -43,7 +45,8 @@ export default function useWithdrawValidator(
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerWithdraw } = useMixpanelAnalytics()
-  const { contracts, chainId } = chainConfig()
+  const { chainId, isTestnet } = chainConfig()
+  const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
   const { web3AuthUserInfo } = useConnectedAccount()
 
   const { t } = useLocaleTranslation()
@@ -53,7 +56,7 @@ export default function useWithdrawValidator(
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
-    contractAddress: contracts.StakeTogether,
+    contractAddress: StakeTogether,
     functionName: 'withdrawBeacon',
     args: [amount, poolAddress],
     abi: stakeTogetherABI,
@@ -81,7 +84,7 @@ export default function useWithdrawValidator(
     isError: prepareTransactionIsError,
     isSuccess: prepareTransactionIsSuccess
   } = usePrepareStakeTogetherWithdrawBeacon({
-    address: contracts.StakeTogether,
+    address: StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
     enabled: isWithdrawEnabled,

@@ -25,6 +25,7 @@ import StakeConfirmModal from '@/components/stake/StakeConfirmModal'
 import StakeWithdrawCounter from '@/components/stake/StakeWithdrawCounter'
 import { Tooltip } from 'antd'
 import EthereumDescription from './EthereumDescription'
+import { Product } from '@/types/Product'
 
 type EthereumWithdrawProps = {
   type: 'deposit' | 'withdraw'
@@ -34,6 +35,7 @@ type EthereumWithdrawProps = {
   stpETHBalance: bigint
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
+  product: Product
 }
 
 export default function EthereumWithdraw({
@@ -43,7 +45,8 @@ export default function EthereumWithdraw({
   ethBalanceLoading,
   ethBalanceRefetch,
   stpETHBalance,
-  stpETHBalanceLoading
+  stpETHBalanceLoading,
+  product
 }: EthereumWithdrawProps) {
   const [amount, setAmount] = useState<string>('')
 
@@ -63,15 +66,16 @@ export default function EthereumWithdraw({
   const isWrongNetwork = chainId !== walletChainId?.id
 
   const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
-    useWithdrawPoolBalance()
-  const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock(
-    account,
-    withdrawTypeSelected === WithdrawType.POOL
-  )
+    useWithdrawPoolBalance({ product })
+  const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock({
+    walletAddress: account,
+    enabled: withdrawTypeSelected === WithdrawType.POOL,
+    product
+  })
   const {
     withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
     refetch: withdrawValidatorsBalanceRefetch
-  } = useWithdrawValidatorBalance()
+  } = useWithdrawValidatorBalance({ product })
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
@@ -101,7 +105,13 @@ export default function EthereumWithdraw({
     prepareTransactionIsError: withdrawPoolPrepareTransactionIsError,
     prepareTransactionIsSuccess: withdrawPoolPrepareTransactionIsSuccess,
     prepareTransactionErrorMessage: withdrawPoolPrepareTransactionErrorMessage
-  } = useWithdrawPool(inputAmount, blankPoolAddress, withdrawTypeSelected === WithdrawType.POOL, account)
+  } = useWithdrawPool(
+    inputAmount,
+    blankPoolAddress,
+    withdrawTypeSelected === WithdrawType.POOL,
+    product,
+    account
+  )
 
   const {
     withdrawValidator,
@@ -118,6 +128,7 @@ export default function EthereumWithdraw({
     inputAmount,
     blankPoolAddress,
     withdrawTypeSelected === WithdrawType.VALIDATOR,
+    product,
     account
   )
 

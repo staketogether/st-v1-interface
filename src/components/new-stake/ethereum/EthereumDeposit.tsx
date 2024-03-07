@@ -22,6 +22,7 @@ import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet
 import { notification } from 'antd'
 import EthereumDescription from './EthereumDescription'
 import EthereumProjectSelect from './EthereumProjectSelect'
+import { Product } from '@/types/Product'
 
 type EthereumDepositProps = {
   type: 'deposit' | 'withdraw'
@@ -31,6 +32,7 @@ type EthereumDepositProps = {
   stpETHBalance: bigint
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
+  product: Product
 }
 
 export default function EthereumDeposit({
@@ -40,13 +42,14 @@ export default function EthereumDeposit({
   ethBalanceLoading,
   ethBalanceRefetch,
   stpETHBalance,
-  stpETHBalanceLoading
+  stpETHBalanceLoading,
+  product
 }: EthereumDepositProps) {
   const [amount, setAmount] = useState<string>('')
   const [isActivatedDelegation, setIsActivatedDelegation] = useState(false)
+
   const { stakeTogetherPool, chainId, name } = chainConfig()
   const [poolDelegatedSelected, setPoolDelegatedSelected] = useState<`0x${string}`>(stakeTogetherPool)
-
   const { t } = useLocaleTranslation()
   const { locale, push, pathname, query } = useRouter()
 
@@ -79,7 +82,7 @@ export default function EthereumDeposit({
   const feeAmount = (parsedAmount * BigInt(fee?.value || 0n)) / ethers.parseEther('1')
   const youReceiveDeposit = ethers.parseUnits(inputAmount, 18) - feeAmount
 
-  const { stConfig } = useStConfig()
+  const { stConfig } = useStConfig({ productName: product.name })
   const minDepositAmount = stConfig?.minDepositAmount || 0n
 
   const { chain: walletChainId } = useNetwork()
@@ -100,6 +103,7 @@ export default function EthereumDeposit({
     ethers.parseUnits(inputAmount, 18),
     poolDelegatedSelected,
     !isWrongNetwork,
+    product,
     account
   )
 

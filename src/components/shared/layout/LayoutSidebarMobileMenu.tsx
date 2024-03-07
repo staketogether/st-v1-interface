@@ -14,6 +14,7 @@ import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
 import Link from 'next/link'
 import useActiveRoute from '@/hooks/useActiveRoute'
+import { productList } from '@/config/product'
 type LayoutSidebarMobileMenuProps = {
   account?: `0x${string}`
 }
@@ -31,10 +32,14 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
   const { screenWidth, breakpoints } = useResizeView()
   const { isActive } = useActiveRoute()
   const { query, isReady, pathname, locale } = useRouter()
-  const { currency, network } = query
+  const { currency, network } = query as { currency: string; network: string }
 
   const date = new Date()
-  const { blockExplorer, contracts } = chainConfig()
+  const { blockExplorer, isTestnet } = chainConfig()
+  const productEthereum = productList.find(product => product.name === 'ethereum-stake')
+  const staketogetherContractAddress = !isTestnet
+    ? productEthereum?.contracts.mainnet.StakeTogether
+    : productEthereum?.contracts.testnet.StakeTogether || `0x`
   const { websiteUrl, auditUrl } = globalConfig
   const documentationUrl = locale
     ? locale === 'en'
@@ -82,7 +87,7 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
           </TopContainer>
           <FooterContainer>
             <FooterContent>
-              <a href={`${blockExplorer.baseUrl}/address/${contracts.StakeTogether}`} target='_blank'>
+              <a href={`${blockExplorer.baseUrl}/address/${staketogetherContractAddress}`} target='_blank'>
                 {t('footer.smartContract')} <PiArrowSquareOut />
               </a>
               <a href={auditUrl} target='_blank'>
