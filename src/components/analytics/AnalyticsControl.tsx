@@ -13,12 +13,17 @@ import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import AnalyticsValidatorRow from './AnalyticsValidatorRow'
+import { getContractsByProductName } from '@/config/product'
 
 export default function AnalyticsControl() {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
   const { isLoading, analytics, validators } = useAnalyticsData()
-  const { contracts, blockExplorer } = chainConfig()
+  const { isTestnet, blockExplorer } = chainConfig()
+  const { StakeTogether, Router, Withdrawals } = getContractsByProductName({
+    productName: 'ethereum-stake',
+    isTestnet
+  })
 
   const { price: eth, symbol } = useCoinConversion('1')
   const ethPrice = formatNumberByLocale(truncateDecimal(eth || '0', 2), locale)
@@ -67,13 +72,12 @@ export default function AnalyticsControl() {
     locale
   )
 
-  const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } = useEthBalanceOf(
-    contracts.StakeTogether
-  )
+  const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } =
+    useEthBalanceOf(StakeTogether)
   const stakeTogetherContractFormatted = formatNumberByLocale(truncateWei(stakeTogetherContract, 4), locale)
-  const { balance: routerContract, isLoading: routerLoading } = useEthBalanceOf(contracts.Router)
+  const { balance: routerContract, isLoading: routerLoading } = useEthBalanceOf(Router)
   const routerBalanceFormatted = formatNumberByLocale(truncateWei(routerContract, 4), locale)
-  const { balance: withdrawalsContract, isLoading: withdrawalsLoading } = useEthBalanceOf(contracts.Withdrawals)
+  const { balance: withdrawalsContract, isLoading: withdrawalsLoading } = useEthBalanceOf(Withdrawals)
   const withdrawalsFormatted = formatNumberByLocale(truncateWei(withdrawalsContract, 4), locale)
 
   const validatorsCount = analytics?.validatorsCount
@@ -205,10 +209,7 @@ export default function AnalyticsControl() {
             <span>{t('v2.analytics.contracts.link')}</span>
           </header>
           <div>
-            <ContractTableRow
-              href={`${blockExplorer.baseUrl}/address/${contracts.StakeTogether}`}
-              target='_blank'
-            >
+            <ContractTableRow href={`${blockExplorer.baseUrl}/address/${StakeTogether}`} target='_blank'>
               <span>Stake Together</span>
               {stakeTogetherContractLoading ? (
                 <SkeletonLoading width={120} />
@@ -220,7 +221,7 @@ export default function AnalyticsControl() {
                 {t('v2.analytics.contracts.viewInExecutionLayer')}
               </span>
             </ContractTableRow>
-            <ContractTableRow href={`${blockExplorer.baseUrl}/address/${contracts.Router}`} target='_blank'>
+            <ContractTableRow href={`${blockExplorer.baseUrl}/address/${Router}`} target='_blank'>
               <span>Router</span>
               {routerLoading ? (
                 <SkeletonLoading width={120} />
@@ -232,10 +233,7 @@ export default function AnalyticsControl() {
                 {t('v2.analytics.contracts.viewInExecutionLayer')}
               </span>
             </ContractTableRow>
-            <ContractTableRow
-              href={`${blockExplorer.baseUrl}/address/${contracts.Withdrawals}`}
-              target='_blank'
-            >
+            <ContractTableRow href={`${blockExplorer.baseUrl}/address/${Withdrawals}`} target='_blank'>
               <span>Withdrawals</span>
               {withdrawalsLoading ? (
                 <SkeletonLoading width={120} />

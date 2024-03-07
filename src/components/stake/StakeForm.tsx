@@ -35,14 +35,16 @@ import StpEthIcon from '../shared/StpethIcon'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import { Product } from '@/types/Product'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
   poolAddress: `0x${string}`
   accountAddress?: `0x${string}`
+  product: Product
 }
 
-export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
+export function StakeForm({ type, accountAddress, poolAddress, product }: StakeFormProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
   const {
@@ -61,16 +63,17 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const [withdrawTypeSelected, setWithdrawTypeSelected] = useState(WithdrawType.POOL)
   const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
-    useWithdrawPoolBalance()
-  const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock(
-    accountAddress,
-    withdrawTypeSelected === WithdrawType.POOL
-  )
+    useWithdrawPoolBalance({ product })
+  const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock({
+    walletAddress: accountAddress,
+    enabled: withdrawTypeSelected === WithdrawType.POOL,
+    product
+  })
 
   const {
     withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
     refetch: withdrawValidatorsBalanceRefetch
-  } = useWithdrawValidatorBalance()
+  } = useWithdrawValidatorBalance({ product })
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
@@ -104,7 +107,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const youReceiveDeposit = netDepositAmount
 
-  const { stConfig } = useStConfig()
+  const { stConfig } = useStConfig({ productName: product.name })
   const minDepositAmount = stConfig?.minDepositAmount || 0n
 
   const {
@@ -122,6 +125,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     ethers.parseUnits(inputAmount, 18),
     poolAddress,
     type === 'deposit',
+    product,
     accountAddress
   )
 
@@ -140,6 +144,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     inputAmount,
     poolAddress,
     type === 'withdraw' && withdrawTypeSelected === WithdrawType.POOL,
+    product,
     accountAddress
   )
 
@@ -158,6 +163,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     inputAmount,
     poolAddress,
     type === 'withdraw' && withdrawTypeSelected === WithdrawType.VALIDATOR,
+    product,
     accountAddress
   )
 

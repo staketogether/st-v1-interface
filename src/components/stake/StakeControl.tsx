@@ -18,6 +18,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
 import StakePoolInfo from './StakePoolInfo'
+import { getProductByName } from '@/config/product'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -34,7 +35,7 @@ export default function StakeControl({
 }: StakeControlProps) {
   const [skipMembers, setSkipMembers] = useState(0)
   const [skipActivity, setSkipActivity] = useState(0)
-
+  const product = getProductByName({ productName: 'ethereum-stake' })
   const { t } = useLocaleTranslation()
 
   const { query, locale } = useRouter()
@@ -85,7 +86,9 @@ export default function StakeControl({
   }
 
   const { account } = useConnectedAccount()
-  const stakeForm = <StakeForm type={type} accountAddress={account} poolAddress={poolAddress} />
+  const stakeForm = (
+    <StakeForm type={type} product={product} accountAddress={account} poolAddress={poolAddress} />
+  )
   const tabsItems: TabsItems[] = [
     {
       key: 'deposit',
