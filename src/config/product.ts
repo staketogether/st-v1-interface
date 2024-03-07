@@ -19,6 +19,10 @@ export const productList: Product[] = [
     description: 'ethereumDescription',
     enabled: true,
     urlRedirect: '/ethereum/currency/product/ethereum-stake',
+    stakeTogetherPool: {
+      mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
+      testnet: '0x3BdFaA0b55B4F6F3F9cFC6bbB1F582a1c6A0FD69'
+    },
     contracts: {
       mainnet: {
         Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
@@ -54,6 +58,10 @@ export const productList: Product[] = [
     description: 'ethereumDescription',
     enabled: true,
     urlRedirect: '/ethereum/currency/product/ethereum-restaking',
+    stakeTogetherPool: {
+      mainnet: '0xccb5F9aEc4A83f6d0DBf64AE77B6eD70b9E9Cf0b',
+      testnet: '0xccb5F9aEc4A83f6d0DBf64AE77B6eD70b9E9Cf0b'
+    },
     contracts: {
       mainnet: {
         Airdrop: '0xccb5F9aEc4A83f6d0DBf64AE77B6eD70b9E9Cf0b',
@@ -89,6 +97,10 @@ export const productList: Product[] = [
     description: 'ethereumDescription',
     enabled: false,
     urlRedirect: '/',
+    stakeTogetherPool: {
+      mainnet: '0x',
+      testnet: '0x'
+    },
     contracts: {
       mainnet: {
         Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
@@ -124,6 +136,10 @@ export const productList: Product[] = [
     description: 'ethereumDescription',
     enabled: false,
     urlRedirect: '/',
+    stakeTogetherPool: {
+      mainnet: '0x',
+      testnet: '0x'
+    },
     contracts: {
       mainnet: {
         Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
@@ -159,6 +175,10 @@ export const productList: Product[] = [
     description: 'EthereumDescription',
     enabled: false,
     urlRedirect: '/',
+    stakeTogetherPool: {
+      mainnet: '0x',
+      testnet: '0x'
+    },
     contracts: {
       mainnet: {
         Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
@@ -194,6 +214,10 @@ export const productList: Product[] = [
     description: 'EthereumDescription',
     enabled: false,
     urlRedirect: '/',
+    stakeTogetherPool: {
+      mainnet: '0x',
+      testnet: '0x'
+    },
     contracts: {
       mainnet: {
         Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
@@ -229,6 +253,10 @@ export const productList: Product[] = [
     description: 'EthereumDescription',
     enabled: false,
     urlRedirect: '/',
+    stakeTogetherPool: {
+      mainnet: '0x',
+      testnet: '0x'
+    },
     contracts: {
       mainnet: {
         Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
@@ -264,6 +292,10 @@ export const productList: Product[] = [
     description: 'EthereumDescription',
     enabled: false,
     urlRedirect: '/',
+    stakeTogetherPool: {
+      mainnet: '0x',
+      testnet: '0x'
+    },
     contracts: {
       mainnet: {
         Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',

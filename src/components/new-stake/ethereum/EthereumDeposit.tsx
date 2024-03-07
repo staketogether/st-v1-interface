@@ -48,7 +48,9 @@ export default function EthereumDeposit({
   const [amount, setAmount] = useState<string>('')
   const [isActivatedDelegation, setIsActivatedDelegation] = useState(false)
 
-  const { stakeTogetherPool, chainId, name } = chainConfig()
+  const { chainId, name, isTestnet } = chainConfig()
+  const stakeTogetherPool = product.stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet']
+
   const [poolDelegatedSelected, setPoolDelegatedSelected] = useState<`0x${string}`>(stakeTogetherPool)
   const { t } = useLocaleTranslation()
   const { locale, push, pathname, query } = useRouter()
@@ -183,6 +185,7 @@ export default function EthereumDeposit({
               setAmount(value)
             }}
             type={type}
+            product={product}
             hasError={cantDeposit}
             balance={ethBalance}
             balanceLoading={ethBalanceLoading}
