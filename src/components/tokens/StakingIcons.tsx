@@ -8,18 +8,18 @@ import NearIcon from '@assets/network/near.svg'
 import cosmosIcon from '@assets/network/cosmos.svg'
 import celestiaIcon from '@assets/network/celestia.svg'
 import restaking from '@assets/network/restaking.svg'
-import { StakingProductIcon } from '@/types/Product'
 import styled from 'styled-components'
+import { StakingProduct } from '@/types/Product'
 
 type NetworkIconProps = {
-  stakingProduct: StakingProductIcon
+  stakingProduct: StakingProduct
   size: number
 }
 
-export default function StakingIcons({ stakingProduct, size }: NetworkIconProps) {
+export default function NetworkProductIcons({ stakingProduct, size }: NetworkIconProps) {
   const stakingProductsIcons = {
-    ethereum: ethereumIcon,
-    EthereumRestaking: restaking,
+    'ethereum-stake': ethereumIcon,
+    'ethereum-restaking': restaking,
     polygon: polygonIcon,
     solana: solanaIcon,
     celestia: celestiaIcon,

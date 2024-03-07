@@ -5,7 +5,6 @@ export const productList: Product[] = [
     id: 1,
     name: 'ethereum-stake',
     title: 'Staking de Ethereum',
-    icon: 'ethereum',
     symbol: 'stpETH',
     networks: [
       { network: 'ethereum', enabled: true },
@@ -42,9 +41,8 @@ export const productList: Product[] = [
     name: 'ethereum-restaking',
     title: 'Restaking',
     symbol: 'stpRETH',
-    icon: 'EthereumRestaking',
     networks: [
-      { network: 'ethereum', enabled: false },
+      { network: 'ethereum', enabled: true },
       { network: 'optimism', enabled: false },
       { network: 'arbitrum', enabled: false },
       { network: 'polygon', enabled: false },
@@ -54,22 +52,22 @@ export const productList: Product[] = [
     scan: 'https://etherscan.io/',
     contractAddress: '0x1234567890',
     description: 'ethereumDescription',
-    enabled: false,
+    enabled: true,
     urlRedirect: '/ethereum/currency/product/ethereum-restaking',
     contracts: {
       mainnet: {
-        Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
-        Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
-        Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
-        StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
-        StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        Airdrop: '0xccb5F9aEc4A83f6d0DBf64AE77B6eD70b9E9Cf0b',
+        Withdrawals: '0x21A487688211e1baf7C55637ac8506134aB29901',
+        Router: '0x3DE749c1B1715Ec48C14C2425341f397daCB50D9',
+        StakeTogether: '0xB398ccB5d98B9Ac98eDDF6268f7950A773D8e419',
+        StakeTogetherWrapper: '0xE0F10DC1092aa7E5cB692a9f58f678146D6b1291'
       },
       testnet: {
-        Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
-        Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
-        Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
-        StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
-        StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        Airdrop: '0xccb5F9aEc4A83f6d0DBf64AE77B6eD70b9E9Cf0b',
+        Withdrawals: '0x21A487688211e1baf7C55637ac8506134aB29901',
+        Router: '0x3DE749c1B1715Ec48C14C2425341f397daCB50D9',
+        StakeTogether: '0xB398ccB5d98B9Ac98eDDF6268f7950A773D8e419',
+        StakeTogetherWrapper: '0xE0F10DC1092aa7E5cB692a9f58f678146D6b1291'
       }
     }
   },
@@ -78,7 +76,6 @@ export const productList: Product[] = [
     name: 'celestia',
     title: 'Celestia',
     symbol: 'stpTIA',
-    icon: 'celestia',
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -114,7 +111,6 @@ export const productList: Product[] = [
     name: 'polygon',
     title: 'Polygon',
     symbol: 'stpPOL',
-    icon: 'polygon',
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -150,7 +146,6 @@ export const productList: Product[] = [
     name: 'solana',
     title: 'Solana',
     symbol: 'stpSOL',
-    icon: 'solana',
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -186,7 +181,6 @@ export const productList: Product[] = [
     name: 'cosmos',
     title: 'Cosmos',
     symbol: 'stpATOM',
-    icon: 'cosmos',
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -222,7 +216,6 @@ export const productList: Product[] = [
     name: 'near',
     title: 'Near',
     symbol: 'stpNear',
-    icon: 'near',
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -258,7 +251,6 @@ export const productList: Product[] = [
     name: 'polkadot',
     title: 'Polkadot',
     symbol: 'stpKSM',
-    icon: 'polkadot',
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },

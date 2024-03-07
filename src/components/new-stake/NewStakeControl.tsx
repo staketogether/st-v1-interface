@@ -23,16 +23,6 @@ type NewStakeControlProps = {
 export default function NewStakeControl({ product, type, assetData }: NewStakeControlProps) {
   const { t } = useLocaleTranslation()
 
-  const handleProductAction = () => {
-    switch (product.name) {
-      case 'ethereum-stake':
-        return <EthereumFormControl product={product} type={type} />
-
-      default:
-        return <div>{t('v2.products.productNotAvailable')}</div>
-    }
-  }
-
   const { query } = useRouter()
   const { currency, network } = query
 
@@ -44,7 +34,9 @@ export default function NewStakeControl({ product, type, assetData }: NewStakeCo
       </HeaderBackAction>
       <div>
         <ProductInfo product={product} assetData={assetData} />
-        <ActionContainer>{handleProductAction()}</ActionContainer>
+        <ActionContainer>
+          <EthereumFormControl product={product} type={type} />
+        </ActionContainer>
       </div>
     </Container>
   )

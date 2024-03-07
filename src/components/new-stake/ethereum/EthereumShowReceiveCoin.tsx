@@ -1,9 +1,10 @@
-import StpEthIcon from '@/components/shared/StpethIcon'
+import NetworkIcons from '@/components/shared/NetworkIcons'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-import StakingIcons from '@/components/tokens/StakingIcons'
+import SymbolIcons from '@/components/tokens/SymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
+import { Product } from '@/types/Product'
 import { Select } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -14,13 +15,15 @@ type EthereumStpETHInputProps = {
   balance: bigint
   balanceLoading: boolean
   type: 'deposit' | 'withdraw'
+  product: Product
 }
 
 export default function EthereumShowReceiveCoin({
   amountValue,
   balance,
   balanceLoading,
-  type
+  type,
+  product
 }: EthereumStpETHInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
@@ -37,7 +40,8 @@ export default function EthereumShowReceiveCoin({
               value: 'ethereum',
               label: (
                 <SelectOption>
-                  Ethereum <StakingIcons stakingProduct='ethereum' size={16} />
+                  Ethereum
+                  <NetworkIcons network='ethereum' size={16} />
                 </SelectOption>
               )
             }
@@ -54,11 +58,13 @@ export default function EthereumShowReceiveCoin({
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <StpEthIcon size={32} showPlusIcon />
+            <>
+              <SymbolIcons productSymbol={product.symbol} size={32} />
+            </>
           ) : (
-            <StakingIcons stakingProduct='ethereum' size={32} />
+            <NetworkIcons network='ethereum' size={32} />
           )}
-          <span>{type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')}</span>
+          <span>{type === 'deposit' ? product.symbol : t('eth.symbol')}</span>
         </CoinActionContainer>
         <input type='text' placeholder='0' value={amountValue} disabled />
       </div>

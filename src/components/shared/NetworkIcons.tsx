@@ -13,7 +13,7 @@ type Network = 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana'
 type NetworkIconProps = {
   network: Network
   size: number
-  enabled: boolean
+  enabled?: boolean
 }
 
 export default function NetworkIcons({ network, size, enabled = true }: NetworkIconProps) {

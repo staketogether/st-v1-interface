@@ -1,13 +1,3 @@
-export type StakingProductIcon =
-  | 'ethereum'
-  | 'EthereumRestaking'
-  | 'polygon'
-  | 'solana'
-  | 'celestia'
-  | 'cosmos'
-  | 'near'
-  | 'polkadot'
-
 export type StakingProduct =
   | 'ethereum-stake'
   | 'ethereum-restaking'
@@ -60,7 +50,6 @@ export type Product = {
   name: StakingProduct
   title: string
   symbol: ProductSymbol
-  icon: StakingProductIcon
   networks: NetworkWrap[]
   apy: number
   description: string

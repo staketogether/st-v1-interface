@@ -2,7 +2,7 @@ import { Product, ProductMarketAssetData } from '@/types/Product'
 import React from 'react'
 import { PiCopy } from 'react-icons/pi'
 import styled from 'styled-components'
-import StakingIcons from '../tokens/StakingIcons'
+import NetworkProductIcons from '../tokens/StakingIcons'
 import SymbolIcons from '../tokens/SymbolIcons'
 import chainConfig from '@/config/chain'
 import { truncateAddress } from '@/services/truncate'
@@ -28,7 +28,7 @@ export default function ProductInfo({ product, assetData }: ProductInfoProps) {
     <ProductContainer>
       <header>
         <HeaderProduct>
-          <StakingIcons stakingProduct={product.icon} size={36} />
+          <NetworkProductIcons stakingProduct={product.name} size={36} />
           {product.title}
         </HeaderProduct>
 

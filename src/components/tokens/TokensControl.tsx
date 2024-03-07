@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-import NetworkIcons from '../shared/NetworkIcons'
 import LayoutTitle from '../shared/layout/LayoutTitle'
-import StakingIcons from './StakingIcons'
 import SymbolIcons from './SymbolIcons'
 import { Product } from '@/types/Product'
 import { useRouter } from 'next/router'
+import NetworkProductIcons from './StakingIcons'
+import NetworkIcons from '../shared/NetworkIcons'
 
 type ProductItemProps = {
   productsList: Product[]
@@ -45,7 +45,7 @@ export default function TokensControl({ productsList }: ProductItemProps) {
                 }}
               >
                 <ImageContainer>
-                  <StakingIcons stakingProduct={product.icon} size={24} />
+                  <NetworkProductIcons stakingProduct={product.name} size={24} />
                   <span>{t(`v2.products.${product.name}`)}</span>
                 </ImageContainer>
 
@@ -84,7 +84,7 @@ export default function TokensControl({ productsList }: ProductItemProps) {
           >
             <header>
               <ImageContainer>
-                <StakingIcons stakingProduct={product.icon} size={22} />
+                <NetworkProductIcons stakingProduct={product.name} size={22} />
                 <span>{t(`v2.products.${product.name}`)}</span>
               </ImageContainer>
               <div>
