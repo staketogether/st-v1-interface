@@ -47,6 +47,14 @@ export type NetworkWrap = {
   enabled: boolean
 }
 
+export type Contracts = {
+  Airdrop: `0x${string}`
+  Withdrawals: `0x${string}`
+  Router: `0x${string}`
+  StakeTogether: `0x${string}`
+  StakeTogetherWrapper: `0x${string}`
+}
+
 export type Product = {
   id: number
   name: StakingProduct
@@ -60,6 +68,10 @@ export type Product = {
   contractAddress: `0x${string}`
   enabled: boolean
   urlRedirect: string
+  contracts: {
+    testnet: Contracts
+    mainnet: Contracts
+  }
 }
 
 export type ProductMarketAssetData = {

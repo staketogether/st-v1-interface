@@ -1,6 +1,7 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import chainConfig from './chain'
+import { globalConfig } from './global'
 export const apolloClient = new ApolloClient({
   uri: chainConfig().subgraphs.StakeTogether,
   ssrMode: typeof window === 'undefined',
@@ -49,7 +50,7 @@ const contentfulAuthorization = setContext((_, { headers }) => {
 })
 
 const httpLink = new HttpLink({
-  uri: chainConfig().subgraphs.ContentFul
+  uri: globalConfig.contentFul
 })
 
 export const contentfulClient = new ApolloClient({

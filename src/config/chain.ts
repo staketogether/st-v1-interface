@@ -10,9 +10,9 @@ export type ChainConfig = {
   provider: ethers.JsonRpcProvider
   blockExplorer: BlockExplorerConfig
   stakeTogetherPool: `0x${string}`
+  isTestnet: boolean
   subgraphs: {
     StakeTogether: string
-    ContentFul: string
     stBackend: string
     analytics: string
   }
@@ -31,6 +31,7 @@ const configs: ChainConfig[] = [
     name: 'mainnet',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_MAINNET),
     stakeTogetherPool: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
+    isTestnet: false,
     blockExplorer: {
       baseUrl: 'https://etherscan.io'
     },
@@ -43,7 +44,6 @@ const configs: ChainConfig[] = [
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
-      ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`,
       stBackend: 'https://st-backend-thz2yhu72a-uc.a.run.app/graphql',
       analytics: 'https://st-analytics-api-ddfui.ondigitalocean.app/graphql'
     }
@@ -56,6 +56,7 @@ const configs: ChainConfig[] = [
     blockExplorer: {
       baseUrl: 'https://goerli.etherscan.io'
     },
+    isTestnet: true,
     contracts: {
       Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
       Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
@@ -65,7 +66,6 @@ const configs: ChainConfig[] = [
     },
     subgraphs: {
       StakeTogether: 'https://api.studio.thegraph.com/proxy/51080/st-subgraph-goerli/v0.2.8',
-      ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`,
       stBackend: 'https://st-backend-thz2yhu72a-uc.a.run.app/graphql',
       analytics: 'https://st-analytics-api-ddfui.ondigitalocean.app/graphql'
     }

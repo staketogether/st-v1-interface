@@ -20,7 +20,23 @@ export const handleProductConfig = (network: string, currency: string) => {
       contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
       description: 'ethereumDescription',
       enabled: true,
-      urlRedirect: `/${network}/${currency}/product/ethereum`
+      urlRedirect: `/${network}/${currency}/product/ethereum`,
+      contracts: {
+        mainnet: {
+          Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
+          Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+          Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
+          StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+          StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        },
+        testnet: {
+          Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
+          Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+          Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+          StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+          StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        }
+      }
     },
     {
       id: 2,
@@ -40,7 +56,23 @@ export const handleProductConfig = (network: string, currency: string) => {
       contractAddress: '0x1234567890',
       description: 'ethereumDescription',
       enabled: false,
-      urlRedirect: '/'
+      urlRedirect: '/',
+      contracts: {
+        mainnet: {
+          Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
+          Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+          Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
+          StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+          StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        },
+        testnet: {
+          Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
+          Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+          Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+          StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+          StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        }
+      }
     },
     {
       id: 3,
@@ -60,7 +92,23 @@ export const handleProductConfig = (network: string, currency: string) => {
       contractAddress: '0x1234567890',
       description: 'ethereumDescription',
       enabled: false,
-      urlRedirect: '/'
+      urlRedirect: '/',
+      contracts: {
+        mainnet: {
+          Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
+          Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+          Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
+          StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+          StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        },
+        testnet: {
+          Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
+          Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+          Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+          StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+          StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        }
+      }
     },
     {
       id: 4,
@@ -80,7 +128,23 @@ export const handleProductConfig = (network: string, currency: string) => {
       contractAddress: '0x1234567890',
       description: 'ethereumDescription',
       enabled: false,
-      urlRedirect: '/'
+      urlRedirect: '/',
+      contracts: {
+        mainnet: {
+          Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
+          Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+          Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
+          StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+          StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        },
+        testnet: {
+          Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
+          Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+          Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+          StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+          StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        }
+      }
     },
     {
       id: 5,
@@ -100,7 +164,23 @@ export const handleProductConfig = (network: string, currency: string) => {
       contractAddress: '0x1234567890',
       description: 'EthereumDescription',
       enabled: false,
-      urlRedirect: '/'
+      urlRedirect: '/',
+      contracts: {
+        mainnet: {
+          Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
+          Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+          Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
+          StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+          StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        },
+        testnet: {
+          Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
+          Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+          Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+          StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+          StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        }
+      }
     },
     {
       id: 6,
@@ -120,7 +200,23 @@ export const handleProductConfig = (network: string, currency: string) => {
       contractAddress: '0x1234567890',
       description: 'EthereumDescription',
       enabled: false,
-      urlRedirect: '/'
+      urlRedirect: '/',
+      contracts: {
+        mainnet: {
+          Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
+          Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+          Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
+          StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+          StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        },
+        testnet: {
+          Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
+          Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+          Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+          StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+          StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        }
+      }
     },
     {
       id: 7,
@@ -140,7 +236,23 @@ export const handleProductConfig = (network: string, currency: string) => {
       contractAddress: '0x1234567890',
       description: 'EthereumDescription',
       enabled: false,
-      urlRedirect: '/'
+      urlRedirect: '/',
+      contracts: {
+        mainnet: {
+          Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
+          Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+          Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
+          StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+          StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        },
+        testnet: {
+          Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
+          Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+          Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+          StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+          StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        }
+      }
     },
     {
       id: 8,
@@ -160,7 +272,23 @@ export const handleProductConfig = (network: string, currency: string) => {
       contractAddress: '0x1234567890',
       description: 'EthereumDescription',
       enabled: false,
-      urlRedirect: '/'
+      urlRedirect: '/',
+      contracts: {
+        mainnet: {
+          Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
+          Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+          Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
+          StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+          StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        },
+        testnet: {
+          Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
+          Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+          Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+          StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+          StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        }
+      }
     }
   ]
   return productsList
