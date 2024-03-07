@@ -672,7 +672,7 @@
         "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Clique no botão abaixo para começar.",
         "level": "Nível KYC",
         "limit": "Limite",
-        "usedLimit": "Limite usado",
+        "availableLimit": "Limite disponível",
         "typeAccount": "Tipo de conta",
         "fullName": "Nome Completo",
         "namePlaceholder": "Insira seu nome igual ao do seu documento",

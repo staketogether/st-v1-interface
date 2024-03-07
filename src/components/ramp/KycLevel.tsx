@@ -31,7 +31,7 @@ export function KycLevel({ amountValue }: { amountValue: number }) {
                 {
                     kycLevel?.limits.limitSwapBuy &&
                     <div>
-                        <div>{t('v2.ramp.kyc.usedLimit')}</div>
+                        <div>{t('v2.ramp.kyc.availableLimit')}</div>
                         <div>R$ {handleFormat(limitUsed > 0 ? limitUsed : 0)}</div>
                     </div>
                 }
