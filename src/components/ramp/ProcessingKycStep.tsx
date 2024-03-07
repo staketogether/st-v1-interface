@@ -20,6 +20,7 @@ import { useAccount } from 'wagmi'
 import WrapProcessingStep from './WrapProcessingStep'
 
 export default function ProcessingKycStep() {
+  const timeToRedirect = 3000
   const theme = useTheme()
   const quote = useReactiveVar(quoteVar)
   const { address } = useAccount()
@@ -56,7 +57,8 @@ export default function ProcessingKycStep() {
       return
     }
     if (!kycLevelInfo?.level && !kycActivity && !isLoading) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc)
+      setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc), timeToRedirect)
+
     }
   }, [activity?.status, address, kyc?.level, quote, kycLevelInfo, kycActivity, isLoading])
 
@@ -66,13 +68,13 @@ export default function ProcessingKycStep() {
     }
   }, [activity?.status, isError, isErrorBuyRamp])
 
-  console.log('kycActivityId', kycActivityId)
   useEffect(() => {
     if (buyRampResponse?.brCode) {
       qrCodeVar(buyRampResponse)
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.Checkout)
+      setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Checkout), timeToRedirect)
+
     }
-  }, [buyRampResponse])
+  }, [activity?.status, activity?.type, buyRampResponse])
 
   const validationSteps = [
     {

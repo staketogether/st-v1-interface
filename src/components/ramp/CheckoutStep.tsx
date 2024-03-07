@@ -111,13 +111,7 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer }
   Header: styled.div`
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    background: linear-gradient(
-        0deg,
-        ${({ theme }) => theme.colorV2.gray[6]},
-        ${({ theme }) => theme.colorV2.gray[6]}
-      ),
-      linear-gradient(0deg, ${({ theme }) => theme.colorV2.gray[6]}, ${({ theme }) => theme.colorV2.gray[6]});
-
+    background: ${({ theme }) => theme.colorV2.gray[2]};
     padding: ${({ theme }) => theme.size[12]};
     border-radius: ${({ theme }) => theme.size[8]} ${({ theme }) => theme.size[8]} 0px 0px;
     gap: ${({ theme }) => theme.size[12]};
