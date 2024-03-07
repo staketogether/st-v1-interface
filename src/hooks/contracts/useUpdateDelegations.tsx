@@ -22,6 +22,7 @@ import {
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useConnectedAccount from '../useConnectedAccount'
+import { getContractsByProductName } from '@/config/product'
 
 export type PoolData = {
   pool: `0x${string}`
@@ -43,7 +44,12 @@ export default function useUpdateDelegations(
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   // const { registerWithdraw } = useMixpanelAnalytics()
-  const { contracts, stakeTogetherPool } = chainConfig()
+  const { isTestnet, stakeTogetherPool } = chainConfig()
+  //VERIFICAR A NECESSIDADE DE ESPECIFICAR O PRODUTO
+  const { StakeTogether } = getContractsByProductName({
+    productName: 'ethereum-stake',
+    isTestnet
+  })
   const { web3AuthUserInfo } = useConnectedAccount()
   const { t } = useLocaleTranslation()
 
@@ -57,7 +63,7 @@ export default function useUpdateDelegations(
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
-    contractAddress: contracts.StakeTogether,
+    contractAddress: StakeTogether,
     functionName: 'updateDelegations',
     args: [updateDelegationEstimatedGas],
     abi: stakeTogetherABI,
@@ -84,7 +90,7 @@ export default function useUpdateDelegations(
     isError: prepareTransactionIsError,
     isSuccess: prepareTransactionIsSuccess
   } = usePrepareStakeTogetherUpdateDelegations({
-    address: contracts.StakeTogether,
+    address: StakeTogether,
     args: [updateDelegationPools],
     account: accountAddress,
     enabled: isUpdateDelegationEnabled,

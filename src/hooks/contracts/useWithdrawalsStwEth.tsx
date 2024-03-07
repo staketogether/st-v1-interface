@@ -16,13 +16,20 @@ import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import { getContractsByProductName } from '@/config/product'
 
 export default function useWithdrawalsStwEth(
   withdrawAmount: bigint,
   accountAddress: `0x${string}`,
   enabled: boolean
 ) {
-  const { contracts, chainId } = chainConfig()
+  const { isTestnet, chainId } = chainConfig()
+  //SE FORMOS USAR ADICIONAR O PRODUTO
+  const { Withdrawals } = getContractsByProductName({
+    productName: 'ethereum-stake',
+    isTestnet
+  })
+
   const [notify, setNotify] = useState(false)
 
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -31,7 +38,7 @@ export default function useWithdrawalsStwEth(
   const isWithdrawEnabled = enabled && withdrawAmount > 0n
 
   const { config } = usePrepareWithdrawalsWithdraw({
-    address: contracts.Withdrawals,
+    address: Withdrawals,
     args: [withdrawAmount],
     account: accountAddress,
     enabled: isWithdrawEnabled

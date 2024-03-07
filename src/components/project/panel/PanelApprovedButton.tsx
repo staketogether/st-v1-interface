@@ -8,6 +8,7 @@ import { PiTrash } from 'react-icons/pi'
 import styled from 'styled-components'
 import Button from '@/components/shared/Button'
 import useProjectDetailModal from '@/hooks/useProjectDetailModal'
+import { getContractsByProductName } from '@/config/product'
 
 type PanelApprovedButtonProps = {
   project: ContentfulPool
@@ -16,13 +17,18 @@ type PanelApprovedButtonProps = {
 }
 
 export default function PanelApprovedButton({ project, projectSelected, openModal }: PanelApprovedButtonProps) {
-  const { contracts } = chain()
+  const { isTestnet } = chain()
+  const { StakeTogether } = getContractsByProductName({
+    productName: 'ethereum-stake',
+    isTestnet
+  })
+
   const {
     data: isPoolRegistered,
     isFetching,
     refetch
   } = useStakeTogetherPools({
-    address: contracts.StakeTogether,
+    address: StakeTogether,
     args: [project.wallet],
     enabled: !!project.wallet
   })
