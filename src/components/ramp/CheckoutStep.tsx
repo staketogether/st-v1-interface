@@ -162,6 +162,7 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, 
     > div {
       display: flex;
       flex-direction: column;
+      gap: 12px;
       align-items: center;
       > span:last-child {
         font-size: ${({ theme }) => theme.font.size[22]};
