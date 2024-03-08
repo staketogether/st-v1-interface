@@ -12,6 +12,7 @@ export enum BrlaBuyEthStep {
   ProcessingKyc = 'ProcessingKyc',
   ProcessingCheckoutStep = 'ProcessingCheckoutStep',
   Checkout = 'Checkout',
+  TimeOutCheckout = 'TimeOutCheckout',
   Success = 'Success',
   Error = 'error'
 }

@@ -695,7 +695,8 @@
       "checkout": {
         "for": "Para",
         "bank": "Banco",
-        "paymentTime": "Tempo de pagamento"
+        "paymentTime": "Tempo de pagamento",
+        "timeOut": "Infelizmente o seu prazo para efetuar o pagamento expirou!"
       }
     },
     "ethereumStaking": {

@@ -1,17 +1,33 @@
-import React from 'react'
-import styled from 'styled-components'
-import { PiWarningOctagon } from 'react-icons/pi'
-import Button from '../shared/Button'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { clearModal } from '@/hooks/ramp/useControlModal'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ReactNode } from 'react'
+import { PiWarningOctagon } from 'react-icons/pi'
+import styled from 'styled-components'
+import Button from '../shared/Button'
 
-export default function GenericErrorComponent() {
+interface GenericErrorComponentProps {
+  icon?: ReactNode
+  message?: string
+  subTitle?: string
+  onClose?: () => void
+}
+
+
+export default function GenericErrorComponent({ icon, message, subTitle, onClose }: GenericErrorComponentProps) {
   const { t } = useLocaleTranslation()
+  const handleClose = () => {
+    if (onClose) {
+      onClose()
+      return
+    }
+    clearModal()
+  }
   return (
     <Container>
-      <AlertIcon />
-      <span>{t('genericErrorMessage')}</span>
-      <Button label={'close'} block onClick={clearModal} />
+      {icon ?? <AlertIcon />}
+      <span>{message ?? t('genericErrorMessage')}</span>
+      {subTitle && <span>{subTitle}</span>}
+      <Button label={'close'} block onClick={handleClose} />
     </Container>
   )
 }

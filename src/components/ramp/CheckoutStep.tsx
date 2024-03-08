@@ -44,6 +44,7 @@ export default function CheckoutStep() {
         const hours = minutes < 0 ? prevTime.hours - 1 : prevTime.hours;
         if (hours === 0 && minutes === 0 && seconds === 0) {
           clearInterval(intervalId);
+          setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.TimeOutCheckout), 3000)
           return {
             ...prevTime,
             seconds: 0
