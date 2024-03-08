@@ -31,9 +31,11 @@ const { Container, Products, Title } = {
     width: 100%;
     flex: 1;
     display: grid;
-    grid-template-columns: 320px 1fr;
     gap: ${({ theme }) => theme.size[24]};
-    flex-wrap: wrap;
+    grid-template-columns: 1fr;
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      grid-template-columns: 320px 1fr;
+    }
   `,
   Title: styled.div`
     display: flex;
@@ -63,7 +65,7 @@ const { Container, Products, Title } = {
       width: 100%;
       flex: 1;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: ${({ theme }) => theme.size[24]};
     }
   `
