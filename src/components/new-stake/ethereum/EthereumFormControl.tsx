@@ -26,6 +26,8 @@ export default function EthereumFormControl({ type, product }: EthereumFormContr
     isLoading: ethBalanceLoading,
     refetch: ethBalanceRefetch
   } = useEthBalanceOf(account)
+
+  //TODO: CRIAR UM HOOK PARA BUSCAR O VALOR DO BALANCE POR PRODUTO
   const { accountBalance: stpETHBalance, accountIsLoading: stpETHBalanceLoading } = useStAccount(account)
 
   return (
