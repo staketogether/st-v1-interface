@@ -694,7 +694,8 @@
       },
       "checkout": {
         "for": "Para",
-        "bank": "Banco"
+        "bank": "Banco",
+        "paymentTime": "Tempo de pagamento"
       }
     },
     "ethereumStaking": {

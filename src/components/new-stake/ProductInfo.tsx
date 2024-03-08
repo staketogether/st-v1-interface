@@ -1,14 +1,13 @@
+import TradingViewComponent from '@/components/shared/TradingViewComponent'
+import chainConfig from '@/config/chain'
+import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { truncateAddress } from '@/services/truncate'
 import { Product, ProductMarketAssetData } from '@/types/Product'
-import React from 'react'
 import { PiCopy } from 'react-icons/pi'
 import styled from 'styled-components'
 import StakingIcons from '../tokens/StakingIcons'
 import SymbolIcons from '../tokens/SymbolIcons'
-import chainConfig from '@/config/chain'
-import { truncateAddress } from '@/services/truncate'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
-import TradingViewComponent from '@/components/shared/TradingViewComponent'
 
 type ProductInfoProps = {
   product: Product
@@ -144,6 +143,7 @@ const { ProductContainer, ProductBodyContainer, HeaderProduct, HeaderDescribeInf
       font-weight: 400;
       color: ${({ theme }) => theme.colorV2.gray[1]};
       opacity: 0.8;
+      line-height: 1.5rem; 
 
       &.valueItem {
         font-size: 20px;

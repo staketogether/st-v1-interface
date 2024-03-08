@@ -33,7 +33,7 @@ export const clearModal = () => {
 }
 
 export const openQuoteEthModal = () => {
-  stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
+  stepsControlBuyCryptoVar(BrlaBuyEthStep.Checkout)
   openBrlaModalVar(true)
 }
 
@@ -42,6 +42,6 @@ export const changeWalletAddress = () => {
   kycLevelVar(null)
   kycIdVar(null)
   quoteVar(undefined)
-  fiatAmountVar('')
+  fiatAmountVar()
   stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
 }

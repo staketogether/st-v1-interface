@@ -123,6 +123,7 @@ export default function QuotationStep() {
             onChange={({ target }) => handleChange(target.value)}
             value={value}
             min={0}
+            placeholder='0'
             step={1}
           />
         </InputContainer>
@@ -132,7 +133,7 @@ export default function QuotationStep() {
             <Image src={eth} width={36} height={24} alt='BRL' />
             <span>ETH</span>
           </div>
-          {quoteIsValidating ? <SkeletonLoading width={60} height={20} /> : <input type='number' value={quote?.amountToken ?? 0} disabled />}
+          {quoteIsValidating ? <SkeletonLoading width={60} height={20} /> : <input value={quote?.amountToken} disabled placeholder='0' />}
         </InputContainer>
       </BoxValuesContainer>
       <PriceInfoContainer>
