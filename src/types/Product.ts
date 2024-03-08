@@ -7,6 +7,8 @@ export type StakingProductIcon =
   | 'cosmos'
   | 'near'
   | 'polkadot'
+  | 'bitcoin'
+  | 'chiliz'
 
 export type StakingProduct =
   | 'ethereum'
@@ -17,6 +19,8 @@ export type StakingProduct =
   | 'cosmos'
   | 'near'
   | 'polkadot'
+  | 'bitcoin'
+  | 'chiliz'
 
 export type Airdrop =
   | 'layerZero'
@@ -39,6 +43,8 @@ export type ProductSymbol =
   | 'stpNear'
   | 'stpKSM'
   | 'stpATOM'
+  | 'stpBTC'
+  | 'stpCHZ'
 
 export type Network = 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana'
 
@@ -60,6 +66,7 @@ export type Product = {
   contractAddress: `0x${string}`
   enabled: boolean
   urlRedirect: string
+  getMobulaAssetData: GetMobulaAssetData
 }
 
 export type ProductMarketAssetData = {
@@ -82,4 +89,10 @@ export type ProductMarketAssetData = {
     volume_7d: number
     volume_change_24h: number
   }
+}
+
+export type GetMobulaAssetData = {
+  asset: string
+  blockchain: string
+  symbol: string
 }

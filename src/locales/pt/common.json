@@ -618,14 +618,8 @@
       }
     },
     "tokens": {
-      "title": "Investir",
-      "products": {
-        "name": "Nome",
-        "token": "Token",
-        "apy": "APY",
-        "networks": "Redes",
-        "airdrops": "Airdrops"
-      }
+      "title": "Produtos de Staking",
+      "description": "Invista nos melhores produtos de renda passiva para criptomoedas"
     },
     "products": {
       "ethereum": "Staking de Ethereum",
@@ -636,7 +630,9 @@
       "cosmos": "Staking de Cosmos",
       "near": "Staking de Near ",
       "polkadot": "Staking de Polkadot",
-      "productNotAvailable": "Produto Indisponivel"
+      "productNotAvailable": "Produto Indisponivel",
+      "bitcoin": "Staking de Bitcoin",
+      "chiliz": "Staking de Chiliz"
     },
     "notifyBar": {
       "incentives": {

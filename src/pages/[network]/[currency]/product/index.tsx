@@ -2,7 +2,7 @@ import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import TokensControl from '../../../../components/tokens/TokensControl'
+import TokensControl from '../../../../components/tokens/components/TokensControl'
 import { handleProductConfig } from '@/config/product'
 import { Product } from '@/types/Product'
 

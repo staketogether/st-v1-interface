@@ -1,6 +1,6 @@
 import StpEthIcon from '@/components/shared/StpethIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-import StakingIcons from '@/components/tokens/StakingIcons'
+import StakingIcons from '@/components/tokens/components/StakingIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'

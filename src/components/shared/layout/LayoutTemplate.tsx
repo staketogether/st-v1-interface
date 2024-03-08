@@ -99,7 +99,7 @@ const { Container, Wrapper, Content, Body } = {
     padding: ${({ theme }) => theme.size[16]};
 
     @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
-      grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
+      grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
     }
   `,
   Content: styled.div`
@@ -114,7 +114,7 @@ const { Container, Wrapper, Content, Body } = {
   `,
   Body: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
 
     gap: ${props => props.theme.size[32]};
     justify-content: center;

@@ -6,8 +6,8 @@ import { truncateAddress } from '@/services/truncate'
 import { Product, ProductMarketAssetData } from '@/types/Product'
 import { PiCopy } from 'react-icons/pi'
 import styled from 'styled-components'
-import StakingIcons from '../tokens/StakingIcons'
-import SymbolIcons from '../tokens/SymbolIcons'
+import StakingIcons from '../tokens/components/StakingIcons'
+import SymbolIcons from '../tokens/components/SymbolIcons'
 
 type ProductInfoProps = {
   product: Product
@@ -143,7 +143,7 @@ const { ProductContainer, ProductBodyContainer, HeaderProduct, HeaderDescribeInf
       font-weight: 400;
       color: ${({ theme }) => theme.colorV2.gray[1]};
       opacity: 0.8;
-      line-height: 1.5rem; 
+      line-height: 1.5rem;
 
       &.valueItem {
         font-size: 20px;
