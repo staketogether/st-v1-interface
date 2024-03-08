@@ -35,12 +35,12 @@ import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
 import Button from '../shared/Button'
 import Card from '../shared/Card'
 import StpEthIcon from '../shared/StpethIcon'
-import Withdrawals from '../shared/Withdrawals'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 import WalletSidebarPortfolio from './WalletSidebarPortfolio'
 import WalletSidebarSettings from './WalletSidebarSettings'
+import Withdrawals from '../shared/Withdrawals'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`

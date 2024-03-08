@@ -1,7 +1,6 @@
 import Button from '@/components/shared/Button'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
-import useStAccount from '@/hooks/subgraphs/useStAccount'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import Link from 'next/link'
@@ -10,6 +9,7 @@ import styled from 'styled-components'
 import EthereumDeposit from './EthereumDeposit'
 import EthereumWithdraw from './EthereumWithdraw'
 import { Product } from '@/types/Product'
+import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 
 type EthereumFormControlProps = {
   type: 'deposit' | 'withdraw'
@@ -27,8 +27,10 @@ export default function EthereumFormControl({ type, product }: EthereumFormContr
     refetch: ethBalanceRefetch
   } = useEthBalanceOf(account)
 
-  //TODO: CRIAR UM HOOK PARA BUSCAR O VALOR DO BALANCE POR PRODUTO
-  const { accountBalance: stpETHBalance, accountIsLoading: stpETHBalanceLoading } = useStAccount(account)
+  const { accountBalance: stpETHBalance, isLoading: stpETHBalanceLoading } = useLsdBalance({
+    walletAddress: account,
+    product: product
+  })
 
   return (
     <EthereumContainer>
