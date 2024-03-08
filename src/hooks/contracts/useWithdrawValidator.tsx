@@ -3,7 +3,6 @@ import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
-import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
@@ -27,6 +26,7 @@ import {
 import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import { Product } from '@/types/Product'
+import { getSubgraphClient } from '@/config/apollo'
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
@@ -47,6 +47,7 @@ export default function useWithdrawValidator(
   const { registerWithdraw } = useMixpanelAnalytics()
   const { chainId, isTestnet } = chainConfig()
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
+  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
   const { web3AuthUserInfo } = useConnectedAccount()
 
   const { t } = useLocaleTranslation()
@@ -159,7 +160,7 @@ export default function useWithdrawValidator(
         message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,
         placement: 'topRight'
       })
-      apolloClient.refetchQueries({
+      subgraphClient.refetchQueries({
         include: [
           queryAccount,
           queryPool,

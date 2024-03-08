@@ -15,7 +15,7 @@ import { useEffect } from 'react'
 import { StyleSheetManager, ThemeProvider } from 'styled-components'
 import { SWRConfig } from 'swr'
 import { WagmiConfig } from 'wagmi'
-import { apolloClient } from '../config/apollo'
+import { ethereumMainnetClient } from '../config/apollo'
 import validEnv from '../config/env'
 import { config } from '../config/wagmi'
 import '../styles/reset.css'
@@ -44,7 +44,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   }, [chain.chainId, registerPageView, router.events])
 
   return (
-    <ApolloProvider client={apolloClient}>
+    <ApolloProvider client={ethereumMainnetClient}>
       <ThemeProvider theme={lightTheme}>
         <WagmiConfig config={config}>
           <StyleSheetManager shouldForwardProp={isPropValid}>
@@ -83,7 +83,6 @@ const App = ({ Component, pageProps }: AppProps) => {
         </WagmiConfig>
       </ThemeProvider>
     </ApolloProvider>
-
   )
 }
 

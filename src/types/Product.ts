@@ -57,6 +57,10 @@ export type Product = {
   contractAddress: `0x${string}`
   enabled: boolean
   urlRedirect: string
+  subgraph: {
+    testnet: string
+    mainnet: string
+  }
   stakeTogetherPool: {
     testnet: `0x${string}`
     mainnet: `0x${string}`

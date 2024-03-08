@@ -243,6 +243,7 @@ export default function EthereumWithdraw({
             balanceLoading={stpETHBalanceLoading}
             onMaxFunction={() => setAmount(truncateWei(stpETHBalance, 18, true))}
             type={type}
+            product={product}
           />
           <DividerBox>
             <PiArrowDown style={{ fontSize: 16 }} />
@@ -252,6 +253,7 @@ export default function EthereumWithdraw({
             balance={ethBalance}
             balanceLoading={ethBalanceLoading}
             type={type}
+            product={product}
           />
         </InputContainer>
         <StakeWithdrawSwitchTypes

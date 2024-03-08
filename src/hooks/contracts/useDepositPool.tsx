@@ -11,7 +11,6 @@ import { truncateWei } from '@/services/truncate'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
-import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
@@ -25,6 +24,7 @@ import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
 import useConnectedAccount from '../useConnectedAccount'
 import { Product } from '@/types/Product'
+import { getSubgraphClient } from '@/config/apollo'
 
 export default function useDepositPool(
   netDepositAmount: bigint,
@@ -45,6 +45,7 @@ export default function useDepositPool(
 
   const { registerDeposit } = useMixpanelAnalytics()
   const { chainId, isTestnet } = chainConfig()
+  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
 
   const { web3AuthUserInfo } = useConnectedAccount()
   const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name })
@@ -174,7 +175,7 @@ export default function useDepositPool(
         message: `${t('notifications.depositSuccess')}: ${truncateWei(netDepositAmount, 4)} ${t('lsd.symbol')}`,
         placement: 'topRight'
       })
-      apolloClient.refetchQueries({
+      subgraphClient.refetchQueries({
         include: [
           queryAccount,
           queryPool,
@@ -199,7 +200,7 @@ export default function useDepositPool(
         placement: 'topRight'
       })
 
-      apolloClient.refetchQueries({
+      subgraphClient.refetchQueries({
         include: [queryAccount, queryPool]
       })
     }

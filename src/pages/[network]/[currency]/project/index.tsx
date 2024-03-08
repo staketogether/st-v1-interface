@@ -3,7 +3,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import PoolsControl from '../../../../components/invest/PoolsControl'
 import LayoutTemplate from '../../../../components/shared/layout/LayoutTemplate'
 import { Metatags } from '../../../../components/shared/meta/Metatags'
-import { apolloClient } from '../../../../config/apollo'
+import { ethereumMainnetClient } from '../../../../config/apollo'
 import { queryPools } from '../../../../queries/subgraph/queryPools'
 import { PoolSubgraph } from '../../../../types/Pool'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
@@ -24,14 +24,14 @@ export default function Invest({ pools, stakeTogether }: InvestProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const { data } = await apolloClient.query<{ pools: PoolSubgraph[] }>({
+  const { data } = await ethereumMainnetClient.query<{ pools: PoolSubgraph[] }>({
     query: queryPools,
     fetchPolicy: 'no-cache'
   })
 
   const pools: PoolSubgraph[] = data.pools
 
-  const { data: stakeTogether } = await apolloClient.query<{ stakeTogether: StakeTogether }>({
+  const { data: stakeTogether } = await ethereumMainnetClient.query<{ stakeTogether: StakeTogether }>({
     query: queryStakeTogether,
     fetchPolicy: 'no-cache'
   })

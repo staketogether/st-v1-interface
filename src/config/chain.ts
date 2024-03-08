@@ -11,7 +11,6 @@ export type ChainConfig = {
   blockExplorer: BlockExplorerConfig
   isTestnet: boolean
   subgraphs: {
-    StakeTogether: string
     stBackend: string
     analytics: string
   }
@@ -27,7 +26,6 @@ const configs: ChainConfig[] = [
       baseUrl: 'https://etherscan.io'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
       stBackend: 'https://st-backend-thz2yhu72a-uc.a.run.app/graphql',
       analytics: 'https://st-analytics-api-ddfui.ondigitalocean.app/graphql'
     }
@@ -41,7 +39,6 @@ const configs: ChainConfig[] = [
     },
     isTestnet: true,
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/proxy/51080/st-subgraph-goerli/v0.2.8',
       stBackend: 'https://st-backend-thz2yhu72a-uc.a.run.app/graphql',
       analytics: 'https://st-analytics-api-ddfui.ondigitalocean.app/graphql'
     }

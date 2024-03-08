@@ -12,7 +12,7 @@ import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
-import { apolloClient } from '../../config/apollo'
+import { getSubgraphClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
@@ -48,6 +48,7 @@ export default function useWithdrawPool(
   const { web3AuthUserInfo } = useConnectedAccount()
   const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name })
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
+  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
   const { t } = useLocaleTranslation()
 
   const amountEstimatedGas = stConfig?.minWithdrawAmount || 0n
@@ -157,7 +158,7 @@ export default function useWithdrawPool(
         message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,
         placement: 'topRight'
       })
-      apolloClient.refetchQueries({
+      subgraphClient.refetchQueries({
         include: [
           queryAccount,
           queryPool,

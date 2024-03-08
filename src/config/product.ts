@@ -38,6 +38,10 @@ export const productList: Product[] = [
         StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
         StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
       }
+    },
+    subgraph: {
+      mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
+      testnet: 'https://api.studio.thegraph.com/proxy/51080/st-subgraph-goerli/v0.2.8'
     }
   },
   {
@@ -59,8 +63,8 @@ export const productList: Product[] = [
     enabled: true,
     urlRedirect: '/ethereum/currency/product/ethereum-restaking',
     stakeTogetherPool: {
-      mainnet: '0xccb5F9aEc4A83f6d0DBf64AE77B6eD70b9E9Cf0b',
-      testnet: '0xccb5F9aEc4A83f6d0DBf64AE77B6eD70b9E9Cf0b'
+      mainnet: '0x81C5A12Fe0190F792009e3bBcFf9C980867614BB',
+      testnet: '0x81C5A12Fe0190F792009e3bBcFf9C980867614BB'
     },
     contracts: {
       mainnet: {
@@ -77,6 +81,10 @@ export const productList: Product[] = [
         StakeTogether: '0xB398ccB5d98B9Ac98eDDF6268f7950A773D8e419',
         StakeTogetherWrapper: '0xE0F10DC1092aa7E5cB692a9f58f678146D6b1291'
       }
+    },
+    subgraph: {
+      mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
+      testnet: 'https://api.studio.thegraph.com/proxy/51080/st-subgraph-goerli/v0.2.8'
     }
   },
   {
@@ -116,6 +124,10 @@ export const productList: Product[] = [
         StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
         StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
       }
+    },
+    subgraph: {
+      mainnet: '',
+      testnet: ''
     }
   },
   {
@@ -155,6 +167,10 @@ export const productList: Product[] = [
         StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
         StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
       }
+    },
+    subgraph: {
+      mainnet: '',
+      testnet: ''
     }
   },
   {
@@ -181,19 +197,23 @@ export const productList: Product[] = [
     },
     contracts: {
       mainnet: {
-        Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
-        Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
-        Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
-        StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
-        StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
       },
       testnet: {
-        Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
-        Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
-        Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
-        StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
-        StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
       }
+    },
+    subgraph: {
+      mainnet: '',
+      testnet: ''
     }
   },
   {
@@ -220,19 +240,23 @@ export const productList: Product[] = [
     },
     contracts: {
       mainnet: {
-        Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
-        Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
-        Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
-        StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
-        StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
       },
       testnet: {
-        Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
-        Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
-        Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
-        StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
-        StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
       }
+    },
+    subgraph: {
+      mainnet: '',
+      testnet: ''
     }
   },
   {
@@ -259,19 +283,23 @@ export const productList: Product[] = [
     },
     contracts: {
       mainnet: {
-        Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
-        Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
-        Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
-        StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
-        StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
       },
       testnet: {
-        Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
-        Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
-        Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
-        StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
-        StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
       }
+    },
+    subgraph: {
+      mainnet: '',
+      testnet: ''
     }
   },
   {
@@ -298,19 +326,23 @@ export const productList: Product[] = [
     },
     contracts: {
       mainnet: {
-        Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
-        Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
-        Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
-        StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
-        StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
       },
       testnet: {
-        Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
-        Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
-        Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
-        StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
-        StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
       }
+    },
+    subgraph: {
+      mainnet: '',
+      testnet: ''
     }
   }
 ]
@@ -327,4 +359,14 @@ export function getContractsByProductName({
   isTestnet: boolean
 }): Contracts {
   return getProductByName({ productName }).contracts[isTestnet ? 'testnet' : 'mainnet']
+}
+
+export function getSubgraphByProductName({
+  productName,
+  isTestnet
+}: {
+  productName: StakingProduct
+  isTestnet: boolean
+}): string {
+  return getProductByName({ productName }).subgraph[isTestnet ? 'testnet' : 'mainnet']
 }

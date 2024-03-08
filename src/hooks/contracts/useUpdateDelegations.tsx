@@ -10,7 +10,7 @@ import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
-import { apolloClient } from '../../config/apollo'
+import { ethereumMainnetClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
@@ -162,7 +162,7 @@ export default function useUpdateDelegations(
     confirmations: 2,
     onSuccess: () => {
       setAwaitWalletAction(false)
-      apolloClient.refetchQueries({
+      ethereumMainnetClient.refetchQueries({
         include: [
           queryAccount,
           queryPool,
