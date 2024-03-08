@@ -83,8 +83,8 @@ export const productList: Product[] = [
       }
     },
     subgraph: {
-      mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
-      testnet: 'https://api.studio.thegraph.com/proxy/51080/st-subgraph-goerli/v0.2.8'
+      mainnet: 'https://api.studio.thegraph.com/query/51080/st-eigen-layer/v1.0.1',
+      testnet: 'https://api.studio.thegraph.com/query/51080/st-eigen-layer/v1.0.1'
     }
   },
   {
