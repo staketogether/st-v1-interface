@@ -163,6 +163,7 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, 
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
       > span:last-child {
         font-size: ${({ theme }) => theme.font.size[22]};
         font-weight: 500;
@@ -210,22 +211,19 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, 
     border-radius: ${({ theme }) => theme.size[8]};
   `,
   CountDown: styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
       
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2px;
-        font-size: 13px;
-        font-weight: 400;
-        line-height: 16px;
-        letter-spacing: 0em;
-        text-align: left;
-      
-      > span:last-child {
-        color: ${({ theme }) => theme.color.primary};
-        font-weight: 500;
-      }
-
-
+    > span:last-child {
+      color: ${({ theme }) => theme.color.primary};
+      font-weight: 500;
+    }
   `
 
 }
