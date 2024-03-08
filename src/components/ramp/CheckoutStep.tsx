@@ -162,6 +162,7 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, 
     > div {
       display: flex;
       flex-direction: column;
+      gap: 12px;
       align-items: center;
       gap: ${({ theme }) => theme.size[8]};
       > span:last-child {
