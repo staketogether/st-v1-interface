@@ -73,7 +73,7 @@ const { CardContainer, ImageContainer, ContainerInfo, Soon } = {
     }
 
     &.disabled {
-      opacity: 0.75;
+      opacity: 0.6;
     }
   `,
   ContainerInfo: styled.div`

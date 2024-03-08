@@ -34,7 +34,7 @@ const { Container, Products, Title } = {
     gap: ${({ theme }) => theme.size[24]};
     grid-template-columns: 1fr;
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      grid-template-columns: 320px 1fr;
+      grid-template-columns: 350px 1fr;
     }
   `,
   Title: styled.div`
