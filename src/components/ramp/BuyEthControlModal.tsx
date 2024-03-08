@@ -18,13 +18,14 @@ import { SWRConfig } from 'swr'
 import { useAccount } from 'wagmi'
 import ConnectWallet from '../shared/ConnectWallet'
 import CheckoutStep from './CheckoutStep'
+import GenericErrorComponent from './GenericErrorComponent'
 import KycStep from './KycStep'
 import PaymentMethod from './PaymentMethod'
 import ProcessingCheckoutStep from './ProcessingCheckoutStep'
 import ProcessingKycStep from './ProcessingKycStep'
 import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
-import GenericErrorComponent from './GenericErrorComponent'
+import { TimeOutCheckout } from './TimeOutCheckout'
 
 export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
@@ -39,6 +40,7 @@ export default function BuyEthControlModal() {
     ProcessingKyc: <ProcessingKycStep />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep />,
     Checkout: <CheckoutStep />,
+    TimeOutCheckout: <TimeOutCheckout />,
     Success: <SuccessStep />,
     error: <GenericErrorComponent />
   }
@@ -94,6 +96,7 @@ export default function BuyEthControlModal() {
         width={'auto'}
         showCloseIcon={currentStep !== BrlaBuyEthStep.Success}
         noPadding={currentStep === BrlaBuyEthStep.Kyc || currentStep === BrlaBuyEthStep.Checkout}
+        showHeader={![BrlaBuyEthStep.TimeOutCheckout, BrlaBuyEthStep.Error].includes(currentStep)}
       >
         {steps[currentStep]}
       </Modal>

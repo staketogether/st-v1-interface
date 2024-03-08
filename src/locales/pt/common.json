@@ -665,27 +665,38 @@
       "serviceCharge": "Taxa de serviço",
       "youReceived": "Você recebeu",
       "copyCodeSuccess": "código copiado com sucesso",
-      "provider": "Provedores",
+      "provider": "Escolha sua forma de pagamento",
       "creditCard": "Cartão de crédito",
       "kyc": {
         "title": "KYC - Conheça seu Cliente",
         "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Clique no botão abaixo para começar.",
         "level": "Nível KYC",
         "limit": "Limite",
-        "usedLimit": "Limite usado",
+        "availableLimit": "Limite disponível",
         "typeAccount": "Tipo de conta",
         "fullName": "Nome Completo",
         "namePlaceholder": "Insira seu nome igual ao do seu documento",
         "emailPlaceholder": "Insira seu e-mail para contato",
         "companyName": "Nome Social",
         "birthday": "Data de nascimento",
-        "foundationDate": "Data de fundação"
+        "foundationDate": "Data de fundação",
+        "processTime": "Esse processo pode levar até 1 minuto",
+        "info": "KYC: Conheça Seu Cliente. Um processo para verificar a identidade do cliente, prevenindo fraudes e garantindo transações seguras."
       },
       "quote": {
         "title": "Compre Ethereum direto via PIX",
         "updateQuote": "Preço atualiza em",
         "terms": "Ao continuar você concorda com nossas",
-        "policies": "políticas"
+        "policies": "políticas",
+        "requiredKyc": "Necessário o cadastro de KYC",
+        "requiredUpdateKyc": "Necessário atualização do cadastro de KYC",
+        "price": "Preço"
+      },
+      "checkout": {
+        "for": "Para",
+        "bank": "Banco",
+        "paymentTime": "Tempo de pagamento",
+        "timeOut": "Infelizmente o seu prazo para efetuar o pagamento expirou!"
       }
     },
     "ethereumStaking": {

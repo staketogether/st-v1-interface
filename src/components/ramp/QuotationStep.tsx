@@ -9,19 +9,21 @@ import { useReactiveVar } from '@apollo/client'
 import brlBrla from '@assets/icons/brl-brla.svg'
 import eth from '@assets/icons/eth-icon.svg'
 import Image from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi'
 
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import { KycLevel } from './KycLevel'
 
 export default function QuotationStep() {
   const initialSeconds = 5
   const minValue = 300
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
+  const [activeValue, setActiveValue] = useState<number>(0)
   const debounceValue = useDebounce(value, 300)
 
 
@@ -38,10 +40,9 @@ export default function QuotationStep() {
   const [seconds, setSeconds] = useState<number>(5)
   const [timerStarted, setTimerStarted] = useState<boolean>(false)
   const { t } = useLocaleTranslation()
-  const limit = BigInt(debounceValue ?? 0) > BigInt(kycLevelInfo?.limits.limitSwapBuy ?? 0)
+  const limit = Number(debounceValue) * 100 >= Number(kycLevelInfo?.limits.limitSwapBuy ?? 0)
   const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
   const errorMinValue = BigInt(debounceValue) < minValue
-
   const handleChange = (value: string) => {
     if (value.includes(',')) {
       value = value.replace(',', '.')
@@ -54,6 +55,13 @@ export default function QuotationStep() {
       fiatAmountVar(value)
     }
   }
+  useMemo(() => {
+
+    if (quote?.amountBrl && quote?.amountToken) {
+      const value = Number(quote.amountBrl) / Number(quote.amountToken)
+      setActiveValue(value)
+    }
+  }, [quote])
 
   useEffect(() => {
     let timer: NodeJS.Timeout
@@ -103,7 +111,7 @@ export default function QuotationStep() {
 
   return (
     <Container>
-      <header>{t('v2.ramp.quote.title')}:</header>
+      <KycLevel amountValue={Number(debounceValue)} />
       <BoxValuesContainer>
         <InputContainer className={`${error ? 'error' : ''}`}>
           <div>
@@ -115,6 +123,7 @@ export default function QuotationStep() {
             onChange={({ target }) => handleChange(target.value)}
             value={value}
             min={0}
+            placeholder='0'
             step={1}
           />
         </InputContainer>
@@ -124,10 +133,14 @@ export default function QuotationStep() {
             <Image src={eth} width={36} height={24} alt='BRL' />
             <span>ETH</span>
           </div>
-          {quoteIsValidating ? <SkeletonLoading width={60} height={20} /> : <input type='number' value={quote?.amountToken ?? 0} disabled />}
+          {quoteIsValidating ? <SkeletonLoading width={60} height={20} /> : <input value={quote?.amountToken} disabled placeholder='0' />}
         </InputContainer>
       </BoxValuesContainer>
       <PriceInfoContainer>
+        <div>
+          <span>{t('v2.ramp.quote.price')}</span>
+          <span>1 ETH = {activeValue.toLocaleString('pt-BR')} BRL</span>
+        </div>
         <span className='gray'>
           <PiClock style={{ fontSize: 16 }} />{' '}
           <span>
@@ -228,7 +241,28 @@ const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoConta
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
     text-align: center;
+    > div {
+        display: flex;
+        flex-direction: row;
+        gap: 2px;
+        justify-content: center;
+        > span:first-child {
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 16px;
+            letter-spacing: 0em;
+            text-align: left;
+          }
+        > span:last-child {
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 18px;
+            letter-spacing: 0em;
+            text-align: left;
+            color: ${({ theme }) => theme.colorV2.blue[3]};
 
+        } 
+    }
     span {
       font-size: ${({ theme }) => theme.font.size[13]};
       font-weight: 400;

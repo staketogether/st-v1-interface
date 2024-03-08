@@ -13,7 +13,11 @@ export interface KycLevelInfo {
 }
 
 export default function useKycLevelInfo(provider: 'brla' | 'transak', taxId?: string) {
-  const { data, error, isLoading } = useSWR<KycLevelInfo>(taxId && `api/ramp/kyc/${provider}/${taxId}/info`)
+  const { data, error, isLoading } = useSWR<KycLevelInfo>(taxId && `api/ramp/kyc/${provider}/${taxId}/info`, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  })
 
   useEffect(() => {
     if (data) {

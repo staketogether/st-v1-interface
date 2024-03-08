@@ -89,14 +89,6 @@ export default function KycStep() {
   }, [errors])
 
 
-  // useEffect(() => {
-  //   if (error) {
-  //     console.log('error', error)
-  //     setError('email', { type: 'focus' }, { shouldFocus: true })
-  //     // setError('cpfOrCnpj', { type: 'validate' })
-  //   }
-  // }, [error, setError, t])
-
   const cpfMask = (value: string) => {
     const response = value
       .replace(/\D/g, '')

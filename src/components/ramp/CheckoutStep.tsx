@@ -5,7 +5,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import { QRCode, notification } from 'antd'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { PiCopy } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount } from 'wagmi'
@@ -19,6 +19,7 @@ export default function CheckoutStep() {
   const { address } = useAccount()
   const { pixBankInfo } = usePixBankInfo(ProviderType.brla, qrCode?.id, address)
   const { activity } = useVerifyActivity(ProviderType.brla, qrCode?.id)
+  const [time, setTime] = useState({ hours: 1, minutes: 0, seconds: 0 })
 
   const handleCopyClipboard = () => {
     navigator.clipboard.writeText(qrCode?.brCode ?? '')
@@ -29,10 +30,45 @@ export default function CheckoutStep() {
   }
 
   useEffect(() => {
-    if (activity?.type === 'pix-to-token' && activity.status === 'posted') {
+    if (activity?.type === 'pix-to-token' && (activity.status !== 'error' && activity.status !== 'created')) {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingCheckoutStep)
     }
   }, [activity])
+
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTime(prevTime => {
+        const seconds = prevTime.seconds - 1;
+        const minutes = seconds < 0 ? prevTime.minutes - 1 : prevTime.minutes;
+        const hours = minutes < 0 ? prevTime.hours - 1 : prevTime.hours;
+        if (hours === 0 && minutes === 0 && seconds === 0) {
+          clearInterval(intervalId);
+          setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.TimeOutCheckout), 3000)
+          return {
+            ...prevTime,
+            seconds: 0
+          }
+        }
+
+        return {
+          hours: Math.max(hours, 0),
+          minutes: minutes < 0 ? 59 : minutes,
+          seconds: seconds < 0 ? 59 : seconds,
+        };
+      });
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [])
+
+
+  const handleGetCountDown = () => {
+    return `
+      ${time.hours.toString().padStart(2, '0')}h:${time.minutes.toString().padStart(2, '0')}m:${time.seconds.toString().padStart(2, '0')}s
+    `
+  }
+
   return (
     <Container>
 
@@ -45,14 +81,18 @@ export default function CheckoutStep() {
               <span>R$ {quote?.amountBrl}</span>
             </div>
             <span>
-              Para {pixBankInfo?.name}
+              {t('v2.ramp.checkout.for')} {pixBankInfo?.name}
               {pixBankInfo?.taxId}
-              Banco: {pixBankInfo?.bankName}
+              {t('v2.ramp.checkout.bank')}: {pixBankInfo?.bankName}
             </span>
           </Header>
           <QrCodeArea>
             <span>{t('v2.ramp.useThePixQRCode')}</span>
             <Code value={qrCode?.brCode ?? ''} />
+            <CountDown>
+              <span> {t('v2.ramp.checkout.paymentTime')}</span>
+              <span>{handleGetCountDown()}</span>
+            </CountDown>
             <Button
               form='kycForm'
               type='submit'
@@ -82,7 +122,7 @@ export default function CheckoutStep() {
   )
 }
 
-const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer } = {
+const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, CountDown } = {
   Container: styled.div`
     max-width: 420px;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
@@ -111,13 +151,7 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer }
   Header: styled.div`
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    background: linear-gradient(
-        0deg,
-        ${({ theme }) => theme.colorV2.gray[6]},
-        ${({ theme }) => theme.colorV2.gray[6]}
-      ),
-      linear-gradient(0deg, ${({ theme }) => theme.colorV2.gray[6]}, ${({ theme }) => theme.colorV2.gray[6]});
-
+    background: ${({ theme }) => theme.colorV2.gray[2]};
     padding: ${({ theme }) => theme.size[12]};
     border-radius: ${({ theme }) => theme.size[8]} ${({ theme }) => theme.size[8]} 0px 0px;
     gap: ${({ theme }) => theme.size[12]};
@@ -128,11 +162,13 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer }
     > div {
       display: flex;
       flex-direction: column;
+      gap: 12px;
       align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
       > span:last-child {
         font-size: ${({ theme }) => theme.font.size[22]};
         font-weight: 500;
-        line-height: 27px;
+        line-height: 1.5rem;
         letter-spacing: 0em;
         text-align: left;
       }
@@ -149,7 +185,6 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer }
     gap: ${({ theme }) => theme.size[12]};
     padding: ${({ theme }) => theme.size[24]};
     > span {
-      //styleName: text 15 bold;
 
       font-size: ${({ theme }) => theme.font.size[15]};
       font-weight: 500;
@@ -175,5 +210,21 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer }
     gap: ${({ theme }) => theme.size[12]};
     border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
     border-radius: ${({ theme }) => theme.size[8]};
+  `,
+  CountDown: styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0em;
+    text-align: left;
+      
+    > span:last-child {
+      color: ${({ theme }) => theme.color.primary};
+      font-weight: 500;
+    }
   `
+
 }
