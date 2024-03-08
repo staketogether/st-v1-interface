@@ -33,7 +33,7 @@ export const clearModal = () => {
 }
 
 export const openQuoteEthModal = () => {
-  stepsControlBuyCryptoVar(BrlaBuyEthStep.Checkout)
+  stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
   openBrlaModalVar(true)
 }
 
