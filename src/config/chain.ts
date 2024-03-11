@@ -50,3 +50,9 @@ export default function chainConfig(): ChainConfig {
   if (!config) throw new Error('chainId not found in chainConfig')
   return config
 }
+
+export function chainConfigByChainId(chainId: number): ChainConfig {
+  const config = configs.find(c => c.chainId === chainId)
+  if (!config) throw new Error('chainId not found in chainConfig')
+  return config
+}

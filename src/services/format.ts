@@ -54,3 +54,14 @@ export function getVideoIdFromUrl(url?: string): string | null {
     return null
   }
 }
+
+export type AllowedNetwork = 'ethereum' | 'goerli'
+
+export const handleChainIdByNetwork = (network: AllowedNetwork) => {
+  const chainIdByNetwork = {
+    ethereum: 1,
+    goerli: 5
+  }
+
+  return chainIdByNetwork[network] || 0
+}
