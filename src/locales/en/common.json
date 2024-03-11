@@ -594,14 +594,8 @@
       }
     },
     "tokens": {
-      "title": "Invest",
-      "products": {
-        "name": "Name",
-        "token": "Token",
-        "apy": "APY",
-        "networks": "Networks",
-        "airdrops": "Airdrops"
-      }
+      "title": "Staking Products",
+      "description": "Invest in the best passive income products for Cryptocurrencies"
     },
     "products": {
       "ethereum-stake": "Ethereum Staking",
@@ -612,7 +606,9 @@
       "cosmos": "Cosmos Staking",
       "near": "Near Staking",
       "polkadot": "Polkadot Staking",
-      "productNotAvailable": "Product not available"
+      "productNotAvailable": "Product not available",
+      "bitcoin": "Bitcoin Staking",
+      "chiliz": "Chiliz Staking"
     },
     "notifyBar": {
       "incentives": {

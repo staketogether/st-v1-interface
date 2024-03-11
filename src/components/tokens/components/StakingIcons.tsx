@@ -8,6 +8,8 @@ import NearIcon from '@assets/network/near.svg'
 import cosmosIcon from '@assets/network/cosmos.svg'
 import celestiaIcon from '@assets/network/celestia.svg'
 import restaking from '@assets/network/restaking.svg'
+import chilizIcon from '@assets/network/chiliz.svg'
+import bitcoinIcon from '@assets/network/bitcoin.png'
 import styled from 'styled-components'
 import { StakingProduct } from '@/types/Product'
 
@@ -25,7 +27,9 @@ export default function NetworkProductIcons({ stakingProduct, size }: NetworkIco
     celestia: celestiaIcon,
     cosmos: cosmosIcon,
     near: NearIcon,
-    polkadot: polkadotIcon
+    polkadot: polkadotIcon,
+    chiliz: chilizIcon,
+    bitcoin: bitcoinIcon
   }
 
   return (

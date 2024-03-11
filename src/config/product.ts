@@ -42,6 +42,11 @@ export const productList: Product[] = [
     subgraph: {
       mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
       testnet: 'https://api.studio.thegraph.com/proxy/51080/st-subgraph-goerli/v0.2.8'
+    },
+    getMobulaAssetData: {
+      asset: 'Ethereum',
+      blockchain: 'ethereum',
+      symbol: 'eth'
     }
   },
   {
@@ -85,6 +90,11 @@ export const productList: Product[] = [
     subgraph: {
       mainnet: 'https://api.studio.thegraph.com/query/51080/st-eigen-layer/v1.0.1',
       testnet: 'https://api.studio.thegraph.com/query/51080/st-eigen-layer/v1.0.1'
+    },
+    getMobulaAssetData: {
+      asset: 'Ethereum',
+      blockchain: 'ethereum',
+      symbol: 'eth'
     }
   },
   {
@@ -128,6 +138,11 @@ export const productList: Product[] = [
     subgraph: {
       mainnet: '',
       testnet: ''
+    },
+    getMobulaAssetData: {
+      asset: 'Celestia',
+      blockchain: '',
+      symbol: ''
     }
   },
   {
@@ -171,6 +186,11 @@ export const productList: Product[] = [
     subgraph: {
       mainnet: '',
       testnet: ''
+    },
+    getMobulaAssetData: {
+      asset: 'Polygon',
+      blockchain: '',
+      symbol: ''
     }
   },
   {
@@ -214,6 +234,11 @@ export const productList: Product[] = [
     subgraph: {
       mainnet: '',
       testnet: ''
+    },
+    getMobulaAssetData: {
+      asset: 'Solana',
+      blockchain: 'ethereum',
+      symbol: 'eth'
     }
   },
   {
@@ -257,6 +282,11 @@ export const productList: Product[] = [
     subgraph: {
       mainnet: '',
       testnet: ''
+    },
+    getMobulaAssetData: {
+      asset: '0x0eb3a705fc54725037cc9e008bdede697f62f335', //BNB CHAIN
+      blockchain: '',
+      symbol: ''
     }
   },
   {
@@ -300,6 +330,12 @@ export const productList: Product[] = [
     subgraph: {
       mainnet: '',
       testnet: ''
+    },
+
+    getMobulaAssetData: {
+      asset: '0x85F17Cf997934a597031b2E18a9aB6ebD4B9f6a4',
+      blockchain: '',
+      symbol: ''
     }
   },
   {
@@ -343,6 +379,11 @@ export const productList: Product[] = [
     subgraph: {
       mainnet: '',
       testnet: ''
+    },
+    getMobulaAssetData: {
+      asset: 'polkadot',
+      blockchain: '',
+      symbol: ''
     }
   }
 ]
