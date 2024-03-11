@@ -21,7 +21,7 @@ export default function useLsdBalance({ walletAddress, product }: useLsdBalanceP
   })
   console.log(data)
   return {
-    accountBalance: data?.account.balance || 0n,
+    accountBalance: data?.account?.balance || 0n,
     isLoading: loading
   }
 }
