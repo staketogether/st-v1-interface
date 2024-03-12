@@ -72,12 +72,20 @@ export default function AnalyticsControl() {
     locale
   )
 
-  const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } =
-    useEthBalanceOf(StakeTogether)
+  const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } = useEthBalanceOf({
+    walletAddress: StakeTogether,
+    chainId: 1
+  })
   const stakeTogetherContractFormatted = formatNumberByLocale(truncateWei(stakeTogetherContract, 4), locale)
-  const { balance: routerContract, isLoading: routerLoading } = useEthBalanceOf(Router)
+  const { balance: routerContract, isLoading: routerLoading } = useEthBalanceOf({
+    walletAddress: Router,
+    chainId: 1
+  })
   const routerBalanceFormatted = formatNumberByLocale(truncateWei(routerContract, 4), locale)
-  const { balance: withdrawalsContract, isLoading: withdrawalsLoading } = useEthBalanceOf(Withdrawals)
+  const { balance: withdrawalsContract, isLoading: withdrawalsLoading } = useEthBalanceOf({
+    walletAddress: Withdrawals,
+    chainId: 1
+  })
   const withdrawalsFormatted = formatNumberByLocale(truncateWei(withdrawalsContract, 4), locale)
 
   const validatorsCount = analytics?.validatorsCount

@@ -22,10 +22,7 @@ import { lightTheme } from '../styles/theme'
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
   const { backendUrl } = globalConfig
-
-  // const router = useRouter()
   const { init: initMixpanel } = useMixpanelAnalytics()
-  // const chain = chainConfig()
 
   useSettingsCurrency()
   useGetCurrencyPerEthPrice()
@@ -34,12 +31,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     initMixpanel()
   }, [initMixpanel])
-
-  // useEffect(() => {
-  //   router.events.on('routeChangeComplete', () => {
-  //     registerPageView(chain.chainId)
-  //   })
-  // }, [chain.chainId, registerPageView, router.events])
 
   return (
     <ApolloProvider client={ethereumMainnetClient}>

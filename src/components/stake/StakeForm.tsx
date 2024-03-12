@@ -52,7 +52,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
     balance: ethBalance,
     isLoading: balanceLoading,
     refetch: refetchEthBalance
-  } = useEthBalanceOf(accountAddress)
+  } = useEthBalanceOf({ walletAddress: accountAddress, chainId })
 
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
@@ -238,9 +238,10 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
     (insufficientWithdrawalBalance &&
       `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
     (prepareTransactionErrorMessage &&
-      `${type === 'deposit'
-        ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
-        : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
+      `${
+        type === 'deposit'
+          ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
+          : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
       }`) ||
     ''
 
