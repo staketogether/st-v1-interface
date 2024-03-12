@@ -12,8 +12,8 @@ export default function useEthBalanceOf({ walletAddress, chainId }: UseEthBalanc
   const { isFetching, refetch } = useBalance({
     address: walletAddress,
     chainId: chainId,
+    enabled: !!walletAddress,
     onSuccess: data => {
-      console.log(data?.value)
       setBalance(data?.value || 0n)
     }
   })

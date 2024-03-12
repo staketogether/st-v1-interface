@@ -55,7 +55,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
-  const { balance: ethBalance } = useEthBalanceOf(address)
+  const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
   const { name, nameLoading } = useEns(address)

@@ -30,7 +30,7 @@ import { TimeOutCheckout } from './TimeOutCheckout'
 export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
-  const { refetch } = useEthBalanceOf(address)
+  const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
 
   const steps = {
     MethodPayment: <PaymentMethod />,
