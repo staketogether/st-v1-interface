@@ -24,11 +24,11 @@ export default function NewStakeControl({ product, type, assetData }: NewStakeCo
   const { t } = useLocaleTranslation()
 
   const { query } = useRouter()
-  const { currency, network } = query
+  const { currency } = query
 
   return (
     <Container>
-      <HeaderBackAction href={`/${network}/${currency}/product`}>
+      <HeaderBackAction href={`/${currency}/product`}>
         <PiArrowLeft />
         <span>{t('goToBack')}</span>
       </HeaderBackAction>
