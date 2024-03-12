@@ -28,31 +28,31 @@ export default function LayoutHeader() {
     locale: 'en-US'
   })
   const { screenWidth, breakpoints } = useResizeView()
-  const basePath = `/[network]/[currency]`
+  const basePath = `/[currency]/[network]`
   const isHome = pathname === basePath && isReady
 
   return (
     <Container>
       <MenuContainer>
         <div>
-          <Logo href={`/${network}/${currency}/product`}>
+          <Logo href={`/${currency}/product`}>
             <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={27} />
           </Logo>
         </div>
         <Menu>
-          <Link href={`/${network}/${currency}/product`}>
+          <Link href={`/${currency}/product`}>
             <MenuButton className={`${isHome || isActive('product') ? 'active' : ''}`}>
               <InvestIcon />
               {t('v2.header.products')}
             </MenuButton>
           </Link>
-          <Link href={`/${network}/${currency}/project`}>
+          <Link href={`/${currency}/${network}/project`}>
             <MenuButton className={`${!isHome && isActive('project') ? 'active' : ''}`}>
               <ProjectsIcon />
               {t('v2.header.projects')}
             </MenuButton>
           </Link>
-          <Link href={`/${network}/${currency}/analytics`}>
+          <Link href={`/${currency}/${network}/analytics`}>
             <MenuButton className={`${!isHome && isActive('analytics') ? 'active' : ''}`}>
               <AnalyticsIcon />
               {t('v2.header.analytics')}

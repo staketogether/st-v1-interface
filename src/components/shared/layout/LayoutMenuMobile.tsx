@@ -14,15 +14,12 @@ function LayoutMenuMobile() {
   const isHome = pathname === basePath && isReady
   return (
     <Container>
-      <NextLink
-        href={`/${network}/${currency}/product`}
-        className={`${isHome || isActive('product') ? 'active' : ''}`}
-      >
+      <NextLink href={`/${currency}/product`} className={`${isHome || isActive('product') ? 'active' : ''}`}>
         <InvestIcon />
         {t('v2.header.products')}
       </NextLink>
       <NextLink
-        href={`/${network}/${currency}/project`}
+        href={`/${currency}/${network}/project`}
         className={`${!isHome && isActive('project') ? 'active' : ''}`}
       >
         <ProjectsIcon />

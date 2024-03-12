@@ -1,6 +1,6 @@
 import NetworkIcons from '@/components/shared/NetworkIcons'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-import SymbolIcons from '@/components/tokens/SymbolIcons'
+import SymbolIcons from '@/components/tokens/components/SymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'

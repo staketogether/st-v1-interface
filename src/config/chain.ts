@@ -45,6 +45,9 @@ const configs: ChainConfig[] = [
   }
 ]
 
+/**
+ * @deprecated
+ */
 export default function chainConfig(): ChainConfig {
   const config = configs.find(c => c.chainId === Number(process.env.NEXT_PUBLIC_CHAIN_ID))
   if (!config) throw new Error('chainId not found in chainConfig')

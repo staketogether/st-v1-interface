@@ -143,7 +143,9 @@ export function getSubgraphClient({
     celestia: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
     cosmos: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
     near: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    polkadot: isTestnet ? ethereumTestnetClient : ethereumTestnetClient
+    polkadot: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
+    chiliz: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
+    bitcoin: isTestnet ? ethereumTestnetClient : ethereumTestnetClient
   }
 
   const client = clientList[productName]

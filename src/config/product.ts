@@ -18,7 +18,7 @@ export const productList: Product[] = [
     contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
     description: 'ethereumDescription',
     enabled: true,
-    urlRedirect: '/ethereum/currency/product/ethereum-stake',
+    urlRedirect: '/currency/ethereum/product/ethereum-stake', 
     stakeTogetherPool: {
       mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
       testnet: '0x3BdFaA0b55B4F6F3F9cFC6bbB1F582a1c6A0FD69'
@@ -66,7 +66,7 @@ export const productList: Product[] = [
     contractAddress: '0x1234567890',
     description: 'ethereumDescription',
     enabled: true,
-    urlRedirect: '/ethereum/currency/product/ethereum-restaking',
+    urlRedirect: '/currency/ethereum/product/ethereum-restaking',
     stakeTogetherPool: {
       mainnet: '0x81C5A12Fe0190F792009e3bBcFf9C980867614BB',
       testnet: '0x81C5A12Fe0190F792009e3bBcFf9C980867614BB'

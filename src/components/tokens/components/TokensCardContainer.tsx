@@ -7,6 +7,7 @@ import StpEthIcon from '../../shared/StpethIcon'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
+import { useRouter } from 'next/router'
 
 type TokensCardContainerProps = {
   product: Product
@@ -20,9 +21,12 @@ const TokensShowValuePrice = dynamic(() => import('./TokensShowValuePrice'), {
 
 export default function TokensCardContainer({ product }: TokensCardContainerProps) {
   const { t } = useLocaleTranslation()
+  const { query } = useRouter()
+  const { currency } = query as { currency: string }
+  console.log(currency)
   return (
     <CardContainer
-      href={product.urlRedirect}
+      href={product.urlRedirect.replace('currency', currency)}
       className={`${!product.enabled && 'disabled'}`}
       style={{
         pointerEvents: !product.enabled ? 'none' : undefined
@@ -30,7 +34,7 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
     >
       <ImageContainer>
         <div>
-          <StakingIcons stakingProduct={product.icon} size={36} />
+          <StakingIcons stakingProduct={product.name} size={36} />
           <span>{t(`v2.products.${product.name}`)}</span>
         </div>
         {!product.enabled && <Soon>Soon</Soon>}
