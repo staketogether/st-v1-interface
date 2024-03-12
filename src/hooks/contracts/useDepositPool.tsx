@@ -1,3 +1,5 @@
+import { getSubgraphClient } from '@/config/apollo'
+import { chainConfigByChainId } from '@/config/chain'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
@@ -8,6 +10,7 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { truncateWei } from '@/services/truncate'
+import { Product } from '@/types/Product'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
@@ -18,13 +21,10 @@ import {
   usePrepareStakeTogetherDepositPool,
   useStakeTogetherDepositPool
 } from '../../types/Contracts'
+import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
-import useConnectedAccount from '../useConnectedAccount'
-import { Product } from '@/types/Product'
-import { getSubgraphClient } from '@/config/apollo'
-import { chainConfigByChainId } from '@/config/chain'
 
 export default function useDepositPool(
   netDepositAmount: bigint,
@@ -134,7 +134,6 @@ export default function useDepositPool(
 
         return
       }
-
       const { data } = cause as { data?: { errorName?: string } }
 
       if (cause && data && data.errorName) {

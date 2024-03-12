@@ -27,6 +27,8 @@ import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
+import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import { Product } from '@/types/Product'
 import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckeredDuotone } from 'react-icons/pi'
@@ -34,17 +36,16 @@ import { formatNumberByLocale } from '../../services/format'
 import StpEthIcon from '../shared/StpethIcon'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
-import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
-import { Product } from '@/types/Product'
 
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
   poolAddress: `0x${string}`
+  chainId: number
   accountAddress?: `0x${string}`
   product: Product
 }
 
-export function StakeForm({ type, accountAddress, poolAddress, product }: StakeFormProps) {
+export function StakeForm({ type, accountAddress, poolAddress, product, chainId }: StakeFormProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
   const {
@@ -67,13 +68,14 @@ export function StakeForm({ type, accountAddress, poolAddress, product }: StakeF
   const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock({
     walletAddress: accountAddress,
     enabled: withdrawTypeSelected === WithdrawType.POOL,
-    product
+    product,
+    chainId
   })
 
   const {
     withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
     refetch: withdrawValidatorsBalanceRefetch
-  } = useWithdrawValidatorBalance({ product })
+  } = useWithdrawValidatorBalance({ product, chainId })
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
@@ -126,6 +128,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product }: StakeF
     poolAddress,
     type === 'deposit',
     product,
+    chainId,
     accountAddress
   )
 
@@ -145,6 +148,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product }: StakeF
     poolAddress,
     type === 'withdraw' && withdrawTypeSelected === WithdrawType.POOL,
     product,
+    chainId,
     accountAddress
   )
 
@@ -164,6 +168,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product }: StakeF
     poolAddress,
     type === 'withdraw' && withdrawTypeSelected === WithdrawType.VALIDATOR,
     product,
+    chainId,
     accountAddress
   )
 
@@ -233,10 +238,9 @@ export function StakeForm({ type, accountAddress, poolAddress, product }: StakeF
     (insufficientWithdrawalBalance &&
       `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
     (prepareTransactionErrorMessage &&
-      `${
-        type === 'deposit'
-          ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
-          : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
+      `${type === 'deposit'
+        ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
+        : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
       }`) ||
     ''
 
