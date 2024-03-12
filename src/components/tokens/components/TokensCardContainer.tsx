@@ -30,7 +30,7 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
     >
       <ImageContainer>
         <div>
-          <StakingIcons stakingProduct={product.icon} size={36} />
+          <StakingIcons stakingProduct={product.name} size={36} />
           <span>{t(`v2.products.${product.name}`)}</span>
         </div>
         {!product.enabled && <Soon>Soon</Soon>}
