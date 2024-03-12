@@ -9,7 +9,7 @@ import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
 import { ethers } from 'ethers'
 import useStConfig from '@/hooks/contracts/useStConfig'
 import useDepositPool from '@/hooks/contracts/useDepositPool'
-import chainConfig from '@/config/chain'
+import { chainConfigByChainId } from '@/config/chain'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
@@ -33,6 +33,7 @@ type EthereumDepositProps = {
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
   product: Product
+  chainId: number
 }
 
 export default function EthereumDeposit({
@@ -43,12 +44,13 @@ export default function EthereumDeposit({
   ethBalanceRefetch,
   stpETHBalance,
   stpETHBalanceLoading,
-  product
+  product,
+  chainId
 }: EthereumDepositProps) {
   const [amount, setAmount] = useState<string>('')
   const [isActivatedDelegation, setIsActivatedDelegation] = useState(false)
 
-  const { chainId, name, isTestnet } = chainConfig()
+  const { name, isTestnet } = chainConfigByChainId(chainId)
   const stakeTogetherPool = product.stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet']
 
   const [poolDelegatedSelected, setPoolDelegatedSelected] = useState<`0x${string}`>(stakeTogetherPool)
@@ -106,6 +108,7 @@ export default function EthereumDeposit({
     poolDelegatedSelected,
     !isWrongNetwork,
     product,
+    chainId,
     account
   )
 

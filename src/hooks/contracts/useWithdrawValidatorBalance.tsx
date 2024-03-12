@@ -1,11 +1,11 @@
-import chainConfig from '@/config/chain'
+import { chainConfigByChainId } from '@/config/chain'
 import { useStakeTogetherBeaconBalance } from '@/types/Contracts'
 import { Product } from '@/types/Product'
 import { useState } from 'react'
 
-export const useWithdrawValidatorBalance = ({ product }: { product: Product }) => {
+export const useWithdrawValidatorBalance = ({ product, chainId }: { product: Product; chainId: number }) => {
   const [liquidityValidatorsBalance, setLiquidityValidatorsBalance] = useState(0n)
-  const { isTestnet } = chainConfig()
+  const { isTestnet } = chainConfigByChainId(chainId)
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
 
   const { isFetching, refetch } = useStakeTogetherBeaconBalance({

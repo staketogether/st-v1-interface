@@ -3,7 +3,6 @@ import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
-import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 
@@ -27,12 +26,14 @@ import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import { Product } from '@/types/Product'
 import { getSubgraphClient } from '@/config/apollo'
+import { chainConfigByChainId } from '@/config/chain'
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
   product: Product,
+  chainId: number,
   accountAddress?: `0x${string}`
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -45,7 +46,7 @@ export default function useWithdrawValidator(
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerWithdraw } = useMixpanelAnalytics()
-  const { chainId, isTestnet } = chainConfig()
+  const { isTestnet } = chainConfigByChainId(chainId)
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
   const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
   const { web3AuthUserInfo } = useConnectedAccount()

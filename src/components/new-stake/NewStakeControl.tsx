@@ -18,9 +18,10 @@ type NewStakeControlProps = {
   type: 'deposit' | 'withdraw'
   product: Product
   assetData: ProductMarketAssetData
+  chainId: number
 }
 
-export default function NewStakeControl({ product, type, assetData }: NewStakeControlProps) {
+export default function NewStakeControl({ product, type, assetData, chainId }: NewStakeControlProps) {
   const { t } = useLocaleTranslation()
 
   const { query } = useRouter()
@@ -33,9 +34,9 @@ export default function NewStakeControl({ product, type, assetData }: NewStakeCo
         <span>{t('goToBack')}</span>
       </HeaderBackAction>
       <div>
-        <ProductInfo product={product} assetData={assetData} />
+        <ProductInfo product={product} assetData={assetData} chainId={chainId} />
         <ActionContainer>
-          <EthereumFormControl product={product} type={type} />
+          <EthereumFormControl product={product} type={type} chainId={chainId} />
         </ActionContainer>
       </div>
     </Container>

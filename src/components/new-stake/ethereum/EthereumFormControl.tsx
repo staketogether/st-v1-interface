@@ -14,8 +14,9 @@ import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 type EthereumFormControlProps = {
   type: 'deposit' | 'withdraw'
   product: Product
+  chainId: number
 }
-export default function EthereumFormControl({ type, product }: EthereumFormControlProps) {
+export default function EthereumFormControl({ type, product, chainId }: EthereumFormControlProps) {
   const { query } = useRouter()
   const { currency } = query as { currency: string }
   const { account } = useConnectedAccount()
@@ -29,7 +30,8 @@ export default function EthereumFormControl({ type, product }: EthereumFormContr
 
   const { accountBalance: stpETHBalance, isLoading: stpETHBalanceLoading } = useLsdBalance({
     walletAddress: account,
-    product: product
+    product: product,
+    chainId: chainId
   })
 
   return (
@@ -62,6 +64,7 @@ export default function EthereumFormControl({ type, product }: EthereumFormContr
             stpETHBalanceLoading={stpETHBalanceLoading}
             account={account}
             product={product}
+            chainId={chainId}
           />
         ) : (
           <EthereumWithdraw
@@ -73,6 +76,7 @@ export default function EthereumFormControl({ type, product }: EthereumFormContr
             stpETHBalanceLoading={stpETHBalanceLoading}
             account={account}
             product={product}
+            chainId={chainId}
           />
         )}
       </div>

@@ -1,22 +1,24 @@
-import chain from '@/config/chain'
 import { useStakeTogetherGetWithdrawBlock } from '@/types/Contracts'
 import { useState } from 'react'
 import useBlockCountdown from '../useBlockCountdown'
 import { Product } from '@/types/Product'
+import { chainConfigByChainId } from '@/config/chain'
 
 type useGetWithdrawBlockProps = {
   walletAddress: `0x${string}` | undefined
   enabled: boolean
   product: Product
+  chainId: number
 }
 
 export default function useGetWithdrawBlock({
   walletAddress,
   enabled = true,
-  product
+  product,
+  chainId
 }: useGetWithdrawBlockProps) {
   const [withdrawBlock, setWithdrawBlock] = useState<bigint>(0n)
-  const { isTestnet } = chain()
+  const { isTestnet } = chainConfigByChainId(chainId)
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
 
   const { isFetching, refetch } = useStakeTogetherGetWithdrawBlock({

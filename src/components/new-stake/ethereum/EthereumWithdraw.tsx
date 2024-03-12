@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import chainConfig from '@/config/chain'
+import { chainConfigByChainId } from '@/config/chain'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
 import { WithdrawType } from '@/types/Withdraw'
@@ -36,6 +36,7 @@ type EthereumWithdrawProps = {
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
   product: Product
+  chainId: number
 }
 
 export default function EthereumWithdraw({
@@ -46,7 +47,8 @@ export default function EthereumWithdraw({
   ethBalanceRefetch,
   stpETHBalance,
   stpETHBalanceLoading,
-  product
+  product,
+  chainId
 }: EthereumWithdrawProps) {
   const [amount, setAmount] = useState<string>('')
 
@@ -61,7 +63,7 @@ export default function EthereumWithdraw({
 
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
-  const { chainId, name } = chainConfig()
+  const { name } = chainConfigByChainId(chainId)
   const { chain: walletChainId } = useNetwork()
   const isWrongNetwork = chainId !== walletChainId?.id
 
@@ -70,12 +72,13 @@ export default function EthereumWithdraw({
   const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock({
     walletAddress: account,
     enabled: withdrawTypeSelected === WithdrawType.POOL,
-    product
+    product,
+    chainId
   })
   const {
     withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
     refetch: withdrawValidatorsBalanceRefetch
-  } = useWithdrawValidatorBalance({ product })
+  } = useWithdrawValidatorBalance({ product, chainId })
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
@@ -110,6 +113,7 @@ export default function EthereumWithdraw({
     blankPoolAddress,
     withdrawTypeSelected === WithdrawType.POOL,
     product,
+    chainId,
     account
   )
 
@@ -129,6 +133,7 @@ export default function EthereumWithdraw({
     blankPoolAddress,
     withdrawTypeSelected === WithdrawType.VALIDATOR,
     product,
+    chainId,
     account
   )
 

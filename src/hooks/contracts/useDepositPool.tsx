@@ -11,7 +11,6 @@ import { truncateWei } from '@/services/truncate'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
-import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import {
@@ -25,6 +24,7 @@ import useStConfig from './useStConfig'
 import useConnectedAccount from '../useConnectedAccount'
 import { Product } from '@/types/Product'
 import { getSubgraphClient } from '@/config/apollo'
+import { chainConfigByChainId } from '@/config/chain'
 
 export default function useDepositPool(
   netDepositAmount: bigint,
@@ -32,6 +32,7 @@ export default function useDepositPool(
   poolAddress: `0x${string}`,
   enabled: boolean,
   product: Product,
+  chainId: number,
   accountAddress: `0x${string}` | undefined
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -44,7 +45,7 @@ export default function useDepositPool(
   const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerDeposit } = useMixpanelAnalytics()
-  const { chainId, isTestnet } = chainConfig()
+  const { isTestnet } = chainConfigByChainId(chainId)
   const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
 
   const { web3AuthUserInfo } = useConnectedAccount()

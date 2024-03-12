@@ -13,7 +13,6 @@ import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { getSubgraphClient } from '../../config/apollo'
-import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import {
@@ -26,12 +25,14 @@ import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
 import useConnectedAccount from '../useConnectedAccount'
 import { Product } from '@/types/Product'
+import { chainConfigByChainId } from '@/config/chain'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
   product: Product,
+  chainId: number,
   accountAddress?: `0x${string}`
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -44,7 +45,7 @@ export default function useWithdrawPool(
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerWithdraw } = useMixpanelAnalytics()
-  const { chainId, isTestnet } = chainConfig()
+  const { isTestnet } = chainConfigByChainId(chainId)
   const { web3AuthUserInfo } = useConnectedAccount()
   const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name })
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']

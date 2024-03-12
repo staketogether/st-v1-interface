@@ -1,5 +1,5 @@
 import TradingViewComponent from '@/components/shared/TradingViewComponent'
-import chainConfig from '@/config/chain'
+import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateAddress } from '@/services/truncate'
@@ -12,10 +12,11 @@ import SymbolIcons from '../tokens/components/SymbolIcons'
 type ProductInfoProps = {
   product: Product
   assetData: ProductMarketAssetData
+  chainId: number
 }
 
-export default function ProductInfo({ product, assetData }: ProductInfoProps) {
-  const { isTestnet } = chainConfig()
+export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
+  const { isTestnet } = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
