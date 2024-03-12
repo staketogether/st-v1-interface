@@ -52,7 +52,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
     balance: ethBalance,
     isLoading: balanceLoading,
     refetch: refetchEthBalance
-  } = useEthBalanceOf(accountAddress)
+  } = useEthBalanceOf({ walletAddress: accountAddress, chainId })
 
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
@@ -87,6 +87,10 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
     }
   }
 
+  const chain = chainConfig()
+  const { chain: walletChainId } = useNetwork()
+  const isWrongNetwork = chainId !== walletChainId?.id
+
   const handleWithdrawBalanceRefetch = useCallback(() => {
     switch (withdrawTypeSelected) {
       case WithdrawType.VALIDATOR:
@@ -111,7 +115,6 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
 
   const { stConfig } = useStConfig({ productName: product.name })
   const minDepositAmount = stConfig?.minDepositAmount || 0n
-
   const {
     deposit,
     isSuccess: depositSuccess,
@@ -126,7 +129,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
     netDepositAmount,
     ethers.parseUnits(inputAmount, 18),
     poolAddress,
-    type === 'deposit',
+    type === 'deposit' && !isWrongNetwork,
     product,
     chainId,
     accountAddress
@@ -271,9 +274,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
     resetState
   ])
 
-  const chain = chainConfig()
-  const { chain: walletChainId } = useNetwork()
-  const isWrongNetwork = chain.chainId !== walletChainId?.id
+
   const { switchNetworkAsync } = useSwitchNetwork({
     chainId: chain.chainId
   })

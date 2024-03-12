@@ -134,10 +134,10 @@ export default function useDepositPool(
 
         return
       }
-      const { data } = cause as { data?: { errorName?: string } }
+      const response = cause as { data?: { errorName?: string } }
 
-      if (cause && data && data.errorName) {
-        setPrepareTransactionErrorMessage(data.errorName)
+      if (cause && response?.data && response?.data?.errorName) {
+        setPrepareTransactionErrorMessage(response?.data?.errorName)
       }
     },
     onSuccess() {
