@@ -23,7 +23,7 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
-  console.log(currency)
+
   return (
     <CardContainer
       href={product.urlRedirect.replace('currency', currency)}

@@ -13,13 +13,13 @@ type useLsdBalanceProps = {
 export default function useLsdBalance({ walletAddress, product }: useLsdBalanceProps) {
   const { isTestnet } = chainConfig()
   const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
-  console.log(subgraphClient)
+
   const { data, loading } = useQuery<{ account: Account }>(queryAccount, {
     variables: { id: walletAddress?.toLowerCase() },
     skip: !walletAddress,
     client: subgraphClient
   })
-  console.log(data)
+
   return {
     accountBalance: data?.account?.balance || 0n,
     isLoading: loading

@@ -1,6 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
-import chainConfig from './chain'
 import { globalConfig } from './global'
 import { getSubgraphByProductName } from './product'
 import { StakingProduct } from '@/types/Product'
@@ -89,7 +88,7 @@ export const ethereumRestakingTestnetClient = new ApolloClient({
 })
 
 export const stBackendClient = new ApolloClient({
-  uri: chainConfig().subgraphs.stBackend,
+  uri: globalConfig.backendSubgraph,
   ssrMode: typeof window === 'undefined',
   cache: new InMemoryCache(),
 
@@ -97,14 +96,14 @@ export const stBackendClient = new ApolloClient({
 })
 
 export const analyticsClient = new ApolloClient({
-  uri: chainConfig().subgraphs.analytics,
+  uri: globalConfig.analyticsSubgraph,
   ssrMode: typeof window === 'undefined',
 
   cache: new InMemoryCache(),
 
   connectToDevTools: true,
   link: new HttpLink({
-    uri: chainConfig().subgraphs.analytics
+    uri: globalConfig.analyticsSubgraph
   })
 })
 

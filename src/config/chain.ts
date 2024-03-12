@@ -10,10 +10,6 @@ export type ChainConfig = {
   provider: ethers.JsonRpcProvider
   blockExplorer: BlockExplorerConfig
   isTestnet: boolean
-  subgraphs: {
-    stBackend: string
-    analytics: string
-  }
 }
 
 const configs: ChainConfig[] = [
@@ -24,10 +20,6 @@ const configs: ChainConfig[] = [
     isTestnet: false,
     blockExplorer: {
       baseUrl: 'https://etherscan.io'
-    },
-    subgraphs: {
-      stBackend: 'https://st-backend-thz2yhu72a-uc.a.run.app/graphql',
-      analytics: 'https://st-analytics-api-ddfui.ondigitalocean.app/graphql'
     }
   },
   {
@@ -37,11 +29,7 @@ const configs: ChainConfig[] = [
     blockExplorer: {
       baseUrl: 'https://goerli.etherscan.io'
     },
-    isTestnet: true,
-    subgraphs: {
-      stBackend: 'https://st-backend-thz2yhu72a-uc.a.run.app/graphql',
-      analytics: 'https://st-analytics-api-ddfui.ondigitalocean.app/graphql'
-    }
+    isTestnet: true
   }
 ]
 
