@@ -26,7 +26,7 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
     balance: ethBalance,
     isLoading: ethBalanceLoading,
     refetch: ethBalanceRefetch
-  } = useEthBalanceOf(account)
+  } = useEthBalanceOf({ walletAddress: account, chainId })
 
   const { accountBalance: stpETHBalance, isLoading: stpETHBalanceLoading } = useLsdBalance({
     walletAddress: account,

@@ -4,25 +4,26 @@ import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
-import { publicProvider } from 'wagmi/providers/public'
 import Web3AuthConnectorInstance from './web3Auth'
 
+const handleAlchemyKey = (chainId: number) => { 
+  const alchemyKey: { [key: number]: string } = {
+    1: process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY as string,
+    5: process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY as string
+  }
+
+  return alchemyKey[chainId] || ''
+}
+
 const { chains, publicClient } = configureChains(
-  [goerli, mainnet],
-  [
+  [ mainnet, goerli],
+  [   
     jsonRpcProvider({
-      rpc: () => ({
-        http: `${process.env.NEXT_PUBLIC_RPC_GOERLI}` as string,
-        chainId: `5`
-      })
+      rpc: (chain) => ({
+        http: chain.rpcUrls.alchemy.http[0]+`/${handleAlchemyKey(chain.id)}`,
+        chainId: chain.id
+      }),
     }),
-    jsonRpcProvider({
-      rpc: () => ({
-        http: `${process.env.NEXT_PUBLIC_RPC_MAINNET}` as string,
-        chainId: `1`
-      })
-    }),
-    publicProvider()
   ],
   {
     retryCount: 1
