@@ -12,7 +12,6 @@ import { ProjectButton } from '../../project/ProjectButton'
 import { useRouter } from 'next/router'
 import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
-import useActiveRoute from '@/hooks/useActiveRoute'
 type LayoutSidebarMobileMenuProps = {
   account?: `0x${string}`
 }
@@ -28,9 +27,9 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
     locale: 'en-US'
   })
   const { screenWidth, breakpoints } = useResizeView()
-  const { isActive } = useActiveRoute()
-  const { query, isReady, pathname, locale } = useRouter()
-  const { currency, network } = query
+
+  const { locale } = useRouter()
+
 
   const date = new Date()
   const { blockExplorer, contracts } = chainConfig()
@@ -40,10 +39,6 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
       ? globalConfig.stakeTogetherUniversityUrlEn
       : globalConfig.stakeTogetherUniversityUrlBr
     : globalConfig.stakeTogetherUniversityUrlEn
-
-  const basePath = `/[network]/[currency]`
-  const withdrawBasePath = `/[network]/[currency]/withdraw`
-  const isHome = (pathname === basePath || pathname === withdrawBasePath) && isReady
 
   return (
     <>
