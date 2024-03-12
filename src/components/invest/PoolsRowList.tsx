@@ -23,7 +23,7 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
   const { currency, network } = query
 
   return (
-    <Row href={`/${network}/${currency}/project/deposit/${pool.address}`}>
+    <Row href={`/${currency}/${network}/project/deposit/${pool.address}`}>
       {pool && (
         <>
           <Name>
