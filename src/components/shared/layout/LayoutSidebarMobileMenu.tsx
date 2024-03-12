@@ -12,7 +12,6 @@ import { ProjectButton } from '../../project/ProjectButton'
 import { useRouter } from 'next/router'
 import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
-import Link from 'next/link'
 import useActiveRoute from '@/hooks/useActiveRoute'
 type LayoutSidebarMobileMenuProps = {
   account?: `0x${string}`
@@ -109,7 +108,6 @@ const {
   CloseSidebar,
   ClosedSidebarButton,
   TopContainer,
-  AnalyticsIcon,
   FooterContainer
 } = {
   DrawerContainer: styled(Drawer)`
@@ -237,8 +235,5 @@ const {
         padding-top: 4px;
       }
     }
-  `,
-  AnalyticsIcon: styled(PiChartLine)`
-    font-size: 15px;
   `
 }
