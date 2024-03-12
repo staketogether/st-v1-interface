@@ -74,11 +74,6 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
                 <CreateProjectIcon /> {t('v2.createProject.title')}
               </MenuButton>
             )}
-            <MenuButton className={`${!isHome && isActive('analytics') ? 'active' : ''}`}>
-              <Link href={`/${network}/${currency}/analytics`}>
-                <AnalyticsIcon /> {t('v2.header.analytics')}
-              </Link>
-            </MenuButton>
           </TopContainer>
           <FooterContainer>
             <FooterContent>
