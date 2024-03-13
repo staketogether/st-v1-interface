@@ -47,7 +47,7 @@ export default function useWithdrawPool(
   const { registerWithdraw } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name })
+  const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
   const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
   const { t } = useLocaleTranslation()

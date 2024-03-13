@@ -86,7 +86,7 @@ export default function EthereumDeposit({
   const feeAmount = (parsedAmount * BigInt(fee?.value || 0n)) / ethers.parseEther('1')
   const youReceiveDeposit = ethers.parseUnits(inputAmount, 18) - feeAmount
 
-  const { stConfig } = useStConfig({ productName: product.name })
+  const { stConfig } = useStConfig({ productName: product.name, chainId })
   const minDepositAmount = stConfig?.minDepositAmount || 0n
 
   const { chain: walletChainId } = useNetwork()

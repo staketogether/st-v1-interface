@@ -113,7 +113,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
 
   const youReceiveDeposit = netDepositAmount
 
-  const { stConfig } = useStConfig({ productName: product.name })
+  const { stConfig } = useStConfig({ productName: product.name, chainId: chainId })
   const minDepositAmount = stConfig?.minDepositAmount || 0n
   const {
     deposit,

@@ -49,7 +49,7 @@ export default function useDepositPool(
   const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
 
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name })
+  const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
   const { t } = useLocaleTranslation()
 
   const amountEstimatedGas = stConfig?.minDepositAmount || 0n
