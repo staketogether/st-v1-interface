@@ -1,3 +1,4 @@
+import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import { globalConfig } from '@/config/global'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import useGetCurrencyPerEthPrice from '@/hooks/useGetCurrencyPrice'
@@ -66,6 +67,7 @@ const App = ({ Component, pageProps }: AppProps) => {
                 }}
               >
                 <Component {...pageProps} />
+                <BuyEthControlModal />
               </SWRConfig>
             </ConfigProvider>
           </StyleSheetManager>
