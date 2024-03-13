@@ -16,7 +16,6 @@ type ProductInfoProps = {
 }
 
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
-  console.log('chainId', chainId)
   const { isTestnet } = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
 
