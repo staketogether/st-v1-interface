@@ -12,10 +12,11 @@ type EnsNameProps = {
   $larger?: boolean
   slice?: number
   color?: string
+  chainId: number
 }
 
-export default function EnsName({ address, large, $larger, slice, color }: EnsNameProps) {
-  const { name, nameLoading } = useEns(address)
+export default function EnsName({ address, large, chainId, $larger, slice, color }: EnsNameProps) {
+  const { name, nameLoading } = useEns(address, chainId)
 
   const text = <Text className={large ? 'large' : ''}>{truncateAddress(address)}</Text>
 

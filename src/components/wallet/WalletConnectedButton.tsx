@@ -27,7 +27,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
     chainId: chain.chainId
   })
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { name: ensName, nameLoading: ensLoading } = useEns(address)
+  const { name: ensName, nameLoading: ensLoading } = useEns(address, chain.chainId)
 
   const handleActionButton = () => {
     if (isWrongNetwork && switchNetworkAsync) {
@@ -60,7 +60,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
               height={24}
             />
           ) : (
-            <EnsAvatar address={address} size={24} />
+            <EnsAvatar address={address} size={24} chainId={chain.chainId} />
           )}
         </EnsAddress>
       )}

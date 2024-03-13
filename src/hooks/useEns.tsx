@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useEnsAvatar, useEnsName } from 'wagmi'
-import chainConfig from '../config/chain'
 
-export default function useEns(address: `0x${string}`) {
-  const { chainId } = chainConfig()
-
+export default function useEns(address: `0x${string}`, chainId: number) {
   const [name, setName] = useState<string | undefined>(undefined)
   const [avatar, setAvatar] = useState<string | undefined>(undefined)
 

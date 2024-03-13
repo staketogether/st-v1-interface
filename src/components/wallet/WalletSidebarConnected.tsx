@@ -41,6 +41,7 @@ import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal
 import WalletSidebarPortfolio from './WalletSidebarPortfolio'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import Withdrawals from '../shared/Withdrawals'
+import chainConfig from '@/config/chain'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -58,7 +59,9 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
-  const { name, nameLoading } = useEns(address)
+  const { chainId } = chainConfig()
+
+  const { name, nameLoading } = useEns(address, chainId)
 
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
   const { setOpenSidebar: setOpenSidebarEditPortfolio } = useWalletSidebarEditPortfolio()
@@ -128,7 +131,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 ) : (
                   <>
                     <WrapperWallet>{handleWalletProviderImage(walletConnected, 16)}</WrapperWallet>
-                    <EnsAvatar address={address} size={24} />
+                    <EnsAvatar address={address} size={24} chainId={chainId} />
                   </>
                 )}
               </Web3AuthProfileContainer>

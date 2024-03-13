@@ -23,8 +23,8 @@ import StakePoolInfo from './StakePoolInfo'
 interface StakeControlProps {
   poolAddress: `0x${string}`
   type: 'deposit' | 'withdraw'
-  poolDetail?: ContentfulPool,
-  chainId: number,
+  poolDetail?: ContentfulPool
+  chainId: number
   isStakeTogetherPool?: boolean
 }
 
@@ -89,7 +89,13 @@ export default function StakeControl({
 
   const { account } = useConnectedAccount()
   const stakeForm = (
-    <StakeForm type={type} product={product} accountAddress={account} poolAddress={poolAddress} chainId={chainId} />
+    <StakeForm
+      type={type}
+      product={product}
+      accountAddress={account}
+      poolAddress={poolAddress}
+      chainId={chainId}
+    />
   )
   const tabsItems: TabsItems[] = [
     {
@@ -211,7 +217,7 @@ export default function StakeControl({
         isStakeTogetherPool={!!isStakeTogetherPool}
       />
       {poolAddress.toLocaleLowerCase() === account?.toLocaleLowerCase() && (
-        <WalletLottery poolAddress={poolAddress} />
+        <WalletLottery poolAddress={poolAddress} chainId={chainId} />
       )}
     </Container>
   )
