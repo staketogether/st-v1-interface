@@ -68,7 +68,7 @@ export default function EthereumWithdraw({
   const isWrongNetwork = chainId !== walletChainId?.id
 
   const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
-    useWithdrawPoolBalance({ product })
+    useWithdrawPoolBalance({ product, chainId })
   const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock({
     walletAddress: account,
     enabled: withdrawTypeSelected === WithdrawType.POOL,

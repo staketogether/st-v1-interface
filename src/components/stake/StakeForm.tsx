@@ -64,7 +64,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
 
   const [withdrawTypeSelected, setWithdrawTypeSelected] = useState(WithdrawType.POOL)
   const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
-    useWithdrawPoolBalance({ product })
+    useWithdrawPoolBalance({ product, chainId })
   const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock({
     walletAddress: accountAddress,
     enabled: withdrawTypeSelected === WithdrawType.POOL,
@@ -274,7 +274,6 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
     refetchEthBalance,
     resetState
   ])
-
 
   const { switchNetworkAsync } = useSwitchNetwork({
     chainId: chain.chainId
