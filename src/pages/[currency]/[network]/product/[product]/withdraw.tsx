@@ -6,6 +6,7 @@ import { globalConfig } from '@/config/global'
 import { productList } from '@/config/product'
 import { fiatAmountVar, openBrlaModalVar } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
+import { AllowedNetwork, handleChainIdByNetwork } from '@/services/format'
 import { Product, ProductMarketAssetData } from '@/types/Product'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -16,9 +17,10 @@ import { useEffect } from 'react'
 export type HomeProps = {
   product: Product
   assetData: ProductMarketAssetData
+  chainId: number
 }
 
-export default function Home({ product, assetData }: HomeProps) {
+export default function Home({ product, assetData, chainId }: HomeProps) {
   const router = useRouter()
   const minAmount = '100'
   const { onInit: buyCrypto } = useTransak({
@@ -37,7 +39,7 @@ export default function Home({ product, assetData }: HomeProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <NewStakeControl type='withdraw' product={product} assetData={assetData} />
+      <NewStakeControl type='withdraw' product={product} assetData={assetData} chainId={chainId} />
       <BuyEthControlModal />
     </LayoutTemplate>
   )
@@ -75,11 +77,12 @@ async function fetchProductAssetData(
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
-  const { product } = params as { network: string; currency: string; product: string }
+  const { product, network } = params as { network: AllowedNetwork; currency: string; product: string }
 
+  const chainId = handleChainIdByNetwork(network)
   const findProduct = productList.find(item => item.name === product)
 
-  if (!findProduct) {
+  if (!findProduct || !chainId) {
     return {
       notFound: true
     }
@@ -96,6 +99,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   return {
     props: {
       assetData,
+      chainId,
       product: findProduct,
       ...(await serverSideTranslations(locale || 'en', ['common']))
     },
