@@ -104,6 +104,7 @@ export default function ProjectRegisterMoreInfo({
       )}
       {isLoading && !isSuccess && (
         <GenericTransactionLoading
+          chainId={1}
           title={
             isReappliedProject
               ? t('v2.createProject.form.reapplyLoadingMessage')
