@@ -11,6 +11,7 @@ type ModalProps = {
   showHeader?: boolean
   className?: string
   noPadding?: boolean
+  overlayCloseModal?: boolean
 }
 
 export default function Modal({
@@ -22,6 +23,7 @@ export default function Modal({
   title,
   showHeader = true,
   noPadding = false,
+  overlayCloseModal = false,
   className
 }: ModalProps) {
   useEffect(() => {
@@ -40,9 +42,16 @@ export default function Modal({
   if (!isOpen) {
     return null
   }
+
+  const handleOverlayClick = () => {
+    if (overlayCloseModal) {
+      onClose()
+    }
+  }
+
   return (
     <>
-      <Overlay />
+      <Overlay onClick={handleOverlayClick} />
       <ModalWrapper width={width} className={`${className} ${noPadding && 'noPadding'}`}>
         {showHeader && (
           <header>
