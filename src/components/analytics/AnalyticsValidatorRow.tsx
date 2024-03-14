@@ -18,11 +18,8 @@ export default function AnalyticsValidatorRow({ validator, index }: AnalyticsVal
   const { locale } = useRouter()
 
   const validatorBalance = formatNumberByLocale(truncateDecimal(String(validator.balance) || '0', 2), locale)
-  const { price: validatorBalanceUsdPrice, symbol } = useCoinConversion(validatorBalance)
-  const validatorBalanceUsdPriceFormatted = formatNumberByLocale(
-    truncateDecimal(validatorBalanceUsdPrice || '0', 2),
-    locale
-  )
+  const { priceConvertedValue: validatorBalanceUsdPriceFormatted } = useCoinConversion(validatorBalance)
+
 
   return (
     <ValidatorTableRow href={`https://beaconcha.in/validator/${validator.validatorindex}`} target='_blank'>
@@ -32,7 +29,7 @@ export default function AnalyticsValidatorRow({ validator, index }: AnalyticsVal
         <span>
           {`${formatNumberByLocale(truncateDecimal(String(validator.balance), 4), locale)} ${t('eth.symbol')}`}
         </span>
-        <span> {`${symbol()} ${validatorBalanceUsdPriceFormatted}`}</span>
+        <span> {`${validatorBalanceUsdPriceFormatted}`}</span>
       </span>
       <span>{`${validator.effectivenessPercentage.toFixed(2)}%`}</span>
       <span>
