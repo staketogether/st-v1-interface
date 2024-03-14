@@ -20,52 +20,40 @@ export default function AnalyticsControl() {
   const { isLoading, analytics, validators } = useAnalyticsData()
   const { contracts, blockExplorer } = chainConfig()
 
-  const { price: eth, symbol } = useCoinConversion('1')
-  const ethPrice = formatNumberByLocale(truncateDecimal(eth || '0', 2), locale)
+  const { priceConvertedValue, } = useCoinConversion('1')
+  const ethPrice = priceConvertedValue
   const tvl = formatNumberByLocale(truncateDecimal(String(analytics?.totalValueLocked) || '0', 2), locale)
-  const { price: tvlUsdPrice } = useCoinConversion(tvl)
+  const { priceConvertedValue: tvlUsdPrice } = useCoinConversion(tvl)
 
-  const tvlUsdPriceFormatted = formatNumberByLocale(truncateDecimal(tvlUsdPrice || '0', 2), locale)
+  const tvlUsdPriceFormatted = tvlUsdPrice
   const totalAccounts = analytics?.accountsCount
   const depositedCount = analytics?.depositsCount
   const withdrawalsCount = analytics?.withdrawalsCount
 
   const totalRewards = formatNumberByLocale(truncateDecimal(String(analytics?.totalRewards) || '0', 2), locale)
-  const { price: totalRewardsUsdPrice } = useCoinConversion(totalRewards)
-  const totalRewardsUsdPriceFormatted = formatNumberByLocale(
-    truncateDecimal(totalRewardsUsdPrice || '0', 2),
-    locale
-  )
+  const { priceConvertedValue: totalRewardsUsdPrice } = useCoinConversion(totalRewards)
+  const totalRewardsUsdPriceFormatted = totalRewardsUsdPrice
 
   const poolsCount = analytics?.poolsCount
   const totalPoolsRewards = formatNumberByLocale(
     truncateDecimal(String(analytics?.totalPoolRewards) || '0', 2),
     locale
   )
-  const { price: totalPoolsRewardsUsdPrice } = useCoinConversion(totalPoolsRewards)
-  const totalPoolsRewardsUsdPriceFormatted = formatNumberByLocale(
-    truncateDecimal(totalPoolsRewardsUsdPrice || '0', 2),
-    locale
-  )
+  const { priceConvertedValue: totalPoolsRewardsUsdPriceFormatted } = useCoinConversion(totalPoolsRewards)
+
 
   const totalContractsBalance = formatNumberByLocale(
     truncateDecimal(String(analytics?.contractBalance) || '0', 2),
     locale
   )
-  const { price: totalContractsBalanceUsd } = useCoinConversion(totalContractsBalance)
-  const totalContractsBalanceUsdFormatted = formatNumberByLocale(
-    truncateDecimal(totalContractsBalanceUsd || '0', 2),
-    locale
-  )
+  const { priceConvertedValue: totalContractsBalanceUsdFormatted } = useCoinConversion(totalContractsBalance)
+
   const validatorsAmountTotal = formatNumberByLocale(
     truncateDecimal(String(analytics?.validatorsAmountTotal) || '0', 2),
     locale
   )
-  const { price: validatorsAmountTotalUsd } = useCoinConversion(validatorsAmountTotal)
-  const validatorsAmountTotalUsdFormatted = formatNumberByLocale(
-    truncateDecimal(validatorsAmountTotalUsd || '0', 2),
-    locale
-  )
+  const { priceConvertedValue: validatorsAmountTotalUsdFormatted } = useCoinConversion(validatorsAmountTotal)
+
 
   const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } = useEthBalanceOf(
     contracts.StakeTogether
@@ -91,7 +79,7 @@ export default function AnalyticsControl() {
               {isLoading ? (
                 <SkeletonLoading width={120} />
               ) : (
-                <span className='blue'>{`${symbol()}${ethPrice}`}</span>
+                <span className='blue'>{`${ethPrice}`}</span>
               )}
             </header>
           </Card>
@@ -103,7 +91,7 @@ export default function AnalyticsControl() {
               ) : (
                 <>
                   <span className='purple'>{`${tvl} ${t('eth.symbol')}`}</span>
-                  <span>{`${symbol()}${tvlUsdPriceFormatted}`}</span>
+                  <span>{`${tvlUsdPriceFormatted}`}</span>
                 </>
               )}
             </header>
@@ -145,7 +133,7 @@ export default function AnalyticsControl() {
               ) : (
                 <>
                   <span className='green'>{`${totalRewards} ${t('eth.symbol')}`}</span>
-                  <span>{`${symbol()}${totalRewardsUsdPriceFormatted}`}</span>
+                  <span>{`${totalRewardsUsdPriceFormatted}`}</span>
                 </>
               )}
             </header>
@@ -158,7 +146,7 @@ export default function AnalyticsControl() {
               ) : (
                 <>
                   <span className='purple'>{`${totalPoolsRewards} ${t('eth.symbol')}`}</span>
-                  <span>{`${symbol()} ${totalPoolsRewardsUsdPriceFormatted}`}</span>
+                  <span>{` ${totalPoolsRewardsUsdPriceFormatted}`}</span>
                 </>
               )}
             </header>
@@ -176,7 +164,7 @@ export default function AnalyticsControl() {
               ) : (
                 <>
                   <span className='green'>{`${totalContractsBalance} ${t('eth.symbol')}`}</span>
-                  <span>{`${symbol()}${totalContractsBalanceUsdFormatted}`}</span>
+                  <span>{`${totalContractsBalanceUsdFormatted}`}</span>
                 </>
               )}
             </header>
@@ -189,7 +177,7 @@ export default function AnalyticsControl() {
               ) : (
                 <>
                   <span className='purple'>{`${validatorsAmountTotal} ${t('eth.symbol')}`}</span>
-                  <span>{`${symbol()}${validatorsAmountTotalUsdFormatted}`}</span>
+                  <span>{`${validatorsAmountTotalUsdFormatted}`}</span>
                 </>
               )}
             </header>
