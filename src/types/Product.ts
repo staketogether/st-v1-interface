@@ -73,6 +73,7 @@ export type Product = {
   contractAddress: `0x${string}`
   enabled: boolean
   urlRedirect: string
+  networkAvailable: Network
   subgraph: {
     testnet: string
     mainnet: string

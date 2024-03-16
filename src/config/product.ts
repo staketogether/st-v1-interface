@@ -6,6 +6,7 @@ export const productList: Product[] = [
     name: 'ethereum-stake',
     title: 'Staking de Ethereum',
     symbol: 'stpETH',
+    networkAvailable: 'ethereum',
     networks: [
       { network: 'ethereum', enabled: true },
       { network: 'optimism', enabled: false },
@@ -18,7 +19,7 @@ export const productList: Product[] = [
     contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
     description: 'ethereumDescription',
     enabled: true,
-    urlRedirect: '/currency/ethereum/product/ethereum-stake', 
+    urlRedirect: '/currency/ethereum/product/ethereum-stake',
     stakeTogetherPool: {
       mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
       testnet: '0x3BdFaA0b55B4F6F3F9cFC6bbB1F582a1c6A0FD69'
@@ -54,6 +55,7 @@ export const productList: Product[] = [
     name: 'ethereum-restaking',
     title: 'Restaking',
     symbol: 'stpRETH',
+    networkAvailable: 'ethereum',
     networks: [
       { network: 'ethereum', enabled: true },
       { network: 'optimism', enabled: false },
@@ -102,6 +104,7 @@ export const productList: Product[] = [
     name: 'celestia',
     title: 'Celestia',
     symbol: 'stpTIA',
+    networkAvailable: 'ethereum',
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -150,6 +153,7 @@ export const productList: Product[] = [
     name: 'polygon',
     title: 'Polygon',
     symbol: 'stpPOL',
+    networkAvailable: 'ethereum',
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -198,6 +202,7 @@ export const productList: Product[] = [
     name: 'solana',
     title: 'Solana',
     symbol: 'stpSOL',
+    networkAvailable: 'ethereum',
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -246,6 +251,7 @@ export const productList: Product[] = [
     name: 'cosmos',
     title: 'Cosmos',
     symbol: 'stpATOM',
+    networkAvailable: 'ethereum',
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -294,6 +300,7 @@ export const productList: Product[] = [
     name: 'near',
     title: 'Near',
     symbol: 'stpNear',
+    networkAvailable: 'ethereum',
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -343,6 +350,7 @@ export const productList: Product[] = [
     name: 'polkadot',
     title: 'Polkadot',
     symbol: 'stpKSM',
+    networkAvailable: 'ethereum',
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },

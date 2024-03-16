@@ -2,12 +2,14 @@ import TradingViewComponent from '@/components/shared/TradingViewComponent'
 import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { truncateAddress } from '@/services/truncate'
+import { capitalize, truncateAddress } from '@/services/truncate'
 import { Product, ProductMarketAssetData } from '@/types/Product'
-import { PiCopy } from 'react-icons/pi'
+import { PiCopy, PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import SymbolIcons from '../tokens/components/SymbolIcons'
+import { Tooltip } from 'antd'
+import NetworkIcons from '../shared/NetworkIcons'
 
 type ProductInfoProps = {
   product: Product
@@ -28,21 +30,44 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
     <ProductContainer>
       <header>
         <HeaderProduct>
-          <NetworkProductIcons stakingProduct={product.name} size={36} />
-          {product.title}
+          <div>
+            <NetworkProductIcons stakingProduct={product.name} size={36} />
+            {product.title}
+          </div>
+          <div>
+            <span>Available on</span>
+            <NetworkIcons network={product.networkAvailable} size={16} />
+            <span>{capitalize(product.networkAvailable)}</span>
+          </div>
         </HeaderProduct>
 
         <HeaderDescribeInfo>
-          <div>
-            <SymbolIcons productSymbol={product.symbol} size={24} />
-            <span className='symbol'>{product.symbol}</span>
-          </div>
-          <div>
-            <span className='CoinValue'>{`${handleQuotePrice(assetData?.data?.price || 0)}
+          <SymbolContainer>
+            <div>
+              <SymbolIcons productSymbol={product.symbol} size={24} />
+              <span className='symbol'>{product.symbol}</span>
+            </div>
+            <div>
+              <span className='CoinValue'>{`${handleQuotePrice(assetData?.data?.price || 0)}
                `}</span>
-
-            <span className='apy'>{`APY:${product.apy}%`}</span>
-          </div>
+              <span className='apy'>{`APY:${product.apy}%`}</span>
+            </div>
+          </SymbolContainer>
+          <RewardsPointsContainer>
+            <Tooltip title={'symbol'}>
+              <span>
+                My Rewards Points <QuestionIcon />
+              </span>
+            </Tooltip>
+            <TagPointsContainer>
+              Eigen
+              <div>0.0</div>
+            </TagPointsContainer>
+            <TagPointsContainer className='purple'>
+              Together
+              <div>0.0</div>
+            </TagPointsContainer>
+          </RewardsPointsContainer>
         </HeaderDescribeInfo>
       </header>
       <TradingViewComponent />
@@ -51,17 +76,14 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
         <StatisticContainer>
           <div>
             <span>{t('v2.ethereumStaking.marketCap')}</span>
-
             <span className='valueItem'>{`${handleQuotePrice(assetData?.data?.market_cap || 0)}`}</span>
           </div>
           <div>
             <span>Volume</span>
-
             <span className='valueItem'>{`${handleQuotePrice(assetData?.data?.volume || 0)}`}</span>
           </div>
           <div>
             <span>{t('v2.ethereumStaking.priceChange')}</span>
-
             <span className='valueItem'>{`${assetData?.data?.price_change_1y.toFixed(2)}%`}</span>
           </div>
         </StatisticContainer>
@@ -81,7 +103,17 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
   )
 }
 
-const { ProductContainer, ProductBodyContainer, HeaderProduct, HeaderDescribeInfo, StatisticContainer } = {
+const {
+  ProductContainer,
+  SymbolContainer,
+  ProductBodyContainer,
+  TagPointsContainer,
+  HeaderProduct,
+  HeaderDescribeInfo,
+  RewardsPointsContainer,
+  QuestionIcon,
+  StatisticContainer
+} = {
   ProductContainer: styled.div`
     flex: 1;
     display: flex;
@@ -98,16 +130,42 @@ const { ProductContainer, ProductBodyContainer, HeaderProduct, HeaderDescribeInf
   HeaderProduct: styled.div`
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: ${({ theme }) => theme.size[8]};
 
-    font-size: ${({ theme }) => theme.font.size[22]};
-    font-style: normal;
-    font-weight: 500;
+    div {
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
+
+      &:nth-child(1) {
+        font-size: ${({ theme }) => theme.font.size[22]};
+        font-style: normal;
+        font-weight: 500;
+      }
+
+      &:nth-child(2) {
+        span {
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-style: normal;
+          font-weight: 500;
+          opacity: 0.6;
+        }
+      }
+    }
   `,
   HeaderDescribeInfo: styled.div`
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: ${({ theme }) => theme.size[16]};
+  `,
+  SymbolContainer: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
     div {
       display: flex;
       align-items: center;
@@ -129,6 +187,22 @@ const { ProductContainer, ProductBodyContainer, HeaderProduct, HeaderDescribeInf
           font-weight: 500;
         }
       }
+    }
+  `,
+  RewardsPointsContainer: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[12]};
+
+    > span {
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      opacity: 0.6;
+      font-size: ${({ theme }) => theme.font.size[13]};
+      font-weight: 500;
+
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[4]};
     }
   `,
   ProductBodyContainer: styled.section`
@@ -179,6 +253,42 @@ const { ProductContainer, ProductBodyContainer, HeaderProduct, HeaderDescribeInf
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[8]};
+    }
+  `,
+  QuestionIcon: styled(PiQuestion)`
+    font-size: ${({ theme }) => theme.font.size[16]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    cursor: pointer;
+    &:hover {
+      color: ${({ theme }) => theme.color.secondary};
+    }
+  `,
+  TagPointsContainer: styled.div`
+    height: 20px;
+    padding: 0px 2px 0px 12px;
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+
+    font-size: ${({ theme }) => theme.font.size[13]};
+    font-weight: 500;
+    color: ${({ theme }) => theme.colorV2.white};
+    background: #5c626b;
+    border-radius: 99px;
+
+    &.purple {
+      background: ${({ theme }) => theme.colorV2.purple[1]};
+    }
+
+    > div {
+      height: 16px;
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
+      padding: 0px 6px;
+      color: ${({ theme }) => theme.colorV2.white};
+      border-radius: 99px;
+      background: ${({ theme }) => theme.colorV2.gray[1]};
     }
   `
 }

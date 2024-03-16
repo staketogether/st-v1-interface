@@ -147,7 +147,6 @@ export default function EthereumDeposit({
     }
     setOpenStakeConfirmModal(true)
   }
-
   const handleLabelButton = () => {
     if (isWrongNetwork) {
       return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
