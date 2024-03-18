@@ -48,7 +48,7 @@ export default function BuyEthControlModal() {
   const controlModal = useReactiveVar(openBrlaModalVar)
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
   const titleList: { [key: string]: string } = {
-    Success: t('v2.ramp.success'),
+    Success: t('v2.ramp.provider'),
     MethodPayment: t('v2.ramp.provider')
   }
   const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title')

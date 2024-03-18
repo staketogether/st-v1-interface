@@ -140,7 +140,8 @@ export default function useDepositPool(
         setPrepareTransactionErrorMessage(response?.data?.errorName)
       }
     },
-    onSuccess() {
+    onSuccess(data) {
+      console.log(data)
       setPrepareTransactionErrorMessage('')
     }
   })
@@ -161,7 +162,7 @@ export default function useDepositPool(
     }
   })
 
-  const deposit = () => {
+  const deposit = async () => {
     setAwaitWalletAction(true)
     tx.write?.()
   }

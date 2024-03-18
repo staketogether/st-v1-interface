@@ -23,11 +23,20 @@ const configs: ChainConfig[] = [
     }
   },
   {
-    chainId: 5,
-    name: 'goerli',
-    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_GOERLI),
+    chainId: 11155420,
+    name: 'Optimism Sepolia',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY),
     blockExplorer: {
-      baseUrl: 'https://goerli.etherscan.io'
+      baseUrl: 'https://optimism-sepolia.blockscout.com'
+    },
+    isTestnet: true
+  },
+  {
+    chainId: 17000,
+    name: 'holesky',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_HOLESKY_API_KEY),
+    blockExplorer: {
+      baseUrl: 'https://optimism-sepolia.blockscout.com'
     },
     isTestnet: true
   }

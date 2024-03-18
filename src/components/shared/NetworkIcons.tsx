@@ -7,8 +7,7 @@ import arbitrumIcon from '@assets/network/arbitrum.svg'
 import polygonIcon from '@assets/network/polygon.svg'
 import solanaIcon from '@assets/network/solana.svg'
 import styled from 'styled-components'
-
-type Network = 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana'
+import { Network } from '@/types/Product'
 
 type NetworkIconProps = {
   network: Network
@@ -20,9 +19,11 @@ export default function NetworkIcons({ network, size, enabled = true }: NetworkI
   const networkIcons = {
     ethereum: ethereumIcon,
     optimism: optimismIcon,
+    ['optimism-sepolia']: optimismIcon,
     arbitrum: arbitrumIcon,
     polygon: polygonIcon,
-    solana: solanaIcon
+    solana: solanaIcon,
+    holesky: ethereumIcon
   }
 
   return (

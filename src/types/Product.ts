@@ -46,7 +46,14 @@ export type ProductSymbol =
   | 'stpBTC'
   | 'stpCHZ'
 
-export type Network = 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana'
+export type Network =
+  | 'ethereum'
+  | 'optimism'
+  | 'arbitrum'
+  | 'polygon'
+  | 'solana'
+  | 'optimism-sepolia'
+  | 'holesky'
 
 export type NetworkWrap = {
   network: Network

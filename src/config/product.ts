@@ -22,7 +22,7 @@ export const productList: Product[] = [
     urlRedirect: '/currency/ethereum/product/ethereum-stake',
     stakeTogetherPool: {
       mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
-      testnet: '0x3BdFaA0b55B4F6F3F9cFC6bbB1F582a1c6A0FD69'
+      testnet: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48'
     },
     contracts: {
       mainnet: {
@@ -33,16 +33,16 @@ export const productList: Product[] = [
         StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
       },
       testnet: {
-        Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
-        Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
-        Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
-        StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+        Airdrop: '0x5B625457fE23e87957Eb9eE610D590BD848f4775',
+        Withdrawals: '0xC43344d37f6Dd117676a33866fB086484834d4dF',
+        Router: '0xfc65Cb4C3e00f760A42362b6a946818ebEFE7C31',
+        StakeTogether: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48',
         StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
       }
     },
     subgraph: {
       mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
-      testnet: 'https://api.studio.thegraph.com/proxy/51080/st-subgraph-goerli/v0.2.8'
+      testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-holesky/version/latest'
     },
     getMobulaAssetData: {
       asset: 'Ethereum',
@@ -55,7 +55,7 @@ export const productList: Product[] = [
     name: 'ethereum-restaking',
     title: 'Restaking',
     symbol: 'stpRETH',
-    networkAvailable: 'ethereum',
+    networkAvailable: 'optimism-sepolia',
     networks: [
       { network: 'ethereum', enabled: true },
       { network: 'optimism', enabled: false },
@@ -64,29 +64,29 @@ export const productList: Product[] = [
       { network: 'solana', enabled: false }
     ],
     apy: 11.1,
-    scan: 'https://etherscan.io/',
+    scan: 'https://optimism-sepolia.blockscout.com',
     contractAddress: '0x1234567890',
     description: 'ethereumDescription',
     enabled: true,
-    urlRedirect: '/currency/ethereum/product/ethereum-restaking',
+    urlRedirect: '/currency/optimism-sepolia/product/ethereum-restaking',
     stakeTogetherPool: {
       mainnet: '0x81C5A12Fe0190F792009e3bBcFf9C980867614BB',
-      testnet: '0x81C5A12Fe0190F792009e3bBcFf9C980867614BB'
+      testnet: '0x47e333845Fce1E2804e0653FD6aa43E3016D8761'
     },
     contracts: {
       mainnet: {
-        Airdrop: '0xccb5F9aEc4A83f6d0DBf64AE77B6eD70b9E9Cf0b',
-        Withdrawals: '0x21A487688211e1baf7C55637ac8506134aB29901',
-        Router: '0x3DE749c1B1715Ec48C14C2425341f397daCB50D9',
-        StakeTogether: '0xB398ccB5d98B9Ac98eDDF6268f7950A773D8e419',
-        StakeTogetherWrapper: '0xE0F10DC1092aa7E5cB692a9f58f678146D6b1291'
+        Airdrop: '0xBF43F150b6c93C9d8bc2AAE1d515dAfbceEA5077',
+        Withdrawals: '0xcf9ee3755bD96C7194211d00e81404014e29ab64',
+        Router: '0x57Dbd848ECDC9E4A6cF1a45E993208b1044F9Fa2',
+        StakeTogether: '0x47e333845Fce1E2804e0653FD6aa43E3016D8761',
+        StakeTogetherWrapper: '0xEC4e033E546ad00E52d535d9105a836eFE45b21a'
       },
       testnet: {
-        Airdrop: '0xccb5F9aEc4A83f6d0DBf64AE77B6eD70b9E9Cf0b',
-        Withdrawals: '0x21A487688211e1baf7C55637ac8506134aB29901',
-        Router: '0x3DE749c1B1715Ec48C14C2425341f397daCB50D9',
-        StakeTogether: '0xB398ccB5d98B9Ac98eDDF6268f7950A773D8e419',
-        StakeTogetherWrapper: '0xE0F10DC1092aa7E5cB692a9f58f678146D6b1291'
+        Airdrop: '0xBF43F150b6c93C9d8bc2AAE1d515dAfbceEA5077',
+        Withdrawals: '0xcf9ee3755bD96C7194211d00e81404014e29ab64',
+        Router: '0x57Dbd848ECDC9E4A6cF1a45E993208b1044F9Fa2',
+        StakeTogether: '0x47e333845Fce1E2804e0653FD6aa43E3016D8761',
+        StakeTogetherWrapper: '0xEC4e033E546ad00E52d535d9105a836eFE45b21a'
       }
     },
     subgraph: {

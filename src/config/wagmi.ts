@@ -1,4 +1,4 @@
-import { goerli, mainnet } from 'viem/chains'
+import { holesky, mainnet, optimismSepolia } from 'viem/chains'
 import { configureChains, createConfig } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
@@ -6,24 +6,25 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import Web3AuthConnectorInstance from './web3Auth'
 
-const handleAlchemyKey = (chainId: number) => { 
+const handleRpcPerChain = (chainId: number) => {
   const alchemyKey: { [key: number]: string } = {
     1: process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY as string,
-    5: process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_API_KEY as string
+    17000: process.env.NEXT_PUBLIC_ALCHEMY_HOLESKY_API_KEY as string,
+    11155420: process.env.NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY as string
   }
 
   return alchemyKey[chainId] || ''
 }
 
 const { chains, publicClient } = configureChains(
-  [ mainnet, goerli],
-  [   
+  [mainnet, optimismSepolia, holesky],
+  [
     jsonRpcProvider({
-      rpc: (chain) => ({
-        http: chain.rpcUrls.alchemy.http[0]+`/${handleAlchemyKey(chain.id)}`,
+      rpc: chain => ({
+        http: handleRpcPerChain(chain.id),
         chainId: chain.id
-      }),
-    }),
+      })
+    })
   ],
   {
     retryCount: 1
