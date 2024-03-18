@@ -2,7 +2,7 @@ import { Tooltip } from 'antd'
 import { InputHTMLAttributes } from 'react'
 import { UseFormRegisterReturn } from 'react-hook-form'
 import { PiQuestion } from 'react-icons/pi'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   title?: string
@@ -11,6 +11,8 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   disabled?: boolean
   disabledLabel?: boolean
   tooltip?: string
+  height?: number
+  inputType?: 'outline'
 }
 
 export default function Input({
@@ -20,6 +22,8 @@ export default function Input({
   disabled,
   tooltip,
   disabledLabel,
+  height,
+  inputType,
   ...props
 }: InputProps) {
   return (
@@ -33,7 +37,7 @@ export default function Input({
           </Tooltip>
         </span>
       )}
-      <InputContainer className={`${disabled ? 'disabled' : ''} ${error ? 'error' : ''}`}>
+      <InputContainer className={`${disabled ? 'disabled' : ''} ${error ? 'error' : ''} ${inputType}`} height={height} >
         <input type='text' {...register} disabled={disabled} {...props} />
       </InputContainer>
       <ErrorMessage>{error}</ErrorMessage>
@@ -47,6 +51,7 @@ const { InputContainer, Content, ErrorMessage, QuestionIcon } = {
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
     font-size: ${({ theme }) => theme.font.size[13]};
+   
     &.disabled {
       > span {
         opacity: 0.5;
@@ -58,11 +63,13 @@ const { InputContainer, Content, ErrorMessage, QuestionIcon } = {
       gap: 4px;
     }
   `,
-  InputContainer: styled.div`
+  InputContainer: styled.div<{ height?: number }>`
+
+    
     width: 100%;
     display: flex;
     gap: ${({ theme }) => theme.size[4]};
-
+    ${({ height }) => height && css`height: ${height}px;`}
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.colorV2.gray[2]};
     padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
@@ -101,6 +108,12 @@ const { InputContainer, Content, ErrorMessage, QuestionIcon } = {
         opacity: 0.5;
       }
     }
+    &.outline{
+      background: transparent;
+      border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+      box-shadow: none;    
+    }
+    
   `,
   ErrorMessage: styled.span`
     color: ${({ theme }) => theme.color.red[300]} !important;
