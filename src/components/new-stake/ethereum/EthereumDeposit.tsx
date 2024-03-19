@@ -15,7 +15,7 @@ import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { PiArrowDown, PiArrowLineRight } from 'react-icons/pi'
+import { PiArrowDown, PiArrowLineRight, PiArrowsCounterClockwise } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
@@ -74,6 +74,7 @@ export default function EthereumDeposit({
       setPoolDelegatedSelected(query.projectAddress as `0x${string}`)
     }
   }, [query.projectAddress])
+  console.log('loop')
 
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
@@ -148,9 +149,6 @@ export default function EthereumDeposit({
     setOpenStakeConfirmModal(true)
   }
   const handleLabelButton = () => {
-    if (isWrongNetwork) {
-      return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
-    }
     if (errorLabel && amount.length > 0) {
       return errorLabel
     }
@@ -171,12 +169,8 @@ export default function EthereumDeposit({
   }
 
   const cantDeposit =
-    (insufficientFunds ||
-      amountIsEmpty ||
-      insufficientMinDeposit ||
-      isLoadingFees ||
-      prepareTransactionIsError) &&
-    !isWrongNetwork
+    insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
+
   return (
     <>
       <Container>
@@ -213,8 +207,16 @@ export default function EthereumDeposit({
             handleAddProjectOnRoute(project)
           }}
         />
-        {!!account && (
+        {!!account && !isWrongNetwork && (
           <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantDeposit} />
+        )}
+        {!!isWrongNetwork && (
+          <Button
+            onClick={openStakeConfirmation}
+            label={`${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`}
+            disabled={false}
+            icon={<WrongNetworkIcon />}
+          />
         )}
         {!account && (
           <Button
@@ -245,7 +247,7 @@ export default function EthereumDeposit({
   )
 }
 
-const { Container, InputContainer, DividerBox, ConnectWalletIcon } = {
+const { Container, InputContainer, DividerBox, ConnectWalletIcon, WrongNetworkIcon } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -273,6 +275,9 @@ const { Container, InputContainer, DividerBox, ConnectWalletIcon } = {
     z-index: 2;
   `,
   ConnectWalletIcon: styled(PiArrowLineRight)`
+    font-size: 16px;
+  `,
+  WrongNetworkIcon: styled(PiArrowsCounterClockwise)`
     font-size: 16px;
   `
 }
