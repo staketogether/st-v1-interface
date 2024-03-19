@@ -72,28 +72,28 @@ export const productList: Product[] = [
     enabled: true,
     urlRedirect: '/currency/optimism-sepolia/product/ethereum-restaking',
     stakeTogetherPool: {
-      mainnet: '0x81C5A12Fe0190F792009e3bBcFf9C980867614BB',
-      testnet: '0x47e333845Fce1E2804e0653FD6aa43E3016D8761'
+      mainnet: '0xb20138e145A6355a064f590EcaD312CaE2608d19',
+      testnet: '0xb20138e145A6355a064f590EcaD312CaE2608d19'
     },
     contracts: {
       mainnet: {
-        Airdrop: '0xBF43F150b6c93C9d8bc2AAE1d515dAfbceEA5077',
-        Withdrawals: '0xcf9ee3755bD96C7194211d00e81404014e29ab64',
-        Router: '0x57Dbd848ECDC9E4A6cF1a45E993208b1044F9Fa2',
-        StakeTogether: '0x47e333845Fce1E2804e0653FD6aa43E3016D8761',
-        StakeTogetherWrapper: '0xEC4e033E546ad00E52d535d9105a836eFE45b21a'
+        Airdrop: '0x366F7A0D34C9b1017159d205427152D1B477585d',
+        Withdrawals: '0x817b1d41EE5EC2697d606f23d90c8B6534e32B29',
+        Router: '0xF5eb84f412464973fda357D3bCe1489D5f31B794',
+        StakeTogether: '0xb20138e145A6355a064f590EcaD312CaE2608d19',
+        StakeTogetherWrapper: '0xa0F3169Dc16D9196FdA85FA299743f4493cD79Cd'
       },
       testnet: {
-        Airdrop: '0xBF43F150b6c93C9d8bc2AAE1d515dAfbceEA5077',
-        Withdrawals: '0xcf9ee3755bD96C7194211d00e81404014e29ab64',
-        Router: '0x57Dbd848ECDC9E4A6cF1a45E993208b1044F9Fa2',
-        StakeTogether: '0x47e333845Fce1E2804e0653FD6aa43E3016D8761',
-        StakeTogetherWrapper: '0xEC4e033E546ad00E52d535d9105a836eFE45b21a'
+        Airdrop: '0x366F7A0D34C9b1017159d205427152D1B477585d',
+        Withdrawals: '0x817b1d41EE5EC2697d606f23d90c8B6534e32B29',
+        Router: '0xF5eb84f412464973fda357D3bCe1489D5f31B794',
+        StakeTogether: '0xb20138e145A6355a064f590EcaD312CaE2608d19',
+        StakeTogetherWrapper: '0xa0F3169Dc16D9196FdA85FA299743f4493cD79Cd'
       }
     },
     subgraph: {
-      mainnet: 'https://api.studio.thegraph.com/query/51080/st-eigen-layer/v1.0.1',
-      testnet: 'https://api.studio.thegraph.com/query/51080/st-eigen-layer/v1.0.1'
+      mainnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest',
+      testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest'
     },
     getMobulaAssetData: {
       asset: 'Ethereum',
