@@ -259,6 +259,7 @@ export default function EthereumWithdraw({
             balanceLoading={ethBalanceLoading}
             type={type}
             product={product}
+            chainId={chainId}
           />
         </InputContainer>
         <StakeWithdrawSwitchTypes
@@ -306,6 +307,8 @@ export default function EthereumWithdraw({
         transactionIsSuccess={withdrawData.withdrawSuccess}
         onClose={() => setOpenStakeConfirmModal(false)}
         withdrawTypeSelected={WithdrawType.POOL}
+        chainId={chainId}
+        product={product}
       />
     </>
   )

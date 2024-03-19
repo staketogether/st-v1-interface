@@ -32,8 +32,8 @@ type EthereumDepositProps = {
   stpETHBalance: bigint
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
-  product: Product
   chainId: number
+  product: Product
 }
 
 export default function EthereumDeposit({
@@ -201,6 +201,7 @@ export default function EthereumDeposit({
             balance={stpETHBalance}
             balanceLoading={stpETHBalanceLoading}
             type={type}
+            chainId={chainId}
             product={product}
           />
         </InputContainer>
@@ -230,8 +231,10 @@ export default function EthereumDeposit({
         youReceive={youReceiveDeposit}
         txHash={txHash}
         type={'deposit'}
+        product={product}
         labelButton={handleLabelButton()}
         onClick={deposit}
+        chainId={chainId}
         transactionLoading={isLoading}
         walletActionLoading={awaitWalletAction}
         transactionIsSuccess={isSuccess}

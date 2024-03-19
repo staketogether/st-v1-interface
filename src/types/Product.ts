@@ -71,6 +71,7 @@ export type Contracts = {
 export type Product = {
   id: number
   name: StakingProduct
+  eigenPointsAvailable: boolean
   title: string
   symbol: ProductSymbol
   networks: NetworkWrap[]

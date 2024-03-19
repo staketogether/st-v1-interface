@@ -1,7 +1,7 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
-  "addToWalletTooltip": "Adicionar stpETH  a sua carteira",
+  "addToWalletTooltip": "Adicionar o token a sua carteira",
   "save": "Salvar",
   "edit": "Editar",
   "connectWallet": "Conectar Carteira",
@@ -704,6 +704,8 @@
       "contractAddress": "Endereço do Contrato",
       "marketCap": "Valor de mercado",
       "priceChange": "Variaço de preço (1 ano)",
+      "networkAvailable": "Disponível em",
+      "myRewardsPoints": "Meus Pontos de Recompensa",
       "highestValueWeeks": "Maior Valor 52 semanas",
       "actions": {
         "invest": "Investir",

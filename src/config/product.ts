@@ -7,6 +7,7 @@ export const productList: Product[] = [
     title: 'Staking de Ethereum',
     symbol: 'stpETH',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: true },
       { network: 'optimism', enabled: false },
@@ -56,6 +57,7 @@ export const productList: Product[] = [
     title: 'Restaking',
     symbol: 'stpRETH',
     networkAvailable: 'optimism-sepolia',
+    eigenPointsAvailable: true,
     networks: [
       { network: 'ethereum', enabled: true },
       { network: 'optimism', enabled: false },
@@ -105,6 +107,7 @@ export const productList: Product[] = [
     title: 'Celestia',
     symbol: 'stpTIA',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -154,6 +157,7 @@ export const productList: Product[] = [
     title: 'Polygon',
     symbol: 'stpPOL',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -203,6 +207,7 @@ export const productList: Product[] = [
     title: 'Solana',
     symbol: 'stpSOL',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -252,6 +257,7 @@ export const productList: Product[] = [
     title: 'Cosmos',
     symbol: 'stpATOM',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -301,6 +307,7 @@ export const productList: Product[] = [
     title: 'Near',
     symbol: 'stpNear',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -351,6 +358,7 @@ export const productList: Product[] = [
     title: 'Polkadot',
     symbol: 'stpKSM',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },

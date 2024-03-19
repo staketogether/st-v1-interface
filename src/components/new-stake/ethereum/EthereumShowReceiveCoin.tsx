@@ -1,11 +1,11 @@
 import NetworkIcons from '@/components/shared/NetworkIcons'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import SymbolIcons from '@/components/tokens/components/SymbolIcons'
+import { chainConfigByChainId } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import { Product } from '@/types/Product'
-import { Select } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
@@ -16,6 +16,7 @@ type EthereumStpETHInputProps = {
   balanceLoading: boolean
   type: 'deposit' | 'withdraw'
   product: Product
+  chainId: number
 }
 
 export default function EthereumShowReceiveCoin({
@@ -23,30 +24,20 @@ export default function EthereumShowReceiveCoin({
   balance,
   balanceLoading,
   type,
+  chainId,
   product
 }: EthereumStpETHInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
 
+  const { isTestnet } = chainConfigByChainId(chainId)
+  const stakeTogetherContractAddress = !isTestnet
+    ? product.contracts.mainnet.StakeTogether
+    : product.contracts.testnet.StakeTogether || `0x`
+
   return (
     <InputContent>
       <div>
-        <Select
-          defaultValue='Ethereum'
-          style={{ width: 139 }}
-          value={'ethereum'}
-          options={[
-            {
-              value: 'ethereum',
-              label: (
-                <SelectOption>
-                  Ethereum
-                  <NetworkIcons network='ethereum' size={16} />
-                </SelectOption>
-              )
-            }
-          ]}
-        />
         {balanceLoading ? (
           <SkeletonLoading width={120} />
         ) : (
@@ -59,7 +50,12 @@ export default function EthereumShowReceiveCoin({
         <CoinActionContainer>
           {type === 'deposit' ? (
             <>
-              <SymbolIcons productSymbol={product.symbol} size={32} />
+              <SymbolIcons
+                productSymbol={product.symbol}
+                size={32}
+                showPlusIcon
+                contractAddress={stakeTogetherContractAddress}
+              />
             </>
           ) : (
             <NetworkIcons network='ethereum' size={32} />
@@ -72,7 +68,7 @@ export default function EthereumShowReceiveCoin({
   )
 }
 
-const { InputContent, CoinActionContainer, SelectOption } = {
+const { InputContent, CoinActionContainer } = {
   InputContent: styled.div`
     display: flex;
     flex-direction: column;
@@ -129,10 +125,5 @@ const { InputContent, CoinActionContainer, SelectOption } = {
         font-weight: 400;
       }
     }
-  `,
-  SelectOption: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
   `
 }
