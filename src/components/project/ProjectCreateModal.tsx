@@ -69,7 +69,6 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
     signMessage,
     reset: resetSignMessage
   } = useSignMessage({
-    message: message,
     onSuccess: async data => {
       const signatureMessage = { signature: data, message: message }
 
@@ -107,7 +106,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
       ...projectInfo,
       ...data
     })
-    await signMessage()
+    await signMessage({ message: message })
   }
 
   useEffect(() => {

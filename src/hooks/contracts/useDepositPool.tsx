@@ -148,6 +148,11 @@ export default function useDepositPool(
 
   const tx = useStakeTogetherDepositPool({
     ...config,
+    request: {
+      ...config.request,
+      functionName: 'depositPool',
+      args: [poolAddress, referral] as readonly [`0x${string}`, `0x${string}`]
+    },
     onSuccess: data => {
       if (data?.hash) {
         setTxHash(data?.hash)

@@ -117,7 +117,6 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     isLoading,
     isSuccess
   } = useSignMessage({
-    message: message,
     onSuccess: async data => {
       const createCommunityForm = getValues()
       const signatureMessage = { signature: data, message: message }
@@ -169,7 +168,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
       switchNetworkAsync()
       return
     }
-    await signMessage()
+    await signMessage({ message: message })
   }
 
   const tabsItems: TabsItems[] = [

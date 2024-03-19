@@ -18,6 +18,7 @@ import validEnv from '../config/env'
 import { config } from '../config/wagmi'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
@@ -31,45 +32,48 @@ const App = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     initMixpanel()
   }, [initMixpanel])
+  const queryClient = new QueryClient()
 
   return (
     <ApolloProvider client={ethereumMainnetClient}>
       <ThemeProvider theme={lightTheme}>
         <WagmiConfig config={config}>
-          <StyleSheetManager shouldForwardProp={isPropValid}>
-            <ConfigProvider
-              theme={{
-                token: {
-                  colorPrimary: lightTheme.colorV2.blue[1],
-                  borderRadius: 8
-                },
-                components: {
-                  Modal: {
-                    zIndexBase: 10005,
-                    zIndexPopupBase: 10005
+          <QueryClientProvider client={queryClient}>
+            <StyleSheetManager shouldForwardProp={isPropValid}>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: lightTheme.colorV2.blue[1],
+                    borderRadius: 8
                   },
-                  Slider: {
-                    trackBg: lightTheme.colorV2.blue[1],
-                    trackHoverBg: lightTheme.colorV2.blue[2]
+                  components: {
+                    Modal: {
+                      zIndexBase: 10005,
+                      zIndexPopupBase: 10005
+                    },
+                    Slider: {
+                      trackBg: lightTheme.colorV2.blue[1],
+                      trackHoverBg: lightTheme.colorV2.blue[2]
+                    }
                   }
-                }
-              }}
-            >
-              <SWRConfig
-                value={{
-                  revalidateIfStale: false,
-                  revalidateOnFocus: false,
-                  revalidateOnReconnect: false,
-                  errorRetryCount: 1,
-                  shouldRetryOnError: false,
-                  fetcher: (uri: string) => axios.get(`${backendUrl}/${uri}`).then(res => res.data)
                 }}
               >
-                <Component {...pageProps} />
-                {/* <BuyEthControlModal /> */}
-              </SWRConfig>
-            </ConfigProvider>
-          </StyleSheetManager>
+                <SWRConfig
+                  value={{
+                    revalidateIfStale: false,
+                    revalidateOnFocus: false,
+                    revalidateOnReconnect: false,
+                    errorRetryCount: 1,
+                    shouldRetryOnError: false,
+                    fetcher: (uri: string) => axios.get(`${backendUrl}/${uri}`).then(res => res.data)
+                  }}
+                >
+                  <Component {...pageProps} />
+                  {/* <BuyEthControlModal /> */}
+                </SWRConfig>
+              </ConfigProvider>
+            </StyleSheetManager>
+          </QueryClientProvider>
         </WagmiConfig>
       </ThemeProvider>
     </ApolloProvider>

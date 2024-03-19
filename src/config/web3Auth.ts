@@ -1,4 +1,4 @@
-import { CHAIN_NAMESPACES } from '@web3auth/base'
+import { CHAIN_NAMESPACES, UX_MODE, WEB3AUTH_NETWORK } from '@web3auth/base'
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider'
 import { Web3AuthNoModal } from '@web3auth/no-modal'
 import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
@@ -19,21 +19,22 @@ export default function Web3AuthConnectorInstance(chains: ChainConfig.Chain[]) {
     blockExplorer: chains[0].blockExplorers?.default.url[0] as string
   }
 
+  const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } })
+
   const web3AuthInstance = new Web3AuthNoModal({
     clientId: chains[0].testnet
       ? String(process.env.NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID)
       : String(process.env.NEXT_PUBLIC_WEB3_AUTH_ID),
     chainConfig,
-    web3AuthNetwork: chains[0].testnet ? 'sapphire_devnet' : 'sapphire_mainnet'
+    privateKeyProvider,
+    web3AuthNetwork: chains[0].testnet ? WEB3AUTH_NETWORK.SAPPHIRE_DEVNET : WEB3AUTH_NETWORK.SAPPHIRE_MAINNET
   })
-
-  const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } })
 
   const openloginAdapterInstance = new OpenloginAdapter({
     privateKeyProvider,
     adapterSettings: {
-      network: chains[0].testnet ? 'testnet' : 'mainnet',
-      uxMode: 'redirect',
+      network: chains[0].testnet ? WEB3AUTH_NETWORK.SAPPHIRE_DEVNET : WEB3AUTH_NETWORK.SAPPHIRE_MAINNET,
+      uxMode: UX_MODE.REDIRECT,
       whiteLabel: {
         logoLight: iconUrl,
         logoDark: iconUrl,
@@ -44,31 +45,22 @@ export default function Web3AuthConnectorInstance(chains: ChainConfig.Chain[]) {
   web3AuthInstance.configureAdapter(openloginAdapterInstance)
 
   return [
-    new Web3AuthConnector({
-      chains: chains,
-      options: {
-        web3AuthInstance,
-        loginParams: {
-          loginProvider: 'google'
-        }
+    Web3AuthConnector({
+      web3AuthInstance,
+      loginParams: {
+        loginProvider: 'google'
       }
     }),
-    new Web3AuthConnector({
-      chains: chains,
-      options: {
-        web3AuthInstance,
-        loginParams: {
-          loginProvider: 'facebook'
-        }
+    Web3AuthConnector({
+      web3AuthInstance,
+      loginParams: {
+        loginProvider: 'apple'
       }
     }),
-    new Web3AuthConnector({
-      chains: chains,
-      options: {
-        web3AuthInstance,
-        loginParams: {
-          loginProvider: 'apple'
-        }
+    Web3AuthConnector({
+      web3AuthInstance,
+      loginParams: {
+        loginProvider: 'facebook'
       }
     })
   ]

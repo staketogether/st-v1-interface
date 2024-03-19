@@ -1,58 +1,25 @@
-import { holesky, mainnet, optimismSepolia } from 'viem/chains'
-import { configureChains, createConfig } from 'wagmi'
-import { InjectedConnector } from 'wagmi/connectors/injected'
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
+import { createConfig, http } from 'wagmi'
+import { injected, walletConnect } from '@wagmi/connectors'
+import { mainnet, optimismSepolia, holesky } from '@wagmi/core/chains'
 import Web3AuthConnectorInstance from './web3Auth'
 
-const handleRpcPerChain = (chainId: number) => {
-  const alchemyKey: { [key: number]: string } = {
-    1: process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY as string,
-    17000: process.env.NEXT_PUBLIC_ALCHEMY_HOLESKY_API_KEY as string,
-    11155420: process.env.NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY as string
-  }
-
-  return alchemyKey[chainId] || ''
-}
-
-const { chains, publicClient } = configureChains(
-  [mainnet, optimismSepolia, holesky],
-  [
-    jsonRpcProvider({
-      rpc: chain => ({
-        http: handleRpcPerChain(chain.id),
-        chainId: chain.id
-      })
-    })
-  ],
-  {
-    retryCount: 1
-  }
-)
-
 const connectors = [
-  ...Web3AuthConnectorInstance(chains),
-  new MetaMaskConnector({ chains }),
-  new InjectedConnector({
-    chains,
-    options: {
-      name: 'Rabby'
-    }
-  }),
-  new WalletConnectConnector({
-    chains,
-    options: {
-      projectId: String(process.env.NEXT_PUBLIC_WALLET_CONNECT),
-      showQrModal: true
-    }
+  ...Web3AuthConnectorInstance([mainnet, optimismSepolia, holesky]),
+  injected(),
+  walletConnect({
+    projectId: String(process.env.NEXT_PUBLIC_WALLET_CONNECT),
+    showQrModal: true
   })
 ]
 
 const config = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient
+  chains: [mainnet, optimismSepolia, holesky],
+  transports: {
+    [mainnet.id]: http(process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY as string),
+    [optimismSepolia.id]: http(process.env.NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY as string),
+    [holesky.id]: http(process.env.NEXT_PUBLIC_ALCHEMY_HOLESKY_API_KEY as string)
+  },
+  connectors
 })
 
-export { chains, config }
+export { config }

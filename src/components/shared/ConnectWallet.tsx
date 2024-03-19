@@ -49,19 +49,19 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
       </Terms>
       <ContainerWalletConnect className={`${isCreateProject && 'useModal'}`}>
         {connectors.map((connector, index) => {
-          const walletName =
-            connector.id === 'web3auth'
-              ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                capitalize((connector as any).loginParams.loginProvider)
-              : connector.name
+          console.log(connector)
+          // const walletName =
+          //   connector.id === 'web3auth'
+
+          //     : connector.name
           return (
             <div
               key={connector.id + index}
               className={`${hasAgreeTerms ? '' : 'disabled'}`}
               onClick={() => hasAgreeTerms && connect({ connector })}
             >
-              {handleConnectorImage(walletName)}
-              {walletName}
+              {/* {handleConnectorImage(walletName)} */}
+              {connector.name}
             </div>
           )
         })}
