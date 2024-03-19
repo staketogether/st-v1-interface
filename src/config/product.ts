@@ -70,8 +70,8 @@ export const productList: Product[] = [
     enabled: true,
     urlRedirect: '/currency/optimism-sepolia/product/ethereum-restaking',
     stakeTogetherPool: {
-      mainnet: '0x81C5A12Fe0190F792009e3bBcFf9C980867614BB',
-      testnet: '0x47e333845Fce1E2804e0653FD6aa43E3016D8761'
+      mainnet: '0xb20138e145A6355a064f590EcaD312CaE2608d19',
+      testnet: '0xb20138e145A6355a064f590EcaD312CaE2608d19'
     },
     contracts: {
       mainnet: {
