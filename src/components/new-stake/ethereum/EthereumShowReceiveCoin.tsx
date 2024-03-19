@@ -6,7 +6,6 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import { Product } from '@/types/Product'
-import { Select } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
@@ -39,22 +38,6 @@ export default function EthereumShowReceiveCoin({
   return (
     <InputContent>
       <div>
-        <Select
-          defaultValue='Ethereum'
-          style={{ width: 139 }}
-          value={'ethereum'}
-          options={[
-            {
-              value: 'ethereum',
-              label: (
-                <SelectOption>
-                  Ethereum
-                  <NetworkIcons network='ethereum' size={16} />
-                </SelectOption>
-              )
-            }
-          ]}
-        />
         {balanceLoading ? (
           <SkeletonLoading width={120} />
         ) : (
@@ -85,7 +68,7 @@ export default function EthereumShowReceiveCoin({
   )
 }
 
-const { InputContent, CoinActionContainer, SelectOption } = {
+const { InputContent, CoinActionContainer } = {
   InputContent: styled.div`
     display: flex;
     flex-direction: column;
@@ -142,10 +125,5 @@ const { InputContent, CoinActionContainer, SelectOption } = {
         font-weight: 400;
       }
     }
-  `,
-  SelectOption: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
   `
 }
