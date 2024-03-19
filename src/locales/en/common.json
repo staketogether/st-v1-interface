@@ -340,7 +340,8 @@
         "LessThanMinimumDeposit": "Min Deposit",
         "PoolNotFound": "Pool Not Found",
         "ZeroAmount": "Zero Supply",
-        "useMaxButton": "Use Max Button"
+        "useMaxButton": "Use Max Button",
+        "Panic": "Panic"
       }
     },
     "activities": {

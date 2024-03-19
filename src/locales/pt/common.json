@@ -338,7 +338,8 @@
         "PoolNotFound": "Pool Não Encontrado",
         "ZeroAmount": "Suprimento Zero",
         "insufficientGasBalance": "Saldo Insuficiente para o Gás",
-        "useMaxButton": "Utilize o botão Max"
+        "useMaxButton": "Utilize o botão Max",
+        "Panic": "Panic"
       }
     },
     "activities": {
