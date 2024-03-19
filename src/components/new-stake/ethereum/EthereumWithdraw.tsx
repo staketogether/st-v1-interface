@@ -1,6 +1,12 @@
 import Button from '@/components/shared/Button'
 import React, { useCallback, useEffect, useState } from 'react'
-import { PiArrowDown, PiArrowLineRight, PiQuestion, PiShieldCheckeredDuotone } from 'react-icons/pi'
+import {
+  PiArrowDown,
+  PiArrowLineRight,
+  PiArrowsCounterClockwise,
+  PiQuestion,
+  PiShieldCheckeredDuotone
+} from 'react-icons/pi'
 import styled from 'styled-components'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
@@ -216,10 +222,6 @@ export default function EthereumWithdraw({
     ''
 
   const handleLabelButton = () => {
-    if (isWrongNetwork) {
-      return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
-    }
-
     if (errorLabel && inputAmount.length > 0) {
       return errorLabel
     }
@@ -270,8 +272,16 @@ export default function EthereumWithdraw({
           withdrawAmount={inputAmount}
           withdrawTimeLeft={withdrawTimeLeft}
         />
-        {!!account && (
+        {!!account && !isWrongNetwork && (
           <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantWithdraw} />
+        )}
+        {!!isWrongNetwork && (
+          <Button
+            onClick={openStakeConfirmation}
+            label={`${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`}
+            disabled={false}
+            icon={<WrongNetworkIcon />}
+          />
         )}
         {!account && (
           <Button
@@ -314,7 +324,7 @@ export default function EthereumWithdraw({
   )
 }
 
-const { Container, InputContainer, CardBlock, DividerBox, ConnectWalletIcon } = {
+const { Container, InputContainer, CardBlock, DividerBox, ConnectWalletIcon, WrongNetworkIcon } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -368,5 +378,8 @@ const { Container, InputContainer, CardBlock, DividerBox, ConnectWalletIcon } = 
       align-items: center;
       gap: ${({ theme }) => theme.size[8]};
     }
+  `,
+  WrongNetworkIcon: styled(PiArrowsCounterClockwise)`
+    font-size: 16px;
   `
 }
