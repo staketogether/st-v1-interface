@@ -13,9 +13,7 @@ export default defineConfig({
       }
     }),
     react({
-      getHookName({ contractName, type }) {
-        return `use${contractName}__${type}`
-      }
+      getHookName: 'legacy'
     })
   ]
 })

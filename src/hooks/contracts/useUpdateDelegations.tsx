@@ -9,20 +9,16 @@ import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import { useWaitForTransaction } from 'wagmi'
 import { ethereumMainnetClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-import {
-  stakeTogetherABI,
-  usePrepareStakeTogetherUpdateDelegations,
-  useStakeTogetherUpdateDelegations
-} from '../../types/Contracts'
+
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useConnectedAccount from '../useConnectedAccount'
 import { getContractsByProductName, getProductByName } from '@/config/product'
+import { usePrepareStakeTogetherUpdateDelegations } from '@/types/Contracts'
 
 export type PoolData = {
   pool: `0x${string}`
