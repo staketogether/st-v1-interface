@@ -23,7 +23,7 @@ export const productList: Product[] = [
     urlRedirect: '/currency/ethereum/product/ethereum-stake',
     stakeTogetherPool: {
       mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
-      testnet: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48'
+      testnet: '0x737c0f05693824Ce2E93A1670145c95F82F6b94F'
     },
     contracts: {
       mainnet: {
@@ -34,11 +34,11 @@ export const productList: Product[] = [
         StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
       },
       testnet: {
-        Airdrop: '0x5B625457fE23e87957Eb9eE610D590BD848f4775',
-        Withdrawals: '0xC43344d37f6Dd117676a33866fB086484834d4dF',
-        Router: '0xfc65Cb4C3e00f760A42362b6a946818ebEFE7C31',
-        StakeTogether: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48',
-        StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+        Airdrop: '0xCB23b587969f9089fDb3a8B65ce6992015Ac7E57',
+        Withdrawals: '0xa48BE7b3F398f3CfB1B76B84734869d393b7aDa1',
+        Router: '0x465e172ca14B5972Fc1e09c1eDbF262BC2232B8c',
+        StakeTogether: '0x737c0f05693824Ce2E93A1670145c95F82F6b94F',
+        StakeTogetherWrapper: '0xfB7a3F74e661d588dBB9323696874A6D244478a6'
       }
     },
     subgraph: {
