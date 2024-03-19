@@ -13,12 +13,9 @@ export default defineConfig({
       }
     }),
     react({
-      useContractRead: true,
-      useContractFunctionRead: true,
-      usePrepareContractWrite: true,
-      usePrepareContractFunctionWrite: true,
-      useContractEvent: true,
-      useContractItemEvent: true
+      getHookName({ contractName, type }) {
+        return `use${contractName}__${type}`
+      }
     })
   ]
 })
