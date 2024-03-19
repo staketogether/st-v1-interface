@@ -201,6 +201,7 @@ export default function EthereumDeposit({
             balance={stpETHBalance}
             balanceLoading={stpETHBalanceLoading}
             type={type}
+            chainId={chainId}
             product={product}
           />
         </InputContainer>
