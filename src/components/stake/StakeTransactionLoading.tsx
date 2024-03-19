@@ -1,4 +1,4 @@
-import chainConfig from '@/config/chain'
+import { chainConfigByChainId } from '@/config/chain'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
@@ -12,6 +12,8 @@ import { WithdrawType } from '@/types/Withdraw'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from '../shared/LottieAnimation'
 import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
+import { Product } from '@/types/Product'
+import SymbolIcons from '../tokens/components/SymbolIcons'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -22,6 +24,8 @@ type StakeTransactionLoadingProps = {
   txHash: string | undefined
   type: 'deposit' | 'withdraw'
   withdrawTypeSelected: WithdrawType
+  product: Product
+  chainId: number
 }
 
 export default function StakeTransactionLoading({
@@ -32,12 +36,22 @@ export default function StakeTransactionLoading({
   transactionIsSuccess,
   txHash,
   type,
-  withdrawTypeSelected
+  withdrawTypeSelected,
+  product,
+  chainId
 }: StakeTransactionLoadingProps) {
   const { t } = useLocaleTranslation()
-  const chain = chainConfig()
   const isWithdraw = type === 'withdraw'
-  const { addToWalletAction } = useAddSethToWallet()
+
+  const { isTestnet, blockExplorer } = chainConfigByChainId(chainId)
+  const stakeTogetherContractAddress = !isTestnet
+    ? product.contracts.mainnet.StakeTogether
+    : product.contracts.testnet.StakeTogether || `0x`
+
+  const { addToWalletAction } = useAddSethToWallet({
+    productSymbol: product.symbol,
+    contractAddress: stakeTogetherContractAddress
+  })
   const { addToWalletAction: addStwEthToWalletAction } = useAddStwEthToWallet()
   return (
     <Container>
@@ -92,7 +106,7 @@ export default function StakeTransactionLoading({
               <div>
                 <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
                 <span className={'purple'}>{`${truncateWei(youReceive, 6)}`}</span>
-                <span className={'purple'}> {t('lsd.symbol')}</span>
+                <span className={'purple'}> {product.symbol}</span>
               </div>
             </>
           )}
@@ -101,7 +115,7 @@ export default function StakeTransactionLoading({
       {!isWithdraw && transactionIsSuccess && (
         <AddAssetInWalletButton onClick={addToWalletAction}>
           <span>{t('addSethToWallet.add')} </span>
-          <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
+          <SymbolIcons productSymbol={product.symbol} size={23} />
           <span>{t('addSethToWallet.yourWallet')}</span>
         </AddAssetInWalletButton>
       )}
@@ -117,7 +131,7 @@ export default function StakeTransactionLoading({
         <DescriptionAction>{t('v2.stake.confirmModal.proceedInYourWallet')}</DescriptionAction>
       )}
       {transactionIsSuccess && (
-        <a href={`${chain.blockExplorer.baseUrl}/tx/${txHash}`} target='_blank' rel='noopener noreferrer'>
+        <a href={`${blockExplorer.baseUrl}/tx/${txHash}`} target='_blank' rel='noopener noreferrer'>
           <Image src={etherscan} alt='etherscan icon' width={20} height={20} />
           <DescriptionAction>{t('viewOnExplorer')}</DescriptionAction>
         </a>

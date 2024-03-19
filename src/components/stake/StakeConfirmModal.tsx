@@ -9,6 +9,7 @@ import Modal from '../shared/Modal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeTransactionLoading from './StakeTransactionLoading'
 import { WithdrawType } from '@/types/Withdraw'
+import { Product } from '@/types/Product'
 
 type StakeConfirmModalProps = {
   amount: string
@@ -22,6 +23,8 @@ type StakeConfirmModalProps = {
   onClick: () => void
   onClose: () => void
   withdrawTypeSelected: WithdrawType
+  product: Product
+  chainId: number
 }
 
 export default function StakeConfirmModal({
@@ -34,6 +37,8 @@ export default function StakeConfirmModal({
   youReceive,
   txHash,
   withdrawTypeSelected,
+  product,
+  chainId,
   onClick,
   onClose
 }: StakeConfirmModalProps) {
@@ -58,9 +63,11 @@ export default function StakeConfirmModal({
           transactionLoading={transactionLoading}
           amount={truncateDecimal(amount, 6)}
           youReceive={youReceive}
+          chainId={chainId}
           withdrawTypeSelected={withdrawTypeSelected}
           transactionIsSuccess={transactionIsSuccess}
           type={type}
+          product={product}
           txHash={txHash}
         />
       ) : (
