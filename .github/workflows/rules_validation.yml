@@ -57,13 +57,14 @@ jobs:
           echo NEXT_PUBLIC_FIREBASE_CREDENTIALS_PROJECT_ID=1 >> .env
           echo NEXT_PUBLIC_CONTENTFUL_TOKEN=1 >> .env
           echo NEXT_PUBLIC_CONTENTFUL_SPACE=1 >> .env
-          echo NEXT_PUBLIC_RPC_GOERLI=1 >> .env
+          echo NEXT_PUBLIC_ALCHEMY_HOLESKY_API_KEY=1 >> .env
           echo NEXT_PUBLIC_RPC_MAINNET=1 >> .env
           echo NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT=1 >> .env
           echo NEXT_PUBLIC_CONTENTFUL_CMA_TOKEN=1 >> .env
           echo NEXT_PUBLIC_TRANSAK_API_KEY=1 >> .env
           echo NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID=1 >> .env
-
+          echo NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY=1 >> .env
+          echo NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY=1 >> .env
       - name: Install dependencies
         run: pnpm install
 

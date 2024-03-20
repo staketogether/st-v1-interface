@@ -44,4 +44,7 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY) {
     throw new Error('NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY not found in env')
   }
+  if (!process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY) {
+    throw new Error('NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY not found in env')
+  }
 }
