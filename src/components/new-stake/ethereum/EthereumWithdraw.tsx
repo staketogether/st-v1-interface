@@ -275,7 +275,7 @@ export default function EthereumWithdraw({
         {!!account && !isWrongNetwork && (
           <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantWithdraw} />
         )}
-        {!!isWrongNetwork && (
+        {!!isWrongNetwork && account && (
           <Button
             onClick={openStakeConfirmation}
             label={`${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`}

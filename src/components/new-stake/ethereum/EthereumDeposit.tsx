@@ -209,7 +209,7 @@ export default function EthereumDeposit({
         {!!account && !isWrongNetwork && (
           <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantDeposit} />
         )}
-        {!!isWrongNetwork && (
+        {!!isWrongNetwork && account && (
           <Button
             onClick={openStakeConfirmation}
             label={`${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`}
