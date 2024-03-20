@@ -69,7 +69,7 @@ export const productList: Product[] = [
     scan: 'https://optimism-sepolia.blockscout.com',
     contractAddress: '0x1234567890',
     description: 'ethereumDescription',
-    enabled: true,
+    enabled: false,
     urlRedirect: '/currency/optimism-sepolia/product/ethereum-restaking',
     stakeTogetherPool: {
       mainnet: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
