@@ -64,7 +64,7 @@ jobs:
           echo NEXT_PUBLIC_TRANSAK_API_KEY=1 >> .env
           echo NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID=1 >> .env
           echo NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY=1 >> .env
-          echo NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY=1 >> .env
+          echo NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY=https://eth-mainnet.g.alchemy.com/v2/maUdOba2Td2ntuB3ry2hwJlW3RGkrJjx >> .env
       - name: Install dependencies
         run: pnpm install
 
