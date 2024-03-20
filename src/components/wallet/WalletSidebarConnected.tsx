@@ -41,7 +41,8 @@ import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal
 import WalletSidebarPortfolio from './WalletSidebarPortfolio'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import Withdrawals from '../shared/Withdrawals'
-import chainConfig from '@/config/chain'
+import chainConfig, { Networks } from '@/config/chain'
+import AssetIcon from '../shared/AssetIcon'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -56,7 +57,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
 
-  const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
+  const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: Networks.holesky })
+  const { balance: optimistBalance } = useEthBalanceOf({
+    walletAddress: address,
+    chainId: Networks.OptimismSepolia
+  })
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
   const { chainId } = chainConfig()
@@ -173,7 +178,48 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               </SidebarButton>
             </Actions>
           </HeaderContainer>
-          <InfoContainer>
+          <Card
+            header={
+              <AssetHeaderCard>
+                <span>Assets</span>
+                <span>Balance</span>
+              </AssetHeaderCard>
+            }
+          >
+            <AssetsCard>
+              <BalanceContainer>
+                <div>
+                  <div>
+                    <AssetIcon assetIcon='ethereum' networkIcon='ethereum' size={24} />
+                  </div>
+                  <div>
+                    <span>{` ${t('eth.symbol')}`}</span>
+                    <span>Ethereum</span>
+                  </div>
+                </div>
+                <div>
+                  <span>{formatNumberByLocale(truncateWei(ethBalance, 6), locale)}</span>
+                  <span>$480.95</span>
+                </div>
+              </BalanceContainer>
+              <BalanceContainer>
+                <div>
+                  <div>
+                    <AssetIcon assetIcon='ethereum' networkIcon='optimism' size={24} />
+                  </div>
+                  <div>
+                    <span>{`${t('eth.symbol')}`}</span>
+                    <span>Optimism</span>
+                  </div>
+                </div>
+                <div>
+                  <span>{formatNumberByLocale(truncateWei(optimistBalance, 6), locale)}</span>
+                  <span>$480.95</span>
+                </div>
+              </BalanceContainer>
+            </AssetsCard>
+          </Card>
+          {/* <InfoContainer>
             <InfoCard>
               <h4>
                 {t('availableToStake')} <Image src={ethIcon} width={18} height={18} alt='eth icon' />
@@ -211,7 +257,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 </span>
               </div>
             </InfoCard>
-          </InfoContainer>
+          </InfoContainer> */}
           {stwETHBalance > 0n && (
             <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />
           )}
@@ -274,7 +320,10 @@ const {
   EditIcon,
   WalletAddressContainer,
   InfoCard,
-  PortfolioHeader
+  BalanceContainer,
+  AssetHeaderCard,
+  PortfolioHeader,
+  AssetsCard
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.colorV2.foreground} !important;
@@ -527,6 +576,77 @@ const {
       position: absolute;
       justify-self: flex-end;
       margin-right: 12px;
+    }
+  `,
+  AssetHeaderCard: styled.div`
+    width: 100%;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 8px;
+
+    border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
+    border-radius: 8px 8px 0 0;
+
+    span {
+      font-weight: 400;
+      font-size: ${({ theme }) => theme.font.size[13]};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      opacity: 0.6;
+    }
+  `,
+  AssetsCard: styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[16]};
+  `,
+  BalanceContainer: styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    div {
+      &:nth-child(1) {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[8]};
+
+        > div {
+          display: flex;
+          flex-direction: column;
+
+          span {
+            text-align: start;
+            &:nth-child(1) {
+              font-size: ${({ theme }) => theme.font.size[13]};
+              color: ${({ theme }) => theme.colorV2.gray[1]};
+            }
+            &:nth-child(2) {
+              font-size: ${({ theme }) => theme.font.size[12]};
+              color: ${({ theme }) => theme.colorV2.gray[1]};
+              opacity: 0.8;
+            }
+          }
+        }
+      }
+      &:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        span {
+          text-align: end;
+          &:nth-child(1) {
+            font-size: ${({ theme }) => theme.font.size[13]};
+            color: ${({ theme }) => theme.colorV2.purple[1]};
+          }
+          &:nth-child(2) {
+            font-size: ${({ theme }) => theme.font.size[12]};
+            color: ${({ theme }) => theme.colorV2.gray[1]};
+            opacity: 0.8;
+          }
+        }
+      }
     }
   `
 }
