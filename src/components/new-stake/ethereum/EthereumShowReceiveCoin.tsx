@@ -1,10 +1,11 @@
-import StpEthIcon from '@/components/shared/StpethIcon'
+import NetworkIcons from '@/components/shared/NetworkIcons'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-import StakingIcons from '@/components/tokens/components/StakingIcons'
+import SymbolIcons from '@/components/tokens/components/SymbolIcons'
+import { chainConfigByChainId } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { Select } from 'antd'
+import { Product } from '@/types/Product'
 import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
@@ -14,51 +15,52 @@ type EthereumStpETHInputProps = {
   balance: bigint
   balanceLoading: boolean
   type: 'deposit' | 'withdraw'
+  product: Product
+  chainId: number
 }
 
 export default function EthereumShowReceiveCoin({
   amountValue,
   balance,
   balanceLoading,
-  type
+  type,
+  chainId,
+  product
 }: EthereumStpETHInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
 
+  const { isTestnet } = chainConfigByChainId(chainId)
+  const stakeTogetherContractAddress = !isTestnet
+    ? product.contracts.mainnet.StakeTogether
+    : product.contracts.testnet.StakeTogether || `0x`
+
   return (
     <InputContent>
       <div>
-        <Select
-          defaultValue='Ethereum'
-          style={{ width: 139 }}
-          value={'ethereum'}
-          options={[
-            {
-              value: 'ethereum',
-              label: (
-                <SelectOption>
-                  Ethereum <StakingIcons stakingProduct='ethereum' size={16} />
-                </SelectOption>
-              )
-            }
-          ]}
-        />
         {balanceLoading ? (
           <SkeletonLoading width={120} />
         ) : (
           <span>{`Balance: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${
-            type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')
+            type === 'deposit' ? product.symbol : t('eth.symbol')
           }`}</span>
         )}
       </div>
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <StpEthIcon size={32} showPlusIcon />
+            <>
+              <SymbolIcons
+                productSymbol={product.symbol}
+                size={32}
+                showPlusIcon
+                contractAddress={stakeTogetherContractAddress}
+              />
+            </>
           ) : (
-            <StakingIcons stakingProduct='ethereum' size={32} />
+            <NetworkIcons network='ethereum' size={32} />
           )}
-          <span>{type === 'deposit' ? t('lsd.symbol') : t('eth.symbol')}</span>
+          <span>{type === 'deposit' ? product.symbol : t('eth.symbol')}</span>
         </CoinActionContainer>
         <input type='text' placeholder='0' value={amountValue} disabled />
       </div>
@@ -66,7 +68,7 @@ export default function EthereumShowReceiveCoin({
   )
 }
 
-const { InputContent, CoinActionContainer, SelectOption } = {
+const { InputContent, CoinActionContainer } = {
   InputContent: styled.div`
     display: flex;
     flex-direction: column;
@@ -123,10 +125,5 @@ const { InputContent, CoinActionContainer, SelectOption } = {
         font-weight: 400;
       }
     }
-  `,
-  SelectOption: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
   `
 }

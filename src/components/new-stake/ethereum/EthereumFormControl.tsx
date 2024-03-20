@@ -1,7 +1,6 @@
 import Button from '@/components/shared/Button'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
-import useStAccount from '@/hooks/subgraphs/useStAccount'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import Link from 'next/link'
@@ -9,13 +8,17 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import EthereumDeposit from './EthereumDeposit'
 import EthereumWithdraw from './EthereumWithdraw'
+import { Product } from '@/types/Product'
+import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 
 type EthereumFormControlProps = {
   type: 'deposit' | 'withdraw'
+  product: Product
+  chainId: number
 }
-export default function EthereumFormControl({ type }: EthereumFormControlProps) {
+export default function EthereumFormControl({ type, product, chainId }: EthereumFormControlProps) {
   const { query } = useRouter()
-  const { currency, network } = query
+  const { currency } = query as { currency: string }
   const { account } = useConnectedAccount()
   const { t } = useLocaleTranslation()
 
@@ -23,8 +26,13 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
     balance: ethBalance,
     isLoading: ethBalanceLoading,
     refetch: ethBalanceRefetch
-  } = useEthBalanceOf(account)
-  const { accountBalance: stpETHBalance, accountIsLoading: stpETHBalanceLoading } = useStAccount(account)
+  } = useEthBalanceOf({ walletAddress: account, chainId })
+
+  const { accountBalance: stpETHBalance, isLoading: stpETHBalanceLoading } = useLsdBalance({
+    walletAddress: account,
+    product: product,
+    chainId: chainId
+  })
 
   return (
     <EthereumContainer>
@@ -32,18 +40,25 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
         <nav>
           <ul>
             <li className={`${type === 'deposit' && 'activated'}`}>
-              <Link href={`/${network}/${currency}/product/ethereum`}>
+              <Link href={product.urlRedirect.replace('currency', currency)}>
                 {t('v2.ethereumStaking.actions.invest')}
               </Link>
             </li>
             <li className={`${type === 'withdraw' && 'activated'}`}>
-              <Link href={`/${network}/${currency}/product/ethereum/withdraw`}>
+              <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>
                 {t('v2.ethereumStaking.actions.withdraw')}
               </Link>
             </li>
           </ul>
         </nav>
-        <Button label={`${t('buy')} ETH`} width={133} height={32} onClick={openQuoteEthModal} small />
+        <Button
+          label={`${t('buy')} ETH`}
+          width={133}
+          height={32}
+          color='green'
+          onClick={openQuoteEthModal}
+          small
+        />
       </header>
       <div>
         {type === 'deposit' ? (
@@ -55,6 +70,8 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
             stpETHBalance={stpETHBalance}
             stpETHBalanceLoading={stpETHBalanceLoading}
             account={account}
+            product={product}
+            chainId={chainId}
           />
         ) : (
           <EthereumWithdraw
@@ -65,6 +82,8 @@ export default function EthereumFormControl({ type }: EthereumFormControlProps) 
             stpETHBalance={stpETHBalance}
             stpETHBalanceLoading={stpETHBalanceLoading}
             account={account}
+            product={product}
+            chainId={chainId}
           />
         )}
       </div>

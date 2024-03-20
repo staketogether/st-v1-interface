@@ -1,4 +1,4 @@
-import chainConfig from '@/config/chain'
+import { chainConfigByChainId } from '@/config/chain'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import useAnalyticsData from '@/hooks/subgraphs/analytics/useAnalyticsData'
 import useCoinConversion from '@/hooks/useCoinConversion'
@@ -13,12 +13,17 @@ import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import AnalyticsValidatorRow from './AnalyticsValidatorRow'
+import { getContractsByProductName } from '@/config/product'
 
 export default function AnalyticsControl() {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
   const { isLoading, analytics, validators } = useAnalyticsData()
-  const { contracts, blockExplorer } = chainConfig()
+  const { isTestnet, blockExplorer } = chainConfigByChainId(1)
+  const { StakeTogether, Router, Withdrawals } = getContractsByProductName({
+    productName: 'ethereum-stake',
+    isTestnet
+  })
 
   const { priceConvertedValue, } = useCoinConversion('1')
   const ethPrice = priceConvertedValue
@@ -55,13 +60,20 @@ export default function AnalyticsControl() {
   const { priceConvertedValue: validatorsAmountTotalUsdFormatted } = useCoinConversion(validatorsAmountTotal)
 
 
-  const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } = useEthBalanceOf(
-    contracts.StakeTogether
-  )
+  const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } = useEthBalanceOf({
+    walletAddress: StakeTogether,
+    chainId: 1
+  })
   const stakeTogetherContractFormatted = formatNumberByLocale(truncateWei(stakeTogetherContract, 4), locale)
-  const { balance: routerContract, isLoading: routerLoading } = useEthBalanceOf(contracts.Router)
+  const { balance: routerContract, isLoading: routerLoading } = useEthBalanceOf({
+    walletAddress: Router,
+    chainId: 1
+  })
   const routerBalanceFormatted = formatNumberByLocale(truncateWei(routerContract, 4), locale)
-  const { balance: withdrawalsContract, isLoading: withdrawalsLoading } = useEthBalanceOf(contracts.Withdrawals)
+  const { balance: withdrawalsContract, isLoading: withdrawalsLoading } = useEthBalanceOf({
+    walletAddress: Withdrawals,
+    chainId: 1
+  })
   const withdrawalsFormatted = formatNumberByLocale(truncateWei(withdrawalsContract, 4), locale)
 
   const validatorsCount = analytics?.validatorsCount
@@ -193,10 +205,7 @@ export default function AnalyticsControl() {
             <span>{t('v2.analytics.contracts.link')}</span>
           </header>
           <div>
-            <ContractTableRow
-              href={`${blockExplorer.baseUrl}/address/${contracts.StakeTogether}`}
-              target='_blank'
-            >
+            <ContractTableRow href={`${blockExplorer.baseUrl}/address/${StakeTogether}`} target='_blank'>
               <span>Stake Together</span>
               {stakeTogetherContractLoading ? (
                 <SkeletonLoading width={120} />
@@ -208,7 +217,7 @@ export default function AnalyticsControl() {
                 {t('v2.analytics.contracts.viewInExecutionLayer')}
               </span>
             </ContractTableRow>
-            <ContractTableRow href={`${blockExplorer.baseUrl}/address/${contracts.Router}`} target='_blank'>
+            <ContractTableRow href={`${blockExplorer.baseUrl}/address/${Router}`} target='_blank'>
               <span>Router</span>
               {routerLoading ? (
                 <SkeletonLoading width={120} />
@@ -220,10 +229,7 @@ export default function AnalyticsControl() {
                 {t('v2.analytics.contracts.viewInExecutionLayer')}
               </span>
             </ContractTableRow>
-            <ContractTableRow
-              href={`${blockExplorer.baseUrl}/address/${contracts.Withdrawals}`}
-              target='_blank'
-            >
+            <ContractTableRow href={`${blockExplorer.baseUrl}/address/${Withdrawals}`} target='_blank'>
               <span>Withdrawals</span>
               {withdrawalsLoading ? (
                 <SkeletonLoading width={120} />

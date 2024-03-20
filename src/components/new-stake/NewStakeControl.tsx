@@ -18,33 +18,26 @@ type NewStakeControlProps = {
   type: 'deposit' | 'withdraw'
   product: Product
   assetData: ProductMarketAssetData
+  chainId: number
 }
 
-export default function NewStakeControl({ product, type, assetData }: NewStakeControlProps) {
+export default function NewStakeControl({ product, type, assetData, chainId }: NewStakeControlProps) {
   const { t } = useLocaleTranslation()
 
-  const handleProductAction = () => {
-    switch (product.name) {
-      case 'ethereum':
-        return <EthereumFormControl type={type} />
-
-      default:
-        return <div>{t('v2.products.productNotAvailable')}</div>
-    }
-  }
-
   const { query } = useRouter()
-  const { currency, network } = query
+  const { currency } = query
 
   return (
     <Container>
-      <HeaderBackAction href={`/${network}/${currency}/product`}>
+      <HeaderBackAction href={`/${currency}/product`}>
         <PiArrowLeft />
         <span>{t('goToBack')}</span>
       </HeaderBackAction>
       <div>
-        <ProductInfo product={product} assetData={assetData} />
-        <ActionContainer>{handleProductAction()}</ActionContainer>
+        <ProductInfo product={product} assetData={assetData} chainId={chainId} />
+        <ActionContainer>
+          <EthereumFormControl product={product} type={type} chainId={chainId} />
+        </ActionContainer>
       </div>
     </Container>
   )

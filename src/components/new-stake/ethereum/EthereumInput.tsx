@@ -1,10 +1,10 @@
-import StpEthIcon from '@/components/shared/StpethIcon'
+import NetworkIcons from '@/components/shared/NetworkIcons'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-import StakingIcons from '@/components/tokens/components/StakingIcons'
+import SymbolIcons from '@/components/tokens/components/SymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { Select } from 'antd'
+import { Product } from '@/types/Product'
 import { useRouter } from 'next/router'
 import React from 'react'
 import styled from 'styled-components'
@@ -17,6 +17,7 @@ type EthereumInputProps = {
   onChange: (value: string) => void
   onMaxFunction?: () => void
   type: 'deposit' | 'withdraw'
+  product: Product
 }
 
 export default function EthereumInput({
@@ -26,7 +27,8 @@ export default function EthereumInput({
   hasError,
   onChange,
   onMaxFunction,
-  type
+  type,
+  product
 }: EthereumInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
@@ -45,21 +47,6 @@ export default function EthereumInput({
   return (
     <InputContent>
       <div>
-        <Select
-          defaultValue='Ethereum'
-          style={{ width: 139 }}
-          value={'ethereum'}
-          options={[
-            {
-              value: 'ethereum',
-              label: (
-                <SelectOption>
-                  Ethereum <StakingIcons stakingProduct='ethereum' size={16} />
-                </SelectOption>
-              )
-            }
-          ]}
-        />
         {balanceLoading ? (
           <SkeletonLoading width={120} />
         ) : (
@@ -71,11 +58,11 @@ export default function EthereumInput({
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <StakingIcons stakingProduct='ethereum' size={32} />
+            <NetworkIcons network='ethereum' size={32} />
           ) : (
-            <StpEthIcon size={32} showPlusIcon />
+            <SymbolIcons productSymbol={product.symbol} size={32} />
           )}
-          <span>{type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')}</span>
+          <span>{type === 'deposit' ? t('eth.symbol') : product.symbol}</span>
           <span className='max' onClick={onMaxFunction}>
             MAX
           </span>
@@ -92,7 +79,7 @@ export default function EthereumInput({
   )
 }
 
-const { InputContent, CoinActionContainer, SelectOption } = {
+const { InputContent, CoinActionContainer } = {
   InputContent: styled.div`
     display: flex;
     flex-direction: column;
@@ -152,10 +139,5 @@ const { InputContent, CoinActionContainer, SelectOption } = {
         cursor: pointer;
       }
     }
-  `,
-  SelectOption: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
   `
 }

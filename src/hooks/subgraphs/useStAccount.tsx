@@ -8,6 +8,9 @@ import { AccountActivity } from '@/types/AccountActivity'
 import { AccountReward } from '@/types/AccountReward'
 import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
 
+/**
+ * @deprecated
+ */
 export default function useStAccount(address?: `0x${string}`) {
   const [account, setAccount] = useState<Account | undefined>(undefined)
   const [accountActivities, setAccountActivities] = useState<AccountActivity[]>([])

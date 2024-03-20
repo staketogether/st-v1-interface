@@ -1,4 +1,4 @@
-import chainConfig from '@/config/chain'
+import chainConfig, { Networks } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProjectCreateInfo, ProjectLinksToAnalyze } from '@/types/Project'
 import { useEffect } from 'react'
@@ -104,6 +104,7 @@ export default function ProjectRegisterMoreInfo({
       )}
       {isLoading && !isSuccess && (
         <GenericTransactionLoading
+          chainId={Networks.Mainnet}
           title={
             isReappliedProject
               ? t('v2.createProject.form.reapplyLoadingMessage')

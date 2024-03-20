@@ -26,11 +26,8 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_CONTENTFUL_SPACE) {
     throw new Error('NEXT_PUBLIC_CONTENTFUL_SPACE not found in env')
   }
-  if (!process.env.NEXT_PUBLIC_RPC_GOERLI) {
-    throw new Error('NEXT_PUBLIC_RPC_GOERLI not found in env')
-  }
-  if (!process.env.NEXT_PUBLIC_RPC_MAINNET) {
-    throw new Error('NEXT_PUBLIC_RPC_MAINNET not found in env')
+  if (!process.env.NEXT_PUBLIC_ALCHEMY_HOLESKY_API_KEY) {
+    throw new Error('NEXT_PUBLIC_ALCHEMY_HOLESKY_API_KEY not found in env')
   }
   if (!process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT) {
     throw new Error('NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT not found in env')
@@ -43,5 +40,11 @@ export default function validEnv() {
   }
   if (!process.env.NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID) {
     throw new Error('NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID not found in env')
+  }
+  if (!process.env.NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY) {
+    throw new Error('NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY not found in env')
+  }
+  if (!process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY) {
+    throw new Error('NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY not found in env')
   }
 }

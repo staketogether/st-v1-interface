@@ -4,9 +4,14 @@ import { usePrepareStakeTogetherRemovePool, useStakeTogetherRemovePool } from '@
 import { useWaitForTransaction } from 'wagmi'
 import { notification } from 'antd'
 import useLocaleTranslation from '../useLocaleTranslation'
+import { getContractsByProductName } from '@/config/product'
 
 export default function useRemovePool(projectAddress: `0x${string}`, disabled?: boolean) {
-  const { contracts, chainId } = chainConfig()
+  const { isTestnet, chainId } = chainConfig()
+  const { StakeTogether } = getContractsByProductName({
+    productName: 'ethereum-stake',
+    isTestnet
+  })
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -18,7 +23,7 @@ export default function useRemovePool(projectAddress: `0x${string}`, disabled?: 
     isSuccess: prepareTransactionIsSuccess
   } = usePrepareStakeTogetherRemovePool({
     chainId,
-    address: contracts.StakeTogether,
+    address: StakeTogether,
     args: [projectAddress],
     enabled: !!disabled,
     onError(error) {

@@ -11,8 +11,8 @@ export type StakingProductIcon =
   | 'chiliz'
 
 export type StakingProduct =
-  | 'ethereum'
-  | 'restaking'
+  | 'ethereum-stake'
+  | 'ethereum-restaking'
   | 'polygon'
   | 'solana'
   | 'celestia'
@@ -46,19 +46,34 @@ export type ProductSymbol =
   | 'stpBTC'
   | 'stpCHZ'
 
-export type Network = 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana'
+export type Network =
+  | 'ethereum'
+  | 'optimism'
+  | 'arbitrum'
+  | 'polygon'
+  | 'solana'
+  | 'optimism-sepolia'
+  | 'holesky'
 
 export type NetworkWrap = {
   network: Network
   enabled: boolean
 }
 
+export type Contracts = {
+  Airdrop: `0x${string}`
+  Withdrawals: `0x${string}`
+  Router: `0x${string}`
+  StakeTogether: `0x${string}`
+  StakeTogetherWrapper: `0x${string}`
+}
+
 export type Product = {
   id: number
   name: StakingProduct
+  eigenPointsAvailable: boolean
   title: string
   symbol: ProductSymbol
-  icon: StakingProductIcon
   networks: NetworkWrap[]
   apy: number
   description: string
@@ -66,6 +81,19 @@ export type Product = {
   contractAddress: `0x${string}`
   enabled: boolean
   urlRedirect: string
+  networkAvailable: Network
+  subgraph: {
+    testnet: string
+    mainnet: string
+  }
+  stakeTogetherPool: {
+    testnet: `0x${string}`
+    mainnet: `0x${string}`
+  }
+  contracts: {
+    testnet: Contracts
+    mainnet: Contracts
+  }
   getMobulaAssetData: GetMobulaAssetData
 }
 

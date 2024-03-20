@@ -196,6 +196,7 @@ export default function PanelProjectDetailModal({
     >
       {isLoading && (
         <GenericTransactionLoading
+          chainId={1}
           title={handleTransactionTitle()}
           bodyComponent={
             <ProjectContainer>

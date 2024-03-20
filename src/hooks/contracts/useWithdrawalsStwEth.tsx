@@ -2,7 +2,6 @@ import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
-import { apolloClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
@@ -16,13 +15,19 @@ import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import { ethereumMainnetClient } from '@/config/apollo'
+import { getProductByName } from '@/config/product'
 
 export default function useWithdrawalsStwEth(
   withdrawAmount: bigint,
   accountAddress: `0x${string}`,
   enabled: boolean
 ) {
-  const { contracts, chainId } = chainConfig()
+  const { chainId, isTestnet } = chainConfig()
+  const { contracts } = getProductByName({ productName: 'ethereum-stake' })
+
+  const { Withdrawals } = contracts[isTestnet ? 'testnet' : 'mainnet']
+
   const [notify, setNotify] = useState(false)
 
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -31,7 +36,7 @@ export default function useWithdrawalsStwEth(
   const isWithdrawEnabled = enabled && withdrawAmount > 0n
 
   const { config } = usePrepareWithdrawalsWithdraw({
-    address: contracts.Withdrawals,
+    address: Withdrawals,
     args: [withdrawAmount],
     account: accountAddress,
     enabled: isWithdrawEnabled
@@ -68,7 +73,7 @@ export default function useWithdrawalsStwEth(
 
   useEffect(() => {
     if (isSuccess && withdrawAmount && accountAddress) {
-      apolloClient.refetchQueries({
+      ethereumMainnetClient.refetchQueries({
         include: [
           queryAccount,
           queryPool,

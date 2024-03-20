@@ -4,8 +4,6 @@ import chainConfig from '@/config/chain'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import Image from 'next/image'
-import { AiOutlineSwap } from 'react-icons/ai'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 
@@ -21,54 +19,39 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   const { t } = useLocaleTranslation()
 
   const chain = chainConfig()
-  const { chain: walletChainId } = useNetwork()
-  const isWrongNetwork = chain.chainId !== walletChainId?.id
-  const { switchNetworkAsync } = useSwitchNetwork({
-    chainId: chain.chainId
-  })
+
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { name: ensName, nameLoading: ensLoading } = useEns(address)
+  const { name: ensName, nameLoading: ensLoading } = useEns(address, chain.chainId)
 
   const handleActionButton = () => {
-    if (isWrongNetwork && switchNetworkAsync) {
-      switchNetworkAsync()
-      return
-    }
     setOpenSidebar(true)
   }
 
   return (
-    <ConnectedButton onClick={handleActionButton} className={`${isWrongNetwork ? 'wrongNetwork' : ''}`}>
-      {isWrongNetwork ? (
-        <NetworkWrong>
-          <AiOutlineSwap />
-          <span>{t('wrongNetwork')}</span>
-        </NetworkWrong>
-      ) : (
-        <EnsAddress>
-          <WalletName
-            walletAddress={address}
-            web3AuthUserInfo={web3AuthUserInfo}
-            ensName={ensName}
-            ensLoading={ensLoading}
+    <ConnectedButton onClick={handleActionButton}>
+      <EnsAddress>
+        <WalletName
+          walletAddress={address}
+          web3AuthUserInfo={web3AuthUserInfo}
+          ensName={ensName}
+          ensLoading={ensLoading}
+        />
+        {web3AuthUserInfo ? (
+          <Web3AuthProfileImage
+            src={web3AuthUserInfo.profileImage}
+            alt={t('stakeTogether')}
+            width={24}
+            height={24}
           />
-          {web3AuthUserInfo ? (
-            <Web3AuthProfileImage
-              src={web3AuthUserInfo.profileImage}
-              alt={t('stakeTogether')}
-              width={24}
-              height={24}
-            />
-          ) : (
-            <EnsAvatar address={address} size={24} />
-          )}
-        </EnsAddress>
-      )}
+        ) : (
+          <EnsAvatar address={address} size={24} chainId={chain.chainId} />
+        )}
+      </EnsAddress>
     </ConnectedButton>
   )
 }
 
-const { ConnectedButton, EnsAddress, NetworkWrong, Web3AuthProfileImage } = {
+const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
   ConnectedButton: styled.button`
     display: flex;
     gap: ${({ theme }) => theme.size[16]};
@@ -99,11 +82,6 @@ const { ConnectedButton, EnsAddress, NetworkWrong, Web3AuthProfileImage } = {
     justify-content: flex-end;
     align-items: center;
     gap: 8px;
-  `,
-  NetworkWrong: styled.div`
-    display: flex;
-    gap: ${({ theme }) => theme.size[8]};
-    align-items: center;
   `,
   Web3AuthProfileImage: styled(Image)`
     border-radius: 50%;

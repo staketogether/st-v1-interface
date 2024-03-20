@@ -9,6 +9,9 @@ interface GlobalConfig {
   docsPt: string
   docsEn: string
   backendUrl: string
+  contentFul: string
+  analyticsSubgraph: string
+  backendSubgraph: string
   fees: {
     operation: string
     rewards: string
@@ -25,6 +28,9 @@ export const globalConfig: GlobalConfig = {
   docsPt: 'https://docs.staketogether.org',
   docsEn: 'https://docs.staketogether.org/stake-together/v/stake-together-en/stake-together/what-we-do',
   backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://st-backend-thz2yhu72a-uc.a.run.app',
+  contentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`,
+  analyticsSubgraph: 'https://st-analytics-api-ddfui.ondigitalocean.app/graphql',
+ backendSubgraph:  'https://st-backend-thz2yhu72a-uc.a.run.app/graphql',
   apy: '5.1',
   fees: {
     operation: '0',

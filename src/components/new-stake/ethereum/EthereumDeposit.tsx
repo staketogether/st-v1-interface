@@ -1,27 +1,28 @@
 import Button from '@/components/shared/Button'
-import React, { useEffect, useState } from 'react'
-import { PiArrowDown, PiArrowLineRight } from 'react-icons/pi'
-import styled from 'styled-components'
-import EthereumInput from './EthereumInput'
-import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
-import { useDebounce } from 'usehooks-ts'
-import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
-import { ethers } from 'ethers'
-import useStConfig from '@/hooks/contracts/useStConfig'
+import StakeConfirmModal from '@/components/stake/StakeConfirmModal'
+import { chainConfigByChainId } from '@/config/chain'
 import useDepositPool from '@/hooks/contracts/useDepositPool'
-import chainConfig from '@/config/chain'
+import useStConfig from '@/hooks/contracts/useStConfig'
+import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
+import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
-import { useRouter } from 'next/router'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import StakeConfirmModal from '@/components/stake/StakeConfirmModal'
+import { Product } from '@/types/Product'
 import { WithdrawType } from '@/types/Withdraw'
-import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { notification } from 'antd'
+import { ethers } from 'ethers'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { PiArrowDown, PiArrowLineRight, PiArrowsCounterClockwise } from 'react-icons/pi'
+import styled from 'styled-components'
+import { useDebounce } from 'usehooks-ts'
+import { useNetwork, useSwitchNetwork } from 'wagmi'
 import EthereumDescription from './EthereumDescription'
+import EthereumInput from './EthereumInput'
 import EthereumProjectSelect from './EthereumProjectSelect'
+import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
 
 type EthereumDepositProps = {
   type: 'deposit' | 'withdraw'
@@ -31,6 +32,8 @@ type EthereumDepositProps = {
   stpETHBalance: bigint
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
+  chainId: number
+  product: Product
 }
 
 export default function EthereumDeposit({
@@ -40,13 +43,17 @@ export default function EthereumDeposit({
   ethBalanceLoading,
   ethBalanceRefetch,
   stpETHBalance,
-  stpETHBalanceLoading
+  stpETHBalanceLoading,
+  product,
+  chainId
 }: EthereumDepositProps) {
   const [amount, setAmount] = useState<string>('')
   const [isActivatedDelegation, setIsActivatedDelegation] = useState(false)
-  const { stakeTogetherPool, chainId, name } = chainConfig()
-  const [poolDelegatedSelected, setPoolDelegatedSelected] = useState<`0x${string}`>(stakeTogetherPool)
 
+  const { name, isTestnet } = chainConfigByChainId(chainId)
+  const stakeTogetherPool = product.stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet']
+
+  const [poolDelegatedSelected, setPoolDelegatedSelected] = useState<`0x${string}`>(stakeTogetherPool)
   const { t } = useLocaleTranslation()
   const { locale, push, pathname, query } = useRouter()
 
@@ -79,7 +86,7 @@ export default function EthereumDeposit({
   const feeAmount = (parsedAmount * BigInt(fee?.value || 0n)) / ethers.parseEther('1')
   const youReceiveDeposit = ethers.parseUnits(inputAmount, 18) - feeAmount
 
-  const { stConfig } = useStConfig()
+  const { stConfig } = useStConfig({ productName: product.name, chainId })
   const minDepositAmount = stConfig?.minDepositAmount || 0n
 
   const { chain: walletChainId } = useNetwork()
@@ -100,6 +107,8 @@ export default function EthereumDeposit({
     ethers.parseUnits(inputAmount, 18),
     poolDelegatedSelected,
     !isWrongNetwork,
+    product,
+    chainId,
     account
   )
 
@@ -138,11 +147,7 @@ export default function EthereumDeposit({
     }
     setOpenStakeConfirmModal(true)
   }
-
   const handleLabelButton = () => {
-    if (isWrongNetwork) {
-      return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
-    }
     if (errorLabel && amount.length > 0) {
       return errorLabel
     }
@@ -163,12 +168,8 @@ export default function EthereumDeposit({
   }
 
   const cantDeposit =
-    (insufficientFunds ||
-      amountIsEmpty ||
-      insufficientMinDeposit ||
-      isLoadingFees ||
-      prepareTransactionIsError) &&
-    !isWrongNetwork
+    insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
+
   return (
     <>
       <Container>
@@ -179,6 +180,7 @@ export default function EthereumDeposit({
               setAmount(value)
             }}
             type={type}
+            product={product}
             hasError={cantDeposit}
             balance={ethBalance}
             balanceLoading={ethBalanceLoading}
@@ -192,6 +194,8 @@ export default function EthereumDeposit({
             balance={stpETHBalance}
             balanceLoading={stpETHBalanceLoading}
             type={type}
+            chainId={chainId}
+            product={product}
           />
         </InputContainer>
         <EthereumProjectSelect
@@ -202,8 +206,16 @@ export default function EthereumDeposit({
             handleAddProjectOnRoute(project)
           }}
         />
-        {!!account && (
+        {!!account && !isWrongNetwork && (
           <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantDeposit} />
+        )}
+        {!!isWrongNetwork && account && (
+          <Button
+            onClick={openStakeConfirmation}
+            label={`${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`}
+            disabled={false}
+            icon={<WrongNetworkIcon />}
+          />
         )}
         {!account && (
           <Button
@@ -220,8 +232,10 @@ export default function EthereumDeposit({
         youReceive={youReceiveDeposit}
         txHash={txHash}
         type={'deposit'}
+        product={product}
         labelButton={handleLabelButton()}
         onClick={deposit}
+        chainId={chainId}
         transactionLoading={isLoading}
         walletActionLoading={awaitWalletAction}
         transactionIsSuccess={isSuccess}
@@ -232,7 +246,7 @@ export default function EthereumDeposit({
   )
 }
 
-const { Container, InputContainer, DividerBox, ConnectWalletIcon } = {
+const { Container, InputContainer, DividerBox, ConnectWalletIcon, WrongNetworkIcon } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -260,6 +274,9 @@ const { Container, InputContainer, DividerBox, ConnectWalletIcon } = {
     z-index: 2;
   `,
   ConnectWalletIcon: styled(PiArrowLineRight)`
+    font-size: 16px;
+  `,
+  WrongNetworkIcon: styled(PiArrowsCounterClockwise)`
     font-size: 16px;
   `
 }

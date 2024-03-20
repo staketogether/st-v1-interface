@@ -6,6 +6,7 @@ import { truncateWei } from '../../services/truncate'
 import { Delegation } from '../../types/Delegation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
+import chainConfig from '@/config/chain'
 
 type StakeReceivedDelegationProps = {
   delegation: Delegation
@@ -15,13 +16,13 @@ type StakeReceivedDelegationProps = {
 export default function StakeReceivedDelegation({ delegation, rank }: StakeReceivedDelegationProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
-
+  const { chainId } = chainConfig()
   return (
     <DelegationItem>
       <div>{rank}</div>
       <div>
-        <EnsAvatar address={delegation.delegate.address} size={18} />
-        <EnsName address={delegation.delegate.address} />
+        <EnsAvatar address={delegation.delegate.address} size={18} chainId={1} />
+        <EnsName address={delegation.delegate.address} chainId={chainId} />
       </div>
       <div>
         <span>

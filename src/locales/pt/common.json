@@ -1,7 +1,7 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
-  "addToWalletTooltip": "Adicionar stpETH  a sua carteira",
+  "addToWalletTooltip": "Adicionar o token a sua carteira",
   "save": "Salvar",
   "edit": "Editar",
   "connectWallet": "Conectar Carteira",
@@ -338,7 +338,8 @@
         "PoolNotFound": "Pool Não Encontrado",
         "ZeroAmount": "Suprimento Zero",
         "insufficientGasBalance": "Saldo Insuficiente para o Gás",
-        "useMaxButton": "Utilize o botão Max"
+        "useMaxButton": "Utilize o botão Max",
+        "Panic": "Erro interno"
       }
     },
     "activities": {
@@ -622,8 +623,8 @@
       "description": "Invista nos melhores produtos de renda passiva para criptomoedas"
     },
     "products": {
-      "ethereum": "Staking de Ethereum",
-      "restaking": "ReStaking de Ethereum ",
+      "ethereum-stake": "Staking de Ethereum",
+      "ethereum-restaking": "ReStaking de Ethereum ",
       "celestia": "Staking de Celestia",
       "polygon": "Staking de Polygon ",
       "solana": "Staking de Solana",
@@ -703,7 +704,9 @@
       "contractAddress": "Endereço do Contrato",
       "marketCap": "Valor de mercado",
       "priceChange": "Variaço de preço (1 ano)",
-      "highestValueWeeks": "Maior Valor 52 semanas",
+      "networkAvailable": "Disponível em",
+      "myRewardsPoints": "Meus Pontos de Recompensa",
+      "highestValueWeeks": "Maior Valor em 52 semanas",
       "actions": {
         "invest": "Investir",
         "withdraw": "Resgatar",

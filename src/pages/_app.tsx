@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import useGetCurrencyPerEthPrice from '@/hooks/useGetCurrencyPrice'
@@ -10,12 +9,11 @@ import { ConfigProvider } from 'antd'
 import axios from 'axios'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
-import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { StyleSheetManager, ThemeProvider } from 'styled-components'
 import { SWRConfig } from 'swr'
 import { WagmiConfig } from 'wagmi'
-import { apolloClient } from '../config/apollo'
+import { ethereumMainnetClient } from '../config/apollo'
 import validEnv from '../config/env'
 import { config } from '../config/wagmi'
 import '../styles/reset.css'
@@ -24,10 +22,7 @@ import { lightTheme } from '../styles/theme'
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
   const { backendUrl } = globalConfig
-
-  const router = useRouter()
-  const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
-  const chain = chainConfig()
+  const { init: initMixpanel } = useMixpanelAnalytics()
 
   useSettingsCurrency()
   useGetCurrencyPerEthPrice()
@@ -37,14 +32,8 @@ const App = ({ Component, pageProps }: AppProps) => {
     initMixpanel()
   }, [initMixpanel])
 
-  useEffect(() => {
-    router.events.on('routeChangeComplete', () => {
-      registerPageView(chain.chainId)
-    })
-  }, [chain.chainId, registerPageView, router.events])
-
   return (
-    <ApolloProvider client={apolloClient}>
+    <ApolloProvider client={ethereumMainnetClient}>
       <ThemeProvider theme={lightTheme}>
         <WagmiConfig config={config}>
           <StyleSheetManager shouldForwardProp={isPropValid}>
@@ -83,7 +72,6 @@ const App = ({ Component, pageProps }: AppProps) => {
         </WagmiConfig>
       </ThemeProvider>
     </ApolloProvider>
-
   )
 }
 

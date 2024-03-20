@@ -10,7 +10,7 @@ import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
-import { apolloClient } from '../../config/apollo'
+import { ethereumMainnetClient } from '../../config/apollo'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
@@ -22,6 +22,7 @@ import {
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useConnectedAccount from '../useConnectedAccount'
+import { getContractsByProductName, getProductByName } from '@/config/product'
 
 export type PoolData = {
   pool: `0x${string}`
@@ -43,13 +44,23 @@ export default function useUpdateDelegations(
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   // const { registerWithdraw } = useMixpanelAnalytics()
-  const { contracts, stakeTogetherPool } = chainConfig()
+  const { isTestnet } = chainConfig()
+  //VERIFICAR A NECESSIDADE DE ESPECIFICAR O PRODUTO
+  const { StakeTogether } = getContractsByProductName({
+    productName: 'ethereum-stake',
+    isTestnet
+  })
+
+  const { stakeTogetherPool } = getProductByName({
+    productName: 'ethereum-stake'
+  })
+
   const { web3AuthUserInfo } = useConnectedAccount()
   const { t } = useLocaleTranslation()
 
   const updateDelegationEstimatedGas: PoolData[] = [
     {
-      pool: stakeTogetherPool,
+      pool: stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet'],
       percentage: ethers.parseUnits('1', 18)
     }
   ]
@@ -57,7 +68,7 @@ export default function useUpdateDelegations(
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
-    contractAddress: contracts.StakeTogether,
+    contractAddress: StakeTogether,
     functionName: 'updateDelegations',
     args: [updateDelegationEstimatedGas],
     abi: stakeTogetherABI,
@@ -84,7 +95,7 @@ export default function useUpdateDelegations(
     isError: prepareTransactionIsError,
     isSuccess: prepareTransactionIsSuccess
   } = usePrepareStakeTogetherUpdateDelegations({
-    address: contracts.StakeTogether,
+    address: StakeTogether,
     args: [updateDelegationPools],
     account: accountAddress,
     enabled: isUpdateDelegationEnabled,
@@ -156,7 +167,7 @@ export default function useUpdateDelegations(
     confirmations: 2,
     onSuccess: () => {
       setAwaitWalletAction(false)
-      apolloClient.refetchQueries({
+      ethereumMainnetClient.refetchQueries({
         include: [
           queryAccount,
           queryPool,

@@ -14,9 +14,9 @@ import Button from './Button'
 import LottieAnimation from './LottieAnimation'
 import EnsAvatar from './ens/EnsAvatar'
 import EnsName from './ens/EnsName'
-type WalletLotteryProps = { poolAddress: `0x${string}` }
+type WalletLotteryProps = { poolAddress: `0x${string}`; chainId: number }
 
-export default function WalletLottery({ poolAddress }: WalletLotteryProps) {
+export default function WalletLottery({ poolAddress, chainId }: WalletLotteryProps) {
   const [starterDraw, setStarterDraw] = useState(false)
   const [finishedDraw, setFinishedDraw] = useState(false)
   const [result, setResult] = useState<`0x${string}` | null>(null)
@@ -98,8 +98,8 @@ export default function WalletLottery({ poolAddress }: WalletLotteryProps) {
                   <Result>
                     <h2>{t('v2.draw.result')}</h2>
                     <div>
-                      <EnsAvatar address={result} size={18} />
-                      <EnsName address={result} />
+                      <EnsAvatar address={result} size={18} chainId={1} />
+                      <EnsName address={result} chainId={chainId} />
                       <CopyIcon onClick={() => copyToClipboard(result)} />
                     </div>
                   </Result>

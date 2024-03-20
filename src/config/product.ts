@@ -1,257 +1,429 @@
-import { Product } from '@/types/Product'
+import { Contracts, Product, StakingProduct } from '@/types/Product'
 
-export const handleProductConfig = (network: string, currency: string) => {
-  const productsList: Product[] = [
-    {
-      id: 1,
-      name: 'ethereum',
-      title: 'Staking de Ethereum',
-      icon: 'ethereum',
-      symbol: 'stpETH',
-      networks: [
-        { network: 'ethereum', enabled: true },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 5.1,
-      scan: 'https://etherscan.io/',
-      contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
-      description: 'ethereumDescription',
-      enabled: true,
-      urlRedirect: `/${network}/${currency}/product/ethereum`,
-      getMobulaAssetData: {
-        asset: 'Ethereum',
-        blockchain: 'ethereum',
-        symbol: 'eth'
+export const productList: Product[] = [
+  {
+    id: 1,
+    name: 'ethereum-stake',
+    title: 'Staking de Ethereum',
+    symbol: 'stpETH',
+    networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
+    networks: [
+      { network: 'ethereum', enabled: true },
+      { network: 'optimism', enabled: false },
+      { network: 'arbitrum', enabled: false },
+      { network: 'polygon', enabled: false },
+      { network: 'solana', enabled: false }
+    ],
+    apy: 5.1,
+    scan: 'https://etherscan.io/',
+    contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+    description: 'ethereumDescription',
+    enabled: true,
+    urlRedirect: '/currency/ethereum/product/ethereum-stake',
+    stakeTogetherPool: {
+      mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
+      testnet: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48'
+    },
+    contracts: {
+      mainnet: {
+        Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
+        Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+        Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
+        StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+        StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+      },
+      testnet: {
+        Airdrop: '0x5B625457fE23e87957Eb9eE610D590BD848f4775',
+        Withdrawals: '0xC43344d37f6Dd117676a33866fB086484834d4dF',
+        Router: '0xfc65Cb4C3e00f760A42362b6a946818ebEFE7C31',
+        StakeTogether: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48',
+        StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
       }
     },
-    {
-      id: 2,
-      name: 'restaking',
-      title: 'Restaking',
-      symbol: 'stpRETH',
-      icon: 'EthereumRestaking',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 11.1,
-      scan: 'https://etherscan.io/',
-      contractAddress: '0x1234567890',
-      description: 'ethereumDescription',
-      enabled: false,
-      urlRedirect: '/',
-      getMobulaAssetData: {
-        asset: 'Ethereum',
-        blockchain: 'ethereum',
-        symbol: 'eth'
-      }
+    subgraph: {
+      mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
+      testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-holesky/version/latest'
     },
-    {
-      id: 3,
-      name: 'celestia',
-      title: 'Celestia',
-      symbol: 'stpTIA',
-      icon: 'celestia',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 14.5,
-      scan: 'https://etherscan.io/',
-      contractAddress: '0x1234567890',
-      description: 'ethereumDescription',
-      enabled: false,
-      urlRedirect: '/',
-      getMobulaAssetData: {
-        asset: 'Celestia',
-        blockchain: '',
-        symbol: ''
-      }
-    },
-    {
-      id: 4,
-      name: 'polygon',
-      title: 'Polygon',
-      symbol: 'stpPOL',
-      icon: 'polygon',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 5.2,
-      scan: 'https://etherscan.io/',
-      contractAddress: '0x1234567890',
-      description: 'ethereumDescription',
-      enabled: false,
-      urlRedirect: '/',
-      getMobulaAssetData: {
-        asset: 'Polygon',
-        blockchain: '',
-        symbol: ''
-      }
-    },
-    {
-      id: 5,
-      name: 'solana',
-      title: 'Solana',
-      symbol: 'stpSOL',
-      icon: 'solana',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 7.6,
-      scan: 'https://etherscan.io/',
-      contractAddress: '0x1234567890',
-      description: 'EthereumDescription',
-      enabled: false,
-      urlRedirect: '/',
-      getMobulaAssetData: {
-        asset: 'Solana',
-        blockchain: 'ethereum',
-        symbol: 'eth'
-      }
-    },
-    {
-      id: 6,
-      name: 'cosmos',
-      title: 'Cosmos',
-      symbol: 'stpATOM',
-      icon: 'cosmos',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 13.7,
-      scan: 'https://etherscan.io/',
-      contractAddress: '0x1234567890',
-      description: 'EthereumDescription',
-      enabled: false,
-      urlRedirect: '/',
-      getMobulaAssetData: {
-        asset: '0x0eb3a705fc54725037cc9e008bdede697f62f335', //BNB CHAIN
-        blockchain: '',
-        symbol: ''
-      }
-    },
-    {
-      id: 7,
-      name: 'near',
-      title: 'Near',
-      symbol: 'stpNear',
-      icon: 'near',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 8.8,
-      scan: 'https://etherscan.io/',
-      contractAddress: '0x1234567890',
-      description: 'EthereumDescription',
-      enabled: false,
-      urlRedirect: '/',
-      getMobulaAssetData: {
-        asset: '0x85F17Cf997934a597031b2E18a9aB6ebD4B9f6a4',
-        blockchain: '',
-        symbol: ''
-      }
-    },
-    {
-      id: 8,
-      name: 'polkadot',
-      title: 'Polkadot',
-      symbol: 'stpKSM',
-      icon: 'polkadot',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 9,
-      scan: 'https://etherscan.io/',
-      contractAddress: '0x1234567890',
-      description: 'EthereumDescription',
-      enabled: false,
-      urlRedirect: '/',
-      getMobulaAssetData: {
-        asset: 'polkadot',
-        blockchain: '',
-        symbol: ''
-      }
-    },
-    {
-      id: 9,
-      name: 'bitcoin',
-      title: 'bitcoin',
-      symbol: 'stpCHZ',
-      icon: 'bitcoin',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 8.8,
-      scan: 'https://etherscan.io/',
-      contractAddress: '0x1234567890',
-      description: 'EthereumDescription',
-      enabled: false,
-      urlRedirect: '/',
-      getMobulaAssetData: {
-        asset: 'Bitcoin',
-        blockchain: '',
-        symbol: ''
-      }
-    },
-    {
-      id: 10,
-      name: 'chiliz',
-      title: 'Chiliz Staking',
-      symbol: 'stpCHZ',
-      icon: 'chiliz',
-      networks: [
-        { network: 'ethereum', enabled: false },
-        { network: 'optimism', enabled: false },
-        { network: 'arbitrum', enabled: false },
-        { network: 'polygon', enabled: false },
-        { network: 'solana', enabled: false }
-      ],
-      apy: 9,
-      scan: 'https://etherscan.io/',
-      contractAddress: '0x1234567890',
-      description: 'EthereumDescription',
-      enabled: false,
-      urlRedirect: '/',
-      getMobulaAssetData: {
-        asset: '0x3506424f91fd33084466f402d5d97f05f8e3b4af',
-        blockchain: '',
-        symbol: ''
-      }
+    getMobulaAssetData: {
+      asset: 'Ethereum',
+      blockchain: 'ethereum',
+      symbol: 'eth'
     }
-  ]
-  return productsList
+  },
+  {
+    id: 2,
+    name: 'ethereum-restaking',
+    title: 'Restaking',
+    symbol: 'stpRETH',
+    networkAvailable: 'optimism-sepolia',
+    eigenPointsAvailable: true,
+    networks: [
+      { network: 'ethereum', enabled: true },
+      { network: 'optimism', enabled: false },
+      { network: 'arbitrum', enabled: false },
+      { network: 'polygon', enabled: false },
+      { network: 'solana', enabled: false }
+    ],
+    apy: 11.1,
+    scan: 'https://optimism-sepolia.blockscout.com',
+    contractAddress: '0x1234567890',
+    description: 'ethereumDescription',
+    enabled: false,
+    urlRedirect: '/currency/optimism-sepolia/product/ethereum-restaking',
+    stakeTogetherPool: {
+      mainnet: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
+      testnet: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480'
+    },
+    contracts: {
+      mainnet: {
+        Airdrop: '0x6D38e32dB2A5e88b3D6DEf74b981c4CAF50B0533',
+        Withdrawals: '0xbBeAE3626810c9A001DdddF825A13793B94433Db',
+        Router: '0xd5aC0835a7E537b4D263DbfDC8c6176fE04b878a',
+        StakeTogether: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
+        StakeTogetherWrapper: '0xE9550754410Fa6f4B5EFC3379793c8bf2b69C59E'
+      },
+      testnet: {
+        Airdrop: '0x6D38e32dB2A5e88b3D6DEf74b981c4CAF50B0533',
+        Withdrawals: '0xbBeAE3626810c9A001DdddF825A13793B94433Db',
+        Router: '0xd5aC0835a7E537b4D263DbfDC8c6176fE04b878a',
+        StakeTogether: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
+        StakeTogetherWrapper: '0xE9550754410Fa6f4B5EFC3379793c8bf2b69C59E'
+      }
+    },
+    subgraph: {
+      mainnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest',
+      testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest'
+    },
+    getMobulaAssetData: {
+      asset: 'Ethereum',
+      blockchain: 'ethereum',
+      symbol: 'eth'
+    }
+  },
+  {
+    id: 3,
+    name: 'celestia',
+    title: 'Celestia',
+    symbol: 'stpTIA',
+    networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
+    networks: [
+      { network: 'ethereum', enabled: false },
+      { network: 'optimism', enabled: false },
+      { network: 'arbitrum', enabled: false },
+      { network: 'polygon', enabled: false },
+      { network: 'solana', enabled: false }
+    ],
+    apy: 14.5,
+    scan: 'https://etherscan.io/',
+    contractAddress: '0x1234567890',
+    description: 'ethereumDescription',
+    enabled: false,
+    urlRedirect: '/',
+    stakeTogetherPool: {
+      mainnet: '0x',
+      testnet: '0x'
+    },
+    contracts: {
+      mainnet: {
+        Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
+        Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+        Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
+        StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+        StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+      },
+      testnet: {
+        Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
+        Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+        Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+        StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+        StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+      }
+    },
+    subgraph: {
+      mainnet: '',
+      testnet: ''
+    },
+    getMobulaAssetData: {
+      asset: 'Celestia',
+      blockchain: '',
+      symbol: ''
+    }
+  },
+  {
+    id: 4,
+    name: 'polygon',
+    title: 'Polygon',
+    symbol: 'stpPOL',
+    networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
+    networks: [
+      { network: 'ethereum', enabled: false },
+      { network: 'optimism', enabled: false },
+      { network: 'arbitrum', enabled: false },
+      { network: 'polygon', enabled: false },
+      { network: 'solana', enabled: false }
+    ],
+    apy: 5.2,
+    scan: 'https://etherscan.io/',
+    contractAddress: '0x1234567890',
+    description: 'ethereumDescription',
+    enabled: false,
+    urlRedirect: '/',
+    stakeTogetherPool: {
+      mainnet: '0x',
+      testnet: '0x'
+    },
+    contracts: {
+      mainnet: {
+        Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
+        Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+        Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
+        StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+        StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+      },
+      testnet: {
+        Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
+        Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+        Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+        StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+        StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+      }
+    },
+    subgraph: {
+      mainnet: '',
+      testnet: ''
+    },
+    getMobulaAssetData: {
+      asset: 'Polygon',
+      blockchain: '',
+      symbol: ''
+    }
+  },
+  {
+    id: 5,
+    name: 'solana',
+    title: 'Solana',
+    symbol: 'stpSOL',
+    networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
+    networks: [
+      { network: 'ethereum', enabled: false },
+      { network: 'optimism', enabled: false },
+      { network: 'arbitrum', enabled: false },
+      { network: 'polygon', enabled: false },
+      { network: 'solana', enabled: false }
+    ],
+    apy: 7.6,
+    scan: 'https://etherscan.io/',
+    contractAddress: '0x1234567890',
+    description: 'EthereumDescription',
+    enabled: false,
+    urlRedirect: '/',
+    stakeTogetherPool: {
+      mainnet: '0x',
+      testnet: '0x'
+    },
+    contracts: {
+      mainnet: {
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
+      },
+      testnet: {
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
+      }
+    },
+    subgraph: {
+      mainnet: '',
+      testnet: ''
+    },
+    getMobulaAssetData: {
+      asset: 'Solana',
+      blockchain: 'ethereum',
+      symbol: 'eth'
+    }
+  },
+  {
+    id: 6,
+    name: 'cosmos',
+    title: 'Cosmos',
+    symbol: 'stpATOM',
+    networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
+    networks: [
+      { network: 'ethereum', enabled: false },
+      { network: 'optimism', enabled: false },
+      { network: 'arbitrum', enabled: false },
+      { network: 'polygon', enabled: false },
+      { network: 'solana', enabled: false }
+    ],
+    apy: 13.7,
+    scan: 'https://etherscan.io/',
+    contractAddress: '0x1234567890',
+    description: 'EthereumDescription',
+    enabled: false,
+    urlRedirect: '/',
+    stakeTogetherPool: {
+      mainnet: '0x',
+      testnet: '0x'
+    },
+    contracts: {
+      mainnet: {
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
+      },
+      testnet: {
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
+      }
+    },
+    subgraph: {
+      mainnet: '',
+      testnet: ''
+    },
+    getMobulaAssetData: {
+      asset: '0x0eb3a705fc54725037cc9e008bdede697f62f335', //BNB CHAIN
+      blockchain: '',
+      symbol: ''
+    }
+  },
+  {
+    id: 7,
+    name: 'near',
+    title: 'Near',
+    symbol: 'stpNear',
+    networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
+    networks: [
+      { network: 'ethereum', enabled: false },
+      { network: 'optimism', enabled: false },
+      { network: 'arbitrum', enabled: false },
+      { network: 'polygon', enabled: false },
+      { network: 'solana', enabled: false }
+    ],
+    apy: 8.8,
+    scan: 'https://etherscan.io/',
+    contractAddress: '0x1234567890',
+    description: 'EthereumDescription',
+    enabled: false,
+    urlRedirect: '/',
+    stakeTogetherPool: {
+      mainnet: '0x',
+      testnet: '0x'
+    },
+    contracts: {
+      mainnet: {
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
+      },
+      testnet: {
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
+      }
+    },
+    subgraph: {
+      mainnet: '',
+      testnet: ''
+    },
+
+    getMobulaAssetData: {
+      asset: '0x85F17Cf997934a597031b2E18a9aB6ebD4B9f6a4',
+      blockchain: '',
+      symbol: ''
+    }
+  },
+  {
+    id: 8,
+    name: 'polkadot',
+    title: 'Polkadot',
+    symbol: 'stpKSM',
+    networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
+    networks: [
+      { network: 'ethereum', enabled: false },
+      { network: 'optimism', enabled: false },
+      { network: 'arbitrum', enabled: false },
+      { network: 'polygon', enabled: false },
+      { network: 'solana', enabled: false }
+    ],
+    apy: 9,
+    scan: 'https://etherscan.io/',
+    contractAddress: '0x1234567890',
+    description: 'EthereumDescription',
+    enabled: false,
+    urlRedirect: '/',
+    stakeTogetherPool: {
+      mainnet: '0x',
+      testnet: '0x'
+    },
+    contracts: {
+      mainnet: {
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
+      },
+      testnet: {
+        Airdrop: '0x',
+        Withdrawals: '0x',
+        Router: '0x',
+        StakeTogether: '0x',
+        StakeTogetherWrapper: '0x'
+      }
+    },
+    subgraph: {
+      mainnet: '',
+      testnet: ''
+    },
+    getMobulaAssetData: {
+      asset: 'polkadot',
+      blockchain: '',
+      symbol: ''
+    }
+  }
+]
+
+export function getProductByName({ productName }: { productName: StakingProduct }): Product {
+  return productList.find(product => product.name === productName) || productList[0]
+}
+
+export function getContractsByProductName({
+  productName,
+  isTestnet
+}: {
+  productName: StakingProduct
+  isTestnet: boolean
+}): Contracts {
+  return getProductByName({ productName }).contracts[isTestnet ? 'testnet' : 'mainnet']
+}
+
+export function getSubgraphByProductName({
+  productName,
+  isTestnet
+}: {
+  productName: StakingProduct
+  isTestnet: boolean
+}): string {
+  return getProductByName({ productName }).subgraph[isTestnet ? 'testnet' : 'mainnet']
 }

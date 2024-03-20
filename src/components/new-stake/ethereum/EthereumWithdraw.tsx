@@ -1,6 +1,12 @@
 import Button from '@/components/shared/Button'
 import React, { useCallback, useEffect, useState } from 'react'
-import { PiArrowDown, PiArrowLineRight, PiQuestion, PiShieldCheckeredDuotone } from 'react-icons/pi'
+import {
+  PiArrowDown,
+  PiArrowLineRight,
+  PiArrowsCounterClockwise,
+  PiQuestion,
+  PiShieldCheckeredDuotone
+} from 'react-icons/pi'
 import styled from 'styled-components'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
@@ -11,7 +17,7 @@ import { useRouter } from 'next/router'
 import { useNetwork, useSwitchNetwork } from 'wagmi'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import chainConfig from '@/config/chain'
+import { chainConfigByChainId } from '@/config/chain'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
 import { WithdrawType } from '@/types/Withdraw'
@@ -25,6 +31,7 @@ import StakeConfirmModal from '@/components/stake/StakeConfirmModal'
 import StakeWithdrawCounter from '@/components/stake/StakeWithdrawCounter'
 import { Tooltip } from 'antd'
 import EthereumDescription from './EthereumDescription'
+import { Product } from '@/types/Product'
 
 type EthereumWithdrawProps = {
   type: 'deposit' | 'withdraw'
@@ -34,6 +41,8 @@ type EthereumWithdrawProps = {
   stpETHBalance: bigint
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
+  product: Product
+  chainId: number
 }
 
 export default function EthereumWithdraw({
@@ -43,7 +52,9 @@ export default function EthereumWithdraw({
   ethBalanceLoading,
   ethBalanceRefetch,
   stpETHBalance,
-  stpETHBalanceLoading
+  stpETHBalanceLoading,
+  product,
+  chainId
 }: EthereumWithdrawProps) {
   const [amount, setAmount] = useState<string>('')
 
@@ -58,20 +69,22 @@ export default function EthereumWithdraw({
 
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
-  const { chainId, name } = chainConfig()
+  const { name } = chainConfigByChainId(chainId)
   const { chain: walletChainId } = useNetwork()
   const isWrongNetwork = chainId !== walletChainId?.id
 
   const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
-    useWithdrawPoolBalance()
-  const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock(
-    account,
-    withdrawTypeSelected === WithdrawType.POOL
-  )
+    useWithdrawPoolBalance({ product, chainId })
+  const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock({
+    walletAddress: account,
+    enabled: withdrawTypeSelected === WithdrawType.POOL,
+    product,
+    chainId
+  })
   const {
     withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
     refetch: withdrawValidatorsBalanceRefetch
-  } = useWithdrawValidatorBalance()
+  } = useWithdrawValidatorBalance({ product, chainId })
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
@@ -101,7 +114,14 @@ export default function EthereumWithdraw({
     prepareTransactionIsError: withdrawPoolPrepareTransactionIsError,
     prepareTransactionIsSuccess: withdrawPoolPrepareTransactionIsSuccess,
     prepareTransactionErrorMessage: withdrawPoolPrepareTransactionErrorMessage
-  } = useWithdrawPool(inputAmount, blankPoolAddress, withdrawTypeSelected === WithdrawType.POOL, account)
+  } = useWithdrawPool(
+    inputAmount,
+    blankPoolAddress,
+    withdrawTypeSelected === WithdrawType.POOL,
+    product,
+    chainId,
+    account
+  )
 
   const {
     withdrawValidator,
@@ -118,6 +138,8 @@ export default function EthereumWithdraw({
     inputAmount,
     blankPoolAddress,
     withdrawTypeSelected === WithdrawType.VALIDATOR,
+    product,
+    chainId,
     account
   )
 
@@ -200,10 +222,6 @@ export default function EthereumWithdraw({
     ''
 
   const handleLabelButton = () => {
-    if (isWrongNetwork) {
-      return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
-    }
-
     if (errorLabel && inputAmount.length > 0) {
       return errorLabel
     }
@@ -232,6 +250,7 @@ export default function EthereumWithdraw({
             balanceLoading={stpETHBalanceLoading}
             onMaxFunction={() => setAmount(truncateWei(stpETHBalance, 18, true))}
             type={type}
+            product={product}
           />
           <DividerBox>
             <PiArrowDown style={{ fontSize: 16 }} />
@@ -241,6 +260,8 @@ export default function EthereumWithdraw({
             balance={ethBalance}
             balanceLoading={ethBalanceLoading}
             type={type}
+            product={product}
+            chainId={chainId}
           />
         </InputContainer>
         <StakeWithdrawSwitchTypes
@@ -251,8 +272,16 @@ export default function EthereumWithdraw({
           withdrawAmount={inputAmount}
           withdrawTimeLeft={withdrawTimeLeft}
         />
-        {!!account && (
+        {!!account && !isWrongNetwork && (
           <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantWithdraw} />
+        )}
+        {!!isWrongNetwork && account && (
+          <Button
+            onClick={openStakeConfirmation}
+            label={`${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`}
+            disabled={false}
+            icon={<WrongNetworkIcon />}
+          />
         )}
         {!account && (
           <Button
@@ -288,12 +317,14 @@ export default function EthereumWithdraw({
         transactionIsSuccess={withdrawData.withdrawSuccess}
         onClose={() => setOpenStakeConfirmModal(false)}
         withdrawTypeSelected={WithdrawType.POOL}
+        chainId={chainId}
+        product={product}
       />
     </>
   )
 }
 
-const { Container, InputContainer, CardBlock, DividerBox, ConnectWalletIcon } = {
+const { Container, InputContainer, CardBlock, DividerBox, ConnectWalletIcon, WrongNetworkIcon } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -347,5 +378,8 @@ const { Container, InputContainer, CardBlock, DividerBox, ConnectWalletIcon } = 
       align-items: center;
       gap: ${({ theme }) => theme.size[8]};
     }
+  `,
+  WrongNetworkIcon: styled(PiArrowsCounterClockwise)`
+    font-size: 16px;
   `
 }

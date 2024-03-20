@@ -1,7 +1,7 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
-  "addToWalletTooltip": "Add stpETH to your wallet",
+  "addToWalletTooltip": "Add token to your wallet",
   "save": "Save",
   "edit": "Edit",
   "connectWallet": "Connect Wallet",
@@ -340,7 +340,8 @@
         "LessThanMinimumDeposit": "Min Deposit",
         "PoolNotFound": "Pool Not Found",
         "ZeroAmount": "Zero Supply",
-        "useMaxButton": "Use Max Button"
+        "useMaxButton": "Use Max Button",
+        "Panic": "Internal error"
       }
     },
     "activities": {
@@ -598,8 +599,8 @@
       "description": "Invest in the best passive income products for Cryptocurrencies"
     },
     "products": {
-      "ethereum": "Ethereum Staking",
-      "restaking": "Ethereum ReStaking ",
+      "ethereum-stake": "Ethereum Staking",
+      "ethereum-restaking": "Ethereum ReStaking ",
       "celestia": "Celestia Staking",
       "polygon": "Polygon Staking",
       "solana": "Solana Staking",
@@ -679,6 +680,8 @@
       "contractAddress": "Contract Address",
       "marketCap": "Market Cap",
       "priceChange": "Price Change (1y)",
+      "networkAvailable": "Available on",
+      "myRewardsPoints": "My Rewards Points",
       "highestValueWeeks": "Highest Value in the Last 52 Weeks",
       "actions": {
         "invest": "Invest",

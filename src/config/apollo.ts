@@ -1,8 +1,76 @@
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
-import chainConfig from './chain'
-export const apolloClient = new ApolloClient({
-  uri: chainConfig().subgraphs.StakeTogether,
+import { globalConfig } from './global'
+import { getSubgraphByProductName } from './product'
+import { StakingProduct } from '@/types/Product'
+
+const ethereumMainnetSubgraph = getSubgraphByProductName({ productName: 'ethereum-stake', isTestnet: false })
+const ethereumTestnetSubgraph = getSubgraphByProductName({ productName: 'ethereum-stake', isTestnet: true })
+const ethereumMainnetRestaking = getSubgraphByProductName({
+  productName: 'ethereum-restaking',
+  isTestnet: false
+})
+const ethereumTestnetRestaking = getSubgraphByProductName({
+  productName: 'ethereum-restaking',
+  isTestnet: true
+})
+
+export const ethereumMainnetClient = new ApolloClient({
+  uri: ethereumMainnetSubgraph,
+  ssrMode: typeof window === 'undefined',
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          pool: {
+            keyArgs: ['id', 'delegate_contains']
+          }
+        }
+      }
+    }
+  }),
+
+  connectToDevTools: true
+})
+
+export const ethereumTestnetClient = new ApolloClient({
+  uri: ethereumTestnetSubgraph,
+  ssrMode: typeof window === 'undefined',
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          pool: {
+            keyArgs: ['id', 'delegate_contains']
+          }
+        }
+      }
+    }
+  }),
+
+  connectToDevTools: true
+})
+
+export const ethereumRestakingMainnetClient = new ApolloClient({
+  uri: ethereumMainnetRestaking,
+  ssrMode: typeof window === 'undefined',
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          pool: {
+            keyArgs: ['id', 'delegate_contains']
+          }
+        }
+      }
+    }
+  }),
+
+  connectToDevTools: true
+})
+
+export const ethereumRestakingTestnetClient = new ApolloClient({
+  uri: ethereumTestnetRestaking,
   ssrMode: typeof window === 'undefined',
   cache: new InMemoryCache({
     typePolicies: {
@@ -20,7 +88,7 @@ export const apolloClient = new ApolloClient({
 })
 
 export const stBackendClient = new ApolloClient({
-  uri: chainConfig().subgraphs.stBackend,
+  uri: globalConfig.backendSubgraph,
   ssrMode: typeof window === 'undefined',
   cache: new InMemoryCache(),
 
@@ -28,14 +96,14 @@ export const stBackendClient = new ApolloClient({
 })
 
 export const analyticsClient = new ApolloClient({
-  uri: chainConfig().subgraphs.analytics,
+  uri: globalConfig.analyticsSubgraph,
   ssrMode: typeof window === 'undefined',
 
   cache: new InMemoryCache(),
 
   connectToDevTools: true,
   link: new HttpLink({
-    uri: chainConfig().subgraphs.analytics
+    uri: globalConfig.analyticsSubgraph
   })
 })
 
@@ -49,7 +117,7 @@ const contentfulAuthorization = setContext((_, { headers }) => {
 })
 
 const httpLink = new HttpLink({
-  uri: chainConfig().subgraphs.ContentFul
+  uri: globalConfig.contentFul
 })
 
 export const contentfulClient = new ApolloClient({
@@ -58,3 +126,27 @@ export const contentfulClient = new ApolloClient({
   cache: new InMemoryCache(),
   connectToDevTools: true
 })
+
+export function getSubgraphClient({
+  productName,
+  isTestnet
+}: {
+  productName: StakingProduct
+  isTestnet: boolean
+}) {
+  const clientList = {
+    'ethereum-stake': isTestnet ? ethereumTestnetClient : ethereumMainnetClient,
+    'ethereum-restaking': isTestnet ? ethereumRestakingTestnetClient : ethereumRestakingMainnetClient,
+    polygon: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
+    solana: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
+    celestia: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
+    cosmos: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
+    near: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
+    polkadot: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
+    chiliz: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
+    bitcoin: isTestnet ? ethereumTestnetClient : ethereumTestnetClient
+  }
+
+  const client = clientList[productName]
+  return client
+}

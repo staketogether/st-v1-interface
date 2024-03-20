@@ -10,6 +10,7 @@ import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
+import { getProductByName } from '@/config/product'
 
 type WalletSideBarPoolsDelegatedProps = {
   accountDelegations: Delegation[]
@@ -26,7 +27,9 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
 
-  const { stakeTogetherPool } = chainConfig()
+  const { isTestnet } = chainConfig()
+  const product = getProductByName({ productName: 'ethereum-stake' })
+  const stakeTogetherPool = product.stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet']
 
   return (
     <Container>
