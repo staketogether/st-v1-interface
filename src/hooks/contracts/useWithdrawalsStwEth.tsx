@@ -16,13 +16,18 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { ethereumMainnetClient } from '@/config/apollo'
+import { getProductByName } from '@/config/product'
 
 export default function useWithdrawalsStwEth(
   withdrawAmount: bigint,
   accountAddress: `0x${string}`,
   enabled: boolean
 ) {
-  const { chainId } = chainConfig()
+  const { chainId, isTestnet } = chainConfig()
+  const { contracts } = getProductByName({ productName: 'ethereum-stake' })
+
+  const { Withdrawals } = contracts[isTestnet ? 'testnet' : 'mainnet']
+
   const [notify, setNotify] = useState(false)
 
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -31,7 +36,7 @@ export default function useWithdrawalsStwEth(
   const isWithdrawEnabled = enabled && withdrawAmount > 0n
 
   const { config } = usePrepareWithdrawalsWithdraw({
-    address: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+    address: Withdrawals,
     args: [withdrawAmount],
     account: accountAddress,
     enabled: isWithdrawEnabled

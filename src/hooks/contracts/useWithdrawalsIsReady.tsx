@@ -5,7 +5,7 @@ import { getContractsByProductName } from '@/config/product'
 
 export default function useWithdrawalsIsReady(amount: bigint = 0n) {
   const { isTestnet } = chainConfig()
-  //SE FORMOS USAR ADICIONAR O PRODUTO
+
   const { Withdrawals } = getContractsByProductName({
     productName: 'ethereum-stake',
     isTestnet

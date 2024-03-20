@@ -74,7 +74,6 @@ export default function EthereumDeposit({
       setPoolDelegatedSelected(query.projectAddress as `0x${string}`)
     }
   }, [query.projectAddress])
-  console.log('loop')
 
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()

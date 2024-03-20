@@ -339,7 +339,7 @@
         "ZeroAmount": "Suprimento Zero",
         "insufficientGasBalance": "Saldo Insuficiente para o Gás",
         "useMaxButton": "Utilize o botão Max",
-        "Panic": "Panic"
+        "Panic": "Erro interno"
       }
     },
     "activities": {
@@ -706,7 +706,7 @@
       "priceChange": "Variaço de preço (1 ano)",
       "networkAvailable": "Disponível em",
       "myRewardsPoints": "Meus Pontos de Recompensa",
-      "highestValueWeeks": "Maior Valor 52 semanas",
+      "highestValueWeeks": "Maior Valor em 52 semanas",
       "actions": {
         "invest": "Investir",
         "withdraw": "Resgatar",

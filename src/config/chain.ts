@@ -12,9 +12,15 @@ export type ChainConfig = {
   isTestnet: boolean
 }
 
+export enum Networks {
+  Mainnet = 1,
+  OptimismSepolia = 11155420,
+  holesky = 17000
+}
+
 const configs: ChainConfig[] = [
   {
-    chainId: 1,
+    chainId: Networks.Mainnet,
     name: 'mainnet',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_MAINNET),
     isTestnet: false,
@@ -23,7 +29,7 @@ const configs: ChainConfig[] = [
     }
   },
   {
-    chainId: 11155420,
+    chainId: Networks.OptimismSepolia,
     name: 'Optimism Sepolia',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY),
     blockExplorer: {
@@ -32,7 +38,7 @@ const configs: ChainConfig[] = [
     isTestnet: true
   },
   {
-    chainId: 17000,
+    chainId: Networks.holesky,
     name: 'holesky',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_HOLESKY_API_KEY),
     blockExplorer: {

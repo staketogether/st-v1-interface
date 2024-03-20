@@ -341,7 +341,7 @@
         "PoolNotFound": "Pool Not Found",
         "ZeroAmount": "Zero Supply",
         "useMaxButton": "Use Max Button",
-        "Panic": "Panic"
+        "Panic": "Internal error"
       }
     },
     "activities": {

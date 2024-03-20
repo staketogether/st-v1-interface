@@ -21,12 +21,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/brl/product',
-        permanent: false
-      },
-      {
-        source: '/brl',
-        destination: '/brl/product',
+        destination: '/brl',
         permanent: false
       }
     ]
