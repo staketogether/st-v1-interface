@@ -69,7 +69,6 @@ const App = ({ Component, pageProps }: AppProps) => {
                   }}
                 >
                   <Component {...pageProps} />
-                  {/* <BuyEthControlModal /> */}
                 </SWRConfig>
               </ConfigProvider>
             </StyleSheetManager>

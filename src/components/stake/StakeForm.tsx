@@ -438,6 +438,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
         youReceive={type === 'deposit' ? youReceiveDeposit : ethers.parseUnits(amount || '0', 18)}
         txHash={txHash}
         type={type}
+        chainId={chainId}
         labelButton={handleLabelButton()}
         onClick={handleStakeConfirmation}
         transactionLoading={isLoading}
@@ -445,6 +446,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
         transactionIsSuccess={isSuccess}
         onClose={() => setOpenStakeConfirmModal(false)}
         withdrawTypeSelected={withdrawTypeSelected}
+        product={product}
       />
     </>
   )

@@ -35,7 +35,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
             {product.title}
           </div>
           <div>
-            <span>Available on</span>
+            <span>{t('v2.ethereumStaking.networkAvailable')}</span>
             <NetworkIcons network={product.networkAvailable} size={16} />
             <span>{capitalize(product.networkAvailable)}</span>
           </div>
@@ -44,7 +44,12 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
         <HeaderDescribeInfo>
           <SymbolContainer>
             <div>
-              <SymbolIcons productSymbol={product.symbol} size={24} />
+              <SymbolIcons
+                productSymbol={product.symbol}
+                size={23}
+                contractAddress={stakeTogetherContractAddress}
+                showPlusIcon
+              />
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
@@ -56,13 +61,15 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           <RewardsPointsContainer>
             <Tooltip title={'symbol'}>
               <span>
-                My Rewards Points <QuestionIcon />
+                {t('v2.ethereumStaking.myRewardsPoints')} <QuestionIcon />
               </span>
             </Tooltip>
-            <TagPointsContainer>
-              Eigen
-              <div>0.0</div>
-            </TagPointsContainer>
+            {product.eigenPointsAvailable && (
+              <TagPointsContainer>
+                Eigen
+                <div>0.0</div>
+              </TagPointsContainer>
+            )}
             <TagPointsContainer className='purple'>
               Together
               <div>0.0</div>

@@ -6,14 +6,23 @@ import { PiPlusBold } from 'react-icons/pi'
 import { Tooltip } from 'antd'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
+import { getContractsByProductName } from '@/config/product'
+import chainConfig from '@/config/chain'
 
 type StpEthIconProps = {
   size?: number
   showPlusIcon?: boolean
 }
-
+/**
+ * @deprecated
+ */
 export default function StpEthIcon({ size = 32, showPlusIcon }: StpEthIconProps) {
-  const { addToWalletAction } = useAddSethToWallet()
+  const { isTestnet } = chainConfig()
+  const { StakeTogether } = getContractsByProductName({
+    productName: 'ethereum-stake',
+    isTestnet
+  })
+  const { addToWalletAction } = useAddSethToWallet({ productSymbol: 'stpETH', contractAddress: StakeTogether })
   const { t } = useLocaleTranslation()
   return (
     <Tooltip title={t('addToWalletTooltip')}>

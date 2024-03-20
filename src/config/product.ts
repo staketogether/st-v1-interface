@@ -7,6 +7,7 @@ export const productList: Product[] = [
     title: 'Staking de Ethereum',
     symbol: 'stpETH',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: true },
       { network: 'optimism', enabled: false },
@@ -56,6 +57,7 @@ export const productList: Product[] = [
     title: 'Restaking',
     symbol: 'stpRETH',
     networkAvailable: 'optimism-sepolia',
+    eigenPointsAvailable: true,
     networks: [
       { network: 'ethereum', enabled: true },
       { network: 'optimism', enabled: false },
@@ -70,28 +72,28 @@ export const productList: Product[] = [
     enabled: true,
     urlRedirect: '/currency/optimism-sepolia/product/ethereum-restaking',
     stakeTogetherPool: {
-      mainnet: '0x81C5A12Fe0190F792009e3bBcFf9C980867614BB',
-      testnet: '0x47e333845Fce1E2804e0653FD6aa43E3016D8761'
+      mainnet: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
+      testnet: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480'
     },
     contracts: {
       mainnet: {
-        Airdrop: '0xBF43F150b6c93C9d8bc2AAE1d515dAfbceEA5077',
-        Withdrawals: '0xcf9ee3755bD96C7194211d00e81404014e29ab64',
-        Router: '0x57Dbd848ECDC9E4A6cF1a45E993208b1044F9Fa2',
-        StakeTogether: '0x47e333845Fce1E2804e0653FD6aa43E3016D8761',
-        StakeTogetherWrapper: '0xEC4e033E546ad00E52d535d9105a836eFE45b21a'
+        Airdrop: '0x6D38e32dB2A5e88b3D6DEf74b981c4CAF50B0533',
+        Withdrawals: '0xbBeAE3626810c9A001DdddF825A13793B94433Db',
+        Router: '0xd5aC0835a7E537b4D263DbfDC8c6176fE04b878a',
+        StakeTogether: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
+        StakeTogetherWrapper: '0xE9550754410Fa6f4B5EFC3379793c8bf2b69C59E'
       },
       testnet: {
-        Airdrop: '0xBF43F150b6c93C9d8bc2AAE1d515dAfbceEA5077',
-        Withdrawals: '0xcf9ee3755bD96C7194211d00e81404014e29ab64',
-        Router: '0x57Dbd848ECDC9E4A6cF1a45E993208b1044F9Fa2',
-        StakeTogether: '0x47e333845Fce1E2804e0653FD6aa43E3016D8761',
-        StakeTogetherWrapper: '0xEC4e033E546ad00E52d535d9105a836eFE45b21a'
+        Airdrop: '0x6D38e32dB2A5e88b3D6DEf74b981c4CAF50B0533',
+        Withdrawals: '0xbBeAE3626810c9A001DdddF825A13793B94433Db',
+        Router: '0xd5aC0835a7E537b4D263DbfDC8c6176fE04b878a',
+        StakeTogether: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
+        StakeTogetherWrapper: '0xE9550754410Fa6f4B5EFC3379793c8bf2b69C59E'
       }
     },
     subgraph: {
-      mainnet: 'https://api.studio.thegraph.com/query/51080/st-eigen-layer/v1.0.1',
-      testnet: 'https://api.studio.thegraph.com/query/51080/st-eigen-layer/v1.0.1'
+      mainnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest',
+      testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest'
     },
     getMobulaAssetData: {
       asset: 'Ethereum',
@@ -105,6 +107,7 @@ export const productList: Product[] = [
     title: 'Celestia',
     symbol: 'stpTIA',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -154,6 +157,7 @@ export const productList: Product[] = [
     title: 'Polygon',
     symbol: 'stpPOL',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -203,6 +207,7 @@ export const productList: Product[] = [
     title: 'Solana',
     symbol: 'stpSOL',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -252,6 +257,7 @@ export const productList: Product[] = [
     title: 'Cosmos',
     symbol: 'stpATOM',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -301,6 +307,7 @@ export const productList: Product[] = [
     title: 'Near',
     symbol: 'stpNear',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -351,6 +358,7 @@ export const productList: Product[] = [
     title: 'Polkadot',
     symbol: 'stpKSM',
     networkAvailable: 'ethereum',
+    eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
