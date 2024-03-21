@@ -19,7 +19,7 @@ export default function LayoutHeader() {
   const { isActive } = useActiveRoute()
   const { account, accountIsConnected } = useConnectedAccount()
   const { setOpenProjectCreateModal } = useProjectCreateModal()
-  const { query, isReady, pathname } = useRouter()
+  const { query, pathname } = useRouter()
   const { currency, network } = query
 
   const { poolDetail: poolDetailUs } = useContentfulPoolDetails({
@@ -30,7 +30,7 @@ export default function LayoutHeader() {
   const { screenWidth, breakpoints } = useResizeView()
   const basePath = `/[currency]`
   const isHome = pathname === basePath
-  console.log(pathname, basePath)
+
   return (
     <Container>
       <MenuContainer>
