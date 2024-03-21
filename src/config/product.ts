@@ -6,7 +6,7 @@ export const productList: Product[] = [
     name: 'ethereum-stake',
     title: 'Staking de Ethereum',
     symbol: 'stpETH',
-    networkAvailable: 'ethereum',
+    networkAvailable: 'holesky',
     eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: true },
@@ -20,7 +20,7 @@ export const productList: Product[] = [
     contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
     description: 'ethereumDescription',
     enabled: true,
-    urlRedirect: '/currency/ethereum/product/ethereum-stake',
+    urlRedirect: '/currency/holesky/product/ethereum-stake',
     stakeTogetherPool: {
       mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
       testnet: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48'
@@ -69,7 +69,7 @@ export const productList: Product[] = [
     scan: 'https://optimism-sepolia.blockscout.com',
     contractAddress: '0x1234567890',
     description: 'ethereumDescription',
-    enabled: false,
+    enabled: true,
     urlRedirect: '/currency/optimism-sepolia/product/ethereum-restaking',
     stakeTogetherPool: {
       mainnet: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
