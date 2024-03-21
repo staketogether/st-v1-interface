@@ -25,7 +25,7 @@ export default function LayoutHeaderMobile() {
     <>
       <Container>
         <Content>
-          <Logo href={`/${currency}/product`}>
+          <Logo href={`/${currency}`}>
             <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
           </Logo>
           <WalletContainer>

@@ -19,7 +19,7 @@ export default function LayoutHeader() {
   const { isActive } = useActiveRoute()
   const { account, accountIsConnected } = useConnectedAccount()
   const { setOpenProjectCreateModal } = useProjectCreateModal()
-  const { query, isReady, pathname } = useRouter()
+  const { query, pathname } = useRouter()
   const { currency, network } = query
 
   const { poolDetail: poolDetailUs } = useContentfulPoolDetails({
@@ -28,19 +28,19 @@ export default function LayoutHeader() {
     locale: 'en-US'
   })
   const { screenWidth, breakpoints } = useResizeView()
-  const basePath = `/[currency]/[network]`
-  const isHome = pathname === basePath && isReady
+  const basePath = `/[currency]`
+  const isHome = pathname === basePath
 
   return (
     <Container>
       <MenuContainer>
         <div>
-          <Logo href={`/${currency}/product`}>
+          <Logo href={`/${currency}`}>
             <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={27} />
           </Logo>
         </div>
         <Menu>
-          <Link href={`/${currency}/product`}>
+          <Link href={`/${currency}`}>
             <MenuButton className={`${isHome || isActive('product') ? 'active' : ''}`}>
               <InvestIcon />
               {t('v2.header.products')}
