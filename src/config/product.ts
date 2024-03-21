@@ -103,9 +103,9 @@ export const productList: Product[] = [
   },
   {
     id: 3,
-    name: 'celestia',
-    title: 'Celestia',
-    symbol: 'stpTIA',
+    name: 'chiliz',
+    title: 'Chiliz',
+    symbol: 'stpCHZ',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
     networks: [
@@ -146,7 +146,7 @@ export const productList: Product[] = [
       testnet: ''
     },
     getMobulaAssetData: {
-      asset: 'Celestia',
+      asset: '0x3506424f91fd33084466f402d5d97f05f8e3b4af',
       blockchain: '',
       symbol: ''
     }
