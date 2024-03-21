@@ -51,6 +51,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
 
 const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
   Container: styled.div`
+    position: relative;
     width: 100%;
     min-width: 100%;
     display: flex;
@@ -87,6 +88,8 @@ const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
     color: ${({ theme }) => theme.colorV2.gray[1]};
     opacity: 0.6;
     cursor: pointer;
+    position: fixed;
+    margin-top: -39px;
   `,
   LoadingContainer: styled.div`
     width: 100%;
