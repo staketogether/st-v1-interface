@@ -87,8 +87,9 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountProfitPercentage: stakeAccountProfitPercentage,
     accountIsLoading: stakeAccountIsLoading,
     accountShare: stakeAccountShare
-  } = useStAccount({ address: address, productName: 'ethereum-stake' })
-  const stpETHAccountBalance = formatNumberByLocale(truncateWei(stakeAccountBalance, 5), locale)
+  } = useStAccount({ address: address, productName: 'ethereum-stake', chainId: Networks.holesky })
+  const stpETHAccountBalance = truncateWei(stakeAccountBalance, 6)
+  console.log('stpETHAccountBalance', stpETHAccountBalance, stakeAccountBalance)
   const { priceConvertedValue: usdStpETHBalance } = useCoinConversion(stpETHAccountBalance)
 
   const {
@@ -99,7 +100,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountProfitPercentage: restakingAccountProfitPercentage,
     accountIsLoading: restakingAccountIsLoading,
     accountShare: restakingAccountShare
-  } = useStAccount({ address: address, productName: 'ethereum-restaking' })
+  } = useStAccount({ address: address, productName: 'ethereum-restaking', chainId: Networks.OptimismSepolia })
   const stpRETHAccountBalance = formatNumberByLocale(truncateWei(restakingAccountBalance, 5), locale)
   const { priceConvertedValue: usdStpRETHBalance } = useCoinConversion(stpRETHAccountBalance)
 
