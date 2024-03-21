@@ -31,7 +31,7 @@ const configs: ChainConfig[] = [
   {
     chainId: Networks.OptimismSepolia,
     name: 'Optimism Sepolia',
-    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY),
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OPTIMIST_SEPOLIA_URL),
     blockExplorer: {
       baseUrl: 'https://optimism-sepolia.blockscout.com'
     },
@@ -40,7 +40,7 @@ const configs: ChainConfig[] = [
   {
     chainId: Networks.holesky,
     name: 'holesky',
-    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_HOLESKY_API_KEY),
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_HOLESKY_URL),
     blockExplorer: {
       baseUrl: 'https://optimism-sepolia.blockscout.com'
     },

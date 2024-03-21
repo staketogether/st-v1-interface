@@ -81,6 +81,7 @@ export default function EthereumInput({
 
 const { InputContent, CoinActionContainer } = {
   InputContent: styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[16]};

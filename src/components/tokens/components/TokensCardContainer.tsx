@@ -3,11 +3,11 @@ import React from 'react'
 import styled from 'styled-components'
 import StakingIcons from './StakingIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import StpEthIcon from '../../shared/StpethIcon'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import { useRouter } from 'next/router'
+import SymbolIcons from './SymbolIcons'
 
 type TokensCardContainerProps = {
   product: Product
@@ -45,7 +45,7 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
           <span className='green'>{`APY ${product.apy}%`}</span>
         </div>
         <div>
-          <StpEthIcon size={24} />
+          <SymbolIcons size={24} productSymbol={product.symbol} />
           <span>{product.symbol}</span>
         </div>
       </ContainerInfo>

@@ -7,10 +7,16 @@ import ProductInfo from './ProductInfo'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { PiArrowLeft } from 'react-icons/pi'
+import LottieAnimation from '../shared/LottieAnimation'
+import loadingAnimation from '@assets/animations/loading-animation.json'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
-  loading: () => <div>Loading...</div>,
+  loading: () => (
+    <LoadingContainer>
+      <LottieAnimation animationData={loadingAnimation} height={70} loop />
+    </LoadingContainer>
+  ),
   suspense: true
 })
 
@@ -43,7 +49,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   )
 }
 
-const { Container, ActionContainer, HeaderBackAction } = {
+const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
   Container: styled.div`
     width: 100%;
     min-width: 100%;
@@ -51,6 +57,7 @@ const { Container, ActionContainer, HeaderBackAction } = {
     flex-direction: column;
     gap: ${({ theme }) => theme.size[12]};
     > div {
+      width: 100%;
       display: flex;
       flex-direction: column-reverse;
       align-items: center;
@@ -65,6 +72,8 @@ const { Container, ActionContainer, HeaderBackAction } = {
     }
   `,
   ActionContainer: styled.div`
+    width: 100%;
+    max-width: 400px;
     padding: ${({ theme }) => theme.size[24]};
     background-color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${({ theme }) => theme.size[8]};
@@ -78,5 +87,15 @@ const { Container, ActionContainer, HeaderBackAction } = {
     color: ${({ theme }) => theme.colorV2.gray[1]};
     opacity: 0.6;
     cursor: pointer;
+  `,
+  LoadingContainer: styled.div`
+    width: 100%;
+    min-height: 453px;
+
+    display: grid;
+    place-items: center;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      min-height: 524px;
+    }
   `
 }

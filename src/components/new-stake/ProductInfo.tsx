@@ -32,7 +32,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
         <HeaderProduct>
           <div>
             <NetworkProductIcons stakingProduct={product.name} size={36} />
-            {product.title}
+            {t(`v2.products.${product.name}`)}
           </div>
           <div>
             <span>{t('v2.ethereumStaking.networkAvailable')}</span>
