@@ -30,7 +30,7 @@ export default function useGetWithdrawBlock({
     }
   })
 
-  const timeLeft = useBlockCountdown(Number(withdrawBlock)) || 0
+  const timeLeft = useBlockCountdown(Number(withdrawBlock), chainId) || 0
 
   return { withdrawBlock, isLoading: isFetching, timeLeft, getWithdrawBlock: refetch }
 }

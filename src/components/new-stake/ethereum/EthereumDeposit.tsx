@@ -57,17 +57,6 @@ export default function EthereumDeposit({
   const { t } = useLocaleTranslation()
   const { locale, push, pathname, query } = useRouter()
 
-  const handleAddProjectOnRoute = (projectAddress: `0x${string}`) => {
-    push(
-      {
-        pathname: pathname,
-        query: { ...query, projectAddress }
-      },
-      undefined,
-      { shallow: true }
-    )
-  }
-
   useEffect(() => {
     if (query.projectAddress) {
       setIsActivatedDelegation(true)
@@ -170,6 +159,36 @@ export default function EthereumDeposit({
   const cantDeposit =
     insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
 
+  const handleSwitchDelegation = (value: boolean) => {
+    if (!value) {
+      const updatedQuery = { ...query }
+      if (updatedQuery.projectAddress) {
+        delete updatedQuery.projectAddress
+      }
+
+      push(
+        {
+          pathname: pathname,
+          query: updatedQuery
+        },
+        undefined,
+        { shallow: true }
+      )
+      setPoolDelegatedSelected(stakeTogetherPool)
+    }
+    setIsActivatedDelegation(value)
+  }
+
+  const handleAddProjectOnRoute = (projectAddress: `0x${string}`) => {
+    push(
+      {
+        pathname: pathname,
+        query: { ...query, projectAddress }
+      },
+      undefined,
+      { shallow: true }
+    )
+  }
   return (
     <>
       <Container>
@@ -200,7 +219,7 @@ export default function EthereumDeposit({
         </InputContainer>
         <EthereumProjectSelect
           isActivatedDelegation={isActivatedDelegation}
-          onChange={e => setIsActivatedDelegation(e)}
+          onChange={e => handleSwitchDelegation(e)}
           poolDelegatedSelected={poolDelegatedSelected}
           handleDelegationChange={project => {
             handleAddProjectOnRoute(project)

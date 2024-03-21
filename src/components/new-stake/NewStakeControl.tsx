@@ -14,7 +14,7 @@ const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl
   ssr: false,
   loading: () => (
     <LoadingContainer>
-      <LottieAnimation animationData={loadingAnimation} height={60} loop />
+      <LottieAnimation animationData={loadingAnimation} height={70} loop />
     </LoadingContainer>
   ),
   suspense: true
