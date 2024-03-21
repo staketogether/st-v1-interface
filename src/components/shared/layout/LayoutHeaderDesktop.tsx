@@ -30,7 +30,7 @@ export default function LayoutHeader() {
   const { screenWidth, breakpoints } = useResizeView()
   const basePath = `/[currency]`
   const isHome = pathname === basePath
-  console.log(pathname, basePath)
+
   return (
     <Container>
       <MenuContainer>
