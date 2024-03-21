@@ -34,7 +34,6 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
       buyCrypto()
     }
   }, [buyCrypto, router, router.events, router.query?.amount, router.query?.buy])
-
   return (
     <LayoutTemplate>
       <Metatags />

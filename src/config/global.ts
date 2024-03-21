@@ -1,3 +1,6 @@
+
+import { Transak } from '@transak/transak-sdk'
+
 interface GlobalConfig {
   url: string
   websiteUrl: string
@@ -12,6 +15,7 @@ interface GlobalConfig {
   contentFul: string
   analyticsSubgraph: string
   backendSubgraph: string
+  transakStage: string
   fees: {
     operation: string
     rewards: string
@@ -30,8 +34,9 @@ export const globalConfig: GlobalConfig = {
   backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://st-backend-dev-thz2yhu72a-ue.a.run.app',
   contentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`,
   analyticsSubgraph: 'https://st-analytics-api-ddfui.ondigitalocean.app/graphql',
- backendSubgraph: `${process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://st-backend-dev-thz2yhu72a-ue.a.run.app'}/graphql`,
+  backendSubgraph: `${process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://st-backend-dev-thz2yhu72a-ue.a.run.app'}/graphql`,
   apy: '5.1',
+  transakStage: process.env.NEXT_PUBLIC_TRANSAK_STAGE ?? Transak.ENVIRONMENTS.STAGING,
   fees: {
     operation: '0',
     rewards: '8'

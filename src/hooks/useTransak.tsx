@@ -1,3 +1,4 @@
+import { globalConfig } from '@/config/global'
 import { Transak, TransakConfig } from '@transak/transak-sdk'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
@@ -17,7 +18,7 @@ export default function useTransak(config?: TransakProps) {
   const defaultTransakConfig: TransakConfig = useMemo(
     () => ({
       apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY as string,
-      environment: Transak.ENVIRONMENTS.PRODUCTION,
+      environment: globalConfig.transakStage.includes(Transak.ENVIRONMENTS.PRODUCTION) ? Transak.ENVIRONMENTS.PRODUCTION : Transak.ENVIRONMENTS.STAGING,
       network: 'ethereum',
       exchangeScreenTitle: config?.productsAvailed === 'SELL' ? t('sellCryptoTitle') : t('buyCryptoTitle'),
       defaultNetwork: 'ethereum',
