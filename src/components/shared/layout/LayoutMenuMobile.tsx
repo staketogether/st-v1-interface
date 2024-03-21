@@ -10,11 +10,11 @@ function LayoutMenuMobile() {
   const { isActive } = useActiveRoute()
   const { query, pathname, isReady } = useRouter()
   const { currency, network } = query
-  const basePath = `/[network]/[currency]`
+  const basePath = `/[currency]`
   const isHome = pathname === basePath && isReady
   return (
     <Container>
-      <NextLink href={`/${currency}/product`} className={`${isHome || isActive('product') ? 'active' : ''}`}>
+      <NextLink href={`/${currency}`} className={`${isHome || isActive('product') ? 'active' : ''}`}>
         <InvestIcon />
         {t('v2.header.products')}
       </NextLink>

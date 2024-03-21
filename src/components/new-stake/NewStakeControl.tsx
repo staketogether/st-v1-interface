@@ -29,7 +29,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
 
   return (
     <Container>
-      <HeaderBackAction href={`/${currency}/product`}>
+      <HeaderBackAction href={`/${currency}`}>
         <PiArrowLeft />
         <span>{t('goToBack')}</span>
       </HeaderBackAction>
