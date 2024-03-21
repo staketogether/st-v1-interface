@@ -26,8 +26,8 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_CONTENTFUL_SPACE) {
     throw new Error('NEXT_PUBLIC_CONTENTFUL_SPACE not found in env')
   }
-  if (!process.env.NEXT_PUBLIC_RPC_HOLESKY_SEPOLIA_URL) {
-    throw new Error('NEXT_PUBLIC_RPC_HOLESKY_SEPOLIA_URL not found in env')
+  if (!process.env.NEXT_PUBLIC_RPC_HOLESKY_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_HOLESKY_URL not found in env')
   }
   if (!process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT) {
     throw new Error('NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT not found in env')

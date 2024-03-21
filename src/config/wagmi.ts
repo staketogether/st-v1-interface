@@ -9,7 +9,7 @@ import Web3AuthConnectorInstance from './web3Auth'
 const handleRpcPerChain = (chainId: number) => {
   const alchemyKey: { [key: number]: string } = {
     1: process.env.NEXT_PUBLIC_RPC_MAINNET_URL as string,
-    17000: process.env.NEXT_PUBLIC_RPC_HOLESKY_SEPOLIA_URL as string,
+    17000: process.env.NEXT_PUBLIC_RPC_HOLESKY_URL as string,
     11155420: process.env.NEXT_PUBLIC_RPC_OPTIMIST_SEPOLIA_URL as string
   }
 

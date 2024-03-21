@@ -40,7 +40,7 @@ const configs: ChainConfig[] = [
   {
     chainId: Networks.holesky,
     name: 'holesky',
-    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_HOLESKY_SEPOLIA_URL),
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_HOLESKY_URL),
     blockExplorer: {
       baseUrl: 'https://optimism-sepolia.blockscout.com'
     },
