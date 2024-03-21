@@ -145,7 +145,7 @@ export default function useWithdrawPool(
     }
   })
 
-  const withdrawPool = () => {
+  const withdrawPool = (): void => {
     setAwaitWalletAction(true)
     tx.write?.()
   }

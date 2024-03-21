@@ -5,7 +5,7 @@ import {
   PiArrowLineRight,
   PiArrowsCounterClockwise,
   PiQuestion,
-  PiShieldCheckeredDuotone
+  PiWarningOctagon
 } from 'react-icons/pi'
 import styled from 'styled-components'
 import EthereumInput from './EthereumInput'
@@ -178,13 +178,12 @@ export default function EthereumWithdraw({
     const handleSuccessfulAction = async () => {
       if (withdrawData.withdrawSuccess && !isOpenStakeConfirmModal) {
         setAmount('')
-        Promise.all([await handleWithdrawBalanceRefetch(), await ethBalanceRefetch()])
+        await handleWithdrawBalanceRefetch()
         withdrawPoolBalanceRefetch()
         withdrawData.withdrawResetState
         getWithdrawBlock()
       }
     }
-
     handleSuccessfulAction()
   }, [
     ethBalanceRefetch,
@@ -195,6 +194,15 @@ export default function EthereumWithdraw({
     withdrawData.withdrawSuccess,
     withdrawPoolBalanceRefetch
   ])
+
+  useEffect(() => {
+    const handleSuccessfulAction = async () => {
+      if (withdrawData.withdrawSuccess && !isOpenStakeConfirmModal) {
+        await ethBalanceRefetch()
+      }
+    }
+    handleSuccessfulAction()
+  }, [ethBalanceRefetch, isOpenStakeConfirmModal, withdrawData.withdrawSuccess])
 
   const { switchNetworkAsync } = useSwitchNetwork({
     chainId: chainId
@@ -294,7 +302,7 @@ export default function EthereumWithdraw({
         {!!(withdrawTimeLeft && withdrawTimeLeft > 0) && (
           <CardBlock>
             <div>
-              <PiShieldCheckeredDuotone /> <span>{t('v2.stake.withdrawBlocked')}</span>
+              <WarningIcon /> <span>{t('v2.stake.withdrawBlocked')}</span>
               <Tooltip title={t('v2.stake.withdrawBlockedTooltip')}>
                 <PiQuestion />
               </Tooltip>
@@ -324,7 +332,7 @@ export default function EthereumWithdraw({
   )
 }
 
-const { Container, InputContainer, CardBlock, DividerBox, ConnectWalletIcon, WrongNetworkIcon } = {
+const { Container, InputContainer, WarningIcon, CardBlock, DividerBox, ConnectWalletIcon, WrongNetworkIcon } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -381,5 +389,9 @@ const { Container, InputContainer, CardBlock, DividerBox, ConnectWalletIcon, Wro
   `,
   WrongNetworkIcon: styled(PiArrowsCounterClockwise)`
     font-size: 16px;
+  `,
+  WarningIcon: styled(PiWarningOctagon)`
+    font-size: 24px;
+    color: ${({ theme }) => theme.colorV2.purple[2]};
   `
 }
