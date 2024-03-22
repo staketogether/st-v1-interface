@@ -89,7 +89,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountShare: stakeAccountShare
   } = useStAccount({ address: address, productName: 'ethereum-stake', chainId: Networks.holesky })
   const stpETHAccountBalance = truncateWei(stakeAccountBalance, 6)
-  console.log('stpETHAccountBalance', stpETHAccountBalance, stakeAccountBalance)
+
   const { priceConvertedValue: usdStpETHBalance } = useCoinConversion(stpETHAccountBalance)
 
   const {
@@ -134,10 +134,13 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountShare
   } = stAccount[productTabSelected]
 
-  const totalBalance = stakeAccountBalance + restakingAccountBalance + ethBalance + optimistEthBalance
-  const { priceConvertedValue: usdTotalBalance } = useCoinConversion(
-    formatNumberByLocale(truncateWei(totalBalance, 4), locale)
-  )
+  const totalBalance =
+    BigInt(stakeAccountBalance) +
+    BigInt(restakingAccountBalance) +
+    BigInt(ethBalance) +
+    BigInt(optimistEthBalance)
+  const value = truncateWei(totalBalance, 4)
+  const { priceConvertedValue: usdTotalBalance } = useCoinConversion(value)
 
   function disconnectWallet() {
     setOpenSidebar(false)
