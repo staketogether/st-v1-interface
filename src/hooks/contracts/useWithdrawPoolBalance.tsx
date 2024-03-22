@@ -1,6 +1,6 @@
 import { chainConfigByChainId } from '@/config/chain'
 import { Product } from '@/types/Product'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useBalance } from 'wagmi'
 
 export const useWithdrawPoolBalance = ({ product, chainId }: { product: Product; chainId: number }) => {
@@ -16,9 +16,13 @@ export const useWithdrawPoolBalance = ({ product, chainId }: { product: Product;
     }
   })
 
+  const handleRefetch = useCallback(() => {
+    refetch
+  }, [refetch])
+
   return {
     withdrawPoolBalance: liquidityPoolBalance || 0n,
     isLoading: isFetching,
-    refetch
+    refetch: handleRefetch
   }
 }

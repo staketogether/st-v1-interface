@@ -51,12 +51,14 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
 
 const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
   Container: styled.div`
+    position: relative;
     width: 100%;
     min-width: 100%;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[12]};
     > div {
+      width: 100%;
       display: flex;
       flex-direction: column-reverse;
       align-items: center;
@@ -71,6 +73,8 @@ const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
     }
   `,
   ActionContainer: styled.div`
+    width: 100%;
+    max-width: 400px;
     padding: ${({ theme }) => theme.size[24]};
     background-color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${({ theme }) => theme.size[8]};
@@ -84,12 +88,17 @@ const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
     color: ${({ theme }) => theme.colorV2.gray[1]};
     opacity: 0.6;
     cursor: pointer;
+    position: fixed;
+    margin-top: -39px;
   `,
   LoadingContainer: styled.div`
     width: 100%;
-    min-height: 524px;
+    min-height: 453px;
 
     display: grid;
     place-items: center;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      min-height: 524px;
+    }
   `
 }
