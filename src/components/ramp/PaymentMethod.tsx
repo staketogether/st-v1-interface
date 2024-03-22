@@ -1,4 +1,5 @@
 import { BrlaBuyEthStep, openBrlaModalVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { useEthersSigner } from '@/hooks/useEthersProvider'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useTransak from '@/hooks/useTransak'
 import CreditCard from '@assets/images/master-visa.svg'
@@ -14,6 +15,7 @@ export default function PaymentMethod() {
     productsAvailed: 'BUY'
   })
 
+  useEthersSigner()
   const handlePix = () => {
     stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
   }

@@ -20,6 +20,8 @@ export default function ProcessingCheckoutStep() {
     setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Success), timeToRedirect)
   }
 
+
+
   useEffect(() => {
     if (activity?.status === 'error') {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.Error)
