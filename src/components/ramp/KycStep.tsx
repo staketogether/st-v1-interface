@@ -126,7 +126,7 @@ export default function KycStep() {
       <Container>
         <SwapInfo />
 
-        <h2>{t('v2.ramp.checkOut')}</h2>
+        <h2>{t('v2.ramp.kyc.title')}</h2>
         <span>{t('v2.ramp.kyc.description')}</span>
 
 
