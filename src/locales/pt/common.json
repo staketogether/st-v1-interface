@@ -620,11 +620,11 @@
     },
     "tokens": {
       "title": "Produtos de Staking",
-      "description": "Invista nos melhores produtos de renda passiva para criptomoedas"
+      "description": "Invista em produtos de tecnologia de infraestrutura de ponta baseados em staking de criptomoedas.\n"
     },
     "products": {
       "ethereum-stake": "Staking de Ethereum",
-      "ethereum-restaking": "ReStaking de Ethereum ",
+      "ethereum-restaking": "Restaking de Ethereum ",
       "celestia": "Staking de Celestia",
       "polygon": "Staking de Polygon ",
       "solana": "Staking de Solana",

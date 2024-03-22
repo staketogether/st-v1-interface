@@ -596,11 +596,11 @@
     },
     "tokens": {
       "title": "Staking Products",
-      "description": "Invest in the best passive income products for Cryptocurrencies"
+      "description": "Invest in cutting-edge infrastructure technology products based on cryptocurrency staking."
     },
     "products": {
       "ethereum-stake": "Ethereum Staking",
-      "ethereum-restaking": "Ethereum ReStaking ",
+      "ethereum-restaking": "Ethereum Restaking ",
       "celestia": "Celestia Staking",
       "polygon": "Polygon Staking",
       "solana": "Solana Staking",

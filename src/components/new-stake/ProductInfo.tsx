@@ -37,7 +37,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           <div>
             <span>{t('v2.ethereumStaking.networkAvailable')}</span>
             <NetworkIcons network={product.networkAvailable} size={16} />
-            <span>{capitalize(product.networkAvailable)}</span>
+            <span>{capitalize(product.networkAvailable.replaceAll('-', ' '))}</span>
           </div>
         </HeaderProduct>
 
@@ -55,7 +55,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
             <div>
               <span className='CoinValue'>{`${handleQuotePrice(assetData?.data?.price || 0)}
                `}</span>
-              <span className='apy'>{`APY:${product.apy}%`}</span>
+              <span className='apy'>{`APY ${product.apy}%`}</span>
             </div>
           </SymbolContainer>
           <RewardsPointsContainer>

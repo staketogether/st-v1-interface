@@ -27,11 +27,6 @@ export default function LayoutFooter() {
           <span>{`v${packageData.version}`}</span>
         </div>
         <span>
-          <a href={`${blockExplorer.baseUrl}/address/${StakeTogether}`} target='_blank'>
-            {t('footer.smartContract')}
-          </a>
-        </span>
-        <span>
           <a href={auditUrl} target='_blank'>
             {t('footer.audit')}
           </a>
