@@ -173,7 +173,7 @@ export default function useDepositPool(
     onSuccess: () => {
       setAwaitWalletAction(false)
       notification.success({
-        message: `${t('notifications.depositSuccess')}: ${truncateWei(netDepositAmount, 4)} ${t('lsd.symbol')}`,
+        message: `${t('notifications.depositSuccess')}: ${truncateWei(netDepositAmount, 4)} ${product.symbol}`,
         placement: 'topRight'
       })
       subgraphClient.refetchQueries({

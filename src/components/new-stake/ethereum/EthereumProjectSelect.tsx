@@ -24,6 +24,7 @@ export default function EthereumProjectSelect({
     status: 'approved',
     pagination: { first: 100, skip: 0 }
   })
+  console.log(projectList.find(project => project.wallet === '0xd55763a34dd2a2ef3c26512c6e0f7dbd00923480'))
   const projectListMapped = projectList.map(project => ({
     value: project.wallet,
     label: (

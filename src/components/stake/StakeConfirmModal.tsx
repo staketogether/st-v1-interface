@@ -1,15 +1,14 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
-import ethIcon from '@assets/icons/eth-icon.svg'
-import sethIcon from '@assets/icons/seth-icon.svg'
-import Image from 'next/image'
 import styled from 'styled-components'
 import Modal from '../shared/Modal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeTransactionLoading from './StakeTransactionLoading'
 import { WithdrawType } from '@/types/Withdraw'
 import { Product } from '@/types/Product'
+import SymbolIcons from '../tokens/components/SymbolIcons'
+import NetworkIcons from '../shared/NetworkIcons'
 
 type StakeConfirmModalProps = {
   amount: string
@@ -79,9 +78,9 @@ export default function StakeConfirmModal({
                 <div>
                   <span>
                     <span className={'purple'}>{truncateDecimal(amount, 6)}</span>{' '}
-                    <span className={'purple'}>{t('lsd.symbol')}</span>
+                    <span className={'purple'}>{product.symbol}</span>
                   </span>
-                  <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
+                  <SymbolIcons productSymbol={product.symbol} size={32} />
                 </div>
               </ContainerPayment>
               <ContainerPayment>
@@ -93,7 +92,7 @@ export default function StakeConfirmModal({
                       withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
                     }`}</span>{' '}
                   </span>
-                  <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
+                  <NetworkIcons network='ethereum' size={32} />
                 </div>
               </ContainerPayment>
             </>
@@ -105,7 +104,7 @@ export default function StakeConfirmModal({
                   <span>
                     <span>{truncateDecimal(amount, 6)}</span> <span>{t('eth.symbol')}</span>
                   </span>
-                  <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
+                  <NetworkIcons network='ethereum' size={32} />
                 </div>
               </ContainerPayment>
               <ContainerPayment>
@@ -113,9 +112,9 @@ export default function StakeConfirmModal({
                 <div>
                   <span>
                     <span className={'purple'}>{truncateWei(youReceive, 6)}</span>
-                    <span className={'purple'}> {t('lsd.symbol')}</span>
+                    <span className={'purple'}> {product.symbol}</span>
                   </span>
-                  <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
+                  <SymbolIcons productSymbol={product.symbol} size={32} />
                 </div>
               </ContainerPayment>
             </>
