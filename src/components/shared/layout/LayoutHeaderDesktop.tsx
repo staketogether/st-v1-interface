@@ -77,7 +77,6 @@ const {
   MenuButton,
   InvestIcon,
   ProjectsIcon,
-  AnalyticsIcon,
   CreateProjectIcon
 } = {
   Container: styled.header`
@@ -165,9 +164,6 @@ const {
     font-size: 15px;
   `,
   CreateProjectIcon: styled(PiPencilSimpleLine)`
-    font-size: 15px;
-  `,
-  AnalyticsIcon: styled(PiChartLine)`
     font-size: 15px;
   `
 }

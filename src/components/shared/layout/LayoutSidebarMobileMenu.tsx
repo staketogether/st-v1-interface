@@ -12,7 +12,6 @@ import { ProjectButton } from '../../project/ProjectButton'
 import { useRouter } from 'next/router'
 import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
-import Link from 'next/link'
 import useActiveRoute from '@/hooks/useActiveRoute'
 import { productList } from '@/config/product'
 type LayoutSidebarMobileMenuProps = {
