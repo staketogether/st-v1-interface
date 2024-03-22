@@ -7,7 +7,7 @@ import useResizeView from '@/hooks/useResizeView'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiChartLine, PiCodesandboxLogo, PiCurrencyEth, PiPencilSimpleLine } from 'react-icons/pi'
+import { PiCodesandboxLogo, PiCurrencyEth, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -77,7 +77,6 @@ const {
   MenuButton,
   InvestIcon,
   ProjectsIcon,
-  AnalyticsIcon,
   CreateProjectIcon
 } = {
   Container: styled.header`
@@ -165,9 +164,6 @@ const {
     font-size: 15px;
   `,
   CreateProjectIcon: styled(PiPencilSimpleLine)`
-    font-size: 15px;
-  `,
-  AnalyticsIcon: styled(PiChartLine)`
     font-size: 15px;
   `
 }

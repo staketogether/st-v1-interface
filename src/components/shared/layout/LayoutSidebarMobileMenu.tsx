@@ -6,14 +6,12 @@ import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import useResizeView from '@/hooks/useResizeView'
 import packageData from '../../../../package.json'
 import { Drawer } from 'antd'
-import { PiArrowSquareOut, PiCaretRight, PiChartLine, PiPencilSimpleLine } from 'react-icons/pi'
+import { PiArrowSquareOut, PiCaretRight, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import { ProjectButton } from '../../project/ProjectButton'
 import { useRouter } from 'next/router'
 import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
-import Link from 'next/link'
-import useActiveRoute from '@/hooks/useActiveRoute'
 import { productList } from '@/config/product'
 type LayoutSidebarMobileMenuProps = {
   account?: `0x${string}`
@@ -30,9 +28,7 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
     locale: 'en-US'
   })
   const { screenWidth, breakpoints } = useResizeView()
-  const { isActive } = useActiveRoute()
-  const { query, isReady, pathname, locale } = useRouter()
-  const { currency, network } = query as { currency: string; network: string }
+  const { locale } = useRouter()
 
   const date = new Date()
   const { blockExplorer, isTestnet } = chainConfig()
@@ -46,10 +42,6 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
       ? globalConfig.stakeTogetherUniversityUrlEn
       : globalConfig.stakeTogetherUniversityUrlBr
     : globalConfig.stakeTogetherUniversityUrlEn
-
-  const basePath = `/[network]/[currency]`
-  const withdrawBasePath = `/[network]/[currency]/withdraw`
-  const isHome = (pathname === basePath || pathname === withdrawBasePath) && isReady
 
   return (
     <>
@@ -114,7 +106,6 @@ const {
   CloseSidebar,
   ClosedSidebarButton,
   TopContainer,
-  AnalyticsIcon,
   FooterContainer
 } = {
   DrawerContainer: styled(Drawer)`
@@ -242,8 +233,5 @@ const {
         padding-top: 4px;
       }
     }
-  `,
-  AnalyticsIcon: styled(PiChartLine)`
-    font-size: 15px;
   `
 }

@@ -1,10 +1,8 @@
-import chainConfig from '@/config/chain'
 import styled from 'styled-components'
 import packageData from '../../../../package.json'
 import { globalConfig } from '../../../config/global'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import { useRouter } from 'next/router'
-import { getContractsByProductName } from '@/config/product'
 
 export default function LayoutFooter() {
   const date = new Date()
