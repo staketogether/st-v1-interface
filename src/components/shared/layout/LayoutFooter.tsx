@@ -8,8 +8,6 @@ import { getContractsByProductName } from '@/config/product'
 
 export default function LayoutFooter() {
   const date = new Date()
-  const { blockExplorer, isTestnet } = chainConfig()
-  const { StakeTogether } = getContractsByProductName({ productName: 'ethereum-stake', isTestnet })
   const { websiteUrl, auditUrl } = globalConfig
   const router = useRouter()
 
