@@ -8,8 +8,6 @@ import { getContractsByProductName } from '@/config/product'
 
 export default function LayoutFooter() {
   const date = new Date()
-  const { blockExplorer, isTestnet } = chainConfig()
-  const { StakeTogether } = getContractsByProductName({ productName: 'ethereum-stake', isTestnet })
   const { websiteUrl, auditUrl } = globalConfig
   const router = useRouter()
 
@@ -26,11 +24,6 @@ export default function LayoutFooter() {
         <div>
           <span>{`v${packageData.version}`}</span>
         </div>
-        <span>
-          <a href={`${blockExplorer.baseUrl}/address/${StakeTogether}`} target='_blank'>
-            {t('footer.smartContract')}
-          </a>
-        </span>
         <span>
           <a href={auditUrl} target='_blank'>
             {t('footer.audit')}

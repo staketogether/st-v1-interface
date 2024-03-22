@@ -620,11 +620,11 @@
     },
     "tokens": {
       "title": "Produtos de Staking",
-      "description": "Invista nos melhores produtos de renda passiva para criptomoedas"
+      "description": "Invista em produtos de tecnologia de infraestrutura de ponta baseados em staking de criptomoedas.\n"
     },
     "products": {
       "ethereum-stake": "Staking de Ethereum",
-      "ethereum-restaking": "ReStaking de Ethereum ",
+      "ethereum-restaking": "Restaking de Ethereum ",
       "celestia": "Staking de Celestia",
       "polygon": "Staking de Polygon ",
       "solana": "Staking de Solana",
@@ -643,7 +643,7 @@
     },
     "ramp": {
       "title": "Comprar ETH com PIX",
-      "success": "Deposito concluido com sucesso!",
+      "success": "Depósito concluído com sucesso",
       "checkOut": "Check out",
       "processingRegistration": "Processando Cadastro",
       "processingPayment": "Processando Pagamento",
@@ -656,7 +656,7 @@
       "orUseThePixKey": "Ou use a Chave Pix",
       "cancelDeposit": "Cancelar Depósito",
       "copyQrCode": "Copiar código do QR Code",
-      "yourEths": "Seus ETH já estão disponível na sua conta!",
+      "yourEths": "Seus ETH já estão disponível na sua conta",
       "exchange": "Câmbio",
       "networkFee": "Taxa de rede",
       "serviceCharge": "Taxa de serviço",

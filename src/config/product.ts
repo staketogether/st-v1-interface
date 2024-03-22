@@ -55,7 +55,7 @@ export const productList: Product[] = [
     id: 2,
     name: 'ethereum-restaking',
     title: 'Restaking',
-    symbol: 'stpRETH',
+    symbol: 'strETH',
     networkAvailable: 'optimism-sepolia',
     eigenPointsAvailable: true,
     networks: [

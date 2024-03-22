@@ -49,7 +49,7 @@ export default function BuyEthControlModal() {
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
   const titleList: { [key: string]: string } = {
     Success: t('v2.ramp.provider'),
-    MethodPayment: t('v2.ramp.provider')
+    MethodPayment: t('v2.ramp.success')
   }
   const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title')
   const { backendUrl } = globalConfig

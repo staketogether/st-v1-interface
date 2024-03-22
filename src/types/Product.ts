@@ -36,7 +36,7 @@ export type Airdrop =
 
 export type ProductSymbol =
   | 'stpETH'
-  | 'stpRETH'
+  | 'strETH'
   | 'stpPOL'
   | 'stpSOL'
   | 'stpTIA'
