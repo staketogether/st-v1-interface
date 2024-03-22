@@ -683,6 +683,8 @@
       "networkAvailable": "Available on",
       "myRewardsPoints": "My Rewards Points",
       "highestValueWeeks": "Highest Value in the Last 52 Weeks",
+      "eigenPointTooltip": "When staking you accumulate staking points in the Eigen Layer protocol that will launch a token in the future and you will be able to receive part of this launch.",
+      "togetherPoints": "When staking you accumulate staking points in the Stake Together protocol which will launch a token in the future and you can receive part of this launch",
       "actions": {
         "invest": "Invest",
         "withdraw": "Withdraw",

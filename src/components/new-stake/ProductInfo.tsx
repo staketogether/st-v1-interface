@@ -71,22 +71,14 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
             <span>{t('v2.ethereumStaking.myRewardsPoints')}</span>
 
             {product.eigenPointsAvailable && (
-              <Tooltip
-                title={
-                  'Ao fazer Staking você acumula pontos de Staking no protocolo Eigen Layer que futuramente vai lançar token e você pode receber parte desse lançamento.'
-                }
-              >
+              <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
                 <TagPointsContainer>
                   Eigen
                   <div>0.0</div>
                 </TagPointsContainer>
               </Tooltip>
             )}
-            <Tooltip
-              title={
-                'Ao fazer Staking você acumula pontos de Staking no protocolo Stake Together que futuramente vai lançar token e você pode receber parte desse lançamento.'
-              }
-            >
+            <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
               <TagPointsContainer className='purple'>
                 Together
                 <div>0.0</div>

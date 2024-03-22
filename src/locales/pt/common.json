@@ -707,6 +707,8 @@
       "networkAvailable": "Disponível em",
       "myRewardsPoints": "Meus Pontos de Recompensa",
       "highestValueWeeks": "Maior Valor em 52 semanas",
+      "eigenPointTooltip": "Ao fazer Staking você acumula pontos de Staking no protocolo Eigen Layer que futuramente vai lançar token e você poderá receber parte desse lançamento.",
+      "togetherPoints": "Ao fazer Staking você acumula pontos de Staking no protocolo Stake Together que futuramente vai lançar token e você pode receber parte desse lançamento.",
       "actions": {
         "invest": "Investir",
         "withdraw": "Resgatar",
