@@ -2,15 +2,15 @@ import TradingViewComponent from '@/components/shared/TradingViewComponent'
 import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { capitalize, truncateAddress } from '@/services/truncate'
+import { capitalize } from '@/services/truncate'
 import { Product, ProductMarketAssetData } from '@/types/Product'
-import { PiCopy } from 'react-icons/pi'
+
 import styled from 'styled-components'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import SymbolIcons from '../tokens/components/SymbolIcons'
-import { Tooltip } from 'antd'
+import { Tooltip, notification } from 'antd'
 import NetworkIcons from '../shared/NetworkIcons'
-import { useCopyToClipboard } from 'usehooks-ts'
+import { PiCopy } from 'react-icons/pi'
 
 type ProductInfoProps = {
   product: Product
@@ -21,7 +21,14 @@ type ProductInfoProps = {
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
   const { isTestnet } = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
-  const [copiedText, copyToClipboard] = useCopyToClipboard()
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText(stakeTogetherContractAddress)
+    notification.success({
+      message: `${t('addressCopiedToClipboard')}`,
+      placement: 'topRight'
+    })
+  }
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
   const stakeTogetherContractAddress = !isTestnet
@@ -113,8 +120,8 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
 
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.contractAddress')}</h2>
-        <span className='copy'>
-          {copyToClipboard(truncateAddress(stakeTogetherContractAddress))} <PiCopy style={{ fontSize: 16 }} />
+        <span className='copy' onClick={copyToClipboard}>
+          {stakeTogetherContractAddress} <PiCopy style={{ fontSize: 16 }} />
         </span>
       </ProductBodyContainer>
     </ProductContainer>
