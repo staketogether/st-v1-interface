@@ -666,7 +666,7 @@
       "creditCard": "Cartão de crédito",
       "kyc": {
         "title": "KYC - Conheça seu Cliente",
-        "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Clique no botão abaixo para começar.",
+        "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Preencha o formulário abaixo para começar.",
         "level": "Nível KYC",
         "limit": "Limite",
         "availableLimit": "Limite disponível",
