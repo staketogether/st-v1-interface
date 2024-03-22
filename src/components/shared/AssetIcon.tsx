@@ -21,7 +21,7 @@ type SymbolIconsProps = {
 export default function AssetIcon({ assetIcon, size, networkIcon }: SymbolIconsProps) {
   const assetSymbolIcons = {
     stpETH: stIcon,
-    stpRETH: stpRETHIcon,
+    strETH: stpRETHIcon,
     stpPOL: stIcon,
     stpSOL: stIcon,
     stpTIA: stIcon,

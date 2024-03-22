@@ -4,7 +4,7 @@ import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize, truncateAddress } from '@/services/truncate'
 import { Product, ProductMarketAssetData } from '@/types/Product'
-import { PiCopy, PiQuestion } from 'react-icons/pi'
+import { PiCopy } from 'react-icons/pi'
 import styled from 'styled-components'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import SymbolIcons from '../tokens/components/SymbolIcons'
@@ -59,21 +59,30 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
             </div>
           </SymbolContainer>
           <RewardsPointsContainer>
-            <Tooltip title={'symbol'}>
-              <span>
-                {t('v2.ethereumStaking.myRewardsPoints')} <QuestionIcon />
-              </span>
-            </Tooltip>
+            <span>{t('v2.ethereumStaking.myRewardsPoints')}</span>
+
             {product.eigenPointsAvailable && (
-              <TagPointsContainer>
-                Eigen
+              <Tooltip
+                title={
+                  'Ao fazer Staking você acumula pontos de Staking no protocolo Eigen Layer que futuramente vai lançar token e você pode receber parte desse lançamento.'
+                }
+              >
+                <TagPointsContainer>
+                  Eigen
+                  <div>0.0</div>
+                </TagPointsContainer>
+              </Tooltip>
+            )}
+            <Tooltip
+              title={
+                'Ao fazer Staking você acumula pontos de Staking no protocolo Stake Together que futuramente vai lançar token e você pode receber parte desse lançamento.'
+              }
+            >
+              <TagPointsContainer className='purple'>
+                Together
                 <div>0.0</div>
               </TagPointsContainer>
-            )}
-            <TagPointsContainer className='purple'>
-              Together
-              <div>0.0</div>
-            </TagPointsContainer>
+            </Tooltip>
           </RewardsPointsContainer>
         </HeaderDescribeInfo>
       </header>
@@ -118,7 +127,6 @@ const {
   HeaderProduct,
   HeaderDescribeInfo,
   RewardsPointsContainer,
-  QuestionIcon,
   StatisticContainer
 } = {
   ProductContainer: styled.div`
@@ -260,14 +268,6 @@ const {
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[8]};
-    }
-  `,
-  QuestionIcon: styled(PiQuestion)`
-    font-size: ${({ theme }) => theme.font.size[16]};
-    color: ${({ theme }) => theme.colorV2.gray[1]};
-    cursor: pointer;
-    &:hover {
-      color: ${({ theme }) => theme.color.secondary};
     }
   `,
   TagPointsContainer: styled.div`
