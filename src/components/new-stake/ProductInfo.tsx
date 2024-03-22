@@ -10,6 +10,7 @@ import NetworkProductIcons from '../tokens/components/StakingIcons'
 import SymbolIcons from '../tokens/components/SymbolIcons'
 import { Tooltip } from 'antd'
 import NetworkIcons from '../shared/NetworkIcons'
+import { useCopyToClipboard } from 'usehooks-ts'
 
 type ProductInfoProps = {
   product: Product
@@ -20,6 +21,7 @@ type ProductInfoProps = {
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
   const { isTestnet } = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
+  const [copiedText, copyToClipboard] = useCopyToClipboard()
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
   const stakeTogetherContractAddress = !isTestnet
@@ -112,7 +114,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.contractAddress')}</h2>
         <span className='copy'>
-          {truncateAddress(stakeTogetherContractAddress)} <PiCopy style={{ fontSize: 16 }} />
+          {copyToClipboard(truncateAddress(stakeTogetherContractAddress))} <PiCopy style={{ fontSize: 16 }} />
         </span>
       </ProductBodyContainer>
     </ProductContainer>
