@@ -17,7 +17,7 @@ const handleRpcPerChain = (chainId: number) => {
 }
 
 const { chains, publicClient } = configureChains(
-  [mainnet, optimismSepolia, holesky],
+  [optimismSepolia, holesky, mainnet],
   [
     jsonRpcProvider({
       rpc: chain => ({

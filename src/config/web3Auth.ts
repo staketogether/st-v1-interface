@@ -8,11 +8,21 @@ import stSymbol from '@assets/st-symbol.svg'
 
 const iconUrl = stSymbol
 
+const handleRpcPerChain = (chainId: number) => {
+  const alchemyKey: { [key: number]: string } = {
+    1: process.env.NEXT_PUBLIC_RPC_MAINNET_URL as string,
+    17000: process.env.NEXT_PUBLIC_RPC_HOLESKY_URL as string,
+    11155420: process.env.NEXT_PUBLIC_RPC_OPTIMIST_SEPOLIA_URL as string
+  }
+
+  return alchemyKey[chainId] || ''
+}
+
 export default function Web3AuthConnectorInstance(chains: ChainConfig.Chain[]) {
   const chainConfig = {
     chainNamespace: CHAIN_NAMESPACES.EIP155,
     chainId: '0x' + chains[0].id.toString(16),
-    rpcTarget: chains[0].rpcUrls.default.http[0],
+    rpcTarget: handleRpcPerChain(chains[0].id),
     displayName: chains[0].name,
     tickerName: chains[0].nativeCurrency?.name,
     ticker: chains[0].nativeCurrency?.symbol,
