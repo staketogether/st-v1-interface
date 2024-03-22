@@ -306,7 +306,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceInvestmentContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='stpRETH' networkIcon='optimism' size={24} />
+                    <AssetIcon assetIcon='strETH' networkIcon='optimism' size={24} />
                   </div>
                   <div>
                     <span>{`stpRETH`}</span>
