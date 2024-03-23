@@ -24,9 +24,10 @@ export default function EthereumProjectSelect({
     status: 'approved',
     pagination: { first: 100, skip: 0 }
   })
-  console.log(projectList.find(project => project.wallet === '0xd55763a34dd2a2ef3c26512c6e0f7dbd00923480'))
+
   const projectListMapped = projectList.map(project => ({
     value: project.wallet,
+    filterValue: project.name,
     label: (
       <SelectOption>
         <CommunityLogo src={project.logo.url} alt={project.logo.fileName} loading={initialLoading} />
@@ -50,9 +51,17 @@ export default function EthereumProjectSelect({
         <Select
           defaultValue={poolDelegatedSelected}
           onChange={handleDelegationChange}
+          showSearch
           value={poolDelegatedSelected}
           style={{ width: '100%', height: 42 }}
           options={projectListMapped}
+          optionFilterProp='children'
+          filterOption={(input, option) => (option?.filterValue ?? '').includes(input)}
+          filterSort={(optionA, optionB) => {
+            return (optionA?.filterValue ?? '')
+              .toLowerCase()
+              .localeCompare((optionB?.filterValue ?? '').toLowerCase())
+          }}
         />
       )}
     </Container>

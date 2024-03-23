@@ -200,7 +200,7 @@ export default function EthereumDeposit({
             }}
             type={type}
             product={product}
-            hasError={cantDeposit}
+            hasError={cantDeposit && Number(amount) > 0}
             balance={ethBalance}
             balanceLoading={ethBalanceLoading}
             onMaxFunction={handleInputMaxValue}
