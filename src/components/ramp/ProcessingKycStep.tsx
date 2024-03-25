@@ -29,7 +29,7 @@ export default function ProcessingKycStep() {
   const { buyRampResponse, isError: isErrorBuyRamp } = useBuyRamp('brla', rampData)
   const kycActivity = useReactiveVar(kycIdVar)
   const kyc = useReactiveVar(kycLevelVar)
-  const kycActivityId = kyc?.level && kycActivity ? undefined : kycActivity
+  const kycActivityId = Number(kyc?.level) > 0 && kycActivity ? undefined : kycActivity
   const { activity, isError } = useVerifyActivity(ProviderType.brla, kycActivityId ?? undefined)
   const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc ? undefined : address)
 
@@ -45,7 +45,7 @@ export default function ProcessingKycStep() {
   }
 
   useEffect(() => {
-    if (address && quote && (kyc?.level || activity?.status === 'success')) {
+    if (address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success')) {
       setRampData({
         chainId: 1,
         paymentMethod: PaymentMethodType.pix,
@@ -84,7 +84,7 @@ export default function ProcessingKycStep() {
       disable: !kycActivityId
     },
     {
-      icon: activity?.status === 'success' ? getIcon('success') : getIcon(kycActivityId ? 'process' : 'waiting'),
+      icon: activity?.status === 'success' ? getIcon('success') : getIcon(Number(kyc?.level) > 0 ? 'process' : 'waiting'),
       text: t('v2.ramp.generatingQRCode'),
       disable: activity?.status !== 'success'
     }
