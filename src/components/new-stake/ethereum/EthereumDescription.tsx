@@ -1,10 +1,15 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Product } from '@/types/Product'
 import { Tooltip } from 'antd'
 import React from 'react'
 import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 
-export default function EthereumDescription() {
+type EthereumDescriptionProps = {
+  product: Product
+}
+
+export default function EthereumDescription({ product }: EthereumDescriptionProps) {
   const { t } = useLocaleTranslation()
   return (
     <DescriptionContainer>
@@ -19,7 +24,7 @@ export default function EthereumDescription() {
         </div>
         <div>
           <span className='purple'>1 ETH = </span>
-          <span className='blue'> 1 stpETH</span>
+          <span className='blue'>{`1 ${product.symbol}`}</span>
         </div>
       </div>
     </DescriptionContainer>

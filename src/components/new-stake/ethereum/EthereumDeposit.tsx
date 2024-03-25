@@ -52,7 +52,7 @@ export default function EthereumDeposit({
 
   const { name, isTestnet } = chainConfigByChainId(chainId)
   const stakeTogetherPool = product.stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet']
-  console.log(stakeTogetherPool.toLocaleLowerCase())
+
   const [poolDelegatedSelected, setPoolDelegatedSelected] = useState<`0x${string}`>(stakeTogetherPool)
   const { t } = useLocaleTranslation()
   const { locale, push, pathname, query } = useRouter()
@@ -221,6 +221,7 @@ export default function EthereumDeposit({
           isActivatedDelegation={isActivatedDelegation}
           onChange={e => handleSwitchDelegation(e)}
           poolDelegatedSelected={poolDelegatedSelected}
+          chainId={chainId}
           handleDelegationChange={project => {
             handleAddProjectOnRoute(project)
           }}
@@ -244,7 +245,7 @@ export default function EthereumDeposit({
             icon={<ConnectWalletIcon />}
           />
         )}
-        <EthereumDescription />
+        <EthereumDescription product={product} />
       </Container>
       <StakeConfirmModal
         amount={amount}

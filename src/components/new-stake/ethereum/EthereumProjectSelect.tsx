@@ -1,5 +1,7 @@
 import CommunityLogo from '@/components/shared/community/CommunityLogo'
 import CommunityName from '@/components/shared/community/CommunityName'
+import { chainConfigByChainId } from '@/config/chain'
+import { productList } from '@/config/product'
 import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Select, Switch, Tooltip } from 'antd'
@@ -11,18 +13,26 @@ type EthereumProjectSelectProps = {
   onChange: (checked: boolean) => void
   poolDelegatedSelected: `0x${string}`
   handleDelegationChange: (value: `0x${string}`) => void
+  chainId: number
 }
 
 export default function EthereumProjectSelect({
   isActivatedDelegation,
   onChange,
   poolDelegatedSelected,
-  handleDelegationChange
+  handleDelegationChange,
+  chainId
 }: EthereumProjectSelectProps) {
   const { t } = useLocaleTranslation()
+  const { isTestnet } = chainConfigByChainId(chainId)
+  const stakeTogetherPools = productList.map(
+    product => product.stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet']
+  )
+
   const { projectList, initialLoading } = useContentfulProjectListByStatus({
     status: 'approved',
-    pagination: { first: 100, skip: 0 }
+    pagination: { first: 100, skip: 0 },
+    excludeProjectAddress: stakeTogetherPools
   })
 
   const projectListMapped = projectList.map(project => ({

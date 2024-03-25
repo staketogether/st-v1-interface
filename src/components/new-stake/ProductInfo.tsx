@@ -240,7 +240,7 @@ const {
       line-height: 1.5rem;
 
       &.valueItem {
-        font-size: 18px;
+        font-size: 16px;
         color: ${({ theme }) => theme.colorV2.gray[1]};
         opacity: 1;
       }
