@@ -1,5 +1,5 @@
 import { useStakeTogetherGetWithdrawBlock } from '@/types/Contracts'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useBlockCountdown from '../useBlockCountdown'
 import { Product } from '@/types/Product'
 import { chainConfigByChainId } from '@/config/chain'
@@ -21,14 +21,17 @@ export default function useGetWithdrawBlock({
   const { isTestnet } = chainConfigByChainId(chainId)
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
 
-  const { isFetching, refetch } = useStakeTogetherGetWithdrawBlock({
+  const { isFetching, refetch, data } = useStakeTogetherGetWithdrawBlock({
     address: StakeTogether,
     enabled: !!walletAddress && enabled,
     ...(walletAddress && { args: [walletAddress] }),
-    onSuccess: data => {
-      setWithdrawBlock(data)
-    }
   })
+
+  useEffect(() => {
+    if (data) {
+      setWithdrawBlock(data as bigint)
+    }
+  }, [data])
 
   const timeLeft = useBlockCountdown(Number(withdrawBlock), chainId) || 0
 

@@ -13,7 +13,7 @@ import { truncateWei } from '@/services/truncate'
 import { Product } from '@/types/Product'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
-import { useWaitForTransaction } from 'wagmi'
+import { useWaitForTransactionReceipt as useWaitForTransaction } from 'wagmi'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import {

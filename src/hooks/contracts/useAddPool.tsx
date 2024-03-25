@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import chainConfig from '../../config/chain'
 import { usePrepareStakeTogetherAddPool, useStakeTogetherAddPool } from '@/types/Contracts'
-import { useWaitForTransaction } from 'wagmi'
+import { useWaitForTransactionReceipt as useWaitForTransaction } from 'wagmi'
 import { notification } from 'antd'
 import useLocaleTranslation from '../useLocaleTranslation'
 import { getContractsByProductName } from '@/config/product'

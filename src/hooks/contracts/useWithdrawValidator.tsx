@@ -2,7 +2,7 @@ import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
-import { useWaitForTransaction } from 'wagmi'
+import { useWaitForTransactionReceipt as useWaitForTransaction } from 'wagmi'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 
