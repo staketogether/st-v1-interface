@@ -29,7 +29,7 @@ export default function ProcessingKycStep() {
   const { buyRampResponse, isError: isErrorBuyRamp } = useBuyRamp('brla', rampData)
   const kycActivity = useReactiveVar(kycIdVar)
   const kyc = useReactiveVar(kycLevelVar)
-  const kycActivityId = Number(kyc?.level) > 0 && kycActivity ? undefined : kycActivity
+  const kycActivityId = kyc !== undefined || Number(kyc?.level) === 0 || !kycActivity ? undefined : kycActivity
   const { activity, isError } = useVerifyActivity(ProviderType.brla, kycActivityId ?? undefined)
   const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc ? undefined : address)
 
