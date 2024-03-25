@@ -311,7 +311,7 @@ export default function EthereumWithdraw({
           </CardBlock>
         )}
 
-        <EthereumDescription />
+        <EthereumDescription product={product} />
       </Container>
       <StakeConfirmModal
         amount={amount}
