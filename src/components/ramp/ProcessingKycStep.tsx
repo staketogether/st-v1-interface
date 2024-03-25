@@ -84,7 +84,7 @@ export default function ProcessingKycStep() {
       disable: !kycActivityId
     },
     {
-      icon: activity?.status === 'success' ? getIcon('success') : getIcon(Number(kyc?.level) > 0 ? 'process' : 'waiting'),
+      icon: activity?.status === 'success' ? getIcon('success') : getIcon(Number(kyc ? kyc?.level : 0) > 0 ? 'process' : 'waiting'),
       text: t('v2.ramp.generatingQRCode'),
       disable: activity?.status !== 'success'
     }
