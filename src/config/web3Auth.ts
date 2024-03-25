@@ -1,11 +1,10 @@
-import { Web3AuthConnector } from "@web3auth/web3auth-wagmi-connector";
-import { Web3AuthNoModal } from "@web3auth/no-modal";
-import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
-import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
-import { CHAIN_NAMESPACES, UX_MODE } from "@web3auth/base";
-import { Chain } from "wagmi/chains";
+import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
+import { Web3AuthNoModal } from '@web3auth/no-modal'
+import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider'
+import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
 import stSymbol from '@assets/st-symbol.svg'
-import { CreateConnectorFn } from 'wagmi'
+import { CHAIN_NAMESPACES, UX_MODE, WEB3AUTH_NETWORK } from '@web3auth/base'
+import * as ChainConfig from 'viem/chains'
 
 const iconUrl = stSymbol
 
@@ -20,7 +19,7 @@ const handleRpcPerChain = (chainId: number) => {
   return alchemyKey[chainId] || ''
 }
 
-export default function Web3AuthConnectorInstances({chains}:{chains: [Chain, ...Chain[]]}): CreateConnectorFn[] {
+export default function Web3AuthConnectorInstances(chains: ChainConfig.Chain[]) {
   const chainConfig = {
     chainNamespace: CHAIN_NAMESPACES.EIP155,
     chainId: '0x' + chains[0].id.toString(16),
@@ -31,18 +30,18 @@ export default function Web3AuthConnectorInstances({chains}:{chains: [Chain, ...
     blockExplorer: chains[0].blockExplorers?.default.url[0] as string
   }
 
-  const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } });
+  const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } })
 
   const web3AuthInstance = new Web3AuthNoModal({
     clientId: chains[0].testnet
       ? String(process.env.NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID)
       : String(process.env.NEXT_PUBLIC_WEB3_AUTH_ID),
     privateKeyProvider,
-    web3AuthNetwork: chains[0].testnet ? 'sapphire_devnet' : 'sapphire_mainnet'
+    web3AuthNetwork: chains[0].testnet ? WEB3AUTH_NETWORK.SAPPHIRE_DEVNET : WEB3AUTH_NETWORK.SAPPHIRE_MAINNET
   })
 
   const openloginAdapterInstance = new OpenloginAdapter({
-    web3AuthNetwork: chains[0].testnet ? 'testnet' : 'mainnet',
+    web3AuthNetwork: chains[0].testnet ? WEB3AUTH_NETWORK.SAPPHIRE_DEVNET : WEB3AUTH_NETWORK.SAPPHIRE_MAINNET,
     adapterSettings: {
       uxMode: UX_MODE.REDIRECT,
       whiteLabel: {
@@ -54,21 +53,21 @@ export default function Web3AuthConnectorInstances({chains}:{chains: [Chain, ...
   })
   web3AuthInstance.configureAdapter(openloginAdapterInstance)
 
-  const googleConnector: CreateConnectorFn = new Web3AuthConnector({
+  const googleConnector = Web3AuthConnector({
     web3AuthInstance,
     loginParams: {
       loginProvider: 'google'
     }
   })
 
-  const facebookConnector: CreateConnectorFn = new Web3AuthConnector({
+  const facebookConnector = Web3AuthConnector({
     web3AuthInstance,
     loginParams: {
       loginProvider: 'facebook'
     }
   })
 
-  const appleConnector: CreateConnectorFn = new Web3AuthConnector({
+  const appleConnector = Web3AuthConnector({
     web3AuthInstance,
     loginParams: {
       loginProvider: 'apple'

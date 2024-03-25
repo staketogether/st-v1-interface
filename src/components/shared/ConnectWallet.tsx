@@ -1,9 +1,10 @@
+import { config } from '@/config/wagmi'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
-import { capitalize } from '@/services/truncate'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
+import Image from 'next/image'
 
 type ConnectWalletProps = {
   useModal?: boolean
@@ -12,7 +13,20 @@ type ConnectWalletProps = {
 export default function ConnectWallet({ useModal: isCreateProject }: ConnectWalletProps) {
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
 
-  const { connect, connectors } = useConnect()
+  const { connect, connectors } = useConnect({
+    config
+  })
+
+  console.log(connectors)
+
+  useEffect(() => {
+    const getProvider2 = async () => {
+      const provider = await connectors[0].getProvider()
+      console.log(provider)
+    }
+    getProvider2()
+  })
+
   const { t } = useLocaleTranslation()
 
   const handleConnectorImage = useWalletProviderImage()
@@ -23,6 +37,15 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
 
   function handlePrivacyPolicyExternalLink() {
     return 'https://university.staketogether.org/en/articles/8646517-privacy-policy'
+  }
+
+  const handleConnectorIndex = (index: number) => {
+    const web3Auth: { [key: number]: string } = {
+      0: 'Google',
+      1: 'Facebook',
+      2: 'Apple'
+    }
+    return web3Auth[index]
   }
 
   return (
@@ -49,18 +72,19 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
       </Terms>
       <ContainerWalletConnect className={`${isCreateProject && 'useModal'}`}>
         {connectors.map((connector, index) => {
-          const walletName =
-            connector.id === 'web3auth'
-              ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                capitalize((connector as any).loginParams.loginProvider)
-              : connector.name
+          const walletName = connector.id === 'web3auth' ? handleConnectorIndex(index) : connector.name
           return (
             <div
               key={connector.id + index}
               className={`${hasAgreeTerms ? '' : 'disabled'}`}
               onClick={() => hasAgreeTerms && connect({ connector })}
             >
-              {handleConnectorImage(walletName)}
+              {connector.icon ? (
+                <Image src={connector.icon} alt={'Safe'} width={28} height={28} />
+              ) : (
+                handleConnectorImage(walletName)
+              )}
+
               {walletName}
             </div>
           )
