@@ -5,6 +5,7 @@ import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
 import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
 import * as ChainConfig from 'viem/chains'
 import stSymbol from '@assets/st-symbol.svg'
+import { TorusWalletConnectorPlugin } from '@web3auth/torus-wallet-connector-plugin'
 
 const iconUrl = stSymbol
 
@@ -40,6 +41,31 @@ export default function Web3AuthConnectorInstance(chains: ChainConfig.Chain[]) {
     }
   })
   web3AuthInstance.configureAdapter(openloginAdapterInstance)
+  const torusPlugin = new TorusWalletConnectorPlugin({
+    torusWalletOpts: {
+      buttonPosition: 'bottom-left',
+      buttonSize: 40
+    },
+    walletInitOptions: {
+      whiteLabel: {
+        theme: {
+          isDark: false,
+          colors: {
+            primary: '#283B8A',
+            torusBrand1: '#283B8A'
+          }
+        },
+        logoDark: iconUrl,
+        logoLight: iconUrl,
+        featuredBillboardHide: true,
+        disclaimerHide: true,
+        defaultLanguage: 'en'
+      },
+      useWalletConnect: true,
+      enableLogging: true
+    }
+  })
+  web3AuthInstance.addPlugin(torusPlugin)
 
   return [
     new Web3AuthConnector({
