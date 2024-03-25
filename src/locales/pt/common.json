@@ -1,7 +1,7 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
-  "addToWalletTooltip": "Adicionar stpETH  a sua carteira",
+  "addToWalletTooltip": "Adicionar o token a sua carteira",
   "save": "Salvar",
   "edit": "Editar",
   "connectWallet": "Conectar Carteira",
@@ -23,6 +23,7 @@
   "delegates": "Delegados",
   "processing": "Processando...",
   "invested": "Investidos",
+  "investedOnProject": "Investido no Projeto",
   "staked": "Em Stake",
   "unstake": "Desfazer Stake",
   "members": "Membros",
@@ -72,6 +73,7 @@
   "knowMore": "Saiba mais",
   "buyCryptoTitle": "Comprar Ether",
   "sellCryptoTitle": "Vender Vender",
+  "genericErrorMessage": "Desculpa! Algum coisa deu errado Tente novamente",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -277,7 +279,7 @@
         "rewardsTooltip": "Recompensas geradas pelo staking de ethereum."
       },
       "statistics": "Status do Protocolo",
-      "minAmount": "Deposito minimo",
+      "minAmount": "Depósito minimo",
       "minWithdraw": "Saque minimo",
       "apy": "Rendimento anual",
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
@@ -336,7 +338,8 @@
         "PoolNotFound": "Pool Não Encontrado",
         "ZeroAmount": "Suprimento Zero",
         "insufficientGasBalance": "Saldo Insuficiente para o Gás",
-        "useMaxButton": "Utilize o botão Max"
+        "useMaxButton": "Utilize o botão Max",
+        "Panic": "Erro interno"
       }
     },
     "activities": {
@@ -468,7 +471,9 @@
         "twitter": "Twitter inválido",
         "site": "URL do site inválido",
         "youtube": "Insira um URL de vídeo válido do YouTube",
-        "youtubeChanel": "Insira um canal válido do YouTube"
+        "youtubeChanel": "Insira um canal válido do YouTube",
+        "invalidCpf": "CPF inválido",
+        "invalidBirthday": "Data de aniversário inválida"
       },
       "messages": {
         "success": "Projeto cadastrado com sucesso",
@@ -615,29 +620,99 @@
       }
     },
     "tokens": {
-      "title": "Investir",
-      "products": {
-        "name": "Nome",
-        "token": "Token",
-        "apy": "APY",
-        "networks": "Redes",
-        "airdrops": "Airdrops"
-      }
+      "title": "Produtos de Staking",
+      "description": "Invista nos melhores produtos de renda passiva para criptomoedas"
     },
     "products": {
-      "ethereum": "Staking de Ethereum",
-      "restaking": "ReStaking de Ethereum ",
+      "ethereum-stake": "Staking de Ethereum",
+      "ethereum-restaking": "ReStaking de Ethereum ",
       "celestia": "Staking de Celestia",
       "polygon": "Staking de Polygon ",
       "solana": "Staking de Solana",
       "cosmos": "Staking de Cosmos",
       "near": "Staking de Near ",
-      "polkadot": "Staking de Polkadot"
+      "polkadot": "Staking de Polkadot",
+      "productNotAvailable": "Produto Indisponivel",
+      "bitcoin": "Staking de Bitcoin",
+      "chiliz": "Staking de Chiliz"
     },
     "notifyBar": {
       "incentives": {
         "title": "Novidade Stake Together",
         "description": "Airdrop de Incentivos já está disponível em sua carteira. Verifique sua elegibilidade e aproveite os benefícios agora!"
+      }
+    },
+    "ramp": {
+      "title": "Comprar ETH com PIX",
+      "success": "Depósito concluído com sucesso",
+      "checkOut": "Check out",
+      "processingRegistration": "Processando Cadastro",
+      "processingPayment": "Processando Pagamento",
+      "generatingQRCode": "Gerando QR Code",
+      "paymentIdentified": "Pagamento identificado",
+      "mintingBRLA": "Mintagem BRLA na Blockchain",
+      "swapBrlToEth": "Swap  BRLA para ETH",
+      "amountToBePaid": "Valor a ser pago",
+      "useThePixQRCode": "Use o QR Code do Pix para pagar",
+      "orUseThePixKey": "Ou use a Chave Pix",
+      "cancelDeposit": "Cancelar Depósito",
+      "copyQrCode": "Copiar código do QR Code",
+      "yourEths": "Seus ETH já estão disponível na sua conta",
+      "exchange": "Câmbio",
+      "networkFee": "Taxa de rede",
+      "serviceCharge": "Taxa de serviço",
+      "youReceived": "Você recebeu",
+      "copyCodeSuccess": "código copiado com sucesso",
+      "provider": "Escolha sua forma de pagamento",
+      "creditCard": "Cartão de crédito",
+      "kyc": {
+        "title": "KYC - Conheça seu Cliente",
+        "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Preencha o formulário abaixo para começar.",
+        "level": "Nível KYC",
+        "limit": "Limite",
+        "availableLimit": "Limite disponível",
+        "typeAccount": "Tipo de conta",
+        "fullName": "Nome Completo",
+        "namePlaceholder": "Insira seu nome igual ao do seu documento",
+        "emailPlaceholder": "Insira seu e-mail para contato",
+        "companyName": "Nome Social",
+        "birthday": "Data de nascimento",
+        "foundationDate": "Data de fundação",
+        "processTime": "Esse processo pode levar até 1 minuto",
+        "info": "KYC: Conheça Seu Cliente. Um processo para verificar a identidade do cliente, prevenindo fraudes e garantindo transações seguras."
+      },
+      "quote": {
+        "title": "Compre Ethereum direto via PIX",
+        "updateQuote": "Preço atualiza em",
+        "terms": "Ao continuar você concorda com nossas",
+        "policies": "políticas",
+        "requiredKyc": "Necessário o cadastro de KYC",
+        "requiredUpdateKyc": "Necessário atualização do cadastro de KYC",
+        "price": "Preço"
+      },
+      "checkout": {
+        "for": "Para",
+        "bank": "Banco",
+        "paymentTime": "Tempo de pagamento",
+        "timeOut": "Infelizmente o seu prazo para efetuar o pagamento expirou!"
+      }
+    },
+    "ethereumStaking": {
+      "title": "Staking de Ethereum",
+      "description": "Descrição",
+      "statistics": "Estatísticas",
+      "ethereumDescription": "Stake Ethereum e ganhe recompensas de staking de Ethereum",
+      "contractAddress": "Endereço do Contrato",
+      "marketCap": "Valor de mercado",
+      "priceChange": "Variaço de preço (1 ano)",
+      "networkAvailable": "Disponível em",
+      "myRewardsPoints": "Meus Pontos de Recompensa",
+      "highestValueWeeks": "Maior Valor em 52 semanas",
+      "actions": {
+        "invest": "Investir",
+        "withdraw": "Resgatar",
+        "operationFee": "Taxa de Operação",
+        "balance": "Saldo"
       }
     }
   }

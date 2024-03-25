@@ -27,7 +27,8 @@ import StakeFormInput from './StakeInput'
 import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
-import useTransak from '@/hooks/useTransak'
+import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import { Product } from '@/types/Product'
 import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckeredDuotone } from 'react-icons/pi'
@@ -39,33 +40,21 @@ import StakeWithdrawCounter from './StakeWithdrawCounter'
 type StakeFormProps = {
   type: 'deposit' | 'withdraw'
   poolAddress: `0x${string}`
+  chainId: number
   accountAddress?: `0x${string}`
+  product: Product
 }
 
-export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps) {
+export function StakeForm({ type, accountAddress, poolAddress, product, chainId }: StakeFormProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
   const {
     balance: ethBalance,
     isLoading: balanceLoading,
     refetch: refetchEthBalance
-  } = useEthBalanceOf(accountAddress)
+  } = useEthBalanceOf({ walletAddress: accountAddress, chainId })
 
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
-
-  const handleRefetchEthBalance = useCallback(() => {
-    refetchEthBalance()
-  }, [refetchEthBalance])
-
-  const { onInit: buyCrypto } = useTransak({
-    onSuccess: handleRefetchEthBalance,
-    productsAvailed: 'BUY'
-  })
-
-  const { onInit: sellCrypto } = useTransak({
-    onSuccess: handleRefetchEthBalance,
-    productsAvailed: 'SELL'
-  })
 
   const {
     delegationBalance,
@@ -75,16 +64,18 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const [withdrawTypeSelected, setWithdrawTypeSelected] = useState(WithdrawType.POOL)
   const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
-    useWithdrawPoolBalance()
-  const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock(
-    accountAddress,
-    withdrawTypeSelected === WithdrawType.POOL
-  )
+    useWithdrawPoolBalance({ product, chainId })
+  const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock({
+    walletAddress: accountAddress,
+    enabled: withdrawTypeSelected === WithdrawType.POOL,
+    product,
+    chainId
+  })
 
   const {
     withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
     refetch: withdrawValidatorsBalanceRefetch
-  } = useWithdrawValidatorBalance()
+  } = useWithdrawValidatorBalance({ product, chainId })
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
@@ -95,6 +86,10 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         return withdrawLiquidityPoolBalance
     }
   }
+
+  const chain = chainConfig()
+  const { chain: walletChainId } = useNetwork()
+  const isWrongNetwork = chainId !== walletChainId?.id
 
   const handleWithdrawBalanceRefetch = useCallback(() => {
     switch (withdrawTypeSelected) {
@@ -118,9 +113,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
 
   const youReceiveDeposit = netDepositAmount
 
-  const { stConfig } = useStConfig()
+  const { stConfig } = useStConfig({ productName: product.name, chainId: chainId })
   const minDepositAmount = stConfig?.minDepositAmount || 0n
-
   const {
     deposit,
     isSuccess: depositSuccess,
@@ -135,7 +129,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     netDepositAmount,
     ethers.parseUnits(inputAmount, 18),
     poolAddress,
-    type === 'deposit',
+    type === 'deposit' && !isWrongNetwork,
+    product,
+    chainId,
     accountAddress
   )
 
@@ -154,6 +150,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     inputAmount,
     poolAddress,
     type === 'withdraw' && withdrawTypeSelected === WithdrawType.POOL,
+    product,
+    chainId,
     accountAddress
   )
 
@@ -172,6 +170,8 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     inputAmount,
     poolAddress,
     type === 'withdraw' && withdrawTypeSelected === WithdrawType.VALIDATOR,
+    product,
+    chainId,
     accountAddress
   )
 
@@ -275,9 +275,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
     resetState
   ])
 
-  const chain = chainConfig()
-  const { chain: walletChainId } = useNetwork()
-  const isWrongNetwork = chain.chainId !== walletChainId?.id
   const { switchNetworkAsync } = useSwitchNetwork({
     chainId: chain.chainId
   })
@@ -352,7 +349,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           <CardInfo>
             <CardInfoData>
               <header>
-                <h4>{t('invested')}</h4>
+                <h4>{t('investedOnProject')}</h4>
               </header>
               {delegationSharesLoading ? (
                 <SkeletonLoading height={20} width={120} />
@@ -410,7 +407,9 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           />
         )}
 
-        {type === 'deposit' && accountAddress && <Button onClick={buyCrypto} label={t('buyCryptoTitle')} />}
+        {type === 'deposit' && accountAddress && (
+          <Button onClick={openQuoteEthModal} label={t('buyCryptoTitle')} />
+        )}
 
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
           <CardBlock>
@@ -424,7 +423,6 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
           </CardBlock>
         )}
 
-        {type === 'withdraw' && accountAddress && <Button onClick={sellCrypto} label={t('sellCryptoTitle')} />}
         {accountAddress && (
           <StakeDescriptionCheckout
             amount={amount}
@@ -440,6 +438,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         youReceive={type === 'deposit' ? youReceiveDeposit : ethers.parseUnits(amount || '0', 18)}
         txHash={txHash}
         type={type}
+        chainId={chainId}
         labelButton={handleLabelButton()}
         onClick={handleStakeConfirmation}
         transactionLoading={isLoading}
@@ -447,6 +446,7 @@ export function StakeForm({ type, accountAddress, poolAddress }: StakeFormProps)
         transactionIsSuccess={isSuccess}
         onClose={() => setOpenStakeConfirmModal(false)}
         withdrawTypeSelected={withdrawTypeSelected}
+        product={product}
       />
     </>
   )

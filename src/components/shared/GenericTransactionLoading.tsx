@@ -6,7 +6,7 @@ import successAnimation from '@assets/animations/success-animation.json'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import Image from 'next/image'
 import Button from './Button'
-import chainConfig from '@/config/chain'
+import { chainConfigByChainId } from '@/config/chain'
 import etherscan from '@assets/icons/etherscan.svg'
 
 type GenericTransactionLoadingProps = {
@@ -21,6 +21,7 @@ type GenericTransactionLoadingProps = {
   noPadding?: boolean
   noModalPadding?: boolean
   txHash?: `0x${string}` | undefined
+  chainId: number
 }
 
 export default function GenericTransactionLoading({
@@ -33,11 +34,12 @@ export default function GenericTransactionLoading({
   txHash,
   noPadding,
   noModalPadding,
-  onSuccessAction
+  onSuccessAction,
+  chainId
 }: GenericTransactionLoadingProps) {
   const { t } = useLocaleTranslation()
   const buttonMessage = isSuccess ? successButtonLabel : loadingButtonLabel
-  const chain = chainConfig()
+  const chain = chainConfigByChainId(chainId)
   return (
     <Container className={`${noPadding && 'noPadding'} ${noModalPadding && 'noModalPadding'}`}>
       <div>

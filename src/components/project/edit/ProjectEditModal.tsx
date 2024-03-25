@@ -249,6 +249,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
             isLoading={isLoading}
             isSuccess={isSuccess}
             successButtonLabel={t('close')}
+            chainId={1}
             onSuccessAction={() => {
               handleReset()
             }}

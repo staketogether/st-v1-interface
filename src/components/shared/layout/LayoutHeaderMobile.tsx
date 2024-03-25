@@ -16,7 +16,7 @@ export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
 
   const { query } = useRouter()
-  const { currency, network } = query
+  const { currency } = query
   const { account, accountIsConnected } = useConnectedAccount()
   const { setOpenSidebarMobileMenu } = useLayoutSidebarMobileMenu()
   const { setWalletSidebarMobileSettings } = useWalletSidebarMobileSettings()
@@ -25,7 +25,7 @@ export default function LayoutHeaderMobile() {
     <>
       <Container>
         <Content>
-          <Logo href={`/${network}/${currency}/product`}>
+          <Logo href={`/${currency}`}>
             <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
           </Logo>
           <WalletContainer>

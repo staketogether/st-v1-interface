@@ -14,6 +14,7 @@ import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
+import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -68,6 +69,7 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
       </Wrapper>
       <LayoutMenuMobile />
       <LayoutFooter />
+      <BuyEthControlModal />
     </Container>
   )
 }
@@ -93,14 +95,13 @@ const { Container, Wrapper, Content, Body } = {
     width: 100%;
     display: grid;
 
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xxl});
     grid-template-columns: 1fr;
     justify-content: center;
     place-items: start center;
     padding: ${({ theme }) => theme.size[16]};
 
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      padding: 0;
+    @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+      grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
     }
   `,
   Content: styled.div`
@@ -115,7 +116,8 @@ const { Container, Wrapper, Content, Body } = {
   `,
   Body: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
+
     gap: ${props => props.theme.size[32]};
     justify-content: center;
     place-items: center;

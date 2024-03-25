@@ -6,10 +6,11 @@ import SkeletonLoading from '../icons/SkeletonLoading'
 type EnsAvatarProps = {
   address: `0x${string}`
   size?: number
+  chainId: number
 }
 
-export default function EnsAvatar({ address, size = 24 }: EnsAvatarProps) {
-  const { avatar, avatarLoading } = useEns(address)
+export default function EnsAvatar({ address, size = 24, chainId }: EnsAvatarProps) {
+  const { avatar, avatarLoading } = useEns(address, chainId)
 
   if (avatarLoading) {
     return <SkeletonLoading $borderRadius='50%' width={size} height={size} />

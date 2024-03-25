@@ -1,7 +1,7 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
-  "addToWalletTooltip": "Add stpETH to your wallet",
+  "addToWalletTooltip": "Add token to your wallet",
   "save": "Save",
   "edit": "Edit",
   "connectWallet": "Connect Wallet",
@@ -11,7 +11,7 @@
   "time": "Time",
   "next": "Next",
   "close": "Close",
-  "goToBack": "Go To Back",
+  "goToBack": "Back",
   "account": "Account",
   "accounts": "Accounts",
   "immediate": "Immediate",
@@ -23,6 +23,7 @@
   "delegates": "Delegates",
   "processing": "Processing...",
   "invested": "Invested",
+  "investedOnProject": "Invested on Project",
   "staked": "Staked",
   "unstake": "Unstake",
   "members": "Members",
@@ -72,6 +73,7 @@
   "knowMore": "Know More",
   "buyCryptoTitle": "Buy Ether",
   "sellCryptoTitle": "Sell Ether",
+  "genericErrorMessage": "Sorry! Something went wrong. Please try again",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -338,7 +340,8 @@
         "LessThanMinimumDeposit": "Min Deposit",
         "PoolNotFound": "Pool Not Found",
         "ZeroAmount": "Zero Supply",
-        "useMaxButton": "Use Max Button"
+        "useMaxButton": "Use Max Button",
+        "Panic": "Internal error"
       }
     },
     "activities": {
@@ -445,7 +448,9 @@
         "twitter": "Invalid Twitter",
         "site": "Invalid site URL",
         "youtube": "Please enter a valid YouTube video URL",
-        "youtubeChanel": "Please enter a valid YouTube channel"
+        "youtubeChanel": "Please enter a valid YouTube channel",
+        "invalidCpf": "Invalid CPF",
+        "invalidBirthday": "Invalid Birthday"
       },
       "messages": {
         "success": "Project created successfully",
@@ -591,29 +596,99 @@
       }
     },
     "tokens": {
-      "title": "Invest",
-      "products": {
-        "name": "Name",
-        "token": "Token",
-        "apy": "APY",
-        "networks": "Networks",
-        "airdrops": "Airdrops"
-      }
+      "title": "Staking Products",
+      "description": "Invest in the best passive income products for Cryptocurrencies"
     },
     "products": {
-      "ethereum": "Ethereum Staking",
-      "restaking": "Ethereum ReStaking ",
+      "ethereum-stake": "Ethereum Staking",
+      "ethereum-restaking": "Ethereum ReStaking ",
       "celestia": "Celestia Staking",
       "polygon": "Polygon Staking",
       "solana": "Solana Staking",
       "cosmos": "Cosmos Staking",
       "near": "Near Staking",
-      "polkadot": "Polkadot Staking"
+      "polkadot": "Polkadot Staking",
+      "productNotAvailable": "Product not available",
+      "bitcoin": "Bitcoin Staking",
+      "chiliz": "Chiliz Staking"
     },
     "notifyBar": {
       "incentives": {
         "title": "New Stake Together Feature",
         "description": "Incentive Airdrop is now available in your wallet. Check your eligibility and enjoy the benefits now!"
+      }
+    },
+    "ramp": {
+      "title": "Buy Ethereum with PIX",
+      "success": "Deposit was complete with success",
+      "checkOut": "Check out",
+      "processingRegistration": "Processing Registration",
+      "processingPayment": "Processing Payment",
+      "generatingQRCode": "Generating QR Code",
+      "paymentIdentified": "Payment Identified",
+      "mintingBRLA": "Minting BRLA on the Blockchain",
+      "swapBrlToEth": "Swap BRLA for ETH",
+      "amountToBePaid": "Amount to be paid",
+      "useThePixQRCode": "Use the Pix QR Code to pay",
+      "orUseThePixKey": "Or use the Pix Key",
+      "cancelDeposit": "Cancel deposit",
+      "copyQrCode": "Copy QR Code",
+      "yourEths": "Your ETH is now available in your account",
+      "exchange": "Exchange",
+      "networkFee": "Network fee",
+      "serviceCharge": "Service charge",
+      "youReceived": "You received",
+      "copyCodeSuccess": "code copied successfully",
+      "provider": "Choose your payment method",
+      "creditCard": "Credit Card",
+      "kyc": {
+        "title": "KYC - Know your client",
+        "description": "To buy ETH, you need to go through a KYC verification process. Fill the form below to get started.",
+        "level": "KYC Level",
+        "limit": "Limit",
+        "availableLimit": "Available Limit",
+        "typeAccount": "Type Account",
+        "fullName": "Full name",
+        "namePlaceholder": "Enter your name as it appears on your document",
+        "emailPlaceholder": "Enter your contact email",
+        "companyName": "Company name",
+        "birthday": "Birthday",
+        "foundationDate": "Foundation date",
+        "processTime": "This process can take up to 1 minute",
+        "info": "KYC: Know Your Customer. A process to verify the customer's identity, preventing fraud, and ensuring secure transactions."
+      },
+      "quote": {
+        "title": "Buy Ethereum directly by PIX",
+        "updateQuote": "Price updates at",
+        "terms": "By continuing, you agree to our",
+        "policies": "policies",
+        "requiredKyc": "KYC registration required",
+        "requiredUpdateKyc": "KYC registration update required",
+        "price": "Price"
+      },
+      "checkout": {
+        "for": "For",
+        "bank": "Bank",
+        "paymentTime": "Payment time",
+        "timeOut": "Unfortunately, your deadline to make payment has expired!"
+      }
+    },
+    "ethereumStaking": {
+      "title": "Ethereum Staking",
+      "description": "Description",
+      "statistics": "Statistics",
+      "ethereumDescription": "Ethereum is a decentralized platform that enables smart contracts and decentralized applications to be built and operated without any downtime, fraud, control, or interference from a third party. Ethereum is not just a platform but also a programming language running on a blockchain, helping developers to build and publish distributed applications.",
+      "contractAddress": "Contract Address",
+      "marketCap": "Market Cap",
+      "priceChange": "Price Change (1y)",
+      "networkAvailable": "Available on",
+      "myRewardsPoints": "My Rewards Points",
+      "highestValueWeeks": "Highest Value in the Last 52 Weeks",
+      "actions": {
+        "invest": "Invest",
+        "withdraw": "Withdraw",
+        "operationFee": "Operation Fee",
+        "balance": "Balance"
       }
     }
   }

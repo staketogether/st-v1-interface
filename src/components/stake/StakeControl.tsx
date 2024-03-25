@@ -1,3 +1,4 @@
+import { getProductByName } from '@/config/product'
 import usePool from '@/hooks/subgraphs/usePool'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -23,6 +24,7 @@ interface StakeControlProps {
   poolAddress: `0x${string}`
   type: 'deposit' | 'withdraw'
   poolDetail?: ContentfulPool
+  chainId: number
   isStakeTogetherPool?: boolean
 }
 
@@ -30,11 +32,12 @@ export default function StakeControl({
   poolAddress,
   type,
   poolDetail,
+  chainId,
   isStakeTogetherPool
 }: StakeControlProps) {
   const [skipMembers, setSkipMembers] = useState(0)
   const [skipActivity, setSkipActivity] = useState(0)
-
+  const product = getProductByName({ productName: 'ethereum-stake' })
   const { t } = useLocaleTranslation()
 
   const { query, locale } = useRouter()
@@ -67,7 +70,7 @@ export default function StakeControl({
     if (isStakeTogetherPool) {
       router.push(
         {
-          pathname: `/${network}/${currency}/${type === 'deposit' ? '' : type}`
+          pathname: `/${currency}/${network}/project/${type === 'deposit' ? '' : type}`
         },
         undefined,
         { shallow: true }
@@ -77,7 +80,7 @@ export default function StakeControl({
 
     router.push(
       {
-        pathname: `/${network}/${currency}/project/${type}/${poolAddress}`
+        pathname: `/${currency}/${network}/project/${type}/${poolAddress}`
       },
       undefined,
       { shallow: true }
@@ -85,7 +88,15 @@ export default function StakeControl({
   }
 
   const { account } = useConnectedAccount()
-  const stakeForm = <StakeForm type={type} accountAddress={account} poolAddress={poolAddress} />
+  const stakeForm = (
+    <StakeForm
+      type={type}
+      product={product}
+      accountAddress={account}
+      poolAddress={poolAddress}
+      chainId={chainId}
+    />
+  )
   const tabsItems: TabsItems[] = [
     {
       key: 'deposit',
@@ -206,7 +217,7 @@ export default function StakeControl({
         isStakeTogetherPool={!!isStakeTogetherPool}
       />
       {poolAddress.toLocaleLowerCase() === account?.toLocaleLowerCase() && (
-        <WalletLottery poolAddress={poolAddress} />
+        <WalletLottery poolAddress={poolAddress} chainId={chainId} />
       )}
     </Container>
   )

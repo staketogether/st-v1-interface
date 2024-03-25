@@ -4,9 +4,14 @@ import { usePrepareStakeTogetherAddPool, useStakeTogetherAddPool } from '@/types
 import { useWaitForTransaction } from 'wagmi'
 import { notification } from 'antd'
 import useLocaleTranslation from '../useLocaleTranslation'
+import { getContractsByProductName } from '@/config/product'
 
 export default function useAddPool(projectAddress: `0x${string}`, isSocial: boolean, disabled?: boolean) {
-  const { contracts, chainId } = chainConfig()
+  const { isTestnet, chainId } = chainConfig()
+  const { StakeTogether } = getContractsByProductName({
+    productName: 'ethereum-stake',
+    isTestnet
+  })
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -18,7 +23,7 @@ export default function useAddPool(projectAddress: `0x${string}`, isSocial: bool
     isSuccess: prepareTransactionIsSuccess
   } = usePrepareStakeTogetherAddPool({
     chainId,
-    address: contracts.StakeTogether,
+    address: StakeTogether,
     enabled: disabled,
     args: [projectAddress, true, isSocial, false],
     value: 0n,

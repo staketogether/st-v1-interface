@@ -22,7 +22,7 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   const { currency, network } = query
 
   return (
-    <Card href={`/${network}/${currency}/project/deposit/${pool.address}`}>
+    <Card href={`/${currency}/${network}/project/deposit/${pool.address}`}>
       <CardHeader>
         {pool.logo?.url && (
           <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />

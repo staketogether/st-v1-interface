@@ -32,7 +32,7 @@ export default function StakeFormInput({
 }: StakeInputProps) {
   const { t } = useLocaleTranslation()
 
-  const { price, symbol } = useCoinConversion(value)
+  const { price } = useCoinConversion(value)
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -81,7 +81,7 @@ export default function StakeFormInput({
               ) : (
                 ''
               )}
-              <span className={`${hasError ? 'error' : ''}`}>{`${symbol()} ${truncateDecimal(
+              <span className={`${hasError ? 'error' : ''}`}>{`${truncateDecimal(
                 price || '0',
                 2
               )}`}</span>
@@ -92,9 +92,8 @@ export default function StakeFormInput({
           </MaxValue>
         </Content>
       </div>
-      <span>{`${type === 'deposit' ? t('v2.stake.minAmount') : t('v2.stake.minWithdraw')} ${
-        type === 'deposit' ? truncateWei(minDepositAmount || 0n) : truncateWei(minWithdrawAmount || 0n)
-      } ${type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')}`}</span>
+      <span>{`${type === 'deposit' ? t('v2.stake.minAmount') : t('v2.stake.minWithdraw')} ${type === 'deposit' ? truncateWei(minDepositAmount || 0n) : truncateWei(minWithdrawAmount || 0n)
+        } ${type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')}`}</span>
     </Container>
   )
 }

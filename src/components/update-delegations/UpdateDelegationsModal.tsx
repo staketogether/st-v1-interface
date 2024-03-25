@@ -174,6 +174,7 @@ export default function UpdateDelegationsModal({
               (isSuccess && `${t('v2.updateDelegations.transactionMessages.successful')}`) ||
               `${t('v2.updateDelegations.transactionMessages.transactionLoading')}`
             }
+            chainId={1}
             isLoading={isLoadingTransaction}
             isSuccess={isSuccess}
             txHash={txHash}

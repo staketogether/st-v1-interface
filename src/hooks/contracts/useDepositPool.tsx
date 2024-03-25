@@ -1,3 +1,5 @@
+import { getSubgraphClient } from '@/config/apollo'
+import { chainConfigByChainId } from '@/config/chain'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
@@ -8,11 +10,10 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { truncateWei } from '@/services/truncate'
+import { Product } from '@/types/Product'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
-import { apolloClient } from '../../config/apollo'
-import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import {
@@ -20,17 +21,19 @@ import {
   usePrepareStakeTogetherDepositPool,
   useStakeTogetherDepositPool
 } from '../../types/Contracts'
+import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
-import useConnectedAccount from '../useConnectedAccount'
 
 export default function useDepositPool(
   netDepositAmount: bigint,
   grossDepositAmount: bigint,
   poolAddress: `0x${string}`,
   enabled: boolean,
-  accountAddress?: `0x${string}`
+  product: Product,
+  chainId: number,
+  accountAddress: `0x${string}` | undefined
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
@@ -42,24 +45,28 @@ export default function useDepositPool(
   const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerDeposit } = useMixpanelAnalytics()
-  const { contracts, chainId } = chainConfig()
+  const { isTestnet } = chainConfigByChainId(chainId)
+  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
+
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { stConfig, loading: stConfigLoading } = useStConfig()
+  const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
   const { t } = useLocaleTranslation()
 
   const amountEstimatedGas = stConfig?.minDepositAmount || 0n
   const isDepositEnabled = enabled && netDepositAmount > 0n && !stConfigLoading
+  const isDepositEstimatedGas = !enabled && stConfigLoading
+  const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
 
   const { estimateGas } = useEstimateTxInfo({
-    account: accountAddress,
+    account: StakeTogether,
     functionName: 'depositPool',
     args: [poolAddress, referral],
-    contractAddress: contracts.StakeTogether,
+    contractAddress: StakeTogether,
     abi: stakeTogetherABI,
     value: amountEstimatedGas,
-    skip: !isDepositEnabled || estimateGasCost > 0n
+    skip: isDepositEstimatedGas && estimateGasCost > 0n
   })
 
   useEffect(() => {
@@ -92,7 +99,7 @@ export default function useDepositPool(
     isSuccess: prepareTransactionIsSuccess
   } = usePrepareStakeTogetherDepositPool({
     chainId,
-    address: contracts.StakeTogether,
+    address: StakeTogether,
     args: [poolAddress, referral],
     account: accountAddress,
     enabled: accountAddress && isDepositEnabled,
@@ -127,14 +134,14 @@ export default function useDepositPool(
 
         return
       }
+      const response = cause as { data?: { errorName?: string } }
 
-      const { data } = cause as { data?: { errorName?: string } }
-
-      if (cause && data && data.errorName) {
-        setPrepareTransactionErrorMessage(data.errorName)
+      if (cause && response?.data && response?.data?.errorName) {
+        setPrepareTransactionErrorMessage(response?.data?.errorName)
       }
     },
-    onSuccess() {
+    onSuccess(data) {
+      console.log(data)
       setPrepareTransactionErrorMessage('')
     }
   })
@@ -155,7 +162,7 @@ export default function useDepositPool(
     }
   })
 
-  const deposit = () => {
+  const deposit = async () => {
     setAwaitWalletAction(true)
     tx.write?.()
   }
@@ -169,7 +176,7 @@ export default function useDepositPool(
         message: `${t('notifications.depositSuccess')}: ${truncateWei(netDepositAmount, 4)} ${t('lsd.symbol')}`,
         placement: 'topRight'
       })
-      apolloClient.refetchQueries({
+      subgraphClient.refetchQueries({
         include: [
           queryAccount,
           queryPool,
@@ -194,7 +201,7 @@ export default function useDepositPool(
         placement: 'topRight'
       })
 
-      apolloClient.refetchQueries({
+      subgraphClient.refetchQueries({
         include: [queryAccount, queryPool]
       })
     }

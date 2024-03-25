@@ -12,8 +12,7 @@ import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
-import { apolloClient } from '../../config/apollo'
-import chainConfig from '../../config/chain'
+import { getSubgraphClient } from '../../config/apollo'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import {
@@ -25,11 +24,15 @@ import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
 import useConnectedAccount from '../useConnectedAccount'
+import { Product } from '@/types/Product'
+import { chainConfigByChainId } from '@/config/chain'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
+  product: Product,
+  chainId: number,
   accountAddress?: `0x${string}`
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -42,9 +45,11 @@ export default function useWithdrawPool(
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerWithdraw } = useMixpanelAnalytics()
-  const { contracts, chainId } = chainConfig()
+  const { isTestnet } = chainConfigByChainId(chainId)
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { stConfig, loading: stConfigLoading } = useStConfig()
+  const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
+  const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
+  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
   const { t } = useLocaleTranslation()
 
   const amountEstimatedGas = stConfig?.minWithdrawAmount || 0n
@@ -53,7 +58,7 @@ export default function useWithdrawPool(
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
-    contractAddress: contracts.StakeTogether,
+    contractAddress: StakeTogether,
     functionName: 'withdrawPool',
     args: [amountEstimatedGas, poolAddress],
     abi: stakeTogetherABI,
@@ -80,7 +85,7 @@ export default function useWithdrawPool(
     isError: prepareTransactionIsError,
     isSuccess: prepareTransactionIsSuccess
   } = usePrepareStakeTogetherWithdrawPool({
-    address: contracts.StakeTogether,
+    address: StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
     enabled: isWithdrawEnabled,
@@ -140,7 +145,7 @@ export default function useWithdrawPool(
     }
   })
 
-  const withdrawPool = () => {
+  const withdrawPool = (): void => {
     setAwaitWalletAction(true)
     tx.write?.()
   }
@@ -154,7 +159,7 @@ export default function useWithdrawPool(
         message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,
         placement: 'topRight'
       })
-      apolloClient.refetchQueries({
+      subgraphClient.refetchQueries({
         include: [
           queryAccount,
           queryPool,

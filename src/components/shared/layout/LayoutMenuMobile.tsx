@@ -8,23 +8,21 @@ import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 function LayoutMenuMobile() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
-  const { query, asPath } = useRouter()
+  const { query, pathname, isReady } = useRouter()
   const { currency, network } = query
-  const isHome = asPath === `/${network}/${currency}` || asPath === `/${network}/${currency}/withdraw`
+  const basePath = `/[currency]`
+  const isHome = pathname === basePath && isReady
   return (
     <Container>
-      <NextLink href={`/${network}/${currency}/product`} className={`${isHome ? 'active' : ''}`}>
+      <NextLink href={`/${currency}`} className={`${isHome || isActive('product') ? 'active' : ''}`}>
         <InvestIcon />
         {t('v2.header.products')}
       </NextLink>
       <NextLink
-        href={`/${network}/${currency}/project`}
-        className={`${
-          !isHome && (isActive('projects') || isActive('deposit') || isActive('withdraw')) ? 'active' : ''
-        }`}
+        href={`/${currency}/${network}/project`}
+        className={`${!isHome && isActive('project') ? 'active' : ''}`}
       >
         <ProjectsIcon />
-
         {t('v2.header.projects')}
       </NextLink>
     </Container>
