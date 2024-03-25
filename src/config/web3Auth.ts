@@ -36,7 +36,7 @@ export default function Web3AuthConnectorInstance(chains: ChainConfig.Chain[]) {
       whiteLabel: {
         logoLight: iconUrl,
         logoDark: iconUrl,
-        defaultLanguage: 'en'
+        defaultLanguage: 'pt'
       }
     }
   })
