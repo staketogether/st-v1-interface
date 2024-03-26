@@ -24,7 +24,7 @@ export default function useGetWithdrawBlock({
   const { isFetching, refetch, data } = useStakeTogetherGetWithdrawBlock({
     address: StakeTogether,
     enabled: !!walletAddress && enabled,
-    ...(walletAddress && { args: [walletAddress] }),
+    ...(walletAddress && { args: [walletAddress] })
   })
 
   useEffect(() => {
