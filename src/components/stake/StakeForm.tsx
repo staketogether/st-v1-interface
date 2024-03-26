@@ -408,7 +408,9 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
         )}
 
         {type === 'deposit' && accountAddress && (
-          <Button onClick={openQuoteEthModal} label={t('buyCryptoTitle')} />
+          <Tooltip title={t('soon')}>
+            <Button disabled onClick={openQuoteEthModal} label={t('buyCryptoTitle')} />
+          </Tooltip>
         )}
 
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
