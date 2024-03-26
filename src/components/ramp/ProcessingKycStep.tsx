@@ -29,10 +29,10 @@ export default function ProcessingKycStep() {
   const { buyRampResponse, isError: isErrorBuyRamp } = useBuyRamp('brla', rampData)
   const kycActivity = useReactiveVar(kycIdVar)
   const kyc = useReactiveVar(kycLevelVar)
-  const kycActivityId = kyc !== undefined || Number(kyc?.level) === 0 || !kycActivity ? undefined : kycActivity
+  const kycActivityId = Number(kyc?.level || 0) > 0 || !kycActivity ? undefined : kycActivity
   const { activity, isError } = useVerifyActivity(ProviderType.brla, kycActivityId ?? undefined)
-  const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc ? undefined : address)
 
+  const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc?.level ? undefined : address, true)
   const getIcon = (moment: 'waiting' | 'process' | 'success') => {
 
     const icons = {
@@ -45,7 +45,7 @@ export default function ProcessingKycStep() {
   }
 
   useEffect(() => {
-    if (address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success')) {
+    if (address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0) {
       setRampData({
         chainId: 1,
         paymentMethod: PaymentMethodType.pix,
@@ -84,7 +84,7 @@ export default function ProcessingKycStep() {
       disable: !kycActivityId
     },
     {
-      icon: activity?.status === 'success' ? getIcon('success') : getIcon(Number(kyc ? kyc?.level : 0) > 0 ? 'process' : 'waiting'),
+      icon: activity?.status === 'success' && Number(kyc?.level) > 0 ? getIcon('success') : getIcon(Number(kyc?.level) > 0 ? 'process' : 'waiting'),
       text: t('v2.ramp.generatingQRCode'),
       disable: activity?.status !== 'success'
     }
