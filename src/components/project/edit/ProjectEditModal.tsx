@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
-import { useNetwork, useSignMessage, useSwitchNetwork } from 'wagmi'
+import { useAccount, useSignMessage, useSwitchChain } from 'wagmi'
 import Modal from '../../shared/Modal'
 import ProjectEditForm from './ProjectEditForm'
 import ProjectEditLinksForm from './ProjectEditLinksForm'
@@ -95,7 +95,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   const projectDescription = watch(language === 'pt' ? 'descriptionPt' : 'descriptionEn')
 
   const chain = chainConfig()
-  const { chain: walletChainId } = useNetwork()
+  const { chain: walletChainId } = useAccount()
   const { chainId } = chain
   const isWrongNetwork = chainId !== walletChainId?.id
 
@@ -106,9 +106,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     return t('save')
   }
 
-  const { switchNetworkAsync } = useSwitchNetwork({
-    chainId: chainId
-  })
+  const { switchChain } = useSwitchChain()
 
   const message = `Stake Together Update - ${poolDetailUs.wallet} `
   const {
@@ -165,8 +163,10 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   }, [account, reset, resetSignMessage])
 
   const onSubmit = async () => {
-    if (isWrongNetwork && switchNetworkAsync) {
-      switchNetworkAsync()
+    if (isWrongNetwork && switchChain) {
+      switchChain({
+        chainId: chainId
+      })
       return
     }
     await signMessage()

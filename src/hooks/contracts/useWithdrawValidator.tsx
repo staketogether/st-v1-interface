@@ -2,7 +2,11 @@ import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
-import { useWaitForTransactionReceipt as useWaitForTransaction } from 'wagmi'
+import {
+  useSimulateContract,
+  useWaitForTransactionReceipt as useWaitForTransaction,
+  useWriteContract
+} from 'wagmi'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 
@@ -17,13 +21,8 @@ import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
-import {
-  stakeTogetherABI,
-  usePrepareStakeTogetherWithdrawBeacon,
-  useStakeTogetherWithdrawBeacon
-} from '@/types/Contracts'
+import { stakeTogetherABI } from '@/types/Contracts'
 import useConnectedAccount from '../useConnectedAccount'
-import useEstimateTxInfo from '../useEstimateTxInfo'
 import { Product } from '@/types/Product'
 import { getSubgraphClient } from '@/config/apollo'
 import { chainConfigByChainId } from '@/config/chain'
@@ -37,13 +36,12 @@ export default function useWithdrawValidator(
   accountAddress?: `0x${string}`
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
-  const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
 
-  const [estimateGasCost, setEstimateGasCost] = useState(0n)
-  const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
-  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
-  const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
+  // const [estimateGasCost] = useState(0n)
+  const [maxFeePerGas] = useState<bigint | undefined>(undefined)
+  const [maxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
+  const [estimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerWithdraw } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
@@ -56,52 +54,56 @@ export default function useWithdrawValidator(
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
   const isWithdrawEnabled = enabled && amount > 0n
 
-  const { estimateGas } = useEstimateTxInfo({
-    account: accountAddress,
-    contractAddress: StakeTogether,
-    functionName: 'withdrawBeacon',
-    args: [amount, poolAddress],
-    abi: stakeTogetherABI,
-    skip: !isWithdrawEnabled || estimateGasCost > 0n
-  })
+  // const { estimateGas } = useEstimateTxInfo({
+  //   account: accountAddress,
+  //   contractAddress: StakeTogether,
+  //   functionName: 'withdrawBeacon',
+  //   args: [amount, poolAddress],
+  //   abi: stakeTogetherABI,
+  //   skip: !isWithdrawEnabled || estimateGasCost > 0n
+  // })
 
-  useEffect(() => {
-    const handleEstimateGasPrice = async () => {
-      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-        await estimateGas()
+  // useEffect(() => {
+  //   const handleEstimateGasPrice = async () => {
+  //     const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
+  //       await estimateGas()
 
-      setEstimatedGas(estimatedGas)
-      setEstimateGasCost(estimatedCost)
-      setMaxFeePerGas(estimatedMaxFeePerGas)
-      setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
-    }
+  //     setEstimatedGas(estimatedGas)
+  //     setEstimateGasCost(estimatedCost)
+  //     setMaxFeePerGas(estimatedMaxFeePerGas)
+  //     setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
+  //   }
 
-    if (estimateGasCost === 0n) {
-      handleEstimateGasPrice()
-    }
-  }, [estimateGas, estimateGasCost])
+  //   if (estimateGasCost === 0n) {
+  //     handleEstimateGasPrice()
+  //   }
+  // }, [estimateGas, estimateGasCost])
 
   const {
-    config,
+    data: prepareTransactionData,
     isError: prepareTransactionIsError,
-    isSuccess: prepareTransactionIsSuccess
-  } = usePrepareStakeTogetherWithdrawBeacon({
+    isSuccess: prepareTransactionIsSuccess,
+    error: prepareTransactionError
+  } = useSimulateContract({
+    query: {
+      enabled: isWithdrawEnabled
+    },
     address: StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
-    enabled: isWithdrawEnabled,
+    abi: stakeTogetherABI,
+    functionName: 'withdrawBeacon',
     gas: !!estimatedGas && estimatedGas > 0n && !!web3AuthUserInfo ? estimatedGas : undefined,
     maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
     maxPriorityFeePerGas:
       !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo
         ? maxPriorityFeePerGas
-        : undefined,
-    onError(error) {
-      if (!error) {
-        return
-      }
+        : undefined
+  })
 
-      const { cause } = error as { cause?: { reason?: string; message?: string } }
+  useEffect(() => {
+    if (prepareTransactionIsError && prepareTransactionError) {
+      const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
       if (
         (!cause || !cause.reason) &&
@@ -125,37 +127,54 @@ export default function useWithdrawValidator(
       if (cause && data && data.errorName) {
         setPrepareTransactionErrorMessage(data.errorName)
       }
-    },
-    onSuccess() {
+    }
+  }, [prepareTransactionError, prepareTransactionIsError, t, web3AuthUserInfo])
+
+  useEffect(() => {
+    if (prepareTransactionIsSuccess) {
       setPrepareTransactionErrorMessage('')
     }
-  })
+  }, [prepareTransactionIsSuccess])
 
-  const tx = useStakeTogetherWithdrawBeacon({
-    ...config,
-    onSuccess: data => {
-      if (data?.hash) {
-        setTxHash(data?.hash)
-      }
-    },
-    onError: () => {
+  const {
+    writeContract,
+    data: txHash,
+    isError: writeContractIsError,
+    reset: writeContractReset
+  } = useWriteContract()
+
+  useEffect(() => {
+    if (writeContractIsError && awaitWalletAction) {
       notification.error({
         message: `${t('v2.stake.userRejectedTheRequest')}`,
         placement: 'topRight'
       })
       setAwaitWalletAction(false)
     }
+  }, [awaitWalletAction, t, writeContractIsError])
+
+  const {
+    isLoading,
+    isSuccess: awaitTransactionSuccess,
+    isError: awaitTransactionErrorIsError
+  } = useWaitForTransaction({
+    hash: txHash,
+    confirmations: 2
   })
 
-  const withdrawValidator = () => {
-    setAwaitWalletAction(true)
-    tx.write?.()
-  }
+  useEffect(() => {
+    if (awaitTransactionErrorIsError && awaitWalletAction) {
+      setAwaitWalletAction(false)
+      notification.error({
+        message: `${t('notifications.withdrawError')} ${withdrawAmount} ${t('eth.symbol')}`,
+        placement: 'topRight'
+      })
+      setAwaitWalletAction(false)
+    }
+  }, [awaitTransactionErrorIsError, awaitWalletAction, t, withdrawAmount])
 
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: txHash,
-    confirmations: 2,
-    onSuccess: () => {
+  useEffect(() => {
+    if (awaitTransactionSuccess && awaitWalletAction) {
       setAwaitWalletAction(false)
       notification.success({
         message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,
@@ -178,29 +197,32 @@ export default function useWithdrawValidator(
       if (accountAddress) {
         registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.POOL)
       }
-    },
-    onError: () => {
-      notification.error({
-        message: `${t('notifications.withdrawError')} ${withdrawAmount} ${t('eth.symbol')}`,
-        placement: 'topRight'
-      })
-      setAwaitWalletAction(false)
     }
-  })
+  }, [
+    accountAddress,
+    awaitTransactionSuccess,
+    awaitWalletAction,
+    chainId,
+    poolAddress,
+    registerWithdraw,
+    subgraphClient,
+    t,
+    withdrawAmount
+  ])
 
-  const resetState = () => {
-    setAwaitWalletAction(false)
-    setTxHash(undefined)
+  const withdrawValidator = () => {
+    setAwaitWalletAction(true)
+    writeContract(prepareTransactionData!.request)
   }
 
   return {
     withdrawValidator,
     estimatedCost: 0n,
     isLoading,
-    isSuccess,
+    isSuccess: awaitTransactionSuccess,
     awaitWalletAction,
-    resetState,
     txHash,
+    resetState: writeContractReset,
     prepareTransactionIsError,
     prepareTransactionIsSuccess,
     prepareTransactionErrorMessage

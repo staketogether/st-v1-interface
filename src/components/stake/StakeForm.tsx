@@ -15,7 +15,7 @@ import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
+import { useAccount, useSwitchChain } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useStConfig from '../../hooks/contracts/useStConfig'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
@@ -88,7 +88,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
   }
 
   const chain = chainConfig()
-  const { chain: walletChainId } = useNetwork()
+  const { chain: walletChainId } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
 
   const handleWithdrawBalanceRefetch = useCallback(() => {
@@ -275,13 +275,13 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
     resetState
   ])
 
-  const { switchNetworkAsync } = useSwitchNetwork({
-    chainId: chain.chainId
-  })
+  const { switchChain } = useSwitchChain()
 
   const openStakeConfirmation = () => {
-    if (isWrongNetwork && switchNetworkAsync) {
-      switchNetworkAsync()
+    if (isWrongNetwork && switchChain) {
+      switchChain({
+        chainId: chain.chainId
+      })
       return
     }
     setOpenStakeConfirmModal(true)

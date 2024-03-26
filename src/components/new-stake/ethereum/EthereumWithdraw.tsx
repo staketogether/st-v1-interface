@@ -14,7 +14,7 @@ import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import { useRouter } from 'next/router'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
+import { useAccount, useSwitchChain } from 'wagmi'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { chainConfigByChainId } from '@/config/chain'
@@ -70,7 +70,7 @@ export default function EthereumWithdraw({
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
   const { name } = chainConfigByChainId(chainId)
-  const { chain: walletChainId } = useNetwork()
+  const { chain: walletChainId } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
 
   const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
@@ -180,7 +180,7 @@ export default function EthereumWithdraw({
         setAmount('')
         await handleWithdrawBalanceRefetch()
         withdrawPoolBalanceRefetch()
-        withdrawData.withdrawResetState
+        withdrawData.withdrawResetState()
         getWithdrawBlock()
       }
     }
@@ -190,6 +190,7 @@ export default function EthereumWithdraw({
     getWithdrawBlock,
     handleWithdrawBalanceRefetch,
     isOpenStakeConfirmModal,
+    withdrawData,
     withdrawData.withdrawResetState,
     withdrawData.withdrawSuccess,
     withdrawPoolBalanceRefetch
@@ -204,13 +205,13 @@ export default function EthereumWithdraw({
     handleSuccessfulAction()
   }, [ethBalanceRefetch, isOpenStakeConfirmModal, withdrawData.withdrawSuccess])
 
-  const { switchNetworkAsync } = useSwitchNetwork({
-    chainId: chainId
-  })
+  const { switchChain } = useSwitchChain()
 
   const openStakeConfirmation = () => {
-    if (isWrongNetwork && switchNetworkAsync) {
-      switchNetworkAsync()
+    if (isWrongNetwork && switchChain) {
+      switchChain({
+        chainId: chainId
+      })
       return
     }
     setOpenStakeConfirmModal(true)

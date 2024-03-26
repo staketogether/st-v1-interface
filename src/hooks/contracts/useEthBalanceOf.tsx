@@ -9,12 +9,12 @@ type UseEthBalanceOf = {
 export default function useEthBalanceOf({ walletAddress, chainId }: UseEthBalanceOf) {
   const [balance, setBalance] = useState<bigint>(0n)
 
-  const { isFetching, refetch, data} = useBalance({
+  const { isFetching, refetch, data } = useBalance({
     address: walletAddress,
     chainId: chainId,
     query: {
-      enabled: !!walletAddress,
-    },
+      enabled: !!walletAddress
+    }
   })
 
   const ethBalance = data?.value || 0n

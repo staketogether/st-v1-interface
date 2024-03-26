@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { PiArrowLeft, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
+import { useAccount, useSwitchChain } from 'wagmi'
 import Button from '../shared/Button'
 import Input from '../shared/inputs/Input'
 import GenericTransactionLoading from '../shared/GenericTransactionLoading'
@@ -37,7 +37,7 @@ export default function ProjectRegisterMoreInfo({
   const { t } = useLocaleTranslation()
 
   const chain = chainConfig()
-  const { chain: walletChainId } = useNetwork()
+  const { chain: walletChainId } = useAccount()
   const { chainId } = chain
   const isWrongNetwork = chainId !== walletChainId?.id
   const isProjectRejected = poolDetail?.status === 'rejected'
@@ -52,9 +52,7 @@ export default function ProjectRegisterMoreInfo({
     return t('v2.createProject.form.register')
   }
 
-  const { switchNetworkAsync } = useSwitchNetwork({
-    chainId: chainId
-  })
+  const { switchChain } = useSwitchChain()
 
   const {
     register,
@@ -83,8 +81,10 @@ export default function ProjectRegisterMoreInfo({
   }, [isProjectRejected, poolDetail, setValue])
 
   const onSubmit: SubmitHandler<ProjectLinksToAnalyze> = data => {
-    if (isWrongNetwork && switchNetworkAsync) {
-      switchNetworkAsync()
+    if (isWrongNetwork && switchChain) {
+      switchChain({
+        chainId: chain.chainId
+      })
       return
     }
     registerLinksToAnalyze(data)
