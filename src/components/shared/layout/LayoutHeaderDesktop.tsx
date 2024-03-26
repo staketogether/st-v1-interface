@@ -20,7 +20,7 @@ export default function LayoutHeader() {
   const { account, accountIsConnected } = useConnectedAccount()
   const { setOpenProjectCreateModal } = useProjectCreateModal()
   const { query, pathname } = useRouter()
-  const { currency, network } = query
+  const { currency } = query
 
   const { poolDetail: poolDetailUs } = useContentfulPoolDetails({
     poolAddress: account,
@@ -46,7 +46,7 @@ export default function LayoutHeader() {
               {t('v2.header.products')}
             </MenuButton>
           </Link>
-          <Link href={`/${currency}/${network}/project`}>
+          <Link href={`/${currency}/ethereum/project`}>
             <MenuButton className={`${!isHome && isActive('project') ? 'active' : ''}`}>
               <ProjectsIcon />
               {t('v2.header.projects')}

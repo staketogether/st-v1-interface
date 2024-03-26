@@ -9,7 +9,7 @@ function LayoutMenuMobile() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   const { query, pathname, isReady } = useRouter()
-  const { currency, network } = query
+  const { currency } = query
   const basePath = `/[currency]`
   const isHome = pathname === basePath && isReady
   return (
@@ -19,7 +19,7 @@ function LayoutMenuMobile() {
         {t('v2.header.products')}
       </NextLink>
       <NextLink
-        href={`/${currency}/${network}/project`}
+        href={`/${currency}/ethereum/project`}
         className={`${!isHome && isActive('project') ? 'active' : ''}`}
       >
         <ProjectsIcon />
