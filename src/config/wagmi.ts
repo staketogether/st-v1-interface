@@ -4,7 +4,7 @@ import { safe, walletConnect } from '@wagmi/connectors'
 import Web3AuthConnectorInstances from '@/config/web3Auth'
 
 export const config = createConfig({
-  chains: process.env.NEXT_PUBLIC_ENV === 'production' ? [mainnet, optimism] : [holesky, optimismSepolia],
+  chains: [mainnet, optimism, holesky, optimismSepolia],
   transports: {
     [mainnet.id]: http(process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_API_KEY as string),
     [optimismSepolia.id]: http(process.env.NEXT_PUBLIC_ALCHEMY_OPTIMIST_SEPOLIA_API_KEY as string),
