@@ -88,8 +88,10 @@ const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
     color: ${({ theme }) => theme.colorV2.gray[1]};
     opacity: 0.6;
     cursor: pointer;
-    position: fixed;
-    margin-top: -39px;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      position: fixed;
+      margin-top: -39px;
+    }
   `,
   LoadingContainer: styled.div`
     width: 100%;
