@@ -150,7 +150,7 @@ export default function useUpdateDelegations(
     }
   }, [prepareTransactionIsSuccess])
 
-  const { writeContract, data: txHash, isError: writeContractIsError } = useWriteContract()
+  const { writeContract, data: txHash, isError: writeContractIsError, reset: resetState } = useWriteContract()
 
   useEffect(() => {
     if (writeContractIsError) {
@@ -218,6 +218,7 @@ export default function useUpdateDelegations(
     isSuccess: awaitTransactionSuccess,
     awaitWalletAction,
     txHash,
+    resetState: resetState,
     prepareTransactionIsError,
     prepareTransactionIsSuccess,
     prepareTransactionErrorMessage

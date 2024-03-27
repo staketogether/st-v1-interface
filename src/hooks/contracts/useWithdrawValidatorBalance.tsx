@@ -1,21 +1,26 @@
 import { chainConfigByChainId } from '@/config/chain'
-import { useStakeTogetherBeaconBalance } from '@/types/Contracts'
+import { stakeTogetherABI } from '@/types/Contracts'
 import { Product } from '@/types/Product'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useReadContract } from 'wagmi'
 
 export const useWithdrawValidatorBalance = ({ product, chainId }: { product: Product; chainId: number }) => {
   const [liquidityValidatorsBalance, setLiquidityValidatorsBalance] = useState(0n)
   const { isTestnet } = chainConfigByChainId(chainId)
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
 
-  const { isFetching, refetch } = useStakeTogetherBeaconBalance({
+  const { isFetching, refetch, data, isSuccess } = useReadContract({
     address: StakeTogether,
-    onSuccess: data => {
-      setLiquidityValidatorsBalance(data)
-    }
+    abi: stakeTogetherABI,
+    functionName: 'beaconBalance'
   })
 
-  //TODO RE-VISITAR ESSE HOOk
+  useEffect(() => {
+    if (isSuccess && data) {
+      setLiquidityValidatorsBalance(data)
+    }
+  }, [data, isSuccess])
+
   return {
     withdrawValidatorsBalance: liquidityValidatorsBalance || 0n,
     isLoading: isFetching,
