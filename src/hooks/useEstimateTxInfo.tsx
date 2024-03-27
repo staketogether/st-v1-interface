@@ -27,7 +27,10 @@ const useEstimateTxInfo = ({
   value,
   skip
 }: UseEstimateTxInfoProps) => {
-  const { data, isLoading: gasPriceLoading } = useEstimateFeesPerGas({query: { enabled: !skip }, chainId: chainId || mainnet.id})
+  const { data, isLoading: gasPriceLoading } = useEstimateFeesPerGas({
+    query: { enabled: !skip },
+    chainId: chainId || mainnet.id
+  })
 
   const gasPrice = data && data.gasPrice ? data.gasPrice : 0n
   const maxFeePerGas = data && data.maxFeePerGas ? data?.maxFeePerGas : 0n
@@ -43,8 +46,8 @@ const useEstimateTxInfo = ({
       }
     }
 
-    const client = await getWalletClient(config)
     try {
+      const client = await getWalletClient(config)
       const estimatedGas = await estimateContractGas(client, {
         account,
         functionName,
@@ -54,7 +57,7 @@ const useEstimateTxInfo = ({
         args: args || [],
         value,
         maxFeePerGas,
-        maxPriorityFeePerGas,
+        maxPriorityFeePerGas
       })
       const estimatedCost = (estimatedGas * maxFeePerGas * 3n) / 2n
       return {
