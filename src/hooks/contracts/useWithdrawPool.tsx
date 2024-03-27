@@ -25,6 +25,7 @@ import useConnectedAccount from '../useConnectedAccount'
 import { Product } from '@/types/Product'
 import { chainConfigByChainId } from '@/config/chain'
 import { stakeTogetherAbi } from '@/types/Contracts'
+import useEstimateTxInfo from '../useEstimateTxInfo'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -37,10 +38,10 @@ export default function useWithdrawPool(
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
 
-  const [estimateGasCost] = useState(0n)
-  const [maxFeePerGas] = useState<bigint | undefined>(undefined)
-  const [maxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
-  const [estimatedGas] = useState<bigint | undefined>(undefined)
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
+  const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
+  const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerWithdraw } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
@@ -51,39 +52,41 @@ export default function useWithdrawPool(
 
   const { t } = useLocaleTranslation()
 
-  // const amountEstimatedGas = stConfig?.minWithdrawAmount || 0n
+  const { stConfig } = useStConfig({ productName: product.name, chainId })
+  const amountEstimatedGas = stConfig?.minWithdrawAmount || 0n
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
   const isWithdrawEnabled = enabled && amount > 0n && !stConfigLoading
 
-  // const { estimateGas } = useEstimateTxInfo({
-  //   account: accountAddress,
-  //   contractAddress: StakeTogether,
-  //   functionName: 'withdrawPool',
-  //   args: [amountEstimatedGas, poolAddress],
-  //   abi: stakeTogetherAbi,
-  //   skip: !isWithdrawEnabled || estimateGasCost > 0n
-  // })
+  const { estimateGas } = useEstimateTxInfo({
+    account: accountAddress,
+    contractAddress: StakeTogether,
+    functionName: 'withdrawPool',
+    args: [amountEstimatedGas, poolAddress],
+    abi: stakeTogetherAbi,
+    skip: !isWithdrawEnabled || estimateGasCost > 0n
+  })
 
-  // useEffect(() => {
-  //   const handleEstimateGasPrice = async () => {
-  //     const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-  //       await estimateGas()
-  //     setEstimatedGas(estimatedGas)
-  //     setEstimateGasCost(estimatedCost)
-  //     setMaxFeePerGas(estimatedMaxFeePerGas)
-  //     setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
-  //   }
+  useEffect(() => {
+    const handleEstimateGasPrice = async () => {
+      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
+        await estimateGas()
+      setEstimatedGas(estimatedGas)
+      setEstimateGasCost(estimatedCost)
+      setMaxFeePerGas(estimatedMaxFeePerGas)
+      setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
+    }
 
-  //   if (estimateGasCost === 0n) {
-  //     handleEstimateGasPrice()
-  //   }
-  // }, [estimateGas, estimateGasCost])
+    if (estimateGasCost === 0n) {
+      handleEstimateGasPrice()
+    }
+  }, [estimateGas, estimateGasCost])
 
   const {
     data: prepareTransactionData,
     isError: prepareTransactionIsError,
     isSuccess: prepareTransactionIsSuccess,
-    error: prepareTransactionError
+    error: prepareTransactionError,
+    isLoading: prepareTransactionsIsLoading
   } = useSimulateContract({
     query: {
       enabled: isWithdrawEnabled
@@ -225,6 +228,7 @@ export default function useWithdrawPool(
     txHash,
     prepareTransactionIsError,
     prepareTransactionIsSuccess,
+    prepareTransactionsIsLoading,
     prepareTransactionErrorMessage
   }
 }

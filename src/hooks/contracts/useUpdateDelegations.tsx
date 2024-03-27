@@ -7,7 +7,7 @@ import {
 import chainConfig from '../../config/chain'
 import { stakeTogetherAbi } from '@/types/Contracts'
 import useConnectedAccount from '../useConnectedAccount'
-import { getContractsByProductName } from '@/config/product'
+import { getContractsByProductName, getProductByName } from '@/config/product'
 import { notification } from 'antd'
 import useLocaleTranslation from '../useLocaleTranslation'
 import { ethereumMainnetClient } from '@/config/apollo'
@@ -21,6 +21,8 @@ import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import useEstimateTxInfo from '../useEstimateTxInfo'
+import { ethers } from 'ethers'
 
 export type PoolData = {
   pool: `0x${string}`
@@ -35,10 +37,10 @@ export default function useUpdateDelegations(
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
 
-  const [estimateGasCost] = useState(0n)
-  const [maxFeePerGas] = useState<bigint | undefined>(undefined)
-  const [maxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
-  const [estimatedGas] = useState<bigint | undefined>(undefined)
+  const [estimateGasCost, setEstimateGasCost] = useState(0n)
+  const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
+  const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   // const { registerWithdraw } = useMixpanelAnalytics()
   const { isTestnet, chainId } = chainConfig()
@@ -48,44 +50,44 @@ export default function useUpdateDelegations(
     isTestnet
   })
 
-  // const { stakeTogetherPool } = getProductByName({
-  //   productName: 'ethereum-stake'
-  // })
+  const { stakeTogetherPool } = getProductByName({
+    productName: 'ethereum-stake'
+  })
 
   const { web3AuthUserInfo } = useConnectedAccount()
   const { t } = useLocaleTranslation()
 
-  // const updateDelegationEstimatedGas: PoolData[] = [
-  //   {
-  //     pool: stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet'],
-  //     percentage: ethers.parseUnits('1', 18)
-  //   }
-  // ]
+  const updateDelegationEstimatedGas: PoolData[] = [
+    {
+      pool: stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet'],
+      percentage: ethers.parseUnits('1', 18)
+    }
+  ]
   const isUpdateDelegationEnabled = enabled
 
-  // const { estimateGas } = useEstimateTxInfo({
-  //   account: accountAddress,
-  //   contractAddress: StakeTogether,
-  //   functionName: 'updateDelegations',
-  //   args: [updateDelegationEstimatedGas],
-  //   abi: stakeTogetherAbi,
-  //   skip: estimateGasCost > 0n
-  // })
+  const { estimateGas } = useEstimateTxInfo({
+    account: accountAddress,
+    contractAddress: StakeTogether,
+    functionName: 'updateDelegations',
+    args: [updateDelegationEstimatedGas],
+    abi: stakeTogetherAbi,
+    skip: estimateGasCost > 0n
+  })
 
-  // useEffect(() => {
-  //   const handleEstimateGasPrice = async () => {
-  //     const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-  //       await estimateGas()
-  //     setEstimatedGas(estimatedGas)
-  //     setEstimateGasCost(estimatedCost)
-  //     setMaxFeePerGas(estimatedMaxFeePerGas)
-  //     setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
-  //   }
+  useEffect(() => {
+    const handleEstimateGasPrice = async () => {
+      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
+        await estimateGas()
+      setEstimatedGas(estimatedGas)
+      setEstimateGasCost(estimatedCost)
+      setMaxFeePerGas(estimatedMaxFeePerGas)
+      setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
+    }
 
-  //   if (estimateGasCost === 0n) {
-  //     handleEstimateGasPrice()
-  //   }
-  // }, [estimateGas, estimateGasCost])
+    if (estimateGasCost === 0n) {
+      handleEstimateGasPrice()
+    }
+  }, [estimateGas, estimateGasCost])
 
   const {
     data: prepareTransactionData,

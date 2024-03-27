@@ -23,7 +23,7 @@ export const productList: Product[] = [
     urlRedirect: '/currency/holesky/product/ethereum-stake',
     stakeTogetherPool: {
       mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
-      testnet: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48'
+      testnet: '0xF4e8Dd9C44438ee697B61a426a592010e9a86a90'
     },
     contracts: {
       mainnet: {
@@ -37,7 +37,7 @@ export const productList: Product[] = [
         Airdrop: '0x5B625457fE23e87957Eb9eE610D590BD848f4775',
         Withdrawals: '0xC43344d37f6Dd117676a33866fB086484834d4dF',
         Router: '0xfc65Cb4C3e00f760A42362b6a946818ebEFE7C31',
-        StakeTogether: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48',
+        StakeTogether: '0xF4e8Dd9C44438ee697B61a426a592010e9a86a90',
         StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
       }
     },
@@ -72,22 +72,22 @@ export const productList: Product[] = [
     enabled: true,
     urlRedirect: '/currency/optimism-sepolia/product/ethereum-restaking',
     stakeTogetherPool: {
-      mainnet: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
-      testnet: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480'
+      mainnet: '0x15Df22857d8208d4add356dB92E48B347488969E',
+      testnet: '0x15Df22857d8208d4add356dB92E48B347488969E'
     },
     contracts: {
       mainnet: {
         Airdrop: '0x6D38e32dB2A5e88b3D6DEf74b981c4CAF50B0533',
         Withdrawals: '0xbBeAE3626810c9A001DdddF825A13793B94433Db',
         Router: '0xd5aC0835a7E537b4D263DbfDC8c6176fE04b878a',
-        StakeTogether: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
+        StakeTogether: '0x15Df22857d8208d4add356dB92E48B347488969E',
         StakeTogetherWrapper: '0xE9550754410Fa6f4B5EFC3379793c8bf2b69C59E'
       },
       testnet: {
         Airdrop: '0x6D38e32dB2A5e88b3D6DEf74b981c4CAF50B0533',
         Withdrawals: '0xbBeAE3626810c9A001DdddF825A13793B94433Db',
         Router: '0xd5aC0835a7E537b4D263DbfDC8c6176fE04b878a',
-        StakeTogether: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
+        StakeTogether: '0x15Df22857d8208d4add356dB92E48B347488969E',
         StakeTogetherWrapper: '0xE9550754410Fa6f4B5EFC3379793c8bf2b69C59E'
       }
     },

@@ -22,9 +22,9 @@ import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import { stakeTogetherAbi } from '@/types/Contracts'
 import useConnectedAccount from '../useConnectedAccount'
-// import useEstimateTxInfo from '../useEstimateTxInfo'
+import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
-// import useStConfig from './useStConfig'
+import useStConfig from './useStConfig'
 
 export default function useDepositPool(
   netDepositAmount: bigint,
@@ -47,43 +47,42 @@ export default function useDepositPool(
   const { isTestnet } = chainConfigByChainId(chainId)
   const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
   const { web3AuthUserInfo } = useConnectedAccount()
-  // const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
+  const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
   const { t } = useLocaleTranslation()
 
-  // const amountEstimatedGas = stConfig?.minDepositAmount || 0n
+  const amountEstimatedGas = stConfig?.minDepositAmount || 0n
 
-  // const isDepositEnabled = enabled && netDepositAmount > 0n && !stConfigLoading
-  const isDepositEnabled = enabled && netDepositAmount > 0n
+  const isDepositEnabled = enabled && netDepositAmount > 0n && !stConfigLoading
 
-  // const isDepositEstimatedGas = !enabled && stConfigLoading
+  const isDepositEstimatedGas = !enabled && stConfigLoading
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
   // Todo! Implement Referral
   const referral = '0x0000000000000000000000000000000000000000'
 
-  // const { estimateGas } = useEstimateTxInfo({
-  //   account: StakeTogether,
-  //   functionName: 'depositPool',
-  //   args: [poolAddress, referral],
-  //   contractAddress: StakeTogether,
-  //   abi: stakeTogetherAbi,
-  //   value: amountEstimatedGas,
-  //   skip: isDepositEstimatedGas && estimateGasCost > 0n
-  // })
+  const { estimateGas } = useEstimateTxInfo({
+    account: StakeTogether,
+    functionName: 'depositPool',
+    args: [poolAddress, referral],
+    contractAddress: StakeTogether,
+    abi: stakeTogetherAbi,
+    value: amountEstimatedGas,
+    skip: isDepositEstimatedGas && estimateGasCost > 0n
+  })
 
-  // useEffect(() => {
-  //   const handleEstimateGasPrice = async () => {
-  //     const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-  //       await estimateGas()
-  //     setDepositEstimatedGas(estimatedGas)
-  //     setEstimateGasCost(estimatedCost)
-  //     setMaxFeePerGas(estimatedMaxFeePerGas)
-  //     setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
-  //   }
+  useEffect(() => {
+    const handleEstimateGasPrice = async () => {
+      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
+        await estimateGas()
+      setDepositEstimatedGas(estimatedGas)
+      setEstimateGasCost(estimatedCost)
+      setMaxFeePerGas(estimatedMaxFeePerGas)
+      setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
+    }
 
-  //   if (estimateGasCost === 0n) {
-  //     handleEstimateGasPrice()
-  //   }
-  // }, [estimateGas, estimateGasCost])
+    if (estimateGasCost === 0n) {
+      handleEstimateGasPrice()
+    }
+  }, [estimateGas, estimateGasCost])
 
   useEffect(() => {
     if (accountAddress) {

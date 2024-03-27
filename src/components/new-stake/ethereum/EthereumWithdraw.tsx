@@ -113,7 +113,8 @@ export default function EthereumWithdraw({
     txHash: withdrawPoolTxHash,
     prepareTransactionIsError: withdrawPoolPrepareTransactionIsError,
     prepareTransactionIsSuccess: withdrawPoolPrepareTransactionIsSuccess,
-    prepareTransactionErrorMessage: withdrawPoolPrepareTransactionErrorMessage
+    prepareTransactionErrorMessage: withdrawPoolPrepareTransactionErrorMessage,
+    prepareTransactionsIsLoading: withdrawPoolPrepareTransactionsIsLoading
   } = useWithdrawPool(
     inputAmount,
     blankPoolAddress,
@@ -133,7 +134,8 @@ export default function EthereumWithdraw({
     txHash: withdrawValidatorTxHash,
     prepareTransactionIsError: withdrawValidatorPrepareTransactionIsError,
     prepareTransactionIsSuccess: withdrawValidatorPrepareTransactionIsSuccess,
-    prepareTransactionErrorMessage: withdrawValidatorPrepareTransactionErrorMessage
+    prepareTransactionErrorMessage: withdrawValidatorPrepareTransactionErrorMessage,
+    prepareTransactionsIsLoading: withdrawValidatorPrepareTransactionsIsLoading
   } = useWithdrawValidator(
     inputAmount,
     blankPoolAddress,
@@ -155,7 +157,8 @@ export default function EthereumWithdraw({
         withdrawTxHash: withdrawValidatorTxHash,
         prepareTransactionIsError: withdrawValidatorPrepareTransactionIsError,
         prepareTransactionIsSuccess: withdrawValidatorPrepareTransactionIsSuccess,
-        prepareTransactionErrorMessage: withdrawValidatorPrepareTransactionErrorMessage
+        prepareTransactionErrorMessage: withdrawValidatorPrepareTransactionErrorMessage,
+        prepareTransactionsIsLoading: withdrawValidatorPrepareTransactionsIsLoading
       }
     }
     return {
@@ -168,7 +171,8 @@ export default function EthereumWithdraw({
       withdrawTxHash: withdrawPoolTxHash,
       prepareTransactionIsError: withdrawPoolPrepareTransactionIsError,
       prepareTransactionIsSuccess: withdrawPoolPrepareTransactionIsSuccess,
-      prepareTransactionErrorMessage: withdrawPoolPrepareTransactionErrorMessage
+      prepareTransactionErrorMessage: withdrawPoolPrepareTransactionErrorMessage,
+      prepareTransactionsIsLoading: withdrawPoolPrepareTransactionsIsLoading
     }
   }
 
@@ -209,10 +213,14 @@ export default function EthereumWithdraw({
 
   const openStakeConfirmation = () => {
     if (isWrongNetwork && switchChain) {
-      switchChain({
-        chainId: chainId
-      })
-      return
+      try {
+        switchChain({
+          chainId: chainId
+        })
+        return
+      } catch {
+        return
+      }
     }
     setOpenStakeConfirmModal(true)
   }
@@ -242,8 +250,8 @@ export default function EthereumWithdraw({
     insufficientFunds ||
     insufficientWithdrawalBalance ||
     amountIsEmpty ||
-    withdrawData.prepareTransactionIsError
-  !!withdrawTimeLeft
+    withdrawData.prepareTransactionIsError ||
+    !!withdrawTimeLeft
 
   return (
     <>
