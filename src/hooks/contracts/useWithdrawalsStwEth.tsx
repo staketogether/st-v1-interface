@@ -9,7 +9,6 @@ import {
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-import { withdrawalsABI } from '../../types/Contracts'
 import useLocaleTranslation from '../useLocaleTranslation'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
@@ -20,6 +19,7 @@ import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { ethereumMainnetClient } from '@/config/apollo'
 import { getProductByName } from '@/config/product'
+import { withdrawalsAbi } from '@/types/Contracts'
 
 export default function useWithdrawalsStwEth(
   withdrawAmount: bigint,
@@ -48,7 +48,7 @@ export default function useWithdrawalsStwEth(
     },
     address: Withdrawals,
     args: [withdrawAmount],
-    abi: withdrawalsABI,
+    abi: withdrawalsAbi,
     account: accountAddress,
     functionName: 'withdraw'
   })
