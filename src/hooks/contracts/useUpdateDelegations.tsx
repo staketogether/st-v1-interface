@@ -5,7 +5,7 @@ import {
   useWriteContract
 } from 'wagmi'
 import chainConfig from '../../config/chain'
-import { stakeTogetherABI } from '../../types/Contracts'
+import { stakeTogetherAbi } from '@/types/Contracts'
 import useConnectedAccount from '../useConnectedAccount'
 import { getContractsByProductName } from '@/config/product'
 import { notification } from 'antd'
@@ -68,7 +68,7 @@ export default function useUpdateDelegations(
   //   contractAddress: StakeTogether,
   //   functionName: 'updateDelegations',
   //   args: [updateDelegationEstimatedGas],
-  //   abi: stakeTogetherABI,
+  //   abi: stakeTogetherAbi,
   //   skip: estimateGasCost > 0n
   // })
 
@@ -99,7 +99,7 @@ export default function useUpdateDelegations(
     address: StakeTogether,
     args: [updateDelegationPools],
     account: accountAddress,
-    abi: stakeTogetherABI,
+    abi: stakeTogetherAbi,
 
     chainId,
     functionName: 'updateDelegations',

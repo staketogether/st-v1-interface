@@ -1,10 +1,10 @@
-import { stakeTogetherABI } from '@/types/Contracts'
 import { useEffect, useState } from 'react'
 import { STConfig } from '../../types/STConfig'
 import { getContractsByProductName } from '@/config/product'
 import { StakingProduct } from '@/types/Product'
 import { chainConfigByChainId } from '@/config/chain'
 import { useReadContract } from 'wagmi'
+import { stakeTogetherAbi } from '@/types/Contracts'
 
 export default function useStConfig({
   productName,
@@ -19,7 +19,7 @@ export default function useStConfig({
 
   const { isFetching, isSuccess, data } = useReadContract({
     address: StakeTogether,
-    abi: stakeTogetherABI,
+    abi: stakeTogetherAbi,
     functionName: 'config'
   })
 

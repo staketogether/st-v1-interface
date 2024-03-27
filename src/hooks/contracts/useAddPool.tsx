@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
-import { stakeTogetherABI } from '@/types/Contracts'
+import { stakeTogetherAbi } from '@/types/Contracts'
 import {
   useSimulateContract,
   useWaitForTransactionReceipt as useWaitForTransaction,
@@ -38,7 +38,7 @@ export default function useAddPool(projectAddress: `0x${string}`, isSocial: bool
     },
     chainId,
     address: StakeTogether,
-    abi: stakeTogetherABI,
+    abi: stakeTogetherAbi,
     functionName: 'addPool',
     args: [projectAddress, true, isSocial, false],
     value: 0n

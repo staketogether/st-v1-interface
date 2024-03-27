@@ -21,7 +21,7 @@ import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
-import { stakeTogetherABI } from '@/types/Contracts'
+import { stakeTogetherAbi } from '@/types/Contracts'
 import useConnectedAccount from '../useConnectedAccount'
 import { Product } from '@/types/Product'
 import { getSubgraphClient } from '@/config/apollo'
@@ -59,7 +59,7 @@ export default function useWithdrawValidator(
   //   contractAddress: StakeTogether,
   //   functionName: 'withdrawBeacon',
   //   args: [amount, poolAddress],
-  //   abi: stakeTogetherABI,
+  //   abi: stakeTogetherAbi,
   //   skip: !isWithdrawEnabled || estimateGasCost > 0n
   // })
 
@@ -91,7 +91,7 @@ export default function useWithdrawValidator(
     address: StakeTogether,
     args: [amount, poolAddress],
     account: accountAddress,
-    abi: stakeTogetherABI,
+    abi: stakeTogetherAbi,
     functionName: 'withdrawBeacon',
     gas: !!estimatedGas && estimatedGas > 0n && !!web3AuthUserInfo ? estimatedGas : undefined,
     maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
-import { stakeTogetherABI } from '@/types/Contracts'
+import { stakeTogetherAbi } from '@/types/Contracts'
 import {
   useSimulateContract,
   useWaitForTransactionReceipt as useWaitForTransaction,
@@ -39,7 +39,7 @@ export default function useRemovePool(projectAddress: `0x${string}`, disabled?: 
     chainId,
     address: StakeTogether,
     args: [projectAddress],
-    abi: stakeTogetherABI,
+    abi: stakeTogetherAbi,
     functionName: 'removePool'
   })
 

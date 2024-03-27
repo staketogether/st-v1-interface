@@ -20,7 +20,7 @@ import {
 } from 'wagmi'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-import { stakeTogetherABI } from '../../types/Contracts'
+import { stakeTogetherAbi } from '@/types/Contracts'
 import useConnectedAccount from '../useConnectedAccount'
 // import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
@@ -65,7 +65,7 @@ export default function useDepositPool(
   //   functionName: 'depositPool',
   //   args: [poolAddress, referral],
   //   contractAddress: StakeTogether,
-  //   abi: stakeTogetherABI,
+  //   abi: stakeTogetherAbi,
   //   value: amountEstimatedGas,
   //   skip: isDepositEstimatedGas && estimateGasCost > 0n
   // })
@@ -106,7 +106,7 @@ export default function useDepositPool(
       enabled: accountAddress && isDepositEnabled
     },
     account: accountAddress,
-    abi: stakeTogetherABI,
+    abi: stakeTogetherAbi,
     chainId,
     functionName: 'depositPool',
     address: StakeTogether,

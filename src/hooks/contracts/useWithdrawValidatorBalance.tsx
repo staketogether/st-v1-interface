@@ -1,5 +1,5 @@
 import { chainConfigByChainId } from '@/config/chain'
-import { stakeTogetherABI } from '@/types/Contracts'
+import { stakeTogetherAbi } from '@/types/Contracts'
 import { Product } from '@/types/Product'
 import { useEffect, useState } from 'react'
 import { useReadContract } from 'wagmi'
@@ -11,7 +11,7 @@ export const useWithdrawValidatorBalance = ({ product, chainId }: { product: Pro
 
   const { isFetching, refetch, data, isSuccess } = useReadContract({
     address: StakeTogether,
-    abi: stakeTogetherABI,
+    abi: stakeTogetherAbi,
     functionName: 'beaconBalance'
   })
 

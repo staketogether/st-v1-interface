@@ -24,7 +24,7 @@ import useStConfig from './useStConfig'
 import useConnectedAccount from '../useConnectedAccount'
 import { Product } from '@/types/Product'
 import { chainConfigByChainId } from '@/config/chain'
-import { stakeTogetherABI } from '@/types/Contracts'
+import { stakeTogetherAbi } from '@/types/Contracts'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -60,7 +60,7 @@ export default function useWithdrawPool(
   //   contractAddress: StakeTogether,
   //   functionName: 'withdrawPool',
   //   args: [amountEstimatedGas, poolAddress],
-  //   abi: stakeTogetherABI,
+  //   abi: stakeTogetherAbi,
   //   skip: !isWithdrawEnabled || estimateGasCost > 0n
   // })
 
@@ -89,7 +89,7 @@ export default function useWithdrawPool(
       enabled: isWithdrawEnabled
     },
     address: StakeTogether,
-    abi: stakeTogetherABI,
+    abi: stakeTogetherAbi,
     functionName: 'withdrawPool',
     args: [amount, poolAddress],
     account: accountAddress,

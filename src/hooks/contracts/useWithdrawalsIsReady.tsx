@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
-import { withdrawalsABI } from '@/types/Contracts'
+import { withdrawalsAbi } from '@/types/Contracts'
 import { getContractsByProductName } from '@/config/product'
 import { useReadContract } from 'wagmi'
 
@@ -18,7 +18,7 @@ export default function useWithdrawalsIsReady(amount: bigint = 0n) {
   const { isFetching, isSuccess, data } = useReadContract({
     address: Withdrawals,
     args: [amount],
-    abi: withdrawalsABI,
+    abi: withdrawalsAbi,
     functionName: 'isWithdrawReady'
   })
 
