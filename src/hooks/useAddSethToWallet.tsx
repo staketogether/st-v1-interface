@@ -8,8 +8,6 @@ type useAddSethToWalletProps = {
 }
 
 export default function useAddSethToWallet({ productSymbol, contractAddress }: useAddSethToWalletProps) {
-  const client = getWalletClient(config)
-
   const productSymbolIcons = {
     stpETH: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
     strETH:
@@ -25,8 +23,9 @@ export default function useAddSethToWallet({ productSymbol, contractAddress }: u
   }
 
   const addToWalletAction = async () => {
-    const resolveClient = await client
     try {
+      const client = getWalletClient(config)
+      const resolveClient = await client
       await resolveClient.watchAsset?.({
         type: 'ERC20',
         options: {

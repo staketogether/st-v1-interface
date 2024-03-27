@@ -5,8 +5,6 @@ import { getWalletClient } from 'wagmi/actions'
 import { config } from '@/config/wagmi'
 
 export default function useAddStwEthToWallet() {
-  const client = getWalletClient(config)
-
   const { isTestnet } = chainConfig()
   const { Withdrawals } = getContractsByProductName({
     productName: 'ethereum-stake',
@@ -14,6 +12,7 @@ export default function useAddStwEthToWallet() {
   })
   const { t } = useLocaleTranslation()
   const addToWalletAction = async () => {
+    const client = getWalletClient(config)
     const resolveClient = await client
     try {
       await resolveClient.watchAsset?.({
