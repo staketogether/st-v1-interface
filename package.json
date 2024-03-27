@@ -24,8 +24,8 @@
     "@tanstack/react-query": "^5.28.8",
     "@transak/transak-sdk": "^2.1.3",
     "@wagmi/cli": "^2.1.4",
-    "@wagmi/connectors": "^4.1.18",
-    "@wagmi/core": "^2.6.9",
+    "@wagmi/connectors": "^4.1.19",
+    "@wagmi/core": "^2.6.10",
     "@web3auth/base": "^8.0.0",
     "@web3auth/ethereum-provider": "^8.0.1",
     "@web3auth/no-modal": "^8.0.1",
@@ -62,7 +62,7 @@
     "swr": "^2.2.5",
     "usehooks-ts": "^2.9.1",
     "viem": "^2.9.3",
-    "wagmi": "^2.5.12",
+    "wagmi": "^2.5.13",
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
