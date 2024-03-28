@@ -54,7 +54,7 @@ const configs: ChainConfig[] = [
     blockExplorer: {
       baseUrl: 'https://optimism-sepolia.blockscout.com'
     },
-    isTestnet: true
+    isTestnet: false
   }
 ]
 
