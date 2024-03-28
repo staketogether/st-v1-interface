@@ -1,6 +1,8 @@
 import { Web3AuthUserInfo } from '@/types/Web3AuthUserInfo'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
+import { useReactiveVar } from '@apollo/client'
+import { web3AuthInstanceVar } from '@/config/web3Auth'
 
 export default function useConnectedAccount() {
   const [web3AuthUserInfo, setWeb3AuthUserInfo] = useState<Web3AuthUserInfo | null>(null)
@@ -8,22 +10,17 @@ export default function useConnectedAccount() {
   const [account, setAccount] = useState<`0x${string}` | undefined>(undefined)
   const [accountIsConnected, setAccountIsConnected] = useState<boolean>(false)
   const [walletConnected, setWalletConnected] = useState('')
+  const web3AuthInstance = useReactiveVar(web3AuthInstanceVar)
 
   useEffect(() => {
     const getUserInfo = async () => {
       if (
         connector &&
-        connector.name === 'Web3Auth' &&
+        web3AuthInstance &&
+        web3AuthInstance.status === 'connected') {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        connector.web3AuthInstance &&
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        connector.web3AuthInstance.getUserInfo
-      ) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const user = await connector.web3AuthInstance.getUserInfo()
+        const user = await web3AuthInstance.getUserInfo()
 
         if (user) {
           setWeb3AuthUserInfo(user)
@@ -34,7 +31,7 @@ export default function useConnectedAccount() {
       }
     }
     getUserInfo()
-  }, [connector])
+  }, [connector, web3AuthInstance])
 
   useEffect(() => {
     setAccount(address)

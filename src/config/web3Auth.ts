@@ -5,6 +5,7 @@ import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
 import { CHAIN_NAMESPACES, UX_MODE, WEB3AUTH_NETWORK } from '@web3auth/base'
 import * as ChainConfig from 'viem/chains'
 import { WalletServicesPlugin } from '@web3auth/wallet-services-plugin'
+import { makeVar, ReactiveVar } from '@apollo/client'
 
 const handleRpcPerChain = (chainId: number) => {
   const alchemyKey: { [key: number]: string } = {
@@ -16,6 +17,8 @@ const handleRpcPerChain = (chainId: number) => {
 
   return alchemyKey[chainId] || ''
 }
+
+export const web3AuthInstanceVar = makeVar<Web3AuthNoModal | undefined>(undefined)
 
 export default function Web3AuthConnectorInstances(chains: ChainConfig.Chain[]) {
   const chainConfig = {
@@ -65,6 +68,8 @@ export default function Web3AuthConnectorInstances(chains: ChainConfig.Chain[]) 
     }
   })
   web3AuthInstance.addPlugin(walletServicesPlugin)
+
+  web3AuthInstance.init().then(() => web3AuthInstanceVar(web3AuthInstance))
 
   const googleConnector = Web3AuthConnector({
     web3AuthInstance,
