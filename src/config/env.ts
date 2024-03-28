@@ -48,4 +48,7 @@ export default function validEnv() {
     throw new Error('NEXT_PUBLIC_RPC_MAINNET_URL not found in env')
   }
 
+  if (!process.env.NEXT_PUBLIC_RPC_OPTIMISM_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_OPTIMISM_URL not found in env')
+  }
 }
