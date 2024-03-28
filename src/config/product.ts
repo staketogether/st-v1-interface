@@ -37,7 +37,7 @@ export const productList: Product[] = [
         Airdrop: '0x5B625457fE23e87957Eb9eE610D590BD848f4775',
         Withdrawals: '0xC43344d37f6Dd117676a33866fB086484834d4dF',
         Router: '0xfc65Cb4C3e00f760A42362b6a946818ebEFE7C31',
-        StakeTogether: '0xF4e8Dd9C44438ee697B61a426a592010e9a86a90',
+        StakeTogether: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48',
         StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
       }
     },

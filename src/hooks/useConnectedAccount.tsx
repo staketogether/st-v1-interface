@@ -1,6 +1,8 @@
 import { Web3AuthUserInfo } from '@/types/Web3AuthUserInfo'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
+import { getConnectors, getWalletClient } from 'wagmi/actions'
+import { config } from '@/config/wagmi'
 
 export default function useConnectedAccount() {
   const [web3AuthUserInfo, setWeb3AuthUserInfo] = useState<Web3AuthUserInfo | null>(null)
@@ -11,6 +13,13 @@ export default function useConnectedAccount() {
 
   useEffect(() => {
     const getUserInfo = async () => {
+      try {
+        const client = await getWalletClient(config)
+        const connectors = await getConnectors(config)
+        console.log('client', client, connectors, connector)
+      } catch (e) {
+        console.log(e)
+      }
       if (
         connector &&
         connector.name === 'Web3Auth' &&
@@ -24,6 +33,7 @@ export default function useConnectedAccount() {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const user = await connector.web3AuthInstance.getUserInfo()
+
         if (user) {
           setWeb3AuthUserInfo(user)
         }
