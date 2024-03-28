@@ -19,7 +19,7 @@ function LayoutMenuMobile() {
         {t('v2.header.products')}
       </NextLink>
       <NextLink
-        href={`/${currency}/${network}/project`}
+        href={`/${currency}/${network || 'optimism'}/project`}
         className={`${!isHome && isActive('project') ? 'active' : ''}`}
       >
         <ProjectsIcon />
