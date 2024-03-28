@@ -1,5 +1,5 @@
 import Button from '@/components/shared/Button'
-import { BrlaBuyEthStep, fiatAmountVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, depositConfigVar, fiatAmountVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useQuoteBrla from '@/hooks/ramp/useQuote'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -25,12 +25,13 @@ export default function QuotationStep() {
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
   const [activeValue, setActiveValue] = useState<number>(0)
   const debounceValue = useDebounce(value, 300)
+  const depositConfig = useReactiveVar(depositConfigVar)
 
 
   const { quote, isValidating: quoteIsValidating } = useQuoteBrla(
-    1,
     'brl',
     debounceValue ? Number(debounceValue) : 0,
+    depositConfig?.depositChanId,
     0,
     ProviderType.brla,
     PaymentMethodType.pix

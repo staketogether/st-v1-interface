@@ -6,7 +6,7 @@ import { quoteVar } from "./useControlModal"
 
 
 export default function useQuoteRamp(
-    chainId: number, fiatCurrencyCode: string, amount?: number, isCryptoAmount: number = 0, provider?: ProviderType, paymentMethod?: PaymentMethodType
+    fiatCurrencyCode: string, amount?: number, chainId?: number, isCryptoAmount: number = 0, provider?: ProviderType, paymentMethod?: PaymentMethodType
 ) {
     const url = `api/ramp/quote/${provider}?chainId=${chainId}&paymentMethod=${paymentMethod}&fiatCurrencyCode=${fiatCurrencyCode}&amount=${amount}&isCryptoAmount=${isCryptoAmount}`
     const { data, error, isLoading, isValidating } = useSWR<Quote>((chainId && fiatCurrencyCode && amount && provider && paymentMethod) ? url : null, { refreshInterval: 6000, revalidateOnMount: true })

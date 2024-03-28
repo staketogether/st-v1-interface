@@ -1,15 +1,15 @@
 import Button from '@/components/shared/Button'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
-import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import { openModal } from '@/hooks/ramp/useControlModal'
+import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Product } from '@/types/Product'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import EthereumDeposit from './EthereumDeposit'
 import EthereumWithdraw from './EthereumWithdraw'
-import { Product } from '@/types/Product'
-import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 
 type EthereumFormControlProps = {
   type: 'deposit' | 'withdraw'
@@ -21,6 +21,7 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
   const { currency } = query as { currency: string }
   const { account } = useConnectedAccount()
   const { t } = useLocaleTranslation()
+
 
   const {
     balance: ethBalance,
@@ -56,7 +57,10 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
           width={133}
           height={32}
           color='green'
-          onClick={openQuoteEthModal}
+          onClick={() => {
+            openModal(product.name, product.networkAvailable)
+            console.log(product)
+          }}
           small
         />
       </header>
