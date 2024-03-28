@@ -77,11 +77,11 @@ export const productList: Product[] = [
     },
     contracts: {
       mainnet: {
-        Airdrop: '0x6D38e32dB2A5e88b3D6DEf74b981c4CAF50B0533',
-        Withdrawals: '0xbBeAE3626810c9A001DdddF825A13793B94433Db',
-        Router: '0xd5aC0835a7E537b4D263DbfDC8c6176fE04b878a',
-        StakeTogether: '0x15Df22857d8208d4add356dB92E48B347488969E',
-        StakeTogetherWrapper: '0xE9550754410Fa6f4B5EFC3379793c8bf2b69C59E'
+        Airdrop: '0x9A967118f216eCE6B5853915691b96d28df19b4A',
+        Withdrawals: '0xB01fD1CDd2fDfa3cC4955635776733A8abaad8F8',
+        Router: '0x3B5f4719d701D905ab206C2255476bC37AfdcfdD',
+        StakeTogether: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
+        StakeTogetherWrapper: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508'
       },
       testnet: {
         Airdrop: '0x6D38e32dB2A5e88b3D6DEf74b981c4CAF50B0533',
@@ -92,7 +92,7 @@ export const productList: Product[] = [
       }
     },
     subgraph: {
-      mainnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest',
+      mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together-optimism/v1.0.0',
       testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest'
     },
     getMobulaAssetData: {
