@@ -21,8 +21,8 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   const { chain: walletChainId } = useAccount()
 
   const { web3AuthUserInfo } = useConnectedAccount()
-  console.log({ web3AuthUserInfo })
-  const { name: ensName, nameLoading: ensLoading } = useEns(address, walletChainId!.id || Networks.Mainnet)
+  // console.log({ web3AuthUserInfo })
+  const { name: ensName, nameLoading: ensLoading } = useEns(address, walletChainId?.id || Networks.Mainnet)
 
   const handleActionButton = () => {
     setOpenSidebar(true)
@@ -45,7 +45,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
             height={24}
           />
         ) : (
-          <EnsAvatar address={address} size={24} chainId={walletChainId!.id || Networks.Mainnet} />
+          <EnsAvatar address={address} size={24} chainId={walletChainId?.id || Networks.Mainnet} />
         )}
       </EnsAddress>
     </ConnectedButton>

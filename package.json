@@ -30,6 +30,7 @@
     "@web3auth/ethereum-provider": "^8.0.1",
     "@web3auth/no-modal": "^8.0.1",
     "@web3auth/openlogin-adapter": "^8.0.1",
+    "@web3auth/wallet-services-plugin": "^8.0.1",
     "@web3auth/web3auth-wagmi-connector": "^6.0.0",
     "antd": "^5.12.2",
     "antd-img-crop": "^4.18.0",

@@ -2,11 +2,9 @@ import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
 import { Web3AuthNoModal } from '@web3auth/no-modal'
 import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider'
 import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
-import stSymbol from '@assets/st-symbol.svg'
 import { CHAIN_NAMESPACES, UX_MODE, WEB3AUTH_NETWORK } from '@web3auth/base'
 import * as ChainConfig from 'viem/chains'
-
-const iconUrl = stSymbol
+import { WalletServicesPlugin } from '@web3auth/wallet-services-plugin'
 
 const handleRpcPerChain = (chainId: number) => {
   const alchemyKey: { [key: number]: string } = {
@@ -36,22 +34,37 @@ export default function Web3AuthConnectorInstances(chains: ChainConfig.Chain[]) 
     clientId: chains[0].testnet
       ? String(process.env.NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID)
       : String(process.env.NEXT_PUBLIC_WEB3_AUTH_ID),
+    chainConfig,
     privateKeyProvider,
-    web3AuthNetwork: chains[0].testnet ? WEB3AUTH_NETWORK.SAPPHIRE_DEVNET : WEB3AUTH_NETWORK.SAPPHIRE_MAINNET
-  })
-
-  const openloginAdapterInstance = new OpenloginAdapter({
     web3AuthNetwork: chains[0].testnet ? WEB3AUTH_NETWORK.SAPPHIRE_DEVNET : WEB3AUTH_NETWORK.SAPPHIRE_MAINNET,
-    adapterSettings: {
-      uxMode: UX_MODE.REDIRECT,
-      whiteLabel: {
-        logoLight: iconUrl,
-        logoDark: iconUrl,
-        defaultLanguage: 'en'
+    enableLogging: true,
+    uiConfig: {
+      mode: 'dark',
+      useLogoLoader: true,
+      logoLight: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+      logoDark: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+      defaultLanguage: 'en',
+      theme: {
+        primary: '#768729'
       }
     }
   })
+
+  const openloginAdapterInstance = new OpenloginAdapter({
+    adapterSettings: {
+      uxMode: UX_MODE.REDIRECT
+    }
+  })
   web3AuthInstance.configureAdapter(openloginAdapterInstance)
+
+  const walletServicesPlugin = new WalletServicesPlugin({
+    walletInitOptions: {
+      whiteLabel: {
+        showWidgetButton: true
+      }
+    }
+  })
+  web3AuthInstance.addPlugin(walletServicesPlugin)
 
   const googleConnector = Web3AuthConnector({
     web3AuthInstance,
@@ -74,5 +87,5 @@ export default function Web3AuthConnectorInstances(chains: ChainConfig.Chain[]) 
     }
   })
 
-  return [googleConnector, facebookConnector, appleConnector]
+  return { connectors: [googleConnector, facebookConnector, appleConnector], web3AuthInstance }
 }

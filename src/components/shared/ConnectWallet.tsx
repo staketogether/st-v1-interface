@@ -1,7 +1,7 @@
 import { config } from '@/config/wagmi'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
 import Image from 'next/image'
@@ -15,16 +15,6 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
 
   const { connect, connectors } = useConnect({
     config
-  })
-
-  console.log(connectors)
-
-  useEffect(() => {
-    const getProvider2 = async () => {
-      const provider = await connectors[0].getProvider()
-      console.log(provider)
-    }
-    getProvider2()
   })
 
   const { t } = useLocaleTranslation()

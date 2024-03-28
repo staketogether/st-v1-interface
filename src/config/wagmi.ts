@@ -6,7 +6,7 @@ import Web3AuthConnectorInstances from '@/config/web3Auth'
 export const config = createConfig({
   chains: [mainnet, optimism, holesky, optimismSepolia],
   connectors: [
-    ...Web3AuthConnectorInstances([mainnet, optimismSepolia, holesky]),
+    ...Web3AuthConnectorInstances([mainnet, optimismSepolia, holesky]).connectors,
     safe(),
     walletConnect({ projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT as string, showQrModal: true })
   ],
