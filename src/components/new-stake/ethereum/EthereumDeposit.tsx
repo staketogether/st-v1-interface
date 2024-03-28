@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowLineRight, PiArrowsCounterClockwise } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
-import { useNetwork, useSwitchNetwork } from 'wagmi'
+import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumDescription from './EthereumDescription'
 import EthereumInput from './EthereumInput'
 import EthereumProjectSelect from './EthereumProjectSelect'
@@ -78,7 +78,7 @@ export default function EthereumDeposit({
   const { stConfig } = useStConfig({ productName: product.name, chainId })
   const minDepositAmount = stConfig?.minDepositAmount || 0n
 
-  const { chain: walletChainId } = useNetwork()
+  const { chain: walletChainId } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
 
   const {
@@ -89,6 +89,7 @@ export default function EthereumDeposit({
     resetState,
     txHash,
     prepareTransactionIsError,
+    prepareTransactionsIsLoading,
     prepareTransactionErrorMessage,
     estimatedGas
   } = useDepositPool(
@@ -125,13 +126,13 @@ export default function EthereumDeposit({
       `${t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)}`) ||
     ''
 
-  const { switchNetworkAsync } = useSwitchNetwork({
-    chainId: chainId
-  })
+  const { switchChain } = useSwitchChain()
 
   const openStakeConfirmation = () => {
-    if (isWrongNetwork && switchNetworkAsync) {
-      switchNetworkAsync()
+    if (isWrongNetwork && switchChain) {
+      switchChain({
+        chainId: chainId
+      })
       return
     }
     setOpenStakeConfirmModal(true)
@@ -157,7 +158,12 @@ export default function EthereumDeposit({
   }
 
   const cantDeposit =
-    insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
+    insufficientFunds ||
+    amountIsEmpty ||
+    prepareTransactionsIsLoading ||
+    insufficientMinDeposit ||
+    isLoadingFees ||
+    prepareTransactionIsError
 
   const handleSwitchDelegation = (value: boolean) => {
     if (!value) {
@@ -189,6 +195,7 @@ export default function EthereumDeposit({
       { shallow: true }
     )
   }
+
   return (
     <>
       <Container>
@@ -200,7 +207,7 @@ export default function EthereumDeposit({
             }}
             type={type}
             product={product}
-            hasError={cantDeposit}
+            hasError={cantDeposit && Number(amount) > 0}
             balance={ethBalance}
             balanceLoading={ethBalanceLoading}
             onMaxFunction={handleInputMaxValue}
@@ -221,6 +228,7 @@ export default function EthereumDeposit({
           isActivatedDelegation={isActivatedDelegation}
           onChange={e => handleSwitchDelegation(e)}
           poolDelegatedSelected={poolDelegatedSelected}
+          chainId={chainId}
           handleDelegationChange={project => {
             handleAddProjectOnRoute(project)
           }}
@@ -244,7 +252,7 @@ export default function EthereumDeposit({
             icon={<ConnectWalletIcon />}
           />
         )}
-        <EthereumDescription />
+        <EthereumDescription product={product} />
       </Container>
       <StakeConfirmModal
         amount={amount}

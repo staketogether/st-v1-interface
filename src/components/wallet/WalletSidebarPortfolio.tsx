@@ -11,6 +11,9 @@ import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import { getProductByName } from '@/config/product'
+import { PiPen } from 'react-icons/pi'
+import Button from '../shared/Button'
+import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 
 type WalletSidebarPortfolioProps = {
   accountDelegations: Delegation[]
@@ -22,6 +25,8 @@ export default function WalletSidebarPortfolio({ accountDelegations }: WalletSid
   const { query, locale } = useRouter()
   const { currency, network } = query
   const { poolsList, isLoading } = useContentfulPoolsList()
+  const { setOpenSidebar: setOpenSidebarEditPortfolio } = useWalletSidebarEditPortfolio()
+
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
@@ -67,10 +72,19 @@ export default function WalletSidebarPortfolio({ accountDelegations }: WalletSid
           </DelegatedPool>
         )
       })}
+      {accountDelegations.length > 0 && (
+        <Button
+          small={true}
+          label={t('edit')}
+          icon={<EditIcon />}
+          block
+          onClick={() => setOpenSidebarEditPortfolio(true)}
+        />
+      )}
     </Container>
   )
 }
-const { Container, DelegatedPool, EmptyContainer, Project } = {
+const { Container, DelegatedPool, EditIcon, EmptyContainer, Project } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -128,5 +142,8 @@ const { Container, DelegatedPool, EmptyContainer, Project } = {
     span {
       font-size: 13px;
     }
+  `,
+  EditIcon: styled(PiPen)`
+    font-size: 16px;
   `
 }

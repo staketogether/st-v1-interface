@@ -27,7 +27,7 @@
   "staked": "Staked",
   "unstake": "Unstake",
   "members": "Members",
-  "delegations": "Delegations to Pools",
+  "delegations": "Delegations",
   "balance": "Balance",
   "poolBalance": "Pool Balance",
   "selectPool": "Select Pool",
@@ -74,6 +74,7 @@
   "buyCryptoTitle": "Buy Ether",
   "sellCryptoTitle": "Sell Ether",
   "genericErrorMessage": "Sorry! Something went wrong. Please try again",
+   "selectProject": "Select project",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -449,8 +450,7 @@
         "site": "Invalid site URL",
         "youtube": "Please enter a valid YouTube video URL",
         "youtubeChanel": "Please enter a valid YouTube channel",
-        "invalidCpf": "Invalid CPF",
-        "invalidBirthday": "Invalid Birthday"
+        "invalidCpf": "Invalid CPF"
       },
       "messages": {
         "success": "Project created successfully",
@@ -597,11 +597,11 @@
     },
     "tokens": {
       "title": "Staking Products",
-      "description": "Invest in the best passive income products for Cryptocurrencies"
+      "description": "Invest in cutting-edge infrastructure technology products based on cryptocurrency staking."
     },
     "products": {
       "ethereum-stake": "Ethereum Staking",
-      "ethereum-restaking": "Ethereum ReStaking ",
+      "ethereum-restaking": "Ethereum Restaking ",
       "celestia": "Celestia Staking",
       "polygon": "Polygon Staking",
       "solana": "Solana Staking",
@@ -643,7 +643,7 @@
       "creditCard": "Credit Card",
       "kyc": {
         "title": "KYC - Know your client",
-        "description": "To buy ETH, you need to go through a KYC verification process. Fill the form below to get started.",
+        "description": "To buy ETH, you need to go through a KYC verification process. Click the button below to get started.",
         "level": "KYC Level",
         "limit": "Limit",
         "availableLimit": "Available Limit",
@@ -684,6 +684,8 @@
       "networkAvailable": "Available on",
       "myRewardsPoints": "My Rewards Points",
       "highestValueWeeks": "Highest Value in the Last 52 Weeks",
+      "eigenPointTooltip": "When you stake, you accumulate points in the Eigen Layer protocol, which may later launch a token, and you will participate in this launch",
+      "togetherPoints": "When you stake, you accumulate points in the Stake Together protocol, which may later launch a token, and you will participate in this launch",
       "actions": {
         "invest": "Invest",
         "withdraw": "Withdraw",

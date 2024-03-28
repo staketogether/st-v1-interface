@@ -23,7 +23,7 @@ export const productList: Product[] = [
     urlRedirect: '/currency/ethereum/product/ethereum-stake',
     stakeTogetherPool: {
       mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
-      testnet: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48'
+      testnet: '0xF4e8Dd9C44438ee697B61a426a592010e9a86a90'
     },
     contracts: {
       mainnet: {
@@ -55,8 +55,8 @@ export const productList: Product[] = [
     id: 2,
     name: 'ethereum-restaking',
     title: 'Restaking',
-    symbol: 'stpRETH',
-    networkAvailable: 'optimism-sepolia',
+    symbol: 'strETH',
+    networkAvailable: 'optimism',
     eigenPointsAvailable: true,
     networks: [
       { network: 'ethereum', enabled: true },
@@ -66,33 +66,33 @@ export const productList: Product[] = [
       { network: 'solana', enabled: false }
     ],
     apy: 11.1,
-    scan: 'https://optimism-sepolia.blockscout.com',
+    scan: 'https://optimistic.etherscan.io',
     contractAddress: '0x1234567890',
     description: 'ethereumDescription',
-    enabled: false,
-    urlRedirect: '/currency/optimism-sepolia/product/ethereum-restaking',
+    enabled: true,
+    urlRedirect: '/currency/optimism/product/ethereum-restaking',
     stakeTogetherPool: {
-      mainnet: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
-      testnet: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480'
+      mainnet: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
+      testnet: '0x15Df22857d8208d4add356dB92E48B347488969E'
     },
     contracts: {
       mainnet: {
-        Airdrop: '0x6D38e32dB2A5e88b3D6DEf74b981c4CAF50B0533',
-        Withdrawals: '0xbBeAE3626810c9A001DdddF825A13793B94433Db',
-        Router: '0xd5aC0835a7E537b4D263DbfDC8c6176fE04b878a',
-        StakeTogether: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
-        StakeTogetherWrapper: '0xE9550754410Fa6f4B5EFC3379793c8bf2b69C59E'
+        Airdrop: '0x9A967118f216eCE6B5853915691b96d28df19b4A',
+        Withdrawals: '0xB01fD1CDd2fDfa3cC4955635776733A8abaad8F8',
+        Router: '0x3B5f4719d701D905ab206C2255476bC37AfdcfdD',
+        StakeTogether: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
+        StakeTogetherWrapper: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508'
       },
       testnet: {
         Airdrop: '0x6D38e32dB2A5e88b3D6DEf74b981c4CAF50B0533',
         Withdrawals: '0xbBeAE3626810c9A001DdddF825A13793B94433Db',
         Router: '0xd5aC0835a7E537b4D263DbfDC8c6176fE04b878a',
-        StakeTogether: '0xd55763a34dd2A2ef3C26512C6E0F7DBD00923480',
+        StakeTogether: '0x15Df22857d8208d4add356dB92E48B347488969E',
         StakeTogetherWrapper: '0xE9550754410Fa6f4B5EFC3379793c8bf2b69C59E'
       }
     },
     subgraph: {
-      mainnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest',
+      mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together-optimism/v1.0.0',
       testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest'
     },
     getMobulaAssetData: {
@@ -103,9 +103,9 @@ export const productList: Product[] = [
   },
   {
     id: 3,
-    name: 'celestia',
-    title: 'Celestia',
-    symbol: 'stpTIA',
+    name: 'chiliz',
+    title: 'Chiliz',
+    symbol: 'stpCHZ',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
     networks: [
@@ -146,7 +146,7 @@ export const productList: Product[] = [
       testnet: ''
     },
     getMobulaAssetData: {
-      asset: 'Celestia',
+      asset: '0x3506424f91fd33084466f402d5d97f05f8e3b4af',
       blockchain: '',
       symbol: ''
     }

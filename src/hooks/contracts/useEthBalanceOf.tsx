@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useBalance } from 'wagmi'
 
 type UseEthBalanceOf = {
@@ -9,14 +9,19 @@ type UseEthBalanceOf = {
 export default function useEthBalanceOf({ walletAddress, chainId }: UseEthBalanceOf) {
   const [balance, setBalance] = useState<bigint>(0n)
 
-  const { isFetching, refetch } = useBalance({
+  const { isFetching, refetch, data } = useBalance({
     address: walletAddress,
     chainId: chainId,
-    enabled: !!walletAddress,
-    onSuccess: data => {
-      setBalance(data?.value || 0n)
+    query: {
+      enabled: !!walletAddress
     }
   })
+
+  const ethBalance = data?.value || 0n
+
+  useEffect(() => {
+    setBalance(ethBalance)
+  }, [ethBalance])
 
   const handleRefetch = useCallback(() => {
     refetch()

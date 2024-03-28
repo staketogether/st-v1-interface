@@ -13,14 +13,14 @@ import { truncateWei } from '@/services/truncate'
 import { Product } from '@/types/Product'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
-import { useWaitForTransaction } from 'wagmi'
+import {
+  useSimulateContract,
+  useWaitForTransactionReceipt as useWaitForTransaction,
+  useWriteContract
+} from 'wagmi'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-import {
-  stakeTogetherABI,
-  usePrepareStakeTogetherDepositPool,
-  useStakeTogetherDepositPool
-} from '../../types/Contracts'
+import { stakeTogetherAbi } from '@/types/Contracts'
 import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
@@ -36,7 +36,6 @@ export default function useDepositPool(
   accountAddress: `0x${string}` | undefined
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
-  const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
 
   const [estimateGasCost, setEstimateGasCost] = useState(0n)
@@ -47,24 +46,25 @@ export default function useDepositPool(
   const { registerDeposit } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
   const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
-
   const { web3AuthUserInfo } = useConnectedAccount()
   const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
   const { t } = useLocaleTranslation()
 
   const amountEstimatedGas = stConfig?.minDepositAmount || 0n
+
   const isDepositEnabled = enabled && netDepositAmount > 0n && !stConfigLoading
+
   const isDepositEstimatedGas = !enabled && stConfigLoading
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
   // Todo! Implement Referral
-  const referral = '0x0000000000000000000000000000000000000000'
+  const referral = poolAddress
 
   const { estimateGas } = useEstimateTxInfo({
     account: StakeTogether,
     functionName: 'depositPool',
-    args: [poolAddress, referral],
+    args: [isTestnet ? product.stakeTogetherPool.testnet : product.stakeTogetherPool.mainnet, referral],
     contractAddress: StakeTogether,
-    abi: stakeTogetherABI,
+    abi: stakeTogetherAbi,
     value: amountEstimatedGas,
     skip: isDepositEstimatedGas && estimateGasCost > 0n
   })
@@ -94,15 +94,22 @@ export default function useDepositPool(
   }, [accountAddress])
 
   const {
-    config,
+    data: prepareTransactionData,
     isError: prepareTransactionIsError,
-    isSuccess: prepareTransactionIsSuccess
-  } = usePrepareStakeTogetherDepositPool({
+    isSuccess: prepareTransactionIsSuccess,
+    error: prepareTransactionError,
+    isLoading: prepareTransactionsIsLoading,
+    refetch: refetchPrepareTransaction
+  } = useSimulateContract({
+    query: {
+      enabled: accountAddress && isDepositEnabled
+    },
+    account: accountAddress,
+    abi: stakeTogetherAbi,
     chainId,
+    functionName: 'depositPool',
     address: StakeTogether,
     args: [poolAddress, referral],
-    account: accountAddress,
-    enabled: accountAddress && isDepositEnabled,
     value: grossDepositAmount,
     gas:
       !!depositEstimatedGas && depositEstimatedGas > 0n && !!web3AuthUserInfo ? depositEstimatedGas : undefined,
@@ -110,13 +117,12 @@ export default function useDepositPool(
     maxPriorityFeePerGas:
       !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo
         ? maxPriorityFeePerGas
-        : undefined,
-    onError(error) {
-      if (!error) {
-        return
-      }
+        : undefined
+  })
 
-      const { cause } = error as { cause?: { reason?: string; message?: string } }
+  useEffect(() => {
+    if (prepareTransactionIsError && prepareTransactionError) {
+      const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
       if (
         (!cause || !cause.reason) &&
@@ -139,43 +145,55 @@ export default function useDepositPool(
       if (cause && response?.data && response?.data?.errorName) {
         setPrepareTransactionErrorMessage(response?.data?.errorName)
       }
-    },
-    onSuccess(data) {
-      console.log(data)
+    }
+  }, [prepareTransactionError, prepareTransactionIsError, t, web3AuthUserInfo])
+
+  useEffect(() => {
+    if (prepareTransactionIsSuccess) {
       setPrepareTransactionErrorMessage('')
     }
-  })
+  }, [prepareTransactionIsSuccess])
 
-  const tx = useStakeTogetherDepositPool({
-    ...config,
-    onSuccess: data => {
-      if (data?.hash) {
-        setTxHash(data?.hash)
-      }
-    },
-    onError: () => {
+  const {
+    writeContract,
+    data: txHash,
+    isError: writeContractIsError,
+    reset: resetWriteContract
+  } = useWriteContract()
+
+  useEffect(() => {
+    if (writeContractIsError && awaitWalletAction) {
       notification.error({
         message: `${t('v2.stake.userRejectedTheRequest')}`,
         placement: 'topRight'
       })
       setAwaitWalletAction(false)
     }
+  }, [awaitWalletAction, t, writeContractIsError])
+
+  const {
+    isLoading,
+    isSuccess: awaitTransactionSuccess,
+    isError: awaitTransactionErrorIsError
+  } = useWaitForTransaction({
+    hash: txHash,
+    confirmations: 2
   })
 
-  const deposit = async () => {
-    setAwaitWalletAction(true)
-    tx.write?.()
-  }
-
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: txHash,
-    confirmations: 2,
-    onSuccess: () => {
+  useEffect(() => {
+    if (awaitTransactionErrorIsError && awaitWalletAction) {
       setAwaitWalletAction(false)
-      notification.success({
-        message: `${t('notifications.depositSuccess')}: ${truncateWei(netDepositAmount, 4)} ${t('lsd.symbol')}`,
+      notification.error({
+        message: `${t('notifications.depositError')}: ${truncateWei(netDepositAmount, 4)} ${t('lsd.symbol')}`,
         placement: 'topRight'
       })
+    }
+  }, [awaitTransactionErrorIsError, awaitWalletAction, netDepositAmount, t])
+
+  useEffect(() => {
+    if (awaitTransactionSuccess && awaitWalletAction) {
+      setAwaitWalletAction(false)
+
       subgraphClient.refetchQueries({
         include: [
           queryAccount,
@@ -190,38 +208,45 @@ export default function useDepositPool(
           queryStakeTogether
         ]
       })
+      notification.success({
+        message: `${t('notifications.depositSuccess')}: ${truncateWei(netDepositAmount, 4)} ${product.symbol}`,
+        placement: 'topRight'
+      })
+      refetchPrepareTransaction()
       if (accountAddress) {
         registerDeposit(accountAddress, chainId, poolAddress, truncateWei(netDepositAmount, 4))
       }
-    },
-    onError: () => {
-      setAwaitWalletAction(false)
-      notification.error({
-        message: `${t('notifications.depositError')}: ${truncateWei(netDepositAmount, 4)} ${t('lsd.symbol')}`,
-        placement: 'topRight'
-      })
-
-      subgraphClient.refetchQueries({
-        include: [queryAccount, queryPool]
-      })
     }
-  })
+  }, [
+    accountAddress,
+    awaitTransactionSuccess,
+    awaitWalletAction,
+    chainId,
+    netDepositAmount,
+    poolAddress,
+    product.symbol,
+    refetchPrepareTransaction,
+    registerDeposit,
+    subgraphClient,
+    t
+  ])
 
-  const resetState = () => {
-    setAwaitWalletAction(false)
-    setTxHash(undefined)
+  const deposit = async () => {
+    setAwaitWalletAction(true)
+    writeContract(prepareTransactionData!.request)
   }
 
   return {
     deposit,
     isLoading,
-    isSuccess,
+    isSuccess: awaitTransactionSuccess,
     estimatedGas: estimateGasCost,
     awaitWalletAction,
     txHash,
-    resetState,
+    resetState: resetWriteContract,
     prepareTransactionIsError,
     prepareTransactionIsSuccess,
-    prepareTransactionErrorMessage
+    prepareTransactionErrorMessage,
+    prepareTransactionsIsLoading
   }
 }

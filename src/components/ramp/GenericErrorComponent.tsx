@@ -27,7 +27,7 @@ export default function GenericErrorComponent({ icon, message, subTitle, onClose
       {icon ?? <AlertIcon />}
       <span>{message ?? t('genericErrorMessage')}</span>
       {subTitle && <span>{subTitle}</span>}
-      <Button label={t('close')} block onClick={handleClose} />
+      <Button label={'close'} block onClick={handleClose} />
     </Container>
   )
 }

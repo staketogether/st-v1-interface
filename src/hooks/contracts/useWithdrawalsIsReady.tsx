@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
-import { useWithdrawalsIsWithdrawReady } from '@/types/Contracts'
+import { withdrawalsAbi } from '@/types/Contracts'
 import { getContractsByProductName } from '@/config/product'
+import { useReadContract } from 'wagmi'
 
 export default function useWithdrawalsIsReady(amount: bigint = 0n) {
   const { isTestnet } = chainConfig()
@@ -14,17 +15,22 @@ export default function useWithdrawalsIsReady(amount: bigint = 0n) {
   const [isReady, setIsReady] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
-  const { isLoading } = useWithdrawalsIsWithdrawReady({
+  const { isFetching, isSuccess, data } = useReadContract({
     address: Withdrawals,
     args: [amount],
-    onSuccess: data => {
-      setIsReady(data)
-    }
+    abi: withdrawalsAbi,
+    functionName: 'isWithdrawReady'
   })
 
   useEffect(() => {
-    setLoading(isLoading)
-  }, [isLoading])
+    if (isSuccess && data) {
+      setIsReady(data)
+    }
+  }, [data, isSuccess])
+
+  useEffect(() => {
+    setLoading(isFetching)
+  }, [isFetching])
 
   return { isReady, loading }
 }
