@@ -1,7 +1,6 @@
 import Loading from '@/components/shared/icons/Loading'
 import chain from '@/config/chain'
 import { ContentfulPool } from '@/types/ContentfulPool'
-import { useStakeTogetherPools } from '@/types/Contracts'
 import React, { useEffect } from 'react'
 import { LuAlertTriangle } from 'react-icons/lu'
 import { PiTrash } from 'react-icons/pi'
@@ -9,6 +8,8 @@ import styled from 'styled-components'
 import Button from '@/components/shared/Button'
 import useProjectDetailModal from '@/hooks/useProjectDetailModal'
 import { getContractsByProductName } from '@/config/product'
+import { useReadContract } from 'wagmi'
+import { stakeTogetherAbi } from '@/types/Contracts'
 
 type PanelApprovedButtonProps = {
   project: ContentfulPool
@@ -27,10 +28,11 @@ export default function PanelApprovedButton({ project, projectSelected, openModa
     data: isPoolRegistered,
     isFetching,
     refetch
-  } = useStakeTogetherPools({
+  } = useReadContract({
     address: StakeTogether,
     args: [project.wallet],
-    enabled: !!project.wallet
+    abi: stakeTogetherAbi,
+    functionName: 'pools'
   })
 
   const { isOpenProjectDetailModal } = useProjectDetailModal()

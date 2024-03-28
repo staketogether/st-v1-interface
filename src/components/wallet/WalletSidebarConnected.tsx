@@ -1,7 +1,7 @@
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
-import { Drawer, notification } from 'antd'
+import { Drawer, Select, notification } from 'antd'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -13,7 +13,6 @@ import {
   PiChartLine,
   PiChartPieSlice,
   PiGear,
-  PiPen,
   PiSignOut
 } from 'react-icons/pi'
 import styled from 'styled-components'
@@ -27,20 +26,20 @@ import { capitalize, truncateAddress, truncateText, truncateWei } from '../../se
 
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
-import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
-import Button from '../shared/Button'
 import Card from '../shared/Card'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
-import WalletSidebarPortfolio from './WalletSidebarPortfolio'
+
 import WalletSidebarSettings from './WalletSidebarSettings'
 import Withdrawals from '../shared/Withdrawals'
 import chainConfig, { Networks } from '@/config/chain'
 import AssetIcon from '../shared/AssetIcon'
 import useCoinConversion from '@/hooks/useCoinConversion'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
+import NetworkProductIcons from '../tokens/components/StakingIcons'
+import { productList } from '@/config/product'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -75,7 +74,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { name, nameLoading } = useEns(address, chainId)
 
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
-  const { setOpenSidebar: setOpenSidebarEditPortfolio } = useWalletSidebarEditPortfolio()
 
   const handleWalletProviderImage = useWalletProviderImage()
 
@@ -125,14 +123,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   }
 
-  const {
-    accountDelegations,
-    accountRewards,
-    accountActivities,
-    accountProfitPercentage,
-    accountIsLoading,
-    accountShare
-  } = stAccount[productTabSelected]
+  const { accountDelegations, accountRewards, accountActivities, accountProfitPercentage, accountShare } =
+    stAccount[productTabSelected]
 
   const totalBalance =
     BigInt(stakeAccountBalance) +
@@ -160,6 +152,20 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       setIsPanelActive(false)
     }
   }, [address])
+
+  const products = productList.filter(product => product.enabled)
+
+  const selectProductOptions = products.map(product => {
+    return {
+      value: product.name,
+      label: (
+        <ProductSelectCard>
+          <NetworkProductIcons stakingProduct={product.name} size={24} />
+          <span>{t(`v2.products.${product.name}`)}</span>
+        </ProductSelectCard>
+      )
+    }
+  })
 
   return (
     <DrawerContainer
@@ -324,46 +330,43 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               </BalanceInvestmentContainer>
             </AssetsCard>
           </Card>
-          <ProductSelectContainer>
-            <Button
-              ghost={productTabSelected !== 'ethereum-stake'}
-              small
-              label={'Stake'}
-              onClick={() => setProductTabSelected('ethereum-stake')}
-            />
-            <Button
-              ghost={productTabSelected !== 'ethereum-restaking'}
-              small
-              label={'Restaking'}
-              onClick={() => setProductTabSelected('ethereum-restaking')}
-            />
-          </ProductSelectContainer>
 
           <Card
             header={
-              <HeaderTabHeader>
-                <div
-                  onClick={() => setTabActivated('delegations')}
-                  className={`${tabActivated === 'delegations' && 'activated'} `}
-                >
-                  <PoolsIcon />
-                  <span>{t('delegations')}</span>
+              <HeaderTabContainer>
+                <div>
+                  <span>{t('selectProject')}</span>
+                  <Select
+                    defaultValue='ethereum-stake'
+                    style={{ width: '100%', height: '40px' }}
+                    onChange={e => setProductTabSelected(e as 'ethereum-stake' | 'ethereum-restaking')}
+                    options={selectProductOptions}
+                  />
                 </div>
-                <div
-                  onClick={() => setTabActivated('rewards')}
-                  className={`${tabActivated === 'rewards' && 'activated'} `}
-                >
-                  <AnalyticsIcon />
-                  <span>{t('rewards')}</span>
-                </div>
-                <div
-                  onClick={() => setTabActivated('activity')}
-                  className={`${tabActivated === 'activity' && 'activated'} `}
-                >
-                  <ActivitiesIcon />
-                  <span>{t('activity')}</span>
-                </div>
-              </HeaderTabHeader>
+                <HeaderTabHeader>
+                  <div
+                    onClick={() => setTabActivated('delegations')}
+                    className={`${tabActivated === 'delegations' && 'activated'} `}
+                  >
+                    <PoolsIcon />
+                    <span>{t('delegations')}</span>
+                  </div>
+                  <div
+                    onClick={() => setTabActivated('rewards')}
+                    className={`${tabActivated === 'rewards' && 'activated'} `}
+                  >
+                    <AnalyticsIcon />
+                    <span>{t('rewards')}</span>
+                  </div>
+                  <div
+                    onClick={() => setTabActivated('activity')}
+                    className={`${tabActivated === 'activity' && 'activated'} `}
+                  >
+                    <ActivitiesIcon />
+                    <span>{t('activity')}</span>
+                  </div>
+                </HeaderTabHeader>
+              </HeaderTabContainer>
             }
           >
             <WalletSidebarTabsContainer
@@ -372,27 +375,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               accountActivities={accountActivities}
               activatedTab={tabActivated}
             />
-          </Card>
-
-          <Card
-            header={
-              <PortfolioHeader>
-                <div>
-                  <PoolsIcon />
-                  {t('delegations')}
-                </div>
-                {accountDelegations.length > 0 && !accountIsLoading && (
-                  <Button
-                    small={true}
-                    label={t('edit')}
-                    icon={<EditIcon />}
-                    onClick={() => setOpenSidebarEditPortfolio(true)}
-                  />
-                )}
-              </PortfolioHeader>
-            }
-          >
-            <WalletSidebarPortfolio accountDelegations={accountDelegations} />
           </Card>
 
           {stwETHBalance > 0n && (
@@ -414,8 +396,9 @@ const {
   HeaderContainer,
   CloseSidebar,
   ClosedSidebarButton,
+  HeaderTabContainer,
   Logout,
-  ProductSelectContainer,
+
   BalanceInvestmentContainer,
   SettingIcon,
   PanelIcon,
@@ -427,15 +410,14 @@ const {
   CopyIcon,
   PoolsIcon,
   AnalyticsIcon,
+  ProductSelectCard,
   ActivitiesIcon,
   SidebarButton,
-  EditIcon,
   WalletAddressContainer,
   AssetInvestmentCard,
   BalanceContainer,
   AssetHeaderCard,
   EstimatedBalanceContainer,
-  PortfolioHeader,
   HeaderTabHeader,
   AssetsCard
 } = {
@@ -486,10 +468,6 @@ const {
       }
     }
   `,
-  EditIcon: styled(PiPen)`
-    font-size: 14px;
-  `,
-
   ClosedSidebarButton: styled.button`
     position: absolute;
     left: -44px;
@@ -608,25 +586,7 @@ const {
   ActivitiesIcon: styled(PiChartLine)`
     font-size: 16px;
   `,
-  PortfolioHeader: styled.header`
-    width: 100%;
-    display: grid;
-    position: relative;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    justify-content: center;
-    > div {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding-left: 12px;
-    }
-    > button {
-      position: absolute;
-      justify-self: flex-end;
-      margin-right: 12px;
-    }
-  `,
+
   AssetHeaderCard: styled.div`
     width: 100%;
     height: 32px;
@@ -775,14 +735,33 @@ const {
       }
     }
   `,
+  HeaderTabContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    > div {
+      &:nth-child(1) {
+        padding: 12px 12px 0px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: ${({ theme }) => theme.size[8]};
+
+        > span {
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-style: normal;
+          font-weight: 400;
+          color: ${({ theme }) => theme.colorV2.gray[1]};
+        }
+      }
+    }
+  `,
   HeaderTabHeader: styled.div`
     width: 100%;
-    height: 32px;
+    height: 48px;
     display: grid;
+    padding: 0px 12px;
     align-items: center;
     justify-content: space-between;
-    padding: 0px 8px;
-
     border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
     border-radius: 8px 8px 0 0;
 
@@ -850,11 +829,7 @@ const {
       }
     }
   `,
-  ProductSelectContainer: styled.div`
-    display: flex;
-    gap: ${({ theme }) => theme.size[8]};
-    align-items: center;
-  `,
+
   EstimatedBalanceContainer: styled.div`
     display: flex;
     height: 32px;
@@ -880,6 +855,18 @@ const {
         color: ${({ theme }) => theme.colorV2.purple[1]};
         font-weight: 500;
       }
+    }
+  `,
+  ProductSelectCard: styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    gap: ${({ theme }) => theme.size[8]};
+    div {
+      display: flex;
+      align-items: center;
     }
   `
 }

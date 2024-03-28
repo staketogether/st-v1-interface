@@ -103,63 +103,91 @@ export default function PanelProjectDetailModal({
   }
 
   const approveMessage = `Stake Together Approve Project - ${project.wallet} `
-  const { isLoading: approveIsLoading, signMessage } = useSignMessage({
-    message: approveMessage,
-    onSuccess: async data => {
-      const signatureMessage = { signature: data, message: approveMessage }
-      await axios.post('/api/project/status', {
-        projectId: project.sys.id,
-        status: 'approved',
-        signatureMessage
-      })
-      notification.success({
-        message: `${t('v2.panelProject.messages.projectApproved')}`,
-        placement: 'topRight'
-      })
-      setIsApproved(true)
-    },
-    onError: error => {
-      const { cause } = error as { cause?: { message?: string } }
+  const {
+    isPending: approveIsLoading,
+    signMessage: approveSignMessage,
+    isSuccess: approveIsSuccess,
+    data: approveData,
+    error: approveError,
+    isError: approveIsError
+  } = useSignMessage()
+
+  useEffect(() => {
+    const executeMessage = async () => {
+      if (approveIsSuccess && approveData) {
+        const signatureMessage = { signature: approveData, message: approveMessage }
+        await axios.post('/api/project/status', {
+          projectId: project.sys.id,
+          status: 'approved',
+          signatureMessage
+        })
+        notification.success({
+          message: `${t('v2.panelProject.messages.projectApproved')}`,
+          placement: 'topRight'
+        })
+        setIsApproved(true)
+      }
+    }
+    executeMessage()
+  }, [approveData, approveIsSuccess, approveMessage, project.sys.id, t])
+
+  useEffect(() => {
+    if (approveIsError && approveError) {
+      const { cause } = approveError as { cause?: { message?: string } }
       notification.warning({
         message: `${cause?.message}`,
         placement: 'topRight'
       })
     }
-  })
+  }, [approveError, approveIsError])
 
   useEffect(() => {
     if (addPoolIsSuccess) {
-      signMessage()
+      approveSignMessage({ message: approveMessage })
     }
-  }, [addPoolIsSuccess, signMessage])
+  }, [addPoolIsSuccess, approveMessage, approveSignMessage])
 
   const rejectMessage = `Stake Together Rejected Project - ${project.wallet} `
-  const { isLoading: rejectedIsLoading, signMessage: rejectedSignMessage } = useSignMessage({
-    message: rejectMessage,
-    onSuccess: async data => {
-      const signatureMessage = { signature: data, message: rejectMessage }
+  const {
+    isPending: rejectedIsLoading,
+    signMessage: rejectedSignMessage,
+    isSuccess: rejectedIsSuccess,
+    isError: rejectedIsError,
+    error: rejectedError,
+    data: rejectedData
+  } = useSignMessage()
 
-      await axios.post('/api/project/status', {
-        projectId: project.sys.id,
-        status: 'rejected',
-        signatureMessage
-      })
+  useEffect(() => {
+    const executeMessage = async () => {
+      if (rejectedIsSuccess && rejectedData) {
+        const signatureMessage = { signature: rejectedData, message: rejectMessage }
 
-      notification.success({
-        message: `${t('v2.panelProject.messages.projectRejected')}`,
-        placement: 'topRight'
-      })
+        await axios.post('/api/project/status', {
+          projectId: project.sys.id,
+          status: 'rejected',
+          signatureMessage
+        })
 
-      setIsRejected(true)
-    },
-    onError: error => {
-      const { cause } = error as { cause?: { message?: string } }
+        notification.success({
+          message: `${t('v2.panelProject.messages.projectRejected')}`,
+          placement: 'topRight'
+        })
+
+        setIsRejected(true)
+      }
+    }
+    executeMessage()
+  }, [project.sys.id, rejectMessage, rejectedData, rejectedIsSuccess, t])
+
+  useEffect(() => {
+    if (rejectedIsError && rejectedError) {
+      const { cause } = approveError as { cause?: { message?: string } }
       notification.warning({
         message: `${cause?.message}`,
         placement: 'topRight'
       })
     }
-  })
+  }, [approveError, rejectedError, rejectedIsError])
 
   const isLoading =
     approveIsLoading ||
@@ -326,7 +354,7 @@ export default function PanelProjectDetailModal({
                   color='red'
                   ghost
                   isLoading={rejectedIsLoading}
-                  onClick={() => rejectedSignMessage()}
+                  onClick={() => rejectedSignMessage({ message: rejectMessage })}
                 />
               )}
             </FooterContainer>
@@ -348,7 +376,7 @@ export default function PanelProjectDetailModal({
                   block
                   color='green'
                   isLoading={approveIsLoading || isLoadingTransaction || awaitWalletAction}
-                  onClick={() => signMessage()}
+                  onClick={() => approveSignMessage({ message: approveMessage })}
                 />
               )}
 
@@ -357,7 +385,7 @@ export default function PanelProjectDetailModal({
                 block
                 color='red'
                 isLoading={rejectedIsLoading}
-                onClick={() => rejectedSignMessage()}
+                onClick={() => rejectedSignMessage({ message: rejectMessage })}
               />
             </FooterContainer>
           )}

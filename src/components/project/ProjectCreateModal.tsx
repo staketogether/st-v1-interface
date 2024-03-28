@@ -64,50 +64,60 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
 
   const message = `Stake Together Register - ${account} `
   const {
-    isLoading,
+    isPending: isLoading,
     isSuccess,
     signMessage,
+    data,
+    isError,
+    error,
     reset: resetSignMessage
-  } = useSignMessage({
-    message: message,
-    onSuccess: async data => {
-      const signatureMessage = { signature: data, message: message }
+  } = useSignMessage()
 
-      if (poolDetail && isReappliedProject) {
-        await reapplyProject(signatureMessage, poolDetail.sys.id)
-        notification.success({
-          message: `${t('v2.createProject.messages.reapplySuccess')}`,
-          placement: 'topRight'
-        })
-      } else {
-        await axios.post('/api/project/create', {
-          form: createCommunityForm,
-          signatureMessage
-        })
-        contentfulClient.refetchQueries({
-          include: [queryContentfulPoolByAddress]
-        })
-        notification.success({
-          message: `${t('v2.createProject.messages.success')}`,
-          placement: 'topRight'
-        })
+  useEffect(() => {
+    const executeMessage = async () => {
+      if (isSuccess && data) {
+        const signatureMessage = { signature: data, message: message }
+
+        if (poolDetail && isReappliedProject) {
+          await reapplyProject(signatureMessage, poolDetail.sys.id)
+          notification.success({
+            message: `${t('v2.createProject.messages.reapplySuccess')}`,
+            placement: 'topRight'
+          })
+        } else {
+          await axios.post('/api/project/create', {
+            form: createCommunityForm,
+            signatureMessage
+          })
+          contentfulClient.refetchQueries({
+            include: [queryContentfulPoolByAddress]
+          })
+          notification.success({
+            message: `${t('v2.createProject.messages.success')}`,
+            placement: 'topRight'
+          })
+        }
       }
-    },
-    onError: error => {
+    }
+    executeMessage()
+  }, [createCommunityForm, data, isReappliedProject, isSuccess, message, poolDetail, reapplyProject, t])
+
+  useEffect(() => {
+    if (isError && error) {
       const { cause } = error as { cause?: { message?: string } }
       notification.warning({
         message: `${cause?.message}`,
         placement: 'topRight'
       })
     }
-  })
+  }, [error, isError])
 
   const registerLinksToAnalyze = async (data: ProjectLinksToAnalyze) => {
     setCreateCommunityForm({
       ...projectInfo,
       ...data
     })
-    await signMessage()
+    await signMessage({ message: message })
   }
 
   useEffect(() => {

@@ -7,14 +7,12 @@ export default function useEns(address: `0x${string}`, chainId: number) {
 
   const ensName = useEnsName({
     address,
-    chainId,
-    cacheTime: 60000
+    chainId
   })
 
   const ensAvatar = useEnsAvatar({
     name,
-    chainId,
-    cacheTime: 60000
+    chainId
   })
 
   useEffect(() => {

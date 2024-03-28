@@ -1,28 +1,28 @@
+import { useEffect, useState } from 'react'
+import {
+  useSimulateContract,
+  useWaitForTransactionReceipt as useWaitForTransaction,
+  useWriteContract
+} from 'wagmi'
+import chainConfig from '../../config/chain'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import useConnectedAccount from '../useConnectedAccount'
+import { getContractsByProductName, getProductByName } from '@/config/product'
+import { notification } from 'antd'
+import useLocaleTranslation from '../useLocaleTranslation'
+import { ethereumMainnetClient } from '@/config/apollo'
+import { queryAccount } from '@/queries/subgraph/queryAccount'
+import { queryPool } from '@/queries/subgraph/queryPool'
+import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
 import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
-import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
-import { notification } from 'antd'
-import { ethers } from 'ethers'
-import { useEffect, useState } from 'react'
-import { useWaitForTransaction } from 'wagmi'
-import { ethereumMainnetClient } from '../../config/apollo'
-import chainConfig from '../../config/chain'
-import { queryAccount } from '../../queries/subgraph/queryAccount'
-import { queryPool } from '../../queries/subgraph/queryPool'
-import {
-  stakeTogetherABI,
-  usePrepareStakeTogetherUpdateDelegations,
-  useStakeTogetherUpdateDelegations
-} from '../../types/Contracts'
 import useEstimateTxInfo from '../useEstimateTxInfo'
-import useLocaleTranslation from '../useLocaleTranslation'
-import useConnectedAccount from '../useConnectedAccount'
-import { getContractsByProductName, getProductByName } from '@/config/product'
+import { ethers } from 'ethers'
 
 export type PoolData = {
   pool: `0x${string}`
@@ -35,7 +35,6 @@ export default function useUpdateDelegations(
   accountAddress?: `0x${string}`
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
-  const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
 
   const [estimateGasCost, setEstimateGasCost] = useState(0n)
@@ -44,7 +43,7 @@ export default function useUpdateDelegations(
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   // const { registerWithdraw } = useMixpanelAnalytics()
-  const { isTestnet } = chainConfig()
+  const { isTestnet, chainId } = chainConfig()
   //VERIFICAR A NECESSIDADE DE ESPECIFICAR O PRODUTO
   const { StakeTogether } = getContractsByProductName({
     productName: 'ethereum-stake',
@@ -71,7 +70,7 @@ export default function useUpdateDelegations(
     contractAddress: StakeTogether,
     functionName: 'updateDelegations',
     args: [updateDelegationEstimatedGas],
-    abi: stakeTogetherABI,
+    abi: stakeTogetherAbi,
     skip: estimateGasCost > 0n
   })
 
@@ -91,81 +90,91 @@ export default function useUpdateDelegations(
   }, [estimateGas, estimateGasCost])
 
   const {
-    config,
+    data: prepareTransactionData,
+    error: prepareTransactionError,
     isError: prepareTransactionIsError,
     isSuccess: prepareTransactionIsSuccess
-  } = usePrepareStakeTogetherUpdateDelegations({
+  } = useSimulateContract({
+    query: {
+      enabled: isUpdateDelegationEnabled
+    },
     address: StakeTogether,
     args: [updateDelegationPools],
     account: accountAddress,
-    enabled: isUpdateDelegationEnabled,
+    abi: stakeTogetherAbi,
+
+    chainId,
+    functionName: 'updateDelegations',
     gas: !!estimatedGas && estimatedGas > 0n && !!web3AuthUserInfo ? estimatedGas : undefined,
     maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
     maxPriorityFeePerGas:
       !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo
         ? maxPriorityFeePerGas
-        : undefined,
-    onError(error) {
-      if (!error) {
-        return
-      }
+        : undefined
+  })
 
-      const { cause } = error as { cause?: { reason?: string; message?: string } }
+  useEffect(() => {
+    if (!prepareTransactionIsError) {
+      return
+    }
 
-      if (
-        (!cause || !cause.reason) &&
-        !!web3AuthUserInfo &&
-        cause?.message &&
-        cause.message.includes(
-          'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
-        )
-      ) {
-        notification.warning({
-          message: `${t('v2.stake.depositErrorMessage.insufficientGasBalance')}, ${t(
-            'v2.stake.depositErrorMessage.useMaxButton'
-          )}`,
-          placement: 'topRight'
-        })
-        setPrepareTransactionErrorMessage('insufficientGasBalance')
+    const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
-        return
-      }
+    if (
+      (!cause || !cause.reason) &&
+      !!web3AuthUserInfo &&
+      cause?.message &&
+      cause.message.includes(
+        'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
+      )
+    ) {
+      notification.warning({
+        message: `${t('v2.stake.depositErrorMessage.insufficientGasBalance')}, ${t(
+          'v2.stake.depositErrorMessage.useMaxButton'
+        )}`,
+        placement: 'topRight'
+      })
+      setPrepareTransactionErrorMessage('insufficientGasBalance')
 
-      const { data } = cause as { data?: { errorName?: string } }
+      return
+    }
 
-      if (cause && data && data.errorName) {
-        setPrepareTransactionErrorMessage(data.errorName)
-      }
-    },
-    onSuccess() {
+    const { data } = cause as { data?: { errorName?: string } }
+
+    if (cause && data && data.errorName) {
+      setPrepareTransactionErrorMessage(data.errorName)
+    }
+  }, [prepareTransactionIsError, t, prepareTransactionError, web3AuthUserInfo])
+
+  useEffect(() => {
+    if (prepareTransactionIsSuccess) {
       setPrepareTransactionErrorMessage('')
     }
-  })
-  const tx = useStakeTogetherUpdateDelegations({
-    ...config,
-    onSuccess: data => {
-      if (data?.hash) {
-        setTxHash(data?.hash)
-      }
-    },
-    onError: () => {
+  }, [prepareTransactionIsSuccess])
+
+  const { writeContract, data: txHash, isError: writeContractIsError, reset: resetState } = useWriteContract()
+
+  useEffect(() => {
+    if (writeContractIsError) {
       notification.error({
         message: t('v2.updateDelegations.transactionMessages.walletError'),
         placement: 'topRight'
       })
       setAwaitWalletAction(false)
     }
+  }, [t, writeContractIsError])
+
+  const {
+    isLoading,
+    isSuccess: awaitTransactionSuccess,
+    isError: awaitTransactionErrorIsError
+  } = useWaitForTransaction({
+    hash: txHash,
+    confirmations: 2
   })
 
-  const updateDelegations = () => {
-    setAwaitWalletAction(true)
-    tx.write?.()
-  }
-
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: txHash,
-    confirmations: 2,
-    onSuccess: () => {
+  useEffect(() => {
+    if (awaitTransactionSuccess) {
       setAwaitWalletAction(false)
       ethereumMainnetClient.refetchQueries({
         include: [
@@ -186,28 +195,32 @@ export default function useUpdateDelegations(
         message: t('v2.updateDelegations.transactionMessages.successful'),
         placement: 'topRight'
       })
-    },
-    onError: () => {
+    }
+  }, [awaitTransactionSuccess, t])
+
+  useEffect(() => {
+    if (awaitTransactionErrorIsError) {
       setAwaitWalletAction(false)
       notification.error({
         message: t('v2.updateDelegations.transactionMessages.walletError'),
         placement: 'topRight'
       })
     }
-  })
+  }, [awaitTransactionErrorIsError, t])
 
-  const resetState = () => {
-    setTxHash(undefined)
+  const updateDelegations = () => {
+    setAwaitWalletAction(true)
+    writeContract(prepareTransactionData!.request)
   }
 
   return {
     updateDelegations,
     estimateGasCost,
     isLoading,
-    isSuccess,
+    isSuccess: awaitTransactionSuccess,
     awaitWalletAction,
-    resetState,
     txHash,
+    resetState: resetState,
     prepareTransactionIsError,
     prepareTransactionIsSuccess,
     prepareTransactionErrorMessage

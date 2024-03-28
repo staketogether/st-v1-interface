@@ -8,16 +8,16 @@ import useProjectEditModal from '@/hooks/useProjectEditModal'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
 import { EditProjectForm } from '@/types/Project'
-import { notification } from 'antd'
-import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
-import { useNetwork, useSignMessage, useSwitchNetwork } from 'wagmi'
+import { useAccount, useSignMessage, useSwitchChain } from 'wagmi'
 import Modal from '../../shared/Modal'
 import ProjectEditForm from './ProjectEditForm'
 import ProjectEditLinksForm from './ProjectEditLinksForm'
+import axios from 'axios'
+import { notification } from 'antd'
 
 type ProjectEditModalProps = {
   poolDetailUs: ContentfulWithLocale
@@ -95,7 +95,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   const projectDescription = watch(language === 'pt' ? 'descriptionPt' : 'descriptionEn')
 
   const chain = chainConfig()
-  const { chain: walletChainId } = useNetwork()
+  const { chain: walletChainId } = useAccount()
   const { chainId } = chain
   const isWrongNetwork = chainId !== walletChainId?.id
 
@@ -106,40 +106,40 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     return t('save')
   }
 
-  const { switchNetworkAsync } = useSwitchNetwork({
-    chainId: chainId
-  })
+  const { switchChain } = useSwitchChain()
 
   const message = `Stake Together Update - ${poolDetailUs.wallet} `
-  const {
-    signMessage,
-    reset: resetSignMessage,
-    isLoading,
-    isSuccess
-  } = useSignMessage({
-    message: message,
-    onSuccess: async data => {
-      const createCommunityForm = getValues()
-      const signatureMessage = { signature: data, message: message }
+  const { signMessage, reset: resetSignMessage, isSuccess, isPending, data, error, isError } = useSignMessage()
 
-      await axios.post('/api/project/update', {
-        form: { ...createCommunityForm, projectId: poolDetailUs.sys.id },
-        signatureMessage
-      })
+  useEffect(() => {
+    const executeMessage = async () => {
+      if (isSuccess && data) {
+        const createCommunityForm = getValues()
+        const signatureMessage = { signature: data, message: message }
 
-      notification.success({
-        message: `${t('v2.editProject.messages.success')}`,
-        placement: 'topRight'
-      })
-    },
-    onError: error => {
+        await axios.post('/api/project/update', {
+          form: { ...createCommunityForm, projectId: poolDetailUs.sys.id },
+          signatureMessage
+        })
+
+        notification.success({
+          message: `${t('v2.editProject.messages.success')}`,
+          placement: 'topRight'
+        })
+      }
+    }
+    executeMessage()
+  }, [data, getValues, isSuccess, message, poolDetailUs.sys.id, t])
+
+  useEffect(() => {
+    if (isError && error) {
       const { cause } = error as { cause?: { message?: string } }
       notification.warning({
         message: `${cause?.message}`,
         placement: 'topRight'
       })
     }
-  })
+  }, [error, isError])
 
   const handleReset = async () => {
     await contentfulClient.refetchQueries({
@@ -165,11 +165,15 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   }, [account, reset, resetSignMessage])
 
   const onSubmit = async () => {
-    if (isWrongNetwork && switchNetworkAsync) {
-      switchNetworkAsync()
+    if (isWrongNetwork && switchChain) {
+      switchChain({
+        chainId: chainId
+      })
       return
     }
-    await signMessage()
+    await signMessage({
+      message: message
+    })
   }
 
   const tabsItems: TabsItems[] = [
@@ -219,7 +223,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   return (
     <Modal
       title={
-        isLoading || isSuccess ? null : (
+        isPending || isSuccess ? null : (
           <Title>
             <span>{`${t('v2.editProject.title')}`}</span>
             <div>
@@ -233,20 +237,20 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
           </Title>
         )
       }
-      showHeader={isLoading || isSuccess ? false : true}
+      showHeader={isPending || isSuccess ? false : true}
       onClose={() => setProjectEditModal(false)}
       isOpen={isOpenProjectEditModal}
-      showCloseIcon={isLoading || isSuccess ? false : true}
+      showCloseIcon={isPending || isSuccess ? false : true}
       width={'auto'}
       noPadding
     >
       <Container>
-        {(isLoading || isSuccess) && (
+        {(isPending || isSuccess) && (
           <GenericTransactionLoading
             title={
               isSuccess ? `${t('v2.editProject.messages.success')}` : `${t('v2.editProject.messages.loading')}`
             }
-            isLoading={isLoading}
+            isLoading={isPending}
             isSuccess={isSuccess}
             successButtonLabel={t('close')}
             chainId={1}
@@ -255,7 +259,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
             }}
           />
         )}
-        {!isLoading && !isSuccess && (
+        {!isPending && !isSuccess && (
           <Tabs
             items={tabsItems}
             defaultActiveKey={activeTab}

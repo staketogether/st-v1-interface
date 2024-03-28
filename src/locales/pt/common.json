@@ -74,6 +74,7 @@
   "buyCryptoTitle": "Comprar Ether",
   "sellCryptoTitle": "Vender Vender",
   "genericErrorMessage": "Desculpa! Algum coisa deu errado Tente novamente",
+  "selectProject": "Selecione o Produto",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"

@@ -1,5 +1,6 @@
-import { useAccount } from 'wagmi'
 import { ProductSymbol } from '@/types/Product'
+import { getWalletClient } from 'wagmi/actions'
+import { config } from '@/config/wagmi'
 
 type useAddSethToWalletProps = {
   productSymbol: ProductSymbol
@@ -7,8 +8,6 @@ type useAddSethToWalletProps = {
 }
 
 export default function useAddSethToWallet({ productSymbol, contractAddress }: useAddSethToWalletProps) {
-  const { connector, isConnected } = useAccount()
-
   const productSymbolIcons = {
     stpETH: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
     strETH:
@@ -23,14 +22,21 @@ export default function useAddSethToWallet({ productSymbol, contractAddress }: u
     stpCHZ: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png'
   }
 
-  const addToWalletAction = () => {
-    if (connector && isConnected) {
-      connector.watchAsset?.({
-        address: contractAddress,
-        symbol: productSymbol,
-        image: productSymbolIcons[productSymbol],
-        decimals: 18
+  const addToWalletAction = async () => {
+    try {
+      const client = getWalletClient(config)
+      const resolveClient = await client
+      await resolveClient.watchAsset?.({
+        type: 'ERC20',
+        options: {
+          address: contractAddress,
+          symbol: productSymbol,
+          image: productSymbolIcons[productSymbol],
+          decimals: 18
+        }
       })
+    } catch {
+      return
     }
   }
   return { addToWalletAction }

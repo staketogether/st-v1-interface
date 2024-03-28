@@ -11,21 +11,21 @@ import { WithdrawType } from '@/types/Withdraw'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import { useWaitForTransaction } from 'wagmi'
+import {
+  useSimulateContract,
+  useWaitForTransactionReceipt as useWaitForTransaction,
+  useWriteContract
+} from 'wagmi'
 import { getSubgraphClient } from '../../config/apollo'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-import {
-  stakeTogetherABI,
-  usePrepareStakeTogetherWithdrawPool,
-  useStakeTogetherWithdrawPool
-} from '../../types/Contracts'
-import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
 import useConnectedAccount from '../useConnectedAccount'
 import { Product } from '@/types/Product'
 import { chainConfigByChainId } from '@/config/chain'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import useEstimateTxInfo from '../useEstimateTxInfo'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -36,7 +36,6 @@ export default function useWithdrawPool(
   accountAddress?: `0x${string}`
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
-  const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
 
   const [estimateGasCost, setEstimateGasCost] = useState(0n)
@@ -47,11 +46,13 @@ export default function useWithdrawPool(
   const { registerWithdraw } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
+  const { loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
   const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
+
   const { t } = useLocaleTranslation()
 
+  const { stConfig } = useStConfig({ productName: product.name, chainId })
   const amountEstimatedGas = stConfig?.minWithdrawAmount || 0n
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
   const isWithdrawEnabled = enabled && amount > 0n && !stConfigLoading
@@ -61,7 +62,7 @@ export default function useWithdrawPool(
     contractAddress: StakeTogether,
     functionName: 'withdrawPool',
     args: [amountEstimatedGas, poolAddress],
-    abi: stakeTogetherABI,
+    abi: stakeTogetherAbi,
     skip: !isWithdrawEnabled || estimateGasCost > 0n
   })
 
@@ -81,26 +82,31 @@ export default function useWithdrawPool(
   }, [estimateGas, estimateGasCost])
 
   const {
-    config,
+    data: prepareTransactionData,
     isError: prepareTransactionIsError,
-    isSuccess: prepareTransactionIsSuccess
-  } = usePrepareStakeTogetherWithdrawPool({
+    isSuccess: prepareTransactionIsSuccess,
+    error: prepareTransactionError,
+    isLoading: prepareTransactionsIsLoading
+  } = useSimulateContract({
+    query: {
+      enabled: isWithdrawEnabled
+    },
     address: StakeTogether,
+    abi: stakeTogetherAbi,
+    functionName: 'withdrawPool',
     args: [amount, poolAddress],
     account: accountAddress,
-    enabled: isWithdrawEnabled,
     gas: !!estimatedGas && estimatedGas > 0n && !!web3AuthUserInfo ? estimatedGas : undefined,
     maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
     maxPriorityFeePerGas:
       !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo
         ? maxPriorityFeePerGas
-        : undefined,
-    onError(error) {
-      if (!error) {
-        return
-      }
+        : undefined
+  })
 
-      const { cause } = error as { cause?: { reason?: string; message?: string } }
+  useEffect(() => {
+    if (prepareTransactionIsError && prepareTransactionError) {
+      const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
       if (
         (!cause || !cause.reason) &&
@@ -124,36 +130,54 @@ export default function useWithdrawPool(
       if (cause && data && data.errorName) {
         setPrepareTransactionErrorMessage(data.errorName)
       }
-    },
-    onSuccess() {
+    }
+  }, [prepareTransactionError, prepareTransactionIsError, t, web3AuthUserInfo])
+
+  useEffect(() => {
+    if (prepareTransactionIsSuccess) {
       setPrepareTransactionErrorMessage('')
     }
-  })
-  const tx = useStakeTogetherWithdrawPool({
-    ...config,
-    onSuccess: data => {
-      if (data?.hash) {
-        setTxHash(data?.hash)
-      }
-    },
-    onError: () => {
+  }, [prepareTransactionIsSuccess])
+
+  const {
+    writeContract,
+    data: txHash,
+    isError: writeContractIsError,
+    reset: writeContractReset
+  } = useWriteContract()
+
+  useEffect(() => {
+    if (writeContractIsError && awaitWalletAction) {
       notification.error({
         message: `${t('v2.stake.userRejectedTheRequest')}`,
         placement: 'topRight'
       })
       setAwaitWalletAction(false)
     }
+  }, [awaitWalletAction, t, writeContractIsError])
+
+  const {
+    isLoading,
+    isSuccess: awaitTransactionSuccess,
+    isError: awaitTransactionErrorIsError
+  } = useWaitForTransaction({
+    hash: txHash,
+    confirmations: 2
   })
 
-  const withdrawPool = (): void => {
-    setAwaitWalletAction(true)
-    tx.write?.()
-  }
+  useEffect(() => {
+    if (awaitTransactionErrorIsError && awaitWalletAction) {
+      setAwaitWalletAction(false)
+      notification.error({
+        message: `${t('notifications.withdrawError')} ${withdrawAmount} ${t('eth.symbol')}`,
+        placement: 'topRight'
+      })
+      setAwaitWalletAction(false)
+    }
+  }, [awaitTransactionErrorIsError, awaitWalletAction, t, withdrawAmount])
 
-  const { isLoading, isSuccess } = useWaitForTransaction({
-    hash: txHash,
-    confirmations: 2,
-    onSuccess: () => {
+  useEffect(() => {
+    if (awaitTransactionSuccess && awaitWalletAction) {
       setAwaitWalletAction(false)
       notification.success({
         message: `${t('notifications.withdrawSuccess')} ${withdrawAmount} ${t('eth.symbol')}`,
@@ -176,31 +200,35 @@ export default function useWithdrawPool(
       if (accountAddress) {
         registerWithdraw(accountAddress, chainId, poolAddress, withdrawAmount.toString(), WithdrawType.POOL)
       }
-    },
-    onError: () => {
-      notification.error({
-        message: `${t('notifications.withdrawError')} ${withdrawAmount} ${t('eth.symbol')}`,
-        placement: 'topRight'
-      })
-      setAwaitWalletAction(false)
     }
-  })
+  }, [
+    accountAddress,
+    awaitTransactionSuccess,
+    awaitWalletAction,
+    chainId,
+    poolAddress,
+    registerWithdraw,
+    subgraphClient,
+    t,
+    withdrawAmount
+  ])
 
-  const resetState = () => {
-    setAwaitWalletAction(false)
-    setTxHash(undefined)
+  const withdrawPool = (): void => {
+    setAwaitWalletAction(true)
+    writeContract(prepareTransactionData!.request)
   }
 
   return {
     withdrawPool,
     estimatedCost: estimateGasCost,
     isLoading,
-    isSuccess,
+    resetState: writeContractReset,
+    isSuccess: awaitTransactionSuccess,
     awaitWalletAction,
-    resetState,
     txHash,
     prepareTransactionIsError,
     prepareTransactionIsSuccess,
+    prepareTransactionsIsLoading,
     prepareTransactionErrorMessage
   }
 }
