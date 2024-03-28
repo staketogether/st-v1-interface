@@ -6,7 +6,7 @@ export const productList: Product[] = [
     name: 'ethereum-stake',
     title: 'Staking de Ethereum',
     symbol: 'stpETH',
-    networkAvailable: 'holesky',
+    networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
     networks: [
       { network: 'ethereum', enabled: true },
@@ -20,7 +20,7 @@ export const productList: Product[] = [
     contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
     description: 'ethereumDescription',
     enabled: true,
-    urlRedirect: '/currency/holesky/product/ethereum-stake',
+    urlRedirect: '/currency/ethereum/product/ethereum-stake',
     stakeTogetherPool: {
       mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
       testnet: '0xF4e8Dd9C44438ee697B61a426a592010e9a86a90'
@@ -56,7 +56,7 @@ export const productList: Product[] = [
     name: 'ethereum-restaking',
     title: 'Restaking',
     symbol: 'strETH',
-    networkAvailable: 'optimism-sepolia',
+    networkAvailable: 'optimism',
     eigenPointsAvailable: true,
     networks: [
       { network: 'ethereum', enabled: true },
@@ -66,13 +66,13 @@ export const productList: Product[] = [
       { network: 'solana', enabled: false }
     ],
     apy: 11.1,
-    scan: 'https://optimism-sepolia.blockscout.com',
+    scan: 'https://optimistic.etherscan.io',
     contractAddress: '0x1234567890',
     description: 'ethereumDescription',
     enabled: true,
-    urlRedirect: '/currency/optimism-sepolia/product/ethereum-restaking',
+    urlRedirect: '/currency/optimism/product/ethereum-restaking',
     stakeTogetherPool: {
-      mainnet: '0x15Df22857d8208d4add356dB92E48B347488969E',
+      mainnet: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
       testnet: '0x15Df22857d8208d4add356dB92E48B347488969E'
     },
     contracts: {
