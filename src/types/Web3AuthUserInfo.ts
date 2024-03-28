@@ -7,15 +7,8 @@ const LOGIN_PROVIDER = {
   APPLE: "apple",
   LINE: "line",
   GITHUB: "github",
-  KAKAO: "kakao",
   LINKEDIN: "linkedin",
   TWITTER: "twitter",
-  WEIBO: "weibo",
-  WECHAT: "wechat",
-  FARCASTER: "farcaster",
-  EMAIL_PASSWORDLESS: "email_passwordless",
-  SMS_PASSWORDLESS: "sms_passwordless",
-  WEBAUTHN: "webauthn",
   JWT: "jwt",
 } as const;
 
