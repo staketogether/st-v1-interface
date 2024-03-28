@@ -23,7 +23,6 @@ export enum DepositType {
   Ethereum = 'Ethereum',
   Polygon = 'Polygon'
 }
-
 export interface DepositConfig {
   depositChanId: number
   bridgeChanIn?: number

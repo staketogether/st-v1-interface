@@ -22,7 +22,6 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
   const { account } = useConnectedAccount()
   const { t } = useLocaleTranslation()
 
-
   const {
     balance: ethBalance,
     isLoading: ethBalanceLoading,

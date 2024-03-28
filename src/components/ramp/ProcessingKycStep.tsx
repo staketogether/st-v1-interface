@@ -31,7 +31,6 @@ export default function ProcessingKycStep() {
   const kyc = useReactiveVar(kycLevelVar)
   const kycActivityId = Number(kyc?.level || 0) > 0 || !kycActivity ? undefined : kycActivity
   const { activity, isError } = useVerifyActivity(ProviderType.brla, kycActivityId ?? undefined)
-
   const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc?.level ? undefined : address, true)
   const getIcon = (moment: 'waiting' | 'process' | 'success') => {
 
