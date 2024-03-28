@@ -37,7 +37,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
           ensName={ensName}
           ensLoading={ensLoading}
         />
-        {web3AuthUserInfo ? (
+        {web3AuthUserInfo?.profileImage ? (
           <Web3AuthProfileImage
             src={web3AuthUserInfo.profileImage}
             alt={t('stakeTogether')}

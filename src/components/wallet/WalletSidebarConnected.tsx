@@ -184,7 +184,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           <HeaderContainer>
             <HeaderUserContainer>
               <Web3AuthProfileContainer>
-                {web3AuthUserInfo && web3AuthUserInfo.profileImage ? (
+                {web3AuthUserInfo && web3AuthUserInfo.typeOfLogin && web3AuthUserInfo.profileImage ? (
                   <>
                     <Web3AuthProfileImage
                       src={web3AuthUserInfo.profileImage}
@@ -204,9 +204,9 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 )}
               </Web3AuthProfileContainer>
               <div>
-                {web3AuthUserInfo && (
+                {web3AuthUserInfo && web3AuthUserInfo.email && (
                   <WalletAddressContainer>
-                    <span onClick={() => copyToClipboard(web3AuthUserInfo.email)}>
+                    <span onClick={() => web3AuthUserInfo?.email && copyToClipboard(web3AuthUserInfo.email)}>
                       {truncateText(web3AuthUserInfo.email, 20)}
                     </span>
                   </WalletAddressContainer>

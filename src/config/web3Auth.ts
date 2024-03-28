@@ -5,7 +5,7 @@ import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
 import { CHAIN_NAMESPACES, UX_MODE, WEB3AUTH_NETWORK } from '@web3auth/base'
 import * as ChainConfig from 'viem/chains'
 import { WalletServicesPlugin } from '@web3auth/wallet-services-plugin'
-import { makeVar, ReactiveVar } from '@apollo/client'
+import { makeVar } from '@apollo/client'
 
 const handleRpcPerChain = (chainId: number) => {
   const alchemyKey: { [key: number]: string } = {
