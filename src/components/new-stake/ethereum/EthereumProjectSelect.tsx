@@ -1,7 +1,5 @@
 import CommunityLogo from '@/components/shared/community/CommunityLogo'
 import CommunityName from '@/components/shared/community/CommunityName'
-import { chainConfigByChainId } from '@/config/chain'
-import { productList } from '@/config/product'
 import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Select, Switch, Tooltip } from 'antd'
@@ -24,15 +22,11 @@ export default function EthereumProjectSelect({
   chainId
 }: EthereumProjectSelectProps) {
   const { t } = useLocaleTranslation()
-  const { isTestnet } = chainConfigByChainId(chainId)
-  const stakeTogetherPools = productList.map(
-    product => product.stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet']
-  )
 
   const { projectList, initialLoading } = useContentfulProjectListByStatus({
     status: 'approved',
     pagination: { first: 100, skip: 0 },
-    excludeProjectAddress: stakeTogetherPools
+    chainId
   })
 
   const projectListMapped = projectList.map(project => ({
@@ -66,11 +60,13 @@ export default function EthereumProjectSelect({
           style={{ width: '100%', height: 42 }}
           options={projectListMapped}
           optionFilterProp='children'
-          filterOption={(input, option) => (option?.filterValue ?? '').includes(input)}
+          filterOption={(input, option) =>
+            (option?.filterValue?.toString().toLowerCase() ?? '').includes(input.toLowerCase())
+          }
           filterSort={(optionA, optionB) => {
-            return (optionA?.filterValue ?? '')
-              .toLowerCase()
-              .localeCompare((optionB?.filterValue ?? '').toLowerCase())
+            return (optionA?.filterValue?.toString().toLowerCase() ?? '').localeCompare(
+              optionB?.filterValue?.toString().toLowerCase() ?? ''
+            )
           }}
         />
       )}
