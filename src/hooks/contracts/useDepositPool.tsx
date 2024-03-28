@@ -57,12 +57,12 @@ export default function useDepositPool(
   const isDepositEstimatedGas = !enabled && stConfigLoading
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
   // Todo! Implement Referral
-  const referral = '0x0000000000000000000000000000000000000000'
+  const referral = poolAddress
 
   const { estimateGas } = useEstimateTxInfo({
     account: StakeTogether,
     functionName: 'depositPool',
-    args: [poolAddress, referral],
+    args: [isTestnet ? product.stakeTogetherPool.testnet : product.stakeTogetherPool.mainnet, referral],
     contractAddress: StakeTogether,
     abi: stakeTogetherAbi,
     value: amountEstimatedGas,
