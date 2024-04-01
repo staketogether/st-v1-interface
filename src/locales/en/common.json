@@ -107,7 +107,7 @@
   "noRewards": "Rewards are distributed daily",
   "noActivities": "You have not performed any activities yet",
   "notifications": {
-    "depositSuccess": "Deposit Successful",
+    "depositSuccess": "Successful Deposit",
     "depositError": "Failed to Deposit",
     "withdrawSuccess": "Withdrawal Successful",
     "withdrawError": "Failed to Withdraw"
@@ -128,7 +128,7 @@
   "soon": "Coming Soon",
   "addSethToWallet": {
     "add": "Add",
-    "yourWallet": "to wallet"
+    "yourWallet": "To wallet"
   },
   "connectWalletSideBar": {
     "connectButton": "Enter with",
@@ -304,11 +304,11 @@
       "insufficientGasBalance": "Insufficient Balance For Gas",
       "descriptionForm": {
         "receive": "You receive:",
-        "receiveTooltip": "When you deposit ETH, you receive the stpETH token in return. The stpETH receives staking rewards daily.",
+        "receiveTooltip": "When you deposit ETH, you receive the liquid token in return.",
         "exchange": "Exchange:",
-        "exchangeTooltip": "Exchange is the equivalence between ETH and stpETH.",
+        "exchangeTooltip": "Exchange a token for other",
         "rewards": "Staking rewards fee:",
-        "rewardsTooltip": "Staking Rewards fee is the fee that is deducted from the staking rewards.",
+        "rewardsTooltip": "Fee deducted from the future staking rewards.",
         "operation": "Operation fee:",
         "operationTooltip": "Operation fee is the fee that is deducted from the deposit."
       },
@@ -320,10 +320,10 @@
         "youWillReceive": "You will receive",
         "confirmWithdraw": "Confirm Withdraw",
         "confirmDeposit": "Confirm Deposit",
-        "transactionSubmitted": "Transaction submitted",
-        "proceedInYourWallet": "Proceed in your wallet",
+        "transactionSubmitted": "Transaction Submitted",
+        "proceedInYourWallet": "Proceed on Wallet",
         "withdrawSuccessful": "Withdraw Successful",
-        "depositSuccessful": "Deposit Successful"
+        "depositSuccessful": "Successful Deposit"
       },
       "withdrawErrorMessage": {
         "FeatureDisabled": "Feature Disabled",

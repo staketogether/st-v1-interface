@@ -1,3 +1,4 @@
+import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Montserrat } from 'next/font/google'
 import { useRouter } from 'next/router'
@@ -9,12 +10,10 @@ import { Cloudflare } from '../scripts/Cloudflare'
 import { FacebookPixel } from '../scripts/FacebookPixel'
 import { GoogleTag } from '../scripts/GoogleTag'
 import { Hotjar } from '../scripts/Hotjar'
-import { Intercom } from '../scripts/Intercom'
 import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
-import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
@@ -56,7 +55,6 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
           <Hotjar />
           <Cloudflare />
           <FacebookPixel />
-          <Intercom />
         </>
       )}
       <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
