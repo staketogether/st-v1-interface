@@ -56,6 +56,7 @@ const { Warper } = {
     width: ${({ size }) => `${size}px`};
     height: ${({ size }) => `${size}px`};
     box-shadow: ${({ theme }) => theme.shadow[100]};
+    border-radius: 100%;
     img {
       border-radius: 100%;
       box-shadow: ${({ theme }) => theme.shadow[100]};

@@ -1,4 +1,4 @@
-import NetworkIcons from '@/components/shared/NetworkIcons'
+import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import SymbolIcons from '@/components/tokens/components/SymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -78,7 +78,7 @@ export default function EthereumInput({
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <NetworkIcons network='ethereum' size={32} />
+            <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
           ) : (
             <SymbolIcons productSymbol={product.symbol} size={32} />
           )}

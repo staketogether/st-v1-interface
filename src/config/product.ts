@@ -24,7 +24,7 @@ export const productList: Product[] = [
     urlRedirect: '/currency/ethereum/product/ethereum-stake',
     stakeTogetherPool: {
       mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
-      testnet: '0xF4e8Dd9C44438ee697B61a426a592010e9a86a90'
+      testnet: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48'
     },
     contracts: {
       mainnet: {
