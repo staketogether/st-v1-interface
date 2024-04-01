@@ -26,6 +26,8 @@ export enum DepositType {
 export interface DepositConfig {
   depositChanId: number
   bridgeChanIn?: number
+  toChain?: string,
+  toToken?: string
 }
 export const openBrlaModalVar = makeVar(false)
 export const fiatAmountVar = makeVar<string>('')
@@ -69,11 +71,16 @@ export const openModal = (stakingProduct: StakingProduct, network: Network) => {
     [key: string]: DepositConfig
   } = {
     'ethereum-stake': {
-      depositChanId: isTestnet ? 11155111 : 1
+      depositChanId: isTestnet ? 11155111 : 1,
+      bridgeChanIn: 10,
+      toChain: 'opt',
+      toToken: 'eth'
     },
     'ethereum-restaking': {
       depositChanId: isTestnet ? 80001 : 137,
-      bridgeChanIn: 10
+      bridgeChanIn: 10,
+      toChain: 'opt',
+      toToken: 'eth'
     },
   }
   depositConfigVar(depositChainByProduct[stakingProduct])

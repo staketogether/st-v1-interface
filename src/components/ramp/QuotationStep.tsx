@@ -34,7 +34,9 @@ export default function QuotationStep() {
     depositConfig?.depositChanId,
     0,
     ProviderType.brla,
-    PaymentMethodType.pix
+    PaymentMethodType.pix,
+    depositConfig?.toChain,
+    depositConfig?.toToken
   )
   const { address } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', address)
