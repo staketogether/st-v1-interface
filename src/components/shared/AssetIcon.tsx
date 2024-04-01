@@ -55,8 +55,8 @@ export default function AssetIcon({ assetIcon, size, networkIcon }: SymbolIconsP
       <div>
         <Image
           src={networkIcons[networkIcon]}
-          width={size <= 24 ? 12 : 16}
-          height={size <= 24 ? 12 : 16}
+          width={size <= 24 ? 14 : 16}
+          height={size <= 24 ? 14 : 16}
           alt={networkIcon}
           className='white-border'
         />
