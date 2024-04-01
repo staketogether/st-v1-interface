@@ -71,6 +71,7 @@ export type Contracts = {
 export type Product = {
   id: number
   name: StakingProduct
+  newProductTag: boolean
   eigenPointsAvailable: boolean
   rampEnabled: boolean
   title: string
@@ -79,7 +80,6 @@ export type Product = {
   apy: number
   description: string
   scan: string
-  contractAddress: `0x${string}`
   enabled: boolean
   urlRedirect: string
   networkAvailable: Network

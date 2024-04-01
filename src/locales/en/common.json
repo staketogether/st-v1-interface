@@ -29,6 +29,7 @@
   "members": "Members",
   "delegations": "Delegations",
   "balance": "Balance",
+  "assets": "Assets",
   "poolBalance": "Pool Balance",
   "selectPool": "Select Pool",
   "exchange": "Get Faucet",
@@ -74,7 +75,9 @@
   "buyCryptoTitle": "Buy Ether",
   "sellCryptoTitle": "Sell Ether",
   "genericErrorMessage": "Sorry! Something went wrong. Please try again",
-   "selectProject": "Select project",
+  "selectProduct": "Select project",
+  "estimatedBalance": "Estimated Balance",
+  "investments": "Investments",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -677,7 +680,7 @@
       "title": "Ethereum Staking",
       "description": "Description",
       "statistics": "Statistics",
-      "ethereumDescription": "Ethereum is a decentralized platform that enables smart contracts and decentralized applications to be built and operated without any downtime, fraud, control, or interference from a third party. Ethereum is not just a platform but also a programming language running on a blockchain, helping developers to build and publish distributed applications.",
+      "ethereumDescription": "Ethereum Staking: Secure the Network, Earn Rewards. Join the Ethereum ecosystem by staking your ETH tokens. Contribute to network security, participate in consensus, and earn passive income. Our platform provides an easy, secure, and efficient way to stake your Ethereum and generate yields from validator revenues. Start with as little as you want and access your funds anytime. Elevate your investment strategy with Ethereum staking today",
       "contractAddress": "Contract Address",
       "marketCap": "Market Cap",
       "priceChange": "Price Change (1y)",
@@ -686,6 +689,7 @@
       "highestValueWeeks": "Highest Value in the Last 52 Weeks",
       "eigenPointTooltip": "When you stake, you accumulate points in the Eigen Layer protocol, which may later launch a token, and you will participate in this launch",
       "togetherPoints": "When you stake, you accumulate points in the Stake Together protocol, which may later launch a token, and you will participate in this launch",
+      "restakingDescription": "ReStaking Ethereum: Enhance Your Staking Efficiency. Experience the next level of Ethereum staking with our ReStaking solution, merging Stake Together protocol and Eigen Layer technology. Amplify your Ethereum's potential by using it as collateral in the Eigen Layer, contributing to network services and earning income from diverse sources. Our platform streamlines your staking process, providing a more effective and profitable approach to secure the network and gain rewards. Dive into ReStaking with Ethereum today and start benefiting from combined yields.",
       "actions": {
         "invest": "Invest",
         "withdraw": "Withdraw",

@@ -9,7 +9,7 @@ export default function StakeWithdrawCounter({ withdrawTimeLeft }: StakeWithdraw
   const time = useCountDown(withdrawTimeLeft)
 
   if (time && (Number(time.daysTens) > 0 || Number(time.daysUnits) > 0)) {
-    return <div>{withdrawTimeLeft > 0 && `${time.daysTens || '0'}${time.daysUnits || '0'}d`}</div>
+    return <div>{withdrawTimeLeft > 0 && `${time.daysTens || '0'}${time.daysUnits || '0'}Day`}</div>
   }
   if (time && (Number(time.hoursTens) > 0 || Number(time.hoursUnits) > 0)) {
     return <div>{withdrawTimeLeft > 0 && `${time.hoursTens || '0'}${time.hoursUnits || '0'}h`}</div>

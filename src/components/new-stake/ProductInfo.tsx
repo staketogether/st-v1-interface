@@ -8,9 +8,9 @@ import { Product, ProductMarketAssetData } from '@/types/Product'
 import styled from 'styled-components'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import SymbolIcons from '../tokens/components/SymbolIcons'
-import { Tooltip, notification } from 'antd'
+import { Tooltip } from 'antd'
 import NetworkIcons from '../shared/NetworkIcons'
-import { PiCopy } from 'react-icons/pi'
+import { PiArrowUpRight } from 'react-icons/pi'
 
 type ProductInfoProps = {
   product: Product
@@ -21,14 +21,6 @@ type ProductInfoProps = {
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
   const { isTestnet } = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
-
-  function copyToClipboard() {
-    navigator.clipboard.writeText(stakeTogetherContractAddress)
-    notification.success({
-      message: `${t('addressCopiedToClipboard')}`,
-      placement: 'topRight'
-    })
-  }
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
   const stakeTogetherContractAddress = !isTestnet
@@ -112,9 +104,9 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
 
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.contractAddress')}</h2>
-        <span className='copy' onClick={copyToClipboard}>
-          {stakeTogetherContractAddress} <PiCopy style={{ fontSize: 16 }} />
-        </span>
+        <a className='copy' href={`${product.scan}/address/${stakeTogetherContractAddress}`} target='_blank'>
+          {stakeTogetherContractAddress} <PiArrowUpRight style={{ fontSize: 16 }} />
+        </a>
       </ProductBodyContainer>
     </ProductContainer>
   )
@@ -231,7 +223,7 @@ const {
       font-size: ${({ theme }) => theme.font.size[15]};
       font-weight: 500;
     }
-
+    a,
     span {
       font-size: 13px;
       font-weight: 400;
