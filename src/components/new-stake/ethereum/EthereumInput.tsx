@@ -6,7 +6,7 @@ import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import { Product } from '@/types/Product'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 
 type EthereumInputProps = {
@@ -32,6 +32,8 @@ export default function EthereumInput({
 }: EthereumInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const containerHeaderRef = useRef<HTMLDivElement>(null)
 
   function handleChangeValue(value: string) {
     if (value.includes(',')) {
@@ -44,8 +46,26 @@ export default function EthereumInput({
     }
   }
 
+  function handleFocusInput() {
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }
+
+  function handleFocusContainer() {
+    if (containerHeaderRef.current) {
+      containerHeaderRef.current.classList.add('active')
+    }
+  }
+
+  function handleBlurContainer() {
+    if (containerHeaderRef.current) {
+      containerHeaderRef.current.classList.remove('active')
+    }
+  }
+
   return (
-    <InputContent>
+    <InputContent onClick={handleFocusInput} ref={containerHeaderRef}>
       <div>
         {balanceLoading ? (
           <SkeletonLoading width={120} />
@@ -68,10 +88,13 @@ export default function EthereumInput({
           </span>
         </CoinActionContainer>
         <input
+          ref={inputRef}
           type='text'
           value={ethAmountValue}
           onChange={e => handleChangeValue(e.target.value)}
           placeholder='0'
+          onFocus={handleFocusContainer}
+          onBlur={handleBlurContainer}
           className={`${hasError && 'error'}`}
         />
       </div>
@@ -88,10 +111,18 @@ const { InputContent, CoinActionContainer } = {
     padding: 16px;
     border-radius: ${({ theme }) => theme.size[8]};
     background-color: ${({ theme }) => theme.colorV2.gray[2]};
-
+    border: 1px solid transparent;
     &.stpETH {
       background-color: transparent;
       border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+    }
+
+    &:hover {
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+    }
+
+    &.active {
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
     }
 
     div {
@@ -109,7 +140,7 @@ const { InputContent, CoinActionContainer } = {
         border: none;
         outline: none;
         background: none;
-        color: ${({ theme }) => theme.colorV2.gray[6]};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
         font-size: ${({ theme }) => theme.font.size[22]};
         line-height: 24px;
         height: 24px;

@@ -1,17 +1,23 @@
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
-import { queryAccount } from '../../queries/subgraph/queryAccount'
-import { Account } from '../../types/Account'
-import { Delegation } from '../../types/Delegation'
+import { queryAccount } from '../../../queries/subgraph/queryAccount'
+import { Account } from '../../../types/Account'
+import { Delegation } from '../../../types/Delegation'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { AccountActivity } from '@/types/AccountActivity'
 import { AccountReward } from '@/types/AccountReward'
 import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
+import { StakingProduct } from '@/types/Product'
+import { getSubgraphClient } from '@/config/apollo'
+import { chainConfigByChainId } from '@/config/chain'
 
-/**
- * @deprecated
- */
-export default function useStAccount(address?: `0x${string}`) {
+type useStAccountProps = {
+  address?: `0x${string}`
+  productName: StakingProduct
+  chainId: number
+}
+
+export default function useStAccount({ address, productName, chainId }: useStAccountProps) {
   const [account, setAccount] = useState<Account | undefined>(undefined)
   const [accountActivities, setAccountActivities] = useState<AccountActivity[]>([])
   const [accountRewards, setAccountRewards] = useState<AccountReward[]>([])
@@ -24,25 +30,30 @@ export default function useStAccount(address?: `0x${string}`) {
   const [accountTotalRewards, setAccountTotalRewards] = useState<bigint>(0n)
   const [accountProfitPercentage, setAccountProfitPercentage] = useState<bigint>(0n)
   const [accountShare, setAccountShare] = useState<bigint>(0n)
+  const { isTestnet } = chainConfigByChainId(chainId)
+  const client = getSubgraphClient({ productName: productName, isTestnet })
 
   const { data: accountData, loading } = useQuery<{ account: Account }>(queryAccount, {
     variables: { id: address?.toLowerCase() },
-    skip: !address
+    skip: !address,
+    client
   })
 
   const { data: activitiesData, loading: activitiesLoading } = useQuery<{
     accountActivities: AccountActivity[]
   }>(queryAccountActivities, {
     variables: { accountAddress: address?.toLowerCase(), first: 10, skip: 0 },
-    skip: !address
+    skip: !address,
+    client
   })
 
   const { data: rewardsData, loading: rewardsLoading } = useQuery<{ accountRewards: AccountReward[] }>(
     queryAccountRewards,
     {
+      client,
+      skip: !address,
       variables: {
-        accountAddress: address?.toLowerCase(),
-        skip: !address
+        accountAddress: address?.toLowerCase()
       }
     }
   )

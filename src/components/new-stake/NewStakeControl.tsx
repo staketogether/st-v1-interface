@@ -78,6 +78,7 @@ const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
     padding: ${({ theme }) => theme.size[24]};
     background-color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
   `,
   HeaderBackAction: styled(Link)`
     display: flex;
@@ -88,8 +89,10 @@ const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
     color: ${({ theme }) => theme.colorV2.gray[1]};
     opacity: 0.6;
     cursor: pointer;
-    position: fixed;
-    margin-top: -39px;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      position: fixed;
+      margin-top: -39px;
+    }
   `,
   LoadingContainer: styled.div`
     width: 100%;

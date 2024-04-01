@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-
-import chainConfig from '@/config/chain'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import Image from 'next/image'
@@ -9,6 +7,8 @@ import useWalletSidebar from '../../hooks/useWalletSidebar'
 
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import WalletName from './WalletName'
+import { useAccount } from 'wagmi'
+import { Networks } from '@/config/chain'
 
 type WalletConnectedButtonProps = {
   address: `0x${string}`
@@ -18,10 +18,10 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   const { setOpenSidebar } = useWalletSidebar()
   const { t } = useLocaleTranslation()
 
-  const chain = chainConfig()
+  const { chain: walletChainId } = useAccount()
 
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { name: ensName, nameLoading: ensLoading } = useEns(address, chain.chainId)
+  const { name: ensName, nameLoading: ensLoading } = useEns(address, walletChainId?.id || Networks.Mainnet)
 
   const handleActionButton = () => {
     setOpenSidebar(true)
@@ -36,7 +36,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
           ensName={ensName}
           ensLoading={ensLoading}
         />
-        {web3AuthUserInfo ? (
+        {web3AuthUserInfo?.profileImage ? (
           <Web3AuthProfileImage
             src={web3AuthUserInfo.profileImage}
             alt={t('stakeTogether')}
@@ -44,7 +44,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
             height={24}
           />
         ) : (
-          <EnsAvatar address={address} size={24} chainId={chain.chainId} />
+          <EnsAvatar address={address} size={24} chainId={walletChainId?.id || Networks.Mainnet} />
         )}
       </EnsAddress>
     </ConnectedButton>

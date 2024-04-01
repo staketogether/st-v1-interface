@@ -3,7 +3,6 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import { truncateWei } from '@/services/truncate'
 import { Pool } from '@/types/Pool'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
@@ -19,11 +18,10 @@ type PoolsRowListProps = {
 export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
-  const { query, locale } = useRouter()
-  const { currency, network } = query
+  const { locale } = useRouter()
 
   return (
-    <Row href={`/${currency}/${network}/project/deposit/${pool.address}`}>
+    <Row>
       {pool && (
         <>
           <Name>
@@ -53,7 +51,7 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
 }
 
 const { Row, Name, TypeContainer, Text } = {
-  Row: styled(Link)`
+  Row: styled.div`
     display: none;
     height: 48px;
     grid-template-columns: 0.9fr 0.7fr 0.5fr 0.7fr;

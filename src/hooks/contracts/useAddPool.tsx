@@ -1,105 +1,144 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import chainConfig from '../../config/chain'
-import { usePrepareStakeTogetherAddPool, useStakeTogetherAddPool } from '@/types/Contracts'
-import { useWaitForTransaction } from 'wagmi'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import {
+  useSimulateContract,
+  useWaitForTransactionReceipt as useWaitForTransaction,
+  useWriteContract
+} from 'wagmi'
 import { notification } from 'antd'
 import useLocaleTranslation from '../useLocaleTranslation'
 import { getContractsByProductName } from '@/config/product'
+import { getSubgraphClient } from '@/config/apollo'
+import { queryAccount } from '@/queries/subgraph/queryAccount'
+import { queryPools } from '@/queries/subgraph/queryPools'
+import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 
 export default function useAddPool(projectAddress: `0x${string}`, isSocial: boolean, disabled?: boolean) {
   const { isTestnet, chainId } = chainConfig()
+  const subgraphClient = getSubgraphClient({ productName: 'ethereum-stake', isTestnet })
   const { StakeTogether } = getContractsByProductName({
     productName: 'ethereum-stake',
     isTestnet
   })
-  const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const { t } = useLocaleTranslation()
 
   const {
-    config,
+    data: prepareTransactionData,
     isError: prepareTransactionIsError,
-    isSuccess: prepareTransactionIsSuccess
-  } = usePrepareStakeTogetherAddPool({
+    isSuccess: prepareTransactionIsSuccess,
+    error: prepareTransactionError,
+    isLoading: prepareTransactionsIsLoading,
+    refetch: refetchPrepareTransaction
+  } = useSimulateContract({
+    query: {
+      enabled: disabled
+    },
     chainId,
     address: StakeTogether,
-    enabled: disabled,
+    abi: stakeTogetherAbi,
+    functionName: 'addPool',
     args: [projectAddress, true, isSocial, false],
-    value: 0n,
-    onError(error) {
-      console.error(error)
-      if (!error) {
-        return
-      }
-
-      const { cause } = error as { cause?: { reason?: string; message?: string } }
-
-      const { data } = cause as { data?: { errorName?: string } }
-
-      if (cause && data && data.errorName) {
-        setPrepareTransactionErrorMessage(data.errorName)
-      }
-    },
-    onSuccess() {
-      setPrepareTransactionErrorMessage('')
-    }
+    value: 0n
   })
 
-  const { isLoading, isSuccess, isError } = useWaitForTransaction({
-    hash: txHash,
-    confirmations: 2,
-    onSuccess: () => {
-      setAwaitWalletAction(false)
-      notification.success({
-        message: `${t('v2.panelProject.messages.projectAddedSuccessfully')}`,
+  useEffect(() => {
+    if (prepareTransactionIsError && prepareTransactionError) {
+      const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
+
+      if (
+        (!cause || !cause.reason) &&
+        cause?.message &&
+        cause.message.includes(
+          'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
+        )
+      ) {
+        setPrepareTransactionErrorMessage('insufficientGasBalance')
+
+        return
+      }
+      const response = cause as { data?: { errorName?: string } }
+
+      if (cause && response?.data && response?.data?.errorName) {
+        setPrepareTransactionErrorMessage(response?.data?.errorName)
+      }
+    }
+  }, [prepareTransactionError, prepareTransactionIsError, t])
+
+  useEffect(() => {
+    if (prepareTransactionIsSuccess) {
+      setPrepareTransactionErrorMessage('')
+    }
+  }, [prepareTransactionIsSuccess])
+
+  const {
+    writeContract,
+    data: txHash,
+    isError: writeContractIsError,
+    reset: resetWriteContract
+  } = useWriteContract()
+
+  useEffect(() => {
+    if (writeContractIsError && awaitWalletAction) {
+      notification.error({
+        message: `${t('v2.stake.userRejectedTheRequest')}`,
         placement: 'topRight'
       })
-    },
-    onError: () => {
+      setAwaitWalletAction(false)
+    }
+  }, [awaitWalletAction, t, writeContractIsError])
+
+  const {
+    isLoading,
+    isSuccess: awaitTransactionSuccess,
+    isError: awaitTransactionErrorIsError
+  } = useWaitForTransaction({
+    hash: txHash,
+    confirmations: 2
+  })
+
+  useEffect(() => {
+    if (awaitTransactionErrorIsError && awaitWalletAction) {
       setAwaitWalletAction(false)
       notification.error({
         message: `${t('v2.panelProject.messages.errorAddProject')}`,
         placement: 'topRight'
       })
     }
-  })
+  }, [awaitTransactionErrorIsError, awaitWalletAction, t])
 
-  const tx = useStakeTogetherAddPool({
-    ...config,
-    onSuccess: data => {
-      if (data?.hash) {
-        setTxHash(data?.hash)
-      }
-    },
-    onError: () => {
+  useEffect(() => {
+    if (awaitTransactionSuccess && awaitWalletAction) {
       setAwaitWalletAction(false)
-      notification.error({
-        message: `${t('v2.stake.userRejectedTheRequest')}`,
+
+      subgraphClient.refetchQueries({
+        include: [queryAccount, queryPools, queryStakeTogether]
+      })
+      notification.success({
+        message: `${t('v2.panelProject.messages.projectAddedSuccessfully')}`,
         placement: 'topRight'
       })
+      refetchPrepareTransaction()
     }
-  })
+  }, [awaitTransactionSuccess, awaitWalletAction, refetchPrepareTransaction, subgraphClient, t])
 
   const addPool = () => {
     setAwaitWalletAction(true)
-    tx.write?.()
-  }
-
-  const resetState = () => {
-    setAwaitWalletAction(false)
-    setTxHash(undefined)
+    writeContract(prepareTransactionData!.request)
   }
 
   return {
     isLoading,
-    isSuccess,
+    isSuccess: awaitTransactionSuccess,
     addPool,
-    resetState,
+    resetState: resetWriteContract,
     prepareTransactionIsError,
     prepareTransactionIsSuccess,
     prepareTransactionErrorMessage,
-    isError,
+    prepareTransactionsIsLoading,
+    isError: awaitTransactionErrorIsError,
     awaitWalletAction,
     txHash
   }

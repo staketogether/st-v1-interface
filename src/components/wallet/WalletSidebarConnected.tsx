@@ -1,10 +1,7 @@
-import WalletSidebarActivities from '@/components/wallet/WalletSidebarActivities'
-import WalletSidebarRewards from '@/components/wallet/WalletSidebarRewards'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
-import ethIcon from '@assets/icons/eth-icon.svg'
-import { Drawer, notification } from 'antd'
+import { Drawer, Select, notification } from 'antd'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -16,13 +13,12 @@ import {
   PiChartLine,
   PiChartPieSlice,
   PiGear,
-  PiPen,
   PiSignOut
 } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
-import useStAccount from '../../hooks/subgraphs/useStAccount'
+import useStAccount from './hooks/useStAccount'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 import { formatNumberByLocale } from '../../services/format'
@@ -30,18 +26,20 @@ import { capitalize, truncateAddress, truncateText, truncateWei } from '../../se
 
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
-import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
-import Button from '../shared/Button'
 import Card from '../shared/Card'
-import StpEthIcon from '../shared/StpethIcon'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
-import WalletSidebarPortfolio from './WalletSidebarPortfolio'
+
 import WalletSidebarSettings from './WalletSidebarSettings'
 import Withdrawals from '../shared/Withdrawals'
-import chainConfig from '@/config/chain'
+import chainConfig, { Networks } from '@/config/chain'
+import AssetIcon from '../shared/AssetIcon'
+import useCoinConversion from '@/hooks/useCoinConversion'
+import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
+import NetworkProductIcons from '../tokens/components/StakingIcons'
+import { productList } from '@/config/product'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -50,13 +48,25 @@ type WalletSidebarConnectedProps = {
 export default function WalletSidebarConnected({ address }: WalletSidebarConnectedProps) {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [isPanelActive, setIsPanelActive] = useState(false)
-
+  const [tabActivated, setTabActivated] = useState<'delegations' | 'rewards' | 'activity'>('delegations')
+  const [productTabSelected, setProductTabSelected] = useState<'ethereum-stake' | 'ethereum-restaking'>(
+    'ethereum-stake'
+  )
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
   const { disconnect } = useDisconnect()
   const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
+  const { locale } = useRouter()
 
-  const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
+  const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: Networks.holesky })
+  const formattedEthBalance = formatNumberByLocale(truncateWei(ethBalance, 6), locale)
+  const { priceConvertedValue: usdEthBalance } = useCoinConversion(formattedEthBalance)
+  const { balance: optimistEthBalance } = useEthBalanceOf({
+    walletAddress: address,
+    chainId: Networks.OptimismSepolia
+  })
+  const formattedOptimistEthBalance = formatNumberByLocale(truncateWei(optimistEthBalance, 6), locale)
+  const { priceConvertedValue: usdOptimismEthBalance } = useCoinConversion(formattedOptimistEthBalance)
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
   const { chainId } = chainConfig()
@@ -64,22 +74,66 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { name, nameLoading } = useEns(address, chainId)
 
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
-  const { setOpenSidebar: setOpenSidebarEditPortfolio } = useWalletSidebarEditPortfolio()
 
   const handleWalletProviderImage = useWalletProviderImage()
 
-  const { locale } = useRouter()
+  const {
+    accountDelegations: stakeAccountDelegations,
+    accountBalance: stakeAccountBalance,
+    accountRewards: stakeAccountRewards,
+    accountActivities: stakeAccountActivities,
+    accountProfitPercentage: stakeAccountProfitPercentage,
+    accountIsLoading: stakeAccountIsLoading,
+    accountShare: stakeAccountShare
+  } = useStAccount({ address: address, productName: 'ethereum-stake', chainId: Networks.Mainnet })
+  const stpETHAccountBalance = truncateWei(stakeAccountBalance, 6)
+
+  const { priceConvertedValue: usdStpETHBalance } = useCoinConversion(stpETHAccountBalance)
 
   const {
-    accountDelegations,
-    accountBalance,
-    accountRewards,
-    accountActivities,
-    accountProfitPercentage,
-    accountTotalRewards,
-    accountIsLoading,
-    accountShare
-  } = useStAccount(address)
+    accountDelegations: restakingAccountDelegations,
+    accountBalance: restakingAccountBalance,
+    accountRewards: restakingAccountRewards,
+    accountActivities: restakingAccountActivities,
+    accountProfitPercentage: restakingAccountProfitPercentage,
+    accountIsLoading: restakingAccountIsLoading,
+    accountShare: restakingAccountShare
+  } = useStAccount({ address: address, productName: 'ethereum-restaking', chainId: Networks.optimism })
+  const stpRETHAccountBalance = formatNumberByLocale(truncateWei(restakingAccountBalance, 5), locale)
+  const { priceConvertedValue: usdStpRETHBalance } = useCoinConversion(stpRETHAccountBalance)
+
+  const stAccount = {
+    'ethereum-stake': {
+      accountDelegations: stakeAccountDelegations,
+      accountBalance: stakeAccountBalance,
+      accountRewards: stakeAccountRewards,
+      accountActivities: stakeAccountActivities,
+      accountProfitPercentage: stakeAccountProfitPercentage,
+      accountIsLoading: stakeAccountIsLoading,
+      accountShare: stakeAccountShare
+    },
+    'ethereum-restaking': {
+      accountDelegations: restakingAccountDelegations,
+      accountBalance: restakingAccountBalance,
+      accountRewards: restakingAccountRewards,
+      accountActivities: restakingAccountActivities,
+      accountProfitPercentage: restakingAccountProfitPercentage,
+      accountIsLoading: restakingAccountIsLoading,
+      accountShare: restakingAccountShare
+    }
+  }
+
+  const { accountDelegations, accountRewards, accountActivities, accountProfitPercentage, accountShare } =
+    stAccount[productTabSelected]
+
+  const totalBalance =
+    BigInt(stakeAccountBalance) +
+    BigInt(restakingAccountBalance) +
+    BigInt(ethBalance) +
+    BigInt(optimistEthBalance)
+  const value = truncateWei(totalBalance, 4)
+  const { priceConvertedValue: usdTotalBalance } = useCoinConversion(value)
+
   function disconnectWallet() {
     setOpenSidebar(false)
     disconnect()
@@ -99,6 +153,20 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   }, [address])
 
+  const products = productList.filter(product => product.enabled)
+
+  const selectProductOptions = products.map(product => {
+    return {
+      value: product.name,
+      label: (
+        <ProductSelectCard>
+          <NetworkProductIcons stakingProduct={product.name} size={24} />
+          <span>{t(`v2.products.${product.name}`)}</span>
+        </ProductSelectCard>
+      )
+    }
+  })
+
   return (
     <DrawerContainer
       placement='right'
@@ -116,7 +184,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           <HeaderContainer>
             <HeaderUserContainer>
               <Web3AuthProfileContainer>
-                {web3AuthUserInfo && web3AuthUserInfo.profileImage ? (
+                {web3AuthUserInfo && web3AuthUserInfo.typeOfLogin && web3AuthUserInfo.profileImage ? (
                   <>
                     <Web3AuthProfileImage
                       src={web3AuthUserInfo.profileImage}
@@ -136,9 +204,9 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 )}
               </Web3AuthProfileContainer>
               <div>
-                {web3AuthUserInfo && (
+                {web3AuthUserInfo && web3AuthUserInfo.email && (
                   <WalletAddressContainer>
-                    <span onClick={() => copyToClipboard(web3AuthUserInfo.email)}>
+                    <span onClick={() => web3AuthUserInfo?.email && copyToClipboard(web3AuthUserInfo.email)}>
                       {truncateText(web3AuthUserInfo.email, 20)}
                     </span>
                   </WalletAddressContainer>
@@ -173,74 +241,145 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               </SidebarButton>
             </Actions>
           </HeaderContainer>
-          <InfoContainer>
-            <InfoCard>
-              <h4>
-                {t('availableToStake')} <Image src={ethIcon} width={18} height={18} alt='eth icon' />
-              </h4>
-              <div>
-                <span>{formatNumberByLocale(truncateWei(ethBalance, 6), locale)}</span>
-                <span>{` ${t('eth.symbol')}`}</span>
-              </div>
-            </InfoCard>
-            <InfoCard>
-              <h4>
-                {t('invested')} <StpEthIcon size={18} />
-              </h4>
-              <div>
-                <span className='purple'>{formatNumberByLocale(truncateWei(accountBalance, 5), locale)}</span>
-                <span className='purple'>{` ${t('lsd.symbol')}`}</span>
-              </div>
-            </InfoCard>
-            <InfoCard>
-              <h4>{t('rewards')}</h4>
-              <div>
-                <span className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}>
-                  {`${truncateWei(accountTotalRewards, 4)}`}
-                </span>
-                <span className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}>
-                  {` ${t('lsd.symbol')}`}
-                </span>
-              </div>
-            </InfoCard>
-            <InfoCard>
-              <h4>{t('v2.sidebar.percentageProfit')}</h4>
-              <div>
-                <span className={`${accountTotalRewards > 1n && 'green'}`}>
-                  {truncateWei(BigInt(accountProfitPercentage) * BigInt(100), 4)} %
-                </span>
-              </div>
-            </InfoCard>
-          </InfoContainer>
+          <EstimatedBalanceContainer>
+            <span>Estimated balance</span>
+            <span>{usdTotalBalance}</span>
+          </EstimatedBalanceContainer>
+          <Card
+            header={
+              <AssetHeaderCard>
+                <span>Assets</span>
+                <span>Balance</span>
+              </AssetHeaderCard>
+            }
+          >
+            <AssetsCard>
+              <BalanceContainer>
+                <div>
+                  <div>
+                    <AssetIcon assetIcon='ethereum' networkIcon='ethereum' size={24} />
+                  </div>
+                  <div>
+                    <span>{` ${t('eth.symbol')}`}</span>
+                    <span>Ethereum</span>
+                  </div>
+                </div>
+                <div>
+                  <span>{formattedEthBalance}</span>
+                  <span>{usdEthBalance}</span>
+                </div>
+              </BalanceContainer>
+              <BalanceContainer>
+                <div>
+                  <div>
+                    <AssetIcon assetIcon='ethereum' networkIcon='optimism' size={24} />
+                  </div>
+                  <div>
+                    <span>{`${t('eth.symbol')}`}</span>
+                    <span>Ethereum</span>
+                  </div>
+                </div>
+                <div>
+                  <span>{formattedOptimistEthBalance}</span>
+                  <span>{usdOptimismEthBalance}</span>
+                </div>
+              </BalanceContainer>
+            </AssetsCard>
+          </Card>
+          <Card
+            header={
+              <AssetInvestmentCard>
+                <span>Investments</span>
+                <span>Rewards</span>
+                <span>Invested</span>
+              </AssetInvestmentCard>
+            }
+          >
+            <AssetsCard>
+              <BalanceInvestmentContainer>
+                <div>
+                  <div>
+                    <AssetIcon assetIcon='stpETH' networkIcon='ethereum' size={24} />
+                  </div>
+                  <div>
+                    <span>{`stpETH`}</span>
+                    <span>Ethereum</span>
+                  </div>
+                </div>
+                <div> {truncateWei(BigInt(accountProfitPercentage) * BigInt(100), 4)}%</div>
+                <div>
+                  <span>{stpETHAccountBalance}</span>
+                  <span>{usdStpETHBalance}</span>
+                </div>
+              </BalanceInvestmentContainer>
+              <BalanceInvestmentContainer>
+                <div>
+                  <div>
+                    <AssetIcon assetIcon='strETH' networkIcon='optimism' size={24} />
+                  </div>
+                  <div>
+                    <span>{`stpRETH`}</span>
+                    <span>Restaking</span>
+                  </div>
+                </div>
+                <div>{truncateWei(BigInt(restakingAccountProfitPercentage) * BigInt(100), 4)}%</div>
+                <div>
+                  <span>{stpRETHAccountBalance}</span>
+                  <span>{usdStpRETHBalance}</span>
+                </div>
+              </BalanceInvestmentContainer>
+            </AssetsCard>
+          </Card>
+
+          <Card
+            header={
+              <HeaderTabContainer>
+                <div>
+                  <span>{t('selectProject')}</span>
+                  <Select
+                    defaultValue='ethereum-stake'
+                    style={{ width: '100%', height: '40px' }}
+                    onChange={e => setProductTabSelected(e as 'ethereum-stake' | 'ethereum-restaking')}
+                    options={selectProductOptions}
+                  />
+                </div>
+                <HeaderTabHeader>
+                  <div
+                    onClick={() => setTabActivated('delegations')}
+                    className={`${tabActivated === 'delegations' && 'activated'} `}
+                  >
+                    <PoolsIcon />
+                    <span>{t('delegations')}</span>
+                  </div>
+                  <div
+                    onClick={() => setTabActivated('rewards')}
+                    className={`${tabActivated === 'rewards' && 'activated'} `}
+                  >
+                    <AnalyticsIcon />
+                    <span>{t('rewards')}</span>
+                  </div>
+                  <div
+                    onClick={() => setTabActivated('activity')}
+                    className={`${tabActivated === 'activity' && 'activated'} `}
+                  >
+                    <ActivitiesIcon />
+                    <span>{t('activity')}</span>
+                  </div>
+                </HeaderTabHeader>
+              </HeaderTabContainer>
+            }
+          >
+            <WalletSidebarTabsContainer
+              accountDelegations={accountDelegations}
+              accountRewards={accountRewards}
+              accountActivities={accountActivities}
+              activatedTab={tabActivated}
+            />
+          </Card>
+
           {stwETHBalance > 0n && (
             <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />
           )}
-          <Card
-            header={
-              <PortfolioHeader>
-                <div>
-                  <PoolsIcon />
-                  {t('delegations')}
-                </div>
-                {accountDelegations.length > 0 && !accountIsLoading && (
-                  <Button
-                    small={true}
-                    label={t('edit')}
-                    icon={<EditIcon />}
-                    onClick={() => setOpenSidebarEditPortfolio(true)}
-                  />
-                )}
-              </PortfolioHeader>
-            }
-          >
-            <WalletSidebarPortfolio accountDelegations={accountDelegations} />
-          </Card>
-          <Card title={t('rewards')} icon={<AnalyticsIcon />}>
-            <WalletSidebarRewards accountRewards={accountRewards} />
-          </Card>
-          <Card title={t('activity')} icon={<ActivitiesIcon />}>
-            <WalletSidebarActivities accountActivities={accountActivities} />
-          </Card>
         </>
       )}
       <UpdateDelegationsModal
@@ -255,10 +394,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 const {
   DrawerContainer,
   HeaderContainer,
-  InfoContainer,
   CloseSidebar,
   ClosedSidebarButton,
+  HeaderTabContainer,
   Logout,
+
+  BalanceInvestmentContainer,
   SettingIcon,
   PanelIcon,
   Actions,
@@ -269,12 +410,16 @@ const {
   CopyIcon,
   PoolsIcon,
   AnalyticsIcon,
+  ProductSelectCard,
   ActivitiesIcon,
   SidebarButton,
-  EditIcon,
   WalletAddressContainer,
-  InfoCard,
-  PortfolioHeader
+  AssetInvestmentCard,
+  BalanceContainer,
+  AssetHeaderCard,
+  EstimatedBalanceContainer,
+  HeaderTabHeader,
+  AssetsCard
 } = {
   DrawerContainer: styled(Drawer)`
     background-color: ${({ theme }) => theme.colorV2.foreground} !important;
@@ -323,75 +468,6 @@ const {
       }
     }
   `,
-  InfoContainer: styled.div`
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.size[12]};
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      grid-template-columns: 1fr 1fr;
-      gap: ${({ theme }) => theme.size[16]};
-    }
-  `,
-  InfoCard: styled.div`
-    background: ${({ theme }) => theme.colorV2.white};
-    border-radius: 8px;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    padding: 12px 16px;
-
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      padding: 12px 16px;
-      gap: 4px;
-    }
-
-    h4 {
-      font-size: 13px;
-      font-weight: 400;
-      color: ${({ theme }) => theme.colorV2.blue[1]};
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-
-      img {
-        box-shadow: ${({ theme }) => theme.shadow[100]};
-        border-radius: 100%;
-
-        float: right;
-        margin-top: -4px;
-        margin-right: -8px;
-      }
-    }
-
-    > div {
-      span {
-        font-size: 14px;
-        line-height: 18px;
-        font-weight: 400;
-        color: ${({ theme }) => theme.colorV2.blue[3]};
-
-        &.purple {
-          color: ${({ theme }) => theme.color.secondary};
-        }
-        &.red {
-          color: ${({ theme }) => theme.color.red[300]};
-        }
-        &.green {
-          color: ${({ theme }) => theme.color.green[500]};
-        }
-        &.cyan {
-          color: ${({ theme }) => theme.color.messenger[400]};
-        }
-      }
-    }
-  `,
-  EditIcon: styled(PiPen)`
-    font-size: 14px;
-  `,
-
   ClosedSidebarButton: styled.button`
     position: absolute;
     left: -44px;
@@ -510,23 +586,287 @@ const {
   ActivitiesIcon: styled(PiChartLine)`
     font-size: 16px;
   `,
-  PortfolioHeader: styled.header`
+
+  AssetHeaderCard: styled.div`
+    width: 100%;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 8px;
+
+    border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
+    border-radius: 8px 8px 0 0;
+
+    span {
+      font-weight: 400;
+      font-size: ${({ theme }) => theme.font.size[13]};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      opacity: 0.6;
+    }
+  `,
+  AssetsCard: styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[16]};
+  `,
+  BalanceContainer: styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    div {
+      &:nth-child(1) {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[8]};
+
+        > div {
+          display: flex;
+          flex-direction: column;
+
+          span {
+            text-align: start;
+            &:nth-child(1) {
+              font-size: ${({ theme }) => theme.font.size[13]};
+              color: ${({ theme }) => theme.colorV2.gray[1]};
+            }
+            &:nth-child(2) {
+              font-size: ${({ theme }) => theme.font.size[12]};
+              color: ${({ theme }) => theme.colorV2.gray[1]};
+              opacity: 0.8;
+            }
+          }
+        }
+      }
+      &:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+        span {
+          text-align: end;
+          &:nth-child(1) {
+            font-size: ${({ theme }) => theme.font.size[13]};
+            color: ${({ theme }) => theme.colorV2.purple[1]};
+          }
+          &:nth-child(2) {
+            font-size: ${({ theme }) => theme.font.size[12]};
+            color: ${({ theme }) => theme.colorV2.gray[1]};
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  `,
+  AssetInvestmentCard: styled.div`
+    width: 100%;
+    height: 32px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0px 8px;
+
+    border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
+    border-radius: 8px 8px 0 0;
+
+    span {
+      font-weight: 400;
+      font-size: ${({ theme }) => theme.font.size[13]};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      opacity: 0.6;
+      &:last-child {
+        text-align: end;
+      }
+      &:nth-child(2) {
+        text-align: center;
+      }
+    }
+  `,
+  BalanceInvestmentContainer: styled.div`
     width: 100%;
     display: grid;
-    position: relative;
-    grid-template-columns: 1fr auto;
     align-items: center;
-    justify-content: center;
+    grid-template-columns: 1fr 1fr 1fr;
     > div {
+      &:nth-child(1) {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[8]};
+
+        > div {
+          display: flex;
+          flex-direction: column;
+
+          span {
+            text-align: start;
+            &:nth-child(1) {
+              font-size: ${({ theme }) => theme.font.size[13]};
+              color: ${({ theme }) => theme.colorV2.gray[1]};
+            }
+            &:nth-child(2) {
+              font-size: ${({ theme }) => theme.font.size[12]};
+              color: ${({ theme }) => theme.colorV2.gray[1]};
+              opacity: 0.8;
+            }
+          }
+        }
+      }
+      &:nth-child(2) {
+        text-align: center;
+
+        font-size: ${({ theme }) => theme.font.size[13]};
+        color: ${({ theme }) => theme.color.green[500]};
+      }
+      &:nth-child(3) {
+        display: flex;
+        flex-direction: column;
+        span {
+          text-align: end;
+          &:nth-child(1) {
+            font-size: ${({ theme }) => theme.font.size[13]};
+            color: ${({ theme }) => theme.colorV2.purple[1]};
+          }
+          &:nth-child(2) {
+            font-size: ${({ theme }) => theme.font.size[12]};
+            color: ${({ theme }) => theme.colorV2.gray[1]};
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  `,
+  HeaderTabContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    > div {
+      &:nth-child(1) {
+        padding: 12px 12px 0px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: ${({ theme }) => theme.size[8]};
+
+        > span {
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-style: normal;
+          font-weight: 400;
+          color: ${({ theme }) => theme.colorV2.gray[1]};
+        }
+      }
+    }
+  `,
+  HeaderTabHeader: styled.div`
+    width: 100%;
+    height: 48px;
+    display: grid;
+    padding: 0px 12px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
+    border-radius: 8px 8px 0 0;
+
+    display: flex;
+    gap: ${({ theme }) => theme.size[24]};
+    align-items: center;
+    div {
+      height: 100%;
+      font-size: ${({ theme }) => theme.font.size[13]};
+      font-weight: 400;
+      cursor: pointer;
+      border-bottom: 1px solid transparent;
+
+      position: relative;
+      display: inline-block;
+      text-decoration: none;
+      overflow: hidden;
+
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding-left: 12px;
+      gap: ${({ theme }) => theme.size[8]};
+
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+        background-color: ${({ theme }) => theme.colorV2.purple[1]};
+        transform: scaleX(0);
+        transform-origin: bottom left;
+        transition: transform 0.3s ease-out;
+      }
+      &:hover {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+        span {
+          opacity: 1;
+          color: ${({ theme }) => theme.colorV2.purple[1]};
+        }
+      }
+
+      &:hover::after {
+        transform: scaleX(1);
+      }
+
+      &.activated::after,
+      &.activated:hover::after {
+        transform: scaleX(0);
+        transition: none;
+      }
+
+      &.activated {
+        border-bottom: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+        span {
+          color: ${({ theme }) => theme.colorV2.purple[1]};
+          opacity: 1;
+        }
+      }
+
+      span {
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        opacity: 0.6;
+      }
     }
-    > button {
-      position: absolute;
-      justify-self: flex-end;
-      margin-right: 12px;
+  `,
+
+  EstimatedBalanceContainer: styled.div`
+    display: flex;
+    height: 32px;
+    padding: 0px 8px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    align-self: stretch;
+    border-radius: 8px;
+    background: ${({ theme }) => theme.colorV2.white};
+
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    span {
+      &:nth-child(1) {
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        font-size: ${({ theme }) => theme.font.size[13]};
+        font-weight: 400;
+        opacity: 0.6;
+      }
+      &:nth-child(2) {
+        font-size: ${({ theme }) => theme.font.size[15]};
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+        font-weight: 500;
+      }
+    }
+  `,
+  ProductSelectCard: styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    gap: ${({ theme }) => theme.size[8]};
+    div {
+      display: flex;
+      align-items: center;
     }
   `
 }

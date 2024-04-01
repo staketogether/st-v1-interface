@@ -25,7 +25,7 @@ export default function AnalyticsControl() {
     isTestnet
   })
 
-  const { priceConvertedValue, } = useCoinConversion('1')
+  const { priceConvertedValue } = useCoinConversion('1')
   const ethPrice = priceConvertedValue
   const tvl = formatNumberByLocale(truncateDecimal(String(analytics?.totalValueLocked) || '0', 2), locale)
   const { priceConvertedValue: tvlUsdPrice } = useCoinConversion(tvl)
@@ -46,7 +46,6 @@ export default function AnalyticsControl() {
   )
   const { priceConvertedValue: totalPoolsRewardsUsdPriceFormatted } = useCoinConversion(totalPoolsRewards)
 
-
   const totalContractsBalance = formatNumberByLocale(
     truncateDecimal(String(analytics?.contractBalance) || '0', 2),
     locale
@@ -58,7 +57,6 @@ export default function AnalyticsControl() {
     locale
   )
   const { priceConvertedValue: validatorsAmountTotalUsdFormatted } = useCoinConversion(validatorsAmountTotal)
-
 
   const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } = useEthBalanceOf({
     walletAddress: StakeTogether,
@@ -88,11 +86,7 @@ export default function AnalyticsControl() {
           <Card>
             <header>
               <span>{t('v2.analytics.general.EthereumPrice')}</span>
-              {isLoading ? (
-                <SkeletonLoading width={120} />
-              ) : (
-                <span className='blue'>{`${ethPrice}`}</span>
-              )}
+              {isLoading ? <SkeletonLoading width={120} /> : <span className='blue'>{`${ethPrice}`}</span>}
             </header>
           </Card>
           <Card>

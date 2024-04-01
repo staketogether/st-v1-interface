@@ -49,10 +49,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = [
     { params: { network: 'ethereum', currency: 'usd', product: 'ethereum-stake' } },
     { params: { network: 'ethereum', currency: 'brl', product: 'ethereum-stake' } },
-    { params: { network: 'ethereum', currency: 'eur', product: 'ethereum-stake' } }
-    // { params: { network: 'ethereum', currency: 'usd', product: 'ethereum-restaking' } },
-    // { params: { network: 'ethereum', currency: 'brl', product: 'ethereum-restaking' } },
-    // { params: { network: 'ethereum', currency: 'eur', product: 'ethereum-restaking' } }
+    { params: { network: 'ethereum', currency: 'eur', product: 'ethereum-stake' } },
+    { params: { network: 'optimism', currency: 'usd', product: 'ethereum-restaking' } },
+    { params: { network: 'optimism', currency: 'brl', product: 'ethereum-restaking' } },
+    { params: { network: 'optimism', currency: 'eur', product: 'ethereum-restaking' } }
   ]
 
   return { paths, fallback: 'blocking' }

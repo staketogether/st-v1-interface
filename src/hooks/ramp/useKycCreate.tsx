@@ -1,7 +1,6 @@
-import { globalConfig } from '@/config/global';
-import axios from 'axios';
-import useSWR from 'swr';
-import { KycLevelInfo } from './useKycLevelInfo';
+import { globalConfig } from '@/config/global'
+import axios from 'axios'
+import useSWR from 'swr'
 
 
 
@@ -29,22 +28,18 @@ export interface KycPayload {
   startDateTImestamp?: number
 }
 
-export interface KycLevel extends KycLevelInfo {
-  id: string
-}
-
 
 export default function useKycCreate(
   provider: 'brla' | 'transak',
   taxId?: string,
   kycData?: KycPayload,
-  onSuccessCallback?: (data: KycLevel) => void,
-  onErrorCallback?: (msg: string) => void
+  onSuccessCallback?: (data: { id: string; }) => void,
+  onErrorCallback?: () => void
 ) {
   const { backendUrl } = globalConfig
   const isValid = provider && taxId && kycData
   const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, { ...kycData, }).then(res => res.data)
-  const { data, error, mutate, isLoading } = useSWR<KycLevel>(isValid ? `api/ramp/kyc/${provider}/${taxId}/verify` : null, fetcher, {
+  const { data, error, mutate, isLoading } = useSWR<{ id: string }>(isValid ? `api/ramp/kyc/${provider}/${taxId}/verify` : null, fetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
@@ -52,11 +47,7 @@ export default function useKycCreate(
     shouldRetryOnError: false,
     revalidateOnMount: false,
     onSuccess: (data) => onSuccessCallback && onSuccessCallback(data),
-    onError: (error) => {
-      if (onErrorCallback) {
-        onErrorCallback(error?.response?.data.message ?? '')
-      }
-    }
+    onError: () => onErrorCallback && onErrorCallback()
   })
 
   return {

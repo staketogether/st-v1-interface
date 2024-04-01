@@ -12,13 +12,6 @@ export default defineConfig({
         rebuild: 'pnpm hardhat compile'
       }
     }),
-    react({
-      useContractRead: true,
-      useContractFunctionRead: true,
-      usePrepareContractWrite: true,
-      usePrepareContractFunctionWrite: true,
-      useContractEvent: true,
-      useContractItemEvent: true
-    })
+    react()
   ]
 })
