@@ -12,6 +12,13 @@ import PoolsCard from './PoolsCard'
 import PoolsEmptyState from './PoolsEmptyState'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
+import useResizeView from '@/hooks/useResizeView'
+import useProjectCreateModal from '@/hooks/useProjectCreateModal'
+import { PiPencilSimpleLine } from 'react-icons/pi'
+import ProjectCreateModal from '../project/ProjectCreateModal'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
+import { ProjectButton } from '../project/ProjectButton'
 
 type PoolsListProps = {
   pools: PoolSubgraph[]
@@ -23,8 +30,16 @@ export default function PoolsControl({ pools }: PoolsListProps) {
   const [activeFilters, setActiveFilters] = useState<string[]>(['all'])
   const { t } = useLocaleTranslation()
   const { poolTypeTranslation } = usePoolTypeTranslation()
+  const { setOpenProjectCreateModal } = useProjectCreateModal()
+  const { screenWidth, breakpoints } = useResizeView()
+  const { account } = useConnectedAccount()
 
   const { poolsWithTypes, isLoading } = useMapPoolsWithTypes(pools)
+  const { poolDetail: poolDetailUs } = useContentfulPoolDetails({
+    poolAddress: account,
+    fetchPolicy: 'network-only',
+    locale: 'en-US'
+  })
 
   const poolsFilterByType = poolsWithTypes.filter(pool => {
     if (activeFilters.includes('all')) {
@@ -114,6 +129,12 @@ export default function PoolsControl({ pools }: PoolsListProps) {
             </FilterButton>
           ))}
         </Filters>
+        {!poolDetailUs && (
+          <MenuButton onClick={() => setOpenProjectCreateModal(true)}>
+            <CreateProjectIcon /> {t('v2.createProject.title')}
+          </MenuButton>
+        )}
+        {poolDetailUs && <ProjectButton poolDetail={poolDetailUs} account={account} />}
         <PoolsInputSearch search={search} setSearch={selectSearch} />
       </FiltersContainer>
       <ListPools>
@@ -133,11 +154,12 @@ export default function PoolsControl({ pools }: PoolsListProps) {
           </div>
         ))}
       </ListPools>
+      {screenWidth > breakpoints.lg && <ProjectCreateModal account={account} poolDetail={poolDetailUs} />}
     </Container>
   )
 }
 
-const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
+const { Container, ListPools, FiltersContainer, Filters, FilterButton, CreateProjectIcon, MenuButton } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -155,7 +177,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
     gap: ${({ theme }) => theme.size[24]};
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       gap: ${({ theme }) => theme.size[16]};
-      grid-template-columns: auto 250px;
+      grid-template-columns: auto 150px 250px;
       grid-template-rows: 34px;
     }
   `,
@@ -221,5 +243,32 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton } = {
         display: grid;
       }
     }
+  `,
+  MenuButton: styled.button`
+    width: auto;
+    height: 32px;
+    border-radius: 99px;
+
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+
+    border: none;
+    padding: 0 ${({ theme }) => theme.size[12]};
+    background: transparent;
+
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.colorV2.gray[1]} !important;
+
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+    }
+
+    &.active {
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+    }
+  `,
+  CreateProjectIcon: styled(PiPencilSimpleLine)`
+    font-size: 15px;
   `
 }

@@ -51,14 +51,16 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
             </li>
           </ul>
         </nav>
-        <Button
-          label={`${t('buy')} ETH`}
-          width={133}
-          height={32}
-          color='green'
-          onClick={openQuoteEthModal}
-          small
-        />
+        {product.rampEnabled && (
+          <Button
+            label={`${t('buy')} ETH`}
+            width={133}
+            height={32}
+            color='green'
+            onClick={openQuoteEthModal}
+            small
+          />
+        )}
       </header>
       <div>
         {type === 'deposit' ? (

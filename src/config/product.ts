@@ -17,6 +17,7 @@ export const productList: Product[] = [
     ],
     apy: 5.1,
     scan: 'https://etherscan.io/',
+    rampEnabled: true,
     contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
     description: 'ethereumDescription',
     enabled: true,
@@ -58,6 +59,7 @@ export const productList: Product[] = [
     symbol: 'strETH',
     networkAvailable: 'optimism',
     eigenPointsAvailable: true,
+    rampEnabled: false,
     networks: [
       { network: 'ethereum', enabled: true },
       { network: 'optimism', enabled: false },
@@ -108,6 +110,7 @@ export const productList: Product[] = [
     symbol: 'stpCHZ',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    rampEnabled: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -158,6 +161,7 @@ export const productList: Product[] = [
     symbol: 'stpPOL',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    rampEnabled: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -208,6 +212,7 @@ export const productList: Product[] = [
     symbol: 'stpSOL',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    rampEnabled: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -258,6 +263,7 @@ export const productList: Product[] = [
     symbol: 'stpATOM',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    rampEnabled: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -308,6 +314,7 @@ export const productList: Product[] = [
     symbol: 'stpNear',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    rampEnabled: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -359,6 +366,7 @@ export const productList: Product[] = [
     symbol: 'stpKSM',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    rampEnabled: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },

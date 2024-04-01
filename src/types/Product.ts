@@ -72,6 +72,7 @@ export type Product = {
   id: number
   name: StakingProduct
   eigenPointsAvailable: boolean
+  rampEnabled: boolean
   title: string
   symbol: ProductSymbol
   networks: NetworkWrap[]
