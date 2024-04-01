@@ -177,7 +177,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, CreatePro
     gap: ${({ theme }) => theme.size[24]};
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       gap: ${({ theme }) => theme.size[16]};
-      grid-template-columns: auto 150px 250px;
+      grid-template-columns: auto 165px 250px;
       grid-template-rows: 34px;
     }
   `,
