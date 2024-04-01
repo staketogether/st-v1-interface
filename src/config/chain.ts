@@ -23,7 +23,7 @@ const configs: ChainConfig[] = [
   {
     chainId: Networks.Mainnet,
     name: 'mainnet',
-    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_MAINNET),
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
       baseUrl: 'https://etherscan.io'
