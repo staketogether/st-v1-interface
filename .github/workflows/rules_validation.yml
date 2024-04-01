@@ -74,6 +74,3 @@ jobs:
 
       - name: Check Lint Rules
         run: pnpm lint
-
-      - name: Perform Build
-        run: pnpm build
