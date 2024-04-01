@@ -74,7 +74,7 @@
   "buyCryptoTitle": "Buy Ether",
   "sellCryptoTitle": "Sell Ether",
   "genericErrorMessage": "Sorry! Something went wrong. Please try again",
-   "selectProject": "Select project",
+  "selectProject": "Select project",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -301,11 +301,11 @@
       "insufficientGasBalance": "Insufficient Balance For Gas",
       "descriptionForm": {
         "receive": "You receive:",
-        "receiveTooltip": "When you deposit ETH, you receive the stpETH token in return. The stpETH receives staking rewards daily.",
+        "receiveTooltip": "When you deposit ETH, you receive the liquid token in return.",
         "exchange": "Exchange:",
-        "exchangeTooltip": "Exchange is the equivalence between ETH and stpETH.",
+        "exchangeTooltip": "Exchange a token for other",
         "rewards": "Staking rewards fee:",
-        "rewardsTooltip": "Staking Rewards fee is the fee that is deducted from the staking rewards.",
+        "rewardsTooltip": "Fee deducted from the future staking rewards.",
         "operation": "Operation fee:",
         "operationTooltip": "Operation fee is the fee that is deducted from the deposit."
       },

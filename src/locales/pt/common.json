@@ -297,11 +297,11 @@
       "userRejectedTheRequest": "Transação Rejeitada",
       "descriptionForm": {
         "receive": "Você recebe:",
-        "receiveTooltip": "Quando você deposita ETH, você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",
+        "receiveTooltip": "Quando você deposita ETH, você recebe o token de staking liquido em troca.",
         "exchange": "Câmbio:",
-        "exchangeTooltip": "Câmbio é a equivalência entre ETH e stpETH.",
+        "exchangeTooltip": "Troca um token pelo outro.",
         "rewards": "Taxa de recompensas:",
-        "rewardsTooltip": "Taxa de recompensas é a taxa que é descontada sobre as recompenas futuras de staking com base no valor anual depositado.",
+        "rewardsTooltip": "Taxa que é descontada sobre as recompenas futuras de staking.",
         "operation": "Taxa de operação:",
         "operationTooltip": "Taxa de operação é a taxa que é descontada sobre o deposito."
       },
