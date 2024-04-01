@@ -15,7 +15,7 @@ export const productList: Product[] = [
       { network: 'polygon', enabled: false },
       { network: 'solana', enabled: false }
     ],
-    apy: 5.1,
+    apy: 5.7,
     scan: 'https://etherscan.io/',
     rampEnabled: true,
     contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
@@ -67,7 +67,7 @@ export const productList: Product[] = [
       { network: 'polygon', enabled: false },
       { network: 'solana', enabled: false }
     ],
-    apy: 11.1,
+    apy: 5.7,
     scan: 'https://optimistic.etherscan.io',
     contractAddress: '0x1234567890',
     description: 'ethereumDescription',
