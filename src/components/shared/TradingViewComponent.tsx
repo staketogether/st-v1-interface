@@ -1,26 +1,35 @@
+import React, { useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
+
 const AdvancedRealTimeChart = dynamic(
   () => import('react-ts-tradingview-widgets').then(w => w.AdvancedRealTimeChart),
-  {
-    ssr: false
-  }
+  { ssr: false }
 )
 
-export default function TradingViewComponent() {
+const TradingViewComponent = () => {
   const { query } = useRouter()
   const { currency } = query
+  // const [isTabActive, setIsTabActive] = useState(true)
 
-  const currencies = {
-    usd: 'ETHUSD',
-    brl: 'ETHBRL',
-    eur: 'ETHEUR'
-  }
+  const currencies = useMemo(
+    () => ({
+      usd: 'ETHUSD',
+      brl: 'ETHBRL',
+      eur: 'ETHEUR'
+    }),
+    []
+  )
+
+  const selectedCurrency = useMemo(
+    () => ((currency as keyof typeof currencies) ? currencies[currency as keyof typeof currencies] : 'ETHUSD'),
+    [currency, currencies]
+  )
 
   return (
     <div style={{ width: '100%', height: '320px' }}>
       <AdvancedRealTimeChart
-        symbol={currencies[currency as keyof typeof currencies]}
+        symbol={selectedCurrency}
         hide_side_toolbar
         hide_top_toolbar
         hide_legend
@@ -37,3 +46,5 @@ export default function TradingViewComponent() {
     </div>
   )
 }
+
+export default React.memo(TradingViewComponent)
