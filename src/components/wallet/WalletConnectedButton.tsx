@@ -21,7 +21,6 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   const { chain: walletChainId } = useAccount()
 
   const { web3AuthUserInfo } = useConnectedAccount()
-  // console.log({ web3AuthUserInfo })
   const { name: ensName, nameLoading: ensLoading } = useEns(address, walletChainId?.id || Networks.Mainnet)
 
   const handleActionButton = () => {

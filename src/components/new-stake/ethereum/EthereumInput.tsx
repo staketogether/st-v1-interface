@@ -33,6 +33,7 @@ export default function EthereumInput({
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
+  const containerHeaderRef = useRef<HTMLDivElement>(null)
 
   function handleChangeValue(value: string) {
     if (value.includes(',')) {
@@ -51,8 +52,20 @@ export default function EthereumInput({
     }
   }
 
+  function handleFocusContainer() {
+    if (containerHeaderRef.current) {
+      containerHeaderRef.current.classList.add('active')
+    }
+  }
+
+  function handleBlurContainer() {
+    if (containerHeaderRef.current) {
+      containerHeaderRef.current.classList.remove('active')
+    }
+  }
+
   return (
-    <InputContent onClick={handleFocusInput}>
+    <InputContent onClick={handleFocusInput} ref={containerHeaderRef}>
       <div>
         {balanceLoading ? (
           <SkeletonLoading width={120} />
@@ -80,6 +93,8 @@ export default function EthereumInput({
           value={ethAmountValue}
           onChange={e => handleChangeValue(e.target.value)}
           placeholder='0'
+          onFocus={handleFocusContainer}
+          onBlur={handleBlurContainer}
           className={`${hasError && 'error'}`}
         />
       </div>
@@ -96,10 +111,18 @@ const { InputContent, CoinActionContainer } = {
     padding: 16px;
     border-radius: ${({ theme }) => theme.size[8]};
     background-color: ${({ theme }) => theme.colorV2.gray[2]};
-
+    border: 1px solid transparent;
     &.stpETH {
       background-color: transparent;
       border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+    }
+
+    &:hover {
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+    }
+
+    &.active {
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
     }
 
     div {
@@ -117,7 +140,7 @@ const { InputContent, CoinActionContainer } = {
         border: none;
         outline: none;
         background: none;
-        color: ${({ theme }) => theme.colorV2.gray[6]};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
         font-size: ${({ theme }) => theme.font.size[22]};
         line-height: 24px;
         height: 24px;
