@@ -56,7 +56,7 @@ export default function EthereumDeposit({
   const [poolDelegatedSelected, setPoolDelegatedSelected] = useState<`0x${string}`>(stakeTogetherPool)
   const { t } = useLocaleTranslation()
   const { locale, query } = useRouter()
-  console.log(poolDelegatedSelected)
+
   useEffect(() => {
     if (query.projectAddress) {
       setIsActivatedDelegation(true)
