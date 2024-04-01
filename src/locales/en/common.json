@@ -104,7 +104,7 @@
   "noRewards": "Rewards are distributed daily",
   "noActivities": "You have not performed any activities yet",
   "notifications": {
-    "depositSuccess": "Deposit Successful",
+    "depositSuccess": "Successful Deposit",
     "depositError": "Failed to Deposit",
     "withdrawSuccess": "Withdrawal Successful",
     "withdrawError": "Failed to Withdraw"
@@ -125,7 +125,7 @@
   "soon": "Coming Soon",
   "addSethToWallet": {
     "add": "Add",
-    "yourWallet": "to wallet"
+    "yourWallet": "To wallet"
   },
   "connectWalletSideBar": {
     "connectButton": "Enter with",
@@ -317,10 +317,10 @@
         "youWillReceive": "You will receive",
         "confirmWithdraw": "Confirm Withdraw",
         "confirmDeposit": "Confirm Deposit",
-        "transactionSubmitted": "Transaction submitted",
-        "proceedInYourWallet": "Proceed in your wallet",
+        "transactionSubmitted": "Transaction Submitted",
+        "proceedInYourWallet": "Proceed on Wallet",
         "withdrawSuccessful": "Withdraw Successful",
-        "depositSuccessful": "Deposit Successful"
+        "depositSuccessful": "Successful Deposit"
       },
       "withdrawErrorMessage": {
         "FeatureDisabled": "Feature Disabled",
