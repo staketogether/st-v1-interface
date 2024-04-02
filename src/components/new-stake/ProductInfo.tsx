@@ -5,12 +5,12 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
 import { Product, ProductMarketAssetData } from '@/types/Product'
 
+import { Tooltip } from 'antd'
+import { PiArrowUpRight } from 'react-icons/pi'
 import styled from 'styled-components'
+import NetworkIcons from '../shared/NetworkIcons'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import SymbolIcons from '../tokens/components/SymbolIcons'
-import { Tooltip } from 'antd'
-import NetworkIcons from '../shared/NetworkIcons'
-import { PiArrowUpRight } from 'react-icons/pi'
 
 type ProductInfoProps = {
   product: Product
@@ -221,6 +221,7 @@ const {
     > h2 {
       color: ${({ theme }) => theme.colorV2.blue[1]};
       font-size: ${({ theme }) => theme.font.size[15]};
+      line-height: 18px;
       font-weight: 500;
     }
     a,
@@ -247,6 +248,10 @@ const {
         }
       }
     }
+
+    a:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
   `,
   StatisticContainer: styled.div`
     display: flex;
@@ -254,7 +259,7 @@ const {
     gap: ${({ theme }) => theme.size[12]};
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
 
     div {

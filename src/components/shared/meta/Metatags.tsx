@@ -8,36 +8,36 @@ export function Metatags() {
     <Head>
       {i18n.language == 'pt' && (
         <>
-          <title>Stake Together - Staking Investments</title>
-          <meta name='title' content='Stake Together - Staking Investments' />
+          <title>Stake Together</title>
+          <meta name='title' content='Stake Together' />
           <meta name='description' content='Invest on Ethereum' />
           <meta property='og:type' content='website' />
           <meta property='og:url' content='https://app.staketogether.org' />
-          <meta property='og:title' content='Stake Together - Staking Investments' />
-          <meta property='og:description' content='Stake Together - Staking Investments' />
+          <meta property='og:title' content='Stake Together' />
+          <meta property='og:description' content='Stake Together' />
           <meta property='og:image' content={`/assets/icons/stake-together/meta.png`} />
           <meta property='twitter:card' content='summary_large_image' />
           <meta property='twitter:url' content='https://app.staketogether.org' />
-          <meta property='twitter:title' content='Stake Together - Staking Investments' />
-          <meta property='twitter:description' content='Stake Together - Staking Investments' />
+          <meta property='twitter:title' content='Stake Together' />
+          <meta property='twitter:description' content='Stake Together' />
           <meta property='twitter:image' content={`/assets/icons/stake-together/meta.png`} />
         </>
       )}
 
       {i18n.language != 'pt' && (
         <>
-          <title>Stake Together - Investimentos Cripto em Staking</title>
-          <meta name='title' content='Stake Together - Investimentos Cripto em Staking' />
+          <title>Stake Together</title>
+          <meta name='title' content='Stake Together' />
           <meta name='description' content='Invest on Ethereum' />
           <meta property='og:type' content='website' />
           <meta property='og:url' content='https://app.staketogether.org' />
-          <meta property='og:title' content='Stake Together - Investimentos Cripto em Staking' />
-          <meta property='og:description' content='Stake Together - Investimentos Cripto em Staking' />
+          <meta property='og:title' content='Stake Together' />
+          <meta property='og:description' content='Stake Together' />
           <meta property='og:image' content={`/assets/icons/stake-together/meta.png`} />
           <meta property='twitter:card' content='summary_large_image' />
           <meta property='twitter:url' content='https://app.staketogether.org' />
-          <meta property='twitter:title' content='Stake Together - Investimentos Cripto em Staking' />
-          <meta property='twitter:description' content='Stake Together - Investimentos Cripto em Staking' />
+          <meta property='twitter:title' content='Stake Together' />
+          <meta property='twitter:description' content='Stake Together' />
           <meta property='twitter:image' content={`/assets/icons/stake-together/meta.png`} />
         </>
       )}

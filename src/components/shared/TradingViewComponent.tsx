@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
+import React, { useMemo } from 'react'
 
 const AdvancedRealTimeChart = dynamic(
   () => import('react-ts-tradingview-widgets').then(w => w.AdvancedRealTimeChart),
