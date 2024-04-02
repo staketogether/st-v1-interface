@@ -25,7 +25,7 @@ export default function EnsAvatar({ address, size = 24, chainId }: EnsAvatarProp
 
 const { DefaultAvatar, Avatar } = {
   DefaultAvatar: styled.div<{ size: number }>`
-    background-color: ${({ theme }) => theme.color.blue[600]};
+    background-color: ${({ theme }) => theme.colorV2.gray[2]};
     border-radius: 100%;
 
     width: ${props => `${props.size}px`};
