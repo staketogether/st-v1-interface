@@ -59,7 +59,7 @@ export const productList: Product[] = [
     symbol: 'strETH',
     networkAvailable: 'optimism',
     eigenPointsAvailable: true,
-    rampEnabled: false,
+    rampEnabled: true,
     newProductTag: true,
     networks: [
       { network: 'ethereum', enabled: true },
