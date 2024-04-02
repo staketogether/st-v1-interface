@@ -18,11 +18,11 @@ import {
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
-import useStAccount from './hooks/useStAccount'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 import { formatNumberByLocale } from '../../services/format'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
+import useStAccount from './hooks/useStAccount'
 
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
@@ -32,14 +32,14 @@ import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 
-import WalletSidebarSettings from './WalletSidebarSettings'
-import Withdrawals from '../shared/Withdrawals'
 import chainConfig, { Networks } from '@/config/chain'
-import AssetIcon from '../shared/AssetIcon'
-import useCoinConversion from '@/hooks/useCoinConversion'
-import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
-import NetworkProductIcons from '../tokens/components/StakingIcons'
 import { productList } from '@/config/product'
+import useCoinConversion from '@/hooks/useCoinConversion'
+import AssetIcon from '../shared/AssetIcon'
+import Withdrawals from '../shared/Withdrawals'
+import NetworkProductIcons from '../tokens/components/StakingIcons'
+import WalletSidebarSettings from './WalletSidebarSettings'
+import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`

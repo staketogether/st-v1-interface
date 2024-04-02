@@ -74,7 +74,7 @@
   "buyCryptoTitle": "Comprar Ether",
   "sellCryptoTitle": "Vender Vender",
   "genericErrorMessage": "Desculpa! Algum coisa deu errado Tente novamente",
-  "selectProduct": "Selecione o Produto",
+  "selectProduct": "Selecionar Produto",
   "estimatedBalance": "Saldo Estimado",
   "investments": "Investimentos",
   "time": {
@@ -412,7 +412,7 @@
       "claim": "Resgatar"
     },
     "createProject": {
-      "title": "Registrar Projeto",
+      "title": "Cadastrar Projeto",
       "linksToAnalyze": "Links para Análise",
       "terms": "Estou de acordo com os",
       "termsAndConditions": "Termos de Cadastro",
@@ -558,7 +558,7 @@
       "availableForDistribution": "Valor disponivel para distribuição",
       "availableForDistributionTooltip": "Distribuição de recompensa dos projetos",
       "labelButton": "Atualizar as Delegações",
-      "listPoolsModalTitle": "Selecionar projetos",
+      "listPoolsModalTitle": "Selecionar Projetos",
       "transactionMessages": {
         "transactionTitle": "Revisar Pedido de Update",
         "successful": "Delegações atualizadas com sucesso",
@@ -714,10 +714,10 @@
       "statistics": "Estatísticas",
       "ethereumDescription": "Staking de Ethereum: Garanta a Segurança, Ganhe Recompensas. Junte-se ao ecossistema Ethereum fazendo staking de seus tokens ETH. Contribua para a segurança da rede, participe do consenso e ganhe uma renda passiva. Nossa plataforma oferece uma maneira fácil, segura e eficiente de fazer staking do seu Ethereum e gerar rendimentos a partir das receitas dos validadores. Comece com quanto quiser e acesse seus fundos a qualquer momento. Eleve sua estratégia de investimento com o staking de Ethereum hoje.",
       "contractAddress": "Endereço do Contrato",
-      "marketCap": "Valor de mercado",
-      "priceChange": "Variaço de preço (1 ano)",
+      "marketCap": "Valor de Mercado",
+      "priceChange": "Variação de Preço (1 ano)",
       "networkAvailable": "Disponível em",
-      "myRewardsPoints": "Pontos de Recompensa",
+      "myRewardsPoints": "Meus Pontos de Recompensa",
       "highestValueWeeks": "Maior Valor em 52 semanas",
       "eigenPointTooltip": "Ao fazer Staking você acumula pontos no protocolo Eigen Layer, que futuramente poderá lançar token e você pode receber parte desses tokens",
       "togetherPoints": "Ao fazer Staking você acumula pontos no protocolo Stake Togetherque futuramente poderá lançar token e você pode receber parte desses tokens",

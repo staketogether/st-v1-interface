@@ -74,7 +74,7 @@
   "buyCryptoTitle": "Buy Ether",
   "sellCryptoTitle": "Sell Ether",
   "genericErrorMessage": "Sorry! Something went wrong. Please try again",
-  "selectProduct": "Select project",
+  "selectProduct": "Select Product",
   "estimatedBalance": "Estimated Balance",
   "investments": "Investments",
   "time": {
@@ -390,7 +390,7 @@
       "claim": "Claim"
     },
     "createProject": {
-      "title": "Create Pool",
+      "title": "Register Project",
       "linksToAnalyze": "Links to Analyze",
       "terms": "I agree with the",
       "termsAndConditions": "Terms of Service",
@@ -534,7 +534,7 @@
       "availableForDistribution": "Amount available for distribution",
       "availableForDistributionTooltip": "Project reward's distribution",
       "labelButton": "Update Delegations",
-      "listPoolsModalTitle": "Select projects",
+      "listPoolsModalTitle": "Select Projects",
       "transactionMessages": {
         "transactionTitle": "Review Update Request",
         "successful": "Delegations updated successfully",
@@ -646,11 +646,11 @@
       "copyQrCode": "Copy QR Code",
       "yourEths": "Your ETH is now available in your account",
       "exchange": "Exchange",
-      "networkFee": "Network fee",
-      "serviceCharge": "Service charge",
-      "youReceived": "You received",
-      "copyCodeSuccess": "code copied successfully",
-      "provider": "Choose your payment method",
+      "networkFee": "Network Fee",
+      "serviceCharge": "Service Charge",
+      "youReceived": "You Received",
+      "copyCodeSuccess": "Code Copied Successfully",
+      "provider": "Choose Your Payment Method",
       "creditCard": "Credit Card",
       "kyc": {
         "title": "KYC - Know your client",
@@ -659,7 +659,7 @@
         "limit": "Limit",
         "availableLimit": "Available Limit",
         "typeAccount": "Type Account",
-        "fullName": "Full name",
+        "fullName": "Full Name",
         "namePlaceholder": "Enter your name as it appears on your document",
         "emailPlaceholder": "Enter your contact email",
         "companyName": "Company name",
