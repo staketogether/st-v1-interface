@@ -74,7 +74,7 @@
   "buyCryptoTitle": "Comprar Ether",
   "sellCryptoTitle": "Vender Vender",
   "genericErrorMessage": "Desculpa! Algum coisa deu errado Tente novamente",
-  "selectProduct": "Selecione o Produto",
+  "selectProduct": "Selecionar Produto",
   "estimatedBalance": "Saldo Estimado",
   "investments": "Investimentos",
   "time": {
@@ -412,7 +412,7 @@
       "claim": "Resgatar"
     },
     "createProject": {
-      "title": "Registrar Projeto",
+      "title": "Cadastrar Projeto",
       "linksToAnalyze": "Links para Análise",
       "terms": "Estou de acordo com os",
       "termsAndConditions": "Termos de Cadastro",
@@ -558,7 +558,7 @@
       "availableForDistribution": "Valor disponivel para distribuição",
       "availableForDistributionTooltip": "Distribuição de recompensa dos projetos",
       "labelButton": "Atualizar as Delegações",
-      "listPoolsModalTitle": "Selecionar projetos",
+      "listPoolsModalTitle": "Selecionar Projetos",
       "transactionMessages": {
         "transactionTitle": "Revisar Pedido de Update",
         "successful": "Delegações atualizadas com sucesso",
