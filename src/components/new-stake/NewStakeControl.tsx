@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { Product, ProductMarketAssetData } from '@/types/Product'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -9,6 +9,11 @@ import Link from 'next/link'
 import { PiArrowLeft } from 'react-icons/pi'
 import LottieAnimation from '../shared/LottieAnimation'
 import loadingAnimation from '@assets/animations/loading-animation.json'
+import { useAccount, useSwitchChain } from 'wagmi'
+import NetworkProductIcons from '../tokens/components/StakingIcons'
+import NetworkIcons from '../shared/NetworkIcons'
+import { capitalize } from '@/services/truncate'
+import { Tooltip } from 'antd'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -33,12 +38,54 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   const { query } = useRouter()
   const { currency } = query
 
+  const { chain: walletChainId } = useAccount()
+  const isWrongNetwork = chainId !== walletChainId?.id
+  const { switchChain } = useSwitchChain()
+
+  useEffect(() => {
+    if (isWrongNetwork) {
+      switchChain({ chainId })
+    }
+  }, [chainId, isWrongNetwork, switchChain])
+
   return (
     <Container>
-      <HeaderBackAction href={`/${currency}`}>
-        <PiArrowLeft />
-        <span>{t('goToBack')}</span>
-      </HeaderBackAction>
+      <header>
+        <HeaderBackAction href={`/${currency}`}>
+          <PiArrowLeft />
+          <span>{t('goToBack')}</span>
+        </HeaderBackAction>
+        <HeaderProductMobile>
+          <div>
+            <NetworkProductIcons stakingProduct={product.name} size={36} />
+            {t(`v2.products.${product.name}`)}
+          </div>
+          <div>
+            <span>{t('v2.ethereumStaking.networkAvailable')}</span>
+            <NetworkIcons network={product.networkAvailable} size={16} />
+            <span>{capitalize(product.networkAvailable.replaceAll('-', ' '))}</span>
+          </div>
+        </HeaderProductMobile>
+        <RewardsPointsContainer>
+          <span>{t('v2.ethereumStaking.myRewardsPoints')}</span>
+
+          {product.eigenPointsAvailable && (
+            <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
+              <TagPointsContainer>
+                Eigen
+                <div>0.0</div>
+              </TagPointsContainer>
+            </Tooltip>
+          )}
+          <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
+            <TagPointsContainer className='purple'>
+              Together
+              <div>0.0</div>
+            </TagPointsContainer>
+          </Tooltip>
+        </RewardsPointsContainer>
+      </header>
+
       <div>
         <ProductInfo product={product} assetData={assetData} chainId={chainId} />
         <ActionContainer>
@@ -49,7 +96,15 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   )
 }
 
-const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
+const {
+  Container,
+  ActionContainer,
+  RewardsPointsContainer,
+  HeaderBackAction,
+  LoadingContainer,
+  TagPointsContainer,
+  HeaderProductMobile
+} = {
   Container: styled.div`
     position: relative;
     width: 100%;
@@ -70,6 +125,90 @@ const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
         gap: ${({ theme }) => theme.size[24]};
         align-items: start;
       }
+    }
+    > header {
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[8]};
+    }
+  `,
+  TagPointsContainer: styled.div`
+    height: 20px;
+    padding: 0px 2px 0px 12px;
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+
+    font-size: ${({ theme }) => theme.font.size[13]};
+    font-weight: 500;
+    color: ${({ theme }) => theme.colorV2.white};
+    background: #5c626b;
+    border-radius: 99px;
+
+    &.purple {
+      background: ${({ theme }) => theme.colorV2.purple[1]};
+    }
+
+    > div {
+      height: 16px;
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
+      padding: 0px 6px;
+      color: ${({ theme }) => theme.colorV2.white};
+      border-radius: 99px;
+      background: ${({ theme }) => theme.colorV2.gray[1]};
+    }
+  `,
+  RewardsPointsContainer: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[12]};
+
+    > span {
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      opacity: 0.6;
+      font-size: ${({ theme }) => theme.font.size[13]};
+      font-weight: 500;
+
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[4]};
+    }
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      display: none;
+    }
+  `,
+  HeaderProductMobile: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: ${({ theme }) => theme.size[8]};
+
+    div {
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
+
+      &:nth-child(1) {
+        font-size: ${({ theme }) => theme.font.size[22]};
+        font-style: normal;
+        font-weight: 500;
+      }
+
+      &:nth-child(2) {
+        span {
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-style: normal;
+          font-weight: 500;
+          opacity: 0.6;
+        }
+      }
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      display: none;
     }
   `,
   ActionContainer: styled.div`

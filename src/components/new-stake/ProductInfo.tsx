@@ -128,10 +128,14 @@ const {
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
 
-    header {
-      display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[12]};
+    > header {
+      display: none;
+
+      @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+        display: flex;
+        flex-direction: column;
+        gap: ${({ theme }) => theme.size[12]};
+      }
     }
   `,
 
