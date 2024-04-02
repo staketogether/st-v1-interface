@@ -1,8 +1,10 @@
+import { globalConfig } from '@/config/global'
 import { config } from '@/config/wagmi'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import Image from 'next/image'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
 
@@ -17,16 +19,22 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
     config
   })
 
+  const { i18n } = useTranslation(['common'])
+
   const { t } = useLocaleTranslation()
 
   const handleConnectorImage = useWalletProviderImage()
 
   function handleTermsAndConditionsExternalLink() {
-    return 'https://university.staketogether.org/en/articles/8646463-terms-and-conditions'
+    if (i18n.language === 'pt') return globalConfig.termsPt
+
+    return globalConfig.termsEn
   }
 
   function handlePrivacyPolicyExternalLink() {
-    return 'https://university.staketogether.org/en/articles/8646517-privacy-policy'
+    if (i18n.language === 'pt') return globalConfig.privacyPt
+
+    return globalConfig.privacyEn
   }
 
   const handleConnectorIndex = (index: number) => {

@@ -6,7 +6,7 @@ import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import { Product } from '@/types/Product'
 import { useRouter } from 'next/router'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import styled from 'styled-components'
 
 type EthereumInputProps = {
@@ -110,8 +110,10 @@ const { InputContent, CoinActionContainer } = {
     gap: ${({ theme }) => theme.size[16]};
     padding: 16px;
     border-radius: ${({ theme }) => theme.size[8]};
-    background-color: ${({ theme }) => theme.colorV2.gray[2]};
-    border: 1px solid transparent;
+    background-color: ${({ theme }) => theme.colorV2.white};
+    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+    cursor: text;
+
     &.stpETH {
       background-color: transparent;
       border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};

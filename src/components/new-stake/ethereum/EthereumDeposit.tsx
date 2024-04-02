@@ -19,7 +19,6 @@ import { PiArrowLineRight, PiArrowsCounterClockwise } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount, useSwitchChain } from 'wagmi'
-import EthereumDescription from './EthereumDescription'
 import EthereumInput from './EthereumInput'
 import EthereumProjectSelect from './EthereumProjectSelect'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
@@ -239,7 +238,6 @@ export default function EthereumDeposit({
             icon={<ConnectWalletIcon />}
           />
         )}
-        <EthereumDescription product={product} />
       </Container>
       <StakeConfirmModal
         amount={amount}
