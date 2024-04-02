@@ -9,7 +9,7 @@ import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import { PiGlobeSimple, PiInstagramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
+import { PiDiscordLogo, PiGlobeSimple, PiInstagramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
 import { Tooltip } from 'antd'
 
 type PoolsRowListProps = {
@@ -80,6 +80,13 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
                 </Social>
               </Tooltip>
             )}
+            {pool?.discord && (
+              <Tooltip title={pool.discordName || pool.discord}>
+                <Social href={`https://discord.com/invite/${pool.discord}`} target='_blank'>
+                  <DiscordIcon />
+                </Social>
+              </Tooltip>
+            )}
           </Social>
         </>
       )}
@@ -87,7 +94,18 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
   )
 }
 
-const { Row, Name, TypeContainer, Text, Social, YoutubeIcon, TwitterIcon, SiteIcon, InstagramIcon } = {
+const {
+  Row,
+  Name,
+  TypeContainer,
+  Text,
+  Social,
+  YoutubeIcon,
+  DiscordIcon,
+  TwitterIcon,
+  SiteIcon,
+  InstagramIcon
+} = {
   Row: styled.div`
     display: none;
     height: 48px;
@@ -187,6 +205,11 @@ const { Row, Name, TypeContainer, Text, Social, YoutubeIcon, TwitterIcon, SiteIc
     }
   `,
   TwitterIcon: styled(PiTwitterLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  DiscordIcon: styled(PiDiscordLogo)`
     width: 20px;
     height: 20px;
     color: ${({ theme }) => theme.color.primary};

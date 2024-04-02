@@ -20,7 +20,9 @@ export function useMapPoolsWithTypes(pools: PoolSubgraph[]) {
       instagram: pool.instagram,
       site: pool.site,
       youtube: pool.youtube,
-      twitter: pool.twitter
+      twitter: pool.twitter,
+      discord: pool.discord,
+      discordName: pool.discordName
     }
   })
 

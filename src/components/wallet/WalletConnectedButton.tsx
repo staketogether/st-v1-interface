@@ -68,7 +68,7 @@ const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
     box-shadow: ${({ theme }) => theme.shadow[200]};
 
     &:hover {
-      background-color: ${({ theme }) => theme.colorV2.blue[3]};
+      background-color: ${({ theme }) => theme.colorV2.purple[1]};
     }
 
     &.wrongNetwork {
