@@ -314,6 +314,7 @@
         "receiveTooltip": "When you deposit ETH, you receive the liquid token in return.",
         "exchange": "Exchange:",
         "exchangeTooltip": "Exchange a token for other",
+        "delegationTooltip": "Delegate part of the fee rewards for a project",
         "rewards": "Staking rewards fee:",
         "rewardsTooltip": "Fee deducted from the future staking rewards.",
         "operation": "Operation fee:",
@@ -694,8 +695,8 @@
       "networkAvailable": "Available on",
       "myRewardsPoints": "My Rewards Points",
       "highestValueWeeks": "Highest Value in the Last 52 Weeks",
-      "eigenPointTooltip": "When you stake, you accumulate points in the Eigen Layer protocol, which may later launch a token, and you will participate in this launch",
-      "togetherPoints": "When you stake, you accumulate points in the Stake Together protocol, which may later launch a token, and you will participate in this launch",
+      "eigenPointTooltip": "When you stake, you accumulate points in the Eigen Layer protocol, which may later launch a token and you will can receive shares",
+      "togetherPoints": "When you stake, you accumulate points in the Stake Together protocol, which may later launch a token and you will can receive shares",
       "restakingDescription": "ReStaking Ethereum: Enhance Your Staking Efficiency. Experience the next level of Ethereum staking with our ReStaking solution, merging Stake Together protocol and Eigen Layer technology. Amplify your Ethereum's potential by using it as collateral in the Eigen Layer, contributing to network services and earning income from diverse sources. Our platform streamlines your staking process, providing a more effective and profitable approach to secure the network and gain rewards. Dive into ReStaking with Ethereum today and start benefiting from combined yields.",
       "actions": {
         "invest": "Invest",
