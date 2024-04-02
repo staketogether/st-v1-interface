@@ -428,6 +428,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
             product={product}
             amount={amount}
             type={type}
+            chainId={1}
             youReceiveDeposit={youReceiveDeposit}
             withdrawTypeSelected={withdrawTypeSelected}
           />

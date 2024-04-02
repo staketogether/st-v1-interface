@@ -3,9 +3,12 @@ import { truncateDecimal, truncateWei } from '@/services/truncate'
 import { WithdrawType } from '@/types/Withdraw'
 import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
-import { globalConfig } from '../../config/global'
 import TooltipComponent from '../shared/TooltipComponent'
 import { Product } from '@/types/Product'
+import { chainConfigByChainId } from '@/config/chain'
+import { useReadContract } from 'wagmi'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 type StakeDescriptionCheckoutProps = {
   type: 'deposit' | 'withdraw'
@@ -13,6 +16,7 @@ type StakeDescriptionCheckoutProps = {
   amount: string
   withdrawTypeSelected: WithdrawType
   product: Product
+  chainId: number
 }
 
 export default function StakeDescriptionCheckout({
@@ -20,10 +24,22 @@ export default function StakeDescriptionCheckout({
   youReceiveDeposit,
   amount,
   withdrawTypeSelected,
-  product
+  product,
+  chainId
 }: StakeDescriptionCheckoutProps) {
   const { t } = useLocaleTranslation()
-  const { fees } = globalConfig
+
+  const { isTestnet } = chainConfigByChainId(chainId)
+  const stakeTogetherContract = product.contracts[isTestnet ? 'testnet' : 'mainnet'].StakeTogether
+
+  const { data: feeData, isFetching } = useReadContract({
+    address: stakeTogetherContract,
+    args: [1],
+    abi: stakeTogetherAbi,
+    functionName: 'getFee'
+  })
+
+  const fee = (feeData ?? 0n) * BigInt(100) || 0n
 
   return (
     <StakeInfo>
@@ -82,7 +98,7 @@ export default function StakeDescriptionCheckout({
               <QuestionIcon />
             </TooltipComponent>
           </span>
-          <span>{fees.rewards}%</span>
+          <span>{isFetching ? <SkeletonLoading width={70} /> : truncateWei(fee, 2)}%</span>
         </div>
       )}
     </StakeInfo>
