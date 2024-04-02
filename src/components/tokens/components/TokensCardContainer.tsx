@@ -1,12 +1,11 @@
+import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Product } from '@/types/Product'
-import React from 'react'
+import dynamic from 'next/dynamic'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import StakingIcons from './StakingIcons'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import Link from 'next/link'
-import dynamic from 'next/dynamic'
-import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-import { useRouter } from 'next/router'
 import SymbolIcons from './SymbolIcons'
 
 type TokensCardContainerProps = {
@@ -34,10 +33,11 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
     >
       <ImageContainer>
         <div>
-          <StakingIcons stakingProduct={product.name} size={36} />
+          <StakingIcons stakingProduct={product.name} size={32} />
           <span>{t(`v2.products.${product.name}`)}</span>
         </div>
-        {!product.enabled && <Soon>Soon</Soon>}
+        {!product.enabled && <Soon>{t('soon')}</Soon>}
+        {product.newProductTag && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
       <ContainerInfo>
         <div>
@@ -53,7 +53,7 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
   )
 }
 
-const { CardContainer, ImageContainer, ContainerInfo, Soon } = {
+const { CardContainer, ImageContainer, ContainerInfo, Soon, NewTag } = {
   CardContainer: styled(Link)`
     display: flex;
     flex-direction: column;
@@ -90,18 +90,20 @@ const { CardContainer, ImageContainer, ContainerInfo, Soon } = {
       gap: ${({ theme }) => theme.size[8]};
 
       &:nth-child(1) {
-        span {
+        > span {
           display: flex;
           gap: ${({ theme }) => theme.size[8]};
 
           color: ${({ theme }) => theme.colorV2.blue[1]};
-          font-size: 22px;
+          font-size: 20px;
           font-weight: 500;
 
           &.green {
             font-size: ${({ theme }) => theme.font.size[13]};
             font-weight: 500;
             color: ${({ theme }) => theme.color.green[500]};
+            margin-top: 2px;
+            margin-left: 4px;
           }
         }
       }
@@ -120,10 +122,10 @@ const { CardContainer, ImageContainer, ContainerInfo, Soon } = {
     > div {
       display: flex;
       align-items: center;
-      gap: ${({ theme }) => theme.size[8]};
-      span {
+      gap: ${({ theme }) => theme.size[12]};
+      > span {
         color: ${({ theme }) => theme.colorV2.black};
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 500;
       }
     }
@@ -133,13 +135,31 @@ const { CardContainer, ImageContainer, ContainerInfo, Soon } = {
     padding: 3px 8px;
     align-items: center;
     gap: 10px;
+    height: 25px;
 
     border-radius: 99px;
-    border: 1px solid ${({ theme }) => theme.colorV2.gray[1]};
+    border-radius: 4px;
+    background-color: ${({ theme }) => theme.colorV2.gray[2]};
+    border: 1px solid ${({ theme }) => theme.color.blackAlpha[100]};
 
     color: ${({ theme }) => theme.colorV2.gray[6]};
 
     font-size: 13px;
     font-weight: 400;
+  `,
+  NewTag: styled.div`
+    width: 50px;
+    height: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: ${({ theme }) => theme.colorV2.white} !important;
+    border-radius: 4px;
+    background: linear-gradient(108deg, #3c43ee -11.12%, #ab00fc 110.08%);
+
+    font-size: 13px;
+    font-weight: 500;
   `
 }

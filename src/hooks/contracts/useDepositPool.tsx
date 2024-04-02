@@ -109,7 +109,7 @@ export default function useDepositPool(
     chainId,
     functionName: 'depositPool',
     address: StakeTogether,
-    args: [poolAddress, referral],
+    args: [isTestnet ? product.stakeTogetherPool.testnet : product.stakeTogetherPool.mainnet, referral],
     value: grossDepositAmount,
     gas:
       !!depositEstimatedGas && depositEstimatedGas > 0n && !!web3AuthUserInfo ? depositEstimatedGas : undefined,

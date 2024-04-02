@@ -5,12 +5,12 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
 import { Product, ProductMarketAssetData } from '@/types/Product'
 
+import { Tooltip } from 'antd'
+import { PiArrowUpRight } from 'react-icons/pi'
 import styled from 'styled-components'
+import NetworkIcons from '../shared/NetworkIcons'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import SymbolIcons from '../tokens/components/SymbolIcons'
-import { Tooltip, notification } from 'antd'
-import NetworkIcons from '../shared/NetworkIcons'
-import { PiCopy } from 'react-icons/pi'
 
 type ProductInfoProps = {
   product: Product
@@ -21,14 +21,6 @@ type ProductInfoProps = {
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
   const { isTestnet } = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
-
-  function copyToClipboard() {
-    navigator.clipboard.writeText(stakeTogetherContractAddress)
-    notification.success({
-      message: `${t('addressCopiedToClipboard')}`,
-      placement: 'topRight'
-    })
-  }
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
   const stakeTogetherContractAddress = !isTestnet
@@ -112,9 +104,9 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
 
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.contractAddress')}</h2>
-        <span className='copy' onClick={copyToClipboard}>
-          {stakeTogetherContractAddress} <PiCopy style={{ fontSize: 16 }} />
-        </span>
+        <a className='copy' href={`${product.scan}/address/${stakeTogetherContractAddress}`} target='_blank'>
+          {stakeTogetherContractAddress} <PiArrowUpRight style={{ fontSize: 16 }} />
+        </a>
       </ProductBodyContainer>
     </ProductContainer>
   )
@@ -229,9 +221,10 @@ const {
     > h2 {
       color: ${({ theme }) => theme.colorV2.blue[1]};
       font-size: ${({ theme }) => theme.font.size[15]};
+      line-height: 18px;
       font-weight: 500;
     }
-
+    a,
     span {
       font-size: 13px;
       font-weight: 400;
@@ -255,6 +248,10 @@ const {
         }
       }
     }
+
+    a:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
   `,
   StatisticContainer: styled.div`
     display: flex;
@@ -262,7 +259,7 @@ const {
     gap: ${({ theme }) => theme.size[12]};
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
 
     div {

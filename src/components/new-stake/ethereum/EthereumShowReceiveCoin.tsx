@@ -1,4 +1,4 @@
-import NetworkIcons from '@/components/shared/NetworkIcons'
+import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import SymbolIcons from '@/components/tokens/components/SymbolIcons'
 import { chainConfigByChainId } from '@/config/chain'
@@ -7,7 +7,6 @@ import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import { Product } from '@/types/Product'
 import { useRouter } from 'next/router'
-import React from 'react'
 import styled from 'styled-components'
 
 type EthereumStpETHInputProps = {
@@ -58,7 +57,7 @@ export default function EthereumShowReceiveCoin({
               />
             </>
           ) : (
-            <NetworkIcons network='ethereum' size={32} />
+            <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
           )}
           <span>{type === 'deposit' ? product.symbol : t('eth.symbol')}</span>
         </CoinActionContainer>
@@ -77,8 +76,9 @@ const { InputContent, CoinActionContainer } = {
     padding: 16px;
     border-radius: ${({ theme }) => theme.size[8]};
 
-    background-color: transparent;
-    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+    background-color: ${({ theme }) => theme.colorV2.gray[2]};
+    border: 1px solid transparent;
+    cursor: unset;
 
     div {
       display: flex;

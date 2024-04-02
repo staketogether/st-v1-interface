@@ -3,7 +3,9 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import { truncateWei } from '@/services/truncate'
 import { Pool } from '@/types/Pool'
+import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
+import { PiDiscordLogo, PiGlobeSimple, PiInstagramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
 import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
@@ -19,7 +21,12 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
-
+  const handleProjectSite = () => {
+    if (pool && (pool.site?.startsWith('https://') || pool.site?.startsWith('http://'))) {
+      return pool.site
+    }
+    return `https://${pool?.site}`
+  }
   return (
     <Row>
       {pool && (
@@ -44,17 +51,65 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
             {formatNumberByLocale(truncateWei(pool.poolBalance, 6), locale)}
             <Text className='blue'>{t('eth.symbol')}</Text>
           </Text>
+          <Social>
+            {pool?.site && (
+              <Tooltip title={handleProjectSite()}>
+                <Social href={handleProjectSite()} target='_blank'>
+                  <SiteIcon />
+                </Social>
+              </Tooltip>
+            )}
+            {pool?.twitter && (
+              <Tooltip title={pool.twitter}>
+                <Social href={`https://twitter.com/${pool.twitter}`} target='_blank'>
+                  <TwitterIcon />
+                </Social>
+              </Tooltip>
+            )}
+            {pool?.discord && (
+              <Tooltip title={pool.discordName || pool.discord}>
+                <Social href={`https://discord.com/invite/${pool.discord}`} target='_blank'>
+                  <DiscordIcon />
+                </Social>
+              </Tooltip>
+            )}
+            {pool?.instagram && (
+              <Tooltip title={pool.instagram}>
+                <Social href={`https://www.instagram.com/${pool.instagram}`} target='_blank'>
+                  <InstagramIcon />
+                </Social>
+              </Tooltip>
+            )}
+            {pool?.youtube && (
+              <Tooltip title={pool.youtube}>
+                <Social href={`https://www.youtube.com/${pool.youtube}`} target='_blank'>
+                  <YoutubeIcon />
+                </Social>
+              </Tooltip>
+            )}
+          </Social>
         </>
       )}
     </Row>
   )
 }
 
-const { Row, Name, TypeContainer, Text } = {
+const {
+  Row,
+  Name,
+  TypeContainer,
+  Text,
+  Social,
+  DiscordIcon,
+  TwitterIcon,
+  SiteIcon,
+  InstagramIcon,
+  YoutubeIcon
+} = {
   Row: styled.div`
     display: none;
     height: 48px;
-    grid-template-columns: 0.9fr 0.7fr 0.5fr 0.7fr;
+    grid-template-columns: 0.7fr 0.5fr 0.5fr 0.4fr 0.4fr;
     gap: 8px;
     align-items: center;
     background: ${({ theme }) => theme.color.white};
@@ -113,5 +168,50 @@ const { Row, Name, TypeContainer, Text } = {
     &.green {
       color: ${({ theme }) => theme.color.green[500]};
     }
+  `,
+  InstagramIcon: styled(PiInstagramLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  SiteIcon: styled(PiGlobeSimple)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  YoutubeIcon: styled(PiYoutubeLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  Social: styled.a`
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+
+    span {
+      font-size: ${({ theme }) => theme.font.size[13]};
+      line-height: 13px;
+
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+    }
+
+    &:hover {
+      svg {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
+    }
+  `,
+  TwitterIcon: styled(PiTwitterLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  DiscordIcon: styled(PiDiscordLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
   `
 }

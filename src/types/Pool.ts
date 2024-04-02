@@ -25,4 +25,10 @@ export type Pool = {
   type: string
   logo: ContentfulImage
   name: string
+  site?: string
+  youtube?: string
+  instagram?: string
+  twitter?: string
+  discord?: string
+  discordName?: string
 } & PoolSubgraph

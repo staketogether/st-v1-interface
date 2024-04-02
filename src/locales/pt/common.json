@@ -8,7 +8,6 @@
   "projects": "Projetos",
   "portfolio": "Portfólio",
   "stake": "Depositar",
-  "time": "Tempo",
   "next": "Avançar",
   "close": "Fechar",
   "goToBack": "Voltar",
@@ -29,6 +28,7 @@
   "members": "Membros",
   "delegations": "Delegações",
   "balance": "Saldo",
+  "assets": "Ativos",
   "poolBalance": "Saldo na Pool",
   "selectPool": "Selecionar Pool",
   "exchange": "Pegar Faucet",
@@ -74,7 +74,18 @@
   "buyCryptoTitle": "Comprar Ether",
   "sellCryptoTitle": "Vender Vender",
   "genericErrorMessage": "Desculpa! Algum coisa deu errado Tente novamente",
-  "selectProject": "Selecione o Produto",
+  "selectProduct": "Selecionar Produto",
+  "estimatedBalance": "Saldo Estimado",
+  "investments": "Investimentos",
+  "time": {
+    "days": "Dias",
+    "day": "Dia",
+    "hours": "Horas",
+    "hour": "Hora",
+    "minutes": "Minutos",
+    "minute": "Minuto",
+    "seconds": "Segundos"
+  },
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -120,7 +131,6 @@
     "audit": "Auditorias",
     "documentation": "Documentação"
   },
-  "soon": "Em Breve",
   "addSethToWallet": {
     "add": "Adicione",
     "yourWallet": "em sua carteira"
@@ -297,11 +307,12 @@
       "userRejectedTheRequest": "Transação Rejeitada",
       "descriptionForm": {
         "receive": "Você recebe:",
-        "receiveTooltip": "Quando você deposita ETH, você recebe o token stpETH em troca. O stpETH recebe recompensas de staking diariamente.",
+        "receiveTooltip": "Quando você deposita ETH, você recebe o token de staking liquido em troca.",
         "exchange": "Câmbio:",
-        "exchangeTooltip": "Câmbio é a equivalência entre ETH e stpETH.",
+        "exchangeTooltip": "Troca um token por outro",
+        "delegationTooltip": "Delegar parte das recompensas para um projeto",
         "rewards": "Taxa de recompensas:",
-        "rewardsTooltip": "Taxa de recompensas é a taxa que é descontada sobre as recompenas futuras de staking com base no valor anual depositado.",
+        "rewardsTooltip": "Taxa que é descontada sobre as recompenas futuras de staking.",
         "operation": "Taxa de operação:",
         "operationTooltip": "Taxa de operação é a taxa que é descontada sobre o deposito."
       },
@@ -401,7 +412,7 @@
       "claim": "Resgatar"
     },
     "createProject": {
-      "title": "Cadastrar Projetos",
+      "title": "Cadastrar Projeto",
       "linksToAnalyze": "Links para Análise",
       "terms": "Estou de acordo com os",
       "termsAndConditions": "Termos de Cadastro",
@@ -547,7 +558,7 @@
       "availableForDistribution": "Valor disponivel para distribuição",
       "availableForDistributionTooltip": "Distribuição de recompensa dos projetos",
       "labelButton": "Atualizar as Delegações",
-      "listPoolsModalTitle": "Selecionar projetos",
+      "listPoolsModalTitle": "Selecionar Projetos",
       "transactionMessages": {
         "transactionTitle": "Revisar Pedido de Update",
         "successful": "Delegações atualizadas com sucesso",
@@ -621,7 +632,7 @@
     },
     "tokens": {
       "title": "Produtos de Staking",
-      "description": "Invista em produtos de tecnologia de infraestrutura de ponta baseados em staking de criptomoedas.\n"
+      "description": "Invista em Infraestrutura, Segurança e Tecnologia com Rendimentos Sustentáveis em Criptomoedas"
     },
     "products": {
       "ethereum-stake": "Staking de Ethereum",
@@ -701,15 +712,16 @@
       "title": "Staking de Ethereum",
       "description": "Descrição",
       "statistics": "Estatísticas",
-      "ethereumDescription": "Stake Ethereum e ganhe recompensas de staking de Ethereum",
+      "ethereumDescription": "Staking de Ethereum: Garanta a Segurança, Ganhe Recompensas. Junte-se ao ecossistema Ethereum fazendo staking de seus tokens ETH. Contribua para a segurança da rede, participe do consenso e ganhe uma renda passiva. Nossa plataforma oferece uma maneira fácil, segura e eficiente de fazer staking do seu Ethereum e gerar rendimentos a partir das receitas dos validadores. Comece com quanto quiser e acesse seus fundos a qualquer momento. Eleve sua estratégia de investimento com o staking de Ethereum hoje.",
       "contractAddress": "Endereço do Contrato",
-      "marketCap": "Valor de mercado",
-      "priceChange": "Variaço de preço (1 ano)",
+      "marketCap": "Valor de Mercado",
+      "priceChange": "Variação de Preço (1 ano)",
       "networkAvailable": "Disponível em",
-      "myRewardsPoints": "Pontos de Recompensa",
+      "myRewardsPoints": "Meus Pontos de Recompensa",
       "highestValueWeeks": "Maior Valor em 52 semanas",
-      "eigenPointTooltip": "Ao fazer Staking você acumula pontos no protocolo Eigen Layer  que futuramente poderá lançar token e você participará desse lançamento",
-      "togetherPoints": "Ao fazer Staking você acumula pontos no protocolo Stake Together que futuramente poderá lançar token e você participará desse lançamento",
+      "eigenPointTooltip": "Ao fazer Staking você acumula pontos no protocolo Eigen Layer, que futuramente poderá lançar token e você pode receber parte desses tokens",
+      "togetherPoints": "Ao fazer Staking você acumula pontos no protocolo Stake Togetherque futuramente poderá lançar token e você pode receber parte desses tokens",
+      "restakingDescription": "ReStaking de Ethereum: Potencialize a Eficiência do Seu Staking. Experimente o próximo nível de staking de Ethereum com nossa solução de ReStaking, que combina o protocolo Stake Together com a tecnologia Eigen Layer. Amplie o potencial do seu Ethereum usando-o como garantia na Eigen Layer, contribuindo para os serviços da rede e ganhando renda de fontes diversificadas. Nossa plataforma simplifica seu processo de staking, proporcionando uma abordagem mais eficaz e lucrativa para garantir a segurança da rede e obter recompensas. Mergulhe no ReStaking com Ethereum hoje e comece a aproveitar os rendimentos combinados.",
       "actions": {
         "invest": "Investir",
         "withdraw": "Resgatar",
@@ -717,5 +729,7 @@
         "balance": "Saldo"
       }
     }
-  }
+  },
+  "soon": "Em Breve",
+  "new": "Novo"
 }

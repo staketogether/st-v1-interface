@@ -1,26 +1,45 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
+import { Product } from '@/types/Product'
 import { WithdrawType } from '@/types/Withdraw'
 import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
-import { globalConfig } from '../../config/global'
 import TooltipComponent from '../shared/TooltipComponent'
+import { chainConfigByChainId } from '@/config/chain'
+import { useReadContract } from 'wagmi'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 type StakeDescriptionCheckoutProps = {
   type: 'deposit' | 'withdraw'
   youReceiveDeposit: bigint
   amount: string
   withdrawTypeSelected: WithdrawType
+  product: Product
+  chainId: number
 }
 
 export default function StakeDescriptionCheckout({
   type,
   youReceiveDeposit,
   amount,
-  withdrawTypeSelected
+  withdrawTypeSelected,
+  product,
+  chainId
 }: StakeDescriptionCheckoutProps) {
   const { t } = useLocaleTranslation()
-  const { fees } = globalConfig
+
+  const { isTestnet } = chainConfigByChainId(chainId)
+  const stakeTogetherContract = product.contracts[isTestnet ? 'testnet' : 'mainnet'].StakeTogether
+
+  const { data: feeData, isFetching } = useReadContract({
+    address: stakeTogetherContract,
+    args: [1],
+    abi: stakeTogetherAbi,
+    functionName: 'getFee'
+  })
+
+  const fee = (feeData ?? 0n) * BigInt(100) || 0n
 
   return (
     <StakeInfo>
@@ -34,7 +53,7 @@ export default function StakeDescriptionCheckout({
         {type === 'deposit' && (
           <span>
             <span className='purple'>{`${truncateWei(youReceiveDeposit, 18) || '0'} `}</span>
-            <span className='purple'>{t('lsd.symbol')}</span>
+            <span className='purple'>{product.symbol}</span>
           </span>
         )}
         {type === 'withdraw' && (
@@ -58,12 +77,12 @@ export default function StakeDescriptionCheckout({
             <span className='blue'>1</span> <span className='blue'>{t('eth.symbol')}</span>
             {`  = `}
             <span className='purple'>1</span>
-            <span className='purple'>{t('lsd.symbol')}</span>
+            <span className='purple'>{product.symbol}</span>
           </span>
         )}
         {type === 'withdraw' && (
           <span>
-            <span className='purple'>1</span> <span className='purple'>{t('lsd.symbol')}</span> =
+            <span className='purple'>1</span> <span className='purple'>{product.symbol}</span> =
             <span className='blue'>1</span>
             <span className='blue'>{` ${
               withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
@@ -79,7 +98,7 @@ export default function StakeDescriptionCheckout({
               <QuestionIcon />
             </TooltipComponent>
           </span>
-          <span>{fees.rewards}%</span>
+          <span>{isFetching ? <SkeletonLoading width={70} /> : truncateWei(fee, 2)}%</span>
         </div>
       )}
     </StakeInfo>

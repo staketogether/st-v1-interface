@@ -7,6 +7,8 @@ import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import { Pool } from '@/types/Pool'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
+import { PiDiscordLogo, PiGlobeSimple, PiInstagramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
+import { Tooltip } from 'antd'
 
 type PoolsCardProps = {
   pool: Pool
@@ -16,6 +18,13 @@ type PoolsCardProps = {
 export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
+
+  const handleProjectSite = () => {
+    if (pool && (pool.site?.startsWith('https://') || pool.site?.startsWith('http://'))) {
+      return pool.site
+    }
+    return `https://${pool?.site}`
+  }
 
   return (
     <Card>
@@ -44,11 +53,59 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
           </div>
         </div>
       </CardInfo>
+      <Social>
+        {pool?.instagram && (
+          <Tooltip title={pool.instagram}>
+            <Social href={`https://www.instagram.com/${pool.instagram}`} target='_blank'>
+              <InstagramIcon />
+            </Social>
+          </Tooltip>
+        )}
+        {pool?.youtube && (
+          <Tooltip title={pool.youtube}>
+            <Social href={`https://www.youtube.com/${pool.youtube}`} target='_blank'>
+              <YoutubeIcon />
+            </Social>
+          </Tooltip>
+        )}
+        {pool?.site && (
+          <Tooltip title={handleProjectSite()}>
+            <Social href={handleProjectSite()} target='_blank'>
+              <SiteIcon />
+            </Social>
+          </Tooltip>
+        )}
+        {pool?.twitter && (
+          <Tooltip title={pool.twitter}>
+            <Social href={`https://twitter.com/${pool.twitter}`} target='_blank'>
+              <TwitterIcon />
+            </Social>
+          </Tooltip>
+        )}
+        {pool?.discord && (
+          <Tooltip title={pool.discordName || pool.discord}>
+            <Social href={`https://discord.com/invite/${pool.discord}`} target='_blank'>
+              <DiscordIcon />
+            </Social>
+          </Tooltip>
+        )}
+      </Social>
     </Card>
   )
 }
 
-const { Card, CardInfo, CardHeader, CommunityType } = {
+const {
+  Card,
+  CardInfo,
+  CardHeader,
+  DiscordIcon,
+  CommunityType,
+  Social,
+  YoutubeIcon,
+  TwitterIcon,
+  SiteIcon,
+  InstagramIcon
+} = {
   Card: styled.div`
     display: grid;
     flex-direction: column;
@@ -114,5 +171,50 @@ const { Card, CardInfo, CardHeader, CommunityType } = {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+  `,
+  InstagramIcon: styled(PiInstagramLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  SiteIcon: styled(PiGlobeSimple)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  YoutubeIcon: styled(PiYoutubeLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  Social: styled.a`
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+
+    span {
+      font-size: ${({ theme }) => theme.font.size[13]};
+      line-height: 13px;
+
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+    }
+
+    &:hover {
+      svg {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
+    }
+  `,
+  TwitterIcon: styled(PiTwitterLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  DiscordIcon: styled(PiDiscordLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
   `
 }

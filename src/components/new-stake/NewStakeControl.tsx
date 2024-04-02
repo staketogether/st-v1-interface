@@ -78,6 +78,7 @@ const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
     padding: ${({ theme }) => theme.size[24]};
     background-color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
   `,
   HeaderBackAction: styled(Link)`
     display: flex;
@@ -89,7 +90,7 @@ const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
     opacity: 0.6;
     cursor: pointer;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      position: fixed;
+      position: absolute;
       margin-top: -39px;
     }
   `,

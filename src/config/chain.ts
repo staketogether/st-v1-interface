@@ -15,14 +15,15 @@ export type ChainConfig = {
 export enum Networks {
   Mainnet = 1,
   OptimismSepolia = 11155420,
-  holesky = 17000
+  holesky = 17000,
+  optimism = 10
 }
 
 const configs: ChainConfig[] = [
   {
     chainId: Networks.Mainnet,
     name: 'mainnet',
-    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_MAINNET),
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
       baseUrl: 'https://etherscan.io'
@@ -45,6 +46,15 @@ const configs: ChainConfig[] = [
       baseUrl: 'https://optimism-sepolia.blockscout.com'
     },
     isTestnet: true
+  },
+  {
+    chainId: Networks.optimism,
+    name: 'optimism',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OPTIMISM_URL),
+    blockExplorer: {
+      baseUrl: 'https://optimism-sepolia.blockscout.com'
+    },
+    isTestnet: false
   }
 ]
 

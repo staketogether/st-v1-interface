@@ -45,7 +45,7 @@ export default function EthereumProjectSelect({
       <div>
         <span>
           {t('delegation')}
-          <Tooltip title={t('v2.stake.descriptionForm.exchangeTooltip')}>
+          <Tooltip title={t('v2.stake.descriptionForm.delegationTooltip')}>
             <QuestionIcon />
           </Tooltip>
         </span>

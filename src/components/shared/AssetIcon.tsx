@@ -55,9 +55,10 @@ export default function AssetIcon({ assetIcon, size, networkIcon }: SymbolIconsP
       <div>
         <Image
           src={networkIcons[networkIcon]}
-          width={size <= 24 ? 12 : 16}
-          height={size <= 24 ? 12 : 16}
+          width={size <= 24 ? 14 : 16}
+          height={size <= 24 ? 14 : 16}
           alt={networkIcon}
+          className='white-border'
         />
       </div>
     </Warper>
@@ -73,15 +74,17 @@ const { Warper } = {
 
     img {
       border-radius: 100%;
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+      &.white-border {
+        border: 1px solid ${({ theme }) => theme.colorV2.white};
+        padding: 0px;
+      }
     }
 
     > div {
       display: flex;
-      padding: 2px;
       align-items: center;
-
-      border-radius: 99px;
-
+      border-radius: 100%;
       position: absolute;
       bottom: -4px;
       right: -6px;

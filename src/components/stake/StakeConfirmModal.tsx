@@ -8,7 +8,7 @@ import StakeTransactionLoading from './StakeTransactionLoading'
 import { WithdrawType } from '@/types/Withdraw'
 import { Product } from '@/types/Product'
 import SymbolIcons from '../tokens/components/SymbolIcons'
-import NetworkIcons from '../shared/NetworkIcons'
+import AssetIcon from '../shared/AssetIcon'
 
 type StakeConfirmModalProps = {
   amount: string
@@ -92,7 +92,7 @@ export default function StakeConfirmModal({
                       withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
                     }`}</span>{' '}
                   </span>
-                  <NetworkIcons network='ethereum' size={32} />
+                  <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
                 </div>
               </ContainerPayment>
             </>
@@ -104,7 +104,7 @@ export default function StakeConfirmModal({
                   <span>
                     <span>{truncateDecimal(amount, 6)}</span> <span>{t('eth.symbol')}</span>
                   </span>
-                  <NetworkIcons network='ethereum' size={32} />
+                  <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
                 </div>
               </ContainerPayment>
               <ContainerPayment>
@@ -123,6 +123,8 @@ export default function StakeConfirmModal({
           <StakeDescriptionCheckout
             amount={amount}
             type={type}
+            product={product}
+            chainId={chainId}
             youReceiveDeposit={youReceive}
             withdrawTypeSelected={withdrawTypeSelected}
           />

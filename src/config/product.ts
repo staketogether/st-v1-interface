@@ -8,6 +8,7 @@ export const productList: Product[] = [
     symbol: 'stpETH',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: true },
       { network: 'optimism', enabled: false },
@@ -15,15 +16,15 @@ export const productList: Product[] = [
       { network: 'polygon', enabled: false },
       { network: 'solana', enabled: false }
     ],
-    apy: 5.1,
+    apy: 5.7,
     scan: 'https://etherscan.io/',
-    contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+    rampEnabled: true,
     description: 'ethereumDescription',
     enabled: true,
     urlRedirect: '/currency/ethereum/product/ethereum-stake',
     stakeTogetherPool: {
       mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
-      testnet: '0xF4e8Dd9C44438ee697B61a426a592010e9a86a90'
+      testnet: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48'
     },
     contracts: {
       mainnet: {
@@ -58,6 +59,8 @@ export const productList: Product[] = [
     symbol: 'strETH',
     networkAvailable: 'optimism',
     eigenPointsAvailable: true,
+    rampEnabled: false,
+    newProductTag: true,
     networks: [
       { network: 'ethereum', enabled: true },
       { network: 'optimism', enabled: false },
@@ -65,10 +68,9 @@ export const productList: Product[] = [
       { network: 'polygon', enabled: false },
       { network: 'solana', enabled: false }
     ],
-    apy: 11.1,
+    apy: 5.7,
     scan: 'https://optimistic.etherscan.io',
-    contractAddress: '0x1234567890',
-    description: 'ethereumDescription',
+    description: 'restakingDescription',
     enabled: true,
     urlRedirect: '/currency/optimism/product/ethereum-restaking',
     stakeTogetherPool: {
@@ -108,6 +110,8 @@ export const productList: Product[] = [
     symbol: 'stpCHZ',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    rampEnabled: false,
+    newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -117,7 +121,6 @@ export const productList: Product[] = [
     ],
     apy: 14.5,
     scan: 'https://etherscan.io/',
-    contractAddress: '0x1234567890',
     description: 'ethereumDescription',
     enabled: false,
     urlRedirect: '/',
@@ -158,6 +161,8 @@ export const productList: Product[] = [
     symbol: 'stpPOL',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    rampEnabled: false,
+    newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -167,7 +172,6 @@ export const productList: Product[] = [
     ],
     apy: 5.2,
     scan: 'https://etherscan.io/',
-    contractAddress: '0x1234567890',
     description: 'ethereumDescription',
     enabled: false,
     urlRedirect: '/',
@@ -208,6 +212,8 @@ export const productList: Product[] = [
     symbol: 'stpSOL',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    rampEnabled: false,
+    newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -217,7 +223,6 @@ export const productList: Product[] = [
     ],
     apy: 7.6,
     scan: 'https://etherscan.io/',
-    contractAddress: '0x1234567890',
     description: 'EthereumDescription',
     enabled: false,
     urlRedirect: '/',
@@ -258,6 +263,8 @@ export const productList: Product[] = [
     symbol: 'stpATOM',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    rampEnabled: false,
+    newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -267,7 +274,6 @@ export const productList: Product[] = [
     ],
     apy: 13.7,
     scan: 'https://etherscan.io/',
-    contractAddress: '0x1234567890',
     description: 'EthereumDescription',
     enabled: false,
     urlRedirect: '/',
@@ -308,6 +314,8 @@ export const productList: Product[] = [
     symbol: 'stpNear',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    rampEnabled: false,
+    newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -317,7 +325,6 @@ export const productList: Product[] = [
     ],
     apy: 8.8,
     scan: 'https://etherscan.io/',
-    contractAddress: '0x1234567890',
     description: 'EthereumDescription',
     enabled: false,
     urlRedirect: '/',
@@ -359,6 +366,8 @@ export const productList: Product[] = [
     symbol: 'stpKSM',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
+    rampEnabled: false,
+    newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: false },
       { network: 'optimism', enabled: false },
@@ -368,7 +377,6 @@ export const productList: Product[] = [
     ],
     apy: 9,
     scan: 'https://etherscan.io/',
-    contractAddress: '0x1234567890',
     description: 'EthereumDescription',
     enabled: false,
     urlRedirect: '/',
