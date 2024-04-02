@@ -307,6 +307,7 @@
         "receiveTooltip": "When you deposit ETH, you receive the liquid token in return.",
         "exchange": "Exchange:",
         "exchangeTooltip": "Exchange a token for other",
+        "delegationTooltip": "Delegate part of the fee rewards for a project",
         "rewards": "Staking rewards fee:",
         "rewardsTooltip": "Fee deducted from the future staking rewards.",
         "operation": "Operation fee:",
