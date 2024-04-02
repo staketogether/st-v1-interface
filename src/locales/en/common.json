@@ -390,7 +390,7 @@
       "claim": "Claim"
     },
     "createProject": {
-      "title": "Create Pool",
+      "title": "Register Project",
       "linksToAnalyze": "Links to Analyze",
       "terms": "I agree with the",
       "termsAndConditions": "Terms of Service",
