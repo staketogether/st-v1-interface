@@ -19,6 +19,9 @@ export const productList: Product[] = [
     apy: 5.7,
     scan: 'https://etherscan.io/',
     rampEnabled: true,
+    ramp: {
+      minDeposit: 300
+    },
     description: 'ethereumDescription',
     enabled: true,
     urlRedirect: '/currency/ethereum/product/ethereum-stake',
@@ -60,6 +63,15 @@ export const productList: Product[] = [
     networkAvailable: 'optimism',
     eigenPointsAvailable: true,
     rampEnabled: true,
+    ramp: {
+      minDeposit: 10,
+      bridge: {
+        fromChainId: 137,
+        fromToken: 'MATIC',
+        toChainId: 10,
+        toToken: 'ETH'
+      }
+    },
     newProductTag: true,
     networks: [
       { network: 'ethereum', enabled: true },
@@ -111,6 +123,9 @@ export const productList: Product[] = [
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
     rampEnabled: false,
+    ramp: {
+      minDeposit: 10
+    },
     newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: false },
@@ -162,6 +177,9 @@ export const productList: Product[] = [
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
     rampEnabled: false,
+    ramp: {
+      minDeposit: 10
+    },
     newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: false },
@@ -213,6 +231,9 @@ export const productList: Product[] = [
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
     rampEnabled: false,
+    ramp: {
+      minDeposit: 10
+    },
     newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: false },
@@ -264,6 +285,9 @@ export const productList: Product[] = [
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
     rampEnabled: false,
+    ramp: {
+      minDeposit: 10
+    },
     newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: false },
@@ -315,6 +339,9 @@ export const productList: Product[] = [
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
     rampEnabled: false,
+    ramp: {
+      minDeposit: 10
+    },
     newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: false },
@@ -367,6 +394,9 @@ export const productList: Product[] = [
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
     rampEnabled: false,
+    ramp: {
+      minDeposit: 10
+    },
     newProductTag: false,
     networks: [
       { network: 'ethereum', enabled: false },

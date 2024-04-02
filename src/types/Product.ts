@@ -73,6 +73,15 @@ export type Product = {
   name: StakingProduct
   newProductTag: boolean
   eigenPointsAvailable: boolean
+  ramp: {
+    minDeposit: number
+    bridge?: {
+      fromChainId: number
+      fromToken: string
+      toChainId: number
+      toToken: string
+    }
+  }
   rampEnabled: boolean
   title: string
   symbol: ProductSymbol

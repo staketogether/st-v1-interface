@@ -37,7 +37,8 @@ export const qrCodeVar = makeVar<BuyRamp | null>(null)
 export const kycLevelVar = makeVar<KycLevelInfo | null>(null)
 export const kycIdVar = makeVar<string | null>(null)
 export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
-export const depositConfigVar = makeVar<DepositConfig | undefined>(undefined)
+export const currentProductNameVar = makeVar<StakingProduct>('ethereum-stake')
+
 export const clearModal = () => {
   qrCodeVar(null)
   kycLevelVar(null)
@@ -64,26 +65,9 @@ export const changeWalletAddress = () => {
 
 
 export const openModal = (stakingProduct: StakingProduct, network: Network) => {
-
+  currentProductNameVar(stakingProduct)
   const chainId = handleChainIdByNetwork(network as AllowedNetwork)
   const { isTestnet } = chainConfigByChainId(chainId)
-  const depositChainByProduct: {
-    [key: string]: DepositConfig
-  } = {
-    'ethereum-stake': {
-      depositChanId: isTestnet ? 11155111 : 1,
-      bridgeChanIn: 10,
-      toChain: 'opt',
-      toToken: 'eth'
-    },
-    'ethereum-restaking': {
-      depositChanId: isTestnet ? 80001 : 137,
-      bridgeChanIn: 10,
-      toChain: 'opt',
-      toToken: 'eth'
-    },
-  }
-  depositConfigVar(depositChainByProduct[stakingProduct])
   openBrlaModalVar(true)
 
 }
