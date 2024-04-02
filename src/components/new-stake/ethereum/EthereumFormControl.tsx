@@ -10,6 +10,7 @@ import EthereumDeposit from './EthereumDeposit'
 import EthereumWithdraw from './EthereumWithdraw'
 import { Product } from '@/types/Product'
 import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
+import { notification } from 'antd'
 
 type EthereumFormControlProps = {
   type: 'deposit' | 'withdraw'
@@ -34,6 +35,15 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
     chainId: chainId
   })
 
+  function handleRampButton() {
+    type === 'deposit'
+      ? openQuoteEthModal()
+      : notification.info({
+          message: `${t('soon')}`,
+          placement: 'topRight'
+        })
+  }
+
   return (
     <EthereumContainer>
       <header>
@@ -53,11 +63,11 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
         </nav>
         {product.rampEnabled && (
           <Button
-            label={`${t('buy')} ETH`}
+            label={`${type === 'deposit' ? t('buy') : t('sell')} ETH`}
             width={133}
             height={32}
-            color='green'
-            onClick={openQuoteEthModal}
+            color={type === 'deposit' ? 'green' : 'red'}
+            onClick={handleRampButton}
             small
           />
         )}

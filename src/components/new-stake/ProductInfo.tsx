@@ -5,12 +5,13 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
 import { Product, ProductMarketAssetData } from '@/types/Product'
 
-import { Tooltip } from 'antd'
-import { PiArrowUpRight } from 'react-icons/pi'
+import { Tooltip, notification } from 'antd'
+import { PiArrowUpRight, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import NetworkIcons from '../shared/NetworkIcons'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import SymbolIcons from '../tokens/components/SymbolIcons'
+import { useRouter } from 'next/router'
 
 type ProductInfoProps = {
   product: Product
@@ -26,7 +27,17 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
   const stakeTogetherContractAddress = !isTestnet
     ? product.contracts.mainnet.StakeTogether
     : product.contracts.testnet.StakeTogether || `0x`
+  const router = useRouter()
+  const copyToClipboard = async () => {
+    const url = `${window.location.origin}${router.asPath}`
 
+    await navigator.clipboard.writeText(url)
+
+    notification.info({
+      message: `${t('copyClipboard')}`,
+      placement: 'topRight'
+    })
+  }
   return (
     <ProductContainer>
       <header>
@@ -34,6 +45,10 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           <div>
             <NetworkProductIcons stakingProduct={product.name} size={36} />
             {t(`v2.products.${product.name}`)}
+            <ShareButton onClick={copyToClipboard}>
+              <PiShareNetwork />
+              <span>{t('share')}</span>
+            </ShareButton>
           </div>
           <div>
             <span>{t('v2.ethereumStaking.networkAvailable')}</span>
@@ -117,6 +132,7 @@ const {
   SymbolContainer,
   ProductBodyContainer,
   TagPointsContainer,
+  ShareButton,
   HeaderProduct,
   HeaderDescribeInfo,
   RewardsPointsContainer,
@@ -128,10 +144,14 @@ const {
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
 
-    header {
-      display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[12]};
+    > header {
+      display: none;
+
+      @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+        display: flex;
+        flex-direction: column;
+        gap: ${({ theme }) => theme.size[12]};
+      }
     }
   `,
 
@@ -294,6 +314,25 @@ const {
       color: ${({ theme }) => theme.colorV2.white};
       border-radius: 99px;
       background: ${({ theme }) => theme.colorV2.gray[1]};
+    }
+  `,
+  ShareButton: styled.div`
+    height: 24px;
+    background: ${({ theme }) => theme.colorV2.white};
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
+    padding: 0px 8px;
+    cursor: pointer;
+    border-radius: ${({ theme }) => theme.size[8]};
+
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    color: ${({ theme }) => theme.colorV2.purple[1]};
+    font-weight: 400;
+    font-size: ${({ theme }) => theme.font.size[13]};
+    svg {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
     }
   `
 }
