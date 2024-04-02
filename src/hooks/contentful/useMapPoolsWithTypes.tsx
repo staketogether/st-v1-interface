@@ -12,7 +12,16 @@ export function useMapPoolsWithTypes(pools: PoolSubgraph[]) {
     if (!pool) {
       return { ...subgraphPool, type: '', name: '', logo: { url: '', fileName: '' } }
     }
-    return { ...subgraphPool, type: pool.category?.name, name: pool.name, logo: pool.logo }
+    return {
+      ...subgraphPool,
+      type: pool.category?.name,
+      name: pool.name,
+      logo: pool.logo,
+      instagram: pool.instagram,
+      site: pool.site,
+      youtube: pool.youtube,
+      twitter: pool.twitter
+    }
   })
 
   return { poolsWithTypes, isLoading }
