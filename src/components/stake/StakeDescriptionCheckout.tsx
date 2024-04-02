@@ -1,11 +1,10 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
+import { Product } from '@/types/Product'
 import { WithdrawType } from '@/types/Withdraw'
 import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
-import { globalConfig } from '../../config/global'
 import TooltipComponent from '../shared/TooltipComponent'
-import { Product } from '@/types/Product'
 
 type StakeDescriptionCheckoutProps = {
   type: 'deposit' | 'withdraw'
@@ -23,7 +22,6 @@ export default function StakeDescriptionCheckout({
   product
 }: StakeDescriptionCheckoutProps) {
   const { t } = useLocaleTranslation()
-  const { fees } = globalConfig
 
   return (
     <StakeInfo>
@@ -82,7 +80,7 @@ export default function StakeDescriptionCheckout({
               <QuestionIcon />
             </TooltipComponent>
           </span>
-          <span>{fees.rewards}%</span>
+          <span>8%</span>
         </div>
       )}
     </StakeInfo>
