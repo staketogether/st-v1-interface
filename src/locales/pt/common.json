@@ -123,7 +123,6 @@
     "audit": "Auditorias",
     "documentation": "Documentação"
   },
-  "soon": "Em Breve",
   "addSethToWallet": {
     "add": "Adicione",
     "yourWallet": "em sua carteira"
@@ -624,7 +623,7 @@
     },
     "tokens": {
       "title": "Produtos de Staking",
-      "description": "Invista em produtos de tecnologia de infraestrutura de ponta baseados em staking de criptomoedas.\n"
+      "description": "Invista em Infraestrutura, Segurança e Tecnologia com Rendimentos Sustentáveis em Criptomoedas"
     },
     "products": {
       "ethereum-stake": "Staking de Ethereum",
@@ -721,5 +720,7 @@
         "balance": "Saldo"
       }
     }
-  }
+  },
+  "soon": "Em Breve",
+  "new": "Novo"
 }

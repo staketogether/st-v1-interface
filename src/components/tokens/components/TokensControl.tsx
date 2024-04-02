@@ -1,7 +1,7 @@
-import { Product } from '@/types/Product'
-import TokensCardContainer from './TokensCardContainer'
-import styled from 'styled-components'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Product } from '@/types/Product'
+import styled from 'styled-components'
+import TokensCardContainer from './TokensCardContainer'
 
 type ProductItemProps = {
   productsList: Product[]
@@ -40,20 +40,30 @@ const { Container, Products, Title } = {
   Title: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[12]};
     color: ${({ theme }) => theme.colorV2.blue[1]};
     h1 {
-      font-size: 48px;
+      font-size: 32px;
       font-style: normal;
       font-weight: 500;
       line-height: normal;
+      line-height: 52px;
     }
     h2 {
       font-size: 20px;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
-      max-width: 301px;
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      gap: ${({ theme }) => theme.size[24]};
+
+      h1 {
+        font-size: 48px;
+      }
+
+      max-width: 270px;
     }
   `,
   Products: styled.div`

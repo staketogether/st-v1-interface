@@ -78,6 +78,7 @@
   "selectProduct": "Select project",
   "estimatedBalance": "Estimated Balance",
   "investments": "Investments",
+
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -123,9 +124,8 @@
     "website": "Website",
     "smartContract": "Smart Contract",
     "audit": "Audits",
-    "documentation": "Documentation"
+    "documentation": "Docs"
   },
-  "soon": "Coming Soon",
   "addSethToWallet": {
     "add": "Add",
     "yourWallet": "To wallet"
@@ -600,7 +600,7 @@
     },
     "tokens": {
       "title": "Staking Products",
-      "description": "Invest in cutting-edge infrastructure technology products based on cryptocurrency staking."
+      "description": "Invest in Infrastructure, Security, and Technology with Sustainable Yields in Cryptocurrencies"
     },
     "products": {
       "ethereum-stake": "Ethereum Staking",
@@ -697,5 +697,7 @@
         "balance": "Balance"
       }
     }
-  }
+  },
+  "soon": "Soon",
+  "new": "New"
 }
