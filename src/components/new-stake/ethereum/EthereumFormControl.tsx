@@ -58,7 +58,6 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
           color='green'
           onClick={() => {
             openModal(product.name, product.networkAvailable)
-            console.log(product)
           }}
           small
         />
