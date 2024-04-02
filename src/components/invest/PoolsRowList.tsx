@@ -73,6 +73,20 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
                 </Social>
               </Tooltip>
             )}
+            {pool?.instagram && (
+              <Tooltip title={pool.instagram}>
+                <Social href={`https://www.instagram.com/${pool.instagram}`} target='_blank'>
+                  <InstagramIcon />
+                </Social>
+              </Tooltip>
+            )}
+            {pool?.youtube && (
+              <Tooltip title={pool.youtube}>
+                <Social href={`https://www.youtube.com/${pool.youtube}`} target='_blank'>
+                  <YoutubeIcon />
+                </Social>
+              </Tooltip>
+            )}
           </Social>
         </>
       )}
@@ -86,11 +100,11 @@ const {
   TypeContainer,
   Text,
   Social,
-  YoutubeIcon,
   DiscordIcon,
   TwitterIcon,
   SiteIcon,
-  InstagramIcon
+  InstagramIcon,
+  YoutubeIcon
 } = {
   Row: styled.div`
     display: none;
