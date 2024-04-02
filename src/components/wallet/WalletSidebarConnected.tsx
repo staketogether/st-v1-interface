@@ -242,14 +242,14 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             </Actions>
           </HeaderContainer>
           <EstimatedBalanceContainer>
-            <span>Estimated balance</span>
+            <span>{t('estimatedBalance')}</span>
             <span>{usdTotalBalance}</span>
           </EstimatedBalanceContainer>
           <Card
             header={
               <AssetHeaderCard>
-                <span>Assets</span>
-                <span>Balance</span>
+                <span>{t('assets')}</span>
+                <span>{t('balance')}</span>
               </AssetHeaderCard>
             }
           >
@@ -289,9 +289,9 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           <Card
             header={
               <AssetInvestmentCard>
-                <span>Investments</span>
-                <span>Rewards</span>
-                <span>Invested</span>
+                <span>{t('investments')}</span>
+                <span>{t('rewards')}</span>
+                <span>{t('invested')}</span>
               </AssetInvestmentCard>
             }
           >
@@ -335,7 +335,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             header={
               <HeaderTabContainer>
                 <div>
-                  <span>{t('selectProject')}</span>
+                  <span>{t('selectProduct')}</span>
                   <Select
                     defaultValue='ethereum-stake'
                     style={{ width: '100%', height: '40px' }}
@@ -758,15 +758,15 @@ const {
   HeaderTabHeader: styled.div`
     width: 100%;
     height: 48px;
-    display: grid;
     padding: 0px 12px;
-    align-items: center;
-    justify-content: space-between;
     border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
     border-radius: 8px 8px 0 0;
 
     display: flex;
-    gap: ${({ theme }) => theme.size[24]};
+    align-items: center;
+    justify-content: space-between;
+    gap: ${({ theme }) => theme.size[4]};
+
     align-items: center;
     div {
       height: 100%;

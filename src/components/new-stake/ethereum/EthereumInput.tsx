@@ -1,4 +1,4 @@
-import NetworkIcons from '@/components/shared/NetworkIcons'
+import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import SymbolIcons from '@/components/tokens/components/SymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -71,14 +71,14 @@ export default function EthereumInput({
           <SkeletonLoading width={120} />
         ) : (
           <span>{`Balance: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${
-            type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
+            type === 'deposit' ? t('eth.symbol') : product.symbol
           }`}</span>
         )}
       </div>
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <NetworkIcons network='ethereum' size={32} />
+            <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
           ) : (
             <SymbolIcons productSymbol={product.symbol} size={32} />
           )}

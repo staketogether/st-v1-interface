@@ -55,9 +55,11 @@ const { Warper } = {
     cursor: pointer;
     width: ${({ size }) => `${size}px`};
     height: ${({ size }) => `${size}px`};
-
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    border-radius: 100%;
     img {
       border-radius: 100%;
+      box-shadow: ${({ theme }) => theme.shadow[100]};
     }
     > div {
       display: flex;
@@ -72,6 +74,7 @@ const { Warper } = {
       right: -3px;
 
       color: ${({ theme }) => theme.colorV2.white};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
     }
   `
 }

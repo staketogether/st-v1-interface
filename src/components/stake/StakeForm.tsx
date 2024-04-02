@@ -425,6 +425,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
 
         {accountAddress && (
           <StakeDescriptionCheckout
+            product={product}
             amount={amount}
             type={type}
             youReceiveDeposit={youReceiveDeposit}

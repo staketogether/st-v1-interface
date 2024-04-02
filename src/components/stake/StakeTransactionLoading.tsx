@@ -13,7 +13,7 @@ import LottieAnimation from '../shared/LottieAnimation'
 import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
 import { Product } from '@/types/Product'
 import SymbolIcons from '../tokens/components/SymbolIcons'
-import NetworkIcons from '../shared/NetworkIcons'
+import AssetIcon from '../shared/AssetIcon'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -88,7 +88,7 @@ export default function StakeTransactionLoading({
               </div>
               <ArrowIcon fontSize={18} />
               <div>
-                <NetworkIcons network='ethereum' size={32} />
+                <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
                 <span>{`${truncateWei(youReceive, 6)}`}</span>
                 <span>
                   {` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}
@@ -98,7 +98,7 @@ export default function StakeTransactionLoading({
           ) : (
             <>
               <div>
-                <NetworkIcons network='ethereum' size={32} />
+                <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
                 <span>{`${amount}`}</span>
                 <span> {t('eth.symbol')}</span>
               </div>

@@ -38,6 +38,7 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
           <span>{t(`v2.products.${product.name}`)}</span>
         </div>
         {!product.enabled && <Soon>Soon</Soon>}
+        {product.newProductTag && <NewTag>New</NewTag>}
       </ImageContainer>
       <ContainerInfo>
         <div>
@@ -53,7 +54,7 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
   )
 }
 
-const { CardContainer, ImageContainer, ContainerInfo, Soon } = {
+const { CardContainer, ImageContainer, ContainerInfo, Soon, NewTag } = {
   CardContainer: styled(Link)`
     display: flex;
     flex-direction: column;
@@ -141,5 +142,20 @@ const { CardContainer, ImageContainer, ContainerInfo, Soon } = {
 
     font-size: 13px;
     font-weight: 400;
+  `,
+  NewTag: styled.div`
+    width: 50px;
+    height: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: ${({ theme }) => theme.colorV2.white} !important;
+    border-radius: 8px;
+    background: linear-gradient(108deg, #3c43ee -11.12%, #ab00fc 110.08%);
+
+    font-size: 13px;
+    font-weight: 500;
   `
 }

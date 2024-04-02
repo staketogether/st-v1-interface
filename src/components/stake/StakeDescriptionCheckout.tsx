@@ -5,19 +5,22 @@ import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 import { globalConfig } from '../../config/global'
 import TooltipComponent from '../shared/TooltipComponent'
+import { Product } from '@/types/Product'
 
 type StakeDescriptionCheckoutProps = {
   type: 'deposit' | 'withdraw'
   youReceiveDeposit: bigint
   amount: string
   withdrawTypeSelected: WithdrawType
+  product: Product
 }
 
 export default function StakeDescriptionCheckout({
   type,
   youReceiveDeposit,
   amount,
-  withdrawTypeSelected
+  withdrawTypeSelected,
+  product
 }: StakeDescriptionCheckoutProps) {
   const { t } = useLocaleTranslation()
   const { fees } = globalConfig
@@ -34,7 +37,7 @@ export default function StakeDescriptionCheckout({
         {type === 'deposit' && (
           <span>
             <span className='purple'>{`${truncateWei(youReceiveDeposit, 18) || '0'} `}</span>
-            <span className='purple'>{t('lsd.symbol')}</span>
+            <span className='purple'>{product.symbol}</span>
           </span>
         )}
         {type === 'withdraw' && (
@@ -58,12 +61,12 @@ export default function StakeDescriptionCheckout({
             <span className='blue'>1</span> <span className='blue'>{t('eth.symbol')}</span>
             {`  = `}
             <span className='purple'>1</span>
-            <span className='purple'>{t('lsd.symbol')}</span>
+            <span className='purple'>{product.symbol}</span>
           </span>
         )}
         {type === 'withdraw' && (
           <span>
-            <span className='purple'>1</span> <span className='purple'>{t('lsd.symbol')}</span> =
+            <span className='purple'>1</span> <span className='purple'>{product.symbol}</span> =
             <span className='blue'>1</span>
             <span className='blue'>{` ${
               withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')

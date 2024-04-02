@@ -1,12 +1,6 @@
 import Button from '@/components/shared/Button'
 import React, { useCallback, useEffect, useState } from 'react'
-import {
-  PiArrowDown,
-  PiArrowLineRight,
-  PiArrowsCounterClockwise,
-  PiQuestion,
-  PiWarningOctagon
-} from 'react-icons/pi'
+import { PiArrowLineRight, PiArrowsCounterClockwise, PiQuestion, PiWarningOctagon } from 'react-icons/pi'
 import styled from 'styled-components'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
@@ -269,9 +263,7 @@ export default function EthereumWithdraw({
             type={type}
             product={product}
           />
-          <DividerBox>
-            <PiArrowDown style={{ fontSize: 16 }} />
-          </DividerBox>
+
           <EthereumShowReceiveCoin
             amountValue={formatNumberByLocale(truncateWei(ethers.parseUnits(inputAmount, 18), 5), locale)}
             balance={ethBalance}
@@ -341,7 +333,7 @@ export default function EthereumWithdraw({
   )
 }
 
-const { Container, InputContainer, WarningIcon, CardBlock, DividerBox, ConnectWalletIcon, WrongNetworkIcon } = {
+const { Container, InputContainer, WarningIcon, CardBlock, ConnectWalletIcon, WrongNetworkIcon } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -354,21 +346,6 @@ const { Container, InputContainer, WarningIcon, CardBlock, DividerBox, ConnectWa
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
   `,
-  DividerBox: styled.div`
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: ${({ theme }) => theme.size[8]};
-    margin-top: -16px;
-    margin-bottom: -16px;
-    border-radius: 50%;
-    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
-    background-color: ${({ theme }) => theme.colorV2.white};
-    z-index: 2;
-  `,
-
   ConnectWalletIcon: styled(PiArrowLineRight)`
     font-size: 16px;
   `,
