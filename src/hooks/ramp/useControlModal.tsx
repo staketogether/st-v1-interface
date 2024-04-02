@@ -1,7 +1,5 @@
-import { chainConfigByChainId } from '@/config/chain';
 import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo';
-import { AllowedNetwork, handleChainIdByNetwork } from '@/services/format';
-import { Network, StakingProduct } from '@/types/Product';
+import { StakingProduct } from '@/types/Product';
 import { Quote } from '@/types/quote.type';
 import { makeVar } from '@apollo/client';
 import { BuyRamp } from './useBuyRamp';
@@ -64,10 +62,8 @@ export const changeWalletAddress = () => {
 
 
 
-export const openModal = (stakingProduct: StakingProduct, network: Network) => {
+export const openModal = (stakingProduct: StakingProduct) => {
   currentProductNameVar(stakingProduct)
-  const chainId = handleChainIdByNetwork(network as AllowedNetwork)
-  const { isTestnet } = chainConfigByChainId(chainId)
   openBrlaModalVar(true)
 
 }
