@@ -27,7 +27,7 @@
   "staked": "Em Stake",
   "unstake": "Desfazer Stake",
   "members": "Membros",
-  "delegations": "Delegações para Projetos",
+  "delegations": "Delegações",
   "balance": "Saldo",
   "poolBalance": "Saldo na Pool",
   "selectPool": "Selecionar Pool",
@@ -74,6 +74,7 @@
   "buyCryptoTitle": "Comprar Ether",
   "sellCryptoTitle": "Vender Vender",
   "genericErrorMessage": "Desculpa! Algum coisa deu errado Tente novamente",
+  "selectProject": "Selecione o Produto",
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
@@ -472,8 +473,7 @@
         "site": "URL do site inválido",
         "youtube": "Insira um URL de vídeo válido do YouTube",
         "youtubeChanel": "Insira um canal válido do YouTube",
-        "invalidCpf": "CPF inválido",
-        "invalidBirthday": "Data de aniversário inválida"
+        "invalidCpf": "CPF inválido"
       },
       "messages": {
         "success": "Projeto cadastrado com sucesso",
@@ -621,11 +621,11 @@
     },
     "tokens": {
       "title": "Produtos de Staking",
-      "description": "Invista nos melhores produtos de renda passiva para criptomoedas"
+      "description": "Invista em produtos de tecnologia de infraestrutura de ponta baseados em staking de criptomoedas.\n"
     },
     "products": {
       "ethereum-stake": "Staking de Ethereum",
-      "ethereum-restaking": "ReStaking de Ethereum ",
+      "ethereum-restaking": "Restaking de Ethereum ",
       "celestia": "Staking de Celestia",
       "polygon": "Staking de Polygon ",
       "solana": "Staking de Solana",
@@ -667,7 +667,7 @@
       "creditCard": "Cartão de crédito",
       "kyc": {
         "title": "KYC - Conheça seu Cliente",
-        "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Preencha o formulário abaixo para começar.",
+        "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Clique no botão abaixo para começar.",
         "level": "Nível KYC",
         "limit": "Limite",
         "availableLimit": "Limite disponível",
@@ -706,8 +706,10 @@
       "marketCap": "Valor de mercado",
       "priceChange": "Variaço de preço (1 ano)",
       "networkAvailable": "Disponível em",
-      "myRewardsPoints": "Meus Pontos de Recompensa",
+      "myRewardsPoints": "Pontos de Recompensa",
       "highestValueWeeks": "Maior Valor em 52 semanas",
+      "eigenPointTooltip": "Ao fazer Staking você acumula pontos no protocolo Eigen Layer  que futuramente poderá lançar token e você participará desse lançamento",
+      "togetherPoints": "Ao fazer Staking você acumula pontos no protocolo Stake Together que futuramente poderá lançar token e você participará desse lançamento",
       "actions": {
         "invest": "Investir",
         "withdraw": "Resgatar",

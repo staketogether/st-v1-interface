@@ -1,12 +1,10 @@
 import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import { truncateWei } from '@/services/truncate'
-import Link from 'next/link'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
 import { Pool } from '@/types/Pool'
-import { useRouter } from 'next/router'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 
@@ -18,11 +16,9 @@ type PoolsCardProps = {
 export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
-  const { query } = useRouter()
-  const { currency, network } = query
 
   return (
-    <Card href={`/${currency}/${network}/project/deposit/${pool.address}`}>
+    <Card>
       <CardHeader>
         {pool.logo?.url && (
           <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
@@ -53,7 +49,7 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
 }
 
 const { Card, CardInfo, CardHeader, CommunityType } = {
-  Card: styled(Link)`
+  Card: styled.div`
     display: grid;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[12]};

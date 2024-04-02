@@ -11,21 +11,27 @@ type EthereumProjectSelectProps = {
   onChange: (checked: boolean) => void
   poolDelegatedSelected: `0x${string}`
   handleDelegationChange: (value: `0x${string}`) => void
+  chainId: number
 }
 
 export default function EthereumProjectSelect({
   isActivatedDelegation,
   onChange,
   poolDelegatedSelected,
-  handleDelegationChange
+  handleDelegationChange,
+  chainId
 }: EthereumProjectSelectProps) {
   const { t } = useLocaleTranslation()
+
   const { projectList, initialLoading } = useContentfulProjectListByStatus({
     status: 'approved',
-    pagination: { first: 100, skip: 0 }
+    pagination: { first: 100, skip: 0 },
+    chainId
   })
+
   const projectListMapped = projectList.map(project => ({
     value: project.wallet,
+    filterValue: project.name,
     label: (
       <SelectOption>
         <CommunityLogo src={project.logo.url} alt={project.logo.fileName} loading={initialLoading} />
@@ -49,9 +55,19 @@ export default function EthereumProjectSelect({
         <Select
           defaultValue={poolDelegatedSelected}
           onChange={handleDelegationChange}
+          showSearch
           value={poolDelegatedSelected}
           style={{ width: '100%', height: 42 }}
           options={projectListMapped}
+          optionFilterProp='children'
+          filterOption={(input, option) =>
+            (option?.filterValue?.toString().toLowerCase() ?? '').includes(input.toLowerCase())
+          }
+          filterSort={(optionA, optionB) => {
+            return (optionA?.filterValue?.toString().toLowerCase() ?? '').localeCompare(
+              optionB?.filterValue?.toString().toLowerCase() ?? ''
+            )
+          }}
         />
       )}
     </Container>

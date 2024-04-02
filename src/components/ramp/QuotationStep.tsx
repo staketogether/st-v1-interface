@@ -20,7 +20,7 @@ import { KycLevel } from './KycLevel'
 
 export default function QuotationStep() {
   const initialSeconds = 5
-  const minValue = 100
+  const minValue = 300
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
   const [activeValue, setActiveValue] = useState<number>(0)

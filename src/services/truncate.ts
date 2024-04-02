@@ -54,7 +54,14 @@ export function truncateAddress(address: string, charsToShow = 6): string {
 }
 
 export function capitalize(text: string) {
-  return text.charAt(0).toUpperCase() + text.slice(1)
+  const words = text.split(' ')
+
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i]
+    words[i] = word.charAt(0).toUpperCase() + word.slice(1)
+  }
+
+  return words.join(' ')
 }
 
 export function truncateTimestamp(timestamp: number, locale: string) {

@@ -2,14 +2,15 @@ import TradingViewComponent from '@/components/shared/TradingViewComponent'
 import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { capitalize, truncateAddress } from '@/services/truncate'
+import { capitalize } from '@/services/truncate'
 import { Product, ProductMarketAssetData } from '@/types/Product'
-import { PiCopy, PiQuestion } from 'react-icons/pi'
+
 import styled from 'styled-components'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import SymbolIcons from '../tokens/components/SymbolIcons'
-import { Tooltip } from 'antd'
+import { Tooltip, notification } from 'antd'
 import NetworkIcons from '../shared/NetworkIcons'
+import { PiCopy } from 'react-icons/pi'
 
 type ProductInfoProps = {
   product: Product
@@ -20,6 +21,14 @@ type ProductInfoProps = {
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
   const { isTestnet } = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
+
+  function copyToClipboard() {
+    navigator.clipboard.writeText(stakeTogetherContractAddress)
+    notification.success({
+      message: `${t('addressCopiedToClipboard')}`,
+      placement: 'topRight'
+    })
+  }
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
   const stakeTogetherContractAddress = !isTestnet
@@ -37,7 +46,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           <div>
             <span>{t('v2.ethereumStaking.networkAvailable')}</span>
             <NetworkIcons network={product.networkAvailable} size={16} />
-            <span>{capitalize(product.networkAvailable)}</span>
+            <span>{capitalize(product.networkAvailable.replaceAll('-', ' '))}</span>
           </div>
         </HeaderProduct>
 
@@ -55,25 +64,26 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
             <div>
               <span className='CoinValue'>{`${handleQuotePrice(assetData?.data?.price || 0)}
                `}</span>
-              <span className='apy'>{`APY:${product.apy}%`}</span>
+              <span className='apy'>{`APY ${product.apy}%`}</span>
             </div>
           </SymbolContainer>
           <RewardsPointsContainer>
-            <Tooltip title={'symbol'}>
-              <span>
-                {t('v2.ethereumStaking.myRewardsPoints')} <QuestionIcon />
-              </span>
-            </Tooltip>
+            <span>{t('v2.ethereumStaking.myRewardsPoints')}</span>
+
             {product.eigenPointsAvailable && (
-              <TagPointsContainer>
-                Eigen
+              <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
+                <TagPointsContainer>
+                  Eigen
+                  <div>0.0</div>
+                </TagPointsContainer>
+              </Tooltip>
+            )}
+            <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
+              <TagPointsContainer className='purple'>
+                Together
                 <div>0.0</div>
               </TagPointsContainer>
-            )}
-            <TagPointsContainer className='purple'>
-              Together
-              <div>0.0</div>
-            </TagPointsContainer>
+            </Tooltip>
           </RewardsPointsContainer>
         </HeaderDescribeInfo>
       </header>
@@ -102,8 +112,8 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
 
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.contractAddress')}</h2>
-        <span className='copy'>
-          {truncateAddress(stakeTogetherContractAddress)} <PiCopy style={{ fontSize: 16 }} />
+        <span className='copy' onClick={copyToClipboard}>
+          {stakeTogetherContractAddress} <PiCopy style={{ fontSize: 16 }} />
         </span>
       </ProductBodyContainer>
     </ProductContainer>
@@ -118,7 +128,6 @@ const {
   HeaderProduct,
   HeaderDescribeInfo,
   RewardsPointsContainer,
-  QuestionIcon,
   StatisticContainer
 } = {
   ProductContainer: styled.div`
@@ -231,7 +240,7 @@ const {
       line-height: 1.5rem;
 
       &.valueItem {
-        font-size: 20px;
+        font-size: 16px;
         color: ${({ theme }) => theme.colorV2.gray[1]};
         opacity: 1;
       }
@@ -260,14 +269,6 @@ const {
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[8]};
-    }
-  `,
-  QuestionIcon: styled(PiQuestion)`
-    font-size: ${({ theme }) => theme.font.size[16]};
-    color: ${({ theme }) => theme.colorV2.gray[1]};
-    cursor: pointer;
-    &:hover {
-      color: ${({ theme }) => theme.color.secondary};
     }
   `,
   TagPointsContainer: styled.div`

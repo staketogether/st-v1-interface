@@ -1,8 +1,12 @@
 import { config } from '@/config/wagmi'
+import { useEstimateFeesPerGas } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
+import { getWalletClient } from 'wagmi/actions'
+import { estimateContractGas } from 'viem/actions'
 import { useCallback } from 'react'
-import { useFeeData } from 'wagmi'
 
 interface UseEstimateTxInfoProps {
+  chainId?: number
   account?: `0x${string}`
   contractAddress?: `0x${string}`
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,6 +18,7 @@ interface UseEstimateTxInfoProps {
 }
 
 const useEstimateTxInfo = ({
+  chainId,
   account,
   contractAddress,
   abi,
@@ -22,9 +27,12 @@ const useEstimateTxInfo = ({
   value,
   skip
 }: UseEstimateTxInfoProps) => {
-  const { data, isLoading: gasPriceLoading } = useFeeData({ enabled: !skip })
+  const { data, isLoading: gasPriceLoading } = useEstimateFeesPerGas({
+    query: { enabled: !skip },
+    chainId: chainId || mainnet.id
+  })
 
-  const networkGasPriceGwei = data && data.gasPrice ? data.gasPrice : 0n
+  const gasPrice = data && data.gasPrice ? data.gasPrice : 0n
   const maxFeePerGas = data && data.maxFeePerGas ? data?.maxFeePerGas : 0n
   const maxPriorityFeePerGas = data && data.maxPriorityFeePerGas ? data?.maxPriorityFeePerGas : 0n
 
@@ -33,26 +41,28 @@ const useEstimateTxInfo = ({
       return {
         estimatedGas: 0n,
         estimatedCost: 0n,
-        estimatedGasPrice: gasPriceLoading ? 0n : networkGasPriceGwei,
+        estimatedGasPrice: gasPriceLoading ? 0n : gasPrice,
         error: false
       }
     }
 
-    const client = config.publicClient
     try {
-      const estimatedGas = await client.estimateContractGas({
+      const client = await getWalletClient(config)
+      const estimatedGas = await estimateContractGas(client, {
         account,
         functionName,
         address: contractAddress,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         abi: abi as any,
         args: args || [],
-        value
+        value,
+        maxFeePerGas,
+        maxPriorityFeePerGas
       })
       const estimatedCost = (estimatedGas * maxFeePerGas * 3n) / 2n
       return {
         estimatedGas: (estimatedGas * 3n) / 2n,
-        estimatedGasPrice: networkGasPriceGwei,
+        estimatedGasPrice: gasPrice,
         // Add 50% to the estimated cost (same as metamask's market price)
         estimatedCost: (estimatedCost * 3n) / 2n,
         estimatedMaxFeePerGas: (maxFeePerGas * 3n) / 2n,
@@ -74,7 +84,7 @@ const useEstimateTxInfo = ({
     abi,
     functionName,
     gasPriceLoading,
-    networkGasPriceGwei,
+    gasPrice,
     args,
     value,
     maxFeePerGas,

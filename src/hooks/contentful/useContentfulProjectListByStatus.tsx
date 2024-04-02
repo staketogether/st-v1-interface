@@ -11,6 +11,7 @@ type useContentfulProjectListByStatusProps = {
   projectAddress?: string
   projectName?: string
   excludeProjectAddress?: `0x${string}`[]
+  chainId?: number
 }
 
 export default function useContentfulProjectListByStatus({
@@ -18,6 +19,7 @@ export default function useContentfulProjectListByStatus({
   projectAddress,
   projectName,
   status,
+  chainId = 1,
   pagination = { first: 10, skip: 0 },
   excludeProjectAddress
 }: useContentfulProjectListByStatusProps) {
@@ -36,7 +38,8 @@ export default function useContentfulProjectListByStatus({
         skip: pagination.skip,
         walletContains: projectAddress || null,
         nameContains: projectName || null,
-        walletNotIn: excludeProjectAddress || null
+        walletNotIn: excludeProjectAddress || null,
+        chainId: chainId ? [chainId.toString()] : null
       },
       client: contentfulClient
     }

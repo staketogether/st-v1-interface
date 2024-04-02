@@ -1,5 +1,5 @@
-import { BrlaBuyEthStep, kycIdVar, kycLevelVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
-import useKycCreate, { KycCreate, KycLevel, KycPayload, TypeAccount } from '@/hooks/ramp/useKycCreate'
+import { BrlaBuyEthStep, kycIdVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import useKycCreate, { KycCreate, KycPayload, TypeAccount } from '@/hooks/ramp/useKycCreate'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -31,25 +31,15 @@ export default function KycStep() {
     }
   })
 
-  const handleSuccess = (data: KycLevel) => {
+  const handleSuccess = (data: { id?: string }) => {
     if (data?.id) {
       kycIdVar(data?.id)
       stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
     }
-
-    if (data.level > 0) {
-      kycLevelVar(data)
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
-    }
   }
-  const handleError = (msg: string) => {
-    if (msg.includes('backend.error.kyc_invalid')) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.Error)
-      return
-    }
+  const handleError = () => {
     setError('email', { type: 'invalid', message: t('v2.createProject.formMessages.invalidEmail') })
     setError('cpfOrCnpj', { type: 'invalid', message: t('v2.createProject.formMessages.invalidCpf') })
-    setError('birthDate', { type: 'invalid', message: t('v2.createProject.formMessages.invalidBirthday') })
   }
   const { mutate, isLoading } = useKycCreate('brla', address, formData, handleSuccess, handleError)
 
@@ -136,7 +126,7 @@ export default function KycStep() {
       <Container>
         <SwapInfo />
 
-        <h2>{t('v2.ramp.kyc.title')}</h2>
+        <h2>{t('v2.ramp.checkOut')}</h2>
         <span>{t('v2.ramp.kyc.description')}</span>
 
 
@@ -231,7 +221,7 @@ export default function KycStep() {
           value={birthDay}
           onChange={(event: ChangeEvent<HTMLInputElement>) => handleMaskDate(event.target.value)}
           maxLength={10}
-          error={errors.birthDate?.message}
+          error={errors.cpfOrCnpj?.message}
           placeholder={'DD/MM/YYYY'}
         />
       </Container>

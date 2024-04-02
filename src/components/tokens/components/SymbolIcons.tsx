@@ -19,7 +19,7 @@ type SymbolIconsProps = {
 export default function SymbolIcons({ productSymbol, size, showPlusIcon, contractAddress }: SymbolIconsProps) {
   const productSymbolIcons = {
     stpETH: stIcon,
-    stpRETH: stpRETHIcon,
+    strETH: stpRETHIcon,
     stpPOL: stIcon,
     stpSOL: stIcon,
     stpTIA: stIcon,

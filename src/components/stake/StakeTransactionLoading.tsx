@@ -4,7 +4,6 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import etherscan from '@assets/icons/etherscan.svg'
-import sethIcon from '@assets/icons/seth-icon.svg'
 import Image from 'next/image'
 import { PiArrowRight, PiCheckCircle } from 'react-icons/pi'
 import styled from 'styled-components'
@@ -14,6 +13,7 @@ import LottieAnimation from '../shared/LottieAnimation'
 import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
 import { Product } from '@/types/Product'
 import SymbolIcons from '../tokens/components/SymbolIcons'
+import NetworkIcons from '../shared/NetworkIcons'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -82,13 +82,13 @@ export default function StakeTransactionLoading({
           {isWithdraw ? (
             <>
               <div>
-                <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
+                <SymbolIcons productSymbol={product.symbol} size={32} />
                 <span className={'purple'}>{`${amount}`}</span>
                 <span className={'purple'}>{t('lsd.symbol')}</span>
               </div>
               <ArrowIcon fontSize={18} />
               <div>
-                <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
+                <NetworkIcons network='ethereum' size={32} />
                 <span>{`${truncateWei(youReceive, 6)}`}</span>
                 <span>
                   {` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}
@@ -98,13 +98,13 @@ export default function StakeTransactionLoading({
           ) : (
             <>
               <div>
-                <Image src={ethIcon} alt={t('stakeTogether')} width={32} height={32} />
+                <NetworkIcons network='ethereum' size={32} />
                 <span>{`${amount}`}</span>
                 <span> {t('eth.symbol')}</span>
               </div>
               <ArrowIcon fontSize={18} />
               <div>
-                <Image src={sethIcon} alt={t('stakeTogether')} width={32} height={32} />
+                <SymbolIcons productSymbol={product.symbol} size={32} />
                 <span className={'purple'}>{`${truncateWei(youReceive, 6)}`}</span>
                 <span className={'purple'}> {product.symbol}</span>
               </div>

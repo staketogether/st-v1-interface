@@ -6,7 +6,7 @@ import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import { Product } from '@/types/Product'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 
 type EthereumInputProps = {
@@ -32,6 +32,7 @@ export default function EthereumInput({
 }: EthereumInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
+  const inputRef = useRef<HTMLInputElement>(null)
 
   function handleChangeValue(value: string) {
     if (value.includes(',')) {
@@ -44,8 +45,14 @@ export default function EthereumInput({
     }
   }
 
+  function handleFocusInput() {
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }
+
   return (
-    <InputContent>
+    <InputContent onClick={handleFocusInput}>
       <div>
         {balanceLoading ? (
           <SkeletonLoading width={120} />
@@ -68,6 +75,7 @@ export default function EthereumInput({
           </span>
         </CoinActionContainer>
         <input
+          ref={inputRef}
           type='text'
           value={ethAmountValue}
           onChange={e => handleChangeValue(e.target.value)}

@@ -1,101 +1,96 @@
-import { CHAIN_NAMESPACES } from '@web3auth/base'
-import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider'
-import { Web3AuthNoModal } from '@web3auth/no-modal'
-import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
 import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
+import { Web3AuthNoModal } from '@web3auth/no-modal'
+import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider'
+import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
+import { CHAIN_NAMESPACES, UX_MODE, WEB3AUTH_NETWORK } from '@web3auth/base'
 import * as ChainConfig from 'viem/chains'
-import stSymbol from '@assets/st-symbol.svg'
-import { TorusWalletConnectorPlugin } from '@web3auth/torus-wallet-connector-plugin'
+import { WalletServicesPlugin } from '@web3auth/wallet-services-plugin'
+import { makeVar } from '@apollo/client'
 
-const iconUrl = stSymbol
+const handleRpcPerChain = (chainId: number) => {
+  const alchemyKey: { [key: number]: string } = {
+    1: process.env.NEXT_PUBLIC_RPC_MAINNET_URL as string,
+    10: process.env.NEXT_PUBLIC_RPC_OPTIMISM_URL as string,
+    17000: process.env.NEXT_PUBLIC_RPC_HOLESKY_URL as string,
+    11155420: process.env.NEXT_PUBLIC_RPC_OPTIMISM_SEPOLIA_URL as string
+  }
 
-export default function Web3AuthConnectorInstance(chains: ChainConfig.Chain[]) {
+  return alchemyKey[chainId] || ''
+}
+
+export const web3AuthInstanceVar = makeVar<Web3AuthNoModal | undefined>(undefined)
+
+export default function Web3AuthConnectorInstances(chains: ChainConfig.Chain[]) {
   const chainConfig = {
     chainNamespace: CHAIN_NAMESPACES.EIP155,
     chainId: '0x' + chains[0].id.toString(16),
-    rpcTarget: chains[0].rpcUrls.default.http[0],
+    rpcTarget: handleRpcPerChain(chains[0].id),
     displayName: chains[0].name,
     tickerName: chains[0].nativeCurrency?.name,
     ticker: chains[0].nativeCurrency?.symbol,
     blockExplorer: chains[0].blockExplorers?.default.url[0] as string
   }
 
+  const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } })
+
   const web3AuthInstance = new Web3AuthNoModal({
     clientId: chains[0].testnet
       ? String(process.env.NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID)
       : String(process.env.NEXT_PUBLIC_WEB3_AUTH_ID),
     chainConfig,
-    web3AuthNetwork: chains[0].testnet ? 'sapphire_devnet' : 'sapphire_mainnet'
+    privateKeyProvider,
+    web3AuthNetwork: chains[0].testnet ? WEB3AUTH_NETWORK.SAPPHIRE_DEVNET : WEB3AUTH_NETWORK.SAPPHIRE_MAINNET,
+    enableLogging: true,
+    uiConfig: {
+      mode: 'dark',
+      useLogoLoader: true,
+      logoLight: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+      logoDark: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+      defaultLanguage: 'en',
+      theme: {
+        primary: '#768729'
+      }
+    }
   })
 
-  const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } })
-
   const openloginAdapterInstance = new OpenloginAdapter({
-    privateKeyProvider,
     adapterSettings: {
-      network: chains[0].testnet ? 'testnet' : 'mainnet',
-      uxMode: 'redirect',
-      whiteLabel: {
-        logoLight: iconUrl,
-        logoDark: iconUrl,
-        defaultLanguage: 'pt'
-      }
+      uxMode: UX_MODE.REDIRECT
     }
   })
   web3AuthInstance.configureAdapter(openloginAdapterInstance)
-  const torusPlugin = new TorusWalletConnectorPlugin({
-    torusWalletOpts: {
-      buttonPosition: 'bottom-left',
-      buttonSize: 40
-    },
+
+  const walletServicesPlugin = new WalletServicesPlugin({
     walletInitOptions: {
       whiteLabel: {
-        theme: {
-          isDark: false,
-          colors: {
-            primary: '#283B8A',
-            torusBrand1: '#283B8A'
-          }
-        },
-        logoDark: iconUrl,
-        logoLight: iconUrl,
-        featuredBillboardHide: true,
-        disclaimerHide: true,
-        defaultLanguage: 'en'
-      },
-      useWalletConnect: true,
-      enableLogging: true
+        showWidgetButton: true
+      }
     }
   })
-  web3AuthInstance.addPlugin(torusPlugin)
+  web3AuthInstance.addPlugin(walletServicesPlugin)
 
-  return [
-    new Web3AuthConnector({
-      chains: chains,
-      options: {
-        web3AuthInstance,
-        loginParams: {
-          loginProvider: 'google'
-        }
-      }
-    }),
-    new Web3AuthConnector({
-      chains: chains,
-      options: {
-        web3AuthInstance,
-        loginParams: {
-          loginProvider: 'facebook'
-        }
-      }
-    }),
-    new Web3AuthConnector({
-      chains: chains,
-      options: {
-        web3AuthInstance,
-        loginParams: {
-          loginProvider: 'apple'
-        }
-      }
-    })
-  ]
+  web3AuthInstance.init().then(() => web3AuthInstanceVar(web3AuthInstance))
+
+  const googleConnector = Web3AuthConnector({
+    web3AuthInstance,
+    loginParams: {
+      loginProvider: 'google'
+    }
+  })
+
+  const facebookConnector = Web3AuthConnector({
+    web3AuthInstance,
+    loginParams: {
+      loginProvider: 'facebook'
+    }
+  })
+
+  const appleConnector = Web3AuthConnector({
+    web3AuthInstance,
+    loginParams: {
+      loginProvider: 'apple'
+    }
+  })
+
+  return { connectors: [googleConnector, facebookConnector, appleConnector], web3AuthInstance }
 }
