@@ -1,31 +1,30 @@
 import Button from '@/components/shared/Button'
-import React, { useCallback, useEffect, useState } from 'react'
-import { PiArrowLineRight, PiArrowsCounterClockwise, PiQuestion, PiWarningOctagon } from 'react-icons/pi'
-import styled from 'styled-components'
-import EthereumInput from './EthereumInput'
-import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
-import { formatNumberByLocale } from '@/services/format'
-import { truncateWei } from '@/services/truncate'
-import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
-import { useRouter } from 'next/router'
-import { useAccount, useSwitchChain } from 'wagmi'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import { chainConfigByChainId } from '@/config/chain'
-import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
-import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
-import { WithdrawType } from '@/types/Withdraw'
-import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValidatorBalance'
-import StakeWithdrawSwitchTypes from '@/components/stake/StakeWithdrawSwitchTypes'
-import { useDebounce } from 'usehooks-ts'
-import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
-import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
-import { ethers } from 'ethers'
 import StakeConfirmModal from '@/components/stake/StakeConfirmModal'
 import StakeWithdrawCounter from '@/components/stake/StakeWithdrawCounter'
-import { Tooltip } from 'antd'
-import EthereumDescription from './EthereumDescription'
+import StakeWithdrawSwitchTypes from '@/components/stake/StakeWithdrawSwitchTypes'
+import { chainConfigByChainId } from '@/config/chain'
+import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
+import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
+import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
+import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
+import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValidatorBalance'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
+import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import { formatNumberByLocale } from '@/services/format'
+import { truncateWei } from '@/services/truncate'
 import { Product } from '@/types/Product'
+import { WithdrawType } from '@/types/Withdraw'
+import { Tooltip } from 'antd'
+import { ethers } from 'ethers'
+import { useRouter } from 'next/router'
+import { useCallback, useEffect, useState } from 'react'
+import { PiArrowLineRight, PiArrowsCounterClockwise, PiQuestion, PiWarningOctagon } from 'react-icons/pi'
+import styled from 'styled-components'
+import { useDebounce } from 'usehooks-ts'
+import { useAccount, useSwitchChain } from 'wagmi'
+import EthereumInput from './EthereumInput'
+import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
 
 type EthereumWithdrawProps = {
   type: 'deposit' | 'withdraw'
@@ -311,8 +310,6 @@ export default function EthereumWithdraw({
             <StakeWithdrawCounter withdrawTimeLeft={withdrawTimeLeft} />
           </CardBlock>
         )}
-
-        <EthereumDescription product={product} />
       </Container>
       <StakeConfirmModal
         amount={amount}
