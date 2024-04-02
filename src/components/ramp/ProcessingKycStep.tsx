@@ -55,6 +55,7 @@ export default function ProcessingKycStep() {
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
         amount: Number(quote.amountBrl),
+        amountToken: quote.amountToken,
         accountAddress: address,
         receiverAddress: address
       })
