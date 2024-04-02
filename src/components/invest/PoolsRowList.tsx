@@ -3,14 +3,14 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import { truncateWei } from '@/services/truncate'
 import { Pool } from '@/types/Pool'
+import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
+import { PiGlobeSimple, PiInstagramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
 import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import { PiGlobeSimple, PiInstagramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
-import { Tooltip } from 'antd'
 
 type PoolsRowListProps = {
   pool: Pool
@@ -52,20 +52,6 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
             <Text className='blue'>{t('eth.symbol')}</Text>
           </Text>
           <Social>
-            {pool?.instagram && (
-              <Tooltip title={pool.instagram}>
-                <Social href={`https://www.instagram.com/${pool.instagram}`} target='_blank'>
-                  <InstagramIcon />
-                </Social>
-              </Tooltip>
-            )}
-            {pool?.youtube && (
-              <Tooltip title={pool.youtube}>
-                <Social href={`https://www.youtube.com/${pool.youtube}`} target='_blank'>
-                  <YoutubeIcon />
-                </Social>
-              </Tooltip>
-            )}
             {pool?.site && (
               <Tooltip title={handleProjectSite()}>
                 <Social href={handleProjectSite()} target='_blank'>
@@ -77,6 +63,20 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
               <Tooltip title={pool.twitter}>
                 <Social href={`https://twitter.com/${pool.twitter}`} target='_blank'>
                   <TwitterIcon />
+                </Social>
+              </Tooltip>
+            )}
+            {pool?.instagram && (
+              <Tooltip title={pool.instagram}>
+                <Social href={`https://www.instagram.com/${pool.instagram}`} target='_blank'>
+                  <InstagramIcon />
+                </Social>
+              </Tooltip>
+            )}
+            {pool?.youtube && (
+              <Tooltip title={pool.youtube}>
+                <Social href={`https://www.youtube.com/${pool.youtube}`} target='_blank'>
+                  <YoutubeIcon />
                 </Social>
               </Tooltip>
             )}

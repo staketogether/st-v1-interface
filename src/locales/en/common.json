@@ -74,7 +74,7 @@
   "buyCryptoTitle": "Buy Ether",
   "sellCryptoTitle": "Sell Ether",
   "genericErrorMessage": "Sorry! Something went wrong. Please try again",
-  "selectProduct": "Select project",
+  "selectProduct": "Select Product",
   "estimatedBalance": "Estimated Balance",
   "investments": "Investments",
   "time": {
@@ -534,7 +534,7 @@
       "availableForDistribution": "Amount available for distribution",
       "availableForDistributionTooltip": "Project reward's distribution",
       "labelButton": "Update Delegations",
-      "listPoolsModalTitle": "Select projects",
+      "listPoolsModalTitle": "Select Projects",
       "transactionMessages": {
         "transactionTitle": "Review Update Request",
         "successful": "Delegations updated successfully",
