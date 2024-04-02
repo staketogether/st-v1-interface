@@ -143,6 +143,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
           <span>{t('v2.pools.list.type')}</span>
           <span>{t('v2.pools.list.people')}</span>
           <span>{t('v2.pools.list.invested')}</span>
+          <span>Media</span>
         </header>
         {!poolsFilterBySearch.length && (
           <PoolsEmptyState handleClickButton={clearFilter} key='pool-row-empty' />
@@ -227,7 +228,7 @@ const { Container, ListPools, FiltersContainer, Filters, FilterButton, CreatePro
 
     > header {
       display: none;
-      grid-template-columns: 0.9fr 0.7fr 0.5fr 0.7fr;
+      grid-template-columns: 0.7fr 0.5fr 0.5fr 0.4fr 0.4fr;
       gap: 8px;
       align-items: center;
       padding: 0 16px;

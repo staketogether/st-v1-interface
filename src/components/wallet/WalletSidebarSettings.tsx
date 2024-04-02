@@ -17,7 +17,7 @@ export default function WalletSidebarSettings({
   const { t } = useLocaleTranslation()
 
   const router = useRouter()
-  const { currency, network } = router.query
+  const { currency } = router.query
   const { setItem } = useLocalStorage()
 
   const changeLocale = (newLocale: string) => {
@@ -35,14 +35,6 @@ export default function WalletSidebarSettings({
     },
     [router, setItem]
   )
-
-  const changeNetwork = (newNetwork: string) => {
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, network: newNetwork }
-    })
-    setItem('network', newNetwork)
-  }
 
   return (
     <>
@@ -79,19 +71,6 @@ export default function WalletSidebarSettings({
           <span>BRL</span>
           {currency === 'brl' && <CheckedIcon />}
         </div>
-      </SettingContainer>
-      <SettingContainer>
-        <h3>{t('settings.network')}</h3>
-        <div onClick={() => changeNetwork('mainnet')} className={`${network === 'mainnet' ? 'active' : ''}`}>
-          <span>Mainnet</span>
-          {network === 'mainnet' && <CheckedIcon />}
-        </div>
-        {/* 
-          <div onClick={() => changeNetwork('goerli')} className={`${network === 'goerli' ? 'active' : ''}`}>
-            <span>Goerli</span>
-            {network === 'goerli' && <CheckedIcon />}
-          </div>
-        */}
       </SettingContainer>
     </>
   )

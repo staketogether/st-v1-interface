@@ -8,7 +8,6 @@
   "projects": "Projetos",
   "portfolio": "Portfólio",
   "stake": "Depositar",
-  "time": "Tempo",
   "next": "Avançar",
   "close": "Fechar",
   "goToBack": "Voltar",
@@ -78,6 +77,15 @@
   "selectProduct": "Selecione o Produto",
   "estimatedBalance": "Saldo Estimado",
   "investments": "Investimentos",
+  "time": {
+    "days": "Dias",
+    "day": "Dia",
+    "hours": "Horas",
+    "hour": "Hora",
+    "minutes": "Minutos",
+    "minute": "Minuto",
+    "seconds": "Segundos"
+  },
   "eth": {
     "name": "Ether",
     "symbol": "ETH"
