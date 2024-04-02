@@ -124,6 +124,7 @@ export default function StakeConfirmModal({
             amount={amount}
             type={type}
             product={product}
+            chainId={chainId}
             youReceiveDeposit={youReceive}
             withdrawTypeSelected={withdrawTypeSelected}
           />

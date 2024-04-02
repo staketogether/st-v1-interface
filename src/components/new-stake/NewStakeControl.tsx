@@ -90,7 +90,7 @@ const { Container, ActionContainer, HeaderBackAction, LoadingContainer } = {
     opacity: 0.6;
     cursor: pointer;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      position: fixed;
+      position: absolute;
       margin-top: -39px;
     }
   `,

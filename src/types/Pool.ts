@@ -29,4 +29,6 @@ export type Pool = {
   youtube?: string
   instagram?: string
   twitter?: string
+  discord?: string
+  discordName?: string
 } & PoolSubgraph
