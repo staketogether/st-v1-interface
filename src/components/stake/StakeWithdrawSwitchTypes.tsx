@@ -179,7 +179,7 @@ const { Container, Card, RateInfo, PoolIcon, ValidatorsIcon, QuestionIcon } = {
     display: flex;
     flex-direction: column;
     gap: 8px;
-
+    font-size: 12px !important;
     > div {
       display: flex;
       justify-content: space-between;
@@ -193,7 +193,7 @@ const { Container, Card, RateInfo, PoolIcon, ValidatorsIcon, QuestionIcon } = {
       }
 
       span {
-        font-size: 12px;
+        font-size: 12px !important;
         font-weight: 400;
         color: ${({ theme }) => theme.colorV2.gray[1]};
         line-height: 12px;

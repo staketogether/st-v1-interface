@@ -21,7 +21,6 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   const { chain: walletChainId } = useAccount()
 
   const { web3AuthUserInfo } = useConnectedAccount()
-  // console.log({ web3AuthUserInfo })
   const { name: ensName, nameLoading: ensLoading } = useEns(address, walletChainId?.id || Networks.Mainnet)
 
   const handleActionButton = () => {
@@ -60,8 +59,8 @@ const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
     width: auto;
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme }) => theme.color.primary};
-    background-color: ${({ theme }) => theme.colorV2.gray[2]};
+    color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.colorV2.blue[1]};
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
     padding: 0px ${({ theme }) => theme.size[8]} 0px ${({ theme }) => theme.size[16]};
@@ -69,7 +68,7 @@ const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
     box-shadow: ${({ theme }) => theme.shadow[200]};
 
     &:hover {
-      background-color: ${({ theme }) => theme.colorV2.foreground};
+      background-color: ${({ theme }) => theme.colorV2.purple[1]};
     }
 
     &.wrongNetwork {

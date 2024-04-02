@@ -1,18 +1,18 @@
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
+import chainConfig from '@/config/chain'
+import { globalConfig } from '@/config/global'
+import { productList } from '@/config/product'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import useResizeView from '@/hooks/useResizeView'
-import packageData from '../../../../package.json'
 import { Drawer } from 'antd'
+import { useRouter } from 'next/router'
 import { PiArrowSquareOut, PiCaretRight, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
+import packageData from '../../../../package.json'
 import { ProjectButton } from '../../project/ProjectButton'
-import { useRouter } from 'next/router'
-import chainConfig from '@/config/chain'
-import { globalConfig } from '@/config/global'
-import { productList } from '@/config/product'
 type LayoutSidebarMobileMenuProps = {
   account?: `0x${string}`
 }
@@ -39,9 +39,9 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
   const { websiteUrl, auditUrl } = globalConfig
   const documentationUrl = locale
     ? locale === 'en'
-      ? globalConfig.stakeTogetherUniversityUrlEn
-      : globalConfig.stakeTogetherUniversityUrlBr
-    : globalConfig.stakeTogetherUniversityUrlEn
+      ? globalConfig.docsEn
+      : globalConfig.docsPt
+    : globalConfig.docsEn
 
   return (
     <>

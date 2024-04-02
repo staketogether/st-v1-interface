@@ -1,10 +1,12 @@
+import { globalConfig } from '@/config/global'
 import { config } from '@/config/wagmi'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
-import React, { useState } from 'react'
+import Image from 'next/image'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
-import Image from 'next/image'
 
 type ConnectWalletProps = {
   useModal?: boolean
@@ -17,16 +19,22 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
     config
   })
 
+  const { i18n } = useTranslation(['common'])
+
   const { t } = useLocaleTranslation()
 
   const handleConnectorImage = useWalletProviderImage()
 
   function handleTermsAndConditionsExternalLink() {
-    return 'https://university.staketogether.org/en/articles/8646463-terms-and-conditions'
+    if (i18n.language === 'pt') return globalConfig.termsPt
+
+    return globalConfig.termsEn
   }
 
   function handlePrivacyPolicyExternalLink() {
-    return 'https://university.staketogether.org/en/articles/8646517-privacy-policy'
+    if (i18n.language === 'pt') return globalConfig.privacyPt
+
+    return globalConfig.privacyEn
   }
 
   const handleConnectorIndex = (index: number) => {
@@ -70,7 +78,7 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
               onClick={() => hasAgreeTerms && connect({ connector })}
             >
               {connector.icon ? (
-                <Image src={connector.icon} alt={'Safe'} width={28} height={28} />
+                <Image src={connector.icon} alt={connector.name} width={24} height={24} objectFit='fill' />
               ) : (
                 handleConnectorImage(walletName)
               )}
@@ -122,6 +130,7 @@ const { Container, ContainerWalletConnect, Terms } = {
 
       img {
         border-radius: 100%;
+        box-shadow: ${({ theme }) => theme.shadow[100]};
       }
 
       &.disabled {

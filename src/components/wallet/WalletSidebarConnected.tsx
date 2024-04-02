@@ -18,11 +18,11 @@ import {
 import styled from 'styled-components'
 import { useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
-import useStAccount from './hooks/useStAccount'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 import { formatNumberByLocale } from '../../services/format'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
+import useStAccount from './hooks/useStAccount'
 
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
@@ -32,14 +32,14 @@ import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 
-import WalletSidebarSettings from './WalletSidebarSettings'
-import Withdrawals from '../shared/Withdrawals'
 import chainConfig, { Networks } from '@/config/chain'
-import AssetIcon from '../shared/AssetIcon'
-import useCoinConversion from '@/hooks/useCoinConversion'
-import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
-import NetworkProductIcons from '../tokens/components/StakingIcons'
 import { productList } from '@/config/product'
+import useCoinConversion from '@/hooks/useCoinConversion'
+import AssetIcon from '../shared/AssetIcon'
+import Withdrawals from '../shared/Withdrawals'
+import NetworkProductIcons from '../tokens/components/StakingIcons'
+import WalletSidebarSettings from './WalletSidebarSettings'
+import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -85,7 +85,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountProfitPercentage: stakeAccountProfitPercentage,
     accountIsLoading: stakeAccountIsLoading,
     accountShare: stakeAccountShare
-  } = useStAccount({ address: address, productName: 'ethereum-stake', chainId: Networks.holesky })
+  } = useStAccount({ address: address, productName: 'ethereum-stake', chainId: Networks.Mainnet })
   const stpETHAccountBalance = truncateWei(stakeAccountBalance, 6)
 
   const { priceConvertedValue: usdStpETHBalance } = useCoinConversion(stpETHAccountBalance)
@@ -98,7 +98,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountProfitPercentage: restakingAccountProfitPercentage,
     accountIsLoading: restakingAccountIsLoading,
     accountShare: restakingAccountShare
-  } = useStAccount({ address: address, productName: 'ethereum-restaking', chainId: Networks.OptimismSepolia })
+  } = useStAccount({ address: address, productName: 'ethereum-restaking', chainId: Networks.optimism })
   const stpRETHAccountBalance = formatNumberByLocale(truncateWei(restakingAccountBalance, 5), locale)
   const { priceConvertedValue: usdStpRETHBalance } = useCoinConversion(stpRETHAccountBalance)
 
@@ -242,14 +242,14 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             </Actions>
           </HeaderContainer>
           <EstimatedBalanceContainer>
-            <span>Estimated balance</span>
+            <span>{t('estimatedBalance')}</span>
             <span>{usdTotalBalance}</span>
           </EstimatedBalanceContainer>
           <Card
             header={
               <AssetHeaderCard>
-                <span>Assets</span>
-                <span>Balance</span>
+                <span>{t('assets')}</span>
+                <span>{t('balance')}</span>
               </AssetHeaderCard>
             }
           >
@@ -289,9 +289,9 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           <Card
             header={
               <AssetInvestmentCard>
-                <span>Investments</span>
-                <span>Rewards</span>
-                <span>Invested</span>
+                <span>{t('investments')}</span>
+                <span>{t('rewards')}</span>
+                <span>{t('invested')}</span>
               </AssetInvestmentCard>
             }
           >
@@ -335,7 +335,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             header={
               <HeaderTabContainer>
                 <div>
-                  <span>{t('selectProject')}</span>
+                  <span>{t('selectProduct')}</span>
                   <Select
                     defaultValue='ethereum-stake'
                     style={{ width: '100%', height: '40px' }}
@@ -452,7 +452,7 @@ const {
     border-radius: 8px;
     padding: 4px 8px;
 
-    background: ${({ theme }) => theme.colorV2.white};
+    background: ${({ theme }) => theme.colorV2.blue[1]};
     border-radius: 8px;
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
@@ -570,11 +570,9 @@ const {
     display: flex;
     align-items: center;
     gap: 6px;
-
-    &:hover {
-      svg {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-      }
+    color: ${({ theme }) => theme.color.white};
+    svg {
+      color: ${({ theme }) => theme.color.foreground};
     }
   `,
   PoolsIcon: styled(PiChartPieSlice)`
@@ -758,15 +756,15 @@ const {
   HeaderTabHeader: styled.div`
     width: 100%;
     height: 48px;
-    display: grid;
     padding: 0px 12px;
-    align-items: center;
-    justify-content: space-between;
     border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
     border-radius: 8px 8px 0 0;
 
     display: flex;
-    gap: ${({ theme }) => theme.size[24]};
+    align-items: center;
+    justify-content: space-between;
+    gap: ${({ theme }) => theme.size[4]};
+
     align-items: center;
     div {
       height: 100%;

@@ -1,4 +1,4 @@
-import NetworkIcons from '@/components/shared/NetworkIcons'
+import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import SymbolIcons from '@/components/tokens/components/SymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -6,7 +6,7 @@ import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
 import { Product } from '@/types/Product'
 import { useRouter } from 'next/router'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import styled from 'styled-components'
 
 type EthereumInputProps = {
@@ -33,6 +33,7 @@ export default function EthereumInput({
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
+  const containerHeaderRef = useRef<HTMLDivElement>(null)
 
   function handleChangeValue(value: string) {
     if (value.includes(',')) {
@@ -51,21 +52,33 @@ export default function EthereumInput({
     }
   }
 
+  function handleFocusContainer() {
+    if (containerHeaderRef.current) {
+      containerHeaderRef.current.classList.add('active')
+    }
+  }
+
+  function handleBlurContainer() {
+    if (containerHeaderRef.current) {
+      containerHeaderRef.current.classList.remove('active')
+    }
+  }
+
   return (
-    <InputContent onClick={handleFocusInput}>
+    <InputContent onClick={handleFocusInput} ref={containerHeaderRef}>
       <div>
         {balanceLoading ? (
           <SkeletonLoading width={120} />
         ) : (
           <span>{`Balance: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${
-            type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')
+            type === 'deposit' ? t('eth.symbol') : product.symbol
           }`}</span>
         )}
       </div>
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <NetworkIcons network='ethereum' size={32} />
+            <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
           ) : (
             <SymbolIcons productSymbol={product.symbol} size={32} />
           )}
@@ -80,6 +93,8 @@ export default function EthereumInput({
           value={ethAmountValue}
           onChange={e => handleChangeValue(e.target.value)}
           placeholder='0'
+          onFocus={handleFocusContainer}
+          onBlur={handleBlurContainer}
           className={`${hasError && 'error'}`}
         />
       </div>
@@ -95,11 +110,21 @@ const { InputContent, CoinActionContainer } = {
     gap: ${({ theme }) => theme.size[16]};
     padding: 16px;
     border-radius: ${({ theme }) => theme.size[8]};
-    background-color: ${({ theme }) => theme.colorV2.gray[2]};
+    background-color: ${({ theme }) => theme.colorV2.white};
+    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+    cursor: text;
 
     &.stpETH {
       background-color: transparent;
       border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+    }
+
+    &:hover {
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+    }
+
+    &.active {
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
     }
 
     div {
@@ -117,7 +142,7 @@ const { InputContent, CoinActionContainer } = {
         border: none;
         outline: none;
         background: none;
-        color: ${({ theme }) => theme.colorV2.gray[6]};
+        color: ${({ theme }) => theme.colorV2.gray[1]};
         font-size: ${({ theme }) => theme.font.size[22]};
         line-height: 24px;
         height: 24px;

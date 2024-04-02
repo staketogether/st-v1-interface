@@ -34,10 +34,10 @@ export default function useCoinUsdToUserCurrency() {
   const handleQuotePrice = useCallback(
     (amount: number) => {
       if (!isNaN(amount) && userCurrencyFromUsd && !isNaN(userCurrencyFromUsd[currency.toUpperCase()])) {
-        return FormatValue(
-          amount * userCurrencyFromUsd[currency.toUpperCase()],
-          currency.toUpperCase()
-        ).replace('US$', '$')
+        return FormatValue(amount * userCurrencyFromUsd[currency.toUpperCase()], currency.toUpperCase())
+          .replace('US$', '$')
+          .replace('$', '$ ')
+          .replace('$  ', '$ ')
       } else {
         return 0
       }

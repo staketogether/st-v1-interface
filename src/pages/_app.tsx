@@ -15,10 +15,10 @@ import { SWRConfig } from 'swr'
 import { WagmiProvider } from 'wagmi'
 import { ethereumMainnetClient } from '../config/apollo'
 import validEnv from '../config/env'
-import { config } from '../config/wagmi'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { config } from '@/config/wagmi'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()

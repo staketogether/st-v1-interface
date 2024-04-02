@@ -15,11 +15,10 @@ import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { PiArrowDown, PiArrowLineRight, PiArrowsCounterClockwise } from 'react-icons/pi'
+import { PiArrowLineRight, PiArrowsCounterClockwise } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount, useSwitchChain } from 'wagmi'
-import EthereumDescription from './EthereumDescription'
 import EthereumInput from './EthereumInput'
 import EthereumProjectSelect from './EthereumProjectSelect'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
@@ -55,7 +54,7 @@ export default function EthereumDeposit({
 
   const [poolDelegatedSelected, setPoolDelegatedSelected] = useState<`0x${string}`>(stakeTogetherPool)
   const { t } = useLocaleTranslation()
-  const { locale, push, pathname, query } = useRouter()
+  const { locale, query } = useRouter()
 
   useEffect(() => {
     if (query.projectAddress) {
@@ -167,33 +166,22 @@ export default function EthereumDeposit({
 
   const handleSwitchDelegation = (value: boolean) => {
     if (!value) {
-      const updatedQuery = { ...query }
-      if (updatedQuery.projectAddress) {
-        delete updatedQuery.projectAddress
-      }
-
-      push(
-        {
-          pathname: pathname,
-          query: updatedQuery
-        },
-        undefined,
-        { shallow: true }
-      )
-      setPoolDelegatedSelected(stakeTogetherPool)
+      handleAddProjectOnRoute(stakeTogetherPool)
     }
     setIsActivatedDelegation(value)
   }
 
   const handleAddProjectOnRoute = (projectAddress: `0x${string}`) => {
-    push(
-      {
-        pathname: pathname,
-        query: { ...query, projectAddress }
-      },
-      undefined,
-      { shallow: true }
-    )
+    if (window.history && window.history.replaceState) {
+      const newUrl = new URL(window.location.href)
+      if (projectAddress.toLocaleLowerCase() === stakeTogetherPool.toLocaleLowerCase()) {
+        newUrl.searchParams.delete('projectAddress')
+      } else {
+        newUrl.searchParams.set('projectAddress', projectAddress)
+      }
+      window.history.replaceState({ path: newUrl.href }, '', newUrl.href)
+      setPoolDelegatedSelected(projectAddress)
+    }
   }
 
   return (
@@ -212,9 +200,7 @@ export default function EthereumDeposit({
             balanceLoading={ethBalanceLoading}
             onMaxFunction={handleInputMaxValue}
           />
-          <DividerBox>
-            <PiArrowDown style={{ fontSize: 16 }} />
-          </DividerBox>
+
           <EthereumShowReceiveCoin
             amountValue={formatNumberByLocale(truncateWei(youReceiveDeposit, 5), locale)}
             balance={stpETHBalance}
@@ -252,7 +238,6 @@ export default function EthereumDeposit({
             icon={<ConnectWalletIcon />}
           />
         )}
-        <EthereumDescription product={product} />
       </Container>
       <StakeConfirmModal
         amount={amount}
@@ -273,7 +258,7 @@ export default function EthereumDeposit({
   )
 }
 
-const { Container, InputContainer, DividerBox, ConnectWalletIcon, WrongNetworkIcon } = {
+const { Container, InputContainer, ConnectWalletIcon, WrongNetworkIcon } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
@@ -285,20 +270,6 @@ const { Container, InputContainer, DividerBox, ConnectWalletIcon, WrongNetworkIc
     justify-content: center;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
-  `,
-  DividerBox: styled.div`
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: ${({ theme }) => theme.size[8]};
-    margin-top: -16px;
-    margin-bottom: -16px;
-    border-radius: 50%;
-    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
-    background-color: ${({ theme }) => theme.colorV2.white};
-    z-index: 2;
   `,
   ConnectWalletIcon: styled(PiArrowLineRight)`
     font-size: 16px;
