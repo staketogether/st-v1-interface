@@ -6,14 +6,14 @@ import dynamic from 'next/dynamic'
 import ProductInfo from './ProductInfo'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { PiArrowLeft } from 'react-icons/pi'
+import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
 import LottieAnimation from '../shared/LottieAnimation'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import { useAccount, useSwitchChain } from 'wagmi'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import NetworkIcons from '../shared/NetworkIcons'
 import { capitalize } from '@/services/truncate'
-import { Tooltip } from 'antd'
+import { Tooltip, notification } from 'antd'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -41,12 +41,24 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   const { chain: walletChainId } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
+  const router = useRouter()
 
   useEffect(() => {
     if (isWrongNetwork) {
       switchChain({ chainId })
     }
   }, [chainId, isWrongNetwork, switchChain])
+
+  const copyToClipboard = async () => {
+    const url = `${window.location.origin}${router.asPath}`
+
+    await navigator.clipboard.writeText(url)
+
+    notification.info({
+      message: `${t('copyClipboard')}`,
+      placement: 'topRight'
+    })
+  }
 
   return (
     <Container>
@@ -59,6 +71,10 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
           <div>
             <NetworkProductIcons stakingProduct={product.name} size={36} />
             {t(`v2.products.${product.name}`)}
+            <ShareButton onClick={copyToClipboard}>
+              <PiShareNetwork />
+              <span>{t('share')}</span>
+            </ShareButton>
           </div>
           <div>
             <span>{t('v2.ethereumStaking.networkAvailable')}</span>
@@ -103,7 +119,8 @@ const {
   HeaderBackAction,
   LoadingContainer,
   TagPointsContainer,
-  HeaderProductMobile
+  HeaderProductMobile,
+  ShareButton
 } = {
   Container: styled.div`
     position: relative;
@@ -241,6 +258,25 @@ const {
     place-items: center;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       min-height: 524px;
+    }
+  `,
+  ShareButton: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
+    padding: 0px 8px;
+    cursor: pointer;
+    height: 24px;
+    background: ${({ theme }) => theme.colorV2.white};
+
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    color: ${({ theme }) => theme.colorV2.purple[1]};
+    font-weight: 400;
+    border-radius: ${({ theme }) => theme.size[8]};
+    font-size: ${({ theme }) => theme.font.size[13]};
+    svg {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
     }
   `
 }
