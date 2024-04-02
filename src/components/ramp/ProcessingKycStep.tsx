@@ -10,7 +10,7 @@ import {
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
-import useVerifyActivity from '@/hooks/ramp/useVerifyActivity'
+import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
@@ -32,7 +32,7 @@ export default function ProcessingKycStep() {
   const kycActivity = useReactiveVar(kycIdVar)
   const kyc = useReactiveVar(kycLevelVar)
   const kycActivityId = Number(kyc?.level || 0) > 0 || !kycActivity ? undefined : kycActivity
-  const { activity, isError } = useVerifyActivity(ProviderType.brla, kycActivityId ?? undefined)
+  const { activity, isError } = useRampActivity(ProviderType.brla, kycActivityId ?? undefined)
   const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc?.level ? undefined : address, true)
   const currentProductName = useReactiveVar(currentProductNameVar)
 
