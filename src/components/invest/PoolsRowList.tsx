@@ -5,7 +5,7 @@ import { truncateWei } from '@/services/truncate'
 import { Pool } from '@/types/Pool'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
-import { PiGlobeSimple, PiInstagramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
+import { PiDiscordLogo, PiGlobeSimple, PiInstagramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
 import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
@@ -66,6 +66,13 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
                 </Social>
               </Tooltip>
             )}
+            {pool?.discord && (
+              <Tooltip title={pool.discordName || pool.discord}>
+                <Social href={`https://discord.com/invite/${pool.discord}`} target='_blank'>
+                  <DiscordIcon />
+                </Social>
+              </Tooltip>
+            )}
             {pool?.instagram && (
               <Tooltip title={pool.instagram}>
                 <Social href={`https://www.instagram.com/${pool.instagram}`} target='_blank'>
@@ -87,7 +94,18 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
   )
 }
 
-const { Row, Name, TypeContainer, Text, Social, YoutubeIcon, TwitterIcon, SiteIcon, InstagramIcon } = {
+const {
+  Row,
+  Name,
+  TypeContainer,
+  Text,
+  Social,
+  DiscordIcon,
+  TwitterIcon,
+  SiteIcon,
+  InstagramIcon,
+  YoutubeIcon
+} = {
   Row: styled.div`
     display: none;
     height: 48px;
@@ -187,6 +205,11 @@ const { Row, Name, TypeContainer, Text, Social, YoutubeIcon, TwitterIcon, SiteIc
     }
   `,
   TwitterIcon: styled(PiTwitterLogo)`
+    width: 20px;
+    height: 20px;
+    color: ${({ theme }) => theme.color.primary};
+  `,
+  DiscordIcon: styled(PiDiscordLogo)`
     width: 20px;
     height: 20px;
     color: ${({ theme }) => theme.color.primary};

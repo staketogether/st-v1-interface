@@ -452,7 +452,7 @@ const {
     border-radius: 8px;
     padding: 4px 8px;
 
-    background: ${({ theme }) => theme.colorV2.white};
+    background: ${({ theme }) => theme.colorV2.blue[1]};
     border-radius: 8px;
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
@@ -570,11 +570,9 @@ const {
     display: flex;
     align-items: center;
     gap: 6px;
-
-    &:hover {
-      svg {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-      }
+    color: ${({ theme }) => theme.color.white};
+    svg {
+      color: ${({ theme }) => theme.color.foreground};
     }
   `,
   PoolsIcon: styled(PiChartPieSlice)`
