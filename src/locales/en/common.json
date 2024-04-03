@@ -345,7 +345,8 @@
         "InsufficientBeaconBalance": "Insufficient Beacon Balance",
         "WithdrawFromPool": "Withdraw From Pool",
         "ListedInAntiFraud": "Listed in Anti-Fraud",
-        "EarlyTransfer": "Blocked Withdrawal"
+        "EarlyTransfer": "Blocked Withdrawal",
+        "insufficientGasBalance":"Insufficient Balance For Gas"
       },
       "depositErrorMessage": {
         "FeatureDisabled": "Feature Disabled",
@@ -354,7 +355,8 @@
         "PoolNotFound": "Pool Not Found",
         "ZeroAmount": "Zero Supply",
         "useMaxButton": "Use Max Button",
-        "Panic": "Internal error"
+        "Panic": "Internal error",
+        "insufficientGasBalance":"Insufficient Balance For Gas"
       }
     },
     "activities": {

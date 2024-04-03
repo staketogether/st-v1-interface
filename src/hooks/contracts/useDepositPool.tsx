@@ -42,7 +42,7 @@ export default function useDepositPool(
   const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
   const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
   const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
-
+  console.log('depositEstimatedGas:', depositEstimatedGas)
   const { registerDeposit } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
   const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
@@ -66,7 +66,8 @@ export default function useDepositPool(
     contractAddress: StakeTogether,
     abi: stakeTogetherAbi,
     value: amountEstimatedGas,
-    skip: isDepositEstimatedGas && estimateGasCost > 0n
+    skip: isDepositEstimatedGas && estimateGasCost > 0n,
+    chainId: chainId
   })
 
   useEffect(() => {

@@ -16,9 +16,10 @@ type SymbolIconsProps = {
   assetIcon: Icon
   networkIcon: Network
   size: number
+  marginRight?: string | number
 }
 
-export default function AssetIcon({ assetIcon, size, networkIcon }: SymbolIconsProps) {
+export default function AssetIcon({ assetIcon, size, networkIcon, marginRight }: SymbolIconsProps) {
   const assetSymbolIcons = {
     stpETH: stIcon,
     strETH: stpRETHIcon,
@@ -50,7 +51,7 @@ export default function AssetIcon({ assetIcon, size, networkIcon }: SymbolIconsP
   }
 
   return (
-    <Warper size={size}>
+    <Wrapper style={{marginRight: marginRight ? marginRight : 'inherit' }} size={size}>
       <Image src={assetSymbolIcons[assetIcon]} width={size} height={size} alt={assetIcon} />
       <div>
         <Image
@@ -61,12 +62,12 @@ export default function AssetIcon({ assetIcon, size, networkIcon }: SymbolIconsP
           className='white-border'
         />
       </div>
-    </Warper>
+    </Wrapper>
   )
 }
 
-const { Warper } = {
-  Warper: styled.div<{ size: number }>`
+const { Wrapper } = {
+  Wrapper: styled.div<{ size: number }>`
     position: relative;
     cursor: pointer;
     width: ${({ size }) => `${size}px`};
