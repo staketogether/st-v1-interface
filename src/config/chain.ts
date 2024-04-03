@@ -52,7 +52,7 @@ const configs: ChainConfig[] = [
     name: 'optimism',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OPTIMISM_URL),
     blockExplorer: {
-      baseUrl: 'https://optimism-sepolia.blockscout.com'
+      baseUrl: 'https://optimistic.etherscan.io'
     },
     isTestnet: false
   }

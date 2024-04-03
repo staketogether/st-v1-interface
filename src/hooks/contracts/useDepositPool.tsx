@@ -42,7 +42,7 @@ export default function useDepositPool(
   const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
   const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
   const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
-  console.log('depositEstimatedGas:', depositEstimatedGas)
+
   const { registerDeposit } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
   const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
@@ -62,7 +62,7 @@ export default function useDepositPool(
   const { estimateGas } = useEstimateTxInfo({
     account: StakeTogether,
     functionName: 'depositPool',
-    args: [isTestnet ? product.stakeTogetherPool.testnet : product.stakeTogetherPool.mainnet, referral],
+    args: [poolAddress, referral],
     contractAddress: StakeTogether,
     abi: stakeTogetherAbi,
     value: amountEstimatedGas,
@@ -110,7 +110,7 @@ export default function useDepositPool(
     chainId,
     functionName: 'depositPool',
     address: StakeTogether,
-    args: [isTestnet ? product.stakeTogetherPool.testnet : product.stakeTogetherPool.mainnet, referral],
+    args: [poolAddress, referral],
     value: grossDepositAmount,
     gas:
       !!depositEstimatedGas && depositEstimatedGas > 0n && !!web3AuthUserInfo ? depositEstimatedGas : undefined,
@@ -178,7 +178,7 @@ export default function useDepositPool(
     isError: awaitTransactionErrorIsError
   } = useWaitForTransaction({
     hash: txHash,
-    confirmations: 2
+    confirmations: 4
   })
 
   useEffect(() => {
