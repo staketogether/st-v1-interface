@@ -1,6 +1,6 @@
 import { BrlaBuyEthStep, clearModal, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import usePixBankInfo from '@/hooks/ramp/usePixBankInfo'
-import useVerifyActivity from '@/hooks/ramp/useVerifyActivity'
+import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -18,7 +18,7 @@ export default function CheckoutStep() {
   const quote = useReactiveVar(quoteVar)
   const { address } = useAccount()
   const { pixBankInfo } = usePixBankInfo(ProviderType.brla, qrCode?.id, address)
-  const { activity } = useVerifyActivity(ProviderType.brla, qrCode?.id)
+  const { activity } = useRampActivity(ProviderType.brla, qrCode?.id)
   const [time, setTime] = useState({ hours: 1, minutes: 0, seconds: 0 })
 
   const handleCopyClipboard = () => {

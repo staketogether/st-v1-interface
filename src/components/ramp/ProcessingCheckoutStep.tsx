@@ -1,5 +1,10 @@
-import { BrlaBuyEthStep, qrCodeVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
-import useVerifyActivity from '@/hooks/ramp/useVerifyActivity'
+import {
+  BrlaBuyEthStep,
+  currentProductNameVar,
+  qrCodeVar,
+  stepsControlBuyCryptoVar
+} from '@/hooks/ramp/useControlModal'
+import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -13,8 +18,9 @@ export default function ProcessingCheckoutStep() {
   const timeToRedirect = 3000
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
+  const currentProductName = useReactiveVar(currentProductNameVar)
 
-  const { activity } = useVerifyActivity(ProviderType.brla, qrCode?.id)
+  const { activity } = useRampActivity(ProviderType.brla, qrCode?.id)
 
   if (activity?.status === 'success') {
     setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Success), timeToRedirect)
@@ -38,15 +44,26 @@ export default function ProcessingCheckoutStep() {
 
     return icons[moment]
   }
+
+  const paymentStatus = activity?.status === 'success' ? 'success' : 'process'
+  const successfulBridging = activity
+    && activity.additionalData
+    && activity.additionalData.bridge
+    && typeof activity.additionalData.bridge === 'object'
+    && 'txHash' in activity.additionalData.bridge
+  const finishedPayment = currentProductName === 'ethereum-restaking'
+    ? paymentStatus === 'success' && !!successfulBridging
+    : paymentStatus === 'success'
+
   const validationSteps = [
     {
       icon: getIcon(isPaymentIdentified ? 'success' : 'process'),
-      text: t('v2.ramp.paymentIdentified'),
+      text: t('v2.ramp.paymentIdentified')
     },
     {
-      icon: !isPaymentIdentified ? getIcon('waiting') : getIcon(activity?.status === 'success' ? 'success' : 'process'),
+      icon: !isPaymentIdentified ? getIcon('waiting') : getIcon(finishedPayment ? 'success' : 'process'),
       text: t('v2.ramp.mintingBRLA'),
-      disable: activity?.status !== 'success'
+      disable: !finishedPayment
     }
   ]
 

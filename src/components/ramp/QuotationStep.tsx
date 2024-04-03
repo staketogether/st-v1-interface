@@ -1,5 +1,10 @@
 import Button from '@/components/shared/Button'
-import { BrlaBuyEthStep, fiatAmountVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import {
+  BrlaBuyEthStep,
+  currentProductNameVar,
+  fiatAmountVar,
+  stepsControlBuyCryptoVar
+} from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useQuoteBrla from '@/hooks/ramp/useQuote'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -17,23 +22,28 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { KycLevel } from './KycLevel'
+import { getProductByName } from '@/config/product'
 
 export default function QuotationStep() {
   const initialSeconds = 5
-  const minValue = 300
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
   const [activeValue, setActiveValue] = useState<number>(0)
   const debounceValue = useDebounce(value, 300)
+  const currentProductName = useReactiveVar(currentProductNameVar)
 
+  const product = getProductByName({ productName: currentProductName })
+  const minDeposit = product.ramp.minDeposit
 
   const { quote, isValidating: quoteIsValidating } = useQuoteBrla(
-    1,
     'brl',
     debounceValue ? Number(debounceValue) : 0,
+    product.ramp.bridge?.fromChainId || 0,
     0,
     ProviderType.brla,
-    PaymentMethodType.pix
+    PaymentMethodType.pix,
+    `${product.ramp.bridge?.toChainId}`,
+    product.ramp.bridge?.toToken
   )
   const { address } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', address)
@@ -42,7 +52,7 @@ export default function QuotationStep() {
   const { t } = useLocaleTranslation()
   const limit = Number(debounceValue) * 100 >= Number(kycLevelInfo?.limits.limitSwapBuy ?? 0)
   const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
-  const errorMinValue = BigInt(debounceValue) < minValue
+  const errorMinValue = BigInt(debounceValue) < minDeposit
   const handleChange = (value: string) => {
     if (value.includes(',')) {
       value = value.replace(',', '.')
@@ -102,8 +112,8 @@ export default function QuotationStep() {
       return `${t('v2.stake.depositErrorMessage.DepositLimitReached')}`
     }
 
-    if (BigInt(debounceValue) < minValue) {
-      return `${t('v2.stake.minAmount')} R$${minValue}`
+    if (BigInt(debounceValue) < minDeposit) {
+      return `${t('v2.stake.minAmount')} R$${minDeposit}`
     }
 
     return t('next')
@@ -150,7 +160,7 @@ export default function QuotationStep() {
       </PriceInfoContainer>
       <Button
         onClick={handleNext}
-        disabled={BigInt(debounceValue) < minValue || error || quoteIsValidating || !quote?.amountBrl}
+        disabled={BigInt(debounceValue) < minDeposit || error || quoteIsValidating || !quote?.amountBrl}
         label={handleLabelButton()}
         icon={!error && !errorMinValue && <PiArrowRight />}
       />

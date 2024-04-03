@@ -1,6 +1,8 @@
+import { getProductByName } from '@/config/product'
 import useBuyRamp, { BuyRampRequest } from '@/hooks/ramp/useBuyRamp'
 import {
   BrlaBuyEthStep,
+  currentProductNameVar,
   kycIdVar,
   kycLevelVar,
   qrCodeVar,
@@ -8,7 +10,7 @@ import {
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
-import useVerifyActivity from '@/hooks/ramp/useVerifyActivity'
+import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
@@ -29,10 +31,12 @@ export default function ProcessingKycStep() {
   const { buyRampResponse, isError: isErrorBuyRamp } = useBuyRamp('brla', rampData)
   const kycActivity = useReactiveVar(kycIdVar)
   const kyc = useReactiveVar(kycLevelVar)
-  const kycActivityId = kyc?.level && kycActivity ? undefined : kycActivity
-  const { activity, isError } = useVerifyActivity(ProviderType.brla, kycActivityId ?? undefined)
-  const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc ? undefined : address)
+  const kycActivityId = Number(kyc?.level || 0) > 0 || !kycActivity ? undefined : kycActivity
+  const { activity, isError } = useRampActivity(ProviderType.brla, kycActivityId ?? undefined)
+  const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc?.level ? undefined : address, true)
+  const currentProductName = useReactiveVar(currentProductNameVar)
 
+  const product = getProductByName({ productName: currentProductName })
   const getIcon = (moment: 'waiting' | 'process' | 'success') => {
 
     const icons = {
@@ -45,12 +49,13 @@ export default function ProcessingKycStep() {
   }
 
   useEffect(() => {
-    if (address && quote && (kyc?.level || activity?.status === 'success')) {
+    if (address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0) {
       setRampData({
-        chainId: 1,
+        chainId: product.ramp.bridge?.fromChainId ?? 1,
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
         amount: Number(quote.amountBrl),
+        amountToken: quote.amountToken,
         accountAddress: address,
         receiverAddress: address
       })
@@ -60,7 +65,7 @@ export default function ProcessingKycStep() {
       setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc), timeToRedirect)
 
     }
-  }, [activity?.status, address, kyc?.level, quote, kycLevelInfo, kycActivity, isLoading])
+  }, [activity?.status, address, kyc?.level, quote, kycLevelInfo, kycActivity, isLoading, product.ramp.bridge?.fromChainId])
 
   useEffect(() => {
     if (activity?.status === 'error') {
@@ -84,7 +89,7 @@ export default function ProcessingKycStep() {
       disable: !kycActivityId
     },
     {
-      icon: activity?.status === 'success' ? getIcon('success') : getIcon(kycActivityId ? 'process' : 'waiting'),
+      icon: activity?.status === 'success' && Number(kyc?.level) > 0 ? getIcon('success') : getIcon(Number(kyc?.level) > 0 ? 'process' : 'waiting'),
       text: t('v2.ramp.generatingQRCode'),
       disable: activity?.status !== 'success'
     }

@@ -1,6 +1,6 @@
 import Button from '@/components/shared/Button'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
-import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import { openModal } from '@/hooks/ramp/useControlModal'
 import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -37,7 +37,7 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
 
   function handleRampButton() {
     type === 'deposit'
-      ? openQuoteEthModal()
+      ? openModal(product.name)
       : notification.info({
           message: `${t('offramp')}`,
           placement: 'topRight'
