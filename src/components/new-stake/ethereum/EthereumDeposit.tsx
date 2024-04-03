@@ -145,7 +145,7 @@ export default function EthereumDeposit({
   }
 
   const handleInputMaxValue = () => {
-    if (estimatedGas && ethBalance > ethers.parseEther('0.01')) {
+    if (estimatedGas && ethBalance >= minDepositAmount) {
       notification.info({
         message: `${t('v2.stake.maxDepositButtonMessage')}`,
         placement: 'topRight'
