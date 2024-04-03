@@ -25,6 +25,7 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
+import useStConfig from '@/hooks/contracts/useStConfig'
 
 type EthereumWithdrawProps = {
   type: 'deposit' | 'withdraw'
@@ -78,6 +79,8 @@ export default function EthereumWithdraw({
     withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
     refetch: withdrawValidatorsBalanceRefetch
   } = useWithdrawValidatorBalance({ product, chainId })
+  const { stConfig } = useStConfig({ productName: product.name, chainId })
+  const minWithdrawAmount = stConfig?.minWithdrawAmount || 0n
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
@@ -223,10 +226,13 @@ export default function EthereumWithdraw({
   const insufficientWithdrawalBalance =
     type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
   const amountIsEmpty = amountBigNumber === 0n || !amount
+  const amountIsMinWithdrawValue = amountBigNumber <= minWithdrawAmount
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
     (insufficientWithdrawalBalance &&
       `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
+    (amountIsMinWithdrawValue &&
+      `${t('v2.stake.withdrawErrorMessage.LessThanMinimumWithdraw')} ${truncateWei(minWithdrawAmount, 4)}`) ||
     (withdrawData.prepareTransactionErrorMessage &&
       `${t(`v2.stake.withdrawErrorMessage.${withdrawData.prepareTransactionErrorMessage}`)}`) ||
     ''
@@ -244,6 +250,7 @@ export default function EthereumWithdraw({
     insufficientWithdrawalBalance ||
     amountIsEmpty ||
     withdrawData.prepareTransactionIsError ||
+    amountIsMinWithdrawValue ||
     !!withdrawTimeLeft
 
   return (

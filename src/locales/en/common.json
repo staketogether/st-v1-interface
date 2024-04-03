@@ -47,7 +47,7 @@
   "searchPool": "Search Pools",
   "projectEmpty": "Project Not Found",
   "copyClipboard": "Copy to Clipboard",
-  "copiedToClipboard": "Link copied, Share it now!",
+  "copiedToClipboard": "Link copied, share it now!",
   "addressCopiedToClipboard": "Address Copied",
   "deposit": "Deposit",
   "withdraw": "Withdraw",
@@ -131,7 +131,8 @@
     "website": "Website",
     "smartContract": "Smart Contract",
     "audit": "Audits",
-    "documentation": "Docs"
+    "documentation": "Docs",
+    "support": "Support"
   },
   "addSethToWallet": {
     "add": "Add",
@@ -707,5 +708,7 @@
     }
   },
   "soon": "Soon",
-  "new": "New"
+  "new": "New",
+  "share": "Share",
+  "offramp": "Soon you will be able to sell you ETH by here. Wait."
 }

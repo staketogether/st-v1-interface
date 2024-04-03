@@ -58,12 +58,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
   const { locale } = useRouter()
 
-  const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: Networks.holesky })
+  const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: Networks.Mainnet })
   const formattedEthBalance = formatNumberByLocale(truncateWei(ethBalance, 6), locale)
   const { priceConvertedValue: usdEthBalance } = useCoinConversion(formattedEthBalance)
   const { balance: optimistEthBalance } = useEthBalanceOf({
     walletAddress: address,
-    chainId: Networks.OptimismSepolia
+    chainId: Networks.optimism
   })
   const formattedOptimistEthBalance = formatNumberByLocale(truncateWei(optimistEthBalance, 6), locale)
   const { priceConvertedValue: usdOptimismEthBalance } = useCoinConversion(formattedOptimistEthBalance)
@@ -831,6 +831,7 @@ const {
   EstimatedBalanceContainer: styled.div`
     display: flex;
     height: 32px;
+    min-height: 32px;
     padding: 0px 8px;
     align-items: center;
     justify-content: space-between;

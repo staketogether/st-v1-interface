@@ -5,6 +5,7 @@ import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Product } from '@/types/Product'
+import { notification } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
@@ -34,6 +35,15 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
     chainId: chainId
   })
 
+  function handleRampButton() {
+    type === 'deposit'
+      ? openModal(product.name)
+      : notification.info({
+          message: `${t('offramp')}`,
+          placement: 'topRight'
+        })
+  }
+
   return (
     <EthereumContainer>
       <header>
@@ -51,16 +61,16 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
             </li>
           </ul>
         </nav>
-        <Button
-          label={`${t('buy')} ETH`}
-          width={133}
-          height={32}
-          color='green'
-          onClick={() => {
-            openModal(product.name)
-          }}
-          small
-        />
+        {product.rampEnabled && (
+          <Button
+            label={`${type === 'deposit' ? t('buy') : t('sell')} ETH`}
+            width={133}
+            height={32}
+            color={type === 'deposit' ? 'green' : 'red'}
+            onClick={handleRampButton}
+            small
+          />
+        )}
       </header>
       <div>
         {type === 'deposit' ? (

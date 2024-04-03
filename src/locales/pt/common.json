@@ -129,7 +129,8 @@
     "website": "Site",
     "smartContract": "Contrato Inteligente",
     "audit": "Auditorias",
-    "documentation": "Documentação"
+    "documentation": "Documentação",
+    "support": "Suporte"
   },
   "addSethToWallet": {
     "add": "Adicione",
@@ -731,5 +732,7 @@
     }
   },
   "soon": "Em Breve",
-  "new": "Novo"
+  "new": "Novo",
+  "share": "Compartilhar",
+  "offramp": "Em breve você vai poder vender seus ETH por aqui. Aguarde."
 }
