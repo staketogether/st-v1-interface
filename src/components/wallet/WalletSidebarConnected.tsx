@@ -831,6 +831,7 @@ const {
   EstimatedBalanceContainer: styled.div`
     display: flex;
     height: 32px;
+    min-height: 32px;
     padding: 0px 8px;
     align-items: center;
     justify-content: space-between;
