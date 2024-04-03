@@ -24,6 +24,7 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { KycLevel } from './KycLevel'
+import AssetIcon from '@/components/shared/AssetIcon'
 
 export default function QuotationStep() {
   const initialSeconds = 5
@@ -141,7 +142,7 @@ export default function QuotationStep() {
         <ArrowDown />
         <InputContainer>
           <div>
-            <Image src={eth} width={36} height={24} alt='BRL' />
+            <AssetIcon marginRight='8px' assetIcon={'ethereum'} networkIcon={product.networkAvailable} size={24} />
             <span>ETH</span>
           </div>
           {quoteIsValidating ? <SkeletonLoading width={60} height={20} /> : <input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder='0' />}
@@ -293,6 +294,6 @@ const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoConta
           color: ${({ theme }) => theme.colorV2.blue[1]};
         }
       }
-    }
+    },
   `
 }
