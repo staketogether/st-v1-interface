@@ -38,16 +38,16 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   const { query } = useRouter()
   const { currency } = query
 
-  const { chain: walletChainId } = useAccount()
+  const { chain: walletChainId, connector } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
   const router = useRouter()
 
   useEffect(() => {
-    if (isWrongNetwork) {
+    if (isWrongNetwork && connector && connector.name === 'Web3Auth') {
       switchChain({ chainId })
     }
-  }, [chainId, isWrongNetwork, switchChain])
+  }, [chainId, connector, isWrongNetwork, switchChain])
 
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
