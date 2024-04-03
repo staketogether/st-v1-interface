@@ -276,7 +276,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                   </div>
                   <div>
                     <span>{`${t('eth.symbol')}`}</span>
-                    <span>Ethereum</span>
+                    <span>Optimism</span>
                   </div>
                 </div>
                 <div>
