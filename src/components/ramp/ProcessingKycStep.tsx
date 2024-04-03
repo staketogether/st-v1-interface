@@ -68,7 +68,7 @@ export default function ProcessingKycStep() {
   }, [activity?.status, address, kyc?.level, quote, kycLevelInfo, kycActivity, isLoading, product.ramp.bridge?.fromChainId])
 
   useEffect(() => {
-    if (activity?.status === 'error') {
+    if (activity?.status === 'error' && isError) {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.Error)
     }
   }, [activity?.status, isError, isErrorBuyRamp])
