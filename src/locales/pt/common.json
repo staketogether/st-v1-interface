@@ -77,7 +77,6 @@
   "selectProduct": "Selecionar Produto",
   "estimatedBalance": "Saldo Estimado",
   "investments": "Investimentos",
-  "share": "Compartilhar",
   "time": {
     "days": "Dias",
     "day": "Dia",
@@ -130,7 +129,8 @@
     "website": "Site",
     "smartContract": "Contrato Inteligente",
     "audit": "Auditorias",
-    "documentation": "Documentação"
+    "documentation": "Documentação",
+    "support": "Suporte"
   },
   "addSethToWallet": {
     "add": "Adicione",
@@ -732,5 +732,6 @@
     }
   },
   "soon": "Em Breve",
-  "new": "Novo"
+  "new": "Novo",
+  "share": "Compartilhar"
 }

@@ -1,8 +1,8 @@
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import packageData from '../../../../package.json'
 import { globalConfig } from '../../../config/global'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import { useRouter } from 'next/router'
 
 export default function LayoutFooter() {
   const date = new Date()
@@ -34,9 +34,9 @@ export default function LayoutFooter() {
         </span>
       </div>
       <div>
-        {/* <a href={`${appUrl}/${i18n.language}`} target='_blank'>
-          {t('footer.app')}
-        </a> */}
+        <a href={`mailto:support@staketogether.org`} target='_blank'>
+          {t('footer.support')}
+        </a>
         <a href={`${websiteUrl}`} target='_blank'>
           {t('footer.website')}
         </a>
@@ -74,18 +74,19 @@ const { Container } = {
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.size[16]};
-      > span {
-        &::before {
+      > a,
+      span {
+        &::after {
           content: '|';
-          margin-right: ${({ theme }) => theme.size[16]};
+          margin-left: ${({ theme }) => theme.size[16]};
         }
       }
 
-      > a:last-of-type {
-        /* &::before {
-          content: '|';
+      > span:last-of-type {
+        &::after {
+          content: '';
           margin-right: ${({ theme }) => theme.size[16]};
-        } */
+        }
       }
     }
 

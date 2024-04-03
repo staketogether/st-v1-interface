@@ -86,6 +86,9 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
               <a href={`${websiteUrl}`} target='_blank'>
                 {t('footer.website')} <PiArrowSquareOut />
               </a>
+              <a href={`mailto:support@staketogether.org`} target='_blank'>
+                {t('footer.support')} <PiArrowSquareOut />
+              </a>
               <a href={websiteUrl}>{`© ${date.getFullYear()} Stake Together | v${packageData.version} `}</a>
             </FooterContent>
           </FooterContainer>
@@ -228,9 +231,14 @@ const {
       color: ${({ theme }) => theme.colorV2.gray[1]};
       opacity: 0.8;
 
-      &:last-child {
-        border-top: 1px solid ${({ theme }) => theme.colorV2.gray[1]};
+      &:nth-child(5) {
         padding-top: 4px;
+        margin-bottom: 8px;
+      }
+
+      &:nth-child(6) {
+        border-top: 1px solid ${({ theme }) => theme.colorV2.gray[1]};
+        padding-top: 16px;
       }
     }
   `
