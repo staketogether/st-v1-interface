@@ -17,12 +17,13 @@ import Image from 'next/image'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi'
 
+import { getProductByName } from '@/config/product'
+import { truncateDecimal } from '@/services/truncate'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { KycLevel } from './KycLevel'
-import { getProductByName } from '@/config/product'
 
 export default function QuotationStep() {
   const initialSeconds = 5
@@ -143,7 +144,7 @@ export default function QuotationStep() {
             <Image src={eth} width={36} height={24} alt='BRL' />
             <span>ETH</span>
           </div>
-          {quoteIsValidating ? <SkeletonLoading width={60} height={20} /> : <input value={quote?.amountToken} disabled placeholder='0' />}
+          {quoteIsValidating ? <SkeletonLoading width={60} height={20} /> : <input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder='0' />}
         </InputContainer>
       </BoxValuesContainer>
       <PriceInfoContainer>
