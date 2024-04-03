@@ -18,7 +18,10 @@ export default function SuccessStep() {
         <div>
           <span>{quote?.amountToken} ETH</span>
         </div>
-        <span>{t('v2.ramp.yourEths')}</span>
+        <div>
+          <span>{t('v2.ramp.yourEths')}</span>
+          <span className='purple'>{t('v2.ramp.timeReceive')}</span>
+        </div>
       </DepositToken>
       <DepositInfo>
         <Info>
@@ -83,24 +86,39 @@ const { Container, DepositToken, DepositInfo, Info } = {
     border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
 
     > div {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      > span {
-        font-size: ${({ theme }) => theme.font.size[22]};
-        font-weight: 500;
-        line-height: 27px;
-        letter-spacing: 0em;
-        text-align: center;
+      &:nth-child(1) {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        > span {
+          font-size: ${({ theme }) => theme.font.size[22]};
+          font-weight: 500;
+          line-height: 27px;
+          letter-spacing: 0em;
+          text-align: center;
+        }
       }
-    }
-    > span {
-      font-size: ${({ theme }) => theme.font.size[13]};
-      font-weight: 400;
-      line-height: 16px;
-      letter-spacing: 0em;
-      text-align: center;
+      &:nth-child(2) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+        gap: ${({ theme }) => theme.size[4]};
+        > span {
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-weight: 400;
+          line-height: 16px;
+          letter-spacing: 0em;
+          text-align: center;
+          &.purple {
+            color: ${({ theme }) => theme.colorV2.purple[1]};
+            font-size: ${({ theme }) => theme.font.size[16]};
+            font-weight: 500;
+          }
+        }
+      }
     }
   `,
   DepositInfo: styled.div`

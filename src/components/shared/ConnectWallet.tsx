@@ -1,12 +1,15 @@
 import { globalConfig } from '@/config/global'
 import { config } from '@/config/wagmi'
+import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
+import { useReactiveVar } from '@apollo/client'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
+import { type Connector } from '@wagmi/core'
 
 type ConnectWalletProps = {
   useModal?: boolean
@@ -24,6 +27,7 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
   const { t } = useLocaleTranslation()
 
   const handleConnectorImage = useWalletProviderImage()
+  const web3AuthInstance = useReactiveVar(web3AuthInstanceVar)
 
   function handleTermsAndConditionsExternalLink() {
     if (i18n.language === 'pt') return globalConfig.termsPt
@@ -44,6 +48,13 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
       2: 'Apple'
     }
     return web3Auth[index]
+  }
+
+  const handleConnectWallet = (connector: Connector) => {
+    if (connector && connector.id === 'web3auth' && web3AuthInstance) {
+      web3AuthInstance.init().then(() => web3AuthInstanceVar(web3AuthInstance))
+    }
+    connect({ connector })
   }
 
   return (
@@ -75,7 +86,7 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
             <div
               key={connector.id + index}
               className={`${hasAgreeTerms ? '' : 'disabled'}`}
-              onClick={() => hasAgreeTerms && connect({ connector })}
+              onClick={() => hasAgreeTerms && handleConnectWallet(connector)}
             >
               {connector.icon ? (
                 <Image src={connector.icon} alt={connector.name} width={24} height={24} objectFit='fill' />
