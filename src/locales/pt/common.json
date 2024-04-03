@@ -350,9 +350,9 @@
         "LessThanMinimumDeposit": "Depósito Mínimo",
         "PoolNotFound": "Pool Não Encontrado",
         "ZeroAmount": "Suprimento Zero",
-        "insufficientGasBalance": "Saldo Insuficiente para o Gás",
         "useMaxButton": "Utilize o botão Max",
-        "Panic": "Erro interno"
+        "Panic": "Erro interno",
+        "insufficientGasBalance": "Saldo Insuficiente para o Gás"
       }
     },
     "activities": {
