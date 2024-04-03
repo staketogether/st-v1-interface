@@ -1,16 +1,16 @@
 import Button from '@/components/shared/Button'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Product } from '@/types/Product'
+import { notification } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import EthereumDeposit from './EthereumDeposit'
 import EthereumWithdraw from './EthereumWithdraw'
-import { Product } from '@/types/Product'
-import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
-import { notification } from 'antd'
 
 type EthereumFormControlProps = {
   type: 'deposit' | 'withdraw'
@@ -39,7 +39,7 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
     type === 'deposit'
       ? openQuoteEthModal()
       : notification.info({
-          message: `${t('soon')}`,
+          message: `${t('offramp')}`,
           placement: 'topRight'
         })
   }
