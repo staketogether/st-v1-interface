@@ -44,8 +44,10 @@ export default function Web3AuthConnectorInstances(chains: ChainConfig.Chain[]) 
     uiConfig: {
       mode: 'dark',
       useLogoLoader: true,
-      logoLight: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
-      logoDark: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+      logoLight:
+        'https://raw.githubusercontent.com/staketogether/st-v1-interface/cf6b14fe8e7e7264942b6af82945a479e4a39c12/public/assets/st-symbol.svg',
+      logoDark:
+        'https://raw.githubusercontent.com/staketogether/st-v1-interface/cf6b14fe8e7e7264942b6af82945a479e4a39c12/public/assets/st-symbol.svg',
       defaultLanguage: 'en',
       theme: {
         primary: '#768729'
@@ -68,8 +70,7 @@ export default function Web3AuthConnectorInstances(chains: ChainConfig.Chain[]) 
     }
   })
   web3AuthInstance.addPlugin(walletServicesPlugin)
-
-  web3AuthInstance.init().then(() => web3AuthInstanceVar(web3AuthInstance))
+  web3AuthInstanceVar(web3AuthInstance)
 
   const googleConnector = Web3AuthConnector({
     web3AuthInstance,
