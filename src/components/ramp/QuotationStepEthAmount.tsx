@@ -9,7 +9,6 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 export default function QuotationStepEthAmount() {
   const initialSeconds = 5
   const ethereumChainId = 1
-  const ethQuoteInterval = 6000
 
   const [seconds, setSeconds] = useState<number>(5)
   const [timerStarted, setTimerStarted] = useState<boolean>(false)
@@ -24,9 +23,10 @@ export default function QuotationStepEthAmount() {
     amount,
     ethereumChainId,
     0,
-    ethQuoteInterval,
     ProviderType.brla,
-    PaymentMethodType.pix
+    PaymentMethodType.pix,
+    undefined,
+    undefined
   )
 
   useMemo(() => {

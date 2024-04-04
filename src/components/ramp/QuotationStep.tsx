@@ -39,9 +39,8 @@ export default function QuotationStep() {
   const { quote, isValidating: quoteIsValidating } = useQuoteBrla(
     'brl',
     debounceValue ? Number(debounceValue) : 0,
-    product.ramp.bridge?.fromChainId || 0,
+    product.ramp.bridge?.fromChainId || product.ramp.chainId,
     0,
-    undefined,
     ProviderType.brla,
     PaymentMethodType.pix,
     `${product.ramp.bridge?.toChainId}`,

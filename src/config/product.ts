@@ -20,6 +20,7 @@ export const productList: Product[] = [
     scan: 'https://etherscan.io/',
     rampEnabled: true,
     ramp: {
+      chainId: 1,
       minDeposit: 300
     },
     description: 'ethereumDescription',
@@ -64,6 +65,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: true,
     rampEnabled: true,
     ramp: {
+      chainId: 10,
       minDeposit: 10,
       bridge: {
         fromChainId: 137,
@@ -124,6 +126,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
+      chainId: 1,
       minDeposit: 10
     },
     newProductTag: false,
@@ -178,6 +181,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
+      chainId: 137,
       minDeposit: 10
     },
     newProductTag: false,
@@ -232,6 +236,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
+      chainId: 1,
       minDeposit: 10
     },
     newProductTag: false,
@@ -286,6 +291,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
+      chainId: 1,
       minDeposit: 10
     },
     newProductTag: false,
@@ -340,6 +346,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
+      chainId: 1,
       minDeposit: 10
     },
     newProductTag: false,
@@ -395,6 +402,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
+      chainId: 1,
       minDeposit: 10
     },
     newProductTag: false,
