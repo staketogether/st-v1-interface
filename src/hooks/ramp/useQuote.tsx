@@ -12,6 +12,7 @@ export default function useQuoteRamp(
     amount?: number,
     chainId?: number,
     isCryptoAmount: number = 0,
+    refreshInterval?: number,
     provider?: ProviderType,
     paymentMethod?: PaymentMethodType,
     toChain?: string,
@@ -21,7 +22,7 @@ export default function useQuoteRamp(
     if (toChain && toToken) {
         url += `&toChain=${toChain}&toToken=${toToken}`
     }
-    const { data, error, isLoading, isValidating } = useSWR<Quote>((chainId && fiatCurrencyCode && amount && provider && paymentMethod) ? url : null, { refreshInterval: 6000, revalidateOnMount: true })
+    const { data, error, isLoading, isValidating } = useSWR<Quote>((chainId && fiatCurrencyCode && amount && provider && paymentMethod) ? url : null, { refreshInterval, revalidateOnMount: true })
     useEffect(() => {
         if (data) {
             quoteVar({

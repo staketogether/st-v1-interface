@@ -41,6 +41,22 @@ export default function QuotationStep() {
     debounceValue ? Number(debounceValue) : 0,
     product.ramp.bridge?.fromChainId || 0,
     0,
+    undefined,
+    ProviderType.brla,
+    PaymentMethodType.pix,
+    `${product.ramp.bridge?.toChainId}`,
+    product.ramp.bridge?.toToken
+  )
+  // Quote ETH amount separately. Today we quote on Ethereum chain directly because both products are on Ethereum.
+  // In the future, we will quote on the chain of the product and need to treat ethereum restaking separately.
+  const ethereumChainId = 1
+  const ethQuoteInterval = 6000
+  const { quote: quoteEthValue, isValidating: ethValueIsValidating } = useQuoteBrla(
+    'brl',
+    300,
+    ethereumChainId,
+    0,
+    ethQuoteInterval,
     ProviderType.brla,
     PaymentMethodType.pix,
     `${product.ramp.bridge?.toChainId}`,
@@ -66,13 +82,13 @@ export default function QuotationStep() {
       fiatAmountVar(value)
     }
   }
-  useMemo(() => {
 
-    if (quote?.amountBrl && quote?.amountToken) {
-      const value = Number(quote.amountBrl) / Number(quote.amountToken)
+  useMemo(() => {
+    if (quoteEthValue?.amountBrl && quoteEthValue?.amountToken) {
+      const value = Number(quoteEthValue.amountBrl) / Number(quoteEthValue.amountToken)
       setActiveValue(value)
     }
-  }, [quote])
+  }, [quoteEthValue])
 
   useEffect(() => {
     let timer: NodeJS.Timeout
@@ -85,11 +101,11 @@ export default function QuotationStep() {
   }, [timerStarted, seconds])
 
   useEffect(() => {
-    if (!quoteIsValidating) {
+    if (!ethValueIsValidating) {
       setSeconds(initialSeconds)
       setTimerStarted(true)
     }
-  }, [quoteIsValidating])
+  }, [ethValueIsValidating])
 
   const handleNext = useCallback(() => {
     if (!address) {
@@ -155,7 +171,7 @@ export default function QuotationStep() {
         <span className='gray'>
           <PiClock style={{ fontSize: 16 }} />{' '}
           <span>
-            {t('v2.ramp.quote.updateQuote')} {quote?.amountToken ? seconds : 5}s
+            {t('v2.ramp.quote.updateQuote')} {quoteEthValue?.amountToken ? seconds : 5}s
           </span>
         </span>
       </PriceInfoContainer>
