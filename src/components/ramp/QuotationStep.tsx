@@ -44,7 +44,8 @@ export default function QuotationStep() {
     ProviderType.brla,
     PaymentMethodType.pix,
     `${product.ramp.bridge?.toChainId}`,
-    product.ramp.bridge?.toToken
+    product.ramp.bridge?.toToken,
+    true
   )
 
   const { address } = useAccount()
