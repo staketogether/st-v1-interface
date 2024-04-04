@@ -485,7 +485,9 @@
         "site": "URL do site inválido",
         "youtube": "Insira um URL de vídeo válido do YouTube",
         "youtubeChanel": "Insira um canal válido do YouTube",
-        "invalidCpf": "CPF inválido"
+        "invalidCpf": "CPF inválido",
+        "invalidCnpj": "CNPJ inválido",
+        "birthDate": "Data de nascimento inválida"
       },
       "messages": {
         "success": "Projeto cadastrado com sucesso",

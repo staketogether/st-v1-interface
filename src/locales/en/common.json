@@ -464,7 +464,9 @@
         "site": "Invalid site URL",
         "youtube": "Please enter a valid YouTube video URL",
         "youtubeChanel": "Please enter a valid YouTube channel",
-        "invalidCpf": "Invalid CPF"
+        "invalidCpf": "Invalid CPF",
+        "invalidCnpj": "Invalid CNPJ",
+        "birthDate": "Invalid birth date"
       },
       "messages": {
         "success": "Project created successfully",

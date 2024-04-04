@@ -84,7 +84,7 @@ export default function StakeTransactionLoading({
               <div>
                 <SymbolIcons productSymbol={product.symbol} size={32} />
                 <span className={'purple'}>{`${amount}`}</span>
-                <span className={'purple'}>{t('lsd.symbol')}</span>
+                <span className={'purple'}>{product.symbol}</span>
               </div>
               <ArrowIcon fontSize={18} />
               <div>

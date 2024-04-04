@@ -1,8 +1,6 @@
 import { globalConfig } from '@/config/global'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import useSWR from 'swr'
-
-
 
 export enum TypeAccount {
   CPF = 'cpf',
@@ -18,7 +16,6 @@ export interface KycCreate {
   accountType: TypeAccount
 }
 
-
 export interface KycPayload {
   fullName?: string
   email?: string
@@ -28,27 +25,30 @@ export interface KycPayload {
   startDateTImestamp?: number
 }
 
-
 export default function useKycCreate(
   provider: 'brla' | 'transak',
   taxId?: string,
   kycData?: KycPayload,
-  onSuccessCallback?: (data: { id: string; }) => void,
-  onErrorCallback?: () => void
+  onSuccessCallback?: (data: { id: string }) => void,
+  onErrorCallback?: (data?: AxiosError<{ message?: string }>) => void
 ) {
   const { backendUrl } = globalConfig
   const isValid = provider && taxId && kycData
-  const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, { ...kycData, }).then(res => res.data)
-  const { data, error, mutate, isLoading } = useSWR<{ id: string }>(isValid ? `api/ramp/kyc/${provider}/${taxId}/verify` : null, fetcher, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-    errorRetryCount: 1,
-    shouldRetryOnError: false,
-    revalidateOnMount: false,
-    onSuccess: (data) => onSuccessCallback && onSuccessCallback(data),
-    onError: () => onErrorCallback && onErrorCallback()
-  })
+  const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, { ...kycData }).then(res => res.data)
+  const { data, error, mutate, isLoading } = useSWR<{ id: string }>(
+    isValid ? `api/ramp/kyc/${provider}/${taxId}/verify` : null,
+    fetcher,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      errorRetryCount: 1,
+      shouldRetryOnError: false,
+      revalidateOnMount: false,
+      onSuccess: data => onSuccessCallback && onSuccessCallback(data),
+      onError: data => onErrorCallback && onErrorCallback(data)
+    }
+  )
 
   return {
     data,
