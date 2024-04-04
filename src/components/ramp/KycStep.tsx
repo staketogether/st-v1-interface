@@ -83,11 +83,9 @@ export default function KycStep() {
     setCpfOrCnpj('')
   }, [chooseAccountType])
 
-
   useEffect(() => {
     console.log('errors', errors)
   }, [errors])
-
 
   const cpfMask = (value: string) => {
     const response = value
@@ -129,8 +127,6 @@ export default function KycStep() {
         <h2>{t('v2.ramp.checkOut')}</h2>
         <span>{t('v2.ramp.kyc.description')}</span>
 
-
-
         <ContainerRadio>
           <span>{t('v2.ramp.kyc.typeAccount')}</span>
           <div>
@@ -161,8 +157,9 @@ export default function KycStep() {
           </div>
         </ContainerRadio>
         <Input
-          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')
-            }`}
+          title={`${
+            chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')
+          }`}
           disabled={false}
           disabledLabel={false}
           register={register('fullName', {
@@ -210,8 +207,9 @@ export default function KycStep() {
           placeholder={`${chooseAccountType === TypeAccount.CPF ? '000.000.000-00' : '00.000.000/00000-00'}`}
         />
         <Input
-          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')
-            }`}
+          title={`${
+            chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')
+          }`}
           disabled={false}
           disabledLabel={false}
           register={register('birthDate', {
@@ -248,7 +246,6 @@ const { Container, FormContainer, InputRadio, ContainerRadio, Footer } = {
       min-width: 372px;
     }
 
-    
     overflow-y: scroll;
 
     display: grid;
