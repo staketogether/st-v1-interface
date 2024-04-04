@@ -2,7 +2,7 @@ import Button from '@/components/shared/Button'
 import {
   BrlaBuyEthStep,
   currentProductNameVar,
-  fiatAmountVar,
+  fiatAmountVar, quoteVar,
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
@@ -13,8 +13,8 @@ import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import brlBrla from '@assets/icons/brl-brla.svg'
 import Image from 'next/image'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { PiArrowDown, PiArrowRight, PiClock } from 'react-icons/pi'
+import { useCallback, useEffect, useState } from 'react'
+import { PiArrowDown, PiArrowRight } from 'react-icons/pi'
 
 import { getProductByName } from '@/config/product'
 import { truncateDecimal } from '@/services/truncate'
@@ -24,12 +24,12 @@ import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { KycLevel } from './KycLevel'
 import AssetIcon from '@/components/shared/AssetIcon'
+import QuotationStepEthAmount from '@/components/ramp/QuotationStepEthAmount'
 
 export default function QuotationStep() {
-  const initialSeconds = 5
+
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
-  const [activeValue, setActiveValue] = useState<number>(0)
   const debounceValue = useDebounce(value, 300)
   const currentProductName = useReactiveVar(currentProductNameVar)
 
@@ -47,25 +47,9 @@ export default function QuotationStep() {
     `${product.ramp.bridge?.toChainId}`,
     product.ramp.bridge?.toToken
   )
-  // Quote ETH amount separately. Today we quote on Ethereum chain directly because both products are on Ethereum.
-  // In the future, we will quote on the chain of the product and need to treat ethereum restaking separately.
-  const ethereumChainId = 1
-  const ethQuoteInterval = 6000
-  const { quote: quoteEthValue, isValidating: ethValueIsValidating } = useQuoteBrla(
-    'brl',
-    300,
-    ethereumChainId,
-    0,
-    ethQuoteInterval,
-    ProviderType.brla,
-    PaymentMethodType.pix,
-    `${product.ramp.bridge?.toChainId}`,
-    product.ramp.bridge?.toToken
-  )
+
   const { address } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', address)
-  const [seconds, setSeconds] = useState<number>(5)
-  const [timerStarted, setTimerStarted] = useState<boolean>(false)
   const { t } = useLocaleTranslation()
   const limit = Number(debounceValue) * 100 >= Number(kycLevelInfo?.limits.limitSwapBuy ?? 0)
   const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
@@ -82,30 +66,6 @@ export default function QuotationStep() {
       fiatAmountVar(value)
     }
   }
-
-  useMemo(() => {
-    if (quoteEthValue?.amountBrl && quoteEthValue?.amountToken) {
-      const value = Number(quoteEthValue.amountBrl) / Number(quoteEthValue.amountToken)
-      setActiveValue(value)
-    }
-  }, [quoteEthValue])
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout
-    if (timerStarted && seconds > 0) {
-      timer = setTimeout(() => {
-        setSeconds(seconds - 1)
-      }, 1000)
-    }
-    return () => clearTimeout(timer)
-  }, [timerStarted, seconds])
-
-  useEffect(() => {
-    if (!ethValueIsValidating) {
-      setSeconds(initialSeconds)
-      setTimerStarted(true)
-    }
-  }, [ethValueIsValidating])
 
   const handleNext = useCallback(() => {
     if (!address) {
@@ -136,6 +96,16 @@ export default function QuotationStep() {
     return t('next')
   }
 
+  useEffect(() => {
+    if (!quote) {
+     return
+    }
+    quoteVar({
+      ...quote,
+      amountToken: truncateDecimal(quote?.amountToken)
+    })
+  }, [quote])
+
   return (
     <Container>
       <KycLevel amountValue={Number(debounceValue)} />
@@ -163,18 +133,7 @@ export default function QuotationStep() {
           {quoteIsValidating ? <SkeletonLoading width={60} height={20} /> : <input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder='0' />}
         </InputContainer>
       </BoxValuesContainer>
-      <PriceInfoContainer>
-        <div>
-          <span>{t('v2.ramp.quote.price')}</span>
-          <span>1 ETH = {activeValue.toLocaleString('pt-BR')} BRL</span>
-        </div>
-        <span className='gray'>
-          <PiClock style={{ fontSize: 16 }} />{' '}
-          <span>
-            {t('v2.ramp.quote.updateQuote')} {quoteEthValue?.amountToken ? seconds : 5}s
-          </span>
-        </span>
-      </PriceInfoContainer>
+      <QuotationStepEthAmount />
       <Button
         onClick={handleNext}
         disabled={BigInt(debounceValue) < minDeposit || error || quoteIsValidating || !quote?.amountBrl}
@@ -188,7 +147,7 @@ export default function QuotationStep() {
   )
 }
 
-const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoContainer } = {
+const { Container, InputContainer, ArrowDown, BoxValuesContainer } = {
   Container: styled.div`
     width: auto;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
@@ -262,53 +221,5 @@ const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoConta
   `,
   ArrowDown: styled(PiArrowDown)`
     font-size: ${({ theme }) => theme.font.size[24]};
-  `,
-  PriceInfoContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
-    text-align: center;
-    > div {
-        display: flex;
-        flex-direction: row;
-        gap: 2px;
-        justify-content: center;
-        > span:first-child {
-            font-size: 13px;
-            font-weight: 400;
-            line-height: 16px;
-            letter-spacing: 0em;
-            text-align: left;
-          }
-        > span:last-child {
-            font-size: 15px;
-            font-weight: 500;
-            line-height: 18px;
-            letter-spacing: 0em;
-            text-align: left;
-            color: ${({ theme }) => theme.colorV2.blue[3]};
-
-        } 
-    }
-    span {
-      font-size: ${({ theme }) => theme.font.size[13]};
-      font-weight: 400;
-      &.gray {
-        opacity: 0.6;
-        font-weight: 400;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: ${({ theme }) => theme.size[4]};
-      }
-      > span {
-        &.blue {
-          font-size: ${({ theme }) => theme.font.size[15]};
-          font-weight: 500;
-          color: ${({ theme }) => theme.colorV2.blue[1]};
-        }
-      }
-    },
   `
 }
