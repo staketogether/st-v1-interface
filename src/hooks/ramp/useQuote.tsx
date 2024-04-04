@@ -1,11 +1,7 @@
-import { truncateDecimal } from "@/services/truncate"
 import { PaymentMethodType } from "@/types/payment-method.type"
 import { ProviderType } from "@/types/provider.type"
 import { Quote } from "@/types/quote.type"
-import { useEffect } from "react"
 import useSWR from "swr"
-import { quoteVar } from "./useControlModal"
-
 
 export default function useQuoteRamp(
     fiatCurrencyCode: string,
@@ -21,16 +17,12 @@ export default function useQuoteRamp(
     if (toChain && toToken) {
         url += `&toChain=${toChain}&toToken=${toToken}`
     }
-    const { data, error, isLoading, isValidating } = useSWR<Quote>((chainId && fiatCurrencyCode && amount && provider && paymentMethod) ? url : null, { refreshInterval: 6000, revalidateOnMount: true })
-    useEffect(() => {
-        if (data) {
-            quoteVar({
-                ...data,
-                amountToken: truncateDecimal(data?.amountToken)
-            })
-        }
-    }, [data])
+
+    console.log(chainId, fiatCurrencyCode, amount, provider, paymentMethod, url)
+
+    const { data, error, isLoading, isValidating } = useSWR<Quote>((chainId && fiatCurrencyCode && amount && provider && paymentMethod) ? url : null)
+
+    console.log(data, error, isLoading, isValidating)
+
     return { quote: data, error, isLoading, isValidating }
-
-
 }
