@@ -41,7 +41,6 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   const { chain: walletChainId, connector } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
-  const router = useRouter()
 
   useEffect(() => {
     if (isWrongNetwork && connector && connector.name === 'Web3Auth') {
@@ -50,7 +49,8 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   }, [chainId, connector, isWrongNetwork, switchChain])
 
   const copyToClipboard = async () => {
-    const url = `${window.location.origin}${router.asPath}`
+    console.log(window.location.href)
+    const url = `${window.location.href}`
 
     await navigator.clipboard.writeText(url)
 
