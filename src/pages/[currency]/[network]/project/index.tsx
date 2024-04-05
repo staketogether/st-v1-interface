@@ -1,3 +1,5 @@
+import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import { StakeTogether } from '@/types/StakeTogether'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import PoolsControl from '../../../../components/invest/PoolsControl'
@@ -6,8 +8,6 @@ import { Metatags } from '../../../../components/shared/meta/Metatags'
 import { ethereumMainnetClient } from '../../../../config/apollo'
 import { queryPools } from '../../../../queries/subgraph/queryPools'
 import { PoolSubgraph } from '../../../../types/Pool'
-import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
-import { StakeTogether } from '@/types/StakeTogether'
 
 type InvestProps = {
   pools: PoolSubgraph[]

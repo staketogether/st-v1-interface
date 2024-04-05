@@ -74,6 +74,7 @@ export type Product = {
   newProductTag: boolean
   eigenPointsAvailable: boolean
   ramp: {
+    chainId: number
     minDeposit: number
     bridge?: {
       fromChainId: number

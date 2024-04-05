@@ -1,4 +1,3 @@
-import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Montserrat } from 'next/font/google'
 import { useRouter } from 'next/router'
@@ -67,7 +66,6 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
       </Wrapper>
       <LayoutMenuMobile />
       <LayoutFooter />
-      <BuyEthControlModal />
     </Container>
   )
 }

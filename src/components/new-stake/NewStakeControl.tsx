@@ -50,7 +50,6 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   }, [chainId, connector, isWrongNetwork, switchChain])
 
   const copyToClipboard = async () => {
-    console.log(window.location.href)
     const url = `${window.location.href}`
 
     await navigator.clipboard.writeText(url)

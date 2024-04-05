@@ -1,9 +1,10 @@
 import NewStakeControl from '@/components/new-stake/NewStakeControl'
+import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
 import { productList } from '@/config/product'
-import { fiatAmountVar, openBrlaModalVar } from '@/hooks/ramp/useControlModal'
+import { fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetwork, handleChainIdByNetwork } from '@/services/format'
 import { Product, ProductMarketAssetData } from '@/types/Product'
@@ -27,18 +28,19 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
   })
 
   useEffect(() => {
-    if (router.query?.buy && router.query.payment === 'pix' && router.query.provider == 'brla') {
+    if (router.query.payment === 'pix' && router.query.provider == 'brla') {
       fiatAmountVar(router.query?.amount?.toString() ?? minAmount)
-      openBrlaModalVar(true)
+      openQuoteEthModal(product.name)
     } else if (router.query.payment === 'credit') {
       buyCrypto()
     }
-  }, [buyCrypto, router, router.events, router.query?.amount, router.query?.buy])
+  }, [buyCrypto, product, router, router.events, router.query?.amount, router.query.buy])
 
   return (
     <LayoutTemplate>
       <Metatags />
       <NewStakeControl type='deposit' product={product} assetData={assetData} chainId={chainId} />
+      <BuyEthControlModal stakingProduct={product.name} />
     </LayoutTemplate>
   )
 }
