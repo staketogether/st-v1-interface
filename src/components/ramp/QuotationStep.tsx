@@ -24,6 +24,7 @@ import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { KycLevel } from './KycLevel'
 import AssetIcon from '@/components/shared/AssetIcon'
+import { FacebookPixel } from '../shared/scripts/FacebookPixel'
 
 export default function QuotationStep() {
   const initialSeconds = 5
@@ -67,7 +68,6 @@ export default function QuotationStep() {
     }
   }
   useMemo(() => {
-
     if (quote?.amountBrl && quote?.amountToken) {
       const value = Number(quote.amountBrl) / Number(quote.amountToken)
       setActiveValue(value)
@@ -102,13 +102,10 @@ export default function QuotationStep() {
       return
     }
 
-
     stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
   }, [address, kycLevelInfo?.level])
 
-
   const handleLabelButton = () => {
-
     if (error) {
       return `${t('v2.stake.depositErrorMessage.DepositLimitReached')}`
     }
@@ -122,6 +119,7 @@ export default function QuotationStep() {
 
   return (
     <Container>
+      <FacebookPixel eventTrack='AdtoCart_pix' />
       <KycLevel amountValue={Number(debounceValue)} />
       <BoxValuesContainer>
         <InputContainer className={`${error ? 'error' : ''}`}>
@@ -141,10 +139,19 @@ export default function QuotationStep() {
         <ArrowDown />
         <InputContainer>
           <div>
-            <AssetIcon marginRight='8px' assetIcon={'ethereum'} networkIcon={product.networkAvailable} size={24} />
+            <AssetIcon
+              marginRight='8px'
+              assetIcon={'ethereum'}
+              networkIcon={product.networkAvailable}
+              size={24}
+            />
             <span>ETH</span>
           </div>
-          {quoteIsValidating ? <SkeletonLoading width={60} height={20} /> : <input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder='0' />}
+          {quoteIsValidating ? (
+            <SkeletonLoading width={60} height={20} />
+          ) : (
+            <input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder='0' />
+          )}
         </InputContainer>
       </BoxValuesContainer>
       <PriceInfoContainer>
@@ -253,26 +260,25 @@ const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoConta
     gap: ${({ theme }) => theme.size[4]};
     text-align: center;
     > div {
-        display: flex;
-        flex-direction: row;
-        gap: 2px;
-        justify-content: center;
-        > span:first-child {
-            font-size: 13px;
-            font-weight: 400;
-            line-height: 16px;
-            letter-spacing: 0em;
-            text-align: left;
-          }
-        > span:last-child {
-            font-size: 15px;
-            font-weight: 500;
-            line-height: 18px;
-            letter-spacing: 0em;
-            text-align: left;
-            color: ${({ theme }) => theme.colorV2.blue[3]};
-
-        } 
+      display: flex;
+      flex-direction: row;
+      gap: 2px;
+      justify-content: center;
+      > span:first-child {
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: 0em;
+        text-align: left;
+      }
+      > span:last-child {
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 18px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: ${({ theme }) => theme.colorV2.blue[3]};
+      }
     }
     span {
       font-size: ${({ theme }) => theme.font.size[13]};
@@ -293,6 +299,6 @@ const { Container, InputContainer, ArrowDown, BoxValuesContainer, PriceInfoConta
           color: ${({ theme }) => theme.colorV2.blue[1]};
         }
       }
-    },
+    }
   `
 }

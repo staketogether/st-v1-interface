@@ -30,7 +30,7 @@ export default function useKycCreate(
   taxId?: string,
   kycData?: KycPayload,
   onSuccessCallback?: (data: { id: string }) => void,
-  onErrorCallback?: (data?: AxiosError<{ message?: string }>) => void
+  onErrorCallback?: (data?: AxiosError<{ message?: string; data?: string }>) => void
 ) {
   const { backendUrl } = globalConfig
   const isValid = provider && taxId && kycData

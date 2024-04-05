@@ -1,4 +1,10 @@
-import { BrlaBuyEthStep, clearModal, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import {
+  BrlaBuyEthStep,
+  clearModal,
+  qrCodeVar,
+  quoteVar,
+  stepsControlBuyCryptoVar
+} from '@/hooks/ramp/useControlModal'
 import usePixBankInfo from '@/hooks/ramp/usePixBankInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -11,6 +17,7 @@ import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
 import SwapInfo from './SwapInfo'
+import { FacebookPixel } from '../shared/scripts/FacebookPixel'
 
 export default function CheckoutStep() {
   const { t } = useLocaleTranslation()
@@ -30,20 +37,19 @@ export default function CheckoutStep() {
   }
 
   useEffect(() => {
-    if (activity?.type === 'pix-to-token' && (activity.status !== 'error' && activity.status !== 'created')) {
+    if (activity?.type === 'pix-to-token' && activity.status !== 'error' && activity.status !== 'created') {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingCheckoutStep)
     }
   }, [activity])
 
-
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTime(prevTime => {
-        const seconds = prevTime.seconds - 1;
-        const minutes = seconds < 0 ? prevTime.minutes - 1 : prevTime.minutes;
-        const hours = minutes < 0 ? prevTime.hours - 1 : prevTime.hours;
+        const seconds = prevTime.seconds - 1
+        const minutes = seconds < 0 ? prevTime.minutes - 1 : prevTime.minutes
+        const hours = minutes < 0 ? prevTime.hours - 1 : prevTime.hours
         if (hours === 0 && minutes === 0 && seconds === 0) {
-          clearInterval(intervalId);
+          clearInterval(intervalId)
           setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.TimeOutCheckout), 3000)
           return {
             ...prevTime,
@@ -54,14 +60,13 @@ export default function CheckoutStep() {
         return {
           hours: Math.max(hours, 0),
           minutes: minutes < 0 ? 59 : minutes,
-          seconds: seconds < 0 ? 59 : seconds,
-        };
-      });
-    }, 1000);
+          seconds: seconds < 0 ? 59 : seconds
+        }
+      })
+    }, 1000)
 
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId)
   }, [])
-
 
   const handleGetCountDown = () => {
     return `
@@ -71,7 +76,7 @@ export default function CheckoutStep() {
 
   return (
     <Container>
-
+      <FacebookPixel eventTrack='qrcode_pix' />
       <Body>
         <SwapInfo />
         <PixArea>
@@ -116,7 +121,13 @@ export default function CheckoutStep() {
         </KeyPixArea>
       </Body>
       <Footer>
-        <Button type='button' label={t('v2.ramp.cancelDeposit')} className='outline' block onClick={clearModal} />
+        <Button
+          type='button'
+          label={t('v2.ramp.cancelDeposit')}
+          className='outline'
+          block
+          onClick={clearModal}
+        />
       </Footer>
     </Container>
   )
@@ -185,7 +196,6 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, 
     gap: ${({ theme }) => theme.size[12]};
     padding: ${({ theme }) => theme.size[24]};
     > span {
-
       font-size: ${({ theme }) => theme.font.size[15]};
       font-weight: 500;
       line-height: 18px;
@@ -220,11 +230,10 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, 
     line-height: 16px;
     letter-spacing: 0em;
     text-align: left;
-      
+
     > span:last-child {
       color: ${({ theme }) => theme.color.primary};
       font-weight: 500;
     }
   `
-
 }

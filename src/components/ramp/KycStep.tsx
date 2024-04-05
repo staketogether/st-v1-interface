@@ -3,7 +3,7 @@ import useKycCreate, { KycCreate, KycPayload, TypeAccount } from '@/hooks/ramp/u
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { PiArrowRight } from 'react-icons/pi'
+import { PiArrowRight, PiDiscordLogo } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
@@ -12,6 +12,8 @@ import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 import SwapInfo from './SwapInfo'
 import { notification } from 'antd'
 import { AxiosError } from 'axios'
+import { FacebookPixel } from '../shared/scripts/FacebookPixel'
+import { globalConfig } from '@/config/global'
 
 export default function KycStep() {
   const { t } = useLocaleTranslation()
@@ -40,16 +42,46 @@ export default function KycStep() {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
     }
   }
-  const handleError = (data?: AxiosError<{ message?: string }>) => {
-    setError('email', { type: 'invalid', message: 'Email ja cadastrado em outra carteira' })
-    setError('cpfOrCnpj', { type: 'invalid', message: 'Cpf ja cadastrado em outra carteira' })
 
-    data &&
-      data?.response?.data?.message === 'backend.error.account_already_registered' &&
-      notification.error({
-        message: 'Cpf ja cadastrado em outra carteira',
-        description: 'entre em contato com o supporte para mais informações'
+  const discordButton = (
+    <DiscordButton
+      onClick={() => {
+        window.open(globalConfig.discordTicket, '_blank')
+      }}
+    >
+      <DiscordIcon /> Discord
+    </DiscordButton>
+  )
+
+  const handleError = (data?: AxiosError<{ message?: string; data?: string }>) => {
+    if (data && data?.response?.data?.message === 'backend.error.account_already_registered') {
+      setError('email', {
+        type: 'invalid',
+        message: `${t('v2.createProject.formMessages.alreadyEmail')}${data?.response?.data?.data}`
       })
+      setError('cpfOrCnpj', {
+        type: 'invalid',
+        message: `${t('v2.createProject.formMessages.alreadyCpf')}${data?.response?.data?.data}`
+      })
+
+      const email = globalConfig.emailSupport
+      const subject = encodeURIComponent(
+        `[PIX-Support] - ${t('v2.ramp.kyc.alreadyCpfTitleAlert')}: ${data?.response?.data?.data}`
+      )
+      const mailtoUrl = `mailto:${email}?subject=${subject}`
+
+      notification.error({
+        message: t('v2.ramp.kyc.alreadyCpfTitleAlert'),
+        description: (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <span>{t('v2.ramp.kyc.alreadyCpfDescriptionAlert')}</span>
+            <a href={mailtoUrl}>{globalConfig.emailSupport}</a>
+          </div>
+        ),
+        btn: discordButton,
+        duration: 500
+      })
+    }
   }
 
   const { mutate, isLoading } = useKycCreate('brla', address, formData, handleSuccess, handleError)
@@ -224,7 +256,7 @@ export default function KycStep() {
   const handleVerifyCpfOrCnpj = (value?: string): string => {
     if (!value) return ''
     if (chooseAccountType === TypeAccount.CPF && isValidCPF(value)) {
-      return t('v2.createProject.formMessages.invalidCpf')
+      return `${t('v2.createProject.formMessages.invalidCpf')}`
     }
     if (chooseAccountType === TypeAccount.CNPJ && isValidCNPJ(value)) {
       return t('v2.createProject.formMessages.invalidCnpj')
@@ -234,6 +266,7 @@ export default function KycStep() {
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
+      <FacebookPixel eventTrack='initiateCheckout_pix' />
       <Container>
         <SwapInfo />
         <h2>{t('v2.ramp.checkOut')}</h2>
@@ -356,7 +389,7 @@ export default function KycStep() {
   )
 }
 
-const { Container, FormContainer, InputRadio, ContainerRadio, Footer } = {
+const { Container, FormContainer, InputRadio, ContainerRadio, Footer, DiscordIcon, DiscordButton } = {
   FormContainer: styled.form`
     display: flex;
     flex-direction: column;
@@ -462,5 +495,29 @@ const { Container, FormContainer, InputRadio, ContainerRadio, Footer } = {
       align-items: center;
       gap: 4px;
     }
+  `,
+  DiscordIcon: styled(PiDiscordLogo)`
+    font-size: 24px;
+    color: white;
+  `,
+  DiscordButton: styled.button`
+    border: none;
+    color: white;
+    border-radius: 8px;
+    background: #373b8a;
+    transition: background-color 0.2s ease;
+    height: 32px;
+    padding: 0px 16px;
+    font-size: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    margin-right: 182px;
+
+    font-size: 15px;
+    font-weight: 400;
   `
 }

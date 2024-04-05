@@ -11,13 +11,17 @@ interface GlobalConfig {
   privacyEn: string
   backendUrl: string
   contentFul: string
+  emailSupport: string
   analyticsSubgraph: string
   backendSubgraph: string
+  discordTicket: string
 }
 
 export const globalConfig: GlobalConfig = {
   url: 'https://app.staketogether.org',
   websiteUrl: 'https://staketogether.org',
+  emailSupport: 'suporte@staketogether.org',
+  discordTicket: 'https://discord.com/channels/1064528689594908762/1153366219601231945',
   appUrl: 'https://app.staketogether.org',
   auditUrl: 'https://github.com/staketogether/st-v1-contracts/tree/main/audits',
   docsPt: 'https://docs.staketogether.org/protocol/v/portugues',

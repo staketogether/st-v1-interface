@@ -54,7 +54,7 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
           <GoogleTag />
           <Hotjar />
           <Cloudflare />
-          <FacebookPixel />
+          <FacebookPixel eventTrack='PageView' />
         </>
       )}
       <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
