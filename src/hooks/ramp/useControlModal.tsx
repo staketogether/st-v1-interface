@@ -47,8 +47,9 @@ export const clearModal = () => {
   openBrlaModalVar(false)
 }
 
-export const openQuoteEthModal = () => {
-  stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
+export const openQuoteEthModal = (stakingProduct: StakingProduct) => {
+  stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
+  currentProductNameVar(stakingProduct)
   openBrlaModalVar(true)
 }
 
