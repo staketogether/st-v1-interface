@@ -5,6 +5,9 @@
   "save": "Save",
   "edit": "Edit",
   "connectWallet": "Connect Wallet",
+  "signUpNow": "Sign up now, it's completely free!",
+  "privacyDeclare": "I declare that I am at least 18 years old and accept the terms of the",
+  "privacyPolicy": "Privacy Policy",
   "projects": "Projects",
   "portfolio": "Portfolio",
   "stake": "Stake",
@@ -346,7 +349,7 @@
         "WithdrawFromPool": "Withdraw From Pool",
         "ListedInAntiFraud": "Listed in Anti-Fraud",
         "EarlyTransfer": "Blocked Withdrawal",
-        "insufficientGasBalance":"Insufficient Balance For Gas"
+        "insufficientGasBalance": "Insufficient Balance For Gas"
       },
       "depositErrorMessage": {
         "FeatureDisabled": "Feature Disabled",
@@ -356,7 +359,7 @@
         "ZeroAmount": "Zero Supply",
         "useMaxButton": "Use Max Button",
         "Panic": "Internal error",
-        "insufficientGasBalance":"Insufficient Balance For Gas"
+        "insufficientGasBalance": "Insufficient Balance For Gas"
       }
     },
     "activities": {
