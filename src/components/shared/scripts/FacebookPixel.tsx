@@ -1,7 +1,7 @@
 import Script from 'next/script'
 import styled from 'styled-components'
 
-type PaymentMethodPix = 'adtoCart_pix' | 'initiateCheckout_pix' | 'qrcode_pix' | 'purshase_ether'
+type PaymentMethodPix = 'adtoCart_pix' | 'initiateCheckout_pix' | 'qrcode_pix' | 'purchase_ether'
 
 type FacebookPixelProps = {
   eventTrack: 'PageView' | PaymentMethodPix | string

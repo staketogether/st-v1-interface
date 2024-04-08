@@ -14,7 +14,7 @@ export default function SuccessStep() {
   const exchange = (Number(quote?.amountBrl) / Number(quote?.amountToken)).toFixed(2)
   return (
     <Container>
-      <FacebookPixel eventTrack={'purshase_ether'} />
+      <FacebookPixel eventTrack={'purchase_ether'} />
       <LottieAnimation animationData={successAnimation} height={80} />
       <DepositToken>
         <div>
