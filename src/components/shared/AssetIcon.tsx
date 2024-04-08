@@ -27,7 +27,7 @@ export default function AssetIcon({ assetIcon, size, networkIcon, marginRight }:
     stpSOL: stIcon,
     stpTIA: stIcon,
     stpNear: stIcon,
-    stpKSM: stIcon,
+    stpDOT: stIcon,
     stpATOM: stIcon,
     stpBTC: stIcon,
     stpCHZ: stIcon,
@@ -51,7 +51,7 @@ export default function AssetIcon({ assetIcon, size, networkIcon, marginRight }:
   }
 
   return (
-    <Wrapper style={{marginRight: marginRight ? marginRight : 'inherit' }} size={size}>
+    <Wrapper style={{ marginRight: marginRight ? marginRight : 'inherit' }} size={size}>
       <Image src={assetSymbolIcons[assetIcon]} width={size} height={size} alt={assetIcon} />
       <div>
         <Image

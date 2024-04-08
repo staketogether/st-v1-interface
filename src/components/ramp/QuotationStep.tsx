@@ -2,7 +2,8 @@ import Button from '@/components/shared/Button'
 import {
   BrlaBuyEthStep,
   currentProductNameVar,
-  fiatAmountVar, quoteVar,
+  fiatAmountVar,
+  quoteVar,
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
@@ -24,10 +25,10 @@ import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { KycLevel } from './KycLevel'
 import AssetIcon from '@/components/shared/AssetIcon'
+import { FacebookPixel } from '../shared/scripts/FacebookPixel'
 import QuotationStepEthAmount from '@/components/ramp/QuotationStepEthAmount'
 
 export default function QuotationStep() {
-
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
   const debounceValue = useDebounce(value, 300)
@@ -78,13 +79,10 @@ export default function QuotationStep() {
       return
     }
 
-
     stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
   }, [address, kycLevelInfo?.level])
 
-
   const handleLabelButton = () => {
-
     if (error) {
       return `${t('v2.stake.depositErrorMessage.DepositLimitReached')}`
     }
@@ -98,7 +96,7 @@ export default function QuotationStep() {
 
   useEffect(() => {
     if (!quote) {
-     return
+      return
     }
     quoteVar({
       ...quote,
@@ -108,6 +106,7 @@ export default function QuotationStep() {
 
   return (
     <Container>
+      <FacebookPixel eventTrack='AdtoCart_pix' />
       <KycLevel amountValue={Number(debounceValue)} />
       <BoxValuesContainer>
         <InputContainer className={`${error ? 'error' : ''}`}>
@@ -127,10 +126,19 @@ export default function QuotationStep() {
         <ArrowDown />
         <InputContainer>
           <div>
-            <AssetIcon marginRight='8px' assetIcon={'ethereum'} networkIcon={product.networkAvailable} size={24} />
+            <AssetIcon
+              marginRight='8px'
+              assetIcon={'ethereum'}
+              networkIcon={product.networkAvailable}
+              size={24}
+            />
             <span>ETH</span>
           </div>
-          {quoteIsValidating ? <SkeletonLoading width={60} height={20} /> : <input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder='0' />}
+          {quoteIsValidating ? (
+            <SkeletonLoading width={60} height={20} />
+          ) : (
+            <input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder='0' />
+          )}
         </InputContainer>
       </BoxValuesContainer>
       <QuotationStepEthAmount />

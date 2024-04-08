@@ -14,6 +14,7 @@ import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
 import { Product } from '@/types/Product'
 import SymbolIcons from '../tokens/components/SymbolIcons'
 import AssetIcon from '../shared/AssetIcon'
+import { FacebookPixel } from '../shared/scripts/FacebookPixel'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -62,21 +63,27 @@ export default function StakeTransactionLoading({
       )}
       <div>
         {walletActionLoading && !transactionLoading && !transactionIsSuccess && (
-          <TitleModal>
-            {isWithdraw
-              ? t('v2.stake.confirmModal.confirmWithdraw')
-              : t('v2.stake.confirmModal.confirmDeposit')}
-          </TitleModal>
+          <>
+            {!isWithdraw && <FacebookPixel eventTrack={product.eventsTrack.confirmation} />}
+            <TitleModal>
+              {isWithdraw
+                ? t('v2.stake.confirmModal.confirmWithdraw')
+                : t('v2.stake.confirmModal.confirmDeposit')}
+            </TitleModal>
+          </>
         )}
         {transactionLoading && !transactionIsSuccess && (
           <TitleModal>{t('v2.stake.confirmModal.transactionSubmitted')}</TitleModal>
         )}
         {transactionIsSuccess && (
-          <TitleModal>
-            {isWithdraw
-              ? t('v2.stake.confirmModal.withdrawSuccessful')
-              : t('v2.stake.confirmModal.depositSuccessful')}
-          </TitleModal>
+          <>
+            {!isWithdraw && <FacebookPixel eventTrack={product.eventsTrack.success} />}
+            <TitleModal>
+              {isWithdraw
+                ? t('v2.stake.confirmModal.withdrawSuccessful')
+                : t('v2.stake.confirmModal.depositSuccessful')}
+            </TitleModal>
+          </>
         )}
         <ResumeStake>
           {isWithdraw ? (
@@ -84,7 +91,7 @@ export default function StakeTransactionLoading({
               <div>
                 <SymbolIcons productSymbol={product.symbol} size={32} />
                 <span className={'purple'}>{`${amount}`}</span>
-                <span className={'purple'}>{t('lsd.symbol')}</span>
+                <span className={'purple'}>{product.symbol}</span>
               </div>
               <ArrowIcon fontSize={18} />
               <div>
