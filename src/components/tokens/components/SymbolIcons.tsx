@@ -24,7 +24,7 @@ export default function SymbolIcons({ productSymbol, size, showPlusIcon, contrac
     stpSOL: stIcon,
     stpTIA: stIcon,
     stpNear: stIcon,
-    stpKSM: stIcon,
+    stpDOT: stIcon,
     stpATOM: stIcon,
     stpBTC: stIcon,
     stpCHZ: stIcon

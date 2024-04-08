@@ -41,7 +41,7 @@ export type ProductSymbol =
   | 'stpSOL'
   | 'stpTIA'
   | 'stpNear'
-  | 'stpKSM'
+  | 'stpDOT'
   | 'stpATOM'
   | 'stpBTC'
   | 'stpCHZ'
@@ -74,6 +74,7 @@ export type Product = {
   newProductTag: boolean
   eigenPointsAvailable: boolean
   ramp: {
+    chainId: number
     minDeposit: number
     bridge?: {
       fromChainId: number
@@ -105,6 +106,17 @@ export type Product = {
     mainnet: Contracts
   }
   getMobulaAssetData: GetMobulaAssetData
+  eventsTrack: {
+    pageView: string
+    checkout: string
+    confirmation: string
+    success: string
+    withdraw: string
+  }
+  transactionConfig: {
+    blockTimePerSeconds: number
+    confirmations: number
+  }
 }
 
 export type ProductMarketAssetData = {

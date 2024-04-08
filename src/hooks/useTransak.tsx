@@ -52,7 +52,6 @@ export default function useTransak(config?: TransakProps) {
   }, [transakConfig])
 
   useEffect(() => {
-
     Transak.on(Transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => {
       setIsClosed(true)
     })

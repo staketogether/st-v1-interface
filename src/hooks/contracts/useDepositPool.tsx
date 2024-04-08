@@ -178,7 +178,7 @@ export default function useDepositPool(
     isError: awaitTransactionErrorIsError
   } = useWaitForTransaction({
     hash: txHash,
-    confirmations: 4
+    confirmations: product.transactionConfig.confirmations
   })
 
   useEffect(() => {

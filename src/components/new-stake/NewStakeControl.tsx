@@ -14,6 +14,7 @@ import LottieAnimation from '../shared/LottieAnimation'
 import NetworkIcons from '../shared/NetworkIcons'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import ProductInfo from './ProductInfo'
+import { FacebookPixel } from '../shared/scripts/FacebookPixel'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -41,7 +42,6 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   const { chain: walletChainId, connector } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
-  const router = useRouter()
 
   useEffect(() => {
     if (isWrongNetwork && connector && connector.name === 'Web3Auth') {
@@ -50,7 +50,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   }, [chainId, connector, isWrongNetwork, switchChain])
 
   const copyToClipboard = async () => {
-    const url = `${window.location.origin}${router.asPath}`
+    const url = `${window.location.href}`
 
     await navigator.clipboard.writeText(url)
 
@@ -62,6 +62,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
 
   return (
     <Container>
+      <FacebookPixel eventTrack={product.eventsTrack.pageView} />
       <header>
         <HeaderBackAction href={`/${currency}`}>
           <PiArrowLeft />

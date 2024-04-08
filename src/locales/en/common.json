@@ -464,7 +464,11 @@
         "site": "Invalid site URL",
         "youtube": "Please enter a valid YouTube video URL",
         "youtubeChanel": "Please enter a valid YouTube channel",
-        "invalidCpf": "Invalid CPF"
+        "invalidCpf": "Invalid CPF",
+        "invalidCnpj": "Invalid CNPJ",
+        "alreadyCpf": "CPF registered in another wallet, try again through the wallet",
+        "alreadyEmail": "E-mail registered in another wallet, try again through the wallet",
+        "birthDate": "Invalid birth date"
       },
       "messages": {
         "success": "Project created successfully",

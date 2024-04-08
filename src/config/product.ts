@@ -20,6 +20,7 @@ export const productList: Product[] = [
     scan: 'https://etherscan.io/',
     rampEnabled: true,
     ramp: {
+      chainId: 1,
       minDeposit: 300
     },
     description: 'ethereumDescription',
@@ -53,6 +54,17 @@ export const productList: Product[] = [
       asset: 'Ethereum',
       blockchain: 'ethereum',
       symbol: 'eth'
+    },
+    eventsTrack: {
+      pageView: 'pageview-staking',
+      checkout: 'initiateCheckout_staking',
+      confirmation: 'confirmation-staking',
+      success: 'success-staking',
+      withdraw: 'withdraw-staking'
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 15,
+      confirmations: 2
     }
   },
   {
@@ -64,6 +76,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: true,
     rampEnabled: true,
     ramp: {
+      chainId: 10,
       minDeposit: 10,
       bridge: {
         fromChainId: 137,
@@ -113,6 +126,17 @@ export const productList: Product[] = [
       asset: 'Ethereum',
       blockchain: 'ethereum',
       symbol: 'eth'
+    },
+    eventsTrack: {
+      pageView: 'pageview-restaking',
+      checkout: 'initiateCheckout_restaking',
+      confirmation: 'confirmation-restaking',
+      success: 'success-restaking',
+      withdraw: 'withdraw-restaking'
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 2,
+      confirmations: 4
     }
   },
   {
@@ -124,6 +148,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
+      chainId: 1,
       minDeposit: 10
     },
     newProductTag: false,
@@ -167,6 +192,17 @@ export const productList: Product[] = [
       asset: '0x3506424f91fd33084466f402d5d97f05f8e3b4af',
       blockchain: '',
       symbol: ''
+    },
+    eventsTrack: {
+      pageView: 'pageview-chiliz',
+      checkout: 'initiateCheckout_chiliz',
+      confirmation: 'confirmation-chiliz',
+      success: 'success-chiliz',
+      withdraw: 'withdraw-chiliz'
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 0,
+      confirmations: 0
     }
   },
   {
@@ -178,6 +214,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
+      chainId: 137,
       minDeposit: 10
     },
     newProductTag: false,
@@ -221,6 +258,17 @@ export const productList: Product[] = [
       asset: 'Polygon',
       blockchain: '',
       symbol: ''
+    },
+    eventsTrack: {
+      pageView: 'pageview-polygon',
+      checkout: 'initiateCheckout_polygon',
+      confirmation: 'confirmation-polygon',
+      success: 'success-polygon',
+      withdraw: 'withdraw-polygon'
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 0,
+      confirmations: 0
     }
   },
   {
@@ -232,6 +280,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
+      chainId: 1,
       minDeposit: 10
     },
     newProductTag: false,
@@ -275,6 +324,17 @@ export const productList: Product[] = [
       asset: 'Solana',
       blockchain: 'ethereum',
       symbol: 'eth'
+    },
+    eventsTrack: {
+      pageView: 'pageview-solana',
+      checkout: 'initiateCheckout_solana',
+      confirmation: 'confirmation-solana',
+      success: 'success-solana',
+      withdraw: 'withdraw-solana'
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 0,
+      confirmations: 0
     }
   },
   {
@@ -286,6 +346,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
+      chainId: 1,
       minDeposit: 10
     },
     newProductTag: false,
@@ -329,6 +390,17 @@ export const productList: Product[] = [
       asset: '0x0eb3a705fc54725037cc9e008bdede697f62f335', //BNB CHAIN
       blockchain: '',
       symbol: ''
+    },
+    eventsTrack: {
+      pageView: 'pageview-cosmos',
+      checkout: 'initiateCheckout_cosmos',
+      confirmation: 'confirmation-cosmos',
+      success: 'success-cosmos',
+      withdraw: 'withdraw-cosmos'
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 0,
+      confirmations: 0
     }
   },
   {
@@ -340,6 +412,7 @@ export const productList: Product[] = [
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
+      chainId: 1,
       minDeposit: 10
     },
     newProductTag: false,
@@ -379,22 +452,33 @@ export const productList: Product[] = [
       mainnet: '',
       testnet: ''
     },
-
     getMobulaAssetData: {
       asset: '0x85F17Cf997934a597031b2E18a9aB6ebD4B9f6a4',
       blockchain: '',
       symbol: ''
+    },
+    eventsTrack: {
+      pageView: 'pageview-near',
+      checkout: 'initiateCheckout_near',
+      confirmation: 'confirmation-near',
+      success: 'success-near',
+      withdraw: 'withdraw-near'
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 0,
+      confirmations: 0
     }
   },
   {
     id: 8,
     name: 'polkadot',
     title: 'Polkadot',
-    symbol: 'stpKSM',
+    symbol: 'stpDOT',
     networkAvailable: 'ethereum',
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
+      chainId: 1,
       minDeposit: 10
     },
     newProductTag: false,
@@ -438,6 +522,17 @@ export const productList: Product[] = [
       asset: 'polkadot',
       blockchain: '',
       symbol: ''
+    },
+    eventsTrack: {
+      pageView: 'pageview-polkadot',
+      checkout: 'initiateCheckout_polkadot',
+      confirmation: 'confirmation-polkadot',
+      success: 'success-polkadot',
+      withdraw: 'withdraw-polkadot'
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 0,
+      confirmations: 0
     }
   }
 ]

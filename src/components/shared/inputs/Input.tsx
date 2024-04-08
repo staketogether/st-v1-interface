@@ -104,7 +104,6 @@ const { InputContainer, Content, ErrorMessage, QuestionIcon } = {
   `,
   ErrorMessage: styled.span`
     color: ${({ theme }) => theme.color.red[300]} !important;
-    height: 14px;
   `,
   QuestionIcon: styled(PiQuestion)`
     font-size: ${({ theme }) => theme.font.size[16]};

@@ -1,7 +1,13 @@
 import Script from 'next/script'
 import styled from 'styled-components'
 
-export const FacebookPixel = () => {
+type PaymentMethodPix = 'adtoCart_pix' | 'initiateCheckout_pix' | 'qrcode_pix' | 'purchase_ether'
+
+type FacebookPixelProps = {
+  eventTrack: 'PageView' | PaymentMethodPix | string
+}
+
+export const FacebookPixel = ({ eventTrack }: FacebookPixelProps) => {
   return (
     <>
       <Script
@@ -18,7 +24,7 @@ export const FacebookPixel = () => {
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '1367668057155824');
-        fbq('track', 'PageView');
+        fbq('track', '${eventTrack}');
       `
         }}
       />

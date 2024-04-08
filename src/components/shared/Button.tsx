@@ -63,7 +63,7 @@ export default function Button({
 const { Container, LoadingIcon } = {
   Container: styled.button<{ fontSize?: number; height?: number; padding?: string }>`
     border: none;
-    color: ${({ theme }) => theme.color.white};
+    color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${props => props.theme.size[8]};
     background: ${({ theme }) => theme.color.primary};
     transition: background-color 0.2s ease;
