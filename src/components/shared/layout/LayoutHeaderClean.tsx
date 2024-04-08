@@ -3,10 +3,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
-import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 
 export default function LayoutHeaderClean() {
-    const { t } = useLocaleTranslation()
+
 
     const { query } = useRouter()
     const { currency, network } = query
