@@ -1,9 +1,11 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
+  "cancel": "Cancel",
   "addToWalletTooltip": "Add token to your wallet",
   "save": "Save",
   "edit": "Edit",
+  "wallet": "Wallet",
   "connectWallet": "Connect Wallet",
   "projects": "Projects",
   "portfolio": "Portfolio",
@@ -119,6 +121,25 @@
     "depositError": "Failed to Deposit",
     "withdrawSuccess": "Withdrawal Successful",
     "withdrawError": "Failed to Withdraw"
+  },
+   "web3AuthWalletSettings": {
+    "showEtherScan": "View on Etherscan",
+    "showOptimismScan": "View on Optimism Etherscan",
+    "export": "Export",
+    "modal": {
+      "title": "Attention",
+      "description": "By using our services through your Google account, you understand and agree that:",
+      "role1": "1 - The wallet created through your account is exclusively for use on Stake Together.",
+      "role2": "2 - The code you will see now must be kept in a safe place and never, ever shared with anyone, as it is what guarantees access to your wallet. Anyone who has this code can move your balance. Store it with great care.",
+      "role3": "3 - Do not transfer any financial resources to this wallet that are not for use on the platform, it was created solely and exclusively for you to use on Stake Together. Any use other than this puts you at risk of losing absolutely everything in this wallet, irretrievably.",
+      "role4": "4 - We are not responsible for the use of the staketogether.org website and any of its features, in a manner other than directed above."
+    },
+    "privateKeyContainer": {
+      "title": "Your private key",
+      "description": "To use, you must have basic knowledge of crypto wallets. If you do, just copy and paste the private key below into your crypto wallet",
+      "notify": "use this wallet only for use on the Stake Together platform.",
+      "showPrivateKey": "Show private key"
+    }
   },
   "settings": {
     "title": "Settings",
@@ -650,6 +671,7 @@
       "useThePixQRCode": "Use the Pix QR Code to pay",
       "orUseThePixKey": "Or use the Pix Key",
       "cancelDeposit": "Cancel deposit",
+     
       "copyQrCode": "Copy QR Code",
       "yourEths": "Your ETH will be in your account",
       "timeReceive": "within 30 minutes",

@@ -103,7 +103,7 @@ const { ModalWrapper, Overlay, CloseButton } = {
     &.success {
       > header {
         text-align: center;
-        color: ${({ theme }) => theme.color.green[500]}
+        color: ${({ theme }) => theme.color.green[500]};
       }
     }
 
