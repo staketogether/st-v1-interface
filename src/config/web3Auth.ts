@@ -57,7 +57,7 @@ export default function Web3AuthConnectorInstances(chains: ChainConfig.Chain[]) 
 
   const openloginAdapterInstance = new OpenloginAdapter({
     adapterSettings: {
-      uxMode: UX_MODE.POPUP
+      uxMode: UX_MODE.REDIRECT
     }
   })
   web3AuthInstance.configureAdapter(openloginAdapterInstance)

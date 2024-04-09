@@ -195,7 +195,10 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
         <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />
       )}
       {!isSettingsActive && !isPanelActive && isWeb3AuthSettingsActive && (
-        <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive} />
+        <WalletSidebarWeb3AuthWalletSettings
+          setWeb3authWalletActive={setIsWeb3AuthSettingsActive}
+          walletAddress={address}
+        />
       )}
       {!isSettingsActive && !isPanelActive && !isWeb3AuthSettingsActive && (
         <>

@@ -1,6 +1,7 @@
 {
   "stakeTogether": "Stake Together",
   "pools": "Pools",
+  "cancel": "Cancelar",
   "addToWalletTooltip": "Adicionar o token a sua carteira",
   "save": "Salvar",
   "edit": "Editar",
@@ -120,7 +121,23 @@
     "withdrawError": "Falha ao Sacar"
   },
   "web3AuthWalletSettings": {
-    "title": ""
+    "showEtherScan": "Ver no Etherscan",
+    "showOptimismScan": "Ver na Optmism Etherscan",
+    "export": "Exportar",
+    "modal": {
+      "title": "Atenção",
+      "description": "Ao usar nossos serviços, através da sua conta do Google, você entende e aceita que!",
+      "role1": "1 - A carteira criada através da sua conta é exclusiva para uso na Stake Together.",
+      "role2": "2 - O código que você verá agora, precisa ser guardado em local seguro e nunca, jamais compartilhado com ninguém, pois é ele que garante acesso à sua carteira. Quem tiver esse código, consegue movimentar seu saldo. Guarde com bastante atenção.",
+      "role3": "3 - Não transfira nenhum recurso financeiro para essa carteira que não seja para uso na plataforma, ela foi criada única e exclusivamente para você usar na Stake Together. Qualquer uso diferente disso coloca você no risco de perder absolutamente tudo que estiver nessa carteira, de forma irrecuperável.",
+      "role4": "4 - Não nos responsabilizamos pelo uso do site staketogether.org e quaisquer de suas funcionalidades, de forma diferente ao orientado acima."
+    },
+    "privateKeyContainer": {
+      "title": "Sua chave privada",
+      "description": "Para utilizar, é necessário ter conhecimento básico de carteiras cripto. caso tenha, basta copiar e colar a chave privada abaixo na carteira cripto",
+      "notify": "utilize essa carteira somente para uso na plataforma da stake together.",
+      "showPrivateKey": "Mostrar chave privada"
+    }
   },
   "settings": {
     "title": "Configurações",
