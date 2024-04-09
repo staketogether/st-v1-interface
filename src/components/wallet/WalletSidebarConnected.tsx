@@ -13,10 +13,11 @@ import {
   PiChartLine,
   PiChartPieSlice,
   PiGear,
-  PiSignOut
+  PiSignOut,
+  PiWallet
 } from 'react-icons/pi'
 import styled from 'styled-components'
-import { useDisconnect } from 'wagmi'
+import { useAccount, useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
@@ -40,6 +41,9 @@ import Withdrawals from '../shared/Withdrawals'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
+import { web3AuthInstanceVar } from '@/config/web3Auth'
+import { useReactiveVar } from '@apollo/client'
+import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -48,11 +52,15 @@ type WalletSidebarConnectedProps = {
 export default function WalletSidebarConnected({ address }: WalletSidebarConnectedProps) {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [isPanelActive, setIsPanelActive] = useState(false)
+  const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<'delegations' | 'rewards' | 'activity'>('delegations')
   const [productTabSelected, setProductTabSelected] = useState<'ethereum-stake' | 'ethereum-restaking'>(
     'ethereum-stake'
   )
+
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
+  const { connector } = useAccount()
+  const showWalletSidebarWeb3AuthSettings = connector && connector.id === 'web3auth'
   const { disconnect } = useDisconnect()
   const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
@@ -73,6 +81,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const { name, nameLoading } = useEns(address, chainId)
 
+  const web3AuthInstance = useReactiveVar(web3AuthInstanceVar)
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
 
   const handleWalletProviderImage = useWalletProviderImage()
@@ -134,9 +143,13 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const value = truncateWei(totalBalance, 4)
   const { priceConvertedValue: usdTotalBalance } = useCoinConversion(value)
 
-  function disconnectWallet() {
+  async function disconnectWallet() {
     setOpenSidebar(false)
     disconnect()
+    if (web3AuthInstance && web3AuthInstance.status === 'connected') {
+      await web3AuthInstance.logout()
+      web3AuthInstanceVar(undefined)
+    }
   }
 
   function copyToClipboard(value: string) {
@@ -178,8 +191,13 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       {isSettingsActive && !isPanelActive && (
         <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />
       )}
-      {isPanelActive && !isSettingsActive && <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
-      {!isSettingsActive && !isPanelActive && (
+      {isPanelActive && !isSettingsActive && !isWeb3AuthSettingsActive && (
+        <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />
+      )}
+      {!isSettingsActive && !isPanelActive && isWeb3AuthSettingsActive && (
+        <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive} />
+      )}
+      {!isSettingsActive && !isPanelActive && !isWeb3AuthSettingsActive && (
         <>
           <HeaderContainer>
             <HeaderUserContainer>
@@ -231,6 +249,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               {userCanViewPanel && !verifyWalletLoading && (
                 <SidebarButton onClick={() => setIsPanelActive(true)}>
                   <PanelIcon fontSize={16} />
+                </SidebarButton>
+              )}
+              {showWalletSidebarWeb3AuthSettings && (
+                <SidebarButton onClick={() => setIsWeb3AuthSettingsActive(true)}>
+                  <WalletIcon fontSize={16} />
                 </SidebarButton>
               )}
               <SidebarButton onClick={() => setIsSettingsActive(true)}>
@@ -401,6 +424,7 @@ const {
 
   BalanceInvestmentContainer,
   SettingIcon,
+  WalletIcon,
   PanelIcon,
   Actions,
   HeaderUserContainer,
@@ -485,6 +509,13 @@ const {
     }
   `,
   SettingIcon: styled(PiGear)`
+    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+    }
+  `,
+  WalletIcon: styled(PiWallet)`
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
 
     &:hover {

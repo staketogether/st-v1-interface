@@ -4,6 +4,7 @@
   "addToWalletTooltip": "Adicionar o token a sua carteira",
   "save": "Salvar",
   "edit": "Editar",
+  "wallet": "Carteira",
   "connectWallet": "Conectar Carteira",
   "projects": "Projetos",
   "portfolio": "Portfólio",
@@ -117,6 +118,9 @@
     "depositError": "Falha ao Depositar",
     "withdrawSuccess": "Saque Bem-Sucedido",
     "withdrawError": "Falha ao Sacar"
+  },
+  "web3AuthWalletSettings": {
+    "title": ""
   },
   "settings": {
     "title": "Configurações",
