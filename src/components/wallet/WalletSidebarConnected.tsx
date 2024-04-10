@@ -82,7 +82,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountBalance: stakeAccountBalance,
     accountRewards: stakeAccountRewards,
     accountActivities: stakeAccountActivities,
-    accountProfitPercentage: stakeAccountProfitPercentage,
+    // accountProfitPercentage: stakeAccountProfitPercentage,
     accountIsLoading: stakeAccountIsLoading,
     accountShare: stakeAccountShare
   } = useStAccount({ address: address, productName: 'ethereum-stake', chainId: Networks.Mainnet })
@@ -95,7 +95,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountBalance: restakingAccountBalance,
     accountRewards: restakingAccountRewards,
     accountActivities: restakingAccountActivities,
-    accountProfitPercentage: restakingAccountProfitPercentage,
+    // accountProfitPercentage: restakingAccountProfitPercentage,
     accountIsLoading: restakingAccountIsLoading,
     accountShare: restakingAccountShare
   } = useStAccount({ address: address, productName: 'ethereum-restaking', chainId: Networks.optimism })
@@ -108,7 +108,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       accountBalance: stakeAccountBalance,
       accountRewards: stakeAccountRewards,
       accountActivities: stakeAccountActivities,
-      accountProfitPercentage: stakeAccountProfitPercentage,
+      // accountProfitPercentage: stakeAccountProfitPercentage,
       accountIsLoading: stakeAccountIsLoading,
       accountShare: stakeAccountShare
     },
@@ -117,14 +117,13 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       accountBalance: restakingAccountBalance,
       accountRewards: restakingAccountRewards,
       accountActivities: restakingAccountActivities,
-      accountProfitPercentage: restakingAccountProfitPercentage,
+      // accountProfitPercentage: restakingAccountProfitPercentage,
       accountIsLoading: restakingAccountIsLoading,
       accountShare: restakingAccountShare
     }
   }
 
-  const { accountDelegations, accountRewards, accountActivities, accountProfitPercentage, accountShare } =
-    stAccount[productTabSelected]
+  const { accountDelegations, accountRewards, accountActivities, accountShare } = stAccount[productTabSelected]
 
   const totalBalance =
     BigInt(stakeAccountBalance) +
@@ -306,7 +305,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                     <span>Ethereum</span>
                   </div>
                 </div>
-                <div> {truncateWei(BigInt(accountProfitPercentage) * BigInt(100), 4)}%</div>
+                <div> - </div>
                 <div>
                   <span>{stpETHAccountBalance}</span>
                   <span>{usdStpETHBalance}</span>
@@ -322,7 +321,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                     <span>Restaking</span>
                   </div>
                 </div>
-                <div>{truncateWei(BigInt(restakingAccountProfitPercentage) * BigInt(100), 4)}%</div>
+                <div> - </div>
                 <div>
                   <span>{stpRETHAccountBalance}</span>
                   <span>{usdStpRETHBalance}</span>
