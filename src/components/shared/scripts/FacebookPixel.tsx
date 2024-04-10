@@ -29,17 +29,16 @@ export const FacebookPixel = ({ eventTrack }: FacebookPixelProps) => {
         }}
       />
       <noscript>
-        <PixelImage
-          height='1'
-          width='1'
-          style={{ display: 'none', height: 1, width: 1 }}
-          src='https://www.facebook.com/tr?id=788990793167571&ev=PageView&noscript=1'
-        />
+        <PixelImage src='https://www.facebook.com/tr?id=788990793167571&ev=PageView&noscript=1' />
       </noscript>
     </>
   )
 }
 
 const { PixelImage } = {
-  PixelImage: styled.div``
+  PixelImage: styled.img`
+    height: 1px;
+    width: 1px;
+    display: 'none';
+  `
 }
