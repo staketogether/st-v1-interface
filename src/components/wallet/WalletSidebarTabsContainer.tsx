@@ -5,23 +5,26 @@ import WalletSidebarActivities from '@/components/wallet/WalletSidebarActivities
 import WalletSidebarRewards from '@/components/wallet/WalletSidebarRewards'
 import WalletSidebarPortfolio from './WalletSidebarPortfolio'
 import styled from 'styled-components'
+import { StakingProduct } from '@/types/Product'
 
 type WalletSidebarTabsContainerProps = {
   accountDelegations: Delegation[]
   accountRewards: AccountReward[]
   accountActivities: AccountActivity[]
   activatedTab: 'delegations' | 'rewards' | 'activity'
+  productSelected: StakingProduct
 }
 
 export default function WalletSidebarTabsContainer({
   accountDelegations,
   accountActivities,
   accountRewards,
-  activatedTab
+  activatedTab,
+  productSelected
 }: WalletSidebarTabsContainerProps) {
   const tabs = {
     delegations: <WalletSidebarPortfolio accountDelegations={accountDelegations} />,
-    rewards: <WalletSidebarRewards accountRewards={accountRewards} />,
+    rewards: <WalletSidebarRewards accountRewards={accountRewards} productSelected={productSelected} />,
     activity: <WalletSidebarActivities accountActivities={accountActivities} />
   }
   return <Warper>{tabs[activatedTab]}</Warper>
