@@ -79,6 +79,7 @@ export default function WalletSidebarWeb3AuthWalletSettings({
                     label={t('web3AuthWalletSettings.privateKeyContainer.showPrivateKey')}
                     block
                     small
+                    color='red'
                     icon={<PiEye />}
                   />
                 </div>

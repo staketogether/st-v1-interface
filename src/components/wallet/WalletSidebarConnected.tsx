@@ -44,6 +44,7 @@ import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 import { useReactiveVar } from '@apollo/client'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
+import { StakingProduct } from '@/types/Product'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -54,9 +55,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<'delegations' | 'rewards' | 'activity'>('delegations')
-  const [productTabSelected, setProductTabSelected] = useState<'ethereum-stake' | 'ethereum-restaking'>(
-    'ethereum-stake'
-  )
+  const [productTabSelected, setProductTabSelected] = useState<StakingProduct>('ethereum-stake')
 
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
   const { connector } = useAccount()
@@ -133,7 +132,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   }
 
   const { accountDelegations, accountRewards, accountActivities, accountProfitPercentage, accountShare } =
-    stAccount[productTabSelected]
+    stAccount[productTabSelected as 'ethereum-stake' | 'ethereum-restaking']
 
   const totalBalance =
     BigInt(stakeAccountBalance) +
@@ -400,6 +399,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               accountRewards={accountRewards}
               accountActivities={accountActivities}
               activatedTab={tabActivated}
+              productSelected={productTabSelected}
             />
           </Card>
 

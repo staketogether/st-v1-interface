@@ -126,7 +126,7 @@
   "web3AuthWalletSettings": {
     "showEtherScan": "Ver no Etherscan",
     "showOptimismScan": "Ver na Optmism Etherscan",
-    "export": "Exportar",
+    "export": "Exportar Chave Privada",
     "modal": {
       "title": "Atenção",
       "description": "Ao usar nossos serviços, através da sua conta do Google, você entende e aceita que!",
@@ -136,10 +136,10 @@
       "role4": "4 - Não nos responsabilizamos pelo uso do site staketogether.org e quaisquer de suas funcionalidades, de forma diferente ao orientado acima."
     },
     "privateKeyContainer": {
-      "title": "Sua chave privada",
+      "title": "Sua Chave Privada",
       "description": "Para utilizar, é necessário ter conhecimento básico de carteiras cripto. caso tenha, basta copiar e colar a chave privada abaixo na carteira cripto",
       "notify": "utilize essa carteira somente para uso na plataforma da stake together.",
-      "showPrivateKey": "Mostrar chave privada"
+      "showPrivateKey": "Mostrar Chave Privada"
     }
   },
   "settings": {
