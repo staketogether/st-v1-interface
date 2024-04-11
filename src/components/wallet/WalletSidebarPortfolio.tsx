@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebar from '@/hooks/useWalletSidebar'
@@ -10,29 +9,27 @@ import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { getProductByName } from '@/config/product'
 import { PiPen } from 'react-icons/pi'
 import Button from '../shared/Button'
 import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
+import { Product } from '@/types/Product'
 
 type WalletSidebarPortfolioProps = {
   accountDelegations: Delegation[]
+  product: Product
 }
 
-export default function WalletSidebarPortfolio({ accountDelegations }: WalletSidebarPortfolioProps) {
+export default function WalletSidebarPortfolio({ accountDelegations, product }: WalletSidebarPortfolioProps) {
   const { t } = useLocaleTranslation()
   const { setOpenSidebar } = useWalletSidebar()
   const { query, locale } = useRouter()
   const { currency, network } = query
   const { poolsList, isLoading } = useContentfulPoolsList()
   const { setOpenSidebar: setOpenSidebarEditPortfolio } = useWalletSidebarEditPortfolio()
-
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
-  const { isTestnet } = chainConfig()
-  const product = getProductByName({ productName: 'ethereum-stake' })
-  const stakeTogetherPool = product.stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet']
+  const stakeTogetherPool = product.stakeTogetherPool['mainnet']
 
   return (
     <Container>
@@ -67,7 +64,7 @@ export default function WalletSidebarPortfolio({ accountDelegations }: WalletSid
             </div>
             <div>
               {formatNumberByLocale(truncateWei(delegation.delegationBalance, 6), locale)}
-              <span>{t('lsd.symbol')}</span>
+              <span>{product.symbol}</span>
             </div>
           </DelegatedPool>
         )
