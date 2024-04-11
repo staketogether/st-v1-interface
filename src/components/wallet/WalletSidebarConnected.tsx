@@ -412,6 +412,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
         accountDelegations={accountDelegations}
         accountTotalShares={accountShare}
         userAccount={address}
+        productSelected={productTabSelected}
       />
     </DrawerContainer>
   )

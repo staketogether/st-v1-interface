@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { AccountActivity } from '@/types/AccountActivity'
@@ -7,15 +6,18 @@ import { useRouter } from 'next/router'
 import { PiLink } from 'react-icons/pi'
 import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
+import { Product } from '@/types/Product'
+import { chainConfigByChainId } from '@/config/chain'
 
 type WalletSidebarActivities = {
   accountActivities: AccountActivity[]
+  product: Product
 }
 
-export default function WalletSidebarActivities({ accountActivities }: WalletSidebarActivities) {
+export default function WalletSidebarActivities({ accountActivities, product }: WalletSidebarActivities) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
-  const { blockExplorer } = chainConfig()
+  const { blockExplorer } = chainConfigByChainId(product.chainIdNetworkAvailable)
   const getLocale = () => {
     return locale === 'en' ? 'en-US' : 'pt-BR'
   }
