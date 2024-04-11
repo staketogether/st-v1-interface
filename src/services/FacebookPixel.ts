@@ -1,5 +1,5 @@
 export function fbqTrackEvent(eventTrack: string) {
-  if (typeof window.fbq !== 'undefined') {
+  if ((window as Window).fbq !== undefined) {
     window.fbq('track', eventTrack)
   }
 }
