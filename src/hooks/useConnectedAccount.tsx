@@ -14,10 +14,7 @@ export default function useConnectedAccount() {
 
   useEffect(() => {
     const getUserInfo = async () => {
-      if (
-        connector &&
-        web3AuthInstance &&
-        web3AuthInstance.status === 'connected') {
+      if (connector && web3AuthInstance && web3AuthInstance.status === 'connected') {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const user = await web3AuthInstance.getUserInfo()
