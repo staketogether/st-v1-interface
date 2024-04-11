@@ -25,8 +25,8 @@ import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { KycLevel } from './KycLevel'
 import AssetIcon from '@/components/shared/AssetIcon'
-import { FacebookPixel } from '../shared/scripts/FacebookPixel'
 import QuotationStepEthAmount from '@/components/ramp/QuotationStepEthAmount'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 
 export default function QuotationStep() {
   const fiatAmount = useReactiveVar(fiatAmountVar)
@@ -104,9 +104,10 @@ export default function QuotationStep() {
     })
   }, [quote])
 
+  useFacebookPixel('AdtoCart_pix')
+
   return (
     <Container>
-      <FacebookPixel eventTrack='AdtoCart_pix' />
       <KycLevel amountValue={Number(debounceValue)} />
       <BoxValuesContainer>
         <InputContainer className={`${error ? 'error' : ''}`}>

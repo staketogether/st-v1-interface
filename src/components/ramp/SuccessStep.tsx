@@ -5,16 +5,16 @@ import styled from 'styled-components'
 import Button from '../shared/Button'
 import LottieAnimation from '../shared/LottieAnimation'
 import successAnimation from '@assets/animations/success-animation.json'
-import { FacebookPixel } from '../shared/scripts/FacebookPixel'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 
 export default function SuccessStep() {
   const { t } = useLocaleTranslation()
   const quote = useReactiveVar(quoteVar)
 
   const exchange = (Number(quote?.amountBrl) / Number(quote?.amountToken)).toFixed(2)
+  useFacebookPixel('purchase_ether')
   return (
     <Container>
-      <FacebookPixel eventTrack={'purchase_ether'} />
       <LottieAnimation animationData={successAnimation} height={80} />
       <DepositToken>
         <div>

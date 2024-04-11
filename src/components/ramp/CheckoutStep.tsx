@@ -17,7 +17,7 @@ import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
 import SwapInfo from './SwapInfo'
-import { FacebookPixel } from '../shared/scripts/FacebookPixel'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 
 export default function CheckoutStep() {
   const { t } = useLocaleTranslation()
@@ -74,9 +74,9 @@ export default function CheckoutStep() {
     `
   }
 
+  useFacebookPixel('qrcode_pix')
   return (
     <Container>
-      <FacebookPixel eventTrack='qrcode_pix' />
       <Body>
         <SwapInfo />
         <PixArea>
