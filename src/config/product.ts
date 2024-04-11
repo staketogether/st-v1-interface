@@ -119,7 +119,7 @@ export const productList: Product[] = [
       }
     },
     subgraph: {
-      mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together-optimism/v1.0.0',
+      mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together-optimism/version/latest',
       testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest'
     },
     getMobulaAssetData: {
