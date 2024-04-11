@@ -33,7 +33,7 @@ export default function WalletSidebarTabsContainer({
         productSelected={productSelected}
       />
     ),
-    activity: <WalletSidebarActivities accountActivities={accountActivities} />
+    activity: <WalletSidebarActivities accountActivities={accountActivities} product={product} />
   }
   return <Warper>{tabs[activatedTab]}</Warper>
 }

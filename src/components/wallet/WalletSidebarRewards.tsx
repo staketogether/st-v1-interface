@@ -1,4 +1,4 @@
-import chainConfig from '@/config/chain'
+import { chainConfigByChainId } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { AccountReward } from '@/types/AccountReward'
@@ -19,7 +19,7 @@ export default function WalletSidebarRewards({ accountRewards, product }: Wallet
   const { t } = useLocaleTranslation()
   const theme = useTheme()
   const { locale } = useRouter()
-  const { blockExplorer } = chainConfig()
+  const { blockExplorer } = chainConfigByChainId(product.chainIdNetworkAvailable)
 
   return (
     <Container>

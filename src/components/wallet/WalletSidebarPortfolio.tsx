@@ -23,7 +23,7 @@ export default function WalletSidebarPortfolio({ accountDelegations, product }: 
   const { t } = useLocaleTranslation()
   const { setOpenSidebar } = useWalletSidebar()
   const { query, locale } = useRouter()
-  const { currency, network } = query
+  const { currency } = query as { currency: string }
   const { poolsList, isLoading } = useContentfulPoolsList()
   const { setOpenSidebar: setOpenSidebarEditPortfolio } = useWalletSidebarEditPortfolio()
   const handleMetadataPools = (address: `0x${string}`) => {
@@ -42,8 +42,8 @@ export default function WalletSidebarPortfolio({ accountDelegations, product }: 
         const poolMetadata = handleMetadataPools(delegation.delegated.address)
         const urlRedirect =
           stakeTogetherPool?.toLowerCase() === delegation.delegated.address.toLowerCase()
-            ? `/${network}/${currency}`
-            : `/${network}/${currency}/project/deposit/${delegation.delegated.address}`
+            ? `${product.urlRedirect}`
+            : `${product.urlRedirect.replace('currency', currency)}?projectAddress=${delegation.delegated.address}`
         return (
           <DelegatedPool key={index} href={urlRedirect} onClick={() => setOpenSidebar(false)}>
             <div>
