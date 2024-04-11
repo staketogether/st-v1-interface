@@ -7,6 +7,7 @@ export const productList: Product[] = [
     title: 'Staking de Ethereum',
     symbol: 'stpETH',
     networkAvailable: 'ethereum',
+    chainIdNetworkAvailable: 1,
     eigenPointsAvailable: false,
     newProductTag: false,
     networks: [
@@ -73,6 +74,7 @@ export const productList: Product[] = [
     title: 'Restaking',
     symbol: 'strETH',
     networkAvailable: 'optimism',
+    chainIdNetworkAvailable: 10,
     eigenPointsAvailable: true,
     rampEnabled: true,
     ramp: {
@@ -119,7 +121,7 @@ export const productList: Product[] = [
       }
     },
     subgraph: {
-      mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together-optimism/v1.0.0',
+      mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together-optimism/version/latest',
       testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest'
     },
     getMobulaAssetData: {
@@ -145,6 +147,7 @@ export const productList: Product[] = [
     title: 'Chiliz',
     symbol: 'stpCHZ',
     networkAvailable: 'ethereum',
+    chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
@@ -211,6 +214,7 @@ export const productList: Product[] = [
     title: 'Polygon',
     symbol: 'stpPOL',
     networkAvailable: 'ethereum',
+    chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
@@ -277,6 +281,7 @@ export const productList: Product[] = [
     title: 'Solana',
     symbol: 'stpSOL',
     networkAvailable: 'ethereum',
+    chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
@@ -343,6 +348,7 @@ export const productList: Product[] = [
     title: 'Cosmos',
     symbol: 'stpATOM',
     networkAvailable: 'ethereum',
+    chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
@@ -409,6 +415,7 @@ export const productList: Product[] = [
     title: 'Near',
     symbol: 'stpNear',
     networkAvailable: 'ethereum',
+    chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {
@@ -475,6 +482,7 @@ export const productList: Product[] = [
     title: 'Polkadot',
     symbol: 'stpDOT',
     networkAvailable: 'ethereum',
+    chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
     ramp: {

@@ -48,7 +48,7 @@ export default function Web3AuthConnectorInstances(chains: ChainConfig.Chain[]) 
         'https://raw.githubusercontent.com/staketogether/st-v1-interface/cf6b14fe8e7e7264942b6af82945a479e4a39c12/public/assets/st-symbol.svg',
       logoDark:
         'https://raw.githubusercontent.com/staketogether/st-v1-interface/cf6b14fe8e7e7264942b6af82945a479e4a39c12/public/assets/st-symbol.svg',
-      defaultLanguage: 'en',
+      defaultLanguage: 'pt',
       theme: {
         primary: '#768729'
       }

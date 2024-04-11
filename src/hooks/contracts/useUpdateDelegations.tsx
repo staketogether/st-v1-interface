@@ -4,13 +4,11 @@ import {
   useWaitForTransactionReceipt as useWaitForTransaction,
   useWriteContract
 } from 'wagmi'
-import chainConfig from '../../config/chain'
 import { stakeTogetherAbi } from '@/types/Contracts'
 import useConnectedAccount from '../useConnectedAccount'
-import { getContractsByProductName, getProductByName } from '@/config/product'
 import { notification } from 'antd'
 import useLocaleTranslation from '../useLocaleTranslation'
-import { ethereumMainnetClient } from '@/config/apollo'
+import { getSubgraphClient } from '@/config/apollo'
 import { queryAccount } from '@/queries/subgraph/queryAccount'
 import { queryPool } from '@/queries/subgraph/queryPool'
 import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
@@ -23,6 +21,7 @@ import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import { ethers } from 'ethers'
+import { Product } from '@/types/Product'
 
 export type PoolData = {
   pool: `0x${string}`
@@ -32,6 +31,7 @@ export type PoolData = {
 export default function useUpdateDelegations(
   enabled: boolean,
   updateDelegationPools: PoolData[],
+  product: Product,
   accountAddress?: `0x${string}`
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -41,25 +41,13 @@ export default function useUpdateDelegations(
   const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
   const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
-
-  // const { registerWithdraw } = useMixpanelAnalytics()
-  const { isTestnet, chainId } = chainConfig()
-  //VERIFICAR A NECESSIDADE DE ESPECIFICAR O PRODUTO
-  const { StakeTogether } = getContractsByProductName({
-    productName: 'ethereum-stake',
-    isTestnet
-  })
-
-  const { stakeTogetherPool } = getProductByName({
-    productName: 'ethereum-stake'
-  })
-
+  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet: false })
   const { web3AuthUserInfo } = useConnectedAccount()
   const { t } = useLocaleTranslation()
 
   const updateDelegationEstimatedGas: PoolData[] = [
     {
-      pool: stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet'],
+      pool: product.stakeTogetherPool.mainnet,
       percentage: ethers.parseUnits('1', 18)
     }
   ]
@@ -67,7 +55,7 @@ export default function useUpdateDelegations(
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
-    contractAddress: StakeTogether,
+    contractAddress: product.contracts['mainnet'].StakeTogether,
     functionName: 'updateDelegations',
     args: [updateDelegationEstimatedGas],
     abi: stakeTogetherAbi,
@@ -98,12 +86,11 @@ export default function useUpdateDelegations(
     query: {
       enabled: isUpdateDelegationEnabled
     },
-    address: StakeTogether,
+    address: product.contracts['mainnet'].StakeTogether,
     args: [updateDelegationPools],
     account: accountAddress,
     abi: stakeTogetherAbi,
-
-    chainId,
+    chainId: product.chainIdNetworkAvailable,
     functionName: 'updateDelegations',
     gas: !!estimatedGas && estimatedGas > 0n && !!web3AuthUserInfo ? estimatedGas : undefined,
     maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
@@ -170,13 +157,13 @@ export default function useUpdateDelegations(
     isError: awaitTransactionErrorIsError
   } = useWaitForTransaction({
     hash: txHash,
-    confirmations: 2
+    confirmations: product.transactionConfig.confirmations
   })
 
   useEffect(() => {
     if (awaitTransactionSuccess) {
       setAwaitWalletAction(false)
-      ethereumMainnetClient.refetchQueries({
+      subgraphClient.refetchQueries({
         include: [
           queryAccount,
           queryPool,
@@ -196,7 +183,7 @@ export default function useUpdateDelegations(
         placement: 'topRight'
       })
     }
-  }, [awaitTransactionSuccess, t])
+  }, [awaitTransactionSuccess, subgraphClient, t])
 
   useEffect(() => {
     if (awaitTransactionErrorIsError) {
