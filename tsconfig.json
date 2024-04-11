@@ -24,6 +24,7 @@
       "@assets/*": ["./public/assets/*"]
     }
   },
+  "typeRoots": ["./types/modules"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
