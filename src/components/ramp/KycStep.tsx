@@ -264,14 +264,6 @@ export default function KycStep() {
     return ''
   }
 
-  useEffect(() => {
-    if (typeof window.fbq !== 'undefined') {
-      window.fbq('track', 'initiateCheckout_pix')
-    } else {
-      console.error('Facebook Pixel not initialized')
-    }
-  }, [])
-
   useFacebookPixel('initiateCheckout_pix')
 
   return (
