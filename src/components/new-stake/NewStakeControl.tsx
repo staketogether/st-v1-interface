@@ -14,7 +14,7 @@ import LottieAnimation from '../shared/LottieAnimation'
 import NetworkIcons from '../shared/NetworkIcons'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import ProductInfo from './ProductInfo'
-import { FacebookPixel } from '../shared/scripts/FacebookPixel'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -59,10 +59,10 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
       placement: 'topRight'
     })
   }
+  useFacebookPixel(product.eventsTrack.pageView)
 
   return (
     <Container>
-      <FacebookPixel eventTrack={product.eventsTrack.pageView} />
       <header>
         <HeaderBackAction href={`/${currency}`}>
           <PiArrowLeft />

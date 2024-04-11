@@ -1,9 +1,9 @@
-import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo';
-import { StakingProduct } from '@/types/Product';
-import { Quote } from '@/types/quote.type';
-import { makeVar } from '@apollo/client';
-import { BuyRamp } from './useBuyRamp';
-import { KycLevelInfo } from './useKycLevelInfo';
+import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo'
+import { StakingProduct } from '@/types/Product'
+import { Quote } from '@/types/quote.type'
+import { makeVar } from '@apollo/client'
+import { BuyRamp } from './useBuyRamp'
+import { KycLevelInfo } from './useKycLevelInfo'
 
 export enum BrlaBuyEthStep {
   MethodPayment = 'MethodPayment',
@@ -24,7 +24,7 @@ export enum DepositType {
 export interface DepositConfig {
   depositChanId: number
   bridgeChanIn?: number
-  toChain?: string,
+  toChain?: string
   toToken?: string
 }
 export const openBrlaModalVar = makeVar(false)
@@ -62,10 +62,7 @@ export const changeWalletAddress = () => {
   stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
 }
 
-
-
 export const openModal = (stakingProduct: StakingProduct) => {
   currentProductNameVar(stakingProduct)
   openBrlaModalVar(true)
-
 }

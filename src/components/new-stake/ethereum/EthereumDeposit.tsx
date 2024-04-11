@@ -22,6 +22,7 @@ import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumInput from './EthereumInput'
 import EthereumProjectSelect from './EthereumProjectSelect'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
+import { fbqTrackEvent } from '@/services/FacebookPixel'
 
 type EthereumDepositProps = {
   type: 'deposit' | 'withdraw'
@@ -134,6 +135,7 @@ export default function EthereumDeposit({
       })
       return
     }
+    fbqTrackEvent(product.eventsTrack.checkout)
     setOpenStakeConfirmModal(true)
   }
   const handleLabelButton = () => {

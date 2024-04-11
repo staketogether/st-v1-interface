@@ -12,8 +12,8 @@ import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 import SwapInfo from './SwapInfo'
 import { notification } from 'antd'
 import { AxiosError } from 'axios'
-import { FacebookPixel } from '../shared/scripts/FacebookPixel'
 import { globalConfig } from '@/config/global'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 
 export default function KycStep() {
   const { t } = useLocaleTranslation()
@@ -264,9 +264,10 @@ export default function KycStep() {
     return ''
   }
 
+  useFacebookPixel('initiateCheckout_pix')
+
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
-      <FacebookPixel eventTrack='initiateCheckout_pix' />
       <Container>
         <SwapInfo />
         <h2>{t('v2.ramp.checkOut')}</h2>

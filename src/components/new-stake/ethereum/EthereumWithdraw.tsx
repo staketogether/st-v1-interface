@@ -26,6 +26,7 @@ import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
 import useStConfig from '@/hooks/contracts/useStConfig'
+import { fbqTrackEvent } from '@/services/FacebookPixel'
 
 type EthereumWithdrawProps = {
   type: 'deposit' | 'withdraw'
@@ -218,6 +219,7 @@ export default function EthereumWithdraw({
         return
       }
     }
+    fbqTrackEvent(product.eventsTrack.withdraw)
     setOpenStakeConfirmModal(true)
   }
 
