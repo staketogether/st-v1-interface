@@ -93,6 +93,7 @@ export type Product = {
   enabled: boolean
   urlRedirect: string
   networkAvailable: Network
+  chainIdNetworkAvailable: number
   subgraph: {
     testnet: string
     mainnet: string

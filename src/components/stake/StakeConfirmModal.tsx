@@ -9,7 +9,6 @@ import { WithdrawType } from '@/types/Withdraw'
 import { Product } from '@/types/Product'
 import SymbolIcons from '../tokens/components/SymbolIcons'
 import AssetIcon from '../shared/AssetIcon'
-import { FacebookPixel } from '../shared/scripts/FacebookPixel'
 
 type StakeConfirmModalProps = {
   amount: string
@@ -74,7 +73,6 @@ export default function StakeConfirmModal({
         <>
           {isWithdraw ? (
             <>
-              <FacebookPixel eventTrack={product.eventsTrack.withdraw} />
               <ContainerPayment>
                 <span>{t('v2.stake.confirmModal.withdrawing')}</span>
                 <div>
@@ -100,7 +98,6 @@ export default function StakeConfirmModal({
             </>
           ) : (
             <>
-              <FacebookPixel eventTrack={product.eventsTrack.checkout} />
               <ContainerPayment>
                 <span>{t('v2.stake.confirmModal.deposit')}</span>
                 <div>

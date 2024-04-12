@@ -17,19 +17,29 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import ListProjectModal from './ListProjectModal'
 import GenericTransactionLoading from '../shared/GenericTransactionLoading'
 import ReviewUpdateDelegationsRequest from './ReviewUpdateDelegationsRequest'
+import { StakingProduct } from '@/types/Product'
+import { getProductByName } from '@/config/product'
+import { useAccount, useSwitchChain } from 'wagmi'
+import { chainConfigByChainId } from '@/config/chain'
 
 type UpdateDelegationsModalProps = {
   accountDelegations: Delegation[]
   accountTotalShares: bigint
   userAccount: `0x${string}`
+  productSelected: StakingProduct
 }
 export default function UpdateDelegationsModal({
   accountDelegations,
   accountTotalShares,
-  userAccount
+  userAccount,
+  productSelected
 }: UpdateDelegationsModalProps) {
   const [delegationForm, setDelegationForm] = useState<UpdateDelegationForm[]>([])
   const theme = useTheme()
+  const product = getProductByName({ productName: productSelected })
+
+  const { chain: walletChainId } = useAccount()
+  const isWrongNetwork = product.chainIdNetworkAvailable !== walletChainId?.id
 
   useEffect(() => {
     function handleFormValue(value: Delegation) {
@@ -85,6 +95,7 @@ export default function UpdateDelegationsModal({
   } = useUpdateDelegations(
     isEnabled,
     updateDelegationsFormat.filter(pool => pool.percentage > 0n),
+    product,
     userAccount
   )
 
@@ -151,11 +162,24 @@ export default function UpdateDelegationsModal({
 
   const disabledButton = prepareTransactionIsError || !isEnabled
 
+  const { name } = chainConfigByChainId(product.chainIdNetworkAvailable)
   const handleLabelButton = () => {
+    if (isWrongNetwork) {
+      return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
+    }
     if (prepareTransactionIsError) {
       return prepareTransactionErrorMessage
     }
     return t('v2.updateDelegations.labelButton')
+  }
+
+  const { switchChain } = useSwitchChain()
+  const handleUpdateDelegationButton = () => {
+    if (isWrongNetwork && switchChain) {
+      switchChain({ chainId: product.chainIdNetworkAvailable })
+      return
+    }
+    updateDelegations()
   }
 
   return (
@@ -174,7 +198,7 @@ export default function UpdateDelegationsModal({
               (isSuccess && `${t('v2.updateDelegations.transactionMessages.successful')}`) ||
               `${t('v2.updateDelegations.transactionMessages.transactionLoading')}`
             }
-            chainId={1}
+            chainId={product.chainIdNetworkAvailable}
             isLoading={isLoadingTransaction}
             isSuccess={isSuccess}
             txHash={txHash}
@@ -262,7 +286,7 @@ export default function UpdateDelegationsModal({
                 icon={<PiArrowCounterClockwise />}
                 block
                 isLoading={updateDelegationsLoading || awaitWalletAction}
-                onClick={updateDelegations}
+                onClick={handleUpdateDelegationButton}
                 label={handleLabelButton()}
                 disabled={disabledButton}
               />

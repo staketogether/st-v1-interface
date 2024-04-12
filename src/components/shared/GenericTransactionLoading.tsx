@@ -69,13 +69,13 @@ const { Container } = {
     width: 100%;
     display: grid;
     place-items: center;
-    padding: 48px 0;
+    padding: 24px 0;
 
     &.noPadding {
       padding: 0;
     }
     &.noModalPadding {
-      padding: 48px 24px;
+      padding: 24px;
     }
     > div {
       width: 100%;
