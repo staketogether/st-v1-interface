@@ -1,20 +1,21 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import TokensControl from '@/components/tokens/components/TokensControl'
-import { productList } from '@/config/product-staking'
-import { ProductStaking } from '@/types/ProductStaking'
+import { productAssetList } from '@/config/product-asset'
+
+import { ProductAsset } from '@/types/ProductAsset'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 type AssetsProps = {
-  productList: ProductStaking[]
+  productList: ProductAsset[]
 }
 
 export default function Assets({ productList }: AssetsProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <TokensControl productsList={productList} />
+      <TokensControl type='assets' productsList={productList} />
     </LayoutTemplate>
   )
 }
@@ -29,7 +30,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  if (!productList || !productList.length) {
+  if (!productAssetList || !productAssetList.length) {
     return {
       notFound: true
     }
@@ -37,7 +38,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      productList,
+      productList: productAssetList,
       ...(await serverSideTranslations(locale || 'en', ['common']))
     },
     revalidate: 24 * 60 * 60

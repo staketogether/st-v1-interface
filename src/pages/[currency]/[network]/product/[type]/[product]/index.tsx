@@ -3,7 +3,7 @@ import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { productList } from '@/config/product-staking'
+import { productStakingList } from '@/config/product-staking'
 import { fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetwork, handleChainIdByNetwork } from '@/services/format'
@@ -14,13 +14,13 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-export type HomeProps = {
+export type ProductProps = {
   product: ProductStaking
   assetData: ProductMarketAssetData
   chainId: number
 }
 
-export default function Home({ product, assetData, chainId }: HomeProps) {
+export default function Product({ product, assetData, chainId }: ProductProps) {
   const router = useRouter()
   const minAmount = '300'
   const { onInit: buyCrypto } = useTransak({
@@ -78,7 +78,7 @@ async function fetchProductAssetData(
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const { product, network } = params as { network: AllowedNetwork; currency: string; product: string }
-  const findProduct = productList.find(item => item.name === product)
+  const findProduct = productStakingList.find(item => item.name === product)
 
   const chainId = handleChainIdByNetwork(network)
 

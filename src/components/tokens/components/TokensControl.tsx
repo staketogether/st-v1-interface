@@ -1,19 +1,25 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAsset } from '@/types/ProductAsset'
 import { ProductStaking } from '@/types/ProductStaking'
 import styled from 'styled-components'
 import TokensCardContainer from './TokensCardContainer'
 
 type TokensControl = {
-  productsList: ProductStaking[]
+  productsList: ProductStaking[] | ProductAsset[]
+  type: 'staking' | 'assets'
 }
 
-export default function TokensControl({ productsList }: TokensControl) {
+export default function TokensControl({ type, productsList }: TokensControl) {
   const { t } = useLocaleTranslation()
+
+  const title = type === 'staking' ? 'v2.staking.title' : 'v2.assets.title'
+  const description = type === 'staking' ? 'v2.staking.description' : 'v2.assets.description'
+
   return (
     <Container>
       <Title>
-        <h1>{t('v2.tokens.title')}</h1>
-        <h2>{t('v2.tokens.description')}</h2>
+        <h1>{t(title)}</h1>
+        <h2>{t(description)}</h2>
       </Title>
       <Products>
         <nav>

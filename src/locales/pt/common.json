@@ -268,7 +268,7 @@
       "support": "Suporte",
       "analytics": "Analytics",
       "staking": "Staking",
-      "assets": "Ativos"
+      "assets": "Criptomoedas"
     },
     "sidebar": {
       "percentageProfit": "Lucro",
@@ -661,9 +661,13 @@
         "description": "Você pode ter problemas com a visualização dos dados, mas não se preocupe, seus fundos estão seguros. Estamos trabalhando para resolver o problema o mais rápido possível."
       }
     },
-    "tokens": {
-      "title": "Produtos de Staking",
+    "staking": {
+      "title": "Ativos de Staking",
       "description": "Invista em Infraestrutura, Segurança e Tecnologia com Rendimentos Sustentáveis em Criptomoedas"
+    },
+    "assets": {
+      "title": "Ativos de Criptomoedas",
+      "description": "Invista nas melhores criptomoedas para o seu portfólio de investimentos"
     },
     "products": {
       "ethereum-stake": "Staking de Ethereum",
@@ -676,7 +680,9 @@
       "polkadot": "Staking de Polkadot",
       "productNotAvailable": "Produto Indisponivel",
       "bitcoin": "Staking de Bitcoin",
-      "chiliz": "Staking de Chiliz"
+      "chiliz": "Staking de Chiliz",
+      "btc": "Bitcoin",
+      "eth": "Ethereum"
     },
     "notifyBar": {
       "incentives": {

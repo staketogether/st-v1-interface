@@ -34,7 +34,7 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 
 import chainConfig, { Networks } from '@/config/chain'
-import { productList } from '@/config/product-staking'
+import { productStakingList } from '@/config/product-staking'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useCoinConversion from '@/hooks/useCoinConversion'
 import { ProductStakingName } from '@/types/ProductStaking'
@@ -165,7 +165,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   }, [address])
 
-  const products = productList.filter(product => product.enabled)
+  const products = productStakingList.filter(product => product.enabled)
 
   const selectProductOptions = products.map(product => {
     return {

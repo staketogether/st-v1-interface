@@ -1,6 +1,6 @@
 import { ProductStaking, ProductStakingContracts, ProductStakingName } from '@/types/ProductStaking'
 
-export const productList: ProductStaking[] = [
+export const productStakingList: ProductStaking[] = [
   {
     id: 1,
     name: 'ethereum-stake',
@@ -490,7 +490,7 @@ export const productList: ProductStaking[] = [
 ]
 
 export function getProductByName({ productName }: { productName: ProductStakingName }): ProductStaking {
-  return productList.find(product => product.name === productName) || productList[0]
+  return productStakingList.find(product => product.name === productName) || productStakingList[0]
 }
 
 export function getContractsByProductName({

@@ -33,7 +33,7 @@
   "members": "Members",
   "delegations": "Delegations",
   "balance": "Balance",
-  "assets": "Assets",
+  "assets": "Crypto",
   "poolBalance": "Pool Balance",
   "selectPool": "Select Pool",
   "exchange": "Get Faucet",
@@ -639,9 +639,13 @@
         "description": "You may experience a delay in the display of your transactions and balances, but rest assured that your funds are safe. We are working to resolve this issue as soon as possible."
       }
     },
-    "tokens": {
-      "title": "Staking Products",
+    "staking": {
+      "title": "Staking Assets",
       "description": "Invest in Infrastructure, Security, and Technology with Sustainable Yields in Cryptocurrencies"
+    },
+    "assets": {
+      "title": "Crypto Assets",
+      "description": "Invest in the best Cryptocurrencies for your portfolio"
     },
     "products": {
       "ethereum-stake": "Ethereum Staking",
@@ -654,7 +658,9 @@
       "polkadot": "Polkadot Staking",
       "productNotAvailable": "Product not available",
       "bitcoin": "Bitcoin Staking",
-      "chiliz": "Chiliz Staking"
+      "chiliz": "Chiliz Staking",
+      "btc": "Bitcoin",
+      "eth": "Ethereum"
     },
     "notifyBar": {
       "incentives": {
