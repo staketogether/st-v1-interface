@@ -1,16 +1,16 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
-import { GetStaticPaths, GetStaticProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import TokensControl from '@/components/tokens/components/TokensControl'
 import { productList } from '@/config/product'
 import { Product } from '@/types/Product'
-import TokensControl from '@/components/tokens/components/TokensControl'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-type TokensProps = {
+type AssetsProps = {
   productList: Product[]
 }
 
-export default function Tokens({ productList }: TokensProps) {
+export default function Assets({ productList }: AssetsProps) {
   return (
     <LayoutTemplate>
       <Metatags />

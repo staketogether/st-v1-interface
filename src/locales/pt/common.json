@@ -266,7 +266,9 @@
       "enter": "Entrar",
       "exit": "Sair",
       "support": "Suporte",
-      "analytics": "Analytics"
+      "analytics": "Analytics",
+      "staking": "Staking",
+      "assets": "Ativos"
     },
     "sidebar": {
       "percentageProfit": "Lucro",

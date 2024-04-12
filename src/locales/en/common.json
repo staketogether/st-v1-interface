@@ -125,7 +125,7 @@
     "withdrawSuccess": "Withdrawal Successful",
     "withdrawError": "Failed to Withdraw"
   },
-   "web3AuthWalletSettings": {
+  "web3AuthWalletSettings": {
     "showEtherScan": "View on Etherscan",
     "showOptimismScan": "View on Optimism Etherscan",
     "export": "Export",
@@ -268,7 +268,9 @@
       "enter": "Enter",
       "exit": "Exit",
       "support": "Support",
-      "analytics": "Analytics"
+      "analytics": "Analytics",
+      "staking": "Staking",
+      "assets": "Assets"
     },
     "sidebar": {
       "percentageProfit": "Profit",
@@ -674,7 +676,7 @@
       "useThePixQRCode": "Use the Pix QR Code to pay",
       "orUseThePixKey": "Or use the Pix Key",
       "cancelDeposit": "Cancel deposit",
-     
+
       "copyQrCode": "Copy QR Code",
       "yourEths": "Your ETH will be in your account",
       "timeReceive": "within 30 minutes",

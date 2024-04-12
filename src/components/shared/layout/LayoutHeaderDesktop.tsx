@@ -24,15 +24,21 @@ export default function LayoutHeader() {
     <Container>
       <MenuContainer>
         <div>
-          <Logo href={`/${currency}`}>
+          <Logo href={`/${currency}/staking`}>
             <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={27} />
           </Logo>
         </div>
         <Menu>
-          <Link href={`/${currency}`}>
-            <MenuButton className={`${isHome || isActive('product') ? 'active' : ''}`}>
+          <Link href={`/${currency}/staking`}>
+            <MenuButton className={`${isHome || isActive('staking') ? 'active' : ''}`}>
               <InvestIcon />
-              {t('v2.header.products')}
+              {t('v2.header.staking')}
+            </MenuButton>
+          </Link>
+          <Link href={`/${currency}/assets`}>
+            <MenuButton className={`${isHome || isActive('assets') ? 'active' : ''}`}>
+              <InvestIcon />
+              {t('v2.header.assets')}
             </MenuButton>
           </Link>
           <Link href={`/${currency}/${network || 'optimism'}/project`}>
