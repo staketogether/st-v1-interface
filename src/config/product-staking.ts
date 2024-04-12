@@ -1,6 +1,6 @@
-import { Contracts, Product, StakingProduct } from '@/types/Product'
+import { ProductStaking, ProductStakingContracts, ProductStakingName } from '@/types/ProductStaking'
 
-export const productList: Product[] = [
+export const productList: ProductStaking[] = [
   {
     id: 1,
     name: 'ethereum-stake',
@@ -10,13 +10,6 @@ export const productList: Product[] = [
     chainIdNetworkAvailable: 1,
     eigenPointsAvailable: false,
     newProductTag: false,
-    networks: [
-      { network: 'ethereum', enabled: true },
-      { network: 'optimism', enabled: false },
-      { network: 'arbitrum', enabled: false },
-      { network: 'polygon', enabled: false },
-      { network: 'solana', enabled: false }
-    ],
     apy: 5.7,
     scan: 'https://etherscan.io/',
     rampEnabled: true,
@@ -88,13 +81,6 @@ export const productList: Product[] = [
       }
     },
     newProductTag: true,
-    networks: [
-      { network: 'ethereum', enabled: true },
-      { network: 'optimism', enabled: false },
-      { network: 'arbitrum', enabled: false },
-      { network: 'polygon', enabled: false },
-      { network: 'solana', enabled: false }
-    ],
     apy: 5.7,
     scan: 'https://optimistic.etherscan.io',
     description: 'restakingDescription',
@@ -155,13 +141,6 @@ export const productList: Product[] = [
       minDeposit: 10
     },
     newProductTag: false,
-    networks: [
-      { network: 'ethereum', enabled: false },
-      { network: 'optimism', enabled: false },
-      { network: 'arbitrum', enabled: false },
-      { network: 'polygon', enabled: false },
-      { network: 'solana', enabled: false }
-    ],
     apy: 14.5,
     scan: 'https://etherscan.io/',
     description: 'ethereumDescription',
@@ -222,13 +201,6 @@ export const productList: Product[] = [
       minDeposit: 10
     },
     newProductTag: false,
-    networks: [
-      { network: 'ethereum', enabled: false },
-      { network: 'optimism', enabled: false },
-      { network: 'arbitrum', enabled: false },
-      { network: 'polygon', enabled: false },
-      { network: 'solana', enabled: false }
-    ],
     apy: 5.2,
     scan: 'https://etherscan.io/',
     description: 'ethereumDescription',
@@ -289,13 +261,6 @@ export const productList: Product[] = [
       minDeposit: 10
     },
     newProductTag: false,
-    networks: [
-      { network: 'ethereum', enabled: false },
-      { network: 'optimism', enabled: false },
-      { network: 'arbitrum', enabled: false },
-      { network: 'polygon', enabled: false },
-      { network: 'solana', enabled: false }
-    ],
     apy: 7.6,
     scan: 'https://etherscan.io/',
     description: 'EthereumDescription',
@@ -356,13 +321,6 @@ export const productList: Product[] = [
       minDeposit: 10
     },
     newProductTag: false,
-    networks: [
-      { network: 'ethereum', enabled: false },
-      { network: 'optimism', enabled: false },
-      { network: 'arbitrum', enabled: false },
-      { network: 'polygon', enabled: false },
-      { network: 'solana', enabled: false }
-    ],
     apy: 13.7,
     scan: 'https://etherscan.io/',
     description: 'EthereumDescription',
@@ -423,13 +381,6 @@ export const productList: Product[] = [
       minDeposit: 10
     },
     newProductTag: false,
-    networks: [
-      { network: 'ethereum', enabled: false },
-      { network: 'optimism', enabled: false },
-      { network: 'arbitrum', enabled: false },
-      { network: 'polygon', enabled: false },
-      { network: 'solana', enabled: false }
-    ],
     apy: 8.8,
     scan: 'https://etherscan.io/',
     description: 'EthereumDescription',
@@ -490,13 +441,6 @@ export const productList: Product[] = [
       minDeposit: 10
     },
     newProductTag: false,
-    networks: [
-      { network: 'ethereum', enabled: false },
-      { network: 'optimism', enabled: false },
-      { network: 'arbitrum', enabled: false },
-      { network: 'polygon', enabled: false },
-      { network: 'solana', enabled: false }
-    ],
     apy: 9,
     scan: 'https://etherscan.io/',
     description: 'EthereumDescription',
@@ -545,7 +489,7 @@ export const productList: Product[] = [
   }
 ]
 
-export function getProductByName({ productName }: { productName: StakingProduct }): Product {
+export function getProductByName({ productName }: { productName: ProductStakingName }): ProductStaking {
   return productList.find(product => product.name === productName) || productList[0]
 }
 
@@ -553,9 +497,9 @@ export function getContractsByProductName({
   productName,
   isTestnet
 }: {
-  productName: StakingProduct
+  productName: ProductStakingName
   isTestnet: boolean
-}): Contracts {
+}): ProductStakingContracts {
   return getProductByName({ productName }).contracts[isTestnet ? 'testnet' : 'mainnet']
 }
 
@@ -563,7 +507,7 @@ export function getSubgraphByProductName({
   productName,
   isTestnet
 }: {
-  productName: StakingProduct
+  productName: ProductStakingName
   isTestnet: boolean
 }): string {
   return getProductByName({ productName }).subgraph[isTestnet ? 'testnet' : 'mainnet']

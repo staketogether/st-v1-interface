@@ -28,7 +28,7 @@ import StakeWithdrawSwitchTypes from './StakeWithdrawSwitchTypes'
 
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
 import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckeredDuotone } from 'react-icons/pi'
@@ -42,7 +42,7 @@ type StakeFormProps = {
   poolAddress: `0x${string}`
   chainId: number
   accountAddress?: `0x${string}`
-  product: Product
+  product: ProductStaking
 }
 
 export function StakeForm({ type, accountAddress, poolAddress, product, chainId }: StakeFormProps) {
@@ -241,9 +241,10 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
     (insufficientWithdrawalBalance &&
       `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
     (prepareTransactionErrorMessage &&
-      `${type === 'deposit'
-        ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
-        : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
+      `${
+        type === 'deposit'
+          ? t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)
+          : t(`v2.stake.withdrawErrorMessage.${prepareTransactionErrorMessage}`)
       }`) ||
     ''
 

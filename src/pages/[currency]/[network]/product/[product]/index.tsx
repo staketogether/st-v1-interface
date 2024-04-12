@@ -3,11 +3,11 @@ import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { productList } from '@/config/product'
+import { productList } from '@/config/product-staking'
 import { fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetwork, handleChainIdByNetwork } from '@/services/format'
-import { Product, ProductMarketAssetData } from '@/types/Product'
+import { ProductMarketAssetData, ProductStaking } from '@/types/ProductStaking'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -15,7 +15,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 export type HomeProps = {
-  product: Product
+  product: ProductStaking
   assetData: ProductMarketAssetData
   chainId: number
 }

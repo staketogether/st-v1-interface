@@ -1,4 +1,4 @@
-import { getProductByName } from '@/config/product'
+import { getProductByName } from '@/config/product-staking'
 import useBuyRamp, { BuyRampRequest } from '@/hooks/ramp/useBuyRamp'
 import {
   BrlaBuyEthStep,
@@ -38,7 +38,6 @@ export default function ProcessingKycStep() {
 
   const product = getProductByName({ productName: currentProductName })
   const getIcon = (moment: 'waiting' | 'process' | 'success') => {
-
     const icons = {
       waiting: <PiCircleLight size={32} color={theme.color.secondary} />,
       process: <PiClockLight size={32} color={theme.color.secondary} />,
@@ -49,7 +48,12 @@ export default function ProcessingKycStep() {
   }
 
   useEffect(() => {
-    if (address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0) {
+    if (
+      address &&
+      quote &&
+      (Number(kyc?.level) > 0 || activity?.status === 'success') &&
+      Number(kyc?.level) > 0
+    ) {
       setRampData({
         chainId: product.ramp.bridge?.fromChainId ?? 1,
         paymentMethod: PaymentMethodType.pix,
@@ -63,9 +67,17 @@ export default function ProcessingKycStep() {
     }
     if (!kycLevelInfo?.level && !kycActivity && !isLoading) {
       setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc), timeToRedirect)
-
     }
-  }, [activity?.status, address, kyc?.level, quote, kycLevelInfo, kycActivity, isLoading, product.ramp.bridge?.fromChainId])
+  }, [
+    activity?.status,
+    address,
+    kyc?.level,
+    quote,
+    kycLevelInfo,
+    kycActivity,
+    isLoading,
+    product.ramp.bridge?.fromChainId
+  ])
 
   useEffect(() => {
     if (activity?.status === 'error' && isError) {
@@ -77,7 +89,6 @@ export default function ProcessingKycStep() {
     if (buyRampResponse?.brCode) {
       qrCodeVar(buyRampResponse)
       setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Checkout), timeToRedirect)
-
     }
   }, [activity?.status, activity?.type, buyRampResponse])
 
@@ -89,7 +100,10 @@ export default function ProcessingKycStep() {
       disable: !kycActivityId
     },
     {
-      icon: activity?.status === 'success' && Number(kyc?.level) > 0 ? getIcon('success') : getIcon(Number(kyc?.level) > 0 ? 'process' : 'waiting'),
+      icon:
+        activity?.status === 'success' && Number(kyc?.level) > 0
+          ? getIcon('success')
+          : getIcon(Number(kyc?.level) > 0 ? 'process' : 'waiting'),
       text: t('v2.ramp.generatingQRCode'),
       disable: activity?.status !== 'success'
     }

@@ -1,4 +1,4 @@
-import { getProductByName } from '@/config/product'
+import { getProductByName } from '@/config/product-staking'
 import usePool from '@/hooks/subgraphs/usePool'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'

@@ -1,7 +1,7 @@
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
-import { Product, ProductMarketAssetData } from '@/types/Product'
+import { ProductMarketAssetData, ProductStaking } from '@/types/ProductStaking'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import { Tooltip, notification } from 'antd'
 import dynamic from 'next/dynamic'
@@ -28,7 +28,7 @@ const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl
 
 type NewStakeControlProps = {
   type: 'deposit' | 'withdraw'
-  product: Product
+  product: ProductStaking
   assetData: ProductMarketAssetData
   chainId: number
 }

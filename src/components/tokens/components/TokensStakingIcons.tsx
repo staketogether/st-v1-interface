@@ -1,4 +1,4 @@
-import { StakingProduct } from '@/types/Product'
+import { ProductStakingName } from '@/types/ProductStaking'
 import bitcoinIcon from '@assets/network/bitcoin.png'
 import celestiaIcon from '@assets/network/celestia.svg'
 import chilizIcon from '@assets/network/chiliz.svg'
@@ -13,7 +13,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 
 type TokenStakingIconsProps = {
-  stakingProduct: StakingProduct
+  stakingProduct: ProductStakingName
   size: number
 }
 

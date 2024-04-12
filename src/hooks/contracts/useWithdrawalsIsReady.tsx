@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
-import chainConfig from '../../config/chain'
+import { getContractsByProductName } from '@/config/product-staking'
 import { withdrawalsAbi } from '@/types/Contracts'
-import { getContractsByProductName } from '@/config/product'
+import { useEffect, useState } from 'react'
 import { useReadContract } from 'wagmi'
+import chainConfig from '../../config/chain'
 
 export default function useWithdrawalsIsReady(amount: bigint = 0n) {
   const { isTestnet } = chainConfig()

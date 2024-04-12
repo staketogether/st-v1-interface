@@ -34,10 +34,10 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 
 import chainConfig, { Networks } from '@/config/chain'
-import { productList } from '@/config/product'
+import { productList } from '@/config/product-staking'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useCoinConversion from '@/hooks/useCoinConversion'
-import { StakingProduct } from '@/types/Product'
+import { ProductStakingName } from '@/types/ProductStaking'
 import { useReactiveVar } from '@apollo/client'
 import AssetIcon from '../shared/AssetIcon'
 import Withdrawals from '../shared/Withdrawals'
@@ -55,7 +55,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<'delegations' | 'rewards' | 'activity'>('delegations')
-  const [productTabSelected, setProductTabSelected] = useState<StakingProduct>('ethereum-stake')
+  const [productTabSelected, setProductTabSelected] = useState<ProductStakingName>('ethereum-stake')
 
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
   const { connector } = useAccount()

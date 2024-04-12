@@ -3,7 +3,7 @@ import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
-import { Product, ProductMarketAssetData } from '@/types/Product'
+import { ProductMarketAssetData, ProductStaking } from '@/types/ProductStaking'
 
 import { Tooltip, notification } from 'antd'
 import { useRouter } from 'next/router'
@@ -14,7 +14,7 @@ import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
 import TokensSymbolIcons from '../tokens/components/TokensSymbolIcons'
 
 type ProductInfoProps = {
-  product: Product
+  product: ProductStaking
   assetData: ProductMarketAssetData
   chainId: number
 }

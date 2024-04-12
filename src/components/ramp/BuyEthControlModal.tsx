@@ -16,7 +16,7 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { SWRConfig } from 'swr'
 import { useAccount } from 'wagmi'
-import { StakingProduct } from '../../types/Product'
+import { ProductStakingName } from '../../types/ProductStaking'
 import ConnectWallet from '../shared/ConnectWallet'
 import CheckoutStep from './CheckoutStep'
 import GenericErrorComponent from './GenericErrorComponent'
@@ -28,7 +28,7 @@ import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
 import { TimeOutCheckout } from './TimeOutCheckout'
 
-export default function BuyEthControlModal({ stakingProduct }: { stakingProduct: StakingProduct }) {
+export default function BuyEthControlModal({ stakingProduct }: { stakingProduct: ProductStakingName }) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })

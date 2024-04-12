@@ -4,6 +4,7 @@ import StakeWithdrawCounter from '@/components/stake/StakeWithdrawCounter'
 import StakeWithdrawSwitchTypes from '@/components/stake/StakeWithdrawSwitchTypes'
 import { chainConfigByChainId } from '@/config/chain'
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
+import useStConfig from '@/hooks/contracts/useStConfig'
 import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
@@ -11,9 +12,10 @@ import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValida
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import { fbqTrackEvent } from '@/services/FacebookPixel'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import { WithdrawType } from '@/types/Withdraw'
 import { Tooltip } from 'antd'
 import { ethers } from 'ethers'
@@ -25,8 +27,6 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
-import useStConfig from '@/hooks/contracts/useStConfig'
-import { fbqTrackEvent } from '@/services/FacebookPixel'
 
 type EthereumWithdrawProps = {
   type: 'deposit' | 'withdraw'
@@ -36,7 +36,7 @@ type EthereumWithdrawProps = {
   stpETHBalance: bigint
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
-  product: Product
+  product: ProductStaking
   chainId: number
 }
 

@@ -1,7 +1,7 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import { WithdrawType } from '@/types/Withdraw'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
@@ -22,7 +22,7 @@ type StakeConfirmModalProps = {
   onClick: () => void
   onClose: () => void
   withdrawTypeSelected: WithdrawType
-  product: Product
+  product: ProductStaking
   chainId: number
 }
 

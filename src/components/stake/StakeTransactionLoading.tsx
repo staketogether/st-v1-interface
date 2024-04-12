@@ -4,7 +4,7 @@ import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import { WithdrawType } from '@/types/Withdraw'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import ethIcon from '@assets/icons/eth-icon.svg'
@@ -25,7 +25,7 @@ type StakeTransactionLoadingProps = {
   txHash: string | undefined
   type: 'deposit' | 'withdraw'
   withdrawTypeSelected: WithdrawType
-  product: Product
+  product: ProductStaking
   chainId: number
 }
 

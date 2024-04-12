@@ -1,4 +1,4 @@
-export type StakingProductIcon =
+export type ProductStakingIcon =
   | 'ethereum'
   | 'EthereumRestaking'
   | 'polygon'
@@ -10,7 +10,7 @@ export type StakingProductIcon =
   | 'bitcoin'
   | 'chiliz'
 
-export type StakingProduct =
+export type ProductStakingName =
   | 'ethereum-stake'
   | 'ethereum-restaking'
   | 'polygon'
@@ -22,19 +22,7 @@ export type StakingProduct =
   | 'bitcoin'
   | 'chiliz'
 
-export type Airdrop =
-  | 'layerZero'
-  | 'eigenLayer'
-  | 'stakeTogether'
-  | 'polygon'
-  | 'solana'
-  | 'celestia'
-  | 'cosmos'
-  | 'near'
-  | 'polkadot'
-  | 'ethereum'
-
-export type ProductSymbol =
+export type ProductStakingSymbol =
   | 'stpETH'
   | 'strETH'
   | 'stpPOL'
@@ -46,7 +34,7 @@ export type ProductSymbol =
   | 'stpBTC'
   | 'stpCHZ'
 
-export type Network =
+export type ProductStakingNetwork =
   | 'ethereum'
   | 'optimism'
   | 'arbitrum'
@@ -55,12 +43,7 @@ export type Network =
   | 'optimism-sepolia'
   | 'holesky'
 
-export type NetworkWrap = {
-  network: Network
-  enabled: boolean
-}
-
-export type Contracts = {
+export type ProductStakingContracts = {
   Airdrop: `0x${string}`
   Withdrawals: `0x${string}`
   Router: `0x${string}`
@@ -68,9 +51,9 @@ export type Contracts = {
   StakeTogetherWrapper: `0x${string}`
 }
 
-export type Product = {
+export type ProductStaking = {
   id: number
-  name: StakingProduct
+  name: ProductStakingName
   newProductTag: boolean
   eigenPointsAvailable: boolean
   ramp: {
@@ -85,14 +68,13 @@ export type Product = {
   }
   rampEnabled: boolean
   title: string
-  symbol: ProductSymbol
-  networks: NetworkWrap[]
+  symbol: ProductStakingSymbol
   apy: number
   description: string
   scan: string
   enabled: boolean
   urlRedirect: string
-  networkAvailable: Network
+  networkAvailable: ProductStakingNetwork
   chainIdNetworkAvailable: number
   subgraph: {
     testnet: string
@@ -103,8 +85,8 @@ export type Product = {
     mainnet: `0x${string}`
   }
   contracts: {
-    testnet: Contracts
-    mainnet: Contracts
+    testnet: ProductStakingContracts
+    mainnet: ProductStakingContracts
   }
   getMobulaAssetData: GetMobulaAssetData
   eventsTrack: {

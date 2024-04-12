@@ -1,6 +1,6 @@
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -9,7 +9,7 @@ import StakingIcons from './TokensStakingIcons'
 import TokensSymbolIcons from './TokensSymbolIcons'
 
 type TokensCardContainerProps = {
-  product: Product
+  product: ProductStaking
 }
 
 const TokensShowValuePrice = dynamic(() => import('./TokensShowValuePrice'), {

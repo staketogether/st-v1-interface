@@ -1,5 +1,5 @@
 import { globalConfig } from '@/config/global'
-import { ProductMarketAssetData } from '@/types/Product'
+import { ProductMarketAssetData } from '@/types/ProductStaking'
 import axios from 'axios'
 import useSWR from 'swr'
 

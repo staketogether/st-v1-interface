@@ -1,9 +1,9 @@
-import { ProductSymbol } from '@/types/Product'
-import { getWalletClient } from 'wagmi/actions'
 import { config } from '@/config/wagmi'
+import { ProductStakingSymbol } from '@/types/ProductStaking'
+import { getWalletClient } from 'wagmi/actions'
 
 type useAddSethToWalletProps = {
-  productSymbol: ProductSymbol
+  productSymbol: ProductStakingSymbol
   contractAddress: `0x${string}`
 }
 

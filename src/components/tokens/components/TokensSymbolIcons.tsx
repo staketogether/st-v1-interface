@@ -1,6 +1,6 @@
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductSymbol } from '@/types/Product'
+import { ProductStakingSymbol } from '@/types/ProductStaking'
 import stIcon from '@assets/st-symbol.svg'
 import stpRETHIcon from '@assets/stpRETHIcon.svg'
 import { Tooltip } from 'antd'
@@ -9,7 +9,7 @@ import { PiPlusBold } from 'react-icons/pi'
 import styled from 'styled-components'
 
 type TokensSymbolIconsProps = {
-  productSymbol: ProductSymbol
+  productSymbol: ProductStakingSymbol
   size: number
   contractAddress?: `0x${string}`
   showPlusIcon?: boolean

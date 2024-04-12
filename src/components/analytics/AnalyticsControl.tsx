@@ -1,4 +1,5 @@
 import { chainConfigByChainId } from '@/config/chain'
+import { getContractsByProductName } from '@/config/product-staking'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import useAnalyticsData from '@/hooks/subgraphs/analytics/useAnalyticsData'
 import useCoinConversion from '@/hooks/useCoinConversion'
@@ -13,7 +14,6 @@ import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import AnalyticsValidatorRow from './AnalyticsValidatorRow'
-import { getContractsByProductName } from '@/config/product'
 
 export default function AnalyticsControl() {
   const { t } = useLocaleTranslation()

@@ -13,7 +13,8 @@ import { queryPool } from '../../queries/subgraph/queryPool'
 import { WithdrawType } from '@/types/Withdraw'
 import { ethers } from 'ethers'
 
-import useLocaleTranslation from '../useLocaleTranslation'
+import { getSubgraphClient } from '@/config/apollo'
+import { chainConfigByChainId } from '@/config/chain'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
 import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
@@ -22,17 +23,16 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { stakeTogetherAbi } from '@/types/Contracts'
+import { ProductStaking } from '@/types/ProductStaking'
 import useConnectedAccount from '../useConnectedAccount'
-import { Product } from '@/types/Product'
-import { getSubgraphClient } from '@/config/apollo'
-import { chainConfigByChainId } from '@/config/chain'
 import useEstimateTxInfo from '../useEstimateTxInfo'
+import useLocaleTranslation from '../useLocaleTranslation'
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
-  product: Product,
+  product: ProductStaking,
   chainId: number,
   accountAddress?: `0x${string}`
 ) {

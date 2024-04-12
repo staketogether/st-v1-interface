@@ -1,20 +1,19 @@
-import React from 'react'
-import Image from 'next/image'
-import { Network, ProductSymbol } from '@/types/Product'
-import stIcon from '@assets/st-symbol.svg'
-import stpRETHIcon from '@assets/stpRETHIcon.svg'
-import styled from 'styled-components'
+import { ProductStakingNetwork, ProductStakingSymbol } from '@/types/ProductStaking'
+import arbitrumIcon from '@assets/network/arbitrum.svg'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
-import arbitrumIcon from '@assets/network/arbitrum.svg'
 import polygonIcon from '@assets/network/polygon.svg'
 import solanaIcon from '@assets/network/solana.svg'
+import stIcon from '@assets/st-symbol.svg'
+import stpRETHIcon from '@assets/stpRETHIcon.svg'
+import Image from 'next/image'
+import styled from 'styled-components'
 
-type Icon = ProductSymbol | Network
+type Icon = ProductStakingSymbol | ProductStakingNetwork
 
 type SymbolIconsProps = {
   assetIcon: Icon
-  networkIcon: Network
+  networkIcon: ProductStakingNetwork
   size: number
   marginRight?: string | number
 }

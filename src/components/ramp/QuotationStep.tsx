@@ -17,16 +17,16 @@ import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowRight } from 'react-icons/pi'
 
-import { getProductByName } from '@/config/product'
+import QuotationStepEthAmount from '@/components/ramp/QuotationStepEthAmount'
+import AssetIcon from '@/components/shared/AssetIcon'
+import { getProductByName } from '@/config/product-staking'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import { truncateDecimal } from '@/services/truncate'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { KycLevel } from './KycLevel'
-import AssetIcon from '@/components/shared/AssetIcon'
-import QuotationStepEthAmount from '@/components/ramp/QuotationStepEthAmount'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 
 export default function QuotationStep() {
   const fiatAmount = useReactiveVar(fiatAmountVar)

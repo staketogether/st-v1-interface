@@ -1,10 +1,10 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import styled from 'styled-components'
 import TokensCardContainer from './TokensCardContainer'
 
 type TokensControl = {
-  productsList: Product[]
+  productsList: ProductStaking[]
 }
 
 export default function TokensControl({ productsList }: TokensControl) {

@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react'
-import chainConfig from '../../config/chain'
+import { getSubgraphClient } from '@/config/apollo'
+import { getContractsByProductName } from '@/config/product-staking'
+import { queryAccount } from '@/queries/subgraph/queryAccount'
+import { queryPools } from '@/queries/subgraph/queryPools'
+import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { stakeTogetherAbi } from '@/types/Contracts'
+import { notification } from 'antd'
+import { useEffect, useState } from 'react'
 import {
   useSimulateContract,
   useWaitForTransactionReceipt as useWaitForTransaction,
   useWriteContract
 } from 'wagmi'
-import { notification } from 'antd'
+import chainConfig from '../../config/chain'
 import useLocaleTranslation from '../useLocaleTranslation'
-import { getContractsByProductName } from '@/config/product'
-import { getSubgraphClient } from '@/config/apollo'
-import { queryAccount } from '@/queries/subgraph/queryAccount'
-import { queryPools } from '@/queries/subgraph/queryPools'
-import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 
 export default function useAddPool(projectAddress: `0x${string}`, isSocial: boolean, disabled?: boolean) {
   const { isTestnet, chainId } = chainConfig()

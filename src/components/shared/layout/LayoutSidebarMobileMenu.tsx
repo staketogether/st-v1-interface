@@ -1,7 +1,7 @@
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
 import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
-import { productList } from '@/config/product'
+import { productList } from '@/config/product-staking'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'

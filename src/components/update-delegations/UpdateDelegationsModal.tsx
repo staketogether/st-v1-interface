@@ -1,32 +1,32 @@
+import { chainConfigByChainId } from '@/config/chain'
+import { getProductByName } from '@/config/product-staking'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
+import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import { Delegation } from '@/types/Delegation'
-import { Progress, Slider } from 'antd'
-import styled, { useTheme } from 'styled-components'
-import CommunityLogo from '../shared/community/CommunityLogo'
-import CommunityName from '../shared/community/CommunityName'
-import { PiArrowCounterClockwise, PiPlusBold, PiQuestion } from 'react-icons/pi'
-import { useEffect, useState } from 'react'
-import Button from '../shared/Button'
-import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'
+import { ProductStakingName } from '@/types/ProductStaking'
 import { UpdateDelegationForm } from '@/types/UpdateDelegation'
+import { Progress, Slider } from 'antd'
 import { ethers } from 'ethers'
+import { useEffect, useState } from 'react'
+import { PiArrowCounterClockwise, PiPlusBold, PiQuestion } from 'react-icons/pi'
+import styled, { useTheme } from 'styled-components'
+import { useAccount, useSwitchChain } from 'wagmi'
+import Button from '../shared/Button'
+import GenericTransactionLoading from '../shared/GenericTransactionLoading'
 import Modal from '../shared/Modal'
 import TooltipComponent from '../shared/TooltipComponent'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import CommunityLogo from '../shared/community/CommunityLogo'
+import CommunityName from '../shared/community/CommunityName'
 import ListProjectModal from './ListProjectModal'
-import GenericTransactionLoading from '../shared/GenericTransactionLoading'
 import ReviewUpdateDelegationsRequest from './ReviewUpdateDelegationsRequest'
-import { StakingProduct } from '@/types/Product'
-import { getProductByName } from '@/config/product'
-import { useAccount, useSwitchChain } from 'wagmi'
-import { chainConfigByChainId } from '@/config/chain'
 
 type UpdateDelegationsModalProps = {
   accountDelegations: Delegation[]
   accountTotalShares: bigint
   userAccount: `0x${string}`
-  productSelected: StakingProduct
+  productSelected: ProductStakingName
 }
 export default function UpdateDelegationsModal({
   accountDelegations,

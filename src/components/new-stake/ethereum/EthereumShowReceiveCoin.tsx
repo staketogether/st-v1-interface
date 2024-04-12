@@ -5,7 +5,7 @@ import { chainConfigByChainId } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
@@ -14,7 +14,7 @@ type EthereumStpETHInputProps = {
   balance: bigint
   balanceLoading: boolean
   type: 'deposit' | 'withdraw'
-  product: Product
+  product: ProductStaking
   chainId: number
 }
 

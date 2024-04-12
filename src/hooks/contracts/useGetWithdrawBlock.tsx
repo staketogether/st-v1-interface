@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react'
-import useBlockCountdown from '../useBlockCountdown'
-import { Product } from '@/types/Product'
 import { chainConfigByChainId } from '@/config/chain'
 import { stakeTogetherAbi } from '@/types/Contracts'
+import { ProductStaking } from '@/types/ProductStaking'
+import { useEffect, useState } from 'react'
 import { useReadContract } from 'wagmi'
+import useBlockCountdown from '../useBlockCountdown'
 
 type useGetWithdrawBlockProps = {
   walletAddress: `0x${string}` | undefined
   enabled: boolean
-  product: Product
+  product: ProductStaking
   chainId: number
 }
 

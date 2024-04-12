@@ -4,7 +4,7 @@ import TokensSymbolIcons from '@/components/tokens/components/TokensSymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import styled from 'styled-components'
@@ -17,7 +17,7 @@ type EthereumInputProps = {
   onChange: (value: string) => void
   onMaxFunction?: () => void
   type: 'deposit' | 'withdraw'
-  product: Product
+  product: ProductStaking
 }
 
 export default function EthereumInput({

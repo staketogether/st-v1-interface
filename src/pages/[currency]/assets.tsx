@@ -1,13 +1,13 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import TokensControl from '@/components/tokens/components/TokensControl'
-import { productList } from '@/config/product'
-import { Product } from '@/types/Product'
+import { productList } from '@/config/product-staking'
+import { ProductStaking } from '@/types/ProductStaking'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 type AssetsProps = {
-  productList: Product[]
+  productList: ProductStaking[]
 }
 
 export default function Assets({ productList }: AssetsProps) {
