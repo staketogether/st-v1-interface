@@ -40,7 +40,7 @@ export default function EthereumShowReceiveCoin({
         {balanceLoading ? (
           <SkeletonLoading width={120} />
         ) : (
-          <span>{`Balance: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${
+          <span>{`${t('balance')}: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${
             type === 'deposit' ? product.symbol : t('eth.symbol')
           }`}</span>
         )}
