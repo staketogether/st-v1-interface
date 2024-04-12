@@ -34,6 +34,12 @@ export type ProductAssetMobulaData = {
   symbol: string
 }
 
+export type TradingViewFiatData = {
+  usd: string
+  brl: string
+  eur: string
+}
+
 export type ProductAsset = {
   id: number
   name: ProductAssetName
@@ -59,15 +65,15 @@ export type ProductAsset = {
   networkAvailable: ProductAssetNetwork
   chainIdNetworkAvailable: number
   getMobulaAssetData: ProductAssetMobulaData
+  tradingView: {
+    symbol: string
+    fiat: TradingViewFiatData
+  }
   eventsTrack: {
     pageView: string
     checkout: string
     confirmation: string
     success: string
     withdraw: string
-  }
-  transactionConfig: {
-    blockTimePerSeconds: number
-    confirmations: number
   }
 }

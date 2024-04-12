@@ -18,7 +18,7 @@ export const productAssetList: ProductAsset[] = [
       minDeposit: 1
     },
     enabled: true,
-    urlRedirect: '/currency/optimism/product/asset/btc',
+    urlRedirect: '/currency/optimism/product/assets/btc',
     getMobulaAssetData: {
       asset: 'Bitcoin',
       blockchain: 'optimism',
@@ -31,9 +31,13 @@ export const productAssetList: ProductAsset[] = [
       success: 'success-btc',
       withdraw: 'withdraw-btc'
     },
-    transactionConfig: {
-      blockTimePerSeconds: 15,
-      confirmations: 2
+    tradingView: {
+      symbol: 'BTCUSD',
+      fiat: {
+        usd: 'BTCUSD',
+        brl: 'BTCBRL',
+        eur: 'BTCEUR'
+      }
     }
   },
   {
@@ -66,9 +70,13 @@ export const productAssetList: ProductAsset[] = [
       success: 'success-eth',
       withdraw: 'withdraw-eth'
     },
-    transactionConfig: {
-      blockTimePerSeconds: 15,
-      confirmations: 2
+    tradingView: {
+      symbol: 'ETHUSD',
+      fiat: {
+        usd: 'ETHUSD',
+        brl: 'ETHBRL',
+        eur: 'ETHEUR'
+      }
     }
   }
 ]

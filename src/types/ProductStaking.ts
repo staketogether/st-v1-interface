@@ -51,6 +51,12 @@ export type ProductStakingContracts = {
   StakeTogetherWrapper: `0x${string}`
 }
 
+export type TradingViewFiatData = {
+  usd: string
+  brl: string
+  eur: string
+}
+
 export type ProductStaking = {
   id: number
   name: ProductStakingName
@@ -65,6 +71,10 @@ export type ProductStaking = {
       toChainId: number
       toToken: string
     }
+  }
+  tradingView: {
+    symbol: string
+    fiat: TradingViewFiatData
   }
   rampEnabled: boolean
   title: string

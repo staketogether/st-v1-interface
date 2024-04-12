@@ -49,6 +49,14 @@ export const productStakingList: ProductStaking[] = [
       blockchain: 'ethereum',
       symbol: 'eth'
     },
+    tradingView: {
+      symbol: 'ETHUSD',
+      fiat: {
+        usd: 'ETHUSD',
+        brl: 'ETHBRL',
+        eur: 'ETHEUR'
+      }
+    },
     eventsTrack: {
       pageView: 'pageview-staking',
       checkout: 'initiateCheckout_staking',
@@ -115,6 +123,14 @@ export const productStakingList: ProductStaking[] = [
       blockchain: 'ethereum',
       symbol: 'eth'
     },
+    tradingView: {
+      symbol: 'ETHUSD',
+      fiat: {
+        usd: 'ETHUSD',
+        brl: 'ETHBRL',
+        eur: 'ETHEUR'
+      }
+    },
     eventsTrack: {
       pageView: 'pageview-restaking',
       checkout: 'initiateCheckout_restaking',
@@ -174,6 +190,14 @@ export const productStakingList: ProductStaking[] = [
       asset: '0x3506424f91fd33084466f402d5d97f05f8e3b4af',
       blockchain: '',
       symbol: ''
+    },
+    tradingView: {
+      symbol: 'ETHUSD',
+      fiat: {
+        usd: 'ETHUSD',
+        brl: 'ETHBRL',
+        eur: 'ETHEUR'
+      }
     },
     eventsTrack: {
       pageView: 'pageview-chiliz',
@@ -235,6 +259,14 @@ export const productStakingList: ProductStaking[] = [
       blockchain: '',
       symbol: ''
     },
+    tradingView: {
+      symbol: 'ETHUSD',
+      fiat: {
+        usd: 'ETHUSD',
+        brl: 'ETHBRL',
+        eur: 'ETHEUR'
+      }
+    },
     eventsTrack: {
       pageView: 'pageview-polygon',
       checkout: 'initiateCheckout_polygon',
@@ -294,6 +326,14 @@ export const productStakingList: ProductStaking[] = [
       asset: 'Solana',
       blockchain: 'ethereum',
       symbol: 'eth'
+    },
+    tradingView: {
+      symbol: 'ETHUSD',
+      fiat: {
+        usd: 'ETHUSD',
+        brl: 'ETHBRL',
+        eur: 'ETHEUR'
+      }
     },
     eventsTrack: {
       pageView: 'pageview-solana',
@@ -355,6 +395,14 @@ export const productStakingList: ProductStaking[] = [
       blockchain: '',
       symbol: ''
     },
+    tradingView: {
+      symbol: 'ETHUSD',
+      fiat: {
+        usd: 'ETHUSD',
+        brl: 'ETHBRL',
+        eur: 'ETHEUR'
+      }
+    },
     eventsTrack: {
       pageView: 'pageview-cosmos',
       checkout: 'initiateCheckout_cosmos',
@@ -415,6 +463,14 @@ export const productStakingList: ProductStaking[] = [
       blockchain: '',
       symbol: ''
     },
+    tradingView: {
+      symbol: 'ETHUSD',
+      fiat: {
+        usd: 'ETHUSD',
+        brl: 'ETHBRL',
+        eur: 'ETHEUR'
+      }
+    },
     eventsTrack: {
       pageView: 'pageview-near',
       checkout: 'initiateCheckout_near',
@@ -474,6 +530,14 @@ export const productStakingList: ProductStaking[] = [
       asset: 'polkadot',
       blockchain: '',
       symbol: ''
+    },
+    tradingView: {
+      symbol: 'ETHUSD',
+      fiat: {
+        usd: 'ETHUSD',
+        brl: 'ETHBRL',
+        eur: 'ETHEUR'
+      }
     },
     eventsTrack: {
       pageView: 'pageview-polkadot',
