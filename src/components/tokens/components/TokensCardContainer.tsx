@@ -5,8 +5,8 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import StakingIcons from './StakingIcons'
-import SymbolIcons from './SymbolIcons'
+import StakingIcons from './TokensStakingIcons'
+import TokensSymbolIcons from './TokensSymbolIcons'
 
 type TokensCardContainerProps = {
   product: Product
@@ -45,7 +45,7 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
           <span className='green'>{`APY ${product.apy}%`}</span>
         </div>
         <div>
-          <SymbolIcons size={24} productSymbol={product.symbol} />
+          <TokensSymbolIcons size={24} productSymbol={product.symbol} />
           <span>{product.symbol}</span>
         </div>
       </ContainerInfo>

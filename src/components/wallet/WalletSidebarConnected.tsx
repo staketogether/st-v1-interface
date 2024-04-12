@@ -35,16 +35,16 @@ import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal
 
 import chainConfig, { Networks } from '@/config/chain'
 import { productList } from '@/config/product'
+import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useCoinConversion from '@/hooks/useCoinConversion'
+import { StakingProduct } from '@/types/Product'
+import { useReactiveVar } from '@apollo/client'
 import AssetIcon from '../shared/AssetIcon'
 import Withdrawals from '../shared/Withdrawals'
-import NetworkProductIcons from '../tokens/components/StakingIcons'
+import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
-import { web3AuthInstanceVar } from '@/config/web3Auth'
-import { useReactiveVar } from '@apollo/client'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
-import { StakingProduct } from '@/types/Product'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -172,7 +172,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       value: product.name,
       label: (
         <ProductSelectCard>
-          <NetworkProductIcons stakingProduct={product.name} size={24} />
+          <TokenStakingIcons stakingProduct={product.name} size={24} />
           <span>{t(`v2.products.${product.name}`)}</span>
         </ProductSelectCard>
       )

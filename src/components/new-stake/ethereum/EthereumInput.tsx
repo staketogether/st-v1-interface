@@ -1,6 +1,6 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-import SymbolIcons from '@/components/tokens/components/SymbolIcons'
+import TokensSymbolIcons from '@/components/tokens/components/TokensSymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
@@ -80,7 +80,7 @@ export default function EthereumInput({
           {type === 'deposit' ? (
             <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
           ) : (
-            <SymbolIcons productSymbol={product.symbol} size={32} />
+            <TokensSymbolIcons productSymbol={product.symbol} size={32} />
           )}
           <span>{type === 'deposit' ? t('eth.symbol') : product.symbol}</span>
           <span className='max' onClick={onMaxFunction}>

@@ -12,12 +12,12 @@ import solanaIcon from '@assets/network/solana.svg'
 import Image from 'next/image'
 import styled from 'styled-components'
 
-type NetworkIconProps = {
+type TokenStakingIconsProps = {
   stakingProduct: StakingProduct
   size: number
 }
 
-export default function NetworkProductIcons({ stakingProduct, size }: NetworkIconProps) {
+export default function TokenStakingIcons({ stakingProduct, size }: TokenStakingIconsProps) {
   const stakingProductsIcons = {
     'ethereum-stake': ethereumIcon,
     'ethereum-restaking': restaking,

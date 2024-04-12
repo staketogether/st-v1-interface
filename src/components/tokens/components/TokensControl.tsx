@@ -3,11 +3,11 @@ import { Product } from '@/types/Product'
 import styled from 'styled-components'
 import TokensCardContainer from './TokensCardContainer'
 
-type ProductItemProps = {
+type TokensControl = {
   productsList: Product[]
 }
 
-export default function TokensControl({ productsList }: ProductItemProps) {
+export default function TokensControl({ productsList }: TokensControl) {
   const { t } = useLocaleTranslation()
   return (
     <Container>

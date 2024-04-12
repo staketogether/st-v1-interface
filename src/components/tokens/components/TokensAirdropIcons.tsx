@@ -1,25 +1,24 @@
-import React from 'react'
-import Image from 'next/image'
-import polygonIcon from '@assets/network/polygon.svg'
-import ethereumIcon from '@assets/network/ethereum.svg'
-import polkadotIcon from '@assets/network/polkadot.svg'
-import solanaIcon from '@assets/network/solana.svg'
-import NearIcon from '@assets/network/near.svg'
-import cosmosIcon from '@assets/network/cosmos.svg'
-import celestiaIcon from '@assets/network/celestia.svg'
-import restaking from '@assets/network/restaking.svg'
+import { Airdrop } from '@/types/Product'
 import eigenLayer from '@assets/airdrop/eigenLayer.svg'
 import layerZero from '@assets/airdrop/layerZero.svg'
+import celestiaIcon from '@assets/network/celestia.svg'
+import cosmosIcon from '@assets/network/cosmos.svg'
+import ethereumIcon from '@assets/network/ethereum.svg'
+import NearIcon from '@assets/network/near.svg'
+import polkadotIcon from '@assets/network/polkadot.svg'
+import polygonIcon from '@assets/network/polygon.svg'
+import restaking from '@assets/network/restaking.svg'
+import solanaIcon from '@assets/network/solana.svg'
 import stIcon from '@assets/st-symbol.svg'
+import Image from 'next/image'
 import styled from 'styled-components'
-import { Airdrop } from '@/types/Product'
 
-type NetworkIconProps = {
+type TokensAirdropIcons = {
   airdrop: Airdrop
   size: number
 }
 
-export default function AirdropIcons({ airdrop, size }: NetworkIconProps) {
+export default function TokensAirdropIcons({ airdrop, size }: TokensAirdropIcons) {
   const airdropProducts = {
     ethereum: ethereumIcon,
     EthereumRestaking: restaking,

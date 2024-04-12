@@ -1,22 +1,26 @@
-import React from 'react'
-import Image from 'next/image'
+import useAddSethToWallet from '@/hooks/useAddSethToWallet'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProductSymbol } from '@/types/Product'
 import stIcon from '@assets/st-symbol.svg'
 import stpRETHIcon from '@assets/stpRETHIcon.svg'
-import styled from 'styled-components'
 import { Tooltip } from 'antd'
-import useAddSethToWallet from '@/hooks/useAddSethToWallet'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import Image from 'next/image'
 import { PiPlusBold } from 'react-icons/pi'
+import styled from 'styled-components'
 
-type SymbolIconsProps = {
+type TokensSymbolIconsProps = {
   productSymbol: ProductSymbol
   size: number
   contractAddress?: `0x${string}`
   showPlusIcon?: boolean
 }
 
-export default function SymbolIcons({ productSymbol, size, showPlusIcon, contractAddress }: SymbolIconsProps) {
+export default function TokensSymbolIcons({
+  productSymbol,
+  size,
+  showPlusIcon,
+  contractAddress
+}: TokensSymbolIconsProps) {
   const productSymbolIcons = {
     stpETH: stIcon,
     strETH: stpRETHIcon,
