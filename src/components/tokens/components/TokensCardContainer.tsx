@@ -6,9 +6,12 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
+import TokenStakingIcons from './TokensStakingIcons'
+import TokensSymbolIcons from './TokensSymbolIcons'
 
 type TokensCardContainerProps = {
   product: ProductStaking | ProductAsset
+  type: 'staking' | 'assets'
 }
 
 const TokensShowValuePrice = dynamic(() => import('./TokensShowValuePrice'), {
@@ -17,7 +20,7 @@ const TokensShowValuePrice = dynamic(() => import('./TokensShowValuePrice'), {
   suspense: true
 })
 
-export default function TokensCardContainer({ product }: TokensCardContainerProps) {
+export default function TokensCardContainer({ product, type }: TokensCardContainerProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
@@ -32,7 +35,7 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
     >
       <ImageContainer>
         <div>
-          {/* <StakingIcons stakingProduct={product.name} size={32} /> */}
+          <TokenStakingIcons stakingProduct={product.name} size={32} />
           <span>{t(`v2.products.${product.name}`)}</span>
         </div>
         {!product.enabled && <Soon>{t('soon')}</Soon>}
@@ -40,11 +43,11 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
       </ImageContainer>
       <ContainerInfo>
         <div>
-          {/* <TokensShowValuePrice product={product} /> */}
-          <span className='green'>{`APY ${product.apy}%`}</span>
+          <TokensShowValuePrice product={product} />
+          {type === 'staking' && <span className='green'>{`APY ${product.apy}%`}</span>}
         </div>
         <div>
-          {/* <TokensSymbolIcons size={24} productSymbol={product.symbol} /> */}
+          <TokensSymbolIcons size={24} productSymbol={product.symbol} />
           <span>{product.symbol}</span>
         </div>
       </ContainerInfo>

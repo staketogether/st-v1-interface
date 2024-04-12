@@ -1,3 +1,4 @@
+import { ProductAssetName } from '@/types/ProductAsset'
 import { ProductStakingName } from '@/types/ProductStaking'
 import bitcoinIcon from '@assets/network/bitcoin.png'
 import celestiaIcon from '@assets/network/celestia.svg'
@@ -13,7 +14,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 
 type TokenStakingIconsProps = {
-  stakingProduct: ProductStakingName
+  stakingProduct: ProductStakingName | ProductAssetName
   size: number
 }
 
@@ -28,7 +29,9 @@ export default function TokenStakingIcons({ stakingProduct, size }: TokenStaking
     near: NearIcon,
     polkadot: polkadotIcon,
     chiliz: chilizIcon,
-    bitcoin: bitcoinIcon
+    bitcoin: bitcoinIcon,
+    btc: bitcoinIcon,
+    eth: ethereumIcon
   }
 
   return (

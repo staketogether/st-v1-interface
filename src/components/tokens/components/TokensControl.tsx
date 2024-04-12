@@ -24,7 +24,7 @@ export default function TokensControl({ type, productsList }: TokensControl) {
       <Products>
         <nav>
           {productsList.map(product => (
-            <TokensCardContainer product={product} key={product.id} />
+            <TokensCardContainer product={product} key={product.id} type={type} />
           ))}
         </nav>
       </Products>
@@ -35,7 +35,6 @@ export default function TokensControl({ type, productsList }: TokensControl) {
 const { Container, Products, Title } = {
   Container: styled.div`
     width: 100%;
-    flex: 1;
     display: grid;
     gap: ${({ theme }) => theme.size[24]};
     grid-template-columns: 1fr;
@@ -79,7 +78,6 @@ const { Container, Products, Title } = {
     gap: ${({ theme }) => theme.size[8]};
     nav {
       width: 100%;
-      flex: 1;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: ${({ theme }) => theme.size[24]};

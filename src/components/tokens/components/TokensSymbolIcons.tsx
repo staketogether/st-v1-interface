@@ -1,5 +1,6 @@
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAssetSymbol } from '@/types/ProductAsset'
 import { ProductStakingSymbol } from '@/types/ProductStaking'
 import stIcon from '@assets/st-symbol.svg'
 import stpRETHIcon from '@assets/stpRETHIcon.svg'
@@ -7,9 +8,11 @@ import { Tooltip } from 'antd'
 import Image from 'next/image'
 import { PiPlusBold } from 'react-icons/pi'
 import styled from 'styled-components'
+import bitcoinIcon from '@assets/network/bitcoin.png'
+import ethereumIcon from '@assets/network/ethereum.svg'
 
 type TokensSymbolIconsProps = {
-  productSymbol: ProductStakingSymbol
+  productSymbol: ProductStakingSymbol | ProductAssetSymbol
   size: number
   contractAddress?: `0x${string}`
   showPlusIcon?: boolean
@@ -31,7 +34,9 @@ export default function TokensSymbolIcons({
     stpDOT: stIcon,
     stpATOM: stIcon,
     stpBTC: stIcon,
-    stpCHZ: stIcon
+    stpCHZ: stIcon,
+    wBTC: bitcoinIcon,
+    ETH: ethereumIcon
   }
   const { addToWalletAction } = useAddSethToWallet({
     productSymbol,

@@ -1,9 +1,10 @@
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useGetAssetData from '@/hooks/useGetAssetData'
+import { ProductAsset } from '@/types/ProductAsset'
 import { ProductStaking } from '@/types/ProductStaking'
 type TokensShowValuePriceProps = {
-  product: ProductStaking
+  product: ProductStaking | ProductAsset
 }
 
 export default function TokensShowValuePrice({ product }: TokensShowValuePriceProps) {

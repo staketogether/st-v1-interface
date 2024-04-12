@@ -53,7 +53,7 @@ export const productAssetList: ProductAsset[] = [
       minDeposit: 1
     },
     enabled: true,
-    urlRedirect: '/currency/optimism/product/eth',
+    urlRedirect: '/currency/optimism/product/assets/eth',
     getMobulaAssetData: {
       asset: 'Ethereum',
       blockchain: 'optimism',

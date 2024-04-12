@@ -19,7 +19,7 @@ export const productStakingList: ProductStaking[] = [
     },
     description: 'ethereumDescription',
     enabled: true,
-    urlRedirect: '/currency/ethereum/product/ethereum-stake',
+    urlRedirect: '/currency/ethereum/product/staking/ethereum-stake',
     stakeTogetherPool: {
       mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
       testnet: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48'
@@ -85,7 +85,7 @@ export const productStakingList: ProductStaking[] = [
     scan: 'https://optimistic.etherscan.io',
     description: 'restakingDescription',
     enabled: true,
-    urlRedirect: '/currency/optimism/product/ethereum-restaking',
+    urlRedirect: '/currency/optimism/product/staking/ethereum-restaking',
     stakeTogetherPool: {
       mainnet: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
       testnet: '0x15Df22857d8208d4add356dB92E48B347488969E'

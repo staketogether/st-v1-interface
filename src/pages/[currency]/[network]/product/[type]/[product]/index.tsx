@@ -47,12 +47,21 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = [
-    { params: { network: 'ethereum', currency: 'usd', product: 'ethereum-stake' } },
-    { params: { network: 'ethereum', currency: 'brl', product: 'ethereum-stake' } },
-    { params: { network: 'ethereum', currency: 'eur', product: 'ethereum-stake' } },
-    { params: { network: 'optimism', currency: 'usd', product: 'ethereum-restaking' } },
-    { params: { network: 'optimism', currency: 'brl', product: 'ethereum-restaking' } },
-    { params: { network: 'optimism', currency: 'eur', product: 'ethereum-restaking' } }
+    { params: { network: 'ethereum', currency: 'usd', type: 'staking', product: 'ethereum-stake' } },
+    { params: { network: 'ethereum', currency: 'brl', type: 'staking', product: 'ethereum-stake' } },
+    { params: { network: 'ethereum', currency: 'eur', type: 'staking', product: 'ethereum-stake' } },
+
+    { params: { network: 'optimism', currency: 'usd', type: 'staking', product: 'ethereum-restaking' } },
+    { params: { network: 'optimism', currency: 'brl', type: 'staking', product: 'ethereum-restaking' } },
+    { params: { network: 'optimism', currency: 'eur', type: 'staking', product: 'ethereum-restaking' } },
+
+    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'btc' } },
+    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'btc' } },
+    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'btc' } },
+
+    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'eth' } },
+    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'eth' } },
+    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'eth' } }
   ]
 
   return { paths, fallback: 'blocking' }
