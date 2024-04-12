@@ -94,7 +94,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           </RewardsPointsContainer>
         </HeaderDescribeInfo>
       </header>
-      <TradingViewComponent />
+      <TradingViewComponent tradingView={product.tradingView} />
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>
