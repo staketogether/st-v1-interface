@@ -62,9 +62,6 @@ export default function PaymentMethod() {
 const { Container } = {
   Container: styled.div`
     width: auto;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-width: 372px;
-    }
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};

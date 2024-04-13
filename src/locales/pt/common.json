@@ -682,7 +682,8 @@
       "bitcoin": "Staking de Bitcoin",
       "chiliz": "Staking de Chiliz",
       "btc": "Bitcoin",
-      "eth": "Ethereum"
+      "eth": "Ethereum",
+      "eth-optimism": "Ethereum"
     },
     "notifyBar": {
       "incentives": {

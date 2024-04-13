@@ -12,8 +12,12 @@ interface GenericErrorComponentProps {
   onClose?: () => void
 }
 
-
-export default function GenericErrorComponent({ icon, message, subTitle, onClose }: GenericErrorComponentProps) {
+export default function GenericErrorComponent({
+  icon,
+  message,
+  subTitle,
+  onClose
+}: GenericErrorComponentProps) {
   const { t } = useLocaleTranslation()
   const handleClose = () => {
     if (onClose) {

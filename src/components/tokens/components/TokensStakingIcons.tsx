@@ -31,7 +31,8 @@ export default function TokenStakingIcons({ stakingProduct, size }: TokenStaking
     chiliz: chilizIcon,
     bitcoin: bitcoinIcon,
     btc: bitcoinIcon,
-    eth: ethereumIcon
+    eth: ethereumIcon,
+    'eth-optimism': ethereumIcon
   }
 
   return (

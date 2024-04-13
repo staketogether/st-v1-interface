@@ -13,6 +13,7 @@ import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
 import NetworkIcons from '../shared/NetworkIcons'
 import { capitalize } from '@/services/truncate'
 import AssetsProductInfo from './AssetsProductInfo'
+import AssetsActionsControl from './AssetsActionsControl'
 
 type AssetsControlProps = {
   product: ProductAsset
@@ -75,7 +76,7 @@ export default function AssetsControl({ product, assetData, chainId }: AssetsCon
       <div>
         <AssetsProductInfo product={product} assetData={assetData} />
         <ActionContainer>
-          <div>venda</div>
+          <AssetsActionsControl type='buy' product={product} chainId={chainId} />
         </ActionContainer>
       </div>
     </Container>

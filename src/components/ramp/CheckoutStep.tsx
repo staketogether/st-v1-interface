@@ -136,9 +136,6 @@ export default function CheckoutStep() {
 const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, CountDown } = {
   Container: styled.div`
     max-width: 420px;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-width: 372px;
-    }
     font-size: ${({ theme }) => theme.font.size[13]};
     font-weight: 400;
 

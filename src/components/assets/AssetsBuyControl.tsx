@@ -1,35 +1,25 @@
-import Modal from '@/components/shared/Modal'
-
+import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
+import { BrlaBuyEthStep, changeWalletAddress, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'
-
-import { globalConfig } from '@/config/global'
-import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
-import {
-  BrlaBuyEthStep,
-  changeWalletAddress,
-  clearModal,
-  openBrlaModalVar,
-  stepsControlBuyCryptoVar
-} from '@/hooks/ramp/useControlModal'
 import axios from 'axios'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { SWRConfig } from 'swr'
 import { useAccount } from 'wagmi'
-import { ProductStakingName } from '../../types/ProductStaking'
+import PaymentMethod from '../ramp/PaymentMethod'
+import QuotationStep from '../ramp/QuotationStep'
+import KycStep from '../ramp/KycStep'
 import ConnectWallet from '../shared/ConnectWallet'
-import CheckoutStep from './CheckoutStep'
-import GenericErrorComponent from './GenericErrorComponent'
-import KycStep from './KycStep'
-import PaymentMethod from './PaymentMethod'
-import ProcessingCheckoutStep from './ProcessingCheckoutStep'
-import ProcessingKycStep from './ProcessingKycStep'
-import QuotationStep from './QuotationStep'
-import SuccessStep from './SuccessStep'
-import { TimeOutCheckout } from './TimeOutCheckout'
+import ProcessingKycStep from '../ramp/ProcessingKycStep'
+import ProcessingCheckoutStep from '../ramp/ProcessingCheckoutStep'
+import CheckoutStep from '../ramp/CheckoutStep'
+import SuccessStep from '../ramp/SuccessStep'
+import GenericErrorComponent from '../ramp/GenericErrorComponent'
+import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
+import { globalConfig } from '@/config/global'
 import styled from 'styled-components'
 
-export default function BuyEthControlModal({ stakingProduct }: { stakingProduct: ProductStakingName }) {
+export default function AssetsBuyControl() {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
@@ -42,12 +32,11 @@ export default function BuyEthControlModal({ stakingProduct }: { stakingProduct:
     ProcessingKyc: <ProcessingKycStep />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep />,
     Checkout: <CheckoutStep />,
-    TimeOutCheckout: <TimeOutCheckout stakingProduct={stakingProduct} />,
+    TimeOutCheckout: <TimeOutCheckout stakingProduct={'ethereum-restaking'} />,
     Success: <SuccessStep />,
     error: <GenericErrorComponent />
   }
 
-  const controlModal = useReactiveVar(openBrlaModalVar)
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
   const titleList: { [key: string]: string } = {
     Success: t('v2.ramp.success'),
@@ -90,27 +79,24 @@ export default function BuyEthControlModal({ stakingProduct }: { stakingProduct:
           })
       }}
     >
-      <Modal
-        className={currentStep.toLowerCase()}
-        title={title}
-        isOpen={controlModal}
-        onClose={clearModal}
-        width={'auto'}
-        showCloseIcon={currentStep !== BrlaBuyEthStep.Success}
-        noPadding={currentStep === BrlaBuyEthStep.Kyc || currentStep === BrlaBuyEthStep.Checkout}
-        showHeader={![BrlaBuyEthStep.TimeOutCheckout, BrlaBuyEthStep.Error].includes(currentStep)}
-      >
-        <Container>{steps[currentStep]}</Container>
-      </Modal>
+      <Container>
+        <h2>{title}</h2>
+        {steps[currentStep]}
+      </Container>
     </SWRConfig>
   )
 }
 
 const { Container } = {
   Container: styled.div`
-    width: auto;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-width: 372px;
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[24]};
+    h2 {
+      text-align: center;
+      font-size: ${({ theme }) => theme.font.size[14]};
+      font-weight: 500;
+      color: ${({ theme }) => theme.colorV2.gray[1]};
     }
   `
 }

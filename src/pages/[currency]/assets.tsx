@@ -38,7 +38,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      productList: productAssetList,
+      productList: productAssetList.filter(product => {
+        if (product.listed) return product
+      }),
       ...(await serverSideTranslations(locale || 'en', ['common']))
     },
     revalidate: 24 * 60 * 60

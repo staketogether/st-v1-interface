@@ -67,9 +67,6 @@ export default function SuccessStep() {
 const { Container, DepositToken, DepositInfo, Info } = {
   Container: styled.div`
     width: auto;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-width: 372px;
-    }
     display: flex;
     flex-direction: column;
     gap: ${({ theme: { size } }) => size[24]};

@@ -6,6 +6,7 @@ export const productAssetList: ProductAsset[] = [
     name: 'btc',
     title: 'TESTAR TITULO',
     description: 'btc',
+    listed: true,
     symbol: 'wBTC',
     networkAvailable: 'optimism',
     chainIdNetworkAvailable: 10,
@@ -15,7 +16,13 @@ export const productAssetList: ProductAsset[] = [
     rampEnabled: true,
     ramp: {
       chainId: 10,
-      minDeposit: 1
+      minDeposit: 1,
+      bridge: {
+        fromChainId: 137,
+        fromToken: 'MATIC',
+        toChainId: 10,
+        toToken: 'bitcoin'
+      }
     },
     enabled: true,
     urlRedirect: '/currency/optimism/product/assets/btc',
@@ -42,9 +49,10 @@ export const productAssetList: ProductAsset[] = [
   },
   {
     id: 1,
-    name: 'eth',
+    name: 'eth-optimism',
     title: 'TESTAR TITULO',
     description: 'eth',
+    listed: true,
     symbol: 'ETH',
     networkAvailable: 'optimism',
     chainIdNetworkAvailable: 10,
@@ -54,7 +62,53 @@ export const productAssetList: ProductAsset[] = [
     rampEnabled: true,
     ramp: {
       chainId: 10,
-      minDeposit: 1
+      minDeposit: 10,
+      bridge: {
+        fromChainId: 137,
+        fromToken: 'MATIC',
+        toChainId: 10,
+        toToken: 'ETH'
+      }
+    },
+    enabled: true,
+    urlRedirect: '/currency/optimism/product/assets/eth-optimism',
+    getMobulaAssetData: {
+      asset: 'Ethereum',
+      blockchain: 'optimism',
+      symbol: 'eth'
+    },
+    eventsTrack: {
+      pageView: 'pageview-eth',
+      checkout: 'initiateCheckout-eth',
+      confirmation: 'confirmation-eth',
+      success: 'success-eth',
+      withdraw: 'withdraw-eth'
+    },
+    tradingView: {
+      symbol: 'ETHUSD',
+      fiat: {
+        usd: 'ETHUSD',
+        brl: 'ETHBRL',
+        eur: 'ETHEUR'
+      }
+    }
+  },
+  {
+    id: 1,
+    name: 'eth',
+    title: 'TESTAR TITULO',
+    description: 'eth',
+    listed: false,
+    symbol: 'ETH',
+    networkAvailable: 'optimism',
+    chainIdNetworkAvailable: 1,
+    newProductTag: true,
+    apy: 0,
+    scan: 'https://optimistic.etherscan.io/',
+    rampEnabled: true,
+    ramp: {
+      chainId: 1,
+      minDeposit: 300
     },
     enabled: true,
     urlRedirect: '/currency/optimism/product/assets/eth',

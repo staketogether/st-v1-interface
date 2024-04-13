@@ -159,9 +159,6 @@ export default function QuotationStep() {
 const { Container, InputContainer, ArrowDown, BoxValuesContainer } = {
   Container: styled.div`
     width: auto;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-width: 372px;
-    }
     color: ${({ theme }) => theme.colorV2.gray[1]};
 
     > header {

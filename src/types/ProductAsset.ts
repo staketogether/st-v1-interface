@@ -1,6 +1,6 @@
 export type ProductAssetIcon = 'btc' | 'eth'
 
-export type ProductAssetName = 'btc' | 'eth'
+export type ProductAssetName = 'btc' | 'eth' | 'eth-optimism'
 
 export type ProductAssetSymbol = 'wBTC' | 'ETH'
 
@@ -45,6 +45,7 @@ export type ProductAsset = {
   name: ProductAssetName
   newProductTag: boolean
   rampEnabled: boolean
+  listed: boolean
   ramp: {
     chainId: number
     minDeposit: number

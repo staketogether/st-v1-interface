@@ -402,10 +402,6 @@ const { Container, FormContainer, InputRadio, ContainerRadio, Footer, DiscordIco
   Container: styled.div`
     padding: 0 ${({ theme }) => theme.size[24]};
     width: auto;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-width: 372px;
-    }
-
     overflow-y: scroll;
 
     display: grid;
