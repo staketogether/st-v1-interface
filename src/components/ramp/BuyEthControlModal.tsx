@@ -9,6 +9,7 @@ import {
   BrlaBuyEthStep,
   changeWalletAddress,
   clearModal,
+  currentProductNameVar,
   openBrlaModalVar,
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
@@ -28,19 +29,22 @@ import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
 import { TimeOutCheckout } from './TimeOutCheckout'
 import styled from 'styled-components'
+import { getProductAssetByName } from '@/config/product-asset'
 
 export default function BuyEthControlModal({ stakingProduct }: { stakingProduct: ProductStakingName }) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
+  const currentProductName = useReactiveVar(currentProductNameVar)
+  const product = getProductAssetByName({ productName: currentProductName })
 
   const steps = {
     MethodPayment: <PaymentMethod />,
-    Quotation: <QuotationStep />,
+    Quotation: <QuotationStep product={product} />,
     Kyc: <KycStep />,
     ConnectWallet: <ConnectWallet useModal />,
-    ProcessingKyc: <ProcessingKycStep />,
-    ProcessingCheckoutStep: <ProcessingCheckoutStep />,
+    ProcessingKyc: <ProcessingKycStep product={product} />,
+    ProcessingCheckoutStep: <ProcessingCheckoutStep product={product} />,
     Checkout: <CheckoutStep />,
     TimeOutCheckout: <TimeOutCheckout stakingProduct={stakingProduct} />,
     Success: <SuccessStep />,

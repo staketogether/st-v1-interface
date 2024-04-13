@@ -35,7 +35,7 @@ export default function Product({ product, assetData, chainId, productType }: Pr
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
       fiatAmountVar(router.query?.amount?.toString() ?? minAmount)
       //TROCAR PARA O PRODUTO CORRETO
-      openQuoteEthModal('ethereum-restaking')
+      openQuoteEthModal('eth-optimism')
     } else if (router.query.payment === 'credit') {
       buyCrypto()
     }

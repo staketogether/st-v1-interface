@@ -1,9 +1,9 @@
 import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo'
-import { ProductStakingName } from '@/types/ProductStaking'
 import { Quote } from '@/types/quote.type'
 import { makeVar } from '@apollo/client'
 import { BuyRamp } from './useBuyRamp'
 import { KycLevelInfo } from './useKycLevelInfo'
+import { ProductAssetName } from '@/types/ProductAsset'
 
 export enum BrlaBuyEthStep {
   MethodPayment = 'MethodPayment',
@@ -35,7 +35,7 @@ export const qrCodeVar = makeVar<BuyRamp | null>(null)
 export const kycLevelVar = makeVar<KycLevelInfo | null>(null)
 export const kycIdVar = makeVar<string | null>(null)
 export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
-export const currentProductNameVar = makeVar<ProductStakingName>('ethereum-stake')
+export const currentProductNameVar = makeVar<ProductAssetName>('eth-optimism')
 
 export const clearModal = () => {
   qrCodeVar(null)
@@ -47,7 +47,7 @@ export const clearModal = () => {
   openBrlaModalVar(false)
 }
 
-export const openQuoteEthModal = (stakingProduct: ProductStakingName) => {
+export const openQuoteEthModal = (stakingProduct: ProductAssetName) => {
   stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
   currentProductNameVar(stakingProduct)
   openBrlaModalVar(true)
@@ -62,7 +62,7 @@ export const changeWalletAddress = () => {
   stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
 }
 
-export const openModal = (stakingProduct: ProductStakingName) => {
+export const openModal = (stakingProduct: ProductAssetName) => {
   currentProductNameVar(stakingProduct)
   openBrlaModalVar(true)
 }

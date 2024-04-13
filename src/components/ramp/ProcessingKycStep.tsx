@@ -1,8 +1,6 @@
-import { getProductByName } from '@/config/product-staking'
 import useBuyRamp, { BuyRampRequest } from '@/hooks/ramp/useBuyRamp'
 import {
   BrlaBuyEthStep,
-  currentProductNameVar,
   kycIdVar,
   kycLevelVar,
   qrCodeVar,
@@ -20,8 +18,13 @@ import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import { useAccount } from 'wagmi'
 import WrapProcessingStep from './WrapProcessingStep'
+import { ProductAsset } from '@/types/ProductAsset'
 
-export default function ProcessingKycStep() {
+type ProcessingKycStepProps = {
+  product: ProductAsset
+}
+
+export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
   const timeToRedirect = 3000
   const theme = useTheme()
   const quote = useReactiveVar(quoteVar)
@@ -34,9 +37,7 @@ export default function ProcessingKycStep() {
   const kycActivityId = Number(kyc?.level || 0) > 0 || !kycActivity ? undefined : kycActivity
   const { activity, isError } = useRampActivity(ProviderType.brla, kycActivityId ?? undefined)
   const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc?.level ? undefined : address, true)
-  const currentProductName = useReactiveVar(currentProductNameVar)
 
-  const product = getProductByName({ productName: currentProductName })
   const getIcon = (moment: 'waiting' | 'process' | 'success') => {
     const icons = {
       waiting: <PiCircleLight size={32} color={theme.color.secondary} />,

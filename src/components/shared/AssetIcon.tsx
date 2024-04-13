@@ -1,3 +1,4 @@
+import { ProductAssetSymbol } from '@/types/ProductAsset'
 import { ProductStakingNetwork, ProductStakingSymbol } from '@/types/ProductStaking'
 import arbitrumIcon from '@assets/network/arbitrum.svg'
 import ethereumIcon from '@assets/network/ethereum.svg'
@@ -8,8 +9,9 @@ import stIcon from '@assets/st-symbol.svg'
 import stpRETHIcon from '@assets/stpRETHIcon.svg'
 import Image from 'next/image'
 import styled from 'styled-components'
+import bitcoinIcon from '@assets/network/bitcoin.png'
 
-type Icon = ProductStakingSymbol | ProductStakingNetwork
+type Icon = ProductStakingSymbol | ProductStakingNetwork | ProductAssetSymbol
 
 type SymbolIconsProps = {
   assetIcon: Icon
@@ -36,7 +38,9 @@ export default function AssetIcon({ assetIcon, size, networkIcon, marginRight }:
     arbitrum: arbitrumIcon,
     polygon: polygonIcon,
     solana: solanaIcon,
-    holesky: ethereumIcon
+    holesky: ethereumIcon,
+    wBTC: bitcoinIcon,
+    ETH: ethereumIcon
   }
 
   const networkIcons = {

@@ -6,8 +6,13 @@ import Button from '../shared/Button'
 import LottieAnimation from '../shared/LottieAnimation'
 import successAnimation from '@assets/animations/success-animation.json'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
+import { ProductAsset } from '@/types/ProductAsset'
 
-export default function SuccessStep() {
+type SuccessStepProps = {
+  product: ProductAsset
+}
+
+export default function SuccessStep({ product }: SuccessStepProps) {
   const { t } = useLocaleTranslation()
   const quote = useReactiveVar(quoteVar)
 
@@ -18,7 +23,9 @@ export default function SuccessStep() {
       <LottieAnimation animationData={successAnimation} height={80} />
       <DepositToken>
         <div>
-          <span>{quote?.amountToken} ETH</span>
+          <span>
+            {quote?.amountToken} {product.symbol}
+          </span>
         </div>
         <div>
           <span>{t('v2.ramp.yourEths')}</span>
@@ -28,19 +35,23 @@ export default function SuccessStep() {
       <DepositInfo>
         <Info>
           <span>{t('v2.ramp.youReceived')}</span>
-          <span className='right secondary'>{quote?.amountToken} ETH</span>
+          <span className='right secondary'>
+            {quote?.amountToken} {product.symbol}
+          </span>
         </Info>
         <Info>
           <span>{t('v2.ramp.exchange')}</span>
           <div className='right'>
             <span className='green'>R$ {exchange}</span>
             <span>=</span>
-            <span className='secondary'>1 ETH</span>
+            <span className='secondary'>1 {product.symbol}</span>
           </div>
         </Info>
         <Info>
           <div>
-            <span className='green'>{quote?.amountToken} ETH</span>
+            <span className='green'>
+              {quote?.amountToken} {product.symbol}
+            </span>
             <span>x</span>
             <span className='secondary'>R$ {exchange}</span>
           </div>

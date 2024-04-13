@@ -14,6 +14,7 @@ import NetworkIcons from '../shared/NetworkIcons'
 import { capitalize } from '@/services/truncate'
 import AssetsProductInfo from './AssetsProductInfo'
 import AssetsActionsControl from './AssetsActionsControl'
+import { currentProductNameVar } from '@/hooks/ramp/useControlModal'
 
 type AssetsControlProps = {
   product: ProductAsset
@@ -23,7 +24,7 @@ type AssetsControlProps = {
 
 export default function AssetsControl({ product, assetData, chainId }: AssetsControlProps) {
   const { t } = useLocaleTranslation()
-
+  currentProductNameVar(product.name)
   const { query } = useRouter()
   const { currency } = query
 

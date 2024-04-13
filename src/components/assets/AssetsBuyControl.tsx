@@ -1,5 +1,10 @@
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
-import { BrlaBuyEthStep, changeWalletAddress, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import {
+  BrlaBuyEthStep,
+  changeWalletAddress,
+  currentProductNameVar,
+  stepsControlBuyCryptoVar
+} from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'
 import axios from 'axios'
@@ -18,22 +23,25 @@ import GenericErrorComponent from '../ramp/GenericErrorComponent'
 import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
 import { globalConfig } from '@/config/global'
 import styled from 'styled-components'
+import { getProductAssetByName } from '@/config/product-asset'
 
 export default function AssetsBuyControl() {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
+  const currentProductName = useReactiveVar(currentProductNameVar)
+  const product = getProductAssetByName({ productName: currentProductName })
 
   const steps = {
     MethodPayment: <PaymentMethod />,
-    Quotation: <QuotationStep />,
+    Quotation: <QuotationStep product={product} />,
     Kyc: <KycStep />,
     ConnectWallet: <ConnectWallet useModal />,
-    ProcessingKyc: <ProcessingKycStep />,
-    ProcessingCheckoutStep: <ProcessingCheckoutStep />,
+    ProcessingKyc: <ProcessingKycStep product={product} />,
+    ProcessingCheckoutStep: <ProcessingCheckoutStep product={product} />,
     Checkout: <CheckoutStep />,
     TimeOutCheckout: <TimeOutCheckout stakingProduct={'ethereum-restaking'} />,
-    Success: <SuccessStep />,
+    Success: <SuccessStep product={product} />,
     error: <GenericErrorComponent />
   }
 

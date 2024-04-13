@@ -1,9 +1,4 @@
-import {
-  BrlaBuyEthStep,
-  currentProductNameVar,
-  qrCodeVar,
-  stepsControlBuyCryptoVar
-} from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, qrCodeVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProviderType } from '@/types/provider.type'
@@ -12,13 +7,17 @@ import { useEffect } from 'react'
 import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import WrapProcessingStep from './WrapProcessingStep'
+import { ProductAsset } from '@/types/ProductAsset'
 
-export default function ProcessingCheckoutStep() {
+type ProcessingCheckoutStepProps = {
+  product: ProductAsset
+}
+
+export default function ProcessingCheckoutStep({ product }: ProcessingCheckoutStepProps) {
   const theme = useTheme()
   const timeToRedirect = 3000
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
-  const currentProductName = useReactiveVar(currentProductNameVar)
 
   const { activity } = useRampActivity(ProviderType.brla, qrCode?.id)
 
@@ -35,7 +34,6 @@ export default function ProcessingCheckoutStep() {
   const isPaymentIdentified = activity?.status === 'posted' || activity?.status === 'success'
 
   const getIcon = (moment: 'waiting' | 'process' | 'success') => {
-
     const icons = {
       waiting: <PiCircleLight size={32} color={theme.color.secondary} />,
       process: <PiClockLight size={32} color={theme.color.secondary} />,
@@ -46,12 +44,13 @@ export default function ProcessingCheckoutStep() {
   }
 
   const paymentStatus = activity?.status === 'success' ? 'success' : 'process'
-  const successfulBridging = activity
-    && activity.additionalData
-    && activity.additionalData.bridge
-    && typeof activity.additionalData.bridge === 'object'
-    && 'txHash' in activity.additionalData.bridge
-  const finishedPayment = currentProductName === 'ethereum-restaking'
+  const successfulBridging =
+    activity &&
+    activity.additionalData &&
+    activity.additionalData.bridge &&
+    typeof activity.additionalData.bridge === 'object' &&
+    'txHash' in activity.additionalData.bridge
+  const finishedPayment = product.ramp.bridge
     ? paymentStatus === 'success' && !!successfulBridging
     : paymentStatus === 'success'
 

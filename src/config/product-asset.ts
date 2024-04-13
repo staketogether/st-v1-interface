@@ -135,6 +135,6 @@ export const productAssetList: ProductAsset[] = [
   }
 ]
 
-export function getProductByName({ productName }: { productName: ProductAssetName }): ProductAsset {
+export function getProductAssetByName({ productName }: { productName: ProductAssetName }): ProductAsset {
   return productAssetList.find(product => product.name === productName) || productAssetList[0]
 }
