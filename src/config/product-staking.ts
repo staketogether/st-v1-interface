@@ -13,10 +13,7 @@ export const productStakingList: ProductStaking[] = [
     apy: 5.7,
     scan: 'https://etherscan.io/',
     rampEnabled: true,
-    ramp: {
-      chainId: 1,
-      minDeposit: 300
-    },
+    rampAsset: 'eth',
     description: 'ethereumDescription',
     enabled: true,
     urlRedirect: '/currency/ethereum/product/staking/ethereum-stake',
@@ -78,16 +75,7 @@ export const productStakingList: ProductStaking[] = [
     chainIdNetworkAvailable: 10,
     eigenPointsAvailable: true,
     rampEnabled: true,
-    ramp: {
-      chainId: 10,
-      minDeposit: 10,
-      bridge: {
-        fromChainId: 137,
-        fromToken: 'MATIC',
-        toChainId: 10,
-        toToken: 'ETH'
-      }
-    },
+    rampAsset: 'eth-optimism',
     newProductTag: true,
     apy: 5.7,
     scan: 'https://optimistic.etherscan.io',
@@ -152,10 +140,7 @@ export const productStakingList: ProductStaking[] = [
     chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
-    ramp: {
-      chainId: 1,
-      minDeposit: 10
-    },
+    rampAsset: 'eth-optimism',
     newProductTag: false,
     apy: 14.5,
     scan: 'https://etherscan.io/',
@@ -220,10 +205,7 @@ export const productStakingList: ProductStaking[] = [
     chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
-    ramp: {
-      chainId: 137,
-      minDeposit: 10
-    },
+    rampAsset: 'eth-optimism',
     newProductTag: false,
     apy: 5.2,
     scan: 'https://etherscan.io/',
@@ -288,10 +270,7 @@ export const productStakingList: ProductStaking[] = [
     chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
-    ramp: {
-      chainId: 1,
-      minDeposit: 10
-    },
+    rampAsset: 'eth-optimism',
     newProductTag: false,
     apy: 7.6,
     scan: 'https://etherscan.io/',
@@ -356,10 +335,7 @@ export const productStakingList: ProductStaking[] = [
     chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
-    ramp: {
-      chainId: 1,
-      minDeposit: 10
-    },
+    rampAsset: 'eth-optimism',
     newProductTag: false,
     apy: 13.7,
     scan: 'https://etherscan.io/',
@@ -424,10 +400,7 @@ export const productStakingList: ProductStaking[] = [
     chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
-    ramp: {
-      chainId: 1,
-      minDeposit: 10
-    },
+    rampAsset: 'eth-optimism',
     newProductTag: false,
     apy: 8.8,
     scan: 'https://etherscan.io/',
@@ -492,10 +465,7 @@ export const productStakingList: ProductStaking[] = [
     chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
-    ramp: {
-      chainId: 1,
-      minDeposit: 10
-    },
+    rampAsset: 'eth-optimism',
     newProductTag: false,
     apy: 9,
     scan: 'https://etherscan.io/',

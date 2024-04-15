@@ -33,13 +33,14 @@ export default function Product({ product, assetData, chainId, productType }: Pr
 
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
+      const rampType =
+        productType === 'staking' ? (product as ProductStaking).rampAsset : (product as ProductAsset).name
       fiatAmountVar(router.query?.amount?.toString() ?? minAmount)
-      //TROCAR PARA O PRODUTO CORRETO
-      openQuoteEthModal('eth-optimism')
+      openQuoteEthModal(rampType)
     } else if (router.query.payment === 'credit') {
       buyCrypto()
     }
-  }, [buyCrypto, product, router, router.events, router.query?.amount, router.query.buy])
+  }, [buyCrypto, product, productType, router.query?.amount, router.query.payment, router.query.provider])
 
   return (
     <LayoutTemplate>
@@ -54,7 +55,7 @@ export default function Product({ product, assetData, chainId, productType }: Pr
       ) : (
         <AssetsControl product={product as ProductAsset} assetData={assetData} chainId={chainId} />
       )}
-      <BuyEthControlModal stakingProduct={'ethereum-restaking'} />
+      <BuyEthControlModal />
     </LayoutTemplate>
   )
 }

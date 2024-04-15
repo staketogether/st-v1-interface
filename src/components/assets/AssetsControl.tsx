@@ -77,7 +77,7 @@ export default function AssetsControl({ product, assetData, chainId }: AssetsCon
       <div>
         <AssetsProductInfo product={product} assetData={assetData} />
         <ActionContainer>
-          <AssetsActionsControl type='buy' product={product} chainId={chainId} />
+          <AssetsActionsControl type='buy' product={product} />
         </ActionContainer>
       </div>
     </Container>

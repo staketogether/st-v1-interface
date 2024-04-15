@@ -145,7 +145,6 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, 
     font-weight: 400;
 
     gap: 24px;
-    margin-right: 5px;
   `,
   Body: styled.div`
     padding: 0 5px 0px 0px;
@@ -153,6 +152,18 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, 
     gap: 24px;
     display: flex;
     flex-direction: column;
+
+    margin-right: 5px;
+    max-height: 570px;
+    overflow-y: auto;
+    overflow-x: none;
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      margin-right: auto;
+      max-height: auto;
+      overflow-y: auto;
+      overflow-x: none;
+    }
   `,
   PixArea: styled.div`
     display: grid;

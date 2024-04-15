@@ -17,7 +17,6 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { SWRConfig } from 'swr'
 import { useAccount } from 'wagmi'
-import { ProductStakingName } from '../../types/ProductStaking'
 import ConnectWallet from '../shared/ConnectWallet'
 import CheckoutStep from './CheckoutStep'
 import GenericErrorComponent from './GenericErrorComponent'
@@ -41,13 +40,12 @@ export default function BuyEthControlModal() {
   const steps = {
     MethodPayment: <PaymentMethod />,
     Quotation: <QuotationStep product={product} />,
-    Kyc: <KycStep />,
-
+    Kyc: <KycStep product={product} />,
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={product} />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep product={product} />,
-    Checkout: <CheckoutStep />,
-    TimeOutCheckout: <TimeOutCheckout stakingProduct={product} />,
+    Checkout: <CheckoutStep product={product} />,
+    TimeOutCheckout: <TimeOutCheckout stakingProduct={product.name} />,
     Success: <SuccessStep product={product} />,
     error: <GenericErrorComponent />
   }
@@ -102,7 +100,6 @@ export default function BuyEthControlModal() {
         onClose={clearModal}
         width={'auto'}
         showCloseIcon={currentStep !== BrlaBuyEthStep.Success}
-        noPadding={currentStep === BrlaBuyEthStep.Kyc || currentStep === BrlaBuyEthStep.Checkout}
         showHeader={![BrlaBuyEthStep.TimeOutCheckout, BrlaBuyEthStep.Error].includes(currentStep)}
       >
         <Container>{steps[currentStep]}</Container>
@@ -114,6 +111,7 @@ export default function BuyEthControlModal() {
 const { Container } = {
   Container: styled.div`
     width: auto;
+    max-width: 420px;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       min-width: 372px;
     }

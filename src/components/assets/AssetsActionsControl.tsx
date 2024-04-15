@@ -1,4 +1,3 @@
-import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProductAsset } from '@/types/ProductAsset'
 import Link from 'next/link'
@@ -10,16 +9,12 @@ import AssetsBuyControl from './AssetsBuyControl'
 type AssetsActionsControlProps = {
   type: 'buy' | 'sell' | 'swap'
   product: ProductAsset
-  chainId: number
 }
 
-export default function AssetsActionsControl({ type, product, chainId }: AssetsActionsControlProps) {
+export default function AssetsActionsControl({ type, product }: AssetsActionsControlProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
-  const { account } = useConnectedAccount()
-
-  console.log(chainId, account)
 
   return (
     <EthereumContainer>

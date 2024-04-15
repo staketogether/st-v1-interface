@@ -79,7 +79,9 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
     kycLevelInfo,
     kycActivity,
     isLoading,
-    product.ramp.bridge?.fromChainId
+    product.ramp.bridge?.fromChainId,
+    product.ramp.bridge?.toChainId,
+    product.ramp.bridge?.toToken
   ])
 
   useEffect(() => {

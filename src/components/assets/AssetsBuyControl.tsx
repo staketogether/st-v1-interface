@@ -40,12 +40,20 @@ export default function AssetsBuyControl() {
     ProcessingKyc: <ProcessingKycStep product={product} />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep product={product} />,
     Checkout: <CheckoutStep product={product} />,
-    TimeOutCheckout: <TimeOutCheckout stakingProduct={'ethereum-restaking'} />,
+    TimeOutCheckout: <TimeOutCheckout stakingProduct={product.name} />,
     Success: <SuccessStep product={product} />,
     error: <GenericErrorComponent />
   }
 
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
+
+  useEffect(() => {
+    const isBtc = product.symbol === 'wBTC'
+    if (isBtc && currentStep === BrlaBuyEthStep.MethodPayment) {
+      stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
+    }
+  }, [product.symbol, currentStep])
+
   const titleList: { [key: string]: string } = {
     Success: t('v2.ramp.success'),
     MethodPayment: t('v2.ramp.provider')

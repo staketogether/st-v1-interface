@@ -1,9 +1,9 @@
 import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
-import { ProductStakingName } from '@/types/ProductStaking'
 import { useTranslation } from 'react-i18next'
 import GenericErrorComponent from './GenericErrorComponent'
+import { ProductAssetName } from '@/types/ProductAsset'
 
-export function TimeOutCheckout({ stakingProduct }: { stakingProduct: ProductStakingName }) {
+export function TimeOutCheckout({ stakingProduct }: { stakingProduct: ProductAssetName }) {
   const { t } = useTranslation()
   return (
     <GenericErrorComponent

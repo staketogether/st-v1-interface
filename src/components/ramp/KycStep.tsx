@@ -402,12 +402,11 @@ const { Container, FormContainer, InputRadio, ContainerRadio, Footer, DiscordIco
     gap: ${({ theme }) => theme.size[8]};
     max-height: 450px;
     max-width: 420px;
-    margin-right: 5px;
   `,
   Container: styled.div`
-    padding: 0 ${({ theme }) => theme.size[24]};
     width: auto;
     overflow-y: scroll;
+    padding-right: 5px;
 
     display: grid;
     grid-template-columns: 1fr;
@@ -426,7 +425,7 @@ const { Container, FormContainer, InputRadio, ContainerRadio, Footer, DiscordIco
     }
   `,
   Footer: styled.div`
-    padding: 16px 29px 24px 24px;
+    padding: 16px 12px 0px 0px;
     display: grid;
   `,
   ContainerRadio: styled.div`
