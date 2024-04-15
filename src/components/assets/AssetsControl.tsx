@@ -1,4 +1,4 @@
-import { BrlaBuyEthStep, currentProductNameVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { currentProductNameVar } from '@/hooks/ramp/useControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
@@ -26,7 +26,6 @@ type AssetsControlProps = {
 export default function AssetsControl({ product, assetData, chainId, type }: AssetsControlProps) {
   const { t } = useLocaleTranslation()
   currentProductNameVar(product.name)
-  stepsControlBuyCryptoVar(BrlaBuyEthStep.QuotationOfRamp)
   const { query } = useRouter()
   const { currency } = query
   const { chain: walletChainId, connector } = useAccount()
