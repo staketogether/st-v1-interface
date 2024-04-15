@@ -670,7 +670,7 @@
       }
     },
     "ramp": {
-      "title": "Buy Ethereum with PIX",
+      "title": "Buy symbol with PIX",
       "success": "Deposit was complete with success",
       "checkOut": "Check out",
       "processingRegistration": "Processing Registration",
