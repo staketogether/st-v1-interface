@@ -14,7 +14,7 @@ import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
 import { Product } from '@/types/Product'
 import SymbolIcons from '../tokens/components/SymbolIcons'
 import AssetIcon from '../shared/AssetIcon'
-import { FacebookPixel } from '../shared/scripts/FacebookPixel'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean
@@ -54,6 +54,12 @@ export default function StakeTransactionLoading({
     contractAddress: stakeTogetherContractAddress
   })
   const { addToWalletAction: addStwEthToWalletAction } = useAddStwEthToWallet()
+
+  useFacebookPixel(
+    product.eventsTrack.confirmation,
+    walletActionLoading && !transactionLoading && !transactionIsSuccess && !isWithdraw
+  )
+  useFacebookPixel(product.eventsTrack.success, transactionIsSuccess && !isWithdraw)
   return (
     <Container>
       {transactionIsSuccess ? (
@@ -64,7 +70,6 @@ export default function StakeTransactionLoading({
       <div>
         {walletActionLoading && !transactionLoading && !transactionIsSuccess && (
           <>
-            {!isWithdraw && <FacebookPixel eventTrack={product.eventsTrack.confirmation} />}
             <TitleModal>
               {isWithdraw
                 ? t('v2.stake.confirmModal.confirmWithdraw')
@@ -77,7 +82,6 @@ export default function StakeTransactionLoading({
         )}
         {transactionIsSuccess && (
           <>
-            {!isWithdraw && <FacebookPixel eventTrack={product.eventsTrack.success} />}
             <TitleModal>
               {isWithdraw
                 ? t('v2.stake.confirmModal.withdrawSuccessful')

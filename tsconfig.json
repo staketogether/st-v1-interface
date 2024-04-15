@@ -24,6 +24,14 @@
       "@assets/*": ["./public/assets/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "wagmi.config.js"],
+  "typeRoots": ["./src/types/modules/next-env.d.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "wagmi.config.js"
+  ],
   "exclude": ["node_modules", "lib"]
 }
