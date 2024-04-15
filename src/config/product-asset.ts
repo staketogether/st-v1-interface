@@ -16,7 +16,7 @@ export const productAssetList: ProductAsset[] = [
     rampEnabled: true,
     ramp: {
       chainId: 10,
-      minDeposit: 1,
+      minDeposit: 10,
       bridge: {
         fromChainId: 137,
         fromToken: 'MATIC',
