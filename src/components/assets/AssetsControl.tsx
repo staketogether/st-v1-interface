@@ -1,34 +1,36 @@
+import { BrlaBuyEthStep, currentProductNameVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { capitalize } from '@/services/truncate'
+import { ProductAsset } from '@/types/ProductAsset'
+import { ProductMarketAssetData } from '@/types/ProductStaking'
+import { notification } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
+import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
-import { ProductMarketAssetData } from '@/types/ProductStaking'
-import { ProductAsset } from '@/types/ProductAsset'
-import { notification } from 'antd'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
-import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
-import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
 import NetworkIcons from '../shared/NetworkIcons'
-import { capitalize } from '@/services/truncate'
-import AssetsProductInfo from './AssetsProductInfo'
+import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
 import AssetsActionsControl from './AssetsActionsControl'
-import { currentProductNameVar } from '@/hooks/ramp/useControlModal'
+import AssetsProductInfo from './AssetsProductInfo'
 
 type AssetsControlProps = {
   product: ProductAsset
   assetData: ProductMarketAssetData
   chainId: number
+  type: 'buy' | 'sell' | 'swap'
 }
 
-export default function AssetsControl({ product, assetData, chainId }: AssetsControlProps) {
+export default function AssetsControl({ product, assetData, chainId, type }: AssetsControlProps) {
   const { t } = useLocaleTranslation()
   currentProductNameVar(product.name)
+  stepsControlBuyCryptoVar(BrlaBuyEthStep.QuotationOfRamp)
   const { query } = useRouter()
   const { currency } = query
-
   const { chain: walletChainId, connector } = useAccount()
+
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
 
@@ -77,7 +79,7 @@ export default function AssetsControl({ product, assetData, chainId }: AssetsCon
       <div>
         <AssetsProductInfo product={product} assetData={assetData} />
         <ActionContainer>
-          <AssetsActionsControl type='buy' product={product} />
+          <AssetsActionsControl type={type} product={product} />
         </ActionContainer>
       </div>
     </Container>

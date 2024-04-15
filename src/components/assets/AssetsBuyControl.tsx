@@ -1,40 +1,39 @@
+import { globalConfig } from '@/config/global'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
   changeWalletAddress,
-  currentProductNameVar,
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAsset } from '@/types/ProductAsset'
 import { useReactiveVar } from '@apollo/client'
 import axios from 'axios'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
+import styled from 'styled-components'
 import { SWRConfig } from 'swr'
 import { useAccount } from 'wagmi'
-import PaymentMethod from '../ramp/PaymentMethod'
-import QuotationStep from '../ramp/QuotationStep'
-import KycStep from '../ramp/KycStep'
-import ConnectWallet from '../shared/ConnectWallet'
-import ProcessingKycStep from '../ramp/ProcessingKycStep'
-import ProcessingCheckoutStep from '../ramp/ProcessingCheckoutStep'
 import CheckoutStep from '../ramp/CheckoutStep'
-import SuccessStep from '../ramp/SuccessStep'
 import GenericErrorComponent from '../ramp/GenericErrorComponent'
+import KycStep from '../ramp/KycStep'
+import PaymentMethod from '../ramp/PaymentMethod'
+import ProcessingCheckoutStep from '../ramp/ProcessingCheckoutStep'
+import ProcessingKycStep from '../ramp/ProcessingKycStep'
+import QuotationOfRampStep from '../ramp/QuotationOfRamp'
+import QuotationStep from '../ramp/QuotationStep'
+import SuccessStep from '../ramp/SuccessStep'
 import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
-import { globalConfig } from '@/config/global'
-import styled from 'styled-components'
-import { getProductAssetByName } from '@/config/product-asset'
+import ConnectWallet from '../shared/ConnectWallet'
 
-export default function AssetsBuyControl() {
+export default function AssetsBuyControl({ type, product }: { type: 'sell' | 'buy', product: ProductAsset }) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
-  const currentProductName = useReactiveVar(currentProductNameVar)
-  const product = getProductAssetByName({ productName: currentProductName })
 
   const steps = {
     MethodPayment: <PaymentMethod />,
     Quotation: <QuotationStep product={product} />,
+    QuotationOfRamp: <QuotationOfRampStep product={product} />,
     Kyc: <KycStep product={product} />,
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={product} />,
@@ -44,6 +43,7 @@ export default function AssetsBuyControl() {
     Success: <SuccessStep product={product} />,
     error: <GenericErrorComponent />
   }
+
 
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
 

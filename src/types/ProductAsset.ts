@@ -45,6 +45,7 @@ export type ProductAsset = {
   name: ProductAssetName
   newProductTag: boolean
   rampEnabled: boolean
+  contract?: `0x${string}`
   listed: boolean
   ramp: {
     chainId: number

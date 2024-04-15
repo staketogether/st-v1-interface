@@ -53,7 +53,7 @@ export default function Product({ product, assetData, chainId, productType }: Pr
           chainId={chainId}
         />
       ) : (
-        <AssetsControl product={product as ProductAsset} assetData={assetData} chainId={chainId} />
+        <AssetsControl product={product as ProductAsset} assetData={assetData} chainId={chainId} type='buy' />
       )}
       <BuyEthControlModal />
     </LayoutTemplate>

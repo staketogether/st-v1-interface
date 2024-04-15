@@ -2,7 +2,6 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProductAsset } from '@/types/ProductAsset'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React from 'react'
 import styled from 'styled-components'
 import AssetsBuyControl from './AssetsBuyControl'
 
@@ -27,7 +26,7 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
             <li className={`${type === 'sell' && 'activated'}`}>
               <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>{t('sell')}</Link>
             </li>
-            <li className={`${type === 'sell' && 'activated'}`}>
+            <li className={`${type === 'swap' && 'activated'}`}>
               <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>swap</Link>
             </li>
           </ul>
@@ -36,10 +35,14 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
       <div>
         {type === 'buy' && (
           <BuyAssetContainer>
-            <AssetsBuyControl />
+            <AssetsBuyControl type={type} product={product} />
           </BuyAssetContainer>
         )}
-        {type === 'sell' && <div>sell</div>}
+        {type === 'sell' && (
+          <BuyAssetContainer>
+            <AssetsBuyControl type={type} product={product} />
+          </BuyAssetContainer>
+        )}
         {type === 'swap' && <div>swap</div>}
       </div>
     </EthereumContainer>

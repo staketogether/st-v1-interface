@@ -1,13 +1,14 @@
 import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo'
+import { ProductAssetName } from '@/types/ProductAsset'
 import { Quote } from '@/types/quote.type'
 import { makeVar } from '@apollo/client'
 import { BuyRamp } from './useBuyRamp'
 import { KycLevelInfo } from './useKycLevelInfo'
-import { ProductAssetName } from '@/types/ProductAsset'
 
 export enum BrlaBuyEthStep {
   MethodPayment = 'MethodPayment',
   Quotation = 'Quotation',
+  QuotationOfRamp = 'QuotationOfRamp',
   Kyc = 'Kyc',
   ConnectWallet = 'ConnectWallet',
   ProcessingKyc = 'ProcessingKyc',
@@ -29,6 +30,7 @@ export interface DepositConfig {
 }
 export const openBrlaModalVar = makeVar(false)
 export const fiatAmountVar = makeVar<string>('')
+export const typeRampVar = makeVar<'buy' | 'sell'>('buy')
 export const stepsControlBuyCryptoVar = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.MethodPayment)
 export const quoteVar = makeVar<Quote | undefined>(undefined)
 export const qrCodeVar = makeVar<BuyRamp | null>(null)
@@ -62,7 +64,6 @@ export const changeWalletAddress = () => {
   stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
 }
 
-export const openModal = (stakingProduct: ProductAssetName) => {
-  currentProductNameVar(stakingProduct)
+export const openModal = () => {
   openBrlaModalVar(true)
 }
