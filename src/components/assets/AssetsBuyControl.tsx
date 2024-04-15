@@ -31,7 +31,7 @@ export default function AssetsBuyControl({ type, product }: { type: 'sell' | 'bu
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
 
   const steps = {
-    MethodPayment: <PaymentMethod />,
+    MethodPayment: <PaymentMethod product={product} />,
     Quotation: <QuotationStep product={product} />,
     QuotationOfRamp: <QuotationOfRampStep product={product} />,
     Kyc: <KycStep product={product} />,
@@ -46,13 +46,6 @@ export default function AssetsBuyControl({ type, product }: { type: 'sell' | 'bu
 
 
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
-
-  useEffect(() => {
-    const isBtc = product.symbol === 'wBTC'
-    if (isBtc && currentStep === BrlaBuyEthStep.MethodPayment) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
-    }
-  }, [product.symbol, currentStep])
 
   const titleList: { [key: string]: string } = {
     Success: t('v2.ramp.success'),

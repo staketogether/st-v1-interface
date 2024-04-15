@@ -1,5 +1,6 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProductAsset } from '@/types/ProductAsset'
+import { Tooltip } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
@@ -23,12 +24,11 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
             <li className={`${type === 'buy' && 'activated'}`}>
               <Link href={product.urlRedirect.replace('currency', currency)}>{t('buy')}</Link>
             </li>
-            <li className={`${type === 'sell' && 'activated'}`}>
-              <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>{t('sell')}</Link>
-            </li>
-            <li className={`${type === 'swap' && 'activated'}`}>
-              <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>swap</Link>
-            </li>
+            <Tooltip title={t('soon')}>
+              <li className={`${type === 'sell' && 'activated'} disabled`}>
+                <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>{t('sell')}</Link>
+              </li>
+            </Tooltip>
           </ul>
         </nav>
       </header>
@@ -43,7 +43,7 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
             <AssetsBuyControl type={type} product={product} />
           </BuyAssetContainer>
         )}
-        {type === 'swap' && <div>swap</div>}
+        {type === 'sell' && <div>sell</div>}
       </div>
     </EthereumContainer>
   )
@@ -113,7 +113,14 @@ const { EthereumContainer, BuyAssetContainer } = {
               opacity: 1;
             }
           }
-
+          &.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+            a {
+              pointer-events: none;
+              cursor: not-allowed;
+            }
+          }
           a {
             color: ${({ theme }) => theme.colorV2.gray[1]};
             opacity: 0.6;
