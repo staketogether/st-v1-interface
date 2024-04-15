@@ -38,7 +38,7 @@ export default function BuyEthControlModal() {
   const product = getProductAssetByName({ productName: currentProductName })
 
   const steps = {
-    MethodPayment: <PaymentMethod />,
+    MethodPayment: <PaymentMethod product={product} />,
     Quotation: <QuotationStep product={product} />,
     Kyc: <KycStep product={product} />,
     ConnectWallet: <ConnectWallet useModal />,

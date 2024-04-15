@@ -7,8 +7,14 @@ import Image from 'next/image'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import Button from '../shared/Button'
+import { ProductAsset } from '@/types/ProductAsset'
 
-export default function PaymentMethod() {
+type PaymentMethodProps = {
+  product: ProductAsset
+}
+
+export default function PaymentMethod({ product }: PaymentMethodProps) {
+  console.log(product)
   const { t } = useLocaleTranslation()
   const { onInit, isClosed } = useTransak({
     productsAvailed: 'BUY'
