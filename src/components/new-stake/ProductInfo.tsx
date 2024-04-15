@@ -12,12 +12,20 @@ import NetworkIcons from '../shared/NetworkIcons'
 import NetworkProductIcons from '../tokens/components/StakingIcons'
 import SymbolIcons from '../tokens/components/SymbolIcons'
 import { useRouter } from 'next/router'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import dynamic from 'next/dynamic'
 
 type ProductInfoProps = {
   product: Product
   assetData: ProductMarketAssetData
   chainId: number
 }
+
+const TokensShowValuePrice = dynamic(() => import('../shared/TokensShowValuePrice'), {
+  ssr: false,
+  loading: () => <SkeletonLoading width={80} />,
+  suspense: true
+})
 
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
   const { isTestnet } = chainConfigByChainId(chainId)
@@ -69,8 +77,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <span className='CoinValue'>{`${handleQuotePrice(assetData?.data?.price || 0)}
-               `}</span>
+              <TokensShowValuePrice product={product} className='CoinValue' />
               <span className='apy'>{`APY ${product.apy}%`}</span>
             </div>
           </SymbolContainer>
