@@ -14,7 +14,7 @@ type TokensCardContainerProps = {
   type: 'staking' | 'assets'
 }
 
-const TokensShowValuePrice = dynamic(() => import('./TokensShowValuePrice'), {
+const TokensShowValuePrice = dynamic(() => import('../../shared/TokensShowValuePrice'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} />,
   suspense: true
