@@ -35,11 +35,11 @@ export default function AssetsBuyControl() {
   const steps = {
     MethodPayment: <PaymentMethod />,
     Quotation: <QuotationStep product={product} />,
-    Kyc: <KycStep />,
+    Kyc: <KycStep product={product} />,
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={product} />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep product={product} />,
-    Checkout: <CheckoutStep />,
+    Checkout: <CheckoutStep product={product} />,
     TimeOutCheckout: <TimeOutCheckout stakingProduct={'ethereum-restaking'} />,
     Success: <SuccessStep product={product} />,
     error: <GenericErrorComponent />

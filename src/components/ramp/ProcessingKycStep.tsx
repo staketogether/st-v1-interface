@@ -110,5 +110,11 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
     }
   ]
 
-  return <WrapProcessingStep validationSteps={validationSteps} title={t('v2.ramp.processingRegistration')} />
+  return (
+    <WrapProcessingStep
+      product={product}
+      validationSteps={validationSteps}
+      title={t('v2.ramp.processingRegistration')}
+    />
+  )
 }

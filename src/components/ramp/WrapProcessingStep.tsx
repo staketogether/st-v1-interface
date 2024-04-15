@@ -3,13 +3,16 @@ import styled from 'styled-components'
 import LottieAnimation from '../shared/LottieAnimation'
 import SwapInfo from './SwapInfo'
 import ValidationList, { ValidationSteps } from './ValidationList'
+import { ProductAsset } from '@/types/ProductAsset'
 
 export default function WrapProcessingStep({
   validationSteps,
-  title
+  title,
+  product
 }: {
   validationSteps: ValidationSteps[]
   title: string
+  product: ProductAsset
 }) {
   return (
     <Container>
@@ -17,7 +20,7 @@ export default function WrapProcessingStep({
         <LottieAnimation animationData={loadingAnimation} height={80} loop />
         <span>{title}</span>
       </Header>
-      <SwapInfo />
+      <SwapInfo product={product} />
       <ValidationList validationSteps={validationSteps} />
     </Container>
   )

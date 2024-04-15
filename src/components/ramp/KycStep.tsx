@@ -14,8 +14,13 @@ import { notification } from 'antd'
 import { AxiosError } from 'axios'
 import { globalConfig } from '@/config/global'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
+import { ProductAsset } from '@/types/ProductAsset'
 
-export default function KycStep() {
+type KycStepProps = {
+  product: ProductAsset
+}
+
+export default function KycStep({ product }: KycStepProps) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const [formData, setFormaData] = useState<KycPayload>()
@@ -269,7 +274,7 @@ export default function KycStep() {
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
       <Container>
-        <SwapInfo />
+        <SwapInfo product={product} />
         <h2>{t('v2.ramp.checkOut')}</h2>
         <span>{t('v2.ramp.kyc.description')}</span>
         <ContainerRadio>

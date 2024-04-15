@@ -18,8 +18,13 @@ import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
 import SwapInfo from './SwapInfo'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
+import { ProductAsset } from '@/types/ProductAsset'
 
-export default function CheckoutStep() {
+type CheckoutStepProps = {
+  product: ProductAsset
+}
+
+export default function CheckoutStep({ product }: CheckoutStepProps) {
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
   const quote = useReactiveVar(quoteVar)
@@ -78,7 +83,7 @@ export default function CheckoutStep() {
   return (
     <Container>
       <Body>
-        <SwapInfo />
+        <SwapInfo product={product} />
         <PixArea>
           <Header>
             <div>

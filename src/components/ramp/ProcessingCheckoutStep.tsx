@@ -66,5 +66,11 @@ export default function ProcessingCheckoutStep({ product }: ProcessingCheckoutSt
     }
   ]
 
-  return <WrapProcessingStep validationSteps={validationSteps} title={t('v2.ramp.processingPayment')} />
+  return (
+    <WrapProcessingStep
+      product={product}
+      validationSteps={validationSteps}
+      title={t('v2.ramp.processingPayment')}
+    />
+  )
 }
