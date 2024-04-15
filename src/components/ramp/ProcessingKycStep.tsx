@@ -62,7 +62,9 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
         amount: Number(quote.amountBrl),
         amountToken: quote.amountToken,
         accountAddress: address,
-        receiverAddress: address
+        receiverAddress: address,
+        convertToChainId: product.ramp.bridge?.toChainId,
+        convertToToken: product.ramp.bridge?.toToken
       })
       return
     }
