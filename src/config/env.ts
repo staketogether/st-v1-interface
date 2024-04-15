@@ -70,4 +70,12 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_CHAIN_ID) {
     throw new Error('NEXT_PUBLIC_CHAIN_ID not found in env')
   }
+
+  if (!process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET) {
+    throw new Error('NEXT_PUBLIC_RPC_CHZ_MAINNET not found in env')
+  }
+
+  if (!process.env.NEXT_PUBLIC_RPC_CHZ_SPICY) {
+    throw new Error('NEXT_PUBLIC_RPC_CHZ_SPICY not found in env')
+  }
 }

@@ -1,6 +1,6 @@
 import Web3AuthConnectorInstances from '@/config/web3Auth'
 import { createConfig, http } from 'wagmi'
-import { holesky, mainnet, optimism, optimismSepolia } from 'wagmi/chains'
+import { chiliz, holesky, mainnet, optimism, optimismSepolia, spicy } from 'wagmi/chains'
 import { safe, walletConnect } from 'wagmi/connectors'
 
 const handleConnectors = () => {
@@ -15,12 +15,14 @@ const handleConnectors = () => {
 }
 
 export const config = createConfig({
-  chains: [mainnet, optimism, holesky, optimismSepolia],
+  chains: [mainnet, optimism, holesky, optimismSepolia, chiliz, spicy],
   connectors: handleConnectors(),
   transports: {
     [mainnet.id]: http(process.env.NEXT_PUBLIC_RPC_MAINNET_URL as string),
     [optimism.id]: http(process.env.NEXT_PUBLIC_RPC_OPTIMISM_URL as string),
     [holesky.id]: http(process.env.NEXT_PUBLIC_RPC_HOLESKY_URL as string),
-    [optimismSepolia.id]: http(process.env.NEXT_PUBLIC_RPC_OPTIMIST_SEPOLIA_URL as string)
+    [optimismSepolia.id]: http(process.env.NEXT_PUBLIC_RPC_OPTIMIST_SEPOLIA_URL as string),
+    [chiliz.id]: http(process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET as string),
+    [spicy.id]: http(process.env.NEXT_PUBLIC_RPC_CHZ_SPICY as string)
   }
 })

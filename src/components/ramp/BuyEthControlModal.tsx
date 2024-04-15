@@ -31,7 +31,7 @@ import { TimeOutCheckout } from './TimeOutCheckout'
 import styled from 'styled-components'
 import { getProductAssetByName } from '@/config/product-asset'
 
-export default function BuyEthControlModal({ stakingProduct }: { stakingProduct: ProductStakingName }) {
+export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
@@ -42,12 +42,13 @@ export default function BuyEthControlModal({ stakingProduct }: { stakingProduct:
     MethodPayment: <PaymentMethod />,
     Quotation: <QuotationStep product={product} />,
     Kyc: <KycStep />,
+
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={product} />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep product={product} />,
     Checkout: <CheckoutStep />,
-    TimeOutCheckout: <TimeOutCheckout stakingProduct={stakingProduct} />,
-    Success: <SuccessStep />,
+    TimeOutCheckout: <TimeOutCheckout stakingProduct={product} />,
+    Success: <SuccessStep product={product} />,
     error: <GenericErrorComponent />
   }
 
