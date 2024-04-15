@@ -33,7 +33,7 @@ export default function AssetsBuyControl() {
   const product = getProductAssetByName({ productName: currentProductName })
 
   const steps = {
-    MethodPayment: <PaymentMethod />,
+    MethodPayment: <PaymentMethod product={product} />,
     Quotation: <QuotationStep product={product} />,
     Kyc: <KycStep product={product} />,
     ConnectWallet: <ConnectWallet useModal />,
@@ -46,13 +46,6 @@ export default function AssetsBuyControl() {
   }
 
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
-
-  useEffect(() => {
-    const isBtc = product.symbol === 'wBTC'
-    if (isBtc && currentStep === BrlaBuyEthStep.MethodPayment) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
-    }
-  }, [product.symbol, currentStep])
 
   const titleList: { [key: string]: string } = {
     Success: t('v2.ramp.success'),

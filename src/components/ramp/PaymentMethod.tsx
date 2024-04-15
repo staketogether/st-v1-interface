@@ -14,7 +14,6 @@ type PaymentMethodProps = {
 }
 
 export default function PaymentMethod({ product }: PaymentMethodProps) {
-  console.log(product)
   const { t } = useLocaleTranslation()
   const { onInit, isClosed } = useTransak({
     productsAvailed: 'BUY'
@@ -33,6 +32,11 @@ export default function PaymentMethod({ product }: PaymentMethodProps) {
       openBrlaModalVar(false)
     }
   }, [isClosed])
+
+  const isBtc = product.symbol === 'wBTC'
+  if (isBtc) {
+    handlePix()
+  }
 
   return (
     <Container>
