@@ -28,7 +28,8 @@ export default function Product({ product, assetData, chainId, productType }: Pr
     const router = useRouter()
     const minAmount = '300'
     const { onInit: buyCrypto } = useTransak({
-        productsAvailed: 'BUY'
+        productsAvailed: 'BUY',
+        network: product.networkAvailable
     })
 
     useEffect(() => {
@@ -54,7 +55,7 @@ export default function Product({ product, assetData, chainId, productType }: Pr
             ) : (
                 <AssetsControl product={product as ProductAsset} assetData={assetData} chainId={chainId} type='sell' />
             )}
-            <BuyEthControlModal stakingProduct={'ethereum-restaking'} />
+            <BuyEthControlModal />
         </LayoutTemplate>
     )
 }

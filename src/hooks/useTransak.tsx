@@ -7,10 +7,11 @@ import useLocaleTranslation from './useLocaleTranslation'
 
 type TransakProps = {
   onSuccess?: () => void
-  productsAvailed: 'BUY' | 'SELL'
+  productsAvailed: 'BUY' | 'SELL',
+  network: 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana' | 'optimism-sepolia' | 'holesky'
 }
 
-export default function useTransak(config?: TransakProps) {
+export default function useTransak(config: TransakProps) {
   const { t } = useLocaleTranslation()
   const theme = useTheme()
   const [isClosed, setIsClosed] = useState(false)
@@ -18,12 +19,11 @@ export default function useTransak(config?: TransakProps) {
     () => ({
       apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY as string,
       environment: Transak.ENVIRONMENTS.PRODUCTION,
-      network: 'ethereum',
-      exchangeScreenTitle: config?.productsAvailed === 'SELL' ? t('sellCryptoTitle') : t('buyCryptoTitle'),
-      defaultNetwork: 'ethereum',
+      exchangeScreenTitle: config.productsAvailed === 'SELL' ? t('sellCryptoTitle') : t('buyCryptoTitle'),
+      network: config.network,
       colorMode: 'LIGHT',
       themeColor: theme.colorV2.blue[1],
-      productsAvailed: config?.productsAvailed,
+      productsAvailed: config.productsAvailed,
       hideMenu: true,
       cryptoCurrencyList: 'ETH'
     }),

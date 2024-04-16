@@ -56,7 +56,7 @@ export default function BuyEthControlModal() {
     Success: t('v2.ramp.success'),
     MethodPayment: t('v2.ramp.provider')
   }
-  const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title')
+  const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', product.symbol)
   const { backendUrl } = globalConfig
 
   useEffect(() => {

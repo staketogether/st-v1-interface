@@ -28,7 +28,8 @@ export default function Product({ product, assetData, chainId, productType }: Pr
   const router = useRouter()
   const minAmount = '300'
   const { onInit: buyCrypto } = useTransak({
-    productsAvailed: 'BUY'
+    productsAvailed: 'BUY',
+    network: product.networkAvailable
   })
 
   useEffect(() => {

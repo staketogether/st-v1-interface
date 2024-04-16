@@ -24,7 +24,8 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
   const router = useRouter()
   const minAmount = '100'
   const { onInit: buyCrypto } = useTransak({
-    productsAvailed: 'BUY'
+    productsAvailed: 'BUY',
+    network: product.networkAvailable
   })
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
     <LayoutTemplate>
       <Metatags />
       <NewStakeControl type='withdraw' product={product} assetData={assetData} chainId={chainId} />
-      <BuyEthControlModal stakingProduct={product.name} />
+      <BuyEthControlModal />
     </LayoutTemplate>
   )
 }

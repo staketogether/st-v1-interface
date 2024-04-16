@@ -16,7 +16,8 @@ type PaymentMethodProps = {
 export default function PaymentMethod({ product }: PaymentMethodProps) {
   const { t } = useLocaleTranslation()
   const { onInit, isClosed } = useTransak({
-    productsAvailed: 'BUY'
+    productsAvailed: 'BUY',
+    network: product.networkAvailable
   })
 
   const handlePix = () => {
