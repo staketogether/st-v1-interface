@@ -64,6 +64,7 @@ export const changeWalletAddress = () => {
   stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
 }
 
-export const openModal = () => {
+export const openModal = (productName: ProductAssetName) => {
+  currentProductNameVar(productName)
   openBrlaModalVar(true)
 }

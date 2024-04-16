@@ -29,6 +29,7 @@ import SuccessStep from './SuccessStep'
 import { TimeOutCheckout } from './TimeOutCheckout'
 import styled from 'styled-components'
 import { getProductAssetByName } from '@/config/product-asset'
+import QuotationOfRampStep from './QuotationOfRamp'
 
 export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
@@ -40,6 +41,7 @@ export default function BuyEthControlModal() {
   const steps = {
     MethodPayment: <PaymentMethod product={product} />,
     Quotation: <QuotationStep product={product} />,
+    QuotationOfRamp: <QuotationOfRampStep product={product} />,
     Kyc: <KycStep product={product} />,
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={product} />,
@@ -56,7 +58,8 @@ export default function BuyEthControlModal() {
     Success: t('v2.ramp.success'),
     MethodPayment: t('v2.ramp.provider')
   }
-  const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', product.symbol)
+  const title =
+    currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', product.symbol)
   const { backendUrl } = globalConfig
 
   useEffect(() => {
