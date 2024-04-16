@@ -10,10 +10,14 @@ type LayoutNetworkDropdownProps = {
 export function LayoutNetworkDropdown({ mobile }: LayoutNetworkDropdownProps) {
   const { chain } = useAccount()
 
+  if (!chain) {
+    return null
+  }
+
   return (
     <Container>
       <NetworkIcon chain={chain?.id} size={24} />
-      {!mobile && <CurrentNetwork>{chainConfigByChainId(chain?.id || 1).name}</CurrentNetwork>}
+      {!mobile && <CurrentNetwork>{chainConfigByChainId(chain?.id).name}</CurrentNetwork>}
     </Container>
   )
 }
