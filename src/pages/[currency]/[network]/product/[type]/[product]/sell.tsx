@@ -42,7 +42,7 @@ export default function Product({ product, assetData, chainId, productType }: Pr
         } else if (router.query.payment === 'credit') {
             buyCrypto()
         }
-    }, [buyCrypto, product, productType, router, router.events, router.query?.amount, router.query.buy])
+    }, [buyCrypto, minAmount, product, productType, router, router.events, router.query?.amount, router.query.buy])
 
     return (
         <LayoutTemplate>
