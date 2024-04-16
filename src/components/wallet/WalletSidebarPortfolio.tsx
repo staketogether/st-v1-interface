@@ -1,22 +1,22 @@
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebar from '@/hooks/useWalletSidebar'
+import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import { truncateWei } from '@/services/truncate'
 import { Delegation } from '@/types/Delegation'
+import { ProductStaking } from '@/types/ProductStaking'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { PiPen } from 'react-icons/pi'
 import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
+import Button from '../shared/Button'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { PiPen } from 'react-icons/pi'
-import Button from '../shared/Button'
-import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
-import { Product } from '@/types/Product'
 
 type WalletSidebarPortfolioProps = {
   accountDelegations: Delegation[]
-  product: Product
+  product: ProductStaking
 }
 
 export default function WalletSidebarPortfolio({ accountDelegations, product }: WalletSidebarPortfolioProps) {

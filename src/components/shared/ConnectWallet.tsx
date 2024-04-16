@@ -4,12 +4,12 @@ import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import { useReactiveVar } from '@apollo/client'
+import { type Connector } from '@wagmi/core'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
-import { type Connector } from '@wagmi/core'
 
 type ConnectWalletProps = {
   useModal?: boolean

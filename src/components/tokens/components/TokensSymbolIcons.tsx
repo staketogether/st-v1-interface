@@ -1,22 +1,29 @@
-import React from 'react'
-import Image from 'next/image'
-import { ProductSymbol } from '@/types/Product'
-import stIcon from '@assets/st-symbol.svg'
-import stpRETHIcon from '@assets/stpRETHIcon.svg'
-import styled from 'styled-components'
-import { Tooltip } from 'antd'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAssetSymbol } from '@/types/ProductAsset'
+import { ProductStakingSymbol } from '@/types/ProductStaking'
+import stIcon from '@assets/st-symbol.svg'
+import stpRETHIcon from '@assets/stpRETHIcon.svg'
+import { Tooltip } from 'antd'
+import Image from 'next/image'
 import { PiPlusBold } from 'react-icons/pi'
+import styled from 'styled-components'
+import bitcoinIcon from '@assets/network/bitcoin.png'
+import ethereumIcon from '@assets/network/ethereum.svg'
 
-type SymbolIconsProps = {
-  productSymbol: ProductSymbol
+type TokensSymbolIconsProps = {
+  productSymbol: ProductStakingSymbol | ProductAssetSymbol
   size: number
   contractAddress?: `0x${string}`
   showPlusIcon?: boolean
 }
 
-export default function SymbolIcons({ productSymbol, size, showPlusIcon, contractAddress }: SymbolIconsProps) {
+export default function TokensSymbolIcons({
+  productSymbol,
+  size,
+  showPlusIcon,
+  contractAddress
+}: TokensSymbolIconsProps) {
   const productSymbolIcons = {
     stpETH: stIcon,
     strETH: stpRETHIcon,
@@ -27,7 +34,9 @@ export default function SymbolIcons({ productSymbol, size, showPlusIcon, contrac
     stpDOT: stIcon,
     stpATOM: stIcon,
     stpBTC: stIcon,
-    stpCHZ: stIcon
+    stpCHZ: stIcon,
+    wBTC: bitcoinIcon,
+    ETH: ethereumIcon
   }
   const { addToWalletAction } = useAddSethToWallet({
     productSymbol,

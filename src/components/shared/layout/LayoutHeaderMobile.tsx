@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import { PiGear, PiListBold } from 'react-icons/pi'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
+import { LayoutNetworkDropdown } from './LayoutNetworkDropdown'
 import LayoutSidebarMobileMenu from './LayoutSidebarMobileMenu'
 
 export default function LayoutHeaderMobile() {
@@ -25,10 +26,11 @@ export default function LayoutHeaderMobile() {
     <>
       <Container>
         <Content>
-          <Logo href={`/${currency}`}>
+          <Logo href={`/${currency}/staking`}>
             <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
           </Logo>
           <WalletContainer>
+            <LayoutNetworkDropdown mobile />
             <Wallet account={account} accountIsConnected={accountIsConnected} />
             <MenuContainer onClick={() => setOpenSidebarMobileMenu(true)}>
               <MenuIcon />

@@ -1,3 +1,4 @@
+import { TradingViewFiatData } from '@/types/ProductAsset'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
@@ -7,23 +8,25 @@ const AdvancedRealTimeChart = dynamic(
   { ssr: false }
 )
 
-const TradingViewComponent = () => {
+type TradingViewComponentProps = {
+  tradingView: {
+    symbol: string
+    fiat: TradingViewFiatData
+  }
+}
+
+const TradingViewComponent = ({ tradingView }: TradingViewComponentProps) => {
   const { query } = useRouter()
   const { currency } = query
-  // const [isTabActive, setIsTabActive] = useState(true)
 
-  const currencies = useMemo(
-    () => ({
-      usd: 'ETHUSD',
-      brl: 'ETHBRL',
-      eur: 'ETHEUR'
-    }),
-    []
-  )
+  const currencies = useMemo(() => tradingView.fiat, [tradingView.fiat])
 
   const selectedCurrency = useMemo(
-    () => ((currency as keyof typeof currencies) ? currencies[currency as keyof typeof currencies] : 'ETHUSD'),
-    [currency, currencies]
+    () =>
+      (currency as keyof typeof currencies)
+        ? currencies[currency as keyof typeof currencies]
+        : tradingView.symbol,
+    [currency, currencies, tradingView.symbol]
   )
 
   return (

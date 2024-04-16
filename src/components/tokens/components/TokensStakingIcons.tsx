@@ -1,4 +1,5 @@
-import { StakingProduct } from '@/types/Product'
+import { ProductAssetName } from '@/types/ProductAsset'
+import { ProductStakingName } from '@/types/ProductStaking'
 import bitcoinIcon from '@assets/network/bitcoin.png'
 import celestiaIcon from '@assets/network/celestia.svg'
 import chilizIcon from '@assets/network/chiliz.svg'
@@ -12,12 +13,12 @@ import solanaIcon from '@assets/network/solana.svg'
 import Image from 'next/image'
 import styled from 'styled-components'
 
-type NetworkIconProps = {
-  stakingProduct: StakingProduct
+type TokenStakingIconsProps = {
+  stakingProduct: ProductStakingName | ProductAssetName
   size: number
 }
 
-export default function NetworkProductIcons({ stakingProduct, size }: NetworkIconProps) {
+export default function TokenStakingIcons({ stakingProduct, size }: TokenStakingIconsProps) {
   const stakingProductsIcons = {
     'ethereum-stake': ethereumIcon,
     'ethereum-restaking': restaking,
@@ -28,7 +29,10 @@ export default function NetworkProductIcons({ stakingProduct, size }: NetworkIco
     near: NearIcon,
     polkadot: polkadotIcon,
     chiliz: chilizIcon,
-    bitcoin: bitcoinIcon
+    bitcoin: bitcoinIcon,
+    btc: bitcoinIcon,
+    eth: ethereumIcon,
+    'eth-optimism': ethereumIcon
   }
 
   return (

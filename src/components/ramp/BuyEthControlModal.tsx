@@ -9,6 +9,7 @@ import {
   BrlaBuyEthStep,
   changeWalletAddress,
   clearModal,
+  currentProductNameVar,
   openBrlaModalVar,
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
@@ -16,7 +17,6 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { SWRConfig } from 'swr'
 import { useAccount } from 'wagmi'
-import { StakingProduct } from '../../types/Product'
 import ConnectWallet from '../shared/ConnectWallet'
 import CheckoutStep from './CheckoutStep'
 import GenericErrorComponent from './GenericErrorComponent'
@@ -27,22 +27,28 @@ import ProcessingKycStep from './ProcessingKycStep'
 import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
 import { TimeOutCheckout } from './TimeOutCheckout'
+import styled from 'styled-components'
+import { getProductAssetByName } from '@/config/product-asset'
+import QuotationOfRampStep from './QuotationOfRamp'
 
-export default function BuyEthControlModal({ stakingProduct }: { stakingProduct: StakingProduct }) {
+export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
+  const currentProductName = useReactiveVar(currentProductNameVar)
+  const product = getProductAssetByName({ productName: currentProductName })
 
   const steps = {
-    MethodPayment: <PaymentMethod />,
-    Quotation: <QuotationStep />,
-    Kyc: <KycStep />,
+    MethodPayment: <PaymentMethod product={product} />,
+    Quotation: <QuotationStep product={product} />,
+    QuotationOfRamp: <QuotationOfRampStep product={product} />,
+    Kyc: <KycStep product={product} />,
     ConnectWallet: <ConnectWallet useModal />,
-    ProcessingKyc: <ProcessingKycStep />,
-    ProcessingCheckoutStep: <ProcessingCheckoutStep />,
-    Checkout: <CheckoutStep />,
-    TimeOutCheckout: <TimeOutCheckout stakingProduct={stakingProduct} />,
-    Success: <SuccessStep />,
+    ProcessingKyc: <ProcessingKycStep product={product} />,
+    ProcessingCheckoutStep: <ProcessingCheckoutStep product={product} />,
+    Checkout: <CheckoutStep product={product} />,
+    TimeOutCheckout: <TimeOutCheckout asset={product} />,
+    Success: <SuccessStep product={product} />,
     error: <GenericErrorComponent />
   }
 
@@ -52,7 +58,8 @@ export default function BuyEthControlModal({ stakingProduct }: { stakingProduct:
     Success: t('v2.ramp.success'),
     MethodPayment: t('v2.ramp.provider')
   }
-  const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title')
+  const title =
+    currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', product.symbol)
   const { backendUrl } = globalConfig
 
   useEffect(() => {
@@ -96,11 +103,20 @@ export default function BuyEthControlModal({ stakingProduct }: { stakingProduct:
         onClose={clearModal}
         width={'auto'}
         showCloseIcon={currentStep !== BrlaBuyEthStep.Success}
-        noPadding={currentStep === BrlaBuyEthStep.Kyc || currentStep === BrlaBuyEthStep.Checkout}
         showHeader={![BrlaBuyEthStep.TimeOutCheckout, BrlaBuyEthStep.Error].includes(currentStep)}
       >
-        {steps[currentStep]}
+        <Container>{steps[currentStep]}</Container>
       </Modal>
     </SWRConfig>
   )
+}
+
+const { Container } = {
+  Container: styled.div`
+    width: auto;
+    max-width: 420px;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      min-width: 372px;
+    }
+  `
 }

@@ -16,7 +16,8 @@ export interface BuyRampRequest {
   amountToken: string
   accountAddress: string
   receiverAddress: string
-
+  convertToChainId?: number
+  convertToToken?: string
 }
 export default function useBuyRamp(provider: 'brla' | 'transak', request?: BuyRampRequest) {
 

@@ -7,9 +7,10 @@ import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import { fbqTrackEvent } from '@/services/FacebookPixel'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import { WithdrawType } from '@/types/Withdraw'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
@@ -22,7 +23,6 @@ import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumInput from './EthereumInput'
 import EthereumProjectSelect from './EthereumProjectSelect'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
-import { fbqTrackEvent } from '@/services/FacebookPixel'
 
 type EthereumDepositProps = {
   type: 'deposit' | 'withdraw'
@@ -33,7 +33,7 @@ type EthereumDepositProps = {
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
   chainId: number
-  product: Product
+  product: ProductStaking
 }
 
 export default function EthereumDeposit({

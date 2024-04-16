@@ -1,15 +1,15 @@
+import Button from '@/components/shared/Button'
 import Loading from '@/components/shared/icons/Loading'
 import chain from '@/config/chain'
+import { getContractsByProductName } from '@/config/product-staking'
+import useProjectDetailModal from '@/hooks/useProjectDetailModal'
 import { ContentfulPool } from '@/types/ContentfulPool'
-import React, { useEffect } from 'react'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import { useEffect } from 'react'
 import { LuAlertTriangle } from 'react-icons/lu'
 import { PiTrash } from 'react-icons/pi'
 import styled from 'styled-components'
-import Button from '@/components/shared/Button'
-import useProjectDetailModal from '@/hooks/useProjectDetailModal'
-import { getContractsByProductName } from '@/config/product'
 import { useReadContract } from 'wagmi'
-import { stakeTogetherAbi } from '@/types/Contracts'
 
 type PanelApprovedButtonProps = {
   project: ContentfulPool

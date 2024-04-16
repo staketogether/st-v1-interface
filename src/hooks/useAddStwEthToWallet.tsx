@@ -1,8 +1,8 @@
 import chainConfig from '@/config/chain'
-import useLocaleTranslation from './useLocaleTranslation'
-import { getContractsByProductName } from '@/config/product'
-import { getWalletClient } from 'wagmi/actions'
+import { getContractsByProductName } from '@/config/product-staking'
 import { config } from '@/config/wagmi'
+import { getWalletClient } from 'wagmi/actions'
+import useLocaleTranslation from './useLocaleTranslation'
 
 export default function useAddStwEthToWallet() {
   const { isTestnet } = chainConfig()

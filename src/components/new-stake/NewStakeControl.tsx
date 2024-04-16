@@ -1,6 +1,7 @@
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
-import { Product, ProductMarketAssetData } from '@/types/Product'
+import { ProductMarketAssetData, ProductStaking } from '@/types/ProductStaking'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import { Tooltip, notification } from 'antd'
 import dynamic from 'next/dynamic'
@@ -12,9 +13,8 @@ import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
 import LottieAnimation from '../shared/LottieAnimation'
 import NetworkIcons from '../shared/NetworkIcons'
-import NetworkProductIcons from '../tokens/components/StakingIcons'
+import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
 import ProductInfo from './ProductInfo'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -28,7 +28,7 @@ const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl
 
 type NewStakeControlProps = {
   type: 'deposit' | 'withdraw'
-  product: Product
+  product: ProductStaking
   assetData: ProductMarketAssetData
   chainId: number
 }
@@ -64,13 +64,13 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   return (
     <Container>
       <header>
-        <HeaderBackAction href={`/${currency}`}>
+        <HeaderBackAction href={`/${currency}/staking`}>
           <PiArrowLeft />
           <span>{t('goToBack')}</span>
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <NetworkProductIcons stakingProduct={product.name} size={36} />
+            <TokenStakingIcons stakingProduct={product.name} size={36} />
             {t(`v2.products.${product.name}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />

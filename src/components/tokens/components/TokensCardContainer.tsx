@@ -1,15 +1,17 @@
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Product } from '@/types/Product'
+import { ProductAsset } from '@/types/ProductAsset'
+import { ProductStaking } from '@/types/ProductStaking'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import StakingIcons from './StakingIcons'
-import SymbolIcons from './SymbolIcons'
+import TokenStakingIcons from './TokensStakingIcons'
+import TokensSymbolIcons from './TokensSymbolIcons'
 
 type TokensCardContainerProps = {
-  product: Product
+  product: ProductStaking | ProductAsset
+  type: 'staking' | 'assets'
 }
 
 const TokensShowValuePrice = dynamic(() => import('../../shared/TokensShowValuePrice'), {
@@ -18,7 +20,7 @@ const TokensShowValuePrice = dynamic(() => import('../../shared/TokensShowValueP
   suspense: true
 })
 
-export default function TokensCardContainer({ product }: TokensCardContainerProps) {
+export default function TokensCardContainer({ product, type }: TokensCardContainerProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
@@ -33,7 +35,7 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
     >
       <ImageContainer>
         <div>
-          <StakingIcons stakingProduct={product.name} size={32} />
+          <TokenStakingIcons stakingProduct={product.name} size={32} />
           <span>{t(`v2.products.${product.name}`)}</span>
         </div>
         {!product.enabled && <Soon>{t('soon')}</Soon>}
@@ -42,10 +44,10 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
       <ContainerInfo>
         <div>
           <TokensShowValuePrice product={product} />
-          <span className='green'>{`APY ${product.apy}%`}</span>
+          {type === 'staking' && <span className='green'>{`APY ${product.apy}%`}</span>}
         </div>
         <div>
-          <SymbolIcons size={24} productSymbol={product.symbol} />
+          <TokensSymbolIcons size={24} productSymbol={product.symbol} />
           <span>{product.symbol}</span>
         </div>
       </ContainerInfo>

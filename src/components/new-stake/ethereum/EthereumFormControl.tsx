@@ -4,7 +4,7 @@ import { openModal } from '@/hooks/ramp/useControlModal'
 import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import { notification } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -14,7 +14,7 @@ import EthereumWithdraw from './EthereumWithdraw'
 
 type EthereumFormControlProps = {
   type: 'deposit' | 'withdraw'
-  product: Product
+  product: ProductStaking
   chainId: number
 }
 export default function EthereumFormControl({ type, product, chainId }: EthereumFormControlProps) {
@@ -37,7 +37,7 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
 
   function handleRampButton() {
     type === 'deposit'
-      ? openModal(product.name)
+      ? openModal(product.asset.name)
       : notification.info({
           message: `${t('offramp')}`,
           placement: 'topRight'

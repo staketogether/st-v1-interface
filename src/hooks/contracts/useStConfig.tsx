@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react'
-import { STConfig } from '../../types/STConfig'
-import { getContractsByProductName } from '@/config/product'
-import { StakingProduct } from '@/types/Product'
 import { chainConfigByChainId } from '@/config/chain'
-import { useReadContract } from 'wagmi'
+import { getContractsByProductName } from '@/config/product-staking'
 import { stakeTogetherAbi } from '@/types/Contracts'
+import { ProductStakingName } from '@/types/ProductStaking'
+import { useEffect, useState } from 'react'
+import { useReadContract } from 'wagmi'
+import { STConfig } from '../../types/STConfig'
 
 export default function useStConfig({
   productName,
   chainId
 }: {
-  productName: StakingProduct
+  productName: ProductStakingName
   chainId: number
 }) {
   const [stConfig, setSTConfig] = useState<STConfig | null>(null)

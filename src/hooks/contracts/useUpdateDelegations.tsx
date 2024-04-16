@@ -1,27 +1,27 @@
+import { getSubgraphClient } from '@/config/apollo'
+import { queryAccount } from '@/queries/subgraph/queryAccount'
+import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
+import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
+import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
+import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
+import { queryPool } from '@/queries/subgraph/queryPool'
+import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
+import { queryPools } from '@/queries/subgraph/queryPools'
+import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
+import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import { ProductStaking } from '@/types/ProductStaking'
+import { notification } from 'antd'
+import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import {
   useSimulateContract,
   useWaitForTransactionReceipt as useWaitForTransaction,
   useWriteContract
 } from 'wagmi'
-import { stakeTogetherAbi } from '@/types/Contracts'
 import useConnectedAccount from '../useConnectedAccount'
-import { notification } from 'antd'
-import useLocaleTranslation from '../useLocaleTranslation'
-import { getSubgraphClient } from '@/config/apollo'
-import { queryAccount } from '@/queries/subgraph/queryAccount'
-import { queryPool } from '@/queries/subgraph/queryPool'
-import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
-import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
-import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
-import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
-import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
-import { queryPools } from '@/queries/subgraph/queryPools'
-import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
-import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import useEstimateTxInfo from '../useEstimateTxInfo'
-import { ethers } from 'ethers'
-import { Product } from '@/types/Product'
+import useLocaleTranslation from '../useLocaleTranslation'
 
 export type PoolData = {
   pool: `0x${string}`
@@ -31,7 +31,7 @@ export type PoolData = {
 export default function useUpdateDelegations(
   enabled: boolean,
   updateDelegationPools: PoolData[],
-  product: Product,
+  product: ProductStaking,
   accountAddress?: `0x${string}`
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)

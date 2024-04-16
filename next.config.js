@@ -21,7 +21,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/brl',
+        destination: '/pt/brl/staking',
         permanent: false
       }
     ]

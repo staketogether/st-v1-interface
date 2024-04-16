@@ -1,13 +1,7 @@
 import Button from '@/components/shared/Button'
-import {
-  BrlaBuyEthStep,
-  currentProductNameVar,
-  fiatAmountVar,
-  quoteVar,
-  stepsControlBuyCryptoVar
-} from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, fiatAmountVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
-import useQuoteBrla from '@/hooks/ramp/useQuote'
+import useQuoteRamp from '@/hooks/ramp/useQuote'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
@@ -17,27 +11,28 @@ import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowRight } from 'react-icons/pi'
 
-import { getProductByName } from '@/config/product'
+import QuotationStepEthAmount from '@/components/ramp/QuotationStepEthAmount'
+import AssetIcon from '@/components/shared/AssetIcon'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import { truncateDecimal } from '@/services/truncate'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { KycLevel } from './KycLevel'
-import AssetIcon from '@/components/shared/AssetIcon'
-import QuotationStepEthAmount from '@/components/ramp/QuotationStepEthAmount'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
+import { ProductAsset } from '@/types/ProductAsset'
 
-export default function QuotationStep() {
+type QuotationStepProps = {
+  product: ProductAsset
+}
+
+export default function QuotationStep({ product }: QuotationStepProps) {
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
   const debounceValue = useDebounce(value, 300)
-  const currentProductName = useReactiveVar(currentProductNameVar)
-
-  const product = getProductByName({ productName: currentProductName })
   const minDeposit = product.ramp.minDeposit
 
-  const { quote, isValidating: quoteIsValidating } = useQuoteBrla(
+  const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
     debounceValue ? Number(debounceValue) : 0,
     product.ramp.bridge?.fromChainId || product.ramp.chainId,
@@ -129,11 +124,11 @@ export default function QuotationStep() {
           <div>
             <AssetIcon
               marginRight='8px'
-              assetIcon={'ethereum'}
+              assetIcon={product.symbol}
               networkIcon={product.networkAvailable}
               size={24}
             />
-            <span>ETH</span>
+            <span>{product.symbol}</span>
           </div>
           {quoteIsValidating ? (
             <SkeletonLoading width={60} height={20} />
@@ -142,7 +137,7 @@ export default function QuotationStep() {
           )}
         </InputContainer>
       </BoxValuesContainer>
-      <QuotationStepEthAmount />
+      <QuotationStepEthAmount product={product} />
       <Button
         onClick={handleNext}
         disabled={BigInt(debounceValue) < minDeposit || error || quoteIsValidating || !quote?.amountBrl}
@@ -159,9 +154,6 @@ export default function QuotationStep() {
 const { Container, InputContainer, ArrowDown, BoxValuesContainer } = {
   Container: styled.div`
     width: auto;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-width: 372px;
-    }
     color: ${({ theme }) => theme.colorV2.gray[1]};
 
     > header {

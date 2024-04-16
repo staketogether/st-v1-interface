@@ -1,13 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
-import Image from 'next/image'
-import stSymbol from '@assets/st-symbol.svg'
-import { PiPlusBold } from 'react-icons/pi'
-import { Tooltip } from 'antd'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import useAddSethToWallet from '@/hooks/useAddSethToWallet'
-import { getContractsByProductName } from '@/config/product'
 import chainConfig from '@/config/chain'
+import { getContractsByProductName } from '@/config/product-staking'
+import useAddSethToWallet from '@/hooks/useAddSethToWallet'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import stSymbol from '@assets/st-symbol.svg'
+import { Tooltip } from 'antd'
+import Image from 'next/image'
+import { PiPlusBold } from 'react-icons/pi'
+import styled from 'styled-components'
 
 type StpEthIconProps = {
   size?: number

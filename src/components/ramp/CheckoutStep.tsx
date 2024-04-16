@@ -18,8 +18,13 @@ import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
 import SwapInfo from './SwapInfo'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
+import { ProductAsset } from '@/types/ProductAsset'
 
-export default function CheckoutStep() {
+type CheckoutStepProps = {
+  product: ProductAsset
+}
+
+export default function CheckoutStep({ product }: CheckoutStepProps) {
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
   const quote = useReactiveVar(quoteVar)
@@ -78,7 +83,7 @@ export default function CheckoutStep() {
   return (
     <Container>
       <Body>
-        <SwapInfo />
+        <SwapInfo product={product} />
         <PixArea>
           <Header>
             <div>
@@ -95,7 +100,7 @@ export default function CheckoutStep() {
             <span>{t('v2.ramp.useThePixQRCode')}</span>
             <Code value={qrCode?.brCode ?? ''} />
             <CountDown>
-              <span> {t('v2.ramp.checkout.paymentTime')}</span>
+              <span> {t('v2.ramp.checkout.paymentTime')}:</span>
               <span>{handleGetCountDown()}</span>
             </CountDown>
             <Button
@@ -104,6 +109,7 @@ export default function CheckoutStep() {
               label={t('v2.ramp.copyQrCode')}
               icon={<PiCopy />}
               iconLeft
+              block
               onClick={handleCopyClipboard}
             />
           </QrCodeArea>
@@ -135,23 +141,29 @@ export default function CheckoutStep() {
 
 const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, CountDown } = {
   Container: styled.div`
-    max-width: 420px;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-width: 372px;
-    }
     font-size: ${({ theme }) => theme.font.size[13]};
     font-weight: 400;
 
     gap: 24px;
-    margin-right: 5px;
   `,
   Body: styled.div`
-    padding: 0 ${({ theme }) => theme.size[24]};
-    overflow-y: scroll;
-    max-height: 470px;
+    padding: 0 5px 0px 0px;
+
     gap: 24px;
     display: flex;
     flex-direction: column;
+
+    margin-right: 5px;
+    max-height: 570px;
+    overflow-y: auto;
+    overflow-x: none;
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      margin-right: auto;
+      max-height: auto;
+      overflow-y: auto;
+      overflow-x: none;
+    }
   `,
   PixArea: styled.div`
     display: grid;
@@ -204,13 +216,13 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, 
     }
   `,
   Footer: styled.div`
-    padding: 16px 29px 24px 24px;
+    padding-top: 24px;
     display: grid;
   `,
   Code: styled(QRCode)`
     border: none;
-    width: 120px !important;
-    height: 120px !important;
+    width: 160px !important;
+    height: 160px !important;
   `,
   KeyPixArea: styled.div`
     display: flex;
@@ -222,8 +234,10 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, 
     border-radius: ${({ theme }) => theme.size[8]};
   `,
   CountDown: styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     gap: 2px;
     font-size: 13px;
     font-weight: 400;

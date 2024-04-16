@@ -1,13 +1,13 @@
 import { getSubgraphClient } from '@/config/apollo'
 import { chainConfigByChainId } from '@/config/chain'
-import { Account } from '@/types/Account'
-import { useQuery } from '@apollo/client'
-import { Product } from '@/types/Product'
 import { queryAccount } from '@/queries/subgraph/queryAccount'
+import { Account } from '@/types/Account'
+import { ProductStaking } from '@/types/ProductStaking'
+import { useQuery } from '@apollo/client'
 
 type useLsdBalanceProps = {
   walletAddress?: `0x${string}`
-  product: Product
+  product: ProductStaking
   chainId: number
 }
 

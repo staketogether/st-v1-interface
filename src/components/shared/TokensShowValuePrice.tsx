@@ -1,10 +1,10 @@
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useGetAssetData from '@/hooks/useGetAssetData'
-import { Product } from '@/types/Product'
-import React from 'react'
+import { ProductAsset } from '@/types/ProductAsset'
+import { ProductStaking } from '@/types/ProductStaking'
 type TokensShowValuePriceProps = {
-  product: Product
+  product: ProductStaking | ProductAsset
   className?: string
 }
 

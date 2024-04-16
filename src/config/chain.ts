@@ -1,4 +1,16 @@
 import { ethers } from 'ethers'
+import {
+  arbitrum,
+  arbitrumSepolia,
+  chiliz,
+  mainnet,
+  optimism,
+  optimismSepolia,
+  polygon,
+  polygonMumbai,
+  sepolia,
+  spicy
+} from 'wagmi/chains'
 
 interface BlockExplorerConfig {
   baseUrl: string
@@ -12,49 +24,96 @@ export type ChainConfig = {
   isTestnet: boolean
 }
 
-export enum Networks {
-  Mainnet = 1,
-  OptimismSepolia = 11155420,
-  holesky = 17000,
-  optimism = 10
-}
-
 const configs: ChainConfig[] = [
   {
-    chainId: Networks.Mainnet,
-    name: 'mainnet',
-    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_MAINNET_URL),
+    chainId: mainnet.id,
+    name: 'Ethereum',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
-      baseUrl: 'https://etherscan.io'
+      baseUrl: mainnet.blockExplorers.default.url
     }
   },
   {
-    chainId: Networks.OptimismSepolia,
-    name: 'Optimism Sepolia',
-    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OPTIMIST_SEPOLIA_URL),
+    chainId: optimism.id,
+    name: 'Optimism',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OP_MAINNET_URL),
+    isTestnet: false,
     blockExplorer: {
-      baseUrl: 'https://optimism-sepolia.blockscout.com'
-    },
-    isTestnet: true
+      baseUrl: optimism.blockExplorers.default.url
+    }
   },
   {
-    chainId: Networks.holesky,
-    name: 'holesky',
-    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_HOLESKY_URL),
+    chainId: arbitrum.id,
+    name: 'Arbitrum',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ARB_MAINNET_URL),
+    isTestnet: false,
     blockExplorer: {
-      baseUrl: 'https://optimism-sepolia.blockscout.com'
-    },
-    isTestnet: true
+      baseUrl: arbitrum.blockExplorers.default.url
+    }
   },
   {
-    chainId: Networks.optimism,
-    name: 'optimism',
-    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OPTIMISM_URL),
+    chainId: polygon.id,
+    name: 'Polygon',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_POL_MAINNET_URL),
+    isTestnet: false,
     blockExplorer: {
-      baseUrl: 'https://optimistic.etherscan.io'
-    },
-    isTestnet: false
+      baseUrl: polygon.blockExplorers.default.url
+    }
+  },
+  {
+    chainId: chiliz.id,
+    name: 'Chiliz',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET_URL),
+    isTestnet: false,
+    blockExplorer: {
+      baseUrl: chiliz.blockExplorers.default.url
+    }
+  },
+  {
+    chainId: sepolia.id,
+    name: 'Sepolia',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ETH_TESTNET_URL),
+    isTestnet: true,
+    blockExplorer: {
+      baseUrl: sepolia.blockExplorers.default.url
+    }
+  },
+  {
+    chainId: optimismSepolia.id,
+    name: 'Optimism',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OP_TESTNET_URL),
+    isTestnet: true,
+    blockExplorer: {
+      baseUrl: optimismSepolia.blockExplorers.default.url
+    }
+  },
+  {
+    chainId: arbitrumSepolia.id,
+    name: 'Arbitrum Sepolia',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ARB_TESTNET_URL),
+    isTestnet: true,
+    blockExplorer: {
+      baseUrl: arbitrumSepolia.blockExplorers.default.url
+    }
+  },
+  {
+    chainId: polygonMumbai.id,
+    name: 'Polygon Mumbai',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_POL_TESTNET_URL),
+    isTestnet: true,
+    blockExplorer: {
+      baseUrl: polygonMumbai.blockExplorers.default.url
+    }
+  },
+  {
+    chainId: spicy.id,
+    name: 'Chiliz Spicy',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_CHZ_TESTNET_URL),
+    isTestnet: true,
+    blockExplorer: {
+      baseUrl: spicy.blockExplorers.default.url
+    }
   }
 ]
 
@@ -68,7 +127,7 @@ export default function chainConfig(): ChainConfig {
 }
 
 export function chainConfigByChainId(chainId: number): ChainConfig {
-  const config = configs.find(c => c.chainId === chainId)
-  if (!config) throw new Error('chainId not found in chainConfig')
+  const config: ChainConfig | undefined = configs.find(c => c.chainId === chainId)
+  if (!config) throw new Error('chainConfigByChainId: chainId not found')
   return config
 }

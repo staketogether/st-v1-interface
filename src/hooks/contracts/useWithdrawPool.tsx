@@ -1,3 +1,4 @@
+import { chainConfigByChainId } from '@/config/chain'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
@@ -7,6 +8,8 @@ import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import { ProductStaking } from '@/types/ProductStaking'
 import { WithdrawType } from '@/types/Withdraw'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
@@ -19,19 +22,16 @@ import {
 import { getSubgraphClient } from '../../config/apollo'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
+import useConnectedAccount from '../useConnectedAccount'
+import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
-import useConnectedAccount from '../useConnectedAccount'
-import { Product } from '@/types/Product'
-import { chainConfigByChainId } from '@/config/chain'
-import { stakeTogetherAbi } from '@/types/Contracts'
-import useEstimateTxInfo from '../useEstimateTxInfo'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
-  product: Product,
+  product: ProductStaking,
   chainId: number,
   accountAddress?: `0x${string}`
 ) {

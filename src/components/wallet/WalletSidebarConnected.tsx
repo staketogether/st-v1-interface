@@ -33,18 +33,19 @@ import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 
-import chainConfig, { Networks } from '@/config/chain'
-import { productList } from '@/config/product'
+import chainConfig from '@/config/chain'
+import { productStakingList } from '@/config/product-staking'
+import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useCoinConversion from '@/hooks/useCoinConversion'
+import { ProductStakingName } from '@/types/ProductStaking'
+import { useReactiveVar } from '@apollo/client'
+import { mainnet, optimism, optimismSepolia } from 'wagmi/chains'
 import AssetIcon from '../shared/AssetIcon'
 import Withdrawals from '../shared/Withdrawals'
-import NetworkProductIcons from '../tokens/components/StakingIcons'
+import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
-import { web3AuthInstanceVar } from '@/config/web3Auth'
-import { useReactiveVar } from '@apollo/client'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
-import { StakingProduct } from '@/types/Product'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -55,7 +56,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<'delegations' | 'rewards' | 'activity'>('delegations')
-  const [productTabSelected, setProductTabSelected] = useState<StakingProduct>('ethereum-stake')
+  const [productTabSelected, setProductTabSelected] = useState<ProductStakingName>('ethereum-stake')
 
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
   const { connector } = useAccount()
@@ -65,12 +66,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
   const { locale } = useRouter()
 
-  const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: Networks.Mainnet })
+  const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: mainnet.id })
   const formattedEthBalance = formatNumberByLocale(truncateWei(ethBalance, 6), locale)
   const { priceConvertedValue: usdEthBalance } = useCoinConversion(formattedEthBalance)
   const { balance: optimistEthBalance } = useEthBalanceOf({
     walletAddress: address,
-    chainId: Networks.optimism
+    chainId: optimismSepolia.id
   })
   const formattedOptimistEthBalance = formatNumberByLocale(truncateWei(optimistEthBalance, 6), locale)
   const { priceConvertedValue: usdOptimismEthBalance } = useCoinConversion(formattedOptimistEthBalance)
@@ -93,7 +94,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     // accountProfitPercentage: stakeAccountProfitPercentage,
     accountIsLoading: stakeAccountIsLoading,
     accountShare: stakeAccountShare
-  } = useStAccount({ address: address, productName: 'ethereum-stake', chainId: Networks.Mainnet })
+  } = useStAccount({ address: address, productName: 'ethereum-stake', chainId: mainnet.id })
   const stpETHAccountBalance = truncateWei(stakeAccountBalance, 6)
 
   const { priceConvertedValue: usdStpETHBalance } = useCoinConversion(stpETHAccountBalance)
@@ -106,7 +107,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     // accountProfitPercentage: restakingAccountProfitPercentage,
     accountIsLoading: restakingAccountIsLoading,
     accountShare: restakingAccountShare
-  } = useStAccount({ address: address, productName: 'ethereum-restaking', chainId: Networks.optimism })
+  } = useStAccount({ address: address, productName: 'ethereum-restaking', chainId: optimism.id })
   const stpRETHAccountBalance = formatNumberByLocale(truncateWei(restakingAccountBalance, 5), locale)
   const { priceConvertedValue: usdStpRETHBalance } = useCoinConversion(stpRETHAccountBalance)
 
@@ -165,14 +166,14 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   }, [address])
 
-  const products = productList.filter(product => product.enabled)
+  const products = productStakingList.filter(product => product.enabled)
 
   const selectProductOptions = products.map(product => {
     return {
       value: product.name,
       label: (
         <ProductSelectCard>
-          <NetworkProductIcons stakingProduct={product.name} size={24} />
+          <TokenStakingIcons stakingProduct={product.name} size={24} />
           <span>{t(`v2.products.${product.name}`)}</span>
         </ProductSelectCard>
       )

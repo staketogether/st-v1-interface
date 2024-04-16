@@ -1,14 +1,14 @@
-import styled from 'styled-components'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import Image from 'next/image'
+import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 
+import { useAccount } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import WalletName from './WalletName'
-import { useAccount } from 'wagmi'
-import { Networks } from '@/config/chain'
 
 type WalletConnectedButtonProps = {
   address: `0x${string}`
@@ -21,7 +21,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   const { chain: walletChainId } = useAccount()
 
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { name: ensName, nameLoading: ensLoading } = useEns(address, walletChainId?.id || Networks.Mainnet)
+  const { name: ensName, nameLoading: ensLoading } = useEns(address, walletChainId?.id || mainnet.id)
 
   const handleActionButton = () => {
     setOpenSidebar(true)
@@ -30,12 +30,6 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   return (
     <ConnectedButton onClick={handleActionButton}>
       <EnsAddress>
-        <WalletName
-          walletAddress={address}
-          web3AuthUserInfo={web3AuthUserInfo}
-          ensName={ensName}
-          ensLoading={ensLoading}
-        />
         {web3AuthUserInfo?.profileImage ? (
           <Web3AuthProfileImage
             src={web3AuthUserInfo.profileImage}
@@ -44,8 +38,14 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
             height={24}
           />
         ) : (
-          <EnsAvatar address={address} size={24} chainId={walletChainId?.id || Networks.Mainnet} />
+          <EnsAvatar address={address} size={24} chainId={walletChainId?.id || mainnet.id} />
         )}
+        <WalletName
+          walletAddress={address}
+          web3AuthUserInfo={web3AuthUserInfo}
+          ensName={ensName}
+          ensLoading={ensLoading}
+        />
       </EnsAddress>
     </ConnectedButton>
   )
@@ -63,7 +63,7 @@ const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
     background-color: ${({ theme }) => theme.colorV2.blue[1]};
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
-    padding: 0px ${({ theme }) => theme.size[8]} 0px ${({ theme }) => theme.size[16]};
+    padding: 0 10px;
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[200]};
 
@@ -78,7 +78,7 @@ const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
   `,
   EnsAddress: styled.div`
     display: grid;
-    grid-template-columns: auto 24px;
+    grid-template-columns: 24px auto;
     justify-content: flex-end;
     align-items: center;
     gap: 8px;

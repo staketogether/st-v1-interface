@@ -10,7 +10,8 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import { ProductStaking } from '@/types/ProductStaking'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
 import {
@@ -20,7 +21,6 @@ import {
 } from 'wagmi'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-import { stakeTogetherAbi } from '@/types/Contracts'
 import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
@@ -31,7 +31,7 @@ export default function useDepositPool(
   grossDepositAmount: bigint,
   poolAddress: `0x${string}`,
   enabled: boolean,
-  product: Product,
+  product: ProductStaking,
   chainId: number,
   accountAddress: `0x${string}` | undefined
 ) {

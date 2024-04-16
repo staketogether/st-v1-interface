@@ -5,10 +5,14 @@ import { useEffect, useMemo, useState } from 'react'
 import { PiClock } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAsset } from '@/types/ProductAsset'
 
-export default function QuotationStepEthAmount() {
+type QuotationStepEthAmountProps = {
+  product: ProductAsset
+}
+
+export default function QuotationStepEthAmount({ product }: QuotationStepEthAmountProps) {
   const initialSeconds = 5
-  const ethereumChainId = 1
 
   const [seconds, setSeconds] = useState<number>(5)
   const [timerStarted, setTimerStarted] = useState<boolean>(false)
@@ -21,12 +25,13 @@ export default function QuotationStepEthAmount() {
   const { quote: quoteEthValue, isValidating: ethValueIsValidating } = useQuoteBrla(
     'brl',
     amount,
-    ethereumChainId,
+    product.ramp.bridge?.fromChainId || product.ramp.chainId,
     0,
     ProviderType.brla,
     PaymentMethodType.pix,
-    undefined,
-    undefined
+    `${product.ramp.bridge?.toChainId}`,
+    product.ramp.bridge?.toToken,
+    false
   )
 
   useMemo(() => {
@@ -64,45 +69,46 @@ export default function QuotationStepEthAmount() {
     <PriceInfoContainer>
       <div>
         <span>{t('v2.ramp.quote.price')}</span>
-        <span>1 ETH = {activeValue.toLocaleString('pt-BR')} BRL</span>
+        <span>
+          1 {product.symbol} = {activeValue.toLocaleString('pt-BR')} BRL
+        </span>
       </div>
       <span className='gray'>
-          <PiClock style={{ fontSize: 16 }} />{' '}
+        <PiClock style={{ fontSize: 16 }} />{' '}
         <span>
-            {t('v2.ramp.quote.updateQuote')} {quoteEthValue?.amountToken ? seconds : 5}s
-          </span>
+          {t('v2.ramp.quote.updateQuote')} {quoteEthValue?.amountToken ? seconds : 5}s
         </span>
+      </span>
     </PriceInfoContainer>
   )
 }
 
-const {PriceInfoContainer} = {
+const { PriceInfoContainer } = {
   PriceInfoContainer: styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
     text-align: center;
     > div {
-        display: flex;
-        flex-direction: row;
-        gap: 2px;
-        justify-content: center;
-        > span:first-child {
-            font-size: 13px;
-            font-weight: 400;
-            line-height: 16px;
-            letter-spacing: 0em;
-            text-align: left;
-          }
-        > span:last-child {
-            font-size: 15px;
-            font-weight: 500;
-            line-height: 18px;
-            letter-spacing: 0em;
-            text-align: left;
-            color: ${({ theme }) => theme.colorV2.blue[3]};
-
-        } 
+      display: flex;
+      flex-direction: row;
+      gap: 2px;
+      justify-content: center;
+      > span:first-child {
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 16px;
+        letter-spacing: 0em;
+        text-align: left;
+      }
+      > span:last-child {
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 18px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: ${({ theme }) => theme.colorV2.blue[3]};
+      }
     }
     span {
       font-size: ${({ theme }) => theme.font.size[13]};
@@ -123,6 +129,6 @@ const {PriceInfoContainer} = {
           color: ${({ theme }) => theme.colorV2.blue[1]};
         }
       }
-    },
+    }
   `
 }

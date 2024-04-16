@@ -3,20 +3,20 @@ import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
-import { Product, ProductMarketAssetData } from '@/types/Product'
+import { ProductMarketAssetData, ProductStaking } from '@/types/ProductStaking'
 
 import { Tooltip, notification } from 'antd'
+import { useRouter } from 'next/router'
 import { PiArrowUpRight, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import NetworkIcons from '../shared/NetworkIcons'
-import NetworkProductIcons from '../tokens/components/StakingIcons'
-import SymbolIcons from '../tokens/components/SymbolIcons'
-import { useRouter } from 'next/router'
+import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
+import TokensSymbolIcons from '../tokens/components/TokensSymbolIcons'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import dynamic from 'next/dynamic'
 
 type ProductInfoProps = {
-  product: Product
+  product: ProductStaking
   assetData: ProductMarketAssetData
   chainId: number
 }
@@ -51,7 +51,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
       <header>
         <HeaderProduct>
           <div>
-            <NetworkProductIcons stakingProduct={product.name} size={36} />
+            <TokenStakingIcons stakingProduct={product.name} size={36} />
             {t(`v2.products.${product.name}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
@@ -68,7 +68,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
         <HeaderDescribeInfo>
           <SymbolContainer>
             <div>
-              <SymbolIcons
+              <TokensSymbolIcons
                 productSymbol={product.symbol}
                 size={23}
                 contractAddress={stakeTogetherContractAddress}
@@ -101,7 +101,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           </RewardsPointsContainer>
         </HeaderDescribeInfo>
       </header>
-      <TradingViewComponent />
+      <TradingViewComponent tradingView={product.tradingView} />
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>
