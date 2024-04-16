@@ -6,7 +6,7 @@ export const btcOptimism: ProductAsset = {
   description: 'btc',
   listed: true,
   contract: '0x68f180fcCe6836688e9084f035309E29Bf0A2095',
-  symbol: 'BTC',
+  symbol: 'wBTC',
   networkAvailable: 'optimism',
   chainIdNetworkAvailable: 10,
   newProductTag: true,
