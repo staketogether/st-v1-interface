@@ -9,8 +9,6 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import SkeletonLoading from './icons/SkeletonLoading'
 import useWithdrawalsIsReady from '@/hooks/contracts/useWithdrawalsIsReady'
 import useWithdrawalsStwEth from '@/hooks/contracts/useWithdrawalsStwEth'
-
-import { getProductByName } from '@/config/product-staking'
 import useWithdrawalsBeaconBlock from '@/hooks/contracts/useWithdrawalsBeaconBlock'
 import StakeWithdrawCounter from '../stake/StakeWithdrawCounter'
 import { Tooltip } from 'antd'
