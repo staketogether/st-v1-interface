@@ -51,31 +51,47 @@ export default function validEnv() {
     throw new Error('NEXT_PUBLIC_BACKEND_URL not found in env')
   }
 
-  if (!process.env.NEXT_PUBLIC_RPC_MAINNET_URL) {
-    throw new Error('NEXT_PUBLIC_RPC_MAINNET_URL not found in env')
-  }
-
-  if (!process.env.NEXT_PUBLIC_RPC_OPTIMISM_URL) {
-    throw new Error('NEXT_PUBLIC_RPC_OPTIMISM_URL not found in env')
-  }
-
-  if (!process.env.NEXT_PUBLIC_RPC_HOLESKY_URL) {
-    throw new Error('NEXT_PUBLIC_RPC_HOLESKY_URL not found in env')
-  }
-
-  if (!process.env.NEXT_PUBLIC_RPC_OPTIMIST_SEPOLIA_URL) {
-    throw new Error('NEXT_PUBLIC_RPC_OPTIMIST_SEPOLIA_URL not found in env')
-  }
-
   if (!process.env.NEXT_PUBLIC_CHAIN_ID) {
     throw new Error('NEXT_PUBLIC_CHAIN_ID not found in env')
   }
 
-  if (!process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET) {
-    throw new Error('NEXT_PUBLIC_RPC_CHZ_MAINNET not found in env')
+  if (!process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_ETH_MAINNET_URL not found in env')
   }
 
-  if (!process.env.NEXT_PUBLIC_RPC_CHZ_SPICY) {
-    throw new Error('NEXT_PUBLIC_RPC_CHZ_SPICY not found in env')
+  if (!process.env.NEXT_PUBLIC_RPC_ETH_TESTNET_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_ETH_TESTNET_URL not found in env')
+  }
+
+  if (!process.env.NEXT_PUBLIC_RPC_OP_MAINNET_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_OP_MAINNET_URL not found in env')
+  }
+
+  if (!process.env.NEXT_PUBLIC_RPC_OP_TESTNET_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_OP_TESTNET_URL not found in env')
+  }
+
+  if (!process.env.NEXT_PUBLIC_RPC_ARB_MAINNET_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_ARB_MAINNET_URL not found in env')
+  }
+
+  if (!process.env.NEXT_PUBLIC_RPC_ARB_TESTNET_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_ARB_TESTNET_URL not found in env')
+  }
+
+  if (!process.env.NEXT_PUBLIC_RPC_POL_MAINNET_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_POL_MAINNET_URL not found in env')
+  }
+
+  if (!process.env.NEXT_PUBLIC_RPC_POL_TESTNET_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_POL_TESTNET_URL not found in env')
+  }
+
+  if (!process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_CHZ_MAINNET_URL not found in env')
+  }
+
+  if (!process.env.NEXT_PUBLIC_RPC_CHZ_TESTNET_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_CHZ_TESTNET_URL not found in env')
   }
 }

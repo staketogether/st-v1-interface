@@ -58,10 +58,16 @@ jobs:
           echo NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT=1 >> .env
           echo NEXT_PUBLIC_TRANSAK_API_KEY=1 >> .env
           echo NEXT_PUBLIC_BACKEND_URL=1 >> .env
-          echo NEXT_PUBLIC_RPC_MAINNET_URL=1 >> .env
-          echo NEXT_PUBLIC_RPC_OPTIMISM_URL=1 >> .env
-          echo NEXT_PUBLIC_RPC_HOLESKY_URL=1 >> .env
-          echo NEXT_PUBLIC_RPC_OPTIMIST_SEPOLIA_URL=1 >> .env
+          echo NEXT_PUBLIC_RPC_ETH_MAINNET_URL=1 >> .env
+          echo NEXT_PUBLIC_RPC_OP_MAINNET_URL=1 >> .env
+          echo NEXT_PUBLIC_RPC_ARB_MAINNET_URL=1 >> .env
+          echo NEXT_PUBLIC_RPC_POL_MAINNET_URL=1 >> .env
+          echo NEXT_PUBLIC_RPC_CHZ_MAINNET_URL=1 >> .env
+          echo NEXT_PUBLIC_RPC_ETH_TESTNET_URL=1 >> .env
+          echo NEXT_PUBLIC_RPC_OP_TESTNET_URL=1 >> .env
+          echo NEXT_PUBLIC_RPC_ARB_TESTNET_URL=1 >> .env
+          echo NEXT_PUBLIC_RPC_POL_TESTNET_URL=1 >> .env
+          echo NEXT_PUBLIC_RPC_CHZ_TESTNET_URL=1 >> .env
 
       - name: Install dependencies
         run: pnpm install

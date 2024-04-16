@@ -1,10 +1,6 @@
 import { globalConfig } from '@/config/global'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
-import {
-  BrlaBuyEthStep,
-  changeWalletAddress,
-  stepsControlBuyCryptoVar
-} from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, changeWalletAddress, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProductAsset } from '@/types/ProductAsset'
 import { useReactiveVar } from '@apollo/client'
@@ -25,7 +21,7 @@ import SuccessStep from '../ramp/SuccessStep'
 import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
 import ConnectWallet from '../shared/ConnectWallet'
 
-export default function AssetsBuyControl({ type, product }: { type: 'sell' | 'buy', product: ProductAsset }) {
+export default function AssetsBuyControl({ product }: { type: 'sell' | 'buy'; product: ProductAsset }) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
@@ -43,7 +39,6 @@ export default function AssetsBuyControl({ type, product }: { type: 'sell' | 'bu
     Success: <SuccessStep product={product} />,
     error: <GenericErrorComponent />
   }
-
 
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
 

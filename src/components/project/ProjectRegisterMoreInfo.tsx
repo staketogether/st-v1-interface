@@ -1,17 +1,18 @@
-import chainConfig, { Networks } from '@/config/chain'
+import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ContentfulWithLocale } from '@/types/ContentfulPool'
 import { ProjectCreateInfo, ProjectLinksToAnalyze } from '@/types/Project'
 import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { PiArrowLeft, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
 import Button from '../shared/Button'
-import Input from '../shared/inputs/Input'
 import GenericTransactionLoading from '../shared/GenericTransactionLoading'
-import ProjectCreateSuccess from './ProjectCreateSuccess'
+import Input from '../shared/inputs/Input'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
-import { ContentfulWithLocale } from '@/types/ContentfulPool'
+import ProjectCreateSuccess from './ProjectCreateSuccess'
 
 type ProjectRegisterMoreInfoProps = {
   isLoading: boolean
@@ -104,7 +105,7 @@ export default function ProjectRegisterMoreInfo({
       )}
       {isLoading && !isSuccess && (
         <GenericTransactionLoading
-          chainId={Networks.Mainnet}
+          chainId={mainnet.id}
           title={
             isReappliedProject
               ? t('v2.createProject.form.reapplyLoadingMessage')

@@ -1,14 +1,14 @@
-import styled from 'styled-components'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import Image from 'next/image'
+import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 
+import { useAccount } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import WalletName from './WalletName'
-import { useAccount } from 'wagmi'
-import { Networks } from '@/config/chain'
 
 type WalletConnectedButtonProps = {
   address: `0x${string}`
@@ -21,7 +21,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   const { chain: walletChainId } = useAccount()
 
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { name: ensName, nameLoading: ensLoading } = useEns(address, walletChainId?.id || Networks.Mainnet)
+  const { name: ensName, nameLoading: ensLoading } = useEns(address, walletChainId?.id || mainnet.id)
 
   const handleActionButton = () => {
     setOpenSidebar(true)
@@ -44,7 +44,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
             height={24}
           />
         ) : (
-          <EnsAvatar address={address} size={24} chainId={walletChainId?.id || Networks.Mainnet} />
+          <EnsAvatar address={address} size={24} chainId={walletChainId?.id || mainnet.id} />
         )}
       </EnsAddress>
     </ConnectedButton>

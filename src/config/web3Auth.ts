@@ -1,18 +1,36 @@
-import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
-import { Web3AuthNoModal } from '@web3auth/no-modal'
-import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider'
-import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
-import { CHAIN_NAMESPACES, UX_MODE, WEB3AUTH_NETWORK } from '@web3auth/base'
-import * as ChainConfig from 'viem/chains'
-import { WalletServicesPlugin } from '@web3auth/wallet-services-plugin'
 import { makeVar } from '@apollo/client'
+import { CHAIN_NAMESPACES, UX_MODE, WEB3AUTH_NETWORK } from '@web3auth/base'
+import { EthereumPrivateKeyProvider } from '@web3auth/ethereum-provider'
+import { Web3AuthNoModal } from '@web3auth/no-modal'
+import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
+import { WalletServicesPlugin } from '@web3auth/wallet-services-plugin'
+import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
+import * as ChainConfig from 'viem/chains'
+import {
+  arbitrum,
+  arbitrumSepolia,
+  chiliz,
+  mainnet,
+  optimism,
+  optimismSepolia,
+  polygon,
+  polygonMumbai,
+  sepolia,
+  spicy
+} from 'wagmi/chains'
 
 const handleRpcPerChain = (chainId: number) => {
   const alchemyKey: { [key: number]: string } = {
-    1: process.env.NEXT_PUBLIC_RPC_MAINNET_URL as string,
-    10: process.env.NEXT_PUBLIC_RPC_OPTIMISM_URL as string,
-    17000: process.env.NEXT_PUBLIC_RPC_HOLESKY_URL as string,
-    11155420: process.env.NEXT_PUBLIC_RPC_OPTIMISM_SEPOLIA_URL as string
+    [mainnet.id]: process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL as string,
+    [optimism.id]: process.env.NEXT_PUBLIC_RPC_OP_MAINNET_URL as string,
+    [arbitrum.id]: process.env.NEXT_PUBLIC_RPC_ARB_MAINNET_URL as string,
+    [polygon.id]: process.env.NEXT_PUBLIC_RPC_POL_MAINNET_URL as string,
+    [chiliz.id]: process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET_URL as string,
+    [sepolia.id]: process.env.NEXT_PUBLIC_RPC_ETH_TESTNET_URL as string,
+    [optimismSepolia.id]: process.env.NEXT_PUBLIC_RPC_OP_TESTNET_URL as string,
+    [arbitrumSepolia.id]: process.env.NEXT_PUBLIC_RPC_ARB_TESTNET_URL as string,
+    [polygonMumbai.id]: process.env.NEXT_PUBLIC_RPC_POL_TESTNET_URL as string,
+    [spicy.id]: process.env.NEXT_PUBLIC_RPC_SPICY_MAINNET_URL as string
   }
 
   return alchemyKey[chainId] || ''
