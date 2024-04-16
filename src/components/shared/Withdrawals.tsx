@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { PiHandCoins, PiSwap } from 'react-icons/pi'
+import { PiHandCoins, PiQuestion, PiSwap, PiWarningOctagon } from 'react-icons/pi'
 import styled from 'styled-components'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import Image from 'next/image'
@@ -9,6 +9,11 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import SkeletonLoading from './icons/SkeletonLoading'
 import useWithdrawalsIsReady from '@/hooks/contracts/useWithdrawalsIsReady'
 import useWithdrawalsStwEth from '@/hooks/contracts/useWithdrawalsStwEth'
+
+import { getProductByName } from '@/config/product-staking'
+import useWithdrawalsBeaconBlock from '@/hooks/contracts/useWithdrawalsBeaconBlock'
+import StakeWithdrawCounter from '../stake/StakeWithdrawCounter'
+import { Tooltip } from 'antd'
 
 type WithdrawalsProps = {
   balance: bigint
@@ -27,10 +32,19 @@ export default function Withdrawals({
 }: WithdrawalsProps) {
   const { t } = useLocaleTranslation()
   const { isReady, loading: isReadyLoading } = useWithdrawalsIsReady(balance)
+  const product = getProductByName({ productName: 'ethereum-stake' })
+
+  const { timeLeft: withdrawTimeLeft } = useWithdrawalsBeaconBlock({
+    walletAddress: accountAddress,
+    product,
+    chainId: 1
+  })
+
   const {
     isLoading: withdrawalWithdrawLoading,
     withdrawalsWithdraw,
-    isSuccess
+    isSuccess,
+    prepareTransactionIsError
   } = useWithdrawalsStwEth(balance, accountAddress, true)
 
   useEffect(() => {
@@ -38,6 +52,8 @@ export default function Withdrawals({
       refetchBalance()
     }
   }, [isSuccess, refetchBalance])
+
+  const canWithdraw = isReady && !isReadyLoading && !withdrawalWithdrawLoading && !prepareTransactionIsError
 
   return (
     <Container>
@@ -58,18 +74,29 @@ export default function Withdrawals({
           <Button
             small={smallAction}
             label={`${isReady ? t('v2.withdrawals.claim') : t('v2.withdrawals.pending')}`}
-            disabled={!isReady || isReadyLoading}
+            disabled={!canWithdraw}
             onClick={withdrawalsWithdraw}
             icon={<ClaimIcon />}
             isLoading={withdrawalWithdrawLoading}
           />
+        )}
+        {!!(withdrawTimeLeft && withdrawTimeLeft > 0) && (
+          <CardBlock>
+            <div>
+              <WarningIcon /> <span>{t('v2.stake.withdrawBlocked')}</span>
+              <Tooltip title={t('v2.stake.withdrawBlockedTooltip')}>
+                <PiQuestion />
+              </Tooltip>
+            </div>
+            <StakeWithdrawCounter withdrawTimeLeft={withdrawTimeLeft} />
+          </CardBlock>
         )}
       </WithdrawContainer>
     </Container>
   )
 }
 
-const { Container, WithdrawIcon, WithdrawContainer, ClaimIcon } = {
+const { Container, WithdrawIcon, WarningIcon, CardBlock, WithdrawContainer, ClaimIcon } = {
   Container: styled.div`
     background: ${({ theme }) => theme.colorV2.white};
     border-radius: 8px;
@@ -96,6 +123,34 @@ const { Container, WithdrawIcon, WithdrawContainer, ClaimIcon } = {
       color: ${({ theme }) => theme.colorV2.gray[1]};
       border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
       border-radius: 8px 8px 0 0;
+    }
+  `,
+  WarningIcon: styled(PiWarningOctagon)`
+    font-size: 24px;
+    color: ${({ theme }) => theme.colorV2.purple[2]};
+  `,
+  CardBlock: styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    gap: 12px;
+
+    border-radius: 8px;
+    border: 1px solid ${({ theme }) => theme.colorV2.gray[1]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    opacity: 0.7;
+    font-size: ${({ theme }) => theme.font.size[13]};
+
+    div:nth-child(1) {
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[4]};
+    }
+    div:nth-child(2) {
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
     }
   `,
   WithdrawContainer: styled.div`
