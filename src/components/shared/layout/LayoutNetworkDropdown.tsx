@@ -31,7 +31,7 @@ const { Container, CurrentNetwork } = {
     height: 32px;
     background: ${({ theme }) => theme.colorV2.gray[2]};
     border-radius: 8px;
-    padding: 8px 10px;
+    padding: 0px 10px;
     transition: background-color 0.1s ease;
     box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.3);
     font-size: 14px;

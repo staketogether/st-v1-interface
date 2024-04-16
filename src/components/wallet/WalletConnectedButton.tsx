@@ -63,7 +63,7 @@ const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
     background-color: ${({ theme }) => theme.colorV2.blue[1]};
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
-    padding: 8px 10px;
+    padding: 0 10px;
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[200]};
 
