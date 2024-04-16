@@ -1,13 +1,13 @@
 import { chainConfigByChainId } from '@/config/chain'
 import { stakeTogetherAbi } from '@/types/Contracts'
-import { ProductStaking } from '@/types/ProductStaking'
 import { useEffect, useState } from 'react'
 import { useReadContract } from 'wagmi'
 import useBlockCountdown from '../useBlockCountdown'
+import { Product } from '@/types/Product'
 
 type useGetWithdrawBlockProps = {
   walletAddress: `0x${string}` | undefined
-  product: ProductStaking
+  product: Product
   chainId: number
 }
 
