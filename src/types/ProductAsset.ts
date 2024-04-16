@@ -4,7 +4,14 @@ export type ProductAssetName = 'btc' | 'eth' | 'eth-optimism'
 
 export type ProductAssetSymbol = 'wBTC' | 'ETH'
 
-export type ProductAssetNetwork = 'optimism'
+export type ProductAssetNetwork =
+  | 'ethereum'
+  | 'optimism'
+  | 'arbitrum'
+  | 'polygon'
+  | 'solana'
+  | 'optimism-sepolia'
+  | 'holesky'
 
 export type ProductAssetMarketData = {
   data: {
@@ -57,7 +64,6 @@ export type ProductAsset = {
       toToken: string
     }
   }
-  title: string
   symbol: ProductAssetSymbol
   apy: number
   description: string

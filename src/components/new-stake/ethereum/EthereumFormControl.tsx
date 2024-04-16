@@ -37,7 +37,7 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
 
   function handleRampButton() {
     type === 'deposit'
-      ? openModal(product.rampAsset)
+      ? openModal(product.asset.name)
       : notification.info({
           message: `${t('offramp')}`,
           placement: 'topRight'

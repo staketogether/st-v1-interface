@@ -1,4 +1,4 @@
-import { ProductAssetName } from './ProductAsset'
+import { ProductAsset } from './ProductAsset'
 
 export type ProductStakingIcon =
   | 'ethereum'
@@ -64,7 +64,7 @@ export type ProductStaking = {
   name: ProductStakingName
   newProductTag: boolean
   eigenPointsAvailable: boolean
-  rampAsset: ProductAssetName
+  asset: ProductAsset
   tradingView: {
     symbol: string
     fiat: TradingViewFiatData

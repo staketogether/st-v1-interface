@@ -1,5 +1,5 @@
 import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo'
-import { ProductAssetName } from '@/types/ProductAsset'
+import { ProductAsset, ProductAssetName } from '@/types/ProductAsset'
 import { Quote } from '@/types/quote.type'
 import { makeVar } from '@apollo/client'
 import { BuyRamp } from './useBuyRamp'
@@ -49,9 +49,9 @@ export const clearModal = () => {
   openBrlaModalVar(false)
 }
 
-export const openQuoteEthModal = (stakingProduct: ProductAssetName) => {
+export const openQuoteEthModal = (asset: ProductAsset) => {
   stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
-  currentProductNameVar(stakingProduct)
+  currentProductNameVar(asset.name)
   openBrlaModalVar(true)
 }
 

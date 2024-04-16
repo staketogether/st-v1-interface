@@ -1,4 +1,5 @@
 import { ProductStaking, ProductStakingContracts, ProductStakingName } from '@/types/ProductStaking'
+import { ethMainnet, ethOptimism } from '@/config/product-asset'
 
 export const productStakingList: ProductStaking[] = [
   {
@@ -13,7 +14,7 @@ export const productStakingList: ProductStaking[] = [
     apy: 5.7,
     scan: 'https://etherscan.io/',
     rampEnabled: true,
-    rampAsset: 'eth',
+    asset: ethMainnet,
     description: 'ethereumDescription',
     enabled: true,
     urlRedirect: '/currency/ethereum/product/staking/ethereum-stake',
@@ -75,7 +76,7 @@ export const productStakingList: ProductStaking[] = [
     chainIdNetworkAvailable: 10,
     eigenPointsAvailable: true,
     rampEnabled: true,
-    rampAsset: 'eth-optimism',
+    asset: ethOptimism,
     newProductTag: true,
     apy: 5.7,
     scan: 'https://optimistic.etherscan.io',
@@ -140,7 +141,7 @@ export const productStakingList: ProductStaking[] = [
     chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
-    rampAsset: 'eth-optimism',
+    asset: ethMainnet,
     newProductTag: false,
     apy: 14.5,
     scan: 'https://etherscan.io/',
@@ -190,331 +191,6 @@ export const productStakingList: ProductStaking[] = [
       confirmation: 'confirmation-chiliz',
       success: 'success-chiliz',
       withdraw: 'withdraw-chiliz'
-    },
-    transactionConfig: {
-      blockTimePerSeconds: 0,
-      confirmations: 0
-    }
-  },
-  {
-    id: 4,
-    name: 'polygon',
-    title: 'Polygon',
-    symbol: 'stpPOL',
-    networkAvailable: 'ethereum',
-    chainIdNetworkAvailable: 0,
-    eigenPointsAvailable: false,
-    rampEnabled: false,
-    rampAsset: 'eth-optimism',
-    newProductTag: false,
-    apy: 5.2,
-    scan: 'https://etherscan.io/',
-    description: 'ethereumDescription',
-    enabled: false,
-    urlRedirect: '/',
-    stakeTogetherPool: {
-      mainnet: '0x',
-      testnet: '0x'
-    },
-    contracts: {
-      mainnet: {
-        Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
-        Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
-        Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
-        StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
-        StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
-      },
-      testnet: {
-        Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
-        Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
-        Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
-        StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
-        StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
-      }
-    },
-    subgraph: {
-      mainnet: '',
-      testnet: ''
-    },
-    getMobulaAssetData: {
-      asset: 'Polygon',
-      blockchain: '',
-      symbol: ''
-    },
-    tradingView: {
-      symbol: 'ETHUSD',
-      fiat: {
-        usd: 'ETHUSD',
-        brl: 'ETHBRL',
-        eur: 'ETHEUR'
-      }
-    },
-    eventsTrack: {
-      pageView: 'pageview-polygon',
-      checkout: 'initiateCheckout_polygon',
-      confirmation: 'confirmation-polygon',
-      success: 'success-polygon',
-      withdraw: 'withdraw-polygon'
-    },
-    transactionConfig: {
-      blockTimePerSeconds: 0,
-      confirmations: 0
-    }
-  },
-  {
-    id: 5,
-    name: 'solana',
-    title: 'Solana',
-    symbol: 'stpSOL',
-    networkAvailable: 'ethereum',
-    chainIdNetworkAvailable: 0,
-    eigenPointsAvailable: false,
-    rampEnabled: false,
-    rampAsset: 'eth-optimism',
-    newProductTag: false,
-    apy: 7.6,
-    scan: 'https://etherscan.io/',
-    description: 'EthereumDescription',
-    enabled: false,
-    urlRedirect: '/',
-    stakeTogetherPool: {
-      mainnet: '0x',
-      testnet: '0x'
-    },
-    contracts: {
-      mainnet: {
-        Airdrop: '0x',
-        Withdrawals: '0x',
-        Router: '0x',
-        StakeTogether: '0x',
-        StakeTogetherWrapper: '0x'
-      },
-      testnet: {
-        Airdrop: '0x',
-        Withdrawals: '0x',
-        Router: '0x',
-        StakeTogether: '0x',
-        StakeTogetherWrapper: '0x'
-      }
-    },
-    subgraph: {
-      mainnet: '',
-      testnet: ''
-    },
-    getMobulaAssetData: {
-      asset: 'Solana',
-      blockchain: 'ethereum',
-      symbol: 'eth'
-    },
-    tradingView: {
-      symbol: 'ETHUSD',
-      fiat: {
-        usd: 'ETHUSD',
-        brl: 'ETHBRL',
-        eur: 'ETHEUR'
-      }
-    },
-    eventsTrack: {
-      pageView: 'pageview-solana',
-      checkout: 'initiateCheckout_solana',
-      confirmation: 'confirmation-solana',
-      success: 'success-solana',
-      withdraw: 'withdraw-solana'
-    },
-    transactionConfig: {
-      blockTimePerSeconds: 0,
-      confirmations: 0
-    }
-  },
-  {
-    id: 6,
-    name: 'cosmos',
-    title: 'Cosmos',
-    symbol: 'stpATOM',
-    networkAvailable: 'ethereum',
-    chainIdNetworkAvailable: 0,
-    eigenPointsAvailable: false,
-    rampEnabled: false,
-    rampAsset: 'eth-optimism',
-    newProductTag: false,
-    apy: 13.7,
-    scan: 'https://etherscan.io/',
-    description: 'EthereumDescription',
-    enabled: false,
-    urlRedirect: '/',
-    stakeTogetherPool: {
-      mainnet: '0x',
-      testnet: '0x'
-    },
-    contracts: {
-      mainnet: {
-        Airdrop: '0x',
-        Withdrawals: '0x',
-        Router: '0x',
-        StakeTogether: '0x',
-        StakeTogetherWrapper: '0x'
-      },
-      testnet: {
-        Airdrop: '0x',
-        Withdrawals: '0x',
-        Router: '0x',
-        StakeTogether: '0x',
-        StakeTogetherWrapper: '0x'
-      }
-    },
-    subgraph: {
-      mainnet: '',
-      testnet: ''
-    },
-    getMobulaAssetData: {
-      asset: '0x0eb3a705fc54725037cc9e008bdede697f62f335', //BNB CHAIN
-      blockchain: '',
-      symbol: ''
-    },
-    tradingView: {
-      symbol: 'ETHUSD',
-      fiat: {
-        usd: 'ETHUSD',
-        brl: 'ETHBRL',
-        eur: 'ETHEUR'
-      }
-    },
-    eventsTrack: {
-      pageView: 'pageview-cosmos',
-      checkout: 'initiateCheckout_cosmos',
-      confirmation: 'confirmation-cosmos',
-      success: 'success-cosmos',
-      withdraw: 'withdraw-cosmos'
-    },
-    transactionConfig: {
-      blockTimePerSeconds: 0,
-      confirmations: 0
-    }
-  },
-  {
-    id: 7,
-    name: 'near',
-    title: 'Near',
-    symbol: 'stpNear',
-    networkAvailable: 'ethereum',
-    chainIdNetworkAvailable: 0,
-    eigenPointsAvailable: false,
-    rampEnabled: false,
-    rampAsset: 'eth-optimism',
-    newProductTag: false,
-    apy: 8.8,
-    scan: 'https://etherscan.io/',
-    description: 'EthereumDescription',
-    enabled: false,
-    urlRedirect: '/',
-    stakeTogetherPool: {
-      mainnet: '0x',
-      testnet: '0x'
-    },
-    contracts: {
-      mainnet: {
-        Airdrop: '0x',
-        Withdrawals: '0x',
-        Router: '0x',
-        StakeTogether: '0x',
-        StakeTogetherWrapper: '0x'
-      },
-      testnet: {
-        Airdrop: '0x',
-        Withdrawals: '0x',
-        Router: '0x',
-        StakeTogether: '0x',
-        StakeTogetherWrapper: '0x'
-      }
-    },
-    subgraph: {
-      mainnet: '',
-      testnet: ''
-    },
-    getMobulaAssetData: {
-      asset: '0x85F17Cf997934a597031b2E18a9aB6ebD4B9f6a4',
-      blockchain: '',
-      symbol: ''
-    },
-    tradingView: {
-      symbol: 'ETHUSD',
-      fiat: {
-        usd: 'ETHUSD',
-        brl: 'ETHBRL',
-        eur: 'ETHEUR'
-      }
-    },
-    eventsTrack: {
-      pageView: 'pageview-near',
-      checkout: 'initiateCheckout_near',
-      confirmation: 'confirmation-near',
-      success: 'success-near',
-      withdraw: 'withdraw-near'
-    },
-    transactionConfig: {
-      blockTimePerSeconds: 0,
-      confirmations: 0
-    }
-  },
-  {
-    id: 8,
-    name: 'polkadot',
-    title: 'Polkadot',
-    symbol: 'stpDOT',
-    networkAvailable: 'ethereum',
-    chainIdNetworkAvailable: 0,
-    eigenPointsAvailable: false,
-    rampEnabled: false,
-    rampAsset: 'eth-optimism',
-    newProductTag: false,
-    apy: 9,
-    scan: 'https://etherscan.io/',
-    description: 'EthereumDescription',
-    enabled: false,
-    urlRedirect: '/',
-    stakeTogetherPool: {
-      mainnet: '0x',
-      testnet: '0x'
-    },
-    contracts: {
-      mainnet: {
-        Airdrop: '0x',
-        Withdrawals: '0x',
-        Router: '0x',
-        StakeTogether: '0x',
-        StakeTogetherWrapper: '0x'
-      },
-      testnet: {
-        Airdrop: '0x',
-        Withdrawals: '0x',
-        Router: '0x',
-        StakeTogether: '0x',
-        StakeTogetherWrapper: '0x'
-      }
-    },
-    subgraph: {
-      mainnet: '',
-      testnet: ''
-    },
-    getMobulaAssetData: {
-      asset: 'polkadot',
-      blockchain: '',
-      symbol: ''
-    },
-    tradingView: {
-      symbol: 'ETHUSD',
-      fiat: {
-        usd: 'ETHUSD',
-        brl: 'ETHBRL',
-        eur: 'ETHEUR'
-      }
-    },
-    eventsTrack: {
-      pageView: 'pageview-polkadot',
-      checkout: 'initiateCheckout_polkadot',
-      confirmation: 'confirmation-polkadot',
-      success: 'success-polkadot',
-      withdraw: 'withdraw-polkadot'
     },
     transactionConfig: {
       blockTimePerSeconds: 0,

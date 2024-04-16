@@ -47,7 +47,7 @@ export default function BuyEthControlModal() {
     ProcessingKyc: <ProcessingKycStep product={product} />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep product={product} />,
     Checkout: <CheckoutStep product={product} />,
-    TimeOutCheckout: <TimeOutCheckout stakingProduct={product.name} />,
+    TimeOutCheckout: <TimeOutCheckout asset={product} />,
     Success: <SuccessStep product={product} />,
     error: <GenericErrorComponent />
   }

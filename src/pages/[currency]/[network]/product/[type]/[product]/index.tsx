@@ -35,7 +35,7 @@ export default function Product({ product, assetData, chainId, productType }: Pr
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
       const rampType =
-        productType === 'staking' ? (product as ProductStaking).rampAsset : (product as ProductAsset).name
+        productType === 'staking' ? (product as ProductStaking).asset : (product as ProductAsset)
       fiatAmountVar(router.query?.amount?.toString() ?? minAmount)
       openQuoteEthModal(rampType)
     } else if (router.query.payment === 'credit') {
