@@ -18,7 +18,6 @@ type TradingViewComponentProps = {
 const TradingViewComponent = ({ tradingView }: TradingViewComponentProps) => {
   const { query } = useRouter()
   const { currency } = query
-  // const [isTabActive, setIsTabActive] = useState(true)
 
   const currencies = useMemo(() => tradingView.fiat, [tradingView.fiat])
 
