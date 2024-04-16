@@ -2,7 +2,7 @@ export type ProductAssetIcon = 'btc' | 'eth'
 
 export type ProductAssetName = 'btc' | 'eth' | 'eth-optimism'
 
-export type ProductAssetSymbol = 'wBTC' | 'ETH'
+export type ProductAssetSymbol = 'BTC' | 'ETH'
 
 export type ProductAssetNetwork =
   | 'ethereum'
