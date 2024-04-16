@@ -30,12 +30,6 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   return (
     <ConnectedButton onClick={handleActionButton}>
       <EnsAddress>
-        <WalletName
-          walletAddress={address}
-          web3AuthUserInfo={web3AuthUserInfo}
-          ensName={ensName}
-          ensLoading={ensLoading}
-        />
         {web3AuthUserInfo?.profileImage ? (
           <Web3AuthProfileImage
             src={web3AuthUserInfo.profileImage}
@@ -46,6 +40,12 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
         ) : (
           <EnsAvatar address={address} size={24} chainId={walletChainId?.id || mainnet.id} />
         )}
+        <WalletName
+          walletAddress={address}
+          web3AuthUserInfo={web3AuthUserInfo}
+          ensName={ensName}
+          ensLoading={ensLoading}
+        />
       </EnsAddress>
     </ConnectedButton>
   )
@@ -63,7 +63,7 @@ const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
     background-color: ${({ theme }) => theme.colorV2.blue[1]};
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
-    padding: 0px ${({ theme }) => theme.size[8]} 0px ${({ theme }) => theme.size[16]};
+    padding: 8px 10px;
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[200]};
 
@@ -78,7 +78,7 @@ const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
   `,
   EnsAddress: styled.div`
     display: grid;
-    grid-template-columns: auto 24px;
+    grid-template-columns: 24px auto;
     justify-content: flex-end;
     align-items: center;
     gap: 8px;

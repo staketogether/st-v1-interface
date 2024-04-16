@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
+import { LayoutNetworkDropdown } from './LayoutNetworkDropdown'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
@@ -50,6 +51,7 @@ export default function LayoutHeader() {
         </Menu>
       </MenuContainer>
       <WalletContainer>
+        <LayoutNetworkDropdown />
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
     </Container>
@@ -95,7 +97,7 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, Inves
     display: grid;
     align-items: center;
     justify-content: flex-end;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
     grid-template-columns: auto auto;
   `,
   Menu: styled.nav`
