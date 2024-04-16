@@ -7,7 +7,7 @@ import useLocaleTranslation from './useLocaleTranslation'
 
 type TransakProps = {
   onSuccess?: () => void
-  productsAvailed: 'BUY' | 'SELL',
+  productsAvailed: 'BUY' | 'SELL'
   network: 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana' | 'optimism-sepolia' | 'holesky'
 }
 
@@ -27,7 +27,7 @@ export default function useTransak(config: TransakProps) {
       hideMenu: true,
       cryptoCurrencyList: 'ETH'
     }),
-    [config?.productsAvailed, t, theme.colorV2.blue]
+    [config.network, config.productsAvailed, t, theme.colorV2.blue]
   )
 
   const [transakConfig, setTransakConfig] = useState<TransakConfig>(defaultTransakConfig)

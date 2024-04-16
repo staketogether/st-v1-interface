@@ -12,7 +12,8 @@ type TokenStakingIconsProps = {
 export default function TokensAssetIcon({ stakingProduct, size }: TokenStakingIconsProps) {
   const stakingProductsIcons = {
     eth: ethereumIcon,
-    btc: bitcoinIcon
+    btc: bitcoinIcon,
+    'eth-optimism': ethereumIcon
   }
 
   return (
