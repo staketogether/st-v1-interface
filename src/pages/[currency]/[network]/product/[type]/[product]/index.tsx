@@ -26,7 +26,7 @@ export type ProductProps = {
 
 export default function Product({ product, assetData, chainId, productType }: ProductProps) {
   const router = useRouter()
-  const minAmount = '300'
+  const minAmount = productType === 'staking' ? (product as ProductStaking).asset.ramp.minDeposit : (product as ProductAsset).ramp.minDeposit
   const { onInit: buyCrypto } = useTransak({
     productsAvailed: 'BUY',
     network: product.networkAvailable
@@ -36,7 +36,7 @@ export default function Product({ product, assetData, chainId, productType }: Pr
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
       const rampType =
         productType === 'staking' ? (product as ProductStaking).asset : (product as ProductAsset)
-      fiatAmountVar(router.query?.amount?.toString() ?? minAmount)
+      fiatAmountVar(router.query?.amount?.toString() ?? minAmount.toString())
       openQuoteEthModal(rampType)
     } else if (router.query.payment === 'credit') {
       buyCrypto()

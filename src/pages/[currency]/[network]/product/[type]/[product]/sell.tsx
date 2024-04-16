@@ -26,7 +26,7 @@ export type ProductProps = {
 
 export default function Product({ product, assetData, chainId, productType }: ProductProps) {
     const router = useRouter()
-    const minAmount = '300'
+    const minAmount = productType === 'staking' ? (product as ProductStaking).asset.ramp.minDeposit : (product as ProductAsset).ramp.minDeposit
     const { onInit: buyCrypto } = useTransak({
         productsAvailed: 'BUY',
         network: product.networkAvailable
@@ -34,7 +34,7 @@ export default function Product({ product, assetData, chainId, productType }: Pr
 
     useEffect(() => {
         if (router.query.payment === 'pix' && router.query.provider == 'brla') {
-            fiatAmountVar(router.query?.amount?.toString() ?? minAmount)
+            fiatAmountVar(router.query?.amount?.toString() ?? minAmount.toString())
             //TROCAR PARA O PRODUTO CORRETO
             const asset =
               productType === 'staking' ? (product as ProductStaking).asset : (product as ProductAsset)
