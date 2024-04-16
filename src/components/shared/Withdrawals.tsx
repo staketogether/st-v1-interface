@@ -12,6 +12,7 @@ import useWithdrawalsStwEth from '@/hooks/contracts/useWithdrawalsStwEth'
 import useWithdrawalsBeaconBlock from '@/hooks/contracts/useWithdrawalsBeaconBlock'
 import StakeWithdrawCounter from '../stake/StakeWithdrawCounter'
 import { Tooltip } from 'antd'
+import { getProductByName } from '@/config/product'
 
 type WithdrawalsProps = {
   balance: bigint
