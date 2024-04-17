@@ -7,7 +7,7 @@ type LayoutNetworkDropdownProps = {
   mobile?: boolean
 }
 
-export function LayoutNetworkDropdown({ mobile }: LayoutNetworkDropdownProps) {
+export default function LayoutNetworkDropdown({ mobile }: LayoutNetworkDropdownProps) {
   const { chain } = useAccount()
 
   if (!chain) {

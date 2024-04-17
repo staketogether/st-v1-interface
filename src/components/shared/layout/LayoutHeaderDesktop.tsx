@@ -8,7 +8,14 @@ import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import { LayoutNetworkDropdown } from './LayoutNetworkDropdown'
+import dynamic from 'next/dynamic'
+import SkeletonLoading from '../icons/SkeletonLoading'
+
+const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
+  ssr: false,
+  loading: () => <SkeletonLoading width={80} height={32} />,
+  suspense: true
+})
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()

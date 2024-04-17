@@ -10,8 +10,15 @@ import { useRouter } from 'next/router'
 import { PiGear, PiListBold } from 'react-icons/pi'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
-import { LayoutNetworkDropdown } from './LayoutNetworkDropdown'
 import LayoutSidebarMobileMenu from './LayoutSidebarMobileMenu'
+import SkeletonLoading from '../icons/SkeletonLoading'
+import dynamic from 'next/dynamic'
+
+const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
+  ssr: false,
+  loading: () => <SkeletonLoading width={80} height={32} />,
+  suspense: true
+})
 
 export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
