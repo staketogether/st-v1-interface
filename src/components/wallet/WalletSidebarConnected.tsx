@@ -41,7 +41,6 @@ import { useReactiveVar } from '@apollo/client'
 import { mainnet, optimism, optimismSepolia } from 'wagmi/chains'
 import AssetIcon from '../shared/AssetIcon'
 import Withdrawals from '../shared/Withdrawals'
-import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
@@ -172,7 +171,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       value: product.name,
       label: (
         <ProductSelectCard>
-          <TokenStakingIcons stakingProduct={product.name} size={24} />
+          <AssetIcon assetIcon={product.name} size={24} />
           <span>{t(`v2.products.${product.name}`)}</span>
         </ProductSelectCard>
       )

@@ -11,8 +11,8 @@ import { PiArrowUpRight, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import NetworkIcons from '../shared/NetworkIcons'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
-import TokensSymbolIcons from '../tokens/components/TokensSymbolIcons'
+import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
+import AssetIcon from '../shared/AssetIcon'
 
 type ProductInfoProps = {
   product: ProductStaking
@@ -50,7 +50,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
       <header>
         <HeaderProduct>
           <div>
-            <TokenStakingIcons stakingProduct={product.name} size={36} />
+            <AssetIcon assetIcon={product.name} size={36} />
             {t(`v2.products.${product.name}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />

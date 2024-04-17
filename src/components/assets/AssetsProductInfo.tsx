@@ -9,8 +9,8 @@ import { PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import NetworkIcons from '../shared/NetworkIcons'
 import TradingViewComponent from '../shared/TradingViewComponent'
-import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
-import TokensSymbolIcons from '../tokens/components/TokensSymbolIcons'
+import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
+import AssetIcon from '../shared/AssetIcon'
 
 type AssetsProductInfoProps = {
   product: ProductAsset
@@ -37,7 +37,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
       <header>
         <HeaderProduct>
           <div>
-            <TokenStakingIcons stakingProduct={product.name} size={36} />
+            <AssetIcon assetIcon={product.name} size={36} />
             {t(`v2.products.${product.name}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
@@ -86,12 +86,6 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
         <h2>{t('v2.ethereumStaking.description')}</h2>
         <span>{t(`v2.ethereumStaking.${product.description}`)}</span>
       </ProductBodyContainer>
-      {/* <ProductBodyContainer>
-        <h2>{t('v2.ethereumStaking.contractAddress')}</h2>
-        <a className='copy' href={`${product.scan}/address/${stakeTogetherContractAddress}`} target='_blank'>
-          {stakeTogetherContractAddress} <PiArrowUpRight style={{ fontSize: 16 }} />
-        </a>
-      </ProductBodyContainer> */}
     </ProductContainer>
   )
 }
@@ -174,11 +168,6 @@ const {
         &.CoinValue {
           color: ${({ theme }) => theme.colorV2.blue[1]};
           font-size: ${({ theme }) => theme.font.size[22]};
-          font-weight: 500;
-        }
-        &.apy {
-          color: ${({ theme }) => theme.color.green[500]};
-          font-size: ${({ theme }) => theme.font.size[13]};
           font-weight: 500;
         }
       }

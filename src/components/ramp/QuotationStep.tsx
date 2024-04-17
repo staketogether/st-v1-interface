@@ -83,7 +83,7 @@ export default function QuotationStep({ product }: QuotationStepProps) {
     }
 
     if (BigInt(debounceValue) < minDeposit) {
-      return `${t('v2.stake.minAmount')} R$${minDeposit}`
+      return `${t('v2.stake.minAmount')} ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'brl' }).format(minDeposit)}`
     }
 
     return t('next')

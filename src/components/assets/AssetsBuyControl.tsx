@@ -46,8 +46,7 @@ export default function AssetsBuyControl({ product }: { type: 'sell' | 'buy'; pr
     Success: t('v2.ramp.success'),
     MethodPayment: t('v2.ramp.provider')
   }
-  const title =
-    currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', product.symbol)
+  const title = currentStep in titleList && titleList[currentStep]
   const { backendUrl } = globalConfig
 
   useEffect(() => {
@@ -85,7 +84,7 @@ export default function AssetsBuyControl({ product }: { type: 'sell' | 'buy'; pr
       }}
     >
       <Container>
-        <h2>{title}</h2>
+        {title && <h2>{title}</h2>}
         {steps[currentStep]}
       </Container>
     </SWRConfig>

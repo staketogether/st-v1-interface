@@ -6,7 +6,7 @@ import { WithdrawType } from '@/types/Withdraw'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import Modal from '../shared/Modal'
-import TokensSymbolIcons from '../tokens/components/TokensSymbolIcons'
+import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeTransactionLoading from './StakeTransactionLoading'
 

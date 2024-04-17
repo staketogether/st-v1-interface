@@ -1,6 +1,6 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
-import TokensControl from '@/components/tokens/components/TokensControl'
+import TokensControl from '@/components/tokens/TokensControl'
 import { productStakingList } from '@/config/products/staking'
 import { ProductStaking } from '@/types/ProductStaking'
 import { GetStaticPaths, GetStaticProps } from 'next'

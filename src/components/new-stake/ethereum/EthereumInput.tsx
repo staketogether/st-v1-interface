@@ -1,6 +1,6 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-import TokensSymbolIcons from '@/components/tokens/components/TokensSymbolIcons'
+import TokensSymbolIcons from '@/components/tokens/TokensSymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'

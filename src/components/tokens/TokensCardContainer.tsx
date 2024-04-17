@@ -6,15 +6,15 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import TokenStakingIcons from './TokensStakingIcons'
 import TokensSymbolIcons from './TokensSymbolIcons'
+import AssetIcon from '@/components/shared/AssetIcon'
 
 type TokensCardContainerProps = {
   product: ProductStaking | ProductAsset
   type: 'staking' | 'assets'
 }
 
-const TokensShowValuePrice = dynamic(() => import('../../shared/TokensShowValuePrice'), {
+const TokensShowValuePrice = dynamic(() => import('../shared/TokensShowValuePrice'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} />,
   suspense: true
@@ -35,7 +35,12 @@ export default function TokensCardContainer({ product, type }: TokensCardContain
     >
       <ImageContainer>
         <div>
-          <TokenStakingIcons stakingProduct={product.name} size={32} />
+          {type === 'staking' ? (
+            <AssetIcon assetIcon={product.name} networkIcon={product.networkAvailable} size={32} />
+          ) : (
+            <AssetIcon assetIcon={product.symbol} networkIcon={product.networkAvailable} size={32} />
+          )}
+
           <span>{t(`v2.products.${product.name}`)}</span>
         </div>
         {!product.enabled && <Soon>{t('soon')}</Soon>}

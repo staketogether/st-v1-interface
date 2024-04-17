@@ -14,7 +14,7 @@ import { PiArrowRight, PiCheckCircle } from 'react-icons/pi'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import LottieAnimation from '../shared/LottieAnimation'
-import TokensSymbolIcons from '../tokens/components/TokensSymbolIcons'
+import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
 
 type StakeTransactionLoadingProps = {
   walletActionLoading: boolean

@@ -13,8 +13,8 @@ import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
 import LottieAnimation from '../shared/LottieAnimation'
 import NetworkIcons from '../shared/NetworkIcons'
-import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
 import ProductInfo from './ProductInfo'
+import AssetIcon from '../shared/AssetIcon'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -70,7 +70,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <TokenStakingIcons stakingProduct={product.name} size={36} />
+            <AssetIcon assetIcon={product.name} size={36} />
             {t(`v2.products.${product.name}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />

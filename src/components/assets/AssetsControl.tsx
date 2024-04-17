@@ -12,9 +12,9 @@ import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
 import NetworkIcons from '../shared/NetworkIcons'
-import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
+import AssetIcon from '../shared/AssetIcon'
 
 type AssetsControlProps = {
   product: ProductAsset
@@ -60,7 +60,7 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <TokenStakingIcons stakingProduct={product.name} size={36} />
+            <AssetIcon assetIcon={product.name} size={36} />
             {t(`v2.products.${product.name}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />

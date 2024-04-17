@@ -1,6 +1,6 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
-import TokensControl from '@/components/tokens/components/TokensControl'
+import TokensControl from '@/components/tokens/TokensControl'
 import { productCryptoList } from '@/config/products/crypto'
 
 import { ProductAsset } from '@/types/ProductAsset'

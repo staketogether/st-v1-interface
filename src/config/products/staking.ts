@@ -137,7 +137,7 @@ export const productStakingList: ProductStaking[] = [
     name: 'chiliz',
     title: 'Chiliz',
     symbol: 'stpCHZ',
-    networkAvailable: 'ethereum',
+    networkAvailable: 'chiliz',
     chainIdNetworkAvailable: 0,
     eigenPointsAvailable: false,
     rampEnabled: false,
