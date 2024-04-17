@@ -694,7 +694,7 @@
     "ramp": {
       "title": "Comprar symbol com PIX",
       "success": "Depósito concluído com sucesso",
-      "checkOut": "Check out",
+      "checkOut": "Finalizar Compra",
       "processingRegistration": "Processando Cadastro",
       "processingPayment": "Processando Pagamento",
       "generatingQRCode": "Gerando QR Code",
@@ -717,7 +717,7 @@
       "creditCard": "Cartão de crédito",
       "kyc": {
         "title": "KYC - Conheça seu Cliente",
-        "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Clique no botão abaixo para começar.",
+        "description": "Para realizar uma compra você precisa passar pela verificação de dados do KYC",
         "level": "Nível KYC",
         "limit": "Limite",
         "availableLimit": "Limite Disponível",
