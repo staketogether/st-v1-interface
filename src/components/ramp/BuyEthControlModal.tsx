@@ -4,6 +4,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'
 
 import { globalConfig } from '@/config/global'
+import { getProductAssetByName } from '@/config/products/crypto'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
@@ -15,6 +16,7 @@ import {
 } from '@/hooks/ramp/useControlModal'
 import axios from 'axios'
 import { useEffect } from 'react'
+import styled from 'styled-components'
 import { SWRConfig } from 'swr'
 import { useAccount } from 'wagmi'
 import ConnectWallet from '../shared/ConnectWallet'
@@ -24,12 +26,10 @@ import KycStep from './KycStep'
 import PaymentMethod from './PaymentMethod'
 import ProcessingCheckoutStep from './ProcessingCheckoutStep'
 import ProcessingKycStep from './ProcessingKycStep'
+import QuotationOfRampStep from './QuotationOfRamp'
 import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
 import { TimeOutCheckout } from './TimeOutCheckout'
-import styled from 'styled-components'
-import { getProductAssetByName } from '@/config/product-asset'
-import QuotationOfRampStep from './QuotationOfRamp'
 
 export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()

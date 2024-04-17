@@ -1,4 +1,4 @@
-import { getContractsByProductName } from '@/config/product-staking'
+import { getContractsByProductName } from '@/config/products/staking'
 import { useEffect, useState } from 'react'
 import { useBalance } from 'wagmi'
 import chainConfig from '../../config/chain'

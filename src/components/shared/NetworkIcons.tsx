@@ -1,4 +1,3 @@
-import { ProductStakingNetwork } from '@/types/ProductStaking'
 import arbitrumIcon from '@assets/network/arbitrum.svg'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
@@ -9,7 +8,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 
 type NetworkIconProps = {
-  network: ProductStakingNetwork
+  network: string
   size: number
   enabled?: boolean
 }
@@ -29,7 +28,7 @@ export default function NetworkIcons({ network, size, enabled = true }: NetworkI
     <Tooltip title={network}>
       <NetworkIcon
         className={`${enabled ? '' : 'disabled'}`}
-        src={networkIcons[network]}
+        src={networkIcons[network as keyof typeof networkIcons]}
         width={size}
         height={size}
         alt={network}

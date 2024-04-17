@@ -1,10 +1,8 @@
 import { config } from '@/config/wagmi'
-import { ProductAssetSymbol } from '@/types/ProductAsset'
-import { ProductStakingSymbol } from '@/types/ProductStaking'
 import { getWalletClient } from 'wagmi/actions'
 
 type useAddSethToWalletProps = {
-  productSymbol: ProductStakingSymbol | ProductAssetSymbol
+  productSymbol: string
   contractAddress: `0x${string}`
 }
 
@@ -34,7 +32,7 @@ export default function useAddSethToWallet({ productSymbol, contractAddress }: u
         options: {
           address: contractAddress,
           symbol: productSymbol,
-          image: productSymbolIcons[productSymbol],
+          image: productSymbolIcons[productSymbol as keyof typeof productSymbolIcons],
           decimals: 18
         }
       })

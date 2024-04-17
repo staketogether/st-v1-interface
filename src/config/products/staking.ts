@@ -1,5 +1,5 @@
-import { ProductStaking, ProductStakingContracts, ProductStakingName } from '@/types/ProductStaking'
-import { ethMainnet, ethOptimism } from '@/config/product-asset'
+import { ethMainnet, ethOptimism } from '@/config/products/crypto'
+import { ProductStaking, ProductStakingContracts } from '@/types/ProductStaking'
 
 export const productStakingList: ProductStaking[] = [
   {
@@ -199,7 +199,7 @@ export const productStakingList: ProductStaking[] = [
   }
 ]
 
-export function getProductByName({ productName }: { productName: ProductStakingName }): ProductStaking {
+export function getProductByName({ productName }: { productName: string }): ProductStaking {
   return productStakingList.find(product => product.name === productName) || productStakingList[0]
 }
 
@@ -207,7 +207,7 @@ export function getContractsByProductName({
   productName,
   isTestnet
 }: {
-  productName: ProductStakingName
+  productName: string
   isTestnet: boolean
 }): ProductStakingContracts {
   return getProductByName({ productName }).contracts[isTestnet ? 'testnet' : 'mainnet']
@@ -217,7 +217,7 @@ export function getSubgraphByProductName({
   productName,
   isTestnet
 }: {
-  productName: ProductStakingName
+  productName: string
   isTestnet: boolean
 }): string {
   return getProductByName({ productName }).subgraph[isTestnet ? 'testnet' : 'mainnet']

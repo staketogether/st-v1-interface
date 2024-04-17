@@ -4,7 +4,6 @@ import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivitie
 import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
 import { AccountActivity } from '@/types/AccountActivity'
 import { AccountReward } from '@/types/AccountReward'
-import { ProductStakingName } from '@/types/ProductStaking'
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import { queryAccount } from '../../../queries/subgraph/queryAccount'
@@ -13,7 +12,7 @@ import { Delegation } from '../../../types/Delegation'
 
 type useStAccountProps = {
   address?: `0x${string}`
-  productName: ProductStakingName
+  productName: string
   chainId: number
 }
 

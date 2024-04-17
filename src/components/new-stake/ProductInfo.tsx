@@ -4,16 +4,15 @@ import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
 import { ProductMarketAssetData, ProductStaking } from '@/types/ProductStaking'
-
 import { Tooltip, notification } from 'antd'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { PiArrowUpRight, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import NetworkIcons from '../shared/NetworkIcons'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
 import TokensSymbolIcons from '../tokens/components/TokensSymbolIcons'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import dynamic from 'next/dynamic'
 
 type ProductInfoProps = {
   product: ProductStaking
