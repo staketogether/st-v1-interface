@@ -44,7 +44,7 @@ export default function TokensCardContainer({ product, type }: TokensCardContain
       <ContainerInfo>
         <div>
           <TokensShowValuePrice product={product} />
-          {type === 'staking' && <span className='green'>{`APY ${product.apy}%`}</span>}
+          {type === 'staking' && 'apy' in product && <span className='green'>{`APY ${product.apy}%`}</span>}
         </div>
         <div>
           <TokensSymbolIcons size={24} productSymbol={product.symbol} />

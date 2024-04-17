@@ -1,18 +1,16 @@
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductAssetSymbol } from '@/types/ProductAsset'
-import { ProductStakingSymbol } from '@/types/ProductStaking'
+import bitcoinIcon from '@assets/network/bitcoin.png'
+import ethereumIcon from '@assets/network/ethereum.svg'
 import stIcon from '@assets/st-symbol.svg'
 import stpRETHIcon from '@assets/stpRETHIcon.svg'
 import { Tooltip } from 'antd'
 import Image from 'next/image'
 import { PiPlusBold } from 'react-icons/pi'
 import styled from 'styled-components'
-import bitcoinIcon from '@assets/network/bitcoin.png'
-import ethereumIcon from '@assets/network/ethereum.svg'
 
 type TokensSymbolIconsProps = {
-  productSymbol: ProductStakingSymbol | ProductAssetSymbol
+  productSymbol: string
   size: number
   contractAddress?: `0x${string}`
   showPlusIcon?: boolean
@@ -47,7 +45,12 @@ export default function TokensSymbolIcons({
   return (
     <Tooltip title={t('addToWalletTooltip')}>
       <Warper size={size} onClick={showPlusIcon ? addToWalletAction : () => {}}>
-        <Image src={productSymbolIcons[productSymbol]} width={size} height={size} alt={productSymbol} />
+        <Image
+          src={productSymbolIcons[productSymbol as keyof typeof productSymbolIcons]}
+          width={size}
+          height={size}
+          alt={productSymbol}
+        />
         {showPlusIcon && (
           <div>
             <PiPlusBold style={{ fontSize: size <= 24 ? 7 : 9 }} />

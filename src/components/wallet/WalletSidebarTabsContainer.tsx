@@ -1,10 +1,9 @@
 import WalletSidebarActivities from '@/components/wallet/WalletSidebarActivities'
 import WalletSidebarRewards from '@/components/wallet/WalletSidebarRewards'
-import { getProductByName } from '@/config/product-staking'
+import { getProductByName } from '@/config/products/staking'
 import { AccountActivity } from '@/types/AccountActivity'
 import { AccountReward } from '@/types/AccountReward'
 import { Delegation } from '@/types/Delegation'
-import { ProductStakingName } from '@/types/ProductStaking'
 import styled from 'styled-components'
 import WalletSidebarPortfolio from './WalletSidebarPortfolio'
 
@@ -13,7 +12,7 @@ type WalletSidebarTabsContainerProps = {
   accountRewards: AccountReward[]
   accountActivities: AccountActivity[]
   activatedTab: 'delegations' | 'rewards' | 'activity'
-  productSelected: ProductStakingName
+  productSelected: string
 }
 
 export default function WalletSidebarTabsContainer({

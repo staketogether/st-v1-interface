@@ -2,7 +2,7 @@ import { chainConfigByChainId } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { AccountReward } from '@/types/AccountReward'
-import { ProductStaking, ProductStakingName } from '@/types/ProductStaking'
+import { ProductStaking } from '@/types/ProductStaking'
 
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -11,7 +11,7 @@ import styled, { useTheme } from 'styled-components'
 
 type WalletSidebarRewards = {
   accountRewards: AccountReward[]
-  productSelected: ProductStakingName
+  productSelected: string
   product: ProductStaking
 }
 

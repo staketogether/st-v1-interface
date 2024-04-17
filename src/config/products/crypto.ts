@@ -1,4 +1,4 @@
-import { ProductAsset, ProductAssetName } from '@/types/ProductAsset'
+import { ProductAsset } from '@/types/ProductAsset'
 
 export const btcOptimism: ProductAsset = {
   id: 1,
@@ -10,7 +10,6 @@ export const btcOptimism: ProductAsset = {
   networkAvailable: 'optimism',
   chainIdNetworkAvailable: 10,
   newProductTag: true,
-  apy: 0,
   scan: 'https://optimistic.etherscan.io/',
   rampEnabled: true,
   ramp: {
@@ -56,7 +55,6 @@ export const ethOptimism: ProductAsset = {
   networkAvailable: 'optimism',
   chainIdNetworkAvailable: 10,
   newProductTag: true,
-  apy: 0,
   scan: 'https://optimistic.etherscan.io/',
   rampEnabled: true,
   ramp: {
@@ -102,7 +100,6 @@ export const ethMainnet: ProductAsset = {
   networkAvailable: 'ethereum',
   chainIdNetworkAvailable: 1,
   newProductTag: true,
-  apy: 0,
   scan: 'https://optimistic.etherscan.io/',
   rampEnabled: true,
   ramp: {
@@ -133,12 +130,8 @@ export const ethMainnet: ProductAsset = {
   }
 }
 
-export const productAssetList: ProductAsset[] = [
-  btcOptimism,
-  ethOptimism,
-  ethMainnet
-]
+export const productCryptoList: ProductAsset[] = [btcOptimism, ethOptimism, ethMainnet]
 
-export function getProductAssetByName({ productName }: { productName: ProductAssetName }): ProductAsset {
-  return productAssetList.find(product => product.name === productName) || productAssetList[0]
+export function getProductAssetByName({ productName }: { productName: string }): ProductAsset {
+  return productCryptoList.find(product => product.name === productName) || productCryptoList[0]
 }

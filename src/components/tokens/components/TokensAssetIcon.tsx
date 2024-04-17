@@ -1,11 +1,10 @@
-import { ProductAssetName } from '@/types/ProductAsset'
 import bitcoinIcon from '@assets/network/bitcoin.png'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import Image from 'next/image'
 import styled from 'styled-components'
 
 type TokenStakingIconsProps = {
-  stakingProduct: ProductAssetName
+  stakingProduct: string
   size: number
 }
 
@@ -18,7 +17,12 @@ export default function TokensAssetIcon({ stakingProduct, size }: TokenStakingIc
 
   return (
     <Warper>
-      <Image src={stakingProductsIcons[stakingProduct]} width={size} height={size} alt={stakingProduct} />
+      <Image
+        src={stakingProductsIcons[stakingProduct as keyof typeof stakingProductsIcons]}
+        width={size}
+        height={size}
+        alt={stakingProduct}
+      />
     </Warper>
   )
 }

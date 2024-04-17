@@ -1,8 +1,7 @@
-import { productStakingList } from '@/config/product-staking'
-import { ProductStakingName } from '@/types/ProductStaking'
+import { productStakingList } from '@/config/products/staking'
 
 export default function useProducts() {
-  function findProduct(productName: ProductStakingName) {
+  function findProduct(productName: string) {
     return productStakingList.find(product => product.name === productName) || productStakingList[0]
   }
 

@@ -1,8 +1,7 @@
-import { ProductStakingName } from '@/types/ProductStaking'
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
 import { globalConfig } from './global'
-import { getSubgraphByProductName } from './product-staking'
+import { getSubgraphByProductName } from './products/staking'
 
 const ethereumMainnetSubgraph = getSubgraphByProductName({ productName: 'ethereum-stake', isTestnet: false })
 const ethereumTestnetSubgraph = getSubgraphByProductName({ productName: 'ethereum-stake', isTestnet: true })
@@ -127,13 +126,7 @@ export const contentfulClient = new ApolloClient({
   connectToDevTools: true
 })
 
-export function getSubgraphClient({
-  productName,
-  isTestnet
-}: {
-  productName: ProductStakingName
-  isTestnet: boolean
-}) {
+export function getSubgraphClient({ productName, isTestnet }: { productName: string; isTestnet: boolean }) {
   const clientList = {
     'ethereum-stake': isTestnet ? ethereumTestnetClient : ethereumMainnetClient,
     'ethereum-restaking': isTestnet ? ethereumRestakingTestnetClient : ethereumRestakingMainnetClient,
@@ -147,6 +140,6 @@ export function getSubgraphClient({
     bitcoin: isTestnet ? ethereumTestnetClient : ethereumTestnetClient
   }
 
-  const client = clientList[productName]
+  const client = clientList[productName as keyof typeof clientList]
   return client
 }

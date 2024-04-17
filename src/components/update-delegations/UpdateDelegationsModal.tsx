@@ -1,11 +1,10 @@
 import { chainConfigByChainId } from '@/config/chain'
-import { getProductByName } from '@/config/product-staking'
+import { getProductByName } from '@/config/products/staking'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import { Delegation } from '@/types/Delegation'
-import { ProductStakingName } from '@/types/ProductStaking'
 import { UpdateDelegationForm } from '@/types/UpdateDelegation'
 import { Progress, Slider } from 'antd'
 import { ethers } from 'ethers'
@@ -26,7 +25,7 @@ type UpdateDelegationsModalProps = {
   accountDelegations: Delegation[]
   accountTotalShares: bigint
   userAccount: `0x${string}`
-  productSelected: ProductStakingName
+  productSelected: string
 }
 export default function UpdateDelegationsModal({
   accountDelegations,

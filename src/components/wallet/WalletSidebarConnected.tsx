@@ -34,10 +34,9 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 
 import chainConfig from '@/config/chain'
-import { productStakingList } from '@/config/product-staking'
+import { productStakingList } from '@/config/products/staking'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useCoinConversion from '@/hooks/useCoinConversion'
-import { ProductStakingName } from '@/types/ProductStaking'
 import { useReactiveVar } from '@apollo/client'
 import { mainnet, optimism, optimismSepolia } from 'wagmi/chains'
 import AssetIcon from '../shared/AssetIcon'
@@ -56,7 +55,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<'delegations' | 'rewards' | 'activity'>('delegations')
-  const [productTabSelected, setProductTabSelected] = useState<ProductStakingName>('ethereum-stake')
+  const [productTabSelected, setProductTabSelected] = useState<string>('ethereum-stake')
 
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
   const { connector } = useAccount()
