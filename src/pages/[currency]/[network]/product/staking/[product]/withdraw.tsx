@@ -6,7 +6,7 @@ import { globalConfig } from '@/config/global'
 import { productStakingList } from '@/config/products/staking'
 import { fiatAmountVar, openBrlaModalVar } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
-import { AllowedNetwork, handleChainIdByNetwork } from '@/services/format'
+import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
 import { ProductMarketAssetData, ProductStaking } from '@/types/ProductStaking'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -40,7 +40,7 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <NewStakeControl type='withdraw' product={product} assetData={assetData} chainId={chainId} />
+      <NewStakeControl type="withdraw" product={product} assetData={assetData} chainId={chainId} />
       <BuyEthControlModal />
     </LayoutTemplate>
   )
@@ -87,7 +87,7 @@ async function fetchProductAssetData(
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
-  const { product, network } = params as { network: AllowedNetwork; currency: string; product: string }
+  const { product, network } = params as { network: AllowedNetworks; currency: string; product: string }
 
   const chainId = handleChainIdByNetwork(network)
   const findProduct = productStakingList.find(item => item.name === product)
