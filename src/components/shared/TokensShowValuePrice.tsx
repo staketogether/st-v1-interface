@@ -10,7 +10,7 @@ type TokensShowValuePriceProps = {
 
 export default function TokensShowValuePrice({ product, className }: TokensShowValuePriceProps) {
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
-  const { assetData, isLoading } = useGetAssetData(product.getMobulaAssetData)
+  const { assetData, isLoading } = useGetAssetData(product.mobula)
   return isLoading && !assetData?.price ? (
     <SkeletonLoading width={80} />
   ) : (

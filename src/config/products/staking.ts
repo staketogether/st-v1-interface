@@ -1,5 +1,6 @@
 import { ethMainnet, ethOptimism } from '@/config/products/crypto'
 import { ProductStaking, ProductStakingContracts } from '@/types/ProductStaking'
+import { ethereumEthModula, ethereumOpMobula } from '@/config/products/mobula-asset'
 
 export const productStakingList: ProductStaking[] = [
   {
@@ -42,11 +43,7 @@ export const productStakingList: ProductStaking[] = [
       mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
       testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-holesky/version/latest'
     },
-    getMobulaAssetData: {
-      asset: 'Ethereum',
-      blockchain: 'ethereum',
-      symbol: 'eth'
-    },
+    mobula: ethereumEthModula,
     tradingView: {
       symbol: 'ETHUSD',
       fiat: {
@@ -107,11 +104,7 @@ export const productStakingList: ProductStaking[] = [
       mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together-optimism/version/latest',
       testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest'
     },
-    getMobulaAssetData: {
-      asset: 'Ethereum',
-      blockchain: 'ethereum',
-      symbol: 'eth'
-    },
+    mobula: ethereumOpMobula,
     tradingView: {
       symbol: 'ETHUSD',
       fiat: {
@@ -172,11 +165,7 @@ export const productStakingList: ProductStaking[] = [
       mainnet: '',
       testnet: ''
     },
-    getMobulaAssetData: {
-      asset: '0x3506424f91fd33084466f402d5d97f05f8e3b4af',
-      blockchain: '',
-      symbol: ''
-    },
+    mobula: ethereumEthModula,
     tradingView: {
       symbol: 'ETHUSD',
       fiat: {

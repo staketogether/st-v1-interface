@@ -115,9 +115,9 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   const assetData = await fetchProductAssetData(
     'mobula/market-asset-data',
-    productSelected.getMobulaAssetData.asset,
-    productSelected.getMobulaAssetData.blockchain,
-    productSelected.getMobulaAssetData.symbol
+    productSelected.mobula.asset,
+    productSelected.mobula.blockchain,
+    productSelected.mobula.symbol
   )
 
   if (!assetData) {

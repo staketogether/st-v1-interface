@@ -56,7 +56,7 @@ export type ProductAsset = {
   urlRedirect: string
   networkAvailable: string
   chainIdNetworkAvailable: number
-  getMobulaAssetData: ProductAssetMobulaData
+  mobula: ProductAssetMobulaData
   tradingView: {
     symbol: string
     fiat: TradingViewFiatData

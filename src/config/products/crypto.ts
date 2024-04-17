@@ -1,4 +1,5 @@
 import { ProductAsset } from '@/types/ProductAsset'
+import { bitcoinOpMobula, ethereumEthModula, ethereumOpMobula } from '@/config/products/mobula-asset'
 
 export const btcOptimism: ProductAsset = {
   id: 1,
@@ -24,11 +25,7 @@ export const btcOptimism: ProductAsset = {
   },
   enabled: true,
   urlRedirect: '/currency/optimism/product/assets/btc',
-  getMobulaAssetData: {
-    asset: 'Bitcoin',
-    blockchain: 'optimism',
-    symbol: 'wbtc'
-  },
+  mobula: bitcoinOpMobula,
   eventsTrack: {
     pageView: 'pageview-btc',
     checkout: 'initiateCheckout-btc',
@@ -69,11 +66,7 @@ export const ethOptimism: ProductAsset = {
   },
   enabled: true,
   urlRedirect: '/currency/optimism/product/assets/eth-optimism',
-  getMobulaAssetData: {
-    asset: 'Ethereum',
-    blockchain: 'optimism',
-    symbol: 'eth'
-  },
+  mobula: ethereumOpMobula,
   eventsTrack: {
     pageView: 'pageview-eth',
     checkout: 'initiateCheckout-eth',
@@ -108,11 +101,7 @@ export const ethMainnet: ProductAsset = {
   },
   enabled: true,
   urlRedirect: '/currency/optimism/product/assets/eth',
-  getMobulaAssetData: {
-    asset: 'Ethereum',
-    blockchain: 'optimism',
-    symbol: 'eth'
-  },
+  mobula: ethereumEthModula,
   eventsTrack: {
     pageView: 'pageview-eth',
     checkout: 'initiateCheckout-eth',

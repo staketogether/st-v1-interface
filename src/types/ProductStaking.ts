@@ -47,7 +47,7 @@ export type ProductStaking = {
     testnet: ProductStakingContracts
     mainnet: ProductStakingContracts
   }
-  getMobulaAssetData: GetMobulaAssetData
+  mobula: GetMobulaAssetData
   eventsTrack: {
     pageView: string
     checkout: string
