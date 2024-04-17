@@ -1,6 +1,11 @@
+import { globalConfig } from '@/config/global'
 import { BrlaBuyEthStep, kycIdVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useKycCreate, { KycCreate, KycPayload, TypeAccount } from '@/hooks/ramp/useKycCreate'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAsset } from '@/types/ProductAsset'
+import { notification } from 'antd'
+import { AxiosError } from 'axios'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { PiArrowRight, PiDiscordLogo } from 'react-icons/pi'
@@ -10,11 +15,6 @@ import Button from '../shared/Button'
 import Input from '../shared/inputs/Input'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 import SwapInfo from './SwapInfo'
-import { notification } from 'antd'
-import { AxiosError } from 'axios'
-import { globalConfig } from '@/config/global'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
-import { ProductAsset } from '@/types/ProductAsset'
 
 type KycStepProps = {
   product: ProductAsset
@@ -311,9 +311,8 @@ export default function KycStep({ product }: KycStepProps) {
           </div>
         </ContainerRadio>
         <Input
-          title={`${
-            chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')
-          }`}
+          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')
+            }`}
           disabled={false}
           disabledLabel={false}
           register={register('fullName', {
@@ -323,6 +322,27 @@ export default function KycStep({ product }: KycStepProps) {
           maxLength={64}
           error={errors.fullName?.message}
           placeholder={t('v2.ramp.kyc.namePlaceholder')}
+        />
+        <Input
+          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')
+            }`}
+          disabled={false}
+          disabledLabel={false}
+          register={register('birthDate', {
+            required: `${t('v2.createProject.formMessages.required')}`,
+            validate: value => {
+              if (handleValidateBirthDate(value)) {
+                return t('v2.createProject.formMessages.invalidDate')
+              }
+            },
+
+            onBlur: () => trigger('birthDate')
+          })}
+          value={birthDay}
+          onChange={(event: ChangeEvent<HTMLInputElement>) => handleMaskDate(event.target.value)}
+          maxLength={10}
+          error={errors.birthDate?.message}
+          placeholder={'DD/MM/YYYY'}
         />
         <Input
           title={'Email'}
@@ -365,28 +385,7 @@ export default function KycStep({ product }: KycStepProps) {
           error={errors.cpfOrCnpj?.message}
           placeholder={`${chooseAccountType === TypeAccount.CPF ? '000.000.000-00' : '00.000.000/00000-00'}`}
         />
-        <Input
-          title={`${
-            chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')
-          }`}
-          disabled={false}
-          disabledLabel={false}
-          register={register('birthDate', {
-            required: `${t('v2.createProject.formMessages.required')}`,
-            validate: value => {
-              if (handleValidateBirthDate(value)) {
-                return t('v2.createProject.formMessages.invalidDate')
-              }
-            },
 
-            onBlur: () => trigger('birthDate')
-          })}
-          value={birthDay}
-          onChange={(event: ChangeEvent<HTMLInputElement>) => handleMaskDate(event.target.value)}
-          maxLength={10}
-          error={errors.birthDate?.message}
-          placeholder={'DD/MM/YYYY'}
-        />
       </Container>
       <Footer>
         <Button form='kycForm' type='submit' label={t('next')} icon={<PiArrowRight />} disabled={isLoading} />

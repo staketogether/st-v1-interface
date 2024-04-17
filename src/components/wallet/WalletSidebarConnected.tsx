@@ -34,11 +34,12 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 
 import chainConfig from '@/config/chain'
+import { getProductAssetByName } from '@/config/products/crypto'
 import { productStakingList } from '@/config/products/staking'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useCoinConversion from '@/hooks/useCoinConversion'
 import { useReactiveVar } from '@apollo/client'
-import { mainnet, optimism, optimismSepolia } from 'wagmi/chains'
+import { mainnet, optimism } from 'wagmi/chains'
 import AssetIcon from '../shared/AssetIcon'
 import Withdrawals from '../shared/Withdrawals'
 import WalletSidebarSettings from './WalletSidebarSettings'
@@ -69,10 +70,18 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { priceConvertedValue: usdEthBalance } = useCoinConversion(formattedEthBalance)
   const { balance: optimistEthBalance } = useEthBalanceOf({
     walletAddress: address,
-    chainId: optimismSepolia.id
+    chainId: optimism.id
+  })
+  const configWbtcOptimist = getProductAssetByName({ productName: 'btc' })
+  const { balance: optimistWbtcBalance } = useEthBalanceOf({
+    walletAddress: address,
+    chainId: optimism.id,
+    token: configWbtcOptimist.contract
   })
   const formattedOptimistEthBalance = formatNumberByLocale(truncateWei(optimistEthBalance, 6), locale)
+  const formattedOptimistWbtcBalance = formatNumberByLocale(truncateWei(optimistWbtcBalance, 6), locale)
   const { priceConvertedValue: usdOptimismEthBalance } = useCoinConversion(formattedOptimistEthBalance)
+  const { priceConvertedValue: usdOptimismWbtcBalance } = useCoinConversion(formattedOptimistWbtcBalance)
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
   const { chainId } = chainConfig()
@@ -137,7 +146,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     BigInt(stakeAccountBalance) +
     BigInt(restakingAccountBalance) +
     BigInt(ethBalance) +
-    BigInt(optimistEthBalance)
+    BigInt(optimistEthBalance) +
+    BigInt(optimistWbtcBalance)
   const value = truncateWei(totalBalance, 4)
   const { priceConvertedValue: usdTotalBalance } = useCoinConversion(value)
 
@@ -306,6 +316,21 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 <div>
                   <span>{formattedOptimistEthBalance}</span>
                   <span>{usdOptimismEthBalance}</span>
+                </div>
+              </BalanceContainer>
+              <BalanceContainer>
+                <div>
+                  <div>
+                    <AssetIcon assetIcon={configWbtcOptimist.symbol} networkIcon={configWbtcOptimist.networkAvailable} size={24} />
+                  </div>
+                  <div>
+                    <span>{configWbtcOptimist.symbol}</span>
+                    <span>{configWbtcOptimist.networkAvailable}</span>
+                  </div>
+                </div>
+                <div>
+                  <span>{formattedOptimistWbtcBalance}</span>
+                  <span>{usdOptimismWbtcBalance}</span>
                 </div>
               </BalanceContainer>
             </AssetsCard>
