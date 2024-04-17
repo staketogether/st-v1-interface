@@ -1,3 +1,5 @@
+import { MobulaAsset } from '@/config/products/mobula-asset'
+
 export type ProductAssetMarketData = {
   data: {
     ath: number
@@ -56,7 +58,7 @@ export type ProductAsset = {
   urlRedirect: string
   networkAvailable: string
   chainIdNetworkAvailable: number
-  mobula: ProductAssetMobulaData
+  mobula: MobulaAsset
   tradingView: {
     symbol: string
     fiat: TradingViewFiatData

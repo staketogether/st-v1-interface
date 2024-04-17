@@ -1,14 +1,13 @@
-import AssetsControl from '@/components/assets/AssetsControl'
+import NewStakeControl from '@/components/new-stake/NewStakeControl'
 import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { productCryptoList } from '@/config/products/crypto'
+import { productStakingList } from '@/config/products/staking'
 import { fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
-import { ProductAsset } from '@/types/ProductAsset'
-import { ProductMarketAssetData } from '@/types/ProductStaking'
+import { ProductMarketAssetData, ProductStaking } from '@/types/ProductStaking'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -16,41 +15,39 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 export type ProductProps = {
-  asset: ProductAsset
+  product: ProductStaking
   assetData: ProductMarketAssetData
   chainId: number
 }
 
-export default function Product({ asset, assetData, chainId }: ProductProps) {
+export default function Product({ product, assetData, chainId }: ProductProps) {
   const router = useRouter()
-  const minAmount = asset.ramp.minDeposit
+  const minAmount = product.asset.ramp.minDeposit
   const { onInit: buyCrypto } = useTransak({
     productsAvailed: 'BUY',
-    network: asset.networkAvailable
+    network: product.networkAvailable
   })
 
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
       fiatAmountVar(router.query?.amount?.toString() ?? minAmount.toString())
       //TROCAR PARA O PRODUTO CORRETO
+      const asset = product.asset
       openQuoteEthModal(asset)
     } else if (router.query.payment === 'credit') {
       buyCrypto()
     }
-  }, [
-    buyCrypto,
-    minAmount,
-    asset,
-    router,
-    router.events,
-    router.query?.amount,
-    router.query.buy
-  ])
+  }, [buyCrypto, minAmount, product, router, router.events, router.query?.amount, router.query.buy])
 
   return (
     <LayoutTemplate>
       <Metatags />
-      <AssetsControl product={asset as ProductAsset} assetData={assetData} chainId={chainId} type='sell' />
+      <NewStakeControl
+        type='deposit'
+        product={product as ProductStaking}
+        assetData={assetData}
+        chainId={chainId}
+      />
       <BuyEthControlModal />
     </LayoutTemplate>
   )
@@ -58,14 +55,6 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = [
-    { params: { network: 'ethereum', currency: 'usd', type: 'staking', product: 'ethereum-stake' } },
-    { params: { network: 'ethereum', currency: 'brl', type: 'staking', product: 'ethereum-stake' } },
-    { params: { network: 'ethereum', currency: 'eur', type: 'staking', product: 'ethereum-stake' } },
-
-    { params: { network: 'optimism', currency: 'usd', type: 'staking', product: 'ethereum-restaking' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'staking', product: 'ethereum-restaking' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'staking', product: 'ethereum-restaking' } },
-
     { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'btc' } },
     { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'btc' } },
     { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'btc' } },
@@ -101,7 +90,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     network: AllowedNetworks
     product: string
   }
-  const productSelected = productCryptoList.find(item => item.name === product)
+
+  const productSelected = productStakingList.find(item => item.name === product)
 
   const chainId = handleChainIdByNetwork(network)
 
@@ -113,9 +103,9 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   const assetData = await fetchProductAssetData(
     'mobula/market-asset-data',
-    productSelected.mobula.asset,
-    productSelected.mobula.blockchain,
-    productSelected.mobula.symbol
+    productSelected.asset.mobula.asset,
+    productSelected.asset.mobula.blockchain,
+    productSelected.asset.mobula.symbol
   )
 
   if (!assetData) {
@@ -128,7 +118,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     props: {
       assetData,
       chainId,
-      asset: productSelected,
+      product: productSelected,
       ...(await serverSideTranslations(locale || 'en', ['common']))
     },
     revalidate: 24 * 60 * 60

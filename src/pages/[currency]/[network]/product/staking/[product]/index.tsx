@@ -35,14 +35,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
     } else if (router.query.payment === 'credit') {
       buyCrypto()
     }
-  }, [
-    buyCrypto,
-    minAmount,
-    product,
-    router.query?.amount,
-    router.query.payment,
-    router.query.provider
-  ])
+  }, [buyCrypto, minAmount, product, router.query?.amount, router.query.payment, router.query.provider])
 
   return (
     <LayoutTemplate>
@@ -66,15 +59,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     { params: { network: 'optimism', currency: 'usd', type: 'staking', product: 'ethereum-restaking' } },
     { params: { network: 'optimism', currency: 'brl', type: 'staking', product: 'ethereum-restaking' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'staking', product: 'ethereum-restaking' } },
-
-    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'btc' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'btc' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'btc' } },
-
-    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'eth' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'eth' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'eth' } }
+    { params: { network: 'optimism', currency: 'eur', type: 'staking', product: 'ethereum-restaking' } }
   ]
 
   return { paths, fallback: 'blocking' }
@@ -115,9 +100,9 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   const assetData = await fetchProductAssetData(
     'mobula/market-asset-data',
-    productSelected.mobula.asset,
-    productSelected.mobula.blockchain,
-    productSelected.mobula.symbol
+    productSelected.asset.mobula.asset,
+    productSelected.asset.mobula.blockchain,
+    productSelected.asset.mobula.symbol
   )
 
   if (!assetData) {

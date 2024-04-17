@@ -34,8 +34,8 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 
 import chainConfig from '@/config/chain'
-import { getProductAssetByName } from '@/config/products/crypto'
-import { productStakingList } from '@/config/products/staking'
+import { btcOptimism, getProductAssetByName } from '@/config/products/crypto'
+import { ethereumOpStaking, ethereumStaking, productStakingList } from '@/config/products/staking'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useCoinConversion from '@/hooks/useCoinConversion'
 import { useReactiveVar } from '@apollo/client'
@@ -46,6 +46,7 @@ import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
 import useErc20BalanceOfWei from '@/hooks/contracts/useErc20BalanceOfWei'
+import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -65,10 +66,14 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
   const { locale } = useRouter()
+  const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
   const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: mainnet.id })
   const formattedEthBalance = formatNumberByLocale(truncateWei(ethBalance, 6), locale)
-  const { priceConvertedValue: usdEthBalance } = useCoinConversion(formattedEthBalance)
+  const { priceConvertedValue: usdEthBalance, price: usdEthBalancePriceNotFormatted } = useCoinConversion(
+    formattedEthBalance,
+    ethereumStaking.asset.mobula.filterCoinConversion
+  )
   const { balance: optimistEthBalance } = useEthBalanceOf({
     walletAddress: address,
     chainId: optimism.id
@@ -81,8 +86,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   })
   const formattedOptimistEthBalance = formatNumberByLocale(truncateWei(optimistEthBalance, 6), locale)
   const formattedOptimistWbtcBalance = formatNumberByLocale(truncateWei(optimistWbtcBalance, 6), locale)
-  const { priceConvertedValue: usdOptimismEthBalance } = useCoinConversion(formattedOptimistEthBalance)
-  const { priceConvertedValue: usdOptimismWbtcBalance } = useCoinConversion(formattedOptimistWbtcBalance)
+  const { priceConvertedValue: usdOptimismEthBalance, price: usdOptimismEthBalanceNotFormatted } =
+    useCoinConversion(formattedOptimistEthBalance, ethereumOpStaking.asset.mobula.filterCoinConversion)
+  const { priceConvertedValue: usdOptimismWbtcBalance, price: usdOptimismWbtcBalanceNotFormatted } =
+    useCoinConversion(formattedOptimistWbtcBalance, btcOptimism.mobula.filterCoinConversion)
+
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
   const { chainId } = chainConfig()
@@ -99,25 +107,29 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountBalance: stakeAccountBalance,
     accountRewards: stakeAccountRewards,
     accountActivities: stakeAccountActivities,
-    // accountProfitPercentage: stakeAccountProfitPercentage,
     accountIsLoading: stakeAccountIsLoading,
     accountShare: stakeAccountShare
   } = useStAccount({ address: address, productName: 'ethereum-stake', chainId: mainnet.id })
   const stpETHAccountBalance = truncateWei(stakeAccountBalance, 6)
 
-  const { priceConvertedValue: usdStpETHBalance } = useCoinConversion(stpETHAccountBalance)
+  const { priceConvertedValue: usdStpETHBalance, price: usdStpEthBalanceNotFormatted } = useCoinConversion(
+    stpETHAccountBalance,
+    ethereumStaking.asset.mobula.filterCoinConversion
+  )
 
   const {
     accountDelegations: restakingAccountDelegations,
     accountBalance: restakingAccountBalance,
     accountRewards: restakingAccountRewards,
     accountActivities: restakingAccountActivities,
-    // accountProfitPercentage: restakingAccountProfitPercentage,
     accountIsLoading: restakingAccountIsLoading,
     accountShare: restakingAccountShare
   } = useStAccount({ address: address, productName: 'ethereum-restaking', chainId: optimism.id })
   const stpRETHAccountBalance = formatNumberByLocale(truncateWei(restakingAccountBalance, 5), locale)
-  const { priceConvertedValue: usdStpRETHBalance } = useCoinConversion(stpRETHAccountBalance)
+  const { priceConvertedValue: usdStpRETHBalance, price: usdStpRETHBalanceNotFormatted } = useCoinConversion(
+    stpRETHAccountBalance,
+    ethereumOpStaking.asset.mobula.filterCoinConversion
+  )
 
   const stAccount = {
     'ethereum-stake': {
@@ -125,7 +137,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       accountBalance: stakeAccountBalance,
       accountRewards: stakeAccountRewards,
       accountActivities: stakeAccountActivities,
-      // accountProfitPercentage: stakeAccountProfitPercentage,
       accountIsLoading: stakeAccountIsLoading,
       accountShare: stakeAccountShare
     },
@@ -134,7 +145,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       accountBalance: restakingAccountBalance,
       accountRewards: restakingAccountRewards,
       accountActivities: restakingAccountActivities,
-      // accountProfitPercentage: restakingAccountProfitPercentage,
       accountIsLoading: restakingAccountIsLoading,
       accountShare: restakingAccountShare
     }
@@ -143,14 +153,13 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { accountDelegations, accountRewards, accountActivities, accountShare } =
     stAccount[productTabSelected as 'ethereum-stake' | 'ethereum-restaking']
 
-  const totalBalance =
-    BigInt(stakeAccountBalance) +
-    BigInt(restakingAccountBalance) +
-    BigInt(ethBalance) +
-    BigInt(optimistEthBalance) +
-    BigInt(optimistWbtcBalance)
-  const value = truncateWei(totalBalance, 4)
-  const { priceConvertedValue: usdTotalBalance } = useCoinConversion(value)
+  const usdTotalBalance = handleQuotePrice(
+    Number(usdStpEthBalanceNotFormatted) +
+      Number(usdStpRETHBalanceNotFormatted) +
+      Number(usdEthBalancePriceNotFormatted) +
+      Number(usdOptimismEthBalanceNotFormatted) +
+      Number(usdOptimismWbtcBalanceNotFormatted)
+  )
 
   async function disconnectWallet() {
     setOpenSidebar(false)
@@ -322,7 +331,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon={configWbtcOptimist.symbol} networkIcon={configWbtcOptimist.networkAvailable} size={24} />
+                    <AssetIcon
+                      assetIcon={configWbtcOptimist.symbol}
+                      networkIcon={configWbtcOptimist.networkAvailable}
+                      size={24}
+                    />
                   </div>
                   <div>
                     <span>{configWbtcOptimist.symbol}</span>

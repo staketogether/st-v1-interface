@@ -47,7 +47,6 @@ export type ProductStaking = {
     testnet: ProductStakingContracts
     mainnet: ProductStakingContracts
   }
-  mobula: GetMobulaAssetData
   eventsTrack: {
     pageView: string
     checkout: string
@@ -65,6 +64,7 @@ export type ProductMarketAssetData = {
   data: {
     ath: number
     atl: number
+    name: string
     is_listed: boolean
     liquidity: number
     liquidity_change_24h: number
@@ -81,10 +81,4 @@ export type ProductMarketAssetData = {
     volume_7d: number
     volume_change_24h: number
   }
-}
-
-export type GetMobulaAssetData = {
-  asset: string
-  blockchain: string
-  symbol: string
 }
