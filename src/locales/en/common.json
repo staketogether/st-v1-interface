@@ -383,6 +383,10 @@
         "useMaxButton": "Use Max Button",
         "Panic": "Internal error",
         "insufficientGasBalance": "Insufficient Balance For Gas"
+      },
+      "sellErrorMessage": {
+        "SellLimitReached": "Sell Limit Reached",
+        "LessThanMinimumSell": "Min sell"
       }
     },
     "activities": {
@@ -671,6 +675,7 @@
     },
     "ramp": {
       "title": "Buy symbol with PIX",
+      "sellTitle": "Sell symbol with PIX",
       "success": "Deposit was complete with success",
       "checkOut": "Check out",
       "processingRegistration": "Processing Registration",
@@ -683,7 +688,6 @@
       "useThePixQRCode": "Use the Pix QR Code to pay",
       "orUseThePixKey": "Or use the Pix Key",
       "cancelDeposit": "Cancel deposit",
-
       "copyQrCode": "Copy QR Code",
       "yourEths": "Your ETH will be in your account",
       "timeReceive": "within 30 minutes",

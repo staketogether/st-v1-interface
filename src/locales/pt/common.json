@@ -379,6 +379,10 @@
         "useMaxButton": "Utilize o botão Max",
         "Panic": "Erro interno",
         "insufficientGasBalance": "Saldo Insuficiente para o Gás"
+      },
+      "sellErrorMessage": {
+        "SellLimitReached": "Limite de Depósito Alcançado",
+        "LessThanMinimumSell": "Depósito Mínimo"
       }
     },
     "activities": {
@@ -693,6 +697,7 @@
     },
     "ramp": {
       "title": "Comprar symbol com PIX",
+      "sellTitle": "Vender symbol com PIX",
       "success": "Depósito concluído com sucesso",
       "checkOut": "Check out",
       "processingRegistration": "Processando Cadastro",

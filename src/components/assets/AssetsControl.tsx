@@ -1,4 +1,4 @@
-import { currentProductNameVar } from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, currentProductNameVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
@@ -39,6 +39,9 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
     }
   }, [chainId, connector, isWrongNetwork, switchChain])
 
+  if (type === 'sell') {
+    stepsControlBuyCryptoVar(BrlaBuyEthStep.PixKeyStep)
+  }
   const copyToClipboard = async () => {
     const url = `${window.location.href}`
 

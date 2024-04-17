@@ -13,6 +13,7 @@ import CheckoutStep from '../ramp/CheckoutStep'
 import GenericErrorComponent from '../ramp/GenericErrorComponent'
 import KycStep from '../ramp/KycStep'
 import PaymentMethod from '../ramp/PaymentMethod'
+import PixKeyStep from '../ramp/PixKeyStep'
 import ProcessingCheckoutStep from '../ramp/ProcessingCheckoutStep'
 import ProcessingKycStep from '../ramp/ProcessingKycStep'
 import QuotationOfRampStep from '../ramp/QuotationOfRamp'
@@ -21,7 +22,7 @@ import SuccessStep from '../ramp/SuccessStep'
 import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
 import ConnectWallet from '../shared/ConnectWallet'
 
-export default function AssetsBuyControl({ product }: { type: 'sell' | 'buy'; product: ProductAsset }) {
+export default function AssetsBuyControl({ product, type }: { type: 'sell' | 'buy'; product: ProductAsset }) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
@@ -30,6 +31,7 @@ export default function AssetsBuyControl({ product }: { type: 'sell' | 'buy'; pr
     MethodPayment: <PaymentMethod product={product} />,
     Quotation: <QuotationStep product={product} />,
     QuotationOfRamp: <QuotationOfRampStep product={product} />,
+    PixKeyStep: <PixKeyStep />,
     Kyc: <KycStep product={product} />,
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={product} />,
@@ -41,13 +43,14 @@ export default function AssetsBuyControl({ product }: { type: 'sell' | 'buy'; pr
   }
 
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
-
+  const defaultTitle = type === 'buy' ? t('v2.ramp.sellTitle') : t('v2.ramp.sellTitle')
   const titleList: { [key: string]: string } = {
     Success: t('v2.ramp.success'),
-    MethodPayment: t('v2.ramp.provider')
+    MethodPayment: t('v2.ramp.provider'),
+    QuotationOfRamp: t('v2.ramp.sellTitle').replace('symbol', product.symbol)
   }
   const title =
-    currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', product.symbol)
+    currentStep in titleList ? titleList[currentStep] : defaultTitle.replace('symbol', product.symbol)
   const { backendUrl } = globalConfig
 
   useEffect(() => {

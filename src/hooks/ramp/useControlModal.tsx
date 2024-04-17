@@ -9,6 +9,7 @@ export enum BrlaBuyEthStep {
   MethodPayment = 'MethodPayment',
   Quotation = 'Quotation',
   QuotationOfRamp = 'QuotationOfRamp',
+  PixKeyStep = 'PixKeyStep',
   Kyc = 'Kyc',
   ConnectWallet = 'ConnectWallet',
   ProcessingKyc = 'ProcessingKyc',

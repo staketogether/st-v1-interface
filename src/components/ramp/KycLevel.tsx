@@ -5,7 +5,7 @@ import { PiInfoThin, PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 import { kycLevelVar } from '../../hooks/ramp/useControlModal'
 
-export function KycLevel({ amountValue }: { amountValue: number }) {
+export function KycLevel({ amountValue, type }: { amountValue: number, type?: 'sell' | 'buy' }) {
   const { t } = useLocaleTranslation()
   const kycLevel = useReactiveVar(kycLevelVar)
   const handleFormat = (value: number) => {
@@ -14,8 +14,8 @@ export function KycLevel({ amountValue }: { amountValue: number }) {
     }
     return 0
   }
-
-  const limitUsed = (kycLevel?.limits.limitSwapBuy ?? 0) - amountValue * 100
+  const limit = type === 'sell' ? kycLevel?.limits.limitSwapBuy : kycLevel?.limits.limitSwapSell
+  const limitUsed = (limit ?? 0) - amountValue * 100
   const limitExceeded = limitUsed <= 0
   return (
     <Container>

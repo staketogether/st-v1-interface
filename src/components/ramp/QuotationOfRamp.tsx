@@ -85,11 +85,11 @@ export default function QuotationOfRampStep({ product }: QuotationStepProps) {
 
   const handleLabelButton = () => {
     if (error) {
-      return `${t('v2.stake.depositErrorMessage.DepositLimitReached')}`
+      return `${t('v2.stake.sellErrorMessage.SellLimitReached')}`
     }
 
     if (BigInt(debounceValue) < minDeposit) {
-      return `${t('v2.stake.minAmount')} R$${minDeposit}`
+      return `${t('v2.stake.minWithdraw')} R$${minDeposit}`
     }
 
     return t('next')
@@ -108,7 +108,7 @@ export default function QuotationOfRampStep({ product }: QuotationStepProps) {
   useFacebookPixel('AdtoCart_pix')
   return (
     <Container>
-      <KycLevel amountValue={Number(debounceValue)} />
+      <KycLevel amountValue={Number(debounceValue)} type='sell' />
       <BoxValuesContainer>
         <AssetInput
           ethAmountValue={String(value)}

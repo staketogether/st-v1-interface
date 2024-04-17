@@ -43,7 +43,7 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
             <AssetsBuyControl type={type} product={product} />
           </BuyAssetContainer>
         )}
-        {type === 'sell' && <div>sell</div>}
+        {type === 'swap' && <div>sell</div>}
       </div>
     </EthereumContainer>
   )
