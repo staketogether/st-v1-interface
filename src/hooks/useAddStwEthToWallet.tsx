@@ -1,5 +1,5 @@
 import chainConfig from '@/config/chain'
-import { getContractsByProductName } from '@/config/product-staking'
+import { getContractsByProductName } from '@/config/products/staking'
 import { config } from '@/config/wagmi'
 import { getWalletClient } from 'wagmi/actions'
 import useLocaleTranslation from './useLocaleTranslation'

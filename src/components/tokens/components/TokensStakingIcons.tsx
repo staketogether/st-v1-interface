@@ -1,5 +1,3 @@
-import { ProductAssetName } from '@/types/ProductAsset'
-import { ProductStakingName } from '@/types/ProductStaking'
 import bitcoinIcon from '@assets/network/bitcoin.png'
 import celestiaIcon from '@assets/network/celestia.svg'
 import chilizIcon from '@assets/network/chiliz.svg'
@@ -14,7 +12,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 
 type TokenStakingIconsProps = {
-  stakingProduct: ProductStakingName | ProductAssetName
+  stakingProduct: string
   size: number
 }
 
@@ -37,7 +35,12 @@ export default function TokenStakingIcons({ stakingProduct, size }: TokenStaking
 
   return (
     <Warper>
-      <Image src={stakingProductsIcons[stakingProduct]} width={size} height={size} alt={stakingProduct} />
+      <Image
+        src={stakingProductsIcons[stakingProduct as keyof typeof stakingProductsIcons]}
+        width={size}
+        height={size}
+        alt={stakingProduct}
+      />
     </Warper>
   )
 }

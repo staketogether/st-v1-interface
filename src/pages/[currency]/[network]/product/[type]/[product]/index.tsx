@@ -4,8 +4,8 @@ import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { productAssetList } from '@/config/product-asset'
-import { productStakingList } from '@/config/product-staking'
+import { productCryptoList } from '@/config/products/crypto'
+import { productStakingList } from '@/config/products/staking'
 import { fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetwork, handleChainIdByNetwork } from '@/services/format'
@@ -26,7 +26,10 @@ export type ProductProps = {
 
 export default function Product({ product, assetData, chainId, productType }: ProductProps) {
   const router = useRouter()
-  const minAmount = productType === 'staking' ? (product as ProductStaking).asset.ramp.minDeposit : (product as ProductAsset).ramp.minDeposit
+  const minAmount =
+    productType === 'staking'
+      ? (product as ProductStaking).asset.ramp.minDeposit
+      : (product as ProductAsset).ramp.minDeposit
   const { onInit: buyCrypto } = useTransak({
     productsAvailed: 'BUY',
     network: product.networkAvailable
@@ -34,14 +37,21 @@ export default function Product({ product, assetData, chainId, productType }: Pr
 
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
-      const rampType =
-        productType === 'staking' ? (product as ProductStaking).asset : (product as ProductAsset)
+      const rampType = productType === 'staking' ? (product as ProductStaking).asset : (product as ProductAsset)
       fiatAmountVar(router.query?.amount?.toString() ?? minAmount.toString())
       openQuoteEthModal(rampType)
     } else if (router.query.payment === 'credit') {
       buyCrypto()
     }
-  }, [buyCrypto, minAmount, product, productType, router.query?.amount, router.query.payment, router.query.provider])
+  }, [
+    buyCrypto,
+    minAmount,
+    product,
+    productType,
+    router.query?.amount,
+    router.query.payment,
+    router.query.provider
+  ])
 
   return (
     <LayoutTemplate>
@@ -108,7 +118,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     product: string
   }
   const findStakingProduct = productStakingList.find(item => item.name === product)
-  const findAssetsProduct = productAssetList.find(item => item.name === product)
+  const findAssetsProduct = productCryptoList.find(item => item.name === product)
 
   const productSelected = findStakingProduct || findAssetsProduct
 

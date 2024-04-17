@@ -1,17 +1,16 @@
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { capitalize } from '@/services/truncate'
 import { ProductAsset } from '@/types/ProductAsset'
 import { ProductMarketAssetData } from '@/types/ProductStaking'
 import { notification } from 'antd'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
-import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
 import NetworkIcons from '../shared/NetworkIcons'
-import { capitalize } from '@/services/truncate'
-import TokensSymbolIcons from '../tokens/components/TokensSymbolIcons'
 import TradingViewComponent from '../shared/TradingViewComponent'
+import TokenStakingIcons from '../tokens/components/TokensStakingIcons'
+import TokensSymbolIcons from '../tokens/components/TokensSymbolIcons'
 
 type AssetsProductInfoProps = {
   product: ProductAsset
@@ -61,7 +60,6 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
             <div>
               <span className='CoinValue'>{`${handleQuotePrice(assetData?.data?.price || 0)}
                `}</span>
-              <span className='apy'>{`APY ${product.apy}%`}</span>
             </div>
           </SymbolContainer>
         </HeaderDescribeInfo>
@@ -88,7 +86,6 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
         <h2>{t('v2.ethereumStaking.description')}</h2>
         <span>{t(`v2.ethereumStaking.${product.description}`)}</span>
       </ProductBodyContainer>
-
       {/* <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.contractAddress')}</h2>
         <a className='copy' href={`${product.scan}/address/${stakeTogetherContractAddress}`} target='_blank'>

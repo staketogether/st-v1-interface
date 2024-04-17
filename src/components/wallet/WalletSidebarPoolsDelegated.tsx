@@ -1,5 +1,5 @@
 import chainConfig from '@/config/chain'
-import { getProductByName } from '@/config/product-staking'
+import { getProductByName } from '@/config/products/staking'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebar from '@/hooks/useWalletSidebar'

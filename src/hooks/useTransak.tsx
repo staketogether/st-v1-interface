@@ -8,7 +8,7 @@ import useLocaleTranslation from './useLocaleTranslation'
 type TransakProps = {
   onSuccess?: () => void
   productsAvailed: 'BUY' | 'SELL'
-  network: 'ethereum' | 'optimism' | 'arbitrum' | 'polygon' | 'solana' | 'optimism-sepolia' | 'holesky'
+  network: string
 }
 
 export default function useTransak(config: TransakProps) {

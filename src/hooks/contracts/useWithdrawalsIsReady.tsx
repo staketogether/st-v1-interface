@@ -1,4 +1,4 @@
-import { getContractsByProductName } from '@/config/product-staking'
+import { getContractsByProductName } from '@/config/products/staking'
 import { withdrawalsAbi } from '@/types/Contracts'
 import { useEffect, useState } from 'react'
 import { useReadContract } from 'wagmi'

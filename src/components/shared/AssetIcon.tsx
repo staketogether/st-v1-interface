@@ -1,6 +1,5 @@
-import { ProductAssetSymbol } from '@/types/ProductAsset'
-import { ProductStakingNetwork, ProductStakingSymbol } from '@/types/ProductStaking'
 import arbitrumIcon from '@assets/network/arbitrum.svg'
+import bitcoinIcon from '@assets/network/bitcoin.png'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
 import polygonIcon from '@assets/network/polygon.svg'
@@ -9,13 +8,10 @@ import stIcon from '@assets/st-symbol.svg'
 import stpRETHIcon from '@assets/stpRETHIcon.svg'
 import Image from 'next/image'
 import styled from 'styled-components'
-import bitcoinIcon from '@assets/network/bitcoin.png'
-
-type Icon = ProductStakingSymbol | ProductStakingNetwork | ProductAssetSymbol
 
 type SymbolIconsProps = {
-  assetIcon: Icon
-  networkIcon: ProductStakingNetwork
+  assetIcon: string
+  networkIcon: string
   size: number
   marginRight?: string | number
 }
@@ -46,7 +42,7 @@ export default function AssetIcon({ assetIcon, size, networkIcon, marginRight }:
   const networkIcons = {
     ethereum: ethereumIcon,
     optimism: optimismIcon,
-    ['optimism-sepolia']: optimismIcon,
+    'optimism-sepolia': optimismIcon,
     arbitrum: arbitrumIcon,
     polygon: polygonIcon,
     solana: solanaIcon,
@@ -55,10 +51,15 @@ export default function AssetIcon({ assetIcon, size, networkIcon, marginRight }:
 
   return (
     <Wrapper style={{ marginRight: marginRight ? marginRight : 'inherit' }} size={size}>
-      <Image src={assetSymbolIcons[assetIcon]} width={size} height={size} alt={assetIcon} />
+      <Image
+        src={assetSymbolIcons[assetIcon as keyof typeof assetSymbolIcons]}
+        width={size}
+        height={size}
+        alt={assetIcon}
+      />
       <div>
         <Image
-          src={networkIcons[networkIcon]}
+          src={networkIcons[networkIcon as keyof typeof networkIcons]}
           width={size <= 24 ? 14 : 16}
           height={size <= 24 ? 14 : 16}
           alt={networkIcon}

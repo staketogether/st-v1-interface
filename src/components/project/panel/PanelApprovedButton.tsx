@@ -1,7 +1,7 @@
 import Button from '@/components/shared/Button'
 import Loading from '@/components/shared/icons/Loading'
 import chain from '@/config/chain'
-import { getContractsByProductName } from '@/config/product-staking'
+import { getContractsByProductName } from '@/config/products/staking'
 import useProjectDetailModal from '@/hooks/useProjectDetailModal'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { stakeTogetherAbi } from '@/types/Contracts'

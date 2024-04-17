@@ -1,5 +1,5 @@
 import { ethereumMainnetClient } from '@/config/apollo'
-import { getProductByName } from '@/config/product-staking'
+import { getProductByName } from '@/config/products/staking'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
 import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'

@@ -1,5 +1,5 @@
 import chainConfig from '@/config/chain'
-import { getContractsByProductName } from '@/config/product-staking'
+import { getContractsByProductName } from '@/config/products/staking'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import stSymbol from '@assets/st-symbol.svg'

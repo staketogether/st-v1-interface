@@ -1,7 +1,7 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import TokensControl from '@/components/tokens/components/TokensControl'
-import { productAssetList } from '@/config/product-asset'
+import { productCryptoList } from '@/config/products/crypto'
 
 import { ProductAsset } from '@/types/ProductAsset'
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -30,7 +30,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  if (!productAssetList || !productAssetList.length) {
+  if (!productCryptoList || !productCryptoList.length) {
     return {
       notFound: true
     }
@@ -38,7 +38,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      productList: productAssetList.filter(product => {
+      productList: productCryptoList.filter(product => {
         if (product.listed) return product
       }),
       ...(await serverSideTranslations(locale || 'en', ['common']))
