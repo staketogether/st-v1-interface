@@ -40,7 +40,7 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <NewStakeControl type="withdraw" product={product} assetData={assetData} chainId={chainId} />
+      <NewStakeControl type='withdraw' product={product} assetData={assetData} chainId={chainId} />
       <BuyEthControlModal />
     </LayoutTemplate>
   )
@@ -54,15 +54,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     { params: { network: 'optimism', currency: 'usd', type: 'staking', product: 'ethereum-restaking' } },
     { params: { network: 'optimism', currency: 'brl', type: 'staking', product: 'ethereum-restaking' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'staking', product: 'ethereum-restaking' } },
-
-    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'btc' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'btc' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'btc' } },
-
-    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'eth' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'eth' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'eth' } }
+    { params: { network: 'optimism', currency: 'eur', type: 'staking', product: 'ethereum-restaking' } }
   ]
 
   return { paths, fallback: 'blocking' }

@@ -1,3 +1,4 @@
+import { ethereumStaking } from '@/config/products/staking'
 import useCoinConversion from '@/hooks/useCoinConversion'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
@@ -18,8 +19,10 @@ export default function AnalyticsValidatorRow({ validator, index }: AnalyticsVal
   const { locale } = useRouter()
 
   const validatorBalance = formatNumberByLocale(truncateDecimal(String(validator.balance) || '0', 2), locale)
-  const { priceConvertedValue: validatorBalanceUsdPriceFormatted } = useCoinConversion(validatorBalance)
-
+  const { priceConvertedValue: validatorBalanceUsdPriceFormatted } = useCoinConversion(
+    validatorBalance,
+    ethereumStaking.asset.mobula.filterCoinConversion
+  )
 
   return (
     <ValidatorTableRow href={`https://beaconcha.in/validator/${validator.validatorindex}`} target='_blank'>

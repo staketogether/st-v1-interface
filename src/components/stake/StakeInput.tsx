@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import useCoinConversion from '../../hooks/useCoinConversion'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '../../services/truncate'
+import { ethereumStaking } from '@/config/products/staking'
 
 interface StakeInputProps {
   value: string
@@ -32,7 +33,7 @@ export default function StakeFormInput({
 }: StakeInputProps) {
   const { t } = useLocaleTranslation()
 
-  const { price } = useCoinConversion(value)
+  const { price } = useCoinConversion(value, ethereumStaking.asset.mobula.filterCoinConversion)
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -81,10 +82,7 @@ export default function StakeFormInput({
               ) : (
                 ''
               )}
-              <span className={`${hasError ? 'error' : ''}`}>{`${truncateDecimal(
-                price || '0',
-                2
-              )}`}</span>
+              <span className={`${hasError ? 'error' : ''}`}>{`${truncateDecimal(price || '0', 2)}`}</span>
             </InputContainer>
           </div>
           <MaxValue disabled={balanceLoading || disabled} onClick={handleMaxValue}>
@@ -92,8 +90,9 @@ export default function StakeFormInput({
           </MaxValue>
         </Content>
       </div>
-      <span>{`${type === 'deposit' ? t('v2.stake.minAmount') : t('v2.stake.minWithdraw')} ${type === 'deposit' ? truncateWei(minDepositAmount || 0n) : truncateWei(minWithdrawAmount || 0n)
-        } ${type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')}`}</span>
+      <span>{`${type === 'deposit' ? t('v2.stake.minAmount') : t('v2.stake.minWithdraw')} ${
+        type === 'deposit' ? truncateWei(minDepositAmount || 0n) : truncateWei(minWithdrawAmount || 0n)
+      } ${type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')}`}</span>
     </Container>
   )
 }
