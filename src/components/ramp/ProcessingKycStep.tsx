@@ -10,6 +10,7 @@ import {
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAsset } from '@/types/ProductAsset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -18,7 +19,6 @@ import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import { useAccount } from 'wagmi'
 import WrapProcessingStep from './WrapProcessingStep'
-import { ProductAsset } from '@/types/ProductAsset'
 
 type ProcessingKycStepProps = {
   product: ProductAsset
@@ -60,7 +60,6 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
         amount: Number(quote.amountBrl),
-        amountToken: quote.amountToken,
         accountAddress: address,
         receiverAddress: address,
         convertToChainId: product.ramp.bridge?.toChainId,

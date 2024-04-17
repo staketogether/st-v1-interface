@@ -13,7 +13,6 @@ export interface BuyRampRequest {
   paymentMethod: PaymentMethodType
   fiatCurrencyCode: string
   amount: number
-  amountToken: string
   accountAddress: string
   receiverAddress: string
   convertToChainId?: number
