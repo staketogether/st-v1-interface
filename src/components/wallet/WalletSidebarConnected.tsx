@@ -45,6 +45,7 @@ import Withdrawals from '../shared/Withdrawals'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
+import useErc20BalanceOfWei from '@/hooks/contracts/useErc20BalanceOfWei'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -73,7 +74,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     chainId: optimism.id
   })
   const configWbtcOptimist = getProductAssetByName({ productName: 'btc' })
-  const { balance: optimistWbtcBalance } = useEthBalanceOf({
+  const { balanceInWei: optimistWbtcBalance } = useErc20BalanceOfWei({
     walletAddress: address,
     chainId: optimism.id,
     token: configWbtcOptimist.contract
@@ -325,7 +326,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                   </div>
                   <div>
                     <span>{configWbtcOptimist.symbol}</span>
-                    <span>{configWbtcOptimist.networkAvailable}</span>
+                    <span>{capitalize(configWbtcOptimist.networkAvailable)}</span>
                   </div>
                 </div>
                 <div>
