@@ -1,18 +1,3 @@
-export type ProductAssetIcon = 'btc' | 'eth'
-
-export type ProductAssetName = 'btc' | 'eth' | 'eth-optimism'
-
-export type ProductAssetSymbol = 'wBTC' | 'ETH'
-
-export type ProductAssetNetwork =
-  | 'ethereum'
-  | 'optimism'
-  | 'arbitrum'
-  | 'polygon'
-  | 'solana'
-  | 'optimism-sepolia'
-  | 'holesky'
-
 export type ProductAssetMarketData = {
   data: {
     ath: number
@@ -49,7 +34,9 @@ export type TradingViewFiatData = {
 
 export type ProductAsset = {
   id: number
-  name: ProductAssetName
+  name: string
+  description: string
+  enabled: boolean
   newProductTag: boolean
   rampEnabled: boolean
   contract?: `0x${string}`
@@ -64,13 +51,10 @@ export type ProductAsset = {
       toToken: string
     }
   }
-  symbol: ProductAssetSymbol
-  apy: number
-  description: string
+  symbol: string
   scan: string
-  enabled: boolean
   urlRedirect: string
-  networkAvailable: ProductAssetNetwork
+  networkAvailable: string
   chainIdNetworkAvailable: number
   getMobulaAssetData: ProductAssetMobulaData
   tradingView: {

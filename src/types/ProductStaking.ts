@@ -1,50 +1,5 @@
 import { ProductAsset } from './ProductAsset'
 
-export type ProductStakingIcon =
-  | 'ethereum'
-  | 'EthereumRestaking'
-  | 'polygon'
-  | 'solana'
-  | 'celestia'
-  | 'cosmos'
-  | 'near'
-  | 'polkadot'
-  | 'bitcoin'
-  | 'chiliz'
-
-export type ProductStakingName =
-  | 'ethereum-stake'
-  | 'ethereum-restaking'
-  | 'polygon'
-  | 'solana'
-  | 'celestia'
-  | 'cosmos'
-  | 'near'
-  | 'polkadot'
-  | 'bitcoin'
-  | 'chiliz'
-
-export type ProductStakingSymbol =
-  | 'stpETH'
-  | 'strETH'
-  | 'stpPOL'
-  | 'stpSOL'
-  | 'stpTIA'
-  | 'stpNear'
-  | 'stpDOT'
-  | 'stpATOM'
-  | 'stpBTC'
-  | 'stpCHZ'
-
-export type ProductStakingNetwork =
-  | 'ethereum'
-  | 'optimism'
-  | 'arbitrum'
-  | 'polygon'
-  | 'solana'
-  | 'optimism-sepolia'
-  | 'holesky'
-
 export type ProductStakingContracts = {
   Airdrop: `0x${string}`
   Withdrawals: `0x${string}`
@@ -61,7 +16,9 @@ export type TradingViewFiatData = {
 
 export type ProductStaking = {
   id: number
-  name: ProductStakingName
+  name: string
+  description: string
+  enabled: boolean
   newProductTag: boolean
   eigenPointsAvailable: boolean
   asset: ProductAsset
@@ -71,13 +28,12 @@ export type ProductStaking = {
   }
   rampEnabled: boolean
   title: string
-  symbol: ProductStakingSymbol
+  symbol: string
   apy: number
-  description: string
   scan: string
-  enabled: boolean
+
   urlRedirect: string
-  networkAvailable: ProductStakingNetwork
+  networkAvailable: string
   chainIdNetworkAvailable: number
   subgraph: {
     testnet: string
