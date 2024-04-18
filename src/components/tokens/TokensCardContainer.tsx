@@ -9,8 +9,7 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
 interface TokensCardContainerProps {
-  product: ProductStaking | ProductAsset
-  type: 'staking' | 'assets'
+  product: ProductStaking
 }
 
 const TokensShowValuePrice = dynamic(() => import('../shared/StakingShowValuePrice'), {
@@ -19,7 +18,7 @@ const TokensShowValuePrice = dynamic(() => import('../shared/StakingShowValuePri
   suspense: true
 })
 
-export default function TokensCardContainer({ product, type }: TokensCardContainerProps) {
+export default function TokensCardContainer({ product }: TokensCardContainerProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
@@ -34,23 +33,21 @@ export default function TokensCardContainer({ product, type }: TokensCardContain
     >
       <ImageContainer>
         <div>
-          {type === 'staking' ? (
-            <AssetIcon assetIcon={product.name} networkIcon={product.networkAvailable} size={32} />
-          ) : (
-            <AssetIcon assetIcon={product.symbol} networkIcon={product.networkAvailable} size={32} />
-          )}
-
+          <AssetIcon assetIcon={product.name} networkIcon={product.networkAvailable} size={32} />
           <span>{t(`v2.products.${product.name}`)}</span>
         </div>
         {!product.enabled && <Soon>{t('soon')}</Soon>}
         {product.newProductTag && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
-      <TokensShowValuePrice type={type} product={type === 'staking' ? (product as ProductStaking) : (product as ProductAsset)} />
+      <ApyValueContainer>
+        <TokensShowValuePrice type={'staking'} product={product} />
+        <span className='green'>APY {product.apy}%</span>
+      </ApyValueContainer>
     </CardContainer>
   )
 }
 
-const { CardContainer, ImageContainer, Soon, NewTag } = {
+const { CardContainer, ImageContainer, Soon, NewTag, ApyValueContainer } = {
   CardContainer: styled(Link)`
     display: flex;
     flex-direction: column;
@@ -64,13 +61,6 @@ const { CardContainer, ImageContainer, Soon, NewTag } = {
     transition:
       border 0.3s ease,
       color 0.3s ease;
-
-    > span {
-      font-size: 22px;
-      font-style: normal;
-      font-weight: 500;
-      color: ${({ theme }) => theme.colorV2.gray[1]};
-    }
 
     &:hover {
       border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
@@ -131,5 +121,22 @@ const { CardContainer, ImageContainer, Soon, NewTag } = {
 
     font-size: 13px;
     font-weight: 500;
+  `,
+  ApyValueContainer: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+
+    > span {
+      font-size: 22px;
+      font-style: normal;
+      font-weight: 500;
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+
+      &.green {
+        font-size: 13px;
+        color: ${({ theme }) => theme.color.green[500]};
+      }
+    }
   `
 }

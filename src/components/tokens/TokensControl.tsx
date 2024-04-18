@@ -3,6 +3,7 @@ import { ProductAsset } from '@/types/ProductAsset'
 import { ProductStaking } from '@/types/ProductStaking'
 import styled from 'styled-components'
 import TokensCardContainer from './TokensCardContainer'
+import TokensAssetCardContainer from './TokensAssetCardContainer'
 
 interface TokensControlProps {
   productsList: ProductStaking[] | ProductAsset[]
@@ -23,9 +24,13 @@ export default function TokensControl({ type, productsList }: TokensControlProps
       </Title>
       <Products>
         <nav>
-          {productsList.map(product => (
-            <TokensCardContainer product={product} key={product.id} type={type} />
-          ))}
+          {productsList.map(product =>
+            type === 'staking' ? (
+              <TokensCardContainer product={product as ProductStaking} key={product.id} />
+            ) : (
+              <TokensAssetCardContainer product={product as ProductAsset} key={product.id} />
+            )
+          )}
         </nav>
       </Products>
     </Container>

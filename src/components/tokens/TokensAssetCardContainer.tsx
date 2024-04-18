@@ -9,8 +9,7 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
 interface TokensAssetCardContainerProps {
-  product: ProductStaking | ProductAsset
-  type: 'staking' | 'assets'
+  product: ProductAsset
 }
 
 const TokensShowValuePrice = dynamic(() => import('../shared/StakingShowValuePrice'), {
@@ -19,7 +18,7 @@ const TokensShowValuePrice = dynamic(() => import('../shared/StakingShowValuePri
   suspense: true
 })
 
-export default function TokensAssetCardContainer({ product, type }: TokensAssetCardContainerProps) {
+export default function TokensAssetCardContainer({ product }: TokensAssetCardContainerProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
@@ -34,18 +33,14 @@ export default function TokensAssetCardContainer({ product, type }: TokensAssetC
     >
       <ImageContainer>
         <div>
-          {type === 'staking' ? (
-            <AssetIcon assetIcon={product.name} networkIcon={product.networkAvailable} size={32} />
-          ) : (
-            <AssetIcon assetIcon={product.symbol} networkIcon={product.networkAvailable} size={32} />
-          )}
+          <AssetIcon assetIcon={product.symbol} networkIcon={product.networkAvailable} size={32} />
 
           <span>{t(`v2.products.${product.name}`)}</span>
         </div>
         {!product.enabled && <Soon>{t('soon')}</Soon>}
         {product.newProductTag && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
-      <TokensShowValuePrice product={product as ProductStaking} type={type} />
+      <TokensShowValuePrice product={product} type={'assets'} />
     </CardContainer>
   )
 }
