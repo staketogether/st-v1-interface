@@ -37,7 +37,7 @@ import StpEthIcon from '../shared/StpethIcon'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 
-type StakeFormProps = {
+interface StakeFormProps {
   type: 'deposit' | 'withdraw'
   poolAddress: `0x${string}`
   chainId: number
@@ -63,8 +63,10 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
   } = useDelegationShares(accountAddress, poolAddress)
 
   const [withdrawTypeSelected, setWithdrawTypeSelected] = useState(WithdrawType.POOL)
-  const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
-    useWithdrawPoolBalance({ product, chainId })
+  const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } = useWithdrawPoolBalance({
+    product,
+    chainId
+  })
   const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock({
     walletAddress: accountAddress,
     enabled: withdrawTypeSelected === WithdrawType.POOL,
@@ -72,10 +74,8 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
     chainId
   })
 
-  const {
-    withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
-    refetch: withdrawValidatorsBalanceRefetch
-  } = useWithdrawValidatorBalance({ product, chainId })
+  const { withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance, refetch: withdrawValidatorsBalanceRefetch } =
+    useWithdrawValidatorBalance({ product, chainId })
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
@@ -108,13 +108,13 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
 
   const { fee, loading: isLoadingFees } = useFeeStakeEntry()
   const parsedAmount = ethers.parseUnits(inputAmount, 18)
-  const feeAmount = (parsedAmount * BigInt(fee?.value || 0n)) / ethers.parseEther('1')
+  const feeAmount = (parsedAmount * BigInt(fee?.value ?? 0n)) / ethers.parseEther('1')
   const netDepositAmount = ethers.parseUnits(inputAmount, 18) - feeAmount
 
   const youReceiveDeposit = netDepositAmount
 
-  const { stConfig } = useStConfig({ productName: product.name, chainId: chainId })
-  const minDepositAmount = stConfig?.minDepositAmount || 0n
+  const { stConfig } = useStConfig({ name: product.name, chainId: chainId })
+  const minDepositAmount = stConfig?.minDepositAmount ?? 0n
   const {
     deposit,
     isSuccess: depositSuccess,
@@ -212,8 +212,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
   const isLoading = depositLoading || withdrawData.withdrawLoading
   const isSuccess = depositSuccess || withdrawData.withdrawSuccess
 
-  const prepareTransactionIsError =
-    type === 'deposit' ? depositPrepareTransactionIsError : withdrawData.prepareTransactionIsError
+  const prepareTransactionIsError = type === 'deposit' ? depositPrepareTransactionIsError : withdrawData.prepareTransactionIsError
   const prepareTransactionErrorMessage =
     type === 'deposit' ? depositPrepareTransactionErrorMessage : withdrawData.prepareTransactionErrorMessage
 
@@ -230,16 +229,13 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
   const insufficientMinDeposit = type === 'deposit' && amountBigNumber < minDepositAmount && amount.length > 0
   const insufficientFunds = amountBigNumber > balance
 
-  const insufficientWithdrawalBalance =
-    type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
+  const insufficientWithdrawalBalance = type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
   const amountIsEmpty = amountBigNumber === 0n || !amount
 
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
-    (insufficientMinDeposit &&
-      `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
-    (insufficientWithdrawalBalance &&
-      `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
+    (insufficientMinDeposit && `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
+    (insufficientWithdrawalBalance && `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
     (prepareTransactionErrorMessage &&
       `${
         type === 'deposit'
@@ -248,15 +244,14 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
       }`) ||
     ''
 
-  const walletActionLoading =
-    type === 'deposit' ? depositAwaitWalletAction : withdrawData.withdrawAwaitWalletAction
+  const walletActionLoading = type === 'deposit' ? depositAwaitWalletAction : withdrawData.withdrawAwaitWalletAction
 
   const { setOpenStakeConfirmModal, isOpen: isOpenStakeConfirmModal } = useStakeConfirmModal()
   useEffect(() => {
     const handleSuccessfulAction = async () => {
       if (isSuccess && !isOpenStakeConfirmModal) {
         setAmount('')
-        await refetchEthBalance()
+        refetchEthBalance()
         await delegationSharesRefetch()
         await handleWithdrawBalanceRefetch()
         resetState()
@@ -317,16 +312,10 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
     setAmount(truncateWei(balance, 18, true))
   }
 
-  const cantDeposit =
-    insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
+  const cantDeposit = insufficientFunds || amountIsEmpty || insufficientMinDeposit || isLoadingFees || prepareTransactionIsError
 
   const cantWithdraw =
-    insufficientFunds ||
-    insufficientWithdrawalBalance ||
-    amountIsEmpty ||
-    isLoadingFees ||
-    prepareTransactionIsError ||
-    !!withdrawTimeLeft
+    insufficientFunds || insufficientWithdrawalBalance || amountIsEmpty || isLoadingFees || prepareTransactionIsError || !!withdrawTimeLeft
 
   return (
     <>
@@ -355,9 +344,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
                 <SkeletonLoading height={20} width={120} />
               ) : (
                 <div>
-                  <span className='purple'>
-                    {formatNumberByLocale(truncateWei(BigInt(delegationBalance), 6), locale)}
-                  </span>
+                  <span className='purple'>{formatNumberByLocale(truncateWei(BigInt(delegationBalance), 6), locale)}</span>
                   <span className='purple'>{t('lsd.symbol')}</span>
                 </div>
               )}
@@ -407,9 +394,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
           />
         )}
 
-        {type === 'deposit' && accountAddress && (
-          <Button onClick={() => openQuoteEthModal(product.asset)} label={t('buyCryptoTitle')} />
-        )}
+        {type === 'deposit' && accountAddress && <Button onClick={() => openQuoteEthModal(product.asset)} label={t('buyCryptoTitle')} />}
 
         {!!(type === 'withdraw' && withdrawTimeLeft && withdrawTimeLeft > 0) && (
           <CardBlock>
@@ -454,16 +439,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
   )
 }
 
-const {
-  StakeContainer,
-  CardBlock,
-  CardInfoContainer,
-  CardInfo,
-  CardInfoData,
-  ConnectWalletIcon,
-  DepositIcon,
-  WithdrawIcon
-} = {
+const { StakeContainer, CardBlock, CardInfoContainer, CardInfo, CardInfoData, ConnectWalletIcon, DepositIcon, WithdrawIcon } = {
   StakeContainer: styled.div`
     display: grid;
     gap: ${({ theme }) => theme.size[24]};

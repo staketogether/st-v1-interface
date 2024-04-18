@@ -10,7 +10,7 @@ import { useReadContract } from 'wagmi'
 import TooltipComponent from '../shared/TooltipComponent'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
-type StakeDescriptionCheckoutProps = {
+interface StakeDescriptionCheckoutProps {
   type: 'deposit' | 'withdraw'
   youReceiveDeposit: bigint
   amount: string
@@ -59,9 +59,7 @@ export default function StakeDescriptionCheckout({
         {type === 'withdraw' && (
           <span>
             <span className='blue'>{` ${truncateDecimal(amount, 6) || '0'} `}</span>
-            <span className='blue'>{` ${
-              withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
-            }`}</span>
+            <span className='blue'>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>
           </span>
         )}
       </div>
@@ -82,11 +80,8 @@ export default function StakeDescriptionCheckout({
         )}
         {type === 'withdraw' && (
           <span>
-            <span className='purple'>1</span> <span className='purple'>{product.symbol}</span> =
-            <span className='blue'>1</span>
-            <span className='blue'>{` ${
-              withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
-            }`}</span>
+            <span className='purple'>1</span> <span className='purple'>{product.symbol}</span> =<span className='blue'>1</span>
+            <span className='blue'>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>
           </span>
         )}
       </div>

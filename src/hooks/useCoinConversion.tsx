@@ -8,7 +8,7 @@ export default function useCoinConversion(amountValue: string, coinPriceNetwork:
   const [loading, setLoading] = useState<boolean>(true)
 
   const currencyPriceList = useReactiveVar(currencyPriceListVar)
-  const currencyPrice = currencyPriceList.find(currency => currency.name === coinPriceNetwork)?.value || 0
+  const currencyPrice = currencyPriceList.find(currency => currency.name === coinPriceNetwork)?.value ?? 0
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 

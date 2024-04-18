@@ -4,33 +4,27 @@ import { ContentfulPool, ContentfulWithLocale } from '@/types/ContentfulPool'
 import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-type ContentfulPoolDetailsProps = {
+
+interface ContentfulPoolDetailsProps {
   poolAddress: `0x${string}` | undefined
   locale?: string
   fetchPolicy?: 'cache-first' | 'cache-and-network' | 'network-only' | 'no-cache' | 'standby'
 }
 
-export default function useContentfulPoolDetails({
-  poolAddress,
-  locale,
-  fetchPolicy
-}: ContentfulPoolDetailsProps) {
+export default function useContentfulPoolDetails({ poolAddress, locale, fetchPolicy }: ContentfulPoolDetailsProps) {
   const [poolDetail, setPoolDetail] = useState<ContentfulWithLocale | null>(null)
   const [poolsIsLoading, setPoolsIsLoading] = useState<boolean>(false)
   const router = useRouter()
   const requestLocale = locale ? locale : router.locale === 'en' ? 'en-US' : router.locale
-  const { data, loading } = useQuery<{ poolCollection: { items: ContentfulPool[] } }>(
-    queryContentfulPoolByAddress,
-    {
-      variables: {
-        walletAddress: poolAddress?.toLocaleLowerCase(),
-        locale: requestLocale
-      },
-      client: contentfulClient,
-      fetchPolicy: fetchPolicy ? fetchPolicy : 'cache-first',
-      skip: !poolAddress
-    }
-  )
+  const { data, loading } = useQuery<{ poolCollection: { items: ContentfulPool[] } }>(queryContentfulPoolByAddress, {
+    variables: {
+      walletAddress: poolAddress?.toLocaleLowerCase(),
+      locale: requestLocale
+    },
+    client: contentfulClient,
+    fetchPolicy: fetchPolicy ? fetchPolicy : 'cache-first',
+    skip: !poolAddress
+  })
 
   useEffect(() => {
     const dataPool = data?.poolCollection.items[0]

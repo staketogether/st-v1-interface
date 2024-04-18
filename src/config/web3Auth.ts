@@ -6,31 +6,20 @@ import { OpenloginAdapter } from '@web3auth/openlogin-adapter'
 import { WalletServicesPlugin } from '@web3auth/wallet-services-plugin'
 import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
 import * as ChainConfig from 'viem/chains'
-import {
-  arbitrum,
-  arbitrumSepolia,
-  chiliz,
-  mainnet,
-  optimism,
-  optimismSepolia,
-  polygon,
-  polygonMumbai,
-  sepolia,
-  spicy
-} from 'wagmi/chains'
+import { arbitrum, arbitrumSepolia, chiliz, mainnet, optimism, optimismSepolia, polygon, polygonMumbai, sepolia, spicy } from 'wagmi/chains'
 
 const handleRpcPerChain = (chainId: number) => {
-  const alchemyKey: { [key: number]: string } = {
-    [mainnet.id]: process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL as string,
-    [optimism.id]: process.env.NEXT_PUBLIC_RPC_OP_MAINNET_URL as string,
-    [arbitrum.id]: process.env.NEXT_PUBLIC_RPC_ARB_MAINNET_URL as string,
-    [polygon.id]: process.env.NEXT_PUBLIC_RPC_POL_MAINNET_URL as string,
-    [chiliz.id]: process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET_URL as string,
-    [sepolia.id]: process.env.NEXT_PUBLIC_RPC_ETH_TESTNET_URL as string,
-    [optimismSepolia.id]: process.env.NEXT_PUBLIC_RPC_OP_TESTNET_URL as string,
-    [arbitrumSepolia.id]: process.env.NEXT_PUBLIC_RPC_ARB_TESTNET_URL as string,
-    [polygonMumbai.id]: process.env.NEXT_PUBLIC_RPC_POL_TESTNET_URL as string,
-    [spicy.id]: process.env.NEXT_PUBLIC_RPC_SPICY_MAINNET_URL as string
+  const alchemyKey: Record<number, string> = {
+    [mainnet.id]: process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL!,
+    [optimism.id]: process.env.NEXT_PUBLIC_RPC_OP_MAINNET_URL!,
+    [arbitrum.id]: process.env.NEXT_PUBLIC_RPC_ARB_MAINNET_URL!,
+    [polygon.id]: process.env.NEXT_PUBLIC_RPC_POL_MAINNET_URL!,
+    [chiliz.id]: process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET_URL!,
+    [sepolia.id]: process.env.NEXT_PUBLIC_RPC_ETH_TESTNET_URL!,
+    [optimismSepolia.id]: process.env.NEXT_PUBLIC_RPC_OP_TESTNET_URL!,
+    [arbitrumSepolia.id]: process.env.NEXT_PUBLIC_RPC_ARB_TESTNET_URL!,
+    [polygonMumbai.id]: process.env.NEXT_PUBLIC_RPC_POL_TESTNET_URL!,
+    [spicy.id]: process.env.NEXT_PUBLIC_RPC_SPICY_MAINNET_URL!
   }
 
   return alchemyKey[chainId] || ''
@@ -46,15 +35,13 @@ export default function Web3AuthConnectorInstances(chains: ChainConfig.Chain[]) 
     displayName: chains[0].name,
     tickerName: chains[0].nativeCurrency?.name,
     ticker: chains[0].nativeCurrency?.symbol,
-    blockExplorer: chains[0].blockExplorers?.default.url[0] as string
+    blockExplorer: chains[0].blockExplorers?.default.url[0]
   }
 
   const privateKeyProvider = new EthereumPrivateKeyProvider({ config: { chainConfig } })
 
   const web3AuthInstance = new Web3AuthNoModal({
-    clientId: chains[0].testnet
-      ? String(process.env.NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID)
-      : String(process.env.NEXT_PUBLIC_WEB3_AUTH_ID),
+    clientId: chains[0].testnet ? String(process.env.NEXT_PUBLIC_WEB3_DEVNET_AUTH_ID) : String(process.env.NEXT_PUBLIC_WEB3_AUTH_ID),
     chainConfig,
     privateKeyProvider,
     web3AuthNetwork: chains[0].testnet ? WEB3AUTH_NETWORK.SAPPHIRE_DEVNET : WEB3AUTH_NETWORK.SAPPHIRE_MAINNET,

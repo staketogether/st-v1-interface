@@ -14,16 +14,12 @@ import { ProductStaking } from '@/types/ProductStaking'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import {
-  useSimulateContract,
-  useWaitForTransactionReceipt as useWaitForTransaction,
-  useWriteContract
-} from 'wagmi'
+import { useSimulateContract, useWaitForTransactionReceipt as useWaitForTransaction, useWriteContract } from 'wagmi'
 import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 
-export type PoolData = {
+export interface PoolData {
   pool: `0x${string}`
   percentage: bigint
 }
@@ -41,7 +37,7 @@ export default function useUpdateDelegations(
   const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
   const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
-  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet: false })
+  const subgraphClient = getSubgraphClient({ name: product.name, isTestnet: false })
   const { web3AuthUserInfo } = useConnectedAccount()
   const { t } = useLocaleTranslation()
 
@@ -55,7 +51,7 @@ export default function useUpdateDelegations(
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
-    contractAddress: product.contracts['mainnet'].StakeTogether,
+    contractAddress: product.contracts.mainnet.StakeTogether,
     functionName: 'updateDelegations',
     args: [updateDelegationEstimatedGas],
     abi: stakeTogetherAbi,
@@ -64,9 +60,8 @@ export default function useUpdateDelegations(
 
   useEffect(() => {
     const handleEstimateGasPrice = async () => {
-      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-        await estimateGas()
-      setEstimatedGas(estimatedGas)
+      const { estimatedCost, estimatedGas: estimatedGas2, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } = await estimateGas()
+      setEstimatedGas(estimatedGas2)
       setEstimateGasCost(estimatedCost)
       setMaxFeePerGas(estimatedMaxFeePerGas)
       setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
@@ -86,18 +81,15 @@ export default function useUpdateDelegations(
     query: {
       enabled: isUpdateDelegationEnabled
     },
-    address: product.contracts['mainnet'].StakeTogether,
-    args: [updateDelegationPools],
+    address: product.contracts.mainnet.StakeTogether,
+    args: [updateDelegationPools as readonly { pool: `0x${string}`; percentage: bigint }[]],
     account: accountAddress,
     abi: stakeTogetherAbi,
     chainId: product.chainIdNetworkAvailable,
     functionName: 'updateDelegations',
     gas: !!estimatedGas && estimatedGas > 0n && !!web3AuthUserInfo ? estimatedGas : undefined,
     maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
-    maxPriorityFeePerGas:
-      !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo
-        ? maxPriorityFeePerGas
-        : undefined
+    maxPriorityFeePerGas: !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo ? maxPriorityFeePerGas : undefined
   })
 
   useEffect(() => {
@@ -108,17 +100,13 @@ export default function useUpdateDelegations(
     const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
     if (
-      (!cause || !cause.reason) &&
+      !cause?.reason &&
       !!web3AuthUserInfo &&
       cause?.message &&
-      cause.message.includes(
-        'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
-      )
+      cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
     ) {
       notification.warning({
-        message: `${t('v2.stake.depositErrorMessage.insufficientGasBalance')}, ${t(
-          'v2.stake.depositErrorMessage.useMaxButton'
-        )}`,
+        message: `${t('v2.stake.depositErrorMessage.insufficientGasBalance')}, ${t('v2.stake.depositErrorMessage.useMaxButton')}`,
         placement: 'topRight'
       })
       setPrepareTransactionErrorMessage('insufficientGasBalance')
@@ -128,7 +116,7 @@ export default function useUpdateDelegations(
 
     const { data } = cause as { data?: { errorName?: string } }
 
-    if (cause && data && data.errorName) {
+    if (cause && data?.errorName) {
       setPrepareTransactionErrorMessage(data.errorName)
     }
   }, [prepareTransactionIsError, t, prepareTransactionError, web3AuthUserInfo])

@@ -4,12 +4,12 @@ import { ProductStaking } from '@/types/ProductStaking'
 import styled from 'styled-components'
 import TokensCardContainer from './TokensCardContainer'
 
-type TokensControl = {
+interface TokensControlProps {
   productsList: ProductStaking[] | ProductAsset[]
   type: 'staking' | 'assets'
 }
 
-export default function TokensControl({ type, productsList }: TokensControl) {
+export default function TokensControl({ type, productsList }: TokensControlProps) {
   const { t } = useLocaleTranslation()
 
   const title = type === 'staking' ? 'v2.staking.title' : 'v2.assets.title'

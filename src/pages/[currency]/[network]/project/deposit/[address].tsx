@@ -8,9 +8,9 @@ import LayoutTemplate from '../../../../../components/shared/layout/LayoutTempla
 import { MetaTagsPoolDetail } from '../../../../../components/shared/meta/MetaTagsPoolDetail'
 import StakeControl from '../../../../../components/stake/StakeControl'
 
-type DepositProps = {
+interface DepositProps {
   poolAddress: `0x${string}`
-  chainId: number,
+  chainId: number
   poolDetail?: ContentfulPool
 }
 
@@ -24,7 +24,7 @@ export default function Deposit({ poolAddress, poolDetail, chainId }: DepositPro
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const { address, network } = context?.params as { address: `0x${string}`, network: AllowedNetworks }
+  const { address, network } = context?.params as { address: `0x${string}`; network: AllowedNetworks }
   const { data } = await contentfulClient.query<{ poolCollection: { items: ContentfulPool[] } }>({
     query: queryContentfulPoolByAddress,
 
@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   }
   return {
     props: {
-      ...(await serverSideTranslations(context.locale || 'en', ['common'])),
+      ...(await serverSideTranslations(context.locale ?? 'en', ['common'])),
       poolAddress: address.toLowerCase() || '',
       poolDetail: data?.poolCollection.items[0] || null,
       chainId

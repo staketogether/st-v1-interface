@@ -1,10 +1,10 @@
 import { CreateContentfulClient } from '@/config/contentful'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { ethers } from 'ethers'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { form, signatureMessage } = req.body
-  const { signature, message } = signatureMessage
+  const { signature, message }: { signature: string; message: string } = signatureMessage
 
   if (!signatureMessage) {
     res.status(400).json({ message: 'signature not found' })
@@ -38,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const client = await CreateContentfulClient()
-  const decodedImage = Buffer.from(form.logo.base64, 'base64')
+  const decodedImage = Buffer.from(form.logo.base64 as string, 'base64')
 
   const logoUpload = await client.createAssetFromFiles({
     fields: {
@@ -65,7 +65,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   })
 
-  const assetLogo = await logoUpload.processForAllLocales().then(res => res.publish())
+  const assetLogo = await logoUpload.processForAllLocales().then(r => r.publish())
 
   try {
     const mandatoryFields = {

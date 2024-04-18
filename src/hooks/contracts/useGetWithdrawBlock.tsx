@@ -5,19 +5,14 @@ import { useEffect, useState } from 'react'
 import { useReadContract } from 'wagmi'
 import useBlockCountdown from '../useBlockCountdown'
 
-type useGetWithdrawBlockProps = {
+interface useGetWithdrawBlockProps {
   walletAddress: `0x${string}` | undefined
   enabled: boolean
   product: ProductStaking
   chainId: number
 }
 
-export default function useGetWithdrawBlock({
-  walletAddress,
-  enabled = true,
-  product,
-  chainId
-}: useGetWithdrawBlockProps) {
+export default function useGetWithdrawBlock({ walletAddress, enabled = true, product, chainId }: useGetWithdrawBlockProps) {
   const [withdrawBlock, setWithdrawBlock] = useState<bigint>(0n)
   const { isTestnet } = chainConfigByChainId(chainId)
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
@@ -34,12 +29,11 @@ export default function useGetWithdrawBlock({
 
   useEffect(() => {
     if (data) {
-      setWithdrawBlock(data as bigint)
+      setWithdrawBlock(data)
     }
   }, [data])
 
-  const timeLeft =
-    useBlockCountdown(Number(withdrawBlock), chainId, product.transactionConfig.blockTimePerSeconds) || 0
+  const timeLeft = useBlockCountdown(Number(withdrawBlock), chainId, product.transactionConfig.blockTimePerSeconds) ?? 0
 
   return { withdrawBlock, isLoading: isFetching, timeLeft, getWithdrawBlock: refetch }
 }

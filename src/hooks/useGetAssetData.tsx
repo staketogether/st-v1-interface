@@ -3,7 +3,7 @@ import { ProductMarketAssetData } from '@/types/ProductStaking'
 import axios from 'axios'
 import useSWR from 'swr'
 
-type UseGetAssetDataProps = {
+interface UseGetAssetDataProps {
   asset: string
   blockchain: string
   symbol: string

@@ -1,15 +1,15 @@
 import { BrlaBuyEthStep, openBrlaModalVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useTransak from '@/hooks/useTransak'
+import { ProductAsset } from '@/types/ProductAsset'
 import CreditCard from '@assets/images/master-visa.svg'
 import Pix from '@assets/images/pix-full.svg'
 import Image from 'next/image'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import Button from '../shared/Button'
-import { ProductAsset } from '@/types/ProductAsset'
 
-type PaymentMethodProps = {
+interface PaymentMethodProps {
   product: ProductAsset
 }
 

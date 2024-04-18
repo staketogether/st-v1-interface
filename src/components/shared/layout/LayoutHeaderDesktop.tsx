@@ -1,5 +1,6 @@
 import Wallet from '@/components/wallet/Wallet'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -8,7 +9,6 @@ import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import dynamic from 'next/dynamic'
 import SkeletonLoading from '../icons/SkeletonLoading'
 
 const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
@@ -32,24 +32,24 @@ export default function LayoutHeader() {
     <Container>
       <MenuContainer>
         <div>
-          <Logo href={`/${currency}/staking`}>
+          <Logo href={`/${currency as string}/staking`}>
             <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={27} />
           </Logo>
         </div>
         <Menu>
-          <Link href={`/${currency}/staking`}>
+          <Link href={`/${currency as string}/staking`}>
             <MenuButton className={`${isHome || isActive('staking') ? 'active' : ''}`}>
               <InvestIcon />
               {t('v2.header.staking')}
             </MenuButton>
           </Link>
-          <Link href={`/${currency}/assets`}>
+          <Link href={`/${currency as string}/assets`}>
             <MenuButton className={`${isHome || isActive('assets') ? 'active' : ''}`}>
               <InvestIcon />
               {t('v2.header.assets')}
             </MenuButton>
           </Link>
-          <Link href={`/${currency}/${network || 'optimism'}/project`}>
+          <Link href={`/${currency as string}/${(network as string) || 'optimism'}/project`}>
             <MenuButton className={`${!isHome && isActive('project') ? 'active' : ''}`}>
               <ProjectsIcon />
               {t('v2.header.projects')}

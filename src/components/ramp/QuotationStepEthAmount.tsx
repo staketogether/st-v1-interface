@@ -1,13 +1,13 @@
 import useQuoteBrla from '@/hooks/ramp/useQuote'
-import { ProviderType } from '@/types/provider.type'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAsset } from '@/types/ProductAsset'
 import { PaymentMethodType } from '@/types/payment-method.type'
+import { ProviderType } from '@/types/provider.type'
 import { useEffect, useMemo, useState } from 'react'
 import { PiClock } from 'react-icons/pi'
 import styled from 'styled-components'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductAsset } from '@/types/ProductAsset'
 
-type QuotationStepEthAmountProps = {
+interface QuotationStepEthAmountProps {
   product: ProductAsset
 }
 
@@ -25,7 +25,7 @@ export default function QuotationStepEthAmount({ product }: QuotationStepEthAmou
   const { quote: quoteEthValue, isValidating: ethValueIsValidating } = useQuoteBrla(
     'brl',
     amount,
-    product.ramp.bridge?.fromChainId || product.ramp.chainId,
+    product.ramp.bridge?.fromChainId ?? product.ramp.chainId,
     0,
     ProviderType.brla,
     PaymentMethodType.pix,

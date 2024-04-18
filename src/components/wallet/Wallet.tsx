@@ -1,12 +1,12 @@
 import chainConfig from '@/config/chain'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
+import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { useEffect } from 'react'
 import WalletDisconnectedButton from './WalletConnectButton'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletSidebarConnected from './WalletSidebarConnected'
-import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 
-type WalletProps = {
+interface WalletProps {
   account: `0x${string}` | undefined
   accountIsConnected: boolean
 }

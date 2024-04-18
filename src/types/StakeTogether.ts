@@ -1,4 +1,4 @@
-export type StakeTogether = {
+export interface StakeTogether {
   contractBalance: bigint
   beaconBalance: bigint
   accountsCount: string

@@ -3,12 +3,9 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 
-const AdvancedRealTimeChart = dynamic(
-  () => import('react-ts-tradingview-widgets').then(w => w.AdvancedRealTimeChart),
-  { ssr: false }
-)
+const AdvancedRealTimeChart = dynamic(() => import('react-ts-tradingview-widgets').then(w => w.AdvancedRealTimeChart), { ssr: false })
 
-type TradingViewComponentProps = {
+interface TradingViewComponentProps {
   tradingView: {
     symbol: string
     fiat: TradingViewFiatData
@@ -22,10 +19,7 @@ const TradingViewComponent = ({ tradingView }: TradingViewComponentProps) => {
   const currencies = useMemo(() => tradingView.fiat, [tradingView.fiat])
 
   const selectedCurrency = useMemo(
-    () =>
-      (currency as keyof typeof currencies)
-        ? currencies[currency as keyof typeof currencies]
-        : tradingView.symbol,
+    () => ((currency as keyof typeof currencies) ? currencies[currency as keyof typeof currencies] : tradingView.symbol),
     [currency, currencies, tradingView.symbol]
   )
 

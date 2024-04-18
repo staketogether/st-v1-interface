@@ -4,19 +4,17 @@ import Loading from '@/components/shared/icons/Loading'
 import SearchInput from '@/components/shared/inputs/SearchInput'
 import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import React, { useState } from 'react'
+import useProjectDetailModal from '@/hooks/useProjectDetailModal'
+import { ContentfulPool } from '@/types/ContentfulPool'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
-import PanelProjectDetailModal from './PanelProjectDetailModal'
-import { ContentfulPool } from '@/types/ContentfulPool'
-import useProjectDetailModal from '@/hooks/useProjectDetailModal'
 import PanelApprovedButton from './PanelApprovedButton'
+import PanelProjectDetailModal from './PanelProjectDetailModal'
 
 export default function PanelApprovedList() {
   const [search, setSearch] = useState<string>('')
-  const [projectSelected, setProjectSelected] = useState<
-    (ContentfulPool & { isContractPublished: boolean }) | null
-  >(null)
+  const [projectSelected, setProjectSelected] = useState<(ContentfulPool & { isContractPublished: boolean }) | null>(null)
   const debouncedSearch = useDebounce(search, 300)
   const isSearchAddress = search.startsWith('0x')
   const { projectList, initialLoading, loadingFetchMore } = useContentfulProjectListByStatus({
@@ -44,12 +42,7 @@ export default function PanelApprovedList() {
             projectList.map(project => (
               <ProjectContainer key={project.wallet}>
                 <Project>
-                  <CommunityLogo
-                    size={24}
-                    src={project?.logo.url}
-                    alt={project?.logo.fileName || ''}
-                    loading={initialLoading}
-                  />
+                  <CommunityLogo size={24} src={project?.logo.url} alt={project?.logo.fileName || ''} loading={initialLoading} />
                   <CommunityName name={project.name} loading={false} />
                 </Project>
                 <PanelApprovedButton

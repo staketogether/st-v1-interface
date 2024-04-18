@@ -2,293 +2,283 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface, type ContractRunner } from "ethers";
-import type {
-  IStakeTogetherWrapper,
-  IStakeTogetherWrapperInterface,
-} from "../../../../contracts/ethereum/interfaces/IStakeTogetherWrapper";
+import { Contract, Interface, type ContractRunner } from 'ethers'
+import type { IStakeTogetherWrapper, IStakeTogetherWrapperInterface } from '../../../../contracts/ethereum/interfaces/IStakeTogetherWrapper'
 
 const _abi = [
   {
     inputs: [],
-    name: "FlashLoan",
-    type: "error",
+    name: 'FlashLoan',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ListedInAntiFraud",
-    type: "error",
+    name: 'ListedInAntiFraud',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "NoExtraAmountAvailable",
-    type: "error",
+    name: 'NoExtraAmountAvailable',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "StakeTogetherAlreadySet",
-    type: "error",
+    name: 'StakeTogetherAlreadySet',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "TransferStpEthFailed",
-    type: "error",
+    name: 'TransferStpEthFailed',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ZeroAddress",
-    type: "error",
+    name: 'ZeroAddress',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ZeroStpETHAmount",
-    type: "error",
+    name: 'ZeroStpETHAmount',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ZeroWstpETHAmount",
-    type: "error",
+    name: 'ZeroWstpETHAmount',
+    type: 'error'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
     ],
-    name: "ReceiveEther",
-    type: "event",
+    name: 'ReceiveEther',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "stakeTogether",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'stakeTogether',
+        type: 'address'
+      }
     ],
-    name: "SetStakeTogether",
-    type: "event",
+    name: 'SetStakeTogether',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "user",
-        type: "address",
+        internalType: 'address',
+        name: 'user',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "wstpETHAmount",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'wstpETHAmount',
+        type: 'uint256'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "stpETHAmount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'stpETHAmount',
+        type: 'uint256'
+      }
     ],
-    name: "Unwrapped",
-    type: "event",
+    name: 'Unwrapped',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "user",
-        type: "address",
+        internalType: 'address',
+        name: 'user',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "stpETHAmount",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'stpETHAmount',
+        type: 'uint256'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "wstpETHAmount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'wstpETHAmount',
+        type: 'uint256'
+      }
     ],
-    name: "Wrapped",
-    type: "event",
+    name: 'Wrapped',
+    type: 'event'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_stakeTogether",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_stakeTogether',
+        type: 'address'
+      }
     ],
-    name: "setStakeTogether",
+    name: 'setStakeTogether',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_wstpETH",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_wstpETH',
+        type: 'uint256'
+      }
     ],
-    name: "stpEthPerWstpETH",
+    name: 'stpEthPerWstpETH',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_to",
-        type: "address",
+        internalType: 'address',
+        name: '_to',
+        type: 'address'
       },
       {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256'
+      }
     ],
-    name: "transfer",
+    name: 'transfer',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "transferExtraAmount",
+    name: 'transferExtraAmount',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_from",
-        type: "address",
+        internalType: 'address',
+        name: '_from',
+        type: 'address'
       },
       {
-        internalType: "address",
-        name: "_to",
-        type: "address",
+        internalType: 'address',
+        name: '_to',
+        type: 'address'
       },
       {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256'
+      }
     ],
-    name: "transferFrom",
+    name: 'transferFrom',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_wstpETH",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_wstpETH',
+        type: 'uint256'
+      }
     ],
-    name: "unwrap",
+    name: 'unwrap',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_stpETH",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_stpETH',
+        type: 'uint256'
+      }
     ],
-    name: "wrap",
+    name: 'wrap',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_stpETH",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_stpETH',
+        type: 'uint256'
+      }
     ],
-    name: "wstpETHPerStpETH",
+    name: 'wstpETHPerStpETH',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
-  },
-] as const;
+    stateMutability: 'view',
+    type: 'function'
+  }
+] as const
 
 export class IStakeTogetherWrapper__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): IStakeTogetherWrapperInterface {
-    return new Interface(_abi) as IStakeTogetherWrapperInterface;
+    return new Interface(_abi) as IStakeTogetherWrapperInterface
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IStakeTogetherWrapper {
-    return new Contract(
-      address,
-      _abi,
-      runner
-    ) as unknown as IStakeTogetherWrapper;
+  static connect(address: string, runner?: ContractRunner | null): IStakeTogetherWrapper {
+    return new Contract(address, _abi, runner) as unknown as IStakeTogetherWrapper
   }
 }

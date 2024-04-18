@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useReadContract } from 'wagmi'
 import { erc20Abi } from 'viem'
+import { useReadContract } from 'wagmi'
 
-type UseErc20BalanceOf = {
+interface UseErc20BalanceOf {
   walletAddress?: `0x${string}`
   token?: `0x${string}`
   chainId: number
@@ -16,9 +16,9 @@ export default function useErc20BalanceOf({ walletAddress, chainId, token }: Use
     chainId,
     functionName: 'balanceOf',
     abi: erc20Abi,
-    args: walletAddress ? [walletAddress] : undefined,
+    args: walletAddress ? [walletAddress] : undefined
   })
-  const erc20Balance = data || 0n
+  const erc20Balance = data ?? 0n
 
   useEffect(() => {
     setBalance(erc20Balance)

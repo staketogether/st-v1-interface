@@ -11,6 +11,8 @@ export const useFacebookPixel = (eventTrack: string, isTracked = true) => {
         window.fbq('track', eventTrack)
       }
     }
-    isTracked && fbqTrackEvent()
+    if (isTracked) {
+      fbqTrackEvent()
+    }
   }, [eventTrack, isTracked])
 }

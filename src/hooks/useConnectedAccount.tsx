@@ -1,8 +1,8 @@
+import { web3AuthInstanceVar } from '@/config/web3Auth'
 import { Web3AuthUserInfo } from '@/types/Web3AuthUserInfo'
+import { useReactiveVar } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
-import { useReactiveVar } from '@apollo/client'
-import { web3AuthInstanceVar } from '@/config/web3Auth'
 
 export default function useConnectedAccount() {
   const [web3AuthUserInfo, setWeb3AuthUserInfo] = useState<Web3AuthUserInfo | null>(null)

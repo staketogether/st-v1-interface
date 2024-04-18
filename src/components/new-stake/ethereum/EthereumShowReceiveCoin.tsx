@@ -9,7 +9,7 @@ import { ProductStaking } from '@/types/ProductStaking'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
-type EthereumStpETHInputProps = {
+interface EthereumStpETHInputProps {
   amountValue: string
   balance: bigint
   balanceLoading: boolean
@@ -49,12 +49,7 @@ export default function EthereumShowReceiveCoin({
         <CoinActionContainer>
           {type === 'deposit' ? (
             <>
-              <TokensSymbolIcons
-                productSymbol={product.symbol}
-                size={32}
-                showPlusIcon
-                contractAddress={stakeTogetherContractAddress}
-              />
+              <TokensSymbolIcons productSymbol={product.symbol} size={32} showPlusIcon contractAddress={stakeTogetherContractAddress} />
             </>
           ) : (
             <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />

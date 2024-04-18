@@ -6,7 +6,7 @@ import { Select, Switch, Tooltip } from 'antd'
 import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 
-type EthereumProjectSelectProps = {
+interface EthereumProjectSelectProps {
   isActivatedDelegation: boolean
   onChange: (checked: boolean) => void
   poolDelegatedSelected: `0x${string}`
@@ -60,9 +60,7 @@ export default function EthereumProjectSelect({
           style={{ width: '100%', height: 42 }}
           options={projectListMapped}
           optionFilterProp='children'
-          filterOption={(input, option) =>
-            (option?.filterValue?.toString().toLowerCase() ?? '').includes(input.toLowerCase())
-          }
+          filterOption={(input, option) => (option?.filterValue?.toString().toLowerCase() ?? '').includes(input.toLowerCase())}
           filterSort={(optionA, optionB) => {
             return (optionA?.filterValue?.toString().toLowerCase() ?? '').localeCompare(
               optionB?.filterValue?.toString().toLowerCase() ?? ''

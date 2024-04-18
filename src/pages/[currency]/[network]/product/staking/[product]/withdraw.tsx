@@ -14,7 +14,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-export type HomeProps = {
+export interface HomeProps {
   product: ProductStaking
   assetData: ProductMarketAssetData
   chainId: number
@@ -46,7 +46,7 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   const paths = [
     { params: { network: 'ethereum', currency: 'usd', type: 'staking', product: 'ethereum-stake' } },
     { params: { network: 'ethereum', currency: 'brl', type: 'staking', product: 'ethereum-stake' } },
@@ -60,12 +60,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: 'blocking' }
 }
 
-async function fetchProductAssetData(
-  uri: string,
-  asset: string,
-  blockchain: string,
-  symbol: string
-): Promise<ProductMarketAssetData> {
+async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<ProductMarketAssetData> {
   const { backendUrl } = globalConfig
   return axios
     .get<ProductMarketAssetData>(`${backendUrl}/api/${uri}`, {
@@ -103,7 +98,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       assetData,
       chainId,
       product: findProduct,
-      ...(await serverSideTranslations(locale || 'en', ['common']))
+      ...(await serverSideTranslations(locale ?? 'en', ['common']))
     },
     revalidate: 24 * 60 * 60
   }

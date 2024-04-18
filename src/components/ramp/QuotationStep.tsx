@@ -1,8 +1,13 @@
+import QuotationStepEthAmount from '@/components/ramp/QuotationStepEthAmount'
+import AssetIcon from '@/components/shared/AssetIcon'
 import Button from '@/components/shared/Button'
 import { BrlaBuyEthStep, fiatAmountVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useQuoteRamp from '@/hooks/ramp/useQuote'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { truncateDecimal } from '@/services/truncate'
+import { ProductAsset } from '@/types/ProductAsset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -10,19 +15,13 @@ import brlBrla from '@assets/icons/brl-brla.svg'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowRight } from 'react-icons/pi'
-
-import QuotationStepEthAmount from '@/components/ramp/QuotationStepEthAmount'
-import AssetIcon from '@/components/shared/AssetIcon'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
-import { truncateDecimal } from '@/services/truncate'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { KycLevel } from './KycLevel'
-import { ProductAsset } from '@/types/ProductAsset'
 
-type QuotationStepProps = {
+interface QuotationStepProps {
   product: ProductAsset
 }
 
@@ -35,7 +34,7 @@ export default function QuotationStep({ product }: QuotationStepProps) {
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
     debounceValue ? Number(debounceValue) : 0,
-    product.ramp.bridge?.fromChainId || product.ramp.chainId,
+    product.ramp.bridge?.fromChainId ?? product.ramp.chainId,
     0,
     ProviderType.brla,
     PaymentMethodType.pix,
@@ -50,16 +49,16 @@ export default function QuotationStep({ product }: QuotationStepProps) {
   const limit = Number(debounceValue) * 100 >= Number(kycLevelInfo?.limits.limitSwapBuy ?? 0)
   const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
   const errorMinValue = BigInt(debounceValue) < minDeposit
-  const handleChange = (value: string) => {
-    if (value.includes(',')) {
-      value = value.replace(',', '.')
+  const handleChange = (v: string) => {
+    if (v.includes(',')) {
+      v = v.replace(',', '.')
     }
     const regex = /^(\d+(\.\d*)?|\.\d+)$/
-    if (!value || regex.test(value)) {
-      if (value.length > 19 + value.split('.')[0].length) return
+    if (!v || regex.test(v)) {
+      if (v.length > 19 + v.split('.')[0].length) return
 
-      setValue(value)
-      fiatAmountVar(value)
+      setValue(v)
+      fiatAmountVar(v)
     }
   }
 
@@ -110,24 +109,12 @@ export default function QuotationStep({ product }: QuotationStepProps) {
             <Image src={brlBrla} width={36} height={24} alt='BRL' />
             <span>BRL</span>
           </div>
-          <input
-            type='number'
-            onChange={({ target }) => handleChange(target.value)}
-            value={value}
-            min={0}
-            placeholder='0'
-            step={1}
-          />
+          <input type='number' onChange={({ target }) => handleChange(target.value)} value={value} min={0} placeholder='0' step={1} />
         </InputContainer>
         <ArrowDown />
         <InputContainer>
           <div>
-            <AssetIcon
-              marginRight='8px'
-              assetIcon={product.symbol}
-              networkIcon={product.networkAvailable}
-              size={24}
-            />
+            <AssetIcon marginRight='8px' assetIcon={product.symbol} networkIcon={product.networkAvailable} size={24} />
             <span>{product.symbol}</span>
           </div>
           {quoteIsValidating ? (

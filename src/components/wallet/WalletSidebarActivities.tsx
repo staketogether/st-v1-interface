@@ -9,12 +9,12 @@ import { PiLink } from 'react-icons/pi'
 import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
 
-type WalletSidebarActivities = {
+interface WalletSidebarActivitiesProps {
   accountActivities: AccountActivity[]
   product: ProductStaking
 }
 
-export default function WalletSidebarActivities({ accountActivities, product }: WalletSidebarActivities) {
+export default function WalletSidebarActivities({ accountActivities, product }: WalletSidebarActivitiesProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
   const { blockExplorer } = chainConfigByChainId(product.chainIdNetworkAvailable)

@@ -1,9 +1,9 @@
+import { ProductAsset } from '@/types/ProductAsset'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import styled from 'styled-components'
 import LottieAnimation from '../shared/LottieAnimation'
 import SwapInfo from './SwapInfo'
 import ValidationList, { ValidationSteps } from './ValidationList'
-import { ProductAsset } from '@/types/ProductAsset'
 
 export default function WrapProcessingStep({
   validationSteps,

@@ -1,13 +1,9 @@
-import {
-  BrlaBuyEthStep,
-  clearModal,
-  qrCodeVar,
-  quoteVar,
-  stepsControlBuyCryptoVar
-} from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, clearModal, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import usePixBankInfo from '@/hooks/ramp/usePixBankInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAsset } from '@/types/ProductAsset'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import { QRCode, notification } from 'antd'
@@ -17,10 +13,8 @@ import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
 import SwapInfo from './SwapInfo'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
-import { ProductAsset } from '@/types/ProductAsset'
 
-type CheckoutStepProps = {
+interface CheckoutStepProps {
   product: ProductAsset
 }
 
@@ -116,24 +110,11 @@ export default function CheckoutStep({ product }: CheckoutStepProps) {
         </PixArea>
         <KeyPixArea>
           <span>{t('v2.ramp.orUseThePixKey')}</span>
-          <Button
-            type='button'
-            label={qrCode?.brCode ?? ''}
-            icon={<PiCopy />}
-            iconLeft
-            className='ghost'
-            fontSize={10}
-          />
+          <Button type='button' label={qrCode?.brCode ?? ''} icon={<PiCopy />} iconLeft className='ghost' fontSize={10} />
         </KeyPixArea>
       </Body>
       <Footer>
-        <Button
-          type='button'
-          label={t('v2.ramp.cancelDeposit')}
-          className='outline'
-          block
-          onClick={clearModal}
-        />
+        <Button type='button' label={t('v2.ramp.cancelDeposit')} className='outline' block onClick={clearModal} />
       </Footer>
     </Container>
   )

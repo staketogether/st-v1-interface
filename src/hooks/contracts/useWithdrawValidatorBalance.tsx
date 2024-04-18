@@ -4,13 +4,7 @@ import { ProductStaking } from '@/types/ProductStaking'
 import { useEffect, useState } from 'react'
 import { useReadContract } from 'wagmi'
 
-export const useWithdrawValidatorBalance = ({
-  product,
-  chainId
-}: {
-  product: ProductStaking
-  chainId: number
-}) => {
+export const useWithdrawValidatorBalance = ({ product, chainId }: { product: ProductStaking; chainId: number }) => {
   const [liquidityValidatorsBalance, setLiquidityValidatorsBalance] = useState(0n)
   const { isTestnet } = chainConfigByChainId(chainId)
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']

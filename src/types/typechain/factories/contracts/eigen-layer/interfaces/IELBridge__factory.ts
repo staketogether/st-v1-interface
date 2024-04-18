@@ -2,44 +2,41 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface, type ContractRunner } from "ethers";
-import type {
-  IELBridge,
-  IELBridgeInterface,
-} from "../../../../contracts/eigen-layer/interfaces/IELBridge";
+import { Contract, Interface, type ContractRunner } from 'ethers'
+import type { IELBridge, IELBridgeInterface } from '../../../../contracts/eigen-layer/interfaces/IELBridge'
 
 const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_to",
-        type: "address",
+        internalType: 'address',
+        name: '_to',
+        type: 'address'
       },
       {
-        internalType: "uint32",
-        name: "_minGasLimit",
-        type: "uint32",
+        internalType: 'uint32',
+        name: '_minGasLimit',
+        type: 'uint32'
       },
       {
-        internalType: "bytes",
-        name: "_extraData",
-        type: "bytes",
-      },
+        internalType: 'bytes',
+        name: '_extraData',
+        type: 'bytes'
+      }
     ],
-    name: "bridgeETHTo",
+    name: 'bridgeETHTo',
     outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-] as const;
+    stateMutability: 'payable',
+    type: 'function'
+  }
+] as const
 
 export class IELBridge__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): IELBridgeInterface {
-    return new Interface(_abi) as IELBridgeInterface;
+    return new Interface(_abi) as IELBridgeInterface
   }
   static connect(address: string, runner?: ContractRunner | null): IELBridge {
-    return new Contract(address, _abi, runner) as unknown as IELBridge;
+    return new Contract(address, _abi, runner) as unknown as IELBridge
   }
 }

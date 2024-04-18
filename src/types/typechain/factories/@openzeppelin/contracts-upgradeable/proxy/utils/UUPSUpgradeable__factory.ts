@@ -2,152 +2,149 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface, type ContractRunner } from "ethers";
+import { Contract, Interface, type ContractRunner } from 'ethers'
 import type {
   UUPSUpgradeable,
-  UUPSUpgradeableInterface,
-} from "../../../../../@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable";
+  UUPSUpgradeableInterface
+} from '../../../../../@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable'
 
 const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "target",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'target',
+        type: 'address'
+      }
     ],
-    name: "AddressEmptyCode",
-    type: "error",
+    name: 'AddressEmptyCode',
+    type: 'error'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "implementation",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'implementation',
+        type: 'address'
+      }
     ],
-    name: "ERC1967InvalidImplementation",
-    type: "error",
+    name: 'ERC1967InvalidImplementation',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ERC1967NonPayable",
-    type: "error",
+    name: 'ERC1967NonPayable',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "FailedInnerCall",
-    type: "error",
+    name: 'FailedInnerCall',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InvalidInitialization",
-    type: "error",
+    name: 'InvalidInitialization',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "NotInitializing",
-    type: "error",
+    name: 'NotInitializing',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "UUPSUnauthorizedCallContext",
-    type: "error",
+    name: 'UUPSUnauthorizedCallContext',
+    type: 'error'
   },
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "slot",
-        type: "bytes32",
-      },
+        internalType: 'bytes32',
+        name: 'slot',
+        type: 'bytes32'
+      }
     ],
-    name: "UUPSUnsupportedProxiableUUID",
-    type: "error",
+    name: 'UUPSUnsupportedProxiableUUID',
+    type: 'error'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: false,
-        internalType: "uint64",
-        name: "version",
-        type: "uint64",
-      },
+        internalType: 'uint64',
+        name: 'version',
+        type: 'uint64'
+      }
     ],
-    name: "Initialized",
-    type: "event",
+    name: 'Initialized',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "implementation",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'implementation',
+        type: 'address'
+      }
     ],
-    name: "Upgraded",
-    type: "event",
+    name: 'Upgraded',
+    type: 'event'
   },
   {
     inputs: [],
-    name: "UPGRADE_INTERFACE_VERSION",
+    name: 'UPGRADE_INTERFACE_VERSION',
     outputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
+        internalType: 'string',
+        name: '',
+        type: 'string'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "proxiableUUID",
+    name: 'proxiableUUID',
     outputs: [
       {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "newImplementation",
-        type: "address",
+        internalType: 'address',
+        name: 'newImplementation',
+        type: 'address'
       },
       {
-        internalType: "bytes",
-        name: "data",
-        type: "bytes",
-      },
+        internalType: 'bytes',
+        name: 'data',
+        type: 'bytes'
+      }
     ],
-    name: "upgradeToAndCall",
+    name: 'upgradeToAndCall',
     outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-] as const;
+    stateMutability: 'payable',
+    type: 'function'
+  }
+] as const
 
 export class UUPSUpgradeable__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): UUPSUpgradeableInterface {
-    return new Interface(_abi) as UUPSUpgradeableInterface;
+    return new Interface(_abi) as UUPSUpgradeableInterface
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): UUPSUpgradeable {
-    return new Contract(address, _abi, runner) as unknown as UUPSUpgradeable;
+  static connect(address: string, runner?: ContractRunner | null): UUPSUpgradeable {
+    return new Contract(address, _abi, runner) as unknown as UUPSUpgradeable
   }
 }

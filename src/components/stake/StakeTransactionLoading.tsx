@@ -16,7 +16,7 @@ import AssetIcon from '../shared/AssetIcon'
 import LottieAnimation from '../shared/LottieAnimation'
 import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
 
-type StakeTransactionLoadingProps = {
+interface StakeTransactionLoadingProps {
   walletActionLoading: boolean
   transactionLoading: boolean
   amount: string
@@ -55,37 +55,22 @@ export default function StakeTransactionLoading({
   })
   const { addToWalletAction: addStwEthToWalletAction } = useAddStwEthToWallet()
 
-  useFacebookPixel(
-    product.eventsTrack.confirmation,
-    walletActionLoading && !transactionLoading && !transactionIsSuccess && !isWithdraw
-  )
+  useFacebookPixel(product.eventsTrack.confirmation, walletActionLoading && !transactionLoading && !transactionIsSuccess && !isWithdraw)
   useFacebookPixel(product.eventsTrack.success, transactionIsSuccess && !isWithdraw)
   return (
     <Container>
-      {transactionIsSuccess ? (
-        <SuccessIcon size={60} />
-      ) : (
-        <LottieAnimation animationData={loadingAnimation} height={60} loop />
-      )}
+      {transactionIsSuccess ? <SuccessIcon size={60} /> : <LottieAnimation animationData={loadingAnimation} height={60} loop />}
       <div>
         {walletActionLoading && !transactionLoading && !transactionIsSuccess && (
           <>
-            <TitleModal>
-              {isWithdraw
-                ? t('v2.stake.confirmModal.confirmWithdraw')
-                : t('v2.stake.confirmModal.confirmDeposit')}
-            </TitleModal>
+            <TitleModal>{isWithdraw ? t('v2.stake.confirmModal.confirmWithdraw') : t('v2.stake.confirmModal.confirmDeposit')}</TitleModal>
           </>
         )}
-        {transactionLoading && !transactionIsSuccess && (
-          <TitleModal>{t('v2.stake.confirmModal.transactionSubmitted')}</TitleModal>
-        )}
+        {transactionLoading && !transactionIsSuccess && <TitleModal>{t('v2.stake.confirmModal.transactionSubmitted')}</TitleModal>}
         {transactionIsSuccess && (
           <>
             <TitleModal>
-              {isWithdraw
-                ? t('v2.stake.confirmModal.withdrawSuccessful')
-                : t('v2.stake.confirmModal.depositSuccessful')}
+              {isWithdraw ? t('v2.stake.confirmModal.withdrawSuccessful') : t('v2.stake.confirmModal.depositSuccessful')}
             </TitleModal>
           </>
         )}
@@ -101,9 +86,7 @@ export default function StakeTransactionLoading({
               <div>
                 <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
                 <span>{`${truncateWei(youReceive, 6)}`}</span>
-                <span>
-                  {` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}
-                </span>
+                <span>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>
               </div>
             </>
           ) : (
@@ -151,15 +134,7 @@ export default function StakeTransactionLoading({
   )
 }
 
-const {
-  Container,
-  DescriptionAction,
-  ResumeStake,
-  TitleModal,
-  SuccessIcon,
-  ArrowIcon,
-  AddAssetInWalletButton
-} = {
+const { Container, DescriptionAction, ResumeStake, TitleModal, SuccessIcon, ArrowIcon, AddAssetInWalletButton } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;

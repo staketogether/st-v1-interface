@@ -1,43 +1,36 @@
+import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { PiArrowLeft, PiPlus } from 'react-icons/pi'
 import styled from 'styled-components'
-import Modal from '../shared/Modal'
 import { useDebounce } from 'usehooks-ts'
+import PoolsEmptyState from '../invest/PoolsEmptyState'
+import PoolsInputSearch from '../invest/PoolsInputSearch'
+import Button from '../shared/Button'
+import Modal from '../shared/Modal'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { PiArrowLeft, PiPlus } from 'react-icons/pi'
-import Button from '../shared/Button'
-import PoolsInputSearch from '../invest/PoolsInputSearch'
-import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
 import Loading from '../shared/icons/Loading'
-import PoolsEmptyState from '../invest/PoolsEmptyState'
 
-type ListProjectModalProps = {
+interface ListProjectModalProps {
   isOpen: boolean
   handleCloseModal: () => void
   handleAddNewProject: (walletAddress: `0x${string}`) => void
   delegationAddress: `0x${string}`[]
 }
 
-export default function ListProjectModal({
-  isOpen,
-  handleCloseModal,
-  handleAddNewProject,
-  delegationAddress
-}: ListProjectModalProps) {
+export default function ListProjectModal({ isOpen, handleCloseModal, handleAddNewProject, delegationAddress }: ListProjectModalProps) {
   const [skipPoolList, setSkipPoolList] = useState(0)
   const [search, setSearch] = useState('')
   const { t } = useLocaleTranslation()
   const isSearchAddress = search.startsWith('0x')
   const debouncedSearch = useDebounce(search, 300)
-  const { projectList, initialLoading, loadMore, loadingFetchMore, totalProjects } =
-    useContentfulProjectListByStatus({
-      status: 'approved',
-      projectName: isSearchAddress ? undefined : debouncedSearch,
-      projectAddress: isSearchAddress ? debouncedSearch : undefined,
-      excludeProjectAddress: delegationAddress
-    })
+  const { projectList, initialLoading, loadMore, loadingFetchMore, totalProjects } = useContentfulProjectListByStatus({
+    status: 'approved',
+    projectName: isSearchAddress ? undefined : debouncedSearch,
+    projectAddress: isSearchAddress ? debouncedSearch : undefined,
+    excludeProjectAddress: delegationAddress
+  })
 
   const handleLoadMore = () => {
     const newSkip = skipPoolList + 10
@@ -59,20 +52,13 @@ export default function ListProjectModal({
         </HeaderContainer>
         <Divider />
         <List>
-          {!!(!initialLoading && !projectList.length) && (
-            <PoolsEmptyState handleClickButton={() => setSearch('')} key='pool-row-empty' />
-          )}
+          {!!(!initialLoading && !projectList.length) && <PoolsEmptyState handleClickButton={() => setSearch('')} key='pool-row-empty' />}
           {!!(!initialLoading && projectList.length) &&
             projectList.map(pool => {
               return (
                 <Row key={`list-modal-${pool.wallet}`}>
                   <Project>
-                    <CommunityLogo
-                      size={24}
-                      src={pool.logo.url}
-                      alt={pool.logo.fileName || ''}
-                      loading={initialLoading}
-                    />
+                    <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName || ''} loading={initialLoading} />
                     {pool.name ? (
                       <CommunityName name={pool.name} loading={initialLoading} />
                     ) : (

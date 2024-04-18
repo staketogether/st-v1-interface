@@ -11,10 +11,10 @@ import { useEffect } from 'react'
 import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
+import AssetIcon from '../shared/AssetIcon'
 import LottieAnimation from '../shared/LottieAnimation'
 import NetworkIcons from '../shared/NetworkIcons'
 import ProductInfo from './ProductInfo'
-import AssetIcon from '../shared/AssetIcon'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -26,7 +26,7 @@ const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl
   suspense: true
 })
 
-type NewStakeControlProps = {
+interface NewStakeControlProps {
   type: 'deposit' | 'withdraw'
   product: ProductStaking
   assetData: ProductMarketAssetData
@@ -64,7 +64,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   return (
     <Container>
       <header>
-        <HeaderBackAction href={`/${currency}/staking`}>
+        <HeaderBackAction href={`/${currency as string}/staking`}>
           <PiArrowLeft />
           <span>{t('goToBack')}</span>
         </HeaderBackAction>

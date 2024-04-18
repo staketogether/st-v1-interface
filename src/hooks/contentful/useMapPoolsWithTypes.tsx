@@ -5,9 +5,7 @@ export function useMapPoolsWithTypes(pools: PoolSubgraph[]) {
   const { poolsList, isLoading } = useContentfulPoolsList()
 
   const poolsWithTypes: Pool[] = pools.map(subgraphPool => {
-    const pool = poolsList.find(
-      item => item.wallet?.toLocaleLowerCase() === subgraphPool.id.toLocaleLowerCase()
-    )
+    const pool = poolsList.find(item => item.wallet?.toLocaleLowerCase() === subgraphPool.id.toLocaleLowerCase())
 
     if (!pool) {
       return { ...subgraphPool, type: '', name: '', logo: { url: '', fileName: '' } }

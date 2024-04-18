@@ -14,7 +14,7 @@ export default function useStwEthBalance(address: `0x${string}`) {
     token: Withdrawals
   })
 
-  const ethBalance = data?.value || 0n
+  const ethBalance = data?.value ?? 0n
 
   useEffect(() => {
     setBalance(ethBalance)

@@ -1,12 +1,9 @@
-import { useQuery } from '@apollo/client'
-import { useEffect, useState } from 'react'
 import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { PoolActivity } from '@/types/PoolActivity'
+import { useQuery } from '@apollo/client'
+import { useEffect, useState } from 'react'
 
-export default function usePoolActivities(
-  poolAddress: `0x${string}`,
-  pagination?: { first: number; skip: number }
-) {
+export default function usePoolActivities(poolAddress: `0x${string}`, pagination?: { first: number; skip: number }) {
   const [poolActivities, setPoolActivities] = useState<PoolActivity[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [loadingFetchMore, setLoadingFetchMore] = useState<boolean>(false)
@@ -14,8 +11,8 @@ export default function usePoolActivities(
   const { data, loading, fetchMore } = useQuery<{ poolActivities: PoolActivity[] }>(queryPoolActivities, {
     variables: {
       poolAddress: poolAddress.toLocaleLowerCase(),
-      first: pagination?.first || 10,
-      skip: pagination?.skip || 0
+      first: pagination?.first ?? 10,
+      skip: pagination?.skip ?? 0
     }
   })
 
@@ -34,7 +31,7 @@ export default function usePoolActivities(
   }
 
   useEffect(() => {
-    setPoolActivities(data?.poolActivities || [])
+    setPoolActivities(data?.poolActivities ?? [])
   }, [data])
 
   useEffect(() => {

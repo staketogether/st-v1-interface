@@ -6,7 +6,7 @@ import { ProductStaking } from '@/types/ProductStaking'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-type StakingProps = {
+interface StakingProps {
   productList: ProductStaking[]
 }
 
@@ -18,18 +18,14 @@ export default function Staking({ productList }: StakingProps) {
     </LayoutTemplate>
   )
 }
-export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = [
-    { params: { currency: 'usd' } },
-    { params: { currency: 'brl' } },
-    { params: { currency: 'eur' } }
-  ]
+export const getStaticPaths: GetStaticPaths = () => {
+  const paths = [{ params: { currency: 'usd' } }, { params: { currency: 'brl' } }, { params: { currency: 'eur' } }]
 
   return { paths, fallback: 'blocking' }
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  if (!stakingList || !stakingList.length) {
+  if (!stakingList?.length) {
     return {
       notFound: true
     }
@@ -38,7 +34,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   return {
     props: {
       productList: stakingList,
-      ...(await serverSideTranslations(locale || 'en', ['common']))
+      ...(await serverSideTranslations(locale ?? 'en', ['common']))
     },
     revalidate: 24 * 60 * 60
   }

@@ -4,181 +4,112 @@
 import type {
   BaseContract,
   BytesLike,
-  FunctionFragment,
-  Result,
-  Interface,
-  EventFragment,
-  ContractRunner,
   ContractMethod,
+  ContractRunner,
+  EventFragment,
+  FunctionFragment,
+  Interface,
   Listener,
-} from "ethers";
+  Result
+} from 'ethers'
 import type {
   TypedContractEvent,
+  TypedContractMethod,
   TypedDeferredTopicFilter,
   TypedEventLog,
-  TypedLogDescription,
   TypedListener,
-  TypedContractMethod,
-} from "../../../common";
+  TypedLogDescription
+} from '../../../common'
 
 export interface IELDepositContractInterface extends Interface {
-  getFunction(
-    nameOrSignature: "deposit" | "get_deposit_count" | "get_deposit_root"
-  ): FunctionFragment;
+  getFunction(nameOrSignature: 'deposit' | 'get_deposit_count' | 'get_deposit_root'): FunctionFragment
 
-  getEvent(nameOrSignatureOrTopic: "DepositEvent"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'DepositEvent'): EventFragment
 
-  encodeFunctionData(
-    functionFragment: "deposit",
-    values: [BytesLike, BytesLike, BytesLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "get_deposit_count",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "get_deposit_root",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: 'deposit', values: [BytesLike, BytesLike, BytesLike, BytesLike]): string
+  encodeFunctionData(functionFragment: 'get_deposit_count', values?: undefined): string
+  encodeFunctionData(functionFragment: 'get_deposit_root', values?: undefined): string
 
-  decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "get_deposit_count",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "get_deposit_root",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: 'deposit', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'get_deposit_count', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'get_deposit_root', data: BytesLike): Result
 }
 
 export namespace DepositEventEvent {
-  export type InputTuple = [
-    pubkey: BytesLike,
-    withdrawal_credentials: BytesLike,
-    amount: BytesLike,
-    signature: BytesLike,
-    index: BytesLike
-  ];
-  export type OutputTuple = [
-    pubkey: string,
-    withdrawal_credentials: string,
-    amount: string,
-    signature: string,
-    index: string
-  ];
+  export type InputTuple = [pubkey: BytesLike, withdrawal_credentials: BytesLike, amount: BytesLike, signature: BytesLike, index: BytesLike]
+  export type OutputTuple = [pubkey: string, withdrawal_credentials: string, amount: string, signature: string, index: string]
   export interface OutputObject {
-    pubkey: string;
-    withdrawal_credentials: string;
-    amount: string;
-    signature: string;
-    index: string;
+    pubkey: string
+    withdrawal_credentials: string
+    amount: string
+    signature: string
+    index: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export interface IELDepositContract extends BaseContract {
-  connect(runner?: ContractRunner | null): IELDepositContract;
-  waitForDeployment(): Promise<this>;
+  connect(runner?: ContractRunner | null): IELDepositContract
+  waitForDeployment(): Promise<this>
 
-  interface: IELDepositContractInterface;
+  interface: IELDepositContractInterface
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>
+  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>
+  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
-  listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>
+  listeners(eventName?: string): Promise<Array<Listener>>
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>
 
   deposit: TypedContractMethod<
-    [
-      pubkey: BytesLike,
-      withdrawal_credentials: BytesLike,
-      signature: BytesLike,
-      deposit_data_root: BytesLike
-    ],
+    [pubkey: BytesLike, withdrawal_credentials: BytesLike, signature: BytesLike, deposit_data_root: BytesLike],
     [void],
-    "payable"
-  >;
+    'payable'
+  >
 
-  get_deposit_count: TypedContractMethod<[], [string], "view">;
+  get_deposit_count: TypedContractMethod<[], [string], 'view'>
 
-  get_deposit_root: TypedContractMethod<[], [string], "view">;
+  get_deposit_root: TypedContractMethod<[], [string], 'view'>
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T
 
   getFunction(
-    nameOrSignature: "deposit"
+    nameOrSignature: 'deposit'
   ): TypedContractMethod<
-    [
-      pubkey: BytesLike,
-      withdrawal_credentials: BytesLike,
-      signature: BytesLike,
-      deposit_data_root: BytesLike
-    ],
+    [pubkey: BytesLike, withdrawal_credentials: BytesLike, signature: BytesLike, deposit_data_root: BytesLike],
     [void],
-    "payable"
-  >;
-  getFunction(
-    nameOrSignature: "get_deposit_count"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "get_deposit_root"
-  ): TypedContractMethod<[], [string], "view">;
+    'payable'
+  >
+  getFunction(nameOrSignature: 'get_deposit_count'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'get_deposit_root'): TypedContractMethod<[], [string], 'view'>
 
   getEvent(
-    key: "DepositEvent"
-  ): TypedContractEvent<
-    DepositEventEvent.InputTuple,
-    DepositEventEvent.OutputTuple,
-    DepositEventEvent.OutputObject
-  >;
+    key: 'DepositEvent'
+  ): TypedContractEvent<DepositEventEvent.InputTuple, DepositEventEvent.OutputTuple, DepositEventEvent.OutputObject>
 
   filters: {
-    "DepositEvent(bytes,bytes,bytes,bytes,bytes)": TypedContractEvent<
+    'DepositEvent(bytes,bytes,bytes,bytes,bytes)': TypedContractEvent<
       DepositEventEvent.InputTuple,
       DepositEventEvent.OutputTuple,
       DepositEventEvent.OutputObject
-    >;
-    DepositEvent: TypedContractEvent<
-      DepositEventEvent.InputTuple,
-      DepositEventEvent.OutputTuple,
-      DepositEventEvent.OutputObject
-    >;
-  };
+    >
+    DepositEvent: TypedContractEvent<DepositEventEvent.InputTuple, DepositEventEvent.OutputTuple, DepositEventEvent.OutputObject>
+  }
 }

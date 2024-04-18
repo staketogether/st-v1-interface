@@ -5,15 +5,12 @@ import styled from 'styled-components'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
-type WalletSlideBarSettingsProps = {
+interface WalletSlideBarSettingsProps {
   setIsSettingsActive?: (value: boolean) => void
   showBackButton?: boolean
 }
 
-export default function WalletSidebarSettings({
-  setIsSettingsActive,
-  showBackButton = true
-}: WalletSlideBarSettingsProps) {
+export default function WalletSidebarSettings({ setIsSettingsActive, showBackButton = true }: WalletSlideBarSettingsProps) {
   const { t } = useLocaleTranslation()
 
   const router = useRouter()

@@ -1,10 +1,6 @@
 import Modal from '@/components/shared/Modal'
-
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { useReactiveVar } from '@apollo/client'
-
 import { globalConfig } from '@/config/global'
-import { getCryptoAsset } from '@/config/products/crypto'
+import { getAsset } from '@/config/products/asset'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
@@ -14,6 +10,8 @@ import {
   openBrlaModalVar,
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { useReactiveVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect } from 'react'
 import styled from 'styled-components'
@@ -36,7 +34,7 @@ export default function BuyEthControlModal() {
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
   const currentProductName = useReactiveVar(currentProductNameVar)
-  const product = getCryptoAsset({ name: currentProductName })
+  const product = getAsset({ name: currentProductName })
 
   const steps = {
     MethodPayment: <PaymentMethod product={product} />,
@@ -54,12 +52,11 @@ export default function BuyEthControlModal() {
 
   const controlModal = useReactiveVar(openBrlaModalVar)
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
-  const titleList: { [key: string]: string } = {
+  const titleList: Record<string, string> = {
     Success: t('v2.ramp.success'),
     MethodPayment: t('v2.ramp.provider')
   }
-  const title =
-    currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', product.symbol)
+  const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', product.symbol)
   const { backendUrl } = globalConfig
 
   useEffect(() => {
@@ -92,7 +89,7 @@ export default function BuyEthControlModal() {
         shouldRetryOnError: true,
         fetcher: (uri: string) =>
           axios.get(`${backendUrl}/${uri}`).then(res => {
-            return res.data
+            return res.data as string
           })
       }}
     >

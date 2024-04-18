@@ -11,12 +11,12 @@ import { useEffect } from 'react'
 import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
+import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
-import AssetIcon from '../shared/AssetIcon'
 
-type AssetsControlProps = {
+interface AssetsControlProps {
   product: ProductAsset
   assetData: ProductMarketAssetData
   chainId: number
@@ -54,7 +54,7 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
   return (
     <Container>
       <header>
-        <HeaderBackAction href={`/${currency}/assets`}>
+        <HeaderBackAction href={`/${currency as string}/assets`}>
           <PiArrowLeft />
           <span>{t('goToBack')}</span>
         </HeaderBackAction>

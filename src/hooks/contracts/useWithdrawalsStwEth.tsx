@@ -11,21 +11,13 @@ import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { withdrawalsAbi } from '@/types/Contracts'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
-import {
-  useSimulateContract,
-  useWaitForTransactionReceipt as useWaitForTransaction,
-  useWriteContract
-} from 'wagmi'
+import { useSimulateContract, useWaitForTransactionReceipt as useWaitForTransaction, useWriteContract } from 'wagmi'
 import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import useLocaleTranslation from '../useLocaleTranslation'
 
-export default function useWithdrawalsStwEth(
-  withdrawAmount: bigint,
-  accountAddress: `0x${string}`,
-  enabled: boolean
-) {
+export default function useWithdrawalsStwEth(withdrawAmount: bigint, accountAddress: `0x${string}`, enabled: boolean) {
   const { chainId, isTestnet } = chainConfig()
   const { contracts } = getStakingProduct({ name: 'ethereum-stake' })
 
@@ -58,11 +50,9 @@ export default function useWithdrawalsStwEth(
       const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
       if (
-        (!cause || !cause.reason) &&
+        !cause?.reason &&
         cause?.message &&
-        cause.message.includes(
-          'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
-        )
+        cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
       ) {
         setPrepareTransactionErrorMessage('insufficientGasBalance')
 
@@ -70,7 +60,7 @@ export default function useWithdrawalsStwEth(
       }
       const response = cause as { data?: { errorName?: string } }
 
-      if (cause && response?.data && response?.data?.errorName) {
+      if (cause && response?.data?.errorName) {
         setPrepareTransactionErrorMessage(response?.data?.errorName)
       }
     }
@@ -82,12 +72,7 @@ export default function useWithdrawalsStwEth(
     }
   }, [prepareTransactionIsSuccess])
 
-  const {
-    writeContract,
-    data: txHash,
-    isError: writeContractIsError,
-    reset: resetWriteContract
-  } = useWriteContract()
+  const { writeContract, data: txHash, isError: writeContractIsError, reset: resetWriteContract } = useWriteContract()
 
   useEffect(() => {
     if (writeContractIsError && awaitWalletAction) {

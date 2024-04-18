@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 import NetworkIcon from '../NetworkIcon'
 
-type LayoutNetworkDropdownProps = {
+interface LayoutNetworkDropdownProps {
   mobile?: boolean
 }
 

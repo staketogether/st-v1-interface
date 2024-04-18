@@ -1,13 +1,12 @@
-import React from 'react'
-import styled, { useTheme } from 'styled-components'
-import CommunityName from '../shared/community/CommunityName'
-import CommunityLogo from '../shared/community/CommunityLogo'
-import { DateTime } from 'luxon'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import PoolFilterIcon from '../invest/PoolFilterIcon'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import { DateTime } from 'luxon'
+import styled, { useTheme } from 'styled-components'
+import PoolFilterIcon from '../invest/PoolFilterIcon'
+import CommunityLogo from '../shared/community/CommunityLogo'
+import CommunityName from '../shared/community/CommunityName'
 
-type ProjectRegisteredProps = {
+interface ProjectRegisteredProps {
   projectLogo?: string
   projectName?: string
   projectStatus: string
@@ -42,7 +41,7 @@ export default function ProjectRegisteredCard({
   return (
     <CardContainer>
       <CardHeader>
-        {projectLogo && <CommunityLogo size={80} src={projectLogo} alt={projectName || ''} />}
+        {projectLogo && <CommunityLogo size={80} src={projectLogo} alt={projectName ?? ''} />}
         <div>
           {projectName && <CommunityName name={projectName} $large $bold $color={theme.color.secondary} />}
           <div>

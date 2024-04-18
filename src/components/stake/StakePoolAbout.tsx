@@ -1,8 +1,9 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { getVideoIdFromUrl } from '@/services/format'
 import { truncateAddress } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import etherscan from '@assets/icons/etherscan.svg'
-import YouTube from 'react-youtube'
+import { Tooltip } from 'antd'
 import Image from 'next/image'
 import {
   PiDiscordLogo,
@@ -15,11 +16,10 @@ import {
   PiWhatsappLogo,
   PiYoutubeLogo
 } from 'react-icons/pi'
+import YouTube from 'react-youtube'
 import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
-import { getVideoIdFromUrl } from '@/services/format'
-import { Tooltip } from 'antd'
 
 interface StakePoolAboutProps {
   poolDetail: ContentfulPool | null
@@ -43,7 +43,7 @@ export default function StakePoolAbout({ poolDetail, loading, isStakeTogetherPoo
     }
   }
   const handleProjectSite = () => {
-    if (poolDetail && (poolDetail.site?.startsWith('https://') || poolDetail.site?.startsWith('http://'))) {
+    if (poolDetail && (poolDetail.site?.startsWith('https://') ?? poolDetail.site?.startsWith('http://'))) {
       return poolDetail.site
     }
     return `https://${poolDetail?.site}`
@@ -51,9 +51,7 @@ export default function StakePoolAbout({ poolDetail, loading, isStakeTogetherPoo
   return (
     <Container>
       {!loading && videoId && <YouTube videoId={videoId} opts={opts} />}
-      {!loading && !videoId && poolDetail && poolDetail.cover?.url && (
-        <ImageCover src={poolDetail.cover.url} alt={poolDetail.cover.fileName} />
-      )}
+      {!loading && !videoId && poolDetail?.cover?.url && <ImageCover src={poolDetail.cover.url} alt={poolDetail.cover.fileName} />}
       {loading && <SkeletonLoading height={237} width={420} />}
       {!loading && poolDetail && !isStakeTogetherPool && (
         <SocialRowContainer>
@@ -107,7 +105,7 @@ export default function StakePoolAbout({ poolDetail, loading, isStakeTogetherPoo
             </Tooltip>
           )}
           {poolDetail?.discord && (
-            <Tooltip title={poolDetail.discordName || poolDetail.discord}>
+            <Tooltip title={poolDetail.discordName ?? poolDetail.discord}>
               <Social href={`https://discord.com/invite/${poolDetail.discord}`} target='_blank'>
                 <DiscordIcon />
               </Social>

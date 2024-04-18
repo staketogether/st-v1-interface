@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { PiArrowLeft, PiArrowRight, PiEye } from 'react-icons/pi'
+import { chainConfigByChainId } from '@/config/chain'
+import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { useReactiveVar } from '@apollo/client'
 import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
-import { chainConfigByChainId } from '@/config/chain'
-import Modal from '../shared/Modal'
-import DefaultButton from '../shared/Button'
+import { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
-import { useReactiveVar } from '@apollo/client'
-import { web3AuthInstanceVar } from '@/config/web3Auth'
+import { PiArrowLeft, PiArrowRight, PiEye } from 'react-icons/pi'
+import styled from 'styled-components'
+import DefaultButton from '../shared/Button'
+import Modal from '../shared/Modal'
 
-type web3AuthWalletSettingsProps = {
+interface web3AuthWalletSettingsProps {
   setWeb3authWalletActive?: (value: boolean) => void
   walletAddress: `0x${string}`
 }
@@ -33,8 +33,8 @@ export default function WalletSidebarWeb3AuthWalletSettings({
 
   useEffect(() => {
     const getPrivateKey = async () => {
-      const privateKey = await web3AuthInstance?.provider?.request({ method: 'eth_private_key' })
-      setPrivateKey(privateKey as string)
+      const targetPrivateKey = await web3AuthInstance?.provider?.request({ method: 'eth_private_key' })
+      setPrivateKey(targetPrivateKey as string)
     }
     getPrivateKey()
   }, [web3AuthInstance])
@@ -42,11 +42,7 @@ export default function WalletSidebarWeb3AuthWalletSettings({
   return (
     <>
       <Header>
-        <Button
-          onClick={() =>
-            setIsWalletSidebarWeb3AuthSettingsActive && setIsWalletSidebarWeb3AuthSettingsActive(false)
-          }
-        >
+        <Button onClick={() => setIsWalletSidebarWeb3AuthSettingsActive && setIsWalletSidebarWeb3AuthSettingsActive(false)}>
           <CloseIcon />
         </Button>
 
@@ -100,12 +96,7 @@ export default function WalletSidebarWeb3AuthWalletSettings({
         )}
       </Container>
 
-      <Modal
-        title={t('web3AuthWalletSettings.modal.title')}
-        isOpen={notifyModal}
-        onClose={() => setNotifyModal(false)}
-        width={420}
-      >
+      <Modal title={t('web3AuthWalletSettings.modal.title')} isOpen={notifyModal} onClose={() => setNotifyModal(false)} width={420}>
         <AlertMessageContainer>
           <div>
             <span className='bold'>{t('web3AuthWalletSettings.modal.description')}</span>
@@ -125,12 +116,7 @@ export default function WalletSidebarWeb3AuthWalletSettings({
               ghost
               icon={<PiArrowRight />}
             />
-            <DefaultButton
-              onClick={() => setNotifyModal(false)}
-              label={t('cancel')}
-              block
-              icon={<AiOutlineClose />}
-            />
+            <DefaultButton onClick={() => setNotifyModal(false)} label={t('cancel')} block icon={<AiOutlineClose />} />
           </footer>
         </AlertMessageContainer>
       </Modal>
@@ -138,16 +124,7 @@ export default function WalletSidebarWeb3AuthWalletSettings({
   )
 }
 
-const {
-  Header,
-  CloseIcon,
-  Container,
-  Button,
-  Card,
-  ShowPrivateKeyContainer,
-  PrivateKeyContainer,
-  AlertMessageContainer
-} = {
+const { Header, CloseIcon, Container, Button, Card, ShowPrivateKeyContainer, PrivateKeyContainer, AlertMessageContainer } = {
   Header: styled.div`
     min-height: 32px;
     width: 100%;

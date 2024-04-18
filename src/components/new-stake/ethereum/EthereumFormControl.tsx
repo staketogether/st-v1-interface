@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import EthereumDeposit from './EthereumDeposit'
 import EthereumWithdraw from './EthereumWithdraw'
 
-type EthereumFormControlProps = {
+interface EthereumFormControlProps {
   type: 'deposit' | 'withdraw'
   product: ProductStaking
   chainId: number
@@ -36,6 +36,7 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
   })
 
   function handleRampButton() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     type === 'deposit'
       ? openModal(product.asset.name)
       : notification.info({
@@ -50,14 +51,10 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
         <nav>
           <ul>
             <li className={`${type === 'deposit' && 'activated'}`}>
-              <Link href={product.urlRedirect.replace('currency', currency)}>
-                {t('v2.ethereumStaking.actions.invest')}
-              </Link>
+              <Link href={product.urlRedirect.replace('currency', currency)}>{t('v2.ethereumStaking.actions.invest')}</Link>
             </li>
             <li className={`${type === 'withdraw' && 'activated'}`}>
-              <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>
-                {t('v2.ethereumStaking.actions.withdraw')}
-              </Link>
+              <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>{t('v2.ethereumStaking.actions.withdraw')}</Link>
             </li>
           </ul>
         </nav>

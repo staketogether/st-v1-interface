@@ -7,7 +7,7 @@ import { PiArrowRight } from 'react-icons/pi'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 
-type SwapInfoProps = {
+interface SwapInfoProps {
   product: ProductAsset
 }
 

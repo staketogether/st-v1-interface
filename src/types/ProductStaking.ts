@@ -1,6 +1,6 @@
 import { ProductAsset } from './ProductAsset'
 
-export type ProductStakingContracts = {
+export interface ProductStakingContracts {
   Airdrop: `0x${string}`
   Withdrawals: `0x${string}`
   Router: `0x${string}`
@@ -8,13 +8,13 @@ export type ProductStakingContracts = {
   StakeTogetherWrapper: `0x${string}`
 }
 
-export type TradingViewFiatData = {
+export interface TradingViewFiatData {
   usd: string
   brl: string
   eur: string
 }
 
-export type ProductStaking = {
+export interface ProductStaking {
   id: number
   name: string
   description: string
@@ -60,7 +60,7 @@ export type ProductStaking = {
   }
 }
 
-export type ProductMarketAssetData = {
+export interface ProductMarketAssetData {
   data: {
     ath: number
     atl: number

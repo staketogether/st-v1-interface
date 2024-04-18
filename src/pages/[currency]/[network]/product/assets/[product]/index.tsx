@@ -3,7 +3,7 @@ import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { productCryptoList } from '@/config/products/crypto'
+import { productAssetList } from '@/config/products/asset'
 import { fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
@@ -15,7 +15,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-export type ProductProps = {
+export interface ProductProps {
   asset: ProductAsset
   assetData: ProductMarketAssetData
   chainId: number
@@ -36,25 +36,18 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
     } else if (router.query.payment === 'credit') {
       buyCrypto()
     }
-  }, [
-    buyCrypto,
-    minAmount,
-    asset,
-    router.query?.amount,
-    router.query.payment,
-    router.query.provider
-  ])
+  }, [buyCrypto, minAmount, asset, router.query?.amount, router.query.payment, router.query.provider])
 
   return (
     <LayoutTemplate>
       <Metatags />
-      <AssetsControl product={asset as ProductAsset} assetData={assetData} chainId={chainId} type='buy' />
+      <AssetsControl product={asset} assetData={assetData} chainId={chainId} type='buy' />
       <BuyEthControlModal />
     </LayoutTemplate>
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   const paths = [
     { params: { network: 'ethereum', currency: 'usd', type: 'staking', product: 'ethereum-stake' } },
     { params: { network: 'ethereum', currency: 'brl', type: 'staking', product: 'ethereum-stake' } },
@@ -76,12 +69,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: 'blocking' }
 }
 
-async function fetchProductAssetData(
-  uri: string,
-  asset: string,
-  blockchain: string,
-  symbol: string
-): Promise<ProductMarketAssetData> {
+async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<ProductMarketAssetData> {
   const { backendUrl } = globalConfig
   return axios
     .get<ProductMarketAssetData>(`${backendUrl}/api/${uri}`, {
@@ -100,7 +88,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     product: string
   }
 
-  const productSelected = productCryptoList.find(item => item.name === product)
+  const productSelected = productAssetList.find(item => item.name === product)
 
   const chainId = handleChainIdByNetwork(network)
 
@@ -128,7 +116,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       assetData,
       chainId,
       asset: productSelected,
-      ...(await serverSideTranslations(locale || 'en', ['common']))
+      ...(await serverSideTranslations(locale ?? 'en', ['common']))
     },
     revalidate: 24 * 60 * 60
   }

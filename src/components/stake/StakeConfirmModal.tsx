@@ -10,7 +10,7 @@ import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeTransactionLoading from './StakeTransactionLoading'
 
-type StakeConfirmModalProps = {
+interface StakeConfirmModalProps {
   amount: string
   youReceive: bigint
   type: 'deposit' | 'withdraw'
@@ -44,9 +44,7 @@ export default function StakeConfirmModal({
   const { isOpen } = useStakeConfirmModal()
   const { t } = useLocaleTranslation()
   const isWithdraw = type === 'withdraw'
-  const titleModal = isWithdraw
-    ? t('v2.stake.confirmModal.withdrawTitle')
-    : t('v2.stake.confirmModal.depositTitle')
+  const titleModal = isWithdraw ? t('v2.stake.confirmModal.withdrawTitle') : t('v2.stake.confirmModal.depositTitle')
 
   return (
     <Modal
@@ -77,8 +75,7 @@ export default function StakeConfirmModal({
                 <span>{t('v2.stake.confirmModal.withdrawing')}</span>
                 <div>
                   <span>
-                    <span className={'purple'}>{truncateDecimal(amount, 6)}</span>{' '}
-                    <span className={'purple'}>{product.symbol}</span>
+                    <span className={'purple'}>{truncateDecimal(amount, 6)}</span> <span className={'purple'}>{product.symbol}</span>
                   </span>
                   <TokensSymbolIcons productSymbol={product.symbol} size={32} />
                 </div>
@@ -88,9 +85,7 @@ export default function StakeConfirmModal({
                 <div>
                   <span>
                     <span>{truncateWei(youReceive, 6)}</span>
-                    <span>{` ${
-                      withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
-                    }`}</span>{' '}
+                    <span>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>{' '}
                   </span>
                   <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
                 </div>

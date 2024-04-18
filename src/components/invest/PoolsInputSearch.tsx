@@ -2,7 +2,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { PiMagnifyingGlass, PiX } from 'react-icons/pi'
 import styled from 'styled-components'
 
-type PoolsInputSearchProps = {
+interface PoolsInputSearchProps {
   search: string
   setSearch: (value: string) => void
   gray?: boolean
@@ -15,12 +15,7 @@ export default function PoolsInputSearch({ search, setSearch, gray = false }: Po
       <button>
         <PiMagnifyingGlass fontSize={16} />
       </button>
-      <InputSearch
-        type='text'
-        value={search}
-        placeholder={t('v2.pools.search')}
-        onChange={e => setSearch(e.target.value)}
-      />
+      <InputSearch type='text' value={search} placeholder={t('v2.pools.search')} onChange={e => setSearch(e.target.value)} />
       {search && search.length > 0 && (
         <button onClick={() => setSearch('')}>
           <PiX fontSize={16} />

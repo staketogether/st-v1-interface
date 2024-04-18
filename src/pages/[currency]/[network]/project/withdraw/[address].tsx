@@ -8,9 +8,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LayoutTemplate from '../../../../../components/shared/layout/LayoutTemplate'
 import StakeControl from '../../../../../components/stake/StakeControl'
 
-type WithdrawProps = {
+interface WithdrawProps {
   poolAddress: `0x${string}`
-  poolDetail?: ContentfulPool,
+  poolDetail?: ContentfulPool
   chainId: number
 }
 
@@ -24,7 +24,7 @@ export default function Withdraw({ poolAddress, poolDetail, chainId }: WithdrawP
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const { address, network } = context?.params as { address?: `0x${string}`, network: AllowedNetworks }
+  const { address, network } = context?.params as { address?: `0x${string}`; network: AllowedNetworks }
   const { data } = await contentfulClient.query<{ poolCollection: { items: ContentfulPool[] } }>({
     query: queryContentfulPoolByAddress,
     variables: {
@@ -42,8 +42,8 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   return {
     props: {
-      ...(await serverSideTranslations(context.locale || 'en', ['common'])),
-      poolAddress: address?.toLowerCase() || '',
+      ...(await serverSideTranslations(context.locale ?? 'en', ['common'])),
+      poolAddress: address?.toLowerCase() ?? '',
       poolDetail: data?.poolCollection.items[0] || null,
       chainId
     }

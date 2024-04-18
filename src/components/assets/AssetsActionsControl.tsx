@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import AssetsBuyControl from './AssetsBuyControl'
 
-type AssetsActionsControlProps = {
+interface AssetsActionsControlProps {
   type: 'buy' | 'sell' | 'swap'
   product: ProductAsset
 }

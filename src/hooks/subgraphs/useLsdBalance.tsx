@@ -5,7 +5,7 @@ import { Account } from '@/types/Account'
 import { ProductStaking } from '@/types/ProductStaking'
 import { useQuery } from '@apollo/client'
 
-type useLsdBalanceProps = {
+interface useLsdBalanceProps {
   walletAddress?: `0x${string}`
   product: ProductStaking
   chainId: number
@@ -13,7 +13,7 @@ type useLsdBalanceProps = {
 
 export default function useLsdBalance({ walletAddress, product, chainId }: useLsdBalanceProps) {
   const { isTestnet } = chainConfigByChainId(chainId)
-  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
+  const subgraphClient = getSubgraphClient({ name: product.name, isTestnet })
 
   const { data, loading } = useQuery<{ account: Account }>(queryAccount, {
     variables: { id: walletAddress?.toLowerCase() },
@@ -22,7 +22,7 @@ export default function useLsdBalance({ walletAddress, product, chainId }: useLs
   })
 
   return {
-    accountBalance: data?.account?.balance || 0n,
+    accountBalance: data?.account?.balance ?? 0n,
     isLoading: loading
   }
 }

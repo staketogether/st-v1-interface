@@ -1,6 +1,4 @@
-import { MobulaAsset } from '@/config/products/mobula-asset'
-
-export type ProductAssetMarketData = {
+export interface ProductAssetMarketData {
   data: {
     ath: number
     atl: number
@@ -22,21 +20,22 @@ export type ProductAssetMarketData = {
   }
 }
 
-export type ProductAssetMobulaData = {
+export interface ProductAssetMobulaData {
   asset: string
   blockchain: string
   symbol: string
 }
 
-export type TradingViewFiatData = {
+export interface TradingViewFiatData {
   usd: string
   brl: string
   eur: string
 }
 
-export type ProductAsset = {
+export interface ProductAsset {
   id: number
   name: string
+  category: 'crypto' | 'stablecoin' | 'fan' | 'meme'
   description: string
   enabled: boolean
   newProductTag: boolean
@@ -58,7 +57,12 @@ export type ProductAsset = {
   urlRedirect: string
   networkAvailable: string
   chainIdNetworkAvailable: number
-  mobula: MobulaAsset
+  mobula: {
+    asset: string
+    blockchain: string
+    symbol: string
+    filterCoinConversion: string
+  }
   tradingView: {
     symbol: string
     fiat: TradingViewFiatData

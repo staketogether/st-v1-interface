@@ -13,7 +13,8 @@ import { PiArrowSquareOut, PiCaretRight, PiPencilSimpleLine } from 'react-icons/
 import styled from 'styled-components'
 import packageData from '../../../../package.json'
 import { ProjectButton } from '../../project/ProjectButton'
-type LayoutSidebarMobileMenuProps = {
+
+interface LayoutSidebarMobileMenuProps {
   account?: `0x${string}`
 }
 
@@ -35,13 +36,9 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
   const productEthereum = stakingList.find(product => product.name === 'ethereum-stake')
   const staketogetherContractAddress = !isTestnet
     ? productEthereum?.contracts.mainnet.StakeTogether
-    : productEthereum?.contracts.testnet.StakeTogether || `0x`
+    : productEthereum?.contracts.testnet.StakeTogether ?? `0x`
   const { websiteUrl, auditUrl } = globalConfig
-  const documentationUrl = locale
-    ? locale === 'en'
-      ? globalConfig.docsEn
-      : globalConfig.docsPt
-    : globalConfig.docsEn
+  const documentationUrl = locale ? (locale === 'en' ? globalConfig.docsEn : globalConfig.docsPt) : globalConfig.docsEn
 
   return (
     <>

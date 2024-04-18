@@ -1,19 +1,19 @@
-export type ContentfulImage = {
+export interface ContentfulImage {
   url: string
   fileName: string
 }
 
-export type Sys = {
+export interface Sys {
   id: string
   publishedAt: string
 }
 
-export type ContentFulCategory = {
+export interface ContentFulCategory {
   name: string
   sys: Sys
 }
 
-export type ContentfulPool = {
+export interface ContentfulPool {
   wallet: `0x${string}`
   name: string
   logo: ContentfulImage

@@ -16,11 +16,7 @@ export default function LayoutNetworkInfoButton() {
     <NetworkButton>
       <GasContainer>
         <Image src={gasIcon} alt={t('gas.alt')} width={16} height={16} />
-        {loading ? (
-          <SkeletonLoading height={15} width={25} />
-        ) : (
-          <span>{truncateDecimal(networkGasPriceGwei.toString(), 0)}</span>
-        )}
+        {loading ? <SkeletonLoading height={15} width={25} /> : <span>{truncateDecimal(networkGasPriceGwei.toString(), 0)}</span>}
       </GasContainer>
       <Tooltip trigger='click' title={capitalize(chainConfig().name)}>
         <NetworkContainer>

@@ -1,4 +1,4 @@
-import { ethMainnet, ethOptimism } from '@/config/products/crypto'
+import { ethMainnet, ethOptimism } from '@/config/products/asset'
 import { ProductStaking, ProductStakingContracts } from '@/types/ProductStaking'
 
 export const ethereumStaking: ProductStaking = {
@@ -187,16 +187,10 @@ export const chilizStaking: ProductStaking = {
 export const stakingList: ProductStaking[] = [chilizStaking, ethereumOpStaking, ethereumStaking]
 
 export function getStakingProduct({ name }: { name: string }): ProductStaking {
-  return stakingList.find(product => product.name === name) || stakingList[0]
+  return stakingList.find(product => product.name === name) ?? stakingList[0]
 }
 
-export function getStakingContracts({
-  name,
-  isTestnet
-}: {
-  name: string
-  isTestnet: boolean
-}): ProductStakingContracts {
+export function getStakingContracts({ name, isTestnet }: { name: string; isTestnet: boolean }): ProductStakingContracts {
   return getStakingProduct({ name: name }).contracts[isTestnet ? 'testnet' : 'mainnet']
 }
 
