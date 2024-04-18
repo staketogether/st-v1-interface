@@ -13,7 +13,7 @@ const ethEth: Asset = {
   url: '/currency/product/eth',
   category: AssetCategory.Crypto,
   chains: [Chain.ETH_MAINNET],
-  listed: true,
+  listed: false,
   enabled: true,
   new: false,
   points: {
@@ -249,7 +249,10 @@ const ethRestaking: Asset = {
 export const assetsList: Asset[] = [ethEth, ethOp, btcOp, ethStaking, ethRestaking]
 
 export function getAssetsByCategory(category: AssetCategory): Asset[] {
-  return assetsList.filter(asset => asset.category === category).sort((a, b) => a.order - b.order)
+  return assetsList
+    .filter(asset => asset.category === category)
+    .filter(asset => asset.listed)
+    .sort((a, b) => a.order - b.order)
 }
 
 export function getAssetById(id: string): Asset {
