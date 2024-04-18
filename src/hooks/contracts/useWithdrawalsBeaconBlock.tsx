@@ -3,19 +3,15 @@ import { stakeTogetherAbi } from '@/types/Contracts'
 import { useEffect, useState } from 'react'
 import { useReadContract } from 'wagmi'
 import useBlockCountdown from '../useBlockCountdown'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 
 type useGetWithdrawBlockProps = {
   walletAddress: `0x${string}` | undefined
-  product: Product
+  product: ProductStaking
   chainId: number
 }
 
-export default function useWithdrawalsBeaconBlock({
-  walletAddress,
-  product,
-  chainId
-}: useGetWithdrawBlockProps) {
+export default function useWithdrawalsBeaconBlock({ walletAddress, product, chainId }: useGetWithdrawBlockProps) {
   const [withdrawBlock, setWithdrawBlock] = useState<bigint>(0n)
   const { isTestnet } = chainConfigByChainId(chainId)
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
@@ -36,8 +32,7 @@ export default function useWithdrawalsBeaconBlock({
     }
   }, [data])
 
-  const timeLeft =
-    useBlockCountdown(Number(withdrawBlock), chainId, product.transactionConfig.blockTimePerSeconds) || 0
+  const timeLeft = useBlockCountdown(Number(withdrawBlock), chainId, product.transactionConfig.blockTimePerSeconds) || 0
 
   return { withdrawBlock, isLoading: isFetching, timeLeft, getWithdrawBlock: refetch }
 }

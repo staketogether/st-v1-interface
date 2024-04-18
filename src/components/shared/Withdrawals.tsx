@@ -31,7 +31,7 @@ export default function Withdrawals({
 }: WithdrawalsProps) {
   const { t } = useLocaleTranslation()
   const { isReady, loading: isReadyLoading } = useWithdrawalsIsReady(balance)
-  const product = getStakingProduct({ productName: 'ethereum-stake' })
+  const product = getStakingProduct({ name: 'ethereum-stake' })
 
   const { timeLeft: withdrawTimeLeft } = useWithdrawalsBeaconBlock({
     walletAddress: accountAddress,
