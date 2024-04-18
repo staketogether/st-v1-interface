@@ -4,7 +4,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'
 
 import { globalConfig } from '@/config/global'
-import { getProductAssetByName } from '@/config/products/crypto'
+import { getCryptoAsset } from '@/config/products/crypto'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
@@ -36,7 +36,7 @@ export default function BuyEthControlModal() {
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
   const currentProductName = useReactiveVar(currentProductNameVar)
-  const product = getProductAssetByName({ productName: currentProductName })
+  const product = getCryptoAsset({ name: currentProductName })
 
   const steps = {
     MethodPayment: <PaymentMethod product={product} />,

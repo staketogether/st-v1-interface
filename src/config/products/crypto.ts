@@ -1,5 +1,5 @@
-import { ProductAsset } from '@/types/ProductAsset'
 import { bitcoinOpMobula, ethereumEthModula, ethereumOpMobula } from '@/config/products/mobula-asset'
+import { ProductAsset } from '@/types/ProductAsset'
 
 export const btcOptimism: ProductAsset = {
   id: 1,
@@ -121,6 +121,6 @@ export const ethMainnet: ProductAsset = {
 
 export const productCryptoList: ProductAsset[] = [btcOptimism, ethOptimism, ethMainnet]
 
-export function getProductAssetByName({ productName }: { productName: string }): ProductAsset {
-  return productCryptoList.find(product => product.name === productName) || productCryptoList[0]
+export function getCryptoAsset({ name }: { name: string }): ProductAsset {
+  return productCryptoList.find(product => product.name === name) || productCryptoList[0]
 }

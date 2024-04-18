@@ -1,5 +1,5 @@
 import { chainConfigByChainId } from '@/config/chain'
-import { ethereumStaking, getContractsByProductName } from '@/config/products/staking'
+import { ethereumStaking, getStakingContracts } from '@/config/products/staking'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import useAnalyticsData from '@/hooks/subgraphs/analytics/useAnalyticsData'
 import useCoinConversion from '@/hooks/useCoinConversion'
@@ -20,8 +20,8 @@ export default function AnalyticsControl() {
   const { locale } = useRouter()
   const { isLoading, analytics, validators } = useAnalyticsData()
   const { isTestnet, blockExplorer } = chainConfigByChainId(1)
-  const { StakeTogether, Router, Withdrawals } = getContractsByProductName({
-    productName: 'ethereum-stake',
+  const { StakeTogether, Router, Withdrawals } = getStakingContracts({
+    name: 'ethereum-stake',
     isTestnet
   })
 

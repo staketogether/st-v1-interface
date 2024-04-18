@@ -1,4 +1,4 @@
-import { getProductByName } from '@/config/products/staking'
+import { getStakingProduct } from '@/config/products/staking'
 import usePool from '@/hooks/subgraphs/usePool'
 import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -37,7 +37,7 @@ export default function StakeControl({
 }: StakeControlProps) {
   const [skipMembers, setSkipMembers] = useState(0)
   const [skipActivity, setSkipActivity] = useState(0)
-  const product = getProductByName({ productName: 'ethereum-stake' })
+  const product = getStakingProduct({ name: 'ethereum-stake' })
   const { t } = useLocaleTranslation()
 
   const { query, locale } = useRouter()

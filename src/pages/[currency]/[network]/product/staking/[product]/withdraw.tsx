@@ -3,7 +3,7 @@ import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { productStakingList } from '@/config/products/staking'
+import { stakingList } from '@/config/products/staking'
 import { fiatAmountVar, openBrlaModalVar } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
@@ -82,7 +82,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const { product, network } = params as { network: AllowedNetworks; currency: string; product: string }
 
   const chainId = handleChainIdByNetwork(network)
-  const findProduct = productStakingList.find(item => item.name === product)
+  const findProduct = stakingList.find(item => item.name === product)
 
   if (!findProduct || !chainId) {
     return {

@@ -1,7 +1,7 @@
 import Button from '@/components/shared/Button'
 import Loading from '@/components/shared/icons/Loading'
 import chain from '@/config/chain'
-import { getContractsByProductName } from '@/config/products/staking'
+import { getStakingContracts } from '@/config/products/staking'
 import useProjectDetailModal from '@/hooks/useProjectDetailModal'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { stakeTogetherAbi } from '@/types/Contracts'
@@ -19,8 +19,8 @@ type PanelApprovedButtonProps = {
 
 export default function PanelApprovedButton({ project, projectSelected, openModal }: PanelApprovedButtonProps) {
   const { isTestnet } = chain()
-  const { StakeTogether } = getContractsByProductName({
-    productName: 'ethereum-stake',
+  const { StakeTogether } = getStakingContracts({
+    name: 'ethereum-stake',
     isTestnet
   })
 

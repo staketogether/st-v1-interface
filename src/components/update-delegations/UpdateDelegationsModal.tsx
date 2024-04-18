@@ -1,5 +1,5 @@
 import { chainConfigByChainId } from '@/config/chain'
-import { getProductByName } from '@/config/products/staking'
+import { getStakingProduct } from '@/config/products/staking'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -35,7 +35,7 @@ export default function UpdateDelegationsModal({
 }: UpdateDelegationsModalProps) {
   const [delegationForm, setDelegationForm] = useState<UpdateDelegationForm[]>([])
   const theme = useTheme()
-  const product = getProductByName({ productName: productSelected })
+  const product = getStakingProduct({ name: productSelected })
 
   const { chain: walletChainId } = useAccount()
   const isWrongNetwork = product.chainIdNetworkAvailable !== walletChainId?.id

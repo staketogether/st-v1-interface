@@ -1,5 +1,5 @@
 import { getSubgraphClient } from '@/config/apollo'
-import { getContractsByProductName } from '@/config/products/staking'
+import { getStakingContracts } from '@/config/products/staking'
 import { queryAccount } from '@/queries/subgraph/queryAccount'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
@@ -17,8 +17,8 @@ import useLocaleTranslation from '../useLocaleTranslation'
 export default function useAddPool(projectAddress: `0x${string}`, isSocial: boolean, disabled?: boolean) {
   const { isTestnet, chainId } = chainConfig()
   const subgraphClient = getSubgraphClient({ productName: 'ethereum-stake', isTestnet })
-  const { StakeTogether } = getContractsByProductName({
-    productName: 'ethereum-stake',
+  const { StakeTogether } = getStakingContracts({
+    name: 'ethereum-stake',
     isTestnet
   })
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')

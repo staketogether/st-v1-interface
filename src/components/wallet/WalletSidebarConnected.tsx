@@ -34,10 +34,12 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 
 import chainConfig from '@/config/chain'
-import { btcOptimism, getProductAssetByName } from '@/config/products/crypto'
-import { ethereumOpStaking, ethereumStaking, productStakingList } from '@/config/products/staking'
+import { btcOptimism, getCryptoAsset } from '@/config/products/crypto'
+import { ethereumOpStaking, ethereumStaking, stakingList } from '@/config/products/staking'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
+import useErc20BalanceOfWei from '@/hooks/contracts/useErc20BalanceOfWei'
 import useCoinConversion from '@/hooks/useCoinConversion'
+import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import { useReactiveVar } from '@apollo/client'
 import { mainnet, optimism } from 'wagmi/chains'
 import AssetIcon from '../shared/AssetIcon'
@@ -45,8 +47,6 @@ import Withdrawals from '../shared/Withdrawals'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
-import useErc20BalanceOfWei from '@/hooks/contracts/useErc20BalanceOfWei'
-import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -78,7 +78,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     walletAddress: address,
     chainId: optimism.id
   })
-  const configWbtcOptimist = getProductAssetByName({ productName: 'btc' })
+  const configWbtcOptimist = getCryptoAsset({ name: 'btc' })
   const { balanceInWei: optimistWbtcBalance } = useErc20BalanceOfWei({
     walletAddress: address,
     chainId: optimism.id,
@@ -184,7 +184,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   }, [address])
 
-  const products = productStakingList.filter(product => product.enabled)
+  const products = stakingList.filter(product => product.enabled)
 
   const selectProductOptions = products.map(product => {
     return {

@@ -1,7 +1,7 @@
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
 import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
-import { productStakingList } from '@/config/products/staking'
+import { stakingList } from '@/config/products/staking'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -32,7 +32,7 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
 
   const date = new Date()
   const { blockExplorer, isTestnet } = chainConfig()
-  const productEthereum = productStakingList.find(product => product.name === 'ethereum-stake')
+  const productEthereum = stakingList.find(product => product.name === 'ethereum-stake')
   const staketogetherContractAddress = !isTestnet
     ? productEthereum?.contracts.mainnet.StakeTogether
     : productEthereum?.contracts.testnet.StakeTogether || `0x`

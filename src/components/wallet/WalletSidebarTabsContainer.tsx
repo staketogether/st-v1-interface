@@ -1,6 +1,6 @@
 import WalletSidebarActivities from '@/components/wallet/WalletSidebarActivities'
 import WalletSidebarRewards from '@/components/wallet/WalletSidebarRewards'
-import { getProductByName } from '@/config/products/staking'
+import { getStakingProduct } from '@/config/products/staking'
 import { AccountActivity } from '@/types/AccountActivity'
 import { AccountReward } from '@/types/AccountReward'
 import { Delegation } from '@/types/Delegation'
@@ -22,7 +22,7 @@ export default function WalletSidebarTabsContainer({
   activatedTab,
   productSelected
 }: WalletSidebarTabsContainerProps) {
-  const product = getProductByName({ productName: productSelected })
+  const product = getStakingProduct({ name: productSelected })
   const tabs = {
     delegations: <WalletSidebarPortfolio product={product} accountDelegations={accountDelegations} />,
     rewards: (

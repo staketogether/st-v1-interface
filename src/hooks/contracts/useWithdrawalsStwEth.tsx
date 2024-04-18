@@ -1,5 +1,5 @@
 import { ethereumMainnetClient } from '@/config/apollo'
-import { getProductByName } from '@/config/products/staking'
+import { getStakingProduct } from '@/config/products/staking'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
 import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
@@ -27,7 +27,7 @@ export default function useWithdrawalsStwEth(
   enabled: boolean
 ) {
   const { chainId, isTestnet } = chainConfig()
-  const { contracts } = getProductByName({ productName: 'ethereum-stake' })
+  const { contracts } = getStakingProduct({ name: 'ethereum-stake' })
 
   const { Withdrawals } = contracts[isTestnet ? 'testnet' : 'mainnet']
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)

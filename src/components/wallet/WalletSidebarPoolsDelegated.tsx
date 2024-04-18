@@ -1,5 +1,5 @@
 import chainConfig from '@/config/chain'
-import { getProductByName } from '@/config/products/staking'
+import { getStakingProduct } from '@/config/products/staking'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebar from '@/hooks/useWalletSidebar'
@@ -28,7 +28,7 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
   }
 
   const { isTestnet } = chainConfig()
-  const product = getProductByName({ productName: 'ethereum-stake' })
+  const product = getStakingProduct({ name: 'ethereum-stake' })
   const stakeTogetherPool = product.stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet']
 
   return (

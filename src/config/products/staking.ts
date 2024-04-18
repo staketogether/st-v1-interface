@@ -184,28 +184,22 @@ export const chilizStaking: ProductStaking = {
   }
 }
 
-export const productStakingList: ProductStaking[] = [chilizStaking, ethereumOpStaking, ethereumStaking]
+export const stakingList: ProductStaking[] = [chilizStaking, ethereumOpStaking, ethereumStaking]
 
-export function getProductByName({ productName }: { productName: string }): ProductStaking {
-  return productStakingList.find(product => product.name === productName) || productStakingList[0]
+export function getStakingProduct({ name }: { name: string }): ProductStaking {
+  return stakingList.find(product => product.name === name) || stakingList[0]
 }
 
-export function getContractsByProductName({
-  productName,
+export function getStakingContracts({
+  name,
   isTestnet
 }: {
-  productName: string
+  name: string
   isTestnet: boolean
 }): ProductStakingContracts {
-  return getProductByName({ productName }).contracts[isTestnet ? 'testnet' : 'mainnet']
+  return getStakingProduct({ name: name }).contracts[isTestnet ? 'testnet' : 'mainnet']
 }
 
-export function getSubgraphByProductName({
-  productName,
-  isTestnet
-}: {
-  productName: string
-  isTestnet: boolean
-}): string {
-  return getProductByName({ productName }).subgraph[isTestnet ? 'testnet' : 'mainnet']
+export function getStakingSubgraph({ name, isTestnet }: { name: string; isTestnet: boolean }): string {
+  return getStakingProduct({ name: name }).subgraph[isTestnet ? 'testnet' : 'mainnet']
 }

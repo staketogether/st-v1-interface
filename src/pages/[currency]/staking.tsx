@@ -1,7 +1,7 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import TokensControl from '@/components/tokens/TokensControl'
-import { productStakingList } from '@/config/products/staking'
+import { stakingList } from '@/config/products/staking'
 import { ProductStaking } from '@/types/ProductStaking'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -29,7 +29,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  if (!productStakingList || !productStakingList.length) {
+  if (!stakingList || !stakingList.length) {
     return {
       notFound: true
     }
@@ -37,7 +37,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      productList: productStakingList,
+      productList: stakingList,
       ...(await serverSideTranslations(locale || 'en', ['common']))
     },
     revalidate: 24 * 60 * 60
