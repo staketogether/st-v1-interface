@@ -683,9 +683,8 @@
       "useThePixQRCode": "Use the Pix QR Code to pay",
       "orUseThePixKey": "Or use the Pix Key",
       "cancelDeposit": "Cancel deposit",
-
       "copyQrCode": "Copy QR Code",
-      "yourEths": "Your ETH will be in your account",
+      "yourEths": "Your SYMBOL will be in your account",
       "timeReceive": "within 30 minutes",
       "exchange": "Exchange",
       "networkFee": "Network Fee",
