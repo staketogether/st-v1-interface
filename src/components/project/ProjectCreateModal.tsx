@@ -14,7 +14,7 @@ import Modal from '../shared/Modal'
 import ProjectRegisterInfo from './ProjectRegisterInfo'
 import ProjectRegisterMoreInfo from './ProjectRegisterMoreInfo'
 
-type CommunityCreateModalProps = {
+interface CommunityCreateModalProps {
   account?: `0x${string}`
   poolDetail: ContentfulWithLocale | null
 }
@@ -25,7 +25,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const [createCommunityForm, setCreateCommunityForm] = useState<ProjectCreateInfo | null>(null)
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
-  const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') || false
+  const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') ?? false
 
   useEffect(() => {
     if (poolDetail && poolDetail.logo.url && isReappliedProject) {
@@ -103,12 +103,12 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
     }
   }, [error, isError])
 
-  const registerLinksToAnalyze = async (data: ProjectLinksToAnalyze) => {
+  const registerLinksToAnalyze = (links: ProjectLinksToAnalyze) => {
     setCreateCommunityForm({
       ...projectInfo,
-      ...data
+      ...links
     })
-    await signMessage({ message: message })
+    signMessage({ message })
   }
 
   useEffect(() => {

@@ -4,14 +4,14 @@
 import type {
   BaseContract,
   BigNumberish,
+  ContractMethod,
+  ContractRunner,
+  EventFragment,
   FunctionFragment,
   Interface,
-  EventFragment,
-  ContractRunner,
-  ContractMethod,
   Listener
 } from 'ethers'
-import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedLogDescription, TypedListener } from '../../../../common'
+import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedLogDescription } from '../../../../common'
 
 export interface InitializableInterface extends Interface {
   getEvent(nameOrSignatureOrTopic: 'Initialized'): EventFragment

@@ -9,7 +9,7 @@ import Image from 'next/image'
 import { PiPlusBold } from 'react-icons/pi'
 import styled from 'styled-components'
 
-type TokensSymbolIconsProps = {
+interface TokensSymbolIconsProps {
   productSymbol: string
   size: number
   contractAddress?: `0x${string}`

@@ -1,7 +1,7 @@
 import { config } from '@/config/wagmi'
 import { getWalletClient } from 'wagmi/actions'
 
-type useAddSethToWalletProps = {
+interface useAddSethToWalletProps {
   productSymbol: string
   contractAddress: `0x${string}`
 }

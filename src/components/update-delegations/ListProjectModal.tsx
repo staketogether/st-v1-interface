@@ -12,7 +12,7 @@ import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import Loading from '../shared/icons/Loading'
 
-type ListProjectModalProps = {
+interface ListProjectModalProps {
   isOpen: boolean
   handleCloseModal: () => void
   handleAddNewProject: (walletAddress: `0x${string}`) => void

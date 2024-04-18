@@ -14,7 +14,7 @@ import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import ProjectResultModal from './result-modal/ProjectResultModal'
 
-type ProjectCreateButtonProps = {
+interface ProjectCreateButtonProps {
   poolDetail: ContentfulPool
   account: `0x${string}` | undefined
   isMobile?: boolean

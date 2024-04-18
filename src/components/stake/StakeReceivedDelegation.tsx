@@ -8,7 +8,7 @@ import { Delegation } from '../../types/Delegation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
 
-type StakeReceivedDelegationProps = {
+interface StakeReceivedDelegationProps {
   delegation: Delegation
   rank: number
 }

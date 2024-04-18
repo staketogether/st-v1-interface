@@ -5,7 +5,7 @@ import Loading from './icons/Loading'
 type ButtonProps = InputHTMLAttributes<HTMLButtonElement> & {
   onClick?: () => void
   label: string
-  type?: 'button' | 'submit' | 'submit'
+  type?: 'button' | 'submit'
   icon?: ReactNode
   isLoading?: boolean
   disabled?: boolean
@@ -42,7 +42,7 @@ export default function Button({
   return (
     <Container
       onClick={onClick}
-      disabled={disabled || isLoading}
+      disabled={disabled ?? isLoading}
       type={type}
       fontSize={fontSize}
       height={height}

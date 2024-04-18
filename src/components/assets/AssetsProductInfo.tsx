@@ -12,7 +12,7 @@ import NetworkIcons from '../shared/NetworkIcons'
 import TradingViewComponent from '../shared/TradingViewComponent'
 import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
 
-type AssetsProductInfoProps = {
+interface AssetsProductInfoProps {
   product: ProductAsset
   assetData: ProductMarketAssetData
 }

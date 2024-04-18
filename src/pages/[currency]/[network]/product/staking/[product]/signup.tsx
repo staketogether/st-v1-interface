@@ -14,7 +14,7 @@ export default function SignUp() {
 export const getServerSideProps: GetServerSideProps = async context => {
   return {
     props: {
-      ...(await serverSideTranslations(context.locale || 'en', ['common']))
+      ...(await serverSideTranslations(context.locale ?? 'en', ['common']))
     }
   }
 }

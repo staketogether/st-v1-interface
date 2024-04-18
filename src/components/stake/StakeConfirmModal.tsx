@@ -10,7 +10,7 @@ import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeTransactionLoading from './StakeTransactionLoading'
 
-type StakeConfirmModalProps = {
+interface StakeConfirmModalProps {
   amount: string
   youReceive: bigint
   type: 'deposit' | 'withdraw'

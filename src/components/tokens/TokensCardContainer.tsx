@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
-type TokensCardContainerProps = {
+interface TokensCardContainerProps {
   product: ProductStaking | ProductAsset
   type: 'staking' | 'assets'
 }
@@ -50,7 +50,7 @@ export default function TokensCardContainer({ product, type }: TokensCardContain
   )
 }
 
-const { CardContainer, ImageContainer, ContainerInfo, Soon, NewTag } = {
+const { CardContainer, ImageContainer, Soon, NewTag } = {
   CardContainer: styled(Link)`
     display: flex;
     flex-direction: column;
@@ -75,40 +75,6 @@ const { CardContainer, ImageContainer, ContainerInfo, Soon, NewTag } = {
 
     &.disabled {
       opacity: 0.6;
-    }
-  `,
-  ContainerInfo: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    > div {
-      display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[8]};
-
-      &:nth-child(1) {
-        > span {
-          display: flex;
-          gap: ${({ theme }) => theme.size[8]};
-
-          color: ${({ theme }) => theme.colorV2.blue[1]};
-          font-size: 20px;
-          font-weight: 500;
-
-          &.green {
-            font-size: ${({ theme }) => theme.font.size[13]};
-            font-weight: 500;
-            color: ${({ theme }) => theme.color.green[500]};
-            margin-top: 2px;
-            margin-left: 4px;
-          }
-        }
-      }
-      &:nth-child(2) {
-        color: ${({ theme }) => theme.colorV2.gray[1]};
-        font-size: ${({ theme }) => theme.font.size[15]};
-        font-weight: 400;
-      }
     }
   `,
   ImageContainer: styled.div`

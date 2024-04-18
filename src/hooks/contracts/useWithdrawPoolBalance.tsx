@@ -13,14 +13,14 @@ export const useWithdrawPoolBalance = ({ product, chainId }: { product: ProductS
     chainId
   })
 
-  const ethBalance = data?.value || 0n
+  const ethBalance = data?.value ?? 0n
 
   useEffect(() => {
     setLiquidityPoolBalance(ethBalance)
   }, [ethBalance])
 
   const handleRefetch = useCallback(() => {
-    refetch
+    refetch()
   }, [refetch])
 
   return {

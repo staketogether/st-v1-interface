@@ -13,7 +13,7 @@ interface PoolsMarketShareData {
 // @ts-ignore
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' })
+    return res.status(405).json({ message: 'Method not allowed' }) as string
   }
 
   const rewardsAmount = ethers.parseEther('0.1')

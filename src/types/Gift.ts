@@ -1,4 +1,4 @@
-export type Gift = {
+export interface Gift {
   id: string
   type: 'coffee' | 'breakfast'
   data: number

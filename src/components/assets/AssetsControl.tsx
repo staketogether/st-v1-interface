@@ -16,7 +16,7 @@ import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
 
-type AssetsControlProps = {
+interface AssetsControlProps {
   product: ProductAsset
   assetData: ProductMarketAssetData
   chainId: number
@@ -54,7 +54,7 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
   return (
     <Container>
       <header>
-        <HeaderBackAction href={`/${currency}/assets`}>
+        <HeaderBackAction href={`/${currency as string}/assets`}>
           <PiArrowLeft />
           <span>{t('goToBack')}</span>
         </HeaderBackAction>

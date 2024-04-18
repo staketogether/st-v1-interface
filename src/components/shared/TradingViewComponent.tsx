@@ -5,7 +5,7 @@ import React, { useMemo } from 'react'
 
 const AdvancedRealTimeChart = dynamic(() => import('react-ts-tradingview-widgets').then(w => w.AdvancedRealTimeChart), { ssr: false })
 
-type TradingViewComponentProps = {
+interface TradingViewComponentProps {
   tradingView: {
     symbol: string
     fiat: TradingViewFiatData

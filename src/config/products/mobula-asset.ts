@@ -1,4 +1,4 @@
-export type MobulaAsset = {
+export interface MobulaAsset {
   asset: string
   blockchain: string
   symbol: string

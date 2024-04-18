@@ -13,7 +13,7 @@ import { useTheme } from 'styled-components'
 import { useAccount } from 'wagmi'
 import WrapProcessingStep from './WrapProcessingStep'
 
-type ProcessingKycStepProps = {
+interface ProcessingKycStepProps {
   product: ProductAsset
 }
 
@@ -27,7 +27,7 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
   const { buyRampResponse, isError: isErrorBuyRamp } = useBuyRamp('brla', rampData)
   const kycActivity = useReactiveVar(kycIdVar)
   const kyc = useReactiveVar(kycLevelVar)
-  const kycActivityId = Number(kyc?.level || 0) > 0 || !kycActivity ? undefined : kycActivity
+  const kycActivityId = Number(kyc?.level ?? 0) > 0 || !kycActivity ? undefined : kycActivity
   const { activity, isError } = useRampActivity(ProviderType.brla, kycActivityId ?? undefined)
   const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc?.level ? undefined : address, true)
 

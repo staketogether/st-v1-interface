@@ -4,7 +4,7 @@ import { Tooltip } from 'antd'
 import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 
-type EthereumDescriptionProps = {
+interface EthereumDescriptionProps {
   product: ProductStaking
 }
 

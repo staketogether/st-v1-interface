@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-type ContentfulPoolDetailsProps = {
+interface ContentfulPoolDetailsProps {
   poolAddress: `0x${string}` | undefined
   locale?: string
   fetchPolicy?: 'cache-first' | 'cache-and-network' | 'network-only' | 'no-cache' | 'standby'

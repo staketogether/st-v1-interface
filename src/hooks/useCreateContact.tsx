@@ -10,14 +10,15 @@ export default function useCreateContact(
 ) {
   const { backendUrl } = globalConfig
   const isValid = !!(email && fullName)
-  const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, { fullName, email }).then(res => res.data)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, { fullName, email }).then(r => r.data)
   const { data, error, mutate, isLoading } = useSWR<{ id: string }>(isValid ? `api/contact` : null, fetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
     errorRetryCount: 1,
     shouldRetryOnError: false,
-    onSuccess: data => onSuccessCallback && onSuccessCallback(data),
+    onSuccess: successData => onSuccessCallback && onSuccessCallback(successData),
     onError: () => onErrorCallback && onErrorCallback()
   })
 

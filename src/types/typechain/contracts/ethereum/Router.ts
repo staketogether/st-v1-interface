@@ -2,29 +2,29 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
+  AddressLike,
   BaseContract,
   BigNumberish,
   BytesLike,
-  FunctionFragment,
-  Result,
-  Interface,
-  EventFragment,
-  AddressLike,
-  ContractRunner,
   ContractMethod,
-  Listener
+  ContractRunner,
+  EventFragment,
+  FunctionFragment,
+  Interface,
+  Listener,
+  Result
 } from 'ethers'
 import type {
   TypedContractEvent,
+  TypedContractMethod,
   TypedDeferredTopicFilter,
   TypedEventLog,
-  TypedLogDescription,
   TypedListener,
-  TypedContractMethod
+  TypedLogDescription
 } from '../../common'
 
 export declare namespace IRouter {
-  export type ReportStruct = {
+  export interface ReportStruct {
     reportBlock: BigNumberish
     merkleRoot: BytesLike
     profitAmount: BigNumberish
@@ -55,7 +55,7 @@ export declare namespace IRouter {
     accumulatedReports: bigint
   }
 
-  export type ConfigStruct = {
+  export interface ConfigStruct {
     reportFrequency: BigNumberish
     reportDelayBlock: BigNumberish
     reportNoConsensusMargin: BigNumberish

@@ -7,7 +7,7 @@ import { Delegation } from '@/types/Delegation'
 import styled from 'styled-components'
 import WalletSidebarPortfolio from './WalletSidebarPortfolio'
 
-type WalletSidebarTabsContainerProps = {
+interface WalletSidebarTabsContainerProps {
   accountDelegations: Delegation[]
   accountRewards: AccountReward[]
   accountActivities: AccountActivity[]

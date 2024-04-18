@@ -10,7 +10,7 @@ import { useReadContract } from 'wagmi'
 import TooltipComponent from '../shared/TooltipComponent'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
-type StakeDescriptionCheckoutProps = {
+interface StakeDescriptionCheckoutProps {
   type: 'deposit' | 'withdraw'
   youReceiveDeposit: bigint
   amount: string

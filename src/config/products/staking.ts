@@ -187,7 +187,7 @@ export const chilizStaking: ProductStaking = {
 export const stakingList: ProductStaking[] = [chilizStaking, ethereumOpStaking, ethereumStaking]
 
 export function getStakingProduct({ name }: { name: string }): ProductStaking {
-  return stakingList.find(product => product.name === name) || stakingList[0]
+  return stakingList.find(product => product.name === name) ?? stakingList[0]
 }
 
 export function getStakingContracts({ name, isTestnet }: { name: string; isTestnet: boolean }): ProductStakingContracts {

@@ -16,7 +16,7 @@ import AssetIcon from '../shared/AssetIcon'
 import LottieAnimation from '../shared/LottieAnimation'
 import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
 
-type StakeTransactionLoadingProps = {
+interface StakeTransactionLoadingProps {
   walletActionLoading: boolean
   transactionLoading: boolean
   amount: string

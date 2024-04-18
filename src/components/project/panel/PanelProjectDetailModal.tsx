@@ -24,7 +24,7 @@ import { PiDiscordLogo, PiGlobeSimple, PiInstagramLogo, PiLinkedinLogo, PiTelegr
 import styled from 'styled-components'
 import { useSignMessage } from 'wagmi'
 
-type PanelProjectDetailModalProps = {
+interface PanelProjectDetailModalProps {
   project: ContentfulPool
   isContractPublished?: boolean
   showRejectOptionWhenContractIsNotPublished?: boolean
@@ -76,7 +76,7 @@ export default function PanelProjectDetailModal({
   }
 
   const handleProjectSite = () => {
-    if (project.site?.startsWith('https://') || project.site?.startsWith('http://')) {
+    if (project.site?.startsWith('https://') ?? project.site?.startsWith('http://')) {
       return project.site
     }
     return `https://${project.site}`
@@ -325,7 +325,7 @@ export default function PanelProjectDetailModal({
                   onClick={addPool}
                 />
               )}
-              {((!isContractPublished && showRejectOptionWhenContractIsNotPublished) || isRemovedContract) && (
+              {((!isContractPublished && showRejectOptionWhenContractIsNotPublished) ?? isRemovedContract) && (
                 <Button
                   label={t('v2.panelProject.modal.reject')}
                   block

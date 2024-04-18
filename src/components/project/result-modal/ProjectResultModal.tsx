@@ -13,7 +13,7 @@ import { useCallback, useState } from 'react'
 import styled from 'styled-components'
 import ProjectRegisteredCard from '../ProjectRegisteredCard'
 
-type ProjectResultModalProps = {
+interface ProjectResultModalProps {
   poolDetail: ContentfulPool
 }
 
@@ -49,7 +49,7 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
   const handleRedirectToPage = () => {
     setIsRedirect(true)
     handleModalClose()
-    push(`/${network}/${currency}/project/deposit/${poolDetail.wallet}`)
+    push(`/${network as string}/${currency as string}/project/deposit/${poolDetail.wallet}`)
     setIsRedirect(false)
   }
 
@@ -80,9 +80,7 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
           projectName={poolDetail.name}
           projectStatus={poolDetail.status}
           createAt={new Date().toISOString()}
-          ProjectCategory={
-            (categories?.length && categories.find(category => category.name === poolDetail.category.name)?.name) || 'education'
-          }
+          ProjectCategory={categories?.find(category => category.name === poolDetail.category.name)?.name ?? 'education'}
         />
         {isProjectPending && <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>}
         <ActionContainer>

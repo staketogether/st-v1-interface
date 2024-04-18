@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import styled from 'styled-components'
 
-type EthereumInputProps = {
+interface EthereumInputProps {
   ethAmountValue: string
   balance: bigint
   balanceLoading: boolean

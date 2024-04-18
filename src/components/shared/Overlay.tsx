@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-type OverlayProps = {
+interface OverlayProps {
   onClick: () => void
 }
 

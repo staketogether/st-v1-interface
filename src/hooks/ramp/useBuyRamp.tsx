@@ -20,6 +20,7 @@ export interface BuyRampRequest {
 }
 export default function useBuyRamp(provider: 'brla' | 'transak', request?: BuyRampRequest) {
   const { backendUrl } = globalConfig
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, request).then(res => res.data)
   const { data, error } = useSWR<BuyRamp>(request && `api/ramp/buy/${provider}`, fetcher)
 

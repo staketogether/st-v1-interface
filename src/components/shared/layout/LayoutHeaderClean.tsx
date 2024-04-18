@@ -10,7 +10,7 @@ export default function LayoutHeaderClean() {
 
   return (
     <Container>
-      <Link href={`/${network}/${currency}/product`}>
+      <Link href={`/${network as string}/${currency as string}/product`}>
         <Image src={stLogoDesktop} alt={'stakeTogether'} width={162} height={27} />
       </Link>
     </Container>

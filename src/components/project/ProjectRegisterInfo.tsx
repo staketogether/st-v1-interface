@@ -6,7 +6,7 @@ import { ProjectCreateInfo } from '@/types/Project'
 import { Upload, notification } from 'antd'
 import ImgCrop from 'antd-img-crop'
 import type { UploadChangeParam } from 'antd/es/upload'
-import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
+import type { UploadFile, UploadProps } from 'antd/es/upload/interface'
 import { useEffect, useRef } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { PiArrowRight, PiCloudArrowUpBold } from 'react-icons/pi'
@@ -18,7 +18,7 @@ import Select from '../shared/inputs/Select'
 import TextArea from '../shared/inputs/TextArea'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 
-type ProjectRegisterInfoProps = {
+interface ProjectRegisterInfoProps {
   hasAgreeTerms: boolean
   account?: `0x${string}`
   current: number
@@ -59,7 +59,7 @@ export default function ProjectRegisterInfo({
   const aboutProject = watch('aboutProject')
 
   useEffect(() => {
-    if (isSubmitted && errors && modalRef.current && (errors.logo || errors.projectName)) {
+    if (isSubmitted && errors && modalRef.current && (errors.logo ?? errors.projectName)) {
       modalRef.current.scrollTo({
         top: 0,
         behavior: 'smooth'
@@ -78,7 +78,7 @@ export default function ProjectRegisterInfo({
   useEffect(() => {
     if (poolDetail && poolDetail.status === 'rejected') {
       setValue('wallet', poolDetail.wallet)
-      setValue('email', poolDetail.email || '')
+      setValue('email', poolDetail.email ?? '')
       setValue('projectName', poolDetail.name)
       setValue('category', poolDetail.category?.sys?.id)
       setValue('aboutProject', poolDetail.aboutProject)
@@ -86,11 +86,11 @@ export default function ProjectRegisterInfo({
   }, [poolDetail, setValue])
 
   const onPreview = async (file: UploadFile) => {
-    let src = file.url as string
+    let src = file.url!
     if (!src) {
       src = await new Promise(resolve => {
         const reader = new FileReader()
-        reader.readAsDataURL(file.originFileObj as RcFile)
+        reader.readAsDataURL(file.originFileObj!)
         reader.onload = () => resolve(reader.result as string)
       })
     }
@@ -121,15 +121,15 @@ export default function ProjectRegisterInfo({
     }
   }, [categories, poolDetail, setValue])
 
-  const handleChange: UploadProps['onChange'] = async (info: UploadChangeParam<UploadFile>) => {
+  const handleChange: UploadProps['onChange'] = (info: UploadChangeParam<UploadFile>) => {
     setFileList(info.fileList)
     if (info.file.status === 'done') {
-      const file = info.fileList[0].originFileObj as RcFile
+      const file = info.fileList[0].originFileObj!
       if (file && file.type.startsWith('image/')) {
         const reader = new FileReader()
 
         reader.onload = event => {
-          if (event && event.target && event.target.result) {
+          if (event?.target?.result) {
             const image = event.target.result as string
             const [imageType, imageBase64] = image.split(',')
             const mimeType = imageType.split(':')[1].split(';')[0]
@@ -184,8 +184,10 @@ export default function ProjectRegisterInfo({
                       onChange={handleChange}
                       beforeUpload={beforeUpload}
                       onPreview={onPreview}
-                      customRequest={async ({ onSuccess }) => {
-                        onSuccess && onSuccess('ok')
+                      customRequest={({ onSuccess }) => {
+                        if (onSuccess) {
+                          onSuccess('ok')
+                        }
                       }}
                     >
                       {fileList.length >= 1 ? null : (

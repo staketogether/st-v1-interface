@@ -2,7 +2,7 @@ import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useCoinConversion from '@/hooks/useCoinConversion'
 
 import { ProductStaking } from '@/types/ProductStaking'
-type TokensShowValuePriceProps = {
+interface TokensShowValuePriceProps {
   product: ProductStaking
   className?: string
 }

@@ -5,7 +5,7 @@ interface BlockExplorerConfig {
   baseUrl: string
 }
 
-export type ChainConfig = {
+export interface ChainConfig {
   chainId: number
   name: string
   provider: ethers.JsonRpcProvider

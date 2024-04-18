@@ -37,14 +37,14 @@ export default function StakeFormInput({
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  function handleChange(value: string) {
-    if (value.includes(',')) {
-      value = value.replace(',', '.')
+  function handleChange(v: string) {
+    if (v.includes(',')) {
+      v = v.replace(',', '.')
     }
     const regex = /^(\d+(\.\d*)?|\.\d+)$/
-    if (!value || regex.test(value)) {
-      if (value.length > 19 + value.split('.')[0].length) return
-      onChange(value)
+    if (!v || regex.test(v)) {
+      if (v.length > 19 + v.split('.')[0].length) return
+      onChange(v)
     }
   }
 
@@ -82,7 +82,7 @@ export default function StakeFormInput({
               ) : (
                 ''
               )}
-              <span className={`${hasError ? 'error' : ''}`}>{`${truncateDecimal(price || '0', 2)}`}</span>
+              <span className={`${hasError ? 'error' : ''}`}>{`${truncateDecimal(price ?? '0', 2)}`}</span>
             </InputContainer>
           </div>
           <MaxValue disabled={balanceLoading || disabled} onClick={handleMaxValue}>
@@ -91,7 +91,7 @@ export default function StakeFormInput({
         </Content>
       </div>
       <span>{`${type === 'deposit' ? t('v2.stake.minAmount') : t('v2.stake.minWithdraw')} ${
-        type === 'deposit' ? truncateWei(minDepositAmount || 0n) : truncateWei(minWithdrawAmount || 0n)
+        type === 'deposit' ? truncateWei(minDepositAmount ?? 0n) : truncateWei(minWithdrawAmount ?? 0n)
       } ${type === 'deposit' ? t('eth.symbol') : t('lsd.symbol')}`}</span>
     </Container>
   )

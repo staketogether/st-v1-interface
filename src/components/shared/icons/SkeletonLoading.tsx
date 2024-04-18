@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components'
 
-type SkeletonLoadingProps = {
+interface SkeletonLoadingProps {
   className?: string
   height?: number
   width?: number

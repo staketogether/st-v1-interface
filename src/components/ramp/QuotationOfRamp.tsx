@@ -22,7 +22,7 @@ import { useAccount } from 'wagmi'
 import AssetInput from '../assets/AssetsInput'
 import { KycLevel } from './KycLevel'
 
-type QuotationStepProps = {
+interface QuotationStepProps {
   product: ProductAsset
 }
 
@@ -41,7 +41,7 @@ export default function QuotationOfRampStep({ product }: QuotationStepProps) {
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
     debounceValue ? Number(debounceValue) : 0,
-    product.ramp.bridge?.fromChainId || product.ramp.chainId,
+    product.ramp.bridge?.fromChainId ?? product.ramp.chainId,
     1,
     ProviderType.brla,
     PaymentMethodType.pix,
@@ -56,16 +56,16 @@ export default function QuotationOfRampStep({ product }: QuotationStepProps) {
   const limit = Number(debounceValue) * 100 >= Number(kycLevelInfo?.limits.limitSwapBuy ?? 0)
   const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
   const errorMinValue = BigInt(debounceValue) < minDeposit
-  const handleChange = (value: string) => {
-    if (value.includes(',')) {
-      value = value.replace(',', '.')
+  const handleChange = (v: string) => {
+    if (v.includes(',')) {
+      v = v.replace(',', '.')
     }
     const regex = /^(\d+(\.\d*)?|\.\d+)$/
-    if (!value || regex.test(value)) {
-      if (value.length > 19 + value.split('.')[0].length) return
+    if (!v || regex.test(v)) {
+      if (v.length > 19 + v.split('.')[0].length) return
 
-      setValue(value)
-      fiatAmountVar(value)
+      setValue(v)
+      fiatAmountVar(v)
     }
   }
 
@@ -112,8 +112,8 @@ export default function QuotationOfRampStep({ product }: QuotationStepProps) {
       <BoxValuesContainer>
         <AssetInput
           ethAmountValue={String(value)}
-          onChange={value => {
-            handleChange(value)
+          onChange={v => {
+            handleChange(v)
           }}
           productAsset={product}
           hasError={false}

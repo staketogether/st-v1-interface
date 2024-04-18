@@ -11,7 +11,7 @@ import Button from '../shared/Button'
 import LottieAnimation from '../shared/LottieAnimation'
 import ProjectRegisteredCard from './ProjectRegisteredCard'
 
-type ProjectCreateSuccessProps = {
+interface ProjectCreateSuccessProps {
   formValues: CreateProjectForm
   poolDetail: ContentfulWithLocale | null
 }
@@ -21,7 +21,7 @@ export default function ProjectCreateSuccess({ formValues, poolDetail }: Project
   const { categories } = useContentfulCategoryCollection()
   const { setOpenProjectCreateModal: setCommunityCreateModal } = useProjectCreateModal()
 
-  const logo = poolDetail?.logo?.url || `data:${formValues.logo?.mimeType};base64,${formValues.logo?.base64}`
+  const logo = poolDetail?.logo?.url ?? `data:${formValues.logo?.mimeType};base64,${formValues.logo?.base64}`
 
   return (
     <Container>
@@ -34,7 +34,7 @@ export default function ProjectCreateSuccess({ formValues, poolDetail }: Project
         projectName={formValues.projectName}
         projectStatus={'pending'}
         createAt={new Date().toISOString()}
-        ProjectCategory={(categories?.length && categories.find(category => category.sys.id === formValues.category)?.name) || 'education'}
+        ProjectCategory={categories?.find(category => category.sys.id === formValues.category)?.name ?? 'education'}
       />
       <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
       <SuccessButton

@@ -11,7 +11,7 @@ import styled from 'styled-components'
 import DefaultButton from '../shared/Button'
 import Modal from '../shared/Modal'
 
-type web3AuthWalletSettingsProps = {
+interface web3AuthWalletSettingsProps {
   setWeb3authWalletActive?: (value: boolean) => void
   walletAddress: `0x${string}`
 }
@@ -33,8 +33,8 @@ export default function WalletSidebarWeb3AuthWalletSettings({
 
   useEffect(() => {
     const getPrivateKey = async () => {
-      const privateKey = await web3AuthInstance?.provider?.request({ method: 'eth_private_key' })
-      setPrivateKey(privateKey as string)
+      const targetPrivateKey = await web3AuthInstance?.provider?.request({ method: 'eth_private_key' })
+      setPrivateKey(targetPrivateKey as string)
     }
     getPrivateKey()
   }, [web3AuthInstance])

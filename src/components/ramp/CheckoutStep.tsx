@@ -14,7 +14,7 @@ import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
 import SwapInfo from './SwapInfo'
 
-type CheckoutStepProps = {
+interface CheckoutStepProps {
   product: ProductAsset
 }
 

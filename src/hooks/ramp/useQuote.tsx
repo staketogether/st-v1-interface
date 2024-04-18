@@ -7,7 +7,7 @@ export default function useQuoteRamp(
   fiatCurrencyCode: string,
   amount?: number,
   chainId?: number,
-  isCryptoAmount: number = 0,
+  isCryptoAmount = 0,
   provider?: ProviderType,
   paymentMethod?: PaymentMethodType,
   toChain?: string,

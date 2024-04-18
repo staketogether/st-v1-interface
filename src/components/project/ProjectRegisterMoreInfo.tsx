@@ -14,7 +14,7 @@ import Input from '../shared/inputs/Input'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
 
-type ProjectRegisterMoreInfoProps = {
+interface ProjectRegisterMoreInfoProps {
   isLoading: boolean
   isSuccess: boolean
   current: number
@@ -42,7 +42,7 @@ export default function ProjectRegisterMoreInfo({
   const { chainId } = chain
   const isWrongNetwork = chainId !== walletChainId?.id
   const isProjectRejected = poolDetail?.status === 'rejected'
-  const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') || false
+  const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') ?? false
   const handleLabelButton = () => {
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
@@ -74,10 +74,10 @@ export default function ProjectRegisterMoreInfo({
 
   useEffect(() => {
     if (poolDetail && isProjectRejected) {
-      setValue('site', poolDetail.site || '')
-      setValue('twitter', poolDetail.twitter || '')
-      setValue('instagram', poolDetail.instagram || '')
-      setValue('telegram', poolDetail.telegram || '')
+      setValue('site', poolDetail.site ?? '')
+      setValue('twitter', poolDetail.twitter ?? '')
+      setValue('instagram', poolDetail.instagram ?? '')
+      setValue('telegram', poolDetail.telegram ?? '')
     }
   }, [isProjectRejected, poolDetail, setValue])
 
@@ -98,7 +98,7 @@ export default function ProjectRegisterMoreInfo({
           poolDetail={poolDetail}
           formValues={{
             ...formValues,
-            logo: { mimeType: projectInfo?.logo?.mimeType, base64: projectInfo?.logo?.base64 || '' },
+            logo: { mimeType: projectInfo?.logo?.mimeType, base64: projectInfo?.logo?.base64 ?? '' },
             category: projectInfo?.category
           }}
         />

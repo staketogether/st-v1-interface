@@ -65,7 +65,7 @@ export default function StakePoolInfo({
             initialLoading={initialLoadingPoolData}
             loadMoreLoading={loadMoreLoadingPoolData}
             onLoadMore={fetchMore}
-            totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
+            totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() ?? 0)}
           />
         </TabContainer>
       )
@@ -81,7 +81,7 @@ export default function StakePoolInfo({
             poolActivitiesLoading={poolActivitiesLoading}
             poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
             loadMoreActivitiesItems={loadMoreActivitiesItems}
-            activityCount={poolData?.activitiesCount || '0'}
+            activityCount={poolData?.activitiesCount ?? '0'}
           />
         </TabContainer>
       )

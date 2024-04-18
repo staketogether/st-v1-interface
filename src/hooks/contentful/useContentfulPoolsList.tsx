@@ -14,7 +14,7 @@ export default function useContentfulPoolsList() {
   })
 
   useEffect(() => {
-    setPoolsList(data?.poolCollection.items || [])
+    setPoolsList(data?.poolCollection.items ?? [])
   }, [data])
 
   useEffect(() => {

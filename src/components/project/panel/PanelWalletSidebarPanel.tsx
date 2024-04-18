@@ -5,7 +5,7 @@ import Tabs, { TabsItems } from '../../shared/Tabs'
 import PanelAnalysis from './PanelAnalysis'
 import PanelApprovedList from './PanelApprovedList'
 
-type PanelWalletSidebarPanelProps = {
+interface PanelWalletSidebarPanelProps {
   setIsPanelActive: (value: boolean) => void
 }
 

@@ -14,7 +14,7 @@ import NetworkIcons from '../shared/NetworkIcons'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
 
-type ProductInfoProps = {
+interface ProductInfoProps {
   product: ProductStaking
   assetData: ProductMarketAssetData
   chainId: number

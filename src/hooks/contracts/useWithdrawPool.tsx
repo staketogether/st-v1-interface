@@ -49,7 +49,7 @@ export default function useWithdrawPool(
   const { t } = useLocaleTranslation()
 
   const { stConfig } = useStConfig({ name: product.name, chainId })
-  const amountEstimatedGas = stConfig?.minWithdrawAmount || 0n
+  const amountEstimatedGas = stConfig?.minWithdrawAmount ?? 0n
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
   const isWithdrawEnabled = enabled && amount > 0n && !stConfigLoading
 
@@ -64,8 +64,8 @@ export default function useWithdrawPool(
 
   useEffect(() => {
     const handleEstimateGasPrice = async () => {
-      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } = await estimateGas()
-      setEstimatedGas(estimatedGas)
+      const { estimatedCost, estimatedGas: estimatedGas2, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } = await estimateGas()
+      setEstimatedGas(estimatedGas2)
       setEstimateGasCost(estimatedCost)
       setMaxFeePerGas(estimatedMaxFeePerGas)
       setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
@@ -101,7 +101,7 @@ export default function useWithdrawPool(
       const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
       if (
-        (!cause || !cause.reason) &&
+        !cause?.reason &&
         !!web3AuthUserInfo &&
         cause?.message &&
         cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
@@ -117,7 +117,7 @@ export default function useWithdrawPool(
 
       const { data } = cause as { data?: { errorName?: string } }
 
-      if (cause && data && data.errorName) {
+      if (cause && data?.errorName) {
         setPrepareTransactionErrorMessage(data.errorName)
       }
     }

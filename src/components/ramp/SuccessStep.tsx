@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import Button from '../shared/Button'
 import LottieAnimation from '../shared/LottieAnimation'
 
-type SuccessStepProps = {
+interface SuccessStepProps {
   product: ProductAsset
 }
 

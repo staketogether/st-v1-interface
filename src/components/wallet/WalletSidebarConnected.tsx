@@ -37,7 +37,7 @@ import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
 import useStAccount from './hooks/useStAccount'
 
-type WalletSidebarConnectedProps = {
+interface WalletSidebarConnectedProps {
   address: `0x${string}`
 }
 
@@ -216,7 +216,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 )}
               </Web3AuthProfileContainer>
               <div>
-                {web3AuthUserInfo && web3AuthUserInfo.email && (
+                {web3AuthUserInfo?.email && (
                   <WalletAddressContainer>
                     <span onClick={() => web3AuthUserInfo?.email && copyToClipboard(web3AuthUserInfo.email)}>
                       {truncateText(web3AuthUserInfo.email, 20)}

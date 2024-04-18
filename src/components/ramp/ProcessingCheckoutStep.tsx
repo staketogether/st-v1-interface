@@ -9,7 +9,7 @@ import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import WrapProcessingStep from './WrapProcessingStep'
 
-type ProcessingCheckoutStepProps = {
+interface ProcessingCheckoutStepProps {
   product: ProductAsset
 }
 
@@ -45,8 +45,7 @@ export default function ProcessingCheckoutStep({ product }: ProcessingCheckoutSt
 
   const paymentStatus = activity?.status === 'success' ? 'success' : 'process'
   const successfulBridging =
-    activity &&
-    activity.additionalData &&
+    activity?.additionalData &&
     activity.additionalData.bridge &&
     typeof activity.additionalData.bridge === 'object' &&
     'txHash' in activity.additionalData.bridge

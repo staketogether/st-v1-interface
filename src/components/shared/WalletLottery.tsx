@@ -14,7 +14,11 @@ import Button from './Button'
 import LottieAnimation from './LottieAnimation'
 import EnsAvatar from './ens/EnsAvatar'
 import EnsName from './ens/EnsName'
-type WalletLotteryProps = { poolAddress: `0x${string}`; chainId: number }
+
+interface WalletLotteryProps {
+  poolAddress: `0x${string}`
+  chainId: number
+}
 
 export default function WalletLottery({ poolAddress, chainId }: WalletLotteryProps) {
   const [starterDraw, setStarterDraw] = useState(false)

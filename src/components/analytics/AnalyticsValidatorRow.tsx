@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import { PiArrowSquareOut } from 'react-icons/pi'
 import styled from 'styled-components'
 
-type AnalyticsValidatorRowProps = {
+interface AnalyticsValidatorRowProps {
   validator: ValidatorsData
   index: number
 }

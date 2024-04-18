@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 import styled from 'styled-components'
 import Button from '../shared/Button'
 
-type PaymentMethodProps = {
+interface PaymentMethodProps {
   product: ProductAsset
 }
 

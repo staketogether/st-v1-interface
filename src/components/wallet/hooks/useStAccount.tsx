@@ -10,7 +10,7 @@ import { queryAccount } from '../../../queries/subgraph/queryAccount'
 import { Account } from '../../../types/Account'
 import { Delegation } from '../../../types/Delegation'
 
-type useStAccountProps = {
+interface useStAccountProps {
   address?: `0x${string}`
   productName: string
   chainId: number
@@ -30,7 +30,7 @@ export default function useStAccount({ address, productName, chainId }: useStAcc
   const [accountProfitPercentage, setAccountProfitPercentage] = useState<bigint>(0n)
   const [accountShare, setAccountShare] = useState<bigint>(0n)
   const { isTestnet } = chainConfigByChainId(chainId)
-  const client = getSubgraphClient({ productName: productName, isTestnet })
+  const client = getSubgraphClient({ name: productName, isTestnet })
 
   const { data: accountData, loading } = useQuery<{ account: Account }>(queryAccount, {
     variables: { id: address?.toLowerCase() },
@@ -55,15 +55,15 @@ export default function useStAccount({ address, productName, chainId }: useStAcc
   })
 
   useEffect(() => {
-    if (accountData && accountData.account) {
-      const account = accountData.account
+    if (accountData?.account) {
+      const targetAccount = accountData.account
       setAccount(accountData.account)
-      setAccountDelegations(account.delegations || [])
-      setAccountSentDelegationsCount(account.sentDelegationsCount)
-      setAccountBalance(account.balance)
-      setAccountTotalRewards(account.totalRewards)
-      setAccountProfitPercentage(account.profitPercentage)
-      setAccountShare(account.shares)
+      setAccountDelegations(targetAccount.delegations || [])
+      setAccountSentDelegationsCount(targetAccount.sentDelegationsCount)
+      setAccountBalance(targetAccount.balance)
+      setAccountTotalRewards(targetAccount.totalRewards)
+      setAccountProfitPercentage(targetAccount.profitPercentage)
+      setAccountShare(targetAccount.shares)
     } else {
       setAccount(undefined)
       setAccountDelegations([])
@@ -76,13 +76,13 @@ export default function useStAccount({ address, productName, chainId }: useStAcc
   }, [accountData])
 
   useEffect(() => {
-    if (activitiesData && activitiesData.accountActivities) {
+    if (activitiesData?.accountActivities) {
       setAccountActivities(activitiesData.accountActivities)
     }
   }, [activitiesData])
 
   useEffect(() => {
-    if (rewardsData && rewardsData.accountRewards) {
+    if (rewardsData?.accountRewards) {
       setAccountRewards(rewardsData.accountRewards)
     }
   }, [rewardsData])

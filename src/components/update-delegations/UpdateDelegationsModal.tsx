@@ -21,7 +21,7 @@ import CommunityName from '../shared/community/CommunityName'
 import ListProjectModal from './ListProjectModal'
 import ReviewUpdateDelegationsRequest from './ReviewUpdateDelegationsRequest'
 
-type UpdateDelegationsModalProps = {
+interface UpdateDelegationsModalProps {
   accountDelegations: Delegation[]
   accountTotalShares: bigint
   userAccount: `0x${string}`
@@ -103,11 +103,11 @@ export default function UpdateDelegationsModal({
   }
 
   function handleUpdateForm(delegation: UpdateDelegationForm, valuePercentage: number, valueDecimal: number, removeProject?: boolean) {
-    const updateDelegation = delegationForm.map(delegationForm => {
-      if (delegationForm.address === delegation.address) {
-        return { ...delegationForm, percentage: valuePercentage, poolBalanceDecimal: valueDecimal }
+    const updateDelegation = delegationForm.map(dF => {
+      if (dF.address === delegation.address) {
+        return { ...dF, percentage: valuePercentage, poolBalanceDecimal: valueDecimal }
       }
-      return { ...delegationForm }
+      return { ...dF }
     })
     const delegationFilter = removeProject
       ? updateDelegation.filter(pool => {
@@ -235,11 +235,11 @@ export default function UpdateDelegationsModal({
                         <CommunityLogo
                           size={24}
                           src={poolMetadata?.logo.url}
-                          alt={poolMetadata?.logo.fileName || ''}
+                          alt={poolMetadata?.logo.fileName ?? ''}
                           loading={isLoading}
                           listed={!!poolMetadata}
                         />
-                        {poolMetadata && poolMetadata.name ? (
+                        {poolMetadata?.name ? (
                           <CommunityName name={poolMetadata.name} loading={isLoading} />
                         ) : (
                           <CommunityName walletAddress={delegation.address} loading={isLoading} />

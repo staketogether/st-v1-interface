@@ -4,7 +4,7 @@ import useEns from '../../../hooks/useEns'
 import { truncateAddress, truncateText } from '../../../services/truncate'
 import SkeletonLoading from '../icons/SkeletonLoading'
 
-type EnsNameProps = {
+interface EnsNameProps {
   address: `0x${string}`
   large?: boolean
   $larger?: boolean
@@ -48,7 +48,7 @@ export default function EnsName({ address, large, chainId, $larger, slice, color
 const { Text } = {
   Text: styled.span<{ large?: boolean; larger?: boolean; color?: string }>`
     font-size: ${({ theme }) => theme.font.size[14]};
-    color: ${({ theme, color }) => color || theme.colorV2.gray[1]};
+    color: ${({ theme, color }) => color ?? theme.colorV2.gray[1]};
     border: 0;
     padding: 0;
     margin: 0;

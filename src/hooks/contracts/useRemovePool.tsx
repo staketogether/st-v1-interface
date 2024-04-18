@@ -44,7 +44,7 @@ export default function useRemovePool(projectAddress: `0x${string}`, disabled?: 
       const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
       if (
-        (!cause || !cause.reason) &&
+        !cause?.reason &&
         cause?.message &&
         cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
       ) {
@@ -54,7 +54,7 @@ export default function useRemovePool(projectAddress: `0x${string}`, disabled?: 
       }
       const response = cause as { data?: { errorName?: string } }
 
-      if (cause && response?.data && response?.data?.errorName) {
+      if (cause && response?.data?.errorName) {
         setPrepareTransactionErrorMessage(response?.data?.errorName)
       }
     }

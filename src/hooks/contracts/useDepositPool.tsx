@@ -46,7 +46,7 @@ export default function useDepositPool(
   const { stConfig, loading: stConfigLoading } = useStConfig({ name: product.name, chainId })
   const { t } = useLocaleTranslation()
 
-  const amountEstimatedGas = stConfig?.minDepositAmount || 0n
+  const amountEstimatedGas = stConfig?.minDepositAmount ?? 0n
 
   const isDepositEnabled = enabled && netDepositAmount > 0n && !stConfigLoading
 
@@ -117,7 +117,7 @@ export default function useDepositPool(
       const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
       if (
-        (!cause || !cause.reason) &&
+        !cause?.reason &&
         !!web3AuthUserInfo &&
         cause?.message &&
         cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
@@ -132,7 +132,7 @@ export default function useDepositPool(
       }
       const response = cause as { data?: { errorName?: string } }
 
-      if (cause && response?.data && response?.data?.errorName) {
+      if (cause && response?.data?.errorName) {
         setPrepareTransactionErrorMessage(response?.data?.errorName)
       }
     }
@@ -216,7 +216,7 @@ export default function useDepositPool(
     t
   ])
 
-  const deposit = async () => {
+  const deposit = () => {
     setAwaitWalletAction(true)
     writeContract(prepareTransactionData!.request)
   }

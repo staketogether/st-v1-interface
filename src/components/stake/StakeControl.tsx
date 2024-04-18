@@ -60,11 +60,11 @@ export default function StakeControl({ poolAddress, type, poolDetail, chainId, i
   }
 
   const router = useRouter()
-  const handleSwitch = (type: string) => {
+  const handleSwitch = (typeItem: string) => {
     if (isStakeTogetherPool) {
       router.push(
         {
-          pathname: `/${currency}/${network}/project/${type === 'deposit' ? '' : type}`
+          pathname: `/${currency as string}/${network as string}/project/${typeItem === 'deposit' ? '' : typeItem}`
         },
         undefined,
         { shallow: true }
@@ -74,7 +74,7 @@ export default function StakeControl({ poolAddress, type, poolDetail, chainId, i
 
     router.push(
       {
-        pathname: `/${currency}/${network}/project/${type}/${poolAddress}`
+        pathname: `/${currency as string}/${network as string}/project/${typeItem}/${poolAddress}`
       },
       undefined,
       { shallow: true }
@@ -118,7 +118,7 @@ export default function StakeControl({ poolAddress, type, poolDetail, chainId, i
                   <CommunityLogo
                     size={32}
                     src={poolDetail?.logo?.url}
-                    alt={poolDetail?.logo?.url || ''}
+                    alt={poolDetail?.logo?.url ?? ''}
                     loading={false}
                     listed={pool?.listed}
                   />

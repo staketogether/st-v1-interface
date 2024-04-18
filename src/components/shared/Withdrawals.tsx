@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import Button from './Button'
 import SkeletonLoading from './icons/SkeletonLoading'
 
-type WithdrawalsProps = {
+interface WithdrawalsProps {
   balance: bigint
   accountAddress: `0x${string}`
   smallAction?: boolean

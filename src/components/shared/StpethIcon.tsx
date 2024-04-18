@@ -8,7 +8,7 @@ import Image from 'next/image'
 import { PiPlusBold } from 'react-icons/pi'
 import styled from 'styled-components'
 
-type StpEthIconProps = {
+interface StpEthIconProps {
   size?: number
   showPlusIcon?: boolean
 }

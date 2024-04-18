@@ -11,8 +11,8 @@ export default function usePoolActivities(poolAddress: `0x${string}`, pagination
   const { data, loading, fetchMore } = useQuery<{ poolActivities: PoolActivity[] }>(queryPoolActivities, {
     variables: {
       poolAddress: poolAddress.toLocaleLowerCase(),
-      first: pagination?.first || 10,
-      skip: pagination?.skip || 0
+      first: pagination?.first ?? 10,
+      skip: pagination?.skip ?? 0
     }
   })
 
@@ -31,7 +31,7 @@ export default function usePoolActivities(poolAddress: `0x${string}`, pagination
   }
 
   useEffect(() => {
-    setPoolActivities(data?.poolActivities || [])
+    setPoolActivities(data?.poolActivities ?? [])
   }, [data])
 
   useEffect(() => {

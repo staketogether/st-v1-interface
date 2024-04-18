@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import EthereumDeposit from './EthereumDeposit'
 import EthereumWithdraw from './EthereumWithdraw'
 
-type EthereumFormControlProps = {
+interface EthereumFormControlProps {
   type: 'deposit' | 'withdraw'
   product: ProductStaking
   chainId: number
@@ -36,6 +36,7 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
   })
 
   function handleRampButton() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     type === 'deposit'
       ? openModal(product.asset.name)
       : notification.info({

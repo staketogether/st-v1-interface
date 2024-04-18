@@ -19,7 +19,7 @@ const handleConnectors = () => {
         spicy
       ]).connectors,
       safe(),
-      walletConnect({ projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT as string, showQrModal: true })
+      walletConnect({ projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT!, showQrModal: true })
     ]
   }
   return []
@@ -29,15 +29,15 @@ export const config = createConfig({
   chains: [mainnet, optimism, arbitrum, polygon, chiliz, sepolia, optimismSepolia, arbitrumSepolia, polygonMumbai, spicy],
   connectors: handleConnectors(),
   transports: {
-    [mainnet.id]: http(process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL as string),
-    [optimism.id]: http(process.env.NEXT_PUBLIC_RPC_OP_MAINNET_URL as string),
-    [arbitrum.id]: http(process.env.NEXT_PUBLIC_RPC_ARB_MAINNET_URL as string),
-    [polygon.id]: http(process.env.NEXT_PUBLIC_RPC_POL_MAINNET_URL as string),
-    [chiliz.id]: http(process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET_URL as string),
-    [sepolia.id]: http(process.env.NEXT_PUBLIC_RPC_ETH_TESTNET_URL as string),
-    [optimismSepolia.id]: http(process.env.NEXT_PUBLIC_RPC_OP_TESTNET_URL as string),
-    [arbitrumSepolia.id]: http(process.env.NEXT_PUBLIC_RPC_ARB_TESTNET_URL as string),
-    [polygonMumbai.id]: http(process.env.NEXT_PUBLIC_RPC_POL_TESTNET_URL as string),
-    [spicy.id]: http(process.env.NEXT_PUBLIC_RPC_SPICY_MAINNET_URL as string)
+    [mainnet.id]: http(process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL),
+    [optimism.id]: http(process.env.NEXT_PUBLIC_RPC_OP_MAINNET_URL),
+    [arbitrum.id]: http(process.env.NEXT_PUBLIC_RPC_ARB_MAINNET_URL),
+    [polygon.id]: http(process.env.NEXT_PUBLIC_RPC_POL_MAINNET_URL),
+    [chiliz.id]: http(process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET_URL),
+    [sepolia.id]: http(process.env.NEXT_PUBLIC_RPC_ETH_TESTNET_URL),
+    [optimismSepolia.id]: http(process.env.NEXT_PUBLIC_RPC_OP_TESTNET_URL),
+    [arbitrumSepolia.id]: http(process.env.NEXT_PUBLIC_RPC_ARB_TESTNET_URL),
+    [polygonMumbai.id]: http(process.env.NEXT_PUBLIC_RPC_POL_TESTNET_URL),
+    [spicy.id]: http(process.env.NEXT_PUBLIC_RPC_SPICY_MAINNET_URL)
   }
 })

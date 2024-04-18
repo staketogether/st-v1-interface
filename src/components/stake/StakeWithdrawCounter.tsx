@@ -1,7 +1,7 @@
 import useCountDown from '@/hooks/useCountDown'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 
-type StakeWithdrawCounterProps = {
+interface StakeWithdrawCounterProps {
   withdrawTimeLeft: number
 }
 

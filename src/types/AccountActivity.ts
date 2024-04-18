@@ -1,6 +1,6 @@
 import { Account } from '@/types/Account'
 
-export type AccountActivity = {
+export interface AccountActivity {
   account?: Account
   timestamp: number
   amount: string

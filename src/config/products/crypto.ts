@@ -122,5 +122,5 @@ export const ethMainnet: ProductAsset = {
 export const productCryptoList: ProductAsset[] = [btcOptimism, ethOptimism, ethMainnet]
 
 export function getCryptoAsset({ name }: { name: string }): ProductAsset {
-  return productCryptoList.find(product => product.name === name) || productCryptoList[0]
+  return productCryptoList.find(product => product.name === name) ?? productCryptoList[0]
 }

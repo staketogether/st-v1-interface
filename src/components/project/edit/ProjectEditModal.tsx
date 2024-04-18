@@ -19,7 +19,7 @@ import Modal from '../../shared/Modal'
 import ProjectEditForm from './ProjectEditForm'
 import ProjectEditLinksForm from './ProjectEditLinksForm'
 
-type ProjectEditModalProps = {
+interface ProjectEditModalProps {
   poolDetailUs: ContentfulWithLocale
   account: `0x${string}` | undefined
 }
@@ -62,10 +62,10 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
       logo: { base64: undefined, mimeType: undefined },
       cover: { base64: undefined, mimeType: undefined },
       headerCover: { base64: undefined, mimeType: undefined },
-      descriptionEn: poolDetailUs.description || '',
-      descriptionPt: poolDetailPt.poolDetail?.description || '',
-      videoEn: poolDetailUs.video || '',
-      videoPt: poolDetailPt.poolDetail?.video || '',
+      descriptionEn: poolDetailUs.description ?? '',
+      descriptionPt: poolDetailPt.poolDetail?.description ?? '',
+      videoEn: poolDetailUs.video ?? '',
+      videoPt: poolDetailPt.poolDetail?.video ?? '',
       wallet: poolDetailUs.wallet,
       projectName: poolDetailUs.name,
       category: poolDetailUs?.category?.sys?.id
@@ -164,14 +164,14 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     }
   }, [account, reset, resetSignMessage])
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     if (isWrongNetwork && switchChain) {
       switchChain({
         chainId: chainId
       })
       return
     }
-    await signMessage({
+    signMessage({
       message: message
     })
   }

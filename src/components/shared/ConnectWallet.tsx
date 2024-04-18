@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
 
-type ConnectWalletProps = {
+interface ConnectWalletProps {
   useModal?: boolean
 }
 
@@ -42,7 +42,7 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
   }
 
   const handleConnectorIndex = (index: number) => {
-    const web3Auth: { [key: number]: string } = {
+    const web3Auth: Record<number, string> = {
       0: 'Google',
       1: 'Facebook',
       2: 'Apple'

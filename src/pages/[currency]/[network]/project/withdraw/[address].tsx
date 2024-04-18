@@ -8,7 +8,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LayoutTemplate from '../../../../../components/shared/layout/LayoutTemplate'
 import StakeControl from '../../../../../components/stake/StakeControl'
 
-type WithdrawProps = {
+interface WithdrawProps {
   poolAddress: `0x${string}`
   poolDetail?: ContentfulPool
   chainId: number
@@ -42,8 +42,8 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   return {
     props: {
-      ...(await serverSideTranslations(context.locale || 'en', ['common'])),
-      poolAddress: address?.toLowerCase() || '',
+      ...(await serverSideTranslations(context.locale ?? 'en', ['common'])),
+      poolAddress: address?.toLowerCase() ?? '',
       poolDetail: data?.poolCollection.items[0] || null,
       chainId
     }

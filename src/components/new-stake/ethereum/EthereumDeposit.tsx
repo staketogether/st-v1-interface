@@ -24,7 +24,7 @@ import EthereumInput from './EthereumInput'
 import EthereumProjectSelect from './EthereumProjectSelect'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
 
-type EthereumDepositProps = {
+interface EthereumDepositProps {
   type: 'deposit' | 'withdraw'
   ethBalance: bigint
   ethBalanceLoading: boolean
@@ -72,11 +72,11 @@ export default function EthereumDeposit({
 
   const { fee, loading: isLoadingFees } = useFeeStakeEntry()
   const parsedAmount = ethers.parseUnits(inputAmount, 18)
-  const feeAmount = (parsedAmount * BigInt(fee?.value || 0n)) / ethers.parseEther('1')
+  const feeAmount = (parsedAmount * BigInt(fee?.value ?? 0n)) / ethers.parseEther('1')
   const youReceiveDeposit = ethers.parseUnits(inputAmount, 18) - feeAmount
 
-  const { stConfig } = useStConfig({ productName: product.name, chainId })
-  const minDepositAmount = stConfig?.minDepositAmount || 0n
+  const { stConfig } = useStConfig({ name: product.name, chainId })
+  const minDepositAmount = stConfig?.minDepositAmount ?? 0n
 
   const { chain: walletChainId } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
@@ -103,11 +103,11 @@ export default function EthereumDeposit({
   )
 
   useEffect(() => {
-    const handleSuccessfulAction = async () => {
+    const handleSuccessfulAction = () => {
       if (isSuccess && !isOpenStakeConfirmModal) {
         setAmount('')
         resetState()
-        await ethBalanceRefetch()
+        ethBalanceRefetch()
       }
     }
 
@@ -172,7 +172,7 @@ export default function EthereumDeposit({
   }
 
   const handleAddProjectOnRoute = (projectAddress: `0x${string}`) => {
-    if (window.history && window.history.replaceState) {
+    if (window?.history?.replaceState) {
       const newUrl = new URL(window.location.href)
       if (projectAddress.toLocaleLowerCase() === stakeTogetherPool.toLocaleLowerCase()) {
         newUrl.searchParams.delete('projectAddress')

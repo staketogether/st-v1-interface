@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useBalance } from 'wagmi'
 
-type UseEthBalanceOf = {
+interface UseEthBalanceOf {
   walletAddress?: `0x${string}`
   token?: `0x${string}`
   chainId: number
@@ -18,7 +18,7 @@ export default function useEthBalanceOf({ walletAddress, chainId, token }: UseEt
       enabled: !!walletAddress
     }
   })
-  const ethBalance = data?.value || 0n
+  const ethBalance = data?.value ?? 0n
   useEffect(() => {
     setBalance(ethBalance)
   }, [ethBalance])

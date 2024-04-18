@@ -7,7 +7,7 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import { arbitrum, arbitrumSepolia, chiliz, mainnet, optimism, optimismSepolia, polygon, polygonMumbai, sepolia, spicy } from 'wagmi/chains'
 
-type NetworkIconProps = {
+interface NetworkIconProps {
   chain?: number
   size: number
   enabled?: boolean

@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import TooltipComponent from '../shared/TooltipComponent'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 
-type StakeWithdrawSwitchTypesProps = {
+interface StakeWithdrawSwitchTypesProps {
   withdrawTypeSelected: WithdrawType
   selectWithdrawType: (value: WithdrawType) => void
   liquidityPoolBalance: bigint

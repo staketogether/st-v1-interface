@@ -6,7 +6,7 @@ import PoolFilterIcon from '../invest/PoolFilterIcon'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 
-type ProjectRegisteredProps = {
+interface ProjectRegisteredProps {
   projectLogo?: string
   projectName?: string
   projectStatus: string
@@ -41,7 +41,7 @@ export default function ProjectRegisteredCard({
   return (
     <CardContainer>
       <CardHeader>
-        {projectLogo && <CommunityLogo size={80} src={projectLogo} alt={projectName || ''} />}
+        {projectLogo && <CommunityLogo size={80} src={projectLogo} alt={projectName ?? ''} />}
         <div>
           {projectName && <CommunityName name={projectName} $large $bold $color={theme.color.secondary} />}
           <div>

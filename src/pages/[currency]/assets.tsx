@@ -7,7 +7,7 @@ import { ProductAsset } from '@/types/ProductAsset'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-type AssetsProps = {
+interface AssetsProps {
   productList: ProductAsset[]
 }
 
@@ -19,14 +19,14 @@ export default function Assets({ productList }: AssetsProps) {
     </LayoutTemplate>
   )
 }
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   const paths = [{ params: { currency: 'usd' } }, { params: { currency: 'brl' } }, { params: { currency: 'eur' } }]
 
   return { paths, fallback: 'blocking' }
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  if (!productCryptoList || !productCryptoList.length) {
+  if (!productCryptoList?.length) {
     return {
       notFound: true
     }
@@ -37,7 +37,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       productList: productCryptoList.filter(product => {
         if (product.listed) return product
       }),
-      ...(await serverSideTranslations(locale || 'en', ['common']))
+      ...(await serverSideTranslations(locale ?? 'en', ['common']))
     },
     revalidate: 24 * 60 * 60
   }

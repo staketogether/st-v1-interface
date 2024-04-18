@@ -5,7 +5,7 @@ import { useTheme } from 'styled-components'
 import useConnectedAccount from './useConnectedAccount'
 import useLocaleTranslation from './useLocaleTranslation'
 
-type TransakProps = {
+interface TransakProps {
   onSuccess?: () => void
   productsAvailed: 'BUY' | 'SELL'
   network: string
@@ -17,7 +17,7 @@ export default function useTransak(config: TransakProps) {
   const [isClosed, setIsClosed] = useState(false)
   const defaultTransakConfig: TransakConfig = useMemo(
     () => ({
-      apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY as string,
+      apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY!,
       environment: Transak.ENVIRONMENTS.PRODUCTION,
       exchangeScreenTitle: config.productsAvailed === 'SELL' ? t('sellCryptoTitle') : t('buyCryptoTitle'),
       network: config.network,
@@ -41,8 +41,8 @@ export default function useTransak(config: TransakProps) {
       ...defaultTransakConfig,
       defaultFiatCurrency: locale === 'pt' ? 'BRL' : 'USD',
       disableWalletAddressForm: account ? true : false,
-      walletAddress: account || undefined,
-      email: web3AuthUserInfo?.email || undefined
+      walletAddress: account ?? undefined,
+      email: web3AuthUserInfo?.email ?? undefined
     }
     setTransakConfig(newTransakConfig)
   }, [account, defaultTransakConfig, locale, web3AuthUserInfo?.email])
@@ -65,7 +65,9 @@ export default function useTransak(config: TransakProps) {
 
     Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, orderData => {
       console.log(orderData)
-      config && config.onSuccess && config.onSuccess()
+      if (config?.onSuccess) {
+        config.onSuccess()
+      }
       transak.close()
     })
 

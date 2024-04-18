@@ -15,7 +15,7 @@ const LOGIN_PROVIDER = {
 export type LOGIN_PROVIDER_TYPE = (typeof LOGIN_PROVIDER)[keyof typeof LOGIN_PROVIDER]
 export type CUSTOM_LOGIN_PROVIDER_TYPE = string & { toString?: (radix?: number) => string }
 
-export type Web3AuthUserInfo = {
+export interface Web3AuthUserInfo {
   email?: string
   name?: string
   profileImage?: string

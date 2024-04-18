@@ -2,16 +2,16 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
+  AddressLike,
   BaseContract,
+  ContractMethod,
+  ContractRunner,
+  EventFragment,
   FunctionFragment,
   Interface,
-  EventFragment,
-  AddressLike,
-  ContractRunner,
-  ContractMethod,
   Listener
 } from 'ethers'
-import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedLogDescription, TypedListener } from '../../../../common'
+import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, TypedListener, TypedLogDescription } from '../../../../common'
 
 export interface ERC1967UtilsInterface extends Interface {
   getEvent(nameOrSignatureOrTopic: 'AdminChanged' | 'BeaconUpgraded' | 'Upgraded'): EventFragment

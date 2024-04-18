@@ -12,14 +12,14 @@ export default function useCoinUsdToUserCurrency() {
   const userCurrencyFromUsd = useReactiveVar(userCurrencyFromUsdVar)
 
   const FormatValue = useCallback(
-    (amount: number, currency: string) => {
+    (amount: number, selectedCurrency: string) => {
       switch (locale) {
         case 'pt':
-          return new Intl.NumberFormat('pt-BR', { style: 'currency', currency }).format(amount)
+          return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: selectedCurrency }).format(amount)
         case 'es':
-          return new Intl.NumberFormat('es-ES', { style: 'currency', currency }).format(amount)
+          return new Intl.NumberFormat('es-ES', { style: 'currency', currency: selectedCurrency }).format(amount)
         default:
-          return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(amount)
+          return new Intl.NumberFormat('en-US', { style: 'currency', currency: selectedCurrency }).format(amount)
       }
     },
     [locale]

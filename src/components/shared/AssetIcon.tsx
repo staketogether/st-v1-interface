@@ -15,7 +15,7 @@ import stpRETHIcon from '@assets/stpRETHIcon.svg'
 import Image from 'next/image'
 import styled from 'styled-components'
 
-type SymbolIconsProps = {
+interface SymbolIconsProps {
   assetIcon: string
   networkIcon?: string
   size: number

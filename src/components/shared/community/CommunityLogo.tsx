@@ -2,7 +2,7 @@ import { PiEyeSlash } from 'react-icons/pi'
 import styled from 'styled-components'
 import SkeletonLoading from '../icons/SkeletonLoading'
 
-type CommunityLogoProps = {
+interface CommunityLogoProps {
   src?: string
   alt: string
   size?: number

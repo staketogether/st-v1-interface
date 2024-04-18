@@ -42,7 +42,7 @@ export default function AssetsBuyControl({ product }: { type: 'sell' | 'buy'; pr
 
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
 
-  const titleList: { [key: string]: string } = {
+  const titleList: Record<string, string> = {
     Success: t('v2.ramp.success'),
     MethodPayment: t('v2.ramp.provider')
   }
@@ -79,7 +79,7 @@ export default function AssetsBuyControl({ product }: { type: 'sell' | 'buy'; pr
         shouldRetryOnError: true,
         fetcher: (uri: string) =>
           axios.get(`${backendUrl}/${uri}`).then(res => {
-            return res.data
+            return res.data as string
           })
       }}
     >

@@ -1,6 +1,6 @@
 import { Account } from '@/types/Account'
 
-export type AccountReward = {
+export interface AccountReward {
   account?: Account
   timestamp: number
   amount: bigint

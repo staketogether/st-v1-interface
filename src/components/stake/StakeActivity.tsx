@@ -10,7 +10,7 @@ import Loading from '../shared/icons/Loading'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 
-type StakeActivityProps = {
+interface StakeActivityProps {
   poolActivities: PoolActivity[]
   poolActivitiesFetchMoreLoading: boolean
   poolActivitiesLoading: boolean

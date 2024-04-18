@@ -1,6 +1,6 @@
 import { Delegation } from './Delegation'
 
-export type Account = {
+export interface Account {
   id: string
   address: `0x${string}`
   balance: bigint
@@ -12,7 +12,7 @@ export type Account = {
   sentDelegationsCount: bigint
 }
 
-export type AccountDelegations = {
+export interface AccountDelegations {
   sentDelegationsCount: bigint
   shares: bigint
   delegations: {

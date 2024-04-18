@@ -2,7 +2,7 @@ import { truncateAddress, truncateText } from '@/services/truncate'
 import { Web3AuthUserInfo } from '@/types/Web3AuthUserInfo'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
-type WalletNameProps = {
+interface WalletNameProps {
   walletAddress: `0x${string}`
   web3AuthUserInfo: Web3AuthUserInfo | null
   ensName: string | undefined

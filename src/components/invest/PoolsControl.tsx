@@ -20,7 +20,7 @@ import PoolsEmptyState from './PoolsEmptyState'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
 
-type PoolsListProps = {
+interface PoolsListProps {
   pools: PoolSubgraph[]
   stakeTogether: StakeTogether
 }
@@ -84,9 +84,9 @@ export default function PoolsControl({ pools }: PoolsListProps) {
     setActiveFilters(filter)
   }
 
-  const selectSearch = (search: string) => {
+  const selectSearch = (term: string) => {
     setActiveFilters(['all'])
-    setSearch(search)
+    setSearch(term)
   }
 
   const clearFilter = () => {

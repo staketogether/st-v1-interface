@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { truncateAddress, truncateText } from '../../../services/truncate'
 import SkeletonLoading from '../icons/SkeletonLoading'
 
-type CommunityNameProps = {
+interface CommunityNameProps {
   name?: string
   walletAddress?: `0x${string}`
   loading?: boolean
@@ -27,7 +27,7 @@ export default function CommunityName({ name, walletAddress, loading, $large, $l
   } else {
     return (
       <Text color={$color} $large={$large} $larger={$larger}>
-        {truncateAddress(walletAddress || '', 5)}
+        {truncateAddress(walletAddress ?? '', 5)}
       </Text>
     )
   }
@@ -37,7 +37,7 @@ const { Text } = {
   Text: styled.span<{ $large?: boolean; $larger?: boolean; $color?: string; $bold?: boolean }>`
     font-size: ${({ theme }) => theme.font.size[14]};
     font-weight: 400;
-    color: ${({ theme, color }) => color || theme.colorV2.gray[1]} !important;
+    color: ${({ theme, color }) => color ?? theme.colorV2.gray[1]} !important;
     border: 0;
     padding: 0;
     margin: 0;

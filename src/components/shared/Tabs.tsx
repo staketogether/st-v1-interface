@@ -4,7 +4,7 @@ import styled, { useTheme } from 'styled-components'
 
 export type ItemsKey = string
 
-export type TabsItems = {
+export interface TabsItems {
   key: ItemsKey
   label: string | ReactNode
   children: ReactNode
@@ -29,8 +29,12 @@ export default function Tabs({ onChangeActiveTab, items, defaultActiveKey, gray 
   const handleClickTab = (key: ItemsKey, disabled: boolean, callBack: (() => void) | undefined) => {
     if (!disabled) {
       setActiveKey(key)
-      onChangeActiveTab && onChangeActiveTab(key)
-      callBack && callBack()
+      if (onChangeActiveTab) {
+        onChangeActiveTab(key)
+      }
+      if (callBack) {
+        callBack()
+      }
     }
   }
   const activeChildren = items.find(item => item.key === activeKey)

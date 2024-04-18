@@ -11,7 +11,7 @@ import { PiTrash } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useReadContract } from 'wagmi'
 
-type PanelApprovedButtonProps = {
+interface PanelApprovedButtonProps {
   project: ContentfulPool
   projectSelected: `0x${string}` | undefined
   openModal: (isContractPublished: boolean) => void

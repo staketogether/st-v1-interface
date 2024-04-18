@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
-type WalletSlideBarSettingsProps = {
+interface WalletSlideBarSettingsProps {
   setIsSettingsActive?: (value: boolean) => void
   showBackButton?: boolean
 }

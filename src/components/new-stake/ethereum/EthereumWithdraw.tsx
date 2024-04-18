@@ -28,7 +28,7 @@ import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
 
-type EthereumWithdrawProps = {
+interface EthereumWithdrawProps {
   type: 'deposit' | 'withdraw'
   ethBalance: bigint
   ethBalanceLoading: boolean
@@ -80,8 +80,8 @@ export default function EthereumWithdraw({
   })
   const { withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance, refetch: withdrawValidatorsBalanceRefetch } =
     useWithdrawValidatorBalance({ product, chainId })
-  const { stConfig } = useStConfig({ productName: product.name, chainId })
-  const minWithdrawAmount = stConfig?.minWithdrawAmount || 0n
+  const { stConfig } = useStConfig({ name: product.name, chainId })
+  const minWithdrawAmount = stConfig?.minWithdrawAmount ?? 0n
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
@@ -184,9 +184,9 @@ export default function EthereumWithdraw({
   ])
 
   useEffect(() => {
-    const handleSuccessfulAction = async () => {
+    const handleSuccessfulAction = () => {
       if (withdrawData.withdrawSuccess && !isOpenStakeConfirmModal) {
-        await ethBalanceRefetch()
+        ethBalanceRefetch()
       }
     }
     handleSuccessfulAction()

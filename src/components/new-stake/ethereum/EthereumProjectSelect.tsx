@@ -6,7 +6,7 @@ import { Select, Switch, Tooltip } from 'antd'
 import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 
-type EthereumProjectSelectProps = {
+interface EthereumProjectSelectProps {
   isActivatedDelegation: boolean
   onChange: (checked: boolean) => void
   poolDelegatedSelected: `0x${string}`

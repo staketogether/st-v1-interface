@@ -9,7 +9,7 @@ import { ProductStaking } from '@/types/ProductStaking'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
-type EthereumStpETHInputProps = {
+interface EthereumStpETHInputProps {
   amountValue: string
   balance: bigint
   balanceLoading: boolean

@@ -7,7 +7,7 @@ import { Tooltip } from 'antd'
 import Image from 'next/image'
 import styled from 'styled-components'
 
-type NetworkIconProps = {
+interface NetworkIconProps {
   network: string
   size: number
   enabled?: boolean

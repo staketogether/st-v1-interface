@@ -2,29 +2,29 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
+  AddressLike,
   BaseContract,
   BigNumberish,
   BytesLike,
-  FunctionFragment,
-  Result,
-  Interface,
-  EventFragment,
-  AddressLike,
-  ContractRunner,
   ContractMethod,
-  Listener
+  ContractRunner,
+  EventFragment,
+  FunctionFragment,
+  Interface,
+  Listener,
+  Result
 } from 'ethers'
 import type {
   TypedContractEvent,
+  TypedContractMethod,
   TypedDeferredTopicFilter,
   TypedEventLog,
-  TypedLogDescription,
   TypedListener,
-  TypedContractMethod
+  TypedLogDescription
 } from '../../../common'
 
 export declare namespace IELStakeTogether {
-  export type FeatureStruct = {
+  export interface FeatureStruct {
     AddPool: boolean
     Deposit: boolean
     WithdrawPool: boolean
@@ -38,7 +38,7 @@ export declare namespace IELStakeTogether {
     WithdrawBeacon: boolean
   }
 
-  export type ConfigStruct = {
+  export interface ConfigStruct {
     blocksPerDay: BigNumberish
     depositLimit: BigNumberish
     maxDelegations: BigNumberish
@@ -81,7 +81,7 @@ export declare namespace IELStakeTogether {
     feature: IELStakeTogether.FeatureStructOutput
   }
 
-  export type DelegationStruct = {
+  export interface DelegationStruct {
     pool: AddressLike
     percentage: BigNumberish
   }

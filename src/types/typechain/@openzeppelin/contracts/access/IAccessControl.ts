@@ -2,24 +2,24 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
+  AddressLike,
   BaseContract,
   BytesLike,
-  FunctionFragment,
-  Result,
-  Interface,
-  EventFragment,
-  AddressLike,
-  ContractRunner,
   ContractMethod,
-  Listener
+  ContractRunner,
+  EventFragment,
+  FunctionFragment,
+  Interface,
+  Listener,
+  Result
 } from 'ethers'
 import type {
   TypedContractEvent,
+  TypedContractMethod,
   TypedDeferredTopicFilter,
   TypedEventLog,
-  TypedLogDescription,
   TypedListener,
-  TypedContractMethod
+  TypedLogDescription
 } from '../../../common'
 
 export interface IAccessControlInterface extends Interface {

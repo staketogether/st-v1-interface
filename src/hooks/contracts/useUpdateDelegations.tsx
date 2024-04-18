@@ -19,7 +19,7 @@ import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 
-export type PoolData = {
+export interface PoolData {
   pool: `0x${string}`
   percentage: bigint
 }
@@ -51,7 +51,7 @@ export default function useUpdateDelegations(
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
-    contractAddress: product.contracts['mainnet'].StakeTogether,
+    contractAddress: product.contracts.mainnet.StakeTogether,
     functionName: 'updateDelegations',
     args: [updateDelegationEstimatedGas],
     abi: stakeTogetherAbi,
@@ -60,8 +60,8 @@ export default function useUpdateDelegations(
 
   useEffect(() => {
     const handleEstimateGasPrice = async () => {
-      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } = await estimateGas()
-      setEstimatedGas(estimatedGas)
+      const { estimatedCost, estimatedGas: estimatedGas2, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } = await estimateGas()
+      setEstimatedGas(estimatedGas2)
       setEstimateGasCost(estimatedCost)
       setMaxFeePerGas(estimatedMaxFeePerGas)
       setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
@@ -81,8 +81,8 @@ export default function useUpdateDelegations(
     query: {
       enabled: isUpdateDelegationEnabled
     },
-    address: product.contracts['mainnet'].StakeTogether,
-    args: [updateDelegationPools],
+    address: product.contracts.mainnet.StakeTogether,
+    args: [updateDelegationPools as readonly { pool: `0x${string}`; percentage: bigint }[]],
     account: accountAddress,
     abi: stakeTogetherAbi,
     chainId: product.chainIdNetworkAvailable,
@@ -100,7 +100,7 @@ export default function useUpdateDelegations(
     const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
     if (
-      (!cause || !cause.reason) &&
+      !cause?.reason &&
       !!web3AuthUserInfo &&
       cause?.message &&
       cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
@@ -116,7 +116,7 @@ export default function useUpdateDelegations(
 
     const { data } = cause as { data?: { errorName?: string } }
 
-    if (cause && data && data.errorName) {
+    if (cause && data?.errorName) {
       setPrepareTransactionErrorMessage(data.errorName)
     }
   }, [prepareTransactionIsError, t, prepareTransactionError, web3AuthUserInfo])

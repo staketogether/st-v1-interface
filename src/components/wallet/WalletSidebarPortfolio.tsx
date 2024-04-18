@@ -14,7 +14,7 @@ import Button from '../shared/Button'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 
-type WalletSidebarPortfolioProps = {
+interface WalletSidebarPortfolioProps {
   accountDelegations: Delegation[]
   product: ProductStaking
 }
@@ -29,7 +29,7 @@ export default function WalletSidebarPortfolio({ accountDelegations, product }: 
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
-  const stakeTogetherPool = product.stakeTogetherPool['mainnet']
+  const stakeTogetherPool = product.stakeTogetherPool.mainnet
 
   return (
     <Container>
@@ -51,11 +51,11 @@ export default function WalletSidebarPortfolio({ accountDelegations, product }: 
                 <CommunityLogo
                   size={24}
                   src={poolMetadata?.logo.url}
-                  alt={poolMetadata?.logo.fileName || ''}
+                  alt={poolMetadata?.logo.fileName ?? ''}
                   loading={isLoading}
                   listed={!!poolMetadata}
                 />
-                {poolMetadata && poolMetadata.name ? (
+                {poolMetadata?.name ? (
                   <CommunityName name={poolMetadata.name} loading={isLoading} />
                 ) : (
                   <CommunityName walletAddress={delegation.delegated.address} loading={isLoading} />

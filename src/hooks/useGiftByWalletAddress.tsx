@@ -58,9 +58,9 @@ export default function useGiftByWalletAddress(account: `0x${string}`) {
         }
       ]
 
-      const userGift = listMock.find(item => item.winner.toLowerCase() === account.toLowerCase())
-      if (userGift) {
-        setUserGift(userGift)
+      const gift = listMock.find(item => item.winner.toLowerCase() === account.toLowerCase())
+      if (gift) {
+        setUserGift(gift)
       }
       setLoading(false)
     }

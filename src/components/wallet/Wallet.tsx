@@ -6,7 +6,7 @@ import WalletDisconnectedButton from './WalletConnectButton'
 import WalletConnectedButton from './WalletConnectedButton'
 import WalletSidebarConnected from './WalletSidebarConnected'
 
-type WalletProps = {
+interface WalletProps {
   account: `0x${string}` | undefined
   accountIsConnected: boolean
 }

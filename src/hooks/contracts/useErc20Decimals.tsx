@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { erc20Abi } from 'viem'
 import { useReadContract } from 'wagmi'
 
-type UseErc20BalanceOf = {
+interface UseErc20BalanceOf {
   token?: `0x${string}`
   chainId: number
 }
@@ -16,7 +16,7 @@ export default function useErc20Decimals({ chainId, token }: UseErc20BalanceOf) 
     functionName: 'decimals',
     abi: erc20Abi
   })
-  const erc20Balance = data || 0
+  const erc20Balance = data ?? 0
 
   useEffect(() => {
     setDecimals(erc20Balance)

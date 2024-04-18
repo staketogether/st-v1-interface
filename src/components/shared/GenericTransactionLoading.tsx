@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import Button from './Button'
 import LottieAnimation from './LottieAnimation'
 
-type GenericTransactionLoadingProps = {
+interface GenericTransactionLoadingProps {
   title: string
   showWalletMessage?: boolean
   isLoading?: boolean
@@ -50,7 +50,7 @@ export default function GenericTransactionLoading({
         <Button
           icon={<></>}
           type='submit'
-          label={buttonMessage || t('v2.stake.confirmModal.proceedInYourWallet')}
+          label={buttonMessage ?? t('v2.stake.confirmModal.proceedInYourWallet')}
           onClick={() => isSuccess && onSuccessAction && onSuccessAction()}
         />
         {isSuccess && txHash && (

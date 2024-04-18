@@ -37,7 +37,7 @@ import StpEthIcon from '../shared/StpethIcon'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 
-type StakeFormProps = {
+interface StakeFormProps {
   type: 'deposit' | 'withdraw'
   poolAddress: `0x${string}`
   chainId: number
@@ -108,13 +108,13 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
 
   const { fee, loading: isLoadingFees } = useFeeStakeEntry()
   const parsedAmount = ethers.parseUnits(inputAmount, 18)
-  const feeAmount = (parsedAmount * BigInt(fee?.value || 0n)) / ethers.parseEther('1')
+  const feeAmount = (parsedAmount * BigInt(fee?.value ?? 0n)) / ethers.parseEther('1')
   const netDepositAmount = ethers.parseUnits(inputAmount, 18) - feeAmount
 
   const youReceiveDeposit = netDepositAmount
 
-  const { stConfig } = useStConfig({ productName: product.name, chainId: chainId })
-  const minDepositAmount = stConfig?.minDepositAmount || 0n
+  const { stConfig } = useStConfig({ name: product.name, chainId: chainId })
+  const minDepositAmount = stConfig?.minDepositAmount ?? 0n
   const {
     deposit,
     isSuccess: depositSuccess,
@@ -251,7 +251,7 @@ export function StakeForm({ type, accountAddress, poolAddress, product, chainId 
     const handleSuccessfulAction = async () => {
       if (isSuccess && !isOpenStakeConfirmModal) {
         setAmount('')
-        await refetchEthBalance()
+        refetchEthBalance()
         await delegationSharesRefetch()
         await handleWithdrawBalanceRefetch()
         resetState()

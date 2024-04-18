@@ -9,7 +9,7 @@ import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 
-type PoolsCardProps = {
+interface PoolsCardProps {
   pool: Pool
   loading: boolean
 }
@@ -19,7 +19,7 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   const { t } = useLocaleTranslation()
 
   const handleProjectSite = () => {
-    if (pool && (pool.site?.startsWith('https://') || pool.site?.startsWith('http://'))) {
+    if (pool && (pool.site?.startsWith('https://') ?? pool.site?.startsWith('http://'))) {
       return pool.site
     }
     return `https://${pool?.site}`
@@ -80,7 +80,7 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
           </Tooltip>
         )}
         {pool?.discord && (
-          <Tooltip title={pool.discordName || pool.discord}>
+          <Tooltip title={pool.discordName ?? pool.discord}>
             <Social href={`https://discord.com/invite/${pool.discord}`} target='_blank'>
               <DiscordIcon />
             </Social>

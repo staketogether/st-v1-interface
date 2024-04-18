@@ -9,7 +9,7 @@ import useWalletSidebar from '../../hooks/useWalletSidebar'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import WalletName from './WalletName'
 
-type WalletConnectedButtonProps = {
+interface WalletConnectedButtonProps {
   address: `0x${string}`
 }
 
@@ -20,7 +20,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   const { chain: walletChainId } = useAccount()
 
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { name: ensName, nameLoading: ensLoading } = useEns(address, walletChainId?.id || mainnet.id)
+  const { name: ensName, nameLoading: ensLoading } = useEns(address, walletChainId?.id ?? mainnet.id)
 
   const handleActionButton = () => {
     setOpenSidebar(true)
@@ -32,7 +32,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
         {web3AuthUserInfo?.profileImage ? (
           <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={24} height={24} />
         ) : (
-          <EnsAvatar address={address} size={24} chainId={walletChainId?.id || mainnet.id} />
+          <EnsAvatar address={address} size={24} chainId={walletChainId?.id ?? mainnet.id} />
         )}
         <WalletName walletAddress={address} web3AuthUserInfo={web3AuthUserInfo} ensName={ensName} ensLoading={ensLoading} />
       </EnsAddress>

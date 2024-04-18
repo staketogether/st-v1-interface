@@ -1,4 +1,4 @@
-export type ProjectCreateInfo = {
+export interface ProjectCreateInfo {
   wallet?: string
   email?: string
   projectName?: string
@@ -7,7 +7,7 @@ export type ProjectCreateInfo = {
   aboutProject?: string
 }
 
-export type ProjectLinksToAnalyze = {
+export interface ProjectLinksToAnalyze {
   site?: string
   twitter?: string
   instagram?: string

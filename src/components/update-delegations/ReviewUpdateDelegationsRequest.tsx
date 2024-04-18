@@ -5,7 +5,7 @@ import styled, { useTheme } from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 
-type ReviewUpdateDelegationsRequestProps = {
+interface ReviewUpdateDelegationsRequestProps {
   poolsList: ContentfulPool[]
   delegationForm: UpdateDelegationForm[]
 }
@@ -25,11 +25,11 @@ export default function ReviewUpdateDelegationsRequest({ poolsList, delegationFo
               <CommunityLogo
                 size={24}
                 src={poolMetadata?.logo.url}
-                alt={poolMetadata?.logo.fileName || ''}
+                alt={poolMetadata?.logo.fileName ?? ''}
                 loading={false}
                 listed={!!poolMetadata}
               />
-              {poolMetadata && poolMetadata.name ? (
+              {poolMetadata?.name ? (
                 <CommunityName name={poolMetadata.name} loading={false} />
               ) : (
                 <CommunityName walletAddress={pool.address} loading={false} />

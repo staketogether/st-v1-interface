@@ -16,7 +16,7 @@ import Input from '../shared/inputs/Input'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 import SwapInfo from './SwapInfo'
 
-type KycStepProps = {
+interface KycStepProps {
   product: ProductAsset
 }
 

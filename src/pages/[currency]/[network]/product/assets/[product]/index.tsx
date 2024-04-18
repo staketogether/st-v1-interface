@@ -15,7 +15,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-export type ProductProps = {
+export interface ProductProps {
   asset: ProductAsset
   assetData: ProductMarketAssetData
   chainId: number
@@ -41,13 +41,13 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <AssetsControl product={asset as ProductAsset} assetData={assetData} chainId={chainId} type='buy' />
+      <AssetsControl product={asset} assetData={assetData} chainId={chainId} type='buy' />
       <BuyEthControlModal />
     </LayoutTemplate>
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = () => {
   const paths = [
     { params: { network: 'ethereum', currency: 'usd', type: 'staking', product: 'ethereum-stake' } },
     { params: { network: 'ethereum', currency: 'brl', type: 'staking', product: 'ethereum-stake' } },
@@ -116,7 +116,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       assetData,
       chainId,
       asset: productSelected,
-      ...(await serverSideTranslations(locale || 'en', ['common']))
+      ...(await serverSideTranslations(locale ?? 'en', ['common']))
     },
     revalidate: 24 * 60 * 60
   }

@@ -65,6 +65,7 @@ const App = ({ Component, pageProps }: AppProps) => {
                     revalidateOnReconnect: false,
                     errorRetryCount: 1,
                     shouldRetryOnError: false,
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                     fetcher: (uri: string) => axios.get(`${backendUrl}/${uri}`).then(res => res.data)
                   }}
                 >
