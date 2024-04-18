@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-type LayoutTitleProps = {
+interface LayoutTitleProps {
   title: string
   description?: string
   className?: string

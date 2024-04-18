@@ -15,7 +15,7 @@ export type PoolSubgraph = {
   receivedDelegationsCount: bigint
 } & ENSPool
 
-export type ENSPool = {
+export interface ENSPool {
   address: `0x${string}`
   name?: string
   avatar?: string

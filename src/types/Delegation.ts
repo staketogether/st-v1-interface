@@ -1,7 +1,7 @@
 import { Account } from './Account'
 import { PoolSubgraph } from './Pool'
 
-export type Delegation = {
+export interface Delegation {
   id: string
   delegate: Account
   delegated: PoolSubgraph
@@ -9,7 +9,7 @@ export type Delegation = {
   delegationShares: bigint
 }
 
-export type DelegationMap = {
+export interface DelegationMap {
   pool: `0x${string}`
   percentage: bigint
 }

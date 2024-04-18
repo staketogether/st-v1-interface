@@ -1,20 +1,23 @@
-import React from 'react'
-import Image from 'next/image'
-import { Network, ProductSymbol } from '@/types/Product'
+import arbitrumIcon from '@assets/network/arbitrum.svg'
+import bitcoinIcon from '@assets/network/bitcoin.png'
+import celestiaIcon from '@assets/network/celestia.svg'
+import chilizIcon from '@assets/network/chiliz.svg'
+import cosmosIcon from '@assets/network/cosmos.svg'
+import ethereumIcon from '@assets/network/ethereum.svg'
+import NearIcon from '@assets/network/near.svg'
+import optimismIcon from '@assets/network/optimist.svg'
+import polkadotIcon from '@assets/network/polkadot.svg'
+import polygonIcon from '@assets/network/polygon.svg'
+import restaking from '@assets/network/restaking.svg'
+import solanaIcon from '@assets/network/solana.svg'
 import stIcon from '@assets/st-symbol.svg'
 import stpRETHIcon from '@assets/stpRETHIcon.svg'
+import Image from 'next/image'
 import styled from 'styled-components'
-import ethereumIcon from '@assets/network/ethereum.svg'
-import optimismIcon from '@assets/network/optimist.svg'
-import arbitrumIcon from '@assets/network/arbitrum.svg'
-import polygonIcon from '@assets/network/polygon.svg'
-import solanaIcon from '@assets/network/solana.svg'
 
-type Icon = ProductSymbol | Network
-
-type SymbolIconsProps = {
-  assetIcon: Icon
-  networkIcon: Network
+interface SymbolIconsProps {
+  assetIcon: string
+  networkIcon?: string
   size: number
   marginRight?: string | number
 }
@@ -37,31 +40,47 @@ export default function AssetIcon({ assetIcon, size, networkIcon, marginRight }:
     arbitrum: arbitrumIcon,
     polygon: polygonIcon,
     solana: solanaIcon,
-    holesky: ethereumIcon
+    holesky: ethereumIcon,
+    wBTC: bitcoinIcon,
+    ETH: ethereumIcon,
+    'ethereum-stake': ethereumIcon,
+    'ethereum-restaking': restaking,
+    celestia: celestiaIcon,
+    cosmos: cosmosIcon,
+    near: NearIcon,
+    polkadot: polkadotIcon,
+    chiliz: chilizIcon,
+    bitcoin: bitcoinIcon,
+    btc: bitcoinIcon,
+    eth: ethereumIcon,
+    'eth-optimism': ethereumIcon
   }
 
   const networkIcons = {
     ethereum: ethereumIcon,
     optimism: optimismIcon,
-    ['optimism-sepolia']: optimismIcon,
+    'optimism-sepolia': optimismIcon,
     arbitrum: arbitrumIcon,
     polygon: polygonIcon,
     solana: solanaIcon,
-    holesky: ethereumIcon
+    holesky: ethereumIcon,
+    chiliz: chilizIcon
   }
 
   return (
     <Wrapper style={{ marginRight: marginRight ? marginRight : 'inherit' }} size={size}>
-      <Image src={assetSymbolIcons[assetIcon]} width={size} height={size} alt={assetIcon} />
-      <div>
-        <Image
-          src={networkIcons[networkIcon]}
-          width={size <= 24 ? 14 : 16}
-          height={size <= 24 ? 14 : 16}
-          alt={networkIcon}
-          className='white-border'
-        />
-      </div>
+      <Image src={assetSymbolIcons[assetIcon as keyof typeof assetSymbolIcons]} width={size} height={size} alt={assetIcon} />
+      {networkIcon && (
+        <div>
+          <Image
+            src={networkIcons[networkIcon as keyof typeof networkIcons]}
+            width={size <= 24 ? 14 : 16}
+            height={size <= 24 ? 14 : 16}
+            alt={networkIcon}
+            className='white-border'
+          />
+        </div>
+      )}
     </Wrapper>
   )
 }

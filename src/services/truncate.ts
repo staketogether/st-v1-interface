@@ -24,7 +24,7 @@ export function truncateWei(wei: bigint, maxDecimals = 4, smallValue = false): s
   return formattedValue
 }
 
-export function truncateDecimal(value: string, maxDecimals = 4): string {
+export function truncateDecimal(value: string, maxDecimals = 6): string {
   if (!value) {
     return ''
   }

@@ -1,24 +1,20 @@
-import { useEffect, useState } from 'react'
-import chainConfig from '../../config/chain'
-import { stakeTogetherAbi } from '@/types/Contracts'
-import {
-  useSimulateContract,
-  useWaitForTransactionReceipt as useWaitForTransaction,
-  useWriteContract
-} from 'wagmi'
-import { notification } from 'antd'
-import useLocaleTranslation from '../useLocaleTranslation'
-import { getContractsByProductName } from '@/config/product'
 import { getSubgraphClient } from '@/config/apollo'
+import { getStakingContracts } from '@/config/products/staking'
 import { queryAccount } from '@/queries/subgraph/queryAccount'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import { notification } from 'antd'
+import { useEffect, useState } from 'react'
+import { useSimulateContract, useWaitForTransactionReceipt as useWaitForTransaction, useWriteContract } from 'wagmi'
+import chainConfig from '../../config/chain'
+import useLocaleTranslation from '../useLocaleTranslation'
 
 export default function useAddPool(projectAddress: `0x${string}`, isSocial: boolean, disabled?: boolean) {
   const { isTestnet, chainId } = chainConfig()
-  const subgraphClient = getSubgraphClient({ productName: 'ethereum-stake', isTestnet })
-  const { StakeTogether } = getContractsByProductName({
-    productName: 'ethereum-stake',
+  const subgraphClient = getSubgraphClient({ name: 'ethereum-stake', isTestnet })
+  const { StakeTogether } = getStakingContracts({
+    name: 'ethereum-stake',
     isTestnet
   })
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
@@ -49,11 +45,9 @@ export default function useAddPool(projectAddress: `0x${string}`, isSocial: bool
       const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
       if (
-        (!cause || !cause.reason) &&
+        !cause?.reason &&
         cause?.message &&
-        cause.message.includes(
-          'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
-        )
+        cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
       ) {
         setPrepareTransactionErrorMessage('insufficientGasBalance')
 
@@ -61,7 +55,7 @@ export default function useAddPool(projectAddress: `0x${string}`, isSocial: bool
       }
       const response = cause as { data?: { errorName?: string } }
 
-      if (cause && response?.data && response?.data?.errorName) {
+      if (cause && response?.data?.errorName) {
         setPrepareTransactionErrorMessage(response?.data?.errorName)
       }
     }
@@ -73,12 +67,7 @@ export default function useAddPool(projectAddress: `0x${string}`, isSocial: bool
     }
   }, [prepareTransactionIsSuccess])
 
-  const {
-    writeContract,
-    data: txHash,
-    isError: writeContractIsError,
-    reset: resetWriteContract
-  } = useWriteContract()
+  const { writeContract, data: txHash, isError: writeContractIsError, reset: resetWriteContract } = useWriteContract()
 
   useEffect(() => {
     if (writeContractIsError && awaitWalletAction) {

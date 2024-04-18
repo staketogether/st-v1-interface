@@ -2,7 +2,7 @@ import { CreateContentfulClient } from '@/config/contentful'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { projectId } = req.body
+  const { projectId }: { projectId: string } = req.body
 
   if (!projectId) {
     return res.status(400).json({ message: 'sysId not found' })
@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ message: 'project not found' })
     }
 
-    if (!entry.fields?.approvalModalViewed || !entry.fields?.approvalModalViewed['en-US']) {
+    if (!entry.fields?.approvalModalViewed?.['en-US']) {
       entry.fields.approvalModalViewed = { 'en-US': true }
       const updateEntry = await entry.update()
       await updateEntry.publish()

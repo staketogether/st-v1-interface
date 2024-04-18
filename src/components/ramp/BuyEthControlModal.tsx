@@ -1,22 +1,22 @@
 import Modal from '@/components/shared/Modal'
-
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { useReactiveVar } from '@apollo/client'
-
 import { globalConfig } from '@/config/global'
+import { getAsset } from '@/config/products/asset'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
   changeWalletAddress,
   clearModal,
+  currentProductNameVar,
   openBrlaModalVar,
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { useReactiveVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect } from 'react'
+import styled from 'styled-components'
 import { SWRConfig } from 'swr'
 import { useAccount } from 'wagmi'
-import { StakingProduct } from '../../types/Product'
 import ConnectWallet from '../shared/ConnectWallet'
 import CheckoutStep from './CheckoutStep'
 import GenericErrorComponent from './GenericErrorComponent'
@@ -24,35 +24,39 @@ import KycStep from './KycStep'
 import PaymentMethod from './PaymentMethod'
 import ProcessingCheckoutStep from './ProcessingCheckoutStep'
 import ProcessingKycStep from './ProcessingKycStep'
+import QuotationOfRampStep from './QuotationOfRamp'
 import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
 import { TimeOutCheckout } from './TimeOutCheckout'
 
-export default function BuyEthControlModal({ stakingProduct }: { stakingProduct: StakingProduct }) {
+export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
+  const currentProductName = useReactiveVar(currentProductNameVar)
+  const product = getAsset({ name: currentProductName })
 
   const steps = {
-    MethodPayment: <PaymentMethod />,
-    Quotation: <QuotationStep />,
-    Kyc: <KycStep />,
+    MethodPayment: <PaymentMethod product={product} />,
+    Quotation: <QuotationStep product={product} />,
+    QuotationOfRamp: <QuotationOfRampStep product={product} />,
+    Kyc: <KycStep product={product} />,
     ConnectWallet: <ConnectWallet useModal />,
-    ProcessingKyc: <ProcessingKycStep />,
-    ProcessingCheckoutStep: <ProcessingCheckoutStep />,
-    Checkout: <CheckoutStep />,
-    TimeOutCheckout: <TimeOutCheckout stakingProduct={stakingProduct} />,
-    Success: <SuccessStep />,
+    ProcessingKyc: <ProcessingKycStep product={product} />,
+    ProcessingCheckoutStep: <ProcessingCheckoutStep product={product} />,
+    Checkout: <CheckoutStep product={product} />,
+    TimeOutCheckout: <TimeOutCheckout asset={product} />,
+    Success: <SuccessStep product={product} />,
     error: <GenericErrorComponent />
   }
 
   const controlModal = useReactiveVar(openBrlaModalVar)
   const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
-  const titleList: { [key: string]: string } = {
+  const titleList: Record<string, string> = {
     Success: t('v2.ramp.success'),
     MethodPayment: t('v2.ramp.provider')
   }
-  const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title')
+  const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', product.symbol)
   const { backendUrl } = globalConfig
 
   useEffect(() => {
@@ -85,7 +89,7 @@ export default function BuyEthControlModal({ stakingProduct }: { stakingProduct:
         shouldRetryOnError: true,
         fetcher: (uri: string) =>
           axios.get(`${backendUrl}/${uri}`).then(res => {
-            return res.data
+            return res.data as string
           })
       }}
     >
@@ -96,11 +100,20 @@ export default function BuyEthControlModal({ stakingProduct }: { stakingProduct:
         onClose={clearModal}
         width={'auto'}
         showCloseIcon={currentStep !== BrlaBuyEthStep.Success}
-        noPadding={currentStep === BrlaBuyEthStep.Kyc || currentStep === BrlaBuyEthStep.Checkout}
         showHeader={![BrlaBuyEthStep.TimeOutCheckout, BrlaBuyEthStep.Error].includes(currentStep)}
       >
-        {steps[currentStep]}
+        <Container>{steps[currentStep]}</Container>
       </Modal>
     </SWRConfig>
   )
+}
+
+const { Container } = {
+  Container: styled.div`
+    width: auto;
+    max-width: 420px;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      min-width: 372px;
+    }
+  `
 }

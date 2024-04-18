@@ -10,7 +10,7 @@ import Loading from '../shared/icons/Loading'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 
-type StakeActivityProps = {
+interface StakeActivityProps {
   poolActivities: PoolActivity[]
   poolActivitiesFetchMoreLoading: boolean
   poolActivitiesLoading: boolean
@@ -62,11 +62,7 @@ export default function StakeActivity({
           <>
             {poolActivities.map(activity => {
               return (
-                <Row
-                  key={activity.txHash}
-                  href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`}
-                  target='_blank'
-                >
+                <Row key={activity.txHash} href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`} target='_blank'>
                   <span>
                     <ExternalLink />
                   </span>

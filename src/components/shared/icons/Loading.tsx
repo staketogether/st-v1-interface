@@ -1,14 +1,14 @@
 import { PiSpinnerGap } from 'react-icons/pi'
 import { keyframes, styled } from 'styled-components'
 
-type LoadingProps = {
+interface LoadingProps {
   size?: number
   color?: string
   className?: string
 }
 
 export default function Loading({ size, className, color }: LoadingProps) {
-  return <LoadingIcon size={size || undefined} color={color} className={className} />
+  return <LoadingIcon size={size ?? undefined} color={color} className={className} />
 }
 
 const rotate = keyframes`

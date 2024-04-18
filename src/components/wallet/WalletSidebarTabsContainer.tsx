@@ -1,19 +1,18 @@
-import { AccountReward } from '@/types/AccountReward'
-import { Delegation } from '@/types/Delegation'
-import { AccountActivity } from '@/types/AccountActivity'
 import WalletSidebarActivities from '@/components/wallet/WalletSidebarActivities'
 import WalletSidebarRewards from '@/components/wallet/WalletSidebarRewards'
-import WalletSidebarPortfolio from './WalletSidebarPortfolio'
+import { getStakingProduct } from '@/config/products/staking'
+import { AccountActivity } from '@/types/AccountActivity'
+import { AccountReward } from '@/types/AccountReward'
+import { Delegation } from '@/types/Delegation'
 import styled from 'styled-components'
-import { StakingProduct } from '@/types/Product'
-import { getProductByName } from '@/config/product'
+import WalletSidebarPortfolio from './WalletSidebarPortfolio'
 
-type WalletSidebarTabsContainerProps = {
+interface WalletSidebarTabsContainerProps {
   accountDelegations: Delegation[]
   accountRewards: AccountReward[]
   accountActivities: AccountActivity[]
   activatedTab: 'delegations' | 'rewards' | 'activity'
-  productSelected: StakingProduct
+  productSelected: string
 }
 
 export default function WalletSidebarTabsContainer({
@@ -23,16 +22,10 @@ export default function WalletSidebarTabsContainer({
   activatedTab,
   productSelected
 }: WalletSidebarTabsContainerProps) {
-  const product = getProductByName({ productName: productSelected })
+  const product = getStakingProduct({ name: productSelected })
   const tabs = {
     delegations: <WalletSidebarPortfolio product={product} accountDelegations={accountDelegations} />,
-    rewards: (
-      <WalletSidebarRewards
-        product={product}
-        accountRewards={accountRewards}
-        productSelected={productSelected}
-      />
-    ),
+    rewards: <WalletSidebarRewards product={product} accountRewards={accountRewards} productSelected={productSelected} />,
     activity: <WalletSidebarActivities accountActivities={accountActivities} product={product} />
   }
   return <Warper>{tabs[activatedTab]}</Warper>

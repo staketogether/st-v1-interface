@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-type Faq = {
+interface Faq {
   question: string
   answer: string
 }

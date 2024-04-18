@@ -2,485 +2,482 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface, type ContractRunner } from "ethers";
-import type {
-  IELRouter,
-  IELRouterInterface,
-} from "../../../../contracts/eigen-layer/interfaces/IELRouter";
+import { Contract, Interface, type ContractRunner } from 'ethers'
+import type { IELRouter, IELRouterInterface } from '../../../../contracts/eigen-layer/interfaces/IELRouter'
 
 const _abi = [
   {
     inputs: [],
-    name: "AlreadyExecuted",
-    type: "error",
+    name: 'AlreadyExecuted',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "AlreadyReported",
-    type: "error",
+    name: 'AlreadyReported',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "BeaconBalanceTooLow",
-    type: "error",
+    name: 'BeaconBalanceTooLow',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "BlockNumberNotReached",
-    type: "error",
+    name: 'BlockNumberNotReached',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ConfigNotSet",
-    type: "error",
+    name: 'ConfigNotSet',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ConsensusNotDelayed",
-    type: "error",
+    name: 'ConsensusNotDelayed',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "EarlyExecution",
-    type: "error",
+    name: 'EarlyExecution',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "IncreaseOraclesToUseMargin",
-    type: "error",
+    name: 'IncreaseOraclesToUseMargin',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InsufficientEthBalance",
-    type: "error",
+    name: 'InsufficientEthBalance',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "MarginTooHigh",
-    type: "error",
+    name: 'MarginTooHigh',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "NoActiveConsensus",
-    type: "error",
+    name: 'NoActiveConsensus',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "NoPendingExecution",
-    type: "error",
+    name: 'NoPendingExecution',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "OnlyActiveOracle",
-    type: "error",
+    name: 'OnlyActiveOracle',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "OnlyStakeTogether",
-    type: "error",
+    name: 'OnlyStakeTogether',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "OracleAlreadyBlacklisted",
-    type: "error",
+    name: 'OracleAlreadyBlacklisted',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "OracleAlreadyReported",
-    type: "error",
+    name: 'OracleAlreadyReported',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "OracleBlacklisted",
-    type: "error",
+    name: 'OracleBlacklisted',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "OracleExists",
-    type: "error",
+    name: 'OracleExists',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "OracleNotBlacklisted",
-    type: "error",
+    name: 'OracleNotBlacklisted',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "OracleNotExists",
-    type: "error",
+    name: 'OracleNotExists',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "PendingExecution",
-    type: "error",
+    name: 'PendingExecution',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "QuorumNotReached",
-    type: "error",
+    name: 'QuorumNotReached',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ReportBlockShouldBeGreater",
-    type: "error",
+    name: 'ReportBlockShouldBeGreater',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ReportDelayBlocksTooHigh",
-    type: "error",
+    name: 'ReportDelayBlocksTooHigh',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ReportRevoked",
-    type: "error",
+    name: 'ReportRevoked',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "RequiredMoreOracles",
-    type: "error",
+    name: 'RequiredMoreOracles',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "SentinelExists",
-    type: "error",
+    name: 'SentinelExists',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "SentinelNotExists",
-    type: "error",
+    name: 'SentinelNotExists',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "StakeTogetherAlreadySet",
-    type: "error",
+    name: 'StakeTogetherAlreadySet',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "WithdrawBalanceTooLow",
-    type: "error",
+    name: 'WithdrawBalanceTooLow',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ZeroAddress",
-    type: "error",
+    name: 'ZeroAddress',
+    type: 'error'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "reportOracle",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'reportOracle',
+        type: 'address'
+      }
     ],
-    name: "AddReportOracle",
-    type: "event",
+    name: 'AddReportOracle',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "reportBlock",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'reportBlock',
+        type: 'uint256'
       },
       {
         indexed: true,
-        internalType: "uint256",
-        name: "reportNextBlock",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'reportNextBlock',
+        type: 'uint256'
+      }
     ],
-    name: "AdvanceNextBlock",
-    type: "event",
+    name: 'AdvanceNextBlock',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "reportOracle",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'reportOracle',
+        type: 'address'
+      }
     ],
-    name: "BlacklistReportOracle",
-    type: "event",
+    name: 'BlacklistReportOracle',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "reportBlock",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'reportBlock',
+        type: 'uint256'
       },
       {
         components: [
           {
-            internalType: "uint256",
-            name: "reportBlock",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportBlock',
+            type: 'uint256'
           },
           {
-            internalType: "bytes32",
-            name: "merkleRoot",
-            type: "bytes32",
+            internalType: 'bytes32',
+            name: 'merkleRoot',
+            type: 'bytes32'
           },
           {
-            internalType: "uint256",
-            name: "profitAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "profitShares",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitShares',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "lossAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'lossAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawRefundAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawRefundAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "accumulatedReports",
-            type: "uint256",
-          },
+            internalType: 'uint256',
+            name: 'accumulatedReports',
+            type: 'uint256'
+          }
         ],
         indexed: false,
-        internalType: "struct IELRouter.Report",
-        name: "report",
-        type: "tuple",
-      },
+        internalType: 'struct IELRouter.Report',
+        name: 'report',
+        type: 'tuple'
+      }
     ],
-    name: "ConsensusApprove",
-    type: "event",
+    name: 'ConsensusApprove',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "reportBlock",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'reportBlock',
+        type: 'uint256'
       },
       {
         components: [
           {
-            internalType: "uint256",
-            name: "reportBlock",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportBlock',
+            type: 'uint256'
           },
           {
-            internalType: "bytes32",
-            name: "merkleRoot",
-            type: "bytes32",
+            internalType: 'bytes32',
+            name: 'merkleRoot',
+            type: 'bytes32'
           },
           {
-            internalType: "uint256",
-            name: "profitAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "profitShares",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitShares',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "lossAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'lossAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawRefundAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawRefundAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "accumulatedReports",
-            type: "uint256",
-          },
+            internalType: 'uint256',
+            name: 'accumulatedReports',
+            type: 'uint256'
+          }
         ],
         indexed: false,
-        internalType: "struct IELRouter.Report",
-        name: "report",
-        type: "tuple",
-      },
+        internalType: 'struct IELRouter.Report',
+        name: 'report',
+        type: 'tuple'
+      }
     ],
-    name: "ConsensusFail",
-    type: "event",
+    name: 'ConsensusFail',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "sender",
-        type: "address",
+        internalType: 'address',
+        name: 'sender',
+        type: 'address'
       },
       {
         indexed: true,
-        internalType: "uint256",
-        name: "reportBlock",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'reportBlock',
+        type: 'uint256'
       },
       {
         components: [
           {
-            internalType: "uint256",
-            name: "reportBlock",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportBlock',
+            type: 'uint256'
           },
           {
-            internalType: "bytes32",
-            name: "merkleRoot",
-            type: "bytes32",
+            internalType: 'bytes32',
+            name: 'merkleRoot',
+            type: 'bytes32'
           },
           {
-            internalType: "uint256",
-            name: "profitAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "profitShares",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitShares',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "lossAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'lossAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawRefundAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawRefundAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "accumulatedReports",
-            type: "uint256",
-          },
+            internalType: 'uint256',
+            name: 'accumulatedReports',
+            type: 'uint256'
+          }
         ],
         indexed: false,
-        internalType: "struct IELRouter.Report",
-        name: "report",
-        type: "tuple",
-      },
+        internalType: 'struct IELRouter.Report',
+        name: 'report',
+        type: 'tuple'
+      }
     ],
-    name: "ExecuteReport",
-    type: "event",
+    name: 'ExecuteReport',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
     ],
-    name: "ReceiveBridgeEther",
-    type: "event",
+    name: 'ReceiveBridgeEther',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
     ],
-    name: "ReceiveEther",
-    type: "event",
+    name: 'ReceiveEther',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
     ],
-    name: "ReceiveWithdrawEther",
-    type: "event",
+    name: 'ReceiveWithdrawEther',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "reportOracle",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'reportOracle',
+        type: 'address'
+      }
     ],
-    name: "RemoveReportOracle",
-    type: "event",
+    name: 'RemoveReportOracle',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "sender",
-        type: "address",
+        internalType: 'address',
+        name: 'sender',
+        type: 'address'
       },
       {
         indexed: true,
-        internalType: "uint256",
-        name: "reportBlock",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'reportBlock',
+        type: 'uint256'
+      }
     ],
-    name: "RevokeConsensusReport",
-    type: "event",
+    name: 'RevokeConsensusReport',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "bool",
-        name: "bunkerMode",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: 'bunkerMode',
+        type: 'bool'
+      }
     ],
-    name: "SetBunkerMode",
-    type: "event",
+    name: 'SetBunkerMode',
+    type: 'event'
   },
   {
     anonymous: false,
@@ -488,668 +485,668 @@ const _abi = [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "reportFrequency",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportFrequency',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "reportDelayBlock",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportDelayBlock',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "reportNoConsensusMargin",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportNoConsensusMargin',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "oracleQuorum",
-            type: "uint256",
-          },
+            internalType: 'uint256',
+            name: 'oracleQuorum',
+            type: 'uint256'
+          }
         ],
         indexed: true,
-        internalType: "struct IELRouter.Config",
-        name: "config",
-        type: "tuple",
-      },
+        internalType: 'struct IELRouter.Config',
+        name: 'config',
+        type: 'tuple'
+      }
     ],
-    name: "SetConfig",
-    type: "event",
+    name: 'SetConfig',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "stakeTogether",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'stakeTogether',
+        type: 'address'
+      }
     ],
-    name: "SetStakeTogether",
-    type: "event",
+    name: 'SetStakeTogether',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "sender",
-        type: "address",
+        internalType: 'address',
+        name: 'sender',
+        type: 'address'
       },
       {
         components: [
           {
-            internalType: "uint256",
-            name: "reportBlock",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportBlock',
+            type: 'uint256'
           },
           {
-            internalType: "bytes32",
-            name: "merkleRoot",
-            type: "bytes32",
+            internalType: 'bytes32',
+            name: 'merkleRoot',
+            type: 'bytes32'
           },
           {
-            internalType: "uint256",
-            name: "profitAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "profitShares",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitShares',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "lossAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'lossAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawRefundAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawRefundAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "accumulatedReports",
-            type: "uint256",
-          },
+            internalType: 'uint256',
+            name: 'accumulatedReports',
+            type: 'uint256'
+          }
         ],
         indexed: true,
-        internalType: "struct IELRouter.Report",
-        name: "report",
-        type: "tuple",
-      },
+        internalType: 'struct IELRouter.Report',
+        name: 'report',
+        type: 'tuple'
+      }
     ],
-    name: "SubmitReport",
-    type: "event",
+    name: 'SubmitReport',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "reportOracle",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'reportOracle',
+        type: 'address'
+      }
     ],
-    name: "UnBlacklistReportOracle",
-    type: "event",
+    name: 'UnBlacklistReportOracle',
+    type: 'event'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "addReportOracle",
+    name: 'addReportOracle',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "addSentinel",
+    name: 'addSentinel',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "blacklistReportOracle",
+    name: 'blacklistReportOracle',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "reportBlock",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportBlock',
+            type: 'uint256'
           },
           {
-            internalType: "bytes32",
-            name: "merkleRoot",
-            type: "bytes32",
+            internalType: 'bytes32',
+            name: 'merkleRoot',
+            type: 'bytes32'
           },
           {
-            internalType: "uint256",
-            name: "profitAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "profitShares",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitShares',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "lossAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'lossAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawRefundAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawRefundAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "accumulatedReports",
-            type: "uint256",
-          },
+            internalType: 'uint256',
+            name: 'accumulatedReports',
+            type: 'uint256'
+          }
         ],
-        internalType: "struct IELRouter.Report",
-        name: "_report",
-        type: "tuple",
-      },
+        internalType: 'struct IELRouter.Report',
+        name: '_report',
+        type: 'tuple'
+      }
     ],
-    name: "executeReport",
+    name: 'executeReport',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "forceNextReportBlock",
+    name: 'forceNextReportBlock',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "reportBlock",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportBlock',
+            type: 'uint256'
           },
           {
-            internalType: "bytes32",
-            name: "merkleRoot",
-            type: "bytes32",
+            internalType: 'bytes32',
+            name: 'merkleRoot',
+            type: 'bytes32'
           },
           {
-            internalType: "uint256",
-            name: "profitAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "profitShares",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitShares',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "lossAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'lossAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawRefundAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawRefundAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "accumulatedReports",
-            type: "uint256",
-          },
+            internalType: 'uint256',
+            name: 'accumulatedReports',
+            type: 'uint256'
+          }
         ],
-        internalType: "struct IELRouter.Report",
-        name: "_report",
-        type: "tuple",
-      },
+        internalType: 'struct IELRouter.Report',
+        name: '_report',
+        type: 'tuple'
+      }
     ],
-    name: "getReportHash",
+    name: 'getReportHash',
     outputs: [
       {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32'
+      }
     ],
-    stateMutability: "pure",
-    type: "function",
+    stateMutability: 'pure',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_airdrop",
-        type: "address",
+        internalType: 'address',
+        name: '_airdrop',
+        type: 'address'
       },
       {
-        internalType: "address",
-        name: "_bridge",
-        type: "address",
+        internalType: 'address',
+        name: '_bridge',
+        type: 'address'
       },
       {
-        internalType: "address",
-        name: "_withdrawals",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_withdrawals',
+        type: 'address'
+      }
     ],
-    name: "initialize",
+    name: 'initialize',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "reportBlock",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportBlock',
+            type: 'uint256'
           },
           {
-            internalType: "bytes32",
-            name: "merkleRoot",
-            type: "bytes32",
+            internalType: 'bytes32',
+            name: 'merkleRoot',
+            type: 'bytes32'
           },
           {
-            internalType: "uint256",
-            name: "profitAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "profitShares",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitShares',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "lossAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'lossAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawRefundAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawRefundAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "accumulatedReports",
-            type: "uint256",
-          },
+            internalType: 'uint256',
+            name: 'accumulatedReports',
+            type: 'uint256'
+          }
         ],
-        internalType: "struct IELRouter.Report",
-        name: "_report",
-        type: "tuple",
-      },
+        internalType: 'struct IELRouter.Report',
+        name: '_report',
+        type: 'tuple'
+      }
     ],
-    name: "isReadyToExecute",
+    name: 'isReadyToExecute',
     outputs: [
       {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "reportBlock",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportBlock',
+            type: 'uint256'
           },
           {
-            internalType: "bytes32",
-            name: "merkleRoot",
-            type: "bytes32",
+            internalType: 'bytes32',
+            name: 'merkleRoot',
+            type: 'bytes32'
           },
           {
-            internalType: "uint256",
-            name: "profitAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "profitShares",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'profitShares',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "lossAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'lossAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawRefundAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawRefundAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "accumulatedReports",
-            type: "uint256",
-          },
+            internalType: 'uint256',
+            name: 'accumulatedReports',
+            type: 'uint256'
+          }
         ],
-        internalType: "struct IELRouter.Report",
-        name: "_report",
-        type: "tuple",
-      },
+        internalType: 'struct IELRouter.Report',
+        name: '_report',
+        type: 'tuple'
+      }
     ],
-    name: "isReadyToSubmit",
+    name: 'isReadyToSubmit',
     outputs: [
       {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "isReportOracle",
+    name: 'isReportOracle',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "isReportOracleBlackListed",
+    name: 'isReportOracleBlackListed',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "pause",
+    name: 'pause',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "receiveWithdrawEther",
+    name: 'receiveWithdrawEther',
     outputs: [],
-    stateMutability: "payable",
-    type: "function",
+    stateMutability: 'payable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "removeReportOracle",
+    name: 'removeReportOracle',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "removeSentinel",
+    name: 'removeSentinel',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "reportBlock",
+    name: 'reportBlock',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_reportBlock",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_reportBlock',
+        type: 'uint256'
+      }
     ],
-    name: "revokeConsensusReport",
+    name: 'revokeConsensusReport',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "reportFrequency",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "reportDelayBlock",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "reportNoConsensusMargin",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "oracleQuorum",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct IELRouter.Config",
-        name: "_config",
-        type: "tuple",
-      },
-    ],
-    name: "setConfig",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_stakeTogether",
-        type: "address",
-      },
-    ],
-    name: "setStakeTogether",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "reportBlock",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportFrequency',
+            type: 'uint256'
           },
           {
-            internalType: "bytes32",
-            name: "merkleRoot",
-            type: "bytes32",
+            internalType: 'uint256',
+            name: 'reportDelayBlock',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "profitAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'reportNoConsensusMargin',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "profitShares",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "lossAmount",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "withdrawAmount",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "withdrawRefundAmount",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "accumulatedReports",
-            type: "uint256",
-          },
+            internalType: 'uint256',
+            name: 'oracleQuorum',
+            type: 'uint256'
+          }
         ],
-        internalType: "struct IELRouter.Report",
-        name: "_report",
-        type: "tuple",
-      },
+        internalType: 'struct IELRouter.Config',
+        name: '_config',
+        type: 'tuple'
+      }
     ],
-    name: "submitReport",
+    name: 'setConfig',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_stakeTogether',
+        type: 'address'
+      }
     ],
-    name: "unBlacklistReportOracle",
+    name: 'setStakeTogether',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: 'uint256',
+            name: 'reportBlock',
+            type: 'uint256'
+          },
+          {
+            internalType: 'bytes32',
+            name: 'merkleRoot',
+            type: 'bytes32'
+          },
+          {
+            internalType: 'uint256',
+            name: 'profitAmount',
+            type: 'uint256'
+          },
+          {
+            internalType: 'uint256',
+            name: 'profitShares',
+            type: 'uint256'
+          },
+          {
+            internalType: 'uint256',
+            name: 'lossAmount',
+            type: 'uint256'
+          },
+          {
+            internalType: 'uint256',
+            name: 'withdrawAmount',
+            type: 'uint256'
+          },
+          {
+            internalType: 'uint256',
+            name: 'withdrawRefundAmount',
+            type: 'uint256'
+          },
+          {
+            internalType: 'uint256',
+            name: 'accumulatedReports',
+            type: 'uint256'
+          }
+        ],
+        internalType: 'struct IELRouter.Report',
+        name: '_report',
+        type: 'tuple'
+      }
+    ],
+    name: 'submitReport',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
+    ],
+    name: 'unBlacklistReportOracle',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "unpause",
+    name: 'unpause',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
-    stateMutability: "payable",
-    type: "receive",
-  },
-] as const;
+    stateMutability: 'payable',
+    type: 'receive'
+  }
+] as const
 
 export class IELRouter__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): IELRouterInterface {
-    return new Interface(_abi) as IELRouterInterface;
+    return new Interface(_abi) as IELRouterInterface
   }
   static connect(address: string, runner?: ContractRunner | null): IELRouter {
-    return new Contract(address, _abi, runner) as unknown as IELRouter;
+    return new Contract(address, _abi, runner) as unknown as IELRouter
   }
 }

@@ -1,9 +1,8 @@
+import useWalletSidebarMobileSettings from '@/hooks/useWalletSidebarMobileSettings'
 import { Drawer } from 'antd'
-
+import { PiCaretRight } from 'react-icons/pi'
 import styled from 'styled-components'
 import WalletSidebarSettings from './WalletSidebarSettings'
-import useWalletSidebarMobileSettings from '@/hooks/useWalletSidebarMobileSettings'
-import { PiCaretRight } from 'react-icons/pi'
 
 export default function WalletSidebarMobileSetting() {
   const { walletSidebarMobileSettings, setWalletSidebarMobileSettings } = useWalletSidebarMobileSettings()

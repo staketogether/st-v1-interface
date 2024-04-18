@@ -266,7 +266,9 @@
       "enter": "Entrar",
       "exit": "Sair",
       "support": "Suporte",
-      "analytics": "Analytics"
+      "analytics": "Analytics",
+      "staking": "Staking",
+      "assets": "Criptomoedas"
     },
     "sidebar": {
       "percentageProfit": "Lucro",
@@ -659,9 +661,13 @@
         "description": "Você pode ter problemas com a visualização dos dados, mas não se preocupe, seus fundos estão seguros. Estamos trabalhando para resolver o problema o mais rápido possível."
       }
     },
-    "tokens": {
-      "title": "Produtos de Staking",
-      "description": "Invista em Infraestrutura, Segurança e Tecnologia com Rendimentos Sustentáveis em Criptomoedas"
+    "staking": {
+      "title": "Staking",
+      "description": "Invista em Infraestrutura com Rendimentos Sustentáveis"
+    },
+    "assets": {
+      "title": "Criptomoedas",
+      "description": "Invista nas Melhores Criptomoedas para o seu Portfólio"
     },
     "products": {
       "ethereum-stake": "Staking de Ethereum",
@@ -674,7 +680,10 @@
       "polkadot": "Staking de Polkadot",
       "productNotAvailable": "Produto Indisponivel",
       "bitcoin": "Staking de Bitcoin",
-      "chiliz": "Staking de Chiliz"
+      "chiliz": "Staking de Chiliz",
+      "btc": "Bitcoin",
+      "eth": "Ethereum",
+      "eth-optimism": "Ethereum"
     },
     "notifyBar": {
       "incentives": {
@@ -683,9 +692,9 @@
       }
     },
     "ramp": {
-      "title": "Comprar ETH com PIX",
+      "title": "Comprar symbol com PIX",
       "success": "Depósito concluído com sucesso",
-      "checkOut": "Check out",
+      "checkOut": "Finalizar Compra",
       "processingRegistration": "Processando Cadastro",
       "processingPayment": "Processando Pagamento",
       "generatingQRCode": "Gerando QR Code",
@@ -708,7 +717,7 @@
       "creditCard": "Cartão de crédito",
       "kyc": {
         "title": "KYC - Conheça seu Cliente",
-        "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Clique no botão abaixo para começar.",
+        "description": "Para realizar uma compra você precisa passar pela verificação de dados do KYC",
         "level": "Nível KYC",
         "limit": "Limite",
         "availableLimit": "Limite Disponível",
@@ -754,6 +763,8 @@
       "eigenPointTooltip": "Ao fazer Staking você acumula pontos no protocolo Eigen Layer, que futuramente poderá lançar token e você pode receber parte desses tokens",
       "togetherPoints": "Ao fazer Staking você acumula pontos no protocolo Stake Togetherque futuramente poderá lançar token e você pode receber parte desses tokens",
       "restakingDescription": "ReStaking de Ethereum: Potencialize a Eficiência do Seu Staking. Experimente o próximo nível de staking de Ethereum com nossa solução de ReStaking, que combina o protocolo Stake Together com a tecnologia Eigen Layer. Amplie o potencial do seu Ethereum usando-o como garantia na Eigen Layer, contribuindo para os serviços da rede e ganhando renda de fontes diversificadas. Nossa plataforma simplifica seu processo de staking, proporcionando uma abordagem mais eficaz e lucrativa para garantir a segurança da rede e obter recompensas. Mergulhe no ReStaking com Ethereum hoje e comece a aproveitar os rendimentos combinados.",
+      "btc": "Explore o potencial do Bitcoin, o maior ativo digital do mercado. Nossa plataforma oferece uma maneira eficiente e segura de investir em Bitcoin, aproveitando tecnologias avançadas para garantir transações rápidas e com baixo custo. Aumente seu portfólio com o ativo que tem liderado a revolução financeira digital.",
+      "eth": "Explore Ethereum, one of the leading blockchain platforms that supports not only a digital currency but also a wide array of decentralized applications. Invest in Ethereum through our platform and benefit from swift transactions, reduced costs, and the opportunity to engage with smart contracts and innovative applications. Step forward into the digital revolution with Ethereum.",
       "actions": {
         "invest": "Investir",
         "withdraw": "Resgatar",

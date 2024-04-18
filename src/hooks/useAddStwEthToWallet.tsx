@@ -1,13 +1,13 @@
 import chainConfig from '@/config/chain'
-import useLocaleTranslation from './useLocaleTranslation'
-import { getContractsByProductName } from '@/config/product'
-import { getWalletClient } from 'wagmi/actions'
+import { getStakingContracts } from '@/config/products/staking'
 import { config } from '@/config/wagmi'
+import { getWalletClient } from 'wagmi/actions'
+import useLocaleTranslation from './useLocaleTranslation'
 
 export default function useAddStwEthToWallet() {
   const { isTestnet } = chainConfig()
-  const { Withdrawals } = getContractsByProductName({
-    productName: 'ethereum-stake',
+  const { Withdrawals } = getStakingContracts({
+    name: 'ethereum-stake',
     isTestnet
   })
   const { t } = useLocaleTranslation()
@@ -20,8 +20,7 @@ export default function useAddStwEthToWallet() {
         options: {
           address: Withdrawals,
           symbol: t('wse.symbol'),
-          image:
-            'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
+          image: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
           decimals: 18
         }
       })

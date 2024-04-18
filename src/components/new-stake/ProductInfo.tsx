@@ -3,25 +3,24 @@ import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
-import { Product, ProductMarketAssetData } from '@/types/Product'
-
+import { ProductMarketAssetData, ProductStaking } from '@/types/ProductStaking'
 import { Tooltip, notification } from 'antd'
+import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 import { PiArrowUpRight, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
+import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
-import NetworkProductIcons from '../tokens/components/StakingIcons'
-import SymbolIcons from '../tokens/components/SymbolIcons'
-import { useRouter } from 'next/router'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import dynamic from 'next/dynamic'
+import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
 
-type ProductInfoProps = {
-  product: Product
+interface ProductInfoProps {
+  product: ProductStaking
   assetData: ProductMarketAssetData
   chainId: number
 }
 
-const TokensShowValuePrice = dynamic(() => import('../shared/TokensShowValuePrice'), {
+const TokensShowValuePrice = dynamic(() => import('../shared/StakingShowValuePrice'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} />,
   suspense: true
@@ -51,7 +50,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
       <header>
         <HeaderProduct>
           <div>
-            <NetworkProductIcons stakingProduct={product.name} size={36} />
+            <AssetIcon assetIcon={product.name} size={36} />
             {t(`v2.products.${product.name}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
@@ -68,16 +67,11 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
         <HeaderDescribeInfo>
           <SymbolContainer>
             <div>
-              <SymbolIcons
-                productSymbol={product.symbol}
-                size={23}
-                contractAddress={stakeTogetherContractAddress}
-                showPlusIcon
-              />
+              <TokensSymbolIcons productSymbol={product.symbol} size={23} contractAddress={stakeTogetherContractAddress} showPlusIcon />
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <TokensShowValuePrice product={product} className='CoinValue' />
+              <TokensShowValuePrice product={product} type='staking' className='CoinValue' />
               <span className='apy'>{`APY ${product.apy}%`}</span>
             </div>
           </SymbolContainer>
@@ -101,7 +95,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           </RewardsPointsContainer>
         </HeaderDescribeInfo>
       </header>
-      <TradingViewComponent />
+      <TradingViewComponent tradingView={product.tradingView} />
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>

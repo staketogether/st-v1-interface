@@ -15,17 +15,7 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   inputType?: 'outline'
 }
 
-export default function Input({
-  title,
-  register,
-  error,
-  disabled,
-  tooltip,
-  disabledLabel,
-  height,
-  inputType,
-  ...props
-}: InputProps) {
+export default function Input({ title, register, error, disabled, tooltip, disabledLabel, height, inputType, ...props }: InputProps) {
   return (
     <Content className={` ${disabledLabel ? 'disabled' : ''}`}>
       {title && !tooltip && <span>{title}</span>}
@@ -37,7 +27,7 @@ export default function Input({
           </Tooltip>
         </span>
       )}
-      <InputContainer className={`${disabled ? 'disabled' : ''} ${error ? 'error' : ''} ${inputType}`} height={height} >
+      <InputContainer className={`${disabled ? 'disabled' : ''} ${error ? 'error' : ''} ${inputType}`} height={height}>
         <input type='text' {...register} disabled={disabled} {...props} />
       </InputContainer>
       <ErrorMessage>{error}</ErrorMessage>
@@ -51,7 +41,7 @@ const { InputContainer, Content, ErrorMessage, QuestionIcon } = {
     flex-direction: column;
     gap: ${({ theme }) => theme.size[4]};
     font-size: ${({ theme }) => theme.font.size[13]};
-   
+
     &.disabled {
       > span {
         opacity: 0.5;
@@ -64,12 +54,14 @@ const { InputContainer, Content, ErrorMessage, QuestionIcon } = {
     }
   `,
   InputContainer: styled.div<{ height?: number }>`
-
-    
     width: 100%;
     display: flex;
     gap: ${({ theme }) => theme.size[4]};
-    ${({ height }) => height && css`height: ${height}px;`}
+    ${({ height }) =>
+      height &&
+      css`
+        height: ${height}px;
+      `}
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.colorV2.gray[2]};
     padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
@@ -108,12 +100,11 @@ const { InputContainer, Content, ErrorMessage, QuestionIcon } = {
         opacity: 0.5;
       }
     }
-    &.outline{
+    &.outline {
       background: transparent;
       border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
-      box-shadow: none;    
+      box-shadow: none;
     }
-    
   `,
   ErrorMessage: styled.span`
     color: ${({ theme }) => theme.color.red[300]} !important;

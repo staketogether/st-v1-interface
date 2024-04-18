@@ -10,11 +10,11 @@ export enum CurrencySymbol {
   EUR = '€'
 }
 
-export type Currency = {
+export interface Currency {
   value: CurrencyType
   symbol: CurrencySymbol
 }
-export type Settings = {
+export interface Settings {
   language: string
   currency: Currency
 }

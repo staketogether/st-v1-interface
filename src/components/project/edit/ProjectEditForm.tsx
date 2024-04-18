@@ -1,6 +1,18 @@
 import Button from '@/components/shared/Button'
+import Input from '@/components/shared/inputs/Input'
+import Select from '@/components/shared/inputs/Select'
+import TextArea from '@/components/shared/inputs/TextArea'
+import { projectRegexFields, projectRegexOnKeyDown } from '@/components/shared/regex'
+import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import { getBase64, getVideoIdFromUrl } from '@/services/format'
+import { ContentfulPool } from '@/types/ContentfulPool'
+import { EditProjectForm } from '@/types/Project'
 import { Switch, Upload, notification } from 'antd'
+import ImgCrop from 'antd-img-crop'
+import type { UploadChangeParam } from 'antd/es/upload'
+import type { UploadFile, UploadProps } from 'antd/es/upload/interface'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   FieldErrors,
@@ -12,27 +24,15 @@ import {
   UseFormTrigger
 } from 'react-hook-form'
 import { PiCloudArrowUp, PiPencilSimpleLine, PiTrashSimple } from 'react-icons/pi'
-import styled from 'styled-components'
-import type { UploadFile, RcFile, UploadProps } from 'antd/es/upload/interface'
-import type { UploadChangeParam } from 'antd/es/upload'
-import { getBase64, getVideoIdFromUrl } from '@/services/format'
 import YouTube from 'react-youtube'
-import { ContentfulPool } from '@/types/ContentfulPool'
-import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
-import ImgCrop from 'antd-img-crop'
-import Input from '@/components/shared/inputs/Input'
-import Select from '@/components/shared/inputs/Select'
-import TextArea from '@/components/shared/inputs/TextArea'
-import { EditProjectForm } from '@/types/Project'
-import { projectRegexFields, projectRegexOnKeyDown } from '@/components/shared/regex'
-import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import styled from 'styled-components'
 
-type ProjectEditFormProps = {
+interface ProjectEditFormProps {
   register: UseFormRegister<EditProjectForm>
   handleSubmit: UseFormHandleSubmit<EditProjectForm, undefined>
   setValue: UseFormSetValue<EditProjectForm>
   clearErrors: UseFormClearErrors<EditProjectForm>
-  onSubmit: () => Promise<void>
+  onSubmit: () => void
   projectName?: string
   projectDescription?: string
   trigger: UseFormTrigger<EditProjectForm>
@@ -102,7 +102,7 @@ export default function ProjectEditForm({
   const { categories } = useContentfulCategoryCollection()
 
   useEffect(() => {
-    if (isSubmitted && submitCount && errors && modalRef.current && (errors.logo || errors.projectName)) {
+    if (isSubmitted && submitCount && errors && modalRef.current && (errors.logo ?? errors.projectName)) {
       modalRef.current.scrollTo({
         top: 0,
         behavior: 'smooth'
@@ -112,7 +112,7 @@ export default function ProjectEditForm({
 
   useEffect(() => {
     if (categories?.length && poolDetail.category) {
-      const category = categories.find(category => category.name === poolDetail.category.name)
+      const category = categories.find(c => c.name === poolDetail.category.name)
       if (category) {
         setValue('category', category.sys.id)
       }
@@ -171,7 +171,7 @@ export default function ProjectEditForm({
       setError('logo', { type: 'required', message: `${t('v2.createProject.formMessages.required')}` })
     }
     if (info.file.status === 'done') {
-      const file = await getBase64(info.fileList[0].originFileObj as RcFile)
+      const file = await getBase64(info.fileList[0].originFileObj!)
       if (file) {
         const [imageType, imageBase64] = file.split(',')
         const mimeType = imageType.split(':')[1].split(';')[0]
@@ -181,10 +181,7 @@ export default function ProjectEditForm({
     }
   }
 
-  const handleImageCoverChange = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-    coverType: 'cover' | 'headerCover'
-  ) => {
+  const handleImageCoverChange = async (e: React.ChangeEvent<HTMLInputElement>, coverType: 'cover' | 'headerCover') => {
     if (!e.target.files) return
 
     const file = e.target.files[0]
@@ -234,8 +231,10 @@ export default function ProjectEditForm({
                 fileList={fileList}
                 onChange={handleChange}
                 beforeUpload={beforeUpload}
-                customRequest={async ({ onSuccess }) => {
-                  onSuccess && onSuccess('ok')
+                customRequest={({ onSuccess }) => {
+                  if (onSuccess) {
+                    onSuccess('ok')
+                  }
                 }}
               >
                 {fileList.length >= 1 ? null : (
@@ -246,9 +245,7 @@ export default function ProjectEditForm({
                 )}
               </Upload>
             </ImgCrop>
-            <ErrorMessage>
-              {errors.logo && isSubmitted && `${t('v2.createProject.formMessages.required')}`}
-            </ErrorMessage>
+            <ErrorMessage>{errors.logo && isSubmitted && `${t('v2.createProject.formMessages.required')}`}</ErrorMessage>
           </LogoContainer>
           <Input
             title={t('v2.createProject.form.name')}
@@ -293,7 +290,7 @@ export default function ProjectEditForm({
               title={t('v2.createProject.form.description')}
               register={register('descriptionPt')}
               maxLength={500}
-              value={projectDescription || ''}
+              value={projectDescription ?? ''}
               onBlur={() => trigger('descriptionPt')}
               placeholder={t('v2.createProject.placeholder.description')}
               error={errors.descriptionPt?.message}
@@ -366,13 +363,10 @@ export default function ProjectEditForm({
                     </div>
                   </CoverInputArea>
                 )}
-                {(projectCover?.base64 || cover) && (
+                {(projectCover?.base64 ?? cover) && (
                   <CoverWrapper>
                     {projectCover?.base64 && !cover && (
-                      <ImageCover
-                        src={`data:image/jpeg;base64,${projectCover.base64}`}
-                        alt={projectCover.mimeType}
-                      />
+                      <ImageCover src={`data:image/jpeg;base64,${projectCover.base64}`} alt={projectCover.mimeType} />
                     )}
                     {!projectCover?.base64 && cover && <ImageCover src={cover} alt={poolDetail.name} />}
                     <CoverOverlay className='overlay'>
@@ -405,17 +399,12 @@ export default function ProjectEditForm({
                 </div>
               </CoverInputArea>
             )}
-            {(projectHeaderCover?.base64 || headerCover) && (
+            {(projectHeaderCover?.base64 ?? headerCover) && (
               <CoverWrapper>
                 {projectHeaderCover?.base64 && !headerCover && (
-                  <ImageCover
-                    src={`data:image/jpeg;base64,${projectHeaderCover.base64}`}
-                    alt={projectHeaderCover.mimeType}
-                  />
+                  <ImageCover src={`data:image/jpeg;base64,${projectHeaderCover.base64}`} alt={projectHeaderCover.mimeType} />
                 )}
-                {!projectHeaderCover?.base64 && headerCover && (
-                  <ImageCover src={headerCover} alt={poolDetail.name} />
-                )}
+                {!projectHeaderCover?.base64 && headerCover && <ImageCover src={headerCover} alt={poolDetail.name} />}
                 <CoverOverlay className='overlay'>
                   <RemoveIcon onClick={() => handleRemoveCover('headerCover')} />
                 </CoverOverlay>

@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react'
-import { PiHandCoins, PiQuestion, PiSwap, PiWarningOctagon } from 'react-icons/pi'
-import styled from 'styled-components'
-import ethIcon from '@assets/icons/eth-icon.svg'
-import Image from 'next/image'
-import Button from './Button'
-import { truncateWei } from '@/services/truncate'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import SkeletonLoading from './icons/SkeletonLoading'
+import { getStakingProduct } from '@/config/products/staking'
+import useWithdrawalsBeaconBlock from '@/hooks/contracts/useWithdrawalsBeaconBlock'
 import useWithdrawalsIsReady from '@/hooks/contracts/useWithdrawalsIsReady'
 import useWithdrawalsStwEth from '@/hooks/contracts/useWithdrawalsStwEth'
-import useWithdrawalsBeaconBlock from '@/hooks/contracts/useWithdrawalsBeaconBlock'
-import StakeWithdrawCounter from '../stake/StakeWithdrawCounter'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { truncateWei } from '@/services/truncate'
+import ethIcon from '@assets/icons/eth-icon.svg'
 import { Tooltip } from 'antd'
-import { getProductByName } from '@/config/product'
+import Image from 'next/image'
+import { useEffect } from 'react'
+import { PiHandCoins, PiQuestion, PiSwap, PiWarningOctagon } from 'react-icons/pi'
+import styled from 'styled-components'
+import StakeWithdrawCounter from '../stake/StakeWithdrawCounter'
+import Button from './Button'
+import SkeletonLoading from './icons/SkeletonLoading'
 
-type WithdrawalsProps = {
+interface WithdrawalsProps {
   balance: bigint
   accountAddress: `0x${string}`
   smallAction?: boolean
@@ -31,7 +31,7 @@ export default function Withdrawals({
 }: WithdrawalsProps) {
   const { t } = useLocaleTranslation()
   const { isReady, loading: isReadyLoading } = useWithdrawalsIsReady(balance)
-  const product = getProductByName({ productName: 'ethereum-stake' })
+  const product = getStakingProduct({ productName: 'ethereum-stake' })
 
   const { timeLeft: withdrawTimeLeft } = useWithdrawalsBeaconBlock({
     walletAddress: accountAddress,
@@ -63,11 +63,7 @@ export default function Withdrawals({
       <WithdrawContainer>
         <div>
           <Image src={ethIcon} width={24} height={24} alt='stpEth' />
-          {isLoading ? (
-            <SkeletonLoading height={62} $borderRadius='8px' />
-          ) : (
-            <>{`${truncateWei(balance, 4)} ${t('wse.symbol')}`}</>
-          )}
+          {isLoading ? <SkeletonLoading height={62} $borderRadius='8px' /> : <>{`${truncateWei(balance, 4)} ${t('wse.symbol')}`}</>}
         </div>
         {!isLoading && balance > 0n && (
           <Button

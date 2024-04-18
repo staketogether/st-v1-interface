@@ -21,7 +21,7 @@ export default function usePoolTypeTranslation() {
     }
   ]
   function poolTypeTranslation(poolType: string) {
-    return filterTypes.find(item => item.value === poolType)?.name || ''
+    return filterTypes.find(item => item.value === poolType)?.name ?? ''
   }
 
   return { poolTypeTranslation }

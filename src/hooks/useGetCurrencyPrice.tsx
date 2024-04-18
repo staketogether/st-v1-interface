@@ -1,16 +1,43 @@
-import { makeVar } from '@apollo/client'
-import { useEffect } from 'react'
-import useGetAssetData from './useGetAssetData'
+import { globalConfig } from '@/config/global'
+import { productAssetList } from '@/config/products/asset'
 
-export const currencyPriceVar = makeVar(0)
+import { ProductMarketAssetData } from '@/types/ProductStaking'
+import { makeVar } from '@apollo/client'
+import axios from 'axios'
+import { useEffect } from 'react'
+
+export const currencyPriceListVar = makeVar<{ name: string; value: number }[]>([])
 
 export default function useGetCurrencyPrice() {
-
-
-  const { assetData } = useGetAssetData({ asset: 'Ethereum', blockchain: 'ethereum', symbol: 'eth' })
+  const { backendUrl } = globalConfig
 
   useEffect(() => {
-    currencyPriceVar(assetData?.price ?? 0)
+    const getDataPromise = async () => {
+      try {
+        const promises = productAssetList.map(product =>
+          axios.get<ProductMarketAssetData>(`${backendUrl}/api/mobula/market-asset-data`, {
+            params: {
+              asset: product.mobula.asset ? product.mobula.asset : null,
+              blockchain: product.mobula.blockchain ? product.mobula.blockchain : null,
+              symbol: product.mobula.symbol ? product.mobula.symbol : null
+            }
+          })
+        )
 
-  }, [assetData?.price])
+        const responses = await Promise.all(promises)
+
+        const responseData = responses.map(response => {
+          return {
+            name: `${response.data.data.name}-${response.config.params.blockchain}`,
+            value: response.data.data.price
+          }
+        })
+
+        currencyPriceListVar(responseData)
+      } catch (error) {
+        console.error('Error Quotation price:', error)
+      }
+    }
+    getDataPromise()
+  }, [backendUrl])
 }

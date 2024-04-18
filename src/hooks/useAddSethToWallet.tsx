@@ -1,9 +1,8 @@
-import { ProductSymbol } from '@/types/Product'
-import { getWalletClient } from 'wagmi/actions'
 import { config } from '@/config/wagmi'
+import { getWalletClient } from 'wagmi/actions'
 
-type useAddSethToWalletProps = {
-  productSymbol: ProductSymbol
+interface useAddSethToWalletProps {
+  productSymbol: string
   contractAddress: `0x${string}`
 }
 
@@ -19,7 +18,9 @@ export default function useAddSethToWallet({ productSymbol, contractAddress }: u
     stpDOT: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
     stpATOM: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
     stpBTC: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
-    stpCHZ: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png'
+    stpCHZ: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
+    wBTC: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/main/public/assets/network/bitcoin.png',
+    ETH: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/938deef3d820cfe213e38e40cd3941a9eb8c3671/public/assets/network/ethereum.svg'
   }
 
   const addToWalletAction = async () => {
@@ -31,7 +32,7 @@ export default function useAddSethToWallet({ productSymbol, contractAddress }: u
         options: {
           address: contractAddress,
           symbol: productSymbol,
-          image: productSymbolIcons[productSymbol],
+          image: productSymbolIcons[productSymbol as keyof typeof productSymbolIcons],
           decimals: 18
         }
       })

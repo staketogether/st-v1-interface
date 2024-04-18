@@ -26,7 +26,6 @@ export default function useKycLevelInfo(provider: 'brla' | 'transak', taxId?: st
     }
   }, [data])
 
-
   return {
     kycLevelInfo: data,
     isLoading,

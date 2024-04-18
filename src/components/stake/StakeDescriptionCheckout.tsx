@@ -1,21 +1,21 @@
+import { chainConfigByChainId } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import { ProductStaking } from '@/types/ProductStaking'
 import { WithdrawType } from '@/types/Withdraw'
 import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
-import TooltipComponent from '../shared/TooltipComponent'
-import { chainConfigByChainId } from '@/config/chain'
 import { useReadContract } from 'wagmi'
-import { stakeTogetherAbi } from '@/types/Contracts'
+import TooltipComponent from '../shared/TooltipComponent'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
-type StakeDescriptionCheckoutProps = {
+interface StakeDescriptionCheckoutProps {
   type: 'deposit' | 'withdraw'
   youReceiveDeposit: bigint
   amount: string
   withdrawTypeSelected: WithdrawType
-  product: Product
+  product: ProductStaking
   chainId: number
 }
 
@@ -59,9 +59,7 @@ export default function StakeDescriptionCheckout({
         {type === 'withdraw' && (
           <span>
             <span className='blue'>{` ${truncateDecimal(amount, 6) || '0'} `}</span>
-            <span className='blue'>{` ${
-              withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
-            }`}</span>
+            <span className='blue'>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>
           </span>
         )}
       </div>
@@ -82,11 +80,8 @@ export default function StakeDescriptionCheckout({
         )}
         {type === 'withdraw' && (
           <span>
-            <span className='purple'>1</span> <span className='purple'>{product.symbol}</span> =
-            <span className='blue'>1</span>
-            <span className='blue'>{` ${
-              withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
-            }`}</span>
+            <span className='purple'>1</span> <span className='purple'>{product.symbol}</span> =<span className='blue'>1</span>
+            <span className='blue'>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>
           </span>
         )}
       </div>

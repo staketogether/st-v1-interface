@@ -33,7 +33,7 @@
   "members": "Members",
   "delegations": "Delegations",
   "balance": "Balance",
-  "assets": "Assets",
+  "assets": "Crypto",
   "poolBalance": "Pool Balance",
   "selectPool": "Select Pool",
   "exchange": "Get Faucet",
@@ -125,7 +125,7 @@
     "withdrawSuccess": "Withdrawal Successful",
     "withdrawError": "Failed to Withdraw"
   },
-   "web3AuthWalletSettings": {
+  "web3AuthWalletSettings": {
     "showEtherScan": "View on Etherscan",
     "showOptimismScan": "View on Optimism Etherscan",
     "export": "Export",
@@ -268,7 +268,9 @@
       "enter": "Enter",
       "exit": "Exit",
       "support": "Support",
-      "analytics": "Analytics"
+      "analytics": "Analytics",
+      "staking": "Staking",
+      "assets": "Assets"
     },
     "sidebar": {
       "percentageProfit": "Profit",
@@ -637,9 +639,13 @@
         "description": "You may experience a delay in the display of your transactions and balances, but rest assured that your funds are safe. We are working to resolve this issue as soon as possible."
       }
     },
-    "tokens": {
-      "title": "Staking Products",
-      "description": "Invest in Infrastructure, Security, and Technology with Sustainable Yields in Cryptocurrencies"
+    "staking": {
+      "title": "Staking",
+      "description": "Invest in Infrastructure with Sustainable Yields"
+    },
+    "assets": {
+      "title": "Crypto",
+      "description": "Invest in the best Cryptocurrencies for your Portfolio"
     },
     "products": {
       "ethereum-stake": "Ethereum Staking",
@@ -652,7 +658,10 @@
       "polkadot": "Polkadot Staking",
       "productNotAvailable": "Product not available",
       "bitcoin": "Bitcoin Staking",
-      "chiliz": "Chiliz Staking"
+      "chiliz": "Chiliz Staking",
+      "btc": "Bitcoin",
+      "eth": "Ethereum",
+      "eth-optimism": "Ethereum"
     },
     "notifyBar": {
       "incentives": {
@@ -661,7 +670,7 @@
       }
     },
     "ramp": {
-      "title": "Buy Ethereum with PIX",
+      "title": "Buy symbol with PIX",
       "success": "Deposit was complete with success",
       "checkOut": "Check out",
       "processingRegistration": "Processing Registration",
@@ -674,7 +683,7 @@
       "useThePixQRCode": "Use the Pix QR Code to pay",
       "orUseThePixKey": "Or use the Pix Key",
       "cancelDeposit": "Cancel deposit",
-     
+
       "copyQrCode": "Copy QR Code",
       "yourEths": "Your ETH will be in your account",
       "timeReceive": "within 30 minutes",
@@ -731,6 +740,8 @@
       "eigenPointTooltip": "When you stake, you accumulate points in the Eigen Layer protocol, which may later launch a token and you will can receive shares",
       "togetherPoints": "When you stake, you accumulate points in the Stake Together protocol, which may later launch a token and you will can receive shares",
       "restakingDescription": "ReStaking Ethereum: Enhance Your Staking Efficiency. Experience the next level of Ethereum staking with our ReStaking solution, merging Stake Together protocol and Eigen Layer technology. Amplify your Ethereum's potential by using it as collateral in the Eigen Layer, contributing to network services and earning income from diverse sources. Our platform streamlines your staking process, providing a more effective and profitable approach to secure the network and gain rewards. Dive into ReStaking with Ethereum today and start benefiting from combined yields.",
+      "btc": "Unlock the potential of Bitcoin, the leading digital asset in the market. Our platform provides an efficient and secure way to invest in Bitcoin, utilizing advanced technologies for fast, low-cost transactions. Enhance your portfolio with the asset at the forefront of the digital financial revolution.",
+      "eth": "Descubra o Ethereum, uma das principais plataformas de blockchain que não só suporta uma moeda digital, mas também uma vasta gama de aplicações descentralizadas. Invista em Ethereum através da nossa plataforma e aproveite transações rápidas, custos reduzidos e a possibilidade de explorar contratos inteligentes e aplicações inovadoras. Dê um passo à frente na revolução digital com Ethereum.",
       "actions": {
         "invest": "Invest",
         "withdraw": "Withdraw",

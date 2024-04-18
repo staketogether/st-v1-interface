@@ -1,12 +1,11 @@
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { Drawer } from 'antd'
 import { useState } from 'react'
-
+import { PiCaretRight, PiGear } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-import WalletSidebarSettings from './WalletSidebarSettings'
-import { PiCaretRight, PiGear } from 'react-icons/pi'
 import ConnectWallet from '../shared/ConnectWallet'
+import WalletSidebarSettings from './WalletSidebarSettings'
 
 export default function WalletSidebarDisconnected() {
   const [isSettingsActive, setIsSettingsActive] = useState(false)

@@ -46,11 +46,7 @@ export default function StakePoolInfo({
       icon: <AboutIcon />,
       children: (
         <TabContainer>
-          <StakePoolAbout
-            isStakeTogetherPool={isStakeTogetherPool}
-            poolDetail={poolDetail}
-            loading={poolDetailLoading}
-          />
+          <StakePoolAbout isStakeTogetherPool={isStakeTogetherPool} poolDetail={poolDetail} loading={poolDetailLoading} />
         </TabContainer>
       )
     },
@@ -58,8 +54,7 @@ export default function StakePoolInfo({
       key: 'accounts',
       label: (
         <AccountContainer>
-          {`${t('accounts')}`}{' '}
-          {!initialLoadingPoolData ? `(${poolData?.receivedDelegationsCount})` : <SkeletonLoading width={20} />}
+          {`${t('accounts')}`} {!initialLoadingPoolData ? `(${poolData?.receivedDelegationsCount})` : <SkeletonLoading width={20} />}
         </AccountContainer>
       ),
       icon: <MembersIcon />,
@@ -70,7 +65,7 @@ export default function StakePoolInfo({
             initialLoading={initialLoadingPoolData}
             loadMoreLoading={loadMoreLoadingPoolData}
             onLoadMore={fetchMore}
-            totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() || 0)}
+            totalDelegations={Number(poolData?.receivedDelegationsCount?.toString() ?? 0)}
           />
         </TabContainer>
       )
@@ -86,7 +81,7 @@ export default function StakePoolInfo({
             poolActivitiesLoading={poolActivitiesLoading}
             poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
             loadMoreActivitiesItems={loadMoreActivitiesItems}
-            activityCount={poolData?.activitiesCount || '0'}
+            activityCount={poolData?.activitiesCount ?? '0'}
           />
         </TabContainer>
       )

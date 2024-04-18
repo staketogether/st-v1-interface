@@ -5,7 +5,7 @@ import Loading from './icons/Loading'
 type ButtonProps = InputHTMLAttributes<HTMLButtonElement> & {
   onClick?: () => void
   label: string
-  type?: 'button' | 'submit' | 'submit'
+  type?: 'button' | 'submit'
   icon?: ReactNode
   isLoading?: boolean
   disabled?: boolean
@@ -38,19 +38,16 @@ export default function Button({
   padding,
   ...props
 }: ButtonProps) {
-  const getIcon = () =>
-    isLoading ? <LoadingIcon size={small ? 14 : 16} className={color && `${color}`} /> : icon
+  const getIcon = () => (isLoading ? <LoadingIcon size={small ? 14 : 16} className={color && `${color}`} /> : icon)
   return (
     <Container
       onClick={onClick}
-      disabled={disabled || isLoading}
+      disabled={disabled ?? isLoading}
       type={type}
       fontSize={fontSize}
       height={height}
       padding={padding}
-      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${
-        color && `${color}`
-      }  ${className}`}
+      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${color && `${color}`}  ${className}`}
       {...props}
     >
       {!iconLeft && getIcon()}

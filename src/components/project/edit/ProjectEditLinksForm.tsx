@@ -8,11 +8,11 @@ import { FieldErrors, UseFormHandleSubmit, UseFormRegister, UseFormTrigger } fro
 import { PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 
-type ProjectEditLinksFormProps = {
+interface ProjectEditLinksFormProps {
   register: UseFormRegister<EditProjectForm>
   handleSubmit: UseFormHandleSubmit<EditProjectForm, undefined>
   trigger: UseFormTrigger<EditProjectForm>
-  onSubmit: () => Promise<void>
+  onSubmit: () => void
   labelButton: string
   errors: FieldErrors<EditProjectForm>
   isSubmitted: boolean
@@ -31,7 +31,7 @@ export default function ProjectEditLinksForm({
   const modalRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (isSubmitted && errors && modalRef.current && (errors.site || errors.youtube || errors.twitter)) {
+    if (isSubmitted && errors && modalRef.current && (errors.site ?? errors.youtube ?? errors.twitter)) {
       modalRef.current.scrollTo({
         top: 0,
         behavior: 'smooth'
@@ -75,12 +75,7 @@ export default function ProjectEditLinksForm({
             maxLength={120}
             onKeyDown={e => {
               const validUrlCharsRegex = projectRegexOnKeyDown.youtubeChanel
-              if (
-                !validUrlCharsRegex.test(e.key) &&
-                e.key !== 'Backspace' &&
-                e.key !== 'Enter' &&
-                e.key !== 'Tab'
-              ) {
+              if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter' && e.key !== 'Tab') {
                 e.preventDefault()
               }
             }}

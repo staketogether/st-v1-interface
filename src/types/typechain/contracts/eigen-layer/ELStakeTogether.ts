@@ -2,61 +2,56 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
+  AddressLike,
   BaseContract,
   BigNumberish,
   BytesLike,
-  FunctionFragment,
-  Result,
-  Interface,
-  EventFragment,
-  AddressLike,
-  ContractRunner,
   ContractMethod,
+  ContractRunner,
+  EventFragment,
+  FunctionFragment,
+  Interface,
   Listener,
-} from "ethers";
+  Result
+} from 'ethers'
 import type {
   TypedContractEvent,
+  TypedContractMethod,
   TypedDeferredTopicFilter,
   TypedEventLog,
-  TypedLogDescription,
   TypedListener,
-  TypedContractMethod,
-} from "../../common";
+  TypedLogDescription
+} from '../../common'
 
 export declare namespace IELStakeTogether {
-  export type FeatureStruct = {
-    AddPool: boolean;
-    Deposit: boolean;
-    WithdrawPool: boolean;
-    WithdrawBeacon: boolean;
-  };
-
-  export type FeatureStructOutput = [
-    AddPool: boolean,
-    Deposit: boolean,
-    WithdrawPool: boolean,
+  export interface FeatureStruct {
+    AddPool: boolean
+    Deposit: boolean
+    WithdrawPool: boolean
     WithdrawBeacon: boolean
-  ] & {
-    AddPool: boolean;
-    Deposit: boolean;
-    WithdrawPool: boolean;
-    WithdrawBeacon: boolean;
-  };
+  }
 
-  export type ConfigStruct = {
-    blocksPerDay: BigNumberish;
-    depositLimit: BigNumberish;
-    maxDelegations: BigNumberish;
-    minDepositAmount: BigNumberish;
-    minWithdrawAmount: BigNumberish;
-    poolSize: BigNumberish;
-    validatorSize: BigNumberish;
-    withdrawalPoolLimit: BigNumberish;
-    withdrawalValidatorLimit: BigNumberish;
-    withdrawDelay: BigNumberish;
-    withdrawBeaconDelay: BigNumberish;
-    feature: IELStakeTogether.FeatureStruct;
-  };
+  export type FeatureStructOutput = [AddPool: boolean, Deposit: boolean, WithdrawPool: boolean, WithdrawBeacon: boolean] & {
+    AddPool: boolean
+    Deposit: boolean
+    WithdrawPool: boolean
+    WithdrawBeacon: boolean
+  }
+
+  export interface ConfigStruct {
+    blocksPerDay: BigNumberish
+    depositLimit: BigNumberish
+    maxDelegations: BigNumberish
+    minDepositAmount: BigNumberish
+    minWithdrawAmount: BigNumberish
+    poolSize: BigNumberish
+    validatorSize: BigNumberish
+    withdrawalPoolLimit: BigNumberish
+    withdrawalValidatorLimit: BigNumberish
+    withdrawDelay: BigNumberish
+    withdrawBeaconDelay: BigNumberish
+    feature: IELStakeTogether.FeatureStruct
+  }
 
   export type ConfigStructOutput = [
     blocksPerDay: bigint,
@@ -72,2920 +67,1664 @@ export declare namespace IELStakeTogether {
     withdrawBeaconDelay: bigint,
     feature: IELStakeTogether.FeatureStructOutput
   ] & {
-    blocksPerDay: bigint;
-    depositLimit: bigint;
-    maxDelegations: bigint;
-    minDepositAmount: bigint;
-    minWithdrawAmount: bigint;
-    poolSize: bigint;
-    validatorSize: bigint;
-    withdrawalPoolLimit: bigint;
-    withdrawalValidatorLimit: bigint;
-    withdrawDelay: bigint;
-    withdrawBeaconDelay: bigint;
-    feature: IELStakeTogether.FeatureStructOutput;
-  };
+    blocksPerDay: bigint
+    depositLimit: bigint
+    maxDelegations: bigint
+    minDepositAmount: bigint
+    minWithdrawAmount: bigint
+    poolSize: bigint
+    validatorSize: bigint
+    withdrawalPoolLimit: bigint
+    withdrawalValidatorLimit: bigint
+    withdrawDelay: bigint
+    withdrawBeaconDelay: bigint
+    feature: IELStakeTogether.FeatureStructOutput
+  }
 
-  export type DelegationStruct = {
-    pool: AddressLike;
-    percentage: BigNumberish;
-  };
+  export interface DelegationStruct {
+    pool: AddressLike
+    percentage: BigNumberish
+  }
 
   export type DelegationStructOutput = [pool: string, percentage: bigint] & {
-    pool: string;
-    percentage: bigint;
-  };
+    pool: string
+    percentage: bigint
+  }
 }
 
 export interface ELStakeTogetherInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "ADMIN_ROLE"
-      | "ANTI_FRAUD_MANAGER_ROLE"
-      | "ANTI_FRAUD_SENTINEL_ROLE"
-      | "DEFAULT_ADMIN_ROLE"
-      | "DOMAIN_SEPARATOR"
-      | "POOL_MANAGER_ROLE"
-      | "UPGRADER_ROLE"
-      | "UPGRADE_INTERFACE_VERSION"
-      | "VALIDATOR_ORACLE_MANAGER_ROLE"
-      | "VALIDATOR_ORACLE_ROLE"
-      | "VALIDATOR_ORACLE_SENTINEL_ROLE"
-      | "addPool"
-      | "addToAntiFraud"
-      | "addValidatorOracle"
-      | "airdrop"
-      | "allowance"
-      | "anticipateWithdrawBeacon"
-      | "approve"
-      | "balanceOf"
-      | "beaconBalance"
-      | "bridge"
-      | "burn"
-      | "burnFrom"
-      | "claimAirdrop"
-      | "config"
-      | "currentOracleIndex"
-      | "decimals"
-      | "depositDonation"
-      | "depositPool"
-      | "eip712Domain"
-      | "forceNextValidatorOracle"
-      | "getFee"
-      | "getFeeAddress"
-      | "getFeesRoles"
-      | "getRoleAdmin"
-      | "getWithdrawBeaconBlock"
-      | "getWithdrawBlock"
-      | "grantRole"
-      | "hasRole"
-      | "initialize"
-      | "isListedInAntiFraud"
-      | "isValidatorOracle"
-      | "l1Adapter"
-      | "lastResetBlock"
-      | "name"
-      | "nonces"
-      | "pause"
-      | "paused"
-      | "permit"
-      | "pools"
-      | "processFeeRewards"
-      | "proxiableUUID"
-      | "removeFromAntiFraud"
-      | "removePool"
-      | "removeValidatorOracle"
-      | "renounceRole"
-      | "requestAddValidator"
-      | "revokeRole"
-      | "router"
-      | "setBeaconBalance"
-      | "setConfig"
-      | "setFee"
-      | "setFeeAddress"
-      | "setL1Adapter"
-      | "setWithdrawBalance"
-      | "shares"
-      | "sharesByWei"
-      | "supportsInterface"
-      | "symbol"
-      | "totalDeposited"
-      | "totalShares"
-      | "totalSupply"
-      | "totalWithdrawnPool"
-      | "totalWithdrawnValidator"
-      | "transfer"
-      | "transferFrom"
-      | "unpause"
-      | "updateDelegations"
-      | "upgradeToAndCall"
-      | "validators"
-      | "version"
-      | "weiByShares"
-      | "withdrawBalance"
-      | "withdrawBeacon"
-      | "withdrawPool"
-      | "withdrawals"
-  ): FunctionFragment;
+      | 'ADMIN_ROLE'
+      | 'ANTI_FRAUD_MANAGER_ROLE'
+      | 'ANTI_FRAUD_SENTINEL_ROLE'
+      | 'DEFAULT_ADMIN_ROLE'
+      | 'DOMAIN_SEPARATOR'
+      | 'POOL_MANAGER_ROLE'
+      | 'UPGRADER_ROLE'
+      | 'UPGRADE_INTERFACE_VERSION'
+      | 'VALIDATOR_ORACLE_MANAGER_ROLE'
+      | 'VALIDATOR_ORACLE_ROLE'
+      | 'VALIDATOR_ORACLE_SENTINEL_ROLE'
+      | 'addPool'
+      | 'addToAntiFraud'
+      | 'addValidatorOracle'
+      | 'airdrop'
+      | 'allowance'
+      | 'anticipateWithdrawBeacon'
+      | 'approve'
+      | 'balanceOf'
+      | 'beaconBalance'
+      | 'bridge'
+      | 'burn'
+      | 'burnFrom'
+      | 'claimAirdrop'
+      | 'config'
+      | 'currentOracleIndex'
+      | 'decimals'
+      | 'depositDonation'
+      | 'depositPool'
+      | 'eip712Domain'
+      | 'forceNextValidatorOracle'
+      | 'getFee'
+      | 'getFeeAddress'
+      | 'getFeesRoles'
+      | 'getRoleAdmin'
+      | 'getWithdrawBeaconBlock'
+      | 'getWithdrawBlock'
+      | 'grantRole'
+      | 'hasRole'
+      | 'initialize'
+      | 'isListedInAntiFraud'
+      | 'isValidatorOracle'
+      | 'l1Adapter'
+      | 'lastResetBlock'
+      | 'name'
+      | 'nonces'
+      | 'pause'
+      | 'paused'
+      | 'permit'
+      | 'pools'
+      | 'processFeeRewards'
+      | 'proxiableUUID'
+      | 'removeFromAntiFraud'
+      | 'removePool'
+      | 'removeValidatorOracle'
+      | 'renounceRole'
+      | 'requestAddValidator'
+      | 'revokeRole'
+      | 'router'
+      | 'setBeaconBalance'
+      | 'setConfig'
+      | 'setFee'
+      | 'setFeeAddress'
+      | 'setL1Adapter'
+      | 'setWithdrawBalance'
+      | 'shares'
+      | 'sharesByWei'
+      | 'supportsInterface'
+      | 'symbol'
+      | 'totalDeposited'
+      | 'totalShares'
+      | 'totalSupply'
+      | 'totalWithdrawnPool'
+      | 'totalWithdrawnValidator'
+      | 'transfer'
+      | 'transferFrom'
+      | 'unpause'
+      | 'updateDelegations'
+      | 'upgradeToAndCall'
+      | 'validators'
+      | 'version'
+      | 'weiByShares'
+      | 'withdrawBalance'
+      | 'withdrawBeacon'
+      | 'withdrawPool'
+      | 'withdrawals'
+  ): FunctionFragment
 
   getEvent(
     nameOrSignatureOrTopic:
-      | "AddPool"
-      | "AddValidatorOracle"
-      | "AnticipateWithdrawBeacon"
-      | "Approval"
-      | "BurnShares"
-      | "DepositBase"
-      | "DepositLimitWasReached"
-      | "EIP712DomainChanged"
-      | "Initialized"
-      | "MintFeeShares"
-      | "MintShares"
-      | "NextValidatorOracle"
-      | "Paused"
-      | "ProcessStakeRewards"
-      | "ProcessStakeValidator"
-      | "ReceiveEther"
-      | "RemovePool"
-      | "RemoveValidatorOracle"
-      | "RequestAddValidator"
-      | "RoleAdminChanged"
-      | "RoleGranted"
-      | "RoleRevoked"
-      | "SetAdapter"
-      | "SetAntiFraudStatus"
-      | "SetBeaconBalance"
-      | "SetConfig"
-      | "SetFee"
-      | "SetFeeAddress"
-      | "SetRouter"
-      | "SetStakeTogether"
-      | "SetValidatorSize"
-      | "SetWithdrawBalance"
-      | "SetWithdrawalsCredentials"
-      | "Transfer"
-      | "TransferShares"
-      | "Unpaused"
-      | "UpdateDelegations"
-      | "Upgraded"
-      | "WithdrawBase"
-      | "WithdrawalsLimitWasReached"
-  ): EventFragment;
+      | 'AddPool'
+      | 'AddValidatorOracle'
+      | 'AnticipateWithdrawBeacon'
+      | 'Approval'
+      | 'BurnShares'
+      | 'DepositBase'
+      | 'DepositLimitWasReached'
+      | 'EIP712DomainChanged'
+      | 'Initialized'
+      | 'MintFeeShares'
+      | 'MintShares'
+      | 'NextValidatorOracle'
+      | 'Paused'
+      | 'ProcessStakeRewards'
+      | 'ProcessStakeValidator'
+      | 'ReceiveEther'
+      | 'RemovePool'
+      | 'RemoveValidatorOracle'
+      | 'RequestAddValidator'
+      | 'RoleAdminChanged'
+      | 'RoleGranted'
+      | 'RoleRevoked'
+      | 'SetAdapter'
+      | 'SetAntiFraudStatus'
+      | 'SetBeaconBalance'
+      | 'SetConfig'
+      | 'SetFee'
+      | 'SetFeeAddress'
+      | 'SetRouter'
+      | 'SetStakeTogether'
+      | 'SetValidatorSize'
+      | 'SetWithdrawBalance'
+      | 'SetWithdrawalsCredentials'
+      | 'Transfer'
+      | 'TransferShares'
+      | 'Unpaused'
+      | 'UpdateDelegations'
+      | 'Upgraded'
+      | 'WithdrawBase'
+      | 'WithdrawalsLimitWasReached'
+  ): EventFragment
 
-  encodeFunctionData(
-    functionFragment: "ADMIN_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ANTI_FRAUD_MANAGER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ANTI_FRAUD_SENTINEL_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "DOMAIN_SEPARATOR",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "POOL_MANAGER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "UPGRADER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "UPGRADE_INTERFACE_VERSION",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "VALIDATOR_ORACLE_MANAGER_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "VALIDATOR_ORACLE_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "VALIDATOR_ORACLE_SENTINEL_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "addPool",
-    values: [AddressLike, boolean, boolean, boolean]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "addToAntiFraud",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "addValidatorOracle",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(functionFragment: "airdrop", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "allowance",
-    values: [AddressLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "anticipateWithdrawBeacon",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "approve",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "balanceOf",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "beaconBalance",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "bridge", values?: undefined): string;
-  encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
-  encodeFunctionData(
-    functionFragment: "burnFrom",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "claimAirdrop",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "config", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "currentOracleIndex",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "depositDonation",
-    values: [AddressLike, AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "depositPool",
-    values: [AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "eip712Domain",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "forceNextValidatorOracle",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getFee",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getFeeAddress",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getFeesRoles",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getRoleAdmin",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getWithdrawBeaconBlock",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getWithdrawBlock",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "grantRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "initialize",
-    values: [AddressLike, AddressLike, AddressLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isListedInAntiFraud",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isValidatorOracle",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(functionFragment: "l1Adapter", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "lastResetBlock",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "name", values?: undefined): string;
-  encodeFunctionData(functionFragment: "nonces", values: [AddressLike]): string;
-  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
-  encodeFunctionData(functionFragment: "paused", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "permit",
-    values: [
-      AddressLike,
-      AddressLike,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish,
-      BytesLike,
-      BytesLike
-    ]
-  ): string;
-  encodeFunctionData(functionFragment: "pools", values: [AddressLike]): string;
-  encodeFunctionData(
-    functionFragment: "processFeeRewards",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "proxiableUUID",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "removeFromAntiFraud",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "removePool",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "removeValidatorOracle",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "renounceRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "requestAddValidator",
-    values: [BigNumberish, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revokeRole",
-    values: [BytesLike, AddressLike]
-  ): string;
-  encodeFunctionData(functionFragment: "router", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "setBeaconBalance",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setConfig",
-    values: [IELStakeTogether.ConfigStruct]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setFee",
-    values: [BigNumberish, BigNumberish, BigNumberish[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setFeeAddress",
-    values: [BigNumberish, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setL1Adapter",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setWithdrawBalance",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "shares", values: [AddressLike]): string;
-  encodeFunctionData(
-    functionFragment: "sharesByWei",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "supportsInterface",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "totalDeposited",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "totalShares",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "totalSupply",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "totalWithdrawnPool",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "totalWithdrawnValidator",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transfer",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferFrom",
-    values: [AddressLike, AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "updateDelegations",
-    values: [IELStakeTogether.DelegationStruct[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "upgradeToAndCall",
-    values: [AddressLike, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "validators",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(functionFragment: "version", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "weiByShares",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "withdrawBalance",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "withdrawBeacon",
-    values: [BigNumberish, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "withdrawPool",
-    values: [BigNumberish, AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "withdrawals",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: 'ADMIN_ROLE', values?: undefined): string
+  encodeFunctionData(functionFragment: 'ANTI_FRAUD_MANAGER_ROLE', values?: undefined): string
+  encodeFunctionData(functionFragment: 'ANTI_FRAUD_SENTINEL_ROLE', values?: undefined): string
+  encodeFunctionData(functionFragment: 'DEFAULT_ADMIN_ROLE', values?: undefined): string
+  encodeFunctionData(functionFragment: 'DOMAIN_SEPARATOR', values?: undefined): string
+  encodeFunctionData(functionFragment: 'POOL_MANAGER_ROLE', values?: undefined): string
+  encodeFunctionData(functionFragment: 'UPGRADER_ROLE', values?: undefined): string
+  encodeFunctionData(functionFragment: 'UPGRADE_INTERFACE_VERSION', values?: undefined): string
+  encodeFunctionData(functionFragment: 'VALIDATOR_ORACLE_MANAGER_ROLE', values?: undefined): string
+  encodeFunctionData(functionFragment: 'VALIDATOR_ORACLE_ROLE', values?: undefined): string
+  encodeFunctionData(functionFragment: 'VALIDATOR_ORACLE_SENTINEL_ROLE', values?: undefined): string
+  encodeFunctionData(functionFragment: 'addPool', values: [AddressLike, boolean, boolean, boolean]): string
+  encodeFunctionData(functionFragment: 'addToAntiFraud', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'addValidatorOracle', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'airdrop', values?: undefined): string
+  encodeFunctionData(functionFragment: 'allowance', values: [AddressLike, AddressLike]): string
+  encodeFunctionData(functionFragment: 'anticipateWithdrawBeacon', values?: undefined): string
+  encodeFunctionData(functionFragment: 'approve', values: [AddressLike, BigNumberish]): string
+  encodeFunctionData(functionFragment: 'balanceOf', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'beaconBalance', values?: undefined): string
+  encodeFunctionData(functionFragment: 'bridge', values?: undefined): string
+  encodeFunctionData(functionFragment: 'burn', values: [BigNumberish]): string
+  encodeFunctionData(functionFragment: 'burnFrom', values: [AddressLike, BigNumberish]): string
+  encodeFunctionData(functionFragment: 'claimAirdrop', values: [AddressLike, BigNumberish]): string
+  encodeFunctionData(functionFragment: 'config', values?: undefined): string
+  encodeFunctionData(functionFragment: 'currentOracleIndex', values?: undefined): string
+  encodeFunctionData(functionFragment: 'decimals', values?: undefined): string
+  encodeFunctionData(functionFragment: 'depositDonation', values: [AddressLike, AddressLike, BytesLike]): string
+  encodeFunctionData(functionFragment: 'depositPool', values: [AddressLike, BytesLike]): string
+  encodeFunctionData(functionFragment: 'eip712Domain', values?: undefined): string
+  encodeFunctionData(functionFragment: 'forceNextValidatorOracle', values?: undefined): string
+  encodeFunctionData(functionFragment: 'getFee', values: [BigNumberish]): string
+  encodeFunctionData(functionFragment: 'getFeeAddress', values: [BigNumberish]): string
+  encodeFunctionData(functionFragment: 'getFeesRoles', values?: undefined): string
+  encodeFunctionData(functionFragment: 'getRoleAdmin', values: [BytesLike]): string
+  encodeFunctionData(functionFragment: 'getWithdrawBeaconBlock', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'getWithdrawBlock', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'grantRole', values: [BytesLike, AddressLike]): string
+  encodeFunctionData(functionFragment: 'hasRole', values: [BytesLike, AddressLike]): string
+  encodeFunctionData(functionFragment: 'initialize', values: [AddressLike, AddressLike, AddressLike, AddressLike]): string
+  encodeFunctionData(functionFragment: 'isListedInAntiFraud', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'isValidatorOracle', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'l1Adapter', values?: undefined): string
+  encodeFunctionData(functionFragment: 'lastResetBlock', values?: undefined): string
+  encodeFunctionData(functionFragment: 'name', values?: undefined): string
+  encodeFunctionData(functionFragment: 'nonces', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'pause', values?: undefined): string
+  encodeFunctionData(functionFragment: 'paused', values?: undefined): string
+  encodeFunctionData(
+    functionFragment: 'permit',
+    values: [AddressLike, AddressLike, BigNumberish, BigNumberish, BigNumberish, BytesLike, BytesLike]
+  ): string
+  encodeFunctionData(functionFragment: 'pools', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'processFeeRewards', values: [BigNumberish]): string
+  encodeFunctionData(functionFragment: 'proxiableUUID', values?: undefined): string
+  encodeFunctionData(functionFragment: 'removeFromAntiFraud', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'removePool', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'removeValidatorOracle', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'renounceRole', values: [BytesLike, AddressLike]): string
+  encodeFunctionData(functionFragment: 'requestAddValidator', values: [BigNumberish, BytesLike]): string
+  encodeFunctionData(functionFragment: 'revokeRole', values: [BytesLike, AddressLike]): string
+  encodeFunctionData(functionFragment: 'router', values?: undefined): string
+  encodeFunctionData(functionFragment: 'setBeaconBalance', values: [BigNumberish]): string
+  encodeFunctionData(functionFragment: 'setConfig', values: [IELStakeTogether.ConfigStruct]): string
+  encodeFunctionData(functionFragment: 'setFee', values: [BigNumberish, BigNumberish, BigNumberish[]]): string
+  encodeFunctionData(functionFragment: 'setFeeAddress', values: [BigNumberish, AddressLike]): string
+  encodeFunctionData(functionFragment: 'setL1Adapter', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'setWithdrawBalance', values: [BigNumberish]): string
+  encodeFunctionData(functionFragment: 'shares', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'sharesByWei', values: [BigNumberish]): string
+  encodeFunctionData(functionFragment: 'supportsInterface', values: [BytesLike]): string
+  encodeFunctionData(functionFragment: 'symbol', values?: undefined): string
+  encodeFunctionData(functionFragment: 'totalDeposited', values?: undefined): string
+  encodeFunctionData(functionFragment: 'totalShares', values?: undefined): string
+  encodeFunctionData(functionFragment: 'totalSupply', values?: undefined): string
+  encodeFunctionData(functionFragment: 'totalWithdrawnPool', values?: undefined): string
+  encodeFunctionData(functionFragment: 'totalWithdrawnValidator', values?: undefined): string
+  encodeFunctionData(functionFragment: 'transfer', values: [AddressLike, BigNumberish]): string
+  encodeFunctionData(functionFragment: 'transferFrom', values: [AddressLike, AddressLike, BigNumberish]): string
+  encodeFunctionData(functionFragment: 'unpause', values?: undefined): string
+  encodeFunctionData(functionFragment: 'updateDelegations', values: [IELStakeTogether.DelegationStruct[]]): string
+  encodeFunctionData(functionFragment: 'upgradeToAndCall', values: [AddressLike, BytesLike]): string
+  encodeFunctionData(functionFragment: 'validators', values: [BytesLike]): string
+  encodeFunctionData(functionFragment: 'version', values?: undefined): string
+  encodeFunctionData(functionFragment: 'weiByShares', values: [BigNumberish]): string
+  encodeFunctionData(functionFragment: 'withdrawBalance', values?: undefined): string
+  encodeFunctionData(functionFragment: 'withdrawBeacon', values: [BigNumberish, AddressLike]): string
+  encodeFunctionData(functionFragment: 'withdrawPool', values: [BigNumberish, AddressLike]): string
+  encodeFunctionData(functionFragment: 'withdrawals', values?: undefined): string
 
-  decodeFunctionResult(functionFragment: "ADMIN_ROLE", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "ANTI_FRAUD_MANAGER_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "ANTI_FRAUD_SENTINEL_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "DEFAULT_ADMIN_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "DOMAIN_SEPARATOR",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "POOL_MANAGER_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "UPGRADER_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "UPGRADE_INTERFACE_VERSION",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "VALIDATOR_ORACLE_MANAGER_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "VALIDATOR_ORACLE_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "VALIDATOR_ORACLE_SENTINEL_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "addPool", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "addToAntiFraud",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "addValidatorOracle",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "airdrop", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "anticipateWithdrawBeacon",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "beaconBalance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "bridge", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "burnFrom", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "claimAirdrop",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "config", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "currentOracleIndex",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "depositDonation",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "depositPool",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "eip712Domain",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "forceNextValidatorOracle",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "getFee", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getFeeAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getFeesRoles",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getRoleAdmin",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getWithdrawBeaconBlock",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getWithdrawBlock",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "isListedInAntiFraud",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isValidatorOracle",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "l1Adapter", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "lastResetBlock",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "nonces", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "paused", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "permit", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pools", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "processFeeRewards",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "proxiableUUID",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "removeFromAntiFraud",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "removePool", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "removeValidatorOracle",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "requestAddValidator",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "router", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setBeaconBalance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "setConfig", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setFee", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setFeeAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setL1Adapter",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setWithdrawBalance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "shares", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "sharesByWei",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "supportsInterface",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "totalDeposited",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "totalShares",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "totalSupply",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "totalWithdrawnPool",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "totalWithdrawnValidator",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "transferFrom",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "updateDelegations",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "upgradeToAndCall",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "validators", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "weiByShares",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "withdrawBalance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "withdrawBeacon",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "withdrawPool",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "withdrawals",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: 'ADMIN_ROLE', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'ANTI_FRAUD_MANAGER_ROLE', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'ANTI_FRAUD_SENTINEL_ROLE', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'DEFAULT_ADMIN_ROLE', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'DOMAIN_SEPARATOR', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'POOL_MANAGER_ROLE', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'UPGRADER_ROLE', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'UPGRADE_INTERFACE_VERSION', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'VALIDATOR_ORACLE_MANAGER_ROLE', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'VALIDATOR_ORACLE_ROLE', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'VALIDATOR_ORACLE_SENTINEL_ROLE', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'addPool', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'addToAntiFraud', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'addValidatorOracle', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'airdrop', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'allowance', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'anticipateWithdrawBeacon', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'approve', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'balanceOf', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'beaconBalance', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'bridge', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'burn', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'burnFrom', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'claimAirdrop', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'config', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'currentOracleIndex', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'decimals', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'depositDonation', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'depositPool', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'eip712Domain', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'forceNextValidatorOracle', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'getFee', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'getFeeAddress', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'getFeesRoles', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'getRoleAdmin', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'getWithdrawBeaconBlock', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'getWithdrawBlock', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'grantRole', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'hasRole', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'isListedInAntiFraud', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'isValidatorOracle', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'l1Adapter', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'lastResetBlock', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'name', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'nonces', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'pause', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'paused', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'permit', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'pools', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'processFeeRewards', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'proxiableUUID', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'removeFromAntiFraud', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'removePool', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'removeValidatorOracle', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'renounceRole', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'requestAddValidator', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'revokeRole', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'router', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'setBeaconBalance', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'setConfig', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'setFee', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'setFeeAddress', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'setL1Adapter', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'setWithdrawBalance', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'shares', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'sharesByWei', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'supportsInterface', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'symbol', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'totalDeposited', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'totalShares', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'totalSupply', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'totalWithdrawnPool', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'totalWithdrawnValidator', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'transfer', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'transferFrom', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'unpause', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'updateDelegations', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'upgradeToAndCall', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'validators', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'version', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'weiByShares', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'withdrawBalance', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'withdrawBeacon', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'withdrawPool', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'withdrawals', data: BytesLike): Result
 }
 
 export namespace AddPoolEvent {
-  export type InputTuple = [
-    pool: AddressLike,
-    listed: boolean,
-    social: boolean,
-    index: boolean,
-    amount: BigNumberish
-  ];
-  export type OutputTuple = [
-    pool: string,
-    listed: boolean,
-    social: boolean,
-    index: boolean,
-    amount: bigint
-  ];
+  export type InputTuple = [pool: AddressLike, listed: boolean, social: boolean, index: boolean, amount: BigNumberish]
+  export type OutputTuple = [pool: string, listed: boolean, social: boolean, index: boolean, amount: bigint]
   export interface OutputObject {
-    pool: string;
-    listed: boolean;
-    social: boolean;
-    index: boolean;
-    amount: bigint;
+    pool: string
+    listed: boolean
+    social: boolean
+    index: boolean
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace AddValidatorOracleEvent {
-  export type InputTuple = [account: AddressLike];
-  export type OutputTuple = [account: string];
+  export type InputTuple = [account: AddressLike]
+  export type OutputTuple = [account: string]
   export interface OutputObject {
-    account: string;
+    account: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace AnticipateWithdrawBeaconEvent {
-  export type InputTuple = [oracle: AddressLike, amount: BigNumberish];
-  export type OutputTuple = [oracle: string, amount: bigint];
+  export type InputTuple = [oracle: AddressLike, amount: BigNumberish]
+  export type OutputTuple = [oracle: string, amount: bigint]
   export interface OutputObject {
-    oracle: string;
-    amount: bigint;
+    oracle: string
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ApprovalEvent {
-  export type InputTuple = [
-    owner: AddressLike,
-    spender: AddressLike,
-    value: BigNumberish
-  ];
-  export type OutputTuple = [owner: string, spender: string, value: bigint];
+  export type InputTuple = [owner: AddressLike, spender: AddressLike, value: BigNumberish]
+  export type OutputTuple = [owner: string, spender: string, value: bigint]
   export interface OutputObject {
-    owner: string;
-    spender: string;
-    value: bigint;
+    owner: string
+    spender: string
+    value: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace BurnSharesEvent {
-  export type InputTuple = [account: AddressLike, sharesAmount: BigNumberish];
-  export type OutputTuple = [account: string, sharesAmount: bigint];
+  export type InputTuple = [account: AddressLike, sharesAmount: BigNumberish]
+  export type OutputTuple = [account: string, sharesAmount: bigint]
   export interface OutputObject {
-    account: string;
-    sharesAmount: bigint;
+    account: string
+    sharesAmount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace DepositBaseEvent {
-  export type InputTuple = [
-    to: AddressLike,
-    amount: BigNumberish,
-    depositType: BigNumberish,
-    pool: AddressLike,
-    referral: BytesLike
-  ];
-  export type OutputTuple = [
-    to: string,
-    amount: bigint,
-    depositType: bigint,
-    pool: string,
-    referral: string
-  ];
+  export type InputTuple = [to: AddressLike, amount: BigNumberish, depositType: BigNumberish, pool: AddressLike, referral: BytesLike]
+  export type OutputTuple = [to: string, amount: bigint, depositType: bigint, pool: string, referral: string]
   export interface OutputObject {
-    to: string;
-    amount: bigint;
-    depositType: bigint;
-    pool: string;
-    referral: string;
+    to: string
+    amount: bigint
+    depositType: bigint
+    pool: string
+    referral: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace DepositLimitWasReachedEvent {
-  export type InputTuple = [sender: AddressLike, amount: BigNumberish];
-  export type OutputTuple = [sender: string, amount: bigint];
+  export type InputTuple = [sender: AddressLike, amount: BigNumberish]
+  export type OutputTuple = [sender: string, amount: bigint]
   export interface OutputObject {
-    sender: string;
-    amount: bigint;
+    sender: string
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace EIP712DomainChangedEvent {
-  export type InputTuple = [];
-  export type OutputTuple = [];
+  export type InputTuple = []
+  export type OutputTuple = []
   export interface OutputObject {}
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace InitializedEvent {
-  export type InputTuple = [version: BigNumberish];
-  export type OutputTuple = [version: bigint];
+  export type InputTuple = [version: BigNumberish]
+  export type OutputTuple = [version: bigint]
   export interface OutputObject {
-    version: bigint;
+    version: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace MintFeeSharesEvent {
-  export type InputTuple = [
-    to: AddressLike,
-    sharesAmount: BigNumberish,
-    feeType: BigNumberish,
-    feeRole: BigNumberish
-  ];
-  export type OutputTuple = [
-    to: string,
-    sharesAmount: bigint,
-    feeType: bigint,
-    feeRole: bigint
-  ];
+  export type InputTuple = [to: AddressLike, sharesAmount: BigNumberish, feeType: BigNumberish, feeRole: BigNumberish]
+  export type OutputTuple = [to: string, sharesAmount: bigint, feeType: bigint, feeRole: bigint]
   export interface OutputObject {
-    to: string;
-    sharesAmount: bigint;
-    feeType: bigint;
-    feeRole: bigint;
+    to: string
+    sharesAmount: bigint
+    feeType: bigint
+    feeRole: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace MintSharesEvent {
-  export type InputTuple = [to: AddressLike, sharesAmount: BigNumberish];
-  export type OutputTuple = [to: string, sharesAmount: bigint];
+  export type InputTuple = [to: AddressLike, sharesAmount: BigNumberish]
+  export type OutputTuple = [to: string, sharesAmount: bigint]
   export interface OutputObject {
-    to: string;
-    sharesAmount: bigint;
+    to: string
+    sharesAmount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace NextValidatorOracleEvent {
-  export type InputTuple = [index: BigNumberish, account: AddressLike];
-  export type OutputTuple = [index: bigint, account: string];
+  export type InputTuple = [index: BigNumberish, account: AddressLike]
+  export type OutputTuple = [index: bigint, account: string]
   export interface OutputObject {
-    index: bigint;
-    account: string;
+    index: bigint
+    account: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace PausedEvent {
-  export type InputTuple = [account: AddressLike];
-  export type OutputTuple = [account: string];
+  export type InputTuple = [account: AddressLike]
+  export type OutputTuple = [account: string]
   export interface OutputObject {
-    account: string;
+    account: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ProcessStakeRewardsEvent {
-  export type InputTuple = [amount: BigNumberish, sharesAmount: BigNumberish];
-  export type OutputTuple = [amount: bigint, sharesAmount: bigint];
+  export type InputTuple = [amount: BigNumberish, sharesAmount: BigNumberish]
+  export type OutputTuple = [amount: bigint, sharesAmount: bigint]
   export interface OutputObject {
-    amount: bigint;
-    sharesAmount: bigint;
+    amount: bigint
+    sharesAmount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ProcessStakeValidatorEvent {
-  export type InputTuple = [account: AddressLike, amount: BigNumberish];
-  export type OutputTuple = [account: string, amount: bigint];
+  export type InputTuple = [account: AddressLike, amount: BigNumberish]
+  export type OutputTuple = [account: string, amount: bigint]
   export interface OutputObject {
-    account: string;
-    amount: bigint;
+    account: string
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ReceiveEtherEvent {
-  export type InputTuple = [amount: BigNumberish];
-  export type OutputTuple = [amount: bigint];
+  export type InputTuple = [amount: BigNumberish]
+  export type OutputTuple = [amount: bigint]
   export interface OutputObject {
-    amount: bigint;
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RemovePoolEvent {
-  export type InputTuple = [pool: AddressLike];
-  export type OutputTuple = [pool: string];
+  export type InputTuple = [pool: AddressLike]
+  export type OutputTuple = [pool: string]
   export interface OutputObject {
-    pool: string;
+    pool: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RemoveValidatorOracleEvent {
-  export type InputTuple = [account: AddressLike];
-  export type OutputTuple = [account: string];
+  export type InputTuple = [account: AddressLike]
+  export type OutputTuple = [account: string]
   export interface OutputObject {
-    account: string;
+    account: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RequestAddValidatorEvent {
-  export type InputTuple = [
-    oracle: AddressLike,
-    amount: BigNumberish,
-    minGasLimit: BigNumberish,
-    extraData: BytesLike
-  ];
-  export type OutputTuple = [
-    oracle: string,
-    amount: bigint,
-    minGasLimit: bigint,
-    extraData: string
-  ];
+  export type InputTuple = [oracle: AddressLike, amount: BigNumberish, minGasLimit: BigNumberish, extraData: BytesLike]
+  export type OutputTuple = [oracle: string, amount: bigint, minGasLimit: bigint, extraData: string]
   export interface OutputObject {
-    oracle: string;
-    amount: bigint;
-    minGasLimit: bigint;
-    extraData: string;
+    oracle: string
+    amount: bigint
+    minGasLimit: bigint
+    extraData: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RoleAdminChangedEvent {
-  export type InputTuple = [
-    role: BytesLike,
-    previousAdminRole: BytesLike,
-    newAdminRole: BytesLike
-  ];
-  export type OutputTuple = [
-    role: string,
-    previousAdminRole: string,
-    newAdminRole: string
-  ];
+  export type InputTuple = [role: BytesLike, previousAdminRole: BytesLike, newAdminRole: BytesLike]
+  export type OutputTuple = [role: string, previousAdminRole: string, newAdminRole: string]
   export interface OutputObject {
-    role: string;
-    previousAdminRole: string;
-    newAdminRole: string;
+    role: string
+    previousAdminRole: string
+    newAdminRole: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RoleGrantedEvent {
-  export type InputTuple = [
-    role: BytesLike,
-    account: AddressLike,
-    sender: AddressLike
-  ];
-  export type OutputTuple = [role: string, account: string, sender: string];
+  export type InputTuple = [role: BytesLike, account: AddressLike, sender: AddressLike]
+  export type OutputTuple = [role: string, account: string, sender: string]
   export interface OutputObject {
-    role: string;
-    account: string;
-    sender: string;
+    role: string
+    account: string
+    sender: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RoleRevokedEvent {
-  export type InputTuple = [
-    role: BytesLike,
-    account: AddressLike,
-    sender: AddressLike
-  ];
-  export type OutputTuple = [role: string, account: string, sender: string];
+  export type InputTuple = [role: BytesLike, account: AddressLike, sender: AddressLike]
+  export type OutputTuple = [role: string, account: string, sender: string]
   export interface OutputObject {
-    role: string;
-    account: string;
-    sender: string;
+    role: string
+    account: string
+    sender: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetAdapterEvent {
-  export type InputTuple = [adapter: AddressLike];
-  export type OutputTuple = [adapter: string];
+  export type InputTuple = [adapter: AddressLike]
+  export type OutputTuple = [adapter: string]
   export interface OutputObject {
-    adapter: string;
+    adapter: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetAntiFraudStatusEvent {
-  export type InputTuple = [
-    sender: AddressLike,
-    account: AddressLike,
-    isListed: boolean
-  ];
-  export type OutputTuple = [
-    sender: string,
-    account: string,
-    isListed: boolean
-  ];
+  export type InputTuple = [sender: AddressLike, account: AddressLike, isListed: boolean]
+  export type OutputTuple = [sender: string, account: string, isListed: boolean]
   export interface OutputObject {
-    sender: string;
-    account: string;
-    isListed: boolean;
+    sender: string
+    account: string
+    isListed: boolean
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetBeaconBalanceEvent {
-  export type InputTuple = [amount: BigNumberish];
-  export type OutputTuple = [amount: bigint];
+  export type InputTuple = [amount: BigNumberish]
+  export type OutputTuple = [amount: bigint]
   export interface OutputObject {
-    amount: bigint;
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetConfigEvent {
-  export type InputTuple = [config: IELStakeTogether.ConfigStruct];
-  export type OutputTuple = [config: IELStakeTogether.ConfigStructOutput];
+  export type InputTuple = [config: IELStakeTogether.ConfigStruct]
+  export type OutputTuple = [config: IELStakeTogether.ConfigStructOutput]
   export interface OutputObject {
-    config: IELStakeTogether.ConfigStructOutput;
+    config: IELStakeTogether.ConfigStructOutput
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetFeeEvent {
-  export type InputTuple = [
-    feeType: BigNumberish,
-    value: BigNumberish,
-    allocations: BigNumberish[]
-  ];
-  export type OutputTuple = [
-    feeType: bigint,
-    value: bigint,
-    allocations: bigint[]
-  ];
+  export type InputTuple = [feeType: BigNumberish, value: BigNumberish, allocations: BigNumberish[]]
+  export type OutputTuple = [feeType: bigint, value: bigint, allocations: bigint[]]
   export interface OutputObject {
-    feeType: bigint;
-    value: bigint;
-    allocations: bigint[];
+    feeType: bigint
+    value: bigint
+    allocations: bigint[]
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetFeeAddressEvent {
-  export type InputTuple = [role: BigNumberish, account: AddressLike];
-  export type OutputTuple = [role: bigint, account: string];
+  export type InputTuple = [role: BigNumberish, account: AddressLike]
+  export type OutputTuple = [role: bigint, account: string]
   export interface OutputObject {
-    role: bigint;
-    account: string;
+    role: bigint
+    account: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetRouterEvent {
-  export type InputTuple = [router: AddressLike];
-  export type OutputTuple = [router: string];
+  export type InputTuple = [router: AddressLike]
+  export type OutputTuple = [router: string]
   export interface OutputObject {
-    router: string;
+    router: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetStakeTogetherEvent {
-  export type InputTuple = [stakeTogether: AddressLike];
-  export type OutputTuple = [stakeTogether: string];
+  export type InputTuple = [stakeTogether: AddressLike]
+  export type OutputTuple = [stakeTogether: string]
   export interface OutputObject {
-    stakeTogether: string;
+    stakeTogether: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetValidatorSizeEvent {
-  export type InputTuple = [newValidatorSize: BigNumberish];
-  export type OutputTuple = [newValidatorSize: bigint];
+  export type InputTuple = [newValidatorSize: BigNumberish]
+  export type OutputTuple = [newValidatorSize: bigint]
   export interface OutputObject {
-    newValidatorSize: bigint;
+    newValidatorSize: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetWithdrawBalanceEvent {
-  export type InputTuple = [amount: BigNumberish];
-  export type OutputTuple = [amount: bigint];
+  export type InputTuple = [amount: BigNumberish]
+  export type OutputTuple = [amount: bigint]
   export interface OutputObject {
-    amount: bigint;
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetWithdrawalsCredentialsEvent {
-  export type InputTuple = [withdrawalCredentials: BytesLike];
-  export type OutputTuple = [withdrawalCredentials: string];
+  export type InputTuple = [withdrawalCredentials: BytesLike]
+  export type OutputTuple = [withdrawalCredentials: string]
   export interface OutputObject {
-    withdrawalCredentials: string;
+    withdrawalCredentials: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace TransferEvent {
-  export type InputTuple = [
-    from: AddressLike,
-    to: AddressLike,
-    value: BigNumberish
-  ];
-  export type OutputTuple = [from: string, to: string, value: bigint];
+  export type InputTuple = [from: AddressLike, to: AddressLike, value: BigNumberish]
+  export type OutputTuple = [from: string, to: string, value: bigint]
   export interface OutputObject {
-    from: string;
-    to: string;
-    value: bigint;
+    from: string
+    to: string
+    value: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace TransferSharesEvent {
-  export type InputTuple = [
-    from: AddressLike,
-    to: AddressLike,
-    sharesAmount: BigNumberish
-  ];
-  export type OutputTuple = [from: string, to: string, sharesAmount: bigint];
+  export type InputTuple = [from: AddressLike, to: AddressLike, sharesAmount: BigNumberish]
+  export type OutputTuple = [from: string, to: string, sharesAmount: bigint]
   export interface OutputObject {
-    from: string;
-    to: string;
-    sharesAmount: bigint;
+    from: string
+    to: string
+    sharesAmount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace UnpausedEvent {
-  export type InputTuple = [account: AddressLike];
-  export type OutputTuple = [account: string];
+  export type InputTuple = [account: AddressLike]
+  export type OutputTuple = [account: string]
   export interface OutputObject {
-    account: string;
+    account: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace UpdateDelegationsEvent {
-  export type InputTuple = [
-    account: AddressLike,
-    delegations: IELStakeTogether.DelegationStruct[]
-  ];
-  export type OutputTuple = [
-    account: string,
-    delegations: IELStakeTogether.DelegationStructOutput[]
-  ];
+  export type InputTuple = [account: AddressLike, delegations: IELStakeTogether.DelegationStruct[]]
+  export type OutputTuple = [account: string, delegations: IELStakeTogether.DelegationStructOutput[]]
   export interface OutputObject {
-    account: string;
-    delegations: IELStakeTogether.DelegationStructOutput[];
+    account: string
+    delegations: IELStakeTogether.DelegationStructOutput[]
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace UpgradedEvent {
-  export type InputTuple = [implementation: AddressLike];
-  export type OutputTuple = [implementation: string];
+  export type InputTuple = [implementation: AddressLike]
+  export type OutputTuple = [implementation: string]
   export interface OutputObject {
-    implementation: string;
+    implementation: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace WithdrawBaseEvent {
-  export type InputTuple = [
-    account: AddressLike,
-    amount: BigNumberish,
-    withdrawType: BigNumberish,
-    pool: AddressLike
-  ];
-  export type OutputTuple = [
-    account: string,
-    amount: bigint,
-    withdrawType: bigint,
-    pool: string
-  ];
+  export type InputTuple = [account: AddressLike, amount: BigNumberish, withdrawType: BigNumberish, pool: AddressLike]
+  export type OutputTuple = [account: string, amount: bigint, withdrawType: bigint, pool: string]
   export interface OutputObject {
-    account: string;
-    amount: bigint;
-    withdrawType: bigint;
-    pool: string;
+    account: string
+    amount: bigint
+    withdrawType: bigint
+    pool: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace WithdrawalsLimitWasReachedEvent {
-  export type InputTuple = [
-    sender: AddressLike,
-    amount: BigNumberish,
-    withdrawType: BigNumberish
-  ];
-  export type OutputTuple = [
-    sender: string,
-    amount: bigint,
-    withdrawType: bigint
-  ];
+  export type InputTuple = [sender: AddressLike, amount: BigNumberish, withdrawType: BigNumberish]
+  export type OutputTuple = [sender: string, amount: bigint, withdrawType: bigint]
   export interface OutputObject {
-    sender: string;
-    amount: bigint;
-    withdrawType: bigint;
+    sender: string
+    amount: bigint
+    withdrawType: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export interface ELStakeTogether extends BaseContract {
-  connect(runner?: ContractRunner | null): ELStakeTogether;
-  waitForDeployment(): Promise<this>;
+  connect(runner?: ContractRunner | null): ELStakeTogether
+  waitForDeployment(): Promise<this>
 
-  interface: ELStakeTogetherInterface;
+  interface: ELStakeTogetherInterface
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>
+  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>
+  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
-  listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>
+  listeners(eventName?: string): Promise<Array<Listener>>
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>
 
-  ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
+  ADMIN_ROLE: TypedContractMethod<[], [string], 'view'>
 
-  ANTI_FRAUD_MANAGER_ROLE: TypedContractMethod<[], [string], "view">;
+  ANTI_FRAUD_MANAGER_ROLE: TypedContractMethod<[], [string], 'view'>
 
-  ANTI_FRAUD_SENTINEL_ROLE: TypedContractMethod<[], [string], "view">;
+  ANTI_FRAUD_SENTINEL_ROLE: TypedContractMethod<[], [string], 'view'>
 
-  DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
+  DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], 'view'>
 
-  DOMAIN_SEPARATOR: TypedContractMethod<[], [string], "view">;
+  DOMAIN_SEPARATOR: TypedContractMethod<[], [string], 'view'>
 
-  POOL_MANAGER_ROLE: TypedContractMethod<[], [string], "view">;
+  POOL_MANAGER_ROLE: TypedContractMethod<[], [string], 'view'>
 
-  UPGRADER_ROLE: TypedContractMethod<[], [string], "view">;
+  UPGRADER_ROLE: TypedContractMethod<[], [string], 'view'>
 
-  UPGRADE_INTERFACE_VERSION: TypedContractMethod<[], [string], "view">;
+  UPGRADE_INTERFACE_VERSION: TypedContractMethod<[], [string], 'view'>
 
-  VALIDATOR_ORACLE_MANAGER_ROLE: TypedContractMethod<[], [string], "view">;
+  VALIDATOR_ORACLE_MANAGER_ROLE: TypedContractMethod<[], [string], 'view'>
 
-  VALIDATOR_ORACLE_ROLE: TypedContractMethod<[], [string], "view">;
+  VALIDATOR_ORACLE_ROLE: TypedContractMethod<[], [string], 'view'>
 
-  VALIDATOR_ORACLE_SENTINEL_ROLE: TypedContractMethod<[], [string], "view">;
+  VALIDATOR_ORACLE_SENTINEL_ROLE: TypedContractMethod<[], [string], 'view'>
 
-  addPool: TypedContractMethod<
-    [_pool: AddressLike, _listed: boolean, _social: boolean, _index: boolean],
-    [void],
-    "payable"
-  >;
+  addPool: TypedContractMethod<[_pool: AddressLike, _listed: boolean, _social: boolean, _index: boolean], [void], 'payable'>
 
-  addToAntiFraud: TypedContractMethod<
-    [_account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  addToAntiFraud: TypedContractMethod<[_account: AddressLike], [void], 'nonpayable'>
 
-  addValidatorOracle: TypedContractMethod<
-    [_account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  addValidatorOracle: TypedContractMethod<[_account: AddressLike], [void], 'nonpayable'>
 
-  airdrop: TypedContractMethod<[], [string], "view">;
+  airdrop: TypedContractMethod<[], [string], 'view'>
 
-  allowance: TypedContractMethod<
-    [_account: AddressLike, _spender: AddressLike],
-    [bigint],
-    "view"
-  >;
+  allowance: TypedContractMethod<[_account: AddressLike, _spender: AddressLike], [bigint], 'view'>
 
-  anticipateWithdrawBeacon: TypedContractMethod<[], [void], "nonpayable">;
+  anticipateWithdrawBeacon: TypedContractMethod<[], [void], 'nonpayable'>
 
-  approve: TypedContractMethod<
-    [_spender: AddressLike, _amount: BigNumberish],
-    [boolean],
-    "nonpayable"
-  >;
+  approve: TypedContractMethod<[_spender: AddressLike, _amount: BigNumberish], [boolean], 'nonpayable'>
 
-  balanceOf: TypedContractMethod<[_account: AddressLike], [bigint], "view">;
+  balanceOf: TypedContractMethod<[_account: AddressLike], [bigint], 'view'>
 
-  beaconBalance: TypedContractMethod<[], [bigint], "view">;
+  beaconBalance: TypedContractMethod<[], [bigint], 'view'>
 
-  bridge: TypedContractMethod<[], [string], "view">;
+  bridge: TypedContractMethod<[], [string], 'view'>
 
-  burn: TypedContractMethod<[value: BigNumberish], [void], "nonpayable">;
+  burn: TypedContractMethod<[value: BigNumberish], [void], 'nonpayable'>
 
-  burnFrom: TypedContractMethod<
-    [account: AddressLike, value: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
+  burnFrom: TypedContractMethod<[account: AddressLike, value: BigNumberish], [void], 'nonpayable'>
 
-  claimAirdrop: TypedContractMethod<
-    [_account: AddressLike, _sharesAmount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
+  claimAirdrop: TypedContractMethod<[_account: AddressLike, _sharesAmount: BigNumberish], [void], 'nonpayable'>
 
   config: TypedContractMethod<
     [],
     [
-      [
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        IELStakeTogether.FeatureStructOutput
-      ] & {
-        blocksPerDay: bigint;
-        depositLimit: bigint;
-        maxDelegations: bigint;
-        minDepositAmount: bigint;
-        minWithdrawAmount: bigint;
-        poolSize: bigint;
-        validatorSize: bigint;
-        withdrawalPoolLimit: bigint;
-        withdrawalValidatorLimit: bigint;
-        withdrawDelay: bigint;
-        withdrawBeaconDelay: bigint;
-        feature: IELStakeTogether.FeatureStructOutput;
+      [bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint, IELStakeTogether.FeatureStructOutput] & {
+        blocksPerDay: bigint
+        depositLimit: bigint
+        maxDelegations: bigint
+        minDepositAmount: bigint
+        minWithdrawAmount: bigint
+        poolSize: bigint
+        validatorSize: bigint
+        withdrawalPoolLimit: bigint
+        withdrawalValidatorLimit: bigint
+        withdrawDelay: bigint
+        withdrawBeaconDelay: bigint
+        feature: IELStakeTogether.FeatureStructOutput
       }
     ],
-    "view"
-  >;
+    'view'
+  >
 
-  currentOracleIndex: TypedContractMethod<[], [bigint], "view">;
+  currentOracleIndex: TypedContractMethod<[], [bigint], 'view'>
 
-  decimals: TypedContractMethod<[], [bigint], "view">;
+  decimals: TypedContractMethod<[], [bigint], 'view'>
 
-  depositDonation: TypedContractMethod<
-    [_to: AddressLike, _pool: AddressLike, _referral: BytesLike],
-    [void],
-    "payable"
-  >;
+  depositDonation: TypedContractMethod<[_to: AddressLike, _pool: AddressLike, _referral: BytesLike], [void], 'payable'>
 
-  depositPool: TypedContractMethod<
-    [_pool: AddressLike, _referral: BytesLike],
-    [void],
-    "payable"
-  >;
+  depositPool: TypedContractMethod<[_pool: AddressLike, _referral: BytesLike], [void], 'payable'>
 
   eip712Domain: TypedContractMethod<
     [],
     [
       [string, string, string, bigint, string, string, bigint[]] & {
-        fields: string;
-        name: string;
-        version: string;
-        chainId: bigint;
-        verifyingContract: string;
-        salt: string;
-        extensions: bigint[];
+        fields: string
+        name: string
+        version: string
+        chainId: bigint
+        verifyingContract: string
+        salt: string
+        extensions: bigint[]
       }
     ],
-    "view"
-  >;
+    'view'
+  >
 
-  forceNextValidatorOracle: TypedContractMethod<[], [void], "nonpayable">;
+  forceNextValidatorOracle: TypedContractMethod<[], [void], 'nonpayable'>
 
-  getFee: TypedContractMethod<[_feeType: BigNumberish], [bigint], "view">;
+  getFee: TypedContractMethod<[_feeType: BigNumberish], [bigint], 'view'>
 
-  getFeeAddress: TypedContractMethod<[_role: BigNumberish], [string], "view">;
+  getFeeAddress: TypedContractMethod<[_role: BigNumberish], [string], 'view'>
 
-  getFeesRoles: TypedContractMethod<
-    [],
-    [[bigint, bigint, bigint, bigint]],
-    "view"
-  >;
+  getFeesRoles: TypedContractMethod<[], [[bigint, bigint, bigint, bigint]], 'view'>
 
-  getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
+  getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], 'view'>
 
-  getWithdrawBeaconBlock: TypedContractMethod<
-    [_account: AddressLike],
-    [bigint],
-    "view"
-  >;
+  getWithdrawBeaconBlock: TypedContractMethod<[_account: AddressLike], [bigint], 'view'>
 
-  getWithdrawBlock: TypedContractMethod<
-    [_account: AddressLike],
-    [bigint],
-    "view"
-  >;
+  getWithdrawBlock: TypedContractMethod<[_account: AddressLike], [bigint], 'view'>
 
-  grantRole: TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  grantRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], 'nonpayable'>
 
-  hasRole: TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [boolean],
-    "view"
-  >;
+  hasRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], 'view'>
 
   initialize: TypedContractMethod<
-    [
-      _airdrop: AddressLike,
-      _bridge: AddressLike,
-      _router: AddressLike,
-      _withdrawals: AddressLike
-    ],
+    [_airdrop: AddressLike, _bridge: AddressLike, _router: AddressLike, _withdrawals: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  isListedInAntiFraud: TypedContractMethod<
-    [_account: AddressLike],
-    [boolean],
-    "view"
-  >;
+  isListedInAntiFraud: TypedContractMethod<[_account: AddressLike], [boolean], 'view'>
 
-  isValidatorOracle: TypedContractMethod<
-    [_account: AddressLike],
-    [boolean],
-    "view"
-  >;
+  isValidatorOracle: TypedContractMethod<[_account: AddressLike], [boolean], 'view'>
 
-  l1Adapter: TypedContractMethod<[], [string], "view">;
+  l1Adapter: TypedContractMethod<[], [string], 'view'>
 
-  lastResetBlock: TypedContractMethod<[], [bigint], "view">;
+  lastResetBlock: TypedContractMethod<[], [bigint], 'view'>
 
-  name: TypedContractMethod<[], [string], "view">;
+  name: TypedContractMethod<[], [string], 'view'>
 
-  nonces: TypedContractMethod<[owner: AddressLike], [bigint], "view">;
+  nonces: TypedContractMethod<[owner: AddressLike], [bigint], 'view'>
 
-  pause: TypedContractMethod<[], [void], "nonpayable">;
+  pause: TypedContractMethod<[], [void], 'nonpayable'>
 
-  paused: TypedContractMethod<[], [boolean], "view">;
+  paused: TypedContractMethod<[], [boolean], 'view'>
 
   permit: TypedContractMethod<
-    [
-      owner: AddressLike,
-      spender: AddressLike,
-      value: BigNumberish,
-      deadline: BigNumberish,
-      v: BigNumberish,
-      r: BytesLike,
-      s: BytesLike
-    ],
+    [owner: AddressLike, spender: AddressLike, value: BigNumberish, deadline: BigNumberish, v: BigNumberish, r: BytesLike, s: BytesLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  pools: TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
+  pools: TypedContractMethod<[arg0: AddressLike], [boolean], 'view'>
 
-  processFeeRewards: TypedContractMethod<
-    [_sharesAmount: BigNumberish],
-    [void],
-    "payable"
-  >;
+  processFeeRewards: TypedContractMethod<[_sharesAmount: BigNumberish], [void], 'payable'>
 
-  proxiableUUID: TypedContractMethod<[], [string], "view">;
+  proxiableUUID: TypedContractMethod<[], [string], 'view'>
 
-  removeFromAntiFraud: TypedContractMethod<
-    [_account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  removeFromAntiFraud: TypedContractMethod<[_account: AddressLike], [void], 'nonpayable'>
 
-  removePool: TypedContractMethod<[_pool: AddressLike], [void], "nonpayable">;
+  removePool: TypedContractMethod<[_pool: AddressLike], [void], 'nonpayable'>
 
-  removeValidatorOracle: TypedContractMethod<
-    [_account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  removeValidatorOracle: TypedContractMethod<[_account: AddressLike], [void], 'nonpayable'>
 
-  renounceRole: TypedContractMethod<
-    [role: BytesLike, callerConfirmation: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  renounceRole: TypedContractMethod<[role: BytesLike, callerConfirmation: AddressLike], [void], 'nonpayable'>
 
-  requestAddValidator: TypedContractMethod<
-    [_minGasLimit: BigNumberish, _extraData: BytesLike],
-    [void],
-    "nonpayable"
-  >;
+  requestAddValidator: TypedContractMethod<[_minGasLimit: BigNumberish, _extraData: BytesLike], [void], 'nonpayable'>
 
-  revokeRole: TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  revokeRole: TypedContractMethod<[role: BytesLike, account: AddressLike], [void], 'nonpayable'>
 
-  router: TypedContractMethod<[], [string], "view">;
+  router: TypedContractMethod<[], [string], 'view'>
 
-  setBeaconBalance: TypedContractMethod<
-    [_amount: BigNumberish],
-    [void],
-    "payable"
-  >;
+  setBeaconBalance: TypedContractMethod<[_amount: BigNumberish], [void], 'payable'>
 
-  setConfig: TypedContractMethod<
-    [_config: IELStakeTogether.ConfigStruct],
-    [void],
-    "nonpayable"
-  >;
+  setConfig: TypedContractMethod<[_config: IELStakeTogether.ConfigStruct], [void], 'nonpayable'>
 
-  setFee: TypedContractMethod<
-    [
-      _feeType: BigNumberish,
-      _value: BigNumberish,
-      _allocations: BigNumberish[]
-    ],
-    [void],
-    "nonpayable"
-  >;
+  setFee: TypedContractMethod<[_feeType: BigNumberish, _value: BigNumberish, _allocations: BigNumberish[]], [void], 'nonpayable'>
 
-  setFeeAddress: TypedContractMethod<
-    [_role: BigNumberish, _address: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  setFeeAddress: TypedContractMethod<[_role: BigNumberish, _address: AddressLike], [void], 'nonpayable'>
 
-  setL1Adapter: TypedContractMethod<
-    [_l1adapter: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  setL1Adapter: TypedContractMethod<[_l1adapter: AddressLike], [void], 'nonpayable'>
 
-  setWithdrawBalance: TypedContractMethod<
-    [_amount: BigNumberish],
-    [void],
-    "payable"
-  >;
+  setWithdrawBalance: TypedContractMethod<[_amount: BigNumberish], [void], 'payable'>
 
-  shares: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+  shares: TypedContractMethod<[arg0: AddressLike], [bigint], 'view'>
 
-  sharesByWei: TypedContractMethod<[_amount: BigNumberish], [bigint], "view">;
+  sharesByWei: TypedContractMethod<[_amount: BigNumberish], [bigint], 'view'>
 
-  supportsInterface: TypedContractMethod<
-    [interfaceId: BytesLike],
-    [boolean],
-    "view"
-  >;
+  supportsInterface: TypedContractMethod<[interfaceId: BytesLike], [boolean], 'view'>
 
-  symbol: TypedContractMethod<[], [string], "view">;
+  symbol: TypedContractMethod<[], [string], 'view'>
 
-  totalDeposited: TypedContractMethod<[], [bigint], "view">;
+  totalDeposited: TypedContractMethod<[], [bigint], 'view'>
 
-  totalShares: TypedContractMethod<[], [bigint], "view">;
+  totalShares: TypedContractMethod<[], [bigint], 'view'>
 
-  totalSupply: TypedContractMethod<[], [bigint], "view">;
+  totalSupply: TypedContractMethod<[], [bigint], 'view'>
 
-  totalWithdrawnPool: TypedContractMethod<[], [bigint], "view">;
+  totalWithdrawnPool: TypedContractMethod<[], [bigint], 'view'>
 
-  totalWithdrawnValidator: TypedContractMethod<[], [bigint], "view">;
+  totalWithdrawnValidator: TypedContractMethod<[], [bigint], 'view'>
 
-  transfer: TypedContractMethod<
-    [_to: AddressLike, _amount: BigNumberish],
-    [boolean],
-    "nonpayable"
-  >;
+  transfer: TypedContractMethod<[_to: AddressLike, _amount: BigNumberish], [boolean], 'nonpayable'>
 
-  transferFrom: TypedContractMethod<
-    [_from: AddressLike, _to: AddressLike, _amount: BigNumberish],
-    [boolean],
-    "nonpayable"
-  >;
+  transferFrom: TypedContractMethod<[_from: AddressLike, _to: AddressLike, _amount: BigNumberish], [boolean], 'nonpayable'>
 
-  unpause: TypedContractMethod<[], [void], "nonpayable">;
+  unpause: TypedContractMethod<[], [void], 'nonpayable'>
 
-  updateDelegations: TypedContractMethod<
-    [_delegations: IELStakeTogether.DelegationStruct[]],
-    [void],
-    "nonpayable"
-  >;
+  updateDelegations: TypedContractMethod<[_delegations: IELStakeTogether.DelegationStruct[]], [void], 'nonpayable'>
 
-  upgradeToAndCall: TypedContractMethod<
-    [newImplementation: AddressLike, data: BytesLike],
-    [void],
-    "payable"
-  >;
+  upgradeToAndCall: TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], 'payable'>
 
-  validators: TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
+  validators: TypedContractMethod<[arg0: BytesLike], [boolean], 'view'>
 
-  version: TypedContractMethod<[], [bigint], "view">;
+  version: TypedContractMethod<[], [bigint], 'view'>
 
-  weiByShares: TypedContractMethod<
-    [_sharesAmount: BigNumberish],
-    [bigint],
-    "view"
-  >;
+  weiByShares: TypedContractMethod<[_sharesAmount: BigNumberish], [bigint], 'view'>
 
-  withdrawBalance: TypedContractMethod<[], [bigint], "view">;
+  withdrawBalance: TypedContractMethod<[], [bigint], 'view'>
 
-  withdrawBeacon: TypedContractMethod<
-    [_amount: BigNumberish, _pool: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  withdrawBeacon: TypedContractMethod<[_amount: BigNumberish, _pool: AddressLike], [void], 'nonpayable'>
 
-  withdrawPool: TypedContractMethod<
-    [_amount: BigNumberish, _pool: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  withdrawPool: TypedContractMethod<[_amount: BigNumberish, _pool: AddressLike], [void], 'nonpayable'>
 
-  withdrawals: TypedContractMethod<[], [string], "view">;
+  withdrawals: TypedContractMethod<[], [string], 'view'>
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T
 
+  getFunction(nameOrSignature: 'ADMIN_ROLE'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'ANTI_FRAUD_MANAGER_ROLE'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'ANTI_FRAUD_SENTINEL_ROLE'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'DEFAULT_ADMIN_ROLE'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'DOMAIN_SEPARATOR'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'POOL_MANAGER_ROLE'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'UPGRADER_ROLE'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'UPGRADE_INTERFACE_VERSION'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'VALIDATOR_ORACLE_MANAGER_ROLE'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'VALIDATOR_ORACLE_ROLE'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'VALIDATOR_ORACLE_SENTINEL_ROLE'): TypedContractMethod<[], [string], 'view'>
   getFunction(
-    nameOrSignature: "ADMIN_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'addPool'
+  ): TypedContractMethod<[_pool: AddressLike, _listed: boolean, _social: boolean, _index: boolean], [void], 'payable'>
+  getFunction(nameOrSignature: 'addToAntiFraud'): TypedContractMethod<[_account: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'addValidatorOracle'): TypedContractMethod<[_account: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'airdrop'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'allowance'): TypedContractMethod<[_account: AddressLike, _spender: AddressLike], [bigint], 'view'>
+  getFunction(nameOrSignature: 'anticipateWithdrawBeacon'): TypedContractMethod<[], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'approve'): TypedContractMethod<[_spender: AddressLike, _amount: BigNumberish], [boolean], 'nonpayable'>
+  getFunction(nameOrSignature: 'balanceOf'): TypedContractMethod<[_account: AddressLike], [bigint], 'view'>
+  getFunction(nameOrSignature: 'beaconBalance'): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(nameOrSignature: 'bridge'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'burn'): TypedContractMethod<[value: BigNumberish], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'burnFrom'): TypedContractMethod<[account: AddressLike, value: BigNumberish], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "ANTI_FRAUD_MANAGER_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "ANTI_FRAUD_SENTINEL_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "DEFAULT_ADMIN_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "DOMAIN_SEPARATOR"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "POOL_MANAGER_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "UPGRADER_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "UPGRADE_INTERFACE_VERSION"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "VALIDATOR_ORACLE_MANAGER_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "VALIDATOR_ORACLE_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "VALIDATOR_ORACLE_SENTINEL_ROLE"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "addPool"
-  ): TypedContractMethod<
-    [_pool: AddressLike, _listed: boolean, _social: boolean, _index: boolean],
-    [void],
-    "payable"
-  >;
-  getFunction(
-    nameOrSignature: "addToAntiFraud"
-  ): TypedContractMethod<[_account: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "addValidatorOracle"
-  ): TypedContractMethod<[_account: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "airdrop"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "allowance"
-  ): TypedContractMethod<
-    [_account: AddressLike, _spender: AddressLike],
-    [bigint],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "anticipateWithdrawBeacon"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "approve"
-  ): TypedContractMethod<
-    [_spender: AddressLike, _amount: BigNumberish],
-    [boolean],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "balanceOf"
-  ): TypedContractMethod<[_account: AddressLike], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "beaconBalance"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "bridge"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "burn"
-  ): TypedContractMethod<[value: BigNumberish], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "burnFrom"
-  ): TypedContractMethod<
-    [account: AddressLike, value: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "claimAirdrop"
-  ): TypedContractMethod<
-    [_account: AddressLike, _sharesAmount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "config"
-  ): TypedContractMethod<
+    nameOrSignature: 'claimAirdrop'
+  ): TypedContractMethod<[_account: AddressLike, _sharesAmount: BigNumberish], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'config'): TypedContractMethod<
     [],
     [
-      [
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        bigint,
-        IELStakeTogether.FeatureStructOutput
-      ] & {
-        blocksPerDay: bigint;
-        depositLimit: bigint;
-        maxDelegations: bigint;
-        minDepositAmount: bigint;
-        minWithdrawAmount: bigint;
-        poolSize: bigint;
-        validatorSize: bigint;
-        withdrawalPoolLimit: bigint;
-        withdrawalValidatorLimit: bigint;
-        withdrawDelay: bigint;
-        withdrawBeaconDelay: bigint;
-        feature: IELStakeTogether.FeatureStructOutput;
+      [bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint, IELStakeTogether.FeatureStructOutput] & {
+        blocksPerDay: bigint
+        depositLimit: bigint
+        maxDelegations: bigint
+        minDepositAmount: bigint
+        minWithdrawAmount: bigint
+        poolSize: bigint
+        validatorSize: bigint
+        withdrawalPoolLimit: bigint
+        withdrawalValidatorLimit: bigint
+        withdrawDelay: bigint
+        withdrawBeaconDelay: bigint
+        feature: IELStakeTogether.FeatureStructOutput
       }
     ],
-    "view"
-  >;
+    'view'
+  >
+  getFunction(nameOrSignature: 'currentOracleIndex'): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(nameOrSignature: 'decimals'): TypedContractMethod<[], [bigint], 'view'>
   getFunction(
-    nameOrSignature: "currentOracleIndex"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "decimals"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "depositDonation"
-  ): TypedContractMethod<
-    [_to: AddressLike, _pool: AddressLike, _referral: BytesLike],
-    [void],
-    "payable"
-  >;
-  getFunction(
-    nameOrSignature: "depositPool"
-  ): TypedContractMethod<
-    [_pool: AddressLike, _referral: BytesLike],
-    [void],
-    "payable"
-  >;
-  getFunction(
-    nameOrSignature: "eip712Domain"
-  ): TypedContractMethod<
+    nameOrSignature: 'depositDonation'
+  ): TypedContractMethod<[_to: AddressLike, _pool: AddressLike, _referral: BytesLike], [void], 'payable'>
+  getFunction(nameOrSignature: 'depositPool'): TypedContractMethod<[_pool: AddressLike, _referral: BytesLike], [void], 'payable'>
+  getFunction(nameOrSignature: 'eip712Domain'): TypedContractMethod<
     [],
     [
       [string, string, string, bigint, string, string, bigint[]] & {
-        fields: string;
-        name: string;
-        version: string;
-        chainId: bigint;
-        verifyingContract: string;
-        salt: string;
-        extensions: bigint[];
+        fields: string
+        name: string
+        version: string
+        chainId: bigint
+        verifyingContract: string
+        salt: string
+        extensions: bigint[]
       }
     ],
-    "view"
-  >;
+    'view'
+  >
+  getFunction(nameOrSignature: 'forceNextValidatorOracle'): TypedContractMethod<[], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'getFee'): TypedContractMethod<[_feeType: BigNumberish], [bigint], 'view'>
+  getFunction(nameOrSignature: 'getFeeAddress'): TypedContractMethod<[_role: BigNumberish], [string], 'view'>
+  getFunction(nameOrSignature: 'getFeesRoles'): TypedContractMethod<[], [[bigint, bigint, bigint, bigint]], 'view'>
+  getFunction(nameOrSignature: 'getRoleAdmin'): TypedContractMethod<[role: BytesLike], [string], 'view'>
+  getFunction(nameOrSignature: 'getWithdrawBeaconBlock'): TypedContractMethod<[_account: AddressLike], [bigint], 'view'>
+  getFunction(nameOrSignature: 'getWithdrawBlock'): TypedContractMethod<[_account: AddressLike], [bigint], 'view'>
+  getFunction(nameOrSignature: 'grantRole'): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'hasRole'): TypedContractMethod<[role: BytesLike, account: AddressLike], [boolean], 'view'>
   getFunction(
-    nameOrSignature: "forceNextValidatorOracle"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "getFee"
-  ): TypedContractMethod<[_feeType: BigNumberish], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "getFeeAddress"
-  ): TypedContractMethod<[_role: BigNumberish], [string], "view">;
-  getFunction(
-    nameOrSignature: "getFeesRoles"
-  ): TypedContractMethod<[], [[bigint, bigint, bigint, bigint]], "view">;
-  getFunction(
-    nameOrSignature: "getRoleAdmin"
-  ): TypedContractMethod<[role: BytesLike], [string], "view">;
-  getFunction(
-    nameOrSignature: "getWithdrawBeaconBlock"
-  ): TypedContractMethod<[_account: AddressLike], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "getWithdrawBlock"
-  ): TypedContractMethod<[_account: AddressLike], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "grantRole"
+    nameOrSignature: 'initialize'
   ): TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
+    [_airdrop: AddressLike, _bridge: AddressLike, _router: AddressLike, _withdrawals: AddressLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
+  getFunction(nameOrSignature: 'isListedInAntiFraud'): TypedContractMethod<[_account: AddressLike], [boolean], 'view'>
+  getFunction(nameOrSignature: 'isValidatorOracle'): TypedContractMethod<[_account: AddressLike], [boolean], 'view'>
+  getFunction(nameOrSignature: 'l1Adapter'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'lastResetBlock'): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(nameOrSignature: 'name'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'nonces'): TypedContractMethod<[owner: AddressLike], [bigint], 'view'>
+  getFunction(nameOrSignature: 'pause'): TypedContractMethod<[], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'paused'): TypedContractMethod<[], [boolean], 'view'>
   getFunction(
-    nameOrSignature: "hasRole"
+    nameOrSignature: 'permit'
   ): TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [boolean],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "initialize"
-  ): TypedContractMethod<
-    [
-      _airdrop: AddressLike,
-      _bridge: AddressLike,
-      _router: AddressLike,
-      _withdrawals: AddressLike
-    ],
+    [owner: AddressLike, spender: AddressLike, value: BigNumberish, deadline: BigNumberish, v: BigNumberish, r: BytesLike, s: BytesLike],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
+  getFunction(nameOrSignature: 'pools'): TypedContractMethod<[arg0: AddressLike], [boolean], 'view'>
+  getFunction(nameOrSignature: 'processFeeRewards'): TypedContractMethod<[_sharesAmount: BigNumberish], [void], 'payable'>
+  getFunction(nameOrSignature: 'proxiableUUID'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'removeFromAntiFraud'): TypedContractMethod<[_account: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'removePool'): TypedContractMethod<[_pool: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'removeValidatorOracle'): TypedContractMethod<[_account: AddressLike], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "isListedInAntiFraud"
-  ): TypedContractMethod<[_account: AddressLike], [boolean], "view">;
+    nameOrSignature: 'renounceRole'
+  ): TypedContractMethod<[role: BytesLike, callerConfirmation: AddressLike], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "isValidatorOracle"
-  ): TypedContractMethod<[_account: AddressLike], [boolean], "view">;
+    nameOrSignature: 'requestAddValidator'
+  ): TypedContractMethod<[_minGasLimit: BigNumberish, _extraData: BytesLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'revokeRole'): TypedContractMethod<[role: BytesLike, account: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'router'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'setBeaconBalance'): TypedContractMethod<[_amount: BigNumberish], [void], 'payable'>
+  getFunction(nameOrSignature: 'setConfig'): TypedContractMethod<[_config: IELStakeTogether.ConfigStruct], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "l1Adapter"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'setFee'
+  ): TypedContractMethod<[_feeType: BigNumberish, _value: BigNumberish, _allocations: BigNumberish[]], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'setFeeAddress'): TypedContractMethod<[_role: BigNumberish, _address: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'setL1Adapter'): TypedContractMethod<[_l1adapter: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'setWithdrawBalance'): TypedContractMethod<[_amount: BigNumberish], [void], 'payable'>
+  getFunction(nameOrSignature: 'shares'): TypedContractMethod<[arg0: AddressLike], [bigint], 'view'>
+  getFunction(nameOrSignature: 'sharesByWei'): TypedContractMethod<[_amount: BigNumberish], [bigint], 'view'>
+  getFunction(nameOrSignature: 'supportsInterface'): TypedContractMethod<[interfaceId: BytesLike], [boolean], 'view'>
+  getFunction(nameOrSignature: 'symbol'): TypedContractMethod<[], [string], 'view'>
+  getFunction(nameOrSignature: 'totalDeposited'): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(nameOrSignature: 'totalShares'): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(nameOrSignature: 'totalSupply'): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(nameOrSignature: 'totalWithdrawnPool'): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(nameOrSignature: 'totalWithdrawnValidator'): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(nameOrSignature: 'transfer'): TypedContractMethod<[_to: AddressLike, _amount: BigNumberish], [boolean], 'nonpayable'>
   getFunction(
-    nameOrSignature: "lastResetBlock"
-  ): TypedContractMethod<[], [bigint], "view">;
+    nameOrSignature: 'transferFrom'
+  ): TypedContractMethod<[_from: AddressLike, _to: AddressLike, _amount: BigNumberish], [boolean], 'nonpayable'>
+  getFunction(nameOrSignature: 'unpause'): TypedContractMethod<[], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "name"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'updateDelegations'
+  ): TypedContractMethod<[_delegations: IELStakeTogether.DelegationStruct[]], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "nonces"
-  ): TypedContractMethod<[owner: AddressLike], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "pause"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "paused"
-  ): TypedContractMethod<[], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "permit"
-  ): TypedContractMethod<
-    [
-      owner: AddressLike,
-      spender: AddressLike,
-      value: BigNumberish,
-      deadline: BigNumberish,
-      v: BigNumberish,
-      r: BytesLike,
-      s: BytesLike
-    ],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "pools"
-  ): TypedContractMethod<[arg0: AddressLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "processFeeRewards"
-  ): TypedContractMethod<[_sharesAmount: BigNumberish], [void], "payable">;
-  getFunction(
-    nameOrSignature: "proxiableUUID"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "removeFromAntiFraud"
-  ): TypedContractMethod<[_account: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "removePool"
-  ): TypedContractMethod<[_pool: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "removeValidatorOracle"
-  ): TypedContractMethod<[_account: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "renounceRole"
-  ): TypedContractMethod<
-    [role: BytesLike, callerConfirmation: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "requestAddValidator"
-  ): TypedContractMethod<
-    [_minGasLimit: BigNumberish, _extraData: BytesLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "revokeRole"
-  ): TypedContractMethod<
-    [role: BytesLike, account: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "router"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "setBeaconBalance"
-  ): TypedContractMethod<[_amount: BigNumberish], [void], "payable">;
-  getFunction(
-    nameOrSignature: "setConfig"
-  ): TypedContractMethod<
-    [_config: IELStakeTogether.ConfigStruct],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "setFee"
-  ): TypedContractMethod<
-    [
-      _feeType: BigNumberish,
-      _value: BigNumberish,
-      _allocations: BigNumberish[]
-    ],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "setFeeAddress"
-  ): TypedContractMethod<
-    [_role: BigNumberish, _address: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "setL1Adapter"
-  ): TypedContractMethod<[_l1adapter: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "setWithdrawBalance"
-  ): TypedContractMethod<[_amount: BigNumberish], [void], "payable">;
-  getFunction(
-    nameOrSignature: "shares"
-  ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "sharesByWei"
-  ): TypedContractMethod<[_amount: BigNumberish], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "supportsInterface"
-  ): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "symbol"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "totalDeposited"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "totalShares"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "totalSupply"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "totalWithdrawnPool"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "totalWithdrawnValidator"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "transfer"
-  ): TypedContractMethod<
-    [_to: AddressLike, _amount: BigNumberish],
-    [boolean],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "transferFrom"
-  ): TypedContractMethod<
-    [_from: AddressLike, _to: AddressLike, _amount: BigNumberish],
-    [boolean],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "unpause"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "updateDelegations"
-  ): TypedContractMethod<
-    [_delegations: IELStakeTogether.DelegationStruct[]],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "upgradeToAndCall"
-  ): TypedContractMethod<
-    [newImplementation: AddressLike, data: BytesLike],
-    [void],
-    "payable"
-  >;
-  getFunction(
-    nameOrSignature: "validators"
-  ): TypedContractMethod<[arg0: BytesLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "version"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "weiByShares"
-  ): TypedContractMethod<[_sharesAmount: BigNumberish], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "withdrawBalance"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "withdrawBeacon"
-  ): TypedContractMethod<
-    [_amount: BigNumberish, _pool: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "withdrawPool"
-  ): TypedContractMethod<
-    [_amount: BigNumberish, _pool: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "withdrawals"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'upgradeToAndCall'
+  ): TypedContractMethod<[newImplementation: AddressLike, data: BytesLike], [void], 'payable'>
+  getFunction(nameOrSignature: 'validators'): TypedContractMethod<[arg0: BytesLike], [boolean], 'view'>
+  getFunction(nameOrSignature: 'version'): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(nameOrSignature: 'weiByShares'): TypedContractMethod<[_sharesAmount: BigNumberish], [bigint], 'view'>
+  getFunction(nameOrSignature: 'withdrawBalance'): TypedContractMethod<[], [bigint], 'view'>
+  getFunction(nameOrSignature: 'withdrawBeacon'): TypedContractMethod<[_amount: BigNumberish, _pool: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'withdrawPool'): TypedContractMethod<[_amount: BigNumberish, _pool: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'withdrawals'): TypedContractMethod<[], [string], 'view'>
 
+  getEvent(key: 'AddPool'): TypedContractEvent<AddPoolEvent.InputTuple, AddPoolEvent.OutputTuple, AddPoolEvent.OutputObject>
   getEvent(
-    key: "AddPool"
-  ): TypedContractEvent<
-    AddPoolEvent.InputTuple,
-    AddPoolEvent.OutputTuple,
-    AddPoolEvent.OutputObject
-  >;
+    key: 'AddValidatorOracle'
+  ): TypedContractEvent<AddValidatorOracleEvent.InputTuple, AddValidatorOracleEvent.OutputTuple, AddValidatorOracleEvent.OutputObject>
   getEvent(
-    key: "AddValidatorOracle"
-  ): TypedContractEvent<
-    AddValidatorOracleEvent.InputTuple,
-    AddValidatorOracleEvent.OutputTuple,
-    AddValidatorOracleEvent.OutputObject
-  >;
-  getEvent(
-    key: "AnticipateWithdrawBeacon"
+    key: 'AnticipateWithdrawBeacon'
   ): TypedContractEvent<
     AnticipateWithdrawBeaconEvent.InputTuple,
     AnticipateWithdrawBeaconEvent.OutputTuple,
     AnticipateWithdrawBeaconEvent.OutputObject
-  >;
+  >
+  getEvent(key: 'Approval'): TypedContractEvent<ApprovalEvent.InputTuple, ApprovalEvent.OutputTuple, ApprovalEvent.OutputObject>
+  getEvent(key: 'BurnShares'): TypedContractEvent<BurnSharesEvent.InputTuple, BurnSharesEvent.OutputTuple, BurnSharesEvent.OutputObject>
+  getEvent(key: 'DepositBase'): TypedContractEvent<DepositBaseEvent.InputTuple, DepositBaseEvent.OutputTuple, DepositBaseEvent.OutputObject>
   getEvent(
-    key: "Approval"
-  ): TypedContractEvent<
-    ApprovalEvent.InputTuple,
-    ApprovalEvent.OutputTuple,
-    ApprovalEvent.OutputObject
-  >;
-  getEvent(
-    key: "BurnShares"
-  ): TypedContractEvent<
-    BurnSharesEvent.InputTuple,
-    BurnSharesEvent.OutputTuple,
-    BurnSharesEvent.OutputObject
-  >;
-  getEvent(
-    key: "DepositBase"
-  ): TypedContractEvent<
-    DepositBaseEvent.InputTuple,
-    DepositBaseEvent.OutputTuple,
-    DepositBaseEvent.OutputObject
-  >;
-  getEvent(
-    key: "DepositLimitWasReached"
+    key: 'DepositLimitWasReached'
   ): TypedContractEvent<
     DepositLimitWasReachedEvent.InputTuple,
     DepositLimitWasReachedEvent.OutputTuple,
     DepositLimitWasReachedEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "EIP712DomainChanged"
-  ): TypedContractEvent<
-    EIP712DomainChangedEvent.InputTuple,
-    EIP712DomainChangedEvent.OutputTuple,
-    EIP712DomainChangedEvent.OutputObject
-  >;
+    key: 'EIP712DomainChanged'
+  ): TypedContractEvent<EIP712DomainChangedEvent.InputTuple, EIP712DomainChangedEvent.OutputTuple, EIP712DomainChangedEvent.OutputObject>
+  getEvent(key: 'Initialized'): TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>
   getEvent(
-    key: "Initialized"
-  ): TypedContractEvent<
-    InitializedEvent.InputTuple,
-    InitializedEvent.OutputTuple,
-    InitializedEvent.OutputObject
-  >;
+    key: 'MintFeeShares'
+  ): TypedContractEvent<MintFeeSharesEvent.InputTuple, MintFeeSharesEvent.OutputTuple, MintFeeSharesEvent.OutputObject>
+  getEvent(key: 'MintShares'): TypedContractEvent<MintSharesEvent.InputTuple, MintSharesEvent.OutputTuple, MintSharesEvent.OutputObject>
   getEvent(
-    key: "MintFeeShares"
-  ): TypedContractEvent<
-    MintFeeSharesEvent.InputTuple,
-    MintFeeSharesEvent.OutputTuple,
-    MintFeeSharesEvent.OutputObject
-  >;
+    key: 'NextValidatorOracle'
+  ): TypedContractEvent<NextValidatorOracleEvent.InputTuple, NextValidatorOracleEvent.OutputTuple, NextValidatorOracleEvent.OutputObject>
+  getEvent(key: 'Paused'): TypedContractEvent<PausedEvent.InputTuple, PausedEvent.OutputTuple, PausedEvent.OutputObject>
   getEvent(
-    key: "MintShares"
-  ): TypedContractEvent<
-    MintSharesEvent.InputTuple,
-    MintSharesEvent.OutputTuple,
-    MintSharesEvent.OutputObject
-  >;
+    key: 'ProcessStakeRewards'
+  ): TypedContractEvent<ProcessStakeRewardsEvent.InputTuple, ProcessStakeRewardsEvent.OutputTuple, ProcessStakeRewardsEvent.OutputObject>
   getEvent(
-    key: "NextValidatorOracle"
-  ): TypedContractEvent<
-    NextValidatorOracleEvent.InputTuple,
-    NextValidatorOracleEvent.OutputTuple,
-    NextValidatorOracleEvent.OutputObject
-  >;
-  getEvent(
-    key: "Paused"
-  ): TypedContractEvent<
-    PausedEvent.InputTuple,
-    PausedEvent.OutputTuple,
-    PausedEvent.OutputObject
-  >;
-  getEvent(
-    key: "ProcessStakeRewards"
-  ): TypedContractEvent<
-    ProcessStakeRewardsEvent.InputTuple,
-    ProcessStakeRewardsEvent.OutputTuple,
-    ProcessStakeRewardsEvent.OutputObject
-  >;
-  getEvent(
-    key: "ProcessStakeValidator"
+    key: 'ProcessStakeValidator'
   ): TypedContractEvent<
     ProcessStakeValidatorEvent.InputTuple,
     ProcessStakeValidatorEvent.OutputTuple,
     ProcessStakeValidatorEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "ReceiveEther"
-  ): TypedContractEvent<
-    ReceiveEtherEvent.InputTuple,
-    ReceiveEtherEvent.OutputTuple,
-    ReceiveEtherEvent.OutputObject
-  >;
+    key: 'ReceiveEther'
+  ): TypedContractEvent<ReceiveEtherEvent.InputTuple, ReceiveEtherEvent.OutputTuple, ReceiveEtherEvent.OutputObject>
+  getEvent(key: 'RemovePool'): TypedContractEvent<RemovePoolEvent.InputTuple, RemovePoolEvent.OutputTuple, RemovePoolEvent.OutputObject>
   getEvent(
-    key: "RemovePool"
-  ): TypedContractEvent<
-    RemovePoolEvent.InputTuple,
-    RemovePoolEvent.OutputTuple,
-    RemovePoolEvent.OutputObject
-  >;
-  getEvent(
-    key: "RemoveValidatorOracle"
+    key: 'RemoveValidatorOracle'
   ): TypedContractEvent<
     RemoveValidatorOracleEvent.InputTuple,
     RemoveValidatorOracleEvent.OutputTuple,
     RemoveValidatorOracleEvent.OutputObject
-  >;
+  >
   getEvent(
-    key: "RequestAddValidator"
-  ): TypedContractEvent<
-    RequestAddValidatorEvent.InputTuple,
-    RequestAddValidatorEvent.OutputTuple,
-    RequestAddValidatorEvent.OutputObject
-  >;
+    key: 'RequestAddValidator'
+  ): TypedContractEvent<RequestAddValidatorEvent.InputTuple, RequestAddValidatorEvent.OutputTuple, RequestAddValidatorEvent.OutputObject>
   getEvent(
-    key: "RoleAdminChanged"
-  ): TypedContractEvent<
-    RoleAdminChangedEvent.InputTuple,
-    RoleAdminChangedEvent.OutputTuple,
-    RoleAdminChangedEvent.OutputObject
-  >;
+    key: 'RoleAdminChanged'
+  ): TypedContractEvent<RoleAdminChangedEvent.InputTuple, RoleAdminChangedEvent.OutputTuple, RoleAdminChangedEvent.OutputObject>
+  getEvent(key: 'RoleGranted'): TypedContractEvent<RoleGrantedEvent.InputTuple, RoleGrantedEvent.OutputTuple, RoleGrantedEvent.OutputObject>
+  getEvent(key: 'RoleRevoked'): TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>
+  getEvent(key: 'SetAdapter'): TypedContractEvent<SetAdapterEvent.InputTuple, SetAdapterEvent.OutputTuple, SetAdapterEvent.OutputObject>
   getEvent(
-    key: "RoleGranted"
-  ): TypedContractEvent<
-    RoleGrantedEvent.InputTuple,
-    RoleGrantedEvent.OutputTuple,
-    RoleGrantedEvent.OutputObject
-  >;
+    key: 'SetAntiFraudStatus'
+  ): TypedContractEvent<SetAntiFraudStatusEvent.InputTuple, SetAntiFraudStatusEvent.OutputTuple, SetAntiFraudStatusEvent.OutputObject>
   getEvent(
-    key: "RoleRevoked"
-  ): TypedContractEvent<
-    RoleRevokedEvent.InputTuple,
-    RoleRevokedEvent.OutputTuple,
-    RoleRevokedEvent.OutputObject
-  >;
+    key: 'SetBeaconBalance'
+  ): TypedContractEvent<SetBeaconBalanceEvent.InputTuple, SetBeaconBalanceEvent.OutputTuple, SetBeaconBalanceEvent.OutputObject>
+  getEvent(key: 'SetConfig'): TypedContractEvent<SetConfigEvent.InputTuple, SetConfigEvent.OutputTuple, SetConfigEvent.OutputObject>
+  getEvent(key: 'SetFee'): TypedContractEvent<SetFeeEvent.InputTuple, SetFeeEvent.OutputTuple, SetFeeEvent.OutputObject>
   getEvent(
-    key: "SetAdapter"
-  ): TypedContractEvent<
-    SetAdapterEvent.InputTuple,
-    SetAdapterEvent.OutputTuple,
-    SetAdapterEvent.OutputObject
-  >;
+    key: 'SetFeeAddress'
+  ): TypedContractEvent<SetFeeAddressEvent.InputTuple, SetFeeAddressEvent.OutputTuple, SetFeeAddressEvent.OutputObject>
+  getEvent(key: 'SetRouter'): TypedContractEvent<SetRouterEvent.InputTuple, SetRouterEvent.OutputTuple, SetRouterEvent.OutputObject>
   getEvent(
-    key: "SetAntiFraudStatus"
-  ): TypedContractEvent<
-    SetAntiFraudStatusEvent.InputTuple,
-    SetAntiFraudStatusEvent.OutputTuple,
-    SetAntiFraudStatusEvent.OutputObject
-  >;
+    key: 'SetStakeTogether'
+  ): TypedContractEvent<SetStakeTogetherEvent.InputTuple, SetStakeTogetherEvent.OutputTuple, SetStakeTogetherEvent.OutputObject>
   getEvent(
-    key: "SetBeaconBalance"
-  ): TypedContractEvent<
-    SetBeaconBalanceEvent.InputTuple,
-    SetBeaconBalanceEvent.OutputTuple,
-    SetBeaconBalanceEvent.OutputObject
-  >;
+    key: 'SetValidatorSize'
+  ): TypedContractEvent<SetValidatorSizeEvent.InputTuple, SetValidatorSizeEvent.OutputTuple, SetValidatorSizeEvent.OutputObject>
   getEvent(
-    key: "SetConfig"
-  ): TypedContractEvent<
-    SetConfigEvent.InputTuple,
-    SetConfigEvent.OutputTuple,
-    SetConfigEvent.OutputObject
-  >;
+    key: 'SetWithdrawBalance'
+  ): TypedContractEvent<SetWithdrawBalanceEvent.InputTuple, SetWithdrawBalanceEvent.OutputTuple, SetWithdrawBalanceEvent.OutputObject>
   getEvent(
-    key: "SetFee"
-  ): TypedContractEvent<
-    SetFeeEvent.InputTuple,
-    SetFeeEvent.OutputTuple,
-    SetFeeEvent.OutputObject
-  >;
-  getEvent(
-    key: "SetFeeAddress"
-  ): TypedContractEvent<
-    SetFeeAddressEvent.InputTuple,
-    SetFeeAddressEvent.OutputTuple,
-    SetFeeAddressEvent.OutputObject
-  >;
-  getEvent(
-    key: "SetRouter"
-  ): TypedContractEvent<
-    SetRouterEvent.InputTuple,
-    SetRouterEvent.OutputTuple,
-    SetRouterEvent.OutputObject
-  >;
-  getEvent(
-    key: "SetStakeTogether"
-  ): TypedContractEvent<
-    SetStakeTogetherEvent.InputTuple,
-    SetStakeTogetherEvent.OutputTuple,
-    SetStakeTogetherEvent.OutputObject
-  >;
-  getEvent(
-    key: "SetValidatorSize"
-  ): TypedContractEvent<
-    SetValidatorSizeEvent.InputTuple,
-    SetValidatorSizeEvent.OutputTuple,
-    SetValidatorSizeEvent.OutputObject
-  >;
-  getEvent(
-    key: "SetWithdrawBalance"
-  ): TypedContractEvent<
-    SetWithdrawBalanceEvent.InputTuple,
-    SetWithdrawBalanceEvent.OutputTuple,
-    SetWithdrawBalanceEvent.OutputObject
-  >;
-  getEvent(
-    key: "SetWithdrawalsCredentials"
+    key: 'SetWithdrawalsCredentials'
   ): TypedContractEvent<
     SetWithdrawalsCredentialsEvent.InputTuple,
     SetWithdrawalsCredentialsEvent.OutputTuple,
     SetWithdrawalsCredentialsEvent.OutputObject
-  >;
+  >
+  getEvent(key: 'Transfer'): TypedContractEvent<TransferEvent.InputTuple, TransferEvent.OutputTuple, TransferEvent.OutputObject>
   getEvent(
-    key: "Transfer"
-  ): TypedContractEvent<
-    TransferEvent.InputTuple,
-    TransferEvent.OutputTuple,
-    TransferEvent.OutputObject
-  >;
+    key: 'TransferShares'
+  ): TypedContractEvent<TransferSharesEvent.InputTuple, TransferSharesEvent.OutputTuple, TransferSharesEvent.OutputObject>
+  getEvent(key: 'Unpaused'): TypedContractEvent<UnpausedEvent.InputTuple, UnpausedEvent.OutputTuple, UnpausedEvent.OutputObject>
   getEvent(
-    key: "TransferShares"
-  ): TypedContractEvent<
-    TransferSharesEvent.InputTuple,
-    TransferSharesEvent.OutputTuple,
-    TransferSharesEvent.OutputObject
-  >;
+    key: 'UpdateDelegations'
+  ): TypedContractEvent<UpdateDelegationsEvent.InputTuple, UpdateDelegationsEvent.OutputTuple, UpdateDelegationsEvent.OutputObject>
+  getEvent(key: 'Upgraded'): TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>
   getEvent(
-    key: "Unpaused"
-  ): TypedContractEvent<
-    UnpausedEvent.InputTuple,
-    UnpausedEvent.OutputTuple,
-    UnpausedEvent.OutputObject
-  >;
+    key: 'WithdrawBase'
+  ): TypedContractEvent<WithdrawBaseEvent.InputTuple, WithdrawBaseEvent.OutputTuple, WithdrawBaseEvent.OutputObject>
   getEvent(
-    key: "UpdateDelegations"
-  ): TypedContractEvent<
-    UpdateDelegationsEvent.InputTuple,
-    UpdateDelegationsEvent.OutputTuple,
-    UpdateDelegationsEvent.OutputObject
-  >;
-  getEvent(
-    key: "Upgraded"
-  ): TypedContractEvent<
-    UpgradedEvent.InputTuple,
-    UpgradedEvent.OutputTuple,
-    UpgradedEvent.OutputObject
-  >;
-  getEvent(
-    key: "WithdrawBase"
-  ): TypedContractEvent<
-    WithdrawBaseEvent.InputTuple,
-    WithdrawBaseEvent.OutputTuple,
-    WithdrawBaseEvent.OutputObject
-  >;
-  getEvent(
-    key: "WithdrawalsLimitWasReached"
+    key: 'WithdrawalsLimitWasReached'
   ): TypedContractEvent<
     WithdrawalsLimitWasReachedEvent.InputTuple,
     WithdrawalsLimitWasReachedEvent.OutputTuple,
     WithdrawalsLimitWasReachedEvent.OutputObject
-  >;
+  >
 
   filters: {
-    "AddPool(address,bool,bool,bool,uint256)": TypedContractEvent<
+    'AddPool(address,bool,bool,bool,uint256)': TypedContractEvent<
       AddPoolEvent.InputTuple,
       AddPoolEvent.OutputTuple,
       AddPoolEvent.OutputObject
-    >;
-    AddPool: TypedContractEvent<
-      AddPoolEvent.InputTuple,
-      AddPoolEvent.OutputTuple,
-      AddPoolEvent.OutputObject
-    >;
+    >
+    AddPool: TypedContractEvent<AddPoolEvent.InputTuple, AddPoolEvent.OutputTuple, AddPoolEvent.OutputObject>
 
-    "AddValidatorOracle(address)": TypedContractEvent<
+    'AddValidatorOracle(address)': TypedContractEvent<
       AddValidatorOracleEvent.InputTuple,
       AddValidatorOracleEvent.OutputTuple,
       AddValidatorOracleEvent.OutputObject
-    >;
+    >
     AddValidatorOracle: TypedContractEvent<
       AddValidatorOracleEvent.InputTuple,
       AddValidatorOracleEvent.OutputTuple,
       AddValidatorOracleEvent.OutputObject
-    >;
+    >
 
-    "AnticipateWithdrawBeacon(address,uint256)": TypedContractEvent<
+    'AnticipateWithdrawBeacon(address,uint256)': TypedContractEvent<
       AnticipateWithdrawBeaconEvent.InputTuple,
       AnticipateWithdrawBeaconEvent.OutputTuple,
       AnticipateWithdrawBeaconEvent.OutputObject
-    >;
+    >
     AnticipateWithdrawBeacon: TypedContractEvent<
       AnticipateWithdrawBeaconEvent.InputTuple,
       AnticipateWithdrawBeaconEvent.OutputTuple,
       AnticipateWithdrawBeaconEvent.OutputObject
-    >;
+    >
 
-    "Approval(address,address,uint256)": TypedContractEvent<
-      ApprovalEvent.InputTuple,
-      ApprovalEvent.OutputTuple,
-      ApprovalEvent.OutputObject
-    >;
-    Approval: TypedContractEvent<
-      ApprovalEvent.InputTuple,
-      ApprovalEvent.OutputTuple,
-      ApprovalEvent.OutputObject
-    >;
+    'Approval(address,address,uint256)': TypedContractEvent<ApprovalEvent.InputTuple, ApprovalEvent.OutputTuple, ApprovalEvent.OutputObject>
+    Approval: TypedContractEvent<ApprovalEvent.InputTuple, ApprovalEvent.OutputTuple, ApprovalEvent.OutputObject>
 
-    "BurnShares(address,uint256)": TypedContractEvent<
-      BurnSharesEvent.InputTuple,
-      BurnSharesEvent.OutputTuple,
-      BurnSharesEvent.OutputObject
-    >;
-    BurnShares: TypedContractEvent<
-      BurnSharesEvent.InputTuple,
-      BurnSharesEvent.OutputTuple,
-      BurnSharesEvent.OutputObject
-    >;
+    'BurnShares(address,uint256)': TypedContractEvent<BurnSharesEvent.InputTuple, BurnSharesEvent.OutputTuple, BurnSharesEvent.OutputObject>
+    BurnShares: TypedContractEvent<BurnSharesEvent.InputTuple, BurnSharesEvent.OutputTuple, BurnSharesEvent.OutputObject>
 
-    "DepositBase(address,uint256,uint8,address,bytes)": TypedContractEvent<
+    'DepositBase(address,uint256,uint8,address,bytes)': TypedContractEvent<
       DepositBaseEvent.InputTuple,
       DepositBaseEvent.OutputTuple,
       DepositBaseEvent.OutputObject
-    >;
-    DepositBase: TypedContractEvent<
-      DepositBaseEvent.InputTuple,
-      DepositBaseEvent.OutputTuple,
-      DepositBaseEvent.OutputObject
-    >;
+    >
+    DepositBase: TypedContractEvent<DepositBaseEvent.InputTuple, DepositBaseEvent.OutputTuple, DepositBaseEvent.OutputObject>
 
-    "DepositLimitWasReached(address,uint256)": TypedContractEvent<
+    'DepositLimitWasReached(address,uint256)': TypedContractEvent<
       DepositLimitWasReachedEvent.InputTuple,
       DepositLimitWasReachedEvent.OutputTuple,
       DepositLimitWasReachedEvent.OutputObject
-    >;
+    >
     DepositLimitWasReached: TypedContractEvent<
       DepositLimitWasReachedEvent.InputTuple,
       DepositLimitWasReachedEvent.OutputTuple,
       DepositLimitWasReachedEvent.OutputObject
-    >;
+    >
 
-    "EIP712DomainChanged()": TypedContractEvent<
+    'EIP712DomainChanged()': TypedContractEvent<
       EIP712DomainChangedEvent.InputTuple,
       EIP712DomainChangedEvent.OutputTuple,
       EIP712DomainChangedEvent.OutputObject
-    >;
+    >
     EIP712DomainChanged: TypedContractEvent<
       EIP712DomainChangedEvent.InputTuple,
       EIP712DomainChangedEvent.OutputTuple,
       EIP712DomainChangedEvent.OutputObject
-    >;
+    >
 
-    "Initialized(uint64)": TypedContractEvent<
-      InitializedEvent.InputTuple,
-      InitializedEvent.OutputTuple,
-      InitializedEvent.OutputObject
-    >;
-    Initialized: TypedContractEvent<
-      InitializedEvent.InputTuple,
-      InitializedEvent.OutputTuple,
-      InitializedEvent.OutputObject
-    >;
+    'Initialized(uint64)': TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>
+    Initialized: TypedContractEvent<InitializedEvent.InputTuple, InitializedEvent.OutputTuple, InitializedEvent.OutputObject>
 
-    "MintFeeShares(address,uint256,uint8,uint8)": TypedContractEvent<
+    'MintFeeShares(address,uint256,uint8,uint8)': TypedContractEvent<
       MintFeeSharesEvent.InputTuple,
       MintFeeSharesEvent.OutputTuple,
       MintFeeSharesEvent.OutputObject
-    >;
-    MintFeeShares: TypedContractEvent<
-      MintFeeSharesEvent.InputTuple,
-      MintFeeSharesEvent.OutputTuple,
-      MintFeeSharesEvent.OutputObject
-    >;
+    >
+    MintFeeShares: TypedContractEvent<MintFeeSharesEvent.InputTuple, MintFeeSharesEvent.OutputTuple, MintFeeSharesEvent.OutputObject>
 
-    "MintShares(address,uint256)": TypedContractEvent<
-      MintSharesEvent.InputTuple,
-      MintSharesEvent.OutputTuple,
-      MintSharesEvent.OutputObject
-    >;
-    MintShares: TypedContractEvent<
-      MintSharesEvent.InputTuple,
-      MintSharesEvent.OutputTuple,
-      MintSharesEvent.OutputObject
-    >;
+    'MintShares(address,uint256)': TypedContractEvent<MintSharesEvent.InputTuple, MintSharesEvent.OutputTuple, MintSharesEvent.OutputObject>
+    MintShares: TypedContractEvent<MintSharesEvent.InputTuple, MintSharesEvent.OutputTuple, MintSharesEvent.OutputObject>
 
-    "NextValidatorOracle(uint256,address)": TypedContractEvent<
+    'NextValidatorOracle(uint256,address)': TypedContractEvent<
       NextValidatorOracleEvent.InputTuple,
       NextValidatorOracleEvent.OutputTuple,
       NextValidatorOracleEvent.OutputObject
-    >;
+    >
     NextValidatorOracle: TypedContractEvent<
       NextValidatorOracleEvent.InputTuple,
       NextValidatorOracleEvent.OutputTuple,
       NextValidatorOracleEvent.OutputObject
-    >;
+    >
 
-    "Paused(address)": TypedContractEvent<
-      PausedEvent.InputTuple,
-      PausedEvent.OutputTuple,
-      PausedEvent.OutputObject
-    >;
-    Paused: TypedContractEvent<
-      PausedEvent.InputTuple,
-      PausedEvent.OutputTuple,
-      PausedEvent.OutputObject
-    >;
+    'Paused(address)': TypedContractEvent<PausedEvent.InputTuple, PausedEvent.OutputTuple, PausedEvent.OutputObject>
+    Paused: TypedContractEvent<PausedEvent.InputTuple, PausedEvent.OutputTuple, PausedEvent.OutputObject>
 
-    "ProcessStakeRewards(uint256,uint256)": TypedContractEvent<
+    'ProcessStakeRewards(uint256,uint256)': TypedContractEvent<
       ProcessStakeRewardsEvent.InputTuple,
       ProcessStakeRewardsEvent.OutputTuple,
       ProcessStakeRewardsEvent.OutputObject
-    >;
+    >
     ProcessStakeRewards: TypedContractEvent<
       ProcessStakeRewardsEvent.InputTuple,
       ProcessStakeRewardsEvent.OutputTuple,
       ProcessStakeRewardsEvent.OutputObject
-    >;
+    >
 
-    "ProcessStakeValidator(address,uint256)": TypedContractEvent<
+    'ProcessStakeValidator(address,uint256)': TypedContractEvent<
       ProcessStakeValidatorEvent.InputTuple,
       ProcessStakeValidatorEvent.OutputTuple,
       ProcessStakeValidatorEvent.OutputObject
-    >;
+    >
     ProcessStakeValidator: TypedContractEvent<
       ProcessStakeValidatorEvent.InputTuple,
       ProcessStakeValidatorEvent.OutputTuple,
       ProcessStakeValidatorEvent.OutputObject
-    >;
+    >
 
-    "ReceiveEther(uint256)": TypedContractEvent<
-      ReceiveEtherEvent.InputTuple,
-      ReceiveEtherEvent.OutputTuple,
-      ReceiveEtherEvent.OutputObject
-    >;
-    ReceiveEther: TypedContractEvent<
-      ReceiveEtherEvent.InputTuple,
-      ReceiveEtherEvent.OutputTuple,
-      ReceiveEtherEvent.OutputObject
-    >;
+    'ReceiveEther(uint256)': TypedContractEvent<ReceiveEtherEvent.InputTuple, ReceiveEtherEvent.OutputTuple, ReceiveEtherEvent.OutputObject>
+    ReceiveEther: TypedContractEvent<ReceiveEtherEvent.InputTuple, ReceiveEtherEvent.OutputTuple, ReceiveEtherEvent.OutputObject>
 
-    "RemovePool(address)": TypedContractEvent<
-      RemovePoolEvent.InputTuple,
-      RemovePoolEvent.OutputTuple,
-      RemovePoolEvent.OutputObject
-    >;
-    RemovePool: TypedContractEvent<
-      RemovePoolEvent.InputTuple,
-      RemovePoolEvent.OutputTuple,
-      RemovePoolEvent.OutputObject
-    >;
+    'RemovePool(address)': TypedContractEvent<RemovePoolEvent.InputTuple, RemovePoolEvent.OutputTuple, RemovePoolEvent.OutputObject>
+    RemovePool: TypedContractEvent<RemovePoolEvent.InputTuple, RemovePoolEvent.OutputTuple, RemovePoolEvent.OutputObject>
 
-    "RemoveValidatorOracle(address)": TypedContractEvent<
+    'RemoveValidatorOracle(address)': TypedContractEvent<
       RemoveValidatorOracleEvent.InputTuple,
       RemoveValidatorOracleEvent.OutputTuple,
       RemoveValidatorOracleEvent.OutputObject
-    >;
+    >
     RemoveValidatorOracle: TypedContractEvent<
       RemoveValidatorOracleEvent.InputTuple,
       RemoveValidatorOracleEvent.OutputTuple,
       RemoveValidatorOracleEvent.OutputObject
-    >;
+    >
 
-    "RequestAddValidator(address,uint256,uint32,bytes)": TypedContractEvent<
+    'RequestAddValidator(address,uint256,uint32,bytes)': TypedContractEvent<
       RequestAddValidatorEvent.InputTuple,
       RequestAddValidatorEvent.OutputTuple,
       RequestAddValidatorEvent.OutputObject
-    >;
+    >
     RequestAddValidator: TypedContractEvent<
       RequestAddValidatorEvent.InputTuple,
       RequestAddValidatorEvent.OutputTuple,
       RequestAddValidatorEvent.OutputObject
-    >;
+    >
 
-    "RoleAdminChanged(bytes32,bytes32,bytes32)": TypedContractEvent<
+    'RoleAdminChanged(bytes32,bytes32,bytes32)': TypedContractEvent<
       RoleAdminChangedEvent.InputTuple,
       RoleAdminChangedEvent.OutputTuple,
       RoleAdminChangedEvent.OutputObject
-    >;
+    >
     RoleAdminChanged: TypedContractEvent<
       RoleAdminChangedEvent.InputTuple,
       RoleAdminChangedEvent.OutputTuple,
       RoleAdminChangedEvent.OutputObject
-    >;
+    >
 
-    "RoleGranted(bytes32,address,address)": TypedContractEvent<
+    'RoleGranted(bytes32,address,address)': TypedContractEvent<
       RoleGrantedEvent.InputTuple,
       RoleGrantedEvent.OutputTuple,
       RoleGrantedEvent.OutputObject
-    >;
-    RoleGranted: TypedContractEvent<
-      RoleGrantedEvent.InputTuple,
-      RoleGrantedEvent.OutputTuple,
-      RoleGrantedEvent.OutputObject
-    >;
+    >
+    RoleGranted: TypedContractEvent<RoleGrantedEvent.InputTuple, RoleGrantedEvent.OutputTuple, RoleGrantedEvent.OutputObject>
 
-    "RoleRevoked(bytes32,address,address)": TypedContractEvent<
+    'RoleRevoked(bytes32,address,address)': TypedContractEvent<
       RoleRevokedEvent.InputTuple,
       RoleRevokedEvent.OutputTuple,
       RoleRevokedEvent.OutputObject
-    >;
-    RoleRevoked: TypedContractEvent<
-      RoleRevokedEvent.InputTuple,
-      RoleRevokedEvent.OutputTuple,
-      RoleRevokedEvent.OutputObject
-    >;
+    >
+    RoleRevoked: TypedContractEvent<RoleRevokedEvent.InputTuple, RoleRevokedEvent.OutputTuple, RoleRevokedEvent.OutputObject>
 
-    "SetAdapter(address)": TypedContractEvent<
-      SetAdapterEvent.InputTuple,
-      SetAdapterEvent.OutputTuple,
-      SetAdapterEvent.OutputObject
-    >;
-    SetAdapter: TypedContractEvent<
-      SetAdapterEvent.InputTuple,
-      SetAdapterEvent.OutputTuple,
-      SetAdapterEvent.OutputObject
-    >;
+    'SetAdapter(address)': TypedContractEvent<SetAdapterEvent.InputTuple, SetAdapterEvent.OutputTuple, SetAdapterEvent.OutputObject>
+    SetAdapter: TypedContractEvent<SetAdapterEvent.InputTuple, SetAdapterEvent.OutputTuple, SetAdapterEvent.OutputObject>
 
-    "SetAntiFraudStatus(address,address,bool)": TypedContractEvent<
+    'SetAntiFraudStatus(address,address,bool)': TypedContractEvent<
       SetAntiFraudStatusEvent.InputTuple,
       SetAntiFraudStatusEvent.OutputTuple,
       SetAntiFraudStatusEvent.OutputObject
-    >;
+    >
     SetAntiFraudStatus: TypedContractEvent<
       SetAntiFraudStatusEvent.InputTuple,
       SetAntiFraudStatusEvent.OutputTuple,
       SetAntiFraudStatusEvent.OutputObject
-    >;
+    >
 
-    "SetBeaconBalance(uint256)": TypedContractEvent<
+    'SetBeaconBalance(uint256)': TypedContractEvent<
       SetBeaconBalanceEvent.InputTuple,
       SetBeaconBalanceEvent.OutputTuple,
       SetBeaconBalanceEvent.OutputObject
-    >;
+    >
     SetBeaconBalance: TypedContractEvent<
       SetBeaconBalanceEvent.InputTuple,
       SetBeaconBalanceEvent.OutputTuple,
       SetBeaconBalanceEvent.OutputObject
-    >;
+    >
 
-    "SetConfig(tuple)": TypedContractEvent<
-      SetConfigEvent.InputTuple,
-      SetConfigEvent.OutputTuple,
-      SetConfigEvent.OutputObject
-    >;
-    SetConfig: TypedContractEvent<
-      SetConfigEvent.InputTuple,
-      SetConfigEvent.OutputTuple,
-      SetConfigEvent.OutputObject
-    >;
+    'SetConfig(tuple)': TypedContractEvent<SetConfigEvent.InputTuple, SetConfigEvent.OutputTuple, SetConfigEvent.OutputObject>
+    SetConfig: TypedContractEvent<SetConfigEvent.InputTuple, SetConfigEvent.OutputTuple, SetConfigEvent.OutputObject>
 
-    "SetFee(uint8,uint256,uint256[])": TypedContractEvent<
-      SetFeeEvent.InputTuple,
-      SetFeeEvent.OutputTuple,
-      SetFeeEvent.OutputObject
-    >;
-    SetFee: TypedContractEvent<
-      SetFeeEvent.InputTuple,
-      SetFeeEvent.OutputTuple,
-      SetFeeEvent.OutputObject
-    >;
+    'SetFee(uint8,uint256,uint256[])': TypedContractEvent<SetFeeEvent.InputTuple, SetFeeEvent.OutputTuple, SetFeeEvent.OutputObject>
+    SetFee: TypedContractEvent<SetFeeEvent.InputTuple, SetFeeEvent.OutputTuple, SetFeeEvent.OutputObject>
 
-    "SetFeeAddress(uint8,address)": TypedContractEvent<
+    'SetFeeAddress(uint8,address)': TypedContractEvent<
       SetFeeAddressEvent.InputTuple,
       SetFeeAddressEvent.OutputTuple,
       SetFeeAddressEvent.OutputObject
-    >;
-    SetFeeAddress: TypedContractEvent<
-      SetFeeAddressEvent.InputTuple,
-      SetFeeAddressEvent.OutputTuple,
-      SetFeeAddressEvent.OutputObject
-    >;
+    >
+    SetFeeAddress: TypedContractEvent<SetFeeAddressEvent.InputTuple, SetFeeAddressEvent.OutputTuple, SetFeeAddressEvent.OutputObject>
 
-    "SetRouter(address)": TypedContractEvent<
-      SetRouterEvent.InputTuple,
-      SetRouterEvent.OutputTuple,
-      SetRouterEvent.OutputObject
-    >;
-    SetRouter: TypedContractEvent<
-      SetRouterEvent.InputTuple,
-      SetRouterEvent.OutputTuple,
-      SetRouterEvent.OutputObject
-    >;
+    'SetRouter(address)': TypedContractEvent<SetRouterEvent.InputTuple, SetRouterEvent.OutputTuple, SetRouterEvent.OutputObject>
+    SetRouter: TypedContractEvent<SetRouterEvent.InputTuple, SetRouterEvent.OutputTuple, SetRouterEvent.OutputObject>
 
-    "SetStakeTogether(address)": TypedContractEvent<
+    'SetStakeTogether(address)': TypedContractEvent<
       SetStakeTogetherEvent.InputTuple,
       SetStakeTogetherEvent.OutputTuple,
       SetStakeTogetherEvent.OutputObject
-    >;
+    >
     SetStakeTogether: TypedContractEvent<
       SetStakeTogetherEvent.InputTuple,
       SetStakeTogetherEvent.OutputTuple,
       SetStakeTogetherEvent.OutputObject
-    >;
+    >
 
-    "SetValidatorSize(uint256)": TypedContractEvent<
+    'SetValidatorSize(uint256)': TypedContractEvent<
       SetValidatorSizeEvent.InputTuple,
       SetValidatorSizeEvent.OutputTuple,
       SetValidatorSizeEvent.OutputObject
-    >;
+    >
     SetValidatorSize: TypedContractEvent<
       SetValidatorSizeEvent.InputTuple,
       SetValidatorSizeEvent.OutputTuple,
       SetValidatorSizeEvent.OutputObject
-    >;
+    >
 
-    "SetWithdrawBalance(uint256)": TypedContractEvent<
+    'SetWithdrawBalance(uint256)': TypedContractEvent<
       SetWithdrawBalanceEvent.InputTuple,
       SetWithdrawBalanceEvent.OutputTuple,
       SetWithdrawBalanceEvent.OutputObject
-    >;
+    >
     SetWithdrawBalance: TypedContractEvent<
       SetWithdrawBalanceEvent.InputTuple,
       SetWithdrawBalanceEvent.OutputTuple,
       SetWithdrawBalanceEvent.OutputObject
-    >;
+    >
 
-    "SetWithdrawalsCredentials(bytes)": TypedContractEvent<
+    'SetWithdrawalsCredentials(bytes)': TypedContractEvent<
       SetWithdrawalsCredentialsEvent.InputTuple,
       SetWithdrawalsCredentialsEvent.OutputTuple,
       SetWithdrawalsCredentialsEvent.OutputObject
-    >;
+    >
     SetWithdrawalsCredentials: TypedContractEvent<
       SetWithdrawalsCredentialsEvent.InputTuple,
       SetWithdrawalsCredentialsEvent.OutputTuple,
       SetWithdrawalsCredentialsEvent.OutputObject
-    >;
+    >
 
-    "Transfer(address,address,uint256)": TypedContractEvent<
-      TransferEvent.InputTuple,
-      TransferEvent.OutputTuple,
-      TransferEvent.OutputObject
-    >;
-    Transfer: TypedContractEvent<
-      TransferEvent.InputTuple,
-      TransferEvent.OutputTuple,
-      TransferEvent.OutputObject
-    >;
+    'Transfer(address,address,uint256)': TypedContractEvent<TransferEvent.InputTuple, TransferEvent.OutputTuple, TransferEvent.OutputObject>
+    Transfer: TypedContractEvent<TransferEvent.InputTuple, TransferEvent.OutputTuple, TransferEvent.OutputObject>
 
-    "TransferShares(address,address,uint256)": TypedContractEvent<
+    'TransferShares(address,address,uint256)': TypedContractEvent<
       TransferSharesEvent.InputTuple,
       TransferSharesEvent.OutputTuple,
       TransferSharesEvent.OutputObject
-    >;
-    TransferShares: TypedContractEvent<
-      TransferSharesEvent.InputTuple,
-      TransferSharesEvent.OutputTuple,
-      TransferSharesEvent.OutputObject
-    >;
+    >
+    TransferShares: TypedContractEvent<TransferSharesEvent.InputTuple, TransferSharesEvent.OutputTuple, TransferSharesEvent.OutputObject>
 
-    "Unpaused(address)": TypedContractEvent<
-      UnpausedEvent.InputTuple,
-      UnpausedEvent.OutputTuple,
-      UnpausedEvent.OutputObject
-    >;
-    Unpaused: TypedContractEvent<
-      UnpausedEvent.InputTuple,
-      UnpausedEvent.OutputTuple,
-      UnpausedEvent.OutputObject
-    >;
+    'Unpaused(address)': TypedContractEvent<UnpausedEvent.InputTuple, UnpausedEvent.OutputTuple, UnpausedEvent.OutputObject>
+    Unpaused: TypedContractEvent<UnpausedEvent.InputTuple, UnpausedEvent.OutputTuple, UnpausedEvent.OutputObject>
 
-    "UpdateDelegations(address,tuple[])": TypedContractEvent<
+    'UpdateDelegations(address,tuple[])': TypedContractEvent<
       UpdateDelegationsEvent.InputTuple,
       UpdateDelegationsEvent.OutputTuple,
       UpdateDelegationsEvent.OutputObject
-    >;
+    >
     UpdateDelegations: TypedContractEvent<
       UpdateDelegationsEvent.InputTuple,
       UpdateDelegationsEvent.OutputTuple,
       UpdateDelegationsEvent.OutputObject
-    >;
+    >
 
-    "Upgraded(address)": TypedContractEvent<
-      UpgradedEvent.InputTuple,
-      UpgradedEvent.OutputTuple,
-      UpgradedEvent.OutputObject
-    >;
-    Upgraded: TypedContractEvent<
-      UpgradedEvent.InputTuple,
-      UpgradedEvent.OutputTuple,
-      UpgradedEvent.OutputObject
-    >;
+    'Upgraded(address)': TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>
+    Upgraded: TypedContractEvent<UpgradedEvent.InputTuple, UpgradedEvent.OutputTuple, UpgradedEvent.OutputObject>
 
-    "WithdrawBase(address,uint256,uint8,address)": TypedContractEvent<
+    'WithdrawBase(address,uint256,uint8,address)': TypedContractEvent<
       WithdrawBaseEvent.InputTuple,
       WithdrawBaseEvent.OutputTuple,
       WithdrawBaseEvent.OutputObject
-    >;
-    WithdrawBase: TypedContractEvent<
-      WithdrawBaseEvent.InputTuple,
-      WithdrawBaseEvent.OutputTuple,
-      WithdrawBaseEvent.OutputObject
-    >;
+    >
+    WithdrawBase: TypedContractEvent<WithdrawBaseEvent.InputTuple, WithdrawBaseEvent.OutputTuple, WithdrawBaseEvent.OutputObject>
 
-    "WithdrawalsLimitWasReached(address,uint256,uint8)": TypedContractEvent<
+    'WithdrawalsLimitWasReached(address,uint256,uint8)': TypedContractEvent<
       WithdrawalsLimitWasReachedEvent.InputTuple,
       WithdrawalsLimitWasReachedEvent.OutputTuple,
       WithdrawalsLimitWasReachedEvent.OutputObject
-    >;
+    >
     WithdrawalsLimitWasReached: TypedContractEvent<
       WithdrawalsLimitWasReachedEvent.InputTuple,
       WithdrawalsLimitWasReachedEvent.OutputTuple,
       WithdrawalsLimitWasReachedEvent.OutputObject
-    >;
-  };
+    >
+  }
 }

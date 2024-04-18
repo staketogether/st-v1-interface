@@ -2,416 +2,244 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
+  AddressLike,
   BaseContract,
   BigNumberish,
   BytesLike,
-  FunctionFragment,
-  Result,
-  Interface,
-  EventFragment,
-  AddressLike,
-  ContractRunner,
   ContractMethod,
+  ContractRunner,
+  EventFragment,
+  FunctionFragment,
+  Interface,
   Listener,
-} from "ethers";
+  Result
+} from 'ethers'
 import type {
   TypedContractEvent,
+  TypedContractMethod,
   TypedDeferredTopicFilter,
   TypedEventLog,
-  TypedLogDescription,
   TypedListener,
-  TypedContractMethod,
-} from "../../../common";
+  TypedLogDescription
+} from '../../../common'
 
 export interface IELWithdrawalsInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "initialize"
-      | "isWithdrawReady"
-      | "mint"
-      | "pause"
-      | "receiveWithdrawEther"
-      | "setRouter"
-      | "setStakeTogether"
-      | "transfer"
-      | "transferExtraAmount"
-      | "transferFrom"
-      | "unpause"
-      | "withdraw"
-  ): FunctionFragment;
+      | 'initialize'
+      | 'isWithdrawReady'
+      | 'mint'
+      | 'pause'
+      | 'receiveWithdrawEther'
+      | 'setRouter'
+      | 'setStakeTogether'
+      | 'transfer'
+      | 'transferExtraAmount'
+      | 'transferFrom'
+      | 'unpause'
+      | 'withdraw'
+  ): FunctionFragment
 
-  getEvent(
-    nameOrSignatureOrTopic:
-      | "ReceiveEther"
-      | "ReceiveWithdrawEther"
-      | "SetRouter"
-      | "SetStakeTogether"
-      | "Withdraw"
-  ): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'ReceiveEther' | 'ReceiveWithdrawEther' | 'SetRouter' | 'SetStakeTogether' | 'Withdraw'): EventFragment
 
-  encodeFunctionData(
-    functionFragment: "initialize",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isWithdrawReady",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "mint",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "receiveWithdrawEther",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setRouter",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setStakeTogether",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transfer",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferExtraAmount",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferFrom",
-    values: [AddressLike, AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "withdraw",
-    values: [BigNumberish]
-  ): string;
+  encodeFunctionData(functionFragment: 'initialize', values?: undefined): string
+  encodeFunctionData(functionFragment: 'isWithdrawReady', values: [BigNumberish]): string
+  encodeFunctionData(functionFragment: 'mint', values: [AddressLike, BigNumberish]): string
+  encodeFunctionData(functionFragment: 'pause', values?: undefined): string
+  encodeFunctionData(functionFragment: 'receiveWithdrawEther', values?: undefined): string
+  encodeFunctionData(functionFragment: 'setRouter', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'setStakeTogether', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'transfer', values: [AddressLike, BigNumberish]): string
+  encodeFunctionData(functionFragment: 'transferExtraAmount', values?: undefined): string
+  encodeFunctionData(functionFragment: 'transferFrom', values: [AddressLike, AddressLike, BigNumberish]): string
+  encodeFunctionData(functionFragment: 'unpause', values?: undefined): string
+  encodeFunctionData(functionFragment: 'withdraw', values: [BigNumberish]): string
 
-  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "isWithdrawReady",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "receiveWithdrawEther",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "setRouter", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setStakeTogether",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "transferExtraAmount",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferFrom",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'isWithdrawReady', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'mint', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'pause', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'receiveWithdrawEther', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'setRouter', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'setStakeTogether', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'transfer', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'transferExtraAmount', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'transferFrom', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'unpause', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'withdraw', data: BytesLike): Result
 }
 
 export namespace ReceiveEtherEvent {
-  export type InputTuple = [amount: BigNumberish];
-  export type OutputTuple = [amount: bigint];
+  export type InputTuple = [amount: BigNumberish]
+  export type OutputTuple = [amount: bigint]
   export interface OutputObject {
-    amount: bigint;
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ReceiveWithdrawEtherEvent {
-  export type InputTuple = [amount: BigNumberish];
-  export type OutputTuple = [amount: bigint];
+  export type InputTuple = [amount: BigNumberish]
+  export type OutputTuple = [amount: bigint]
   export interface OutputObject {
-    amount: bigint;
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetRouterEvent {
-  export type InputTuple = [router: AddressLike];
-  export type OutputTuple = [router: string];
+  export type InputTuple = [router: AddressLike]
+  export type OutputTuple = [router: string]
   export interface OutputObject {
-    router: string;
+    router: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetStakeTogetherEvent {
-  export type InputTuple = [stakeTogether: AddressLike];
-  export type OutputTuple = [stakeTogether: string];
+  export type InputTuple = [stakeTogether: AddressLike]
+  export type OutputTuple = [stakeTogether: string]
   export interface OutputObject {
-    stakeTogether: string;
+    stakeTogether: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace WithdrawEvent {
-  export type InputTuple = [user: AddressLike, amount: BigNumberish];
-  export type OutputTuple = [user: string, amount: bigint];
+  export type InputTuple = [user: AddressLike, amount: BigNumberish]
+  export type OutputTuple = [user: string, amount: bigint]
   export interface OutputObject {
-    user: string;
-    amount: bigint;
+    user: string
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export interface IELWithdrawals extends BaseContract {
-  connect(runner?: ContractRunner | null): IELWithdrawals;
-  waitForDeployment(): Promise<this>;
+  connect(runner?: ContractRunner | null): IELWithdrawals
+  waitForDeployment(): Promise<this>
 
-  interface: IELWithdrawalsInterface;
+  interface: IELWithdrawalsInterface
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>
+  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>
+  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
-  listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>
+  listeners(eventName?: string): Promise<Array<Listener>>
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>
 
-  initialize: TypedContractMethod<[], [void], "nonpayable">;
+  initialize: TypedContractMethod<[], [void], 'nonpayable'>
 
-  isWithdrawReady: TypedContractMethod<
-    [_amount: BigNumberish],
-    [boolean],
-    "view"
-  >;
+  isWithdrawReady: TypedContractMethod<[_amount: BigNumberish], [boolean], 'view'>
 
-  mint: TypedContractMethod<
-    [_to: AddressLike, _amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
+  mint: TypedContractMethod<[_to: AddressLike, _amount: BigNumberish], [void], 'nonpayable'>
 
-  pause: TypedContractMethod<[], [void], "nonpayable">;
+  pause: TypedContractMethod<[], [void], 'nonpayable'>
 
-  receiveWithdrawEther: TypedContractMethod<[], [void], "payable">;
+  receiveWithdrawEther: TypedContractMethod<[], [void], 'payable'>
 
-  setRouter: TypedContractMethod<[_router: AddressLike], [void], "nonpayable">;
+  setRouter: TypedContractMethod<[_router: AddressLike], [void], 'nonpayable'>
 
-  setStakeTogether: TypedContractMethod<
-    [_stakeTogether: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  setStakeTogether: TypedContractMethod<[_stakeTogether: AddressLike], [void], 'nonpayable'>
 
-  transfer: TypedContractMethod<
-    [_to: AddressLike, _amount: BigNumberish],
-    [boolean],
-    "nonpayable"
-  >;
+  transfer: TypedContractMethod<[_to: AddressLike, _amount: BigNumberish], [boolean], 'nonpayable'>
 
-  transferExtraAmount: TypedContractMethod<[], [void], "nonpayable">;
+  transferExtraAmount: TypedContractMethod<[], [void], 'nonpayable'>
 
-  transferFrom: TypedContractMethod<
-    [_from: AddressLike, _to: AddressLike, _amount: BigNumberish],
-    [boolean],
-    "nonpayable"
-  >;
+  transferFrom: TypedContractMethod<[_from: AddressLike, _to: AddressLike, _amount: BigNumberish], [boolean], 'nonpayable'>
 
-  unpause: TypedContractMethod<[], [void], "nonpayable">;
+  unpause: TypedContractMethod<[], [void], 'nonpayable'>
 
-  withdraw: TypedContractMethod<[_amount: BigNumberish], [void], "nonpayable">;
+  withdraw: TypedContractMethod<[_amount: BigNumberish], [void], 'nonpayable'>
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T
 
+  getFunction(nameOrSignature: 'initialize'): TypedContractMethod<[], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'isWithdrawReady'): TypedContractMethod<[_amount: BigNumberish], [boolean], 'view'>
+  getFunction(nameOrSignature: 'mint'): TypedContractMethod<[_to: AddressLike, _amount: BigNumberish], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'pause'): TypedContractMethod<[], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'receiveWithdrawEther'): TypedContractMethod<[], [void], 'payable'>
+  getFunction(nameOrSignature: 'setRouter'): TypedContractMethod<[_router: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'setStakeTogether'): TypedContractMethod<[_stakeTogether: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'transfer'): TypedContractMethod<[_to: AddressLike, _amount: BigNumberish], [boolean], 'nonpayable'>
+  getFunction(nameOrSignature: 'transferExtraAmount'): TypedContractMethod<[], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "initialize"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "isWithdrawReady"
-  ): TypedContractMethod<[_amount: BigNumberish], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "mint"
-  ): TypedContractMethod<
-    [_to: AddressLike, _amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "pause"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "receiveWithdrawEther"
-  ): TypedContractMethod<[], [void], "payable">;
-  getFunction(
-    nameOrSignature: "setRouter"
-  ): TypedContractMethod<[_router: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "setStakeTogether"
-  ): TypedContractMethod<[_stakeTogether: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "transfer"
-  ): TypedContractMethod<
-    [_to: AddressLike, _amount: BigNumberish],
-    [boolean],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "transferExtraAmount"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "transferFrom"
-  ): TypedContractMethod<
-    [_from: AddressLike, _to: AddressLike, _amount: BigNumberish],
-    [boolean],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "unpause"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "withdraw"
-  ): TypedContractMethod<[_amount: BigNumberish], [void], "nonpayable">;
+    nameOrSignature: 'transferFrom'
+  ): TypedContractMethod<[_from: AddressLike, _to: AddressLike, _amount: BigNumberish], [boolean], 'nonpayable'>
+  getFunction(nameOrSignature: 'unpause'): TypedContractMethod<[], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'withdraw'): TypedContractMethod<[_amount: BigNumberish], [void], 'nonpayable'>
 
   getEvent(
-    key: "ReceiveEther"
-  ): TypedContractEvent<
-    ReceiveEtherEvent.InputTuple,
-    ReceiveEtherEvent.OutputTuple,
-    ReceiveEtherEvent.OutputObject
-  >;
+    key: 'ReceiveEther'
+  ): TypedContractEvent<ReceiveEtherEvent.InputTuple, ReceiveEtherEvent.OutputTuple, ReceiveEtherEvent.OutputObject>
   getEvent(
-    key: "ReceiveWithdrawEther"
-  ): TypedContractEvent<
-    ReceiveWithdrawEtherEvent.InputTuple,
-    ReceiveWithdrawEtherEvent.OutputTuple,
-    ReceiveWithdrawEtherEvent.OutputObject
-  >;
+    key: 'ReceiveWithdrawEther'
+  ): TypedContractEvent<ReceiveWithdrawEtherEvent.InputTuple, ReceiveWithdrawEtherEvent.OutputTuple, ReceiveWithdrawEtherEvent.OutputObject>
+  getEvent(key: 'SetRouter'): TypedContractEvent<SetRouterEvent.InputTuple, SetRouterEvent.OutputTuple, SetRouterEvent.OutputObject>
   getEvent(
-    key: "SetRouter"
-  ): TypedContractEvent<
-    SetRouterEvent.InputTuple,
-    SetRouterEvent.OutputTuple,
-    SetRouterEvent.OutputObject
-  >;
-  getEvent(
-    key: "SetStakeTogether"
-  ): TypedContractEvent<
-    SetStakeTogetherEvent.InputTuple,
-    SetStakeTogetherEvent.OutputTuple,
-    SetStakeTogetherEvent.OutputObject
-  >;
-  getEvent(
-    key: "Withdraw"
-  ): TypedContractEvent<
-    WithdrawEvent.InputTuple,
-    WithdrawEvent.OutputTuple,
-    WithdrawEvent.OutputObject
-  >;
+    key: 'SetStakeTogether'
+  ): TypedContractEvent<SetStakeTogetherEvent.InputTuple, SetStakeTogetherEvent.OutputTuple, SetStakeTogetherEvent.OutputObject>
+  getEvent(key: 'Withdraw'): TypedContractEvent<WithdrawEvent.InputTuple, WithdrawEvent.OutputTuple, WithdrawEvent.OutputObject>
 
   filters: {
-    "ReceiveEther(uint256)": TypedContractEvent<
-      ReceiveEtherEvent.InputTuple,
-      ReceiveEtherEvent.OutputTuple,
-      ReceiveEtherEvent.OutputObject
-    >;
-    ReceiveEther: TypedContractEvent<
-      ReceiveEtherEvent.InputTuple,
-      ReceiveEtherEvent.OutputTuple,
-      ReceiveEtherEvent.OutputObject
-    >;
+    'ReceiveEther(uint256)': TypedContractEvent<ReceiveEtherEvent.InputTuple, ReceiveEtherEvent.OutputTuple, ReceiveEtherEvent.OutputObject>
+    ReceiveEther: TypedContractEvent<ReceiveEtherEvent.InputTuple, ReceiveEtherEvent.OutputTuple, ReceiveEtherEvent.OutputObject>
 
-    "ReceiveWithdrawEther(uint256)": TypedContractEvent<
+    'ReceiveWithdrawEther(uint256)': TypedContractEvent<
       ReceiveWithdrawEtherEvent.InputTuple,
       ReceiveWithdrawEtherEvent.OutputTuple,
       ReceiveWithdrawEtherEvent.OutputObject
-    >;
+    >
     ReceiveWithdrawEther: TypedContractEvent<
       ReceiveWithdrawEtherEvent.InputTuple,
       ReceiveWithdrawEtherEvent.OutputTuple,
       ReceiveWithdrawEtherEvent.OutputObject
-    >;
+    >
 
-    "SetRouter(address)": TypedContractEvent<
-      SetRouterEvent.InputTuple,
-      SetRouterEvent.OutputTuple,
-      SetRouterEvent.OutputObject
-    >;
-    SetRouter: TypedContractEvent<
-      SetRouterEvent.InputTuple,
-      SetRouterEvent.OutputTuple,
-      SetRouterEvent.OutputObject
-    >;
+    'SetRouter(address)': TypedContractEvent<SetRouterEvent.InputTuple, SetRouterEvent.OutputTuple, SetRouterEvent.OutputObject>
+    SetRouter: TypedContractEvent<SetRouterEvent.InputTuple, SetRouterEvent.OutputTuple, SetRouterEvent.OutputObject>
 
-    "SetStakeTogether(address)": TypedContractEvent<
+    'SetStakeTogether(address)': TypedContractEvent<
       SetStakeTogetherEvent.InputTuple,
       SetStakeTogetherEvent.OutputTuple,
       SetStakeTogetherEvent.OutputObject
-    >;
+    >
     SetStakeTogether: TypedContractEvent<
       SetStakeTogetherEvent.InputTuple,
       SetStakeTogetherEvent.OutputTuple,
       SetStakeTogetherEvent.OutputObject
-    >;
+    >
 
-    "Withdraw(address,uint256)": TypedContractEvent<
-      WithdrawEvent.InputTuple,
-      WithdrawEvent.OutputTuple,
-      WithdrawEvent.OutputObject
-    >;
-    Withdraw: TypedContractEvent<
-      WithdrawEvent.InputTuple,
-      WithdrawEvent.OutputTuple,
-      WithdrawEvent.OutputObject
-    >;
-  };
+    'Withdraw(address,uint256)': TypedContractEvent<WithdrawEvent.InputTuple, WithdrawEvent.OutputTuple, WithdrawEvent.OutputObject>
+    Withdraw: TypedContractEvent<WithdrawEvent.InputTuple, WithdrawEvent.OutputTuple, WithdrawEvent.OutputObject>
+  }
 }

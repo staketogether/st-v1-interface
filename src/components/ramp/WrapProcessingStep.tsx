@@ -1,3 +1,4 @@
+import { ProductAsset } from '@/types/ProductAsset'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import styled from 'styled-components'
 import LottieAnimation from '../shared/LottieAnimation'
@@ -6,10 +7,12 @@ import ValidationList, { ValidationSteps } from './ValidationList'
 
 export default function WrapProcessingStep({
   validationSteps,
-  title
+  title,
+  product
 }: {
   validationSteps: ValidationSteps[]
   title: string
+  product: ProductAsset
 }) {
   return (
     <Container>
@@ -17,7 +20,7 @@ export default function WrapProcessingStep({
         <LottieAnimation animationData={loadingAnimation} height={80} loop />
         <span>{title}</span>
       </Header>
-      <SwapInfo />
+      <SwapInfo product={product} />
       <ValidationList validationSteps={validationSteps} />
     </Container>
   )
@@ -25,10 +28,6 @@ export default function WrapProcessingStep({
 
 const { Container, Header } = {
   Container: styled.div`
-    min-width: 320px;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-width: 372px;
-    }
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};

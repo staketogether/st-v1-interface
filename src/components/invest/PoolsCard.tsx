@@ -1,16 +1,15 @@
 import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import { truncateWei } from '@/services/truncate'
+import { Pool } from '@/types/Pool'
+import { Tooltip } from 'antd'
+import { PiDiscordLogo, PiGlobeSimple, PiInstagramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-
-import { Pool } from '@/types/Pool'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { PiDiscordLogo, PiGlobeSimple, PiInstagramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
-import { Tooltip } from 'antd'
 
-type PoolsCardProps = {
+interface PoolsCardProps {
   pool: Pool
   loading: boolean
 }
@@ -20,7 +19,7 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   const { t } = useLocaleTranslation()
 
   const handleProjectSite = () => {
-    if (pool && (pool.site?.startsWith('https://') || pool.site?.startsWith('http://'))) {
+    if (pool && (pool.site?.startsWith('https://') ?? pool.site?.startsWith('http://'))) {
       return pool.site
     }
     return `https://${pool?.site}`
@@ -29,9 +28,7 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   return (
     <Card>
       <CardHeader>
-        {pool.logo?.url && (
-          <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
-        )}
+        {pool.logo?.url && <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />}
         {!pool.logo?.url && <CommunityLogo size={24} src={''} alt='logo' loading={true} />}
         {pool?.name && <CommunityName name={pool?.name} loading={loading} $bold />}
         {!pool?.name && <CommunityName name={pool?.name} loading={true} />}
@@ -83,7 +80,7 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
           </Tooltip>
         )}
         {pool?.discord && (
-          <Tooltip title={pool.discordName || pool.discord}>
+          <Tooltip title={pool.discordName ?? pool.discord}>
             <Social href={`https://discord.com/invite/${pool.discord}`} target='_blank'>
               <DiscordIcon />
             </Social>
@@ -94,18 +91,7 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   )
 }
 
-const {
-  Card,
-  CardInfo,
-  CardHeader,
-  DiscordIcon,
-  CommunityType,
-  Social,
-  YoutubeIcon,
-  TwitterIcon,
-  SiteIcon,
-  InstagramIcon
-} = {
+const { Card, CardInfo, CardHeader, DiscordIcon, CommunityType, Social, YoutubeIcon, TwitterIcon, SiteIcon, InstagramIcon } = {
   Card: styled.div`
     display: grid;
     flex-direction: column;

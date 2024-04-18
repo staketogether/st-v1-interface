@@ -1,22 +1,22 @@
 import { chainConfigByChainId } from '@/config/chain'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
+import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
+import { ProductStaking } from '@/types/ProductStaking'
+import { WithdrawType } from '@/types/Withdraw'
+import loadingAnimation from '@assets/animations/loading-animation.json'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
 import { PiArrowRight, PiCheckCircle } from 'react-icons/pi'
 import styled from 'styled-components'
-import { WithdrawType } from '@/types/Withdraw'
-import loadingAnimation from '@assets/animations/loading-animation.json'
-import LottieAnimation from '../shared/LottieAnimation'
-import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
-import { Product } from '@/types/Product'
-import SymbolIcons from '../tokens/components/SymbolIcons'
 import AssetIcon from '../shared/AssetIcon'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
+import LottieAnimation from '../shared/LottieAnimation'
+import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
 
-type StakeTransactionLoadingProps = {
+interface StakeTransactionLoadingProps {
   walletActionLoading: boolean
   transactionLoading: boolean
   amount: string
@@ -25,7 +25,7 @@ type StakeTransactionLoadingProps = {
   txHash: string | undefined
   type: 'deposit' | 'withdraw'
   withdrawTypeSelected: WithdrawType
-  product: Product
+  product: ProductStaking
   chainId: number
 }
 
@@ -55,37 +55,22 @@ export default function StakeTransactionLoading({
   })
   const { addToWalletAction: addStwEthToWalletAction } = useAddStwEthToWallet()
 
-  useFacebookPixel(
-    product.eventsTrack.confirmation,
-    walletActionLoading && !transactionLoading && !transactionIsSuccess && !isWithdraw
-  )
+  useFacebookPixel(product.eventsTrack.confirmation, walletActionLoading && !transactionLoading && !transactionIsSuccess && !isWithdraw)
   useFacebookPixel(product.eventsTrack.success, transactionIsSuccess && !isWithdraw)
   return (
     <Container>
-      {transactionIsSuccess ? (
-        <SuccessIcon size={60} />
-      ) : (
-        <LottieAnimation animationData={loadingAnimation} height={60} loop />
-      )}
+      {transactionIsSuccess ? <SuccessIcon size={60} /> : <LottieAnimation animationData={loadingAnimation} height={60} loop />}
       <div>
         {walletActionLoading && !transactionLoading && !transactionIsSuccess && (
           <>
-            <TitleModal>
-              {isWithdraw
-                ? t('v2.stake.confirmModal.confirmWithdraw')
-                : t('v2.stake.confirmModal.confirmDeposit')}
-            </TitleModal>
+            <TitleModal>{isWithdraw ? t('v2.stake.confirmModal.confirmWithdraw') : t('v2.stake.confirmModal.confirmDeposit')}</TitleModal>
           </>
         )}
-        {transactionLoading && !transactionIsSuccess && (
-          <TitleModal>{t('v2.stake.confirmModal.transactionSubmitted')}</TitleModal>
-        )}
+        {transactionLoading && !transactionIsSuccess && <TitleModal>{t('v2.stake.confirmModal.transactionSubmitted')}</TitleModal>}
         {transactionIsSuccess && (
           <>
             <TitleModal>
-              {isWithdraw
-                ? t('v2.stake.confirmModal.withdrawSuccessful')
-                : t('v2.stake.confirmModal.depositSuccessful')}
+              {isWithdraw ? t('v2.stake.confirmModal.withdrawSuccessful') : t('v2.stake.confirmModal.depositSuccessful')}
             </TitleModal>
           </>
         )}
@@ -93,7 +78,7 @@ export default function StakeTransactionLoading({
           {isWithdraw ? (
             <>
               <div>
-                <SymbolIcons productSymbol={product.symbol} size={32} />
+                <TokensSymbolIcons productSymbol={product.symbol} size={32} />
                 <span className={'purple'}>{`${amount}`}</span>
                 <span className={'purple'}>{product.symbol}</span>
               </div>
@@ -101,9 +86,7 @@ export default function StakeTransactionLoading({
               <div>
                 <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
                 <span>{`${truncateWei(youReceive, 6)}`}</span>
-                <span>
-                  {` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}
-                </span>
+                <span>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>
               </div>
             </>
           ) : (
@@ -115,7 +98,7 @@ export default function StakeTransactionLoading({
               </div>
               <ArrowIcon fontSize={18} />
               <div>
-                <SymbolIcons productSymbol={product.symbol} size={32} />
+                <TokensSymbolIcons productSymbol={product.symbol} size={32} />
                 <span className={'purple'}>{`${truncateWei(youReceive, 6)}`}</span>
                 <span className={'purple'}> {product.symbol}</span>
               </div>
@@ -126,7 +109,7 @@ export default function StakeTransactionLoading({
       {!isWithdraw && transactionIsSuccess && (
         <AddAssetInWalletButton onClick={addToWalletAction}>
           <span>{t('addSethToWallet.add')} </span>
-          <SymbolIcons productSymbol={product.symbol} size={23} />
+          <TokensSymbolIcons productSymbol={product.symbol} size={23} />
           <span>{t('addSethToWallet.yourWallet')}</span>
         </AddAssetInWalletButton>
       )}
@@ -151,15 +134,7 @@ export default function StakeTransactionLoading({
   )
 }
 
-const {
-  Container,
-  DescriptionAction,
-  ResumeStake,
-  TitleModal,
-  SuccessIcon,
-  ArrowIcon,
-  AddAssetInWalletButton
-} = {
+const { Container, DescriptionAction, ResumeStake, TitleModal, SuccessIcon, ArrowIcon, AddAssetInWalletButton } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;

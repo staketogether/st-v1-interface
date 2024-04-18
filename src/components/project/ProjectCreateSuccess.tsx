@@ -1,18 +1,17 @@
-import React from 'react'
-import styled from 'styled-components'
-import successAnimation from '@assets/animations/success-animation.json'
-import LottieAnimation from '../shared/LottieAnimation'
-import { CreateProjectForm } from '@/types/Project'
-import ProjectRegisteredCard from './ProjectRegisteredCard'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
-import useProjectCreateModal from '@/hooks/useProjectCreateModal'
-import Button from '../shared/Button'
-import { ContentfulWithLocale } from '@/types/ContentfulPool'
 import { contentfulClient } from '@/config/apollo'
+import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
+import { ContentfulWithLocale } from '@/types/ContentfulPool'
+import { CreateProjectForm } from '@/types/Project'
+import successAnimation from '@assets/animations/success-animation.json'
+import styled from 'styled-components'
+import Button from '../shared/Button'
+import LottieAnimation from '../shared/LottieAnimation'
+import ProjectRegisteredCard from './ProjectRegisteredCard'
 
-type ProjectCreateSuccessProps = {
+interface ProjectCreateSuccessProps {
   formValues: CreateProjectForm
   poolDetail: ContentfulWithLocale | null
 }
@@ -22,7 +21,7 @@ export default function ProjectCreateSuccess({ formValues, poolDetail }: Project
   const { categories } = useContentfulCategoryCollection()
   const { setOpenProjectCreateModal: setCommunityCreateModal } = useProjectCreateModal()
 
-  const logo = poolDetail?.logo?.url || `data:${formValues.logo?.mimeType};base64,${formValues.logo?.base64}`
+  const logo = poolDetail?.logo?.url ?? `data:${formValues.logo?.mimeType};base64,${formValues.logo?.base64}`
 
   return (
     <Container>
@@ -35,10 +34,7 @@ export default function ProjectCreateSuccess({ formValues, poolDetail }: Project
         projectName={formValues.projectName}
         projectStatus={'pending'}
         createAt={new Date().toISOString()}
-        ProjectCategory={
-          (categories?.length && categories.find(category => category.sys.id === formValues.category)?.name) ||
-          'education'
-        }
+        ProjectCategory={categories?.find(category => category.sys.id === formValues.category)?.name ?? 'education'}
       />
       <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
       <SuccessButton

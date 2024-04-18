@@ -1,16 +1,16 @@
 import { MetaTagsPoolDetail } from '@/components/shared/meta/MetaTagsPoolDetail'
 import { contentfulClient } from '@/config/apollo'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
-import { AllowedNetwork, handleChainIdByNetwork } from '@/services/format'
+import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { GetServerSideProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import LayoutTemplate from '../../../../../components/shared/layout/LayoutTemplate'
 import StakeControl from '../../../../../components/stake/StakeControl'
 
-type WithdrawProps = {
+interface WithdrawProps {
   poolAddress: `0x${string}`
-  poolDetail?: ContentfulPool,
+  poolDetail?: ContentfulPool
   chainId: number
 }
 
@@ -24,7 +24,7 @@ export default function Withdraw({ poolAddress, poolDetail, chainId }: WithdrawP
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const { address, network } = context?.params as { address?: `0x${string}`, network: AllowedNetwork }
+  const { address, network } = context?.params as { address?: `0x${string}`; network: AllowedNetworks }
   const { data } = await contentfulClient.query<{ poolCollection: { items: ContentfulPool[] } }>({
     query: queryContentfulPoolByAddress,
     variables: {
@@ -42,8 +42,8 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   return {
     props: {
-      ...(await serverSideTranslations(context.locale || 'en', ['common'])),
-      poolAddress: address?.toLowerCase() || '',
+      ...(await serverSideTranslations(context.locale ?? 'en', ['common'])),
+      poolAddress: address?.toLowerCase() ?? '',
       poolDetail: data?.poolCollection.items[0] || null,
       chainId
     }
