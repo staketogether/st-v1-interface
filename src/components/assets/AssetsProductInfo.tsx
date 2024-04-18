@@ -11,11 +11,19 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import TradingViewComponent from '../shared/TradingViewComponent'
 import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import dynamic from 'next/dynamic'
 
 interface AssetsProductInfoProps {
   product: ProductAsset
   assetData: ProductMarketAssetData
 }
+
+const TokensShowValuePrice = dynamic(() => import('../shared/StakingShowValuePrice'), {
+  ssr: false,
+  loading: () => <SkeletonLoading width={80} />,
+  suspense: true
+})
 
 export default function AssetsProductInfo({ product, assetData }: AssetsProductInfoProps) {
   const { t } = useLocaleTranslation()
@@ -58,8 +66,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <span className='CoinValue'>{`${handleQuotePrice(assetData?.data?.price || 0)}
-               `}</span>
+              <TokensShowValuePrice product={product} type='assets' className='CoinValue' />
             </div>
           </SymbolContainer>
         </HeaderDescribeInfo>

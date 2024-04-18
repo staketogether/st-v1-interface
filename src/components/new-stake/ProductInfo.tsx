@@ -71,7 +71,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <TokensShowValuePrice product={product} className='CoinValue' />
+              <TokensShowValuePrice product={product} type='staking' className='CoinValue' />
               <span className='apy'>{`APY ${product.apy}%`}</span>
             </div>
           </SymbolContainer>
