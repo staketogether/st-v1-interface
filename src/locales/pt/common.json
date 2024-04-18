@@ -776,5 +776,46 @@
   "soon": "Em Breve",
   "new": "Novo",
   "share": "Compartilhar",
-  "offramp": "Em breve você vai poder vender seus ETH por aqui. Aguarde."
+  "offramp": "Em breve você vai poder vender seus ETH por aqui. Aguarde.",
+  "v3": {
+    "pages": {
+      "staking": {
+        "title": "Staking",
+        "description": "Invista em Infraestrutura com Rendimentos Sustentáveis"
+      },
+      "crypto": {
+        "title": "Criptomoedas",
+        "description": "Invista nas Principais Criptomoedas do Mercado"
+      },
+      "stable": {
+        "title": "Stablecoins",
+        "description": "Invista nas Moedas Estáveis de Maior Liquidez"
+      },
+      "fan": {
+        "title": "Fan Tokens",
+        "description": "Invista no seu Time do Coração"
+      },
+      "meme": {
+        "title": "Memecoins",
+        "description": "Invista em moedas de alto risco e alto retorno"
+      }
+    },
+    "products": {
+      "eth-eth": {
+        "name": "Ethereum"
+      },
+      "eth-op": {
+        "name": "Ethereum"
+      },
+      "btc-op": {
+        "name": "Bitcoin"
+      },
+      "eth-staking": {
+        "name": "Staking de Ethereum"
+      },
+      "eth-restaking": {
+        "name": "Restaking de Ethereum"
+      }
+    }
+  }
 }

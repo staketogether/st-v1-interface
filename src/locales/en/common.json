@@ -753,5 +753,46 @@
   "soon": "Soon",
   "new": "New",
   "share": "Share",
-  "offramp": "Soon you will be able to sell you ETH by here. Wait."
+  "offramp": "Soon you will be able to sell you ETH by here. Wait.",
+  "v3": {
+    "pages": {
+      "staking": {
+        "title": "Staking",
+        "description": "Invest in Infrastructure with Sustainable Yields"
+      },
+      "crypto": {
+        "title": "Cryptocurrencies",
+        "description": "Invest in the Top Cryptocurrencies in the Market"
+      },
+      "stable": {
+        "title": "Stablecoins",
+        "description": "Invest in the Most Liquid Stablecoins"
+      },
+      "fan": {
+        "title": "Fan Tokens",
+        "description": "Invest in Your Favorite Team"
+      },
+      "meme": {
+        "title": "Memecoins",
+        "description": "Invest in High-Risk, High-Reward Coins"
+      }
+    },
+    "products": {
+      "eth-eth": {
+        "name": "Ethereum"
+      },
+      "eth-op": {
+        "name": "Ethereum"
+      },
+      "btc-op": {
+        "name": "Bitcoin"
+      },
+      "eth-staking": {
+        "name": "Ethereum Staking"
+      },
+      "eth-restaking": {
+        "name": "Ethereum Restaking"
+      }
+    }
+  }
 }

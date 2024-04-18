@@ -1,6 +1,4 @@
 import chainConfig from '@/config/chain'
-import { btcOptimism, getAsset } from '@/config/products/asset'
-import { ethereumOpStaking, ethereumStaking, stakingList } from '@/config/products/staking'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 import useErc20BalanceOfWei from '@/hooks/contracts/useErc20BalanceOfWei'
@@ -59,9 +57,10 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: mainnet.id })
   const formattedEthBalance = formatNumberByLocale(truncateWei(ethBalance, 6), locale)
+
   const { priceConvertedValue: usdEthBalance, price: usdEthBalancePriceNotFormatted } = useCoinConversion(
     formattedEthBalance,
-    ethereumStaking.asset.mobula.filterCoinConversion
+    ethereumStaking.asset.mobula.filter
   )
   const { balance: optimistEthBalance } = useEthBalanceOf({
     walletAddress: address,
@@ -77,11 +76,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const formattedOptimistWbtcBalance = formatNumberByLocale(truncateWei(optimistWbtcBalance, 6), locale)
   const { priceConvertedValue: usdOptimismEthBalance, price: usdOptimismEthBalanceNotFormatted } = useCoinConversion(
     formattedOptimistEthBalance,
-    ethereumOpStaking.asset.mobula.filterCoinConversion
+    ethereumOpStaking.asset.mobula.filter
   )
   const { priceConvertedValue: usdOptimismWbtcBalance, price: usdOptimismWbtcBalanceNotFormatted } = useCoinConversion(
     formattedOptimistWbtcBalance,
-    btcOptimism.mobula.filterCoinConversion
+    btcOptimism.mobula.filter
   )
 
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
@@ -107,7 +106,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const { priceConvertedValue: usdStpETHBalance, price: usdStpEthBalanceNotFormatted } = useCoinConversion(
     stpETHAccountBalance,
-    ethereumStaking.asset.mobula.filterCoinConversion
+    ethereumStaking.asset.mobula.filter
   )
 
   const {
@@ -121,7 +120,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const stpRETHAccountBalance = formatNumberByLocale(truncateWei(restakingAccountBalance, 5), locale)
   const { priceConvertedValue: usdStpRETHBalance, price: usdStpRETHBalanceNotFormatted } = useCoinConversion(
     stpRETHAccountBalance,
-    ethereumOpStaking.asset.mobula.filterCoinConversion
+    ethereumOpStaking.asset.mobula.filter
   )
 
   const stAccount = {
@@ -184,7 +183,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       value: product.name,
       label: (
         <ProductSelectCard>
-          <AssetIcon assetIcon={product.name} size={24} />
+          <AssetIcon image={product.name} size={24} />
           <span>{t(`v2.products.${product.name}`)}</span>
         </ProductSelectCard>
       )
@@ -274,7 +273,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='ethereum' networkIcon='ethereum' size={24} />
+                    <AssetIcon image='ethereum' chain='ethereum' size={24} />
                   </div>
                   <div>
                     <span>{` ${t('eth.symbol')}`}</span>
@@ -289,7 +288,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='ethereum' networkIcon='optimism' size={24} />
+                    <AssetIcon image='ethereum' chain='optimism' size={24} />
                   </div>
                   <div>
                     <span>{`${t('eth.symbol')}`}</span>
@@ -304,7 +303,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon={configWbtcOptimist.symbol} networkIcon={configWbtcOptimist.networkAvailable} size={24} />
+                    <AssetIcon image={configWbtcOptimist.symbol} chain={configWbtcOptimist.networkAvailable} size={24} />
                   </div>
                   <div>
                     <span>{configWbtcOptimist.symbol}</span>
@@ -331,7 +330,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceInvestmentContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='stpETH' networkIcon='ethereum' size={24} />
+                    <AssetIcon image='stpETH' chain='ethereum' size={24} />
                   </div>
                   <div>
                     <span>{`stpETH`}</span>
@@ -347,7 +346,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceInvestmentContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='strETH' networkIcon='optimism' size={24} />
+                    <AssetIcon image='strETH' chain='optimism' size={24} />
                   </div>
                   <div>
                     <span>{`stpRETH`}</span>
@@ -397,7 +396,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               accountRewards={accountRewards}
               accountActivities={accountActivities}
               activatedTab={tabActivated}
-              productSelected={productTabSelected}
+              asset={productTabSelected}
             />
           </Card>
 

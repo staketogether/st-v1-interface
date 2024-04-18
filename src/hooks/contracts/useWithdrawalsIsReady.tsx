@@ -1,4 +1,4 @@
-import { getStakingContracts } from '@/config/products/staking'
+import { getAssetContractsById } from '@/config/asset'
 import { withdrawalsAbi } from '@/types/Contracts'
 import { useEffect, useState } from 'react'
 import { useReadContract } from 'wagmi'
@@ -6,11 +6,7 @@ import chainConfig from '../../config/chain'
 
 export default function useWithdrawalsIsReady(amount = 0n) {
   const { isTestnet } = chainConfig()
-
-  const { Withdrawals } = getStakingContracts({
-    name: 'ethereum-stake',
-    isTestnet
-  })
+  const { Withdrawals } = getAssetContractsById('eth-staking', isTestnet)
 
   const [isReady, setIsReady] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)

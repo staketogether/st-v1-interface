@@ -1,7 +1,5 @@
+import { assetsList } from '@/config/asset'
 import { globalConfig } from '@/config/global'
-import { productAssetList } from '@/config/products/asset'
-
-import { ProductMarketAssetData } from '@/types/ProductStaking'
 import { makeVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect } from 'react'
@@ -14,12 +12,12 @@ export default function useGetCurrencyPrice() {
   useEffect(() => {
     const getDataPromise = async () => {
       try {
-        const promises = productAssetList.map(product =>
-          axios.get<ProductMarketAssetData>(`${backendUrl}/api/mobula/market-asset-data`, {
+        const promises = assetsList.map(asset =>
+          axios.get(`${backendUrl}/api/mobula/market-asset-data`, {
             params: {
-              asset: product.mobula.asset ? product.mobula.asset : null,
-              blockchain: product.mobula.blockchain ? product.mobula.blockchain : null,
-              symbol: product.mobula.symbol ? product.mobula.symbol : null
+              asset: asset.mobula.asset ? asset.mobula.asset : null,
+              blockchain: asset.mobula.blockchain ? asset.mobula.blockchain : null,
+              symbol: asset.mobula.symbol ? asset.mobula.symbol : null
             }
           })
         )

@@ -1,5 +1,5 @@
+import { getAssetById, getAssetContractsById } from '@/config/asset'
 import { chainConfigByChainId } from '@/config/chain'
-import { ethereumStaking, getStakingContracts } from '@/config/products/staking'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import useAnalyticsData from '@/hooks/subgraphs/analytics/useAnalyticsData'
 import useCoinConversion from '@/hooks/useCoinConversion'
@@ -20,15 +20,13 @@ export default function AnalyticsControl() {
   const { locale } = useRouter()
   const { isLoading, analytics, validators } = useAnalyticsData()
   const { isTestnet, blockExplorer } = chainConfigByChainId(1)
-  const { StakeTogether, Router, Withdrawals } = getStakingContracts({
-    name: 'ethereum-stake',
-    isTestnet
-  })
+  const asset = getAssetById('eth-staking')
+  const { StakeTogether, Router, Withdrawals } = getAssetContractsById('eth-staking', isTestnet)
 
-  const { priceConvertedValue } = useCoinConversion('1', ethereumStaking.asset.mobula.filterCoinConversion)
+  const { priceConvertedValue } = useCoinConversion('1', asset.mobula.filter)
   const ethPrice = priceConvertedValue
   const tvl = formatNumberByLocale(truncateDecimal(String(analytics?.totalValueLocked) || '0', 2), locale)
-  const { priceConvertedValue: tvlUsdPrice } = useCoinConversion(tvl, ethereumStaking.asset.mobula.filterCoinConversion)
+  const { priceConvertedValue: tvlUsdPrice } = useCoinConversion(tvl, asset.mobula.filter)
 
   const tvlUsdPriceFormatted = tvlUsdPrice
   const totalAccounts = analytics?.accountsCount
@@ -36,27 +34,18 @@ export default function AnalyticsControl() {
   const withdrawalsCount = analytics?.withdrawalsCount
 
   const totalRewards = formatNumberByLocale(truncateDecimal(String(analytics?.totalRewards) || '0', 2), locale)
-  const { priceConvertedValue: totalRewardsUsdPrice } = useCoinConversion(totalRewards, ethereumStaking.asset.mobula.filterCoinConversion)
+  const { priceConvertedValue: totalRewardsUsdPrice } = useCoinConversion(totalRewards, asset.mobula.filter)
   const totalRewardsUsdPriceFormatted = totalRewardsUsdPrice
 
   const poolsCount = analytics?.poolsCount
   const totalPoolsRewards = formatNumberByLocale(truncateDecimal(String(analytics?.totalPoolRewards) || '0', 2), locale)
-  const { priceConvertedValue: totalPoolsRewardsUsdPriceFormatted } = useCoinConversion(
-    totalPoolsRewards,
-    ethereumStaking.asset.mobula.filterCoinConversion
-  )
+  const { priceConvertedValue: totalPoolsRewardsUsdPriceFormatted } = useCoinConversion(totalPoolsRewards, asset.mobula.filter)
 
   const totalContractsBalance = formatNumberByLocale(truncateDecimal(String(analytics?.contractBalance) || '0', 2), locale)
-  const { priceConvertedValue: totalContractsBalanceUsdFormatted } = useCoinConversion(
-    totalContractsBalance,
-    ethereumStaking.asset.mobula.filterCoinConversion
-  )
+  const { priceConvertedValue: totalContractsBalanceUsdFormatted } = useCoinConversion(totalContractsBalance, asset.mobula.filter)
 
   const validatorsAmountTotal = formatNumberByLocale(truncateDecimal(String(analytics?.validatorsAmountTotal) || '0', 2), locale)
-  const { priceConvertedValue: validatorsAmountTotalUsdFormatted } = useCoinConversion(
-    validatorsAmountTotal,
-    ethereumStaking.asset.mobula.filterCoinConversion
-  )
+  const { priceConvertedValue: validatorsAmountTotalUsdFormatted } = useCoinConversion(validatorsAmountTotal, asset.mobula.filter)
 
   const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } = useEthBalanceOf({
     walletAddress: StakeTogether,

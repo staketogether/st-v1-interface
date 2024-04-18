@@ -1,18 +1,12 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
+import { getAssetSubgraphById } from './asset'
 import { globalConfig } from './global'
-import { getStakingSubgraph } from './products/staking'
 
-const ethereumMainnetSubgraph = getStakingSubgraph({ name: 'ethereum-stake', isTestnet: false })
-const ethereumTestnetSubgraph = getStakingSubgraph({ name: 'ethereum-stake', isTestnet: true })
-const ethereumMainnetRestaking = getStakingSubgraph({
-  name: 'ethereum-restaking',
-  isTestnet: false
-})
-const ethereumTestnetRestaking = getStakingSubgraph({
-  name: 'ethereum-restaking',
-  isTestnet: true
-})
+const ethereumMainnetSubgraph = getAssetSubgraphById('eth-staking', false)
+const ethereumTestnetSubgraph = getAssetSubgraphById('eth-staking', true)
+const ethereumMainnetRestaking = getAssetSubgraphById('eth-restaking', false)
+const ethereumTestnetRestaking = getAssetSubgraphById('eth-restaking', true)
 
 export const ethereumMainnetClient = new ApolloClient({
   uri: ethereumMainnetSubgraph,

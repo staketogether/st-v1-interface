@@ -73,7 +73,7 @@ export default function AssetInput({
       </div>
       <div>
         <CoinActionContainer>
-          <AssetIcon assetIcon={productAsset.symbol ?? 'ethereum'} networkIcon={productAsset.networkAvailable} size={32} />
+          <AssetIcon image={productAsset.symbol ?? 'ethereum'} chain={productAsset.networkAvailable} size={32} />
           <span className='max' onClick={onMaxFunction}>
             MAX
           </span>

@@ -1,5 +1,5 @@
+import { getAssetById } from '@/config/asset'
 import { chainConfigByChainId } from '@/config/chain'
-import { getStakingProduct } from '@/config/products/staking'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -35,10 +35,10 @@ export default function UpdateDelegationsModal({
 }: UpdateDelegationsModalProps) {
   const [delegationForm, setDelegationForm] = useState<UpdateDelegationForm[]>([])
   const theme = useTheme()
-  const product = getStakingProduct({ name: productSelected })
+  const asset = getAssetById(productSelected)
 
   const { chain: walletChainId } = useAccount()
-  const isWrongNetwork = product.chainIdNetworkAvailable !== walletChainId?.id
+  const isWrongNetwork = !asset?.chains.includes(walletChainId?.id ?? 0)
 
   useEffect(() => {
     function handleFormValue(value: Delegation) {
@@ -94,7 +94,7 @@ export default function UpdateDelegationsModal({
   } = useUpdateDelegations(
     isEnabled,
     updateDelegationsFormat.filter(pool => pool.percentage > 0n),
-    product,
+    asset,
     userAccount
   )
 
@@ -156,7 +156,7 @@ export default function UpdateDelegationsModal({
 
   const disabledButton = prepareTransactionIsError || !isEnabled
 
-  const { name } = chainConfigByChainId(product.chainIdNetworkAvailable)
+  const { name } = chainConfigByChainId(asset.chains[0])
   const handleLabelButton = () => {
     if (isWrongNetwork) {
       return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
@@ -170,7 +170,7 @@ export default function UpdateDelegationsModal({
   const { switchChain } = useSwitchChain()
   const handleUpdateDelegationButton = () => {
     if (isWrongNetwork && switchChain) {
-      switchChain({ chainId: product.chainIdNetworkAvailable })
+      switchChain({ chainId: asset.chains[0] })
       return
     }
     updateDelegations()
@@ -192,7 +192,7 @@ export default function UpdateDelegationsModal({
               (isSuccess && `${t('v2.updateDelegations.transactionMessages.successful')}`) ||
               `${t('v2.updateDelegations.transactionMessages.transactionLoading')}`
             }
-            chainId={product.chainIdNetworkAvailable}
+            chainId={asset?.chains[0]}
             isLoading={isLoadingTransaction}
             isSuccess={isSuccess}
             txHash={txHash}

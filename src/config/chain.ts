@@ -11,6 +11,10 @@ export interface ChainConfig {
   provider: ethers.JsonRpcProvider
   blockExplorer: BlockExplorerConfig
   isTestnet: boolean
+  transactionConfig: {
+    blockTimePerSeconds: number
+    confirmations: number
+  }
 }
 
 const configs: ChainConfig[] = [
@@ -21,6 +25,10 @@ const configs: ChainConfig[] = [
     isTestnet: false,
     blockExplorer: {
       baseUrl: mainnet.blockExplorers.default.url
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 15,
+      confirmations: 2
     }
   },
   {
@@ -30,6 +38,10 @@ const configs: ChainConfig[] = [
     isTestnet: false,
     blockExplorer: {
       baseUrl: optimism.blockExplorers.default.url
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 4,
+      confirmations: 2
     }
   },
   {
@@ -39,6 +51,10 @@ const configs: ChainConfig[] = [
     isTestnet: false,
     blockExplorer: {
       baseUrl: arbitrum.blockExplorers.default.url
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 4,
+      confirmations: 2
     }
   },
   {
@@ -48,6 +64,10 @@ const configs: ChainConfig[] = [
     isTestnet: false,
     blockExplorer: {
       baseUrl: polygon.blockExplorers.default.url
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 4,
+      confirmations: 2
     }
   },
   {
@@ -57,6 +77,10 @@ const configs: ChainConfig[] = [
     isTestnet: false,
     blockExplorer: {
       baseUrl: chiliz.blockExplorers.default.url
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 4,
+      confirmations: 2
     }
   },
   {
@@ -66,6 +90,10 @@ const configs: ChainConfig[] = [
     isTestnet: true,
     blockExplorer: {
       baseUrl: sepolia.blockExplorers.default.url
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 4,
+      confirmations: 2
     }
   },
   {
@@ -75,6 +103,10 @@ const configs: ChainConfig[] = [
     isTestnet: true,
     blockExplorer: {
       baseUrl: optimismSepolia.blockExplorers.default.url
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 4,
+      confirmations: 2
     }
   },
   {
@@ -84,6 +116,10 @@ const configs: ChainConfig[] = [
     isTestnet: true,
     blockExplorer: {
       baseUrl: arbitrumSepolia.blockExplorers.default.url
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 4,
+      confirmations: 2
     }
   },
   {
@@ -93,6 +129,10 @@ const configs: ChainConfig[] = [
     isTestnet: true,
     blockExplorer: {
       baseUrl: polygonMumbai.blockExplorers.default.url
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 4,
+      confirmations: 2
     }
   },
   {
@@ -102,9 +142,26 @@ const configs: ChainConfig[] = [
     isTestnet: true,
     blockExplorer: {
       baseUrl: spicy.blockExplorers.default.url
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 4,
+      confirmations: 2
     }
   }
 ]
+
+export enum Chain {
+  ETH_MAINNET = mainnet.id,
+  OP_MAINNET = optimism.id,
+  ARB_MAINNET = arbitrum.id,
+  POL_MAINNET = polygon.id,
+  CHZ_MAINNET = chiliz.id,
+  ETH_TESTNET = sepolia.id,
+  OP_TESTNET = optimismSepolia.id,
+  ARB_TESTNET = arbitrumSepolia.id,
+  POL_TESTNET = polygonMumbai.id,
+  CHZ_TESTNET = spicy.id
+}
 
 /**
  * @deprecated

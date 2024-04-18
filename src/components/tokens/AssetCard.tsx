@@ -1,56 +1,58 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductAsset } from '@/types/ProductAsset'
-import { ProductStaking } from '@/types/ProductStaking'
+import { Asset } from '@/types/Asset'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
-interface TokensCardContainerProps {
-  product: ProductStaking | ProductAsset
-  type: 'staking' | 'assets'
+interface AssetCardProps {
+  asset: Asset
 }
 
-const TokensShowValuePrice = dynamic(() => import('../shared/TokensShowValuePrice'), {
+const TokenPrice = dynamic(() => import('../shared/TokenPrice'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} />,
   suspense: true
 })
 
-export default function TokensCardContainer({ product, type }: TokensCardContainerProps) {
+export default function AssetCard({ asset }: AssetCardProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
 
   return (
     <CardContainer
-      href={product.urlRedirect.replace('currency', currency)}
-      className={`${!product.enabled && 'disabled'}`}
+      href={asset.url.replace('currency', currency)}
+      className={`${!asset.enabled && 'disabled'}`}
       style={{
-        pointerEvents: !product.enabled ? 'none' : undefined
+        pointerEvents: !asset.enabled ? 'none' : undefined
       }}
     >
       <ImageContainer>
         <div>
-          {type === 'staking' ? (
-            <AssetIcon assetIcon={product.name} networkIcon={product.networkAvailable} size={32} />
-          ) : (
-            <AssetIcon assetIcon={product.symbol} networkIcon={product.networkAvailable} size={32} />
-          )}
-
-          <span>{t(`v2.products.${product.name}`)}</span>
+          <AssetIcon image={asset.image} chain={asset.chains[0]} size={32} altName={asset.id} />
+          <span>{t(`v3.products.${asset.id}.name`)}</span>
         </div>
-        {!product.enabled && <Soon>{t('soon')}</Soon>}
-        {product.newProductTag && <NewTag>{t('new')}</NewTag>}
+        {!asset.enabled && <Soon>{t('soon')}</Soon>}
+        {asset.new && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
-      <TokensShowValuePrice product={product as ProductStaking} />
+      <PriceContainer>
+        <TokenPrice asset={asset} />
+      </PriceContainer>
     </CardContainer>
   )
 }
 
-const { CardContainer, ImageContainer, Soon, NewTag } = {
+const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
+  PriceContainer: styled.div`
+    span {
+      color: ${({ theme }) => theme.colorV2.blue[1]};
+      font-size: ${({ theme }) => theme.font.size[22]};
+      font-weight: 500;
+    }
+  `,
   CardContainer: styled(Link)`
     display: flex;
     flex-direction: column;

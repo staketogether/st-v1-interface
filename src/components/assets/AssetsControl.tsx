@@ -60,7 +60,7 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <AssetIcon assetIcon={product.name} size={36} />
+            <AssetIcon image={product.name} size={36} />
             {t(`v2.products.${product.name}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />

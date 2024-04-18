@@ -114,7 +114,7 @@ export default function QuotationStep({ product }: QuotationStepProps) {
         <ArrowDown />
         <InputContainer>
           <div>
-            <AssetIcon marginRight='8px' assetIcon={product.symbol} networkIcon={product.networkAvailable} size={24} />
+            <AssetIcon marginRight='8px' image={product.symbol} chain={product.networkAvailable} size={24} />
             <span>{product.symbol}</span>
           </div>
           {quoteIsValidating ? (

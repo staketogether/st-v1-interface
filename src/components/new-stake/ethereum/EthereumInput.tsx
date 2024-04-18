@@ -78,7 +78,7 @@ export default function EthereumInput({
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
+            <AssetIcon image='ethereum' chain={product.networkAvailable} size={32} />
           ) : (
             <TokensSymbolIcons productSymbol={product.symbol} size={32} />
           )}

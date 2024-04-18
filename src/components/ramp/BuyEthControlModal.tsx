@@ -1,6 +1,6 @@
 import Modal from '@/components/shared/Modal'
+import { getAsset } from '@/config/asset'
 import { globalConfig } from '@/config/global'
-import { getAsset } from '@/config/products/asset'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,

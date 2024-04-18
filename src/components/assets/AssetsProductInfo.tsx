@@ -37,7 +37,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon assetIcon={product.name} size={36} />
+            <AssetIcon image={product.name} size={36} />
             {t(`v2.products.${product.name}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
@@ -58,8 +58,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <span className='CoinValue'>{`${handleQuotePrice(assetData?.data?.price || 0)}
-               `}</span>
+              <span className='price'>{`${handleQuotePrice(assetData?.data?.price || 0)}`}</span>
             </div>
           </SymbolContainer>
         </HeaderDescribeInfo>
@@ -157,7 +156,7 @@ const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, He
           font-size: ${({ theme }) => theme.font.size[15]};
           font-weight: 400;
         }
-        &.CoinValue {
+        &.price {
           color: ${({ theme }) => theme.colorV2.blue[1]};
           font-size: ${({ theme }) => theme.font.size[22]};
           font-weight: 500;

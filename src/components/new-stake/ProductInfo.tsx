@@ -20,7 +20,7 @@ interface ProductInfoProps {
   chainId: number
 }
 
-const TokensShowValuePrice = dynamic(() => import('../shared/TokensShowValuePrice'), {
+const TokensShowValuePrice = dynamic(() => import('../shared/TokenPrice'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} />,
   suspense: true
@@ -50,7 +50,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon assetIcon={product.name} size={36} />
+            <AssetIcon image={product.name} size={36} />
             {t(`v2.products.${product.name}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />

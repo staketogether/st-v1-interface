@@ -1,20 +1,20 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
-import TokensControl from '@/components/tokens/TokensControl'
-import { stakingList } from '@/config/products/staking'
-import { ProductStaking } from '@/types/ProductStaking'
+import AssetControl from '@/components/tokens/AssetControl'
+import { getAssetsByCategory } from '@/config/asset'
+import { Asset, AssetCategory } from '@/types/Asset'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 interface StakingProps {
-  productList: ProductStaking[]
+  assetsList: Asset[]
 }
 
-export default function Staking({ productList }: StakingProps) {
+export default function Staking({ assetsList }: StakingProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <TokensControl type='staking' productsList={productList} />
+      <AssetControl category={AssetCategory.Staking} assetsList={assetsList} />
     </LayoutTemplate>
   )
 }
@@ -25,7 +25,9 @@ export const getStaticPaths: GetStaticPaths = () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  if (!stakingList?.length) {
+  const assetsList = getAssetsByCategory(AssetCategory.Staking)
+
+  if (!assetsList?.length) {
     return {
       notFound: true
     }
@@ -33,7 +35,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      productList: stakingList,
+      assetsList,
       ...(await serverSideTranslations(locale ?? 'en', ['common']))
     },
     revalidate: 24 * 60 * 60

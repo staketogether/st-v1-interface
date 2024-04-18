@@ -1,5 +1,5 @@
+import { getAssetContractsById } from '@/config/asset'
 import chainConfig from '@/config/chain'
-import { getStakingContracts } from '@/config/products/staking'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import stSymbol from '@assets/st-symbol.svg'
@@ -17,10 +17,8 @@ interface StpEthIconProps {
  */
 export default function StpEthIcon({ size = 32, showPlusIcon }: StpEthIconProps) {
   const { isTestnet } = chainConfig()
-  const { StakeTogether } = getStakingContracts({
-    name: 'ethereum-stake',
-    isTestnet
-  })
+  const { StakeTogether } = getAssetContractsById('eth-staking', isTestnet)
+
   const { addToWalletAction } = useAddSethToWallet({ productSymbol: 'stpETH', contractAddress: StakeTogether })
   const { t } = useLocaleTranslation()
   return (

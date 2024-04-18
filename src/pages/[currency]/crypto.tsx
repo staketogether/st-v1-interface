@@ -1,21 +1,20 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
-import TokensControl from '@/components/tokens/TokensControl'
-import { productAssetList } from '@/config/products/asset'
-
-import { ProductAsset } from '@/types/ProductAsset'
+import AssetControl from '@/components/tokens/AssetControl'
+import { getAssetsByCategory } from '@/config/asset'
+import { Asset, AssetCategory } from '@/types/Asset'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-interface AssetsProps {
-  productList: ProductAsset[]
+interface CryptoProps {
+  assetsList: Asset[]
 }
 
-export default function Assets({ productList }: AssetsProps) {
+export default function Crypto({ assetsList }: CryptoProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <TokensControl type='assets' productsList={productList} />
+      <AssetControl category={AssetCategory.Crypto} assetsList={assetsList} />
     </LayoutTemplate>
   )
 }
@@ -26,7 +25,9 @@ export const getStaticPaths: GetStaticPaths = () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  if (!productAssetList?.length) {
+  const assetsList = getAssetsByCategory(AssetCategory.Crypto)
+
+  if (!assetsList?.length) {
     return {
       notFound: true
     }
@@ -34,9 +35,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      productList: productAssetList.filter(product => {
-        if (product.listed) return product
-      }),
+      assetsList,
       ...(await serverSideTranslations(locale ?? 'en', ['common']))
     },
     revalidate: 24 * 60 * 60

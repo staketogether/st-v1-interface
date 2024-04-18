@@ -25,7 +25,7 @@ export default function SwapInfo({ product }: SwapInfoProps) {
       <PiArrowRight size={24} />
       <SwapToken className='left'>
         <div>
-          <AssetIcon assetIcon={product.symbol} networkIcon={product.networkAvailable} size={16} />
+          <AssetIcon image={product.symbol} chain={product.networkAvailable} size={16} />
           <span>{product.symbol}</span>
         </div>
         <span>{quote?.amountToken}</span>
