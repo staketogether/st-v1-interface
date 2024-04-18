@@ -1,3 +1,4 @@
 next.config.js
 lib
-src/types/Contracts.ts
+src/types/typechain
+node_modules

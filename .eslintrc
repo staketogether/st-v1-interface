@@ -8,8 +8,11 @@
       "jsx": true
     }
   },
-  "plugins": ["@typescript-eslint", "import"],
+  "plugins": ["@typescript-eslint", "import", "prettier"],
   "extends": [
+    "airbnb-typescript",
+    "plugin:@typescript-eslint/recommended-type-checked", // @typescript-eslint @v6
+    "plugin:@typescript-eslint/stylistic-type-checked", // @typescript-eslint @v6
     "prettier",
     "eslint:recommended",
     "next/core-web-vitals",
