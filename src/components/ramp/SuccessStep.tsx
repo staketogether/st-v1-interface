@@ -28,7 +28,7 @@ export default function SuccessStep({ product }: SuccessStepProps) {
           </span>
         </div>
         <div>
-          <span>{t('v2.ramp.yourEths')}</span>
+          <span>{t('v2.ramp.yourEths').replace('SYMBOL', product.symbol)}</span>
           <span className='purple'>{t('v2.ramp.timeReceive')}</span>
         </div>
       </DepositToken>
