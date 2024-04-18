@@ -1,14 +1,13 @@
 import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import { truncateWei } from '@/services/truncate'
+import { Pool } from '@/types/Pool'
+import { Tooltip } from 'antd'
+import { PiDiscordLogo, PiGlobeSimple, PiInstagramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-
-import { Pool } from '@/types/Pool'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { PiDiscordLogo, PiGlobeSimple, PiInstagramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
-import { Tooltip } from 'antd'
 
 type PoolsCardProps = {
   pool: Pool

@@ -1,6 +1,18 @@
 import Button from '@/components/shared/Button'
+import Input from '@/components/shared/inputs/Input'
+import Select from '@/components/shared/inputs/Select'
+import TextArea from '@/components/shared/inputs/TextArea'
+import { projectRegexFields, projectRegexOnKeyDown } from '@/components/shared/regex'
+import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import { getBase64, getVideoIdFromUrl } from '@/services/format'
+import { ContentfulPool } from '@/types/ContentfulPool'
+import { EditProjectForm } from '@/types/Project'
 import { Switch, Upload, notification } from 'antd'
+import ImgCrop from 'antd-img-crop'
+import type { UploadChangeParam } from 'antd/es/upload'
+import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   FieldErrors,
@@ -12,20 +24,8 @@ import {
   UseFormTrigger
 } from 'react-hook-form'
 import { PiCloudArrowUp, PiPencilSimpleLine, PiTrashSimple } from 'react-icons/pi'
-import styled from 'styled-components'
-import type { UploadFile, RcFile, UploadProps } from 'antd/es/upload/interface'
-import type { UploadChangeParam } from 'antd/es/upload'
-import { getBase64, getVideoIdFromUrl } from '@/services/format'
 import YouTube from 'react-youtube'
-import { ContentfulPool } from '@/types/ContentfulPool'
-import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
-import ImgCrop from 'antd-img-crop'
-import Input from '@/components/shared/inputs/Input'
-import Select from '@/components/shared/inputs/Select'
-import TextArea from '@/components/shared/inputs/TextArea'
-import { EditProjectForm } from '@/types/Project'
-import { projectRegexFields, projectRegexOnKeyDown } from '@/components/shared/regex'
-import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import styled from 'styled-components'
 
 type ProjectEditFormProps = {
   register: UseFormRegister<EditProjectForm>

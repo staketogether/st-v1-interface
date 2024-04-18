@@ -1,8 +1,6 @@
-import styled from 'styled-components'
-
 import { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import useEns from '../../../hooks/useEns'
-
 import { truncateAddress, truncateText } from '../../../services/truncate'
 import SkeletonLoading from '../icons/SkeletonLoading'
 

@@ -1,3 +1,4 @@
+import chainConfig from '@/config/chain'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
@@ -6,7 +7,6 @@ import { truncateWei } from '../../services/truncate'
 import { Delegation } from '../../types/Delegation'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import EnsName from '../shared/ens/EnsName'
-import chainConfig from '@/config/chain'
 
 type StakeReceivedDelegationProps = {
   delegation: Delegation

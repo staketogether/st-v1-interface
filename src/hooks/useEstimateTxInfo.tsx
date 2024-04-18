@@ -1,9 +1,9 @@
 import { config } from '@/config/wagmi'
-import { useEstimateFeesPerGas } from 'wagmi'
-import { mainnet } from 'wagmi/chains'
-import { getWalletClient } from 'wagmi/actions'
-import { estimateContractGas } from 'viem/actions'
 import { useCallback } from 'react'
+import { estimateContractGas } from 'viem/actions'
+import { useEstimateFeesPerGas } from 'wagmi'
+import { getWalletClient } from 'wagmi/actions'
+import { mainnet } from 'wagmi/chains'
 
 interface UseEstimateTxInfoProps {
   chainId?: number

@@ -12,7 +12,7 @@ import useLocaleTranslation from '../useLocaleTranslation'
 
 export default function useAddPool(projectAddress: `0x${string}`, isSocial: boolean, disabled?: boolean) {
   const { isTestnet, chainId } = chainConfig()
-  const subgraphClient = getSubgraphClient({ productName: 'ethereum-stake', isTestnet })
+  const subgraphClient = getSubgraphClient({ name: 'ethereum-stake', isTestnet })
   const { StakeTogether } = getStakingContracts({
     name: 'ethereum-stake',
     isTestnet

@@ -1,8 +1,4 @@
 import Modal from '@/components/shared/Modal'
-
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { useReactiveVar } from '@apollo/client'
-
 import { globalConfig } from '@/config/global'
 import { getCryptoAsset } from '@/config/products/crypto'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
@@ -14,6 +10,8 @@ import {
   openBrlaModalVar,
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { useReactiveVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect } from 'react'
 import styled from 'styled-components'

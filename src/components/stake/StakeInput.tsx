@@ -1,3 +1,4 @@
+import { ethereumStaking } from '@/config/products/staking'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import stSymbol from '@assets/st-symbol.svg'
 import Image from 'next/image'
@@ -6,7 +7,6 @@ import styled from 'styled-components'
 import useCoinConversion from '../../hooks/useCoinConversion'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '../../services/truncate'
-import { ethereumStaking } from '@/config/products/staking'
 
 interface StakeInputProps {
   value: string

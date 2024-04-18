@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 import { truncateAddress, truncateText } from '../../../services/truncate'
 import SkeletonLoading from '../icons/SkeletonLoading'
 

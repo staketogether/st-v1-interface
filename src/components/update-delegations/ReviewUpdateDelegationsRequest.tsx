@@ -1,10 +1,9 @@
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { UpdateDelegationForm } from '@/types/UpdateDelegation'
-import React from 'react'
+import { Progress } from 'antd'
 import styled, { useTheme } from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { Progress } from 'antd'
 
 type ReviewUpdateDelegationsRequestProps = {
   poolsList: ContentfulPool[]

@@ -1,8 +1,8 @@
+import { Currency, CurrencySymbol, CurrencyType, Settings } from '@/types/Settings'
 import { makeVar, useReactiveVar } from '@apollo/client'
+import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useLocalStorage } from './useLocalStorage'
-import { Currency, CurrencySymbol, CurrencyType, Settings } from '@/types/Settings'
-import { useRouter } from 'next/router'
 
 const reactiveVar = makeVar<Currency>({ value: CurrencyType.USD, symbol: CurrencySymbol.USD })
 

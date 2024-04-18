@@ -1,6 +1,6 @@
+import { PiArrowLeft, PiClockClockwise, PiSealCheck } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import { PiArrowLeft, PiClockClockwise, PiSealCheck } from 'react-icons/pi'
 import Tabs, { TabsItems } from '../../shared/Tabs'
 import PanelAnalysis from './PanelAnalysis'
 import PanelApprovedList from './PanelApprovedList'

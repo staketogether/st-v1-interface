@@ -1,6 +1,5 @@
 import useCountDown from '@/hooks/useCountDown'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import React from 'react'
 
 type StakeWithdrawCounterProps = {
   withdrawTimeLeft: number

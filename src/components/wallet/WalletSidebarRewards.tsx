@@ -3,7 +3,6 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { AccountReward } from '@/types/AccountReward'
 import { ProductStaking } from '@/types/ProductStaking'
-
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiLink } from 'react-icons/pi'

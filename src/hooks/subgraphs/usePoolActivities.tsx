@@ -1,7 +1,7 @@
-import { useQuery } from '@apollo/client'
-import { useEffect, useState } from 'react'
 import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { PoolActivity } from '@/types/PoolActivity'
+import { useQuery } from '@apollo/client'
+import { useEffect, useState } from 'react'
 
 export default function usePoolActivities(poolAddress: `0x${string}`, pagination?: { first: number; skip: number }) {
   const [poolActivities, setPoolActivities] = useState<PoolActivity[]>([])

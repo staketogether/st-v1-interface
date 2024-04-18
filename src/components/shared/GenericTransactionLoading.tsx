@@ -1,13 +1,13 @@
+import { chainConfigByChainId } from '@/config/chain'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import loadingAnimation from '@assets/animations/loading-animation.json'
+import successAnimation from '@assets/animations/success-animation.json'
+import etherscan from '@assets/icons/etherscan.svg'
+import Image from 'next/image'
 import React from 'react'
 import styled from 'styled-components'
-import loadingAnimation from '@assets/animations/loading-animation.json'
-import LottieAnimation from './LottieAnimation'
-import successAnimation from '@assets/animations/success-animation.json'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import Image from 'next/image'
 import Button from './Button'
-import { chainConfigByChainId } from '@/config/chain'
-import etherscan from '@assets/icons/etherscan.svg'
+import LottieAnimation from './LottieAnimation'
 
 type GenericTransactionLoadingProps = {
   title: string

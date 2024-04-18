@@ -8,6 +8,8 @@ import useProjectEditModal from '@/hooks/useProjectEditModal'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
 import { EditProjectForm } from '@/types/Project'
+import { notification } from 'antd'
+import axios from 'axios'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -16,8 +18,6 @@ import { useAccount, useSignMessage, useSwitchChain } from 'wagmi'
 import Modal from '../../shared/Modal'
 import ProjectEditForm from './ProjectEditForm'
 import ProjectEditLinksForm from './ProjectEditLinksForm'
-import axios from 'axios'
-import { notification } from 'antd'
 
 type ProjectEditModalProps = {
   poolDetailUs: ContentfulWithLocale

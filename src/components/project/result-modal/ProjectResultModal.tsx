@@ -1,17 +1,16 @@
+import Button from '@/components/shared/Button'
 import LottieAnimation from '@/components/shared/LottieAnimation'
+import Modal from '@/components/shared/Modal'
 import useContentfulCategoryCollection from '@/hooks/contentful/useContentfulCategoryCollection'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import successAnimation from '@assets/animations/success-animation.json'
-import { useCallback, useState } from 'react'
-import styled from 'styled-components'
-
-import Button from '@/components/shared/Button'
-import Modal from '@/components/shared/Modal'
 import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import useProjectResultModal from '@/hooks/useProjectResultModal'
 import { ContentfulPool } from '@/types/ContentfulPool'
+import successAnimation from '@assets/animations/success-animation.json'
 import axios from 'axios'
 import { useRouter } from 'next/router'
+import { useCallback, useState } from 'react'
+import styled from 'styled-components'
 import ProjectRegisteredCard from '../ProjectRegisteredCard'
 
 type ProjectResultModalProps = {

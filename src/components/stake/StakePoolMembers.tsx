@@ -2,10 +2,10 @@ import Loading from '@/components/shared/icons/Loading'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import StakeReceivedDelegation from '@/components/stake/StakeReceivedDelegation'
 import { Delegation } from '@/types/Delegation'
+import { PiUsers } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
-import { PiUsers } from 'react-icons/pi'
 
 interface StakeMembersProps {
   initialLoading: boolean

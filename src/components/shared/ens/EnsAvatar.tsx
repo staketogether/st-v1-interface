@@ -1,8 +1,8 @@
 import Image from 'next/image'
+import { PiUser } from 'react-icons/pi'
 import styled from 'styled-components'
 import useEns from '../../../hooks/useEns'
 import SkeletonLoading from '../icons/SkeletonLoading'
-import { PiUser } from 'react-icons/pi'
 
 type EnsAvatarProps = {
   address: `0x${string}`

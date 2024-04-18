@@ -1,11 +1,10 @@
-import React from 'react'
-import styled, { useTheme } from 'styled-components'
-import CommunityName from '../shared/community/CommunityName'
-import CommunityLogo from '../shared/community/CommunityLogo'
-import { DateTime } from 'luxon'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import PoolFilterIcon from '../invest/PoolFilterIcon'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import { DateTime } from 'luxon'
+import styled, { useTheme } from 'styled-components'
+import PoolFilterIcon from '../invest/PoolFilterIcon'
+import CommunityLogo from '../shared/community/CommunityLogo'
+import CommunityName from '../shared/community/CommunityName'
 
 type ProjectRegisteredProps = {
   projectLogo?: string

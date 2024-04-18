@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react'
 import dynamic from 'next/dynamic'
+import { ReactNode } from 'react'
 const Player = dynamic(() => import('@lottiefiles/react-lottie-player').then(mod => mod.Player), { ssr: false })
 
 interface LottieAnimationProps {

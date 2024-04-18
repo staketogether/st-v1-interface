@@ -1,3 +1,4 @@
+import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProductAsset } from '@/types/ProductAsset'
@@ -6,8 +7,6 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import TokensSymbolIcons from './TokensSymbolIcons'
-import AssetIcon from '@/components/shared/AssetIcon'
 
 type TokensCardContainerProps = {
   product: ProductStaking | ProductAsset
@@ -46,16 +45,7 @@ export default function TokensCardContainer({ product, type }: TokensCardContain
         {!product.enabled && <Soon>{t('soon')}</Soon>}
         {product.newProductTag && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
-      <ContainerInfo>
-        <div>
-          <TokensShowValuePrice product={product} />
-          {type === 'staking' && 'apy' in product && <span className='green'>{`APY ${product.apy}%`}</span>}
-        </div>
-        <div>
-          <TokensSymbolIcons size={24} productSymbol={product.symbol} />
-          <span>{product.symbol}</span>
-        </div>
-      </ContainerInfo>
+      <TokensShowValuePrice product={product as ProductStaking} />
     </CardContainer>
   )
 }

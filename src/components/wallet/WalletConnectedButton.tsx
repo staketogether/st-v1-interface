@@ -2,11 +2,10 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import Image from 'next/image'
 import styled from 'styled-components'
-import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-import useWalletSidebar from '../../hooks/useWalletSidebar'
-
 import { useAccount } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
+import useWalletSidebar from '../../hooks/useWalletSidebar'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import WalletName from './WalletName'
 

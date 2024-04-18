@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useReadContract } from 'wagmi'
 import { erc20Abi } from 'viem'
+import { useReadContract } from 'wagmi'
 
 type UseErc20BalanceOf = {
   walletAddress?: `0x${string}`

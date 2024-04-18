@@ -42,13 +42,13 @@ export default function useWithdrawPool(
   const { registerWithdraw } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
+  const { loading: stConfigLoading } = useStConfig({ name: product.name, chainId })
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
-  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
+  const subgraphClient = getSubgraphClient({ name: product.name, isTestnet })
 
   const { t } = useLocaleTranslation()
 
-  const { stConfig } = useStConfig({ productName: product.name, chainId })
+  const { stConfig } = useStConfig({ name: product.name, chainId })
   const amountEstimatedGas = stConfig?.minWithdrawAmount || 0n
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
   const isWithdrawEnabled = enabled && amount > 0n && !stConfigLoading

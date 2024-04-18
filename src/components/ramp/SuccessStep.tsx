@@ -1,12 +1,12 @@
 import { clearModal, quoteVar } from '@/hooks/ramp/useControlModal'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAsset } from '@/types/ProductAsset'
 import { useReactiveVar } from '@apollo/client'
+import successAnimation from '@assets/animations/success-animation.json'
 import styled from 'styled-components'
 import Button from '../shared/Button'
 import LottieAnimation from '../shared/LottieAnimation'
-import successAnimation from '@assets/animations/success-animation.json'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
-import { ProductAsset } from '@/types/ProductAsset'
 
 type SuccessStepProps = {
   product: ProductAsset

@@ -16,7 +16,7 @@ export default function useRemovePool(projectAddress: `0x${string}`, disabled?: 
     name: 'ethereum-stake',
     isTestnet
   })
-  const subgraphClient = getSubgraphClient({ productName: 'ethereum-stake', isTestnet })
+  const subgraphClient = getSubgraphClient({ name: 'ethereum-stake', isTestnet })
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const { t } = useLocaleTranslation()

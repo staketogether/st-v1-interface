@@ -1,6 +1,6 @@
 import { CreateContentfulClient } from '@/config/contentful'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { ethers } from 'ethers'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { form, signatureMessage } = req.body

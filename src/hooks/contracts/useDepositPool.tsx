@@ -41,9 +41,9 @@ export default function useDepositPool(
 
   const { registerDeposit } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
-  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
+  const subgraphClient = getSubgraphClient({ name: product.name, isTestnet })
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
+  const { stConfig, loading: stConfigLoading } = useStConfig({ name: product.name, chainId })
   const { t } = useLocaleTranslation()
 
   const amountEstimatedGas = stConfig?.minDepositAmount || 0n

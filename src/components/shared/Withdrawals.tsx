@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react'
-import { PiHandCoins, PiSwap } from 'react-icons/pi'
-import styled from 'styled-components'
-import ethIcon from '@assets/icons/eth-icon.svg'
-import Image from 'next/image'
-import Button from './Button'
-import { truncateWei } from '@/services/truncate'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import SkeletonLoading from './icons/SkeletonLoading'
 import useWithdrawalsIsReady from '@/hooks/contracts/useWithdrawalsIsReady'
 import useWithdrawalsStwEth from '@/hooks/contracts/useWithdrawalsStwEth'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { truncateWei } from '@/services/truncate'
+import ethIcon from '@assets/icons/eth-icon.svg'
+import Image from 'next/image'
+import { useEffect } from 'react'
+import { PiHandCoins, PiSwap } from 'react-icons/pi'
+import styled from 'styled-components'
+import Button from './Button'
+import SkeletonLoading from './icons/SkeletonLoading'
 
 type WithdrawalsProps = {
   balance: bigint

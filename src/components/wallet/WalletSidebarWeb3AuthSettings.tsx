@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { PiArrowLeft, PiArrowRight, PiEye } from 'react-icons/pi'
+import { chainConfigByChainId } from '@/config/chain'
+import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { useReactiveVar } from '@apollo/client'
 import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
-import { chainConfigByChainId } from '@/config/chain'
-import Modal from '../shared/Modal'
-import DefaultButton from '../shared/Button'
+import { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
-import { useReactiveVar } from '@apollo/client'
-import { web3AuthInstanceVar } from '@/config/web3Auth'
+import { PiArrowLeft, PiArrowRight, PiEye } from 'react-icons/pi'
+import styled from 'styled-components'
+import DefaultButton from '../shared/Button'
+import Modal from '../shared/Modal'
 
 type web3AuthWalletSettingsProps = {
   setWeb3authWalletActive?: (value: boolean) => void

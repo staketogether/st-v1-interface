@@ -1,7 +1,7 @@
 import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import { ProductAsset } from '@/types/ProductAsset'
 import { useTranslation } from 'react-i18next'
 import GenericErrorComponent from './GenericErrorComponent'
-import { ProductAsset } from '@/types/ProductAsset'
 
 export function TimeOutCheckout({ asset }: { asset: ProductAsset }) {
   const { t } = useTranslation()

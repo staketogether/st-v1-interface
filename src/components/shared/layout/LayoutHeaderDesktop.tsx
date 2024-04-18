@@ -1,5 +1,6 @@
 import Wallet from '@/components/wallet/Wallet'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -8,7 +9,6 @@ import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import dynamic from 'next/dynamic'
 import SkeletonLoading from '../icons/SkeletonLoading'
 
 const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {

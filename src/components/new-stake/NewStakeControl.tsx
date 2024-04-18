@@ -11,10 +11,10 @@ import { useEffect } from 'react'
 import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
+import AssetIcon from '../shared/AssetIcon'
 import LottieAnimation from '../shared/LottieAnimation'
 import NetworkIcons from '../shared/NetworkIcons'
 import ProductInfo from './ProductInfo'
-import AssetIcon from '../shared/AssetIcon'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,

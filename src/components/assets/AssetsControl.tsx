@@ -11,10 +11,10 @@ import { useEffect } from 'react'
 import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
+import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
-import AssetIcon from '../shared/AssetIcon'
 
 type AssetsControlProps = {
   product: ProductAsset

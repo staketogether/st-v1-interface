@@ -1,3 +1,4 @@
+import ProjectEditModal from '@/components/project/edit/ProjectEditModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useProjectEditModal from '@/hooks/useProjectEditModal'
 import useProjectResultModal from '@/hooks/useProjectResultModal'
@@ -12,7 +13,6 @@ import styled from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import ProjectResultModal from './result-modal/ProjectResultModal'
-import ProjectEditModal from '@/components/project/edit/ProjectEditModal'
 
 type ProjectCreateButtonProps = {
   poolDetail: ContentfulPool

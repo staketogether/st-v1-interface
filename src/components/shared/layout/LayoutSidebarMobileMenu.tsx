@@ -13,6 +13,7 @@ import { PiArrowSquareOut, PiCaretRight, PiPencilSimpleLine } from 'react-icons/
 import styled from 'styled-components'
 import packageData from '../../../../package.json'
 import { ProjectButton } from '../../project/ProjectButton'
+
 type LayoutSidebarMobileMenuProps = {
   account?: `0x${string}`
 }

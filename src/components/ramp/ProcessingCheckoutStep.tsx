@@ -1,13 +1,13 @@
 import { BrlaBuyEthStep, qrCodeVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAsset } from '@/types/ProductAsset'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import { useEffect } from 'react'
 import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import WrapProcessingStep from './WrapProcessingStep'
-import { ProductAsset } from '@/types/ProductAsset'
 
 type ProcessingCheckoutStepProps = {
   product: ProductAsset

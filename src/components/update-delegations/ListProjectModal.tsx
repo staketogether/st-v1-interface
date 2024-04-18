@@ -1,17 +1,16 @@
+import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { PiArrowLeft, PiPlus } from 'react-icons/pi'
 import styled from 'styled-components'
-import Modal from '../shared/Modal'
 import { useDebounce } from 'usehooks-ts'
+import PoolsEmptyState from '../invest/PoolsEmptyState'
+import PoolsInputSearch from '../invest/PoolsInputSearch'
+import Button from '../shared/Button'
+import Modal from '../shared/Modal'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { PiArrowLeft, PiPlus } from 'react-icons/pi'
-import Button from '../shared/Button'
-import PoolsInputSearch from '../invest/PoolsInputSearch'
-import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
 import Loading from '../shared/icons/Loading'
-import PoolsEmptyState from '../invest/PoolsEmptyState'
 
 type ListProjectModalProps = {
   isOpen: boolean

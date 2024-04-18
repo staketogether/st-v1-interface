@@ -1,8 +1,9 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { getVideoIdFromUrl } from '@/services/format'
 import { truncateAddress } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import etherscan from '@assets/icons/etherscan.svg'
-import YouTube from 'react-youtube'
+import { Tooltip } from 'antd'
 import Image from 'next/image'
 import {
   PiDiscordLogo,
@@ -15,11 +16,10 @@ import {
   PiWhatsappLogo,
   PiYoutubeLogo
 } from 'react-icons/pi'
+import YouTube from 'react-youtube'
 import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
-import { getVideoIdFromUrl } from '@/services/format'
-import { Tooltip } from 'antd'
 
 interface StakePoolAboutProps {
   poolDetail: ContentfulPool | null

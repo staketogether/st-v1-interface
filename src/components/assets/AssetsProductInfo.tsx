@@ -7,10 +7,10 @@ import { notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
+import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import TradingViewComponent from '../shared/TradingViewComponent'
 import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
-import AssetIcon from '../shared/AssetIcon'
 
 type AssetsProductInfoProps = {
   product: ProductAsset

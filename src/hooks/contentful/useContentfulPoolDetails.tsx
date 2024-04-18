@@ -4,6 +4,7 @@ import { ContentfulPool, ContentfulWithLocale } from '@/types/ContentfulPool'
 import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+
 type ContentfulPoolDetailsProps = {
   poolAddress: `0x${string}` | undefined
   locale?: string

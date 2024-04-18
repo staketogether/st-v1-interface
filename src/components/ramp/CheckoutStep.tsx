@@ -1,7 +1,9 @@
 import { BrlaBuyEthStep, clearModal, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import usePixBankInfo from '@/hooks/ramp/usePixBankInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAsset } from '@/types/ProductAsset'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import { QRCode, notification } from 'antd'
@@ -11,8 +13,6 @@ import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
 import SwapInfo from './SwapInfo'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
-import { ProductAsset } from '@/types/ProductAsset'
 
 type CheckoutStepProps = {
   product: ProductAsset

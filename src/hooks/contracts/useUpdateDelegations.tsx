@@ -37,7 +37,7 @@ export default function useUpdateDelegations(
   const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
   const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
-  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet: false })
+  const subgraphClient = getSubgraphClient({ name: product.name, isTestnet: false })
   const { web3AuthUserInfo } = useConnectedAccount()
   const { t } = useLocaleTranslation()
 

@@ -1,9 +1,9 @@
-import { makeVar } from '@apollo/client'
-import { useEffect } from 'react'
-import axios from 'axios'
-import { ProductMarketAssetData } from '@/types/ProductStaking'
 import { globalConfig } from '@/config/global'
 import { mobulaAssets } from '@/config/products/mobula-asset'
+import { ProductMarketAssetData } from '@/types/ProductStaking'
+import { makeVar } from '@apollo/client'
+import axios from 'axios'
+import { useEffect } from 'react'
 
 export const currencyPriceListVar = makeVar<{ name: string; value: number }[]>([])
 

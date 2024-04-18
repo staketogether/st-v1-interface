@@ -43,7 +43,7 @@ export default function useWithdrawValidator(
   const { registerWithdraw } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
-  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
+  const subgraphClient = getSubgraphClient({ name: product.name, isTestnet })
   const { web3AuthUserInfo } = useConnectedAccount()
 
   const { t } = useLocaleTranslation()

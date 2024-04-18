@@ -1,5 +1,5 @@
-import { useQuery } from '@apollo/client'
 import { queryFeeStakeEntry } from '@/queries/subgraph/queryFeeStakeEntry'
+import { useQuery } from '@apollo/client'
 
 interface Fee {
   id: string

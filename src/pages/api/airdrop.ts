@@ -1,6 +1,6 @@
-import { ethers } from 'ethers'
-import { ApolloClient, InMemoryCache } from '@apollo/client'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
+import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { ethers } from 'ethers'
 
 interface PoolsMarketShareData {
   pools: {
