@@ -37,11 +37,7 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
     ? productEthereum?.contracts.mainnet.StakeTogether
     : productEthereum?.contracts.testnet.StakeTogether || `0x`
   const { websiteUrl, auditUrl } = globalConfig
-  const documentationUrl = locale
-    ? locale === 'en'
-      ? globalConfig.docsEn
-      : globalConfig.docsPt
-    : globalConfig.docsEn
+  const documentationUrl = locale ? (locale === 'en' ? globalConfig.docsEn : globalConfig.docsPt) : globalConfig.docsEn
 
   return (
     <>

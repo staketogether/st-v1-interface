@@ -16,7 +16,7 @@ export default function useErc20BalanceOf({ walletAddress, chainId, token }: Use
     chainId,
     functionName: 'balanceOf',
     abi: erc20Abi,
-    args: walletAddress ? [walletAddress] : undefined,
+    args: walletAddress ? [walletAddress] : undefined
   })
   const erc20Balance = data || 0n
 

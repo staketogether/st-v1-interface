@@ -181,10 +181,7 @@ export default function ProjectEditForm({
     }
   }
 
-  const handleImageCoverChange = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-    coverType: 'cover' | 'headerCover'
-  ) => {
+  const handleImageCoverChange = async (e: React.ChangeEvent<HTMLInputElement>, coverType: 'cover' | 'headerCover') => {
     if (!e.target.files) return
 
     const file = e.target.files[0]
@@ -246,9 +243,7 @@ export default function ProjectEditForm({
                 )}
               </Upload>
             </ImgCrop>
-            <ErrorMessage>
-              {errors.logo && isSubmitted && `${t('v2.createProject.formMessages.required')}`}
-            </ErrorMessage>
+            <ErrorMessage>{errors.logo && isSubmitted && `${t('v2.createProject.formMessages.required')}`}</ErrorMessage>
           </LogoContainer>
           <Input
             title={t('v2.createProject.form.name')}
@@ -369,10 +364,7 @@ export default function ProjectEditForm({
                 {(projectCover?.base64 || cover) && (
                   <CoverWrapper>
                     {projectCover?.base64 && !cover && (
-                      <ImageCover
-                        src={`data:image/jpeg;base64,${projectCover.base64}`}
-                        alt={projectCover.mimeType}
-                      />
+                      <ImageCover src={`data:image/jpeg;base64,${projectCover.base64}`} alt={projectCover.mimeType} />
                     )}
                     {!projectCover?.base64 && cover && <ImageCover src={cover} alt={poolDetail.name} />}
                     <CoverOverlay className='overlay'>
@@ -408,14 +400,9 @@ export default function ProjectEditForm({
             {(projectHeaderCover?.base64 || headerCover) && (
               <CoverWrapper>
                 {projectHeaderCover?.base64 && !headerCover && (
-                  <ImageCover
-                    src={`data:image/jpeg;base64,${projectHeaderCover.base64}`}
-                    alt={projectHeaderCover.mimeType}
-                  />
+                  <ImageCover src={`data:image/jpeg;base64,${projectHeaderCover.base64}`} alt={projectHeaderCover.mimeType} />
                 )}
-                {!projectHeaderCover?.base64 && headerCover && (
-                  <ImageCover src={headerCover} alt={poolDetail.name} />
-                )}
+                {!projectHeaderCover?.base64 && headerCover && <ImageCover src={headerCover} alt={poolDetail.name} />}
                 <CoverOverlay className='overlay'>
                   <RemoveIcon onClick={() => handleRemoveCover('headerCover')} />
                 </CoverOverlay>

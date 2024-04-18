@@ -63,15 +63,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   )
 
   const message = `Stake Together Register - ${account} `
-  const {
-    isPending: isLoading,
-    isSuccess,
-    signMessage,
-    data,
-    isError,
-    error,
-    reset: resetSignMessage
-  } = useSignMessage()
+  const { isPending: isLoading, isSuccess, signMessage, data, isError, error, reset: resetSignMessage } = useSignMessage()
 
   useEffect(() => {
     const executeMessage = async () => {

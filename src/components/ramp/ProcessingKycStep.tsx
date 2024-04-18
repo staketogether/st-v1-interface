@@ -1,12 +1,5 @@
 import useBuyRamp, { BuyRampRequest } from '@/hooks/ramp/useBuyRamp'
-import {
-  BrlaBuyEthStep,
-  kycIdVar,
-  kycLevelVar,
-  qrCodeVar,
-  quoteVar,
-  stepsControlBuyCryptoVar
-} from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, kycIdVar, kycLevelVar, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -49,12 +42,7 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
   }
 
   useEffect(() => {
-    if (
-      address &&
-      quote &&
-      (Number(kyc?.level) > 0 || activity?.status === 'success') &&
-      Number(kyc?.level) > 0
-    ) {
+    if (address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0) {
       setRampData({
         chainId: product.ramp.bridge?.fromChainId ?? 1,
         paymentMethod: PaymentMethodType.pix,
@@ -113,11 +101,5 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
     }
   ]
 
-  return (
-    <WrapProcessingStep
-      product={product}
-      validationSteps={validationSteps}
-      title={t('v2.ramp.processingRegistration')}
-    />
-  )
+  return <WrapProcessingStep product={product} validationSteps={validationSteps} title={t('v2.ramp.processingRegistration')} />
 }

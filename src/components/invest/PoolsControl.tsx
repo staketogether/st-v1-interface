@@ -145,9 +145,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
           <span>{t('v2.pools.list.invested')}</span>
           <span>Media</span>
         </header>
-        {!poolsFilterBySearch.length && (
-          <PoolsEmptyState handleClickButton={clearFilter} key='pool-row-empty' />
-        )}
+        {!poolsFilterBySearch.length && <PoolsEmptyState handleClickButton={clearFilter} key='pool-row-empty' />}
         {poolsFilterBySearch.map(pool => (
           <div key={`pool-row-${pool.address}`}>
             <PoolsRowList key={`pool-list-row-${pool.address}`} pool={pool} loading={isLoading} />

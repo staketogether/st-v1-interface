@@ -50,9 +50,7 @@ export default function ProcessingCheckoutStep({ product }: ProcessingCheckoutSt
     activity.additionalData.bridge &&
     typeof activity.additionalData.bridge === 'object' &&
     'txHash' in activity.additionalData.bridge
-  const finishedPayment = product.ramp.bridge
-    ? paymentStatus === 'success' && !!successfulBridging
-    : paymentStatus === 'success'
+  const finishedPayment = product.ramp.bridge ? paymentStatus === 'success' && !!successfulBridging : paymentStatus === 'success'
 
   const validationSteps = [
     {
@@ -66,11 +64,5 @@ export default function ProcessingCheckoutStep({ product }: ProcessingCheckoutSt
     }
   ]
 
-  return (
-    <WrapProcessingStep
-      product={product}
-      validationSteps={validationSteps}
-      title={t('v2.ramp.processingPayment')}
-    />
-  )
+  return <WrapProcessingStep product={product} validationSteps={validationSteps} title={t('v2.ramp.processingPayment')} />
 }

@@ -90,15 +90,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
   )
 }
 
-const {
-  ProductContainer,
-  SymbolContainer,
-  ProductBodyContainer,
-  ShareButton,
-  HeaderProduct,
-  HeaderDescribeInfo,
-  StatisticContainer
-} = {
+const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, HeaderProduct, HeaderDescribeInfo, StatisticContainer } = {
   ProductContainer: styled.div`
     flex: 1;
     display: flex;

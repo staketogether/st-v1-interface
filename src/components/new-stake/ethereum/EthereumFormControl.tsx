@@ -50,14 +50,10 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
         <nav>
           <ul>
             <li className={`${type === 'deposit' && 'activated'}`}>
-              <Link href={product.urlRedirect.replace('currency', currency)}>
-                {t('v2.ethereumStaking.actions.invest')}
-              </Link>
+              <Link href={product.urlRedirect.replace('currency', currency)}>{t('v2.ethereumStaking.actions.invest')}</Link>
             </li>
             <li className={`${type === 'withdraw' && 'activated'}`}>
-              <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>
-                {t('v2.ethereumStaking.actions.withdraw')}
-              </Link>
+              <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>{t('v2.ethereumStaking.actions.withdraw')}</Link>
             </li>
           </ul>
         </nav>

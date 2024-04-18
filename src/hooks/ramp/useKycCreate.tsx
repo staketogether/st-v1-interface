@@ -35,20 +35,16 @@ export default function useKycCreate(
   const { backendUrl } = globalConfig
   const isValid = provider && taxId && kycData
   const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, { ...kycData }).then(res => res.data)
-  const { data, error, mutate, isLoading } = useSWR<{ id: string }>(
-    isValid ? `api/ramp/kyc/${provider}/${taxId}/verify` : null,
-    fetcher,
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      errorRetryCount: 1,
-      shouldRetryOnError: false,
-      revalidateOnMount: false,
-      onSuccess: data => onSuccessCallback && onSuccessCallback(data),
-      onError: data => onErrorCallback && onErrorCallback(data)
-    }
-  )
+  const { data, error, mutate, isLoading } = useSWR<{ id: string }>(isValid ? `api/ramp/kyc/${provider}/${taxId}/verify` : null, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    errorRetryCount: 1,
+    shouldRetryOnError: false,
+    revalidateOnMount: false,
+    onSuccess: data => onSuccessCallback && onSuccessCallback(data),
+    onError: data => onErrorCallback && onErrorCallback(data)
+  })
 
   return {
     data,

@@ -75,12 +75,7 @@ export default function ProjectEditLinksForm({
             maxLength={120}
             onKeyDown={e => {
               const validUrlCharsRegex = projectRegexOnKeyDown.youtubeChanel
-              if (
-                !validUrlCharsRegex.test(e.key) &&
-                e.key !== 'Backspace' &&
-                e.key !== 'Enter' &&
-                e.key !== 'Tab'
-              ) {
+              if (!validUrlCharsRegex.test(e.key) && e.key !== 'Backspace' && e.key !== 'Enter' && e.key !== 'Tab') {
                 e.preventDefault()
               }
             }}

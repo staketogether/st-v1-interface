@@ -46,11 +46,7 @@ export default function StakePoolInfo({
       icon: <AboutIcon />,
       children: (
         <TabContainer>
-          <StakePoolAbout
-            isStakeTogetherPool={isStakeTogetherPool}
-            poolDetail={poolDetail}
-            loading={poolDetailLoading}
-          />
+          <StakePoolAbout isStakeTogetherPool={isStakeTogetherPool} poolDetail={poolDetail} loading={poolDetailLoading} />
         </TabContainer>
       )
     },
@@ -58,8 +54,7 @@ export default function StakePoolInfo({
       key: 'accounts',
       label: (
         <AccountContainer>
-          {`${t('accounts')}`}{' '}
-          {!initialLoadingPoolData ? `(${poolData?.receivedDelegationsCount})` : <SkeletonLoading width={20} />}
+          {`${t('accounts')}`} {!initialLoadingPoolData ? `(${poolData?.receivedDelegationsCount})` : <SkeletonLoading width={20} />}
         </AccountContainer>
       ),
       icon: <MembersIcon />,

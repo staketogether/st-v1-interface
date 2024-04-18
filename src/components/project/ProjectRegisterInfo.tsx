@@ -162,12 +162,7 @@ export default function ProjectRegisterInfo({
         {account && (
           <>
             <Terms>
-              <input
-                type='checkbox'
-                name='agree'
-                checked={hasAgreeTerms}
-                onChange={e => setHasAgreeTerms(e.target.checked)}
-              />
+              <input type='checkbox' name='agree' checked={hasAgreeTerms} onChange={e => setHasAgreeTerms(e.target.checked)} />
 
               <span>
                 {t('v2.createProject.terms')}{' '}
@@ -179,9 +174,7 @@ export default function ProjectRegisterInfo({
             </Terms>
             <Content>
               <FormContainer ref={modalRef}>
-                <LogoContainer
-                  className={`${errors.logo && isSubmitted && 'error'} ${hasAgreeTerms ? '' : 'disabled'}`}
-                >
+                <LogoContainer className={`${errors.logo && isSubmitted && 'error'} ${hasAgreeTerms ? '' : 'disabled'}`}>
                   <span>{t('v2.createProject.form.logo')}</span>
                   <ImgCrop cropShape='round' beforeCrop={beforeUpload}>
                     <Upload
@@ -204,9 +197,7 @@ export default function ProjectRegisterInfo({
                       )}
                     </Upload>
                   </ImgCrop>
-                  <ErrorMessage>
-                    {errors.logo && isSubmitted && `${t('v2.createProject.formMessages.required')}`}
-                  </ErrorMessage>
+                  <ErrorMessage>{errors.logo && isSubmitted && `${t('v2.createProject.formMessages.required')}`}</ErrorMessage>
                 </LogoContainer>
                 <Input
                   title={t('v2.createProject.form.wallet')}
@@ -284,13 +275,7 @@ export default function ProjectRegisterInfo({
                 />
               </FormContainer>
               <Footer>
-                <Button
-                  block
-                  icon={<NextStepIcon />}
-                  type='submit'
-                  disabled={!hasAgreeTerms}
-                  label={`${t('next')}`}
-                />
+                <Button block icon={<NextStepIcon />} type='submit' disabled={!hasAgreeTerms} label={`${t('next')}`} />
               </Footer>
             </Content>
           </>
@@ -299,19 +284,7 @@ export default function ProjectRegisterInfo({
     </Form>
   )
 }
-const {
-  Container,
-  Content,
-  ContainerLogin,
-  Terms,
-  UploadIcon,
-  Form,
-  Footer,
-  FormContainer,
-  LogoContainer,
-  NextStepIcon,
-  ErrorMessage
-} = {
+const { Container, Content, ContainerLogin, Terms, UploadIcon, Form, Footer, FormContainer, LogoContainer, NextStepIcon, ErrorMessage } = {
   Container: styled.div`
     display: grid;
     flex-direction: column;

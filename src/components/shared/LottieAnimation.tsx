@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import dynamic from 'next/dynamic'
-const Player = dynamic(() => import('@lottiefiles/react-lottie-player').then((mod) => mod.Player), { ssr: false });
+const Player = dynamic(() => import('@lottiefiles/react-lottie-player').then(mod => mod.Player), { ssr: false })
 
 interface LottieAnimationProps {
   animationData: object
@@ -11,13 +11,7 @@ interface LottieAnimationProps {
   height?: number
 }
 
-export default function LottieAnimation({
-  animationData,
-  loop = false,
-  autoplay = true,
-  width,
-  height
-}: LottieAnimationProps) {
+export default function LottieAnimation({ animationData, loop = false, autoplay = true, width, height }: LottieAnimationProps) {
   return (
     <Player
       autoplay={autoplay}

@@ -16,12 +16,7 @@ type TokensSymbolIconsProps = {
   showPlusIcon?: boolean
 }
 
-export default function TokensSymbolIcons({
-  productSymbol,
-  size,
-  showPlusIcon,
-  contractAddress
-}: TokensSymbolIconsProps) {
+export default function TokensSymbolIcons({ productSymbol, size, showPlusIcon, contractAddress }: TokensSymbolIconsProps) {
   const productSymbolIcons = {
     stpETH: stIcon,
     strETH: stpRETHIcon,
@@ -45,12 +40,7 @@ export default function TokensSymbolIcons({
   return (
     <Tooltip title={t('addToWalletTooltip')}>
       <Warper size={size} onClick={showPlusIcon ? addToWalletAction : () => {}}>
-        <Image
-          src={productSymbolIcons[productSymbol as keyof typeof productSymbolIcons]}
-          width={size}
-          height={size}
-          alt={productSymbol}
-        />
+        <Image src={productSymbolIcons[productSymbol as keyof typeof productSymbolIcons]} width={size} height={size} alt={productSymbol} />
         {showPlusIcon && (
           <div>
             <PiPlusBold style={{ fontSize: size <= 24 ? 7 : 9 }} />

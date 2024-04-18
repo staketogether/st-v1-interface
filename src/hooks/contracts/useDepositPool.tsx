@@ -14,11 +14,7 @@ import { stakeTogetherAbi } from '@/types/Contracts'
 import { ProductStaking } from '@/types/ProductStaking'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
-import {
-  useSimulateContract,
-  useWaitForTransactionReceipt as useWaitForTransaction,
-  useWriteContract
-} from 'wagmi'
+import { useSimulateContract, useWaitForTransactionReceipt as useWaitForTransaction, useWriteContract } from 'wagmi'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import useConnectedAccount from '../useConnectedAccount'
@@ -72,8 +68,7 @@ export default function useDepositPool(
 
   useEffect(() => {
     const handleEstimateGasPrice = async () => {
-      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-        await estimateGas()
+      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } = await estimateGas()
       setDepositEstimatedGas(estimatedGas)
       setEstimateGasCost(estimatedCost)
       setMaxFeePerGas(estimatedMaxFeePerGas)
@@ -112,13 +107,9 @@ export default function useDepositPool(
     address: StakeTogether,
     args: [poolAddress, referral],
     value: grossDepositAmount,
-    gas:
-      !!depositEstimatedGas && depositEstimatedGas > 0n && !!web3AuthUserInfo ? depositEstimatedGas : undefined,
+    gas: !!depositEstimatedGas && depositEstimatedGas > 0n && !!web3AuthUserInfo ? depositEstimatedGas : undefined,
     maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
-    maxPriorityFeePerGas:
-      !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo
-        ? maxPriorityFeePerGas
-        : undefined
+    maxPriorityFeePerGas: !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo ? maxPriorityFeePerGas : undefined
   })
 
   useEffect(() => {
@@ -129,9 +120,7 @@ export default function useDepositPool(
         (!cause || !cause.reason) &&
         !!web3AuthUserInfo &&
         cause?.message &&
-        cause.message.includes(
-          'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
-        )
+        cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
       ) {
         notification.warning({
           message: `${t('v2.stake.insufficientGasBalance')}, ${t('v2.stake.depositErrorMessage.useMaxButton')}`,
@@ -155,12 +144,7 @@ export default function useDepositPool(
     }
   }, [prepareTransactionIsSuccess])
 
-  const {
-    writeContract,
-    data: txHash,
-    isError: writeContractIsError,
-    reset: resetWriteContract
-  } = useWriteContract()
+  const { writeContract, data: txHash, isError: writeContractIsError, reset: resetWriteContract } = useWriteContract()
 
   useEffect(() => {
     if (writeContractIsError && awaitWalletAction) {

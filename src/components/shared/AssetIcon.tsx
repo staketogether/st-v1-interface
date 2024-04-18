@@ -69,12 +69,7 @@ export default function AssetIcon({ assetIcon, size, networkIcon, marginRight }:
 
   return (
     <Wrapper style={{ marginRight: marginRight ? marginRight : 'inherit' }} size={size}>
-      <Image
-        src={assetSymbolIcons[assetIcon as keyof typeof assetSymbolIcons]}
-        width={size}
-        height={size}
-        alt={assetIcon}
-      />
+      <Image src={assetSymbolIcons[assetIcon as keyof typeof assetSymbolIcons]} width={size} height={size} alt={assetIcon} />
       {networkIcon && (
         <div>
           <Image

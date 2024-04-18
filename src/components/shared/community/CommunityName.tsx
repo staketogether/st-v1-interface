@@ -14,16 +14,7 @@ type CommunityNameProps = {
   $bold?: boolean
 }
 
-export default function CommunityName({
-  name,
-  walletAddress,
-  loading,
-  $large,
-  $larger,
-  slice,
-  $color,
-  $bold
-}: CommunityNameProps) {
+export default function CommunityName({ name, walletAddress, loading, $large, $larger, slice, $color, $bold }: CommunityNameProps) {
   if (loading && !$larger && !$large) {
     return <SkeletonLoading width={140} height={14} />
   } else if (loading && $large) {

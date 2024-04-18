@@ -50,9 +50,7 @@ export default function StakeWithdrawSwitchTypes({
   return (
     <Container>
       <Card
-        className={`${handleActiveType(WithdrawType.POOL) ? 'active' : ''} ${
-          disabledWithdrawLiquidity && 'disabled'
-        }`}
+        className={`${handleActiveType(WithdrawType.POOL) ? 'active' : ''} ${disabledWithdrawLiquidity && 'disabled'}`}
         onClick={() => !disabledWithdrawValidator && selectWithdrawType(WithdrawType.POOL)}
       >
         <header>
@@ -68,10 +66,7 @@ export default function StakeWithdrawSwitchTypes({
           <div>
             <span>{t('withdrawCardsType.liquidity')}</span>
             <div className='blue'>
-              <span className='blue'>{`${formatNumberByLocale(
-                truncateWei(liquidityPoolBalance, 4),
-                locale
-              )} `}</span>
+              <span className='blue'>{`${formatNumberByLocale(truncateWei(liquidityPoolBalance, 4), locale)} `}</span>
               <span className='blue'>{t('eth.symbol')}</span>
             </div>
           </div>
@@ -88,9 +83,7 @@ export default function StakeWithdrawSwitchTypes({
         </RateInfo>
       </Card>
       <Card
-        className={`${handleActiveType(WithdrawType.VALIDATOR) ? 'active' : ''} ${
-          disabledWithdrawValidator && 'disabled'
-        }`}
+        className={`${handleActiveType(WithdrawType.VALIDATOR) ? 'active' : ''} ${disabledWithdrawValidator && 'disabled'}`}
         onClick={() => !disabledWithdrawValidator && selectWithdrawType(WithdrawType.VALIDATOR)}
       >
         <header>
@@ -106,10 +99,7 @@ export default function StakeWithdrawSwitchTypes({
           <div>
             <span>{t('withdrawCardsType.liquidity')}</span>
             <div>
-              <span className='blue'>{`${formatNumberByLocale(
-                truncateWei(liquidityValidatorsBalance, 2),
-                locale
-              )} `}</span>
+              <span className='blue'>{`${formatNumberByLocale(truncateWei(liquidityValidatorsBalance, 2), locale)} `}</span>
               <span className='blue'>{t('eth.symbol')}</span>
             </div>
           </div>

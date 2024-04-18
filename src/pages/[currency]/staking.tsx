@@ -19,11 +19,7 @@ export default function Staking({ productList }: StakingProps) {
   )
 }
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = [
-    { params: { currency: 'usd' } },
-    { params: { currency: 'brl' } },
-    { params: { currency: 'eur' } }
-  ]
+  const paths = [{ params: { currency: 'usd' } }, { params: { currency: 'brl' } }, { params: { currency: 'eur' } }]
 
   return { paths, fallback: 'blocking' }
 }

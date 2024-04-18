@@ -14,11 +14,7 @@ import { ProductStaking } from '@/types/ProductStaking'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import {
-  useSimulateContract,
-  useWaitForTransactionReceipt as useWaitForTransaction,
-  useWriteContract
-} from 'wagmi'
+import { useSimulateContract, useWaitForTransactionReceipt as useWaitForTransaction, useWriteContract } from 'wagmi'
 import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
@@ -64,8 +60,7 @@ export default function useUpdateDelegations(
 
   useEffect(() => {
     const handleEstimateGasPrice = async () => {
-      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-        await estimateGas()
+      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } = await estimateGas()
       setEstimatedGas(estimatedGas)
       setEstimateGasCost(estimatedCost)
       setMaxFeePerGas(estimatedMaxFeePerGas)
@@ -94,10 +89,7 @@ export default function useUpdateDelegations(
     functionName: 'updateDelegations',
     gas: !!estimatedGas && estimatedGas > 0n && !!web3AuthUserInfo ? estimatedGas : undefined,
     maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
-    maxPriorityFeePerGas:
-      !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo
-        ? maxPriorityFeePerGas
-        : undefined
+    maxPriorityFeePerGas: !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo ? maxPriorityFeePerGas : undefined
   })
 
   useEffect(() => {
@@ -111,14 +103,10 @@ export default function useUpdateDelegations(
       (!cause || !cause.reason) &&
       !!web3AuthUserInfo &&
       cause?.message &&
-      cause.message.includes(
-        'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
-      )
+      cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
     ) {
       notification.warning({
-        message: `${t('v2.stake.depositErrorMessage.insufficientGasBalance')}, ${t(
-          'v2.stake.depositErrorMessage.useMaxButton'
-        )}`,
+        message: `${t('v2.stake.depositErrorMessage.insufficientGasBalance')}, ${t('v2.stake.depositErrorMessage.useMaxButton')}`,
         placement: 'topRight'
       })
       setPrepareTransactionErrorMessage('insufficientGasBalance')

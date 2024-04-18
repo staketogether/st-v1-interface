@@ -15,15 +15,7 @@ import axios from 'axios'
 import errorAnimation from '@assets/animations/error-animation.json'
 import React, { useEffect, useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
-import {
-  PiDiscordLogo,
-  PiGlobeSimple,
-  PiInstagramLogo,
-  PiLinkedinLogo,
-  PiTelegramLogo,
-  PiTwitterLogo,
-  PiYoutubeLogo
-} from 'react-icons/pi'
+import { PiDiscordLogo, PiGlobeSimple, PiInstagramLogo, PiLinkedinLogo, PiTelegramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useSignMessage } from 'wagmi'
 import LottieAnimation from '@/components/shared/LottieAnimation'
@@ -229,12 +221,7 @@ export default function PanelProjectDetailModal({
           bodyComponent={
             <ProjectContainer>
               <GapContainer>
-                <CommunityLogo
-                  size={32}
-                  src={project?.logo.url}
-                  alt={project?.logo.fileName || ''}
-                  loading={false}
-                />
+                <CommunityLogo size={32} src={project?.logo.url} alt={project?.logo.fileName || ''} loading={false} />
                 <CommunityName name={project.name} loading={false} $bold />
               </GapContainer>
               <GapContainer>
@@ -251,9 +238,7 @@ export default function PanelProjectDetailModal({
             <RejectedContainer>
               <LottieAnimation animationData={successAnimation} height={50} />
               <span>
-                {addPoolIsSuccess
-                  ? t('v2.panelProject.modal.projectApprovedAndPublished')
-                  : t('v2.panelProject.modal.projectApproved')}
+                {addPoolIsSuccess ? t('v2.panelProject.modal.projectApprovedAndPublished') : t('v2.panelProject.modal.projectApproved')}
               </span>
             </RejectedContainer>
           )}
@@ -269,12 +254,7 @@ export default function PanelProjectDetailModal({
           )}
           <ProjectContainer>
             <GapContainer>
-              <CommunityLogo
-                size={24}
-                src={project?.logo.url}
-                alt={project?.logo.fileName || ''}
-                loading={false}
-              />
+              <CommunityLogo size={24} src={project?.logo.url} alt={project?.logo.fileName || ''} loading={false} />
               <CommunityName name={project.name} loading={false} />
             </GapContainer>
             <GapContainer>
@@ -326,9 +306,7 @@ export default function PanelProjectDetailModal({
             )}
           </GapContainer>
           {(isApproved || project.status === 'approved') && !isRejected && !addPoolIsSuccess && (
-            <FooterContainer
-              className={`${showRejectOptionWhenContractIsNotPublished && 'contractIsNotPublished'}`}
-            >
+            <FooterContainer className={`${showRejectOptionWhenContractIsNotPublished && 'contractIsNotPublished'}`}>
               {isContractPublished && !isRemovedContract && (
                 <Button
                   label={t('v2.panelProject.modal.remove')}

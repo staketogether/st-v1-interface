@@ -46,16 +46,13 @@ export default function useStAccount({ address, productName, chainId }: useStAcc
     client
   })
 
-  const { data: rewardsData, loading: rewardsLoading } = useQuery<{ accountRewards: AccountReward[] }>(
-    queryAccountRewards,
-    {
-      client,
-      skip: !address,
-      variables: {
-        accountAddress: address?.toLowerCase()
-      }
+  const { data: rewardsData, loading: rewardsLoading } = useQuery<{ accountRewards: AccountReward[] }>(queryAccountRewards, {
+    client,
+    skip: !address,
+    variables: {
+      accountAddress: address?.toLowerCase()
     }
-  )
+  })
 
   useEffect(() => {
     if (accountData && accountData.account) {

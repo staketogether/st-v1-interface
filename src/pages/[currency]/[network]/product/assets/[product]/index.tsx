@@ -36,14 +36,7 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
     } else if (router.query.payment === 'credit') {
       buyCrypto()
     }
-  }, [
-    buyCrypto,
-    minAmount,
-    asset,
-    router.query?.amount,
-    router.query.payment,
-    router.query.provider
-  ])
+  }, [buyCrypto, minAmount, asset, router.query?.amount, router.query.payment, router.query.provider])
 
   return (
     <LayoutTemplate>
@@ -76,12 +69,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: 'blocking' }
 }
 
-async function fetchProductAssetData(
-  uri: string,
-  asset: string,
-  blockchain: string,
-  symbol: string
-): Promise<ProductMarketAssetData> {
+async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<ProductMarketAssetData> {
   const { backendUrl } = globalConfig
   return axios
     .get<ProductMarketAssetData>(`${backendUrl}/api/${uri}`, {

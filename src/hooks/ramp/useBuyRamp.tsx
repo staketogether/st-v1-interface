@@ -19,7 +19,6 @@ export interface BuyRampRequest {
   convertToToken?: string
 }
 export default function useBuyRamp(provider: 'brla' | 'transak', request?: BuyRampRequest) {
-
   const { backendUrl } = globalConfig
   const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, request).then(res => res.data)
   const { data, error } = useSWR<BuyRamp>(request && `api/ramp/buy/${provider}`, fetcher)

@@ -20,8 +20,7 @@ export default function useAddStwEthToWallet() {
         options: {
           address: Withdrawals,
           symbol: t('wse.symbol'),
-          image:
-            'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
+          image: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
           decimals: 18
         }
       })

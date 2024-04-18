@@ -1,17 +1,6 @@
 import Web3AuthConnectorInstances from '@/config/web3Auth'
 import { createConfig, http } from 'wagmi'
-import {
-  arbitrum,
-  arbitrumSepolia,
-  chiliz,
-  mainnet,
-  optimism,
-  optimismSepolia,
-  polygon,
-  polygonMumbai,
-  sepolia,
-  spicy
-} from 'wagmi/chains'
+import { arbitrum, arbitrumSepolia, chiliz, mainnet, optimism, optimismSepolia, polygon, polygonMumbai, sepolia, spicy } from 'wagmi/chains'
 import { safe, walletConnect } from 'wagmi/connectors'
 
 const handleConnectors = () => {
@@ -37,18 +26,7 @@ const handleConnectors = () => {
 }
 
 export const config = createConfig({
-  chains: [
-    mainnet,
-    optimism,
-    arbitrum,
-    polygon,
-    chiliz,
-    sepolia,
-    optimismSepolia,
-    arbitrumSepolia,
-    polygonMumbai,
-    spicy
-  ],
+  chains: [mainnet, optimism, arbitrum, polygon, chiliz, sepolia, optimismSepolia, arbitrumSepolia, polygonMumbai, spicy],
   connectors: handleConnectors(),
   transports: {
     [mainnet.id]: http(process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL as string),

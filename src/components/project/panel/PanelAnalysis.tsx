@@ -42,12 +42,7 @@ export default function PanelAnalysis() {
             projectList.map(project => (
               <ProjectContainer key={project.wallet}>
                 <Project>
-                  <CommunityLogo
-                    size={24}
-                    src={project?.logo.url}
-                    alt={project?.logo.fileName || ''}
-                    loading={initialLoading}
-                  />
+                  <CommunityLogo size={24} src={project?.logo.url} alt={project?.logo.fileName || ''} loading={initialLoading} />
                   <CommunityName name={project.name} loading={false} />
                 </Project>
                 <ViewButton onClick={() => handleShowModal(project)}>

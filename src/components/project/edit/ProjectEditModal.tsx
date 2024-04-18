@@ -247,9 +247,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
       <Container>
         {(isPending || isSuccess) && (
           <GenericTransactionLoading
-            title={
-              isSuccess ? `${t('v2.editProject.messages.success')}` : `${t('v2.editProject.messages.loading')}`
-            }
+            title={isSuccess ? `${t('v2.editProject.messages.success')}` : `${t('v2.editProject.messages.loading')}`}
             isLoading={isPending}
             isSuccess={isSuccess}
             successButtonLabel={t('close')}
@@ -260,11 +258,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
           />
         )}
         {!isPending && !isSuccess && (
-          <Tabs
-            items={tabsItems}
-            defaultActiveKey={activeTab}
-            onChangeActiveTab={value => setActiveTab(value as string)}
-          />
+          <Tabs items={tabsItems} defaultActiveKey={activeTab} onChangeActiveTab={value => setActiveTab(value as string)} />
         )}
       </Container>
     </Modal>

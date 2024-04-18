@@ -9,9 +9,5 @@ type TokensShowValuePriceProps = {
 
 export default function StakingShowValuePrice({ product, className }: TokensShowValuePriceProps) {
   const { priceConvertedValue, loading } = useCoinConversion('1', product.asset.mobula.filterCoinConversion)
-  return loading && !priceConvertedValue ? (
-    <SkeletonLoading width={80} />
-  ) : (
-    <span className={className}>{priceConvertedValue}</span>
-  )
+  return loading && !priceConvertedValue ? <SkeletonLoading width={80} /> : <span className={className}>{priceConvertedValue}</span>
 }

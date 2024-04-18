@@ -28,13 +28,7 @@ interface StakeControlProps {
   isStakeTogetherPool?: boolean
 }
 
-export default function StakeControl({
-  poolAddress,
-  type,
-  poolDetail,
-  chainId,
-  isStakeTogetherPool
-}: StakeControlProps) {
+export default function StakeControl({ poolAddress, type, poolDetail, chainId, isStakeTogetherPool }: StakeControlProps) {
   const [skipMembers, setSkipMembers] = useState(0)
   const [skipActivity, setSkipActivity] = useState(0)
   const product = getStakingProduct({ name: 'ethereum-stake' })
@@ -88,15 +82,7 @@ export default function StakeControl({
   }
 
   const { account } = useConnectedAccount()
-  const stakeForm = (
-    <StakeForm
-      type={type}
-      product={product}
-      accountAddress={account}
-      poolAddress={poolAddress}
-      chainId={chainId}
-    />
-  )
+  const stakeForm = <StakeForm type={type} product={product} accountAddress={account} poolAddress={poolAddress} chainId={chainId} />
   const tabsItems: TabsItems[] = [
     {
       key: 'deposit',
@@ -122,11 +108,7 @@ export default function StakeControl({
 
   return (
     <Container>
-      <LayoutTitle
-        title={t('v2.pages.deposit.title')}
-        description={''}
-        isStakeTogetherPool={isStakeTogetherPool}
-      />
+      <LayoutTitle title={t('v2.pages.deposit.title')} description={''} isStakeTogetherPool={isStakeTogetherPool} />
       <FormContainer>
         {!isStakeTogetherPool && (
           <ProjectBackgroundContainer imageUrl={poolDetail?.image?.url}>
@@ -185,9 +167,7 @@ export default function StakeControl({
                 </div>
                 <DataInfo className='bold green '>
                   {!!pool?.totalRewards && !initialLoading ? (
-                    <span>{`${formatNumberByLocale(truncateWei(pool.totalRewards, 5), locale)}  ${t(
-                      'lsd.symbol'
-                    )} `}</span>
+                    <span>{`${formatNumberByLocale(truncateWei(pool.totalRewards, 5), locale)}  ${t('lsd.symbol')} `}</span>
                   ) : (
                     <SkeletonLoading height={14} width={100} />
                   )}
@@ -197,11 +177,7 @@ export default function StakeControl({
           </ProjectBackgroundContainer>
         )}
         <Form>
-          <Tabs
-            items={tabsItems}
-            defaultActiveKey={activeTab}
-            onChangeActiveTab={value => handleSwitch(value as string)}
-          />
+          <Tabs items={tabsItems} defaultActiveKey={activeTab} onChangeActiveTab={value => handleSwitch(value as string)} />
         </Form>
       </FormContainer>
       <StakePoolInfo
@@ -216,9 +192,7 @@ export default function StakeControl({
         loadMoreActivitiesItems={handleLoadMoreActivity}
         isStakeTogetherPool={!!isStakeTogetherPool}
       />
-      {poolAddress.toLocaleLowerCase() === account?.toLocaleLowerCase() && (
-        <WalletLottery poolAddress={poolAddress} chainId={chainId} />
-      )}
+      {poolAddress.toLocaleLowerCase() === account?.toLocaleLowerCase() && <WalletLottery poolAddress={poolAddress} chainId={chainId} />}
     </Container>
   )
 }

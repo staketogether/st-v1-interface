@@ -33,10 +33,11 @@ export default function QuotationOfRampStep({ product }: QuotationStepProps) {
   const debounceValue = useDebounce(value, 300)
   const { account } = useConnectedAccount()
   const minDeposit = product.ramp.minDeposit
-  const {
-    balance: ethBalance,
-    isLoading: ethBalanceLoading,
-  } = useEthBalanceOf({ walletAddress: account, chainId: product.chainIdNetworkAvailable, token: product.contract })
+  const { balance: ethBalance, isLoading: ethBalanceLoading } = useEthBalanceOf({
+    walletAddress: account,
+    chainId: product.chainIdNetworkAvailable,
+    token: product.contract
+  })
 
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
@@ -127,14 +128,7 @@ export default function QuotationOfRampStep({ product }: QuotationStepProps) {
             <Image src={brlBrla} width={36} height={24} alt='BRL' />
             <span>BRL</span>
           </div>
-          <input
-            type='number'
-            disabled
-            value={quote?.amountBrl}
-            min={0}
-            placeholder='0'
-            step={1}
-          />
+          <input type='number' disabled value={quote?.amountBrl} min={0} placeholder='0' step={1} />
         </InputContainer>
       </BoxValuesContainer>
       <QuotationStepEthAmount product={product} />

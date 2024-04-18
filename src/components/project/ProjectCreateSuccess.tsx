@@ -35,10 +35,7 @@ export default function ProjectCreateSuccess({ formValues, poolDetail }: Project
         projectName={formValues.projectName}
         projectStatus={'pending'}
         createAt={new Date().toISOString()}
-        ProjectCategory={
-          (categories?.length && categories.find(category => category.sys.id === formValues.category)?.name) ||
-          'education'
-        }
+        ProjectCategory={(categories?.length && categories.find(category => category.sys.id === formValues.category)?.name) || 'education'}
       />
       <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
       <SuccessButton

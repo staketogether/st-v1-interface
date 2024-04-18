@@ -35,11 +35,7 @@ export default function StakeWithdrawCounter({ withdrawTimeLeft }: StakeWithdraw
     )
   }
   if (time && (Number(time.secondsTens) > 0 || Number(time.secondsUnits) > 0)) {
-    return (
-      <div>
-        {withdrawTimeLeft > 0 && `${time.secondsTens || '0'}${time.secondsUnits || '0'}${t('seconds')}`}
-      </div>
-    )
+    return <div>{withdrawTimeLeft > 0 && `${time.secondsTens || '0'}${time.secondsUnits || '0'}${t('seconds')}`}</div>
   }
 
   return null

@@ -120,10 +120,8 @@ export default function EthereumDeposit({
   const insufficientFunds = amountBigNumber > ethBalance
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
-    (insufficientMinDeposit &&
-      `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
-    (prepareTransactionErrorMessage &&
-      `${t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)}`) ||
+    (insufficientMinDeposit && `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
+    (prepareTransactionErrorMessage && `${t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)}`) ||
     ''
 
   const { switchChain } = useSwitchChain()
@@ -221,9 +219,7 @@ export default function EthereumDeposit({
             handleAddProjectOnRoute(project)
           }}
         />
-        {!!account && !isWrongNetwork && (
-          <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantDeposit} />
-        )}
+        {!!account && !isWrongNetwork && <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantDeposit} />}
         {!!isWrongNetwork && account && (
           <Button
             onClick={openStakeConfirmation}

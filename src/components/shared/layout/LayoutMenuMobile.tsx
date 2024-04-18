@@ -22,10 +22,7 @@ function LayoutMenuMobile() {
         <InvestIcon />
         {t('v2.header.assets')}
       </NextLink>
-      <NextLink
-        href={`/${currency}/${network || 'optimism'}/project`}
-        className={`${!isHome && isActive('project') ? 'active' : ''}`}
-      >
+      <NextLink href={`/${currency}/${network || 'optimism'}/project`} className={`${!isHome && isActive('project') ? 'active' : ''}`}>
         <ProjectsIcon />
         {t('v2.header.projects')}
       </NextLink>

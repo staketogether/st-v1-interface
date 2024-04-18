@@ -29,9 +29,7 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   return (
     <Card>
       <CardHeader>
-        {pool.logo?.url && (
-          <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
-        )}
+        {pool.logo?.url && <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />}
         {!pool.logo?.url && <CommunityLogo size={24} src={''} alt='logo' loading={true} />}
         {pool?.name && <CommunityName name={pool?.name} loading={loading} $bold />}
         {!pool?.name && <CommunityName name={pool?.name} loading={true} />}
@@ -94,18 +92,7 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   )
 }
 
-const {
-  Card,
-  CardInfo,
-  CardHeader,
-  DiscordIcon,
-  CommunityType,
-  Social,
-  YoutubeIcon,
-  TwitterIcon,
-  SiteIcon,
-  InstagramIcon
-} = {
+const { Card, CardInfo, CardHeader, DiscordIcon, CommunityType, Social, YoutubeIcon, TwitterIcon, SiteIcon, InstagramIcon } = {
   Card: styled.div`
     display: grid;
     flex-direction: column;

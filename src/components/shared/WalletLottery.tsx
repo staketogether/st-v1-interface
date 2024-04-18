@@ -40,8 +40,7 @@ export default function WalletLottery({ poolAddress, chainId }: WalletLotteryPro
 
       let counter = 0
       const drawInterval = setInterval(() => {
-        const item =
-          data.pool.delegations[Math.floor(Math.random() * data.pool.delegations.length)]?.delegate?.address
+        const item = data.pool.delegations[Math.floor(Math.random() * data.pool.delegations.length)]?.delegate?.address
         setResult(item)
         counter++
         if (counter >= steps) {
@@ -64,12 +63,7 @@ export default function WalletLottery({ poolAddress, chainId }: WalletLotteryPro
   return (
     <Container className={`${finishedDraw && result && 'result'}`}>
       {!starterDraw && !finishedDraw ? (
-        <Button
-          label={t('v2.draw.performDrawing')}
-          onClick={() => startDraw()}
-          icon={<GiftsIcon />}
-          isLoading={false}
-        />
+        <Button label={t('v2.draw.performDrawing')} onClick={() => startDraw()} icon={<GiftsIcon />} isLoading={false} />
       ) : (
         <>
           {finishedDraw && (
@@ -108,12 +102,7 @@ export default function WalletLottery({ poolAddress, chainId }: WalletLotteryPro
             </ResultContainer>
             {finishedDraw && (
               <>
-                <Button
-                  label={t('v2.draw.conductANewDraw')}
-                  onClick={() => startDraw()}
-                  icon={<GiftsIcon />}
-                  isLoading={false}
-                />
+                <Button label={t('v2.draw.conductANewDraw')} onClick={() => startDraw()} icon={<GiftsIcon />} isLoading={false} />
               </>
             )}
           </div>

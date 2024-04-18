@@ -11,8 +11,8 @@
   "plugins": ["@typescript-eslint", "import", "prettier"],
   "extends": [
     "airbnb-typescript",
-    "plugin:@typescript-eslint/recommended-type-checked", // @typescript-eslint @v6
-    "plugin:@typescript-eslint/stylistic-type-checked", // @typescript-eslint @v6
+    "plugin:@typescript-eslint/recommended-type-checked",
+    "plugin:@typescript-eslint/stylistic-type-checked",
     "prettier",
     "eslint:recommended",
     "next/core-web-vitals",
@@ -47,10 +47,7 @@
     "import/namespace": 2,
     "import/default": 2,
     "import/export": 2,
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
-    ],
+    "@typescript-eslint/no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
     "react-hooks/exhaustive-deps": "error",
     "import/no-named-as-default": 0
   },

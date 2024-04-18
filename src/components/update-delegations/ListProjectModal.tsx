@@ -20,24 +20,18 @@ type ListProjectModalProps = {
   delegationAddress: `0x${string}`[]
 }
 
-export default function ListProjectModal({
-  isOpen,
-  handleCloseModal,
-  handleAddNewProject,
-  delegationAddress
-}: ListProjectModalProps) {
+export default function ListProjectModal({ isOpen, handleCloseModal, handleAddNewProject, delegationAddress }: ListProjectModalProps) {
   const [skipPoolList, setSkipPoolList] = useState(0)
   const [search, setSearch] = useState('')
   const { t } = useLocaleTranslation()
   const isSearchAddress = search.startsWith('0x')
   const debouncedSearch = useDebounce(search, 300)
-  const { projectList, initialLoading, loadMore, loadingFetchMore, totalProjects } =
-    useContentfulProjectListByStatus({
-      status: 'approved',
-      projectName: isSearchAddress ? undefined : debouncedSearch,
-      projectAddress: isSearchAddress ? debouncedSearch : undefined,
-      excludeProjectAddress: delegationAddress
-    })
+  const { projectList, initialLoading, loadMore, loadingFetchMore, totalProjects } = useContentfulProjectListByStatus({
+    status: 'approved',
+    projectName: isSearchAddress ? undefined : debouncedSearch,
+    projectAddress: isSearchAddress ? debouncedSearch : undefined,
+    excludeProjectAddress: delegationAddress
+  })
 
   const handleLoadMore = () => {
     const newSkip = skipPoolList + 10
@@ -59,20 +53,13 @@ export default function ListProjectModal({
         </HeaderContainer>
         <Divider />
         <List>
-          {!!(!initialLoading && !projectList.length) && (
-            <PoolsEmptyState handleClickButton={() => setSearch('')} key='pool-row-empty' />
-          )}
+          {!!(!initialLoading && !projectList.length) && <PoolsEmptyState handleClickButton={() => setSearch('')} key='pool-row-empty' />}
           {!!(!initialLoading && projectList.length) &&
             projectList.map(pool => {
               return (
                 <Row key={`list-modal-${pool.wallet}`}>
                   <Project>
-                    <CommunityLogo
-                      size={24}
-                      src={pool.logo.url}
-                      alt={pool.logo.fileName || ''}
-                      loading={initialLoading}
-                    />
+                    <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName || ''} loading={initialLoading} />
                     {pool.name ? (
                       <CommunityName name={pool.name} loading={initialLoading} />
                     ) : (

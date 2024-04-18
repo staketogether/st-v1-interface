@@ -10,10 +10,7 @@ type WalletSlideBarSettingsProps = {
   showBackButton?: boolean
 }
 
-export default function WalletSidebarSettings({
-  setIsSettingsActive,
-  showBackButton = true
-}: WalletSlideBarSettingsProps) {
+export default function WalletSidebarSettings({ setIsSettingsActive, showBackButton = true }: WalletSlideBarSettingsProps) {
   const { t } = useLocaleTranslation()
 
   const router = useRouter()

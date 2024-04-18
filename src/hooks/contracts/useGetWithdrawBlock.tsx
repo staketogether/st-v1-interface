@@ -12,12 +12,7 @@ type useGetWithdrawBlockProps = {
   chainId: number
 }
 
-export default function useGetWithdrawBlock({
-  walletAddress,
-  enabled = true,
-  product,
-  chainId
-}: useGetWithdrawBlockProps) {
+export default function useGetWithdrawBlock({ walletAddress, enabled = true, product, chainId }: useGetWithdrawBlockProps) {
   const [withdrawBlock, setWithdrawBlock] = useState<bigint>(0n)
   const { isTestnet } = chainConfigByChainId(chainId)
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
@@ -38,8 +33,7 @@ export default function useGetWithdrawBlock({
     }
   }, [data])
 
-  const timeLeft =
-    useBlockCountdown(Number(withdrawBlock), chainId, product.transactionConfig.blockTimePerSeconds) || 0
+  const timeLeft = useBlockCountdown(Number(withdrawBlock), chainId, product.transactionConfig.blockTimePerSeconds) || 0
 
   return { withdrawBlock, isLoading: isFetching, timeLeft, getWithdrawBlock: refetch }
 }

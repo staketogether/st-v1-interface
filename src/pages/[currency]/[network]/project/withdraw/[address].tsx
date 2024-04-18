@@ -10,7 +10,7 @@ import StakeControl from '../../../../../components/stake/StakeControl'
 
 type WithdrawProps = {
   poolAddress: `0x${string}`
-  poolDetail?: ContentfulPool,
+  poolDetail?: ContentfulPool
   chainId: number
 }
 
@@ -24,7 +24,7 @@ export default function Withdraw({ poolAddress, poolDetail, chainId }: WithdrawP
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const { address, network } = context?.params as { address?: `0x${string}`, network: AllowedNetworks }
+  const { address, network } = context?.params as { address?: `0x${string}`; network: AllowedNetworks }
   const { data } = await contentfulClient.query<{ poolCollection: { items: ContentfulPool[] } }>({
     query: queryContentfulPoolByAddress,
     variables: {

@@ -102,12 +102,7 @@ export default function UpdateDelegationsModal({
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
 
-  function handleUpdateForm(
-    delegation: UpdateDelegationForm,
-    valuePercentage: number,
-    valueDecimal: number,
-    removeProject?: boolean
-  ) {
+  function handleUpdateForm(delegation: UpdateDelegationForm, valuePercentage: number, valueDecimal: number, removeProject?: boolean) {
     const updateDelegation = delegationForm.map(delegationForm => {
       if (delegationForm.address === delegation.address) {
         return { ...delegationForm, percentage: valuePercentage, poolBalanceDecimal: valueDecimal }
@@ -204,10 +199,7 @@ export default function UpdateDelegationsModal({
             noModalPadding
             successButtonLabel={t('close')}
             bodyComponent={
-              <ReviewUpdateDelegationsRequest
-                poolsList={poolsList}
-                delegationForm={delegationForm.filter(pool => pool.percentage > 0n)}
-              />
+              <ReviewUpdateDelegationsRequest poolsList={poolsList} delegationForm={delegationForm.filter(pool => pool.percentage > 0n)} />
             }
             onSuccessAction={handleCloseModal}
           />
@@ -221,11 +213,7 @@ export default function UpdateDelegationsModal({
                 </TooltipComponent>
               </span>
               <div>
-                <Progress
-                  percent={Number(remainingValue.toFixed(0))}
-                  style={{ margin: 0 }}
-                  strokeColor={theme.colorV2.blue[1]}
-                />
+                <Progress percent={Number(remainingValue.toFixed(0))} style={{ margin: 0 }} strokeColor={theme.colorV2.blue[1]} />
                 <Button
                   small
                   icon={<PiPlusBold style={{ fontSize: '12px' }} />}
@@ -267,13 +255,7 @@ export default function UpdateDelegationsModal({
                         style={{ margin: 0 }}
                       />
                       <span>{`${delegation.percentage.toFixed(0)}%`}</span>
-                      <Button
-                        small
-                        isLoading={false}
-                        onClick={() => handleSlideChange(delegation, 0, true)}
-                        label={'x'}
-                        disabled={false}
-                      />
+                      <Button small isLoading={false} onClick={() => handleSlideChange(delegation, 0, true)} label={'x'} disabled={false} />
                     </div>
                   </DelegatedPool>
                 )

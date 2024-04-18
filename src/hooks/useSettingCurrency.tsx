@@ -20,24 +20,15 @@ export default function useSettingsCurrency() {
     }
     if (router.locale === 'pt') {
       reactiveVar({ value: CurrencyType.BRL, symbol: CurrencySymbol.BRL })
-      setItem(
-        'settings',
-        JSON.stringify({ language: '', currency: { value: CurrencyType.BRL, symbol: CurrencySymbol.BRL } })
-      )
+      setItem('settings', JSON.stringify({ language: '', currency: { value: CurrencyType.BRL, symbol: CurrencySymbol.BRL } }))
     }
     if (router.locale === 'es') {
       reactiveVar({ value: CurrencyType.EUR, symbol: CurrencySymbol.EUR })
-      setItem(
-        'settings',
-        JSON.stringify({ language: '', currency: { value: CurrencyType.EUR, symbol: CurrencySymbol.EUR } })
-      )
+      setItem('settings', JSON.stringify({ language: '', currency: { value: CurrencyType.EUR, symbol: CurrencySymbol.EUR } }))
     }
     if (router.locale === 'en') {
       reactiveVar({ value: CurrencyType.USD, symbol: CurrencySymbol.USD })
-      setItem(
-        'settings',
-        JSON.stringify({ language: '', currency: { value: CurrencyType.USD, symbol: CurrencySymbol.USD } })
-      )
+      setItem('settings', JSON.stringify({ language: '', currency: { value: CurrencyType.USD, symbol: CurrencySymbol.USD } }))
     }
   }, [getItem, router.locale, setItem])
   const setCurrency = (value: Currency) => reactiveVar(value)

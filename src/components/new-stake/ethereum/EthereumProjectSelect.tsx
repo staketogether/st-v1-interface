@@ -60,9 +60,7 @@ export default function EthereumProjectSelect({
           style={{ width: '100%', height: 42 }}
           options={projectListMapped}
           optionFilterProp='children'
-          filterOption={(input, option) =>
-            (option?.filterValue?.toString().toLowerCase() ?? '').includes(input.toLowerCase())
-          }
+          filterOption={(input, option) => (option?.filterValue?.toString().toLowerCase() ?? '').includes(input.toLowerCase())}
           filterSort={(optionA, optionB) => {
             return (optionA?.filterValue?.toString().toLowerCase() ?? '').localeCompare(
               optionB?.filterValue?.toString().toLowerCase() ?? ''

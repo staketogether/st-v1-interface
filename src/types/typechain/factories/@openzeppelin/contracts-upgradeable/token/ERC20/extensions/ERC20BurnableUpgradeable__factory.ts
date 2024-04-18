@@ -2,390 +2,383 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface, type ContractRunner } from "ethers";
+import { Contract, Interface, type ContractRunner } from 'ethers'
 import type {
   ERC20BurnableUpgradeable,
-  ERC20BurnableUpgradeableInterface,
-} from "../../../../../../@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20BurnableUpgradeable";
+  ERC20BurnableUpgradeableInterface
+} from '../../../../../../@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20BurnableUpgradeable'
 
 const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "spender",
-        type: "address",
+        internalType: 'address',
+        name: 'spender',
+        type: 'address'
       },
       {
-        internalType: "uint256",
-        name: "allowance",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'allowance',
+        type: 'uint256'
       },
       {
-        internalType: "uint256",
-        name: "needed",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'needed',
+        type: 'uint256'
+      }
     ],
-    name: "ERC20InsufficientAllowance",
-    type: "error",
+    name: 'ERC20InsufficientAllowance',
+    type: 'error'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "sender",
-        type: "address",
+        internalType: 'address',
+        name: 'sender',
+        type: 'address'
       },
       {
-        internalType: "uint256",
-        name: "balance",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'balance',
+        type: 'uint256'
       },
       {
-        internalType: "uint256",
-        name: "needed",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'needed',
+        type: 'uint256'
+      }
     ],
-    name: "ERC20InsufficientBalance",
-    type: "error",
+    name: 'ERC20InsufficientBalance',
+    type: 'error'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "approver",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'approver',
+        type: 'address'
+      }
     ],
-    name: "ERC20InvalidApprover",
-    type: "error",
+    name: 'ERC20InvalidApprover',
+    type: 'error'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "receiver",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'receiver',
+        type: 'address'
+      }
     ],
-    name: "ERC20InvalidReceiver",
-    type: "error",
+    name: 'ERC20InvalidReceiver',
+    type: 'error'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "sender",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'sender',
+        type: 'address'
+      }
     ],
-    name: "ERC20InvalidSender",
-    type: "error",
+    name: 'ERC20InvalidSender',
+    type: 'error'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "spender",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'spender',
+        type: 'address'
+      }
     ],
-    name: "ERC20InvalidSpender",
-    type: "error",
+    name: 'ERC20InvalidSpender',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InvalidInitialization",
-    type: "error",
+    name: 'InvalidInitialization',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "NotInitializing",
-    type: "error",
+    name: 'NotInitializing',
+    type: 'error'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "owner",
-        type: "address",
+        internalType: 'address',
+        name: 'owner',
+        type: 'address'
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "spender",
-        type: "address",
+        internalType: 'address',
+        name: 'spender',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'value',
+        type: 'uint256'
+      }
     ],
-    name: "Approval",
-    type: "event",
+    name: 'Approval',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: false,
-        internalType: "uint64",
-        name: "version",
-        type: "uint64",
-      },
+        internalType: 'uint64',
+        name: 'version',
+        type: 'uint64'
+      }
     ],
-    name: "Initialized",
-    type: "event",
+    name: 'Initialized',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "from",
-        type: "address",
+        internalType: 'address',
+        name: 'from',
+        type: 'address'
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
+        internalType: 'address',
+        name: 'to',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'value',
+        type: 'uint256'
+      }
     ],
-    name: "Transfer",
-    type: "event",
+    name: 'Transfer',
+    type: 'event'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "owner",
-        type: "address",
+        internalType: 'address',
+        name: 'owner',
+        type: 'address'
       },
       {
-        internalType: "address",
-        name: "spender",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'spender',
+        type: 'address'
+      }
     ],
-    name: "allowance",
+    name: 'allowance',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "spender",
-        type: "address",
+        internalType: 'address',
+        name: 'spender',
+        type: 'address'
       },
       {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'value',
+        type: 'uint256'
+      }
     ],
-    name: "approve",
+    name: 'approve',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
     ],
-    name: "balanceOf",
+    name: 'balanceOf',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'value',
+        type: 'uint256'
+      }
     ],
-    name: "burn",
+    name: 'burn',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
       },
       {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'value',
+        type: 'uint256'
+      }
     ],
-    name: "burnFrom",
+    name: 'burnFrom',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "decimals",
+    name: 'decimals',
     outputs: [
       {
-        internalType: "uint8",
-        name: "",
-        type: "uint8",
-      },
+        internalType: 'uint8',
+        name: '',
+        type: 'uint8'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "name",
+    name: 'name',
     outputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
+        internalType: 'string',
+        name: '',
+        type: 'string'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "symbol",
+    name: 'symbol',
     outputs: [
       {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
+        internalType: 'string',
+        name: '',
+        type: 'string'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "totalSupply",
+    name: 'totalSupply',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "to",
-        type: "address",
+        internalType: 'address',
+        name: 'to',
+        type: 'address'
       },
       {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'value',
+        type: 'uint256'
+      }
     ],
-    name: "transfer",
+    name: 'transfer',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "from",
-        type: "address",
+        internalType: 'address',
+        name: 'from',
+        type: 'address'
       },
       {
-        internalType: "address",
-        name: "to",
-        type: "address",
+        internalType: 'address',
+        name: 'to',
+        type: 'address'
       },
       {
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'value',
+        type: 'uint256'
+      }
     ],
-    name: "transferFrom",
+    name: 'transferFrom',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-] as const;
+    stateMutability: 'nonpayable',
+    type: 'function'
+  }
+] as const
 
 export class ERC20BurnableUpgradeable__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): ERC20BurnableUpgradeableInterface {
-    return new Interface(_abi) as ERC20BurnableUpgradeableInterface;
+    return new Interface(_abi) as ERC20BurnableUpgradeableInterface
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): ERC20BurnableUpgradeable {
-    return new Contract(
-      address,
-      _abi,
-      runner
-    ) as unknown as ERC20BurnableUpgradeable;
+  static connect(address: string, runner?: ContractRunner | null): ERC20BurnableUpgradeable {
+    return new Contract(address, _abi, runner) as unknown as ERC20BurnableUpgradeable
   }
 }

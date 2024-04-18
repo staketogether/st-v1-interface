@@ -60,12 +60,7 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
   return (
     <Container>
       <Terms>
-        <input
-          type='checkbox'
-          name='agree'
-          checked={hasAgreeTerms}
-          onChange={e => setHasAgreeTerms(e.target.checked)}
-        />
+        <input type='checkbox' name='agree' checked={hasAgreeTerms} onChange={e => setHasAgreeTerms(e.target.checked)} />
         <span>
           {t('v2.sidebar.disconnected.iAgreeToThe')}
           <a href={handleTermsAndConditionsExternalLink()} target='_blank'>

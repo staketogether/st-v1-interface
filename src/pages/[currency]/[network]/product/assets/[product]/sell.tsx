@@ -42,12 +42,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <NewStakeControl
-        type='deposit'
-        product={product as ProductStaking}
-        assetData={assetData}
-        chainId={chainId}
-      />
+      <NewStakeControl type='deposit' product={product as ProductStaking} assetData={assetData} chainId={chainId} />
       <BuyEthControlModal />
     </LayoutTemplate>
   )
@@ -67,12 +62,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: 'blocking' }
 }
 
-async function fetchProductAssetData(
-  uri: string,
-  asset: string,
-  blockchain: string,
-  symbol: string
-): Promise<ProductMarketAssetData> {
+async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<ProductMarketAssetData> {
   const { backendUrl } = globalConfig
   return axios
     .get<ProductMarketAssetData>(`${backendUrl}/api/${uri}`, {

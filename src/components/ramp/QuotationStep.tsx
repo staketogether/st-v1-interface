@@ -110,24 +110,12 @@ export default function QuotationStep({ product }: QuotationStepProps) {
             <Image src={brlBrla} width={36} height={24} alt='BRL' />
             <span>BRL</span>
           </div>
-          <input
-            type='number'
-            onChange={({ target }) => handleChange(target.value)}
-            value={value}
-            min={0}
-            placeholder='0'
-            step={1}
-          />
+          <input type='number' onChange={({ target }) => handleChange(target.value)} value={value} min={0} placeholder='0' step={1} />
         </InputContainer>
         <ArrowDown />
         <InputContainer>
           <div>
-            <AssetIcon
-              marginRight='8px'
-              assetIcon={product.symbol}
-              networkIcon={product.networkAvailable}
-              size={24}
-            />
+            <AssetIcon marginRight='8px' assetIcon={product.symbol} networkIcon={product.networkAvailable} size={24} />
             <span>{product.symbol}</span>
           </div>
           {quoteIsValidating ? (

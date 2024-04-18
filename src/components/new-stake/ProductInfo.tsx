@@ -9,10 +9,10 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { PiArrowUpRight, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
+import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
-import AssetIcon from '../shared/AssetIcon'
 
 type ProductInfoProps = {
   product: ProductStaking
@@ -67,12 +67,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
         <HeaderDescribeInfo>
           <SymbolContainer>
             <div>
-              <TokensSymbolIcons
-                productSymbol={product.symbol}
-                size={23}
-                contractAddress={stakeTogetherContractAddress}
-                showPlusIcon
-              />
+              <TokensSymbolIcons productSymbol={product.symbol} size={23} contractAddress={stakeTogetherContractAddress} showPlusIcon />
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>

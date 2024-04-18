@@ -70,13 +70,7 @@ export default function WalletSidebarPortfolio({ accountDelegations, product }: 
         )
       })}
       {accountDelegations.length > 0 && (
-        <Button
-          small={true}
-          label={t('edit')}
-          icon={<EditIcon />}
-          block
-          onClick={() => setOpenSidebarEditPortfolio(true)}
-        />
+        <Button small={true} label={t('edit')} icon={<EditIcon />} block onClick={() => setOpenSidebarEditPortfolio(true)} />
       )}
     </Container>
   )

@@ -82,22 +82,13 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
           projectStatus={poolDetail.status}
           createAt={new Date().toISOString()}
           ProjectCategory={
-            (categories?.length &&
-              categories.find(category => category.name === poolDetail.category.name)?.name) ||
-            'education'
+            (categories?.length && categories.find(category => category.name === poolDetail.category.name)?.name) || 'education'
           }
         />
-        {isProjectPending && (
-          <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
-        )}
+        {isProjectPending && <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>}
         <ActionContainer>
           {isProjectPending && (
-            <CloseButton
-              onClick={() => setProjectResultModal(false)}
-              label={`${t('close')}`}
-              icon={<></>}
-              isLoading={isLoading}
-            />
+            <CloseButton onClick={() => setProjectResultModal(false)} label={`${t('close')}`} icon={<></>} isLoading={isLoading} />
           )}
           {isProjectApproved && (
             <>
@@ -107,13 +98,7 @@ export default function ProjectResultModal({ poolDetail }: ProjectResultModalPro
                 icon={<></>}
                 isLoading={isLoading && isRedirect}
               />
-              <Button
-                onClick={handleModalClose}
-                label={`${t('close')}`}
-                icon={<></>}
-                ghost
-                isLoading={isLoading}
-              />
+              <Button onClick={handleModalClose} label={`${t('close')}`} icon={<></>} ghost isLoading={isLoading} />
             </>
           )}
           {isProjectRejected && (

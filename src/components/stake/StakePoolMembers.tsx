@@ -34,9 +34,7 @@ export default function StakePoolMembers({
         </DelegationsContainer>
       )}
       {!initialLoading && !delegations && <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />}
-      {!initialLoading && delegations && !delegations.length && (
-        <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />
-      )}
+      {!initialLoading && delegations && !delegations.length && <StakeEmptyPoolInfo message={t('v2.stake.infoEmptyState')} />}
 
       {!initialLoading && delegations && delegations.length > 0 && (
         <header>
@@ -50,11 +48,7 @@ export default function StakePoolMembers({
         <>
           <DelegationsContainer>
             {delegations.map((delegation, index) => (
-              <StakeReceivedDelegation
-                key={delegation.delegate.address}
-                delegation={delegation}
-                rank={index + 1}
-              />
+              <StakeReceivedDelegation key={delegation.delegate.address} delegation={delegation} rank={index + 1} />
             ))}
           </DelegationsContainer>
           {delegations.length < totalDelegations && (

@@ -62,11 +62,7 @@ export default function StakeActivity({
           <>
             {poolActivities.map(activity => {
               return (
-                <Row
-                  key={activity.txHash}
-                  href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`}
-                  target='_blank'
-                >
+                <Row key={activity.txHash} href={`${blockExplorer.baseUrl}/tx/${activity.txHash}`} target='_blank'>
                   <span>
                     <ExternalLink />
                   </span>

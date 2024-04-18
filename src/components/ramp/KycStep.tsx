@@ -70,9 +70,7 @@ export default function KycStep({ product }: KycStepProps) {
       })
 
       const email = globalConfig.emailSupport
-      const subject = encodeURIComponent(
-        `[PIX-Support] - ${t('v2.ramp.kyc.alreadyCpfTitleAlert')}: ${data?.response?.data?.data}`
-      )
+      const subject = encodeURIComponent(`[PIX-Support] - ${t('v2.ramp.kyc.alreadyCpfTitleAlert')}: ${data?.response?.data?.data}`)
       const mailtoUrl = `mailto:${email}?subject=${subject}`
 
       notification.error({
@@ -311,8 +309,7 @@ export default function KycStep({ product }: KycStepProps) {
           </div>
         </ContainerRadio>
         <Input
-          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')
-            }`}
+          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.fullName') : t('v2.ramp.kyc.companyName')}`}
           disabled={false}
           disabledLabel={false}
           register={register('fullName', {
@@ -324,8 +321,7 @@ export default function KycStep({ product }: KycStepProps) {
           placeholder={t('v2.ramp.kyc.namePlaceholder')}
         />
         <Input
-          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')
-            }`}
+          title={`${chooseAccountType === TypeAccount.CPF ? t('v2.ramp.kyc.birthday') : t('v2.ramp.kyc.foundationDate')}`}
           disabled={false}
           disabledLabel={false}
           register={register('birthDate', {
@@ -385,7 +381,6 @@ export default function KycStep({ product }: KycStepProps) {
           error={errors.cpfOrCnpj?.message}
           placeholder={`${chooseAccountType === TypeAccount.CPF ? '000.000.000-00' : '00.000.000/00000-00'}`}
         />
-
       </Container>
       <Footer>
         <Button form='kycForm' type='submit' label={t('next')} icon={<PiArrowRight />} disabled={isLoading} />

@@ -1,10 +1,4 @@
-import {
-  BrlaBuyEthStep,
-  clearModal,
-  qrCodeVar,
-  quoteVar,
-  stepsControlBuyCryptoVar
-} from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, clearModal, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import usePixBankInfo from '@/hooks/ramp/usePixBankInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -116,24 +110,11 @@ export default function CheckoutStep({ product }: CheckoutStepProps) {
         </PixArea>
         <KeyPixArea>
           <span>{t('v2.ramp.orUseThePixKey')}</span>
-          <Button
-            type='button'
-            label={qrCode?.brCode ?? ''}
-            icon={<PiCopy />}
-            iconLeft
-            className='ghost'
-            fontSize={10}
-          />
+          <Button type='button' label={qrCode?.brCode ?? ''} icon={<PiCopy />} iconLeft className='ghost' fontSize={10} />
         </KeyPixArea>
       </Body>
       <Footer>
-        <Button
-          type='button'
-          label={t('v2.ramp.cancelDeposit')}
-          className='outline'
-          block
-          onClick={clearModal}
-        />
+        <Button type='button' label={t('v2.ramp.cancelDeposit')} className='outline' block onClick={clearModal} />
       </Footer>
     </Container>
   )

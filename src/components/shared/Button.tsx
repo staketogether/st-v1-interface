@@ -38,8 +38,7 @@ export default function Button({
   padding,
   ...props
 }: ButtonProps) {
-  const getIcon = () =>
-    isLoading ? <LoadingIcon size={small ? 14 : 16} className={color && `${color}`} /> : icon
+  const getIcon = () => (isLoading ? <LoadingIcon size={small ? 14 : 16} className={color && `${color}`} /> : icon)
   return (
     <Container
       onClick={onClick}
@@ -48,9 +47,7 @@ export default function Button({
       fontSize={fontSize}
       height={height}
       padding={padding}
-      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${
-        color && `${color}`
-      }  ${className}`}
+      className={`${small && 'small'} ${block && 'block'} ${ghost && 'ghost'} ${color && `${color}`}  ${className}`}
       {...props}
     >
       {!iconLeft && getIcon()}

@@ -106,11 +106,7 @@ export default function ProjectRegisterMoreInfo({
       {isLoading && !isSuccess && (
         <GenericTransactionLoading
           chainId={mainnet.id}
-          title={
-            isReappliedProject
-              ? t('v2.createProject.form.reapplyLoadingMessage')
-              : t('v2.createProject.form.loadingMessage')
-          }
+          title={isReappliedProject ? t('v2.createProject.form.reapplyLoadingMessage') : t('v2.createProject.form.loadingMessage')}
         />
       )}
       {!isLoading && !isSuccess && (
@@ -226,14 +222,7 @@ export default function ProjectRegisterMoreInfo({
       {!isSuccess && !isLoading && (
         <FooterContainer>
           <Button block icon={<CreateProjectIcon />} label={handleLabelButton()} type='submit' />
-          <Button
-            type='button'
-            onClick={previewStep}
-            ghost
-            label={t('goToBack')}
-            icon={<PreviewStepIcon />}
-            block
-          />
+          <Button type='button' onClick={previewStep} ghost label={t('goToBack')} icon={<PreviewStepIcon />} block />
         </FooterContainer>
       )}
     </Container>

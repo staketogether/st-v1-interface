@@ -42,11 +42,7 @@ export default function WalletSidebarWeb3AuthWalletSettings({
   return (
     <>
       <Header>
-        <Button
-          onClick={() =>
-            setIsWalletSidebarWeb3AuthSettingsActive && setIsWalletSidebarWeb3AuthSettingsActive(false)
-          }
-        >
+        <Button onClick={() => setIsWalletSidebarWeb3AuthSettingsActive && setIsWalletSidebarWeb3AuthSettingsActive(false)}>
           <CloseIcon />
         </Button>
 
@@ -100,12 +96,7 @@ export default function WalletSidebarWeb3AuthWalletSettings({
         )}
       </Container>
 
-      <Modal
-        title={t('web3AuthWalletSettings.modal.title')}
-        isOpen={notifyModal}
-        onClose={() => setNotifyModal(false)}
-        width={420}
-      >
+      <Modal title={t('web3AuthWalletSettings.modal.title')} isOpen={notifyModal} onClose={() => setNotifyModal(false)} width={420}>
         <AlertMessageContainer>
           <div>
             <span className='bold'>{t('web3AuthWalletSettings.modal.description')}</span>
@@ -125,12 +116,7 @@ export default function WalletSidebarWeb3AuthWalletSettings({
               ghost
               icon={<PiArrowRight />}
             />
-            <DefaultButton
-              onClick={() => setNotifyModal(false)}
-              label={t('cancel')}
-              block
-              icon={<AiOutlineClose />}
-            />
+            <DefaultButton onClick={() => setNotifyModal(false)} label={t('cancel')} block icon={<AiOutlineClose />} />
           </footer>
         </AlertMessageContainer>
       </Modal>
@@ -138,16 +124,7 @@ export default function WalletSidebarWeb3AuthWalletSettings({
   )
 }
 
-const {
-  Header,
-  CloseIcon,
-  Container,
-  Button,
-  Card,
-  ShowPrivateKeyContainer,
-  PrivateKeyContainer,
-  AlertMessageContainer
-} = {
+const { Header, CloseIcon, Container, Button, Card, ShowPrivateKeyContainer, PrivateKeyContainer, AlertMessageContainer } = {
   Header: styled.div`
     min-height: 32px;
     width: 100%;

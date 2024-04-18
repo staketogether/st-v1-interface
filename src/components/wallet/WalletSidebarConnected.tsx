@@ -6,16 +6,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
-import {
-  PiCaretRight,
-  PiChalkboardTeacher,
-  PiChartBar,
-  PiChartLine,
-  PiChartPieSlice,
-  PiGear,
-  PiSignOut,
-  PiWallet
-} from 'react-icons/pi'
+import { PiCaretRight, PiChalkboardTeacher, PiChartBar, PiChartLine, PiChartPieSlice, PiGear, PiSignOut, PiWallet } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useDisconnect } from 'wagmi'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
@@ -86,10 +77,14 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   })
   const formattedOptimistEthBalance = formatNumberByLocale(truncateWei(optimistEthBalance, 6), locale)
   const formattedOptimistWbtcBalance = formatNumberByLocale(truncateWei(optimistWbtcBalance, 6), locale)
-  const { priceConvertedValue: usdOptimismEthBalance, price: usdOptimismEthBalanceNotFormatted } =
-    useCoinConversion(formattedOptimistEthBalance, ethereumOpStaking.asset.mobula.filterCoinConversion)
-  const { priceConvertedValue: usdOptimismWbtcBalance, price: usdOptimismWbtcBalanceNotFormatted } =
-    useCoinConversion(formattedOptimistWbtcBalance, btcOptimism.mobula.filterCoinConversion)
+  const { priceConvertedValue: usdOptimismEthBalance, price: usdOptimismEthBalanceNotFormatted } = useCoinConversion(
+    formattedOptimistEthBalance,
+    ethereumOpStaking.asset.mobula.filterCoinConversion
+  )
+  const { priceConvertedValue: usdOptimismWbtcBalance, price: usdOptimismWbtcBalanceNotFormatted } = useCoinConversion(
+    formattedOptimistWbtcBalance,
+    btcOptimism.mobula.filterCoinConversion
+  )
 
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
@@ -199,24 +194,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   })
 
   return (
-    <DrawerContainer
-      placement='right'
-      size='default'
-      onClose={() => setOpenSidebar(false)}
-      mask={true}
-      open={openSidebar}
-    >
-      {isSettingsActive && !isPanelActive && (
-        <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />
-      )}
-      {isPanelActive && !isSettingsActive && !isWeb3AuthSettingsActive && (
-        <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />
-      )}
+    <DrawerContainer placement='right' size='default' onClose={() => setOpenSidebar(false)} mask={true} open={openSidebar}>
+      {isSettingsActive && !isPanelActive && <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />}
+      {isPanelActive && !isSettingsActive && !isWeb3AuthSettingsActive && <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
       {!isSettingsActive && !isPanelActive && isWeb3AuthSettingsActive && (
-        <WalletSidebarWeb3AuthWalletSettings
-          setWeb3authWalletActive={setIsWeb3AuthSettingsActive}
-          walletAddress={address}
-        />
+        <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive} walletAddress={address} />
       )}
       {!isSettingsActive && !isPanelActive && !isWeb3AuthSettingsActive && (
         <>
@@ -225,15 +207,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <Web3AuthProfileContainer>
                 {web3AuthUserInfo && web3AuthUserInfo.typeOfLogin && web3AuthUserInfo.profileImage ? (
                   <>
-                    <Web3AuthProfileImage
-                      src={web3AuthUserInfo.profileImage}
-                      alt={t('stakeTogether')}
-                      width={24}
-                      height={24}
-                    />
-                    <WrapperWallet>
-                      {handleWalletProviderImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}
-                    </WrapperWallet>
+                    <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={24} height={24} />
+                    <WrapperWallet>{handleWalletProviderImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}</WrapperWallet>
                   </>
                 ) : (
                   <>
@@ -331,11 +306,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon
-                      assetIcon={configWbtcOptimist.symbol}
-                      networkIcon={configWbtcOptimist.networkAvailable}
-                      size={24}
-                    />
+                    <AssetIcon assetIcon={configWbtcOptimist.symbol} networkIcon={configWbtcOptimist.networkAvailable} size={24} />
                   </div>
                   <div>
                     <span>{configWbtcOptimist.symbol}</span>
@@ -407,24 +378,15 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                   />
                 </div>
                 <HeaderTabHeader>
-                  <div
-                    onClick={() => setTabActivated('delegations')}
-                    className={`${tabActivated === 'delegations' && 'activated'} `}
-                  >
+                  <div onClick={() => setTabActivated('delegations')} className={`${tabActivated === 'delegations' && 'activated'} `}>
                     <PoolsIcon />
                     <span>{t('delegations')}</span>
                   </div>
-                  <div
-                    onClick={() => setTabActivated('rewards')}
-                    className={`${tabActivated === 'rewards' && 'activated'} `}
-                  >
+                  <div onClick={() => setTabActivated('rewards')} className={`${tabActivated === 'rewards' && 'activated'} `}>
                     <AnalyticsIcon />
                     <span>{t('rewards')}</span>
                   </div>
-                  <div
-                    onClick={() => setTabActivated('activity')}
-                    className={`${tabActivated === 'activity' && 'activated'} `}
-                  >
+                  <div onClick={() => setTabActivated('activity')} className={`${tabActivated === 'activity' && 'activated'} `}>
                     <ActivitiesIcon />
                     <span>{t('activity')}</span>
                   </div>
@@ -441,9 +403,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             />
           </Card>
 
-          {stwETHBalance > 0n && (
-            <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />
-          )}
+          {stwETHBalance > 0n && <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />}
         </>
       )}
       <UpdateDelegationsModal

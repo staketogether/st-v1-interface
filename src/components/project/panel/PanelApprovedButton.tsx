@@ -38,10 +38,7 @@ export default function PanelApprovedButton({ project, projectSelected, openModa
   const { isOpenProjectDetailModal } = useProjectDetailModal()
 
   useEffect(() => {
-    if (
-      !isOpenProjectDetailModal &&
-      projectSelected?.toLocaleLowerCase() === project.wallet.toLocaleLowerCase()
-    ) {
+    if (!isOpenProjectDetailModal && projectSelected?.toLocaleLowerCase() === project.wallet.toLocaleLowerCase()) {
       refetch()
     }
   }, [isOpenProjectDetailModal, project.wallet, projectSelected, refetch])

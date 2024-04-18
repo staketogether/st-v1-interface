@@ -3,10 +3,7 @@ import { useEffect, useState } from 'react'
 import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { PoolActivity } from '@/types/PoolActivity'
 
-export default function usePoolActivities(
-  poolAddress: `0x${string}`,
-  pagination?: { first: number; skip: number }
-) {
+export default function usePoolActivities(poolAddress: `0x${string}`, pagination?: { first: number; skip: number }) {
   const [poolActivities, setPoolActivities] = useState<PoolActivity[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [loadingFetchMore, setLoadingFetchMore] = useState<boolean>(false)

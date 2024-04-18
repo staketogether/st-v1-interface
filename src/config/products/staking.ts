@@ -190,13 +190,7 @@ export function getStakingProduct({ name }: { name: string }): ProductStaking {
   return stakingList.find(product => product.name === name) || stakingList[0]
 }
 
-export function getStakingContracts({
-  name,
-  isTestnet
-}: {
-  name: string
-  isTestnet: boolean
-}): ProductStakingContracts {
+export function getStakingContracts({ name, isTestnet }: { name: string; isTestnet: boolean }): ProductStakingContracts {
   return getStakingProduct({ name: name }).contracts[isTestnet ? 'testnet' : 'mainnet']
 }
 

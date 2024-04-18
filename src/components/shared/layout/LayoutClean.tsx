@@ -11,61 +11,58 @@ import { Hotjar } from '../scripts/Hotjar'
 import LayoutFooterClean from './LayoutFooterClean'
 import LayoutHeaderClean from './LayoutHeaderClean'
 
-
-
 const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
 
 interface LayoutTemplateProps {
-    children: ReactNode
+  children: ReactNode
 }
 
 export default function LayoutClean({ children }: LayoutTemplateProps) {
-    const isProduction = process.env.NODE_ENV == 'production'
+  const isProduction = process.env.NODE_ENV == 'production'
 
-    const router = useRouter()
-    const { currency } = router.query
-    const { setItem, getItem } = useLocalStorage()
+  const router = useRouter()
+  const { currency } = router.query
+  const { setItem, getItem } = useLocalStorage()
 
-    const changeCurrency = useCallback(
-        (newCurrency: string) => {
-            router.push({
-                pathname: router.pathname,
-                query: { ...router.query, currency: newCurrency }
-            })
+  const changeCurrency = useCallback(
+    (newCurrency: string) => {
+      router.push({
+        pathname: router.pathname,
+        query: { ...router.query, currency: newCurrency }
+      })
 
-            setItem('currency', newCurrency)
-        },
-        [router, setItem]
-    )
+      setItem('currency', newCurrency)
+    },
+    [router, setItem]
+  )
 
-    useEffect(() => {
-        const userCurrencyConf = getItem('currency')
-        if (userCurrencyConf && userCurrencyConf !== currency) {
-            changeCurrency(userCurrencyConf)
-        }
-    }, [changeCurrency, currency, getItem])
+  useEffect(() => {
+    const userCurrencyConf = getItem('currency')
+    if (userCurrencyConf && userCurrencyConf !== currency) {
+      changeCurrency(userCurrencyConf)
+    }
+  }, [changeCurrency, currency, getItem])
 
-    return (
-        <Container className={montserrat.className}>
-            {isProduction && (
-                <>
-                    <GoogleTag />
-                    <Hotjar />
-                    <Cloudflare />
+  return (
+    <Container className={montserrat.className}>
+      {isProduction && (
+        <>
+          <GoogleTag />
+          <Hotjar />
+          <Cloudflare />
+        </>
+      )}
+      <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
 
-                </>
-            )}
-            <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
-
-            <LayoutHeaderClean />
-            {children}
-            <LayoutFooterClean />
-        </Container>
-    )
+      <LayoutHeaderClean />
+      {children}
+      <LayoutFooterClean />
+    </Container>
+  )
 }
 
 const { Container } = {
-    Container: styled.div`
+  Container: styled.div`
     width: 100%;
     height: 100vh;
     display: grid;

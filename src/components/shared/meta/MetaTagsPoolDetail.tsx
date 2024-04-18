@@ -9,8 +9,7 @@ type MetaTagsPoolDetailProps = {
 export function MetaTagsPoolDetail({ poolDetail }: MetaTagsPoolDetailProps) {
   const { t } = useLocaleTranslation()
   const descriptionPt = t('v2.meta.stake.description').replace('projectName', poolDetail?.name || '')
-  const image =
-    poolDetail && poolDetail.logo?.url ? poolDetail.logo.url : `/assets/icons/stake-together/meta.png`
+  const image = poolDetail && poolDetail.logo?.url ? poolDetail.logo.url : `/assets/icons/stake-together/meta.png`
   return (
     <Head>
       <>

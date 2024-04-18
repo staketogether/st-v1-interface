@@ -10,7 +10,7 @@ import StakeControl from '../../../../../components/stake/StakeControl'
 
 type DepositProps = {
   poolAddress: `0x${string}`
-  chainId: number,
+  chainId: number
   poolDetail?: ContentfulPool
 }
 
@@ -24,7 +24,7 @@ export default function Deposit({ poolAddress, poolDetail, chainId }: DepositPro
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const { address, network } = context?.params as { address: `0x${string}`, network: AllowedNetworks }
+  const { address, network } = context?.params as { address: `0x${string}`; network: AllowedNetworks }
   const { data } = await contentfulClient.query<{ poolCollection: { items: ContentfulPool[] } }>({
     query: queryContentfulPoolByAddress,
 

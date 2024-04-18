@@ -27,11 +27,7 @@ export default function Withdrawals({
 }: WithdrawalsProps) {
   const { t } = useLocaleTranslation()
   const { isReady, loading: isReadyLoading } = useWithdrawalsIsReady(balance)
-  const {
-    isLoading: withdrawalWithdrawLoading,
-    withdrawalsWithdraw,
-    isSuccess
-  } = useWithdrawalsStwEth(balance, accountAddress, true)
+  const { isLoading: withdrawalWithdrawLoading, withdrawalsWithdraw, isSuccess } = useWithdrawalsStwEth(balance, accountAddress, true)
 
   useEffect(() => {
     if (isSuccess) {
@@ -48,11 +44,7 @@ export default function Withdrawals({
       <WithdrawContainer>
         <div>
           <Image src={ethIcon} width={24} height={24} alt='stpEth' />
-          {isLoading ? (
-            <SkeletonLoading height={62} $borderRadius='8px' />
-          ) : (
-            <>{`${truncateWei(balance, 4)} ${t('wse.symbol')}`}</>
-          )}
+          {isLoading ? <SkeletonLoading height={62} $borderRadius='8px' /> : <>{`${truncateWei(balance, 4)} ${t('wse.symbol')}`}</>}
         </div>
         {!isLoading && balance > 0n && (
           <Button

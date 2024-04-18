@@ -14,9 +14,7 @@ import PanelApprovedButton from './PanelApprovedButton'
 
 export default function PanelApprovedList() {
   const [search, setSearch] = useState<string>('')
-  const [projectSelected, setProjectSelected] = useState<
-    (ContentfulPool & { isContractPublished: boolean }) | null
-  >(null)
+  const [projectSelected, setProjectSelected] = useState<(ContentfulPool & { isContractPublished: boolean }) | null>(null)
   const debouncedSearch = useDebounce(search, 300)
   const isSearchAddress = search.startsWith('0x')
   const { projectList, initialLoading, loadingFetchMore } = useContentfulProjectListByStatus({
@@ -44,12 +42,7 @@ export default function PanelApprovedList() {
             projectList.map(project => (
               <ProjectContainer key={project.wallet}>
                 <Project>
-                  <CommunityLogo
-                    size={24}
-                    src={project?.logo.url}
-                    alt={project?.logo.fileName || ''}
-                    loading={initialLoading}
-                  />
+                  <CommunityLogo size={24} src={project?.logo.url} alt={project?.logo.fileName || ''} loading={initialLoading} />
                   <CommunityName name={project.name} loading={false} />
                 </Project>
                 <PanelApprovedButton

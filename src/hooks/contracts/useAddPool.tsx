@@ -6,11 +6,7 @@ import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { stakeTogetherAbi } from '@/types/Contracts'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
-import {
-  useSimulateContract,
-  useWaitForTransactionReceipt as useWaitForTransaction,
-  useWriteContract
-} from 'wagmi'
+import { useSimulateContract, useWaitForTransactionReceipt as useWaitForTransaction, useWriteContract } from 'wagmi'
 import chainConfig from '../../config/chain'
 import useLocaleTranslation from '../useLocaleTranslation'
 
@@ -51,9 +47,7 @@ export default function useAddPool(projectAddress: `0x${string}`, isSocial: bool
       if (
         (!cause || !cause.reason) &&
         cause?.message &&
-        cause.message.includes(
-          'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
-        )
+        cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
       ) {
         setPrepareTransactionErrorMessage('insufficientGasBalance')
 
@@ -73,12 +67,7 @@ export default function useAddPool(projectAddress: `0x${string}`, isSocial: bool
     }
   }, [prepareTransactionIsSuccess])
 
-  const {
-    writeContract,
-    data: txHash,
-    isError: writeContractIsError,
-    reset: resetWriteContract
-  } = useWriteContract()
+  const { writeContract, data: txHash, isError: writeContractIsError, reset: resetWriteContract } = useWriteContract()
 
   useEffect(() => {
     if (writeContractIsError && awaitWalletAction) {

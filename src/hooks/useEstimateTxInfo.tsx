@@ -17,16 +17,7 @@ interface UseEstimateTxInfoProps {
   skip?: boolean
 }
 
-const useEstimateTxInfo = ({
-  chainId,
-  account,
-  contractAddress,
-  abi,
-  functionName,
-  args,
-  value,
-  skip
-}: UseEstimateTxInfoProps) => {
+const useEstimateTxInfo = ({ chainId, account, contractAddress, abi, functionName, args, value, skip }: UseEstimateTxInfoProps) => {
   const { data, isLoading: gasPriceLoading } = useEstimateFeesPerGas({
     query: { enabled: !skip },
     chainId: chainId || mainnet.id
@@ -77,19 +68,7 @@ const useEstimateTxInfo = ({
         error: true
       }
     }
-  }, [
-    skip,
-    account,
-    contractAddress,
-    abi,
-    functionName,
-    gasPriceLoading,
-    gasPrice,
-    args,
-    value,
-    maxFeePerGas,
-    maxPriorityFeePerGas
-  ])
+  }, [skip, account, contractAddress, abi, functionName, gasPriceLoading, gasPrice, args, value, maxFeePerGas, maxPriorityFeePerGas])
 
   return { estimateGas }
 }

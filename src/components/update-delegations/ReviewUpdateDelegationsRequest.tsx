@@ -11,10 +11,7 @@ type ReviewUpdateDelegationsRequestProps = {
   delegationForm: UpdateDelegationForm[]
 }
 
-export default function ReviewUpdateDelegationsRequest({
-  poolsList,
-  delegationForm
-}: ReviewUpdateDelegationsRequestProps) {
+export default function ReviewUpdateDelegationsRequest({ poolsList, delegationForm }: ReviewUpdateDelegationsRequestProps) {
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
@@ -39,11 +36,7 @@ export default function ReviewUpdateDelegationsRequest({
                 <CommunityName walletAddress={pool.address} loading={false} />
               )}
             </Project>
-            <Progress
-              percent={Number(pool.percentage.toFixed(0))}
-              style={{ margin: 0 }}
-              strokeColor={theme.colorV2.blue[1]}
-            />
+            <Progress percent={Number(pool.percentage.toFixed(0))} style={{ margin: 0 }} strokeColor={theme.colorV2.blue[1]} />
           </Row>
         )
       })}

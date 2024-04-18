@@ -2,56 +2,49 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface, type ContractRunner } from "ethers";
+import { Contract, Interface, type ContractRunner } from 'ethers'
 import type {
   ReentrancyGuardUpgradeable,
-  ReentrancyGuardUpgradeableInterface,
-} from "../../../../@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable";
+  ReentrancyGuardUpgradeableInterface
+} from '../../../../@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable'
 
 const _abi = [
   {
     inputs: [],
-    name: "InvalidInitialization",
-    type: "error",
+    name: 'InvalidInitialization',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "NotInitializing",
-    type: "error",
+    name: 'NotInitializing',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ReentrancyGuardReentrantCall",
-    type: "error",
+    name: 'ReentrancyGuardReentrantCall',
+    type: 'error'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: false,
-        internalType: "uint64",
-        name: "version",
-        type: "uint64",
-      },
+        internalType: 'uint64',
+        name: 'version',
+        type: 'uint64'
+      }
     ],
-    name: "Initialized",
-    type: "event",
-  },
-] as const;
+    name: 'Initialized',
+    type: 'event'
+  }
+] as const
 
 export class ReentrancyGuardUpgradeable__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): ReentrancyGuardUpgradeableInterface {
-    return new Interface(_abi) as ReentrancyGuardUpgradeableInterface;
+    return new Interface(_abi) as ReentrancyGuardUpgradeableInterface
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): ReentrancyGuardUpgradeable {
-    return new Contract(
-      address,
-      _abi,
-      runner
-    ) as unknown as ReentrancyGuardUpgradeable;
+  static connect(address: string, runner?: ContractRunner | null): ReentrancyGuardUpgradeable {
+    return new Contract(address, _abi, runner) as unknown as ReentrancyGuardUpgradeable
   }
 }
