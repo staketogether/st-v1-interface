@@ -123,68 +123,68 @@ export const ethereumOpStaking: ProductStaking = {
   }
 }
 
-export const chilizStaking: ProductStaking = {
-  id: 3,
-  name: 'chiliz',
-  title: 'Chiliz',
-  symbol: 'stpCHZ',
-  networkAvailable: 'chiliz',
-  chainIdNetworkAvailable: 0,
-  eigenPointsAvailable: false,
-  rampEnabled: false,
-  asset: ethMainnet,
-  newProductTag: false,
-  apy: 14.5,
-  scan: 'https://etherscan.io/',
-  description: 'ethereumDescription',
-  enabled: false,
-  urlRedirect: '/',
-  stakeTogetherPool: {
-    mainnet: '0x0',
-    testnet: '0x0'
-  },
-  contracts: {
-    mainnet: {
-      Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
-      Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
-      Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
-      StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
-      StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
-    },
-    testnet: {
-      Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
-      Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
-      Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
-      StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
-      StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
-    }
-  },
-  subgraph: {
-    mainnet: '',
-    testnet: ''
-  },
-  tradingView: {
-    symbol: 'ETHUSD',
-    fiat: {
-      usd: 'ETHUSD',
-      brl: 'ETHBRL',
-      eur: 'ETHEUR'
-    }
-  },
-  eventsTrack: {
-    pageView: 'pageview-chiliz',
-    checkout: 'initiateCheckout_chiliz',
-    confirmation: 'confirmation-chiliz',
-    success: 'success-chiliz',
-    withdraw: 'withdraw-chiliz'
-  },
-  transactionConfig: {
-    blockTimePerSeconds: 0,
-    confirmations: 0
-  }
-}
+// export const chilizStaking: ProductStaking = {
+//   id: 3,
+//   name: 'chiliz',
+//   title: 'Chiliz',
+//   symbol: 'stpCHZ',
+//   networkAvailable: 'chiliz',
+//   chainIdNetworkAvailable: 0,
+//   eigenPointsAvailable: false,
+//   rampEnabled: false,
+//   asset: ethMainnet,
+//   newProductTag: false,
+//   apy: 14.5,
+//   scan: 'https://etherscan.io/',
+//   description: 'ethereumDescription',
+//   enabled: false,
+//   urlRedirect: '/',
+//   stakeTogetherPool: {
+//     mainnet: '0x0',
+//     testnet: '0x0'
+//   },
+//   contracts: {
+//     mainnet: {
+//       Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
+//       Withdrawals: '0x1699D4fa4308cdbf4cc1EaAC9626D4b78842fa27',
+//       Router: '0x315BAc15CB13f77223900d970b507eCBBAA3c3C4',
+//       StakeTogether: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+//       StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
+//     },
+//     testnet: {
+//       Airdrop: '0xE96c5D1BC7B84Ce9d50266c60B4f3f168f276e2a',
+//       Withdrawals: '0x6aCDAA664D66B781e83a4374Bb093b0a8750E081',
+//       Router: '0xB4b7B496E556252666264cd2CC67d602d929b717',
+//       StakeTogether: '0x726dbeB2A4eC157E82D53e4c6A747e1A9bDF39e0',
+//       StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
+//     }
+//   },
+//   subgraph: {
+//     mainnet: '',
+//     testnet: ''
+//   },
+//   tradingView: {
+//     symbol: 'ETHUSD',
+//     fiat: {
+//       usd: 'ETHUSD',
+//       brl: 'ETHBRL',
+//       eur: 'ETHEUR'
+//     }
+//   },
+//   eventsTrack: {
+//     pageView: 'pageview-chiliz',
+//     checkout: 'initiateCheckout_chiliz',
+//     confirmation: 'confirmation-chiliz',
+//     success: 'success-chiliz',
+//     withdraw: 'withdraw-chiliz'
+//   },
+//   transactionConfig: {
+//     blockTimePerSeconds: 0,
+//     confirmations: 0
+//   }
+// }
 
-export const stakingList: ProductStaking[] = [chilizStaking, ethereumOpStaking, ethereumStaking]
+export const stakingList: ProductStaking[] = [ethereumOpStaking, ethereumStaking]
 
 export function getStakingProduct({ name }: { name: string }): ProductStaking {
   return stakingList.find(product => product.name === name) ?? stakingList[0]

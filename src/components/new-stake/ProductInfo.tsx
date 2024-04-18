@@ -20,7 +20,7 @@ interface ProductInfoProps {
   chainId: number
 }
 
-const TokensShowValuePrice = dynamic(() => import('../shared/TokensShowValuePrice'), {
+const TokensShowValuePrice = dynamic(() => import('../shared/StakingShowValuePrice'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} />,
   suspense: true
