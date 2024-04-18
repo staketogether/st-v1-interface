@@ -640,12 +640,12 @@
       }
     },
     "staking": {
-      "title": "Staking Assets",
+      "title": "Staking",
       "description": "Invest in Infrastructure with Sustainable Yields"
     },
     "assets": {
-      "title": "Crypto Assets",
-      "description": "Invest in the best Cryptocurrencies for your portfolio"
+      "title": "Crypto",
+      "description": "Invest in the best Cryptocurrencies for your Portfolio"
     },
     "products": {
       "ethereum-stake": "Ethereum Staking",

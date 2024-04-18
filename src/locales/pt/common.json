@@ -662,12 +662,12 @@
       }
     },
     "staking": {
-      "title": "Ativos de Staking",
+      "title": "Staking",
       "description": "Invista em Infraestrutura com Rendimentos Sustentáveis"
     },
     "assets": {
-      "title": "Ativos de Criptomoedas",
-      "description": "Invista nas melhores criptomoedas para o seu portfólio de investimentos"
+      "title": "Criptomoedas",
+      "description": "Invista nas Melhores Criptomoedas para o seu Portfólio"
     },
     "products": {
       "ethereum-stake": "Staking de Ethereum",
