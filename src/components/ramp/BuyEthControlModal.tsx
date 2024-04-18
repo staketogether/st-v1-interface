@@ -1,6 +1,6 @@
 import Modal from '@/components/shared/Modal'
 import { globalConfig } from '@/config/global'
-import { getCryptoAsset } from '@/config/products/crypto'
+import { getAsset } from '@/config/products/asset'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
@@ -34,7 +34,7 @@ export default function BuyEthControlModal() {
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
   const currentProductName = useReactiveVar(currentProductNameVar)
-  const product = getCryptoAsset({ name: currentProductName })
+  const product = getAsset({ name: currentProductName })
 
   const steps = {
     MethodPayment: <PaymentMethod product={product} />,

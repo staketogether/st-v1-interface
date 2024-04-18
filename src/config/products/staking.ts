@@ -1,4 +1,4 @@
-import { ethMainnet, ethOptimism } from '@/config/products/crypto'
+import { ethMainnet, ethOptimism } from '@/config/products/asset'
 import { ProductStaking, ProductStakingContracts } from '@/types/ProductStaking'
 
 export const ethereumStaking: ProductStaking = {

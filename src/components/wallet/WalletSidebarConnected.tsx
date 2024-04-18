@@ -1,5 +1,5 @@
 import chainConfig from '@/config/chain'
-import { btcOptimism, getCryptoAsset } from '@/config/products/crypto'
+import { btcOptimism, getAsset } from '@/config/products/asset'
 import { ethereumOpStaking, ethereumStaking, stakingList } from '@/config/products/staking'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
@@ -67,7 +67,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     walletAddress: address,
     chainId: optimism.id
   })
-  const configWbtcOptimist = getCryptoAsset({ name: 'btc' })
+  const configWbtcOptimist = getAsset({ name: 'btc' })
   const { balanceInWei: optimistWbtcBalance } = useErc20BalanceOfWei({
     walletAddress: address,
     chainId: optimism.id,

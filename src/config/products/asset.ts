@@ -3,6 +3,7 @@ import { ProductAsset } from '@/types/ProductAsset'
 export const ethOptimism: ProductAsset = {
   id: 1,
   name: 'eth-optimism',
+  category: 'crypto',
   description: 'eth',
   listed: true,
   symbol: 'ETH',
@@ -50,6 +51,7 @@ export const ethOptimism: ProductAsset = {
 export const ethMainnet: ProductAsset = {
   id: 2,
   name: 'eth',
+  category: 'crypto',
   description: 'eth',
   listed: false,
   symbol: 'ETH',
@@ -90,6 +92,7 @@ export const ethMainnet: ProductAsset = {
 export const btcOptimism: ProductAsset = {
   id: 3,
   name: 'btc',
+  category: 'crypto',
   description: 'btc',
   listed: true,
   contract: '0x68f180fcCe6836688e9084f035309E29Bf0A2095',
@@ -134,8 +137,8 @@ export const btcOptimism: ProductAsset = {
   }
 }
 
-export const productCryptoList: ProductAsset[] = [btcOptimism, ethOptimism, ethMainnet]
+export const productAssetList: ProductAsset[] = [btcOptimism, ethOptimism, ethMainnet]
 
-export function getCryptoAsset({ name }: { name: string }): ProductAsset {
-  return productCryptoList.find(product => product.name === name) ?? productCryptoList[0]
+export function getAsset({ name }: { name: string }): ProductAsset {
+  return productAssetList.find(product => product.name === name) ?? productAssetList[0]
 }

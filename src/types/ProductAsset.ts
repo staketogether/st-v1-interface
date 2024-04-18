@@ -35,6 +35,7 @@ export interface TradingViewFiatData {
 export interface ProductAsset {
   id: number
   name: string
+  category: 'crypto' | 'stablecoin' | 'fan' | 'meme'
   description: string
   enabled: boolean
   newProductTag: boolean
