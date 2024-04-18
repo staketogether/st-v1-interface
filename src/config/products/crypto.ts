@@ -1,8 +1,94 @@
-import { bitcoinOpMobula, ethereumEthModula, ethereumOpMobula } from '@/config/products/mobula-asset'
 import { ProductAsset } from '@/types/ProductAsset'
 
-export const btcOptimism: ProductAsset = {
+export const ethOptimism: ProductAsset = {
   id: 1,
+  name: 'eth-optimism',
+  description: 'eth',
+  listed: true,
+  symbol: 'ETH',
+  networkAvailable: 'optimism',
+  chainIdNetworkAvailable: 10,
+  newProductTag: true,
+  scan: 'https://optimistic.etherscan.io/',
+  rampEnabled: true,
+  ramp: {
+    chainId: 10,
+    minDeposit: 10,
+    bridge: {
+      fromChainId: 137,
+      fromToken: 'MATIC',
+      toChainId: 10,
+      toToken: 'ETH'
+    }
+  },
+  enabled: true,
+  urlRedirect: '/currency/optimism/product/assets/eth-optimism',
+
+  mobula: {
+    asset: 'Ethereum',
+    blockchain: 'optimism',
+    symbol: 'eth',
+    filterCoinConversion: 'Ethereum-optimism'
+  },
+  eventsTrack: {
+    pageView: 'pageview-eth',
+    checkout: 'initiateCheckout-eth',
+    confirmation: 'confirmation-eth',
+    success: 'success-eth',
+    withdraw: 'withdraw-eth'
+  },
+  tradingView: {
+    symbol: 'ETHUSD',
+    fiat: {
+      usd: 'ETHUSD',
+      brl: 'ETHBRL',
+      eur: 'ETHEUR'
+    }
+  }
+}
+
+export const ethMainnet: ProductAsset = {
+  id: 2,
+  name: 'eth',
+  description: 'eth',
+  listed: false,
+  symbol: 'ETH',
+  networkAvailable: 'ethereum',
+  chainIdNetworkAvailable: 1,
+  newProductTag: true,
+  scan: 'https://optimistic.etherscan.io/',
+  rampEnabled: true,
+  ramp: {
+    chainId: 1,
+    minDeposit: 300
+  },
+  enabled: true,
+  urlRedirect: '/currency/optimism/product/assets/eth',
+  mobula: {
+    asset: 'Ethereum',
+    blockchain: 'ethereum',
+    symbol: 'eth',
+    filterCoinConversion: 'Ethereum-ethereum'
+  },
+  eventsTrack: {
+    pageView: 'pageview-eth',
+    checkout: 'initiateCheckout-eth',
+    confirmation: 'confirmation-eth',
+    success: 'success-eth',
+    withdraw: 'withdraw-eth'
+  },
+  tradingView: {
+    symbol: 'ETHUSD',
+    fiat: {
+      usd: 'ETHUSD',
+      brl: 'ETHBRL',
+      eur: 'ETHEUR'
+    }
+  }
+}
+
+export const btcOptimism: ProductAsset = {
+  id: 3,
   name: 'btc',
   description: 'btc',
   listed: true,
@@ -25,7 +111,12 @@ export const btcOptimism: ProductAsset = {
   },
   enabled: true,
   urlRedirect: '/currency/optimism/product/assets/btc',
-  mobula: bitcoinOpMobula,
+  mobula: {
+    asset: 'Bitcoin',
+    blockchain: 'optimism',
+    symbol: 'wbtc',
+    filterCoinConversion: 'Bitcoin-optimism'
+  },
   eventsTrack: {
     pageView: 'pageview-btc',
     checkout: 'initiateCheckout-btc',
@@ -39,82 +130,6 @@ export const btcOptimism: ProductAsset = {
       usd: 'BTCUSD',
       brl: 'BTCBRL',
       eur: 'BTCEUR'
-    }
-  }
-}
-
-export const ethOptimism: ProductAsset = {
-  id: 2,
-  name: 'eth-optimism',
-  description: 'eth',
-  listed: true,
-  symbol: 'ETH',
-  networkAvailable: 'optimism',
-  chainIdNetworkAvailable: 10,
-  newProductTag: true,
-  scan: 'https://optimistic.etherscan.io/',
-  rampEnabled: true,
-  ramp: {
-    chainId: 10,
-    minDeposit: 10,
-    bridge: {
-      fromChainId: 137,
-      fromToken: 'MATIC',
-      toChainId: 10,
-      toToken: 'ETH'
-    }
-  },
-  enabled: true,
-  urlRedirect: '/currency/optimism/product/assets/eth-optimism',
-  mobula: ethereumOpMobula,
-  eventsTrack: {
-    pageView: 'pageview-eth',
-    checkout: 'initiateCheckout-eth',
-    confirmation: 'confirmation-eth',
-    success: 'success-eth',
-    withdraw: 'withdraw-eth'
-  },
-  tradingView: {
-    symbol: 'ETHUSD',
-    fiat: {
-      usd: 'ETHUSD',
-      brl: 'ETHBRL',
-      eur: 'ETHEUR'
-    }
-  }
-}
-
-export const ethMainnet: ProductAsset = {
-  id: 3,
-  name: 'eth',
-  description: 'eth',
-  listed: false,
-  symbol: 'ETH',
-  networkAvailable: 'ethereum',
-  chainIdNetworkAvailable: 1,
-  newProductTag: true,
-  scan: 'https://optimistic.etherscan.io/',
-  rampEnabled: true,
-  ramp: {
-    chainId: 1,
-    minDeposit: 300
-  },
-  enabled: true,
-  urlRedirect: '/currency/optimism/product/assets/eth',
-  mobula: ethereumEthModula,
-  eventsTrack: {
-    pageView: 'pageview-eth',
-    checkout: 'initiateCheckout-eth',
-    confirmation: 'confirmation-eth',
-    success: 'success-eth',
-    withdraw: 'withdraw-eth'
-  },
-  tradingView: {
-    symbol: 'ETHUSD',
-    fiat: {
-      usd: 'ETHUSD',
-      brl: 'ETHBRL',
-      eur: 'ETHEUR'
     }
   }
 }
