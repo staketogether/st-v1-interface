@@ -740,8 +740,8 @@
       "eigenPointTooltip": "When you stake, you accumulate points in the Eigen Layer protocol, which may later launch a token and you will can receive shares",
       "togetherPoints": "When you stake, you accumulate points in the Stake Together protocol, which may later launch a token and you will can receive shares",
       "restakingDescription": "ReStaking Ethereum: Enhance Your Staking Efficiency. Experience the next level of Ethereum staking with our ReStaking solution, merging Stake Together protocol and Eigen Layer technology. Amplify your Ethereum's potential by using it as collateral in the Eigen Layer, contributing to network services and earning income from diverse sources. Our platform streamlines your staking process, providing a more effective and profitable approach to secure the network and gain rewards. Dive into ReStaking with Ethereum today and start benefiting from combined yields.",
-      "btc": "Bitcoin",
-      "eth": "Ethereum",
+      "btc": "Unlock the potential of Bitcoin, the leading digital asset in the market. Our platform provides an efficient and secure way to invest in Bitcoin, utilizing advanced technologies for fast, low-cost transactions. Enhance your portfolio with the asset at the forefront of the digital financial revolution.",
+      "eth": "Descubra o Ethereum, uma das principais plataformas de blockchain que não só suporta uma moeda digital, mas também uma vasta gama de aplicações descentralizadas. Invista em Ethereum através da nossa plataforma e aproveite transações rápidas, custos reduzidos e a possibilidade de explorar contratos inteligentes e aplicações inovadoras. Dê um passo à frente na revolução digital com Ethereum.",
       "actions": {
         "invest": "Invest",
         "withdraw": "Withdraw",
