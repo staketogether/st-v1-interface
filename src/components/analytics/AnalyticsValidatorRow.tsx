@@ -1,3 +1,4 @@
+import { ethereumStaking } from '@/config/products/staking'
 import useCoinConversion from '@/hooks/useCoinConversion'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
@@ -8,7 +9,7 @@ import { useRouter } from 'next/router'
 import { PiArrowSquareOut } from 'react-icons/pi'
 import styled from 'styled-components'
 
-type AnalyticsValidatorRowProps = {
+interface AnalyticsValidatorRowProps {
   validator: ValidatorsData
   index: number
 }
@@ -18,17 +19,17 @@ export default function AnalyticsValidatorRow({ validator, index }: AnalyticsVal
   const { locale } = useRouter()
 
   const validatorBalance = formatNumberByLocale(truncateDecimal(String(validator.balance) || '0', 2), locale)
-  const { priceConvertedValue: validatorBalanceUsdPriceFormatted } = useCoinConversion(validatorBalance)
-
+  const { priceConvertedValue: validatorBalanceUsdPriceFormatted } = useCoinConversion(
+    validatorBalance,
+    ethereumStaking.asset.mobula.filterCoinConversion
+  )
 
   return (
     <ValidatorTableRow href={`https://beaconcha.in/validator/${validator.validatorindex}`} target='_blank'>
       <span>{index + 1}</span>
       <span>{`${validator.validatorindex}`}</span>
       <span>
-        <span>
-          {`${formatNumberByLocale(truncateDecimal(String(validator.balance), 4), locale)} ${t('eth.symbol')}`}
-        </span>
+        <span>{`${formatNumberByLocale(truncateDecimal(String(validator.balance), 4), locale)} ${t('eth.symbol')}`}</span>
         <span> {`${validatorBalanceUsdPriceFormatted}`}</span>
       </span>
       <span>{`${validator.effectivenessPercentage.toFixed(2)}%`}</span>

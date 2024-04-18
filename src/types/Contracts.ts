@@ -1,9 +1,4 @@
-import {
-  createUseReadContract,
-  createUseWriteContract,
-  createUseSimulateContract,
-  createUseWatchContractEvent
-} from 'wagmi/codegen'
+import { createUseReadContract, createUseWriteContract, createUseSimulateContract, createUseWatchContractEvent } from 'wagmi/codegen'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // AccessControlUpgradeable
@@ -19309,12 +19304,10 @@ export const useWatchElStakeTogetherWithdrawBaseEvent = /*#__PURE__*/ createUseW
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link elstakeTogetherAbi}__ and `eventName` set to `"WithdrawalsLimitWasReached"`
  */
-export const useWatchElStakeTogetherWithdrawalsLimitWasReachedEvent = /*#__PURE__*/ createUseWatchContractEvent(
-  {
-    abi: elstakeTogetherAbi,
-    eventName: 'WithdrawalsLimitWasReached'
-  }
-)
+export const useWatchElStakeTogetherWithdrawalsLimitWasReachedEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: elstakeTogetherAbi,
+  eventName: 'WithdrawalsLimitWasReached'
+})
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link elWithdrawalsAbi}__
@@ -20354,12 +20347,10 @@ export const useWatchErc20PermitUpgradeableApprovalEvent = /*#__PURE__*/ createU
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link erc20PermitUpgradeableAbi}__ and `eventName` set to `"EIP712DomainChanged"`
  */
-export const useWatchErc20PermitUpgradeableEip712DomainChangedEvent = /*#__PURE__*/ createUseWatchContractEvent(
-  {
-    abi: erc20PermitUpgradeableAbi,
-    eventName: 'EIP712DomainChanged'
-  }
-)
+export const useWatchErc20PermitUpgradeableEip712DomainChangedEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: erc20PermitUpgradeableAbi,
+  eventName: 'EIP712DomainChanged'
+})
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link erc20PermitUpgradeableAbi}__ and `eventName` set to `"Initialized"`
@@ -22566,12 +22557,10 @@ export const useWatchIelStakeTogetherSetWithdrawBalanceEvent = /*#__PURE__*/ cre
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ielstakeTogetherAbi}__ and `eventName` set to `"SetWithdrawalsCredentials"`
  */
-export const useWatchIelStakeTogetherSetWithdrawalsCredentialsEvent = /*#__PURE__*/ createUseWatchContractEvent(
-  {
-    abi: ielstakeTogetherAbi,
-    eventName: 'SetWithdrawalsCredentials'
-  }
-)
+export const useWatchIelStakeTogetherSetWithdrawalsCredentialsEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: ielstakeTogetherAbi,
+  eventName: 'SetWithdrawalsCredentials'
+})
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ielstakeTogetherAbi}__ and `eventName` set to `"TransferShares"`
@@ -22600,11 +22589,10 @@ export const useWatchIelStakeTogetherWithdrawBaseEvent = /*#__PURE__*/ createUse
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link ielstakeTogetherAbi}__ and `eventName` set to `"WithdrawalsLimitWasReached"`
  */
-export const useWatchIelStakeTogetherWithdrawalsLimitWasReachedEvent =
-  /*#__PURE__*/ createUseWatchContractEvent({
-    abi: ielstakeTogetherAbi,
-    eventName: 'WithdrawalsLimitWasReached'
-  })
+export const useWatchIelStakeTogetherWithdrawalsLimitWasReachedEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: ielstakeTogetherAbi,
+  eventName: 'WithdrawalsLimitWasReached'
+})
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link ielWithdrawalsAbi}__

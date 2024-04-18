@@ -1,16 +1,14 @@
-import React from 'react'
-import Image from 'next/image'
-import { Tooltip } from 'antd'
+import arbitrumIcon from '@assets/network/arbitrum.svg'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
-import arbitrumIcon from '@assets/network/arbitrum.svg'
 import polygonIcon from '@assets/network/polygon.svg'
 import solanaIcon from '@assets/network/solana.svg'
+import { Tooltip } from 'antd'
+import Image from 'next/image'
 import styled from 'styled-components'
-import { Network } from '@/types/Product'
 
-type NetworkIconProps = {
-  network: Network
+interface NetworkIconProps {
+  network: string
   size: number
   enabled?: boolean
 }
@@ -30,7 +28,7 @@ export default function NetworkIcons({ network, size, enabled = true }: NetworkI
     <Tooltip title={network}>
       <NetworkIcon
         className={`${enabled ? '' : 'disabled'}`}
-        src={networkIcons[network]}
+        src={networkIcons[network as keyof typeof networkIcons]}
         width={size}
         height={size}
         alt={network}

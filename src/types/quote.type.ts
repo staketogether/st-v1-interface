@@ -12,5 +12,4 @@ export interface Quote {
   markupToken: string
   operation: string
   outputCoin: string
-
 }

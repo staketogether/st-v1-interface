@@ -1,24 +1,20 @@
 import styled from 'styled-components'
 
 export default function LayoutFooterClean() {
-    const date = new Date()
+  const date = new Date()
 
-
-
-    return (
-        <Container>
-            <span>{`© ${date.getFullYear()} Stake Together `}</span>
-        </Container>
-    )
+  return (
+    <Container>
+      <span>{`© ${date.getFullYear()} Stake Together `}</span>
+    </Container>
+  )
 }
 const { Container } = {
-    Container: styled.div`
+  Container: styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: ${({ theme }) => theme.shadow[100]};
-    
-    
 
     span {
       font-size: ${({ theme }) => theme.font.size[13]};
@@ -29,7 +25,5 @@ const { Container } = {
       letter-spacing: 0em;
       text-align: center;
     }
-
-  
   `
 }

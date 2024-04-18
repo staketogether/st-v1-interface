@@ -1,17 +1,17 @@
+import Button from '@/components/shared/Button'
 import Loading from '@/components/shared/icons/Loading'
 import chain from '@/config/chain'
+import { getStakingContracts } from '@/config/products/staking'
+import useProjectDetailModal from '@/hooks/useProjectDetailModal'
 import { ContentfulPool } from '@/types/ContentfulPool'
-import React, { useEffect } from 'react'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import { useEffect } from 'react'
 import { LuAlertTriangle } from 'react-icons/lu'
 import { PiTrash } from 'react-icons/pi'
 import styled from 'styled-components'
-import Button from '@/components/shared/Button'
-import useProjectDetailModal from '@/hooks/useProjectDetailModal'
-import { getContractsByProductName } from '@/config/product'
 import { useReadContract } from 'wagmi'
-import { stakeTogetherAbi } from '@/types/Contracts'
 
-type PanelApprovedButtonProps = {
+interface PanelApprovedButtonProps {
   project: ContentfulPool
   projectSelected: `0x${string}` | undefined
   openModal: (isContractPublished: boolean) => void
@@ -19,8 +19,8 @@ type PanelApprovedButtonProps = {
 
 export default function PanelApprovedButton({ project, projectSelected, openModal }: PanelApprovedButtonProps) {
   const { isTestnet } = chain()
-  const { StakeTogether } = getContractsByProductName({
-    productName: 'ethereum-stake',
+  const { StakeTogether } = getStakingContracts({
+    name: 'ethereum-stake',
     isTestnet
   })
 
@@ -38,10 +38,7 @@ export default function PanelApprovedButton({ project, projectSelected, openModa
   const { isOpenProjectDetailModal } = useProjectDetailModal()
 
   useEffect(() => {
-    if (
-      !isOpenProjectDetailModal &&
-      projectSelected?.toLocaleLowerCase() === project.wallet.toLocaleLowerCase()
-    ) {
+    if (!isOpenProjectDetailModal && projectSelected?.toLocaleLowerCase() === project.wallet.toLocaleLowerCase()) {
       refetch()
     }
   }, [isOpenProjectDetailModal, project.wallet, projectSelected, refetch])

@@ -1,3 +1,4 @@
+import { chainConfigByChainId } from '@/config/chain'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
@@ -7,31 +8,26 @@ import { queryPoolActivities } from '@/queries/subgraph/queryPoolActivities'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import { ProductStaking } from '@/types/ProductStaking'
 import { WithdrawType } from '@/types/Withdraw'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
-import {
-  useSimulateContract,
-  useWaitForTransactionReceipt as useWaitForTransaction,
-  useWriteContract
-} from 'wagmi'
+import { useSimulateContract, useWaitForTransactionReceipt as useWaitForTransaction, useWriteContract } from 'wagmi'
 import { getSubgraphClient } from '../../config/apollo'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
+import useConnectedAccount from '../useConnectedAccount'
+import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
-import useConnectedAccount from '../useConnectedAccount'
-import { Product } from '@/types/Product'
-import { chainConfigByChainId } from '@/config/chain'
-import { stakeTogetherAbi } from '@/types/Contracts'
-import useEstimateTxInfo from '../useEstimateTxInfo'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
-  product: Product,
+  product: ProductStaking,
   chainId: number,
   accountAddress?: `0x${string}`
 ) {
@@ -46,14 +42,14 @@ export default function useWithdrawPool(
   const { registerWithdraw } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
+  const { loading: stConfigLoading } = useStConfig({ name: product.name, chainId })
   const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
-  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
+  const subgraphClient = getSubgraphClient({ name: product.name, isTestnet })
 
   const { t } = useLocaleTranslation()
 
-  const { stConfig } = useStConfig({ productName: product.name, chainId })
-  const amountEstimatedGas = stConfig?.minWithdrawAmount || 0n
+  const { stConfig } = useStConfig({ name: product.name, chainId })
+  const amountEstimatedGas = stConfig?.minWithdrawAmount ?? 0n
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
   const isWithdrawEnabled = enabled && amount > 0n && !stConfigLoading
 
@@ -68,9 +64,8 @@ export default function useWithdrawPool(
 
   useEffect(() => {
     const handleEstimateGasPrice = async () => {
-      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-        await estimateGas()
-      setEstimatedGas(estimatedGas)
+      const { estimatedCost, estimatedGas: estimatedGas2, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } = await estimateGas()
+      setEstimatedGas(estimatedGas2)
       setEstimateGasCost(estimatedCost)
       setMaxFeePerGas(estimatedMaxFeePerGas)
       setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
@@ -98,10 +93,7 @@ export default function useWithdrawPool(
     account: accountAddress,
     gas: !!estimatedGas && estimatedGas > 0n && !!web3AuthUserInfo ? estimatedGas : undefined,
     maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
-    maxPriorityFeePerGas:
-      !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo
-        ? maxPriorityFeePerGas
-        : undefined
+    maxPriorityFeePerGas: !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo ? maxPriorityFeePerGas : undefined
   })
 
   useEffect(() => {
@@ -109,12 +101,10 @@ export default function useWithdrawPool(
       const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
       if (
-        (!cause || !cause.reason) &&
+        !cause?.reason &&
         !!web3AuthUserInfo &&
         cause?.message &&
-        cause.message.includes(
-          'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
-        )
+        cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
       ) {
         notification.warning({
           message: `${t('v2.stake.insufficientGasBalance')}, ${t('v2.stake.useMaxButton')}`,
@@ -127,7 +117,7 @@ export default function useWithdrawPool(
 
       const { data } = cause as { data?: { errorName?: string } }
 
-      if (cause && data && data.errorName) {
+      if (cause && data?.errorName) {
         setPrepareTransactionErrorMessage(data.errorName)
       }
     }
@@ -139,12 +129,7 @@ export default function useWithdrawPool(
     }
   }, [prepareTransactionIsSuccess])
 
-  const {
-    writeContract,
-    data: txHash,
-    isError: writeContractIsError,
-    reset: writeContractReset
-  } = useWriteContract()
+  const { writeContract, data: txHash, isError: writeContractIsError, reset: writeContractReset } = useWriteContract()
 
   useEffect(() => {
     if (writeContractIsError && awaitWalletAction) {

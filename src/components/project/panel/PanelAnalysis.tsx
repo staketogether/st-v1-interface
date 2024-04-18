@@ -4,13 +4,13 @@ import Loading from '@/components/shared/icons/Loading'
 import SearchInput from '@/components/shared/inputs/SearchInput'
 import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import React, { useState } from 'react'
+import useProjectDetailModal from '@/hooks/useProjectDetailModal'
+import { ContentfulPool } from '@/types/ContentfulPool'
+import { useState } from 'react'
 import { PiEye } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import PanelProjectDetailModal from './PanelProjectDetailModal'
-import { ContentfulPool } from '@/types/ContentfulPool'
-import useProjectDetailModal from '@/hooks/useProjectDetailModal'
 
 export default function PanelAnalysis() {
   const [search, setSearch] = useState<string>('')
@@ -42,12 +42,7 @@ export default function PanelAnalysis() {
             projectList.map(project => (
               <ProjectContainer key={project.wallet}>
                 <Project>
-                  <CommunityLogo
-                    size={24}
-                    src={project?.logo.url}
-                    alt={project?.logo.fileName || ''}
-                    loading={initialLoading}
-                  />
+                  <CommunityLogo size={24} src={project?.logo.url} alt={project?.logo.fileName || ''} loading={initialLoading} />
                   <CommunityName name={project.name} loading={false} />
                 </Project>
                 <ViewButton onClick={() => handleShowModal(project)}>

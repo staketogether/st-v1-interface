@@ -2,20 +2,19 @@ import { chainConfigByChainId } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { AccountReward } from '@/types/AccountReward'
-import { Product, StakingProduct } from '@/types/Product'
-
+import { ProductStaking } from '@/types/ProductStaking'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiLink } from 'react-icons/pi'
 import styled, { useTheme } from 'styled-components'
 
-type WalletSidebarRewards = {
+interface WalletSidebarRewardsProps {
   accountRewards: AccountReward[]
-  productSelected: StakingProduct
-  product: Product
+  productSelected: string
+  product: ProductStaking
 }
 
-export default function WalletSidebarRewards({ accountRewards, product }: WalletSidebarRewards) {
+export default function WalletSidebarRewards({ accountRewards, product }: WalletSidebarRewardsProps) {
   const { t } = useLocaleTranslation()
   const theme = useTheme()
   const { locale } = useRouter()
@@ -39,7 +38,7 @@ export default function WalletSidebarRewards({ accountRewards, product }: Wallet
         return (
           <Reward key={reward.txHash} href={`${blockExplorer.baseUrl}/tx/${reward.txHash}`} target='_blank'>
             <PiLink color={theme.color.secondary} />
-            <span>{truncateTimestamp(reward.timestamp, locale || 'en')}</span>
+            <span>{truncateTimestamp(reward.timestamp, locale ?? 'en')}</span>
             <span className='green'>
               {truncateWei(reward.amount, 8)} {product.symbol}
             </span>

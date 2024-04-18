@@ -2,584 +2,581 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface, type ContractRunner } from "ethers";
-import type {
-  IELStakeTogether,
-  IELStakeTogetherInterface,
-} from "../../../../contracts/eigen-layer/interfaces/IELStakeTogether";
+import { Contract, Interface, type ContractRunner } from 'ethers'
+import type { IELStakeTogether, IELStakeTogetherInterface } from '../../../../contracts/eigen-layer/interfaces/IELStakeTogether'
 
 const _abi = [
   {
     inputs: [],
-    name: "DepositLimitReached",
-    type: "error",
+    name: 'DepositLimitReached',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "EarlyTransfer",
-    type: "error",
+    name: 'EarlyTransfer',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "FeatureDisabled",
-    type: "error",
+    name: 'FeatureDisabled',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "FlashLoan",
-    type: "error",
+    name: 'FlashLoan',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InsufficientAccountBalance",
-    type: "error",
+    name: 'InsufficientAccountBalance',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InsufficientAllowance",
-    type: "error",
+    name: 'InsufficientAllowance',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InsufficientBeaconBalance",
-    type: "error",
+    name: 'InsufficientBeaconBalance',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InsufficientPoolBalance",
-    type: "error",
+    name: 'InsufficientPoolBalance',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InsufficientShares",
-    type: "error",
+    name: 'InsufficientShares',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InvalidLength",
-    type: "error",
+    name: 'InvalidLength',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InvalidSize",
-    type: "error",
+    name: 'InvalidSize',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InvalidSum",
-    type: "error",
+    name: 'InvalidSum',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InvalidTotalPercentage",
-    type: "error",
+    name: 'InvalidTotalPercentage',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InvalidTotalSupply",
-    type: "error",
+    name: 'InvalidTotalSupply',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "InvalidValue",
-    type: "error",
+    name: 'InvalidValue',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "L1AdapterAlreadySet",
-    type: "error",
+    name: 'L1AdapterAlreadySet',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "LessThanMinimumDeposit",
-    type: "error",
+    name: 'LessThanMinimumDeposit',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "LessThanMinimumWithdraw",
-    type: "error",
+    name: 'LessThanMinimumWithdraw',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ListedInAntiFraud",
-    type: "error",
+    name: 'ListedInAntiFraud',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "MaxDelegations",
-    type: "error",
+    name: 'MaxDelegations',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "NotAuthorized",
-    type: "error",
+    name: 'NotAuthorized',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "NotEnoughPoolBalance",
-    type: "error",
+    name: 'NotEnoughPoolBalance',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "NotInAntiFraudList",
-    type: "error",
+    name: 'NotInAntiFraudList',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "NotIsCurrentValidatorOracle",
-    type: "error",
+    name: 'NotIsCurrentValidatorOracle',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "OnlyAirdrop",
-    type: "error",
+    name: 'OnlyAirdrop',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "OnlyRouter",
-    type: "error",
+    name: 'OnlyRouter',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "OnlyValidatorOracle",
-    type: "error",
+    name: 'OnlyValidatorOracle',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "PoolExists",
-    type: "error",
+    name: 'PoolExists',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "PoolNotFound",
-    type: "error",
+    name: 'PoolNotFound',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "RouterAlreadyHaveBalance",
-    type: "error",
+    name: 'RouterAlreadyHaveBalance',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ShouldBeZeroLength",
-    type: "error",
+    name: 'ShouldBeZeroLength',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ValidatorOracleExists",
-    type: "error",
+    name: 'ValidatorOracleExists',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ValidatorOracleNotFound",
-    type: "error",
+    name: 'ValidatorOracleNotFound',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "WithdrawFromPool",
-    type: "error",
+    name: 'WithdrawFromPool',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "WithdrawZeroBalance",
-    type: "error",
+    name: 'WithdrawZeroBalance',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "WithdrawalsPoolLimitReached",
-    type: "error",
+    name: 'WithdrawalsPoolLimitReached',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "WithdrawalsValidatorLimitWasReached",
-    type: "error",
+    name: 'WithdrawalsValidatorLimitWasReached',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ZeroAddress",
-    type: "error",
+    name: 'ZeroAddress',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ZeroAmount",
-    type: "error",
+    name: 'ZeroAmount',
+    type: 'error'
   },
   {
     inputs: [],
-    name: "ZeroSupply",
-    type: "error",
+    name: 'ZeroSupply',
+    type: 'error'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "pool",
-        type: "address",
+        internalType: 'address',
+        name: 'pool',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "bool",
-        name: "listed",
-        type: "bool",
+        internalType: 'bool',
+        name: 'listed',
+        type: 'bool'
       },
       {
         indexed: false,
-        internalType: "bool",
-        name: "social",
-        type: "bool",
+        internalType: 'bool',
+        name: 'social',
+        type: 'bool'
       },
       {
         indexed: false,
-        internalType: "bool",
-        name: "index",
-        type: "bool",
+        internalType: 'bool',
+        name: 'index',
+        type: 'bool'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
     ],
-    name: "AddPool",
-    type: "event",
+    name: 'AddPool',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
     ],
-    name: "AddValidatorOracle",
-    type: "event",
+    name: 'AddValidatorOracle',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "oracle",
-        type: "address",
+        internalType: 'address',
+        name: 'oracle',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
     ],
-    name: "AnticipateWithdrawBeacon",
-    type: "event",
+    name: 'AnticipateWithdrawBeacon',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "sharesAmount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'sharesAmount',
+        type: 'uint256'
+      }
     ],
-    name: "BurnShares",
-    type: "event",
+    name: 'BurnShares',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
+        internalType: 'address',
+        name: 'to',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
       },
       {
         indexed: false,
-        internalType: "enum IELStakeTogether.DepositType",
-        name: "depositType",
-        type: "uint8",
+        internalType: 'enum IELStakeTogether.DepositType',
+        name: 'depositType',
+        type: 'uint8'
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "pool",
-        type: "address",
+        internalType: 'address',
+        name: 'pool',
+        type: 'address'
       },
       {
         indexed: true,
-        internalType: "bytes",
-        name: "referral",
-        type: "bytes",
-      },
+        internalType: 'bytes',
+        name: 'referral',
+        type: 'bytes'
+      }
     ],
-    name: "DepositBase",
-    type: "event",
+    name: 'DepositBase',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "sender",
-        type: "address",
+        internalType: 'address',
+        name: 'sender',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
     ],
-    name: "DepositLimitWasReached",
-    type: "event",
+    name: 'DepositLimitWasReached',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
+        internalType: 'address',
+        name: 'to',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "sharesAmount",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'sharesAmount',
+        type: 'uint256'
       },
       {
         indexed: true,
-        internalType: "enum IELStakeTogether.FeeType",
-        name: "feeType",
-        type: "uint8",
+        internalType: 'enum IELStakeTogether.FeeType',
+        name: 'feeType',
+        type: 'uint8'
       },
       {
         indexed: true,
-        internalType: "enum IELStakeTogether.FeeRole",
-        name: "feeRole",
-        type: "uint8",
-      },
+        internalType: 'enum IELStakeTogether.FeeRole',
+        name: 'feeRole',
+        type: 'uint8'
+      }
     ],
-    name: "MintFeeShares",
-    type: "event",
+    name: 'MintFeeShares',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
+        internalType: 'address',
+        name: 'to',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "sharesAmount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'sharesAmount',
+        type: 'uint256'
+      }
     ],
-    name: "MintShares",
-    type: "event",
+    name: 'MintShares',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: false,
-        internalType: "uint256",
-        name: "index",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'index',
+        type: 'uint256'
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
     ],
-    name: "NextValidatorOracle",
-    type: "event",
+    name: 'NextValidatorOracle',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
       },
       {
         indexed: true,
-        internalType: "uint256",
-        name: "sharesAmount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'sharesAmount',
+        type: 'uint256'
+      }
     ],
-    name: "ProcessStakeRewards",
-    type: "event",
+    name: 'ProcessStakeRewards',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
     ],
-    name: "ProcessStakeValidator",
-    type: "event",
+    name: 'ProcessStakeValidator',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
     ],
-    name: "ReceiveEther",
-    type: "event",
+    name: 'ReceiveEther',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "pool",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'pool',
+        type: 'address'
+      }
     ],
-    name: "RemovePool",
-    type: "event",
+    name: 'RemovePool',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
     ],
-    name: "RemoveValidatorOracle",
-    type: "event",
+    name: 'RemoveValidatorOracle',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "oracle",
-        type: "address",
+        internalType: 'address',
+        name: 'oracle',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
       },
       {
         indexed: false,
-        internalType: "uint32",
-        name: "minGasLimit",
-        type: "uint32",
+        internalType: 'uint32',
+        name: 'minGasLimit',
+        type: 'uint32'
       },
       {
         indexed: false,
-        internalType: "bytes",
-        name: "extraData",
-        type: "bytes",
-      },
+        internalType: 'bytes',
+        name: 'extraData',
+        type: 'bytes'
+      }
     ],
-    name: "RequestAddValidator",
-    type: "event",
+    name: 'RequestAddValidator',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "adapter",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'adapter',
+        type: 'address'
+      }
     ],
-    name: "SetAdapter",
-    type: "event",
+    name: 'SetAdapter',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "sender",
-        type: "address",
+        internalType: 'address',
+        name: 'sender',
+        type: 'address'
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "bool",
-        name: "isListed",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: 'isListed',
+        type: 'bool'
+      }
     ],
-    name: "SetAntiFraudStatus",
-    type: "event",
+    name: 'SetAntiFraudStatus',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
     ],
-    name: "SetBeaconBalance",
-    type: "event",
+    name: 'SetBeaconBalance',
+    type: 'event'
   },
   {
     anonymous: false,
@@ -587,1087 +584,1084 @@ const _abi = [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "blocksPerDay",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'blocksPerDay',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "depositLimit",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'depositLimit',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "maxDelegations",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'maxDelegations',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "minDepositAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'minDepositAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "minWithdrawAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'minWithdrawAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "poolSize",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'poolSize',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "validatorSize",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'validatorSize',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawalPoolLimit",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawalPoolLimit',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawalValidatorLimit",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawalValidatorLimit',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawDelay",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawDelay',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawBeaconDelay",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawBeaconDelay',
+            type: 'uint256'
           },
           {
             components: [
               {
-                internalType: "bool",
-                name: "AddPool",
-                type: "bool",
+                internalType: 'bool',
+                name: 'AddPool',
+                type: 'bool'
               },
               {
-                internalType: "bool",
-                name: "Deposit",
-                type: "bool",
+                internalType: 'bool',
+                name: 'Deposit',
+                type: 'bool'
               },
               {
-                internalType: "bool",
-                name: "WithdrawPool",
-                type: "bool",
+                internalType: 'bool',
+                name: 'WithdrawPool',
+                type: 'bool'
               },
               {
-                internalType: "bool",
-                name: "WithdrawBeacon",
-                type: "bool",
-              },
+                internalType: 'bool',
+                name: 'WithdrawBeacon',
+                type: 'bool'
+              }
             ],
-            internalType: "struct IELStakeTogether.Feature",
-            name: "feature",
-            type: "tuple",
-          },
+            internalType: 'struct IELStakeTogether.Feature',
+            name: 'feature',
+            type: 'tuple'
+          }
         ],
         indexed: true,
-        internalType: "struct IELStakeTogether.Config",
-        name: "config",
-        type: "tuple",
-      },
+        internalType: 'struct IELStakeTogether.Config',
+        name: 'config',
+        type: 'tuple'
+      }
     ],
-    name: "SetConfig",
-    type: "event",
+    name: 'SetConfig',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "enum IELStakeTogether.FeeType",
-        name: "feeType",
-        type: "uint8",
+        internalType: 'enum IELStakeTogether.FeeType',
+        name: 'feeType',
+        type: 'uint8'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "value",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'value',
+        type: 'uint256'
       },
       {
         indexed: false,
-        internalType: "uint256[]",
-        name: "allocations",
-        type: "uint256[]",
-      },
+        internalType: 'uint256[]',
+        name: 'allocations',
+        type: 'uint256[]'
+      }
     ],
-    name: "SetFee",
-    type: "event",
+    name: 'SetFee',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "enum IELStakeTogether.FeeRole",
-        name: "role",
-        type: "uint8",
+        internalType: 'enum IELStakeTogether.FeeRole',
+        name: 'role',
+        type: 'uint8'
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
     ],
-    name: "SetFeeAddress",
-    type: "event",
+    name: 'SetFeeAddress',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "router",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'router',
+        type: 'address'
+      }
     ],
-    name: "SetRouter",
-    type: "event",
+    name: 'SetRouter',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "stakeTogether",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'stakeTogether',
+        type: 'address'
+      }
     ],
-    name: "SetStakeTogether",
-    type: "event",
+    name: 'SetStakeTogether',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "newValidatorSize",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'newValidatorSize',
+        type: 'uint256'
+      }
     ],
-    name: "SetValidatorSize",
-    type: "event",
+    name: 'SetValidatorSize',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
+      }
     ],
-    name: "SetWithdrawBalance",
-    type: "event",
+    name: 'SetWithdrawBalance',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "bytes",
-        name: "withdrawalCredentials",
-        type: "bytes",
-      },
+        internalType: 'bytes',
+        name: 'withdrawalCredentials',
+        type: 'bytes'
+      }
     ],
-    name: "SetWithdrawalsCredentials",
-    type: "event",
+    name: 'SetWithdrawalsCredentials',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "from",
-        type: "address",
+        internalType: 'address',
+        name: 'from',
+        type: 'address'
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
+        internalType: 'address',
+        name: 'to',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "sharesAmount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: 'sharesAmount',
+        type: 'uint256'
+      }
     ],
-    name: "TransferShares",
-    type: "event",
+    name: 'TransferShares',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
       },
       {
         components: [
           {
-            internalType: "address",
-            name: "pool",
-            type: "address",
+            internalType: 'address',
+            name: 'pool',
+            type: 'address'
           },
           {
-            internalType: "uint256",
-            name: "percentage",
-            type: "uint256",
-          },
+            internalType: 'uint256',
+            name: 'percentage',
+            type: 'uint256'
+          }
         ],
         indexed: false,
-        internalType: "struct IELStakeTogether.Delegation[]",
-        name: "delegations",
-        type: "tuple[]",
-      },
+        internalType: 'struct IELStakeTogether.Delegation[]',
+        name: 'delegations',
+        type: 'tuple[]'
+      }
     ],
-    name: "UpdateDelegations",
-    type: "event",
+    name: 'UpdateDelegations',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
       },
       {
         indexed: false,
-        internalType: "enum IELStakeTogether.WithdrawType",
-        name: "withdrawType",
-        type: "uint8",
+        internalType: 'enum IELStakeTogether.WithdrawType',
+        name: 'withdrawType',
+        type: 'uint8'
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "pool",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'pool',
+        type: 'address'
+      }
     ],
-    name: "WithdrawBase",
-    type: "event",
+    name: 'WithdrawBase',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "address",
-        name: "sender",
-        type: "address",
+        internalType: 'address',
+        name: 'sender',
+        type: 'address'
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256'
       },
       {
         indexed: false,
-        internalType: "enum IELStakeTogether.WithdrawType",
-        name: "withdrawType",
-        type: "uint8",
-      },
+        internalType: 'enum IELStakeTogether.WithdrawType',
+        name: 'withdrawType',
+        type: 'uint8'
+      }
     ],
-    name: "WithdrawalsLimitWasReached",
-    type: "event",
+    name: 'WithdrawalsLimitWasReached',
+    type: 'event'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_pool",
-        type: "address",
+        internalType: 'address',
+        name: '_pool',
+        type: 'address'
       },
       {
-        internalType: "bool",
-        name: "_listed",
-        type: "bool",
+        internalType: 'bool',
+        name: '_listed',
+        type: 'bool'
       },
       {
-        internalType: "bool",
-        name: "_social",
-        type: "bool",
+        internalType: 'bool',
+        name: '_social',
+        type: 'bool'
       },
       {
-        internalType: "bool",
-        name: "_index",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '_index',
+        type: 'bool'
+      }
     ],
-    name: "addPool",
+    name: 'addPool',
     outputs: [],
-    stateMutability: "payable",
-    type: "function",
+    stateMutability: 'payable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "addToAntiFraud",
+    name: 'addToAntiFraud',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "addValidatorOracle",
+    name: 'addValidatorOracle',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
       },
       {
-        internalType: "address",
-        name: "_spender",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_spender',
+        type: 'address'
+      }
     ],
-    name: "allowance",
+    name: 'allowance',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "anticipateWithdrawBeacon",
+    name: 'anticipateWithdrawBeacon',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_spender",
-        type: "address",
+        internalType: 'address',
+        name: '_spender',
+        type: 'address'
       },
       {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256'
+      }
     ],
-    name: "approve",
+    name: 'approve',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "balanceOf",
+    name: 'balanceOf',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "beaconBalance",
+    name: 'beaconBalance',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
       },
       {
-        internalType: "uint256",
-        name: "_sharesAmount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_sharesAmount',
+        type: 'uint256'
+      }
     ],
-    name: "claimAirdrop",
+    name: 'claimAirdrop',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_to",
-        type: "address",
+        internalType: 'address',
+        name: '_to',
+        type: 'address'
       },
       {
-        internalType: "address",
-        name: "_pool",
-        type: "address",
+        internalType: 'address',
+        name: '_pool',
+        type: 'address'
       },
       {
-        internalType: "bytes",
-        name: "_referral",
-        type: "bytes",
-      },
+        internalType: 'bytes',
+        name: '_referral',
+        type: 'bytes'
+      }
     ],
-    name: "depositDonation",
+    name: 'depositDonation',
     outputs: [],
-    stateMutability: "payable",
-    type: "function",
+    stateMutability: 'payable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_pool",
-        type: "address",
+        internalType: 'address',
+        name: '_pool',
+        type: 'address'
       },
       {
-        internalType: "bytes",
-        name: "_referral",
-        type: "bytes",
-      },
+        internalType: 'bytes',
+        name: '_referral',
+        type: 'bytes'
+      }
     ],
-    name: "depositPool",
+    name: 'depositPool',
     outputs: [],
-    stateMutability: "payable",
-    type: "function",
+    stateMutability: 'payable',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "forceNextValidatorOracle",
+    name: 'forceNextValidatorOracle',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "enum IELStakeTogether.FeeRole",
-        name: "_role",
-        type: "uint8",
-      },
+        internalType: 'enum IELStakeTogether.FeeRole',
+        name: '_role',
+        type: 'uint8'
+      }
     ],
-    name: "getFeeAddress",
+    name: 'getFeeAddress',
     outputs: [
       {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '',
+        type: 'address'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "getFeesRoles",
+    name: 'getFeesRoles',
     outputs: [
       {
-        internalType: "enum IELStakeTogether.FeeRole[4]",
-        name: "",
-        type: "uint8[4]",
-      },
+        internalType: 'enum IELStakeTogether.FeeRole[4]',
+        name: '',
+        type: 'uint8[4]'
+      }
     ],
-    stateMutability: "pure",
-    type: "function",
+    stateMutability: 'pure',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "getWithdrawBeaconBlock",
+    name: 'getWithdrawBeaconBlock',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "getWithdrawBlock",
+    name: 'getWithdrawBlock',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "isListedInAntiFraud",
+    name: 'isListedInAntiFraud',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "isValidatorOracle",
+    name: 'isValidatorOracle',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "pause",
+    name: 'pause',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_sharesAmount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_sharesAmount',
+        type: 'uint256'
+      }
     ],
-    name: "processFeeRewards",
+    name: 'processFeeRewards',
     outputs: [],
-    stateMutability: "payable",
-    type: "function",
+    stateMutability: 'payable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "removeFromAntiFraud",
+    name: 'removeFromAntiFraud',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_pool",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_pool',
+        type: 'address'
+      }
     ],
-    name: "removePool",
+    name: 'removePool',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_account',
+        type: 'address'
+      }
     ],
-    name: "removeValidatorOracle",
+    name: 'removeValidatorOracle',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint32",
-        name: "_minGasLimit",
-        type: "uint32",
+        internalType: 'uint32',
+        name: '_minGasLimit',
+        type: 'uint32'
       },
       {
-        internalType: "bytes",
-        name: "_extraData",
-        type: "bytes",
-      },
+        internalType: 'bytes',
+        name: '_extraData',
+        type: 'bytes'
+      }
     ],
-    name: "requestAddValidator",
+    name: 'requestAddValidator',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256'
+      }
     ],
-    name: "setBeaconBalance",
+    name: 'setBeaconBalance',
     outputs: [],
-    stateMutability: "payable",
-    type: "function",
+    stateMutability: 'payable',
+    type: 'function'
   },
   {
     inputs: [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "blocksPerDay",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'blocksPerDay',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "depositLimit",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'depositLimit',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "maxDelegations",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'maxDelegations',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "minDepositAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'minDepositAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "minWithdrawAmount",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'minWithdrawAmount',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "poolSize",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'poolSize',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "validatorSize",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'validatorSize',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawalPoolLimit",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawalPoolLimit',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawalValidatorLimit",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawalValidatorLimit',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawDelay",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawDelay',
+            type: 'uint256'
           },
           {
-            internalType: "uint256",
-            name: "withdrawBeaconDelay",
-            type: "uint256",
+            internalType: 'uint256',
+            name: 'withdrawBeaconDelay',
+            type: 'uint256'
           },
           {
             components: [
               {
-                internalType: "bool",
-                name: "AddPool",
-                type: "bool",
+                internalType: 'bool',
+                name: 'AddPool',
+                type: 'bool'
               },
               {
-                internalType: "bool",
-                name: "Deposit",
-                type: "bool",
+                internalType: 'bool',
+                name: 'Deposit',
+                type: 'bool'
               },
               {
-                internalType: "bool",
-                name: "WithdrawPool",
-                type: "bool",
+                internalType: 'bool',
+                name: 'WithdrawPool',
+                type: 'bool'
               },
               {
-                internalType: "bool",
-                name: "WithdrawBeacon",
-                type: "bool",
-              },
+                internalType: 'bool',
+                name: 'WithdrawBeacon',
+                type: 'bool'
+              }
             ],
-            internalType: "struct IELStakeTogether.Feature",
-            name: "feature",
-            type: "tuple",
-          },
+            internalType: 'struct IELStakeTogether.Feature',
+            name: 'feature',
+            type: 'tuple'
+          }
         ],
-        internalType: "struct IELStakeTogether.Config",
-        name: "_config",
-        type: "tuple",
-      },
+        internalType: 'struct IELStakeTogether.Config',
+        name: '_config',
+        type: 'tuple'
+      }
     ],
-    name: "setConfig",
+    name: 'setConfig',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "enum IELStakeTogether.FeeType",
-        name: "_feeType",
-        type: "uint8",
+        internalType: 'enum IELStakeTogether.FeeType',
+        name: '_feeType',
+        type: 'uint8'
       },
       {
-        internalType: "uint256",
-        name: "_value",
-        type: "uint256",
+        internalType: 'uint256',
+        name: '_value',
+        type: 'uint256'
       },
       {
-        internalType: "uint256[]",
-        name: "_allocations",
-        type: "uint256[]",
-      },
+        internalType: 'uint256[]',
+        name: '_allocations',
+        type: 'uint256[]'
+      }
     ],
-    name: "setFee",
+    name: 'setFee',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "enum IELStakeTogether.FeeRole",
-        name: "_role",
-        type: "uint8",
+        internalType: 'enum IELStakeTogether.FeeRole',
+        name: '_role',
+        type: 'uint8'
       },
       {
-        internalType: "address payable",
-        name: "_address",
-        type: "address",
-      },
+        internalType: 'address payable',
+        name: '_address',
+        type: 'address'
+      }
     ],
-    name: "setFeeAddress",
+    name: 'setFeeAddress',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_l1adapter",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_l1adapter',
+        type: 'address'
+      }
     ],
-    name: "setL1Adapter",
+    name: 'setL1Adapter',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256'
+      }
     ],
-    name: "setWithdrawBalance",
+    name: 'setWithdrawBalance',
     outputs: [],
-    stateMutability: "payable",
-    type: "function",
+    stateMutability: 'payable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256'
+      }
     ],
-    name: "sharesByWei",
+    name: 'sharesByWei',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "totalSupply",
+    name: 'totalSupply',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_to",
-        type: "address",
+        internalType: 'address',
+        name: '_to',
+        type: 'address'
       },
       {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256'
+      }
     ],
-    name: "transfer",
+    name: 'transfer',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_from",
-        type: "address",
+        internalType: 'address',
+        name: '_from',
+        type: 'address'
       },
       {
-        internalType: "address",
-        name: "_to",
-        type: "address",
+        internalType: 'address',
+        name: '_to',
+        type: 'address'
       },
       {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256'
+      }
     ],
-    name: "transferFrom",
+    name: 'transferFrom',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "unpause",
+    name: 'unpause',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
         components: [
           {
-            internalType: "address",
-            name: "pool",
-            type: "address",
+            internalType: 'address',
+            name: 'pool',
+            type: 'address'
           },
           {
-            internalType: "uint256",
-            name: "percentage",
-            type: "uint256",
-          },
+            internalType: 'uint256',
+            name: 'percentage',
+            type: 'uint256'
+          }
         ],
-        internalType: "struct IELStakeTogether.Delegation[]",
-        name: "_delegations",
-        type: "tuple[]",
-      },
+        internalType: 'struct IELStakeTogether.Delegation[]',
+        name: '_delegations',
+        type: 'tuple[]'
+      }
     ],
-    name: "updateDelegations",
+    name: 'updateDelegations',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_sharesAmount",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '_sharesAmount',
+        type: 'uint256'
+      }
     ],
-    name: "weiByShares",
+    name: 'weiByShares',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [],
-    name: "withdrawBalance",
+    name: 'withdrawBalance',
     outputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256'
       },
       {
-        internalType: "address",
-        name: "_pool",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_pool',
+        type: 'address'
+      }
     ],
-    name: "withdrawBeacon",
+    name: 'withdrawBeacon',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
+        internalType: 'uint256',
+        name: '_amount',
+        type: 'uint256'
       },
       {
-        internalType: "address",
-        name: "_pool",
-        type: "address",
-      },
+        internalType: 'address',
+        name: '_pool',
+        type: 'address'
+      }
     ],
-    name: "withdrawPool",
+    name: 'withdrawPool',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
-    stateMutability: "payable",
-    type: "receive",
-  },
-] as const;
+    stateMutability: 'payable',
+    type: 'receive'
+  }
+] as const
 
 export class IELStakeTogether__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): IELStakeTogetherInterface {
-    return new Interface(_abi) as IELStakeTogetherInterface;
+    return new Interface(_abi) as IELStakeTogetherInterface
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IELStakeTogether {
-    return new Contract(address, _abi, runner) as unknown as IELStakeTogether;
+  static connect(address: string, runner?: ContractRunner | null): IELStakeTogether {
+    return new Contract(address, _abi, runner) as unknown as IELStakeTogether
   }
 }

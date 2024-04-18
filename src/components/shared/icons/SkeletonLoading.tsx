@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components'
 
-type SkeletonLoadingProps = {
+interface SkeletonLoadingProps {
   className?: string
   height?: number
   width?: number
@@ -25,12 +25,7 @@ const { Container } = {
     height: ${props => (props.height ? `${props.height}px` : '14px')};
     width: ${props => (props.width ? `${props.width}px` : '100%')};
 
-    background: linear-gradient(
-      90deg,
-      rgba(172, 172, 172, 0.2) 25%,
-      rgba(172, 172, 172, 0.4) 50%,
-      rgba(172, 172, 172, 0.2) 75%
-    );
+    background: linear-gradient(90deg, rgba(172, 172, 172, 0.2) 25%, rgba(172, 172, 172, 0.4) 50%, rgba(172, 172, 172, 0.2) 75%);
     background-size: 400%;
     animation: ${loading} 2s infinite linear;
 

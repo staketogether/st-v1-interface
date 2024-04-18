@@ -10,17 +10,13 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
+import { stakeTogetherAbi } from '@/types/Contracts'
+import { ProductStaking } from '@/types/ProductStaking'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
-import {
-  useSimulateContract,
-  useWaitForTransactionReceipt as useWaitForTransaction,
-  useWriteContract
-} from 'wagmi'
+import { useSimulateContract, useWaitForTransactionReceipt as useWaitForTransaction, useWriteContract } from 'wagmi'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
-import { stakeTogetherAbi } from '@/types/Contracts'
 import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
@@ -31,7 +27,7 @@ export default function useDepositPool(
   grossDepositAmount: bigint,
   poolAddress: `0x${string}`,
   enabled: boolean,
-  product: Product,
+  product: ProductStaking,
   chainId: number,
   accountAddress: `0x${string}` | undefined
 ) {
@@ -45,12 +41,12 @@ export default function useDepositPool(
 
   const { registerDeposit } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
-  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
+  const subgraphClient = getSubgraphClient({ name: product.name, isTestnet })
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { stConfig, loading: stConfigLoading } = useStConfig({ productName: product.name, chainId })
+  const { stConfig, loading: stConfigLoading } = useStConfig({ name: product.name, chainId })
   const { t } = useLocaleTranslation()
 
-  const amountEstimatedGas = stConfig?.minDepositAmount || 0n
+  const amountEstimatedGas = stConfig?.minDepositAmount ?? 0n
 
   const isDepositEnabled = enabled && netDepositAmount > 0n && !stConfigLoading
 
@@ -72,8 +68,7 @@ export default function useDepositPool(
 
   useEffect(() => {
     const handleEstimateGasPrice = async () => {
-      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } =
-        await estimateGas()
+      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } = await estimateGas()
       setDepositEstimatedGas(estimatedGas)
       setEstimateGasCost(estimatedCost)
       setMaxFeePerGas(estimatedMaxFeePerGas)
@@ -112,13 +107,9 @@ export default function useDepositPool(
     address: StakeTogether,
     args: [poolAddress, referral],
     value: grossDepositAmount,
-    gas:
-      !!depositEstimatedGas && depositEstimatedGas > 0n && !!web3AuthUserInfo ? depositEstimatedGas : undefined,
+    gas: !!depositEstimatedGas && depositEstimatedGas > 0n && !!web3AuthUserInfo ? depositEstimatedGas : undefined,
     maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
-    maxPriorityFeePerGas:
-      !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo
-        ? maxPriorityFeePerGas
-        : undefined
+    maxPriorityFeePerGas: !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n && !!web3AuthUserInfo ? maxPriorityFeePerGas : undefined
   })
 
   useEffect(() => {
@@ -126,12 +117,10 @@ export default function useDepositPool(
       const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
 
       if (
-        (!cause || !cause.reason) &&
+        !cause?.reason &&
         !!web3AuthUserInfo &&
         cause?.message &&
-        cause.message.includes(
-          'The total cost (gas * gas fee + value) of executing this transaction exceeds the balance'
-        )
+        cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
       ) {
         notification.warning({
           message: `${t('v2.stake.insufficientGasBalance')}, ${t('v2.stake.depositErrorMessage.useMaxButton')}`,
@@ -143,7 +132,7 @@ export default function useDepositPool(
       }
       const response = cause as { data?: { errorName?: string } }
 
-      if (cause && response?.data && response?.data?.errorName) {
+      if (cause && response?.data?.errorName) {
         setPrepareTransactionErrorMessage(response?.data?.errorName)
       }
     }
@@ -155,12 +144,7 @@ export default function useDepositPool(
     }
   }, [prepareTransactionIsSuccess])
 
-  const {
-    writeContract,
-    data: txHash,
-    isError: writeContractIsError,
-    reset: resetWriteContract
-  } = useWriteContract()
+  const { writeContract, data: txHash, isError: writeContractIsError, reset: resetWriteContract } = useWriteContract()
 
   useEffect(() => {
     if (writeContractIsError && awaitWalletAction) {
@@ -232,7 +216,7 @@ export default function useDepositPool(
     t
   ])
 
-  const deposit = async () => {
+  const deposit = () => {
     setAwaitWalletAction(true)
     writeContract(prepareTransactionData!.request)
   }

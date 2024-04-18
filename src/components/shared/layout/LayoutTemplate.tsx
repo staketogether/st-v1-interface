@@ -13,7 +13,11 @@ import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
 
-const montserrat = Montserrat({ subsets: ['latin'], weight: ['300', '400', '500'] })
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['300', '400', '500'],
+  variable: '--font-montserrat'
+})
 
 interface LayoutTemplateProps {
   children: ReactNode

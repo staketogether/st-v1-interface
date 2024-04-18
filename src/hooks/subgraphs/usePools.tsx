@@ -11,7 +11,7 @@ export default function usePools() {
   const { data, loading } = useQuery<{ pools: PoolSubgraph[] }>(queryPools)
 
   useEffect(() => {
-    setPools(data?.pools || [])
+    setPools(data?.pools ?? [])
   }, [data])
 
   useEffect(() => {

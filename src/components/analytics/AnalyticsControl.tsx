@@ -1,4 +1,5 @@
 import { chainConfigByChainId } from '@/config/chain'
+import { ethereumStaking, getStakingContracts } from '@/config/products/staking'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import useAnalyticsData from '@/hooks/subgraphs/analytics/useAnalyticsData'
 import useCoinConversion from '@/hooks/useCoinConversion'
@@ -13,22 +14,21 @@ import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import AnalyticsValidatorRow from './AnalyticsValidatorRow'
-import { getContractsByProductName } from '@/config/product'
 
 export default function AnalyticsControl() {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
   const { isLoading, analytics, validators } = useAnalyticsData()
   const { isTestnet, blockExplorer } = chainConfigByChainId(1)
-  const { StakeTogether, Router, Withdrawals } = getContractsByProductName({
-    productName: 'ethereum-stake',
+  const { StakeTogether, Router, Withdrawals } = getStakingContracts({
+    name: 'ethereum-stake',
     isTestnet
   })
 
-  const { priceConvertedValue } = useCoinConversion('1')
+  const { priceConvertedValue } = useCoinConversion('1', ethereumStaking.asset.mobula.filterCoinConversion)
   const ethPrice = priceConvertedValue
   const tvl = formatNumberByLocale(truncateDecimal(String(analytics?.totalValueLocked) || '0', 2), locale)
-  const { priceConvertedValue: tvlUsdPrice } = useCoinConversion(tvl)
+  const { priceConvertedValue: tvlUsdPrice } = useCoinConversion(tvl, ethereumStaking.asset.mobula.filterCoinConversion)
 
   const tvlUsdPriceFormatted = tvlUsdPrice
   const totalAccounts = analytics?.accountsCount
@@ -36,27 +36,27 @@ export default function AnalyticsControl() {
   const withdrawalsCount = analytics?.withdrawalsCount
 
   const totalRewards = formatNumberByLocale(truncateDecimal(String(analytics?.totalRewards) || '0', 2), locale)
-  const { priceConvertedValue: totalRewardsUsdPrice } = useCoinConversion(totalRewards)
+  const { priceConvertedValue: totalRewardsUsdPrice } = useCoinConversion(totalRewards, ethereumStaking.asset.mobula.filterCoinConversion)
   const totalRewardsUsdPriceFormatted = totalRewardsUsdPrice
 
   const poolsCount = analytics?.poolsCount
-  const totalPoolsRewards = formatNumberByLocale(
-    truncateDecimal(String(analytics?.totalPoolRewards) || '0', 2),
-    locale
+  const totalPoolsRewards = formatNumberByLocale(truncateDecimal(String(analytics?.totalPoolRewards) || '0', 2), locale)
+  const { priceConvertedValue: totalPoolsRewardsUsdPriceFormatted } = useCoinConversion(
+    totalPoolsRewards,
+    ethereumStaking.asset.mobula.filterCoinConversion
   )
-  const { priceConvertedValue: totalPoolsRewardsUsdPriceFormatted } = useCoinConversion(totalPoolsRewards)
 
-  const totalContractsBalance = formatNumberByLocale(
-    truncateDecimal(String(analytics?.contractBalance) || '0', 2),
-    locale
+  const totalContractsBalance = formatNumberByLocale(truncateDecimal(String(analytics?.contractBalance) || '0', 2), locale)
+  const { priceConvertedValue: totalContractsBalanceUsdFormatted } = useCoinConversion(
+    totalContractsBalance,
+    ethereumStaking.asset.mobula.filterCoinConversion
   )
-  const { priceConvertedValue: totalContractsBalanceUsdFormatted } = useCoinConversion(totalContractsBalance)
 
-  const validatorsAmountTotal = formatNumberByLocale(
-    truncateDecimal(String(analytics?.validatorsAmountTotal) || '0', 2),
-    locale
+  const validatorsAmountTotal = formatNumberByLocale(truncateDecimal(String(analytics?.validatorsAmountTotal) || '0', 2), locale)
+  const { priceConvertedValue: validatorsAmountTotalUsdFormatted } = useCoinConversion(
+    validatorsAmountTotal,
+    ethereumStaking.asset.mobula.filterCoinConversion
   )
-  const { priceConvertedValue: validatorsAmountTotalUsdFormatted } = useCoinConversion(validatorsAmountTotal)
 
   const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } = useEthBalanceOf({
     walletAddress: StakeTogether,
@@ -213,11 +213,7 @@ export default function AnalyticsControl() {
             </ContractTableRow>
             <ContractTableRow href={`${blockExplorer.baseUrl}/address/${Router}`} target='_blank'>
               <span>Router</span>
-              {routerLoading ? (
-                <SkeletonLoading width={120} />
-              ) : (
-                <span>{`${routerBalanceFormatted} ${t('eth.symbol')}`}</span>
-              )}
+              {routerLoading ? <SkeletonLoading width={120} /> : <span>{`${routerBalanceFormatted} ${t('eth.symbol')}`}</span>}
               <span>
                 <Image src={etherscan} alt='etherscan icon' width={16} height={16} />
                 {t('v2.analytics.contracts.viewInExecutionLayer')}
@@ -225,11 +221,7 @@ export default function AnalyticsControl() {
             </ContractTableRow>
             <ContractTableRow href={`${blockExplorer.baseUrl}/address/${Withdrawals}`} target='_blank'>
               <span>Withdrawals</span>
-              {withdrawalsLoading ? (
-                <SkeletonLoading width={120} />
-              ) : (
-                <span>{`${withdrawalsFormatted} ${t('eth.symbol')}`}</span>
-              )}
+              {withdrawalsLoading ? <SkeletonLoading width={120} /> : <span>{`${withdrawalsFormatted} ${t('eth.symbol')}`}</span>}
               <span>
                 <Image src={etherscan} alt='etherscan icon' width={16} height={16} />
                 {t('v2.analytics.contracts.viewInExecutionLayer')}
@@ -277,9 +269,7 @@ export default function AnalyticsControl() {
           <div>
             {!isLoading &&
               validators.length &&
-              validators.map((validator, index) => (
-                <AnalyticsValidatorRow index={index} validator={validator} key={validator.publicKey} />
-              ))}
+              validators.map((validator, index) => <AnalyticsValidatorRow index={index} validator={validator} key={validator.publicKey} />)}
           </div>
         </ValidatorsTable>
       </Content>

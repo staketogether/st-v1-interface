@@ -1,4 +1,5 @@
 import chainConfig from '@/config/chain'
+import { getStakingProduct } from '@/config/products/staking'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebar from '@/hooks/useWalletSidebar'
@@ -10,9 +11,8 @@ import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { getProductByName } from '@/config/product'
 
-type WalletSideBarPoolsDelegatedProps = {
+interface WalletSideBarPoolsDelegatedProps {
   accountDelegations: Delegation[]
 }
 
@@ -28,7 +28,7 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
   }
 
   const { isTestnet } = chainConfig()
-  const product = getProductByName({ productName: 'ethereum-stake' })
+  const product = getStakingProduct({ name: 'ethereum-stake' })
   const stakeTogetherPool = product.stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet']
 
   return (
@@ -42,8 +42,8 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
         const poolMetadata = handleMetadataPools(delegation.delegated.address)
         const urlRedirect =
           stakeTogetherPool?.toLowerCase() === delegation.delegated.address.toLowerCase()
-            ? `/${network}/${currency}`
-            : `/${network}/${currency}/project/deposit/${delegation.delegated.address}`
+            ? `/${network as string}/${currency as string}`
+            : `/${network as string}/${currency as string}/project/deposit/${delegation.delegated.address}`
         return (
           <DelegatedPool key={index} href={urlRedirect} onClick={() => setOpenSidebar(false)}>
             <div>
@@ -51,11 +51,11 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
                 <CommunityLogo
                   size={24}
                   src={poolMetadata?.logo.url}
-                  alt={poolMetadata?.logo.fileName || ''}
+                  alt={poolMetadata?.logo.fileName ?? ''}
                   loading={isLoading}
                   listed={!!poolMetadata}
                 />
-                {poolMetadata && poolMetadata.name ? (
+                {poolMetadata?.name ? (
                   <CommunityName name={poolMetadata.name} loading={isLoading} />
                 ) : (
                   <CommunityName walletAddress={delegation.delegated.address} loading={isLoading} />

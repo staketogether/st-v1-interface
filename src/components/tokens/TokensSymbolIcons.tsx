@@ -1,22 +1,22 @@
-import React from 'react'
-import Image from 'next/image'
-import { ProductSymbol } from '@/types/Product'
-import stIcon from '@assets/st-symbol.svg'
-import stpRETHIcon from '@assets/stpRETHIcon.svg'
-import styled from 'styled-components'
-import { Tooltip } from 'antd'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import bitcoinIcon from '@assets/network/bitcoin.png'
+import ethereumIcon from '@assets/network/ethereum.svg'
+import stIcon from '@assets/st-symbol.svg'
+import stpRETHIcon from '@assets/stpRETHIcon.svg'
+import { Tooltip } from 'antd'
+import Image from 'next/image'
 import { PiPlusBold } from 'react-icons/pi'
+import styled from 'styled-components'
 
-type SymbolIconsProps = {
-  productSymbol: ProductSymbol
+interface TokensSymbolIconsProps {
+  productSymbol: string
   size: number
   contractAddress?: `0x${string}`
   showPlusIcon?: boolean
 }
 
-export default function SymbolIcons({ productSymbol, size, showPlusIcon, contractAddress }: SymbolIconsProps) {
+export default function TokensSymbolIcons({ productSymbol, size, showPlusIcon, contractAddress }: TokensSymbolIconsProps) {
   const productSymbolIcons = {
     stpETH: stIcon,
     strETH: stpRETHIcon,
@@ -27,7 +27,9 @@ export default function SymbolIcons({ productSymbol, size, showPlusIcon, contrac
     stpDOT: stIcon,
     stpATOM: stIcon,
     stpBTC: stIcon,
-    stpCHZ: stIcon
+    stpCHZ: stIcon,
+    wBTC: bitcoinIcon,
+    ETH: ethereumIcon
   }
   const { addToWalletAction } = useAddSethToWallet({
     productSymbol,
@@ -38,7 +40,7 @@ export default function SymbolIcons({ productSymbol, size, showPlusIcon, contrac
   return (
     <Tooltip title={t('addToWalletTooltip')}>
       <Warper size={size} onClick={showPlusIcon ? addToWalletAction : () => {}}>
-        <Image src={productSymbolIcons[productSymbol]} width={size} height={size} alt={productSymbol} />
+        <Image src={productSymbolIcons[productSymbol as keyof typeof productSymbolIcons]} width={size} height={size} alt={productSymbol} />
         {showPlusIcon && (
           <div>
             <PiPlusBold style={{ fontSize: size <= 24 ? 7 : 9 }} />

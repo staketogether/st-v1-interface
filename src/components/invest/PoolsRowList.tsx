@@ -12,7 +12,7 @@ import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
-type PoolsRowListProps = {
+interface PoolsRowListProps {
   pool: Pool
   loading: boolean
 }
@@ -22,7 +22,7 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
   const handleProjectSite = () => {
-    if (pool && (pool.site?.startsWith('https://') || pool.site?.startsWith('http://'))) {
+    if (pool && (pool.site?.startsWith('https://') ?? pool.site?.startsWith('http://'))) {
       return pool.site
     }
     return `https://${pool?.site}`
@@ -32,12 +32,8 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
       {pool && (
         <>
           <Name>
-            {pool.logo.url && (
-              <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
-            )}
-            {!pool.logo.url && (
-              <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={true} />
-            )}
+            {pool.logo.url && <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />}
+            {!pool.logo.url && <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={true} />}
             {pool.name && <CommunityName name={pool.name} loading={loading} />}
             {!pool.name && <CommunityName name={pool.name} loading={true} />}
           </Name>
@@ -67,7 +63,7 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
               </Tooltip>
             )}
             {pool?.discord && (
-              <Tooltip title={pool.discordName || pool.discord}>
+              <Tooltip title={pool.discordName ?? pool.discord}>
                 <Social href={`https://discord.com/invite/${pool.discord}`} target='_blank'>
                   <DiscordIcon />
                 </Social>
@@ -94,18 +90,7 @@ export default function PoolsRowList({ pool, loading }: PoolsRowListProps) {
   )
 }
 
-const {
-  Row,
-  Name,
-  TypeContainer,
-  Text,
-  Social,
-  DiscordIcon,
-  TwitterIcon,
-  SiteIcon,
-  InstagramIcon,
-  YoutubeIcon
-} = {
+const { Row, Name, TypeContainer, Text, Social, DiscordIcon, TwitterIcon, SiteIcon, InstagramIcon, YoutubeIcon } = {
   Row: styled.div`
     display: none;
     height: 48px;

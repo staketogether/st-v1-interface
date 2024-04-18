@@ -1,20 +1,20 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-import SymbolIcons from '@/components/tokens/components/SymbolIcons'
+import TokensSymbolIcons from '@/components/tokens/TokensSymbolIcons'
 import { chainConfigByChainId } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
-type EthereumStpETHInputProps = {
+interface EthereumStpETHInputProps {
   amountValue: string
   balance: bigint
   balanceLoading: boolean
   type: 'deposit' | 'withdraw'
-  product: Product
+  product: ProductStaking
   chainId: number
 }
 
@@ -49,12 +49,7 @@ export default function EthereumShowReceiveCoin({
         <CoinActionContainer>
           {type === 'deposit' ? (
             <>
-              <SymbolIcons
-                productSymbol={product.symbol}
-                size={32}
-                showPlusIcon
-                contractAddress={stakeTogetherContractAddress}
-              />
+              <TokensSymbolIcons productSymbol={product.symbol} size={32} showPlusIcon contractAddress={stakeTogetherContractAddress} />
             </>
           ) : (
             <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />

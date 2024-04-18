@@ -4,7 +4,7 @@ import { ContentfulPool } from '@/types/ContentfulPool'
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
 
-type useContentfulProjectListByStatusProps = {
+interface useContentfulProjectListByStatusProps {
   locale?: 'en-US' | 'pt'
   status: 'approved' | 'rejected' | 'pending'
   pagination?: { first: number; skip: number }
@@ -36,9 +36,9 @@ export default function useContentfulProjectListByStatus({
         status,
         first: pagination.first,
         skip: pagination.skip,
-        walletContains: projectAddress || null,
-        nameContains: projectName || null,
-        walletNotIn: excludeProjectAddress || null,
+        walletContains: projectAddress ?? null,
+        nameContains: projectName ?? null,
+        walletNotIn: excludeProjectAddress ?? null,
         chainId: chainId ? [chainId.toString()] : null
       },
       client: contentfulClient
@@ -65,8 +65,8 @@ export default function useContentfulProjectListByStatus({
   }
 
   useEffect(() => {
-    setProjectList(data?.poolCollection.items || [])
-    setTotalProjects(data?.poolCollection.total || 0)
+    setProjectList(data?.poolCollection.items ?? [])
+    setTotalProjects(data?.poolCollection.total ?? 0)
   }, [data])
 
   useEffect(() => {

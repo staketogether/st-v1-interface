@@ -7,7 +7,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ message: 'Method not allowed' })
   }
 
-  const { projectId, status, signatureMessage } = req.body
+  const {
+    projectId,
+    status,
+    signatureMessage
+  }: { projectId: string; status: string; signatureMessage: { signature: string; message: string } } = req.body
   const { signature, message } = signatureMessage
 
   if (!signatureMessage) {
@@ -35,9 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     content_type: 'panelWhiteList'
   })
 
-  const wallet = whitelist.items.find(
-    wallet => wallet.fields.wallet['en-US'].toLocaleLowerCase() === signatureWallet.toLocaleLowerCase()
-  )
+  const wallet = whitelist.items.find(w => w.fields.wallet['en-US'].toLocaleLowerCase() === signatureWallet.toLocaleLowerCase())
 
   if (!wallet) {
     res.status(401).json({ message: 'not authorized' })

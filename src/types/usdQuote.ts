@@ -1,4 +1,4 @@
-export type ExchangeRateApiResponse = {
+export interface ExchangeRateApiResponse {
   result: string
   documentation: string
   terms_of_use: string
@@ -10,6 +10,4 @@ export type ExchangeRateApiResponse = {
   conversion_rates: ConversionRates
 }
 
-export type ConversionRates = {
-  [key: string]: number
-}
+export type ConversionRates = Record<string, number>

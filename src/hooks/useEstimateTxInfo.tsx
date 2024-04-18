@@ -1,9 +1,9 @@
 import { config } from '@/config/wagmi'
-import { useEstimateFeesPerGas } from 'wagmi'
-import { mainnet } from 'wagmi/chains'
-import { getWalletClient } from 'wagmi/actions'
-import { estimateContractGas } from 'viem/actions'
 import { useCallback } from 'react'
+import { estimateContractGas } from 'viem/actions'
+import { useEstimateFeesPerGas } from 'wagmi'
+import { getWalletClient } from 'wagmi/actions'
+import { mainnet } from 'wagmi/chains'
 
 interface UseEstimateTxInfoProps {
   chainId?: number
@@ -17,27 +17,18 @@ interface UseEstimateTxInfoProps {
   skip?: boolean
 }
 
-const useEstimateTxInfo = ({
-  chainId,
-  account,
-  contractAddress,
-  abi,
-  functionName,
-  args,
-  value,
-  skip
-}: UseEstimateTxInfoProps) => {
+const useEstimateTxInfo = ({ chainId, account, contractAddress, abi, functionName, args, value, skip }: UseEstimateTxInfoProps) => {
   const { data, isLoading: gasPriceLoading } = useEstimateFeesPerGas({
     query: { enabled: !skip },
-    chainId: chainId || mainnet.id
+    chainId: chainId ?? mainnet.id
   })
 
-  const gasPrice = data && data.gasPrice ? data.gasPrice : 0n
-  const maxFeePerGas = data && data.maxFeePerGas ? data?.maxFeePerGas : 0n
-  const maxPriorityFeePerGas = data && data.maxPriorityFeePerGas ? data?.maxPriorityFeePerGas : 0n
+  const gasPrice = data?.gasPrice ? data.gasPrice : 0n
+  const maxFeePerGas = data?.maxFeePerGas ? data?.maxFeePerGas : 0n
+  const maxPriorityFeePerGas = data?.maxPriorityFeePerGas ? data?.maxPriorityFeePerGas : 0n
 
   const estimateGas = useCallback(async () => {
-    if (skip || !account || !contractAddress || !abi || !functionName || gasPriceLoading) {
+    if (skip ?? !account ?? !contractAddress ?? !abi ?? !functionName ?? gasPriceLoading) {
       return {
         estimatedGas: 0n,
         estimatedCost: 0n,
@@ -53,8 +44,8 @@ const useEstimateTxInfo = ({
         functionName,
         address: contractAddress,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        abi: abi as any,
-        args: args || [],
+        abi: abi,
+        args: args ?? [],
         value,
         maxFeePerGas,
         maxPriorityFeePerGas
@@ -77,19 +68,7 @@ const useEstimateTxInfo = ({
         error: true
       }
     }
-  }, [
-    skip,
-    account,
-    contractAddress,
-    abi,
-    functionName,
-    gasPriceLoading,
-    gasPrice,
-    args,
-    value,
-    maxFeePerGas,
-    maxPriorityFeePerGas
-  ])
+  }, [skip, account, contractAddress, abi, functionName, gasPriceLoading, gasPrice, args, value, maxFeePerGas, maxPriorityFeePerGas])
 
   return { estimateGas }
 }

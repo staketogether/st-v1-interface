@@ -1,6 +1,7 @@
 import { BrlaBuyEthStep, openBrlaModalVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useTransak from '@/hooks/useTransak'
+import { ProductAsset } from '@/types/ProductAsset'
 import CreditCard from '@assets/images/master-visa.svg'
 import Pix from '@assets/images/pix-full.svg'
 import Image from 'next/image'
@@ -8,10 +9,15 @@ import { useEffect } from 'react'
 import styled from 'styled-components'
 import Button from '../shared/Button'
 
-export default function PaymentMethod() {
+interface PaymentMethodProps {
+  product: ProductAsset
+}
+
+export default function PaymentMethod({ product }: PaymentMethodProps) {
   const { t } = useLocaleTranslation()
   const { onInit, isClosed } = useTransak({
-    productsAvailed: 'BUY'
+    productsAvailed: 'BUY',
+    network: product.networkAvailable
   })
 
   const handlePix = () => {
@@ -27,6 +33,11 @@ export default function PaymentMethod() {
       openBrlaModalVar(false)
     }
   }, [isClosed])
+
+  const isBtc = product.symbol === 'wBTC'
+  if (isBtc) {
+    handlePix()
+  }
 
   return (
     <Container>
@@ -62,9 +73,6 @@ export default function PaymentMethod() {
 const { Container } = {
   Container: styled.div`
     width: auto;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-width: 372px;
-    }
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};

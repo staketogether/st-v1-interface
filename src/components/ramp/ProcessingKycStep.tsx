@@ -1,17 +1,9 @@
-import { getProductByName } from '@/config/product'
 import useBuyRamp, { BuyRampRequest } from '@/hooks/ramp/useBuyRamp'
-import {
-  BrlaBuyEthStep,
-  currentProductNameVar,
-  kycIdVar,
-  kycLevelVar,
-  qrCodeVar,
-  quoteVar,
-  stepsControlBuyCryptoVar
-} from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, kycIdVar, kycLevelVar, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ProductAsset } from '@/types/ProductAsset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -21,7 +13,11 @@ import { useTheme } from 'styled-components'
 import { useAccount } from 'wagmi'
 import WrapProcessingStep from './WrapProcessingStep'
 
-export default function ProcessingKycStep() {
+interface ProcessingKycStepProps {
+  product: ProductAsset
+}
+
+export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
   const timeToRedirect = 3000
   const theme = useTheme()
   const quote = useReactiveVar(quoteVar)
@@ -31,14 +27,11 @@ export default function ProcessingKycStep() {
   const { buyRampResponse, isError: isErrorBuyRamp } = useBuyRamp('brla', rampData)
   const kycActivity = useReactiveVar(kycIdVar)
   const kyc = useReactiveVar(kycLevelVar)
-  const kycActivityId = Number(kyc?.level || 0) > 0 || !kycActivity ? undefined : kycActivity
+  const kycActivityId = Number(kyc?.level ?? 0) > 0 || !kycActivity ? undefined : kycActivity
   const { activity, isError } = useRampActivity(ProviderType.brla, kycActivityId ?? undefined)
   const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc?.level ? undefined : address, true)
-  const currentProductName = useReactiveVar(currentProductNameVar)
 
-  const product = getProductByName({ productName: currentProductName })
   const getIcon = (moment: 'waiting' | 'process' | 'success') => {
-
     const icons = {
       waiting: <PiCircleLight size={32} color={theme.color.secondary} />,
       process: <PiClockLight size={32} color={theme.color.secondary} />,
@@ -55,17 +48,28 @@ export default function ProcessingKycStep() {
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
         amount: Number(quote.amountBrl),
-        amountToken: quote.amountToken,
         accountAddress: address,
-        receiverAddress: address
+        receiverAddress: address,
+        convertToChainId: product.ramp.bridge?.toChainId,
+        convertToToken: product.ramp.bridge?.toToken
       })
       return
     }
     if (!kycLevelInfo?.level && !kycActivity && !isLoading) {
       setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc), timeToRedirect)
-
     }
-  }, [activity?.status, address, kyc?.level, quote, kycLevelInfo, kycActivity, isLoading, product.ramp.bridge?.fromChainId])
+  }, [
+    activity?.status,
+    address,
+    kyc?.level,
+    quote,
+    kycLevelInfo,
+    kycActivity,
+    isLoading,
+    product.ramp.bridge?.fromChainId,
+    product.ramp.bridge?.toChainId,
+    product.ramp.bridge?.toToken
+  ])
 
   useEffect(() => {
     if (activity?.status === 'error' && isError) {
@@ -77,7 +81,6 @@ export default function ProcessingKycStep() {
     if (buyRampResponse?.brCode) {
       qrCodeVar(buyRampResponse)
       setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Checkout), timeToRedirect)
-
     }
   }, [activity?.status, activity?.type, buyRampResponse])
 
@@ -89,11 +92,14 @@ export default function ProcessingKycStep() {
       disable: !kycActivityId
     },
     {
-      icon: activity?.status === 'success' && Number(kyc?.level) > 0 ? getIcon('success') : getIcon(Number(kyc?.level) > 0 ? 'process' : 'waiting'),
+      icon:
+        activity?.status === 'success' && Number(kyc?.level) > 0
+          ? getIcon('success')
+          : getIcon(Number(kyc?.level) > 0 ? 'process' : 'waiting'),
       text: t('v2.ramp.generatingQRCode'),
       disable: activity?.status !== 'success'
     }
   ]
 
-  return <WrapProcessingStep validationSteps={validationSteps} title={t('v2.ramp.processingRegistration')} />
+  return <WrapProcessingStep product={product} validationSteps={validationSteps} title={t('v2.ramp.processingRegistration')} />
 }

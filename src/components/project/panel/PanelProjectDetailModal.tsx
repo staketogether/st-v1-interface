@@ -1,38 +1,30 @@
 import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
 import Button from '@/components/shared/Button'
 import GenericTransactionLoading from '@/components/shared/GenericTransactionLoading'
+import LottieAnimation from '@/components/shared/LottieAnimation'
 import Modal from '@/components/shared/Modal'
 import CommunityLogo from '@/components/shared/community/CommunityLogo'
 import CommunityName from '@/components/shared/community/CommunityName'
 import { contentfulClient } from '@/config/apollo'
+import useAddPool from '@/hooks/contracts/useAddPool'
+import useRemovePool from '@/hooks/contracts/useRemovePool'
+import usePool from '@/hooks/subgraphs/usePool'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import useProjectDetailModal from '@/hooks/useProjectDetailModal'
 import { queryContentfulPoolsListByStatus } from '@/queries/contentful/queryContentfulPoolsListByStatus'
 import { ContentfulPool } from '@/types/ContentfulPool'
+import errorAnimation from '@assets/animations/error-animation.json'
+import successAnimation from '@assets/animations/success-animation.json'
 import { notification } from 'antd'
 import axios from 'axios'
-import errorAnimation from '@assets/animations/error-animation.json'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
-import {
-  PiDiscordLogo,
-  PiGlobeSimple,
-  PiInstagramLogo,
-  PiLinkedinLogo,
-  PiTelegramLogo,
-  PiTwitterLogo,
-  PiYoutubeLogo
-} from 'react-icons/pi'
+import { PiDiscordLogo, PiGlobeSimple, PiInstagramLogo, PiLinkedinLogo, PiTelegramLogo, PiTwitterLogo, PiYoutubeLogo } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useSignMessage } from 'wagmi'
-import LottieAnimation from '@/components/shared/LottieAnimation'
-import successAnimation from '@assets/animations/success-animation.json'
-import useAddPool from '@/hooks/contracts/useAddPool'
-import useRemovePool from '@/hooks/contracts/useRemovePool'
-import usePool from '@/hooks/subgraphs/usePool'
 
-type PanelProjectDetailModalProps = {
+interface PanelProjectDetailModalProps {
   project: ContentfulPool
   isContractPublished?: boolean
   showRejectOptionWhenContractIsNotPublished?: boolean
@@ -84,7 +76,7 @@ export default function PanelProjectDetailModal({
   }
 
   const handleProjectSite = () => {
-    if (project.site?.startsWith('https://') || project.site?.startsWith('http://')) {
+    if (project.site?.startsWith('https://') ?? project.site?.startsWith('http://')) {
       return project.site
     }
     return `https://${project.site}`
@@ -229,12 +221,7 @@ export default function PanelProjectDetailModal({
           bodyComponent={
             <ProjectContainer>
               <GapContainer>
-                <CommunityLogo
-                  size={32}
-                  src={project?.logo.url}
-                  alt={project?.logo.fileName || ''}
-                  loading={false}
-                />
+                <CommunityLogo size={32} src={project?.logo.url} alt={project?.logo.fileName || ''} loading={false} />
                 <CommunityName name={project.name} loading={false} $bold />
               </GapContainer>
               <GapContainer>
@@ -251,9 +238,7 @@ export default function PanelProjectDetailModal({
             <RejectedContainer>
               <LottieAnimation animationData={successAnimation} height={50} />
               <span>
-                {addPoolIsSuccess
-                  ? t('v2.panelProject.modal.projectApprovedAndPublished')
-                  : t('v2.panelProject.modal.projectApproved')}
+                {addPoolIsSuccess ? t('v2.panelProject.modal.projectApprovedAndPublished') : t('v2.panelProject.modal.projectApproved')}
               </span>
             </RejectedContainer>
           )}
@@ -269,12 +254,7 @@ export default function PanelProjectDetailModal({
           )}
           <ProjectContainer>
             <GapContainer>
-              <CommunityLogo
-                size={24}
-                src={project?.logo.url}
-                alt={project?.logo.fileName || ''}
-                loading={false}
-              />
+              <CommunityLogo size={24} src={project?.logo.url} alt={project?.logo.fileName || ''} loading={false} />
               <CommunityName name={project.name} loading={false} />
             </GapContainer>
             <GapContainer>
@@ -326,9 +306,7 @@ export default function PanelProjectDetailModal({
             )}
           </GapContainer>
           {(isApproved || project.status === 'approved') && !isRejected && !addPoolIsSuccess && (
-            <FooterContainer
-              className={`${showRejectOptionWhenContractIsNotPublished && 'contractIsNotPublished'}`}
-            >
+            <FooterContainer className={`${showRejectOptionWhenContractIsNotPublished && 'contractIsNotPublished'}`}>
               {isContractPublished && !isRemovedContract && (
                 <Button
                   label={t('v2.panelProject.modal.remove')}
@@ -347,7 +325,7 @@ export default function PanelProjectDetailModal({
                   onClick={addPool}
                 />
               )}
-              {((!isContractPublished && showRejectOptionWhenContractIsNotPublished) || isRemovedContract) && (
+              {((!isContractPublished && showRejectOptionWhenContractIsNotPublished) ?? isRemovedContract) && (
                 <Button
                   label={t('v2.panelProject.modal.reject')}
                   block

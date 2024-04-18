@@ -9,7 +9,7 @@ import { ethereumMainnetClient } from '../../../../config/apollo'
 import { queryPools } from '../../../../queries/subgraph/queryPools'
 import { PoolSubgraph } from '../../../../types/Pool'
 
-type InvestProps = {
+interface InvestProps {
   pools: PoolSubgraph[]
   stakeTogether: StakeTogether
 }
@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   return {
     props: {
-      ...(await serverSideTranslations(context.locale || 'en', ['common'])),
+      ...(await serverSideTranslations(context.locale ?? 'en', ['common'])),
       pools,
       stakeTogether: stakeTogether.stakeTogether
     }

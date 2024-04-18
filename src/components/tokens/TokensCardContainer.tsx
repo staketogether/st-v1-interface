@@ -1,18 +1,17 @@
+import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import StakingIcons from './StakingIcons'
-import SymbolIcons from './SymbolIcons'
 
-type TokensCardContainerProps = {
-  product: Product
+interface TokensCardContainerProps {
+  product: ProductStaking
 }
 
-const TokensShowValuePrice = dynamic(() => import('../../shared/TokensShowValuePrice'), {
+const TokensShowValuePrice = dynamic(() => import('../shared/StakingShowValuePrice'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} />,
   suspense: true
@@ -33,27 +32,21 @@ export default function TokensCardContainer({ product }: TokensCardContainerProp
     >
       <ImageContainer>
         <div>
-          <StakingIcons stakingProduct={product.name} size={32} />
+          <AssetIcon assetIcon={product.name} networkIcon={product.networkAvailable} size={32} />
           <span>{t(`v2.products.${product.name}`)}</span>
         </div>
         {!product.enabled && <Soon>{t('soon')}</Soon>}
         {product.newProductTag && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
-      <ContainerInfo>
-        <div>
-          <TokensShowValuePrice product={product} />
-          <span className='green'>{`APY ${product.apy}%`}</span>
-        </div>
-        <div>
-          <SymbolIcons size={24} productSymbol={product.symbol} />
-          <span>{product.symbol}</span>
-        </div>
-      </ContainerInfo>
+      <ApyValueContainer>
+        <TokensShowValuePrice type={'staking'} product={product} />
+        <span className='green'>APY {product.apy}%</span>
+      </ApyValueContainer>
     </CardContainer>
   )
 }
 
-const { CardContainer, ImageContainer, ContainerInfo, Soon, NewTag } = {
+const { CardContainer, ImageContainer, Soon, NewTag, ApyValueContainer } = {
   CardContainer: styled(Link)`
     display: flex;
     flex-direction: column;
@@ -78,40 +71,6 @@ const { CardContainer, ImageContainer, ContainerInfo, Soon, NewTag } = {
 
     &.disabled {
       opacity: 0.6;
-    }
-  `,
-  ContainerInfo: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    > div {
-      display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[8]};
-
-      &:nth-child(1) {
-        > span {
-          display: flex;
-          gap: ${({ theme }) => theme.size[8]};
-
-          color: ${({ theme }) => theme.colorV2.blue[1]};
-          font-size: 20px;
-          font-weight: 500;
-
-          &.green {
-            font-size: ${({ theme }) => theme.font.size[13]};
-            font-weight: 500;
-            color: ${({ theme }) => theme.color.green[500]};
-            margin-top: 2px;
-            margin-left: 4px;
-          }
-        }
-      }
-      &:nth-child(2) {
-        color: ${({ theme }) => theme.colorV2.gray[1]};
-        font-size: ${({ theme }) => theme.font.size[15]};
-        font-weight: 400;
-      }
     }
   `,
   ImageContainer: styled.div`
@@ -161,5 +120,21 @@ const { CardContainer, ImageContainer, ContainerInfo, Soon, NewTag } = {
 
     font-size: 13px;
     font-weight: 500;
+  `,
+  ApyValueContainer: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+
+    > span {
+      font-size: 22px;
+      font-weight: 500;
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+
+      &.green {
+        font-size: 13px;
+        color: ${({ theme }) => theme.color.green[500]};
+      }
+    }
   `
 }

@@ -2,217 +2,211 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface, type ContractRunner } from "ethers";
-import type {
-  IAccessControl,
-  IAccessControlInterface,
-} from "../../../../@openzeppelin/contracts/access/IAccessControl";
+import { Contract, Interface, type ContractRunner } from 'ethers'
+import type { IAccessControl, IAccessControlInterface } from '../../../../@openzeppelin/contracts/access/IAccessControl'
 
 const _abi = [
   {
     inputs: [],
-    name: "AccessControlBadConfirmation",
-    type: "error",
+    name: 'AccessControlBadConfirmation',
+    type: 'error'
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
       },
       {
-        internalType: "bytes32",
-        name: "neededRole",
-        type: "bytes32",
-      },
+        internalType: 'bytes32',
+        name: 'neededRole',
+        type: 'bytes32'
+      }
     ],
-    name: "AccessControlUnauthorizedAccount",
-    type: "error",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "previousAdminRole",
-        type: "bytes32",
-      },
-      {
-        indexed: true,
-        internalType: "bytes32",
-        name: "newAdminRole",
-        type: "bytes32",
-      },
-    ],
-    name: "RoleAdminChanged",
-    type: "event",
+    name: 'AccessControlUnauthorizedAccount',
+    type: 'error'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
+        internalType: 'bytes32',
+        name: 'previousAdminRole',
+        type: 'bytes32'
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "sender",
-        type: "address",
-      },
+        internalType: 'bytes32',
+        name: 'newAdminRole',
+        type: 'bytes32'
+      }
     ],
-    name: "RoleGranted",
-    type: "event",
+    name: 'RoleAdminChanged',
+    type: 'event'
   },
   {
     anonymous: false,
     inputs: [
       {
         indexed: true,
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "account",
-        type: "address",
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
       },
       {
         indexed: true,
-        internalType: "address",
-        name: "sender",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'sender',
+        type: 'address'
+      }
     ],
-    name: "RoleRevoked",
-    type: "event",
+    name: 'RoleGranted',
+    type: 'event'
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'sender',
+        type: 'address'
+      }
+    ],
+    name: 'RoleRevoked',
+    type: 'event'
   },
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
-      },
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
+      }
     ],
-    name: "getRoleAdmin",
+    name: 'getRoleAdmin',
     outputs: [
       {
-        internalType: "bytes32",
-        name: "",
-        type: "bytes32",
-      },
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
       },
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
     ],
-    name: "grantRole",
+    name: 'grantRole',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
       },
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
     ],
-    name: "hasRole",
+    name: 'hasRole',
     outputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
+        internalType: 'bool',
+        name: '',
+        type: 'bool'
+      }
     ],
-    stateMutability: "view",
-    type: "function",
+    stateMutability: 'view',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
       },
       {
-        internalType: "address",
-        name: "callerConfirmation",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'callerConfirmation',
+        type: 'address'
+      }
     ],
-    name: "renounceRole",
+    name: 'renounceRole',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
+    stateMutability: 'nonpayable',
+    type: 'function'
   },
   {
     inputs: [
       {
-        internalType: "bytes32",
-        name: "role",
-        type: "bytes32",
+        internalType: 'bytes32',
+        name: 'role',
+        type: 'bytes32'
       },
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
+        internalType: 'address',
+        name: 'account',
+        type: 'address'
+      }
     ],
-    name: "revokeRole",
+    name: 'revokeRole',
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-] as const;
+    stateMutability: 'nonpayable',
+    type: 'function'
+  }
+] as const
 
 export class IAccessControl__factory {
-  static readonly abi = _abi;
+  static readonly abi = _abi
   static createInterface(): IAccessControlInterface {
-    return new Interface(_abi) as IAccessControlInterface;
+    return new Interface(_abi) as IAccessControlInterface
   }
-  static connect(
-    address: string,
-    runner?: ContractRunner | null
-  ): IAccessControl {
-    return new Contract(address, _abi, runner) as unknown as IAccessControl;
+  static connect(address: string, runner?: ContractRunner | null): IAccessControl {
+    return new Contract(address, _abi, runner) as unknown as IAccessControl
   }
 }

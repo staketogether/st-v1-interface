@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 
-type CardProps = {
+interface CardProps {
   children: ReactNode
   title?: string
   icon?: ReactNode

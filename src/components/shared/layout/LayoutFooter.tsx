@@ -10,11 +10,7 @@ export default function LayoutFooter() {
   const router = useRouter()
 
   const { t } = useLocaleTranslation()
-  const documentationUrl = router.locale
-    ? router.locale === 'en'
-      ? globalConfig.docsEn
-      : globalConfig.docsPt
-    : globalConfig.docsEn
+  const documentationUrl = router.locale ? (router.locale === 'en' ? globalConfig.docsEn : globalConfig.docsPt) : globalConfig.docsEn
 
   return (
     <Container>

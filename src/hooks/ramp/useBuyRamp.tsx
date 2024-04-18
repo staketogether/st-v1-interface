@@ -13,14 +13,14 @@ export interface BuyRampRequest {
   paymentMethod: PaymentMethodType
   fiatCurrencyCode: string
   amount: number
-  amountToken: string
   accountAddress: string
   receiverAddress: string
-
+  convertToChainId?: number
+  convertToToken?: string
 }
 export default function useBuyRamp(provider: 'brla' | 'transak', request?: BuyRampRequest) {
-
   const { backendUrl } = globalConfig
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, request).then(res => res.data)
   const { data, error } = useSWR<BuyRamp>(request && `api/ramp/buy/${provider}`, fetcher)
 

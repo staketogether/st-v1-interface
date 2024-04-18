@@ -8,12 +8,9 @@ export default function useContentfulCategoryCollection() {
   const [categories, setCategories] = useState<ContentFulCategory[] | null>(null)
   const [poolsIsLoading, setPoolsIsLoading] = useState<boolean>(false)
 
-  const { data, loading } = useQuery<{ categoryCollection: { items: ContentFulCategory[] } }>(
-    queryContentfulCategoryCollection,
-    {
-      client: contentfulClient
-    }
-  )
+  const { data, loading } = useQuery<{ categoryCollection: { items: ContentFulCategory[] } }>(queryContentfulCategoryCollection, {
+    client: contentfulClient
+  })
 
   useEffect(() => {
     if (data?.categoryCollection.items) {

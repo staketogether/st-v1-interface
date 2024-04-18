@@ -2,68 +2,65 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
+  AddressLike,
   BaseContract,
   BigNumberish,
   BytesLike,
-  FunctionFragment,
-  Result,
-  Interface,
-  EventFragment,
-  AddressLike,
-  ContractRunner,
   ContractMethod,
+  ContractRunner,
+  EventFragment,
+  FunctionFragment,
+  Interface,
   Listener,
-} from "ethers";
+  Result
+} from 'ethers'
 import type {
   TypedContractEvent,
+  TypedContractMethod,
   TypedDeferredTopicFilter,
   TypedEventLog,
-  TypedLogDescription,
   TypedListener,
-  TypedContractMethod,
-} from "../../../common";
+  TypedLogDescription
+} from '../../../common'
 
 export declare namespace IELAdapter {
-  export type ConfigStruct = { validatorSize: BigNumberish };
+  export type ConfigStruct = { validatorSize: BigNumberish }
 
   export type ConfigStructOutput = [validatorSize: bigint] & {
-    validatorSize: bigint;
-  };
+    validatorSize: bigint
+  }
 }
 
 export interface IELAdapterInterface extends Interface {
-  getFunction(nameOrSignature: "setConfig"): FunctionFragment;
+  getFunction(nameOrSignature: 'setConfig'): FunctionFragment
 
   getEvent(
     nameOrSignatureOrTopic:
-      | "AddAdapterOracle"
-      | "AddValidator"
-      | "L2Withdraw"
-      | "NextAdapterOracle"
-      | "ReceiveEther"
-      | "RemoveAdapterOracle"
-      | "SetConfig"
-      | "SetL2Router"
-  ): EventFragment;
+      | 'AddAdapterOracle'
+      | 'AddValidator'
+      | 'L2Withdraw'
+      | 'NextAdapterOracle'
+      | 'ReceiveEther'
+      | 'RemoveAdapterOracle'
+      | 'SetConfig'
+      | 'SetL2Router'
+  ): EventFragment
 
-  encodeFunctionData(
-    functionFragment: "setConfig",
-    values: [IELAdapter.ConfigStruct]
-  ): string;
+  encodeFunctionData(functionFragment: 'setConfig', values: [IELAdapter.ConfigStruct]): string
 
-  decodeFunctionResult(functionFragment: "setConfig", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'setConfig', data: BytesLike): Result
 }
 
 export namespace AddAdapterOracleEvent {
-  export type InputTuple = [account: AddressLike];
-  export type OutputTuple = [account: string];
+  export type InputTuple = [account: AddressLike]
+  export type OutputTuple = [account: string]
   export interface OutputObject {
-    account: string;
+    account: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace AddValidatorEvent {
@@ -74,7 +71,7 @@ export namespace AddValidatorEvent {
     withdrawalCredentials: BytesLike,
     signature: BytesLike,
     depositDataRoot: BytesLike
-  ];
+  ]
   export type OutputTuple = [
     oracle: string,
     amount: bigint,
@@ -82,309 +79,203 @@ export namespace AddValidatorEvent {
     withdrawalCredentials: string,
     signature: string,
     depositDataRoot: string
-  ];
+  ]
   export interface OutputObject {
-    oracle: string;
-    amount: bigint;
-    publicKey: string;
-    withdrawalCredentials: string;
-    signature: string;
-    depositDataRoot: string;
+    oracle: string
+    amount: bigint
+    publicKey: string
+    withdrawalCredentials: string
+    signature: string
+    depositDataRoot: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace L2WithdrawEvent {
-  export type InputTuple = [
-    amount: BigNumberish,
-    minGasLimit: BigNumberish,
-    extraData: BytesLike
-  ];
-  export type OutputTuple = [
-    amount: bigint,
-    minGasLimit: bigint,
-    extraData: string
-  ];
+  export type InputTuple = [amount: BigNumberish, minGasLimit: BigNumberish, extraData: BytesLike]
+  export type OutputTuple = [amount: bigint, minGasLimit: bigint, extraData: string]
   export interface OutputObject {
-    amount: bigint;
-    minGasLimit: bigint;
-    extraData: string;
+    amount: bigint
+    minGasLimit: bigint
+    extraData: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace NextAdapterOracleEvent {
-  export type InputTuple = [index: BigNumberish, account: AddressLike];
-  export type OutputTuple = [index: bigint, account: string];
+  export type InputTuple = [index: BigNumberish, account: AddressLike]
+  export type OutputTuple = [index: bigint, account: string]
   export interface OutputObject {
-    index: bigint;
-    account: string;
+    index: bigint
+    account: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ReceiveEtherEvent {
-  export type InputTuple = [amount: BigNumberish];
-  export type OutputTuple = [amount: bigint];
+  export type InputTuple = [amount: BigNumberish]
+  export type OutputTuple = [amount: bigint]
   export interface OutputObject {
-    amount: bigint;
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace RemoveAdapterOracleEvent {
-  export type InputTuple = [account: AddressLike];
-  export type OutputTuple = [account: string];
+  export type InputTuple = [account: AddressLike]
+  export type OutputTuple = [account: string]
   export interface OutputObject {
-    account: string;
+    account: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetConfigEvent {
-  export type InputTuple = [config: IELAdapter.ConfigStruct];
-  export type OutputTuple = [config: IELAdapter.ConfigStructOutput];
+  export type InputTuple = [config: IELAdapter.ConfigStruct]
+  export type OutputTuple = [config: IELAdapter.ConfigStructOutput]
   export interface OutputObject {
-    config: IELAdapter.ConfigStructOutput;
+    config: IELAdapter.ConfigStructOutput
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetL2RouterEvent {
-  export type InputTuple = [l2Router: AddressLike];
-  export type OutputTuple = [l2Router: string];
+  export type InputTuple = [l2Router: AddressLike]
+  export type OutputTuple = [l2Router: string]
   export interface OutputObject {
-    l2Router: string;
+    l2Router: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export interface IELAdapter extends BaseContract {
-  connect(runner?: ContractRunner | null): IELAdapter;
-  waitForDeployment(): Promise<this>;
+  connect(runner?: ContractRunner | null): IELAdapter
+  waitForDeployment(): Promise<this>
 
-  interface: IELAdapterInterface;
+  interface: IELAdapterInterface
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>
+  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>
+  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
-  listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>
+  listeners(eventName?: string): Promise<Array<Listener>>
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>
 
-  setConfig: TypedContractMethod<
-    [_config: IELAdapter.ConfigStruct],
-    [void],
-    "nonpayable"
-  >;
+  setConfig: TypedContractMethod<[_config: IELAdapter.ConfigStruct], [void], 'nonpayable'>
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T
 
-  getFunction(
-    nameOrSignature: "setConfig"
-  ): TypedContractMethod<
-    [_config: IELAdapter.ConfigStruct],
-    [void],
-    "nonpayable"
-  >;
+  getFunction(nameOrSignature: 'setConfig'): TypedContractMethod<[_config: IELAdapter.ConfigStruct], [void], 'nonpayable'>
 
   getEvent(
-    key: "AddAdapterOracle"
-  ): TypedContractEvent<
-    AddAdapterOracleEvent.InputTuple,
-    AddAdapterOracleEvent.OutputTuple,
-    AddAdapterOracleEvent.OutputObject
-  >;
+    key: 'AddAdapterOracle'
+  ): TypedContractEvent<AddAdapterOracleEvent.InputTuple, AddAdapterOracleEvent.OutputTuple, AddAdapterOracleEvent.OutputObject>
   getEvent(
-    key: "AddValidator"
-  ): TypedContractEvent<
-    AddValidatorEvent.InputTuple,
-    AddValidatorEvent.OutputTuple,
-    AddValidatorEvent.OutputObject
-  >;
+    key: 'AddValidator'
+  ): TypedContractEvent<AddValidatorEvent.InputTuple, AddValidatorEvent.OutputTuple, AddValidatorEvent.OutputObject>
+  getEvent(key: 'L2Withdraw'): TypedContractEvent<L2WithdrawEvent.InputTuple, L2WithdrawEvent.OutputTuple, L2WithdrawEvent.OutputObject>
   getEvent(
-    key: "L2Withdraw"
-  ): TypedContractEvent<
-    L2WithdrawEvent.InputTuple,
-    L2WithdrawEvent.OutputTuple,
-    L2WithdrawEvent.OutputObject
-  >;
+    key: 'NextAdapterOracle'
+  ): TypedContractEvent<NextAdapterOracleEvent.InputTuple, NextAdapterOracleEvent.OutputTuple, NextAdapterOracleEvent.OutputObject>
   getEvent(
-    key: "NextAdapterOracle"
-  ): TypedContractEvent<
-    NextAdapterOracleEvent.InputTuple,
-    NextAdapterOracleEvent.OutputTuple,
-    NextAdapterOracleEvent.OutputObject
-  >;
+    key: 'ReceiveEther'
+  ): TypedContractEvent<ReceiveEtherEvent.InputTuple, ReceiveEtherEvent.OutputTuple, ReceiveEtherEvent.OutputObject>
   getEvent(
-    key: "ReceiveEther"
-  ): TypedContractEvent<
-    ReceiveEtherEvent.InputTuple,
-    ReceiveEtherEvent.OutputTuple,
-    ReceiveEtherEvent.OutputObject
-  >;
-  getEvent(
-    key: "RemoveAdapterOracle"
-  ): TypedContractEvent<
-    RemoveAdapterOracleEvent.InputTuple,
-    RemoveAdapterOracleEvent.OutputTuple,
-    RemoveAdapterOracleEvent.OutputObject
-  >;
-  getEvent(
-    key: "SetConfig"
-  ): TypedContractEvent<
-    SetConfigEvent.InputTuple,
-    SetConfigEvent.OutputTuple,
-    SetConfigEvent.OutputObject
-  >;
-  getEvent(
-    key: "SetL2Router"
-  ): TypedContractEvent<
-    SetL2RouterEvent.InputTuple,
-    SetL2RouterEvent.OutputTuple,
-    SetL2RouterEvent.OutputObject
-  >;
+    key: 'RemoveAdapterOracle'
+  ): TypedContractEvent<RemoveAdapterOracleEvent.InputTuple, RemoveAdapterOracleEvent.OutputTuple, RemoveAdapterOracleEvent.OutputObject>
+  getEvent(key: 'SetConfig'): TypedContractEvent<SetConfigEvent.InputTuple, SetConfigEvent.OutputTuple, SetConfigEvent.OutputObject>
+  getEvent(key: 'SetL2Router'): TypedContractEvent<SetL2RouterEvent.InputTuple, SetL2RouterEvent.OutputTuple, SetL2RouterEvent.OutputObject>
 
   filters: {
-    "AddAdapterOracle(address)": TypedContractEvent<
+    'AddAdapterOracle(address)': TypedContractEvent<
       AddAdapterOracleEvent.InputTuple,
       AddAdapterOracleEvent.OutputTuple,
       AddAdapterOracleEvent.OutputObject
-    >;
+    >
     AddAdapterOracle: TypedContractEvent<
       AddAdapterOracleEvent.InputTuple,
       AddAdapterOracleEvent.OutputTuple,
       AddAdapterOracleEvent.OutputObject
-    >;
+    >
 
-    "AddValidator(address,uint256,bytes,bytes,bytes,bytes32)": TypedContractEvent<
+    'AddValidator(address,uint256,bytes,bytes,bytes,bytes32)': TypedContractEvent<
       AddValidatorEvent.InputTuple,
       AddValidatorEvent.OutputTuple,
       AddValidatorEvent.OutputObject
-    >;
-    AddValidator: TypedContractEvent<
-      AddValidatorEvent.InputTuple,
-      AddValidatorEvent.OutputTuple,
-      AddValidatorEvent.OutputObject
-    >;
+    >
+    AddValidator: TypedContractEvent<AddValidatorEvent.InputTuple, AddValidatorEvent.OutputTuple, AddValidatorEvent.OutputObject>
 
-    "L2Withdraw(uint256,uint32,bytes)": TypedContractEvent<
+    'L2Withdraw(uint256,uint32,bytes)': TypedContractEvent<
       L2WithdrawEvent.InputTuple,
       L2WithdrawEvent.OutputTuple,
       L2WithdrawEvent.OutputObject
-    >;
-    L2Withdraw: TypedContractEvent<
-      L2WithdrawEvent.InputTuple,
-      L2WithdrawEvent.OutputTuple,
-      L2WithdrawEvent.OutputObject
-    >;
+    >
+    L2Withdraw: TypedContractEvent<L2WithdrawEvent.InputTuple, L2WithdrawEvent.OutputTuple, L2WithdrawEvent.OutputObject>
 
-    "NextAdapterOracle(uint256,address)": TypedContractEvent<
+    'NextAdapterOracle(uint256,address)': TypedContractEvent<
       NextAdapterOracleEvent.InputTuple,
       NextAdapterOracleEvent.OutputTuple,
       NextAdapterOracleEvent.OutputObject
-    >;
+    >
     NextAdapterOracle: TypedContractEvent<
       NextAdapterOracleEvent.InputTuple,
       NextAdapterOracleEvent.OutputTuple,
       NextAdapterOracleEvent.OutputObject
-    >;
+    >
 
-    "ReceiveEther(uint256)": TypedContractEvent<
-      ReceiveEtherEvent.InputTuple,
-      ReceiveEtherEvent.OutputTuple,
-      ReceiveEtherEvent.OutputObject
-    >;
-    ReceiveEther: TypedContractEvent<
-      ReceiveEtherEvent.InputTuple,
-      ReceiveEtherEvent.OutputTuple,
-      ReceiveEtherEvent.OutputObject
-    >;
+    'ReceiveEther(uint256)': TypedContractEvent<ReceiveEtherEvent.InputTuple, ReceiveEtherEvent.OutputTuple, ReceiveEtherEvent.OutputObject>
+    ReceiveEther: TypedContractEvent<ReceiveEtherEvent.InputTuple, ReceiveEtherEvent.OutputTuple, ReceiveEtherEvent.OutputObject>
 
-    "RemoveAdapterOracle(address)": TypedContractEvent<
+    'RemoveAdapterOracle(address)': TypedContractEvent<
       RemoveAdapterOracleEvent.InputTuple,
       RemoveAdapterOracleEvent.OutputTuple,
       RemoveAdapterOracleEvent.OutputObject
-    >;
+    >
     RemoveAdapterOracle: TypedContractEvent<
       RemoveAdapterOracleEvent.InputTuple,
       RemoveAdapterOracleEvent.OutputTuple,
       RemoveAdapterOracleEvent.OutputObject
-    >;
+    >
 
-    "SetConfig(tuple)": TypedContractEvent<
-      SetConfigEvent.InputTuple,
-      SetConfigEvent.OutputTuple,
-      SetConfigEvent.OutputObject
-    >;
-    SetConfig: TypedContractEvent<
-      SetConfigEvent.InputTuple,
-      SetConfigEvent.OutputTuple,
-      SetConfigEvent.OutputObject
-    >;
+    'SetConfig(tuple)': TypedContractEvent<SetConfigEvent.InputTuple, SetConfigEvent.OutputTuple, SetConfigEvent.OutputObject>
+    SetConfig: TypedContractEvent<SetConfigEvent.InputTuple, SetConfigEvent.OutputTuple, SetConfigEvent.OutputObject>
 
-    "SetL2Router(address)": TypedContractEvent<
-      SetL2RouterEvent.InputTuple,
-      SetL2RouterEvent.OutputTuple,
-      SetL2RouterEvent.OutputObject
-    >;
-    SetL2Router: TypedContractEvent<
-      SetL2RouterEvent.InputTuple,
-      SetL2RouterEvent.OutputTuple,
-      SetL2RouterEvent.OutputObject
-    >;
-  };
+    'SetL2Router(address)': TypedContractEvent<SetL2RouterEvent.InputTuple, SetL2RouterEvent.OutputTuple, SetL2RouterEvent.OutputObject>
+    SetL2Router: TypedContractEvent<SetL2RouterEvent.InputTuple, SetL2RouterEvent.OutputTuple, SetL2RouterEvent.OutputObject>
+  }
 }

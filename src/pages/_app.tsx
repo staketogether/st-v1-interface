@@ -1,10 +1,12 @@
 import { globalConfig } from '@/config/global'
+import { config } from '@/config/wagmi'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import useGetCurrencyPerEthPrice from '@/hooks/useGetCurrencyPrice'
 import useGetQuotUsdForCurrency from '@/hooks/useGetUsdConversionRatesPrice'
 import useSettingsCurrency from '@/hooks/useSettingCurrency'
 import { ApolloProvider } from '@apollo/client'
 import isPropValid from '@emotion/is-prop-valid'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ConfigProvider } from 'antd'
 import axios from 'axios'
 import { appWithTranslation } from 'next-i18next'
@@ -17,8 +19,6 @@ import { ethereumMainnetClient } from '../config/apollo'
 import validEnv from '../config/env'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { config } from '@/config/wagmi'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
@@ -65,6 +65,7 @@ const App = ({ Component, pageProps }: AppProps) => {
                     revalidateOnReconnect: false,
                     errorRetryCount: 1,
                     shouldRetryOnError: false,
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
                     fetcher: (uri: string) => axios.get(`${backendUrl}/${uri}`).then(res => res.data)
                   }}
                 >

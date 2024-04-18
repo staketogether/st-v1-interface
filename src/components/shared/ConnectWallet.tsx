@@ -4,14 +4,14 @@ import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import { useReactiveVar } from '@apollo/client'
+import { type Connector } from '@wagmi/core'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
-import { type Connector } from '@wagmi/core'
 
-type ConnectWalletProps = {
+interface ConnectWalletProps {
   useModal?: boolean
 }
 
@@ -42,7 +42,7 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
   }
 
   const handleConnectorIndex = (index: number) => {
-    const web3Auth: { [key: number]: string } = {
+    const web3Auth: Record<number, string> = {
       0: 'Google',
       1: 'Facebook',
       2: 'Apple'
@@ -60,12 +60,7 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
   return (
     <Container>
       <Terms>
-        <input
-          type='checkbox'
-          name='agree'
-          checked={hasAgreeTerms}
-          onChange={e => setHasAgreeTerms(e.target.checked)}
-        />
+        <input type='checkbox' name='agree' checked={hasAgreeTerms} onChange={e => setHasAgreeTerms(e.target.checked)} />
         <span>
           {t('v2.sidebar.disconnected.iAgreeToThe')}
           <a href={handleTermsAndConditionsExternalLink()} target='_blank'>

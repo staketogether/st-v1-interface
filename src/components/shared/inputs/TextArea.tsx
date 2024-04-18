@@ -12,16 +12,7 @@ type TextAreaProps = InputHTMLAttributes<HTMLTextAreaElement> & {
   maxLength?: number
 }
 
-export default function TextArea({
-  title,
-  register,
-  error,
-  disabled,
-  placeholder,
-  showCharCounter,
-  maxLength,
-  ...props
-}: TextAreaProps) {
+export default function TextArea({ title, register, error, disabled, placeholder, showCharCounter, maxLength, ...props }: TextAreaProps) {
   const [inputCounter, setInputCounter] = useState(0)
   const handleInput = (event: React.FormEvent<HTMLTextAreaElement>) => {
     const target = event.currentTarget
@@ -40,20 +31,11 @@ export default function TextArea({
     <Content className={`${disabled ? 'disabled' : ''}`}>
       {title && <span>{title}</span>}
       <InputContainer className={`${disabled ? 'disabled' : ''} ${error ? 'error' : ''}`}>
-        <textarea
-          onInput={handleInput}
-          {...register}
-          disabled={disabled}
-          placeholder={placeholder}
-          maxLength={maxLength}
-          {...props}
-        />
+        <textarea onInput={handleInput} {...register} disabled={disabled} placeholder={placeholder} maxLength={maxLength} {...props} />
       </InputContainer>
       <MessageContainer>
         <ErrorMessage>{error && error}</ErrorMessage>
-        <CharacterCounting>
-          {showCharCounter && maxLength && `${inputCounter} / ${maxLength}`}
-        </CharacterCounting>
+        <CharacterCounting>{showCharCounter && maxLength && `${inputCounter} / ${maxLength}`}</CharacterCounting>
       </MessageContainer>
     </Content>
   )

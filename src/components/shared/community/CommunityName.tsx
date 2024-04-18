@@ -1,9 +1,8 @@
 import styled from 'styled-components'
-
 import { truncateAddress, truncateText } from '../../../services/truncate'
 import SkeletonLoading from '../icons/SkeletonLoading'
 
-type CommunityNameProps = {
+interface CommunityNameProps {
   name?: string
   walletAddress?: `0x${string}`
   loading?: boolean
@@ -14,16 +13,7 @@ type CommunityNameProps = {
   $bold?: boolean
 }
 
-export default function CommunityName({
-  name,
-  walletAddress,
-  loading,
-  $large,
-  $larger,
-  slice,
-  $color,
-  $bold
-}: CommunityNameProps) {
+export default function CommunityName({ name, walletAddress, loading, $large, $larger, slice, $color, $bold }: CommunityNameProps) {
   if (loading && !$larger && !$large) {
     return <SkeletonLoading width={140} height={14} />
   } else if (loading && $large) {
@@ -37,7 +27,7 @@ export default function CommunityName({
   } else {
     return (
       <Text color={$color} $large={$large} $larger={$larger}>
-        {truncateAddress(walletAddress || '', 5)}
+        {truncateAddress(walletAddress ?? '', 5)}
       </Text>
     )
   }
@@ -47,7 +37,7 @@ const { Text } = {
   Text: styled.span<{ $large?: boolean; $larger?: boolean; $color?: string; $bold?: boolean }>`
     font-size: ${({ theme }) => theme.font.size[14]};
     font-weight: 400;
-    color: ${({ theme, color }) => color || theme.colorV2.gray[1]} !important;
+    color: ${({ theme, color }) => color ?? theme.colorV2.gray[1]} !important;
     border: 0;
     padding: 0;
     margin: 0;

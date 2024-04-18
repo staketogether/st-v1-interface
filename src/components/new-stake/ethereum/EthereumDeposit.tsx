@@ -7,9 +7,10 @@ import { useFeeStakeEntry } from '@/hooks/subgraphs/useFeeStakeEntry'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import { fbqTrackEvent } from '@/services/FacebookPixel'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
+import { ProductStaking } from '@/types/ProductStaking'
 import { WithdrawType } from '@/types/Withdraw'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
@@ -22,9 +23,8 @@ import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumInput from './EthereumInput'
 import EthereumProjectSelect from './EthereumProjectSelect'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
-import { fbqTrackEvent } from '@/services/FacebookPixel'
 
-type EthereumDepositProps = {
+interface EthereumDepositProps {
   type: 'deposit' | 'withdraw'
   ethBalance: bigint
   ethBalanceLoading: boolean
@@ -33,7 +33,7 @@ type EthereumDepositProps = {
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
   chainId: number
-  product: Product
+  product: ProductStaking
 }
 
 export default function EthereumDeposit({
@@ -72,11 +72,11 @@ export default function EthereumDeposit({
 
   const { fee, loading: isLoadingFees } = useFeeStakeEntry()
   const parsedAmount = ethers.parseUnits(inputAmount, 18)
-  const feeAmount = (parsedAmount * BigInt(fee?.value || 0n)) / ethers.parseEther('1')
+  const feeAmount = (parsedAmount * BigInt(fee?.value ?? 0n)) / ethers.parseEther('1')
   const youReceiveDeposit = ethers.parseUnits(inputAmount, 18) - feeAmount
 
-  const { stConfig } = useStConfig({ productName: product.name, chainId })
-  const minDepositAmount = stConfig?.minDepositAmount || 0n
+  const { stConfig } = useStConfig({ name: product.name, chainId })
+  const minDepositAmount = stConfig?.minDepositAmount ?? 0n
 
   const { chain: walletChainId } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
@@ -103,11 +103,11 @@ export default function EthereumDeposit({
   )
 
   useEffect(() => {
-    const handleSuccessfulAction = async () => {
+    const handleSuccessfulAction = () => {
       if (isSuccess && !isOpenStakeConfirmModal) {
         setAmount('')
         resetState()
-        await ethBalanceRefetch()
+        ethBalanceRefetch()
       }
     }
 
@@ -120,10 +120,8 @@ export default function EthereumDeposit({
   const insufficientFunds = amountBigNumber > ethBalance
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
-    (insufficientMinDeposit &&
-      `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
-    (prepareTransactionErrorMessage &&
-      `${t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)}`) ||
+    (insufficientMinDeposit && `${t('form.insufficientMinDeposit')} ${truncateWei(minDepositAmount)} ${t('eth.symbol')}`) ||
+    (prepareTransactionErrorMessage && `${t(`v2.stake.depositErrorMessage.${prepareTransactionErrorMessage}`)}`) ||
     ''
 
   const { switchChain } = useSwitchChain()
@@ -174,7 +172,7 @@ export default function EthereumDeposit({
   }
 
   const handleAddProjectOnRoute = (projectAddress: `0x${string}`) => {
-    if (window.history && window.history.replaceState) {
+    if (window?.history?.replaceState) {
       const newUrl = new URL(window.location.href)
       if (projectAddress.toLocaleLowerCase() === stakeTogetherPool.toLocaleLowerCase()) {
         newUrl.searchParams.delete('projectAddress')
@@ -221,9 +219,7 @@ export default function EthereumDeposit({
             handleAddProjectOnRoute(project)
           }}
         />
-        {!!account && !isWrongNetwork && (
-          <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantDeposit} />
-        )}
+        {!!account && !isWrongNetwork && <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantDeposit} />}
         {!!isWrongNetwork && account && (
           <Button
             onClick={openStakeConfirmation}
