@@ -1,7 +1,6 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductAsset } from '@/types/ProductAsset'
 import { ProductStaking } from '@/types/ProductStaking'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'

@@ -5,7 +5,7 @@ import { useReadContract } from 'wagmi'
 import useBlockCountdown from '../useBlockCountdown'
 import { ProductStaking } from '@/types/ProductStaking'
 
-type useGetWithdrawBlockProps = {
+interface useGetWithdrawBlockProps {
   walletAddress: `0x${string}` | undefined
   product: ProductStaking
   chainId: number
