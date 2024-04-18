@@ -28,11 +28,11 @@ export default function useWithdrawalsBeaconBlock({ walletAddress, product, chai
 
   useEffect(() => {
     if (data) {
-      setWithdrawBlock(data as bigint)
+      setWithdrawBlock(data)
     }
   }, [data])
 
-  const timeLeft = useBlockCountdown(Number(withdrawBlock), chainId, product.transactionConfig.blockTimePerSeconds) || 0
+  const timeLeft = useBlockCountdown(Number(withdrawBlock), chainId, product.transactionConfig.blockTimePerSeconds) ?? 0
 
   return { withdrawBlock, isLoading: isFetching, timeLeft, getWithdrawBlock: refetch }
 }
