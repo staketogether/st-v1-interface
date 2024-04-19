@@ -41,7 +41,6 @@ export default function AssetCard({ asset }: AssetCardProps) {
       <PriceContainer>
         <div>
           <AssetPrice asset={asset} />
-          <Change24>+1.14%</Change24>
         </div>
         {asset.staking?.apy && (
           <Apy>
@@ -76,21 +75,12 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy, Change
     > span.label {
       font-size: ${({ theme }) => theme.font.size[12]};
       font-weight: 400 !important;
+      margin-top: 2px;
     }
 
     color: green !important;
-    font-size: ${({ theme }) => theme.font.size[14]};
+    font-size: ${({ theme }) => theme.font.size[16]};
     font-weight: 400;
-    align-items: center;
-  `,
-  Change24: styled.div`
-    color: ${({ theme }) => theme.color.green[500]};
-    font-size: ${({ theme }) => theme.font.size[14]};
-    font-weight: 400;
-    align-self: center;
-    justify-self: flex-end;
-    display: flex;
-    gap: 4px;
     align-items: center;
   `,
   CardContainer: styled(Link)`
