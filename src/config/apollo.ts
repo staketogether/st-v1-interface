@@ -3,23 +3,7 @@ import { setContext } from '@apollo/client/link/context'
 import { assetsList } from './asset'
 import { globalConfig } from './global'
 
-export const ethereumMainnetClient = new ApolloClient({
-  uri: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
-  ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          pool: {
-            keyArgs: ['id', 'delegate_contains']
-          }
-        }
-      }
-    }
-  }),
-
-  connectToDevTools: true
-})
+export const ethereumMainnetClient = getSubgraphClient({ assetId: 'eth-staking', isTestnet: false })
 
 export const stBackendClient = new ApolloClient({
   uri: globalConfig.backendSubgraph,
