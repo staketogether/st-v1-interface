@@ -1,11 +1,9 @@
-import { chainConfigByChainId } from '@/config/chain'
-import { ProductStaking } from '@/types/ProductStaking'
 import { useCallback, useEffect, useState } from 'react'
 import { useBalance } from 'wagmi'
+import { Asset } from '@/types/Asset'
 
-export const useWithdrawPoolBalance = ({ product, chainId }: { product: ProductStaking; chainId: number }) => {
-  const { isTestnet } = chainConfigByChainId(chainId)
-  const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
+export const useWithdrawPoolBalance = ({ product, chainId }: { product: Asset; chainId: number }) => {
+  const StakeTogether = product.staking?.contracts.StakeTogether ?? '' as `0x${string}`
   const [liquidityPoolBalance, setLiquidityPoolBalance] = useState(0n)
 
   const { isFetching, refetch, data } = useBalance({

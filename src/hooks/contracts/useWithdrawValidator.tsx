@@ -10,7 +10,6 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { stakeTogetherAbi } from '@/types/Contracts'
-import { ProductStaking } from '@/types/ProductStaking'
 import { WithdrawType } from '@/types/Withdraw'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
@@ -21,12 +20,13 @@ import { queryPool } from '../../queries/subgraph/queryPool'
 import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
+import { Asset } from '@/types/Asset'
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
-  product: ProductStaking,
+  product: Asset,
   chainId: number,
   accountAddress?: `0x${string}`
 ) {
@@ -40,8 +40,8 @@ export default function useWithdrawValidator(
 
   const { registerWithdraw } = useMixpanelAnalytics()
   const { isTestnet } = chainConfigByChainId(chainId)
-  const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
-  const subgraphClient = getSubgraphClient({ name: product.name, isTestnet })
+  const StakeTogether = product.staking?.contracts.StakeTogether ?? '' as `0x${string}`
+  const subgraphClient = getSubgraphClient({ assetId: product.id })
   const { web3AuthUserInfo } = useConnectedAccount()
 
   const { t } = useLocaleTranslation()

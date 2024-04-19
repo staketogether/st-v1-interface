@@ -57,25 +57,13 @@ export interface Asset {
   }[]
   staking?: {
     apy: number
-    stakeTogetherPool: {
-      mainnet: string
-      testnet: string
-    }
+    stakeTogetherPool: string
     contracts: {
-      mainnet: {
-        Airdrop: `0x${string}`
-        Withdrawals: `0x${string}`
-        Router: `0x${string}`
-        StakeTogether: `0x${string}`
-        StakeTogetherWrapper: `0x${string}`
-      }
-      testnet: {
-        Airdrop: `0x${string}`
-        Withdrawals: `0x${string}`
-        Router: `0x${string}`
-        StakeTogether: `0x${string}`
-        StakeTogetherWrapper: `0x${string}`
-      }
+      Airdrop: `0x${string}`
+      Withdrawals: `0x${string}`
+      Router: `0x${string}`
+      StakeTogether: `0x${string}`
+      StakeTogetherWrapper: `0x${string}`
     }
     subgraph: string
   }

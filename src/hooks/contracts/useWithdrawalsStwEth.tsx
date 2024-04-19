@@ -18,9 +18,9 @@ import { queryPool } from '../../queries/subgraph/queryPool'
 import useLocaleTranslation from '../useLocaleTranslation'
 
 export default function useWithdrawalsStwEth(withdrawAmount: bigint, accountAddress: `0x${string}`, enabled: boolean) {
-  const { chainId, isTestnet } = chainConfig()
+  const { chainId } = chainConfig()
 
-  const { Withdrawals } = getAssetContractsById('eth-staking', isTestnet)
+  const { Withdrawals } = getAssetContractsById('eth-staking')
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
   const isWithdrawEnabled = enabled && withdrawAmount > 0n

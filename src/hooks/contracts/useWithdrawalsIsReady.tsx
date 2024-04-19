@@ -6,7 +6,7 @@ import chainConfig from '../../config/chain'
 
 export default function useWithdrawalsIsReady(amount = 0n) {
   const { isTestnet } = chainConfig()
-  const { Withdrawals } = getAssetContractsById('eth-staking', isTestnet)
+  const { Withdrawals } = getAssetContractsById('eth-staking')
 
   const [isReady, setIsReady] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
