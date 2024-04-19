@@ -5,7 +5,7 @@ import ethIcon from '@assets/network/ethereum.svg'
 
 import { Chain } from './chain'
 
-const ethEth: Asset = {
+export const ethEth: Asset = {
   id: 'eth-eth',
   order: 1,
   symbol: 'ETH',
@@ -42,7 +42,7 @@ const ethEth: Asset = {
   ]
 }
 
-const ethOp: Asset = {
+export const ethOp: Asset = {
   id: 'eth-op',
   order: 2,
   symbol: 'ETH',
@@ -85,7 +85,7 @@ const ethOp: Asset = {
   ]
 }
 
-const btcOp: Asset = {
+export const btcOp: Asset = {
   id: 'btc-op',
   order: 3,
   symbol: 'wBTC',
@@ -96,6 +96,7 @@ const btcOp: Asset = {
   listed: true,
   enabled: true,
   new: true,
+  contractAddress: '0x68f180fcce6836688e9084f035309e29bf0a2095',
   points: {
     stPoints: false,
     elPoints: false
@@ -128,7 +129,7 @@ const btcOp: Asset = {
   ]
 }
 
-const ethStaking: Asset = {
+export const ethStaking: Asset = {
   id: 'eth-staking',
   order: 4,
   symbol: 'stpETH',
@@ -187,7 +188,7 @@ const ethStaking: Asset = {
   }
 }
 
-const ethRestaking: Asset = {
+export const ethRestaking: Asset = {
   id: 'eth-restaking',
   order: 5,
   symbol: 'strETH',

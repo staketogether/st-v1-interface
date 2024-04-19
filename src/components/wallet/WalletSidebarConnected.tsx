@@ -34,6 +34,7 @@ import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
 import useStAccount from './hooks/useStAccount'
+import { btcOp, ethEth, ethOp } from '@/config/asset'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -55,32 +56,37 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { locale } = useRouter()
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
+  const { mobula } = ethEth
   const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: mainnet.id })
   const formattedEthBalance = formatNumberByLocale(truncateWei(ethBalance, 6), locale)
-
   const { priceConvertedValue: usdEthBalance, price: usdEthBalancePriceNotFormatted } = useCoinConversion(
     formattedEthBalance,
-    ethereumStaking.asset.mobula.filter
+    mobula.filter
   )
+
   const { balance: optimistEthBalance } = useEthBalanceOf({
     walletAddress: address,
     chainId: optimism.id
   })
-  const configWbtcOptimist = getAsset({ name: 'btc' })
+
+  const { contractAddress: btcContractAddress } = btcOp
   const { balanceInWei: optimistWbtcBalance } = useErc20BalanceOfWei({
     walletAddress: address,
     chainId: optimism.id,
-    token: configWbtcOptimist.contract
+    token: btcContractAddress
   })
+
+  const { mobula: ethOpMobula } = ethOp
   const formattedOptimistEthBalance = formatNumberByLocale(truncateWei(optimistEthBalance, 6), locale)
   const formattedOptimistWbtcBalance = formatNumberByLocale(truncateWei(optimistWbtcBalance, 6), locale)
   const { priceConvertedValue: usdOptimismEthBalance, price: usdOptimismEthBalanceNotFormatted } = useCoinConversion(
     formattedOptimistEthBalance,
-    ethereumOpStaking.asset.mobula.filter
+    ethOpMobula.filter
   )
+
   const { priceConvertedValue: usdOptimismWbtcBalance, price: usdOptimismWbtcBalanceNotFormatted } = useCoinConversion(
     formattedOptimistWbtcBalance,
-    btcOptimism.mobula.filter
+    ethOpMobula.filter
   )
 
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)

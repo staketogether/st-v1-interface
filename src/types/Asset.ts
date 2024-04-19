@@ -10,8 +10,9 @@ export enum AssetCategory {
   Lego = 'lego'
 }
 
+export type AssetsId = 'eth-eth' | 'eth-op' | 'btc-op' | 'eth-staking' | 'eth-restaking'
 export interface Asset {
-  id: string
+  id: AssetsId
   order: number
   symbol: string
   image: string | StaticImageData
@@ -22,6 +23,7 @@ export interface Asset {
   enabled: boolean
   new: boolean
   linkedAssets?: Record<Chain, Asset>
+  contractAddress?: `0x${string}`
   points: {
     stPoints: boolean
     elPoints: boolean
