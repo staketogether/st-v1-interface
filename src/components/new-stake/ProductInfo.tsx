@@ -12,7 +12,7 @@ import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
+import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
 
 interface ProductInfoProps {
   product: ProductStaking

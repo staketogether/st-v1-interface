@@ -1,6 +1,6 @@
 import Button from '@/components/shared/Button'
 import Loading from '@/components/shared/icons/Loading'
-import { getAssetContractsById } from '@/config/asset'
+import { getAssetContractsById } from '@/config/product/asset'
 import chain from '@/config/chain'
 import useProjectDetailModal from '@/hooks/useProjectDetailModal'
 import { ContentfulPool } from '@/types/ContentfulPool'

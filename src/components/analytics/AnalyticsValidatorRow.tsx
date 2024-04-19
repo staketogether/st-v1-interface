@@ -1,4 +1,4 @@
-import { getAssetById } from '@/config/asset'
+import { getAssetById } from '@/config/product/asset'
 import useCoinConversion from '@/hooks/useCoinConversion'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'

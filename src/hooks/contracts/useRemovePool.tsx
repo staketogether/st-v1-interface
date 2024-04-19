@@ -1,5 +1,4 @@
 import { getSubgraphClient } from '@/config/apollo'
-import { getAssetContractsById } from '@/config/asset'
 import { queryAccount } from '@/queries/subgraph/queryAccount'
 import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
@@ -9,11 +8,12 @@ import { useEffect, useState } from 'react'
 import { useSimulateContract, useWaitForTransactionReceipt as useWaitForTransaction, useWriteContract } from 'wagmi'
 import chainConfig from '../../config/chain'
 import useLocaleTranslation from '../useLocaleTranslation'
+import { getStakingById } from '@/config/product/staking'
 
 export default function useRemovePool(projectAddress: `0x${string}`, disabled?: boolean) {
-  const { isTestnet, chainId } = chainConfig()
-  const { StakeTogether } = getAssetContractsById('eth-staking', isTestnet)
-  const subgraphClient = getSubgraphClient({ name: 'ethereum-stake', isTestnet })
+  const { chainId } = chainConfig()
+  const { StakeTogether } = getStakingById('eth-staking').contracts
+  const subgraphClient = getSubgraphClient({ stakingId: 'eth-staking' })
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const { t } = useLocaleTranslation()

@@ -1,5 +1,4 @@
 import { getSubgraphClient } from '@/config/apollo'
-import { chainConfigByChainId } from '@/config/chain'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
@@ -20,13 +19,13 @@ import { queryPool } from '../../queries/subgraph/queryPool'
 import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
-import { Asset } from '@/types/Asset'
+import { Staking } from '@/types/Staking'
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
-  product: Asset,
+  product: Staking,
   chainId: number,
   accountAddress?: `0x${string}`
 ) {
@@ -39,9 +38,8 @@ export default function useWithdrawValidator(
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerWithdraw } = useMixpanelAnalytics()
-  const { isTestnet } = chainConfigByChainId(chainId)
-  const StakeTogether = product.staking?.contracts.StakeTogether ?? '' as `0x${string}`
-  const subgraphClient = getSubgraphClient({ assetId: product.id })
+  const StakeTogether = product.contracts.StakeTogether ?? '' as `0x${string}`
+  const subgraphClient = getSubgraphClient({ stakingId: product.id })
   const { web3AuthUserInfo } = useConnectedAccount()
 
   const { t } = useLocaleTranslation()

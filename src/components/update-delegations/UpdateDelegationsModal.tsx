@@ -1,4 +1,4 @@
-import { getAssetById } from '@/config/asset'
+import { getAssetById } from '@/config/product/asset'
 import { chainConfigByChainId } from '@/config/chain'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'

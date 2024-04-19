@@ -19,6 +19,7 @@ import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 import { chainConfigByChainId } from '@/config/chain'
+import { Staking } from '@/types/Staking'
 
 export interface PoolData {
   pool: `0x${string}`
@@ -28,7 +29,7 @@ export interface PoolData {
 export default function useUpdateDelegations(
   enabled: boolean,
   updateDelegationPools: PoolData[],
-  product: Asset,
+  product: Staking,
   chainId: number,
   accountAddress?: `0x${string}`
 ) {
@@ -39,14 +40,14 @@ export default function useUpdateDelegations(
   const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
   const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
-  const subgraphClient = getSubgraphClient({ assetId: 'eth-staking' })
+  const subgraphClient = getSubgraphClient({ stakingId: 'eth-staking' })
   const { web3AuthUserInfo } = useConnectedAccount()
   const config = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
 
   const updateDelegationEstimatedGas: PoolData[] = [
     {
-      pool: `${product.staking?.stakeTogetherPool as `0x${string}`}`,
+      pool: product.stakeTogetherPool as `0x${string}`,
       percentage: ethers.parseUnits('1', 18)
     }
   ]
@@ -54,7 +55,7 @@ export default function useUpdateDelegations(
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
-    contractAddress: `${product.staking?.contracts.StakeTogether ?? '' as `0x${string}`}`,
+    contractAddress: product.contracts.StakeTogether,
     functionName: 'updateDelegations',
     args: [updateDelegationEstimatedGas],
     abi: stakeTogetherAbi,
@@ -84,7 +85,7 @@ export default function useUpdateDelegations(
     query: {
       enabled: isUpdateDelegationEnabled
     },
-    address: product.staking?.contracts.StakeTogether,
+    address: product.contracts.StakeTogether,
     args: [updateDelegationPools as readonly { pool: `0x${string}`; percentage: bigint }[]],
     account: accountAddress,
     abi: stakeTogetherAbi,

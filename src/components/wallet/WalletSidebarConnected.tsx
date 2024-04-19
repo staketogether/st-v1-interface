@@ -34,7 +34,7 @@ import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
 import useStAccount from './hooks/useStAccount'
-import { btcOp, ethEth, ethOp } from '@/config/asset'
+import { btcOp, ethEth, ethOp } from '@/config/product/asset'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`

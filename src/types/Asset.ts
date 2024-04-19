@@ -2,7 +2,6 @@ import { Chain } from '@/config/chain'
 import { StaticImageData } from 'next/image'
 
 export enum AssetCategory {
-  Staking = 'staking',
   Crypto = 'crypto',
   Stable = 'stable',
   Fan = 'fan',
@@ -10,13 +9,12 @@ export enum AssetCategory {
   Lego = 'lego'
 }
 
-export type AssetsId = 'eth-eth' | 'eth-op' | 'btc-op' | 'eth-staking' | 'eth-restaking'
+export type AssetsId = 'eth-eth' | 'eth-op' | 'btc-op'
 export interface Asset {
   id: AssetsId
   order: number
   symbol: string
   symbolImage: string | StaticImageData
-  logoImage: string | StaticImageData
   url: string
   category: AssetCategory
   chains: Chain[]
@@ -45,7 +43,7 @@ export interface Asset {
     }
   }
   // Todo: Use ID on Backend instead of object
-  ramp?: {
+  ramp: {
     chainId: number
     minDeposit: number
     bridge?: {
@@ -55,16 +53,4 @@ export interface Asset {
       toToken: string
     }
   }[]
-  staking?: {
-    apy: number
-    stakeTogetherPool: string
-    contracts: {
-      Airdrop: `0x${string}`
-      Withdrawals: `0x${string}`
-      Router: `0x${string}`
-      StakeTogether: `0x${string}`
-      StakeTogetherWrapper: `0x${string}`
-    }
-    subgraph: string
-  }
 }

@@ -1,5 +1,5 @@
 import Modal from '@/components/shared/Modal'
-import { getAsset } from '@/config/asset'
+import { getAsset } from '@/config/product/asset'
 import { globalConfig } from '@/config/global'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {

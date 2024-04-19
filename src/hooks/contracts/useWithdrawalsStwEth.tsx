@@ -1,5 +1,4 @@
 import { ethereumMainnetClient } from '@/config/apollo'
-import { getAssetContractsById } from '@/config/asset'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountDelegations } from '@/queries/subgraph/queryAccountDelegations'
 import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
@@ -16,11 +15,12 @@ import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import useLocaleTranslation from '../useLocaleTranslation'
+import { getStakingById } from '@/config/product/staking'
 
 export default function useWithdrawalsStwEth(withdrawAmount: bigint, accountAddress: `0x${string}`, enabled: boolean) {
   const { chainId } = chainConfig()
 
-  const { Withdrawals } = getAssetContractsById('eth-staking')
+  const { Withdrawals } = getStakingById('eth-staking').contracts
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
   const isWithdrawEnabled = enabled && withdrawAmount > 0n

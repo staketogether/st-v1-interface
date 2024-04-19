@@ -32,7 +32,7 @@ export default function AssetCard({ asset }: AssetCardProps) {
     >
       <ImageContainer>
         <div>
-          <AssetIcon image={asset.logoImage} chain={asset.chains[0]} size={32} altName={asset.id} />
+          <AssetIcon image={asset.symbolImage} chain={asset.chains[0]} size={32} altName={asset.id} />
           <span>{t(`v3.products.${asset.id}.name`)}</span>
         </div>
         {!asset.enabled && <Soon>{t('soon')}</Soon>}
@@ -42,18 +42,12 @@ export default function AssetCard({ asset }: AssetCardProps) {
         <div>
           <AssetPrice asset={asset} />
         </div>
-        {asset.staking?.apy && (
-          <Apy>
-            <span className='label'>APY</span>
-            {` ${asset.staking.apy}%`}
-          </Apy>
-        )}
       </PriceContainer>
     </CardContainer>
   )
 }
 
-const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy, Change24 } = {
+const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
   PriceContainer: styled.div`
     display: flex;
     justify-content: space-between;
@@ -70,18 +64,6 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy, Change
         font-weight: 500;
       }
     }
-  `,
-  Apy: styled.div`
-    > span.label {
-      font-size: ${({ theme }) => theme.font.size[12]};
-      font-weight: 400 !important;
-      margin-top: 2px;
-    }
-
-    color: green !important;
-    font-size: ${({ theme }) => theme.font.size[16]};
-    font-weight: 400;
-    align-items: center;
   `,
   CardContainer: styled(Link)`
     display: flex;

@@ -1,4 +1,4 @@
-import { getAssetContractsById } from '@/config/asset'
+import { getAssetContractsById } from '@/config/product/asset'
 import chainConfig from '@/config/chain'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'

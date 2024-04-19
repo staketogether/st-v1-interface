@@ -1,4 +1,4 @@
-import { assetsList } from '@/config/asset'
+import { assetsList } from '@/config/product/asset'
 import { globalConfig } from '@/config/global'
 import { MobulaMarketAssetResponse } from '@/types/mobula-market-asset'
 import { makeVar } from '@apollo/client'

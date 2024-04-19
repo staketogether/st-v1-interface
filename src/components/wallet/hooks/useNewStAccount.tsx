@@ -8,7 +8,7 @@ import { ApolloClient, useQuery } from '@apollo/client'
 import { NormalizedCacheObject } from '@apollo/client/cache/inmemory/types'
 import { queryAccount } from '../../../queries/subgraph/queryAccount'
 import { Account } from '../../../types/Account'
-import { getAssetsByCategory } from '@/config/asset'
+import { getAssetsByCategory } from '@/config/product/asset'
 import { AssetCategory } from '@/types/Asset'
 import { useEffect } from 'react'
 

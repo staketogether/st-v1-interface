@@ -1,4 +1,4 @@
-import { getAssetById, getAssetContractsById } from '@/config/asset'
+import { getAssetById, getAssetContractsById } from '@/config/product/asset'
 import { chainConfigByChainId } from '@/config/chain'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import useAnalyticsData from '@/hooks/subgraphs/analytics/useAnalyticsData'

@@ -1,8 +1,6 @@
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
-import { ProductAsset } from '@/types/ProductAsset'
-import { ProductMarketAssetData } from '@/types/ProductStaking'
 import { notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiShareNetwork } from 'react-icons/pi'
@@ -10,11 +8,14 @@ import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import TradingViewComponent from '../shared/TradingViewComponent'
-import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
+import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
+import { Asset } from '@/types/Asset'
+import { MobulaAsset } from '@/types/MobulaAsset'
+import { chainConfigByChainId } from '@/config/chain'
 
 interface AssetsProductInfoProps {
-  product: ProductAsset
-  assetData: ProductMarketAssetData
+  product: Asset
+  assetData: MobulaAsset
 }
 
 export default function AssetsProductInfo({ product, assetData }: AssetsProductInfoProps) {
@@ -22,6 +23,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
   const router = useRouter()
+  const config = chainConfigByChainId(product.chains[0])
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
 
@@ -37,8 +39,8 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon image={product.name} size={36} />
-            {t(`v2.products.${product.name}`)}
+            <AssetIcon image={product.id} size={36} altName={product.id} />
+            {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
@@ -46,8 +48,8 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
           </div>
           <div>
             <span>{t('v2.ethereumStaking.networkAvailable')}</span>
-            <NetworkIcons network={product.networkAvailable} size={16} />
-            <span>{capitalize(product.networkAvailable.replaceAll('-', ' '))}</span>
+            <NetworkIcons network={config.name.toLowerCase()} size={16} />
+            <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
           </div>
         </HeaderProduct>
 

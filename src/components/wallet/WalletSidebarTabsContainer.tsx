@@ -1,6 +1,6 @@
 import WalletSidebarActivities from '@/components/wallet/WalletSidebarActivities'
 import WalletSidebarRewards from '@/components/wallet/WalletSidebarRewards'
-import { getAssetById } from '@/config/asset'
+import { getAssetById } from '@/config/product/asset'
 import { AccountActivity } from '@/types/AccountActivity'
 import { AccountReward } from '@/types/AccountReward'
 import { Delegation } from '@/types/Delegation'

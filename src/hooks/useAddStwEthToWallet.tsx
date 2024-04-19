@@ -1,13 +1,12 @@
-import { getAssetContractsById } from '@/config/asset'
-import chainConfig from '@/config/chain'
 import { config } from '@/config/wagmi'
 import { getWalletClient } from 'wagmi/actions'
 import useLocaleTranslation from './useLocaleTranslation'
+import { getStakingById } from '@/config/product/staking'
 
 export default function useAddStwEthToWallet() {
-  const { isTestnet } = chainConfig()
 
-  const { Withdrawals } = getAssetContractsById('eth-staking', isTestnet)
+  const staking = getStakingById('eth-staking')
+  const { Withdrawals } = staking.contracts
 
   const { t } = useLocaleTranslation()
   const addToWalletAction = async () => {

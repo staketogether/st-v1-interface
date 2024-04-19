@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useBalance } from 'wagmi'
-import { Asset } from '@/types/Asset'
+import { Staking } from '@/types/Staking'
 
-export const useWithdrawPoolBalance = ({ product, chainId }: { product: Asset; chainId: number }) => {
-  const StakeTogether = product.staking?.contracts.StakeTogether ?? '' as `0x${string}`
+export const useWithdrawPoolBalance = ({ product, chainId }: { product: Staking; chainId: number }) => {
+  const StakeTogether = product.contracts.StakeTogether
   const [liquidityPoolBalance, setLiquidityPoolBalance] = useState(0n)
 
   const { isFetching, refetch, data } = useBalance({

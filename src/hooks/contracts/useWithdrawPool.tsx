@@ -20,13 +20,13 @@ import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
-import { Asset } from '@/types/Asset'
+import { Staking } from '@/types/Staking'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
   poolAddress: `0x${string}`,
   enabled: boolean,
-  product: Asset,
+  product: Staking,
   chainId: number,
   accountAddress?: `0x${string}`
 ) {
@@ -41,8 +41,8 @@ export default function useWithdrawPool(
   const { registerWithdraw } = useMixpanelAnalytics()
   const { web3AuthUserInfo } = useConnectedAccount()
   const { loading: stConfigLoading } = useStConfig({ name: product.id, chainId })
-  const StakeTogether = product.staking?.contracts.StakeTogether ?? '' as `0x${string}`
-  const subgraphClient = getSubgraphClient({ assetId: product.id })
+  const StakeTogether = product.contracts.StakeTogether
+  const subgraphClient = getSubgraphClient({ stakingId: product.id })
 
   const { t } = useLocaleTranslation()
 
