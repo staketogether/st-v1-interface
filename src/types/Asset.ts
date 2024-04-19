@@ -14,7 +14,7 @@ export interface Asset {
   id: string
   order: number
   symbol: string
-  symbolImage: string
+  symbolImage: string | StaticImageData
   logoImage: string | StaticImageData
   url: string
   category: AssetCategory
