@@ -21,6 +21,7 @@ export interface Asset {
   chains: Chain[]
   listed: boolean
   enabled: boolean
+  isTestnet: boolean
   new: boolean
   linkedAssets?: Record<Chain, Asset>
   points: {
@@ -74,9 +75,6 @@ export interface Asset {
         StakeTogetherWrapper: `0x${string}`
       }
     }
-    subgraph: {
-      mainnet: string
-      testnet: string
-    }
+    subgraph: string
   }
 }

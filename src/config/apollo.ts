@@ -1,12 +1,12 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
-import { getAssetSubgraphById } from './asset'
+import { assetsList, getAssetSubgraphById } from './asset'
 import { globalConfig } from './global'
 
-const ethereumMainnetSubgraph = getAssetSubgraphById('eth-staking', false)
-const ethereumTestnetSubgraph = getAssetSubgraphById('eth-staking', true)
-const ethereumMainnetRestaking = getAssetSubgraphById('eth-restaking', false)
-const ethereumTestnetRestaking = getAssetSubgraphById('eth-restaking', true)
+const ethereumMainnetSubgraph = getAssetSubgraphById('eth-staking')
+const ethereumTestnetSubgraph = getAssetSubgraphById('eth-staking')
+const ethereumMainnetRestaking = getAssetSubgraphById('eth-restaking')
+const ethereumTestnetRestaking = getAssetSubgraphById('eth-restaking')
 
 export const ethereumMainnetClient = new ApolloClient({
   uri: ethereumMainnetSubgraph,
@@ -120,20 +120,29 @@ export const contentfulClient = new ApolloClient({
   connectToDevTools: true
 })
 
-export function getSubgraphClient({ name, isTestnet }: { name: string; isTestnet: boolean }) {
-  const clientList = {
-    'ethereum-stake': isTestnet ? ethereumTestnetClient : ethereumMainnetClient,
-    'ethereum-restaking': isTestnet ? ethereumRestakingTestnetClient : ethereumRestakingMainnetClient,
-    polygon: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    solana: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    celestia: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    cosmos: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    near: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    polkadot: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    chiliz: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    bitcoin: isTestnet ? ethereumTestnetClient : ethereumTestnetClient
+export function getSubgraphClient({ assetId, isTestnet }: { assetId: string; isTestnet: boolean }) {
+
+  const stakingAssets = assetsList.filter(asset => asset.staking).filter(asset => asset.isTestnet === isTestnet)
+  const stakingAsset = stakingAssets.find(asset => asset.id === assetId)
+
+  if (!stakingAsset?.staking) {
+    throw new Error(`Asset ${assetId} is not a staking asset`)
   }
 
-  const client = clientList[name as keyof typeof clientList]
-  return client
+  return new ApolloClient({
+    uri: stakingAsset.staking.subgraph,
+    ssrMode: typeof window === 'undefined',
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            pool: {
+              keyArgs: ['id', 'delegate_contains']
+            }
+          }
+        }
+      }
+    }),
+    connectToDevTools: true
+  })
 }

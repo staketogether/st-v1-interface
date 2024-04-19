@@ -9,6 +9,7 @@ const ethEth: Asset = {
   id: 'eth-eth',
   order: 1,
   symbol: 'ETH',
+  isTestnet: false,
   symbolImage: ethIcon,
   logoImage: ethIcon,
   url: '/currency/product/eth',
@@ -49,6 +50,7 @@ const ethOp: Asset = {
   symbol: 'ETH',
   symbolImage: ethIcon,
   logoImage: ethIcon,
+  isTestnet: false,
   url: '/currency/product/eth-op',
   category: AssetCategory.Crypto,
   chains: [Chain.OP_MAINNET],
@@ -93,6 +95,7 @@ const btcOp: Asset = {
   symbol: 'wBTC',
   symbolImage: btcIcon,
   logoImage: btcIcon,
+  isTestnet: false,
   url: '/currency/product/wbtc-op',
   category: AssetCategory.Crypto,
   chains: [Chain.OP_MAINNET],
@@ -137,6 +140,7 @@ const ethStaking: Asset = {
   symbol: 'stpETH',
   symbolImage: ethIcon,
   logoImage: ethIcon,
+  isTestnet: false,
   url: '/currency/product/eth-staking',
   category: AssetCategory.Staking,
   chains: [Chain.ETH_MAINNET],
@@ -184,10 +188,7 @@ const ethStaking: Asset = {
       mainnet: '0x7d316ef9d95649fd2d8be426b01ff531c560379a',
       testnet: '0x6C1715B7F989A7dBc2635114e5f8B78F39eA6F48'
     },
-    subgraph: {
-      mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
-      testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-holesky/version/latest'
-    }
+    subgraph: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest'
   }
 }
 
@@ -201,6 +202,7 @@ const ethRestaking: Asset = {
   category: AssetCategory.Staking,
   chains: [Chain.OP_MAINNET],
   listed: true,
+  isTestnet: false,
   enabled: true,
   new: true,
   linkedAssets: { [Chain.OP_MAINNET]: ethOp },
@@ -244,10 +246,7 @@ const ethRestaking: Asset = {
       mainnet: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
       testnet: '0x15Df22857d8208d4add356dB92E48B347488969E'
     },
-    subgraph: {
-      mainnet: 'https://api.studio.thegraph.com/query/60033/stake-together-optimism/version/latest',
-      testnet: 'https://api.studio.thegraph.com/query/8477/stake-together-op-sepolia/version/latest'
-    }
+    subgraph: 'https://api.studio.thegraph.com/query/60033/stake-together-optimism/version/latest'
   }
 }
 
@@ -284,7 +283,7 @@ export function getAssetContractsById(id: string, isTestnet: boolean) {
   return asset.staking?.contracts[isTestnet ? 'testnet' : 'mainnet']
 }
 
-export function getAssetSubgraphById(id: string, isTestnet: boolean) {
+export function getAssetSubgraphById(id: string) {
   const asset = getAssetById(id)
 
   if (!asset) {
@@ -295,5 +294,5 @@ export function getAssetSubgraphById(id: string, isTestnet: boolean) {
     throw new Error(`Asset with id ${id} does not have staking contracts`)
   }
 
-  return asset.staking?.subgraph[isTestnet ? 'testnet' : 'mainnet']
+  return asset.staking?.subgraph
 }
