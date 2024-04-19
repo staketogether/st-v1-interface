@@ -59,6 +59,7 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy, Change
     display: flex;
     justify-content: space-between;
     gap: 12px;
+    height: 22px;
 
     > div {
       display: flex;
