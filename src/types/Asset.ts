@@ -15,12 +15,14 @@ export interface Asset {
   id: AssetsId
   order: number
   symbol: string
-  image: string | StaticImageData
+  symbolImage: string | StaticImageData
+  logoImage: string | StaticImageData
   url: string
   category: AssetCategory
   chains: Chain[]
   listed: boolean
   enabled: boolean
+  isTestnet: boolean
   new: boolean
   linkedAssets?: Record<Chain, Asset>
   contractAddress?: `0x${string}`
@@ -75,9 +77,6 @@ export interface Asset {
         StakeTogetherWrapper: `0x${string}`
       }
     }
-    subgraph: {
-      mainnet: string
-      testnet: string
-    }
+    subgraph: string
   }
 }
