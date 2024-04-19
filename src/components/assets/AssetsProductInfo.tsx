@@ -10,12 +10,12 @@ import NetworkIcons from '../shared/NetworkIcons'
 import TradingViewComponent from '../shared/TradingViewComponent'
 import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
 import { Asset } from '@/types/Asset'
-import { MobulaAsset } from '@/types/MobulaAsset'
 import { chainConfigByChainId } from '@/config/chain'
+import { MobulaMarketAsset } from '@/types/mobula-market-asset'
 
 interface AssetsProductInfoProps {
   product: Asset
-  assetData: MobulaAsset
+  assetData: MobulaMarketAsset
 }
 
 export default function AssetsProductInfo({ product, assetData }: AssetsProductInfoProps) {
@@ -39,7 +39,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon image={product.id} size={36} altName={product.id} />
+            <AssetIcon image={product.id} size={36} altName={product.id} chain={product.chains[0]}/>
             {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
@@ -60,7 +60,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <span className='price'>{`${handleQuotePrice(assetData?.data?.price || 0)}`}</span>
+              <span className='price'>{`${handleQuotePrice(assetData?.price || 0)}`}</span>
             </div>
           </SymbolContainer>
         </HeaderDescribeInfo>
@@ -71,21 +71,21 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
         <StatisticContainer>
           <div>
             <span>{t('v2.ethereumStaking.marketCap')}</span>
-            <span className='valueItem'>{`${handleQuotePrice(assetData?.data?.market_cap || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.market_cap || 0)}`}</span>
           </div>
           <div>
             <span>Volume</span>
-            <span className='valueItem'>{`${handleQuotePrice(assetData?.data?.volume || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.volume || 0)}`}</span>
           </div>
           <div>
             <span>{t('v2.ethereumStaking.priceChange')}</span>
-            <span className='valueItem'>{`${assetData?.data?.price_change_1y.toFixed(2)}%`}</span>
+            <span className='valueItem'>{`${assetData?.price_change_1y.toFixed(2)}%`}</span>
           </div>
         </StatisticContainer>
       </ProductBodyContainer>
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.description')}</h2>
-        <span>{t(`v2.ethereumStaking.${product.description}`)}</span>
+        <span>{t(`v2.ethereumStaking.${product.localeDescription}`)}</span>
       </ProductBodyContainer>
     </ProductContainer>
   )

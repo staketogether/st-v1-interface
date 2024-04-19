@@ -14,12 +14,12 @@ import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
  import { Asset } from '@/types/Asset'
- import { MobulaAsset } from '@/types/MobulaAsset'
  import { chainConfigByChainId } from '@/config/chain'
+ import { MobulaMarketAsset } from '@/types/mobula-market-asset'
 
 interface AssetsControlProps {
   product: Asset
-  assetData: MobulaAsset
+  assetData: MobulaMarketAsset
   chainId: number
   type: 'buy' | 'sell' | 'swap'
 }
@@ -51,7 +51,7 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
       placement: 'topRight'
     })
   }
-  useFacebookPixel(product.eventsTrack.pageView)
+  useFacebookPixel(`pageview-${product.id}`)
 
   return (
     <Container>
@@ -62,7 +62,7 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <AssetIcon image={product.id} size={36}  altName={product.id}/>
+            <AssetIcon image={product.id} size={36} altName={product.id} chain={chainId}/>
             {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />

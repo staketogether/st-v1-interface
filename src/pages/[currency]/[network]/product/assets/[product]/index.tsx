@@ -12,13 +12,13 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Asset } from '@/types/Asset'
-import { MobulaAsset } from '@/types/MobulaAsset'
 import { chainConfigByChainId } from '@/config/chain'
 import { assetsList } from '@/config/product/asset'
+import { MobulaMarketAsset } from '@/types/mobula-market-asset'
 
 export interface ProductProps {
   asset: Asset
-  assetData: MobulaAsset
+  assetData: MobulaMarketAsset
   chainId: number
 }
 
@@ -71,10 +71,10 @@ export const getStaticPaths: GetStaticPaths = () => {
   return { paths, fallback: 'blocking' }
 }
 
-async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaAsset> {
+async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaMarketAsset> {
   const { backendUrl } = globalConfig
   return axios
-    .get<MobulaAsset>(`${backendUrl}/api/${uri}`, {
+    .get<MobulaMarketAsset>(`${backendUrl}/api/${uri}`, {
       params: {
         asset,
         blockchain,

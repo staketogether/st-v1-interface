@@ -22,6 +22,7 @@ export interface Asset {
   enabled: boolean
   isTestnet: boolean
   new: boolean
+  localeDescription: string
   linkedAssets?: Record<Chain, Asset>
   contractAddress?: `0x${string}`
   points: {

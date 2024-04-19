@@ -4,10 +4,11 @@ import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { ProductStaking } from '@/types/ProductStaking'
 import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import styled from 'styled-components'
+import { Staking } from '@/types/Staking'
+import { chainConfigByChainId } from '@/config/chain'
 
 interface EthereumInputProps {
   ethAmountValue: string
@@ -17,7 +18,7 @@ interface EthereumInputProps {
   onChange: (value: string) => void
   onMaxFunction?: () => void
   type: 'deposit' | 'withdraw'
-  product: ProductStaking
+  product: Staking
 }
 
 export default function EthereumInput({
@@ -78,7 +79,7 @@ export default function EthereumInput({
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <AssetIcon image='ethereum' chain={product.networkAvailable} size={32} />
+            <AssetIcon altName={product.id} image='ethereum' chain={product.asset.chains[0]} size={32} />
           ) : (
             <TokensSymbolIcons productSymbol={product.symbol} size={32} />
           )}

@@ -5,6 +5,7 @@ import { getStakingById } from '@/config/product/staking'
 import { StakingId } from '@/types/Staking'
 
 export const ethereumMainnetClient = getSubgraphClient({ stakingId: 'eth-staking' })
+export const ethereumOpClient = getSubgraphClient({ stakingId: 'eth-restaking' })
 
 export const stBackendClient = new ApolloClient({
   uri: globalConfig.backendSubgraph,

@@ -15,6 +15,11 @@ export interface Staking {
   new: boolean
   apy: number
   stakeTogetherPool: string
+  localeDescription: string
+  points: {
+    stPoints: boolean
+    elPoints: boolean
+  }
   asset: Asset
   contracts: {
     Airdrop: `0x${string}`

@@ -4,17 +4,17 @@ import { openModal } from '@/hooks/ramp/useControlModal'
 import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductStaking } from '@/types/ProductStaking'
 import { notification } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import EthereumDeposit from './EthereumDeposit'
 import EthereumWithdraw from './EthereumWithdraw'
+import { Staking } from '@/types/Staking'
 
 interface EthereumFormControlProps {
   type: 'deposit' | 'withdraw'
-  product: ProductStaking
+  product: Staking
   chainId: number
 }
 export default function EthereumFormControl({ type, product, chainId }: EthereumFormControlProps) {
@@ -38,7 +38,7 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
   function handleRampButton() {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     type === 'deposit'
-      ? openModal(product.asset.name)
+      ? openModal(product.asset.id)
       : notification.info({
           message: `${t('offramp')}`,
           placement: 'topRight'
@@ -51,14 +51,14 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
         <nav>
           <ul>
             <li className={`${type === 'deposit' && 'activated'}`}>
-              <Link href={product.urlRedirect.replace('currency', currency)}>{t('v2.ethereumStaking.actions.invest')}</Link>
+              <Link href={product.url.replace('currency', currency)}>{t('v2.ethereumStaking.actions.invest')}</Link>
             </li>
             <li className={`${type === 'withdraw' && 'activated'}`}>
-              <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>{t('v2.ethereumStaking.actions.withdraw')}</Link>
+              <Link href={`${product.url.replace('currency', currency)}/withdraw`}>{t('v2.ethereumStaking.actions.withdraw')}</Link>
             </li>
           </ul>
         </nav>
-        {product.rampEnabled && (
+        {product.asset.ramp && (
           <Button
             label={`${type === 'deposit' ? t('buy') : t('sell')} ETH`}
             width={133}

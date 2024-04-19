@@ -1,8 +1,7 @@
 import ethIcon from '@assets/network/ethereum.svg'
 import restakingIcon from '@assets/assets/restaking.svg'
-import { assetsList, ethEth, ethOp, getAssetById } from '@/config/product/asset'
+import { ethEth, ethOp } from '@/config/product/asset'
 import { Staking } from '@/types/Staking'
-import { Asset } from '@/types/Asset'
 
 export const ethStaking: Staking = {
   asset: ethEth,
@@ -15,6 +14,11 @@ export const ethStaking: Staking = {
   symbolImage: ethIcon,
   logoImage: ethIcon,
   isTestnet: false,
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  localeDescription: 'ethereumDescription',
   url: '/currency/product/eth-staking',
   apy: 5.7,
   contracts: {
@@ -40,7 +44,12 @@ export const ethRestaking: Staking = {
   enabled: true,
   new: true,
   apy: 5.7,
+  points: {
+    stPoints: true,
+    elPoints: true
+  },
   asset: ethOp,
+  localeDescription: 'restakingDescription',
   contracts: {
     Airdrop: '0x9A967118f216eCE6B5853915691b96d28df19b4A',
     Withdrawals: '0xB01fD1CDd2fDfa3cC4955635776733A8abaad8F8',

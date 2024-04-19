@@ -35,6 +35,7 @@ import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
 import useStAccount from './hooks/useStAccount'
 import { btcOp, ethEth, ethOp } from '@/config/product/asset'
+import { ethRestaking, ethStaking, stakingList } from '@/config/product/staking'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -112,7 +113,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const { priceConvertedValue: usdStpETHBalance, price: usdStpEthBalanceNotFormatted } = useCoinConversion(
     stpETHAccountBalance,
-    ethereumStaking.asset.mobula.filter
+    ethStaking.asset.mobula.filter
   )
 
   const {
@@ -126,7 +127,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const stpRETHAccountBalance = formatNumberByLocale(truncateWei(restakingAccountBalance, 5), locale)
   const { priceConvertedValue: usdStpRETHBalance, price: usdStpRETHBalanceNotFormatted } = useCoinConversion(
     stpRETHAccountBalance,
-    ethereumOpStaking.asset.mobula.filter
+    ethRestaking.asset.mobula.filter
   )
 
   const stAccount = {
@@ -186,11 +187,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const selectProductOptions = products.map(product => {
     return {
-      value: product.name,
+      value: product.id,
       label: (
         <ProductSelectCard>
-          <AssetIcon image={product.name} size={24} />
-          <span>{t(`v2.products.${product.name}`)}</span>
+          <AssetIcon image={product.id} size={24} altName={product.id} chain={product.asset.chains[0]} />
+          <span>{t(`v2.products.${product.id}`)}</span>
         </ProductSelectCard>
       )
     }
@@ -279,7 +280,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon image='ethereum' chain='ethereum' size={24} />
+                    <AssetIcon image='ethereum' chain={ethEth.chains[0]} size={24} altName='Ethereum' />
                   </div>
                   <div>
                     <span>{` ${t('eth.symbol')}`}</span>
@@ -294,7 +295,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon image='ethereum' chain='optimism' size={24} />
+                    <AssetIcon image='ethereum' chain={ethOp.chains[0]} altName='optimism' size={24} />
                   </div>
                   <div>
                     <span>{`${t('eth.symbol')}`}</span>
@@ -309,11 +310,10 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon image={configWbtcOptimist.symbol} chain={configWbtcOptimist.networkAvailable} size={24} />
+                    <AssetIcon image={btcOp.symbol} chain={btcOp.chains[0]} altName={btcOp.id} size={24} />
                   </div>
                   <div>
-                    <span>{configWbtcOptimist.symbol}</span>
-                    <span>{capitalize(configWbtcOptimist.networkAvailable)}</span>
+                    <span>{btcOp.symbol}</span>
                   </div>
                 </div>
                 <div>
@@ -336,7 +336,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceInvestmentContainer>
                 <div>
                   <div>
-                    <AssetIcon image='stpETH' chain='ethereum' size={24} />
+                    <AssetIcon image='stpETH' chain={ethStaking.asset.chains[0]} size={24} altName={ethStaking.id} />
                   </div>
                   <div>
                     <span>{`stpETH`}</span>
@@ -352,7 +352,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceInvestmentContainer>
                 <div>
                   <div>
-                    <AssetIcon image='strETH' chain='optimism' size={24} />
+                    <AssetIcon image='strETH' chain={ethRestaking.asset.chains[0]} size={24} altName={ethRestaking.id} />
                   </div>
                   <div>
                     <span>{`stpRETH`}</span>
@@ -402,7 +402,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               accountRewards={accountRewards}
               accountActivities={accountActivities}
               activatedTab={tabActivated}
-              asset={productTabSelected}
+              selectedAsset={productTabSelected}
             />
           </Card>
 
