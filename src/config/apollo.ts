@@ -3,7 +3,7 @@ import { setContext } from '@apollo/client/link/context'
 import { assetsList } from './asset'
 import { globalConfig } from './global'
 
-export const ethereumMainnetClient = getSubgraphClient({ assetId: 'eth-staking', isTestnet: false })
+export const ethereumMainnetClient = getSubgraphClient({ assetId: 'eth-staking' })
 
 export const stBackendClient = new ApolloClient({
   uri: globalConfig.backendSubgraph,
@@ -45,9 +45,8 @@ export const contentfulClient = new ApolloClient({
   connectToDevTools: true
 })
 
-export function getSubgraphClient({ assetId, isTestnet }: { assetId: string; isTestnet: boolean }) {
-  const stakingAssets = assetsList.filter(asset => asset.staking).filter(asset => asset.isTestnet === isTestnet)
-  const stakingAsset = stakingAssets.find(asset => asset.id === assetId)
+export function getSubgraphClient({ assetId }: { assetId: string }) {
+  const stakingAsset = assetsList.find(asset => asset.id === assetId)
 
   if (!stakingAsset?.staking) {
     throw new Error(`Asset ${assetId} is not a staking asset`)
