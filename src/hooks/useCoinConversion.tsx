@@ -26,5 +26,5 @@ export default function useCoinConversion(value: string, filter: string) {
     }
   }, [value, currencyPrice])
 
-  return { price: coinUsdPrice, loading, priceConvertedValue: handleQuotePrice(Number(coinUsdPrice ?? 0)) }
+  return { price: coinUsdPrice, loading, priceConvertedValue: handleQuotePrice(Number(coinUsdPrice) ?? 0) }
 }

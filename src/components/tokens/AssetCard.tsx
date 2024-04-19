@@ -11,7 +11,7 @@ interface AssetCardProps {
   asset: Asset
 }
 
-const TokenPrice = dynamic(() => import('../shared/TokenPrice'), {
+const AssetPrice = dynamic(() => import('../shared/AssetPrice'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} />,
   suspense: true
@@ -39,19 +39,58 @@ export default function AssetCard({ asset }: AssetCardProps) {
         {asset.new && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
       <PriceContainer>
-        <TokenPrice asset={asset} />
+        <div>
+          <AssetPrice asset={asset} />
+          <Change24>+1.14%</Change24>
+        </div>
+        {asset.staking?.apy && (
+          <Apy>
+            <span className='label'>APY</span>
+            {` ${asset.staking.apy}%`}
+          </Apy>
+        )}
       </PriceContainer>
     </CardContainer>
   )
 }
 
-const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
+const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy, Change24 } = {
   PriceContainer: styled.div`
-    span {
-      color: ${({ theme }) => theme.colorV2.blue[1]};
-      font-size: ${({ theme }) => theme.font.size[22]};
-      font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+
+    > div {
+      display: flex;
+      gap: 8px;
+
+      > span {
+        color: ${({ theme }) => theme.colorV2.blue[1]};
+        font-size: ${({ theme }) => theme.font.size[22]};
+        font-weight: 500;
+      }
     }
+  `,
+  Apy: styled.div`
+    > span.label {
+      font-size: ${({ theme }) => theme.font.size[12]};
+      font-weight: 400 !important;
+    }
+
+    color: green !important;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    font-weight: 400;
+    align-items: center;
+  `,
+  Change24: styled.div`
+    color: ${({ theme }) => theme.color.green[500]};
+    font-size: ${({ theme }) => theme.font.size[14]};
+    font-weight: 400;
+    align-self: center;
+    justify-self: flex-end;
+    display: flex;
+    gap: 4px;
+    align-items: center;
   `,
   CardContainer: styled(Link)`
     display: flex;
@@ -70,7 +109,7 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
     &:hover {
       border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
 
-      * {
+      > div:first-child > div > span {
         color: ${({ theme }) => theme.colorV2.purple[1]};
       }
     }

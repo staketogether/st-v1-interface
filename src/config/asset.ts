@@ -1,8 +1,8 @@
 import { Asset, AssetCategory } from '@/types/Asset'
-import btcIcon from '@assets/network/bitcoin.png'
+import btcIcon from '@assets/assets/bitcoin.svg'
+import restakingIcon from '@assets/assets/restaking.svg'
 import ethIcon from '@assets/network/ethereum.svg'
-import stpIcon from '@assets/st-symbol.svg'
-import strIcon from '@assets/stpRETHIcon.svg'
+
 import { Chain } from './chain'
 
 const ethEth: Asset = {
@@ -132,7 +132,7 @@ const ethStaking: Asset = {
   id: 'eth-staking',
   order: 4,
   symbol: 'stpETH',
-  image: stpIcon,
+  image: ethIcon,
   url: '/currency/product/eth-staking',
   category: AssetCategory.Staking,
   chains: [Chain.ETH_MAINNET],
@@ -191,7 +191,7 @@ const ethRestaking: Asset = {
   id: 'eth-restaking',
   order: 5,
   symbol: 'strETH',
-  image: strIcon,
+  image: restakingIcon,
   url: '/currency/product/eth-restaking',
   category: AssetCategory.Staking,
   chains: [Chain.OP_MAINNET],

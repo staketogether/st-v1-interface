@@ -37,6 +37,7 @@
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "contentful-management": "^11.25.0",
+    "currency.js": "^2.0.4",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^18.0.0",
