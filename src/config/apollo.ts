@@ -1,69 +1,10 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
-import { assetsList, getAssetSubgraphById } from './asset'
+import { assetsList } from './asset'
 import { globalConfig } from './global'
 
-const ethereumMainnetSubgraph = getAssetSubgraphById('eth-staking')
-const ethereumTestnetSubgraph = getAssetSubgraphById('eth-staking')
-const ethereumMainnetRestaking = getAssetSubgraphById('eth-restaking')
-const ethereumTestnetRestaking = getAssetSubgraphById('eth-restaking')
-
 export const ethereumMainnetClient = new ApolloClient({
-  uri: ethereumMainnetSubgraph,
-  ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          pool: {
-            keyArgs: ['id', 'delegate_contains']
-          }
-        }
-      }
-    }
-  }),
-
-  connectToDevTools: true
-})
-
-export const ethereumTestnetClient = new ApolloClient({
-  uri: ethereumTestnetSubgraph,
-  ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          pool: {
-            keyArgs: ['id', 'delegate_contains']
-          }
-        }
-      }
-    }
-  }),
-
-  connectToDevTools: true
-})
-
-export const ethereumRestakingMainnetClient = new ApolloClient({
-  uri: ethereumMainnetRestaking,
-  ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          pool: {
-            keyArgs: ['id', 'delegate_contains']
-          }
-        }
-      }
-    }
-  }),
-
-  connectToDevTools: true
-})
-
-export const ethereumRestakingTestnetClient = new ApolloClient({
-  uri: ethereumTestnetRestaking,
+  uri: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
   ssrMode: typeof window === 'undefined',
   cache: new InMemoryCache({
     typePolicies: {
@@ -121,7 +62,6 @@ export const contentfulClient = new ApolloClient({
 })
 
 export function getSubgraphClient({ assetId, isTestnet }: { assetId: string; isTestnet: boolean }) {
-
   const stakingAssets = assetsList.filter(asset => asset.staking).filter(asset => asset.isTestnet === isTestnet)
   const stakingAsset = stakingAssets.find(asset => asset.id === assetId)
 
