@@ -6,7 +6,8 @@ export enum AssetCategory {
   Crypto = 'crypto',
   Stable = 'stable',
   Fan = 'fan',
-  Meme = 'meme'
+  Meme = 'meme',
+  Lego = 'lego'
 }
 
 export interface Asset {
