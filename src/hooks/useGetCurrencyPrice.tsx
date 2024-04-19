@@ -1,10 +1,11 @@
 import { assetsList } from '@/config/asset'
 import { globalConfig } from '@/config/global'
+import { MobulaMarketAssetResponse } from '@/types/mobula-market-asset'
 import { makeVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect } from 'react'
 
-export const currencyPriceListVar = makeVar<{ name: string; value: number }[]>([])
+export const currencyPriceListVar = makeVar<{ name: string; value: number, price24h: number }[]>([])
 
 export default function useGetCurrencyPrice() {
   const { backendUrl } = globalConfig
@@ -13,7 +14,7 @@ export default function useGetCurrencyPrice() {
     const getDataPromise = async () => {
       try {
         const promises = assetsList.map(asset =>
-          axios.get(`${backendUrl}/api/mobula/market-asset-data`, {
+          axios.get<MobulaMarketAssetResponse>(`${backendUrl}/api/mobula/market-asset-data`, {
             params: {
               asset: asset.mobula.asset ? asset.mobula.asset : null,
               blockchain: asset.mobula.blockchain ? asset.mobula.blockchain : null,
@@ -27,7 +28,9 @@ export default function useGetCurrencyPrice() {
         const responseData = responses.map(response => {
           return {
             name: `${response.data.data.name}-${response.config.params.blockchain}`,
-            value: response.data.data.price
+            value: response.data.data.price,
+            price24h: response.data.data.price_change_24h
+
           }
         })
 
