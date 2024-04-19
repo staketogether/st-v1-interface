@@ -32,7 +32,7 @@ export default function AssetCard({ asset }: AssetCardProps) {
     >
       <ImageContainer>
         <div>
-          <AssetIcon image={asset.image} chain={asset.chains[0]} size={32} altName={asset.id} />
+          <AssetIcon image={asset.logoImage} chain={asset.chains[0]} size={32} altName={asset.id} />
           <span>{t(`v3.products.${asset.id}.name`)}</span>
         </div>
         {!asset.enabled && <Soon>{t('soon')}</Soon>}

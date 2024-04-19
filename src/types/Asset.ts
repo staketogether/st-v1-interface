@@ -14,7 +14,8 @@ export interface Asset {
   id: string
   order: number
   symbol: string
-  image: string | StaticImageData
+  symbolImage: string
+  logoImage: string | StaticImageData
   url: string
   category: AssetCategory
   chains: Chain[]
