@@ -5,7 +5,7 @@ import { Staking } from '@/types/Staking'
 
 export const ethStaking: Staking = {
   asset: ethEth,
-  enabled: false,
+  enabled: true,
   listed: false,
   new: false,
   id: 'eth-staking',

@@ -2,22 +2,22 @@ import { chainConfigByChainId } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { AccountActivity } from '@/types/AccountActivity'
-import { ProductStaking } from '@/types/ProductStaking'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiLink } from 'react-icons/pi'
 import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
+import { Staking } from '@/types/Staking'
 
 interface WalletSidebarActivitiesProps {
   accountActivities: AccountActivity[]
-  product: ProductStaking
+  product: Staking
 }
 
 export default function WalletSidebarActivities({ accountActivities, product }: WalletSidebarActivitiesProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
-  const { blockExplorer } = chainConfigByChainId(product.chainIdNetworkAvailable)
+  const { blockExplorer } = chainConfigByChainId(product.asset.chains[0])
   const getLocale = () => {
     return locale === 'en' ? 'en-US' : 'pt-BR'
   }

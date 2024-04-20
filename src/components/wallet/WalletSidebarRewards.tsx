@@ -2,23 +2,23 @@ import { chainConfigByChainId } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { AccountReward } from '@/types/AccountReward'
-import { ProductStaking } from '@/types/ProductStaking'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiLink } from 'react-icons/pi'
 import styled, { useTheme } from 'styled-components'
+import { Staking } from '@/types/Staking'
 
 interface WalletSidebarRewardsProps {
   accountRewards: AccountReward[]
   productSelected: string
-  product: ProductStaking
+  product: Staking
 }
 
 export default function WalletSidebarRewards({ accountRewards, product }: WalletSidebarRewardsProps) {
   const { t } = useLocaleTranslation()
   const theme = useTheme()
   const { locale } = useRouter()
-  const { blockExplorer } = chainConfigByChainId(product.chainIdNetworkAvailable)
+  const { blockExplorer } = chainConfigByChainId(product.asset.chains[0])
 
   return (
     <Container>
