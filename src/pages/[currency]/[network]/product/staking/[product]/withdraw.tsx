@@ -15,10 +15,11 @@ import { Staking } from '@/types/Staking'
 import { MobulaAsset } from '@/types/MobulaAsset'
 import { chainConfigByChainId } from '@/config/chain'
 import { stakingList } from '@/config/product/staking'
+import { MobulaMarketAsset } from '@/types/mobula-market-asset'
 
 export interface HomeProps {
   product: Staking
-  assetData: MobulaAsset
+  assetData: MobulaMarketAsset
   chainId: number
 }
 

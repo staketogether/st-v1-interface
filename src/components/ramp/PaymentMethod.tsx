@@ -1,23 +1,25 @@
 import { BrlaBuyEthStep, openBrlaModalVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useTransak from '@/hooks/useTransak'
-import { ProductAsset } from '@/types/ProductAsset'
 import CreditCard from '@assets/images/master-visa.svg'
 import Pix from '@assets/images/pix-full.svg'
 import Image from 'next/image'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import Button from '../shared/Button'
+import { Asset } from '@/types/Asset'
+import { chainConfigByChainId } from '@/config/chain'
 
 interface PaymentMethodProps {
-  product: ProductAsset
+  product: Asset
 }
 
 export default function PaymentMethod({ product }: PaymentMethodProps) {
   const { t } = useLocaleTranslation()
+  const config = chainConfigByChainId(product.chains[0])
   const { onInit, isClosed } = useTransak({
     productsAvailed: 'BUY',
-    network: product.networkAvailable
+    network: config.name.toLowerCase()
   })
 
   const handlePix = () => {

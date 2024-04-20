@@ -17,7 +17,6 @@ import { useSimulateContract, useWaitForTransactionReceipt as useWaitForTransact
 import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
-import { Asset } from '@/types/Asset'
 import { chainConfigByChainId } from '@/config/chain'
 import { Staking } from '@/types/Staking'
 
