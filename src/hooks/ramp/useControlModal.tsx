@@ -1,9 +1,10 @@
+import { getAssetById } from '@/config/product/asset'
 import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo'
+import { Asset, AssetId } from '@/types/Asset'
 import { Quote } from '@/types/quote.type'
 import { makeVar } from '@apollo/client'
 import { BuyRamp } from './useBuyRamp'
 import { KycLevelInfo } from './useKycLevelInfo'
-import { Asset, AssetId } from '@/types/Asset'
 
 export enum BrlaBuyEthStep {
   MethodPayment = 'MethodPayment',
@@ -38,6 +39,7 @@ export const kycLevelVar = makeVar<KycLevelInfo | null>(null)
 export const kycIdVar = makeVar<string | null>(null)
 export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
 export const currentAssetNameVar = makeVar<AssetId>('eth-eth')
+export const currentAssetVar = makeVar<Asset>(getAssetById('eth-eth'))
 
 export const clearModal = () => {
   qrCodeVar(null)

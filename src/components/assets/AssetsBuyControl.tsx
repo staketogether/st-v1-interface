@@ -2,6 +2,7 @@ import { globalConfig } from '@/config/global'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import { BrlaBuyEthStep, changeWalletAddress, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect } from 'react'
@@ -19,7 +20,6 @@ import QuotationStep from '../ramp/QuotationStep'
 import SuccessStep from '../ramp/SuccessStep'
 import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
 import ConnectWallet from '../shared/ConnectWallet'
-import { Asset } from '@/types/Asset'
 
 export default function AssetsBuyControl({ asset }: { type: 'sell' | 'buy'; asset: Asset }) {
   const { t } = useLocaleTranslation()
@@ -28,7 +28,7 @@ export default function AssetsBuyControl({ asset }: { type: 'sell' | 'buy'; asse
 
   const steps = {
     MethodPayment: <PaymentMethod asset={asset} />,
-    Quotation: <QuotationStep product={asset} />,
+    Quotation: <QuotationStep asset={asset} />,
     QuotationOffRamp: <QuotationOffRampStep product={asset} />,
     Kyc: <KycStep asset={asset} />,
     ConnectWallet: <ConnectWallet useModal />,

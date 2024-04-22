@@ -5,7 +5,7 @@ import {
   BrlaBuyEthStep,
   changeWalletAddress,
   clearModal,
-  currentAssetNameVar,
+  currentAssetVar,
   openBrlaModalVar,
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
@@ -27,19 +27,18 @@ import QuotationOffRampStep from './QuotationOffRamp'
 import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
 import { TimeOutCheckout } from './TimeOutCheckout'
-import { getAssetById } from '@/config/product/asset'
 
 export default function BuyEthControlModal({ chainId }: { chainId: number }) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   // precisa remover isso
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId })
-  const currentProductId = useReactiveVar(currentAssetNameVar)
-  const asset = getAssetById(currentProductId)
+
+  const asset = useReactiveVar(currentAssetVar)
 
   const steps = {
     MethodPayment: <PaymentMethod asset={asset} />,
-    Quotation: <QuotationStep product={asset} />,
+    Quotation: <QuotationStep asset={asset} />,
     QuotationOffRamp: <QuotationOffRampStep product={asset} />,
     Kyc: <KycStep asset={asset} />,
     ConnectWallet: <ConnectWallet useModal />,
