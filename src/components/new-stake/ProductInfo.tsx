@@ -86,7 +86,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               </Tooltip>
             )}
             {product.points.stPoints && (
-              <Tooltip title={t('v2.ethereumStaking.stakeTogetherPointTooltip')}>
+              <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
                 <TagPointsContainer className='purple'>
                   Together
                   <div>0.0</div>

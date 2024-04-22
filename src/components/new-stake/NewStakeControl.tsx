@@ -98,7 +98,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
             </Tooltip>
           )}
           {product.points.stPoints && (
-            <Tooltip title={t('v2.ethereumStaking.lpPointTooltip')}>
+            <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
               <TagPointsContainer className='purple'>
                 Together
                 <div>0.0</div>
