@@ -1,4 +1,3 @@
-import NewStakeControl from '@/components/new-stake/NewStakeControl'
 import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
@@ -11,15 +10,16 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { stakingList } from '@/config/product/staking'
 import { MobulaAsset } from '@/types/MobulaAsset'
 import { chainConfigByChainId } from '@/config/chain'
 import { Asset } from '@/types/Asset'
 import { assetsList } from '@/config/product/asset'
+import AssetsControl from '@/components/assets/AssetsControl'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 
 export interface ProductProps {
   product: Asset
-  assetData: MobulaAsset
+  assetData: MobulaMarketAsset
   chainId: number
 }
 
@@ -45,8 +45,8 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <NewStakeControl type='deposit' product={product} assetData={assetData} chainId={chainId} />
-      <BuyEthControlModal />
+      <AssetsControl product={product} assetData={assetData} chainId={chainId} type='buy' />
+      <BuyEthControlModal chainId={chainId}/>
     </LayoutTemplate>
   )
 }

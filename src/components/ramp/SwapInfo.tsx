@@ -9,10 +9,9 @@ import AssetIcon from '../shared/AssetIcon'
 
 interface SwapInfoProps {
   asset: Asset
-  chainId: number
 }
 
-export default function SwapInfo({ asset, chainId }: SwapInfoProps) {
+export default function SwapInfo({ asset }: SwapInfoProps) {
   const quote = useReactiveVar(quoteVar)
   return (
     <Container>
@@ -26,7 +25,7 @@ export default function SwapInfo({ asset, chainId }: SwapInfoProps) {
       <PiArrowRight size={24} />
       <SwapToken className='left'>
         <div>
-          <AssetIcon image={asset.symbol} chain={chainId} size={16} altName={asset.symbol} />
+          <AssetIcon image={asset.symbolImage} chain={asset.chains[0]} size={16} altName={asset.symbol} />
           <span>{asset.symbol}</span>
         </div>
         <span>{quote?.amountToken}</span>

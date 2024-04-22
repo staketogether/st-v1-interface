@@ -16,10 +16,9 @@ import SwapInfo from './SwapInfo'
 
 interface CheckoutStepProps {
   asset: Asset
-  chainId: number
 }
 
-export default function CheckoutStep({ asset, chainId }: CheckoutStepProps) {
+export default function CheckoutStep({ asset }: CheckoutStepProps) {
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
   const quote = useReactiveVar(quoteVar)
@@ -78,7 +77,7 @@ export default function CheckoutStep({ asset, chainId }: CheckoutStepProps) {
   return (
     <Container>
       <Body>
-        <SwapInfo asset={asset} chainId={chainId} />
+        <SwapInfo asset={asset} />
         <PixArea>
           <Header>
             <div>

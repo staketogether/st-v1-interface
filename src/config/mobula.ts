@@ -27,11 +27,11 @@ export const btcOpMobula: MobulaAsset = {
 export const mobulaAssets = [ethEthMobula, ethOpMobula, btcOpMobula]
 
 export const getMobulaAssetById = (id: string): MobulaAsset => {
-  const asset = mobulaAssets.find(asset => asset.id === id)
+  const mobulaAsset = mobulaAssets.find(asset => asset.id === id)
 
-  if (!asset) {
+  if (!mobulaAsset) {
     throw new Error(`Mobula asset with id ${id} not found`)
   }
 
-  return asset
+  return mobulaAsset
 }

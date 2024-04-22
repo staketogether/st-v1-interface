@@ -1,5 +1,3 @@
-import { getAssetById } from '@/config/product/asset'
-import chainConfig from '@/config/chain'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebar from '@/hooks/useWalletSidebar'
@@ -11,6 +9,7 @@ import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
+import { getStakingById } from '@/config/product/staking'
 
 interface WalletSideBarPoolsDelegatedProps {
   accountDelegations: Delegation[]
@@ -27,10 +26,8 @@ export default function WalletSidebarPoolsDelegated({ accountDelegations }: Wall
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
 
-  const { isTestnet } = chainConfig()
-
-  const asset = getAssetById('eth-staking')
-  const stakeTogetherPool = asset.staking?.stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet']
+  const staking = getStakingById('eth-staking')
+  const stakeTogetherPool = staking.stakeTogetherPool
 
   return (
     <Container>

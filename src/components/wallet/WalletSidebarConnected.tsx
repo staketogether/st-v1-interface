@@ -404,7 +404,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               accountRewards={accountRewards}
               accountActivities={accountActivities}
               activatedTab={tabActivated}
-              selectedAsset={productTabSelected}
+              stakingAsset={productTabSelected}
             />
           </Card>
 

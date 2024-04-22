@@ -1,10 +1,3 @@
-interface Contract {
-  address: string;
-  blockchain: string;
-  blockchainId: string;
-  decimals: number;
-}
-
 export interface MobulaMarketAsset {
   ath: number
   atl: number

@@ -3,7 +3,6 @@ import { BrlaBuyEthStep, kycIdVar, stepsControlBuyCryptoVar } from '@/hooks/ramp
 import useKycCreate, { KycCreate, KycPayload, TypeAccount } from '@/hooks/ramp/useKycCreate'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductAsset } from '@/types/ProductAsset'
 import { notification } from 'antd'
 import { AxiosError } from 'axios'
 import { ChangeEvent, useEffect, useState } from 'react'
@@ -15,12 +14,13 @@ import Button from '../shared/Button'
 import Input from '../shared/inputs/Input'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
 import SwapInfo from './SwapInfo'
+import { Asset } from '@/types/Asset'
 
 interface KycStepProps {
-  product: ProductAsset
+  asset: Asset
 }
 
-export default function KycStep({ product }: KycStepProps) {
+export default function KycStep({ asset }: KycStepProps) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const [formData, setFormaData] = useState<KycPayload>()
@@ -272,7 +272,7 @@ export default function KycStep({ product }: KycStepProps) {
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
       <Container>
-        <SwapInfo product={product} />
+        <SwapInfo asset={asset}/>
         <h2>{t('v2.ramp.checkOut')}</h2>
         <span>{t('v2.ramp.kyc.description')}</span>
         <ContainerRadio>

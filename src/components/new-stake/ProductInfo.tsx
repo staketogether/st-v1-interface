@@ -12,7 +12,7 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
-import { MobulaMarketAsset } from '@/types/mobula-market-asset'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 import { Staking } from '@/types/Staking'
 
 interface ProductInfoProps {

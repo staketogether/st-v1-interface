@@ -11,7 +11,7 @@ import TradingViewComponent from '../shared/TradingViewComponent'
 import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
 import { Asset } from '@/types/Asset'
 import { chainConfigByChainId } from '@/config/chain'
-import { MobulaMarketAsset } from '@/types/mobula-market-asset'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 
 interface AssetsProductInfoProps {
   product: Asset

@@ -9,9 +9,9 @@ export enum AssetCategory {
   Lego = 'lego'
 }
 
-export type AssetsId = 'eth-eth' | 'eth-op' | 'btc-op'
+export type AssetId = 'eth-eth' | 'eth-op' | 'btc-op'
 export interface Asset {
-  id: AssetsId
+  id: AssetId
   order: number
   symbol: string
   symbolImage: string | StaticImageData

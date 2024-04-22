@@ -15,7 +15,7 @@ import LottieAnimation from '../shared/LottieAnimation'
 import NetworkIcons from '../shared/NetworkIcons'
 import ProductInfo from './ProductInfo'
 import { Staking } from '@/types/Staking'
-import { MobulaMarketAsset } from '@/types/mobula-market-asset'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 import { chainConfigByChainId } from '@/config/chain'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {

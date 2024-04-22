@@ -15,10 +15,11 @@ import { Staking } from '@/types/Staking'
 import { MobulaAsset } from '@/types/MobulaAsset'
 import { chainConfigByChainId } from '@/config/chain'
 import { stakingList } from '@/config/product/staking'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 
 export interface ProductProps {
   product: Staking
-  assetData: MobulaAsset
+  assetData: MobulaMarketAsset
   chainId: number
 }
 
@@ -44,7 +45,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
     <LayoutTemplate>
       <Metatags />
       <NewStakeControl type='deposit' product={product} assetData={assetData} chainId={chainId} />
-      <BuyEthControlModal />
+      <BuyEthControlModal chainId={chainId}/>
     </LayoutTemplate>
   )
 }

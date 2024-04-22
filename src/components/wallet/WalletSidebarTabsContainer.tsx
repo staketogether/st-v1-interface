@@ -1,6 +1,5 @@
 import WalletSidebarActivities from '@/components/wallet/WalletSidebarActivities'
 import WalletSidebarRewards from '@/components/wallet/WalletSidebarRewards'
-import { getAssetById } from '@/config/product/asset'
 import { AccountActivity } from '@/types/AccountActivity'
 import { AccountReward } from '@/types/AccountReward'
 import { Delegation } from '@/types/Delegation'
@@ -14,7 +13,7 @@ interface WalletSidebarTabsContainerProps {
   accountRewards: AccountReward[]
   accountActivities: AccountActivity[]
   activatedTab: 'delegations' | 'rewards' | 'activity'
-  selectedAsset: StakingId
+  stakingAsset: StakingId
 }
 
 export default function WalletSidebarTabsContainer({
@@ -22,12 +21,12 @@ export default function WalletSidebarTabsContainer({
   accountActivities,
   accountRewards,
   activatedTab,
-  selectedAsset: productSelected
+  stakingAsset
 }: WalletSidebarTabsContainerProps) {
-  const staking = getStakingById(productSelected)
+  const staking = getStakingById(stakingAsset)
   const tabs = {
     delegations: <WalletSidebarPortfolio product={staking} accountDelegations={accountDelegations} />,
-    rewards: <WalletSidebarRewards product={staking} accountRewards={accountRewards} productSelected={productSelected} />,
+    rewards: <WalletSidebarRewards product={staking} accountRewards={accountRewards} productSelected={stakingAsset} />,
     activity: <WalletSidebarActivities accountActivities={accountActivities} product={staking} />
   }
   return <Warper>{tabs[activatedTab]}</Warper>

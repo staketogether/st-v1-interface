@@ -3,11 +3,11 @@ import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { ProductAsset } from '@/types/ProductAsset'
 
 import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import styled from 'styled-components'
+import { Asset } from '@/types/Asset'
 
 interface EthereumInputProps {
   ethAmountValue: string
@@ -16,7 +16,7 @@ interface EthereumInputProps {
   hasError: boolean
   onChange: (value: string) => void
   onMaxFunction?: () => void
-  productAsset: ProductAsset
+  productAsset: Asset
 }
 
 export default function AssetInput({
@@ -73,7 +73,7 @@ export default function AssetInput({
       </div>
       <div>
         <CoinActionContainer>
-          <AssetIcon image={productAsset.symbol ?? 'ethereum'} chain={productAsset.networkAvailable} size={32} />
+          <AssetIcon image={productAsset.symbol ?? 'ethereum'} chain={productAsset.chains[0]} size={32}  altName={productAsset.symbol}/>
           <span className='max' onClick={onMaxFunction}>
             MAX
           </span>

@@ -1,6 +1,6 @@
 import { assetsList } from '@/config/product/asset'
 import { globalConfig } from '@/config/global'
-import { MobulaMarketAssetResponse } from '@/types/mobula-market-asset'
+import { MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
 import { makeVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect } from 'react'

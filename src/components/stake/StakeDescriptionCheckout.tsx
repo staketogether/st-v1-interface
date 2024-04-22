@@ -23,8 +23,7 @@ export default function StakeDescriptionCheckout({
                                                    youReceiveDeposit,
                                                    amount,
                                                    withdrawTypeSelected,
-                                                   product,
-                                                   chainId
+                                                   product
                                                  }: StakeDescriptionCheckoutProps) {
   const { t } = useLocaleTranslation()
 

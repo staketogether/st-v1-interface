@@ -92,7 +92,7 @@ export default function StakeConfirmModal({
                       withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
                     }`}</span>{' '}
                   </span>
-                  <AssetIcon assetIcon='ethereum' networkIcon={product.asset.chains[0]} size={32} />
+                  <AssetIcon size={32} altName={product.symbol} chain={product.asset.chains[0]} image={product.symbolImage}/>
                 </div>
               </ContainerPayment>
             </>
@@ -104,7 +104,7 @@ export default function StakeConfirmModal({
                   <span>
                     <span>{truncateDecimal(amount, 6)}</span> <span>{t('eth.symbol')}</span>
                   </span>
-                  <AssetIcon assetIcon='ethereum' networkIcon={product.asset.chains[0]} size={32} />
+                  <AssetIcon size={32} altName={product.symbol} chain={product.asset.chains[0]} image={product.symbolImage}/>
                 </div>
               </ContainerPayment>
               <ContainerPayment>

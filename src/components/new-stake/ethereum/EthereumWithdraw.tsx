@@ -15,7 +15,6 @@ import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet
 import { fbqTrackEvent } from '@/services/FacebookPixel'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { ProductStaking } from '@/types/ProductStaking'
 import { WithdrawType } from '@/types/Withdraw'
 import { Tooltip } from 'antd'
 import { ethers } from 'ethers'
@@ -27,6 +26,7 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
+import { Staking } from '@/types/Staking'
 
 interface EthereumWithdrawProps {
   type: 'deposit' | 'withdraw'
@@ -36,7 +36,7 @@ interface EthereumWithdrawProps {
   stpETHBalance: bigint
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
-  product: ProductStaking
+  product: Staking
   chainId: number
 }
 
@@ -80,7 +80,7 @@ export default function EthereumWithdraw({
   })
   const { withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance, refetch: withdrawValidatorsBalanceRefetch } =
     useWithdrawValidatorBalance({ product, chainId })
-  const { stConfig } = useStConfig({ name: product.name, chainId })
+  const { stConfig } = useStConfig({ name: product.id, chainId })
   const minWithdrawAmount = stConfig?.minWithdrawAmount ?? 0n
 
   const handleWithdrawLiquidity = () => {
@@ -205,7 +205,7 @@ export default function EthereumWithdraw({
         return
       }
     }
-    fbqTrackEvent(product.eventsTrack.withdraw)
+    fbqTrackEvent(`withdraw-${product.id}`)
     setOpenStakeConfirmModal(true)
   }
 

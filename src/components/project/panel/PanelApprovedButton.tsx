@@ -1,7 +1,5 @@
 import Button from '@/components/shared/Button'
 import Loading from '@/components/shared/icons/Loading'
-import { getAssetContractsById } from '@/config/product/asset'
-import chain from '@/config/chain'
 import useProjectDetailModal from '@/hooks/useProjectDetailModal'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { stakeTogetherAbi } from '@/types/Contracts'
@@ -10,6 +8,7 @@ import { LuAlertTriangle } from 'react-icons/lu'
 import { PiTrash } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useReadContract } from 'wagmi'
+import { getStakingById } from '@/config/product/staking'
 
 interface PanelApprovedButtonProps {
   project: ContentfulPool
@@ -18,9 +17,7 @@ interface PanelApprovedButtonProps {
 }
 
 export default function PanelApprovedButton({ project, projectSelected, openModal }: PanelApprovedButtonProps) {
-  const { isTestnet } = chain()
-
-  const { StakeTogether } = getAssetContractsById('eth-staking', isTestnet)
+  const { StakeTogether } = getStakingById('eth-staking').contracts
 
   const {
     data: isPoolRegistered,

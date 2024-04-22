@@ -7,7 +7,6 @@ import useQuoteRamp from '@/hooks/ramp/useQuote'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
-import { ProductAsset } from '@/types/ProductAsset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -20,26 +19,27 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { KycLevel } from './KycLevel'
+import { Asset } from '@/types/Asset'
 
 interface QuotationStepProps {
-  product: ProductAsset
+  product: Asset
 }
 
 export default function QuotationStep({ product }: QuotationStepProps) {
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
   const debounceValue = useDebounce(value, 300)
-  const minDeposit = product.ramp.minDeposit
+  const minDeposit = product.ramp[0].minDeposit
 
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
     debounceValue ? Number(debounceValue) : 0,
-    product.ramp.bridge?.fromChainId ?? product.ramp.chainId,
+    product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
     0,
     ProviderType.brla,
     PaymentMethodType.pix,
-    `${product.ramp.bridge?.toChainId}`,
-    product.ramp.bridge?.toToken,
+    `${product.ramp[0].bridge?.toChainId}`,
+    product.ramp[0].bridge?.toToken,
     true
   )
 
@@ -114,7 +114,7 @@ export default function QuotationStep({ product }: QuotationStepProps) {
         <ArrowDown />
         <InputContainer>
           <div>
-            <AssetIcon marginRight='8px' image={product.symbol} chain={product.networkAvailable} size={24} />
+            <AssetIcon marginRight='8px' image={product.symbolImage} chain={product.chains[0]} size={24}  altName={product.symbol}/>
             <span>{product.symbol}</span>
           </div>
           {quoteIsValidating ? (

@@ -3,7 +3,6 @@ import { BrlaBuyEthStep, kycIdVar, kycLevelVar, qrCodeVar, quoteVar, stepsContro
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductAsset } from '@/types/ProductAsset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -12,9 +11,10 @@ import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import { useAccount } from 'wagmi'
 import WrapProcessingStep from './WrapProcessingStep'
+import { Asset } from '@/types/Asset'
 
 interface ProcessingKycStepProps {
-  product: ProductAsset
+  product: Asset
 }
 
 export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
@@ -44,14 +44,14 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
   useEffect(() => {
     if (address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0) {
       setRampData({
-        chainId: product.ramp.bridge?.fromChainId ?? 1,
+        chainId: product.ramp[0].bridge?.fromChainId ?? 1,
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
         amount: Number(quote.amountBrl),
         accountAddress: address,
         receiverAddress: address,
-        convertToChainId: product.ramp.bridge?.toChainId,
-        convertToToken: product.ramp.bridge?.toToken
+        convertToChainId: product.ramp[0].bridge?.toChainId,
+        convertToToken: product.ramp[0].bridge?.toToken
       })
       return
     }
@@ -66,9 +66,7 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
     kycLevelInfo,
     kycActivity,
     isLoading,
-    product.ramp.bridge?.fromChainId,
-    product.ramp.bridge?.toChainId,
-    product.ramp.bridge?.toToken
+    product.ramp,
   ])
 
   useEffect(() => {
@@ -101,5 +99,5 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
     }
   ]
 
-  return <WrapProcessingStep product={product} validationSteps={validationSteps} title={t('v2.ramp.processingRegistration')} />
+  return <WrapProcessingStep asset={product} validationSteps={validationSteps} title={t('v2.ramp.processingRegistration')} />
 }

@@ -2,7 +2,6 @@ import { globalConfig } from '@/config/global'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import { BrlaBuyEthStep, changeWalletAddress, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductAsset } from '@/types/ProductAsset'
 import { useReactiveVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect } from 'react'
@@ -15,28 +14,29 @@ import KycStep from '../ramp/KycStep'
 import PaymentMethod from '../ramp/PaymentMethod'
 import ProcessingCheckoutStep from '../ramp/ProcessingCheckoutStep'
 import ProcessingKycStep from '../ramp/ProcessingKycStep'
-import QuotationOfRampStep from '../ramp/QuotationOfRamp'
+import QuotationOffRampStep from '../ramp/QuotationOffRamp'
 import QuotationStep from '../ramp/QuotationStep'
 import SuccessStep from '../ramp/SuccessStep'
 import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
 import ConnectWallet from '../shared/ConnectWallet'
+import { Asset } from '@/types/Asset'
 
-export default function AssetsBuyControl({ product }: { type: 'sell' | 'buy'; product: ProductAsset }) {
+export default function AssetsBuyControl({ asset }: { type: 'sell' | 'buy'; asset: Asset }) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
 
   const steps = {
-    MethodPayment: <PaymentMethod product={product} />,
-    Quotation: <QuotationStep product={product} />,
-    QuotationOfRamp: <QuotationOfRampStep product={product} />,
-    Kyc: <KycStep product={product} />,
+    MethodPayment: <PaymentMethod asset={asset} />,
+    Quotation: <QuotationStep product={asset} />,
+    QuotationOffRamp: <QuotationOffRampStep product={asset} />,
+    Kyc: <KycStep asset={asset} />,
     ConnectWallet: <ConnectWallet useModal />,
-    ProcessingKyc: <ProcessingKycStep product={product} />,
-    ProcessingCheckoutStep: <ProcessingCheckoutStep product={product} />,
-    Checkout: <CheckoutStep product={product} />,
-    TimeOutCheckout: <TimeOutCheckout asset={product} />,
-    Success: <SuccessStep product={product} />,
+    ProcessingKyc: <ProcessingKycStep product={asset} />,
+    ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} />,
+    Checkout: <CheckoutStep asset={asset} />,
+    TimeOutCheckout: <TimeOutCheckout asset={asset} />,
+    Success: <SuccessStep product={asset} />,
     error: <GenericErrorComponent />
   }
 

@@ -1,12 +1,11 @@
 import Modal from '@/components/shared/Modal'
-import { getAsset } from '@/config/product/asset'
 import { globalConfig } from '@/config/global'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
   changeWalletAddress,
   clearModal,
-  currentProductNameVar,
+  currentAssetNameVar,
   openBrlaModalVar,
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
@@ -24,30 +23,31 @@ import KycStep from './KycStep'
 import PaymentMethod from './PaymentMethod'
 import ProcessingCheckoutStep from './ProcessingCheckoutStep'
 import ProcessingKycStep from './ProcessingKycStep'
-import QuotationOfRampStep from './QuotationOfRamp'
+import QuotationOffRampStep from './QuotationOffRamp'
 import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
 import { TimeOutCheckout } from './TimeOutCheckout'
+import { getAssetById } from '@/config/product/asset'
 
 export default function BuyEthControlModal({ chainId }: { chainId: number }) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   // precisa remover isso
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId })
-  const currentProductName = useReactiveVar(currentProductNameVar)
-  const product = getAsset({ name: currentProductName })
+  const currentProductId = useReactiveVar(currentAssetNameVar)
+  const asset = getAssetById(currentProductId)
 
   const steps = {
-    MethodPayment: <PaymentMethod product={product} />,
-    Quotation: <QuotationStep product={product} />,
-    QuotationOfRamp: <QuotationOfRampStep product={product} />,
-    Kyc: <KycStep product={product} />,
+    MethodPayment: <PaymentMethod asset={asset} />,
+    Quotation: <QuotationStep product={asset} />,
+    QuotationOffRamp: <QuotationOffRampStep product={asset} />,
+    Kyc: <KycStep asset={asset} />,
     ConnectWallet: <ConnectWallet useModal />,
-    ProcessingKyc: <ProcessingKycStep product={product} />,
-    ProcessingCheckoutStep: <ProcessingCheckoutStep product={product} />,
-    Checkout: <CheckoutStep product={product} chainId={chainId} />,
-    TimeOutCheckout: <TimeOutCheckout asset={product} />,
-    Success: <SuccessStep product={product} />,
+    ProcessingKyc: <ProcessingKycStep product={asset} />,
+    ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} />,
+    Checkout: <CheckoutStep asset={asset} />,
+    TimeOutCheckout: <TimeOutCheckout asset={asset} />,
+    Success: <SuccessStep product={asset} />,
     error: <GenericErrorComponent />
   }
 
@@ -57,7 +57,7 @@ export default function BuyEthControlModal({ chainId }: { chainId: number }) {
     Success: t('v2.ramp.success'),
     MethodPayment: t('v2.ramp.provider')
   }
-  const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', product.symbol)
+  const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', asset.symbol)
   const { backendUrl } = globalConfig
 
   useEffect(() => {

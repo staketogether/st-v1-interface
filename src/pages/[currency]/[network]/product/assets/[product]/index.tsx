@@ -14,7 +14,7 @@ import { useEffect } from 'react'
 import { Asset } from '@/types/Asset'
 import { chainConfigByChainId } from '@/config/chain'
 import { assetsList } from '@/config/product/asset'
-import { MobulaMarketAsset } from '@/types/mobula-market-asset'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 
 export interface ProductProps {
   asset: Asset
@@ -44,7 +44,7 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
     <LayoutTemplate>
       <Metatags />
       <AssetsControl product={asset} assetData={assetData} chainId={chainId} type='buy' />
-      <BuyEthControlModal />
+      <BuyEthControlModal chainId={chainId}/>
     </LayoutTemplate>
   )
 }

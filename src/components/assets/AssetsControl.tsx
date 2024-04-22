@@ -1,4 +1,3 @@
- import { currentProductNameVar } from '@/hooks/ramp/useControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
@@ -13,9 +12,10 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
- import { Asset } from '@/types/Asset'
- import { chainConfigByChainId } from '@/config/chain'
- import { MobulaMarketAsset } from '@/types/mobula-market-asset'
+import { Asset } from '@/types/Asset'
+import { chainConfigByChainId } from '@/config/chain'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
+import { currentAssetNameVar } from '@/hooks/ramp/useControlModal'
 
 interface AssetsControlProps {
   product: Asset
@@ -26,7 +26,7 @@ interface AssetsControlProps {
 
 export default function AssetsControl({ product, assetData, chainId, type }: AssetsControlProps) {
   const { t } = useLocaleTranslation()
-  currentProductNameVar(product.id)
+  currentAssetNameVar(product.id)
   const { query } = useRouter()
   const { currency } = query
   const { chain: walletChainId, connector } = useAccount()
