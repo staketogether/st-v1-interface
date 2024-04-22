@@ -4,7 +4,8 @@ import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
   changeWalletAddress,
-  clearModal, rampAssetIdVar,
+  clearModal,
+  rampAssetIdVar,
   openBrlaModalVar,
   stepsControlBuyCryptoVar
 } from '@/hooks/ramp/useControlModal'
