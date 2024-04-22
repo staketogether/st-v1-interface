@@ -39,7 +39,7 @@ export const kycLevelVar = makeVar<KycLevelInfo | null>(null)
 export const kycIdVar = makeVar<string | null>(null)
 export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
 export const currentAssetNameVar = makeVar<AssetId>('eth-mainnet')
-export const currentAssetVar = makeVar<Asset>(getAssetById('eth-eth'))
+export const currentAssetVar = makeVar<Asset>(getAssetById('eth-mainnet'))
 
 export const clearModal = () => {
   qrCodeVar(null)
