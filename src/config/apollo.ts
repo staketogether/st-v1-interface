@@ -4,9 +4,6 @@ import { globalConfig } from './global'
 import { getStakingById } from '@/config/product/staking'
 import { StakingId } from '@/types/Staking'
 
-export const ethereumMainnetClient = getSubgraphClient({ stakingId: 'eth-staking' })
-export const ethereumOpClient = getSubgraphClient({ stakingId: 'eth-restaking' })
-
 export const stBackendClient = new ApolloClient({
   uri: globalConfig.backendSubgraph,
   ssrMode: typeof window === 'undefined',
@@ -47,23 +44,47 @@ export const contentfulClient = new ApolloClient({
   connectToDevTools: true
 })
 
-export function getSubgraphClient({ stakingId }: { stakingId: StakingId }) {
-  const staking = getStakingById(stakingId)
-
-  return new ApolloClient({
-    uri: staking.subgraph,
-    ssrMode: typeof window === 'undefined',
-    cache: new InMemoryCache({
-      typePolicies: {
-        Query: {
-          fields: {
-            pool: {
-              keyArgs: ['id', 'delegate_contains']
-            }
+const ethStaking = new ApolloClient({
+  uri: getStakingById('eth-staking').subgraph,
+  ssrMode: typeof window === 'undefined',
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          pool: {
+            keyArgs: ['id', 'delegate_contains']
           }
         }
       }
-    }),
-    connectToDevTools: true
-  })
+    }
+  }),
+  connectToDevTools: true
+})
+
+const ethRestaking = new ApolloClient({
+  uri: getStakingById('eth-restaking').subgraph,
+  ssrMode: typeof window === 'undefined',
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          pool: {
+            keyArgs: ['id', 'delegate_contains']
+          }
+        }
+      }
+    }
+  }),
+  connectToDevTools: true
+})
+
+export function getSubgraphClient({ stakingId }: { stakingId: StakingId }) {
+  const stakingClients = {
+    ['eth-staking']: ethStaking,
+    ['eth-restaking']: ethRestaking
+  }
+  return stakingClients[stakingId]
 }
+
+export const ethereumMainnetClient = getSubgraphClient({ stakingId: 'eth-staking' })
+export const ethereumOpClient = getSubgraphClient({ stakingId: 'eth-restaking' })

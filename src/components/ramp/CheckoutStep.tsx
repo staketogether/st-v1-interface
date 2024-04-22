@@ -73,7 +73,13 @@ export default function CheckoutStep({ asset }: CheckoutStepProps) {
     `
   }
 
-  useFacebookPixel('qrcode_pix')
+  useFacebookPixel(`onramp-checkout:${asset.id}`, !!qrCode, {
+    amountToken: parseFloat(quote?.amountToken ?? '0'),
+    amountFiat: parseFloat(quote?.amountBrl ?? '0'),
+    method: 'PIX',
+    assetId: asset.id
+  })
+
   return (
     <Container>
       <Body>

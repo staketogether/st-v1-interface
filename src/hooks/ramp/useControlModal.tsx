@@ -1,4 +1,3 @@
-import { getAssetById } from '@/config/product/asset'
 import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo'
 import { Asset, AssetId } from '@/types/Asset'
 import { Quote } from '@/types/quote.type'
@@ -38,8 +37,7 @@ export const qrCodeVar = makeVar<BuyRamp | null>(null)
 export const kycLevelVar = makeVar<KycLevelInfo | null>(null)
 export const kycIdVar = makeVar<string | null>(null)
 export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
-export const currentAssetNameVar = makeVar<AssetId>('eth-mainnet')
-export const currentAssetVar = makeVar<Asset>(getAssetById('eth-mainnet'))
+export const rampAssetIdVar = makeVar<AssetId>('eth-mainnet')
 
 export const clearModal = () => {
   qrCodeVar(null)
@@ -53,7 +51,7 @@ export const clearModal = () => {
 
 export const openQuoteEthModal = (asset: Asset) => {
   stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
-  currentAssetNameVar(asset.id)
+  rampAssetIdVar(asset.id)
   openBrlaModalVar(true)
 }
 
@@ -67,6 +65,6 @@ export const changeWalletAddress = () => {
 }
 
 export const openModal = (asset: Asset) => {
-  currentAssetNameVar(asset.id)
+  rampAssetIdVar(asset.id)
   openBrlaModalVar(true)
 }

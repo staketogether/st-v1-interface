@@ -105,7 +105,12 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
     })
   }, [quote])
 
-  useFacebookPixel('AdtoCart_pix')
+  useFacebookPixel(`offramp-quotation:${product.id}`, !!quote, {
+    amountToken: parseFloat(quote?.amountToken ?? '0'),
+    amountFiat: parseFloat(quote?.amountBrl ?? '0'),
+    method: 'PIX',
+    assetId: product.id
+  })
   return (
     <Container>
       <KycLevel amountValue={Number(debounceValue)} />

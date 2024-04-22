@@ -258,16 +258,23 @@ export default function KycStep({ asset }: KycStepProps) {
 
   const handleVerifyCpfOrCnpj = (value?: string): string => {
     if (!value) return ''
+
     if (chooseAccountType === TypeAccount.CPF && isValidCPF(value)) {
       return `${t('v2.createProject.formMessages.invalidCpf')}`
     }
+
     if (chooseAccountType === TypeAccount.CNPJ && isValidCNPJ(value)) {
       return t('v2.createProject.formMessages.invalidCnpj')
     }
+
     return ''
   }
 
-  useFacebookPixel('initiateCheckout_pix')
+  useFacebookPixel(`onramp-kyc:${asset.id}`, !!formData, {
+    assetId: asset.id,
+    kycLevel: 1,
+    email: String(formData?.email),
+  })
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>

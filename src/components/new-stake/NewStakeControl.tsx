@@ -62,7 +62,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
       placement: 'topRight'
     })
   }
-  useFacebookPixel(`pageview-${product.id}`)
+  useFacebookPixel(`pageview:asset_${product.id}`)
 
   return (
     <Container>
