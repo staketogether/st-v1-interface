@@ -1,6 +1,10 @@
+import { chainConfigByChainId } from '@/config/chain'
+import { currentAssetNameVar } from '@/hooks/ramp/useControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
+import { Asset } from '@/types/Asset'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 import { notification } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -12,10 +16,6 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
-import { Asset } from '@/types/Asset'
-import { chainConfigByChainId } from '@/config/chain'
-import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
-import { currentAssetNameVar } from '@/hooks/ramp/useControlModal'
 
 interface AssetsControlProps {
   product: Asset
@@ -56,13 +56,13 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
   return (
     <Container>
       <header>
-        <HeaderBackAction href={`/${currency as string}/assets`}>
+        <HeaderBackAction href={`/${currency as string}/crypto`}>
           <PiArrowLeft />
           <span>{t('goToBack')}</span>
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={chainId}/>
+            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={chainId} />
             {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
