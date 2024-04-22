@@ -1,5 +1,4 @@
 import { chainConfigByChainId } from '@/config/chain'
-import { getStakingProduct } from '@/config/products/staking'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -7,7 +6,6 @@ import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio
 import { Delegation } from '@/types/Delegation'
 import { UpdateDelegationForm } from '@/types/UpdateDelegation'
 import { Progress, Slider } from 'antd'
-import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { PiArrowCounterClockwise, PiPlusBold, PiQuestion } from 'react-icons/pi'
 import styled, { useTheme } from 'styled-components'
@@ -20,6 +18,8 @@ import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import ListProjectModal from './ListProjectModal'
 import ReviewUpdateDelegationsRequest from './ReviewUpdateDelegationsRequest'
+import { getStakingById } from '@/config/product/staking'
+import { ethers } from 'ethers'
 
 interface UpdateDelegationsModalProps {
   accountDelegations: Delegation[]
@@ -35,10 +35,10 @@ export default function UpdateDelegationsModal({
 }: UpdateDelegationsModalProps) {
   const [delegationForm, setDelegationForm] = useState<UpdateDelegationForm[]>([])
   const theme = useTheme()
-  const product = getStakingProduct({ name: productSelected })
+  const staking = getStakingById(productSelected)
 
   const { chain: walletChainId } = useAccount()
-  const isWrongNetwork = product.chainIdNetworkAvailable !== walletChainId?.id
+  const isWrongNetwork = !staking.asset.chains.includes(walletChainId?.id ?? 0)
 
   useEffect(() => {
     function handleFormValue(value: Delegation) {
@@ -94,7 +94,8 @@ export default function UpdateDelegationsModal({
   } = useUpdateDelegations(
     isEnabled,
     updateDelegationsFormat.filter(pool => pool.percentage > 0n),
-    product,
+    staking,
+    staking.asset.chains[0],
     userAccount
   )
 
@@ -156,7 +157,7 @@ export default function UpdateDelegationsModal({
 
   const disabledButton = prepareTransactionIsError || !isEnabled
 
-  const { name } = chainConfigByChainId(product.chainIdNetworkAvailable)
+  const { name } = chainConfigByChainId(staking.asset.chains[0])
   const handleLabelButton = () => {
     if (isWrongNetwork) {
       return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
@@ -170,7 +171,7 @@ export default function UpdateDelegationsModal({
   const { switchChain } = useSwitchChain()
   const handleUpdateDelegationButton = () => {
     if (isWrongNetwork && switchChain) {
-      switchChain({ chainId: product.chainIdNetworkAvailable })
+      switchChain({ chainId: staking.asset.chains[0] })
       return
     }
     updateDelegations()
@@ -192,7 +193,7 @@ export default function UpdateDelegationsModal({
               (isSuccess && `${t('v2.updateDelegations.transactionMessages.successful')}`) ||
               `${t('v2.updateDelegations.transactionMessages.transactionLoading')}`
             }
-            chainId={product.chainIdNetworkAvailable}
+            chainId={staking.asset.chains[0]}
             isLoading={isLoadingTransaction}
             isSuccess={isSuccess}
             txHash={txHash}

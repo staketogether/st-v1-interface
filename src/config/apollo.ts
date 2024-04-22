@@ -1,90 +1,11 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core'
 import { setContext } from '@apollo/client/link/context'
 import { globalConfig } from './global'
-import { getStakingSubgraph } from './products/staking'
+import { getStakingById } from '@/config/product/staking'
+import { StakingId } from '@/types/Staking'
 
-const ethereumMainnetSubgraph = getStakingSubgraph({ name: 'ethereum-stake', isTestnet: false })
-const ethereumTestnetSubgraph = getStakingSubgraph({ name: 'ethereum-stake', isTestnet: true })
-const ethereumMainnetRestaking = getStakingSubgraph({
-  name: 'ethereum-restaking',
-  isTestnet: false
-})
-const ethereumTestnetRestaking = getStakingSubgraph({
-  name: 'ethereum-restaking',
-  isTestnet: true
-})
-
-export const ethereumMainnetClient = new ApolloClient({
-  uri: ethereumMainnetSubgraph,
-  ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          pool: {
-            keyArgs: ['id', 'delegate_contains']
-          }
-        }
-      }
-    }
-  }),
-
-  connectToDevTools: true
-})
-
-export const ethereumTestnetClient = new ApolloClient({
-  uri: ethereumTestnetSubgraph,
-  ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          pool: {
-            keyArgs: ['id', 'delegate_contains']
-          }
-        }
-      }
-    }
-  }),
-
-  connectToDevTools: true
-})
-
-export const ethereumRestakingMainnetClient = new ApolloClient({
-  uri: ethereumMainnetRestaking,
-  ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          pool: {
-            keyArgs: ['id', 'delegate_contains']
-          }
-        }
-      }
-    }
-  }),
-
-  connectToDevTools: true
-})
-
-export const ethereumRestakingTestnetClient = new ApolloClient({
-  uri: ethereumTestnetRestaking,
-  ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          pool: {
-            keyArgs: ['id', 'delegate_contains']
-          }
-        }
-      }
-    }
-  }),
-
-  connectToDevTools: true
-})
+export const ethereumMainnetClient = getSubgraphClient({ stakingId: 'eth-staking' })
+export const ethereumOpClient = getSubgraphClient({ stakingId: 'eth-restaking' })
 
 export const stBackendClient = new ApolloClient({
   uri: globalConfig.backendSubgraph,
@@ -126,20 +47,23 @@ export const contentfulClient = new ApolloClient({
   connectToDevTools: true
 })
 
-export function getSubgraphClient({ name, isTestnet }: { name: string; isTestnet: boolean }) {
-  const clientList = {
-    'ethereum-stake': isTestnet ? ethereumTestnetClient : ethereumMainnetClient,
-    'ethereum-restaking': isTestnet ? ethereumRestakingTestnetClient : ethereumRestakingMainnetClient,
-    polygon: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    solana: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    celestia: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    cosmos: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    near: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    polkadot: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    chiliz: isTestnet ? ethereumTestnetClient : ethereumTestnetClient,
-    bitcoin: isTestnet ? ethereumTestnetClient : ethereumTestnetClient
-  }
+export function getSubgraphClient({ stakingId }: { stakingId: StakingId }) {
+  const staking = getStakingById(stakingId)
 
-  const client = clientList[name as keyof typeof clientList]
-  return client
+  return new ApolloClient({
+    uri: staking.subgraph,
+    ssrMode: typeof window === 'undefined',
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            pool: {
+              keyArgs: ['id', 'delegate_contains']
+            }
+          }
+        }
+      }
+    }),
+    connectToDevTools: true
+  })
 }

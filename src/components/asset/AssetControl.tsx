@@ -1,36 +1,27 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductAsset } from '@/types/ProductAsset'
-import { ProductStaking } from '@/types/ProductStaking'
+import { Asset, AssetCategory } from '@/types/Asset'
 import styled from 'styled-components'
-import TokensCardContainer from './TokensCardContainer'
-import TokensAssetCardContainer from './TokensAssetCardContainer'
+import AssetCard from './AssetCard'
 
-interface TokensControlProps {
-  productsList: ProductStaking[] | ProductAsset[]
-  type: 'staking' | 'assets'
+interface TokenControlProps {
+  assetsList: Asset[]
+  category: AssetCategory
 }
 
-export default function TokensControl({ type, productsList }: TokensControlProps) {
+export default function AssetControl({ assetsList, category }: TokenControlProps) {
   const { t } = useLocaleTranslation()
-
-  const title = type === 'staking' ? 'v2.staking.title' : 'v2.assets.title'
-  const description = type === 'staking' ? 'v2.staking.description' : 'v2.assets.description'
 
   return (
     <Container>
       <Title>
-        <h1>{t(title)}</h1>
-        <h2>{t(description)}</h2>
+        <h1>{t(`v3.pages.${category}.title`)}</h1>
+        <h2>{t(`v3.pages.${category}.description`)}</h2>
       </Title>
       <Products>
         <nav>
-          {productsList.map(product =>
-            type === 'staking' ? (
-              <TokensCardContainer product={product as ProductStaking} key={product.id} />
-            ) : (
-              <TokensAssetCardContainer product={product as ProductAsset} key={product.id} />
-            )
-          )}
+          {assetsList.map(asset => (
+            <AssetCard asset={asset} key={asset.id} />
+          ))}
         </nav>
       </Products>
     </Container>

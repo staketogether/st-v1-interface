@@ -1,9 +1,10 @@
-import { currentProductNameVar } from '@/hooks/ramp/useControlModal'
+import { chainConfigByChainId } from '@/config/chain'
+import { currentAssetNameVar } from '@/hooks/ramp/useControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
-import { ProductAsset } from '@/types/ProductAsset'
-import { ProductMarketAssetData } from '@/types/ProductStaking'
+import { Asset } from '@/types/Asset'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 import { notification } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -17,21 +18,22 @@ import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
 
 interface AssetsControlProps {
-  product: ProductAsset
-  assetData: ProductMarketAssetData
+  product: Asset
+  assetData: MobulaMarketAsset
   chainId: number
   type: 'buy' | 'sell' | 'swap'
 }
 
 export default function AssetsControl({ product, assetData, chainId, type }: AssetsControlProps) {
   const { t } = useLocaleTranslation()
-  currentProductNameVar(product.name)
+  currentAssetNameVar(product.id)
   const { query } = useRouter()
   const { currency } = query
   const { chain: walletChainId, connector } = useAccount()
 
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
+  const config = chainConfigByChainId(chainId)
 
   useEffect(() => {
     if (isWrongNetwork && connector && connector.name === 'Web3Auth') {
@@ -49,19 +51,19 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
       placement: 'topRight'
     })
   }
-  useFacebookPixel(product.eventsTrack.pageView)
+  useFacebookPixel(`pageview-${product.id}`)
 
   return (
     <Container>
       <header>
-        <HeaderBackAction href={`/${currency as string}/assets`}>
+        <HeaderBackAction href={`/${currency as string}/crypto`}>
           <PiArrowLeft />
           <span>{t('goToBack')}</span>
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <AssetIcon assetIcon={product.name} size={36} />
-            {t(`v2.products.${product.name}`)}
+            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={chainId} />
+            {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
@@ -69,8 +71,8 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
           </div>
           <div>
             <span>{t('v2.ethereumStaking.networkAvailable')}</span>
-            <NetworkIcons network={product.networkAvailable} size={16} />
-            <span>{capitalize(product.networkAvailable.replaceAll('-', ' '))}</span>
+            <NetworkIcons network={config.name.toLowerCase()} size={16} />
+            <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
           </div>
         </HeaderProductMobile>
       </header>

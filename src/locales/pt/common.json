@@ -662,16 +662,16 @@
       }
     },
     "staking": {
-      "title": "Staking",
+      "title": "Ativos de Staking",
       "description": "Invista em Infraestrutura com Rendimentos Sustentáveis"
     },
     "assets": {
-      "title": "Criptomoedas",
-      "description": "Invista nas Melhores Criptomoedas para o seu Portfólio"
+      "title": "Ativos de Criptomoedas",
+      "description": "Invista nas melhores criptomoedas para o seu portfólio de investimentos"
     },
     "products": {
-      "ethereum-stake": "Staking de Ethereum",
-      "ethereum-restaking": "Restaking de Ethereum ",
+      "eth-staking": "Staking de Ethereum",
+      "eth-restaking": "Restaking de Ethereum ",
       "celestia": "Staking de Celestia",
       "polygon": "Staking de Polygon ",
       "solana": "Staking de Solana",
@@ -681,9 +681,9 @@
       "productNotAvailable": "Produto Indisponivel",
       "bitcoin": "Staking de Bitcoin",
       "chiliz": "Staking de Chiliz",
-      "btc": "Bitcoin",
-      "eth": "Ethereum",
-      "eth-optimism": "Ethereum"
+      "btc-op": "Bitcoin",
+      "eth-mainnet": "Ethereum",
+      "eth-op": "Ethereum"
     },
     "notifyBar": {
       "incentives": {
@@ -706,7 +706,7 @@
       "orUseThePixKey": "Ou use a Chave Pix",
       "cancelDeposit": "Cancelar Depósito",
       "copyQrCode": "Copiar código do QR Code",
-      "yourEths": "Seus SYMBOL estarão na sua conta em",
+      "yourEths": "Seus ETH estarão na sua conta em",
       "timeReceive": "até 30 minutos",
       "exchange": "Câmbio",
       "networkFee": "Taxa de rede",
@@ -762,9 +762,9 @@
       "highestValueWeeks": "Maior Valor em 52 semanas",
       "eigenPointTooltip": "Ao fazer Staking você acumula pontos no protocolo Eigen Layer, que futuramente poderá lançar token e você pode receber parte desses tokens",
       "togetherPoints": "Ao fazer Staking você acumula pontos no protocolo Stake Togetherque futuramente poderá lançar token e você pode receber parte desses tokens",
-      "restakingDescription": "ReStaking de Ethereum: Potencialize a Eficiência do Seu Staking. Experimente o próximo nível de staking de Ethereum com nossa solução de ReStaking, que combina o protocolo Stake Together com a tecnologia Eigen Layer. Amplie o potencial do seu Ethereum usando-o como garantia na Eigen Layer, contribuindo para os serviços da rede e ganhando renda de fontes diversificadas. Nossa plataforma simplifica seu processo de staking, proporcionando uma abordagem mais eficaz e lucrativa para garantir a segurança da rede e obter recompensas. Mergulhe no ReStaking com Ethereum hoje e comece a aproveitar os rendimentos combinados.",
-      "btc": "Explore o potencial do Bitcoin, o maior ativo digital do mercado. Nossa plataforma oferece uma maneira eficiente e segura de investir em Bitcoin, aproveitando tecnologias avançadas para garantir transações rápidas e com baixo custo. Aumente seu portfólio com o ativo que tem liderado a revolução financeira digital.",
-      "eth": "Explore Ethereum, one of the leading blockchain platforms that supports not only a digital currency but also a wide array of decentralized applications. Invest in Ethereum through our platform and benefit from swift transactions, reduced costs, and the opportunity to engage with smart contracts and innovative applications. Step forward into the digital revolution with Ethereum.",
+      "restakingDescription": "Restaking de Ethereum: Potencialize a Eficiência do Seu Staking. Experimente o próximo nível de staking de Ethereum com nossa solução de ReStaking, que combina o protocolo Stake Together com a tecnologia Eigen Layer. Amplie o potencial do seu Ethereum usando-o como garantia na Eigen Layer, contribuindo para os serviços da rede e ganhando renda de fontes diversificadas. Nossa plataforma simplifica seu processo de staking, proporcionando uma abordagem mais eficaz e lucrativa para garantir a segurança da rede e obter recompensas. Mergulhe no ReStaking com Ethereum hoje e comece a aproveitar os rendimentos combinados.",
+      "btc": "Bitcoin",
+      "eth": "Ethereum",
       "actions": {
         "invest": "Investir",
         "withdraw": "Resgatar",
@@ -776,5 +776,46 @@
   "soon": "Em Breve",
   "new": "Novo",
   "share": "Compartilhar",
-  "offramp": "Em breve você vai poder vender seus ETH por aqui. Aguarde."
+  "offramp": "Em breve você vai poder vender seus ETH por aqui. Aguarde.",
+  "v3": {
+    "pages": {
+      "staking": {
+        "title": "Staking",
+        "description": "Invista em Infraestrutura com Rendimentos Sustentáveis"
+      },
+      "crypto": {
+        "title": "Criptomoedas",
+        "description": "Invista nas Principais Criptomoedas do Mercado"
+      },
+      "stable": {
+        "title": "Stablecoins",
+        "description": "Invista nas Moedas Estáveis de Maior Liquidez"
+      },
+      "fan": {
+        "title": "Fan Tokens",
+        "description": "Invista no seu Time do Coração"
+      },
+      "meme": {
+        "title": "Memecoins",
+        "description": "Invista em moedas de alto risco e alto retorno"
+      }
+    },
+    "products": {
+      "eth-mainnet": {
+        "name": "Ethereum"
+      },
+      "eth-op": {
+        "name": "Ethereum"
+      },
+      "btc-op": {
+        "name": "Bitcoin"
+      },
+      "eth-staking": {
+        "name": "Staking de Ethereum"
+      },
+      "eth-restaking": {
+        "name": "Restaking de Ethereum"
+      }
+    }
+  }
 }

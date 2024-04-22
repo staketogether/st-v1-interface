@@ -1,39 +1,41 @@
-import NewStakeControl from '@/components/new-stake/NewStakeControl'
 import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { stakingList } from '@/config/products/staking'
 import { fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
-import { ProductMarketAssetData, ProductStaking } from '@/types/ProductStaking'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { chainConfigByChainId } from '@/config/chain'
+import { Asset } from '@/types/Asset'
+import { assetsList } from '@/config/product/asset'
+import AssetsControl from '@/components/assets/AssetsControl'
+import { MobulaMarketAsset, MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
 
 export interface ProductProps {
-  product: ProductStaking
-  assetData: ProductMarketAssetData
+  product: Asset
+  assetData: MobulaMarketAsset
   chainId: number
 }
 
 export default function Product({ product, assetData, chainId }: ProductProps) {
   const router = useRouter()
-  const minAmount = product.asset.ramp.minDeposit
+  const minAmount = product.ramp[0].minDeposit
+  const config = chainConfigByChainId(product.chains[0])
   const { onInit: buyCrypto } = useTransak({
     productsAvailed: 'BUY',
-    network: product.networkAvailable
+    network: config.name.toLowerCase()
   })
 
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
       fiatAmountVar(router.query?.amount?.toString() ?? minAmount.toString())
       //TROCAR PARA O PRODUTO CORRETO
-      const asset = product.asset
-      openQuoteEthModal(asset)
+      openQuoteEthModal(product)
     } else if (router.query.payment === 'credit') {
       buyCrypto()
     }
@@ -42,37 +44,33 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <NewStakeControl type='deposit' product={product} assetData={assetData} chainId={chainId} />
-      <BuyEthControlModal />
+      <AssetsControl product={product} assetData={assetData} chainId={chainId} type='buy' />
+      <BuyEthControlModal chainId={chainId}/>
     </LayoutTemplate>
   )
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
   const paths = [
-    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'btc' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'btc' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'btc' } },
-
-    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'eth' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'eth' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'eth' } }
+    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'btc-op' } },
+    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'eth-op' } },
+    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'eth-mainnet' } },
   ]
 
   return { paths, fallback: 'blocking' }
 }
 
-async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<ProductMarketAssetData> {
+async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaMarketAsset> {
   const { backendUrl } = globalConfig
-  return axios
-    .get<ProductMarketAssetData>(`${backendUrl}/api/${uri}`, {
+  const marketData = await axios
+    .get<MobulaMarketAssetResponse>(`${backendUrl}/api/${uri}`, {
       params: {
         asset,
         blockchain,
         symbol
       }
     })
-    .then(res => res.data)
+   return marketData.data.data
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
@@ -81,7 +79,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     product: string
   }
 
-  const productSelected = stakingList.find(item => item.name === product)
+  const productSelected = assetsList.find(item => item.id === product)
 
   const chainId = handleChainIdByNetwork(network)
 
@@ -93,9 +91,9 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   const assetData = await fetchProductAssetData(
     'mobula/market-asset-data',
-    productSelected.asset.mobula.asset,
-    productSelected.asset.mobula.blockchain,
-    productSelected.asset.mobula.symbol
+    productSelected.mobula.asset,
+    productSelected.mobula.blockchain,
+    productSelected.mobula.symbol
   )
 
   if (!assetData) {

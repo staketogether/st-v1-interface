@@ -1,5 +1,5 @@
 import { quoteVar } from '@/hooks/ramp/useControlModal'
-import { ProductAsset } from '@/types/ProductAsset'
+import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
 import brla from '@assets/images/BRLA.svg'
 import Image from 'next/image'
@@ -8,10 +8,10 @@ import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 
 interface SwapInfoProps {
-  product: ProductAsset
+  asset: Asset
 }
 
-export default function SwapInfo({ product }: SwapInfoProps) {
+export default function SwapInfo({ asset }: SwapInfoProps) {
   const quote = useReactiveVar(quoteVar)
   return (
     <Container>
@@ -25,8 +25,8 @@ export default function SwapInfo({ product }: SwapInfoProps) {
       <PiArrowRight size={24} />
       <SwapToken className='left'>
         <div>
-          <AssetIcon assetIcon={product.symbol} networkIcon={product.networkAvailable} size={16} />
-          <span>{product.symbol}</span>
+          <AssetIcon image={asset.symbolImage} chain={asset.chains[0]} size={16} altName={asset.symbol} />
+          <span>{asset.symbol}</span>
         </div>
         <span>{quote?.amountToken}</span>
       </SwapToken>

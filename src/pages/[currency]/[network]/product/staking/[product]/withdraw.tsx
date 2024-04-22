@@ -3,29 +3,33 @@ import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { stakingList } from '@/config/products/staking'
 import { fiatAmountVar, openBrlaModalVar } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
-import { ProductMarketAssetData, ProductStaking } from '@/types/ProductStaking'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { Staking } from '@/types/Staking'
+import { MobulaAsset } from '@/types/MobulaAsset'
+import { chainConfigByChainId } from '@/config/chain'
+import { stakingList } from '@/config/product/staking'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 
 export interface HomeProps {
-  product: ProductStaking
-  assetData: ProductMarketAssetData
+  product: Staking
+  assetData: MobulaMarketAsset
   chainId: number
 }
 
 export default function Home({ product, assetData, chainId }: HomeProps) {
   const router = useRouter()
   const minAmount = '100'
+  const config = chainConfigByChainId(chainId)
   const { onInit: buyCrypto } = useTransak({
     productsAvailed: 'BUY',
-    network: product.networkAvailable
+    network: config.name.toLowerCase()
   })
 
   useEffect(() => {
@@ -41,7 +45,7 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
     <LayoutTemplate>
       <Metatags />
       <NewStakeControl type='withdraw' product={product} assetData={assetData} chainId={chainId} />
-      <BuyEthControlModal />
+      <BuyEthControlModal chainId={chainId}/>
     </LayoutTemplate>
   )
 }
@@ -60,10 +64,10 @@ export const getStaticPaths: GetStaticPaths = () => {
   return { paths, fallback: 'blocking' }
 }
 
-async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<ProductMarketAssetData> {
+async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaAsset> {
   const { backendUrl } = globalConfig
   return axios
-    .get<ProductMarketAssetData>(`${backendUrl}/api/${uri}`, {
+    .get<MobulaAsset>(`${backendUrl}/api/${uri}`, {
       params: {
         asset,
         blockchain,
@@ -77,7 +81,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const { product, network } = params as { network: AllowedNetworks; currency: string; product: string }
 
   const chainId = handleChainIdByNetwork(network)
-  const findProduct = stakingList.find(item => item.name === product)
+  const findProduct = stakingList.find(item => item.id === product)
 
   if (!findProduct || !chainId) {
     return {

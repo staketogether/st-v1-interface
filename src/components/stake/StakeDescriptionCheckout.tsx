@@ -1,36 +1,33 @@
-import { chainConfigByChainId } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
 import { stakeTogetherAbi } from '@/types/Contracts'
-import { ProductStaking } from '@/types/ProductStaking'
 import { WithdrawType } from '@/types/Withdraw'
 import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useReadContract } from 'wagmi'
 import TooltipComponent from '../shared/TooltipComponent'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import { Staking } from '@/types/Staking'
 
 interface StakeDescriptionCheckoutProps {
   type: 'deposit' | 'withdraw'
   youReceiveDeposit: bigint
   amount: string
   withdrawTypeSelected: WithdrawType
-  product: ProductStaking
+  product: Staking
   chainId: number
 }
 
 export default function StakeDescriptionCheckout({
-  type,
-  youReceiveDeposit,
-  amount,
-  withdrawTypeSelected,
-  product,
-  chainId
-}: StakeDescriptionCheckoutProps) {
+                                                   type,
+                                                   youReceiveDeposit,
+                                                   amount,
+                                                   withdrawTypeSelected,
+                                                   product
+                                                 }: StakeDescriptionCheckoutProps) {
   const { t } = useLocaleTranslation()
 
-  const { isTestnet } = chainConfigByChainId(chainId)
-  const stakeTogetherContract = product.contracts[isTestnet ? 'testnet' : 'mainnet'].StakeTogether
+  const stakeTogetherContract = product.contracts.StakeTogether
 
   const { data: feeData, isFetching } = useReadContract({
     address: stakeTogetherContract,
@@ -59,7 +56,9 @@ export default function StakeDescriptionCheckout({
         {type === 'withdraw' && (
           <span>
             <span className='blue'>{` ${truncateDecimal(amount, 6) || '0'} `}</span>
-            <span className='blue'>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>
+            <span className='blue'>{` ${
+              withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
+            }`}</span>
           </span>
         )}
       </div>
@@ -80,8 +79,11 @@ export default function StakeDescriptionCheckout({
         )}
         {type === 'withdraw' && (
           <span>
-            <span className='purple'>1</span> <span className='purple'>{product.symbol}</span> =<span className='blue'>1</span>
-            <span className='blue'>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>
+            <span className='purple'>1</span> <span className='purple'>{product.symbol}</span> =
+            <span className='blue'>1</span>
+            <span className='blue'>{` ${
+              withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
+            }`}</span>
           </span>
         )}
       </div>

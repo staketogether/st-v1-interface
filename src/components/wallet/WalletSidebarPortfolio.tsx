@@ -4,7 +4,6 @@ import useWalletSidebar from '@/hooks/useWalletSidebar'
 import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import { truncateWei } from '@/services/truncate'
 import { Delegation } from '@/types/Delegation'
-import { ProductStaking } from '@/types/ProductStaking'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiPen } from 'react-icons/pi'
@@ -13,10 +12,11 @@ import { formatNumberByLocale } from '../../services/format'
 import Button from '../shared/Button'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
+import { Staking } from '@/types/Staking'
 
 interface WalletSidebarPortfolioProps {
   accountDelegations: Delegation[]
-  product: ProductStaking
+  product: Staking
 }
 
 export default function WalletSidebarPortfolio({ accountDelegations, product }: WalletSidebarPortfolioProps) {
@@ -29,7 +29,7 @@ export default function WalletSidebarPortfolio({ accountDelegations, product }: 
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
-  const stakeTogetherPool = product.stakeTogetherPool.mainnet
+  const stakeTogetherPool = product.stakeTogetherPool
 
   return (
     <Container>
@@ -42,8 +42,8 @@ export default function WalletSidebarPortfolio({ accountDelegations, product }: 
         const poolMetadata = handleMetadataPools(delegation.delegated.address)
         const urlRedirect =
           stakeTogetherPool?.toLowerCase() === delegation.delegated.address.toLowerCase()
-            ? `${product.urlRedirect}`
-            : `${product.urlRedirect.replace('currency', currency)}?projectAddress=${delegation.delegated.address}`
+            ? `${product.url}`
+            : `${product.url.replace('currency', currency)}?projectAddress=${delegation.delegated.address}`
         return (
           <DelegatedPool key={index} href={urlRedirect} onClick={() => setOpenSidebar(false)}>
             <div>

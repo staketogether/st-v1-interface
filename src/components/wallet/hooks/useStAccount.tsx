@@ -1,5 +1,4 @@
 import { getSubgraphClient } from '@/config/apollo'
-import { chainConfigByChainId } from '@/config/chain'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
 import { AccountActivity } from '@/types/AccountActivity'
@@ -12,11 +11,11 @@ import { Delegation } from '../../../types/Delegation'
 
 interface useStAccountProps {
   address?: `0x${string}`
-  productName: string
+  productName: 'eth-staking' | 'eth-restaking'
   chainId: number
 }
 
-export default function useStAccount({ address, productName, chainId }: useStAccountProps) {
+export default function useStAccount({ address, productName }: useStAccountProps) {
   const [account, setAccount] = useState<Account | undefined>(undefined)
   const [accountActivities, setAccountActivities] = useState<AccountActivity[]>([])
   const [accountRewards, setAccountRewards] = useState<AccountReward[]>([])
@@ -29,8 +28,7 @@ export default function useStAccount({ address, productName, chainId }: useStAcc
   const [accountTotalRewards, setAccountTotalRewards] = useState<bigint>(0n)
   const [accountProfitPercentage, setAccountProfitPercentage] = useState<bigint>(0n)
   const [accountShare, setAccountShare] = useState<bigint>(0n)
-  const { isTestnet } = chainConfigByChainId(chainId)
-  const client = getSubgraphClient({ name: productName, isTestnet })
+  const client = getSubgraphClient({ stakingId: productName })
 
   const { data: accountData, loading } = useQuery<{ account: Account }>(queryAccount, {
     variables: { id: address?.toLowerCase() },

@@ -1,5 +1,3 @@
-import chainConfig from '@/config/chain'
-import { getStakingContracts } from '@/config/products/staking'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import stSymbol from '@assets/st-symbol.svg'
@@ -7,6 +5,7 @@ import { Tooltip } from 'antd'
 import Image from 'next/image'
 import { PiPlusBold } from 'react-icons/pi'
 import styled from 'styled-components'
+import { getStakingById } from '@/config/product/staking'
 
 interface StpEthIconProps {
   size?: number
@@ -15,12 +14,9 @@ interface StpEthIconProps {
 /**
  * @deprecated
  */
-export default function StpEthIcon({ size = 32, showPlusIcon }: StpEthIconProps) {
-  const { isTestnet } = chainConfig()
-  const { StakeTogether } = getStakingContracts({
-    name: 'ethereum-stake',
-    isTestnet
-  })
+export default function StpethIcon({ size = 32, showPlusIcon }: StpEthIconProps) {
+  const { StakeTogether } = getStakingById('eth-staking').contracts
+
   const { addToWalletAction } = useAddSethToWallet({ productSymbol: 'stpETH', contractAddress: StakeTogether })
   const { t } = useLocaleTranslation()
   return (

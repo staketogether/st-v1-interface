@@ -1,7 +1,8 @@
+import { chainConfigByChainId } from '@/config/chain'
 import { BrlaBuyEthStep, openBrlaModalVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useTransak from '@/hooks/useTransak'
-import { ProductAsset } from '@/types/ProductAsset'
+import { Asset } from '@/types/Asset'
 import CreditCard from '@assets/images/master-visa.svg'
 import Pix from '@assets/images/pix-full.svg'
 import Image from 'next/image'
@@ -10,14 +11,16 @@ import styled from 'styled-components'
 import Button from '../shared/Button'
 
 interface PaymentMethodProps {
-  product: ProductAsset
+  asset: Asset
 }
 
-export default function PaymentMethod({ product }: PaymentMethodProps) {
+export default function PaymentMethod({ asset }: PaymentMethodProps) {
+  const [networkAvailable] = asset.chains
+  const chain = chainConfigByChainId(networkAvailable)
   const { t } = useLocaleTranslation()
   const { onInit, isClosed } = useTransak({
     productsAvailed: 'BUY',
-    network: product.networkAvailable
+    network: chain.name
   })
 
   const handlePix = () => {
@@ -34,8 +37,7 @@ export default function PaymentMethod({ product }: PaymentMethodProps) {
     }
   }, [isClosed])
 
-  const isBtc = product.symbol === 'wBTC'
-  if (isBtc) {
+  if (asset.symbol === 'wBtc') {
     handlePix()
   }
 

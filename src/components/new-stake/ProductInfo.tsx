@@ -3,7 +3,6 @@ import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
-import { ProductMarketAssetData, ProductStaking } from '@/types/ProductStaking'
 import { Tooltip, notification } from 'antd'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
@@ -12,29 +11,30 @@ import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
+import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
+import { Staking } from '@/types/Staking'
 
 interface ProductInfoProps {
-  product: ProductStaking
-  assetData: ProductMarketAssetData
+  product: Staking
+  assetData: MobulaMarketAsset
   chainId: number
 }
 
-const TokensShowValuePrice = dynamic(() => import('../shared/StakingShowValuePrice'), {
+const TokensShowValuePrice = dynamic(() => import('../shared/AssetPrice'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} />,
   suspense: true
 })
 
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
-  const { isTestnet } = chainConfigByChainId(chainId)
+  const config = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
-  const stakeTogetherContractAddress = !isTestnet
-    ? product.contracts.mainnet.StakeTogether
-    : product.contracts.testnet.StakeTogether || `0x`
+  const stakeTogetherContractAddress = product.contracts.StakeTogether
   const router = useRouter()
+
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
 
@@ -50,8 +50,8 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon assetIcon={product.name} size={36} />
-            {t(`v2.products.${product.name}`)}
+            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={chainId} />
+            {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
@@ -59,8 +59,8 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           </div>
           <div>
             <span>{t('v2.ethereumStaking.networkAvailable')}</span>
-            <NetworkIcons network={product.networkAvailable} size={16} />
-            <span>{capitalize(product.networkAvailable.replaceAll('-', ' '))}</span>
+            <NetworkIcons network={config.name.toLowerCase()} size={16} />
+            <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
           </div>
         </HeaderProduct>
 
@@ -71,14 +71,14 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <TokensShowValuePrice product={product} type='staking' className='CoinValue' />
+              <TokensShowValuePrice asset={product.asset} className='CoinValue' />
               <span className='apy'>{`APY ${product.apy}%`}</span>
             </div>
           </SymbolContainer>
           <RewardsPointsContainer>
             <span>{t('v2.ethereumStaking.myRewardsPoints')}</span>
 
-            {product.eigenPointsAvailable && (
+            {product.points.elPoints && (
               <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
                 <TagPointsContainer>
                   Eigen
@@ -86,41 +86,43 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
                 </TagPointsContainer>
               </Tooltip>
             )}
-            <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
-              <TagPointsContainer className='purple'>
-                Together
-                <div>0.0</div>
-              </TagPointsContainer>
-            </Tooltip>
+            {product.points.stPoints && (
+              <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
+                <TagPointsContainer className='purple'>
+                  Together
+                  <div>0.0</div>
+                </TagPointsContainer>
+              </Tooltip>
+            )}
           </RewardsPointsContainer>
         </HeaderDescribeInfo>
       </header>
-      <TradingViewComponent tradingView={product.tradingView} />
+      <TradingViewComponent tradingView={product.asset.tradingView} />
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>
           <div>
             <span>{t('v2.ethereumStaking.marketCap')}</span>
-            <span className='valueItem'>{`${handleQuotePrice(assetData?.data?.market_cap || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.market_cap || 0)}`}</span>
           </div>
           <div>
             <span>Volume</span>
-            <span className='valueItem'>{`${handleQuotePrice(assetData?.data?.volume || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.volume || 0)}`}</span>
           </div>
           <div>
             <span>{t('v2.ethereumStaking.priceChange')}</span>
-            <span className='valueItem'>{`${assetData?.data?.price_change_1y.toFixed(2)}%`}</span>
+            <span className='valueItem'>{`${assetData?.price_change_1y.toFixed(2)}%`}</span>
           </div>
         </StatisticContainer>
       </ProductBodyContainer>
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.description')}</h2>
-        <span>{t(`v2.ethereumStaking.${product.description}`)}</span>
+        <span>{t(`v2.ethereumStaking.${product.localeDescription}`)}</span>
       </ProductBodyContainer>
 
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.contractAddress')}</h2>
-        <a className='copy' href={`${product.scan}/address/${stakeTogetherContractAddress}`} target='_blank'>
+        <a className='copy' href={`${config.blockExplorer.baseUrl}/address/${stakeTogetherContractAddress}`} target='_blank'>
           {stakeTogetherContractAddress} <PiArrowUpRight style={{ fontSize: 16 }} />
         </a>
       </ProductBodyContainer>

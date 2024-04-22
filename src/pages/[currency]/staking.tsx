@@ -1,20 +1,20 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
-import TokensControl from '@/components/tokens/TokensControl'
-import { stakingList } from '@/config/products/staking'
-import { ProductStaking } from '@/types/ProductStaking'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { stakingList } from '@/config/product/staking'
+import StakingControl from '@/components/staking/StakingControl'
+import { Staking } from '@/types/Staking'
 
 interface StakingProps {
-  productList: ProductStaking[]
+  stakingItems: Staking[]
 }
 
-export default function Staking({ productList }: StakingProps) {
+export default function StakingPage({ stakingItems }: StakingProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <TokensControl type='staking' productsList={productList} />
+      <StakingControl stakingList={stakingItems} />
     </LayoutTemplate>
   )
 }
@@ -33,7 +33,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      productList: stakingList,
+      stakingItems: stakingList,
       ...(await serverSideTranslations(locale ?? 'en', ['common']))
     },
     revalidate: 24 * 60 * 60

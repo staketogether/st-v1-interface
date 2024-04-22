@@ -1,7 +1,5 @@
 import ProjectCreateModal from '@/components/project/ProjectCreateModal'
-import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
-import { stakingList } from '@/config/products/staking'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -32,11 +30,6 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
   const { locale } = useRouter()
 
   const date = new Date()
-  const { blockExplorer, isTestnet } = chainConfig()
-  const productEthereum = stakingList.find(product => product.name === 'ethereum-stake')
-  const staketogetherContractAddress = !isTestnet
-    ? productEthereum?.contracts.mainnet.StakeTogether
-    : productEthereum?.contracts.testnet.StakeTogether ?? `0x`
   const { websiteUrl, auditUrl } = globalConfig
   const documentationUrl = locale ? (locale === 'en' ? globalConfig.docsEn : globalConfig.docsPt) : globalConfig.docsEn
 
@@ -71,9 +64,6 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
           </TopContainer>
           <FooterContainer>
             <FooterContent>
-              <a href={`${blockExplorer.baseUrl}/address/${staketogetherContractAddress}`} target='_blank'>
-                {t('footer.smartContract')} <PiArrowSquareOut />
-              </a>
               <a href={auditUrl} target='_blank'>
                 {t('footer.audit')} <PiArrowSquareOut />
               </a>
