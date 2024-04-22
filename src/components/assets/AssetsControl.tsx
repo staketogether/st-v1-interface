@@ -51,7 +51,7 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
       placement: 'topRight'
     })
   }
-  useFacebookPixel(`pageview-${product.id}`)
+  useFacebookPixel(`pageview:asset_${product.id}`)
 
   return (
     <Container>

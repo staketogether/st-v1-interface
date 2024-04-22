@@ -17,7 +17,12 @@ export default function SuccessStep({ product }: SuccessStepProps) {
   const quote = useReactiveVar(quoteVar)
 
   const exchange = (Number(quote?.amountBrl) / Number(quote?.amountToken)).toFixed(2)
-  useFacebookPixel('purchase_ether')
+  useFacebookPixel(`onramp-success:${product.id}`, !!quote, {
+    amountToken: parseFloat(quote?.amountToken ?? '0'),
+    amountFiat: parseFloat(quote?.amountBrl ?? '0'),
+    method: 'PIX',
+    assetId: product.id
+  })
   return (
     <Container>
       <LottieAnimation animationData={successAnimation} height={80} />

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-export const useFacebookPixel = (eventTrack: string, isTracked = true) => {
+export const useFacebookPixel = (eventTrack: string, isTracked = true, eventData?: Record<string, string | number>) => {
   useEffect(() => {
     function fbqTrackEvent() {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -8,11 +8,11 @@ export const useFacebookPixel = (eventTrack: string, isTracked = true) => {
       if ((window as Window).fbq !== undefined) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
-        window.fbq('track', eventTrack)
+        window.fbq('track', eventTrack, eventData)
       }
     }
     if (isTracked) {
       fbqTrackEvent()
     }
-  }, [eventTrack, isTracked])
+  }, [eventData, eventTrack, isTracked])
 }

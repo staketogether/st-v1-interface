@@ -54,10 +54,20 @@ export default function StakeTransactionLoading({
   const { addToWalletAction: addStwEthToWalletAction } = useAddStwEthToWallet()
 
   useFacebookPixel(
-    `confirmation-${product.id}`,
-    walletActionLoading && !transactionLoading && !transactionIsSuccess && !isWithdraw
+    `deposit-confirmation:${product.id}`,
+    walletActionLoading && !transactionLoading && !transactionIsSuccess && !isWithdraw,
+    {
+      value: parseFloat(truncateWei(youReceive, 6)),
+      stakingId: product.id
+    }
   )
-  useFacebookPixel(`success-${product.id}`, transactionIsSuccess && !isWithdraw)
+
+  useFacebookPixel(`deposit-success:${product.id}`, transactionIsSuccess && !isWithdraw, {
+    value: parseFloat(truncateWei(youReceive, 6)),
+    stakingId: product.id,
+    txHash: String(txHash)
+  })
+
   return (
     <Container>
       {transactionIsSuccess ? (
