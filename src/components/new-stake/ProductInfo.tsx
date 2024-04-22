@@ -49,7 +49,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon image={product.id} size={36} altName={product.id} chain={chainId} />
+            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={chainId} />
             {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />

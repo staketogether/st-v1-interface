@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import styled from 'styled-components'
 import { Asset } from '@/types/Asset'
+import { ethMainnet } from '@/config/product/asset'
 
 interface EthereumInputProps {
   ethAmountValue: string
@@ -73,7 +74,7 @@ export default function AssetInput({
       </div>
       <div>
         <CoinActionContainer>
-          <AssetIcon image={productAsset.symbol ?? 'ethereum'} chain={productAsset.chains[0]} size={32}  altName={productAsset.symbol}/>
+          <AssetIcon image={productAsset.symbolImage ?? ethMainnet.symbolImage} chain={productAsset.chains[0]} size={32} altName={productAsset.symbol}/>
           <span className='max' onClick={onMaxFunction}>
             MAX
           </span>

@@ -5,7 +5,7 @@ import ethIcon from '@assets/network/ethereum.svg'
 import { Chain } from '../chain'
 import { btcOpMobula, ethEthMobula, ethOpMobula } from '@/config/mobula'
 
-export const ethEth: Asset = {
+export const ethMainnet: Asset = {
   id: 'eth-mainnet',
   order: 1,
   symbol: 'ETH',
@@ -120,7 +120,7 @@ export const btcOp: Asset = {
   ]
 }
 
-export const assetsList: Asset[] = [ethEth, ethOp, btcOp]
+export const assetsList: Asset[] = [ethMainnet, ethOp, btcOp]
 
 export function getAssetsByCategory(category: AssetCategory): Asset[] {
   return assetsList

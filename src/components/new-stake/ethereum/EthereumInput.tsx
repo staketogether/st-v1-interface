@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import styled from 'styled-components'
 import { Staking } from '@/types/Staking'
+import { ethMainnet } from '@/config/product/asset'
 
 interface EthereumInputProps {
   ethAmountValue: string
@@ -78,7 +79,7 @@ export default function EthereumInput({
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <AssetIcon altName={product.id} image='ethereum' chain={product.asset.chains[0]} size={32} />
+            <AssetIcon altName={product.id} image={ethMainnet.symbolImage} chain={product.asset.chains[0]} size={32} />
           ) : (
             <TokensSymbolIcons productSymbol={product.symbol} size={32} />
           )}

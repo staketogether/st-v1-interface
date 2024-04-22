@@ -73,7 +73,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <AssetIcon image={product.id} size={36} chain={chainId} altName={product.id} />
+            <AssetIcon image={product.symbolImage} size={36} chain={chainId} altName={product.id} />
             {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />

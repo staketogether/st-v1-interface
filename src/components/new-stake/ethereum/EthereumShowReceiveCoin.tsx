@@ -47,7 +47,7 @@ export default function EthereumShowReceiveCoin({
               <TokensSymbolIcons productSymbol={product.symbol} size={32} showPlusIcon contractAddress={stakeTogetherContractAddress} />
             </>
           ) : (
-            <AssetIcon altName={product.id} image='ethereum' chain={product.asset.chains[0]} size={32} />
+            <AssetIcon altName={product.id} image={product.symbolImage} chain={product.asset.chains[0]} size={32} />
           )}
           <span>{type === 'deposit' ? product.symbol : t('eth.symbol')}</span>
         </CoinActionContainer>

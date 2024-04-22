@@ -97,7 +97,7 @@ export default function StakeTransactionLoading({
               </div>
               <ArrowIcon fontSize={18} />
               <div>
-                <AssetIcon altName={product.id} chain={product.asset.chains[0]} size={32} image='ethereum' />
+                <AssetIcon altName={product.id} chain={product.asset.chains[0]} size={32} image={product.symbolImage} />
                 <span>{`${truncateWei(youReceive, 6)}`}</span>
                 <span>
                   {` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}
@@ -107,7 +107,7 @@ export default function StakeTransactionLoading({
           ) : (
             <>
               <div>
-                <AssetIcon image='ethereum' altName={product.id} chain={product.asset.chains[0]} size={32} />
+                <AssetIcon image={product.symbolImage} altName={product.id} chain={product.asset.chains[0]} size={32} />
                 <span>{`${amount}`}</span>
                 <span> {t('eth.symbol')}</span>
               </div>

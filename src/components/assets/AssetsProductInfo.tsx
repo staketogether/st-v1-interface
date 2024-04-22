@@ -39,7 +39,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon image={product.id} size={36} altName={product.id} chain={product.chains[0]}/>
+            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={product.chains[0]}/>
             {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
@@ -79,7 +79,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
           </div>
           <div>
             <span>{t('v2.ethereumStaking.priceChange')}</span>
-            <span className='valueItem'>{`${assetData?.price_change_1y.toFixed(2)}%`}</span>
+            <span className='valueItem'>{`${assetData?.price_change_1y?.toFixed(2)}%`}</span>
           </div>
         </StatisticContainer>
       </ProductBodyContainer>

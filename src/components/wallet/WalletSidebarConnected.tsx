@@ -34,7 +34,7 @@ import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
 import useStAccount from './hooks/useStAccount'
-import { btcOp, ethEth, ethOp } from '@/config/product/asset'
+import { btcOp, ethMainnet, ethOp } from '@/config/product/asset'
 import { ethRestaking, ethStaking, stakingList } from '@/config/product/staking'
 import { StakingId } from '@/types/Staking'
 
@@ -58,7 +58,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { locale } = useRouter()
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
-  const { mobula } = ethEth
+  const { mobula } = ethMainnet
   const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: mainnet.id })
   const formattedEthBalance = formatNumberByLocale(truncateWei(ethBalance, 6), locale)
   const { priceConvertedValue: usdEthBalance, price: usdEthBalancePriceNotFormatted } = useCoinConversion(
@@ -186,7 +186,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const products = stakingList.filter(product => product.enabled)
 
-  console.log('products', products)
   const selectProductOptions = products.map(product => {
     return {
       value: product.id,
@@ -282,7 +281,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon image={ethEth.symbolImage} chain={ethEth.chains[0]} size={24} altName='Ethereum' />
+                    <AssetIcon image={ethMainnet.symbolImage} chain={ethMainnet.chains[0]} size={24} altName='Ethereum' />
                   </div>
                   <div>
                     <span>{` ${t('eth.symbol')}`}</span>

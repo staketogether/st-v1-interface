@@ -1,10 +1,10 @@
 import ethIcon from '@assets/network/ethereum.svg'
 import restakingIcon from '@assets/assets/restaking.svg'
-import { ethEth, ethOp } from '@/config/product/asset'
+import { ethMainnet, ethOp } from '@/config/product/asset'
 import { Staking } from '@/types/Staking'
 
 export const ethStaking: Staking = {
-  asset: ethEth,
+  asset: ethMainnet,
   enabled: true,
   listed: false,
   new: false,

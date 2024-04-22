@@ -648,8 +648,8 @@
       "description": "Invest in the best Cryptocurrencies for your portfolio"
     },
     "products": {
-      "ethereum-stake": "Ethereum Staking",
-      "ethereum-restaking": "Ethereum Restaking ",
+      "eth-staking": "Ethereum Staking",
+      "eth-restaking": "Ethereum Restaking ",
       "celestia": "Celestia Staking",
       "polygon": "Polygon Staking",
       "solana": "Solana Staking",
@@ -659,9 +659,9 @@
       "productNotAvailable": "Product not available",
       "bitcoin": "Bitcoin Staking",
       "chiliz": "Chiliz Staking",
-      "btc": "Bitcoin",
-      "eth": "Ethereum",
-      "eth-optimism": "Ethereum"
+      "btc-op": "Bitcoin",
+      "eth-mainnet": "Ethereum",
+      "eth-op": "Ethereum"
     },
     "notifyBar": {
       "incentives": {
