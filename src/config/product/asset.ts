@@ -6,12 +6,12 @@ import { Chain } from '../chain'
 import { btcOpMobula, ethEthMobula, ethOpMobula } from '@/config/mobula'
 
 export const ethEth: Asset = {
-  id: 'eth-eth',
+  id: 'eth-mainnet',
   order: 1,
   symbol: 'ETH',
   isTestnet: false,
   symbolImage: ethIcon,
-  url: '/currency/product/eth',
+  url: '/currency/ethereum/product/assets/eth-mainnet',
   category: AssetCategory.Crypto,
   chains: [Chain.ETH_MAINNET],
   localeDescription: 'eth',
@@ -46,7 +46,7 @@ export const ethOp: Asset = {
   symbolImage: ethIcon,
   localeDescription: 'eth',
   isTestnet: false,
-  url: '/currency/product/eth-op',
+  url: '/currency/optimism/product/assets/eth-op',
   category: AssetCategory.Crypto,
   chains: [Chain.OP_MAINNET],
   listed: true,
@@ -85,7 +85,7 @@ export const btcOp: Asset = {
   symbol: 'wBTC',
   symbolImage: btcIcon,
   isTestnet: false,
-  url: '/currency/product/wbtc-op',
+  url: '/currency/optimism/product/assets/btc-op',
   category: AssetCategory.Crypto,
   localeDescription: 'btc',
   chains: [Chain.OP_MAINNET],

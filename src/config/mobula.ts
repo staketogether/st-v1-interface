@@ -1,7 +1,7 @@
 import { MobulaAsset } from '@/types/MobulaAsset'
 
 export const ethEthMobula: MobulaAsset = {
-  id: 'eth-eth',
+  id: 'eth-mainnet',
   asset: 'Ethereum',
   blockchain: 'ethereum',
   symbol: 'eth',

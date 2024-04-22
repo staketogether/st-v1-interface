@@ -670,8 +670,8 @@
       "description": "Invista nas melhores criptomoedas para o seu portfólio de investimentos"
     },
     "products": {
-      "ethereum-stake": "Staking de Ethereum",
-      "ethereum-restaking": "Restaking de Ethereum ",
+      "eth-staking": "Staking de Ethereum",
+      "eth-restaking": "Restaking de Ethereum ",
       "celestia": "Staking de Celestia",
       "polygon": "Staking de Polygon ",
       "solana": "Staking de Solana",
@@ -681,9 +681,9 @@
       "productNotAvailable": "Produto Indisponivel",
       "bitcoin": "Staking de Bitcoin",
       "chiliz": "Staking de Chiliz",
-      "btc": "Bitcoin",
-      "eth": "Ethereum",
-      "eth-optimism": "Ethereum"
+      "btc-op": "Bitcoin",
+      "eth-mainnet": "Ethereum",
+      "eth-op": "Ethereum"
     },
     "notifyBar": {
       "incentives": {
@@ -801,7 +801,7 @@
       }
     },
     "products": {
-      "eth-eth": {
+      "eth-mainnet": {
         "name": "Ethereum"
       },
       "eth-op": {

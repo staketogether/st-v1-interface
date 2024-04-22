@@ -19,7 +19,7 @@ export const ethStaking: Staking = {
     elPoints: false
   },
   localeDescription: 'ethereumDescription',
-  url: '/currency/product/eth-staking',
+  url: '/currency/ethereum/product/staking/eth-staking',
   apy: 5.7,
   contracts: {
     Airdrop: '0x0d6aa18d513dE2173Faf8618669Ec072d23aa0CE',
@@ -38,7 +38,7 @@ export const ethRestaking: Staking = {
   symbol: 'strETH',
   symbolImage: restakingIcon,
   logoImage: restakingIcon,
-  url: '/currency/product/eth-restaking',
+  url: '/currency/optimism/product/staking/eth-restaking',
   listed: true,
   isTestnet: false,
   enabled: true,
