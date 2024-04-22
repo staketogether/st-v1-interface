@@ -37,6 +37,7 @@ import useStAccount from './hooks/useStAccount'
 import { btcOp, ethMainnet, ethOp } from '@/config/product/asset'
 import { ethRestaking, ethStaking, stakingList } from '@/config/product/staking'
 import { StakingId } from '@/types/Staking'
+import { btcOpMobula } from '@/config/mobula'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -88,7 +89,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const { priceConvertedValue: usdOptimismWbtcBalance, price: usdOptimismWbtcBalanceNotFormatted } = useCoinConversion(
     formattedOptimistWbtcBalance,
-    ethOpMobula.filter
+    btcOpMobula.filter
   )
 
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
@@ -150,8 +151,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   }
 
-  const { accountDelegations, accountRewards, accountActivities, accountShare } =
-    stAccount[productTabSelected]
+  const { accountDelegations, accountRewards, accountActivities, accountShare } = stAccount[productTabSelected]
 
   const usdTotalBalance = handleQuotePrice(
     Number(usdStpEthBalanceNotFormatted) +
@@ -191,7 +191,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       value: product.id,
       label: (
         <ProductSelectCard>
-          <AssetIcon image={product.symbolImage} size={24} altName={product.id} chain={product.asset.chains[0]} />
+          <AssetIcon image={product.logoImage} size={24} altName={product.id} chain={product.asset.chains[0]} />
           <span>{t(`v3.products.${product.id}.name`)}</span>
         </ProductSelectCard>
       )
