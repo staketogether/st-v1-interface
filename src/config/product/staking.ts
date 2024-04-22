@@ -2,6 +2,8 @@ import ethIcon from '@assets/network/ethereum.svg'
 import restakingIcon from '@assets/assets/restaking.svg'
 import { ethMainnet, ethOp } from '@/config/product/asset'
 import { Staking } from '@/types/Staking'
+import stIcon from '@assets/st-symbol.svg'
+import stpRETHIcon from '@assets/stpRETHIcon.svg'
 
 export const ethStaking: Staking = {
   asset: ethMainnet,
@@ -11,7 +13,7 @@ export const ethStaking: Staking = {
   id: 'eth-staking',
   order: 4,
   symbol: 'stpETH',
-  symbolImage: ethIcon,
+  symbolImage: stIcon,
   logoImage: ethIcon,
   isTestnet: false,
   points: {
@@ -36,7 +38,7 @@ export const ethRestaking: Staking = {
   id: 'eth-restaking',
   order: 5,
   symbol: 'strETH',
-  symbolImage: restakingIcon,
+  symbolImage: stpRETHIcon,
   logoImage: restakingIcon,
   url: '/currency/optimism/product/staking/eth-restaking',
   listed: true,
@@ -64,7 +66,7 @@ export const ethRestaking: Staking = {
 export const stakingList: Staking[] = [ethStaking, ethRestaking]
 
 export function getStakingById(id: string): Staking {
-  const staking = stakingList.find((s) => s.id === id)
+  const staking = stakingList.find(s => s.id === id)
 
   if (!staking) {
     throw new Error(`Staking with id ${id} not found`)
