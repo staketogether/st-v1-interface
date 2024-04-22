@@ -150,8 +150,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   }
 
-  const { accountDelegations, accountRewards, accountActivities, accountShare } =
-    stAccount[productTabSelected]
+  const { accountDelegations, accountRewards, accountActivities, accountShare } = stAccount[productTabSelected]
 
   const usdTotalBalance = handleQuotePrice(
     Number(usdStpEthBalanceNotFormatted) +
@@ -191,7 +190,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       value: product.id,
       label: (
         <ProductSelectCard>
-          <AssetIcon image={product.symbolImage} size={24} altName={product.id} chain={product.asset.chains[0]} />
+          <AssetIcon image={product.logoImage} size={24} altName={product.id} chain={product.asset.chains[0]} />
           <span>{t(`v3.products.${product.id}.name`)}</span>
         </ProductSelectCard>
       )
