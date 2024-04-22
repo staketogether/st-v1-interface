@@ -14,7 +14,7 @@ interface StpEthIconProps {
 /**
  * @deprecated
  */
-export default function StpEthIcon({ size = 32, showPlusIcon }: StpEthIconProps) {
+export default function StpethIcon({ size = 32, showPlusIcon }: StpEthIconProps) {
   const { StakeTogether } = getStakingById('eth-staking').contracts
 
   const { addToWalletAction } = useAddSethToWallet({ productSymbol: 'stpETH', contractAddress: StakeTogether })
