@@ -37,6 +37,7 @@ import useStAccount from './hooks/useStAccount'
 import { btcOp, ethMainnet, ethOp } from '@/config/product/asset'
 import { ethRestaking, ethStaking, stakingList } from '@/config/product/staking'
 import { StakingId } from '@/types/Staking'
+import { btcOpMobula } from '@/config/mobula'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -88,7 +89,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const { priceConvertedValue: usdOptimismWbtcBalance, price: usdOptimismWbtcBalanceNotFormatted } = useCoinConversion(
     formattedOptimistWbtcBalance,
-    ethOpMobula.filter
+    btcOpMobula.filter
   )
 
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
