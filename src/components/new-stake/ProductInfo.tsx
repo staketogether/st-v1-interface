@@ -34,6 +34,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
   const stakeTogetherContractAddress = product.contracts.StakeTogether
   const router = useRouter()
+
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
 
