@@ -1,20 +1,20 @@
+import AssetsControl from '@/components/assets/AssetsControl'
 import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
+import { chainConfigByChainId } from '@/config/chain'
 import { globalConfig } from '@/config/global'
-import { fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import { assetsList } from '@/config/product/asset'
+import { BrlaBuyEthStep, fiatAmountVar, openQuoteEthModal, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
+import { Asset } from '@/types/Asset'
+import { MobulaMarketAsset, MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { chainConfigByChainId } from '@/config/chain'
-import { Asset } from '@/types/Asset'
-import { assetsList } from '@/config/product/asset'
-import AssetsControl from '@/components/assets/AssetsControl'
-import { MobulaMarketAsset, MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
 
 export interface ProductProps {
   product: Asset
@@ -26,6 +26,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
   const router = useRouter()
   const minAmount = product.ramp[0].minDeposit
   const config = chainConfigByChainId(product.chains[0])
+  stepsControlBuyCryptoVar(BrlaBuyEthStep.QuotationOffRamp)
   const { onInit: buyCrypto } = useTransak({
     productsAvailed: 'BUY',
     network: config.name.toLowerCase()
@@ -44,8 +45,8 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <AssetsControl product={product} assetData={assetData} chainId={chainId} type='buy' />
-      <BuyEthControlModal chainId={chainId}/>
+      <AssetsControl product={product} assetData={assetData} chainId={chainId} type='sell' />
+      <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )
 }
@@ -70,7 +71,7 @@ async function fetchProductAssetData(uri: string, asset: string, blockchain: str
         symbol
       }
     })
-   return marketData.data.data
+  return marketData.data.data
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {

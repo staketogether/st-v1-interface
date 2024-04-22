@@ -4,10 +4,8 @@ import { BrlaBuyEthStep, changeWalletAddress, stepsControlBuyCryptoVar } from '@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
-import axios from 'axios'
 import { useEffect } from 'react'
 import styled from 'styled-components'
-import { SWRConfig } from 'swr'
 import { useAccount } from 'wagmi'
 import CheckoutStep from '../ramp/CheckoutStep'
 import GenericErrorComponent from '../ramp/GenericErrorComponent'
@@ -21,7 +19,7 @@ import SuccessStep from '../ramp/SuccessStep'
 import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
 import ConnectWallet from '../shared/ConnectWallet'
 
-export default function AssetsBuyControl({ asset }: { type: 'sell' | 'buy'; asset: Asset }) {
+export default function AssetsBuyControl({ asset }: { type: 'buy' | 'sell' | 'swap'; asset: Asset }) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
@@ -68,26 +66,12 @@ export default function AssetsBuyControl({ asset }: { type: 'sell' | 'buy'; asse
   }, [address])
 
   return (
-    <SWRConfig
-      value={{
-        refreshInterval: 0,
-        revalidateOnMount: true,
-        revalidateIfStale: true,
-        revalidateOnFocus: true,
-        revalidateOnReconnect: true,
-        errorRetryCount: 100,
-        shouldRetryOnError: true,
-        fetcher: (uri: string) =>
-          axios.get(`${backendUrl}/${uri}`).then(res => {
-            return res.data as string
-          })
-      }}
-    >
-      <Container>
-        {title && <h2>{title}</h2>}
-        {steps[currentStep]}
-      </Container>
-    </SWRConfig>
+
+    <Container>
+      {title && <h2>{title}</h2>}
+      {steps[currentStep]}
+    </Container>
+
   )
 }
 

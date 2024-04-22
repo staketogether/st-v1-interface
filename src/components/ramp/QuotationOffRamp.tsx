@@ -8,10 +8,12 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
+import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import brlBrla from '@assets/icons/brl-brla.svg'
+import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowRight } from 'react-icons/pi'
@@ -20,7 +22,6 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import AssetInput from '../assets/AssetsInput'
 import { KycLevel } from './KycLevel'
-import { Asset } from '@/types/Asset'
 
 interface QuotationOffRampStepProps {
   product: Asset
@@ -28,8 +29,12 @@ interface QuotationOffRampStepProps {
 
 export default function QuotationOffRampStep({ product }: QuotationOffRampStepProps) {
   const fiatAmount = useReactiveVar(fiatAmountVar)
-  const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
-  const debounceValue = useDebounce(value, 300)
+  const [value, setValue] = useState<number | string>(0)
+  console.log({
+    value,
+    fiatAmount
+  })
+  const debounceValue = useDebounce(ethers.parseUnits(`${value}`, product.decimals), 300)
   const { account } = useConnectedAccount()
   const minDeposit = product.ramp[0].minDeposit
   const { balance: ethBalance, isLoading: ethBalanceLoading } = useEthBalanceOf({
@@ -37,10 +42,9 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
     chainId: product.chains[0],
     token: product.contractAddress
   })
-
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
-    debounceValue ? Number(debounceValue) : 0,
+    debounceValue,
     product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
     1,
     ProviderType.brla,
@@ -55,7 +59,7 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
   const { t } = useLocaleTranslation()
   const limit = Number(debounceValue) * 100 >= Number(kycLevelInfo?.limits.limitSwapBuy ?? 0)
   const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
-  const errorMinValue = BigInt(debounceValue) < minDeposit
+  const errorMinValue = debounceValue
   const handleChange = (v: string) => {
     if (v.includes(',')) {
       v = v.replace(',', '.')
@@ -64,6 +68,11 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
     if (!v || regex.test(v)) {
       if (v.length > 19 + v.split('.')[0].length) return
 
+      const newValue = ethers.parseUnits(v, product.decimals).toString()
+      console.log({
+        v,
+        newValue
+      })
       setValue(v)
       fiatAmountVar(v)
     }
@@ -88,9 +97,9 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
       return `${t('v2.stake.depositErrorMessage.DepositLimitReached')}`
     }
 
-    if (BigInt(debounceValue) < minDeposit) {
-      return `${t('v2.stake.minAmount')} R$${minDeposit}`
-    }
+    // if (BigInt(debounceValue) < minDeposit) {
+    //   return `${t('v2.stake.minAmount')} R$${minDeposit}`
+    // }
 
     return t('next')
   }
@@ -138,7 +147,7 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
       <QuotationStepEthAmount product={product} />
       <Button
         onClick={handleNext}
-        disabled={BigInt(debounceValue) < minDeposit || error || quoteIsValidating || !quote?.amountBrl}
+        disabled={false}
         label={handleLabelButton()}
         icon={!error && !errorMinValue && <PiArrowRight />}
       />

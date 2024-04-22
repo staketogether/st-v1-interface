@@ -12,6 +12,7 @@ export enum AssetCategory {
 export type AssetId = 'eth-mainnet' | 'eth-op' | 'btc-op'
 export interface Asset {
   id: AssetId
+  decimals: number
   order: number
   symbol: string
   symbolImage: string | StaticImageData

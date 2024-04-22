@@ -2,19 +2,19 @@ import AssetsControl from '@/components/assets/AssetsControl'
 import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
+import { chainConfigByChainId } from '@/config/chain'
 import { globalConfig } from '@/config/global'
-import { fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import { assetsList } from '@/config/product/asset'
+import { clearModal, fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
+import { Asset } from '@/types/Asset'
+import { MobulaMarketAsset, MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { Asset } from '@/types/Asset'
-import { chainConfigByChainId } from '@/config/chain'
-import { assetsList } from '@/config/product/asset'
-import { MobulaMarketAsset, MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
 
 export interface ProductProps {
   asset: Asset
@@ -30,8 +30,8 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
     productsAvailed: 'BUY',
     network: config.name.toLowerCase()
   })
+  clearModal()
 
-    console.log('asset', assetData)
 
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
@@ -46,7 +46,7 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
     <LayoutTemplate>
       <Metatags />
       <AssetsControl product={asset} assetData={assetData} chainId={chainId} type='buy' />
-      <BuyEthControlModal chainId={chainId}/>
+      <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )
 }
@@ -71,7 +71,7 @@ async function fetchProductAssetData(uri: string, asset: string, blockchain: str
         symbol
       }
     })
-   return marketData.data.data
+  return marketData.data.data
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {

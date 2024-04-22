@@ -2,12 +2,13 @@ import { Asset, AssetCategory } from '@/types/Asset'
 import btcIcon from '@assets/assets/bitcoin.svg'
 import ethIcon from '@assets/network/ethereum.svg'
 
-import { Chain } from '../chain'
 import { btcOpMobula, ethEthMobula, ethOpMobula } from '@/config/mobula'
+import { Chain } from '../chain'
 
 export const ethMainnet: Asset = {
   id: 'eth-mainnet',
   order: 1,
+  decimals: 18,
   symbol: 'ETH',
   isTestnet: false,
   symbolImage: ethIcon,
@@ -42,6 +43,7 @@ export const ethMainnet: Asset = {
 export const ethOp: Asset = {
   id: 'eth-op',
   order: 2,
+  decimals: 18,
   symbol: 'ETH',
   symbolImage: ethIcon,
   localeDescription: 'eth',
@@ -82,6 +84,7 @@ export const ethOp: Asset = {
 export const btcOp: Asset = {
   id: 'btc-op',
   order: 3,
+  decimals: 8,
   symbol: 'wBTC',
   symbolImage: btcIcon,
   isTestnet: false,

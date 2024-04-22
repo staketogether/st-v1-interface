@@ -1,10 +1,9 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Tooltip } from 'antd'
+import { Asset } from '@/types/Asset'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import AssetsBuyControl from './AssetsBuyControl'
-import { Asset } from '@/types/Asset'
 
 interface AssetsActionsControlProps {
   type: 'buy' | 'sell' | 'swap'
@@ -15,7 +14,6 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
-
   return (
     <EthereumContainer>
       <header>
@@ -24,26 +22,18 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
             <li className={`${type === 'buy' && 'activated'}`}>
               <Link href={product.url.replace('currency', currency)}>{t('buy')}</Link>
             </li>
-            <Tooltip title={t('soon')}>
-              <li className={`${type === 'sell' && 'activated'} disabled`}>
-                <Link href={`${product.url.replace('currency', currency)}/withdraw`}>{t('sell')}</Link>
-              </li>
-            </Tooltip>
+
+            <li className={`${type === 'sell' && 'activated'}`}>
+              <Link href={`${product.url.replace('currency', currency)}/sell`}>{t('sell')}</Link>
+            </li>
+
           </ul>
         </nav>
       </header>
       <div>
-        {type === 'buy' && (
-          <BuyAssetContainer>
-            <AssetsBuyControl type={type} asset={product} />
-          </BuyAssetContainer>
-        )}
-        {type === 'sell' && (
-          <BuyAssetContainer>
-            <AssetsBuyControl type={type} asset={product} />
-          </BuyAssetContainer>
-        )}
-        {type === 'sell' && <div>sell</div>}
+        <BuyAssetContainer>
+          <AssetsBuyControl type={type} asset={product} />
+        </BuyAssetContainer>
       </div>
     </EthereumContainer>
   )
