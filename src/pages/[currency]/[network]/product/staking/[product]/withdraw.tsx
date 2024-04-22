@@ -12,10 +12,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { Staking } from '@/types/Staking'
-import { MobulaAsset } from '@/types/MobulaAsset'
 import { chainConfigByChainId } from '@/config/chain'
 import { stakingList } from '@/config/product/staking'
-import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
+import { MobulaMarketAsset, MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
 
 export interface HomeProps {
   product: Staking
@@ -45,36 +44,34 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
     <LayoutTemplate>
       <Metatags />
       <NewStakeControl type='withdraw' product={product} assetData={assetData} chainId={chainId} />
-      <BuyEthControlModal chainId={chainId}/>
+      <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
   const paths = [
-    { params: { network: 'ethereum', currency: 'usd', type: 'staking', product: 'ethereum-stake' } },
-    { params: { network: 'ethereum', currency: 'brl', type: 'staking', product: 'ethereum-stake' } },
-    { params: { network: 'ethereum', currency: 'eur', type: 'staking', product: 'ethereum-stake' } },
+    { params: { network: 'ethereum', currency: 'usd', type: 'staking', product: 'eth-staking' } },
+    { params: { network: 'ethereum', currency: 'brl', type: 'staking', product: 'eth-staking' } },
+    { params: { network: 'ethereum', currency: 'eur', type: 'staking', product: 'eth-staking' } },
 
-    { params: { network: 'optimism', currency: 'usd', type: 'staking', product: 'ethereum-restaking' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'staking', product: 'ethereum-restaking' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'staking', product: 'ethereum-restaking' } }
+    { params: { network: 'optimism', currency: 'usd', type: 'staking', product: 'eth-restaking' } },
+    { params: { network: 'optimism', currency: 'brl', type: 'staking', product: 'eth-restaking' } },
+    { params: { network: 'optimism', currency: 'eur', type: 'staking', product: 'eth-restaking' } }
   ]
 
   return { paths, fallback: 'blocking' }
 }
-
-async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaAsset> {
+async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaMarketAsset> {
   const { backendUrl } = globalConfig
-  return axios
-    .get<MobulaAsset>(`${backendUrl}/api/${uri}`, {
-      params: {
-        asset,
-        blockchain,
-        symbol
-      }
-    })
-    .then(res => res.data)
+  const marketData = await axios.get<MobulaMarketAssetResponse>(`${backendUrl}/api/${uri}`, {
+    params: {
+      asset,
+      blockchain,
+      symbol
+    }
+  })
+  return marketData.data.data
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
