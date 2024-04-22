@@ -1,5 +1,5 @@
 import { chainConfigByChainId } from '@/config/chain'
-import { currentAssetNameVar } from '@/hooks/ramp/useControlModal'
+import { rampAssetIdVar } from '@/hooks/ramp/useControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
@@ -26,7 +26,7 @@ interface AssetsControlProps {
 
 export default function AssetsControl({ product, assetData, chainId, type }: AssetsControlProps) {
   const { t } = useLocaleTranslation()
-  currentAssetNameVar(product.id)
+  rampAssetIdVar(product.id)
   const { query } = useRouter()
   const { currency } = query
   const { chain: walletChainId, connector } = useAccount()
