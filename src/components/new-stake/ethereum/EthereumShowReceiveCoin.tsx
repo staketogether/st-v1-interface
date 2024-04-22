@@ -7,6 +7,7 @@ import { truncateWei } from '@/services/truncate'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { Staking } from '@/types/Staking'
+import { ethMainnet } from '@/config/product/asset'
 
 interface EthereumStpETHInputProps {
   amountValue: string
@@ -47,7 +48,7 @@ export default function EthereumShowReceiveCoin({
               <TokensSymbolIcons productSymbol={product.symbol} size={32} showPlusIcon contractAddress={stakeTogetherContractAddress} />
             </>
           ) : (
-            <AssetIcon altName={product.id} image={product.symbolImage} chain={product.asset.chains[0]} size={32} />
+            <AssetIcon altName={ethMainnet.symbol} image={ethMainnet.symbolImage} chain={ethMainnet.chains[0]} size={32} />
           )}
           <span>{type === 'deposit' ? product.symbol : t('eth.symbol')}</span>
         </CoinActionContainer>
