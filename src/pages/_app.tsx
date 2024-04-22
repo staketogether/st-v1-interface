@@ -15,10 +15,10 @@ import { useEffect } from 'react'
 import { StyleSheetManager, ThemeProvider } from 'styled-components'
 import { SWRConfig } from 'swr'
 import { WagmiProvider } from 'wagmi'
-import { ethereumMainnetClient } from '../config/apollo'
 import validEnv from '../config/env'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
+import { ethereumMainnetClient } from '@/config/apollo'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()

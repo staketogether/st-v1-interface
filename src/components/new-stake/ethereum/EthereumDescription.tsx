@@ -1,11 +1,11 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductStaking } from '@/types/ProductStaking'
 import { Tooltip } from 'antd'
 import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
+import { Staking } from '@/types/Staking'
 
 interface EthereumDescriptionProps {
-  product: ProductStaking
+  product: Staking
 }
 
 export default function EthereumDescription({ product }: EthereumDescriptionProps) {

@@ -10,7 +10,6 @@ import { queryPools } from '@/queries/subgraph/queryPools'
 import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { stakeTogetherAbi } from '@/types/Contracts'
-import { ProductStaking } from '@/types/ProductStaking'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
@@ -18,6 +17,8 @@ import { useSimulateContract, useWaitForTransactionReceipt as useWaitForTransact
 import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
+import { chainConfigByChainId } from '@/config/chain'
+import { Staking } from '@/types/Staking'
 
 export interface PoolData {
   pool: `0x${string}`
@@ -27,7 +28,8 @@ export interface PoolData {
 export default function useUpdateDelegations(
   enabled: boolean,
   updateDelegationPools: PoolData[],
-  product: ProductStaking,
+  product: Staking,
+  chainId: number,
   accountAddress?: `0x${string}`
 ) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
@@ -37,13 +39,14 @@ export default function useUpdateDelegations(
   const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
   const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
-  const subgraphClient = getSubgraphClient({ name: product.name, isTestnet: false })
+  const subgraphClient = getSubgraphClient({ stakingId: 'eth-staking' })
   const { web3AuthUserInfo } = useConnectedAccount()
+  const config = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
 
   const updateDelegationEstimatedGas: PoolData[] = [
     {
-      pool: product.stakeTogetherPool.mainnet,
+      pool: product.stakeTogetherPool as `0x${string}`,
       percentage: ethers.parseUnits('1', 18)
     }
   ]
@@ -51,7 +54,7 @@ export default function useUpdateDelegations(
 
   const { estimateGas } = useEstimateTxInfo({
     account: accountAddress,
-    contractAddress: product.contracts.mainnet.StakeTogether,
+    contractAddress: product.contracts.StakeTogether,
     functionName: 'updateDelegations',
     args: [updateDelegationEstimatedGas],
     abi: stakeTogetherAbi,
@@ -81,11 +84,11 @@ export default function useUpdateDelegations(
     query: {
       enabled: isUpdateDelegationEnabled
     },
-    address: product.contracts.mainnet.StakeTogether,
+    address: product.contracts.StakeTogether,
     args: [updateDelegationPools as readonly { pool: `0x${string}`; percentage: bigint }[]],
     account: accountAddress,
     abi: stakeTogetherAbi,
-    chainId: product.chainIdNetworkAvailable,
+    chainId: chainId,
     functionName: 'updateDelegations',
     gas: !!estimatedGas && estimatedGas > 0n && !!web3AuthUserInfo ? estimatedGas : undefined,
     maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n && !!web3AuthUserInfo ? maxFeePerGas : undefined,
@@ -145,7 +148,7 @@ export default function useUpdateDelegations(
     isError: awaitTransactionErrorIsError
   } = useWaitForTransaction({
     hash: txHash,
-    confirmations: product.transactionConfig.confirmations
+    confirmations: config.transactionConfig.confirmations
   })
 
   useEffect(() => {

@@ -1,14 +1,14 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductAsset } from '@/types/ProductAsset'
 import { Tooltip } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import AssetsBuyControl from './AssetsBuyControl'
+import { Asset } from '@/types/Asset'
 
 interface AssetsActionsControlProps {
   type: 'buy' | 'sell' | 'swap'
-  product: ProductAsset
+  product: Asset
 }
 
 export default function AssetsActionsControl({ type, product }: AssetsActionsControlProps) {
@@ -22,11 +22,11 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
         <nav>
           <ul>
             <li className={`${type === 'buy' && 'activated'}`}>
-              <Link href={product.urlRedirect.replace('currency', currency)}>{t('buy')}</Link>
+              <Link href={product.url.replace('currency', currency)}>{t('buy')}</Link>
             </li>
             <Tooltip title={t('soon')}>
               <li className={`${type === 'sell' && 'activated'} disabled`}>
-                <Link href={`${product.urlRedirect.replace('currency', currency)}/withdraw`}>{t('sell')}</Link>
+                <Link href={`${product.url.replace('currency', currency)}/withdraw`}>{t('sell')}</Link>
               </li>
             </Tooltip>
           </ul>
@@ -35,12 +35,12 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
       <div>
         {type === 'buy' && (
           <BuyAssetContainer>
-            <AssetsBuyControl type={type} product={product} />
+            <AssetsBuyControl type={type} asset={product} />
           </BuyAssetContainer>
         )}
         {type === 'sell' && (
           <BuyAssetContainer>
-            <AssetsBuyControl type={type} product={product} />
+            <AssetsBuyControl type={type} asset={product} />
           </BuyAssetContainer>
         )}
         {type === 'sell' && <div>sell</div>}

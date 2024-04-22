@@ -1,8 +1,6 @@
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
-import { ProductAsset } from '@/types/ProductAsset'
-import { ProductMarketAssetData } from '@/types/ProductStaking'
 import { notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiShareNetwork } from 'react-icons/pi'
@@ -10,26 +8,22 @@ import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import TradingViewComponent from '../shared/TradingViewComponent'
-import TokensSymbolIcons from '../tokens/TokensSymbolIcons'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import dynamic from 'next/dynamic'
+import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
+import { Asset } from '@/types/Asset'
+import { chainConfigByChainId } from '@/config/chain'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 
 interface AssetsProductInfoProps {
-  product: ProductAsset
-  assetData: ProductMarketAssetData
+  product: Asset
+  assetData: MobulaMarketAsset
 }
-
-const TokensShowValuePrice = dynamic(() => import('../shared/StakingShowValuePrice'), {
-  ssr: false,
-  loading: () => <SkeletonLoading width={80} />,
-  suspense: true
-})
 
 export default function AssetsProductInfo({ product, assetData }: AssetsProductInfoProps) {
   const { t } = useLocaleTranslation()
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
   const router = useRouter()
+  const config = chainConfigByChainId(product.chains[0])
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
 
@@ -45,8 +39,8 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon assetIcon={product.name} size={36} />
-            {t(`v2.products.${product.name}`)}
+            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={product.chains[0]}/>
+            {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
@@ -54,8 +48,8 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
           </div>
           <div>
             <span>{t('v2.ethereumStaking.networkAvailable')}</span>
-            <NetworkIcons network={product.networkAvailable} size={16} />
-            <span>{capitalize(product.networkAvailable.replaceAll('-', ' '))}</span>
+            <NetworkIcons network={config.name.toLowerCase()} size={16} />
+            <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
           </div>
         </HeaderProduct>
 
@@ -66,7 +60,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <TokensShowValuePrice product={product} type='assets' className='CoinValue' />
+              <span className='price'>{`${handleQuotePrice(assetData?.price || 0)}`}</span>
             </div>
           </SymbolContainer>
         </HeaderDescribeInfo>
@@ -77,21 +71,21 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
         <StatisticContainer>
           <div>
             <span>{t('v2.ethereumStaking.marketCap')}</span>
-            <span className='valueItem'>{`${handleQuotePrice(assetData?.data?.market_cap || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.market_cap || 0)}`}</span>
           </div>
           <div>
             <span>Volume</span>
-            <span className='valueItem'>{`${handleQuotePrice(assetData?.data?.volume || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.volume || 0)}`}</span>
           </div>
           <div>
             <span>{t('v2.ethereumStaking.priceChange')}</span>
-            <span className='valueItem'>{`${assetData?.data?.price_change_1y.toFixed(2)}%`}</span>
+            <span className='valueItem'>{`${assetData?.price_change_1y?.toFixed(2)}%`}</span>
           </div>
         </StatisticContainer>
       </ProductBodyContainer>
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.description')}</h2>
-        <span>{t(`v2.ethereumStaking.${product.description}`)}</span>
+        <span>{t(`v2.ethereumStaking.${product.localeDescription}`)}</span>
       </ProductBodyContainer>
     </ProductContainer>
   )
@@ -164,7 +158,7 @@ const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, He
           font-size: ${({ theme }) => theme.font.size[15]};
           font-weight: 400;
         }
-        &.CoinValue {
+        &.price {
           color: ${({ theme }) => theme.colorV2.blue[1]};
           font-size: ${({ theme }) => theme.font.size[22]};
           font-weight: 500;

@@ -43,8 +43,8 @@ export default function LayoutHeader() {
               {t('v2.header.staking')}
             </MenuButton>
           </Link>
-          <Link href={`/${currency as string}/assets`}>
-            <MenuButton className={`${isHome || isActive('assets') ? 'active' : ''}`}>
+          <Link href={`/${currency as string}/crypto`}>
+            <MenuButton className={`${isHome || isActive('crypto') ? 'active' : ''}`}>
               <InvestIcon />
               {t('v2.header.assets')}
             </MenuButton>

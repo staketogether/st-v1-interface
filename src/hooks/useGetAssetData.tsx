@@ -1,7 +1,7 @@
 import { globalConfig } from '@/config/global'
-import { ProductMarketAssetData } from '@/types/ProductStaking'
 import axios from 'axios'
 import useSWR from 'swr'
+import { MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
 
 interface UseGetAssetDataProps {
   asset: string
@@ -14,7 +14,7 @@ export default function useGetAssetData({ asset, blockchain, symbol }: UseGetAss
 
   const fetcher = () =>
     axios
-      .get<ProductMarketAssetData>(`${backendUrl}/api/mobula/market-asset-data`, {
+      .get<MobulaMarketAssetResponse>(`${backendUrl}/api/mobula/market-asset-data`, {
         params: {
           asset: asset ? asset : null,
           blockchain: blockchain ? blockchain : null,
@@ -25,7 +25,7 @@ export default function useGetAssetData({ asset, blockchain, symbol }: UseGetAss
 
   const swrKey = [`mobula/market-asset-data`, asset, blockchain, symbol]
 
-  const { data, error, mutate, isLoading } = useSWR<ProductMarketAssetData>(swrKey, fetcher)
+  const { data, error, mutate, isLoading } = useSWR<MobulaMarketAssetResponse>(swrKey, fetcher)
 
   return { assetData: data?.data, isLoading, mutate, error }
 }

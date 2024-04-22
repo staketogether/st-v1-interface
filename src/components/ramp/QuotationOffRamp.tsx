@@ -8,7 +8,6 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
-import { ProductAsset } from '@/types/ProductAsset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -21,32 +20,33 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import AssetInput from '../assets/AssetsInput'
 import { KycLevel } from './KycLevel'
+import { Asset } from '@/types/Asset'
 
-interface QuotationStepProps {
-  product: ProductAsset
+interface QuotationOffRampStepProps {
+  product: Asset
 }
 
-export default function QuotationOfRampStep({ product }: QuotationStepProps) {
+export default function QuotationOffRampStep({ product }: QuotationOffRampStepProps) {
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
   const debounceValue = useDebounce(value, 300)
   const { account } = useConnectedAccount()
-  const minDeposit = product.ramp.minDeposit
+  const minDeposit = product.ramp[0].minDeposit
   const { balance: ethBalance, isLoading: ethBalanceLoading } = useEthBalanceOf({
     walletAddress: account,
-    chainId: product.chainIdNetworkAvailable,
-    token: product.contract
+    chainId: product.chains[0],
+    token: product.contractAddress
   })
 
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
     debounceValue ? Number(debounceValue) : 0,
-    product.ramp.bridge?.fromChainId ?? product.ramp.chainId,
+    product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
     1,
     ProviderType.brla,
     PaymentMethodType.pix,
-    `${product.ramp.bridge?.toChainId}`,
-    product.ramp.bridge?.toToken,
+    `${product.ramp[0].bridge?.toChainId}`,
+    product.ramp[0].bridge?.toToken,
     true
   )
 

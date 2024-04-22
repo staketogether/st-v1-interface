@@ -1,12 +1,11 @@
+import { assetsList } from '@/config/product/asset'
 import { globalConfig } from '@/config/global'
-import { productAssetList } from '@/config/products/asset'
-
-import { ProductMarketAssetData } from '@/types/ProductStaking'
+import { MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
 import { makeVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect } from 'react'
 
-export const currencyPriceListVar = makeVar<{ name: string; value: number }[]>([])
+export const currencyPriceListVar = makeVar<{ name: string; value: number, price24h: number }[]>([])
 
 export default function useGetCurrencyPrice() {
   const { backendUrl } = globalConfig
@@ -14,12 +13,12 @@ export default function useGetCurrencyPrice() {
   useEffect(() => {
     const getDataPromise = async () => {
       try {
-        const promises = productAssetList.map(product =>
-          axios.get<ProductMarketAssetData>(`${backendUrl}/api/mobula/market-asset-data`, {
+        const promises = assetsList.map(asset =>
+          axios.get<MobulaMarketAssetResponse>(`${backendUrl}/api/mobula/market-asset-data`, {
             params: {
-              asset: product.mobula.asset ? product.mobula.asset : null,
-              blockchain: product.mobula.blockchain ? product.mobula.blockchain : null,
-              symbol: product.mobula.symbol ? product.mobula.symbol : null
+              asset: asset.mobula.asset ? asset.mobula.asset : null,
+              blockchain: asset.mobula.blockchain ? asset.mobula.blockchain : null,
+              symbol: asset.mobula.symbol ? asset.mobula.symbol : null
             }
           })
         )
@@ -29,7 +28,9 @@ export default function useGetCurrencyPrice() {
         const responseData = responses.map(response => {
           return {
             name: `${response.data.data.name}-${response.config.params.blockchain}`,
-            value: response.data.data.price
+            value: response.data.data.price,
+            price24h: response.data.data.price_change_24h
+
           }
         })
 

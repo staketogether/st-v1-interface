@@ -10,7 +10,6 @@ import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet
 import { fbqTrackEvent } from '@/services/FacebookPixel'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { ProductStaking } from '@/types/ProductStaking'
 import { WithdrawType } from '@/types/Withdraw'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
@@ -23,6 +22,7 @@ import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumInput from './EthereumInput'
 import EthereumProjectSelect from './EthereumProjectSelect'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
+import { Staking } from '@/types/Staking'
 
 interface EthereumDepositProps {
   type: 'deposit' | 'withdraw'
@@ -33,7 +33,7 @@ interface EthereumDepositProps {
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
   chainId: number
-  product: ProductStaking
+  product: Staking
 }
 
 export default function EthereumDeposit({
@@ -50,10 +50,10 @@ export default function EthereumDeposit({
   const [amount, setAmount] = useState<string>('')
   const [isActivatedDelegation, setIsActivatedDelegation] = useState(false)
 
-  const { name, isTestnet } = chainConfigByChainId(chainId)
-  const stakeTogetherPool = product.stakeTogetherPool[isTestnet ? 'testnet' : 'mainnet']
+  const { name } = chainConfigByChainId(chainId)
+  const stakeTogetherPool = product.stakeTogetherPool
 
-  const [poolDelegatedSelected, setPoolDelegatedSelected] = useState<`0x${string}`>(stakeTogetherPool)
+  const [poolDelegatedSelected, setPoolDelegatedSelected] = useState<`0x${string}`>(stakeTogetherPool as `0x${string}`)
   const { t } = useLocaleTranslation()
   const { locale, query } = useRouter()
 
@@ -75,7 +75,7 @@ export default function EthereumDeposit({
   const feeAmount = (parsedAmount * BigInt(fee?.value ?? 0n)) / ethers.parseEther('1')
   const youReceiveDeposit = ethers.parseUnits(inputAmount, 18) - feeAmount
 
-  const { stConfig } = useStConfig({ name: product.name, chainId })
+  const { stConfig } = useStConfig({ name: product.id, chainId })
   const minDepositAmount = stConfig?.minDepositAmount ?? 0n
 
   const { chain: walletChainId } = useAccount()
@@ -133,7 +133,7 @@ export default function EthereumDeposit({
       })
       return
     }
-    fbqTrackEvent(product.eventsTrack.checkout)
+    fbqTrackEvent(`checkout-${product.id}`)
     setOpenStakeConfirmModal(true)
   }
   const handleLabelButton = () => {
@@ -166,7 +166,7 @@ export default function EthereumDeposit({
 
   const handleSwitchDelegation = (value: boolean) => {
     if (!value) {
-      handleAddProjectOnRoute(stakeTogetherPool)
+      handleAddProjectOnRoute(stakeTogetherPool as `0x${string}`)
     }
     setIsActivatedDelegation(value)
   }

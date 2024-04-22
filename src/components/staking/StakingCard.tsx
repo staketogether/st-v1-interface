@@ -1,50 +1,88 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductAsset } from '@/types/ProductAsset'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
+import { Staking } from '@/types/Staking'
 
-interface TokensAssetCardContainerProps {
-  product: ProductAsset
+interface StakingCardProps {
+  staking: Staking
 }
 
-const TokensShowValuePrice = dynamic(() => import('../shared/StakingShowValuePrice'), {
+const AssetPrice = dynamic(() => import('../shared/AssetPrice'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} />,
   suspense: true
 })
 
-export default function TokensAssetCardContainer({ product }: TokensAssetCardContainerProps) {
+export default function StakingCard({ staking }: StakingCardProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
 
   return (
     <CardContainer
-      href={product.urlRedirect.replace('currency', currency)}
-      className={`${!product.enabled && 'disabled'}`}
+      href={staking.url.replace('currency', currency)}
+      className={`${!staking.enabled && 'disabled'}`}
       style={{
-        pointerEvents: !product.enabled ? 'none' : undefined
+        pointerEvents: !staking.enabled ? 'none' : undefined
       }}
     >
       <ImageContainer>
         <div>
-          <AssetIcon assetIcon={product.symbol} networkIcon={product.networkAvailable} size={32} />
-
-          <span>{t(`v2.products.${product.name}`)}</span>
+          <AssetIcon image={staking.logoImage} chain={staking.asset.chains[0]} size={32} altName={staking.id} />
+          <span>{t(`v3.products.${staking.id}.name`)}</span>
         </div>
-        {!product.enabled && <Soon>{t('soon')}</Soon>}
-        {product.newProductTag && <NewTag>{t('new')}</NewTag>}
+        {!staking.enabled && <Soon>{t('soon')}</Soon>}
+        {staking.new && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
-      <TokensShowValuePrice product={product} type={'assets'} />
+      <PriceContainer>
+        <div>
+          <AssetPrice asset={staking.asset} />
+        </div>
+        {staking?.apy && (
+          <Apy>
+            <span className='label'>APY</span>
+            {` ${staking.apy}%`}
+          </Apy>
+        )}
+      </PriceContainer>
     </CardContainer>
   )
 }
 
-const { CardContainer, ImageContainer, Soon, NewTag } = {
+const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
+  PriceContainer: styled.div`
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    height: 22px;
+
+    > div {
+      display: flex;
+      gap: 8px;
+
+      > span {
+        color: ${({ theme }) => theme.colorV2.blue[1]};
+        font-size: ${({ theme }) => theme.font.size[22]};
+        font-weight: 500;
+      }
+    }
+  `,
+  Apy: styled.div`
+    > span.label {
+      font-size: ${({ theme }) => theme.font.size[12]};
+      font-weight: 400 !important;
+      margin-top: 2px;
+    }
+
+    color: green !important;
+    font-size: ${({ theme }) => theme.font.size[16]};
+    font-weight: 400;
+    align-items: center;
+  `,
   CardContainer: styled(Link)`
     display: flex;
     flex-direction: column;
@@ -59,16 +97,10 @@ const { CardContainer, ImageContainer, Soon, NewTag } = {
       border 0.3s ease,
       color 0.3s ease;
 
-    > span {
-      font-size: 22px;
-      font-weight: 500;
-      color: ${({ theme }) => theme.colorV2.gray[1]};
-    }
-
     &:hover {
       border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
 
-      * {
+      > div:first-child > div > span {
         color: ${({ theme }) => theme.colorV2.purple[1]};
       }
     }

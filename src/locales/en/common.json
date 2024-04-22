@@ -640,16 +640,16 @@
       }
     },
     "staking": {
-      "title": "Staking",
+      "title": "Staking Assets",
       "description": "Invest in Infrastructure with Sustainable Yields"
     },
     "assets": {
-      "title": "Crypto",
-      "description": "Invest in the best Cryptocurrencies for your Portfolio"
+      "title": "Crypto Assets",
+      "description": "Invest in the best Cryptocurrencies for your portfolio"
     },
     "products": {
-      "ethereum-stake": "Ethereum Staking",
-      "ethereum-restaking": "Ethereum Restaking ",
+      "eth-staking": "Ethereum Staking",
+      "eth-restaking": "Ethereum Restaking ",
       "celestia": "Celestia Staking",
       "polygon": "Polygon Staking",
       "solana": "Solana Staking",
@@ -659,9 +659,9 @@
       "productNotAvailable": "Product not available",
       "bitcoin": "Bitcoin Staking",
       "chiliz": "Chiliz Staking",
-      "btc": "Bitcoin",
-      "eth": "Ethereum",
-      "eth-optimism": "Ethereum"
+      "btc-op": "Bitcoin",
+      "eth-mainnet": "Ethereum",
+      "eth-op": "Ethereum"
     },
     "notifyBar": {
       "incentives": {
@@ -683,8 +683,9 @@
       "useThePixQRCode": "Use the Pix QR Code to pay",
       "orUseThePixKey": "Or use the Pix Key",
       "cancelDeposit": "Cancel deposit",
+
       "copyQrCode": "Copy QR Code",
-      "yourEths": "Your SYMBOL will be in your account",
+      "yourEths": "Your ETH will be in your account",
       "timeReceive": "within 30 minutes",
       "exchange": "Exchange",
       "networkFee": "Network Fee",
@@ -739,8 +740,8 @@
       "eigenPointTooltip": "When you stake, you accumulate points in the Eigen Layer protocol, which may later launch a token and you will can receive shares",
       "togetherPoints": "When you stake, you accumulate points in the Stake Together protocol, which may later launch a token and you will can receive shares",
       "restakingDescription": "ReStaking Ethereum: Enhance Your Staking Efficiency. Experience the next level of Ethereum staking with our ReStaking solution, merging Stake Together protocol and Eigen Layer technology. Amplify your Ethereum's potential by using it as collateral in the Eigen Layer, contributing to network services and earning income from diverse sources. Our platform streamlines your staking process, providing a more effective and profitable approach to secure the network and gain rewards. Dive into ReStaking with Ethereum today and start benefiting from combined yields.",
-      "btc": "Unlock the potential of Bitcoin, the leading digital asset in the market. Our platform provides an efficient and secure way to invest in Bitcoin, utilizing advanced technologies for fast, low-cost transactions. Enhance your portfolio with the asset at the forefront of the digital financial revolution.",
-      "eth": "Descubra o Ethereum, uma das principais plataformas de blockchain que não só suporta uma moeda digital, mas também uma vasta gama de aplicações descentralizadas. Invista em Ethereum através da nossa plataforma e aproveite transações rápidas, custos reduzidos e a possibilidade de explorar contratos inteligentes e aplicações inovadoras. Dê um passo à frente na revolução digital com Ethereum.",
+      "btc": "Bitcoin",
+      "eth": "Ethereum",
       "actions": {
         "invest": "Invest",
         "withdraw": "Withdraw",
@@ -752,5 +753,46 @@
   "soon": "Soon",
   "new": "New",
   "share": "Share",
-  "offramp": "Soon you will be able to sell you ETH by here. Wait."
+  "offramp": "Soon you will be able to sell you ETH by here. Wait.",
+  "v3": {
+    "pages": {
+      "staking": {
+        "title": "Staking",
+        "description": "Invest in Infrastructure with Sustainable Yields"
+      },
+      "crypto": {
+        "title": "Crypto",
+        "description": "Invest in the Top Crypto in the Market"
+      },
+      "stable": {
+        "title": "Stablecoins",
+        "description": "Invest in the Most Liquid Stablecoins"
+      },
+      "fan": {
+        "title": "Fan Tokens",
+        "description": "Invest in Your Favorite Team"
+      },
+      "meme": {
+        "title": "Memecoins",
+        "description": "Invest in High-Risk, High-Reward Coins"
+      }
+    },
+    "products": {
+      "eth-mainnet": {
+        "name": "Ethereum"
+      },
+      "eth-op": {
+        "name": "Ethereum"
+      },
+      "btc-op": {
+        "name": "Bitcoin"
+      },
+      "eth-staking": {
+        "name": "Ethereum Staking"
+      },
+      "eth-restaking": {
+        "name": "Ethereum Restaking"
+      }
+    }
+  }
 }

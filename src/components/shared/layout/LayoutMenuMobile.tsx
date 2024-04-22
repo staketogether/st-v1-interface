@@ -18,7 +18,7 @@ function LayoutMenuMobile() {
         <InvestIcon />
         {t('v2.header.staking')}
       </NextLink>
-      <NextLink href={`/${currency as string}/assets`} className={`${isHome || isActive('assets') ? 'active' : ''}`}>
+      <NextLink href={`/${currency as string}/crypto`} className={`${isHome || isActive('crypto') ? 'active' : ''}`}>
         <InvestIcon />
         {t('v2.header.assets')}
       </NextLink>

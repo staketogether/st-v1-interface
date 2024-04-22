@@ -1,6 +1,4 @@
 import chainConfig from '@/config/chain'
-import { btcOptimism, getAsset } from '@/config/products/asset'
-import { ethereumOpStaking, ethereumStaking, stakingList } from '@/config/products/staking'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 import useErc20BalanceOfWei from '@/hooks/contracts/useErc20BalanceOfWei'
@@ -36,6 +34,9 @@ import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
 import useStAccount from './hooks/useStAccount'
+import { btcOp, ethMainnet, ethOp } from '@/config/product/asset'
+import { ethRestaking, ethStaking, stakingList } from '@/config/product/staking'
+import { StakingId } from '@/types/Staking'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -46,7 +47,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<'delegations' | 'rewards' | 'activity'>('delegations')
-  const [productTabSelected, setProductTabSelected] = useState<string>('ethereum-stake')
+  const [productTabSelected, setProductTabSelected] = useState<StakingId>('eth-staking')
 
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
   const { connector } = useAccount()
@@ -57,31 +58,37 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { locale } = useRouter()
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
+  const { mobula } = ethMainnet
   const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: mainnet.id })
   const formattedEthBalance = formatNumberByLocale(truncateWei(ethBalance, 6), locale)
   const { priceConvertedValue: usdEthBalance, price: usdEthBalancePriceNotFormatted } = useCoinConversion(
     formattedEthBalance,
-    ethereumStaking.asset.mobula.filterCoinConversion
+    mobula.filter
   )
+
   const { balance: optimistEthBalance } = useEthBalanceOf({
     walletAddress: address,
     chainId: optimism.id
   })
-  const configWbtcOptimist = getAsset({ name: 'btc' })
+
+  const { contractAddress: btcContractAddress } = btcOp
   const { balanceInWei: optimistWbtcBalance } = useErc20BalanceOfWei({
     walletAddress: address,
     chainId: optimism.id,
-    token: configWbtcOptimist.contract
+    token: btcContractAddress
   })
+
+  const { mobula: ethOpMobula } = ethOp
   const formattedOptimistEthBalance = formatNumberByLocale(truncateWei(optimistEthBalance, 6), locale)
   const formattedOptimistWbtcBalance = formatNumberByLocale(truncateWei(optimistWbtcBalance, 6), locale)
   const { priceConvertedValue: usdOptimismEthBalance, price: usdOptimismEthBalanceNotFormatted } = useCoinConversion(
     formattedOptimistEthBalance,
-    ethereumOpStaking.asset.mobula.filterCoinConversion
+    ethOpMobula.filter
   )
+
   const { priceConvertedValue: usdOptimismWbtcBalance, price: usdOptimismWbtcBalanceNotFormatted } = useCoinConversion(
     formattedOptimistWbtcBalance,
-    btcOptimism.mobula.filterCoinConversion
+    ethOpMobula.filter
   )
 
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
@@ -102,12 +109,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountActivities: stakeAccountActivities,
     accountIsLoading: stakeAccountIsLoading,
     accountShare: stakeAccountShare
-  } = useStAccount({ address: address, productName: 'ethereum-stake', chainId: mainnet.id })
+  } = useStAccount({ address: address, productName: 'eth-staking', chainId: mainnet.id })
   const stpETHAccountBalance = truncateWei(stakeAccountBalance, 6)
 
   const { priceConvertedValue: usdStpETHBalance, price: usdStpEthBalanceNotFormatted } = useCoinConversion(
     stpETHAccountBalance,
-    ethereumStaking.asset.mobula.filterCoinConversion
+    ethStaking.asset.mobula.filter
   )
 
   const {
@@ -117,15 +124,15 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountActivities: restakingAccountActivities,
     accountIsLoading: restakingAccountIsLoading,
     accountShare: restakingAccountShare
-  } = useStAccount({ address: address, productName: 'ethereum-restaking', chainId: optimism.id })
+  } = useStAccount({ address: address, productName: 'eth-restaking', chainId: optimism.id })
   const stpRETHAccountBalance = formatNumberByLocale(truncateWei(restakingAccountBalance, 5), locale)
   const { priceConvertedValue: usdStpRETHBalance, price: usdStpRETHBalanceNotFormatted } = useCoinConversion(
     stpRETHAccountBalance,
-    ethereumOpStaking.asset.mobula.filterCoinConversion
+    ethRestaking.asset.mobula.filter
   )
 
   const stAccount = {
-    'ethereum-stake': {
+    'eth-staking': {
       accountDelegations: stakeAccountDelegations,
       accountBalance: stakeAccountBalance,
       accountRewards: stakeAccountRewards,
@@ -133,7 +140,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       accountIsLoading: stakeAccountIsLoading,
       accountShare: stakeAccountShare
     },
-    'ethereum-restaking': {
+    'eth-restaking': {
       accountDelegations: restakingAccountDelegations,
       accountBalance: restakingAccountBalance,
       accountRewards: restakingAccountRewards,
@@ -144,7 +151,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   }
 
   const { accountDelegations, accountRewards, accountActivities, accountShare } =
-    stAccount[productTabSelected as 'ethereum-stake' | 'ethereum-restaking']
+    stAccount[productTabSelected]
 
   const usdTotalBalance = handleQuotePrice(
     Number(usdStpEthBalanceNotFormatted) +
@@ -181,11 +188,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const selectProductOptions = products.map(product => {
     return {
-      value: product.name,
+      value: product.id,
       label: (
         <ProductSelectCard>
-          <AssetIcon assetIcon={product.name} size={24} />
-          <span>{t(`v2.products.${product.name}`)}</span>
+          <AssetIcon image={product.symbolImage} size={24} altName={product.id} chain={product.asset.chains[0]} />
+          <span>{t(`v3.products.${product.id}.name`)}</span>
         </ProductSelectCard>
       )
     }
@@ -274,7 +281,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='ethereum' networkIcon='ethereum' size={24} />
+                    <AssetIcon image={ethMainnet.symbolImage} chain={ethMainnet.chains[0]} size={24} altName='Ethereum' />
                   </div>
                   <div>
                     <span>{` ${t('eth.symbol')}`}</span>
@@ -289,7 +296,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='ethereum' networkIcon='optimism' size={24} />
+                    <AssetIcon image={ethOp.symbolImage} chain={ethOp.chains[0]} altName='optimism' size={24} />
                   </div>
                   <div>
                     <span>{`${t('eth.symbol')}`}</span>
@@ -304,11 +311,10 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon={configWbtcOptimist.symbol} networkIcon={configWbtcOptimist.networkAvailable} size={24} />
+                    <AssetIcon image={btcOp.symbolImage} chain={btcOp.chains[0]} altName={btcOp.id} size={24} />
                   </div>
                   <div>
-                    <span>{configWbtcOptimist.symbol}</span>
-                    <span>{capitalize(configWbtcOptimist.networkAvailable)}</span>
+                    <span>{btcOp.symbol}</span>
                   </div>
                 </div>
                 <div>
@@ -331,7 +337,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceInvestmentContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='stpETH' networkIcon='ethereum' size={24} />
+                    <AssetIcon image={ethStaking.symbolImage} chain={ethStaking.asset.chains[0]} size={24} altName={ethStaking.id} />
                   </div>
                   <div>
                     <span>{`stpETH`}</span>
@@ -347,7 +353,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceInvestmentContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='strETH' networkIcon='optimism' size={24} />
+                    <AssetIcon image={ethRestaking.symbolImage} chain={ethRestaking.asset.chains[0]} size={24} altName={ethRestaking.id} />
                   </div>
                   <div>
                     <span>{`stpRETH`}</span>
@@ -369,9 +375,9 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 <div>
                   <span>{t('selectProduct')}</span>
                   <Select
-                    defaultValue='ethereum-stake'
+                    defaultValue='eth-staking'
                     style={{ width: '100%', height: '40px' }}
-                    onChange={e => setProductTabSelected(e as 'ethereum-stake' | 'ethereum-restaking')}
+                    onChange={e => setProductTabSelected(e as 'eth-staking' | 'eth-restaking')}
                     options={selectProductOptions}
                   />
                 </div>
@@ -397,7 +403,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               accountRewards={accountRewards}
               accountActivities={accountActivities}
               activatedTab={tabActivated}
-              productSelected={productTabSelected}
+              stakingAsset={productTabSelected}
             />
           </Card>
 

@@ -1,16 +1,16 @@
 import { BrlaBuyEthStep, qrCodeVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductAsset } from '@/types/ProductAsset'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import { useEffect } from 'react'
 import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import WrapProcessingStep from './WrapProcessingStep'
+import { Asset } from '@/types/Asset'
 
 interface ProcessingCheckoutStepProps {
-  product: ProductAsset
+  product: Asset
 }
 
 export default function ProcessingCheckoutStep({ product }: ProcessingCheckoutStepProps) {
@@ -49,7 +49,7 @@ export default function ProcessingCheckoutStep({ product }: ProcessingCheckoutSt
     activity.additionalData.bridge &&
     typeof activity.additionalData.bridge === 'object' &&
     'txHash' in activity.additionalData.bridge
-  const finishedPayment = product.ramp.bridge ? paymentStatus === 'success' && !!successfulBridging : paymentStatus === 'success'
+  const finishedPayment = product.ramp[0].bridge ? paymentStatus === 'success' && !!successfulBridging : paymentStatus === 'success'
 
   const validationSteps = [
     {
@@ -63,5 +63,5 @@ export default function ProcessingCheckoutStep({ product }: ProcessingCheckoutSt
     }
   ]
 
-  return <WrapProcessingStep product={product} validationSteps={validationSteps} title={t('v2.ramp.processingPayment')} />
+  return <WrapProcessingStep asset={product} validationSteps={validationSteps} title={t('v2.ramp.processingPayment')} />
 }

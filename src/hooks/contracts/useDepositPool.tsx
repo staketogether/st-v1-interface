@@ -11,7 +11,6 @@ import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { truncateWei } from '@/services/truncate'
 import { stakeTogetherAbi } from '@/types/Contracts'
-import { ProductStaking } from '@/types/ProductStaking'
 import { notification } from 'antd'
 import { useEffect, useState } from 'react'
 import { useSimulateContract, useWaitForTransactionReceipt as useWaitForTransaction, useWriteContract } from 'wagmi'
@@ -21,13 +20,14 @@ import useConnectedAccount from '../useConnectedAccount'
 import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
+import { Staking } from '@/types/Staking'
 
 export default function useDepositPool(
   netDepositAmount: bigint,
   grossDepositAmount: bigint,
   poolAddress: `0x${string}`,
   enabled: boolean,
-  product: ProductStaking,
+  product: Staking,
   chainId: number,
   accountAddress: `0x${string}` | undefined
 ) {
@@ -40,10 +40,10 @@ export default function useDepositPool(
   const [depositEstimatedGas, setDepositEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerDeposit } = useMixpanelAnalytics()
-  const { isTestnet } = chainConfigByChainId(chainId)
-  const subgraphClient = getSubgraphClient({ name: product.name, isTestnet })
+  const { transactionConfig } = chainConfigByChainId(chainId)
+  const subgraphClient = getSubgraphClient({ stakingId: product.id })
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { stConfig, loading: stConfigLoading } = useStConfig({ name: product.name, chainId })
+  const { stConfig, loading: stConfigLoading } = useStConfig({ name: product.id, chainId })
   const { t } = useLocaleTranslation()
 
   const amountEstimatedGas = stConfig?.minDepositAmount ?? 0n
@@ -51,7 +51,7 @@ export default function useDepositPool(
   const isDepositEnabled = enabled && netDepositAmount > 0n && !stConfigLoading
 
   const isDepositEstimatedGas = !enabled && stConfigLoading
-  const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
+  const { StakeTogether } = product.contracts
   // Todo! Implement Referral
   const referral = poolAddress
 
@@ -162,7 +162,7 @@ export default function useDepositPool(
     isError: awaitTransactionErrorIsError
   } = useWaitForTransaction({
     hash: txHash,
-    confirmations: product.transactionConfig.confirmations
+    confirmations: transactionConfig.confirmations
   })
 
   useEffect(() => {

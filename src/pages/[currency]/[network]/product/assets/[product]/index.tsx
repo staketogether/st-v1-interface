@@ -3,30 +3,32 @@ import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { productAssetList } from '@/config/products/asset'
 import { fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
-import { ProductAsset } from '@/types/ProductAsset'
-import { ProductMarketAssetData } from '@/types/ProductStaking'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { Asset } from '@/types/Asset'
+import { chainConfigByChainId } from '@/config/chain'
+import { assetsList } from '@/config/product/asset'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 
 export interface ProductProps {
-  asset: ProductAsset
-  assetData: ProductMarketAssetData
+  asset: Asset
+  assetData: MobulaMarketAsset
   chainId: number
 }
 
 export default function Product({ asset, assetData, chainId }: ProductProps) {
   const router = useRouter()
-  const minAmount = asset.ramp.minDeposit
+  const minAmount = asset.ramp[0].minDeposit
+  const config = chainConfigByChainId(asset.chains[0])
   const { onInit: buyCrypto } = useTransak({
     productsAvailed: 'BUY',
-    network: asset.networkAvailable
+    network: config.name.toLowerCase()
   })
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
     <LayoutTemplate>
       <Metatags />
       <AssetsControl product={asset} assetData={assetData} chainId={chainId} type='buy' />
-      <BuyEthControlModal />
+      <BuyEthControlModal chainId={chainId}/>
     </LayoutTemplate>
   )
 }
@@ -69,10 +71,10 @@ export const getStaticPaths: GetStaticPaths = () => {
   return { paths, fallback: 'blocking' }
 }
 
-async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<ProductMarketAssetData> {
+async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaMarketAsset> {
   const { backendUrl } = globalConfig
   return axios
-    .get<ProductMarketAssetData>(`${backendUrl}/api/${uri}`, {
+    .get<MobulaMarketAsset>(`${backendUrl}/api/${uri}`, {
       params: {
         asset,
         blockchain,
@@ -88,7 +90,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     product: string
   }
 
-  const productSelected = productAssetList.find(item => item.name === product)
+  const productSelected = assetsList.find(item => item.id === product)
 
   const chainId = handleChainIdByNetwork(network)
 
