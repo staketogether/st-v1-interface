@@ -1,5 +1,5 @@
 import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo'
-import { ProductAsset } from '@/types/ProductAsset'
+import { Asset, AssetsId } from '@/types/Asset'
 import { Quote } from '@/types/quote.type'
 import { makeVar } from '@apollo/client'
 import { BuyRamp } from './useBuyRamp'
@@ -37,7 +37,7 @@ export const qrCodeVar = makeVar<BuyRamp | null>(null)
 export const kycLevelVar = makeVar<KycLevelInfo | null>(null)
 export const kycIdVar = makeVar<string | null>(null)
 export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
-export const currentProductNameVar = makeVar<string>('eth-optimism')
+export const currentAssetNameVar = makeVar<AssetsId>('eth-eth')
 
 export const clearModal = () => {
   qrCodeVar(null)
@@ -49,9 +49,9 @@ export const clearModal = () => {
   openBrlaModalVar(false)
 }
 
-export const openQuoteEthModal = (asset: ProductAsset) => {
+export const openQuoteEthModal = (asset: Asset) => {
   stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
-  currentProductNameVar(asset.name)
+  currentAssetNameVar(asset.id)
   openBrlaModalVar(true)
 }
 
@@ -64,7 +64,7 @@ export const changeWalletAddress = () => {
   stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
 }
 
-export const openModal = (productName: string) => {
-  currentProductNameVar(productName)
+export const openModal = (asset: Asset) => {
+  currentAssetNameVar(asset.id)
   openBrlaModalVar(true)
 }

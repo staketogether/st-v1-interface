@@ -3,7 +3,7 @@ import usePixBankInfo from '@/hooks/ramp/usePixBankInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { ProductAsset } from '@/types/ProductAsset'
+import { Asset } from '@/types/Asset'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import { QRCode, notification } from 'antd'
@@ -15,10 +15,11 @@ import Button from '../shared/Button'
 import SwapInfo from './SwapInfo'
 
 interface CheckoutStepProps {
-  product: ProductAsset
+  asset: Asset
+  chainId: number
 }
 
-export default function CheckoutStep({ product }: CheckoutStepProps) {
+export default function CheckoutStep({ asset, chainId }: CheckoutStepProps) {
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
   const quote = useReactiveVar(quoteVar)
@@ -77,7 +78,7 @@ export default function CheckoutStep({ product }: CheckoutStepProps) {
   return (
     <Container>
       <Body>
-        <SwapInfo product={product} />
+        <SwapInfo asset={asset} chainId={chainId} />
         <PixArea>
           <Header>
             <div>

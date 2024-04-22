@@ -29,10 +29,11 @@ import QuotationStep from './QuotationStep'
 import SuccessStep from './SuccessStep'
 import { TimeOutCheckout } from './TimeOutCheckout'
 
-export default function BuyEthControlModal() {
+export default function BuyEthControlModal({ chainId }: { chainId: number }) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
-  const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
+  // precisa remover isso
+  const { refetch } = useEthBalanceOf({ walletAddress: address, chainId })
   const currentProductName = useReactiveVar(currentProductNameVar)
   const product = getAsset({ name: currentProductName })
 
@@ -44,7 +45,7 @@ export default function BuyEthControlModal() {
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={product} />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep product={product} />,
-    Checkout: <CheckoutStep product={product} />,
+    Checkout: <CheckoutStep product={product} chainId={chainId} />,
     TimeOutCheckout: <TimeOutCheckout asset={product} />,
     Success: <SuccessStep product={product} />,
     error: <GenericErrorComponent />
