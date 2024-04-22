@@ -88,7 +88,6 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
         </HeaderProductMobile>
         <RewardsPointsContainer>
           <span>{t('v2.ethereumStaking.myRewardsPoints')}</span>
-
           {product.points.elPoints && (
             <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
               <TagPointsContainer>
