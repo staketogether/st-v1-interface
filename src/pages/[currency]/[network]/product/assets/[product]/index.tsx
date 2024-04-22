@@ -14,7 +14,7 @@ import { useEffect } from 'react'
 import { Asset } from '@/types/Asset'
 import { chainConfigByChainId } from '@/config/chain'
 import { assetsList } from '@/config/product/asset'
-import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
+import { MobulaMarketAsset, MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
 
 export interface ProductProps {
   asset: Asset
@@ -30,6 +30,8 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
     productsAvailed: 'BUY',
     network: config.name.toLowerCase()
   })
+
+    console.log('asset', assetData)
 
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
@@ -51,21 +53,9 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
 
 export const getStaticPaths: GetStaticPaths = () => {
   const paths = [
-    { params: { network: 'ethereum', currency: 'usd', type: 'staking', product: 'ethereum-stake' } },
-    { params: { network: 'ethereum', currency: 'brl', type: 'staking', product: 'ethereum-stake' } },
-    { params: { network: 'ethereum', currency: 'eur', type: 'staking', product: 'ethereum-stake' } },
-
-    { params: { network: 'optimism', currency: 'usd', type: 'staking', product: 'ethereum-restaking' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'staking', product: 'ethereum-restaking' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'staking', product: 'ethereum-restaking' } },
-
-    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'btc' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'btc' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'btc' } },
-
-    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'eth' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'eth' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'eth' } }
+    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'btc-op' } },
+    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'eth-op' } },
+    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'eth-mainnet' } },
   ]
 
   return { paths, fallback: 'blocking' }
@@ -73,15 +63,15 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaMarketAsset> {
   const { backendUrl } = globalConfig
-  return axios
-    .get<MobulaMarketAsset>(`${backendUrl}/api/${uri}`, {
+  const marketData = await axios
+    .get<MobulaMarketAssetResponse>(`${backendUrl}/api/${uri}`, {
       params: {
         asset,
         blockchain,
         symbol
       }
     })
-    .then(res => res.data)
+   return marketData.data.data
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {

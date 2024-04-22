@@ -10,12 +10,11 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { MobulaAsset } from '@/types/MobulaAsset'
 import { chainConfigByChainId } from '@/config/chain'
 import { Asset } from '@/types/Asset'
 import { assetsList } from '@/config/product/asset'
 import AssetsControl from '@/components/assets/AssetsControl'
-import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
+import { MobulaMarketAsset, MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
 
 export interface ProductProps {
   product: Asset
@@ -53,29 +52,25 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
 
 export const getStaticPaths: GetStaticPaths = () => {
   const paths = [
-    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'btc' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'btc' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'btc' } },
-
-    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'eth' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'eth' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'eth' } }
+    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'btc-op' } },
+    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'eth-op' } },
+    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'eth-mainnet' } },
   ]
 
   return { paths, fallback: 'blocking' }
 }
 
-async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaAsset> {
+async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaMarketAsset> {
   const { backendUrl } = globalConfig
-  return axios
-    .get<MobulaAsset>(`${backendUrl}/api/${uri}`, {
+  const marketData = await axios
+    .get<MobulaMarketAssetResponse>(`${backendUrl}/api/${uri}`, {
       params: {
         asset,
         blockchain,
         symbol
       }
     })
-    .then(res => res.data)
+   return marketData.data.data
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
