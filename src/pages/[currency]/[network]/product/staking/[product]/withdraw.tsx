@@ -50,15 +50,27 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
-  const paths = [
-    { params: { network: 'ethereum', currency: 'usd', type: 'staking', product: 'eth-staking' } },
-    { params: { network: 'ethereum', currency: 'brl', type: 'staking', product: 'eth-staking' } },
-    { params: { network: 'ethereum', currency: 'eur', type: 'staking', product: 'eth-staking' } },
-
-    { params: { network: 'optimism', currency: 'usd', type: 'staking', product: 'eth-restaking' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'staking', product: 'eth-restaking' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'staking', product: 'eth-restaking' } }
+  const networks = [
+    { network: 'optimism', chainId: 10 },
+    { network: 'ethereum', chainId: 1 }
   ]
+
+  const currencies = ['usd', 'brl', 'eur']
+
+  const paths = networks.map(network => {
+    return stakingList.map(product => {
+      return currencies.map(currency => {
+        return {
+          params: {
+            network: network.network,
+            currency,
+            type: 'staking',
+            product: product.id
+          }
+        }
+      })
+    })
+  }).flat(2)
 
   return { paths, fallback: 'blocking' }
 }

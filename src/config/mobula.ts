@@ -24,7 +24,39 @@ export const btcOpMobula: MobulaAsset = {
   filter: 'Bitcoin-optimism'
 }
 
-export const mobulaAssets = [ethEthMobula, ethOpMobula, btcOpMobula]
+export const chzEthMobula: MobulaAsset = {
+  id: 'chz-chiliz',
+  asset: 'Chiliz',
+  blockchain: 'ethereum',
+  symbol: 'chz',
+  filter: 'Chiliz-ethereum'
+}
+
+export const opOpMobula: MobulaAsset = {
+  id: 'op-op',
+  asset: 'Optimism',
+  blockchain: 'optimism',
+  symbol: 'op',
+  filter: 'Optimism-optimism'
+}
+
+export const arbArbMobula: MobulaAsset = {
+  id: 'arb-arb',
+  asset: 'Arbitrum',
+  blockchain: 'arbitrum',
+  symbol: 'arb',
+  filter: 'Arbitrum-arbitrum'
+}
+
+export const maticPolMobula: MobulaAsset = {
+  id: 'matic-matic',
+  asset: 'Polygon',
+  blockchain: 'polygon',
+  symbol: 'matic',
+  filter: 'Polygon-polygon'
+}
+
+export const mobulaAssets = [ethEthMobula, ethOpMobula, btcOpMobula, chzEthMobula, opOpMobula, arbArbMobula, maticPolMobula]
 
 export const getMobulaAssetById = (id: string): MobulaAsset => {
   const mobulaAsset = mobulaAssets.find(asset => asset.id === id)
