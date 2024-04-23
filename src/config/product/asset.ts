@@ -160,7 +160,7 @@ export const chilizChz: Asset = {
   },
   ramp: [
     {
-      chainId: 1,
+      chainId: 88888,
       minDeposit: 10
     }
   ]
