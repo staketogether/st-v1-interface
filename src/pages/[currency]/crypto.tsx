@@ -33,6 +33,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
   }
 
+  console.log('assetsList:', assetsList)
+
   return {
     props: {
       assetsList,

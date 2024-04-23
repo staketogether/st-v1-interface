@@ -661,7 +661,11 @@
       "chiliz": "Chiliz Staking",
       "btc-op": "Bitcoin",
       "eth-mainnet": "Ethereum",
-      "eth-op": "Ethereum"
+      "eth-op": "Ethereum",
+      "chz-chiliz": "Chiliz",
+      "op-op": "Optimism",
+      "arb-arb": "Arbitrum",
+      "matic-matic": "Polygon"
     },
     "notifyBar": {
       "incentives": {

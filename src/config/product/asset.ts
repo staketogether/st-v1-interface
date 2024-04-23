@@ -7,7 +7,15 @@ import arbIcon from '@assets/assets/arbitrum.svg'
 import maticIcon from '@assets/assets/polygon.svg'
 
 import { Chain } from '../chain'
-import { btcOpMobula, ethEthMobula, ethOpMobula, chzEthMobula } from '@/config/mobula'
+import {
+  btcOpMobula,
+  ethEthMobula,
+  ethOpMobula,
+  chzEthMobula,
+  maticPolMobula,
+  arbArbMobula,
+  opOpMobula
+} from '@/config/mobula'
 
 export const ethMainnet: Asset = {
   id: 'eth-mainnet',
@@ -175,7 +183,7 @@ export const opOptimism: Asset = {
     stPoints: true,
     elPoints: false
   },
-  mobula: ethOpMobula,
+  mobula: opOpMobula,
   tradingView: {
     symbol: 'OPUSD',
     fiat: {
@@ -215,7 +223,7 @@ export const arbArbitrum: Asset = {
     stPoints: true,
     elPoints: false
   },
-  mobula: ethOpMobula,
+  mobula: arbArbMobula,
   tradingView: {
     symbol: 'ARBUSD',
     fiat: {
@@ -255,7 +263,7 @@ export const maticPolygon: Asset = {
     stPoints: true,
     elPoints: false
   },
-  mobula: ethOpMobula,
+  mobula: maticPolMobula,
   tradingView: {
     symbol: 'MATICUSD',
     fiat: {
