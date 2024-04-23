@@ -98,10 +98,10 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
         activity?.status === 'success' && Number(kyc?.level) > 0
           ? getIcon('success')
           : getIcon(Number(kyc?.level) > 0 ? 'process' : 'waiting'),
-      text: t('v2.ramp.generatingQRCode'),
+      text: type === 'buy' ? t('v2.ramp.generatingQRCode') : t('v2.ramp.validatingWithdrawal'),
       disable: activity?.status !== 'success'
     }
   ]
 
-  return <WrapProcessingStep asset={product} validationSteps={validationSteps} title={t('v2.ramp.processingRegistration')} />
+  return <WrapProcessingStep asset={product} validationSteps={validationSteps} title={t('v2.ramp.processingRegistration')} type={type} />
 }

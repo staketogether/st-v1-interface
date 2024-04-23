@@ -1,17 +1,19 @@
 import useLocaleTranslation from "@/hooks/useLocaleTranslation"
+import { Asset } from "@/types/Asset"
 import { useForm } from "react-hook-form"
 import { PiArrowRight } from "react-icons/pi"
 import styled from "styled-components"
 import Button from "../shared/Button"
 import Input from "../shared/inputs/Input"
 import Select from "../shared/inputs/Select"
+import SwapInfo from "./SwapInfo"
 
 interface PixKey {
     type: 'CPF' | 'PHONE' | 'RANDOM' | 'CNPJ' | 'EMAIL'
     key: string
 }
 
-export default function PixKeyStep() {
+export default function PixKeyStep({ asset }: { asset: Asset }) {
     const { t } = useLocaleTranslation()
     const {
         register,
@@ -69,6 +71,7 @@ export default function PixKeyStep() {
     ]
     return (
         <FormContainer onSubmit={handleSubmit(onSubmit)} id='pixKey' >
+            <SwapInfo asset={asset} />
             <Select register={register('type')} options={options} title="Qual chave pix você deseja usar para receber?" />
             <Input
                 title='Chave'
