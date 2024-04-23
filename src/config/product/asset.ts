@@ -141,7 +141,7 @@ export const chilizChz: Asset = {
   url: '/currency/ethereum/product/assets/chz-chiliz',
   category: AssetCategory.Crypto,
   localeDescription: 'chz',
-  chains: [Chain.ETH_MAINNET],
+  chains: [Chain.CHZ_MAINNET],
   listed: true,
   enabled: true,
   new: true,
