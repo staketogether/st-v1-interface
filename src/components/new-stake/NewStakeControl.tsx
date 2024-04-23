@@ -1,6 +1,6 @@
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
-import { Product, ProductMarketAssetData } from '@/types/Product'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import { Tooltip, notification } from 'antd'
 import dynamic from 'next/dynamic'
@@ -10,11 +10,13 @@ import { useEffect } from 'react'
 import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
+import AssetIcon from '../shared/AssetIcon'
 import LottieAnimation from '../shared/LottieAnimation'
 import NetworkIcons from '../shared/NetworkIcons'
-import NetworkProductIcons from '../tokens/components/StakingIcons'
 import ProductInfo from './ProductInfo'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
+import { Staking } from '@/types/Staking'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
+import { chainConfigByChainId } from '@/config/chain'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -26,10 +28,10 @@ const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl
   suspense: true
 })
 
-type NewStakeControlProps = {
+interface NewStakeControlProps {
   type: 'deposit' | 'withdraw'
-  product: Product
-  assetData: ProductMarketAssetData
+  product: Staking
+  assetData: MobulaMarketAsset
   chainId: number
 }
 
@@ -42,6 +44,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
   const { chain: walletChainId, connector } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
+  const config = chainConfigByChainId(chainId)
 
   useEffect(() => {
     if (isWrongNetwork && connector && connector.name === 'Web3Auth') {
@@ -59,19 +62,19 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
       placement: 'topRight'
     })
   }
-  useFacebookPixel(product.eventsTrack.pageView)
+  useFacebookPixel(`pageview:asset_${product.id}`)
 
   return (
     <Container>
       <header>
-        <HeaderBackAction href={`/${currency}`}>
+        <HeaderBackAction href={`/${currency as string}/staking`}>
           <PiArrowLeft />
           <span>{t('goToBack')}</span>
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <NetworkProductIcons stakingProduct={product.name} size={36} />
-            {t(`v2.products.${product.name}`)}
+            <AssetIcon image={product.symbolImage} size={36} chain={chainId} altName={product.id} />
+            {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
@@ -79,14 +82,13 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
           </div>
           <div>
             <span>{t('v2.ethereumStaking.networkAvailable')}</span>
-            <NetworkIcons network={product.networkAvailable} size={16} />
-            <span>{capitalize(product.networkAvailable.replaceAll('-', ' '))}</span>
+            <NetworkIcons network={config.name.toLowerCase()} size={16} />
+            <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
           </div>
         </HeaderProductMobile>
         <RewardsPointsContainer>
           <span>{t('v2.ethereumStaking.myRewardsPoints')}</span>
-
-          {product.eigenPointsAvailable && (
+          {product.points.elPoints && (
             <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
               <TagPointsContainer>
                 Eigen
@@ -94,12 +96,14 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
               </TagPointsContainer>
             </Tooltip>
           )}
-          <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
-            <TagPointsContainer className='purple'>
-              Together
-              <div>0.0</div>
-            </TagPointsContainer>
-          </Tooltip>
+          {product.points.stPoints && (
+            <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
+              <TagPointsContainer className='purple'>
+                Together
+                <div>0.0</div>
+              </TagPointsContainer>
+            </Tooltip>
+          )}
         </RewardsPointsContainer>
       </header>
 

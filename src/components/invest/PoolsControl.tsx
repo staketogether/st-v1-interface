@@ -1,26 +1,26 @@
 import PoolFilterIcon from '@/components/invest/PoolFilterIcon'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import { useMapPoolsWithTypes } from '@/hooks/contentful/useMapPoolsWithTypes'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
+import useProjectCreateModal from '@/hooks/useProjectCreateModal'
+import useResizeView from '@/hooks/useResizeView'
 import { StakeTogether } from '@/types/StakeTogether'
 import Fuse from 'fuse.js'
 import { useState } from 'react'
+import { PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import { PoolSubgraph } from '../../types/Pool'
+import { ProjectButton } from '../project/ProjectButton'
+import ProjectCreateModal from '../project/ProjectCreateModal'
 import LayoutTitle from '../shared/layout/LayoutTitle'
 import PoolsCard from './PoolsCard'
 import PoolsEmptyState from './PoolsEmptyState'
 import PoolsInputSearch from './PoolsInputSearch'
 import PoolsRowList from './PoolsRowList'
-import useResizeView from '@/hooks/useResizeView'
-import useProjectCreateModal from '@/hooks/useProjectCreateModal'
-import { PiPencilSimpleLine } from 'react-icons/pi'
-import ProjectCreateModal from '../project/ProjectCreateModal'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
-import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
-import { ProjectButton } from '../project/ProjectButton'
 
-type PoolsListProps = {
+interface PoolsListProps {
   pools: PoolSubgraph[]
   stakeTogether: StakeTogether
 }
@@ -84,9 +84,9 @@ export default function PoolsControl({ pools }: PoolsListProps) {
     setActiveFilters(filter)
   }
 
-  const selectSearch = (search: string) => {
+  const selectSearch = (term: string) => {
     setActiveFilters(['all'])
-    setSearch(search)
+    setSearch(term)
   }
 
   const clearFilter = () => {
@@ -145,9 +145,7 @@ export default function PoolsControl({ pools }: PoolsListProps) {
           <span>{t('v2.pools.list.invested')}</span>
           <span>Media</span>
         </header>
-        {!poolsFilterBySearch.length && (
-          <PoolsEmptyState handleClickButton={clearFilter} key='pool-row-empty' />
-        )}
+        {!poolsFilterBySearch.length && <PoolsEmptyState handleClickButton={clearFilter} key='pool-row-empty' />}
         {poolsFilterBySearch.map(pool => (
           <div key={`pool-row-${pool.address}`}>
             <PoolsRowList key={`pool-list-row-${pool.address}`} pool={pool} loading={isLoading} />

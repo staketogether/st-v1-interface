@@ -1,4 +1,4 @@
-export type PoolActivity = {
+export interface PoolActivity {
   type: string
   timestamp: number
   account: {

@@ -1,22 +1,22 @@
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebar from '@/hooks/useWalletSidebar'
+import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import { truncateWei } from '@/services/truncate'
 import { Delegation } from '@/types/Delegation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { PiPen } from 'react-icons/pi'
 import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
+import Button from '../shared/Button'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { PiPen } from 'react-icons/pi'
-import Button from '../shared/Button'
-import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
-import { Product } from '@/types/Product'
+import { Staking } from '@/types/Staking'
 
-type WalletSidebarPortfolioProps = {
+interface WalletSidebarPortfolioProps {
   accountDelegations: Delegation[]
-  product: Product
+  product: Staking
 }
 
 export default function WalletSidebarPortfolio({ accountDelegations, product }: WalletSidebarPortfolioProps) {
@@ -29,7 +29,7 @@ export default function WalletSidebarPortfolio({ accountDelegations, product }: 
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
-  const stakeTogetherPool = product.stakeTogetherPool['mainnet']
+  const stakeTogetherPool = product.stakeTogetherPool
 
   return (
     <Container>
@@ -42,8 +42,8 @@ export default function WalletSidebarPortfolio({ accountDelegations, product }: 
         const poolMetadata = handleMetadataPools(delegation.delegated.address)
         const urlRedirect =
           stakeTogetherPool?.toLowerCase() === delegation.delegated.address.toLowerCase()
-            ? `${product.urlRedirect}`
-            : `${product.urlRedirect.replace('currency', currency)}?projectAddress=${delegation.delegated.address}`
+            ? `${product.url}`
+            : `${product.url.replace('currency', currency)}?projectAddress=${delegation.delegated.address}`
         return (
           <DelegatedPool key={index} href={urlRedirect} onClick={() => setOpenSidebar(false)}>
             <div>
@@ -51,11 +51,11 @@ export default function WalletSidebarPortfolio({ accountDelegations, product }: 
                 <CommunityLogo
                   size={24}
                   src={poolMetadata?.logo.url}
-                  alt={poolMetadata?.logo.fileName || ''}
+                  alt={poolMetadata?.logo.fileName ?? ''}
                   loading={isLoading}
                   listed={!!poolMetadata}
                 />
-                {poolMetadata && poolMetadata.name ? (
+                {poolMetadata?.name ? (
                   <CommunityName name={poolMetadata.name} loading={isLoading} />
                 ) : (
                   <CommunityName walletAddress={delegation.delegated.address} loading={isLoading} />
@@ -70,13 +70,7 @@ export default function WalletSidebarPortfolio({ accountDelegations, product }: 
         )
       })}
       {accountDelegations.length > 0 && (
-        <Button
-          small={true}
-          label={t('edit')}
-          icon={<EditIcon />}
-          block
-          onClick={() => setOpenSidebarEditPortfolio(true)}
-        />
+        <Button small={true} label={t('edit')} icon={<EditIcon />} block onClick={() => setOpenSidebarEditPortfolio(true)} />
       )}
     </Container>
   )

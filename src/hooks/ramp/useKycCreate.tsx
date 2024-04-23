@@ -34,21 +34,18 @@ export default function useKycCreate(
 ) {
   const { backendUrl } = globalConfig
   const isValid = provider && taxId && kycData
-  const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, { ...kycData }).then(res => res.data)
-  const { data, error, mutate, isLoading } = useSWR<{ id: string }>(
-    isValid ? `api/ramp/kyc/${provider}/${taxId}/verify` : null,
-    fetcher,
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      errorRetryCount: 1,
-      shouldRetryOnError: false,
-      revalidateOnMount: false,
-      onSuccess: data => onSuccessCallback && onSuccessCallback(data),
-      onError: data => onErrorCallback && onErrorCallback(data)
-    }
-  )
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, { ...kycData }).then(r => r.data)
+  const { data, error, mutate, isLoading } = useSWR<{ id: string }>(isValid ? `api/ramp/kyc/${provider}/${taxId}/verify` : null, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    errorRetryCount: 1,
+    shouldRetryOnError: false,
+    revalidateOnMount: false,
+    onSuccess: result => onSuccessCallback && onSuccessCallback(result),
+    onError: result => onErrorCallback && onErrorCallback(result as AxiosError<{ message?: string; data?: string }>)
+  })
 
   return {
     data,

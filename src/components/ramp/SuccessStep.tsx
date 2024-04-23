@@ -1,24 +1,36 @@
 import { clearModal, quoteVar } from '@/hooks/ramp/useControlModal'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'
+import successAnimation from '@assets/animations/success-animation.json'
 import styled from 'styled-components'
 import Button from '../shared/Button'
 import LottieAnimation from '../shared/LottieAnimation'
-import successAnimation from '@assets/animations/success-animation.json'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
+import { Asset } from '@/types/Asset'
 
-export default function SuccessStep() {
+interface SuccessStepProps {
+  product: Asset
+}
+
+export default function SuccessStep({ product }: SuccessStepProps) {
   const { t } = useLocaleTranslation()
   const quote = useReactiveVar(quoteVar)
 
   const exchange = (Number(quote?.amountBrl) / Number(quote?.amountToken)).toFixed(2)
-  useFacebookPixel('purchase_ether')
+  useFacebookPixel(`onramp-success:${product.id}`, !!quote, {
+    amountToken: parseFloat(quote?.amountToken ?? '0'),
+    amountFiat: parseFloat(quote?.amountBrl ?? '0'),
+    method: 'PIX',
+    assetId: product.id
+  })
   return (
     <Container>
       <LottieAnimation animationData={successAnimation} height={80} />
       <DepositToken>
         <div>
-          <span>{quote?.amountToken} ETH</span>
+          <span>
+            {quote?.amountToken} {product.symbol}
+          </span>
         </div>
         <div>
           <span>{t('v2.ramp.yourEths')}</span>
@@ -28,19 +40,23 @@ export default function SuccessStep() {
       <DepositInfo>
         <Info>
           <span>{t('v2.ramp.youReceived')}</span>
-          <span className='right secondary'>{quote?.amountToken} ETH</span>
+          <span className='right secondary'>
+            {quote?.amountToken} {product.symbol}
+          </span>
         </Info>
         <Info>
           <span>{t('v2.ramp.exchange')}</span>
           <div className='right'>
             <span className='green'>R$ {exchange}</span>
             <span>=</span>
-            <span className='secondary'>1 ETH</span>
+            <span className='secondary'>1 {product.symbol}</span>
           </div>
         </Info>
         <Info>
           <div>
-            <span className='green'>{quote?.amountToken} ETH</span>
+            <span className='green'>
+              {quote?.amountToken} {product.symbol}
+            </span>
             <span>x</span>
             <span className='secondary'>R$ {exchange}</span>
           </div>
@@ -67,9 +83,6 @@ export default function SuccessStep() {
 const { Container, DepositToken, DepositInfo, Info } = {
   Container: styled.div`
     width: auto;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-width: 372px;
-    }
     display: flex;
     flex-direction: column;
     gap: ${({ theme: { size } }) => size[24]};

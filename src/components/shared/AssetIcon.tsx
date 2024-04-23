@@ -1,64 +1,43 @@
-import React from 'react'
-import Image from 'next/image'
-import { Network, ProductSymbol } from '@/types/Product'
-import stIcon from '@assets/st-symbol.svg'
-import stpRETHIcon from '@assets/stpRETHIcon.svg'
-import styled from 'styled-components'
+import { Chain } from '@/config/chain'
+import arbitrumIcon from '@assets/network/arbitrum.svg'
+import chilizIcon from '@assets/network/chiliz.svg'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
-import arbitrumIcon from '@assets/network/arbitrum.svg'
 import polygonIcon from '@assets/network/polygon.svg'
-import solanaIcon from '@assets/network/solana.svg'
+import Image, { StaticImageData } from 'next/image'
+import styled from 'styled-components'
 
-type Icon = ProductSymbol | Network
-
-type SymbolIconsProps = {
-  assetIcon: Icon
-  networkIcon: Network
+interface SymbolIconsProps {
+  altName: string
+  image: string | StaticImageData
+  chain: number
   size: number
   marginRight?: string | number
 }
 
-export default function AssetIcon({ assetIcon, size, networkIcon, marginRight }: SymbolIconsProps) {
-  const assetSymbolIcons = {
-    stpETH: stIcon,
-    strETH: stpRETHIcon,
-    stpPOL: stIcon,
-    stpSOL: stIcon,
-    stpTIA: stIcon,
-    stpNear: stIcon,
-    stpDOT: stIcon,
-    stpATOM: stIcon,
-    stpBTC: stIcon,
-    stpCHZ: stIcon,
-    ethereum: ethereumIcon,
-    optimism: optimismIcon,
-    ['optimism-sepolia']: optimismIcon,
-    arbitrum: arbitrumIcon,
-    polygon: polygonIcon,
-    solana: solanaIcon,
-    holesky: ethereumIcon
-  }
-
-  const networkIcons = {
-    ethereum: ethereumIcon,
-    optimism: optimismIcon,
-    ['optimism-sepolia']: optimismIcon,
-    arbitrum: arbitrumIcon,
-    polygon: polygonIcon,
-    solana: solanaIcon,
-    holesky: ethereumIcon
+export default function AssetIcon({ altName, image, size, chain, marginRight }: SymbolIconsProps) {
+  const chainsIcon = {
+    [Chain.ETH_MAINNET]: ethereumIcon,
+    [Chain.OP_MAINNET]: optimismIcon,
+    [Chain.ARB_MAINNET]: arbitrumIcon,
+    [Chain.POL_MAINNET]: polygonIcon,
+    [Chain.CHZ_MAINNET]: chilizIcon,
+    [Chain.ETH_TESTNET]: ethereumIcon,
+    [Chain.OP_TESTNET]: optimismIcon,
+    [Chain.ARB_TESTNET]: arbitrumIcon,
+    [Chain.POL_TESTNET]: polygonIcon,
+    [Chain.CHZ_TESTNET]: chilizIcon
   }
 
   return (
     <Wrapper style={{ marginRight: marginRight ? marginRight : 'inherit' }} size={size}>
-      <Image src={assetSymbolIcons[assetIcon]} width={size} height={size} alt={assetIcon} />
+      <Image src={image} width={size} height={size} alt={altName} />
       <div>
         <Image
-          src={networkIcons[networkIcon]}
+          src={chainsIcon[chain]}
           width={size <= 24 ? 14 : 16}
           height={size <= 24 ? 14 : 16}
-          alt={networkIcon}
+          alt={'Network'}
           className='white-border'
         />
       </div>

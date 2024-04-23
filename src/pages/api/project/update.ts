@@ -1,11 +1,11 @@
 import { CreateContentfulClient } from '@/config/contentful'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { ethers } from 'ethers'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { form, signatureMessage } = req.body
-  const { signature, message } = signatureMessage
-  const projectId = form.projectId
+  const { signature, message }: { signature: string; message: string } = signatureMessage
+  const projectId: string = form.projectId
   if (!projectId) {
     res.status(400).json({ message: 'sysId not found' })
   }
@@ -32,13 +32,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const signatureWallet = ethers.verifyMessage(messageBytes, signature)
 
   if (signatureWallet.toLocaleLowerCase() != form.wallet.toLocaleLowerCase()) {
-    res.status(400).json({ message: 'as carteiras não são iguais' })
+    res.status(400).json({ message: 'wallets are not equals' })
   }
 
   const entry = await client.getEntry(projectId)
 
-  if (form.logo && form.logo.base64 && form.logo.mimeType) {
-    const decodedImage = Buffer.from(form.logo.base64, 'base64')
+  if (form.logo?.base64 && form.logo.mimeType) {
+    const decodedImage = Buffer.from(form.logo.base64 as string, 'base64')
     const logoUpload = await client.createAssetFromFiles({
       fields: {
         title: {
@@ -58,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       }
     })
-    const assetLogo = await logoUpload.processForAllLocales().then(res => res.publish())
+    const assetLogo = await logoUpload.processForAllLocales().then(r => r.publish())
     entry.fields.logo = {
       'en-US': {
         sys: {
@@ -77,8 +77,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
   }
 
-  if (form.cover && form.cover.base64 && form.cover.mimeType && !form.videoEn && !form.videoPt) {
-    const decodedImage = Buffer.from(form.cover.base64, 'base64')
+  if (form.cover?.base64 && form.cover.mimeType && !form.videoEn && !form.videoPt) {
+    const decodedImage = Buffer.from(form.cover.base64 as string, 'base64')
     const coverUpload = await client.createAssetFromFiles({
       fields: {
         title: {
@@ -104,7 +104,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     })
 
-    const assetCover = await coverUpload.processForAllLocales().then(res => res.publish())
+    const assetCover = await coverUpload.processForAllLocales().then(r => r.publish())
     entry.fields.cover = {
       'en-US': {
         sys: {
@@ -126,7 +126,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     entry.fields.video = { 'en-US': '', pt: '' }
   }
   if (form.removeCover) {
-    const assetIdEn = entry.fields.cover['en-US'].sys.id
+    const assetIdEn: string = entry.fields.cover['en-US'].sys.id
 
     const asset = await client.getAsset(assetIdEn)
     const assetUnpublish = await asset.unpublish()
@@ -136,8 +136,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     entry.fields.cover.pt = null
   }
 
-  if (form.headerCover && form.headerCover.base64 && form.headerCover.mimeType) {
-    const decodedImage = Buffer.from(form.headerCover.base64, 'base64')
+  if (form.headerCover?.base64 && form.headerCover.mimeType) {
+    const decodedImage = Buffer.from(form.headerCover.base64 as string, 'base64')
     const headerCoverUpload = await client.createAssetFromFiles({
       fields: {
         title: {
@@ -163,7 +163,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
     })
 
-    const assetHeaderCover = await headerCoverUpload.processForAllLocales().then(res => res.publish())
+    const assetHeaderCover = await headerCoverUpload.processForAllLocales().then(r => r.publish())
     entry.fields.image = {
       'en-US': {
         sys: {
@@ -185,7 +185,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (form.removeHeaderCover && entry.fields.image) {
-    const assetIdEn = entry.fields.image['en-US'].sys.id
+    const assetIdEn: string = entry.fields.image['en-US'].sys.id
 
     const asset = await client.getAsset(assetIdEn)
     const assetUnpublish = await asset.unpublish()

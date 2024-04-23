@@ -1,22 +1,22 @@
 import { chainConfigByChainId } from '@/config/chain'
 import useAddSethToWallet from '@/hooks/useAddSethToWallet'
+import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
+import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
+import { WithdrawType } from '@/types/Withdraw'
+import loadingAnimation from '@assets/animations/loading-animation.json'
 import ethIcon from '@assets/icons/eth-icon.svg'
 import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
 import { PiArrowRight, PiCheckCircle } from 'react-icons/pi'
 import styled from 'styled-components'
-import { WithdrawType } from '@/types/Withdraw'
-import loadingAnimation from '@assets/animations/loading-animation.json'
-import LottieAnimation from '../shared/LottieAnimation'
-import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
-import { Product } from '@/types/Product'
-import SymbolIcons from '../tokens/components/SymbolIcons'
 import AssetIcon from '../shared/AssetIcon'
-import { useFacebookPixel } from '@/hooks/useFacebookPixel'
+import LottieAnimation from '../shared/LottieAnimation'
+import TokensSymbolIcons from '../asset/TokensSymbolIcons'
+import { Staking } from '@/types/Staking'
 
-type StakeTransactionLoadingProps = {
+interface StakeTransactionLoadingProps {
   walletActionLoading: boolean
   transactionLoading: boolean
   amount: string
@@ -25,29 +25,27 @@ type StakeTransactionLoadingProps = {
   txHash: string | undefined
   type: 'deposit' | 'withdraw'
   withdrawTypeSelected: WithdrawType
-  product: Product
+  product: Staking
   chainId: number
 }
 
 export default function StakeTransactionLoading({
-  walletActionLoading,
-  transactionLoading,
-  amount,
-  youReceive,
-  transactionIsSuccess,
-  txHash,
-  type,
-  withdrawTypeSelected,
-  product,
-  chainId
-}: StakeTransactionLoadingProps) {
+                                                  walletActionLoading,
+                                                  transactionLoading,
+                                                  amount,
+                                                  youReceive,
+                                                  transactionIsSuccess,
+                                                  txHash,
+                                                  type,
+                                                  withdrawTypeSelected,
+                                                  product,
+                                                  chainId
+                                                }: StakeTransactionLoadingProps) {
   const { t } = useLocaleTranslation()
   const isWithdraw = type === 'withdraw'
 
-  const { isTestnet, blockExplorer } = chainConfigByChainId(chainId)
-  const stakeTogetherContractAddress = !isTestnet
-    ? product.contracts.mainnet.StakeTogether
-    : product.contracts.testnet.StakeTogether || `0x`
+  const { blockExplorer } = chainConfigByChainId(chainId)
+  const stakeTogetherContractAddress = product.contracts.StakeTogether
 
   const { addToWalletAction } = useAddSethToWallet({
     productSymbol: product.symbol,
@@ -56,10 +54,20 @@ export default function StakeTransactionLoading({
   const { addToWalletAction: addStwEthToWalletAction } = useAddStwEthToWallet()
 
   useFacebookPixel(
-    product.eventsTrack.confirmation,
-    walletActionLoading && !transactionLoading && !transactionIsSuccess && !isWithdraw
+    `deposit-confirmation:${product.id}`,
+    walletActionLoading && !transactionLoading && !transactionIsSuccess && !isWithdraw,
+    {
+      value: parseFloat(truncateWei(youReceive, 6)),
+      stakingId: product.id
+    }
   )
-  useFacebookPixel(product.eventsTrack.success, transactionIsSuccess && !isWithdraw)
+
+  useFacebookPixel(`deposit-success:${product.id}`, transactionIsSuccess && !isWithdraw, {
+    value: parseFloat(truncateWei(youReceive, 6)),
+    stakingId: product.id,
+    txHash: String(txHash)
+  })
+
   return (
     <Container>
       {transactionIsSuccess ? (
@@ -93,13 +101,13 @@ export default function StakeTransactionLoading({
           {isWithdraw ? (
             <>
               <div>
-                <SymbolIcons productSymbol={product.symbol} size={32} />
+                <TokensSymbolIcons productSymbol={product.symbol} size={32} />
                 <span className={'purple'}>{`${amount}`}</span>
                 <span className={'purple'}>{product.symbol}</span>
               </div>
               <ArrowIcon fontSize={18} />
               <div>
-                <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
+                <AssetIcon altName={product.id} chain={product.asset.chains[0]} size={32} image={product.symbolImage} />
                 <span>{`${truncateWei(youReceive, 6)}`}</span>
                 <span>
                   {` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}
@@ -109,13 +117,13 @@ export default function StakeTransactionLoading({
           ) : (
             <>
               <div>
-                <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
+                <AssetIcon image={product.symbolImage} altName={product.id} chain={product.asset.chains[0]} size={32} />
                 <span>{`${amount}`}</span>
                 <span> {t('eth.symbol')}</span>
               </div>
               <ArrowIcon fontSize={18} />
               <div>
-                <SymbolIcons productSymbol={product.symbol} size={32} />
+                <TokensSymbolIcons productSymbol={product.symbol} size={32} />
                 <span className={'purple'}>{`${truncateWei(youReceive, 6)}`}</span>
                 <span className={'purple'}> {product.symbol}</span>
               </div>
@@ -126,7 +134,7 @@ export default function StakeTransactionLoading({
       {!isWithdraw && transactionIsSuccess && (
         <AddAssetInWalletButton onClick={addToWalletAction}>
           <span>{t('addSethToWallet.add')} </span>
-          <SymbolIcons productSymbol={product.symbol} size={23} />
+          <TokensSymbolIcons productSymbol={product.symbol} size={23} />
           <span>{t('addSethToWallet.yourWallet')}</span>
         </AddAssetInWalletButton>
       )}

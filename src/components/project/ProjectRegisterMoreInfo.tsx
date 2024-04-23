@@ -1,19 +1,20 @@
-import chainConfig, { Networks } from '@/config/chain'
+import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { ContentfulWithLocale } from '@/types/ContentfulPool'
 import { ProjectCreateInfo, ProjectLinksToAnalyze } from '@/types/Project'
 import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { PiArrowLeft, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
 import Button from '../shared/Button'
-import Input from '../shared/inputs/Input'
 import GenericTransactionLoading from '../shared/GenericTransactionLoading'
-import ProjectCreateSuccess from './ProjectCreateSuccess'
+import Input from '../shared/inputs/Input'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
-import { ContentfulWithLocale } from '@/types/ContentfulPool'
+import ProjectCreateSuccess from './ProjectCreateSuccess'
 
-type ProjectRegisterMoreInfoProps = {
+interface ProjectRegisterMoreInfoProps {
   isLoading: boolean
   isSuccess: boolean
   current: number
@@ -41,7 +42,7 @@ export default function ProjectRegisterMoreInfo({
   const { chainId } = chain
   const isWrongNetwork = chainId !== walletChainId?.id
   const isProjectRejected = poolDetail?.status === 'rejected'
-  const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') || false
+  const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') ?? false
   const handleLabelButton = () => {
     if (isWrongNetwork) {
       return `${t('switch')} ${chain.name.charAt(0).toUpperCase() + chain.name.slice(1)}`
@@ -73,10 +74,10 @@ export default function ProjectRegisterMoreInfo({
 
   useEffect(() => {
     if (poolDetail && isProjectRejected) {
-      setValue('site', poolDetail.site || '')
-      setValue('twitter', poolDetail.twitter || '')
-      setValue('instagram', poolDetail.instagram || '')
-      setValue('telegram', poolDetail.telegram || '')
+      setValue('site', poolDetail.site ?? '')
+      setValue('twitter', poolDetail.twitter ?? '')
+      setValue('instagram', poolDetail.instagram ?? '')
+      setValue('telegram', poolDetail.telegram ?? '')
     }
   }, [isProjectRejected, poolDetail, setValue])
 
@@ -97,19 +98,15 @@ export default function ProjectRegisterMoreInfo({
           poolDetail={poolDetail}
           formValues={{
             ...formValues,
-            logo: { mimeType: projectInfo?.logo?.mimeType, base64: projectInfo?.logo?.base64 || '' },
+            logo: { mimeType: projectInfo?.logo?.mimeType, base64: projectInfo?.logo?.base64 ?? '' },
             category: projectInfo?.category
           }}
         />
       )}
       {isLoading && !isSuccess && (
         <GenericTransactionLoading
-          chainId={Networks.Mainnet}
-          title={
-            isReappliedProject
-              ? t('v2.createProject.form.reapplyLoadingMessage')
-              : t('v2.createProject.form.loadingMessage')
-          }
+          chainId={mainnet.id}
+          title={isReappliedProject ? t('v2.createProject.form.reapplyLoadingMessage') : t('v2.createProject.form.loadingMessage')}
         />
       )}
       {!isLoading && !isSuccess && (
@@ -225,14 +222,7 @@ export default function ProjectRegisterMoreInfo({
       {!isSuccess && !isLoading && (
         <FooterContainer>
           <Button block icon={<CreateProjectIcon />} label={handleLabelButton()} type='submit' />
-          <Button
-            type='button'
-            onClick={previewStep}
-            ghost
-            label={t('goToBack')}
-            icon={<PreviewStepIcon />}
-            block
-          />
+          <Button type='button' onClick={previewStep} ghost label={t('goToBack')} icon={<PreviewStepIcon />} block />
         </FooterContainer>
       )}
     </Container>

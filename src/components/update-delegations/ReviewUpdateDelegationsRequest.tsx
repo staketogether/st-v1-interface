@@ -1,20 +1,16 @@
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { UpdateDelegationForm } from '@/types/UpdateDelegation'
-import React from 'react'
+import { Progress } from 'antd'
 import styled, { useTheme } from 'styled-components'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import { Progress } from 'antd'
 
-type ReviewUpdateDelegationsRequestProps = {
+interface ReviewUpdateDelegationsRequestProps {
   poolsList: ContentfulPool[]
   delegationForm: UpdateDelegationForm[]
 }
 
-export default function ReviewUpdateDelegationsRequest({
-  poolsList,
-  delegationForm
-}: ReviewUpdateDelegationsRequestProps) {
+export default function ReviewUpdateDelegationsRequest({ poolsList, delegationForm }: ReviewUpdateDelegationsRequestProps) {
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
@@ -29,21 +25,17 @@ export default function ReviewUpdateDelegationsRequest({
               <CommunityLogo
                 size={24}
                 src={poolMetadata?.logo.url}
-                alt={poolMetadata?.logo.fileName || ''}
+                alt={poolMetadata?.logo.fileName ?? ''}
                 loading={false}
                 listed={!!poolMetadata}
               />
-              {poolMetadata && poolMetadata.name ? (
+              {poolMetadata?.name ? (
                 <CommunityName name={poolMetadata.name} loading={false} />
               ) : (
                 <CommunityName walletAddress={pool.address} loading={false} />
               )}
             </Project>
-            <Progress
-              percent={Number(pool.percentage.toFixed(0))}
-              style={{ margin: 0 }}
-              strokeColor={theme.colorV2.blue[1]}
-            />
+            <Progress percent={Number(pool.percentage.toFixed(0))} style={{ margin: 0 }} strokeColor={theme.colorV2.blue[1]} />
           </Row>
         )
       })}

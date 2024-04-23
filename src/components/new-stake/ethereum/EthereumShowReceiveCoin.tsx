@@ -1,20 +1,19 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-import SymbolIcons from '@/components/tokens/components/SymbolIcons'
-import { chainConfigByChainId } from '@/config/chain'
+import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
+import { Staking } from '@/types/Staking'
 
-type EthereumStpETHInputProps = {
+interface EthereumStpETHInputProps {
   amountValue: string
   balance: bigint
   balanceLoading: boolean
   type: 'deposit' | 'withdraw'
-  product: Product
+  product: Staking
   chainId: number
 }
 
@@ -23,16 +22,12 @@ export default function EthereumShowReceiveCoin({
   balance,
   balanceLoading,
   type,
-  chainId,
   product
 }: EthereumStpETHInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
 
-  const { isTestnet } = chainConfigByChainId(chainId)
-  const stakeTogetherContractAddress = !isTestnet
-    ? product.contracts.mainnet.StakeTogether
-    : product.contracts.testnet.StakeTogether || `0x`
+  const stakeTogetherContractAddress = product.contracts.StakeTogether
 
   return (
     <InputContent>
@@ -49,15 +44,10 @@ export default function EthereumShowReceiveCoin({
         <CoinActionContainer>
           {type === 'deposit' ? (
             <>
-              <SymbolIcons
-                productSymbol={product.symbol}
-                size={32}
-                showPlusIcon
-                contractAddress={stakeTogetherContractAddress}
-              />
+              <TokensSymbolIcons productSymbol={product.symbol} size={32} showPlusIcon contractAddress={stakeTogetherContractAddress} />
             </>
           ) : (
-            <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
+            <AssetIcon altName={product.asset.symbol} image={product.asset.symbolImage} chain={product.asset.chains[0]} size={32} />
           )}
           <span>{type === 'deposit' ? product.symbol : t('eth.symbol')}</span>
         </CoinActionContainer>

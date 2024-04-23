@@ -1,16 +1,16 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
+import { WithdrawType } from '@/types/Withdraw'
 import styled from 'styled-components'
+import AssetIcon from '../shared/AssetIcon'
 import Modal from '../shared/Modal'
+import TokensSymbolIcons from '../asset/TokensSymbolIcons'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeTransactionLoading from './StakeTransactionLoading'
-import { WithdrawType } from '@/types/Withdraw'
-import { Product } from '@/types/Product'
-import SymbolIcons from '../tokens/components/SymbolIcons'
-import AssetIcon from '../shared/AssetIcon'
+import { Staking } from '@/types/Staking'
 
-type StakeConfirmModalProps = {
+interface StakeConfirmModalProps {
   amount: string
   youReceive: bigint
   type: 'deposit' | 'withdraw'
@@ -22,25 +22,25 @@ type StakeConfirmModalProps = {
   onClick: () => void
   onClose: () => void
   withdrawTypeSelected: WithdrawType
-  product: Product
+  product: Staking
   chainId: number
 }
 
 export default function StakeConfirmModal({
-  amount,
-  type,
-  labelButton,
-  transactionLoading,
-  walletActionLoading,
-  transactionIsSuccess,
-  youReceive,
-  txHash,
-  withdrawTypeSelected,
-  product,
-  chainId,
-  onClick,
-  onClose
-}: StakeConfirmModalProps) {
+                                            amount,
+                                            type,
+                                            labelButton,
+                                            transactionLoading,
+                                            walletActionLoading,
+                                            transactionIsSuccess,
+                                            youReceive,
+                                            txHash,
+                                            withdrawTypeSelected,
+                                            product,
+                                            chainId,
+                                            onClick,
+                                            onClose
+                                          }: StakeConfirmModalProps) {
   const { isOpen } = useStakeConfirmModal()
   const { t } = useLocaleTranslation()
   const isWithdraw = type === 'withdraw'
@@ -80,7 +80,7 @@ export default function StakeConfirmModal({
                     <span className={'purple'}>{truncateDecimal(amount, 6)}</span>{' '}
                     <span className={'purple'}>{product.symbol}</span>
                   </span>
-                  <SymbolIcons productSymbol={product.symbol} size={32} />
+                  <TokensSymbolIcons productSymbol={product.symbol} size={32} />
                 </div>
               </ContainerPayment>
               <ContainerPayment>
@@ -92,7 +92,7 @@ export default function StakeConfirmModal({
                       withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
                     }`}</span>{' '}
                   </span>
-                  <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
+                  <AssetIcon size={32} altName={product.symbol} chain={product.asset.chains[0]} image={product.symbolImage}/>
                 </div>
               </ContainerPayment>
             </>
@@ -104,7 +104,7 @@ export default function StakeConfirmModal({
                   <span>
                     <span>{truncateDecimal(amount, 6)}</span> <span>{t('eth.symbol')}</span>
                   </span>
-                  <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
+                  <AssetIcon size={32} altName={product.symbol} chain={product.asset.chains[0]} image={product.symbolImage}/>
                 </div>
               </ContainerPayment>
               <ContainerPayment>
@@ -114,7 +114,7 @@ export default function StakeConfirmModal({
                     <span className={'purple'}>{truncateWei(youReceive, 6)}</span>
                     <span className={'purple'}> {product.symbol}</span>
                   </span>
-                  <SymbolIcons productSymbol={product.symbol} size={32} />
+                  <TokensSymbolIcons productSymbol={product.symbol} size={32} />
                 </div>
               </ContainerPayment>
             </>

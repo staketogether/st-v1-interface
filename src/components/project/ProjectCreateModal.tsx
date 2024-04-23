@@ -1,21 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import Modal from '../shared/Modal'
-import useProjectCreateModal from '@/hooks/useProjectCreateModal'
-import styled from 'styled-components'
-import { notification } from 'antd'
-import { ProjectCreateInfo, ProjectLinksToAnalyze } from '@/types/Project'
-import type { UploadFile } from 'antd/es/upload/interface'
-import ProjectRegisterInfo from './ProjectRegisterInfo'
-
-import ProjectRegisterMoreInfo from './ProjectRegisterMoreInfo'
-import { useSignMessage } from 'wagmi'
-import axios from 'axios'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { contentfulClient } from '@/config/apollo'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import useProjectCreateModal from '@/hooks/useProjectCreateModal'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
+import { ProjectCreateInfo, ProjectLinksToAnalyze } from '@/types/Project'
+import { notification } from 'antd'
+import type { UploadFile } from 'antd/es/upload/interface'
+import axios from 'axios'
+import { useCallback, useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { useSignMessage } from 'wagmi'
+import Modal from '../shared/Modal'
+import ProjectRegisterInfo from './ProjectRegisterInfo'
+import ProjectRegisterMoreInfo from './ProjectRegisterMoreInfo'
 
-type CommunityCreateModalProps = {
+interface CommunityCreateModalProps {
   account?: `0x${string}`
   poolDetail: ContentfulWithLocale | null
 }
@@ -26,7 +25,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const [createCommunityForm, setCreateCommunityForm] = useState<ProjectCreateInfo | null>(null)
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
-  const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') || false
+  const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') ?? false
 
   useEffect(() => {
     if (poolDetail && poolDetail.logo.url && isReappliedProject) {
@@ -63,15 +62,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   )
 
   const message = `Stake Together Register - ${account} `
-  const {
-    isPending: isLoading,
-    isSuccess,
-    signMessage,
-    data,
-    isError,
-    error,
-    reset: resetSignMessage
-  } = useSignMessage()
+  const { isPending: isLoading, isSuccess, signMessage, data, isError, error, reset: resetSignMessage } = useSignMessage()
 
   useEffect(() => {
     const executeMessage = async () => {
@@ -112,12 +103,12 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
     }
   }, [error, isError])
 
-  const registerLinksToAnalyze = async (data: ProjectLinksToAnalyze) => {
+  const registerLinksToAnalyze = (links: ProjectLinksToAnalyze) => {
     setCreateCommunityForm({
       ...projectInfo,
-      ...data
+      ...links
     })
-    await signMessage({ message: message })
+    signMessage({ message })
   }
 
   useEffect(() => {

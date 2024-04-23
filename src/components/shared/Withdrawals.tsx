@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react'
-import { PiHandCoins, PiSwap } from 'react-icons/pi'
-import styled from 'styled-components'
-import ethIcon from '@assets/icons/eth-icon.svg'
-import Image from 'next/image'
-import Button from './Button'
-import { truncateWei } from '@/services/truncate'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import SkeletonLoading from './icons/SkeletonLoading'
 import useWithdrawalsIsReady from '@/hooks/contracts/useWithdrawalsIsReady'
 import useWithdrawalsStwEth from '@/hooks/contracts/useWithdrawalsStwEth'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { truncateWei } from '@/services/truncate'
+import ethIcon from '@assets/icons/eth-icon.svg'
+import Image from 'next/image'
+import { useEffect } from 'react'
+import { PiHandCoins, PiSwap } from 'react-icons/pi'
+import styled from 'styled-components'
+import Button from './Button'
+import SkeletonLoading from './icons/SkeletonLoading'
 
-type WithdrawalsProps = {
+interface WithdrawalsProps {
   balance: bigint
   accountAddress: `0x${string}`
   smallAction?: boolean
@@ -27,11 +27,7 @@ export default function Withdrawals({
 }: WithdrawalsProps) {
   const { t } = useLocaleTranslation()
   const { isReady, loading: isReadyLoading } = useWithdrawalsIsReady(balance)
-  const {
-    isLoading: withdrawalWithdrawLoading,
-    withdrawalsWithdraw,
-    isSuccess
-  } = useWithdrawalsStwEth(balance, accountAddress, true)
+  const { isLoading: withdrawalWithdrawLoading, withdrawalsWithdraw, isSuccess } = useWithdrawalsStwEth(balance, accountAddress, true)
 
   useEffect(() => {
     if (isSuccess) {
@@ -48,11 +44,7 @@ export default function Withdrawals({
       <WithdrawContainer>
         <div>
           <Image src={ethIcon} width={24} height={24} alt='stpEth' />
-          {isLoading ? (
-            <SkeletonLoading height={62} $borderRadius='8px' />
-          ) : (
-            <>{`${truncateWei(balance, 4)} ${t('wse.symbol')}`}</>
-          )}
+          {isLoading ? <SkeletonLoading height={62} $borderRadius='8px' /> : <>{`${truncateWei(balance, 4)} ${t('wse.symbol')}`}</>}
         </div>
         {!isLoading && balance > 0n && (
           <Button

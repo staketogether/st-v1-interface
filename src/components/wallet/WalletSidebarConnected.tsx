@@ -1,52 +1,45 @@
+import chainConfig from '@/config/chain'
+import { web3AuthInstanceVar } from '@/config/web3Auth'
+import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
+import useErc20BalanceOfWei from '@/hooks/contracts/useErc20BalanceOfWei'
+import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
+import useCoinConversion from '@/hooks/useCoinConversion'
+import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
+import { useReactiveVar } from '@apollo/client'
 import { Drawer, Select, notification } from 'antd'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
-import {
-  PiCaretRight,
-  PiChalkboardTeacher,
-  PiChartBar,
-  PiChartLine,
-  PiChartPieSlice,
-  PiGear,
-  PiSignOut,
-  PiWallet
-} from 'react-icons/pi'
+import { PiCaretRight, PiChalkboardTeacher, PiChartBar, PiChartLine, PiChartPieSlice, PiGear, PiSignOut, PiWallet } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useDisconnect } from 'wagmi'
+import { mainnet, optimism } from 'wagmi/chains'
 import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 import { formatNumberByLocale } from '../../services/format'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
-import useStAccount from './hooks/useStAccount'
-
-import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
-import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
 import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
+import AssetIcon from '../shared/AssetIcon'
 import Card from '../shared/Card'
+import Withdrawals from '../shared/Withdrawals'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
-
-import chainConfig, { Networks } from '@/config/chain'
-import { productList } from '@/config/product'
-import useCoinConversion from '@/hooks/useCoinConversion'
-import AssetIcon from '../shared/AssetIcon'
-import Withdrawals from '../shared/Withdrawals'
-import NetworkProductIcons from '../tokens/components/StakingIcons'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
-import { web3AuthInstanceVar } from '@/config/web3Auth'
-import { useReactiveVar } from '@apollo/client'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
-import { StakingProduct } from '@/types/Product'
+import useStAccount from './hooks/useStAccount'
+import { btcOp, ethMainnet, ethOp } from '@/config/product/asset'
+import { ethRestaking, ethStaking, stakingList } from '@/config/product/staking'
+import { StakingId } from '@/types/Staking'
+import { btcOpMobula } from '@/config/mobula'
 
-type WalletSidebarConnectedProps = {
+interface WalletSidebarConnectedProps {
   address: `0x${string}`
 }
 
@@ -55,7 +48,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<'delegations' | 'rewards' | 'activity'>('delegations')
-  const [productTabSelected, setProductTabSelected] = useState<StakingProduct>('ethereum-stake')
+  const [productTabSelected, setProductTabSelected] = useState<StakingId>('eth-staking')
 
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
   const { connector } = useAccount()
@@ -64,16 +57,41 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
   const { locale } = useRouter()
+  const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
-  const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: Networks.Mainnet })
+  const { mobula } = ethMainnet
+  const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: mainnet.id })
   const formattedEthBalance = formatNumberByLocale(truncateWei(ethBalance, 6), locale)
-  const { priceConvertedValue: usdEthBalance } = useCoinConversion(formattedEthBalance)
+  const { priceConvertedValue: usdEthBalance, price: usdEthBalancePriceNotFormatted } = useCoinConversion(
+    formattedEthBalance,
+    mobula.filter
+  )
+
   const { balance: optimistEthBalance } = useEthBalanceOf({
     walletAddress: address,
-    chainId: Networks.optimism
+    chainId: optimism.id
   })
+
+  const { contractAddress: btcContractAddress } = btcOp
+  const { balanceInWei: optimistWbtcBalance } = useErc20BalanceOfWei({
+    walletAddress: address,
+    chainId: optimism.id,
+    token: btcContractAddress
+  })
+
+  const { mobula: ethOpMobula } = ethOp
   const formattedOptimistEthBalance = formatNumberByLocale(truncateWei(optimistEthBalance, 6), locale)
-  const { priceConvertedValue: usdOptimismEthBalance } = useCoinConversion(formattedOptimistEthBalance)
+  const formattedOptimistWbtcBalance = formatNumberByLocale(truncateWei(optimistWbtcBalance, 6), locale)
+  const { priceConvertedValue: usdOptimismEthBalance, price: usdOptimismEthBalanceNotFormatted } = useCoinConversion(
+    formattedOptimistEthBalance,
+    ethOpMobula.filter
+  )
+
+  const { priceConvertedValue: usdOptimismWbtcBalance, price: usdOptimismWbtcBalanceNotFormatted } = useCoinConversion(
+    formattedOptimistWbtcBalance,
+    btcOpMobula.filter
+  )
+
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
   const { chainId } = chainConfig()
@@ -90,57 +108,58 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountBalance: stakeAccountBalance,
     accountRewards: stakeAccountRewards,
     accountActivities: stakeAccountActivities,
-    // accountProfitPercentage: stakeAccountProfitPercentage,
     accountIsLoading: stakeAccountIsLoading,
     accountShare: stakeAccountShare
-  } = useStAccount({ address: address, productName: 'ethereum-stake', chainId: Networks.Mainnet })
+  } = useStAccount({ address: address, productName: 'eth-staking', chainId: mainnet.id })
   const stpETHAccountBalance = truncateWei(stakeAccountBalance, 6)
 
-  const { priceConvertedValue: usdStpETHBalance } = useCoinConversion(stpETHAccountBalance)
+  const { priceConvertedValue: usdStpETHBalance, price: usdStpEthBalanceNotFormatted } = useCoinConversion(
+    stpETHAccountBalance,
+    ethStaking.asset.mobula.filter
+  )
 
   const {
     accountDelegations: restakingAccountDelegations,
     accountBalance: restakingAccountBalance,
     accountRewards: restakingAccountRewards,
     accountActivities: restakingAccountActivities,
-    // accountProfitPercentage: restakingAccountProfitPercentage,
     accountIsLoading: restakingAccountIsLoading,
     accountShare: restakingAccountShare
-  } = useStAccount({ address: address, productName: 'ethereum-restaking', chainId: Networks.optimism })
+  } = useStAccount({ address: address, productName: 'eth-restaking', chainId: optimism.id })
   const stpRETHAccountBalance = formatNumberByLocale(truncateWei(restakingAccountBalance, 5), locale)
-  const { priceConvertedValue: usdStpRETHBalance } = useCoinConversion(stpRETHAccountBalance)
+  const { priceConvertedValue: usdStpRETHBalance, price: usdStpRETHBalanceNotFormatted } = useCoinConversion(
+    stpRETHAccountBalance,
+    ethRestaking.asset.mobula.filter
+  )
 
   const stAccount = {
-    'ethereum-stake': {
+    'eth-staking': {
       accountDelegations: stakeAccountDelegations,
       accountBalance: stakeAccountBalance,
       accountRewards: stakeAccountRewards,
       accountActivities: stakeAccountActivities,
-      // accountProfitPercentage: stakeAccountProfitPercentage,
       accountIsLoading: stakeAccountIsLoading,
       accountShare: stakeAccountShare
     },
-    'ethereum-restaking': {
+    'eth-restaking': {
       accountDelegations: restakingAccountDelegations,
       accountBalance: restakingAccountBalance,
       accountRewards: restakingAccountRewards,
       accountActivities: restakingAccountActivities,
-      // accountProfitPercentage: restakingAccountProfitPercentage,
       accountIsLoading: restakingAccountIsLoading,
       accountShare: restakingAccountShare
     }
   }
 
-  const { accountDelegations, accountRewards, accountActivities, accountShare } =
-    stAccount[productTabSelected as 'ethereum-stake' | 'ethereum-restaking']
+  const { accountDelegations, accountRewards, accountActivities, accountShare } = stAccount[productTabSelected]
 
-  const totalBalance =
-    BigInt(stakeAccountBalance) +
-    BigInt(restakingAccountBalance) +
-    BigInt(ethBalance) +
-    BigInt(optimistEthBalance)
-  const value = truncateWei(totalBalance, 4)
-  const { priceConvertedValue: usdTotalBalance } = useCoinConversion(value)
+  const usdTotalBalance = handleQuotePrice(
+    Number(usdStpEthBalanceNotFormatted) +
+      Number(usdStpRETHBalanceNotFormatted) +
+      Number(usdEthBalancePriceNotFormatted) +
+      Number(usdOptimismEthBalanceNotFormatted) +
+      Number(usdOptimismWbtcBalanceNotFormatted)
+  )
 
   async function disconnectWallet() {
     setOpenSidebar(false)
@@ -165,39 +184,26 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   }, [address])
 
-  const products = productList.filter(product => product.enabled)
+  const products = stakingList.filter(product => product.enabled)
 
   const selectProductOptions = products.map(product => {
     return {
-      value: product.name,
+      value: product.id,
       label: (
         <ProductSelectCard>
-          <NetworkProductIcons stakingProduct={product.name} size={24} />
-          <span>{t(`v2.products.${product.name}`)}</span>
+          <AssetIcon image={product.logoImage} size={24} altName={product.id} chain={product.asset.chains[0]} />
+          <span>{t(`v3.products.${product.id}.name`)}</span>
         </ProductSelectCard>
       )
     }
   })
 
   return (
-    <DrawerContainer
-      placement='right'
-      size='default'
-      onClose={() => setOpenSidebar(false)}
-      mask={true}
-      open={openSidebar}
-    >
-      {isSettingsActive && !isPanelActive && (
-        <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />
-      )}
-      {isPanelActive && !isSettingsActive && !isWeb3AuthSettingsActive && (
-        <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />
-      )}
+    <DrawerContainer placement='right' size='default' onClose={() => setOpenSidebar(false)} mask={true} open={openSidebar}>
+      {isSettingsActive && !isPanelActive && <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />}
+      {isPanelActive && !isSettingsActive && !isWeb3AuthSettingsActive && <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
       {!isSettingsActive && !isPanelActive && isWeb3AuthSettingsActive && (
-        <WalletSidebarWeb3AuthWalletSettings
-          setWeb3authWalletActive={setIsWeb3AuthSettingsActive}
-          walletAddress={address}
-        />
+        <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive} walletAddress={address} />
       )}
       {!isSettingsActive && !isPanelActive && !isWeb3AuthSettingsActive && (
         <>
@@ -206,15 +212,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <Web3AuthProfileContainer>
                 {web3AuthUserInfo && web3AuthUserInfo.typeOfLogin && web3AuthUserInfo.profileImage ? (
                   <>
-                    <Web3AuthProfileImage
-                      src={web3AuthUserInfo.profileImage}
-                      alt={t('stakeTogether')}
-                      width={24}
-                      height={24}
-                    />
-                    <WrapperWallet>
-                      {handleWalletProviderImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}
-                    </WrapperWallet>
+                    <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={24} height={24} />
+                    <WrapperWallet>{handleWalletProviderImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}</WrapperWallet>
                   </>
                 ) : (
                   <>
@@ -224,7 +223,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 )}
               </Web3AuthProfileContainer>
               <div>
-                {web3AuthUserInfo && web3AuthUserInfo.email && (
+                {web3AuthUserInfo?.email && (
                   <WalletAddressContainer>
                     <span onClick={() => web3AuthUserInfo?.email && copyToClipboard(web3AuthUserInfo.email)}>
                       {truncateText(web3AuthUserInfo.email, 20)}
@@ -282,7 +281,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='ethereum' networkIcon='ethereum' size={24} />
+                    <AssetIcon image={ethMainnet.symbolImage} chain={ethMainnet.chains[0]} size={24} altName='Ethereum' />
                   </div>
                   <div>
                     <span>{` ${t('eth.symbol')}`}</span>
@@ -297,7 +296,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='ethereum' networkIcon='optimism' size={24} />
+                    <AssetIcon image={ethOp.symbolImage} chain={ethOp.chains[0]} altName='optimism' size={24} />
                   </div>
                   <div>
                     <span>{`${t('eth.symbol')}`}</span>
@@ -307,6 +306,20 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 <div>
                   <span>{formattedOptimistEthBalance}</span>
                   <span>{usdOptimismEthBalance}</span>
+                </div>
+              </BalanceContainer>
+              <BalanceContainer>
+                <div>
+                  <div>
+                    <AssetIcon image={btcOp.symbolImage} chain={btcOp.chains[0]} altName={btcOp.id} size={24} />
+                  </div>
+                  <div>
+                    <span>{btcOp.symbol}</span>
+                  </div>
+                </div>
+                <div>
+                  <span>{formattedOptimistWbtcBalance}</span>
+                  <span>{usdOptimismWbtcBalance}</span>
                 </div>
               </BalanceContainer>
             </AssetsCard>
@@ -324,7 +337,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceInvestmentContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='stpETH' networkIcon='ethereum' size={24} />
+                    <AssetIcon image={ethStaking.symbolImage} chain={ethStaking.asset.chains[0]} size={24} altName={ethStaking.id} />
                   </div>
                   <div>
                     <span>{`stpETH`}</span>
@@ -340,7 +353,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <BalanceInvestmentContainer>
                 <div>
                   <div>
-                    <AssetIcon assetIcon='strETH' networkIcon='optimism' size={24} />
+                    <AssetIcon image={ethRestaking.symbolImage} chain={ethRestaking.asset.chains[0]} size={24} altName={ethRestaking.id} />
                   </div>
                   <div>
                     <span>{`stpRETH`}</span>
@@ -362,31 +375,22 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 <div>
                   <span>{t('selectProduct')}</span>
                   <Select
-                    defaultValue='ethereum-stake'
+                    defaultValue='eth-staking'
                     style={{ width: '100%', height: '40px' }}
-                    onChange={e => setProductTabSelected(e as 'ethereum-stake' | 'ethereum-restaking')}
+                    onChange={e => setProductTabSelected(e as 'eth-staking' | 'eth-restaking')}
                     options={selectProductOptions}
                   />
                 </div>
                 <HeaderTabHeader>
-                  <div
-                    onClick={() => setTabActivated('delegations')}
-                    className={`${tabActivated === 'delegations' && 'activated'} `}
-                  >
+                  <div onClick={() => setTabActivated('delegations')} className={`${tabActivated === 'delegations' && 'activated'} `}>
                     <PoolsIcon />
                     <span>{t('delegations')}</span>
                   </div>
-                  <div
-                    onClick={() => setTabActivated('rewards')}
-                    className={`${tabActivated === 'rewards' && 'activated'} `}
-                  >
+                  <div onClick={() => setTabActivated('rewards')} className={`${tabActivated === 'rewards' && 'activated'} `}>
                     <AnalyticsIcon />
                     <span>{t('rewards')}</span>
                   </div>
-                  <div
-                    onClick={() => setTabActivated('activity')}
-                    className={`${tabActivated === 'activity' && 'activated'} `}
-                  >
+                  <div onClick={() => setTabActivated('activity')} className={`${tabActivated === 'activity' && 'activated'} `}>
                     <ActivitiesIcon />
                     <span>{t('activity')}</span>
                   </div>
@@ -399,13 +403,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               accountRewards={accountRewards}
               accountActivities={accountActivities}
               activatedTab={tabActivated}
-              productSelected={productTabSelected}
+              stakingAsset={productTabSelected}
             />
           </Card>
 
-          {stwETHBalance > 0n && (
-            <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />
-          )}
+          {stwETHBalance > 0n && <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />}
         </>
       )}
       <UpdateDelegationsModal

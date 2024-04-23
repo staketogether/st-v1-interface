@@ -5,7 +5,7 @@ export default function useVerifyWallet(useWalletAddress: `0x${string}`) {
   const [userCanViewPanel, setUserCanViewPanel] = useState(false)
   const [verifyWalletLoading, setVerifyWalletLoading] = useState(false)
   useEffect(() => {
-    const userCanViewPanel = async () => {
+    const userCanViewPanel2 = async () => {
       try {
         setVerifyWalletLoading(true)
         const response = await axios.get(`/api/project/verifyWallet`, {
@@ -13,13 +13,13 @@ export default function useVerifyWallet(useWalletAddress: `0x${string}`) {
             useWalletAddress
           }
         })
-        setUserCanViewPanel(response.data)
+        setUserCanViewPanel(response.data as boolean)
         setVerifyWalletLoading(false)
       } catch (error) {
         setVerifyWalletLoading(false)
       }
     }
-    userCanViewPanel()
+    userCanViewPanel2()
   }, [useWalletAddress])
 
   return { userCanViewPanel, verifyWalletLoading }

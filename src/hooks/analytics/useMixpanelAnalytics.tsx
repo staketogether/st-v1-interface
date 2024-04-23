@@ -68,13 +68,7 @@ export const useMixpanelAnalytics = () => {
   )
 
   const registerWithdraw = useCallback(
-    (
-      walletAddress: string,
-      chainId: number,
-      poolAddress: string,
-      amount: string,
-      withdrawType: WithdrawType
-    ) => {
+    (walletAddress: string, chainId: number, poolAddress: string, amount: string, withdrawType: WithdrawType) => {
       if (!isInitialized) {
         init()
         return

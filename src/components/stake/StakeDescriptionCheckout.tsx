@@ -1,36 +1,33 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
+import { stakeTogetherAbi } from '@/types/Contracts'
 import { WithdrawType } from '@/types/Withdraw'
 import { PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
-import TooltipComponent from '../shared/TooltipComponent'
-import { chainConfigByChainId } from '@/config/chain'
 import { useReadContract } from 'wagmi'
-import { stakeTogetherAbi } from '@/types/Contracts'
+import TooltipComponent from '../shared/TooltipComponent'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import { Staking } from '@/types/Staking'
 
-type StakeDescriptionCheckoutProps = {
+interface StakeDescriptionCheckoutProps {
   type: 'deposit' | 'withdraw'
   youReceiveDeposit: bigint
   amount: string
   withdrawTypeSelected: WithdrawType
-  product: Product
+  product: Staking
   chainId: number
 }
 
 export default function StakeDescriptionCheckout({
-  type,
-  youReceiveDeposit,
-  amount,
-  withdrawTypeSelected,
-  product,
-  chainId
-}: StakeDescriptionCheckoutProps) {
+                                                   type,
+                                                   youReceiveDeposit,
+                                                   amount,
+                                                   withdrawTypeSelected,
+                                                   product
+                                                 }: StakeDescriptionCheckoutProps) {
   const { t } = useLocaleTranslation()
 
-  const { isTestnet } = chainConfigByChainId(chainId)
-  const stakeTogetherContract = product.contracts[isTestnet ? 'testnet' : 'mainnet'].StakeTogether
+  const stakeTogetherContract = product.contracts.StakeTogether
 
   const { data: feeData, isFetching } = useReadContract({
     address: stakeTogetherContract,

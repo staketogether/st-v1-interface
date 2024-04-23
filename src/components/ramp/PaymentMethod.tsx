@@ -1,6 +1,8 @@
+import { chainConfigByChainId } from '@/config/chain'
 import { BrlaBuyEthStep, openBrlaModalVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useTransak from '@/hooks/useTransak'
+import { Asset } from '@/types/Asset'
 import CreditCard from '@assets/images/master-visa.svg'
 import Pix from '@assets/images/pix-full.svg'
 import Image from 'next/image'
@@ -8,10 +10,17 @@ import { useEffect } from 'react'
 import styled from 'styled-components'
 import Button from '../shared/Button'
 
-export default function PaymentMethod() {
+interface PaymentMethodProps {
+  asset: Asset
+}
+
+export default function PaymentMethod({ asset }: PaymentMethodProps) {
+  const [networkAvailable] = asset.chains
+  const chain = chainConfigByChainId(networkAvailable)
   const { t } = useLocaleTranslation()
   const { onInit, isClosed } = useTransak({
-    productsAvailed: 'BUY'
+    productsAvailed: 'BUY',
+    network: chain.name
   })
 
   const handlePix = () => {
@@ -27,6 +36,10 @@ export default function PaymentMethod() {
       openBrlaModalVar(false)
     }
   }, [isClosed])
+
+  if (asset.symbol === 'wBtc') {
+    handlePix()
+  }
 
   return (
     <Container>
@@ -62,9 +75,6 @@ export default function PaymentMethod() {
 const { Container } = {
   Container: styled.div`
     width: auto;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-width: 372px;
-    }
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};

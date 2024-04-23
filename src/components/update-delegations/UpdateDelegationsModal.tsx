@@ -1,32 +1,31 @@
+import { chainConfigByChainId } from '@/config/chain'
 import useContentfulPoolsList from '@/hooks/contentful/useContentfulPoolsList'
+import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarEditPortfolio from '@/hooks/useWalletSidebarEditPortfolio'
 import { Delegation } from '@/types/Delegation'
-import { Progress, Slider } from 'antd'
-import styled, { useTheme } from 'styled-components'
-import CommunityLogo from '../shared/community/CommunityLogo'
-import CommunityName from '../shared/community/CommunityName'
-import { PiArrowCounterClockwise, PiPlusBold, PiQuestion } from 'react-icons/pi'
-import { useEffect, useState } from 'react'
-import Button from '../shared/Button'
-import useUpdateDelegations, { PoolData } from '@/hooks/contracts/useUpdateDelegations'
 import { UpdateDelegationForm } from '@/types/UpdateDelegation'
-import { ethers } from 'ethers'
+import { Progress, Slider } from 'antd'
+import { useEffect, useState } from 'react'
+import { PiArrowCounterClockwise, PiPlusBold, PiQuestion } from 'react-icons/pi'
+import styled, { useTheme } from 'styled-components'
+import { useAccount, useSwitchChain } from 'wagmi'
+import Button from '../shared/Button'
+import GenericTransactionLoading from '../shared/GenericTransactionLoading'
 import Modal from '../shared/Modal'
 import TooltipComponent from '../shared/TooltipComponent'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import CommunityLogo from '../shared/community/CommunityLogo'
+import CommunityName from '../shared/community/CommunityName'
 import ListProjectModal from './ListProjectModal'
-import GenericTransactionLoading from '../shared/GenericTransactionLoading'
 import ReviewUpdateDelegationsRequest from './ReviewUpdateDelegationsRequest'
-import { StakingProduct } from '@/types/Product'
-import { getProductByName } from '@/config/product'
-import { useAccount, useSwitchChain } from 'wagmi'
-import { chainConfigByChainId } from '@/config/chain'
+import { getStakingById } from '@/config/product/staking'
+import { ethers } from 'ethers'
 
-type UpdateDelegationsModalProps = {
+interface UpdateDelegationsModalProps {
   accountDelegations: Delegation[]
   accountTotalShares: bigint
   userAccount: `0x${string}`
-  productSelected: StakingProduct
+  productSelected: string
 }
 export default function UpdateDelegationsModal({
   accountDelegations,
@@ -36,10 +35,10 @@ export default function UpdateDelegationsModal({
 }: UpdateDelegationsModalProps) {
   const [delegationForm, setDelegationForm] = useState<UpdateDelegationForm[]>([])
   const theme = useTheme()
-  const product = getProductByName({ productName: productSelected })
+  const staking = getStakingById(productSelected)
 
   const { chain: walletChainId } = useAccount()
-  const isWrongNetwork = product.chainIdNetworkAvailable !== walletChainId?.id
+  const isWrongNetwork = !staking.asset.chains.includes(walletChainId?.id ?? 0)
 
   useEffect(() => {
     function handleFormValue(value: Delegation) {
@@ -95,7 +94,8 @@ export default function UpdateDelegationsModal({
   } = useUpdateDelegations(
     isEnabled,
     updateDelegationsFormat.filter(pool => pool.percentage > 0n),
-    product,
+    staking,
+    staking.asset.chains[0],
     userAccount
   )
 
@@ -103,17 +103,12 @@ export default function UpdateDelegationsModal({
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
 
-  function handleUpdateForm(
-    delegation: UpdateDelegationForm,
-    valuePercentage: number,
-    valueDecimal: number,
-    removeProject?: boolean
-  ) {
-    const updateDelegation = delegationForm.map(delegationForm => {
-      if (delegationForm.address === delegation.address) {
-        return { ...delegationForm, percentage: valuePercentage, poolBalanceDecimal: valueDecimal }
+  function handleUpdateForm(delegation: UpdateDelegationForm, valuePercentage: number, valueDecimal: number, removeProject?: boolean) {
+    const updateDelegation = delegationForm.map(dF => {
+      if (dF.address === delegation.address) {
+        return { ...dF, percentage: valuePercentage, poolBalanceDecimal: valueDecimal }
       }
-      return { ...delegationForm }
+      return { ...dF }
     })
     const delegationFilter = removeProject
       ? updateDelegation.filter(pool => {
@@ -162,7 +157,7 @@ export default function UpdateDelegationsModal({
 
   const disabledButton = prepareTransactionIsError || !isEnabled
 
-  const { name } = chainConfigByChainId(product.chainIdNetworkAvailable)
+  const { name } = chainConfigByChainId(staking.asset.chains[0])
   const handleLabelButton = () => {
     if (isWrongNetwork) {
       return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
@@ -176,7 +171,7 @@ export default function UpdateDelegationsModal({
   const { switchChain } = useSwitchChain()
   const handleUpdateDelegationButton = () => {
     if (isWrongNetwork && switchChain) {
-      switchChain({ chainId: product.chainIdNetworkAvailable })
+      switchChain({ chainId: staking.asset.chains[0] })
       return
     }
     updateDelegations()
@@ -198,17 +193,14 @@ export default function UpdateDelegationsModal({
               (isSuccess && `${t('v2.updateDelegations.transactionMessages.successful')}`) ||
               `${t('v2.updateDelegations.transactionMessages.transactionLoading')}`
             }
-            chainId={product.chainIdNetworkAvailable}
+            chainId={staking.asset.chains[0]}
             isLoading={isLoadingTransaction}
             isSuccess={isSuccess}
             txHash={txHash}
             noModalPadding
             successButtonLabel={t('close')}
             bodyComponent={
-              <ReviewUpdateDelegationsRequest
-                poolsList={poolsList}
-                delegationForm={delegationForm.filter(pool => pool.percentage > 0n)}
-              />
+              <ReviewUpdateDelegationsRequest poolsList={poolsList} delegationForm={delegationForm.filter(pool => pool.percentage > 0n)} />
             }
             onSuccessAction={handleCloseModal}
           />
@@ -222,11 +214,7 @@ export default function UpdateDelegationsModal({
                 </TooltipComponent>
               </span>
               <div>
-                <Progress
-                  percent={Number(remainingValue.toFixed(0))}
-                  style={{ margin: 0 }}
-                  strokeColor={theme.colorV2.blue[1]}
-                />
+                <Progress percent={Number(remainingValue.toFixed(0))} style={{ margin: 0 }} strokeColor={theme.colorV2.blue[1]} />
                 <Button
                   small
                   icon={<PiPlusBold style={{ fontSize: '12px' }} />}
@@ -248,11 +236,11 @@ export default function UpdateDelegationsModal({
                         <CommunityLogo
                           size={24}
                           src={poolMetadata?.logo.url}
-                          alt={poolMetadata?.logo.fileName || ''}
+                          alt={poolMetadata?.logo.fileName ?? ''}
                           loading={isLoading}
                           listed={!!poolMetadata}
                         />
-                        {poolMetadata && poolMetadata.name ? (
+                        {poolMetadata?.name ? (
                           <CommunityName name={poolMetadata.name} loading={isLoading} />
                         ) : (
                           <CommunityName walletAddress={delegation.address} loading={isLoading} />
@@ -268,13 +256,7 @@ export default function UpdateDelegationsModal({
                         style={{ margin: 0 }}
                       />
                       <span>{`${delegation.percentage.toFixed(0)}%`}</span>
-                      <Button
-                        small
-                        isLoading={false}
-                        onClick={() => handleSlideChange(delegation, 0, true)}
-                        label={'x'}
-                        disabled={false}
-                      />
+                      <Button small isLoading={false} onClick={() => handleSlideChange(delegation, 0, true)} label={'x'} disabled={false} />
                     </div>
                   </DelegatedPool>
                 )

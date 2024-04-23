@@ -2,113 +2,77 @@
 /* tslint:disable */
 /* eslint-disable */
 import type {
+  AddressLike,
   BaseContract,
   BigNumberish,
   BytesLike,
-  FunctionFragment,
-  Result,
-  Interface,
-  EventFragment,
-  AddressLike,
-  ContractRunner,
   ContractMethod,
+  ContractRunner,
+  EventFragment,
+  FunctionFragment,
+  Interface,
   Listener,
-} from "ethers";
+  Result
+} from 'ethers'
 import type {
   TypedContractEvent,
+  TypedContractMethod,
   TypedDeferredTopicFilter,
   TypedEventLog,
-  TypedLogDescription,
   TypedListener,
-  TypedContractMethod,
-} from "../../../common";
+  TypedLogDescription
+} from '../../../common'
 
 export interface IELAirdropInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "addMerkleRoot"
-      | "claim"
-      | "initialize"
-      | "isClaimed"
-      | "pause"
-      | "setRouter"
-      | "setStakeTogether"
-      | "transferExtraAmount"
-      | "unpause"
-  ): FunctionFragment;
+      | 'addMerkleRoot'
+      | 'claim'
+      | 'initialize'
+      | 'isClaimed'
+      | 'pause'
+      | 'setRouter'
+      | 'setStakeTogether'
+      | 'transferExtraAmount'
+      | 'unpause'
+  ): FunctionFragment
 
   getEvent(
-    nameOrSignatureOrTopic:
-      | "AddMerkleRoot"
-      | "Claim"
-      | "ClaimBatch"
-      | "ReceiveEther"
-      | "SetRouter"
-      | "SetStakeTogether"
-  ): EventFragment;
+    nameOrSignatureOrTopic: 'AddMerkleRoot' | 'Claim' | 'ClaimBatch' | 'ReceiveEther' | 'SetRouter' | 'SetStakeTogether'
+  ): EventFragment
 
-  encodeFunctionData(
-    functionFragment: "addMerkleRoot",
-    values: [BigNumberish, BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "claim",
-    values: [BigNumberish, BigNumberish, AddressLike, BigNumberish, BytesLike[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "initialize",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isClaimed",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(functionFragment: "pause", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "setRouter",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setStakeTogether",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferExtraAmount",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "unpause", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'addMerkleRoot', values: [BigNumberish, BytesLike]): string
+  encodeFunctionData(functionFragment: 'claim', values: [BigNumberish, BigNumberish, AddressLike, BigNumberish, BytesLike[]]): string
+  encodeFunctionData(functionFragment: 'initialize', values?: undefined): string
+  encodeFunctionData(functionFragment: 'isClaimed', values: [BigNumberish, BigNumberish]): string
+  encodeFunctionData(functionFragment: 'pause', values?: undefined): string
+  encodeFunctionData(functionFragment: 'setRouter', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'setStakeTogether', values: [AddressLike]): string
+  encodeFunctionData(functionFragment: 'transferExtraAmount', values?: undefined): string
+  encodeFunctionData(functionFragment: 'unpause', values?: undefined): string
 
-  decodeFunctionResult(
-    functionFragment: "addMerkleRoot",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "isClaimed", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pause", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setRouter", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setStakeTogether",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferExtraAmount",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "unpause", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'addMerkleRoot', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'claim', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'initialize', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'isClaimed', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'pause', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'setRouter', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'setStakeTogether', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'transferExtraAmount', data: BytesLike): Result
+  decodeFunctionResult(functionFragment: 'unpause', data: BytesLike): Result
 }
 
 export namespace AddMerkleRootEvent {
-  export type InputTuple = [reportBlock: BigNumberish, merkleRoot: BytesLike];
-  export type OutputTuple = [reportBlock: bigint, merkleRoot: string];
+  export type InputTuple = [reportBlock: BigNumberish, merkleRoot: BytesLike]
+  export type OutputTuple = [reportBlock: bigint, merkleRoot: string]
   export interface OutputObject {
-    reportBlock: bigint;
-    merkleRoot: string;
+    reportBlock: bigint
+    merkleRoot: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ClaimEvent {
@@ -118,326 +82,188 @@ export namespace ClaimEvent {
     account: AddressLike,
     sharesAmount: BigNumberish,
     merkleProof: BytesLike[]
-  ];
-  export type OutputTuple = [
-    blockNumber: bigint,
-    index: bigint,
-    account: string,
-    sharesAmount: bigint,
-    merkleProof: string[]
-  ];
+  ]
+  export type OutputTuple = [blockNumber: bigint, index: bigint, account: string, sharesAmount: bigint, merkleProof: string[]]
   export interface OutputObject {
-    blockNumber: bigint;
-    index: bigint;
-    account: string;
-    sharesAmount: bigint;
-    merkleProof: string[];
+    blockNumber: bigint
+    index: bigint
+    account: string
+    sharesAmount: bigint
+    merkleProof: string[]
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ClaimBatchEvent {
-  export type InputTuple = [
-    claimer: AddressLike,
-    numClaims: BigNumberish,
-    totalAmount: BigNumberish
-  ];
-  export type OutputTuple = [
-    claimer: string,
-    numClaims: bigint,
-    totalAmount: bigint
-  ];
+  export type InputTuple = [claimer: AddressLike, numClaims: BigNumberish, totalAmount: BigNumberish]
+  export type OutputTuple = [claimer: string, numClaims: bigint, totalAmount: bigint]
   export interface OutputObject {
-    claimer: string;
-    numClaims: bigint;
-    totalAmount: bigint;
+    claimer: string
+    numClaims: bigint
+    totalAmount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace ReceiveEtherEvent {
-  export type InputTuple = [amount: BigNumberish];
-  export type OutputTuple = [amount: bigint];
+  export type InputTuple = [amount: BigNumberish]
+  export type OutputTuple = [amount: bigint]
   export interface OutputObject {
-    amount: bigint;
+    amount: bigint
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetRouterEvent {
-  export type InputTuple = [router: AddressLike];
-  export type OutputTuple = [router: string];
+  export type InputTuple = [router: AddressLike]
+  export type OutputTuple = [router: string]
   export interface OutputObject {
-    router: string;
+    router: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export namespace SetStakeTogetherEvent {
-  export type InputTuple = [stakeTogether: AddressLike];
-  export type OutputTuple = [stakeTogether: string];
+  export type InputTuple = [stakeTogether: AddressLike]
+  export type OutputTuple = [stakeTogether: string]
   export interface OutputObject {
-    stakeTogether: string;
+    stakeTogether: string
   }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
+  export type Filter = TypedDeferredTopicFilter<Event>
+  export type Log = TypedEventLog<Event>
+  export type LogDescription = TypedLogDescription<Event>
 }
 
 export interface IELAirdrop extends BaseContract {
-  connect(runner?: ContractRunner | null): IELAirdrop;
-  waitForDeployment(): Promise<this>;
+  connect(runner?: ContractRunner | null): IELAirdrop
+  waitForDeployment(): Promise<this>
 
-  interface: IELAirdropInterface;
+  interface: IELAirdropInterface
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>
 
-  on<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  on<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>
+  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>
 
-  once<TCEvent extends TypedContractEvent>(
-    event: TCEvent,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
-  once<TCEvent extends TypedContractEvent>(
-    filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
-  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>
+  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>
 
-  listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
-  ): Promise<Array<TypedListener<TCEvent>>>;
-  listeners(eventName?: string): Promise<Array<Listener>>;
-  removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
-  ): Promise<this>;
+  listeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<Array<TypedListener<TCEvent>>>
+  listeners(eventName?: string): Promise<Array<Listener>>
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>
 
-  addMerkleRoot: TypedContractMethod<
-    [_reportBlock: BigNumberish, _root: BytesLike],
-    [void],
-    "nonpayable"
-  >;
+  addMerkleRoot: TypedContractMethod<[_reportBlock: BigNumberish, _root: BytesLike], [void], 'nonpayable'>
 
   claim: TypedContractMethod<
-    [
-      _reportBlock: BigNumberish,
-      _index: BigNumberish,
-      _account: AddressLike,
-      _sharesAmount: BigNumberish,
-      merkleProof: BytesLike[]
-    ],
+    [_reportBlock: BigNumberish, _index: BigNumberish, _account: AddressLike, _sharesAmount: BigNumberish, merkleProof: BytesLike[]],
     [void],
-    "nonpayable"
-  >;
+    'nonpayable'
+  >
 
-  initialize: TypedContractMethod<[], [void], "nonpayable">;
+  initialize: TypedContractMethod<[], [void], 'nonpayable'>
 
-  isClaimed: TypedContractMethod<
-    [_reportBlock: BigNumberish, _index: BigNumberish],
-    [boolean],
-    "view"
-  >;
+  isClaimed: TypedContractMethod<[_reportBlock: BigNumberish, _index: BigNumberish], [boolean], 'view'>
 
-  pause: TypedContractMethod<[], [void], "nonpayable">;
+  pause: TypedContractMethod<[], [void], 'nonpayable'>
 
-  setRouter: TypedContractMethod<[_router: AddressLike], [void], "nonpayable">;
+  setRouter: TypedContractMethod<[_router: AddressLike], [void], 'nonpayable'>
 
-  setStakeTogether: TypedContractMethod<
-    [_stakeTogether: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  setStakeTogether: TypedContractMethod<[_stakeTogether: AddressLike], [void], 'nonpayable'>
 
-  transferExtraAmount: TypedContractMethod<[], [void], "nonpayable">;
+  transferExtraAmount: TypedContractMethod<[], [void], 'nonpayable'>
 
-  unpause: TypedContractMethod<[], [void], "nonpayable">;
+  unpause: TypedContractMethod<[], [void], 'nonpayable'>
 
-  getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
-  ): T;
+  getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T
 
+  getFunction(nameOrSignature: 'addMerkleRoot'): TypedContractMethod<[_reportBlock: BigNumberish, _root: BytesLike], [void], 'nonpayable'>
   getFunction(
-    nameOrSignature: "addMerkleRoot"
+    nameOrSignature: 'claim'
   ): TypedContractMethod<
-    [_reportBlock: BigNumberish, _root: BytesLike],
+    [_reportBlock: BigNumberish, _index: BigNumberish, _account: AddressLike, _sharesAmount: BigNumberish, merkleProof: BytesLike[]],
     [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "claim"
-  ): TypedContractMethod<
-    [
-      _reportBlock: BigNumberish,
-      _index: BigNumberish,
-      _account: AddressLike,
-      _sharesAmount: BigNumberish,
-      merkleProof: BytesLike[]
-    ],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "initialize"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "isClaimed"
-  ): TypedContractMethod<
-    [_reportBlock: BigNumberish, _index: BigNumberish],
-    [boolean],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "pause"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "setRouter"
-  ): TypedContractMethod<[_router: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "setStakeTogether"
-  ): TypedContractMethod<[_stakeTogether: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "transferExtraAmount"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "unpause"
-  ): TypedContractMethod<[], [void], "nonpayable">;
+    'nonpayable'
+  >
+  getFunction(nameOrSignature: 'initialize'): TypedContractMethod<[], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'isClaimed'): TypedContractMethod<[_reportBlock: BigNumberish, _index: BigNumberish], [boolean], 'view'>
+  getFunction(nameOrSignature: 'pause'): TypedContractMethod<[], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'setRouter'): TypedContractMethod<[_router: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'setStakeTogether'): TypedContractMethod<[_stakeTogether: AddressLike], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'transferExtraAmount'): TypedContractMethod<[], [void], 'nonpayable'>
+  getFunction(nameOrSignature: 'unpause'): TypedContractMethod<[], [void], 'nonpayable'>
 
   getEvent(
-    key: "AddMerkleRoot"
-  ): TypedContractEvent<
-    AddMerkleRootEvent.InputTuple,
-    AddMerkleRootEvent.OutputTuple,
-    AddMerkleRootEvent.OutputObject
-  >;
+    key: 'AddMerkleRoot'
+  ): TypedContractEvent<AddMerkleRootEvent.InputTuple, AddMerkleRootEvent.OutputTuple, AddMerkleRootEvent.OutputObject>
+  getEvent(key: 'Claim'): TypedContractEvent<ClaimEvent.InputTuple, ClaimEvent.OutputTuple, ClaimEvent.OutputObject>
+  getEvent(key: 'ClaimBatch'): TypedContractEvent<ClaimBatchEvent.InputTuple, ClaimBatchEvent.OutputTuple, ClaimBatchEvent.OutputObject>
   getEvent(
-    key: "Claim"
-  ): TypedContractEvent<
-    ClaimEvent.InputTuple,
-    ClaimEvent.OutputTuple,
-    ClaimEvent.OutputObject
-  >;
+    key: 'ReceiveEther'
+  ): TypedContractEvent<ReceiveEtherEvent.InputTuple, ReceiveEtherEvent.OutputTuple, ReceiveEtherEvent.OutputObject>
+  getEvent(key: 'SetRouter'): TypedContractEvent<SetRouterEvent.InputTuple, SetRouterEvent.OutputTuple, SetRouterEvent.OutputObject>
   getEvent(
-    key: "ClaimBatch"
-  ): TypedContractEvent<
-    ClaimBatchEvent.InputTuple,
-    ClaimBatchEvent.OutputTuple,
-    ClaimBatchEvent.OutputObject
-  >;
-  getEvent(
-    key: "ReceiveEther"
-  ): TypedContractEvent<
-    ReceiveEtherEvent.InputTuple,
-    ReceiveEtherEvent.OutputTuple,
-    ReceiveEtherEvent.OutputObject
-  >;
-  getEvent(
-    key: "SetRouter"
-  ): TypedContractEvent<
-    SetRouterEvent.InputTuple,
-    SetRouterEvent.OutputTuple,
-    SetRouterEvent.OutputObject
-  >;
-  getEvent(
-    key: "SetStakeTogether"
-  ): TypedContractEvent<
-    SetStakeTogetherEvent.InputTuple,
-    SetStakeTogetherEvent.OutputTuple,
-    SetStakeTogetherEvent.OutputObject
-  >;
+    key: 'SetStakeTogether'
+  ): TypedContractEvent<SetStakeTogetherEvent.InputTuple, SetStakeTogetherEvent.OutputTuple, SetStakeTogetherEvent.OutputObject>
 
   filters: {
-    "AddMerkleRoot(uint256,bytes32)": TypedContractEvent<
+    'AddMerkleRoot(uint256,bytes32)': TypedContractEvent<
       AddMerkleRootEvent.InputTuple,
       AddMerkleRootEvent.OutputTuple,
       AddMerkleRootEvent.OutputObject
-    >;
-    AddMerkleRoot: TypedContractEvent<
-      AddMerkleRootEvent.InputTuple,
-      AddMerkleRootEvent.OutputTuple,
-      AddMerkleRootEvent.OutputObject
-    >;
+    >
+    AddMerkleRoot: TypedContractEvent<AddMerkleRootEvent.InputTuple, AddMerkleRootEvent.OutputTuple, AddMerkleRootEvent.OutputObject>
 
-    "Claim(uint256,uint256,address,uint256,bytes32[])": TypedContractEvent<
+    'Claim(uint256,uint256,address,uint256,bytes32[])': TypedContractEvent<
       ClaimEvent.InputTuple,
       ClaimEvent.OutputTuple,
       ClaimEvent.OutputObject
-    >;
-    Claim: TypedContractEvent<
-      ClaimEvent.InputTuple,
-      ClaimEvent.OutputTuple,
-      ClaimEvent.OutputObject
-    >;
+    >
+    Claim: TypedContractEvent<ClaimEvent.InputTuple, ClaimEvent.OutputTuple, ClaimEvent.OutputObject>
 
-    "ClaimBatch(address,uint256,uint256)": TypedContractEvent<
+    'ClaimBatch(address,uint256,uint256)': TypedContractEvent<
       ClaimBatchEvent.InputTuple,
       ClaimBatchEvent.OutputTuple,
       ClaimBatchEvent.OutputObject
-    >;
-    ClaimBatch: TypedContractEvent<
-      ClaimBatchEvent.InputTuple,
-      ClaimBatchEvent.OutputTuple,
-      ClaimBatchEvent.OutputObject
-    >;
+    >
+    ClaimBatch: TypedContractEvent<ClaimBatchEvent.InputTuple, ClaimBatchEvent.OutputTuple, ClaimBatchEvent.OutputObject>
 
-    "ReceiveEther(uint256)": TypedContractEvent<
-      ReceiveEtherEvent.InputTuple,
-      ReceiveEtherEvent.OutputTuple,
-      ReceiveEtherEvent.OutputObject
-    >;
-    ReceiveEther: TypedContractEvent<
-      ReceiveEtherEvent.InputTuple,
-      ReceiveEtherEvent.OutputTuple,
-      ReceiveEtherEvent.OutputObject
-    >;
+    'ReceiveEther(uint256)': TypedContractEvent<ReceiveEtherEvent.InputTuple, ReceiveEtherEvent.OutputTuple, ReceiveEtherEvent.OutputObject>
+    ReceiveEther: TypedContractEvent<ReceiveEtherEvent.InputTuple, ReceiveEtherEvent.OutputTuple, ReceiveEtherEvent.OutputObject>
 
-    "SetRouter(address)": TypedContractEvent<
-      SetRouterEvent.InputTuple,
-      SetRouterEvent.OutputTuple,
-      SetRouterEvent.OutputObject
-    >;
-    SetRouter: TypedContractEvent<
-      SetRouterEvent.InputTuple,
-      SetRouterEvent.OutputTuple,
-      SetRouterEvent.OutputObject
-    >;
+    'SetRouter(address)': TypedContractEvent<SetRouterEvent.InputTuple, SetRouterEvent.OutputTuple, SetRouterEvent.OutputObject>
+    SetRouter: TypedContractEvent<SetRouterEvent.InputTuple, SetRouterEvent.OutputTuple, SetRouterEvent.OutputObject>
 
-    "SetStakeTogether(address)": TypedContractEvent<
+    'SetStakeTogether(address)': TypedContractEvent<
       SetStakeTogetherEvent.InputTuple,
       SetStakeTogetherEvent.OutputTuple,
       SetStakeTogetherEvent.OutputObject
-    >;
+    >
     SetStakeTogether: TypedContractEvent<
       SetStakeTogetherEvent.InputTuple,
       SetStakeTogetherEvent.OutputTuple,
       SetStakeTogetherEvent.OutputObject
-    >;
-  };
+    >
+  }
 }

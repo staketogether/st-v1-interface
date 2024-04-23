@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useBalance } from 'wagmi'
 import chainConfig from '../../config/chain'
-import { getContractsByProductName } from '@/config/product'
+import { getStakingById } from '@/config/product/staking'
 
 export default function useStwEthBalance(address: `0x${string}`) {
-  const { chainId, isTestnet } = chainConfig()
-  const { Withdrawals } = getContractsByProductName({ productName: 'ethereum-stake', isTestnet })
+  const { chainId } = chainConfig()
+
+  const { Withdrawals } = getStakingById('eth-staking').contracts
+
   const [balance, setBalance] = useState<bigint>(0n)
 
   const { data, isFetching, refetch } = useBalance({
@@ -14,7 +16,7 @@ export default function useStwEthBalance(address: `0x${string}`) {
     token: Withdrawals
   })
 
-  const ethBalance = data?.value || 0n
+  const ethBalance = data?.value ?? 0n
 
   useEffect(() => {
     setBalance(ethBalance)

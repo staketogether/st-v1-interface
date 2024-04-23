@@ -1,4 +1,4 @@
-export type STConfig = {
+export interface STConfig {
   blocksPerDay: bigint
   depositLimit: bigint
   maxDelegations: bigint
@@ -13,7 +13,7 @@ export type STConfig = {
   feature: STFeature
 }
 
-export type STFeature = {
+export interface STFeature {
   AddPool: boolean
   Deposit: boolean
   WithdrawPool: boolean

@@ -1,19 +1,17 @@
 import { getSubgraphClient } from '@/config/apollo'
-import { chainConfigByChainId } from '@/config/chain'
+import { queryAccount } from '@/queries/subgraph/queryAccount'
 import { Account } from '@/types/Account'
 import { useQuery } from '@apollo/client'
-import { Product } from '@/types/Product'
-import { queryAccount } from '@/queries/subgraph/queryAccount'
+import { Staking } from '@/types/Staking'
 
-type useLsdBalanceProps = {
+interface useLsdBalanceProps {
   walletAddress?: `0x${string}`
-  product: Product
+  product: Staking
   chainId: number
 }
 
-export default function useLsdBalance({ walletAddress, product, chainId }: useLsdBalanceProps) {
-  const { isTestnet } = chainConfigByChainId(chainId)
-  const subgraphClient = getSubgraphClient({ productName: product.name, isTestnet })
+export default function useLsdBalance({ walletAddress, product }: useLsdBalanceProps) {
+  const subgraphClient = getSubgraphClient({ stakingId: product.id })
 
   const { data, loading } = useQuery<{ account: Account }>(queryAccount, {
     variables: { id: walletAddress?.toLowerCase() },
@@ -22,7 +20,7 @@ export default function useLsdBalance({ walletAddress, product, chainId }: useLs
   })
 
   return {
-    accountBalance: data?.account?.balance || 0n,
+    accountBalance: data?.account?.balance ?? 0n,
     isLoading: loading
   }
 }

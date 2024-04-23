@@ -1,15 +1,16 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-import SymbolIcons from '@/components/tokens/components/SymbolIcons'
+import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
 import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import styled from 'styled-components'
+import { Staking } from '@/types/Staking'
+import { ethMainnet } from '@/config/product/asset'
 
-type EthereumInputProps = {
+interface EthereumInputProps {
   ethAmountValue: string
   balance: bigint
   balanceLoading: boolean
@@ -17,7 +18,7 @@ type EthereumInputProps = {
   onChange: (value: string) => void
   onMaxFunction?: () => void
   type: 'deposit' | 'withdraw'
-  product: Product
+  product: Staking
 }
 
 export default function EthereumInput({
@@ -78,9 +79,9 @@ export default function EthereumInput({
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <AssetIcon assetIcon='ethereum' networkIcon={product.networkAvailable} size={32} />
+            <AssetIcon altName={product.id} image={ethMainnet.symbolImage} chain={product.asset.chains[0]} size={32} />
           ) : (
-            <SymbolIcons productSymbol={product.symbol} size={32} />
+            <TokensSymbolIcons productSymbol={product.symbol} size={32} />
           )}
           <span>{type === 'deposit' ? t('eth.symbol') : product.symbol}</span>
           <span className='max' onClick={onMaxFunction}>

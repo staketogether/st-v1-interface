@@ -1,13 +1,17 @@
-import { quoteVar } from '@/hooks/ramp/useControlModal';
-import { useReactiveVar } from '@apollo/client';
-import ethIcon from '@assets/icons/eth-icon.svg';
-import brla from '@assets/images/BRLA.svg';
-import Image from 'next/image';
-import { PiArrowRight } from 'react-icons/pi';
-import styled from "styled-components";
+import { quoteVar } from '@/hooks/ramp/useControlModal'
+import { Asset } from '@/types/Asset'
+import { useReactiveVar } from '@apollo/client'
+import brla from '@assets/images/BRLA.svg'
+import Image from 'next/image'
+import { PiArrowRight } from 'react-icons/pi'
+import styled from 'styled-components'
+import AssetIcon from '../shared/AssetIcon'
 
-export default function SwapInfo() {
+interface SwapInfoProps {
+  asset: Asset
+}
 
+export default function SwapInfo({ asset }: SwapInfoProps) {
   const quote = useReactiveVar(quoteVar)
   return (
     <Container>
@@ -21,8 +25,8 @@ export default function SwapInfo() {
       <PiArrowRight size={24} />
       <SwapToken className='left'>
         <div>
-          <Image src={ethIcon} width={16} height={16} alt='eth' />
-          <span>ETH</span>
+          <AssetIcon image={asset.symbolImage} chain={asset.chains[0]} size={16} altName={asset.symbol} />
+          <span>{asset.symbol}</span>
         </div>
         <span>{quote?.amountToken}</span>
       </SwapToken>
@@ -31,7 +35,6 @@ export default function SwapInfo() {
 }
 
 const { Container, SwapToken } = {
-
   Container: styled.div`
     display: grid;
     grid-template-columns: 1fr 30px 1fr;
@@ -42,7 +45,7 @@ const { Container, SwapToken } = {
     background: ${({ theme }) => theme.colorV2.gray[2]};
   `,
   SwapToken: styled.div`
-    padding: 8px  16px;
+    padding: 8px 16px;
     > div {
       display: flex;
       flex-direction: row;
@@ -69,6 +72,5 @@ const { Container, SwapToken } = {
         justify-content: right;
       }
     }
-
-    `
+  `
 }

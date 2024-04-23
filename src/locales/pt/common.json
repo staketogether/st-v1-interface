@@ -266,7 +266,9 @@
       "enter": "Entrar",
       "exit": "Sair",
       "support": "Suporte",
-      "analytics": "Analytics"
+      "analytics": "Analytics",
+      "staking": "Staking",
+      "assets": "Criptomoedas"
     },
     "sidebar": {
       "percentageProfit": "Lucro",
@@ -659,13 +661,17 @@
         "description": "Você pode ter problemas com a visualização dos dados, mas não se preocupe, seus fundos estão seguros. Estamos trabalhando para resolver o problema o mais rápido possível."
       }
     },
-    "tokens": {
-      "title": "Produtos de Staking",
-      "description": "Invista em Infraestrutura, Segurança e Tecnologia com Rendimentos Sustentáveis em Criptomoedas"
+    "staking": {
+      "title": "Ativos de Staking",
+      "description": "Invista em Infraestrutura com Rendimentos Sustentáveis"
+    },
+    "assets": {
+      "title": "Ativos de Criptomoedas",
+      "description": "Invista nas melhores criptomoedas para o seu portfólio de investimentos"
     },
     "products": {
-      "ethereum-stake": "Staking de Ethereum",
-      "ethereum-restaking": "Restaking de Ethereum ",
+      "eth-staking": "Staking de Ethereum",
+      "eth-restaking": "Restaking de Ethereum ",
       "celestia": "Staking de Celestia",
       "polygon": "Staking de Polygon ",
       "solana": "Staking de Solana",
@@ -674,7 +680,10 @@
       "polkadot": "Staking de Polkadot",
       "productNotAvailable": "Produto Indisponivel",
       "bitcoin": "Staking de Bitcoin",
-      "chiliz": "Staking de Chiliz"
+      "chiliz": "Staking de Chiliz",
+      "btc-op": "Bitcoin",
+      "eth-mainnet": "Ethereum",
+      "eth-op": "Ethereum"
     },
     "notifyBar": {
       "incentives": {
@@ -683,9 +692,9 @@
       }
     },
     "ramp": {
-      "title": "Comprar ETH com PIX",
+      "title": "Comprar symbol com PIX",
       "success": "Depósito concluído com sucesso",
-      "checkOut": "Check out",
+      "checkOut": "Finalizar Compra",
       "processingRegistration": "Processando Cadastro",
       "processingPayment": "Processando Pagamento",
       "generatingQRCode": "Gerando QR Code",
@@ -708,7 +717,7 @@
       "creditCard": "Cartão de crédito",
       "kyc": {
         "title": "KYC - Conheça seu Cliente",
-        "description": "Para comprar ETH, você precisa passar por um processo de verificação KYC. Clique no botão abaixo para começar.",
+        "description": "Para realizar uma compra você precisa passar pela verificação de dados do KYC",
         "level": "Nível KYC",
         "limit": "Limite",
         "availableLimit": "Limite Disponível",
@@ -753,7 +762,9 @@
       "highestValueWeeks": "Maior Valor em 52 semanas",
       "eigenPointTooltip": "Ao fazer Staking você acumula pontos no protocolo Eigen Layer, que futuramente poderá lançar token e você pode receber parte desses tokens",
       "togetherPoints": "Ao fazer Staking você acumula pontos no protocolo Stake Togetherque futuramente poderá lançar token e você pode receber parte desses tokens",
-      "restakingDescription": "ReStaking de Ethereum: Potencialize a Eficiência do Seu Staking. Experimente o próximo nível de staking de Ethereum com nossa solução de ReStaking, que combina o protocolo Stake Together com a tecnologia Eigen Layer. Amplie o potencial do seu Ethereum usando-o como garantia na Eigen Layer, contribuindo para os serviços da rede e ganhando renda de fontes diversificadas. Nossa plataforma simplifica seu processo de staking, proporcionando uma abordagem mais eficaz e lucrativa para garantir a segurança da rede e obter recompensas. Mergulhe no ReStaking com Ethereum hoje e comece a aproveitar os rendimentos combinados.",
+      "restakingDescription": "Restaking de Ethereum: Potencialize a Eficiência do Seu Staking. Experimente o próximo nível de staking de Ethereum com nossa solução de ReStaking, que combina o protocolo Stake Together com a tecnologia Eigen Layer. Amplie o potencial do seu Ethereum usando-o como garantia na Eigen Layer, contribuindo para os serviços da rede e ganhando renda de fontes diversificadas. Nossa plataforma simplifica seu processo de staking, proporcionando uma abordagem mais eficaz e lucrativa para garantir a segurança da rede e obter recompensas. Mergulhe no ReStaking com Ethereum hoje e comece a aproveitar os rendimentos combinados.",
+      "btc": "Bitcoin",
+      "eth": "Ethereum",
       "actions": {
         "invest": "Investir",
         "withdraw": "Resgatar",
@@ -765,5 +776,46 @@
   "soon": "Em Breve",
   "new": "Novo",
   "share": "Compartilhar",
-  "offramp": "Em breve você vai poder vender seus ETH por aqui. Aguarde."
+  "offramp": "Em breve você vai poder vender seus ETH por aqui. Aguarde.",
+  "v3": {
+    "pages": {
+      "staking": {
+        "title": "Staking",
+        "description": "Invista em Infraestrutura com Rendimentos Sustentáveis"
+      },
+      "crypto": {
+        "title": "Criptomoedas",
+        "description": "Invista nas Principais Criptomoedas do Mercado"
+      },
+      "stable": {
+        "title": "Stablecoins",
+        "description": "Invista nas Moedas Estáveis de Maior Liquidez"
+      },
+      "fan": {
+        "title": "Fan Tokens",
+        "description": "Invista no seu Time do Coração"
+      },
+      "meme": {
+        "title": "Memecoins",
+        "description": "Invista em moedas de alto risco e alto retorno"
+      }
+    },
+    "products": {
+      "eth-mainnet": {
+        "name": "Ethereum"
+      },
+      "eth-op": {
+        "name": "Ethereum"
+      },
+      "btc-op": {
+        "name": "Bitcoin"
+      },
+      "eth-staking": {
+        "name": "Staking de Ethereum"
+      },
+      "eth-restaking": {
+        "name": "Restaking de Ethereum"
+      }
+    }
+  }
 }

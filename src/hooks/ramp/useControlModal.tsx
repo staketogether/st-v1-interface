@@ -1,5 +1,5 @@
 import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo'
-import { StakingProduct } from '@/types/Product'
+import { Asset, AssetId } from '@/types/Asset'
 import { Quote } from '@/types/quote.type'
 import { makeVar } from '@apollo/client'
 import { BuyRamp } from './useBuyRamp'
@@ -8,6 +8,7 @@ import { KycLevelInfo } from './useKycLevelInfo'
 export enum BrlaBuyEthStep {
   MethodPayment = 'MethodPayment',
   Quotation = 'Quotation',
+  QuotationOffRamp = 'QuotationOffRamp',
   Kyc = 'Kyc',
   ConnectWallet = 'ConnectWallet',
   ProcessingKyc = 'ProcessingKyc',
@@ -29,13 +30,14 @@ export interface DepositConfig {
 }
 export const openBrlaModalVar = makeVar(false)
 export const fiatAmountVar = makeVar<string>('')
+export const typeRampVar = makeVar<'buy' | 'sell'>('buy')
 export const stepsControlBuyCryptoVar = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.MethodPayment)
 export const quoteVar = makeVar<Quote | undefined>(undefined)
 export const qrCodeVar = makeVar<BuyRamp | null>(null)
 export const kycLevelVar = makeVar<KycLevelInfo | null>(null)
 export const kycIdVar = makeVar<string | null>(null)
 export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
-export const currentProductNameVar = makeVar<StakingProduct>('ethereum-stake')
+export const rampAssetIdVar = makeVar<AssetId>('eth-mainnet')
 
 export const clearModal = () => {
   qrCodeVar(null)
@@ -47,9 +49,9 @@ export const clearModal = () => {
   openBrlaModalVar(false)
 }
 
-export const openQuoteEthModal = (stakingProduct: StakingProduct) => {
+export const openQuoteEthModal = (asset: Asset) => {
   stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
-  currentProductNameVar(stakingProduct)
+  rampAssetIdVar(asset.id)
   openBrlaModalVar(true)
 }
 
@@ -62,7 +64,7 @@ export const changeWalletAddress = () => {
   stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
 }
 
-export const openModal = (stakingProduct: StakingProduct) => {
-  currentProductNameVar(stakingProduct)
+export const openModal = (asset: Asset) => {
+  rampAssetIdVar(asset.id)
   openBrlaModalVar(true)
 }

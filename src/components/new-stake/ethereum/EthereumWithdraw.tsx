@@ -4,6 +4,7 @@ import StakeWithdrawCounter from '@/components/stake/StakeWithdrawCounter'
 import StakeWithdrawSwitchTypes from '@/components/stake/StakeWithdrawSwitchTypes'
 import { chainConfigByChainId } from '@/config/chain'
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
+import useStConfig from '@/hooks/contracts/useStConfig'
 import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
 import useWithdrawValidator from '@/hooks/contracts/useWithdrawValidator'
@@ -11,9 +12,9 @@ import { useWithdrawValidatorBalance } from '@/hooks/contracts/useWithdrawValida
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import { fbqTrackEvent } from '@/services/FacebookPixel'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
-import { Product } from '@/types/Product'
 import { WithdrawType } from '@/types/Withdraw'
 import { Tooltip } from 'antd'
 import { ethers } from 'ethers'
@@ -25,10 +26,9 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
-import useStConfig from '@/hooks/contracts/useStConfig'
-import { fbqTrackEvent } from '@/services/FacebookPixel'
+import { Staking } from '@/types/Staking'
 
-type EthereumWithdrawProps = {
+interface EthereumWithdrawProps {
   type: 'deposit' | 'withdraw'
   ethBalance: bigint
   ethBalanceLoading: boolean
@@ -36,7 +36,7 @@ type EthereumWithdrawProps = {
   stpETHBalance: bigint
   stpETHBalanceLoading: boolean
   account: `0x${string}` | undefined
-  product: Product
+  product: Staking
   chainId: number
 }
 
@@ -68,20 +68,20 @@ export default function EthereumWithdraw({
   const { chain: walletChainId } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
 
-  const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } =
-    useWithdrawPoolBalance({ product, chainId })
+  const { withdrawPoolBalance: withdrawLiquidityPoolBalance, refetch: withdrawPoolBalanceRefetch } = useWithdrawPoolBalance({
+    product,
+    chainId
+  })
   const { timeLeft: withdrawTimeLeft, getWithdrawBlock } = useGetWithdrawBlock({
     walletAddress: account,
     enabled: withdrawTypeSelected === WithdrawType.POOL,
     product,
     chainId
   })
-  const {
-    withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance,
-    refetch: withdrawValidatorsBalanceRefetch
-  } = useWithdrawValidatorBalance({ product, chainId })
-  const { stConfig } = useStConfig({ productName: product.name, chainId })
-  const minWithdrawAmount = stConfig?.minWithdrawAmount || 0n
+  const { withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance, refetch: withdrawValidatorsBalanceRefetch } =
+    useWithdrawValidatorBalance({ product, chainId })
+  const { stConfig } = useStConfig({ name: product.id, chainId })
+  const minWithdrawAmount = stConfig?.minWithdrawAmount ?? 0n
 
   const handleWithdrawLiquidity = () => {
     switch (withdrawTypeSelected) {
@@ -112,14 +112,7 @@ export default function EthereumWithdraw({
     prepareTransactionIsSuccess: withdrawPoolPrepareTransactionIsSuccess,
     prepareTransactionErrorMessage: withdrawPoolPrepareTransactionErrorMessage,
     prepareTransactionsIsLoading: withdrawPoolPrepareTransactionsIsLoading
-  } = useWithdrawPool(
-    inputAmount,
-    blankPoolAddress,
-    withdrawTypeSelected === WithdrawType.POOL,
-    product,
-    chainId,
-    account
-  )
+  } = useWithdrawPool(inputAmount, blankPoolAddress, withdrawTypeSelected === WithdrawType.POOL, product, chainId, account)
 
   const {
     withdrawValidator,
@@ -133,14 +126,7 @@ export default function EthereumWithdraw({
     prepareTransactionIsSuccess: withdrawValidatorPrepareTransactionIsSuccess,
     prepareTransactionErrorMessage: withdrawValidatorPrepareTransactionErrorMessage,
     prepareTransactionsIsLoading: withdrawValidatorPrepareTransactionsIsLoading
-  } = useWithdrawValidator(
-    inputAmount,
-    blankPoolAddress,
-    withdrawTypeSelected === WithdrawType.VALIDATOR,
-    product,
-    chainId,
-    account
-  )
+  } = useWithdrawValidator(inputAmount, blankPoolAddress, withdrawTypeSelected === WithdrawType.VALIDATOR, product, chainId, account)
 
   const handleWithdraw = () => {
     if (withdrawTypeSelected === WithdrawType.VALIDATOR) {
@@ -198,9 +184,9 @@ export default function EthereumWithdraw({
   ])
 
   useEffect(() => {
-    const handleSuccessfulAction = async () => {
+    const handleSuccessfulAction = () => {
       if (withdrawData.withdrawSuccess && !isOpenStakeConfirmModal) {
-        await ethBalanceRefetch()
+        ethBalanceRefetch()
       }
     }
     handleSuccessfulAction()
@@ -219,22 +205,19 @@ export default function EthereumWithdraw({
         return
       }
     }
-    fbqTrackEvent(product.eventsTrack.withdraw)
+    fbqTrackEvent(`withdraw-${product.id}`)
     setOpenStakeConfirmModal(true)
   }
 
   const amountBigNumber = ethers.parseEther(amount || '0')
   const insufficientFunds = amountBigNumber > stpETHBalance
-  const insufficientWithdrawalBalance =
-    type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
+  const insufficientWithdrawalBalance = type === 'withdraw' && amountBigNumber > handleWithdrawLiquidity() && amount.length > 0
   const amountIsEmpty = amountBigNumber === 0n || !amount
   const amountIsMinWithdrawValue = amountBigNumber <= minWithdrawAmount
   const errorLabel =
     (insufficientFunds && t('form.insufficientFunds')) ||
-    (insufficientWithdrawalBalance &&
-      `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
-    (amountIsMinWithdrawValue &&
-      `${t('v2.stake.withdrawErrorMessage.LessThanMinimumWithdraw')} ${truncateWei(minWithdrawAmount, 4)}`) ||
+    (insufficientWithdrawalBalance && `${t('form.insufficientLiquidity')} ${truncateWei(handleWithdrawLiquidity())} ${t('lsd.symbol')}`) ||
+    (amountIsMinWithdrawValue && `${t('v2.stake.withdrawErrorMessage.LessThanMinimumWithdraw')} ${truncateWei(minWithdrawAmount, 4)}`) ||
     (withdrawData.prepareTransactionErrorMessage &&
       `${t(`v2.stake.withdrawErrorMessage.${withdrawData.prepareTransactionErrorMessage}`)}`) ||
     ''
@@ -289,9 +272,7 @@ export default function EthereumWithdraw({
           withdrawAmount={inputAmount}
           withdrawTimeLeft={withdrawTimeLeft}
         />
-        {!!account && !isWrongNetwork && (
-          <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantWithdraw} />
-        )}
+        {!!account && !isWrongNetwork && <Button onClick={openStakeConfirmation} label={handleLabelButton()} disabled={cantWithdraw} />}
         {!!isWrongNetwork && account && (
           <Button
             onClick={openStakeConfirmation}

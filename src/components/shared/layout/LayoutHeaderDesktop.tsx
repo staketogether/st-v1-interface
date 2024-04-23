@@ -1,5 +1,6 @@
 import Wallet from '@/components/wallet/Wallet'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -8,6 +9,13 @@ import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
+import SkeletonLoading from '../icons/SkeletonLoading'
+
+const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
+  ssr: false,
+  loading: () => <SkeletonLoading width={80} height={32} />,
+  suspense: true
+})
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
@@ -24,18 +32,24 @@ export default function LayoutHeader() {
     <Container>
       <MenuContainer>
         <div>
-          <Logo href={`/${currency}`}>
+          <Logo href={`/${currency as string}/staking`}>
             <Image src={stLogoDesktop} alt={t('stakeTogether')} width={162} height={27} />
           </Logo>
         </div>
         <Menu>
-          <Link href={`/${currency}`}>
-            <MenuButton className={`${isHome || isActive('product') ? 'active' : ''}`}>
+          <Link href={`/${currency as string}/staking`}>
+            <MenuButton className={`${isHome || isActive('staking') ? 'active' : ''}`}>
               <InvestIcon />
-              {t('v2.header.products')}
+              {t('v2.header.staking')}
             </MenuButton>
           </Link>
-          <Link href={`/${currency}/${network || 'optimism'}/project`}>
+          <Link href={`/${currency as string}/crypto`}>
+            <MenuButton className={`${isHome || isActive('crypto') ? 'active' : ''}`}>
+              <InvestIcon />
+              {t('v2.header.assets')}
+            </MenuButton>
+          </Link>
+          <Link href={`/${currency as string}/${(network as string) || 'optimism'}/project`}>
             <MenuButton className={`${!isHome && isActive('project') ? 'active' : ''}`}>
               <ProjectsIcon />
               {t('v2.header.projects')}
@@ -44,6 +58,7 @@ export default function LayoutHeader() {
         </Menu>
       </MenuContainer>
       <WalletContainer>
+        <LayoutNetworkDropdown />
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
     </Container>
@@ -89,7 +104,7 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, Inves
     display: grid;
     align-items: center;
     justify-content: flex-end;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
     grid-template-columns: auto auto;
   `,
   Menu: styled.nav`

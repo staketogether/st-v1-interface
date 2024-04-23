@@ -1,13 +1,11 @@
-import { chainConfigByChainId } from '@/config/chain'
 import { stakeTogetherAbi } from '@/types/Contracts'
-import { Product } from '@/types/Product'
 import { useEffect, useState } from 'react'
 import { useReadContract } from 'wagmi'
+import { Staking } from '@/types/Staking'
 
-export const useWithdrawValidatorBalance = ({ product, chainId }: { product: Product; chainId: number }) => {
+export const useWithdrawValidatorBalance = ({ product }: { product: Staking; chainId: number }) => {
   const [liquidityValidatorsBalance, setLiquidityValidatorsBalance] = useState(0n)
-  const { isTestnet } = chainConfigByChainId(chainId)
-  const { StakeTogether } = product.contracts[isTestnet ? 'testnet' : 'mainnet']
+  const { StakeTogether } = product.contracts
 
   const { isFetching, refetch, data, isSuccess } = useReadContract({
     address: StakeTogether,
