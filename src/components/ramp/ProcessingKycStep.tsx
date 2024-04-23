@@ -44,7 +44,7 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
   useEffect(() => {
     if (address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0) {
       setRampData({
-        chainId: product.ramp[0].bridge?.fromChainId ?? 1,
+        chainId: product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
         amount: Number(quote.amountBrl),
