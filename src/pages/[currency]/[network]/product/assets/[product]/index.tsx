@@ -31,8 +31,6 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
     network: config.name.toLowerCase()
   })
 
-    console.log('asset', assetData)
-
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
       fiatAmountVar(router.query?.amount?.toString() ?? minAmount.toString())
