@@ -11,6 +11,7 @@ import CheckoutStep from '../ramp/CheckoutStep'
 import GenericErrorComponent from '../ramp/GenericErrorComponent'
 import KycStep from '../ramp/KycStep'
 import PaymentMethod from '../ramp/PaymentMethod'
+import PixKeyStep from '../ramp/PixKeyStep'
 import ProcessingCheckoutStep from '../ramp/ProcessingCheckoutStep'
 import ProcessingKycStep from '../ramp/ProcessingKycStep'
 import QuotationOffRampStep from '../ramp/QuotationOffRamp'
@@ -19,7 +20,7 @@ import SuccessStep from '../ramp/SuccessStep'
 import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
 import ConnectWallet from '../shared/ConnectWallet'
 
-export default function AssetsBuyControl({ asset }: { type: 'buy' | 'sell' | 'swap'; asset: Asset }) {
+export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell' | 'swap'; asset: Asset }) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
@@ -30,11 +31,12 @@ export default function AssetsBuyControl({ asset }: { type: 'buy' | 'sell' | 'sw
     QuotationOffRamp: <QuotationOffRampStep product={asset} />,
     Kyc: <KycStep asset={asset} />,
     ConnectWallet: <ConnectWallet useModal />,
-    ProcessingKyc: <ProcessingKycStep product={asset} />,
+    ProcessingKyc: <ProcessingKycStep product={asset} type={type} />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} />,
     Checkout: <CheckoutStep asset={asset} />,
     TimeOutCheckout: <TimeOutCheckout asset={asset} />,
     Success: <SuccessStep product={asset} />,
+    PixKeyStep: <PixKeyStep />,
     error: <GenericErrorComponent />
   }
 

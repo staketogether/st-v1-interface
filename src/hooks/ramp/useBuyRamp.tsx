@@ -1,4 +1,5 @@
 import { globalConfig } from '@/config/global'
+import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import axios from 'axios'
 import useSWR from 'swr'
@@ -17,6 +18,13 @@ export interface BuyRampRequest {
   receiverAddress: string
   convertToChainId?: number
   convertToToken?: string
+}
+
+export interface OffRampRequest {
+  walletAddress: string
+  pixKey: string
+  amount: string
+  asset: Asset
 }
 export default function useBuyRamp(provider: 'brla' | 'transak', request?: BuyRampRequest) {
   const { backendUrl } = globalConfig

@@ -44,7 +44,7 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
   })
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
-    debounceValue,
+    debounceValue.toString(),
     product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
     1,
     ProviderType.brla,
