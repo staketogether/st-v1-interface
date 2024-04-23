@@ -49,7 +49,7 @@ export const arbArbMobula: MobulaAsset = {
 }
 
 export const maticPolMobula: MobulaAsset = {
-  id: 'matic-pol',
+  id: 'matic-matic',
   asset: 'Polygon',
   blockchain: 'polygon',
   symbol: 'matic',

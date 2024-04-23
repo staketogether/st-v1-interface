@@ -815,6 +815,18 @@
       },
       "eth-restaking": {
         "name": "Restaking de Ethereum"
+      },
+      "chz-chiliz": {
+        "name": "Chiliz"
+      },
+      "op-op": {
+        "name": "Optimism"
+      },
+      "arb-arb": {
+        "name": "Arbitrum"
+      },
+      "matic-matic": {
+        "name": "Matic (Polygon)"
       }
     }
   }

@@ -239,7 +239,7 @@ export const arbArbitrum: Asset = {
 }
 
 export const maticPolygon: Asset = {
-  id: 'matic-pol',
+  id: 'matic-matic',
   order: 7,
   symbol: 'MATIC',
   symbolImage: maticIcon,
