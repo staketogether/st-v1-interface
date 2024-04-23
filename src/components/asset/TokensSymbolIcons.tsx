@@ -2,6 +2,10 @@ import useAddSethToWallet from '@/hooks/useAddSethToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import bitcoinIcon from '@assets/assets/bitcoin.svg'
 import ethereumIcon from '@assets/assets/ethereum.svg'
+import optimismIcon from '@assets/assets/optimism.svg'
+import arbitrumIcon from '@assets/assets/arbitrum.svg'
+import polygonIcon from '@assets/assets/polygon.svg'
+import chilizIcon from '@assets/assets/chiliz.svg'
 import stIcon from '@assets/st-symbol.svg'
 import stpRETHIcon from '@assets/stpRETHIcon.svg'
 import { Tooltip } from 'antd'
@@ -29,7 +33,11 @@ export default function TokensSymbolIcons({ productSymbol, size, showPlusIcon, c
     stpBTC: stIcon,
     stpCHZ: stIcon,
     wBTC: bitcoinIcon,
-    ETH: ethereumIcon
+    ETH: ethereumIcon,
+    CHZ: chilizIcon,
+    OP: optimismIcon,
+    MATIC: polygonIcon,
+    ARB: arbitrumIcon,
   }
   const { addToWalletAction } = useAddSethToWallet({
     productSymbol,

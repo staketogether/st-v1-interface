@@ -1,9 +1,21 @@
 import { Asset, AssetCategory } from '@/types/Asset'
 import btcIcon from '@assets/assets/bitcoin.svg'
-import ethIcon from '@assets/network/ethereum.svg'
+import ethIcon from '@assets/assets/ethereum.svg'
+import chzIcon from '@assets/assets/chiliz.svg'
+import opIcon from '@assets/assets/optimism.svg'
+import arbIcon from '@assets/assets/arbitrum.svg'
+import maticIcon from '@assets/assets/polygon.svg'
 
 import { Chain } from '../chain'
-import { btcOpMobula, ethEthMobula, ethOpMobula } from '@/config/mobula'
+import {
+  btcOpMobula,
+  ethEthMobula,
+  ethOpMobula,
+  chzEthMobula,
+  maticPolMobula,
+  arbArbMobula,
+  opOpMobula
+} from '@/config/mobula'
 
 export const ethMainnet: Asset = {
   id: 'eth-mainnet',
@@ -41,7 +53,7 @@ export const ethMainnet: Asset = {
 
 export const ethOp: Asset = {
   id: 'eth-op',
-  order: 2,
+  order: 1,
   symbol: 'ETH',
   symbolImage: ethIcon,
   localeDescription: 'eth',
@@ -51,7 +63,7 @@ export const ethOp: Asset = {
   chains: [Chain.OP_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: false,
     elPoints: false
@@ -81,7 +93,7 @@ export const ethOp: Asset = {
 
 export const btcOp: Asset = {
   id: 'btc-op',
-  order: 3,
+  order: 2,
   symbol: 'wBTC',
   symbolImage: btcIcon,
   isTestnet: false,
@@ -91,7 +103,7 @@ export const btcOp: Asset = {
   chains: [Chain.OP_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   contractAddress: '0x68f180fcce6836688e9084f035309e29bf0a2095',
   points: {
     stPoints: false,
@@ -120,7 +132,155 @@ export const btcOp: Asset = {
   ]
 }
 
-export const assetsList: Asset[] = [ethMainnet, ethOp, btcOp]
+export const chilizChz: Asset = {
+  id: 'chz-chiliz',
+  order: 6,
+  symbol: 'CHZ',
+  symbolImage: chzIcon,
+  isTestnet: false,
+  url: '/currency/chiliz/product/assets/chz-chiliz',
+  category: AssetCategory.Crypto,
+  localeDescription: 'chz',
+  chains: [Chain.CHZ_MAINNET],
+  listed: true,
+  enabled: true,
+  new: true,
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  mobula: chzEthMobula,
+  tradingView: {
+    symbol: 'CHZUSD',
+    fiat: {
+      usd: 'CHZUSD',
+      brl: 'CHZBRL',
+      eur: 'CHZEUR'
+    }
+  },
+  ramp: [
+    {
+      chainId: 1,
+      minDeposit: 10
+    }
+  ]
+}
+
+export const opOptimism: Asset = {
+  id: 'op-op',
+  order: 3,
+  symbol: 'OP',
+  symbolImage: opIcon,
+  isTestnet: false,
+  url: '/currency/optimism/product/assets/op-op',
+  category: AssetCategory.Crypto,
+  localeDescription: 'op',
+  chains: [Chain.OP_MAINNET],
+  listed: true,
+  enabled: true,
+  new: true,
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  mobula: opOpMobula,
+  tradingView: {
+    symbol: 'OPUSD',
+    fiat: {
+      usd: 'OPUSD',
+      brl: 'OPBRL',
+      eur: 'OPEUR'
+    }
+  },
+  ramp: [
+    {
+      chainId: 10,
+      minDeposit: 10,
+      bridge: {
+        fromChainId: 137,
+        fromToken: 'MATIC',
+        toChainId: 10,
+        toToken: 'OP'
+      }
+    }
+  ]
+}
+
+export const arbArbitrum: Asset = {
+  id: 'arb-arb',
+  order: 4,
+  symbol: 'ARB',
+  symbolImage: arbIcon,
+  isTestnet: false,
+  url: '/currency/arbitrum/product/assets/arb-arb',
+  category: AssetCategory.Crypto,
+  localeDescription: 'arb',
+  chains: [Chain.ARB_MAINNET],
+  listed: true,
+  enabled: true,
+  new: true,
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  mobula: arbArbMobula,
+  tradingView: {
+    symbol: 'ARBUSD',
+    fiat: {
+      usd: 'ARBUSD',
+      brl: 'ARBBRL',
+      eur: 'ARBEUR'
+    }
+  },
+  ramp: [
+    {
+      chainId: 42161,
+      minDeposit: 10,
+      bridge: {
+        fromChainId: 137,
+        fromToken: 'MATIC',
+        toChainId: 42161,
+        toToken: 'ARB'
+      }
+    }
+  ]
+}
+
+export const maticPolygon: Asset = {
+  id: 'matic-matic',
+  order: 5,
+  symbol: 'MATIC',
+  symbolImage: maticIcon,
+  isTestnet: false,
+  url: '/currency/polygon/product/assets/matic-matic',
+  category: AssetCategory.Crypto,
+  localeDescription: 'matic',
+  chains: [Chain.POL_MAINNET],
+  listed: true,
+  enabled: true,
+  new: true,
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  mobula: maticPolMobula,
+  tradingView: {
+    symbol: 'MATICUSD',
+    fiat: {
+      usd: 'MATICUSD',
+      brl: 'MATICBRL',
+      eur: 'MATICEUR'
+    }
+  },
+  ramp: [
+    {
+      chainId: 137,
+      minDeposit: 10
+    }
+  ]
+}
+
+export const assetsList: Asset[] = [ethMainnet, ethOp, btcOp, chilizChz, opOptimism, maticPolygon, arbArbitrum]
 
 export function getAssetsByCategory(category: AssetCategory): Asset[] {
   return assetsList

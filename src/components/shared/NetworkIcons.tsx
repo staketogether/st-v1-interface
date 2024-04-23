@@ -2,6 +2,7 @@ import arbitrumIcon from '@assets/network/arbitrum.svg'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
 import polygonIcon from '@assets/network/polygon.svg'
+import chilizIcon from '@assets/network/chiliz.svg'
 import solanaIcon from '@assets/network/solana.svg'
 import { Tooltip } from 'antd'
 import Image from 'next/image'
@@ -18,6 +19,7 @@ export default function NetworkIcons({ network, size, enabled = true }: NetworkI
     ethereum: ethereumIcon,
     optimism: optimismIcon,
     ['optimism-sepolia']: optimismIcon,
+    chiliz: chilizIcon,
     arbitrum: arbitrumIcon,
     polygon: polygonIcon,
     solana: solanaIcon,

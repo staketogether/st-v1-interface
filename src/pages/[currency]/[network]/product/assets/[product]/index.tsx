@@ -31,8 +31,6 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
     network: config.name.toLowerCase()
   })
 
-    console.log('asset', assetData)
-
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
       fiatAmountVar(router.query?.amount?.toString() ?? minAmount.toString())
@@ -52,11 +50,27 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
-  const paths = [
-    { params: { network: 'optimism', currency: 'usd', type: 'assets', product: 'btc-op' } },
-    { params: { network: 'optimism', currency: 'brl', type: 'assets', product: 'eth-op' } },
-    { params: { network: 'optimism', currency: 'eur', type: 'assets', product: 'eth-mainnet' } },
+  const networks = [
+    { network: 'optimism', chainId: 10 },
+    { network: 'ethereum', chainId: 1 },
+    { network: 'chiliz', chainId: 88888 }
   ]
+  const currencies = ['usd', 'brl', 'eur']
+
+  const paths = networks.map(network => {
+    return assetsList.filter(asset => asset.chains.includes(network.chainId)).map(asset => {
+      return currencies.map(currency => {
+        return {
+          params: {
+            network: network.network,
+            currency,
+            type: 'assets',
+            product: asset.id
+          }
+        }
+      })
+    })
+  }).flat(2)
 
   return { paths, fallback: 'blocking' }
 }
