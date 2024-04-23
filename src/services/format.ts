@@ -62,7 +62,10 @@ export const handleChainIdByNetwork = (network: AllowedNetworks) => {
     ethereum: 1,
     holesky: 17000,
     'optimism-sepolia': 11155420,
-    optimism: 10
+    optimism: 10,
+    chiliz: 88888,
+    polygon: 137,
+    arbitrum: 42161
   }
 
   return chainIdByNetwork[network] || 0

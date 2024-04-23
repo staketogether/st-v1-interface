@@ -769,6 +769,10 @@
       "restakingDescription": "Restaking de Ethereum: Potencialize a Eficiência do Seu Staking. Experimente o próximo nível de staking de Ethereum com nossa solução de ReStaking, que combina o protocolo Stake Together com a tecnologia Eigen Layer. Amplie o potencial do seu Ethereum usando-o como garantia na Eigen Layer, contribuindo para os serviços da rede e ganhando renda de fontes diversificadas. Nossa plataforma simplifica seu processo de staking, proporcionando uma abordagem mais eficaz e lucrativa para garantir a segurança da rede e obter recompensas. Mergulhe no ReStaking com Ethereum hoje e comece a aproveitar os rendimentos combinados.",
       "btc": "Bitcoin",
       "eth": "Ethereum",
+      "chz": "Chiliz",
+      "matic": "Polygon",
+      "arb": "Arbitrum",
+      "op": "Optimism",
       "actions": {
         "invest": "Investir",
         "withdraw": "Resgatar",
@@ -830,7 +834,7 @@
         "name": "Arbitrum"
       },
       "matic-matic": {
-        "name": "Matic (Polygon)"
+        "name": "Polygon"
       }
     }
   }

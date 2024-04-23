@@ -53,7 +53,7 @@ export const ethMainnet: Asset = {
 
 export const ethOp: Asset = {
   id: 'eth-op',
-  order: 2,
+  order: 1,
   symbol: 'ETH',
   symbolImage: ethIcon,
   localeDescription: 'eth',
@@ -93,7 +93,7 @@ export const ethOp: Asset = {
 
 export const btcOp: Asset = {
   id: 'btc-op',
-  order: 3,
+  order: 2,
   symbol: 'wBTC',
   symbolImage: btcIcon,
   isTestnet: false,
@@ -134,11 +134,11 @@ export const btcOp: Asset = {
 
 export const chilizChz: Asset = {
   id: 'chz-chiliz',
-  order: 4,
+  order: 6,
   symbol: 'CHZ',
   symbolImage: chzIcon,
   isTestnet: false,
-  url: '/currency/ethereum/product/assets/chz-chiliz',
+  url: '/currency/chiliz/product/assets/chz-chiliz',
   category: AssetCategory.Crypto,
   localeDescription: 'chz',
   chains: [Chain.CHZ_MAINNET],
@@ -168,7 +168,7 @@ export const chilizChz: Asset = {
 
 export const opOptimism: Asset = {
   id: 'op-op',
-  order: 5,
+  order: 3,
   symbol: 'OP',
   symbolImage: opIcon,
   isTestnet: false,
@@ -208,7 +208,7 @@ export const opOptimism: Asset = {
 
 export const arbArbitrum: Asset = {
   id: 'arb-arb',
-  order: 6,
+  order: 4,
   symbol: 'ARB',
   symbolImage: arbIcon,
   isTestnet: false,
@@ -248,11 +248,11 @@ export const arbArbitrum: Asset = {
 
 export const maticPolygon: Asset = {
   id: 'matic-matic',
-  order: 7,
+  order: 5,
   symbol: 'MATIC',
   symbolImage: maticIcon,
   isTestnet: false,
-  url: '/currency/polygon/product/assets/matic-pol',
+  url: '/currency/polygon/product/assets/matic-matic',
   category: AssetCategory.Crypto,
   localeDescription: 'matic',
   chains: [Chain.POL_MAINNET],
