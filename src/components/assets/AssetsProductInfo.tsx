@@ -39,7 +39,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={product.chains[0]}/>
+            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={product.chains[0]} />
             {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
@@ -94,6 +94,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
 const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, HeaderProduct, HeaderDescribeInfo, StatisticContainer } = {
   ProductContainer: styled.div`
     flex: 1;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
