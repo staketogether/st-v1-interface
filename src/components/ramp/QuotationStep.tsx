@@ -29,7 +29,7 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<string>(fiatAmount ?? '0')
   const debounceValue = useDebounce(value, 300)
-  const minDeposit = asset.ramp[0].minDeposit || 0
+const minDeposit = asset.ramp[0].minDeposit
 
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
