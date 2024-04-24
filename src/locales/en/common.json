@@ -728,6 +728,14 @@
         "bank": "Bank",
         "paymentTime": "Payment time",
         "timeOut": "Unfortunately, your deadline to make payment has expired!"
+      },
+      "offRamp": {
+        "requestRequested": "Request requested",
+        "exchange": "Exchange BRLA for Blockchain",
+        "sendingPix": "Sending Pix",
+        "success": "Your money is now available in your account",
+        "youReceived": "You received",
+        "successTitle": "Withdrawal successful!"
       }
     },
     "ethereumStaking": {

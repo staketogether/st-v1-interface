@@ -11,6 +11,7 @@ import GenericErrorComponent from '../ramp/GenericErrorComponent'
 import KycStep from '../ramp/KycStep'
 import PaymentMethod from '../ramp/PaymentMethod'
 import PixKeyStep from '../ramp/PixKeyStep'
+import ProcessingCheckoutOffRampStep from '../ramp/ProcessingCheckoutOffRampStep'
 import ProcessingCheckoutStep from '../ramp/ProcessingCheckoutStep'
 import ProcessingKycStep from '../ramp/ProcessingKycStep'
 import QuotationOffRampStep from '../ramp/QuotationOffRamp'
@@ -35,7 +36,8 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
     Checkout: <CheckoutStep asset={asset} />,
     TimeOutCheckout: <TimeOutCheckout asset={asset} />,
     Success: <SuccessStep product={asset} />,
-    PixKeyStep: <PixKeyStep asset={asset} />,
+    PixKeyStep: <PixKeyStep />,
+    ProcessingCheckoutOffRampStep: <ProcessingCheckoutOffRampStep product={asset} type={type} />,
     error: <GenericErrorComponent />
   }
 
