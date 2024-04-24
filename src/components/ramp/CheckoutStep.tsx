@@ -131,7 +131,7 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, 
     font-size: ${({ theme }) => theme.font.size[13]};
     font-weight: 400;
 
-    gap: 24px;
+    gap: 25px;
   `,
   Body: styled.div`
     padding: 0 5px 0px 0px;
