@@ -1,4 +1,3 @@
-import { globalConfig } from '@/config/global'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import { BrlaBuyEthStep, changeWalletAddress, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -47,7 +46,6 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
     MethodPayment: t('v2.ramp.provider')
   }
   const title = currentStep in titleList && titleList[currentStep]
-  const { backendUrl } = globalConfig
 
   useEffect(() => {
     if (address && currentStep === BrlaBuyEthStep.ConnectWallet) {
@@ -68,12 +66,10 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
   }, [address])
 
   return (
-
     <Container>
       {title && <h2>{title}</h2>}
       {steps[currentStep]}
     </Container>
-
   )
 }
 

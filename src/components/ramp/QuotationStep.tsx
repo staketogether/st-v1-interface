@@ -98,7 +98,11 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
     })
   }, [quote])
 
-  useFacebookPixel(`onramp-quotation:${asset.id}`, quote?.amountToken !== undefined, { amountFiat: Number(debounceValue), amountToken: String(quote?.amountToken), assetId: asset.id})
+  useFacebookPixel(`onramp-quotation:${asset.id}`, quote?.amountToken !== undefined, {
+    amountFiat: Number(debounceValue),
+    amountToken: String(quote?.amountToken),
+    assetId: asset.id
+  })
 
   return (
     <Container>

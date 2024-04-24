@@ -16,7 +16,7 @@ import ConnectWallet from '../shared/ConnectWallet'
 import Input from '../shared/inputs/Input'
 import Select from '../shared/inputs/Select'
 import TextArea from '../shared/inputs/TextArea'
-import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
+import { projectRegexFields, projectRegexOnKeyDown } from '../shared/input-helper/regex'
 
 interface ProjectRegisterInfoProps {
   hasAgreeTerms: boolean

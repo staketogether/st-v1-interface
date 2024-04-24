@@ -59,34 +59,37 @@ export const getStaticPaths: GetStaticPaths = () => {
   ]
   const currencies = ['usd', 'brl', 'eur']
 
-  const paths = networks.map(network => {
-    return assetsList.filter(asset => asset.chains.includes(network.chainId)).map(asset => {
-      return currencies.map(currency => {
-        return {
-          params: {
-            network: network.network,
-            currency,
-            type: 'assets',
-            product: asset.id
-          }
-        }
-      })
+  const paths = networks
+    .map(network => {
+      return assetsList
+        .filter(asset => asset.chains.includes(network.chainId))
+        .map(asset => {
+          return currencies.map(currency => {
+            return {
+              params: {
+                network: network.network,
+                currency,
+                type: 'assets',
+                product: asset.id
+              }
+            }
+          })
+        })
     })
-  }).flat(2)
+    .flat(2)
 
   return { paths, fallback: 'blocking' }
 }
 
 async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaMarketAsset> {
   const { backendUrl } = globalConfig
-  const marketData = await axios
-    .get<MobulaMarketAssetResponse>(`${backendUrl}/api/${uri}`, {
-      params: {
-        asset,
-        blockchain,
-        symbol
-      }
-    })
+  const marketData = await axios.get<MobulaMarketAssetResponse>(`${backendUrl}/api/${uri}`, {
+    params: {
+      asset,
+      blockchain,
+      symbol
+    }
+  })
   return marketData.data.data
 }
 

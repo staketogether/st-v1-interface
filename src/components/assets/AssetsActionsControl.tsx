@@ -26,7 +26,6 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
             <li className={`${type === 'sell' && 'activated'}`}>
               <Link href={`${product.url.replace('currency', currency)}/sell`}>{t('sell')}</Link>
             </li>
-
           </ul>
         </nav>
       </header>

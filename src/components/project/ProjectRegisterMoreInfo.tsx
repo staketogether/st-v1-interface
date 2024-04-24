@@ -11,7 +11,7 @@ import { mainnet } from 'wagmi/chains'
 import Button from '../shared/Button'
 import GenericTransactionLoading from '../shared/GenericTransactionLoading'
 import Input from '../shared/inputs/Input'
-import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
+import { projectRegexFields, projectRegexOnKeyDown } from '../shared/input-helper/regex'
 import ProjectCreateSuccess from './ProjectCreateSuccess'
 
 interface ProjectRegisterMoreInfoProps {
