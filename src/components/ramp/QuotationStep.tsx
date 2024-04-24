@@ -27,9 +27,9 @@ interface QuotationStepProps {
 
 export default function QuotationStep({ asset }: QuotationStepProps) {
   const fiatAmount = useReactiveVar(fiatAmountVar)
-  const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
+  const [value, setValue] = useState<string>(fiatAmount ?? '0')
   const debounceValue = useDebounce(value, 300)
-  const minDeposit = asset.ramp[0].minDeposit
+  const minDeposit = asset.ramp[0].minDeposit || 0
 
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
@@ -48,7 +48,7 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
   const { t } = useLocaleTranslation()
   const limit = Number(debounceValue) * 100 >= Number(kycLevelInfo?.limits.limitSwapBuy ?? 0)
   const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
-  const errorMinValue = BigInt(debounceValue) < minDeposit
+  const errorMinValue = Number(debounceValue) < minDeposit
   const handleChange = (v: string) => {
     if (v.includes(',')) {
       v = v.replace(',', '.')
@@ -81,7 +81,7 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
       return `${t('v2.stake.depositErrorMessage.DepositLimitReached')}`
     }
 
-    if (BigInt(debounceValue) < minDeposit) {
+    if (errorMinValue) {
       return `${t('v2.stake.minAmount')} ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'brl' }).format(minDeposit)}`
     }
 
@@ -98,7 +98,11 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
     })
   }, [quote])
 
-  useFacebookPixel(`onramp-quotation:${asset.id}`, quote?.amountToken !== undefined, { amountFiat: Number(debounceValue), amountToken: String(quote?.amountToken), assetId: asset.id})
+  useFacebookPixel(`onramp-quotation:${asset.id}`, quote?.amountToken !== undefined, {
+    amountFiat: Number(debounceValue),
+    amountToken: String(quote?.amountToken),
+    assetId: asset.id
+  })
 
   return (
     <Container>
@@ -127,7 +131,7 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
       <QuotationStepEthAmount product={asset} />
       <Button
         onClick={handleNext}
-        disabled={BigInt(debounceValue) < minDeposit || error || quoteIsValidating || !quote?.amountBrl}
+        disabled={errorMinValue || error || quoteIsValidating || !quote?.amountBrl}
         label={handleLabelButton()}
         icon={!error && !errorMinValue && <PiArrowRight />}
       />
