@@ -31,29 +31,6 @@ export default function PixKeyStep() {
   const key = watch('key')
   const type = watch('type')
 
-  const options: { key: string; value: { label: string; value: string | number } }[] = [
-    {
-      key: 'CPF',
-      value: { label: 'CPF', value: 'CPF' }
-    },
-    {
-      key: 'PHONE',
-      value: { label: 'Telefone', value: 'PHONE' }
-    },
-    {
-      key: 'RANDOM',
-      value: { label: 'Aleatório', value: 'RANDOM' }
-    },
-    {
-      key: 'CPNJ',
-      value: { label: 'CPNJ', value: 'CPNJ' }
-    },
-    {
-      key: 'EMAIL',
-      value: { label: 'EMAIL', value: 'EMAIL' }
-    }
-  ]
-
   const handleMask = (value: string) => {
     switch (type) {
       case 'CPF':
@@ -92,6 +69,29 @@ export default function PixKeyStep() {
     }
     return validates[type]
   }
+
+  const options: { key: string; value: { label: string; value: string | number } }[] = [
+    {
+      key: 'CPF',
+      value: { label: 'CPF', value: 'CPF' }
+    },
+    {
+      key: 'PHONE',
+      value: { label: 'Telefone', value: 'PHONE' }
+    },
+    {
+      key: 'RANDOM',
+      value: { label: 'Aleatório', value: 'RANDOM' }
+    },
+    {
+      key: 'CPNJ',
+      value: { label: 'CPNJ', value: 'CPNJ' }
+    },
+    {
+      key: 'EMAIL',
+      value: { label: 'EMAIL', value: 'EMAIL' }
+    }
+  ]
 
   const onSubmit = (data: PixKey) => {
     console.log(data)
