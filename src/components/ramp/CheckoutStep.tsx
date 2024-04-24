@@ -88,7 +88,7 @@ export default function CheckoutStep({ asset }: CheckoutStepProps) {
           <Header>
             <div>
               <span>{t('v2.ramp.amountToBePaid')}:</span>
-              <span>R$ {Number(quote?.amountBrl).toFixed(2)}</span>
+              <span>R$ {Number(quote?.amountBrl || 0).toFixed(2)}</span>
             </div>
             <span>
               {t('v2.ramp.checkout.for')} {pixBankInfo?.name}
