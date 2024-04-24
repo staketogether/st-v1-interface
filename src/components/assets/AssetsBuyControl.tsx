@@ -31,11 +31,11 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
     Kyc: <KycStep asset={asset} />,
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={asset} type={type} />,
-    ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} />,
+    ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} type={type} />,
     Checkout: <CheckoutStep asset={asset} />,
     TimeOutCheckout: <TimeOutCheckout asset={asset} />,
     Success: <SuccessStep product={asset} />,
-    PixKeyStep: <PixKeyStep />,
+    PixKeyStep: <PixKeyStep asset={asset} />,
     error: <GenericErrorComponent />
   }
 

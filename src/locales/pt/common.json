@@ -702,6 +702,7 @@
       "processingRegistration": "Processando Cadastro",
       "processingPayment": "Processando Pagamento",
       "generatingQRCode": "Gerando QR Code",
+      "validatingWithdrawal": "Validando Saque",
       "paymentIdentified": "Pagamento identificado",
       "mintingBRLA": "Mintagem BRLA na Blockchain",
       "swapBrlToEth": "Swap  BRLA para ETH",

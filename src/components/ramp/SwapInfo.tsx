@@ -8,28 +8,33 @@ import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 
 interface SwapInfoProps {
-  asset: Asset
+  asset: Asset,
+  type: 'buy' | 'sell' | 'swap'
 }
 
-export default function SwapInfo({ asset }: SwapInfoProps) {
+export default function SwapInfo({ asset, type }: SwapInfoProps) {
   const quote = useReactiveVar(quoteVar)
+  const [first, second] = [
+    <SwapToken key='brla'>
+      <div>
+        <Image src={brla} width={16} height={16} alt='brla' />
+        <span>BRLA</span>
+      </div>
+      <span>{quote?.amountBrl}</span>
+    </SwapToken>,
+    <SwapToken key={asset.symbol}>
+      <div >
+        <AssetIcon image={asset.symbolImage} chain={asset.chains[0]} size={16} altName={asset.symbol} />
+        <span>{asset.symbol}</span>
+      </div>
+      <span>{quote?.amountToken}</span>
+    </SwapToken>
+  ]
   return (
     <Container>
-      <SwapToken>
-        <div>
-          <Image src={brla} width={16} height={16} alt='brla' />
-          <span>BRLA</span>
-        </div>
-        <span>{quote?.amountBrl}</span>
-      </SwapToken>
+      {type === 'buy' ? first : second}
       <PiArrowRight size={24} />
-      <SwapToken className='left'>
-        <div>
-          <AssetIcon image={asset.symbolImage} chain={asset.chains[0]} size={16} altName={asset.symbol} />
-          <span>{asset.symbol}</span>
-        </div>
-        <span>{quote?.amountToken}</span>
-      </SwapToken>
+      {type === 'buy' ? second : first}
     </Container>
   )
 }
@@ -43,6 +48,12 @@ const { Container, SwapToken } = {
     border-radius: 8px;
     gap: 8px;
     background: ${({ theme }) => theme.colorV2.gray[2]};
+    > div:nth-child(3) {
+      margin: 0 0 0 auto;
+      > div {
+        justify-content: right;
+      }
+    }
   `,
   SwapToken: styled.div`
     padding: 8px 16px;
@@ -67,10 +78,7 @@ const { Container, SwapToken } = {
       text-align: left;
     }
     &.left {
-      margin: 0 0 0 auto;
-      > div {
-        justify-content: right;
-      }
+      
     }
   `
 }
