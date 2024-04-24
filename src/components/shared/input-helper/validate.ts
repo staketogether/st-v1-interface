@@ -1,3 +1,5 @@
+import { regexFields } from './regex'
+
 export const handleValidateBirthDate = (data?: string): boolean => {
   if (!data) {
     return true
@@ -93,4 +95,8 @@ export function isValidPhone(phone: string): boolean {
   const regexPhone = /^(?:[1-9]{2})[2-5][0-9]{7}$|^(?:[1-9]{2})9[6-9][0-9]{7}$/
 
   return regexPhone.test(numbers)
+}
+
+export function isValidEmail(email: string): boolean {
+  return !regexFields.email.test(email)
 }
