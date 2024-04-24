@@ -29,14 +29,15 @@ interface QuotationOffRampStepProps {
 
 export default function QuotationOffRampStep({ product }: QuotationOffRampStepProps) {
   const fiatAmount = useReactiveVar(fiatAmountVar)
-  const [value, setValue] = useState<number | string>(0)
+  const [value, setValue] = useState<string>('0')
   console.log({
     value,
     fiatAmount
   })
+
   const debounceValue = useDebounce(ethers.parseUnits(`${value}`, product.decimals), 300)
   const { account } = useConnectedAccount()
-  const minDeposit = product.ramp[0].minDeposit
+
   const { balance: ethBalance, isLoading: ethBalanceLoading } = useEthBalanceOf({
     walletAddress: account,
     chainId: product.chains[0],
@@ -145,12 +146,7 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
         </InputContainer>
       </BoxValuesContainer>
       <QuotationStepEthAmount product={product} />
-      <Button
-        onClick={handleNext}
-        disabled={false}
-        label={handleLabelButton()}
-        icon={!error && !errorMinValue && <PiArrowRight />}
-      />
+      <Button onClick={handleNext} disabled={false} label={handleLabelButton()} icon={!error && !errorMinValue && <PiArrowRight />} />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
       </footer>

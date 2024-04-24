@@ -68,7 +68,6 @@ export default function QuotationStepEthAmount({ product }: QuotationStepEthAmou
   return (
     <PriceInfoContainer>
       <div>
-        <span>{t('v2.ramp.quote.price')}</span>
         <span>
           1 {product.symbol} = {activeValue.toLocaleString('pt-BR')} BRL
         </span>
