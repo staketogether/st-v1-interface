@@ -55,11 +55,15 @@ export default function ProcessingCheckoutOffRampStep({ product, type }: Process
   const validationSteps = [
     {
       icon: getIcon(isPaymentIdentified ? 'success' : 'process'),
-      text: t('v2.ramp.paymentIdentified')
+      text: t('v2.ramp.offRamp.requestRequested')
+    },
+    {
+      icon: getIcon(isPaymentIdentified ? 'success' : 'process'),
+      text: t('v2.ramp.offRamp.exchange')
     },
     {
       icon: !isPaymentIdentified ? getIcon('waiting') : getIcon(finishedPayment ? 'success' : 'process'),
-      text: t('v2.ramp.mintingBRLA'),
+      text: t('v2.ramp.offRamp.sendingPix'),
       disable: !finishedPayment
     }
   ]
