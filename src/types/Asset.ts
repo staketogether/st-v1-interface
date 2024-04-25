@@ -9,7 +9,7 @@ export enum AssetCategory {
   Lego = 'lego'
 }
 
-export type AssetId = 'eth-mainnet' | 'eth-op' | 'btc-op' | 'chz-chiliz' | 'op-op' | 'arb-arb' | 'matic-matic'
+export type AssetId = 'eth-mainnet' | 'eth-op' | 'btc-op' | 'chz-chiliz' | 'op-op' | 'arb-arb' | 'matic-matic' | 'arb-eth'
 export interface Asset {
   id: AssetId
   order: number
@@ -24,7 +24,7 @@ export interface Asset {
   new: boolean
   localeDescription: string
   linkedAssets?: Record<Chain, Asset>
-  contractAddress?: `0x${string}`
+  contractAddress: `0x${string}`
   points: {
     stPoints: boolean
     elPoints: boolean

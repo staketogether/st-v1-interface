@@ -22,6 +22,7 @@ export const ethMainnet: Asset = {
   order: 1,
   symbol: 'ETH',
   isTestnet: false,
+  contractAddress: '0x0000000000000000000000000000000000000000',
   symbolImage: ethIcon,
   url: '/currency/ethereum/product/assets/eth-mainnet',
   category: AssetCategory.Crypto,
@@ -55,6 +56,7 @@ export const ethOp: Asset = {
   id: 'eth-op',
   order: 1,
   symbol: 'ETH',
+  contractAddress: '0x0000000000000000000000000000000000000000',
   symbolImage: ethIcon,
   localeDescription: 'eth',
   isTestnet: false,
@@ -138,6 +140,7 @@ export const chilizChz: Asset = {
   symbol: 'CHZ',
   symbolImage: chzIcon,
   isTestnet: false,
+  contractAddress: '0x0000000000000000000000000000000000000000',
   url: '/currency/chiliz/product/assets/chz-chiliz',
   category: AssetCategory.Crypto,
   localeDescription: 'chz',
@@ -173,6 +176,7 @@ export const opOptimism: Asset = {
   symbolImage: opIcon,
   isTestnet: false,
   url: '/currency/optimism/product/assets/op-op',
+  contractAddress: '0x4200000000000000000000000000000000000042',
   category: AssetCategory.Crypto,
   localeDescription: 'op',
   chains: [Chain.OP_MAINNET],
@@ -206,6 +210,47 @@ export const opOptimism: Asset = {
   ]
 }
 
+export const ethArbitrum: Asset = {
+  id: 'arb-eth',
+  order: 4,
+  symbol: 'ETH',
+  symbolImage: ethIcon,
+  isTestnet: false,
+  url: '/currency/arbitrum/product/assets/arb-eth',
+  contractAddress: '0x0000000000000000000000000000000000000000',
+  category: AssetCategory.Crypto,
+  localeDescription: 'eth',
+  chains: [Chain.ARB_MAINNET],
+  listed: false,
+  enabled: true,
+  new: true,
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  mobula: ethEthMobula,
+  tradingView: {
+    symbol: 'ETHUSD',
+    fiat: {
+      usd: 'ETHUSD',
+      brl: 'ETHBRL',
+      eur: 'ETHEUR'
+    }
+  },
+  ramp: [
+    {
+      chainId: 42161,
+      minDeposit: 10,
+      bridge: {
+        fromChainId: 137,
+        fromToken: 'MATIC',
+        toChainId: 42161,
+        toToken: 'ETH'
+      }
+    }
+  ]
+}
+
 export const arbArbitrum: Asset = {
   id: 'arb-arb',
   order: 4,
@@ -213,6 +258,7 @@ export const arbArbitrum: Asset = {
   symbolImage: arbIcon,
   isTestnet: false,
   url: '/currency/arbitrum/product/assets/arb-arb',
+  contractAddress: '0x912CE59144191C1204E64559FE8253a0e49E6548',
   category: AssetCategory.Crypto,
   localeDescription: 'arb',
   chains: [Chain.ARB_MAINNET],
@@ -251,6 +297,7 @@ export const maticPolygon: Asset = {
   order: 5,
   symbol: 'MATIC',
   symbolImage: maticIcon,
+  contractAddress: '0x0000000000000000000000000000000000000000',
   isTestnet: false,
   url: '/currency/polygon/product/assets/matic-matic',
   category: AssetCategory.Crypto,
@@ -280,7 +327,7 @@ export const maticPolygon: Asset = {
   ]
 }
 
-export const assetsList: Asset[] = [ethMainnet, ethOp, btcOp, chilizChz, opOptimism, maticPolygon, arbArbitrum]
+export const assetsList: Asset[] = [ethMainnet, ethOp, btcOp, chilizChz, opOptimism, maticPolygon, arbArbitrum, ethArbitrum]
 
 export function getAssetsByCategory(category: AssetCategory): Asset[] {
   return assetsList
