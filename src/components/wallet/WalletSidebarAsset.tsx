@@ -16,7 +16,6 @@ export default function WalletSidebarAsset({ walletAsset }: { walletAsset: Accou
   const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance)))
   const { priceConvertedValue } = useCoinConversion(formattedBalance, `${asset?.mobula.filter}`)
   const imageSrc = (asset?.symbolImage ?? walletAsset?.thumbnail) ?? ''
-  console.log('walletAsset', walletAsset, asset)
 
   return (
     <BalanceContainer key={walletAsset.chainId}>

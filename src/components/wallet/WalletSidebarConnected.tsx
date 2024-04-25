@@ -41,6 +41,8 @@ import { stakingList } from '@/config/product/staking'
 import { StakingId } from '@/types/Staking'
 import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
 import WalletSidebarAsset from '@/components/wallet/WalletSidebarAsset'
+import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
+import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -52,6 +54,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<'delegations' | 'rewards' | 'activity'>('delegations')
   const [productTabSelected, setProductTabSelected] = useState<StakingId>('eth-staking')
+  const [userNetWorth, setUserNetWorth] = useState<string>('0')
 
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
   const { connector } = useAccount()
@@ -70,8 +73,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
 
   const handleWalletProviderImage = useWalletProviderImage()
-  // TODO: Get from backend
-  const usdTotalBalance = '0'
 
   const {
     accountDelegations: stakeAccountDelegations,
@@ -83,6 +84,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   } = useStAccount({ address: address, productName: 'eth-staking', chainId: mainnet.id })
 
   const { accountAssets } = useAccountAssets(address)
+  const { balance: usdTotalBalance } = useAccountAssetsUsdBalance(address)
+  const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
   const {
     accountDelegations: restakingAccountDelegations,
@@ -137,6 +140,10 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       setIsPanelActive(false)
     }
   }, [address])
+
+  useEffect(() => {
+    setUserNetWorth(handleQuotePrice(Number(usdTotalBalance)))
+  }, [handleQuotePrice, usdTotalBalance])
 
   const products = stakingList.filter(product => product.enabled)
 
@@ -225,7 +232,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           </HeaderContainer>
           <EstimatedBalanceContainer>
             <span>{t('estimatedBalance')}</span>
-            <span>{usdTotalBalance}</span>
+            <span>{userNetWorth}</span>
           </EstimatedBalanceContainer>
           <Card
             header={
@@ -237,7 +244,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           >
             <AssetsCard>
               {accountAssets?.map((walletAsset, index) =>
-                <WalletSidebarAsset walletAsset={walletAsset} key={walletAsset?.chainId || index} />
+                <WalletSidebarAsset walletAsset={walletAsset} key={index} />
               )}
             </AssetsCard>
           </Card>
