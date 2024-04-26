@@ -5,6 +5,7 @@ import { formatNumberByLocale } from '@/services/format'
 import { assetsList } from '@/config/product/asset'
 import styled from 'styled-components'
 import { truncateWei } from '@/services/truncate'
+import defaultErc20Icon from '@assets/assets/default-erc-20.svg'
 
 export default function WalletSidebarAsset({ walletAsset }: { walletAsset: AccountAsset }) {
   const asset = assetsList
@@ -15,7 +16,7 @@ export default function WalletSidebarAsset({ walletAsset }: { walletAsset: Accou
   const fixedWalletBalance = walletAsset.decimals >= 18 ? walletAsset.balance : walletAsset.balance + '0'.repeat(18 - walletAsset.decimals)
   const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance)))
   const { priceConvertedValue } = useCoinConversion(formattedBalance, `${asset?.mobula.filter}`)
-  const imageSrc = (asset?.symbolImage ?? walletAsset?.thumbnail) ?? ''
+  const imageSrc = (asset?.symbolImage ?? walletAsset?.thumbnail) ?? defaultErc20Icon
 
   return (
     <BalanceContainer key={walletAsset.chainId}>
