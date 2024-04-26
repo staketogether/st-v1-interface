@@ -1,23 +1,15 @@
 import { Asset, AssetCategory } from '@/types/Asset'
-import btcIcon from '@assets/assets/bitcoin.svg'
-import ethIcon from '@assets/assets/ethereum.svg'
-import chzIcon from '@assets/assets/chiliz.svg'
-import opIcon from '@assets/assets/optimism.svg'
 import arbIcon from '@assets/assets/arbitrum.svg'
+import btcIcon from '@assets/assets/bitcoin.svg'
+import chzIcon from '@assets/assets/chiliz.svg'
+import ethIcon from '@assets/assets/ethereum.svg'
+import opIcon from '@assets/assets/optimism.svg'
 import maticIcon from '@assets/assets/polygon.svg'
 import stpEthIcon from '@assets/assets/stp-eth.svg'
 import strEthIcon from '@assets/assets/str-eth.svg'
 
+import { arbArbMobula, btcOpMobula, chzEthMobula, ethEthMobula, ethOpMobula, maticPolMobula, opOpMobula } from '@/config/mobula'
 import { Chain } from '../chain'
-import {
-  btcOpMobula,
-  ethEthMobula,
-  ethOpMobula,
-  chzEthMobula,
-  maticPolMobula,
-  arbArbMobula,
-  opOpMobula
-} from '@/config/mobula'
 
 export const ethMainnet: Asset = {
   id: 'eth-mainnet',
@@ -38,14 +30,6 @@ export const ethMainnet: Asset = {
     elPoints: false
   },
   mobula: ethEthMobula,
-  tradingView: {
-    symbol: 'ETHUSD',
-    fiat: {
-      usd: 'ETHUSD',
-      brl: 'ETHBRL',
-      eur: 'ETHEUR'
-    }
-  },
   ramp: [
     {
       chainId: 1,
@@ -73,14 +57,6 @@ export const ethOp: Asset = {
     elPoints: false
   },
   mobula: ethOpMobula,
-  tradingView: {
-    symbol: 'ETHUSD',
-    fiat: {
-      usd: 'ETHUSD',
-      brl: 'ETHBRL',
-      eur: 'ETHEUR'
-    }
-  },
   ramp: [
     {
       chainId: 10,
@@ -114,14 +90,6 @@ export const btcOp: Asset = {
     elPoints: false
   },
   mobula: btcOpMobula,
-  tradingView: {
-    symbol: 'BTCUSD',
-    fiat: {
-      usd: 'BTCUSD',
-      brl: 'BTCBRL',
-      eur: 'BTCEUR'
-    }
-  },
   ramp: [
     {
       chainId: 10,
@@ -155,14 +123,6 @@ export const chilizChz: Asset = {
     elPoints: false
   },
   mobula: chzEthMobula,
-  tradingView: {
-    symbol: 'CHZUSD',
-    fiat: {
-      usd: 'CHZUSD',
-      brl: 'CHZBRL',
-      eur: 'CHZEUR'
-    }
-  },
   ramp: [
     {
       chainId: 88888,
@@ -190,14 +150,6 @@ export const opOptimism: Asset = {
     elPoints: false
   },
   mobula: opOpMobula,
-  tradingView: {
-    symbol: 'OPUSD',
-    fiat: {
-      usd: 'OPUSD',
-      brl: 'OPBRL',
-      eur: 'OPEUR'
-    }
-  },
   ramp: [
     {
       chainId: 10,
@@ -231,14 +183,6 @@ export const ethArbitrum: Asset = {
     elPoints: false
   },
   mobula: ethEthMobula,
-  tradingView: {
-    symbol: 'ETHUSD',
-    fiat: {
-      usd: 'ETHUSD',
-      brl: 'ETHBRL',
-      eur: 'ETHEUR'
-    }
-  },
   ramp: [
     {
       chainId: 42161,
@@ -272,14 +216,6 @@ export const arbArbitrum: Asset = {
     elPoints: false
   },
   mobula: arbArbMobula,
-  tradingView: {
-    symbol: 'ARBUSD',
-    fiat: {
-      usd: 'ARBUSD',
-      brl: 'ARBBRL',
-      eur: 'ARBEUR'
-    }
-  },
   ramp: [
     {
       chainId: 42161,
@@ -313,14 +249,6 @@ export const maticPolygon: Asset = {
     elPoints: false
   },
   mobula: maticPolMobula,
-  tradingView: {
-    symbol: 'MATICUSD',
-    fiat: {
-      usd: 'MATICUSD',
-      brl: 'MATICBRL',
-      eur: 'MATICEUR'
-    }
-  },
   ramp: [
     {
       chainId: 137,
@@ -352,14 +280,6 @@ const stpEth: Asset = {
     symbol: 'ETH',
     blockchain: 'ethereum',
     filter: 'stp-eth'
-  },
-  tradingView: {
-    symbol: 'ETHUSD',
-    fiat: {
-      usd: 'ETHUSD',
-      brl: 'ETHBRL',
-      eur: 'ETHEUR'
-    }
   },
   ramp: [
     {
@@ -393,14 +313,6 @@ const stpReth: Asset = {
     blockchain: 'ethereum',
     filter: 'stp-reth'
   },
-  tradingView: {
-    symbol: 'ETHUSD',
-    fiat: {
-      usd: 'ETHUSD',
-      brl: 'ETHBRL',
-      eur: 'ETHEUR'
-    }
-  },
   ramp: [
     {
       chainId: 1,
@@ -409,7 +321,18 @@ const stpReth: Asset = {
   ]
 }
 
-export const assetsList: Asset[] = [ethMainnet, ethOp, btcOp, chilizChz, opOptimism, maticPolygon, arbArbitrum, ethArbitrum, stpEth, stpReth]
+export const assetsList: Asset[] = [
+  ethMainnet,
+  ethOp,
+  btcOp,
+  chilizChz,
+  opOptimism,
+  maticPolygon,
+  arbArbitrum,
+  ethArbitrum,
+  stpEth,
+  stpReth
+]
 
 export function getAssetsByCategory(category: AssetCategory): Asset[] {
   return assetsList

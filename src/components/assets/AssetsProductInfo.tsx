@@ -1,17 +1,17 @@
+import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
+import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
+import { Asset } from '@/types/Asset'
+import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 import { notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
-import TradingViewComponent from '../shared/TradingViewComponent'
-import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
-import { Asset } from '@/types/Asset'
-import { chainConfigByChainId } from '@/config/chain'
-import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
+import PriceChart from '../shared/PriceChart'
 
 interface AssetsProductInfoProps {
   product: Asset
@@ -39,7 +39,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={product.chains[0]}/>
+            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={product.chains[0]} />
             {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
@@ -65,7 +65,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
           </SymbolContainer>
         </HeaderDescribeInfo>
       </header>
-      <TradingViewComponent tradingView={product.tradingView} />
+      <PriceChart chainId={product.chains[0]} contract={product.contractAddress} />
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>
