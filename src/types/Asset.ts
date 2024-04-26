@@ -20,6 +20,7 @@ export type AssetId =
   | 'arb-eth'
   | 'stp-eth'
   | 'stp-reth'
+  | 'mengo-chz'
 
 export interface NativeAsset {
   id: AssetId

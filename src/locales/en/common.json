@@ -665,6 +665,7 @@
       "eth-mainnet": "Ethereum",
       "eth-op": "Ethereum",
       "chz-chiliz": "Chiliz",
+      "mengo-chz": "Flamengo",
       "op-op": "Optimism",
       "arb-arb": "Arbitrum",
       "matic-matic": "Polygon"
@@ -801,6 +802,9 @@
       },
       "chz-chiliz": {
         "name": "Chiliz"
+      },
+      "mengo-chz": {
+        "name": "Flamengo"
       },
       "op-op": {
         "name": "Optimism"
