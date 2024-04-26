@@ -11,7 +11,5 @@ export default function useAccountAssetsUsdBalance(accountAddress?: `0x${string}
     skip: !accountAddress,
   })
 
-  console.log(data)
-
   return { balance: data?.accountAssetsUsdBalance ?? "0", loading }
 }
