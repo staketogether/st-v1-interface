@@ -332,7 +332,7 @@ export const mengoChz: Asset = {
   symbol: 'MENGO',
   symbolImage: mengoChzIcon,
   isTestnet: false,
-  contractAddress: '0x',
+  contractAddress: '0xD1723Eb9e7C6eE7c7e2d421B2758dc0f2166eDDc',
   type: 'erc20',
   url: '/currency/chiliz/product/assets/mengo-chz',
   category: AssetCategory.Crypto,
