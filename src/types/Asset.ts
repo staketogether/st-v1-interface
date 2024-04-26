@@ -9,7 +9,7 @@ export enum AssetCategory {
   Lego = 'lego'
 }
 
-export type AssetId = 'eth-mainnet' | 'eth-op' | 'btc-op' | 'chz-chiliz' | 'op-op' | 'arb-arb' | 'matic-matic' | 'arb-eth'
+export type AssetId = 'eth-mainnet' | 'eth-op' | 'btc-op' | 'chz-chiliz' | 'op-op' | 'arb-arb' | 'matic-matic' | 'arb-eth' | 'stp-eth' | 'stp-reth'
 export interface Asset {
   id: AssetId
   order: number

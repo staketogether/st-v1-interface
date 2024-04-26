@@ -12,6 +12,7 @@ export default function WalletSidebarAsset({ walletAsset }: { walletAsset: Accou
       supportedAsset.contractAddress.toLowerCase() === walletAsset.contractAddress.toLowerCase()
       && supportedAsset.chains[0] === walletAsset.chainId
     )
+  console.log('asset', walletAsset.contractAddress, asset)
   const fixedWalletBalance = walletAsset.decimals >= 18 ? walletAsset.balance : walletAsset.balance + '0'.repeat(18 - walletAsset.decimals)
   const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance)))
   const { priceConvertedValue } = useCoinConversion(formattedBalance, `${asset?.mobula.filter}`)

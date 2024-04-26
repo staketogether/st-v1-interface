@@ -5,6 +5,8 @@ import chzIcon from '@assets/assets/chiliz.svg'
 import opIcon from '@assets/assets/optimism.svg'
 import arbIcon from '@assets/assets/arbitrum.svg'
 import maticIcon from '@assets/assets/polygon.svg'
+import stpEthIcon from '@assets/assets/stp-eth.svg'
+import strEthIcon from '@assets/assets/str-eth.svg'
 
 import { Chain } from '../chain'
 import {
@@ -327,7 +329,87 @@ export const maticPolygon: Asset = {
   ]
 }
 
-export const assetsList: Asset[] = [ethMainnet, ethOp, btcOp, chilizChz, opOptimism, maticPolygon, arbArbitrum, ethArbitrum]
+const stpEth: Asset = {
+  id: 'stp-eth',
+  order: 1,
+  symbol: 'ETH',
+  contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+  symbolImage: stpEthIcon,
+  url: '/currency/ethereum/product/assets/stp-eth',
+  category: AssetCategory.Crypto,
+  chains: [Chain.ETH_MAINNET],
+  listed: false,
+  enabled: true,
+  isTestnet: false,
+  new: false,
+  localeDescription: 'eth',
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  mobula: {
+    asset: 'stp-eth',
+    symbol: 'ETH',
+    blockchain: 'ethereum',
+    filter: 'stp-eth'
+  },
+  tradingView: {
+    symbol: 'ETHUSD',
+    fiat: {
+      usd: 'ETHUSD',
+      brl: 'ETHBRL',
+      eur: 'ETHEUR'
+    }
+  },
+  ramp: [
+    {
+      chainId: 1,
+      minDeposit: 300
+    }
+  ]
+}
+
+const stpReth: Asset = {
+  id: 'stp-reth',
+  order: 2,
+  symbol: 'strETH',
+  contractAddress: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
+  symbolImage: strEthIcon,
+  url: '/currency/ethereum/product/assets/stp-reth',
+  category: AssetCategory.Crypto,
+  chains: [Chain.OP_MAINNET],
+  listed: false,
+  enabled: true,
+  isTestnet: false,
+  new: false,
+  localeDescription: 'reth',
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  mobula: {
+    asset: 'stp-reth',
+    symbol: 'rETH',
+    blockchain: 'ethereum',
+    filter: 'stp-reth'
+  },
+  tradingView: {
+    symbol: 'ETHUSD',
+    fiat: {
+      usd: 'ETHUSD',
+      brl: 'ETHBRL',
+      eur: 'ETHEUR'
+    }
+  },
+  ramp: [
+    {
+      chainId: 1,
+      minDeposit: 300
+    }
+  ]
+}
+
+export const assetsList: Asset[] = [ethMainnet, ethOp, btcOp, chilizChz, opOptimism, maticPolygon, arbArbitrum, ethArbitrum, stpEth, stpReth]
 
 export function getAssetsByCategory(category: AssetCategory): Asset[] {
   return assetsList
