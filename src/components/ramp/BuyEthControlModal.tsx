@@ -80,33 +80,17 @@ export default function BuyEthControlModal({ chainId }: { chainId: number }) {
   }, [address])
 
   return (
-    <SWRConfig
-      value={{
-        refreshInterval: 0,
-        revalidateOnMount: true,
-        revalidateIfStale: true,
-        revalidateOnFocus: true,
-        revalidateOnReconnect: true,
-        errorRetryCount: 100,
-        shouldRetryOnError: true,
-        fetcher: (uri: string) =>
-          axios.get(`${backendUrl}/${uri}`).then(res => {
-            return res.data as string
-          })
-      }}
+    <Modal
+      className={currentStep.toLowerCase()}
+      title={title}
+      isOpen={controlModal}
+      onClose={clearModal}
+      width={'auto'}
+      showCloseIcon={currentStep !== BrlaBuyEthStep.Success}
+      showHeader={![BrlaBuyEthStep.TimeOutCheckout, BrlaBuyEthStep.Error].includes(currentStep)}
     >
-      <Modal
-        className={currentStep.toLowerCase()}
-        title={title}
-        isOpen={controlModal}
-        onClose={clearModal}
-        width={'auto'}
-        showCloseIcon={currentStep !== BrlaBuyEthStep.Success}
-        showHeader={![BrlaBuyEthStep.TimeOutCheckout, BrlaBuyEthStep.Error].includes(currentStep)}
-      >
-        <Container>{steps[currentStep]}</Container>
-      </Modal>
-    </SWRConfig>
+      <Container>{steps[currentStep]}</Container>
+    </Modal>
   )
 }
 

@@ -21,7 +21,6 @@ import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import AssetInput from '../assets/AssetsInput'
-import { KycLevel } from './KycLevel'
 
 interface QuotationOffRampStepProps {
   product: Asset
@@ -35,17 +34,21 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
     fiatAmount
   })
 
-  const debounceValue = useDebounce(ethers.parseUnits(`${value}`, product.decimals), 300)
+  const amountDebounceValue = useDebounce(value, 300)
+  const amountWei = ethers.parseUnits(amountDebounceValue || '0', product.decimals)
   const { account } = useConnectedAccount()
-
   const { balance: ethBalance, isLoading: ethBalanceLoading } = useEthBalanceOf({
     walletAddress: account,
     chainId: product.chains[0],
     token: product.contractAddress
   })
-  const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
+  const {
+    quote,
+    isValidating: quoteIsValidating,
+    isLoading
+  } = useQuoteRamp(
     'brl',
-    debounceValue.toString(),
+    amountDebounceValue,
     product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
     1,
     ProviderType.brla,
@@ -57,10 +60,12 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
 
   const { address } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', address)
+
   const { t } = useLocaleTranslation()
-  const limit = Number(debounceValue) * 100 >= Number(kycLevelInfo?.limits.limitSwapBuy ?? 0)
-  const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
-  const errorMinValue = debounceValue
+  const limit = Number(amountDebounceValue) >= Number(kycLevelInfo?.limits.limitSwapSell ?? 0)
+  const error = limit && !!kycLevelInfo?.limits.limitSwapSell
+  const errorMinValue = amountDebounceValue
+
   const handleChange = (v: string) => {
     if (v.includes(',')) {
       v = v.replace(',', '.')
@@ -69,11 +74,6 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
     if (!v || regex.test(v)) {
       if (v.length > 19 + v.split('.')[0].length) return
 
-      const newValue = ethers.parseUnits(v, product.decimals).toString()
-      console.log({
-        v,
-        newValue
-      })
       setValue(v)
       fiatAmountVar(v)
     }
@@ -98,10 +98,6 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
       return `${t('v2.stake.depositErrorMessage.DepositLimitReached')}`
     }
 
-    // if (BigInt(debounceValue) < minDeposit) {
-    //   return `${t('v2.stake.minAmount')} R$${minDeposit}`
-    // }
-
     return t('next')
   }
 
@@ -123,7 +119,6 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
   })
   return (
     <Container>
-      <KycLevel amountValue={Number(debounceValue)} />
       <BoxValuesContainer>
         <AssetInput
           ethAmountValue={String(value)}
@@ -134,6 +129,7 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
           hasError={false}
           balance={ethBalance}
           balanceLoading={ethBalanceLoading}
+          accountIsConnected={!!account}
         />
 
         <ArrowDown />

@@ -19,9 +19,9 @@ export default function useQuoteRamp(
     url += `&toChain=${toChain}&toToken=${toToken}`
   }
 
-  const { data, error, isLoading, isValidating } = useSWR<Quote>(
+  const { data, error, isLoading, isValidating, mutate } = useSWR<Quote>(
     chainId && fiatCurrencyCode && amount && provider && paymentMethod ? url : null
   )
 
-  return { quote: data, error, isLoading, isValidating }
+  return { quote: data, error, isLoading, isValidating, mutate }
 }
