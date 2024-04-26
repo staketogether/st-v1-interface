@@ -665,6 +665,7 @@
       "eth-mainnet": "Ethereum",
       "eth-op": "Ethereum",
       "chz-chiliz": "Chiliz",
+      "mengo-chz": "Flamengo",
       "op-op": "Optimism",
       "arb-arb": "Arbitrum",
       "matic-matic": "Polygon"
@@ -748,6 +749,11 @@
       "restakingDescription": "ReStaking Ethereum: Enhance Your Staking Efficiency. Experience the next level of Ethereum staking with our ReStaking solution, merging Stake Together protocol and Eigen Layer technology. Amplify your Ethereum's potential by using it as collateral in the Eigen Layer, contributing to network services and earning income from diverse sources. Our platform streamlines your staking process, providing a more effective and profitable approach to secure the network and gain rewards. Dive into ReStaking with Ethereum today and start benefiting from combined yields.",
       "btc": "Bitcoin",
       "eth": "Ethereum",
+      "chz": "Chiliz",
+      "matic": "Polygon",
+      "mengo-chz": "Flamengo",
+      "arb": "Arbitrum",
+      "op": "Optimism",
       "actions": {
         "invest": "Invest",
         "withdraw": "Withdraw",
@@ -801,6 +807,9 @@
       },
       "chz-chiliz": {
         "name": "Chiliz"
+      },
+      "mengo-chz": {
+        "name": "Flamengo"
       },
       "op-op": {
         "name": "Optimism"

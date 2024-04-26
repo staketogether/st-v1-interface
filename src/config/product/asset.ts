@@ -7,6 +7,7 @@ import opIcon from '@assets/assets/optimism.svg'
 import maticIcon from '@assets/assets/polygon.svg'
 import stpEthIcon from '@assets/assets/stp-eth.svg'
 import strEthIcon from '@assets/assets/str-eth.svg'
+import mengoChzIcon from '@assets/assets/default-erc-20.svg'
 import { Chain } from '../chain'
 
 export const ethMainnet: Asset = {
@@ -314,6 +315,30 @@ const stpReth: Asset = {
   ]
 }
 
+export const mengoChz: Asset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 10
+    }
+  ],
+  id: 'mengo-chz',
+  order: 6,
+  symbol: 'MENGO',
+  symbolImage: mengoChzIcon,
+  isTestnet: false,
+  contractAddress: '0xD1723Eb9e7C6eE7c7e2d421B2758dc0f2166eDDc',
+  type: 'erc20',
+  url: '/currency/chiliz/product/assets/mengo-chz',
+  category: AssetCategory.Crypto,
+  localeDescription: 'mengo-chz'
+}
+
 export const assetsList: Asset[] = [
   ethMainnet,
   ethOp,
@@ -324,7 +349,8 @@ export const assetsList: Asset[] = [
   arbArbitrum,
   ethArbitrum,
   stpEth,
-  stpReth
+  stpReth,
+  mengoChz
 ]
 
 export function getAssetsByCategory(category: AssetCategory): Asset[] {
