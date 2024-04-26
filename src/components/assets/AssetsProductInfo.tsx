@@ -65,7 +65,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
           </SymbolContainer>
         </HeaderDescribeInfo>
       </header>
-      <PriceChart chainId={product.chains[0]} contract={product.contractAddress} />
+      <PriceChart asset={product} />
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>
