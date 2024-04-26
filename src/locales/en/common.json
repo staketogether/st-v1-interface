@@ -648,6 +648,8 @@
       "description": "Invest in the best Cryptocurrencies for your portfolio"
     },
     "products": {
+      "stp-eth": "Stake Together Ether",
+      "stp-reth": "Stake Together Restaked Ether",
       "eth-staking": "Ethereum Staking",
       "eth-restaking": "Ethereum Restaking ",
       "celestia": "Celestia Staking",

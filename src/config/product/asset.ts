@@ -301,7 +301,7 @@ const stpReth: Asset = {
   enabled: true,
   isTestnet: false,
   new: false,
-  localeDescription: 'reth',
+  localeDescription: 'eth',
   points: {
     stPoints: true,
     elPoints: false
