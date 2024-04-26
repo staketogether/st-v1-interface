@@ -1,4 +1,5 @@
 import { Chain } from '@/config/chain'
+import { StaticImageData } from 'next/image'
 
 export enum AssetCategory {
   Crypto = 'crypto',
@@ -40,14 +41,6 @@ export interface NativeAsset {
   points: {
     stPoints: boolean
     elPoints: boolean
-  }
-  tradingView: {
-    symbol: string
-    fiat: {
-      usd: string
-      brl: string
-      eur: string
-    }
   }
   // Todo: Use ID on Backend instead of object
   ramp: {
