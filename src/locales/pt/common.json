@@ -670,6 +670,8 @@
       "description": "Invista nas melhores criptomoedas para o seu portfólio de investimentos"
     },
     "products": {
+      "stp-eth": "Stake Together Ether",
+      "stp-reth": "Stake Together Ether Reinvestido",
       "eth-staking": "Staking de Ethereum",
       "eth-restaking": "Restaking de Ethereum ",
       "celestia": "Staking de Celestia",
