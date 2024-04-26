@@ -14,11 +14,11 @@ import { chainConfigByChainId } from '@/config/chain'
 import { Asset } from '@/types/Asset'
 import { assetsList } from '@/config/product/asset'
 import AssetsControl from '@/components/assets/AssetsControl'
-import { MobulaMarketAsset, MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
+import { AssetStats } from '@/types/AssetStats'
 
 export interface ProductProps {
   product: Asset
-  assetData: MobulaMarketAsset
+  assetData: AssetStats
   chainId: number
 }
 
@@ -76,17 +76,11 @@ export const getStaticPaths: GetStaticPaths = () => {
   return { paths, fallback: 'blocking' }
 }
 
-async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaMarketAsset> {
+async function fetchProductAssetData(uri: string): Promise<AssetStats> {
   const { backendUrl } = globalConfig
   const marketData = await axios
-    .get<MobulaMarketAssetResponse>(`${backendUrl}/api/${uri}`, {
-      params: {
-        asset,
-        blockchain,
-        symbol
-      }
-    })
-   return marketData.data.data
+    .get<AssetStats>(`${backendUrl}/api/${uri}`)
+   return marketData.data
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
@@ -105,11 +99,10 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
 
+  const contractAddress = productSelected.type === 'erc20' ? productSelected.contractAddress : productSelected.wrapperContractAddress
+
   const assetData = await fetchProductAssetData(
-    'mobula/market-asset-data',
-    productSelected.mobula.asset,
-    productSelected.mobula.blockchain,
-    productSelected.mobula.symbol
+    `asset-stats/${productSelected.chains[0]}/${contractAddress}`,
   )
 
   if (!assetData) {

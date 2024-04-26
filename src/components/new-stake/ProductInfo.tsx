@@ -12,12 +12,12 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
-import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 import { Staking } from '@/types/Staking'
+import { AssetStats } from '@/types/AssetStats'
 
 interface ProductInfoProps {
   product: Staking
-  assetData: MobulaMarketAsset
+  assetData: AssetStats
   chainId: number
 }
 
@@ -103,15 +103,15 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
         <StatisticContainer>
           <div>
             <span>{t('v2.ethereumStaking.marketCap')}</span>
-            <span className='valueItem'>{`${handleQuotePrice(assetData?.market_cap || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.market_data.market_cap.usd || 0)}`}</span>
           </div>
           <div>
             <span>Volume</span>
-            <span className='valueItem'>{`${handleQuotePrice(assetData?.volume || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.market_data.market_cap.usd || 0)}`}</span>
           </div>
           <div>
             <span>{t('v2.ethereumStaking.priceChange')}</span>
-            <span className='valueItem'>{`${assetData?.price_change_1y.toFixed(2)}%`}</span>
+            <span className='valueItem'>{`${assetData?.market_data.price_change_percentage_1y.toFixed(2)}%`}</span>
           </div>
         </StatisticContainer>
       </ProductBodyContainer>

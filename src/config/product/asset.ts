@@ -9,15 +9,6 @@ import stpEthIcon from '@assets/assets/stp-eth.svg'
 import strEthIcon from '@assets/assets/str-eth.svg'
 
 import { Chain } from '../chain'
-import {
-  btcOpMobula,
-  ethEthMobula,
-  ethOpMobula,
-  chzEthMobula,
-  maticPolMobula,
-  arbArbMobula,
-  opOpMobula
-} from '@/config/mobula'
 
 export const ethMainnet: Asset = {
   id: 'eth-mainnet',
@@ -25,6 +16,8 @@ export const ethMainnet: Asset = {
   symbol: 'ETH',
   isTestnet: false,
   contractAddress: '0x0000000000000000000000000000000000000000',
+  type: 'native',
+  wrapperContractAddress: '0x',
   symbolImage: ethIcon,
   url: '/currency/ethereum/product/assets/eth-mainnet',
   category: AssetCategory.Crypto,
@@ -37,7 +30,6 @@ export const ethMainnet: Asset = {
     stPoints: false,
     elPoints: false
   },
-  mobula: ethEthMobula,
   tradingView: {
     symbol: 'ETHUSD',
     fiat: {
@@ -59,6 +51,8 @@ export const ethOp: Asset = {
   order: 1,
   symbol: 'ETH',
   contractAddress: '0x0000000000000000000000000000000000000000',
+  type: 'native',
+  wrapperContractAddress: '0x',
   symbolImage: ethIcon,
   localeDescription: 'eth',
   isTestnet: false,
@@ -72,7 +66,6 @@ export const ethOp: Asset = {
     stPoints: false,
     elPoints: false
   },
-  mobula: ethOpMobula,
   tradingView: {
     symbol: 'ETHUSD',
     fiat: {
@@ -102,6 +95,7 @@ export const btcOp: Asset = {
   symbolImage: btcIcon,
   isTestnet: false,
   url: '/currency/optimism/product/assets/btc-op',
+  type: 'erc20',
   category: AssetCategory.Crypto,
   localeDescription: 'btc',
   chains: [Chain.OP_MAINNET],
@@ -113,7 +107,6 @@ export const btcOp: Asset = {
     stPoints: false,
     elPoints: false
   },
-  mobula: btcOpMobula,
   tradingView: {
     symbol: 'BTCUSD',
     fiat: {
@@ -143,6 +136,8 @@ export const chilizChz: Asset = {
   symbolImage: chzIcon,
   isTestnet: false,
   contractAddress: '0x0000000000000000000000000000000000000000',
+  type: 'native',
+  wrapperContractAddress: '0x',
   url: '/currency/chiliz/product/assets/chz-chiliz',
   category: AssetCategory.Crypto,
   localeDescription: 'chz',
@@ -154,7 +149,6 @@ export const chilizChz: Asset = {
     stPoints: true,
     elPoints: false
   },
-  mobula: chzEthMobula,
   tradingView: {
     symbol: 'CHZUSD',
     fiat: {
@@ -178,6 +172,7 @@ export const opOptimism: Asset = {
   symbolImage: opIcon,
   isTestnet: false,
   url: '/currency/optimism/product/assets/op-op',
+  type: 'erc20',
   contractAddress: '0x4200000000000000000000000000000000000042',
   category: AssetCategory.Crypto,
   localeDescription: 'op',
@@ -189,7 +184,6 @@ export const opOptimism: Asset = {
     stPoints: true,
     elPoints: false
   },
-  mobula: opOpMobula,
   tradingView: {
     symbol: 'OPUSD',
     fiat: {
@@ -218,6 +212,8 @@ export const ethArbitrum: Asset = {
   symbol: 'ETH',
   symbolImage: ethIcon,
   isTestnet: false,
+  type: 'native',
+  wrapperContractAddress: '0x',
   url: '/currency/arbitrum/product/assets/arb-eth',
   contractAddress: '0x0000000000000000000000000000000000000000',
   category: AssetCategory.Crypto,
@@ -230,7 +226,6 @@ export const ethArbitrum: Asset = {
     stPoints: true,
     elPoints: false
   },
-  mobula: ethEthMobula,
   tradingView: {
     symbol: 'ETHUSD',
     fiat: {
@@ -259,6 +254,7 @@ export const arbArbitrum: Asset = {
   symbol: 'ARB',
   symbolImage: arbIcon,
   isTestnet: false,
+  type: 'erc20',
   url: '/currency/arbitrum/product/assets/arb-arb',
   contractAddress: '0x912CE59144191C1204E64559FE8253a0e49E6548',
   category: AssetCategory.Crypto,
@@ -271,7 +267,6 @@ export const arbArbitrum: Asset = {
     stPoints: true,
     elPoints: false
   },
-  mobula: arbArbMobula,
   tradingView: {
     symbol: 'ARBUSD',
     fiat: {
@@ -301,6 +296,8 @@ export const maticPolygon: Asset = {
   symbolImage: maticIcon,
   contractAddress: '0x0000000000000000000000000000000000000000',
   isTestnet: false,
+  type: 'native',
+  wrapperContractAddress: '0x',
   url: '/currency/polygon/product/assets/matic-matic',
   category: AssetCategory.Crypto,
   localeDescription: 'matic',
@@ -312,7 +309,6 @@ export const maticPolygon: Asset = {
     stPoints: true,
     elPoints: false
   },
-  mobula: maticPolMobula,
   tradingView: {
     symbol: 'MATICUSD',
     fiat: {
@@ -334,6 +330,7 @@ const stpEth: Asset = {
   order: 1,
   symbol: 'ETH',
   contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
+  type: 'erc20',
   symbolImage: stpEthIcon,
   url: '/currency/ethereum/product/assets/stp-eth',
   category: AssetCategory.Crypto,
@@ -346,12 +343,6 @@ const stpEth: Asset = {
   points: {
     stPoints: true,
     elPoints: false
-  },
-  mobula: {
-    asset: 'stp-eth',
-    symbol: 'ETH',
-    blockchain: 'ethereum',
-    filter: 'stp-eth'
   },
   tradingView: {
     symbol: 'ETHUSD',
@@ -374,6 +365,7 @@ const stpReth: Asset = {
   order: 2,
   symbol: 'strETH',
   contractAddress: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
+  type: 'erc20',
   symbolImage: strEthIcon,
   url: '/currency/ethereum/product/assets/stp-reth',
   category: AssetCategory.Crypto,
@@ -386,12 +378,6 @@ const stpReth: Asset = {
   points: {
     stPoints: true,
     elPoints: false
-  },
-  mobula: {
-    asset: 'stp-reth',
-    symbol: 'rETH',
-    blockchain: 'ethereum',
-    filter: 'stp-reth'
   },
   tradingView: {
     symbol: 'ETHUSD',

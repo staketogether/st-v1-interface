@@ -13,9 +13,10 @@ export default function WalletSidebarAsset({ walletAsset }: { walletAsset: Accou
       supportedAsset.contractAddress.toLowerCase() === walletAsset.contractAddress.toLowerCase()
       && supportedAsset.chains[0] === walletAsset.chainId
     )
+  const contractAddress = asset?.type === 'erc20' ? asset?.contractAddress : asset?.wrapperContractAddress
   const fixedWalletBalance = walletAsset.decimals >= 18 ? walletAsset.balance : walletAsset.balance + '0'.repeat(18 - walletAsset.decimals)
   const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance)))
-  const { priceConvertedValue } = useCoinConversion(formattedBalance, `${asset?.mobula.filter}`)
+  const { priceConvertedValue } = useCoinConversion(formattedBalance, asset?.chains[0], contractAddress)
   const imageSrc = (asset?.symbolImage ?? walletAsset?.thumbnail) ?? defaultErc20Icon
 
   return (

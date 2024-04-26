@@ -23,10 +23,12 @@ export default function AnalyticsControl() {
   const staking = getStakingById('eth-staking')
   const { StakeTogether, Router, Withdrawals } = staking.contracts
 
-  const { priceConvertedValue } = useCoinConversion('1', staking.asset.mobula.filter)
+  const contractAddress = staking.asset.type === 'erc20' ? staking.asset.contractAddress : staking.asset.wrapperContractAddress
+
+  const { priceConvertedValue } = useCoinConversion('1', staking.asset.chains[0], contractAddress)
   const ethPrice = priceConvertedValue
   const tvl = formatNumberByLocale(truncateDecimal(String(analytics?.totalValueLocked) || '0', 2), locale)
-  const { priceConvertedValue: tvlUsdPrice } = useCoinConversion(tvl, staking.asset.mobula.filter)
+  const { priceConvertedValue: tvlUsdPrice } = useCoinConversion(tvl, staking.asset.chains[0], contractAddress)
 
   const tvlUsdPriceFormatted = tvlUsdPrice
   const totalAccounts = analytics?.accountsCount
@@ -34,18 +36,18 @@ export default function AnalyticsControl() {
   const withdrawalsCount = analytics?.withdrawalsCount
 
   const totalRewards = formatNumberByLocale(truncateDecimal(String(analytics?.totalRewards) || '0', 2), locale)
-  const { priceConvertedValue: totalRewardsUsdPrice } = useCoinConversion(totalRewards, staking.asset.mobula.filter)
+  const { priceConvertedValue: totalRewardsUsdPrice } = useCoinConversion(totalRewards, staking.asset.chains[0], contractAddress)
   const totalRewardsUsdPriceFormatted = totalRewardsUsdPrice
 
   const poolsCount = analytics?.poolsCount
   const totalPoolsRewards = formatNumberByLocale(truncateDecimal(String(analytics?.totalPoolRewards) || '0', 2), locale)
-  const { priceConvertedValue: totalPoolsRewardsUsdPriceFormatted } = useCoinConversion(totalPoolsRewards, staking.asset.mobula.filter)
+  const { priceConvertedValue: totalPoolsRewardsUsdPriceFormatted } = useCoinConversion(totalPoolsRewards, staking.asset.chains[0], contractAddress)
 
   const totalContractsBalance = formatNumberByLocale(truncateDecimal(String(analytics?.contractBalance) || '0', 2), locale)
-  const { priceConvertedValue: totalContractsBalanceUsdFormatted } = useCoinConversion(totalContractsBalance, staking.asset.mobula.filter)
+  const { priceConvertedValue: totalContractsBalanceUsdFormatted } = useCoinConversion(totalContractsBalance, staking.asset.chains[0], contractAddress)
 
   const validatorsAmountTotal = formatNumberByLocale(truncateDecimal(String(analytics?.validatorsAmountTotal) || '0', 2), locale)
-  const { priceConvertedValue: validatorsAmountTotalUsdFormatted } = useCoinConversion(validatorsAmountTotal, staking.asset.mobula.filter)
+  const { priceConvertedValue: validatorsAmountTotalUsdFormatted } = useCoinConversion(validatorsAmountTotal, staking.asset.chains[0], contractAddress)
 
   const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } = useEthBalanceOf({
     walletAddress: StakeTogether,
