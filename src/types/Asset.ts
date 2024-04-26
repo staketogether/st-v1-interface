@@ -1,5 +1,4 @@
 import { Chain } from '@/config/chain'
-import { StaticImageData } from 'next/image'
 
 export enum AssetCategory {
   Crypto = 'crypto',
@@ -9,13 +8,23 @@ export enum AssetCategory {
   Lego = 'lego'
 }
 
-export type AssetId = 'eth-mainnet' | 'eth-op' | 'btc-op' | 'chz-chiliz' | 'op-op' | 'arb-arb' | 'matic-matic' | 'arb-eth' | 'stp-eth' | 'stp-reth'
+export type AssetId =
+  | 'eth-mainnet'
+  | 'eth-op'
+  | 'btc-op'
+  | 'chz-chiliz'
+  | 'op-op'
+  | 'arb-arb'
+  | 'matic-matic'
+  | 'arb-eth'
+  | 'stp-eth'
+  | 'stp-reth'
 
 export interface NativeAsset {
   id: AssetId
   order: number
   symbol: string
-  symbolImage: string | StaticImageData
+  symbolImage: string
   url: string
   category: AssetCategory
   chains: Chain[]
@@ -72,14 +81,6 @@ export interface Erc20Asset {
   points: {
     stPoints: boolean
     elPoints: boolean
-  }
-  tradingView: {
-    symbol: string
-    fiat: {
-      usd: string
-      brl: string
-      eur: string
-    }
   }
   // Todo: Use ID on Backend instead of object
   ramp: {

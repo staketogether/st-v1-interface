@@ -1,8 +1,9 @@
-import TradingViewComponent from '@/components/shared/TradingViewComponent'
+import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
 import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
+import { Staking } from '@/types/Staking'
 import { Tooltip, notification } from 'antd'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
@@ -10,9 +11,8 @@ import { PiArrowUpRight, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
+import PriceChart from '../shared/PriceChart'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
-import { Staking } from '@/types/Staking'
 import { AssetStats } from '@/types/AssetStats'
 
 interface ProductInfoProps {
@@ -97,7 +97,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           </RewardsPointsContainer>
         </HeaderDescribeInfo>
       </header>
-      <TradingViewComponent tradingView={product.asset.tradingView} />
+      <PriceChart chainId={product.asset.chains[0]} contract={product.asset.contractAddress} />
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>
