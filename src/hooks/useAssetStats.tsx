@@ -8,7 +8,7 @@ interface UseGetAssetStatsProps {
   contractAddress: string
 }
 
-export default function useGetAssetStats({ chainId, contractAddress }: UseGetAssetStatsProps) {
+export default function useAssetStats({ chainId, contractAddress }: UseGetAssetStatsProps) {
   const { backendUrl } = globalConfig
 
   const fetcher = () =>
