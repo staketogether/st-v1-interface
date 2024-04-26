@@ -7,7 +7,7 @@ import opIcon from '@assets/assets/optimism.svg'
 import maticIcon from '@assets/assets/polygon.svg'
 import stpEthIcon from '@assets/assets/stp-eth.svg'
 import strEthIcon from '@assets/assets/str-eth.svg'
-import mengoChzIcon from '@assets/assets/default-erc-20.svg'
+import mengoChzIcon from '@assets/assets/mengo.png'
 import { Chain } from '../chain'
 
 export const ethMainnet: Asset = {
