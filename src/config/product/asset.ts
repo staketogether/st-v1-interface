@@ -7,8 +7,6 @@ import opIcon from '@assets/assets/optimism.svg'
 import maticIcon from '@assets/assets/polygon.svg'
 import stpEthIcon from '@assets/assets/stp-eth.svg'
 import strEthIcon from '@assets/assets/str-eth.svg'
-
-import { arbArbMobula, btcOpMobula, chzEthMobula, ethEthMobula, ethOpMobula, maticPolMobula, opOpMobula } from '@/config/mobula'
 import { Chain } from '../chain'
 
 export const ethMainnet: Asset = {

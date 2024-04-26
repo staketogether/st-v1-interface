@@ -13,12 +13,8 @@ export interface AssetStats {
   preview_listing: string
   public_notice: string
   additional_notices: string[]
-  localization: {
-    [key: string]: string
-  }
-  description: {
-    [key: string]: string
-  }
+  localization: Record<string, string>
+  description: Record<string, string>
   links: {
     homepage: string[]
     blockchain_site: string[]

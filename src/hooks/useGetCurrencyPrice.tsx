@@ -20,7 +20,6 @@ export default function useGetCurrencyPrice() {
         const responses = await Promise.all(promises)
 
         const responseData = responses.map(response => {
-          console.log(response)
           return {
             id: `${response.data.ref}`,
             value: response.data.market_data.current_price.usd,
