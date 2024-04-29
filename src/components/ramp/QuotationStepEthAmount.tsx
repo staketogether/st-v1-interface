@@ -1,11 +1,11 @@
 import useQuoteBrla from '@/hooks/ramp/useQuote'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useEffect, useMemo, useState } from 'react'
 import { PiClock } from 'react-icons/pi'
 import styled from 'styled-components'
-import { Asset } from '@/types/Asset'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface QuotationStepEthAmountProps {
@@ -26,8 +26,12 @@ export default function QuotationStepEthAmount({ product }: QuotationStepEthAmou
   const {
     quote: quoteEthValue,
     isValidating: ethValueIsValidating,
+<<<<<<< HEAD
     isLoading,
     mutate
+=======
+    isLoading
+>>>>>>> origin/dev
   } = useQuoteBrla(
     'brl',
     amount,
@@ -75,12 +79,7 @@ export default function QuotationStepEthAmount({ product }: QuotationStepEthAmou
     <PriceInfoContainer>
       <div>
         <span>
-          1 {product.symbol} ={' '}
-          {isLoading ? (
-            <SkeletonLoading height={18} width={80} />
-          ) : (
-            `${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'brl' }).format(activeValue)} BRL`
-          )}
+          1 {product.symbol} = {isLoading ? <SkeletonLoading height={18} width={80} /> : activeValue.toLocaleString('pt-BR')} BRL
         </span>
       </div>
       <span className='gray'>

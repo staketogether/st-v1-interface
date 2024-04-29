@@ -19,8 +19,9 @@ export default function AnalyticsValidatorRow({ validator, index }: AnalyticsVal
   const { locale } = useRouter()
 
   const asset = getAssetById('eth-staking')
+  const contractAddress = asset.type === 'erc20' ? asset.contractAddress : asset.wrapperContractAddress
   const validatorBalance = formatNumberByLocale(truncateDecimal(String(validator.balance) || '0', 2), locale)
-  const { priceConvertedValue: validatorBalanceUsdPriceFormatted } = useCoinConversion(validatorBalance, asset.mobula.filter)
+  const { priceConvertedValue: validatorBalanceUsdPriceFormatted } = useCoinConversion(validatorBalance, asset.chains[0], contractAddress)
 
   return (
     <ValidatorTableRow href={`https://beaconcha.in/validator/${validator.validatorindex}`} target='_blank'>

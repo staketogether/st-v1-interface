@@ -3,6 +3,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import bitcoinIcon from '@assets/assets/bitcoin.svg'
 import ethereumIcon from '@assets/assets/ethereum.svg'
 import optimismIcon from '@assets/assets/optimism.svg'
+import mengoIcon from '@assets/assets/mengo.png'
 import arbitrumIcon from '@assets/assets/arbitrum.svg'
 import polygonIcon from '@assets/assets/polygon.svg'
 import chilizIcon from '@assets/assets/chiliz.svg'
@@ -38,6 +39,7 @@ export default function TokensSymbolIcons({ productSymbol, size, showPlusIcon, c
     OP: optimismIcon,
     MATIC: polygonIcon,
     ARB: arbitrumIcon,
+    MENGO: mengoIcon
   }
   const { addToWalletAction } = useAddSethToWallet({
     productSymbol,

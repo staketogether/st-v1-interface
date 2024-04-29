@@ -21,6 +21,8 @@ import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
 import { Staking } from '@/types/Staking'
+import { queryAccountUsdBalance } from '@/queries/subgraph/queryAccountUsdBalance'
+import { queryAccountAssets } from '@/queries/subgraph/queryAccountAssets'
 
 export default function useWithdrawPool(
   withdrawAmount: string,
@@ -171,6 +173,8 @@ export default function useWithdrawPool(
           queryAccount,
           queryPool,
           queryDelegationShares,
+          queryAccountUsdBalance,
+          queryAccountAssets,
           queryAccountActivities,
           queryAccountDelegations,
           queryAccountRewards,

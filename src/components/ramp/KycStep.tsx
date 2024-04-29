@@ -3,6 +3,7 @@ import { BrlaBuyEthStep, kycIdVar, stepsControlBuyCryptoVar } from '@/hooks/ramp
 import useKycCreate, { KycCreate, KycPayload, TypeAccount } from '@/hooks/ramp/useKycCreate'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Asset } from '@/types/Asset'
 import { notification } from 'antd'
 import { AxiosError } from 'axios'
 import { ChangeEvent, useEffect, useState } from 'react'
@@ -11,12 +12,10 @@ import { PiArrowRight, PiDiscordLogo } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
-import Input from '../shared/inputs/Input'
-import { projectRegexFields, projectRegexOnKeyDown } from '../shared/input-helper/regex'
-import SwapInfo from './SwapInfo'
-import { Asset } from '@/types/Asset'
-import { handleValidateBirthDate, isValidCNPJ, isValidCPF } from '../shared/input-helper/validate'
 import { cnpjMask, cpfMask } from '../shared/input-helper/mask'
+import { projectRegexFields, projectRegexOnKeyDown } from '../shared/input-helper/regex'
+import { handleValidateBirthDate, isValidCNPJ, isValidCPF } from '../shared/input-helper/validate'
+import Input from '../shared/inputs/Input'
 
 interface KycStepProps {
   asset: Asset
@@ -174,7 +173,7 @@ export default function KycStep({ asset }: KycStepProps) {
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
       <Container>
-        <SwapInfo asset={asset} />
+        {/* <SwapInfo asset={asset} type={type} /> */}
         <h2>{t('v2.ramp.checkOut')}</h2>
         <span>{t('v2.ramp.kyc.description')}</span>
         <ContainerRadio>

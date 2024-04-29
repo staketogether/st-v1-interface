@@ -9,13 +9,25 @@ export enum AssetCategory {
   Lego = 'lego'
 }
 
-export type AssetId = 'eth-mainnet' | 'eth-op' | 'btc-op' | 'chz-chiliz' | 'op-op' | 'arb-arb' | 'matic-matic'
-export interface Asset {
+export type AssetId =
+  | 'eth-mainnet'
+  | 'eth-op'
+  | 'btc-op'
+  | 'chz-chiliz'
+  | 'op-op'
+  | 'arb-arb'
+  | 'matic-matic'
+  | 'arb-eth'
+  | 'stp-eth'
+  | 'stp-reth'
+  | 'mengo-chz'
+
+export interface NativeAsset {
   id: AssetId
   decimals: number
   order: number
   symbol: string
-  symbolImage: string | StaticImageData
+  symbolImage: string
   url: string
   category: AssetCategory
   chains: Chain[]
@@ -25,24 +37,12 @@ export interface Asset {
   new: boolean
   localeDescription: string
   linkedAssets?: Record<Chain, Asset>
-  contractAddress?: `0x${string}`
+  type: 'native'
+  contractAddress: '0x0000000000000000000000000000000000000000'
+  wrapperContractAddress?: `0x${string}`
   points: {
     stPoints: boolean
     elPoints: boolean
-  }
-  mobula: {
-    asset: string
-    symbol: string
-    blockchain: string
-    filter: string
-  }
-  tradingView: {
-    symbol: string
-    fiat: {
-      usd: string
-      brl: string
-      eur: string
-    }
   }
   // Todo: Use ID on Backend instead of object
   ramp: {
@@ -56,3 +56,39 @@ export interface Asset {
     }
   }[]
 }
+
+export interface Erc20Asset {
+  id: AssetId
+  order: number
+  symbol: string
+  symbolImage: string | StaticImageData
+  url: string
+  decimals?: number
+  category: AssetCategory
+  chains: Chain[]
+  listed: boolean
+  enabled: boolean
+  isTestnet: boolean
+  type: 'erc20'
+  new: boolean
+  localeDescription: string
+  linkedAssets?: Record<Chain, Asset>
+  contractAddress: `0x${string}`
+  points: {
+    stPoints: boolean
+    elPoints: boolean
+  }
+  // Todo: Use ID on Backend instead of object
+  ramp: {
+    chainId: number
+    minDeposit: number
+    bridge?: {
+      fromChainId: number
+      fromToken: string
+      toChainId: number
+      toToken: string
+    }
+  }[]
+}
+
+export type Asset = NativeAsset | Erc20Asset

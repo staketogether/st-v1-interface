@@ -1,28 +1,31 @@
 import chainConfig from '@/config/chain'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
-import useErc20BalanceOfWei from '@/hooks/contracts/useErc20BalanceOfWei'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
-import useCoinConversion from '@/hooks/useCoinConversion'
-import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import { useReactiveVar } from '@apollo/client'
 import { Drawer, Select, notification } from 'antd'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
-import { PiCaretRight, PiChalkboardTeacher, PiChartBar, PiChartLine, PiChartPieSlice, PiGear, PiSignOut, PiWallet } from 'react-icons/pi'
+import {
+  PiCaretRight,
+  PiChalkboardTeacher,
+  PiChartBar,
+  PiChartLine,
+  PiChartPieSlice,
+  PiGear,
+  PiSignOut,
+  PiWallet
+} from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useDisconnect } from 'wagmi'
 import { mainnet, optimism } from 'wagmi/chains'
-import useEthBalanceOf from '../../hooks/contracts/useEthBalanceOf'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
-import { formatNumberByLocale } from '../../services/format'
-import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
+import { capitalize, truncateAddress, truncateText } from '../../services/truncate'
 import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
 import AssetIcon from '../shared/AssetIcon'
 import Card from '../shared/Card'
@@ -34,10 +37,12 @@ import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
 import useStAccount from './hooks/useStAccount'
-import { btcOp, ethMainnet, ethOp } from '@/config/product/asset'
-import { ethRestaking, ethStaking, stakingList } from '@/config/product/staking'
+import { stakingList } from '@/config/product/staking'
 import { StakingId } from '@/types/Staking'
-import { btcOpMobula } from '@/config/mobula'
+import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
+import WalletSidebarAsset from '@/components/wallet/WalletSidebarAsset'
+import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
+import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -49,6 +54,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<'delegations' | 'rewards' | 'activity'>('delegations')
   const [productTabSelected, setProductTabSelected] = useState<StakingId>('eth-staking')
+  const [userNetWorth, setUserNetWorth] = useState<string>('0')
 
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
   const { connector } = useAccount()
@@ -56,41 +62,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { disconnect } = useDisconnect()
   const { t } = useLocaleTranslation()
   const { openSidebar, setOpenSidebar } = useWalletSidebar()
-  const { locale } = useRouter()
-  const { handleQuotePrice } = useCoinUsdToUserCurrency()
-
-  const { mobula } = ethMainnet
-  const { balance: ethBalance } = useEthBalanceOf({ walletAddress: address, chainId: mainnet.id })
-  const formattedEthBalance = formatNumberByLocale(truncateWei(ethBalance, 6), locale)
-  const { priceConvertedValue: usdEthBalance, price: usdEthBalancePriceNotFormatted } = useCoinConversion(
-    formattedEthBalance,
-    mobula.filter
-  )
-
-  const { balance: optimistEthBalance } = useEthBalanceOf({
-    walletAddress: address,
-    chainId: optimism.id
-  })
-
-  const { contractAddress: btcContractAddress } = btcOp
-  const { balanceInWei: optimistWbtcBalance } = useErc20BalanceOfWei({
-    walletAddress: address,
-    chainId: optimism.id,
-    token: btcContractAddress
-  })
-
-  const { mobula: ethOpMobula } = ethOp
-  const formattedOptimistEthBalance = formatNumberByLocale(truncateWei(optimistEthBalance, 6), locale)
-  const formattedOptimistWbtcBalance = formatNumberByLocale(truncateWei(optimistWbtcBalance, 6), locale)
-  const { priceConvertedValue: usdOptimismEthBalance, price: usdOptimismEthBalanceNotFormatted } = useCoinConversion(
-    formattedOptimistEthBalance,
-    ethOpMobula.filter
-  )
-
-  const { priceConvertedValue: usdOptimismWbtcBalance, price: usdOptimismWbtcBalanceNotFormatted } = useCoinConversion(
-    formattedOptimistWbtcBalance,
-    btcOpMobula.filter
-  )
 
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
@@ -111,12 +82,10 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountIsLoading: stakeAccountIsLoading,
     accountShare: stakeAccountShare
   } = useStAccount({ address: address, productName: 'eth-staking', chainId: mainnet.id })
-  const stpETHAccountBalance = truncateWei(stakeAccountBalance, 6)
 
-  const { priceConvertedValue: usdStpETHBalance, price: usdStpEthBalanceNotFormatted } = useCoinConversion(
-    stpETHAccountBalance,
-    ethStaking.asset.mobula.filter
-  )
+  const { accountAssets } = useAccountAssets(address)
+  const { balance: usdTotalBalance } = useAccountAssetsUsdBalance(address)
+  const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
   const {
     accountDelegations: restakingAccountDelegations,
@@ -126,11 +95,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountIsLoading: restakingAccountIsLoading,
     accountShare: restakingAccountShare
   } = useStAccount({ address: address, productName: 'eth-restaking', chainId: optimism.id })
-  const stpRETHAccountBalance = formatNumberByLocale(truncateWei(restakingAccountBalance, 5), locale)
-  const { priceConvertedValue: usdStpRETHBalance, price: usdStpRETHBalanceNotFormatted } = useCoinConversion(
-    stpRETHAccountBalance,
-    ethRestaking.asset.mobula.filter
-  )
+
 
   const stAccount = {
     'eth-staking': {
@@ -152,14 +117,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   }
 
   const { accountDelegations, accountRewards, accountActivities, accountShare } = stAccount[productTabSelected]
-
-  const usdTotalBalance = handleQuotePrice(
-    Number(usdStpEthBalanceNotFormatted) +
-      Number(usdStpRETHBalanceNotFormatted) +
-      Number(usdEthBalancePriceNotFormatted) +
-      Number(usdOptimismEthBalanceNotFormatted) +
-      Number(usdOptimismWbtcBalanceNotFormatted)
-  )
 
   async function disconnectWallet() {
     setOpenSidebar(false)
@@ -184,6 +141,10 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   }, [address])
 
+  useEffect(() => {
+    setUserNetWorth(handleQuotePrice(Number(usdTotalBalance)))
+  }, [handleQuotePrice, usdTotalBalance])
+
   const products = stakingList.filter(product => product.enabled)
 
   const selectProductOptions = products.map(product => {
@@ -199,11 +160,14 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   })
 
   return (
-    <DrawerContainer placement='right' size='default' onClose={() => setOpenSidebar(false)} mask={true} open={openSidebar}>
+    <DrawerContainer placement="right" size="default" onClose={() => setOpenSidebar(false)} mask={true}
+                     open={openSidebar}>
       {isSettingsActive && !isPanelActive && <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />}
-      {isPanelActive && !isSettingsActive && !isWeb3AuthSettingsActive && <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
+      {isPanelActive && !isSettingsActive && !isWeb3AuthSettingsActive &&
+        <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
       {!isSettingsActive && !isPanelActive && isWeb3AuthSettingsActive && (
-        <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive} walletAddress={address} />
+        <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive}
+                                             walletAddress={address} />
       )}
       {!isSettingsActive && !isPanelActive && !isWeb3AuthSettingsActive && (
         <>
@@ -212,7 +176,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <Web3AuthProfileContainer>
                 {web3AuthUserInfo && web3AuthUserInfo.typeOfLogin && web3AuthUserInfo.profileImage ? (
                   <>
-                    <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={24} height={24} />
+                    <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={24}
+                                          height={24} />
                     <WrapperWallet>{handleWalletProviderImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}</WrapperWallet>
                   </>
                 ) : (
@@ -234,12 +199,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 {!nameLoading && name && !web3AuthUserInfo && (
                   <WalletAddressContainer onClick={() => copyToClipboard(name)}>
                     <span>{truncateText(name, 16)}</span>
-                    <CopyIcon className='copy' />
+                    <CopyIcon className="copy" />
                   </WalletAddressContainer>
                 )}
                 <WalletAddressContainer onClick={() => copyToClipboard(address)}>
                   <span>{truncateAddress(address)}</span>
-                  <CopyIcon className='copy' />
+                  <CopyIcon className="copy" />
                 </WalletAddressContainer>
               </div>
             </HeaderUserContainer>
@@ -267,7 +232,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           </HeaderContainer>
           <EstimatedBalanceContainer>
             <span>{t('estimatedBalance')}</span>
-            <span>{usdTotalBalance}</span>
+            <span>{userNetWorth}</span>
           </EstimatedBalanceContainer>
           <Card
             header={
@@ -278,119 +243,36 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             }
           >
             <AssetsCard>
-              <BalanceContainer>
-                <div>
-                  <div>
-                    <AssetIcon image={ethMainnet.symbolImage} chain={ethMainnet.chains[0]} size={24} altName='Ethereum' />
-                  </div>
-                  <div>
-                    <span>{` ${t('eth.symbol')}`}</span>
-                    <span>Ethereum</span>
-                  </div>
-                </div>
-                <div>
-                  <span>{formattedEthBalance}</span>
-                  <span>{usdEthBalance}</span>
-                </div>
-              </BalanceContainer>
-              <BalanceContainer>
-                <div>
-                  <div>
-                    <AssetIcon image={ethOp.symbolImage} chain={ethOp.chains[0]} altName='optimism' size={24} />
-                  </div>
-                  <div>
-                    <span>{`${t('eth.symbol')}`}</span>
-                    <span>Optimism</span>
-                  </div>
-                </div>
-                <div>
-                  <span>{formattedOptimistEthBalance}</span>
-                  <span>{usdOptimismEthBalance}</span>
-                </div>
-              </BalanceContainer>
-              <BalanceContainer>
-                <div>
-                  <div>
-                    <AssetIcon image={btcOp.symbolImage} chain={btcOp.chains[0]} altName={btcOp.id} size={24} />
-                  </div>
-                  <div>
-                    <span>{btcOp.symbol}</span>
-                  </div>
-                </div>
-                <div>
-                  <span>{formattedOptimistWbtcBalance}</span>
-                  <span>{usdOptimismWbtcBalance}</span>
-                </div>
-              </BalanceContainer>
+              {accountAssets?.map((walletAsset, index) =>
+                <WalletSidebarAsset walletAsset={walletAsset} key={index} />
+              )}
             </AssetsCard>
           </Card>
-          <Card
-            header={
-              <AssetInvestmentCard>
-                <span>{t('investments')}</span>
-                <span>{t('rewards')}</span>
-                <span>{t('invested')}</span>
-              </AssetInvestmentCard>
-            }
-          >
-            <AssetsCard>
-              <BalanceInvestmentContainer>
-                <div>
-                  <div>
-                    <AssetIcon image={ethStaking.symbolImage} chain={ethStaking.asset.chains[0]} size={24} altName={ethStaking.id} />
-                  </div>
-                  <div>
-                    <span>{`stpETH`}</span>
-                    <span>Ethereum</span>
-                  </div>
-                </div>
-                <div> - </div>
-                <div>
-                  <span>{stpETHAccountBalance}</span>
-                  <span>{usdStpETHBalance}</span>
-                </div>
-              </BalanceInvestmentContainer>
-              <BalanceInvestmentContainer>
-                <div>
-                  <div>
-                    <AssetIcon image={ethRestaking.symbolImage} chain={ethRestaking.asset.chains[0]} size={24} altName={ethRestaking.id} />
-                  </div>
-                  <div>
-                    <span>{`stpRETH`}</span>
-                    <span>Restaking</span>
-                  </div>
-                </div>
-                <div> - </div>
-                <div>
-                  <span>{stpRETHAccountBalance}</span>
-                  <span>{usdStpRETHBalance}</span>
-                </div>
-              </BalanceInvestmentContainer>
-            </AssetsCard>
-          </Card>
-
           <Card
             header={
               <HeaderTabContainer>
                 <div>
                   <span>{t('selectProduct')}</span>
                   <Select
-                    defaultValue='eth-staking'
+                    defaultValue="eth-staking"
                     style={{ width: '100%', height: '40px' }}
                     onChange={e => setProductTabSelected(e as 'eth-staking' | 'eth-restaking')}
                     options={selectProductOptions}
                   />
                 </div>
                 <HeaderTabHeader>
-                  <div onClick={() => setTabActivated('delegations')} className={`${tabActivated === 'delegations' && 'activated'} `}>
+                  <div onClick={() => setTabActivated('delegations')}
+                       className={`${tabActivated === 'delegations' && 'activated'} `}>
                     <PoolsIcon />
                     <span>{t('delegations')}</span>
                   </div>
-                  <div onClick={() => setTabActivated('rewards')} className={`${tabActivated === 'rewards' && 'activated'} `}>
+                  <div onClick={() => setTabActivated('rewards')}
+                       className={`${tabActivated === 'rewards' && 'activated'} `}>
                     <AnalyticsIcon />
                     <span>{t('rewards')}</span>
                   </div>
-                  <div onClick={() => setTabActivated('activity')} className={`${tabActivated === 'activity' && 'activated'} `}>
+                  <div onClick={() => setTabActivated('activity')}
+                       className={`${tabActivated === 'activity' && 'activated'} `}>
                     <ActivitiesIcon />
                     <span>{t('activity')}</span>
                   </div>
@@ -407,7 +289,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             />
           </Card>
 
-          {stwETHBalance > 0n && <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />}
+          {stwETHBalance > 0n &&
+            <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />}
         </>
       )}
       <UpdateDelegationsModal
@@ -427,8 +310,6 @@ const {
   ClosedSidebarButton,
   HeaderTabContainer,
   Logout,
-
-  BalanceInvestmentContainer,
   SettingIcon,
   WalletIcon,
   PanelIcon,
@@ -444,465 +325,350 @@ const {
   ActivitiesIcon,
   SidebarButton,
   WalletAddressContainer,
-  AssetInvestmentCard,
-  BalanceContainer,
   AssetHeaderCard,
   EstimatedBalanceContainer,
   HeaderTabHeader,
   AssetsCard
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: ${({ theme }) => theme.colorV2.foreground} !important;
+      background-color: ${({ theme }) => theme.colorV2.foreground} !important;
 
-    .ant-drawer-header.ant-drawer-header-close-only {
-      display: none;
-    }
-
-    .ant-drawer-body {
-      width: calc(100vw - 60px);
-      display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[16]};
-      padding: ${({ theme }) => theme.size[16]};
-      @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-        width: 380px;
+      .ant-drawer-header.ant-drawer-header-close-only {
+          display: none;
       }
-    }
+
+      .ant-drawer-body {
+          width: calc(100vw - 60px);
+          display: flex;
+          flex-direction: column;
+          gap: ${({ theme }) => theme.size[16]};
+          padding: ${({ theme }) => theme.size[16]};
+          @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+              width: 380px;
+          }
+      }
   `,
   HeaderContainer: styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[16]};
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[16]};
   `,
   HeaderUserContainer: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[12]};
-    border-radius: 8px;
-    padding: 4px 8px;
-
-    background: ${({ theme }) => theme.colorV2.blue[1]};
-    border-radius: 8px;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    > div {
       display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[4]};
-      span {
-        display: flex;
-        align-items: center;
-        gap: ${({ theme }) => theme.size[4]};
-        cursor: pointer;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[12]};
+      border-radius: 8px;
+      padding: 4px 8px;
+
+      background: ${({ theme }) => theme.colorV2.blue[1]};
+      border-radius: 8px;
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+
+      > div {
+          display: flex;
+          flex-direction: column;
+          gap: ${({ theme }) => theme.size[4]};
+
+          span {
+              display: flex;
+              align-items: center;
+              gap: ${({ theme }) => theme.size[4]};
+              cursor: pointer;
+          }
       }
-    }
   `,
   ClosedSidebarButton: styled.button`
-    position: absolute;
-    left: -44px;
-    width: 32px;
-    height: 32px;
-    border: 0;
-    border-radius: ${({ theme }) => theme.size[8]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    background: ${({ theme }) => theme.color.white};
-    transition: background 0.2s ease;
-    line-height: 36px;
+      position: absolute;
+      left: -44px;
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: ${({ theme }) => theme.size[8]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+      background: ${({ theme }) => theme.color.white};
+      transition: background 0.2s ease;
+      line-height: 36px;
 
-    &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[700]};
-    }
+      &:hover {
+          background: ${({ theme }) => theme.color.whiteAlpha[700]};
+      }
   `,
   SettingIcon: styled(PiGear)`
-    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+      color: ${({ theme }) => theme.colorV2.blue[1]} !important;
 
-    &:hover {
-      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
-    }
+      &:hover {
+          color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+      }
   `,
   WalletIcon: styled(PiWallet)`
-    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+      color: ${({ theme }) => theme.colorV2.blue[1]} !important;
 
-    &:hover {
-      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
-    }
+      &:hover {
+          color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+      }
   `,
   PanelIcon: styled(PiChalkboardTeacher)`
-    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+      color: ${({ theme }) => theme.colorV2.blue[1]} !important;
 
-    &:hover {
-      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
-    }
+      &:hover {
+          color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+      }
   `,
   CloseSidebar: styled(PiCaretRight)`
-    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+      color: ${({ theme }) => theme.colorV2.blue[1]} !important;
   `,
   SidebarButton: styled.button`
-    display: grid;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: 0;
-    border-radius: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.colorV2.white};
-    transition: background 0.2s ease;
-    line-height: 36px;
-    box-shadow: ${({ theme }) => theme.shadow[300]};
-
-    svg {
-      color: ${({ theme }) => theme.colorV2.gray[1]};
-    }
-
-    &:hover {
-      background: ${({ theme }) => theme.colorV2.gray[2]};
+      display: grid;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border: 0;
+      border-radius: ${({ theme }) => theme.size[8]};
+      background: ${({ theme }) => theme.colorV2.white};
+      transition: background 0.2s ease;
+      line-height: 36px;
+      box-shadow: ${({ theme }) => theme.shadow[300]};
 
       svg {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
+          color: ${({ theme }) => theme.colorV2.gray[1]};
       }
-    }
 
-    &:first-of-type {
-      margin-left: auto;
-    }
+      &:hover {
+          background: ${({ theme }) => theme.colorV2.gray[2]};
+
+          svg {
+              color: ${({ theme }) => theme.colorV2.purple[1]};
+          }
+      }
+
+      &:first-of-type {
+          margin-left: auto;
+      }
   `,
   Logout: styled(PiSignOut)`
-    color: ${({ theme }) => theme.color.primary};
+      color: ${({ theme }) => theme.color.primary};
   `,
   Actions: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
-  `,
-  Web3AuthProfileContainer: styled.div`
-    position: relative;
-  `,
-  WrapperWallet: styled.div`
-    position: absolute;
-    top: 14px;
-    left: 15px;
-    border-radius: 50%;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    width: 14px;
-    height: 14px;
-    img {
-      border-radius: 50%;
-      width: 14px;
-      height: 14px;
-    }
-  `,
-  Web3AuthProfileImage: styled(Image)`
-    border-radius: 50%;
-  `,
-  CopyIcon: styled(FiCopy)`
-    font-size: 11px;
-    color: ${({ theme }) => theme.colorV2.gray[1]};
-    &:hover {
-      cursor: pointer;
-      color: ${({ theme }) => theme.colorV2.purple[1]};
-    }
-  `,
-  WalletAddressContainer: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: ${({ theme }) => theme.color.white};
-    svg {
-      color: ${({ theme }) => theme.color.foreground};
-    }
-  `,
-  PoolsIcon: styled(PiChartPieSlice)`
-    font-size: 16px;
-  `,
-  AnalyticsIcon: styled(PiChartBar)`
-    font-size: 16px;
-  `,
-  ActivitiesIcon: styled(PiChartLine)`
-    font-size: 16px;
-  `,
-
-  AssetHeaderCard: styled.div`
-    width: 100%;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 8px;
-
-    border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
-    border-radius: 8px 8px 0 0;
-
-    span {
-      font-weight: 400;
-      font-size: ${({ theme }) => theme.font.size[13]};
-      color: ${({ theme }) => theme.colorV2.gray[1]};
-      opacity: 0.6;
-    }
-  `,
-  AssetsCard: styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[16]};
-  `,
-  BalanceContainer: styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    div {
-      &:nth-child(1) {
-        display: flex;
-        align-items: center;
-        gap: ${({ theme }) => theme.size[8]};
-
-        > div {
-          display: flex;
-          flex-direction: column;
-
-          span {
-            text-align: start;
-            &:nth-child(1) {
-              font-size: ${({ theme }) => theme.font.size[13]};
-              color: ${({ theme }) => theme.colorV2.gray[1]};
-            }
-            &:nth-child(2) {
-              font-size: ${({ theme }) => theme.font.size[12]};
-              color: ${({ theme }) => theme.colorV2.gray[1]};
-              opacity: 0.8;
-            }
-          }
-        }
-      }
-      &:nth-child(2) {
-        display: flex;
-        flex-direction: column;
-        span {
-          text-align: end;
-          &:nth-child(1) {
-            font-size: ${({ theme }) => theme.font.size[13]};
-            color: ${({ theme }) => theme.colorV2.purple[1]};
-          }
-          &:nth-child(2) {
-            font-size: ${({ theme }) => theme.font.size[12]};
-            color: ${({ theme }) => theme.colorV2.gray[1]};
-            opacity: 0.8;
-          }
-        }
-      }
-    }
-  `,
-  AssetInvestmentCard: styled.div`
-    width: 100%;
-    height: 32px;
-    display: grid;
-    align-items: center;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 0px 8px;
-
-    border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
-    border-radius: 8px 8px 0 0;
-
-    span {
-      font-weight: 400;
-      font-size: ${({ theme }) => theme.font.size[13]};
-      color: ${({ theme }) => theme.colorV2.gray[1]};
-      opacity: 0.6;
-      &:last-child {
-        text-align: end;
-      }
-      &:nth-child(2) {
-        text-align: center;
-      }
-    }
-  `,
-  BalanceInvestmentContainer: styled.div`
-    width: 100%;
-    display: grid;
-    align-items: center;
-    grid-template-columns: 1fr 1fr 1fr;
-    > div {
-      &:nth-child(1) {
-        display: flex;
-        align-items: center;
-        gap: ${({ theme }) => theme.size[8]};
-
-        > div {
-          display: flex;
-          flex-direction: column;
-
-          span {
-            text-align: start;
-            &:nth-child(1) {
-              font-size: ${({ theme }) => theme.font.size[13]};
-              color: ${({ theme }) => theme.colorV2.gray[1]};
-            }
-            &:nth-child(2) {
-              font-size: ${({ theme }) => theme.font.size[12]};
-              color: ${({ theme }) => theme.colorV2.gray[1]};
-              opacity: 0.8;
-            }
-          }
-        }
-      }
-      &:nth-child(2) {
-        text-align: center;
-
-        font-size: ${({ theme }) => theme.font.size[13]};
-        color: ${({ theme }) => theme.color.green[500]};
-      }
-      &:nth-child(3) {
-        display: flex;
-        flex-direction: column;
-        span {
-          text-align: end;
-          &:nth-child(1) {
-            font-size: ${({ theme }) => theme.font.size[13]};
-            color: ${({ theme }) => theme.colorV2.purple[1]};
-          }
-          &:nth-child(2) {
-            font-size: ${({ theme }) => theme.font.size[12]};
-            color: ${({ theme }) => theme.colorV2.gray[1]};
-            opacity: 0.8;
-          }
-        }
-      }
-    }
-  `,
-  HeaderTabContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    > div {
-      &:nth-child(1) {
-        padding: 12px 12px 0px 12px;
-        display: flex;
-        flex-direction: column;
-        gap: ${({ theme }) => theme.size[8]};
-
-        > span {
-          font-size: ${({ theme }) => theme.font.size[13]};
-          font-style: normal;
-          font-weight: 400;
-          color: ${({ theme }) => theme.colorV2.gray[1]};
-        }
-      }
-    }
-  `,
-  HeaderTabHeader: styled.div`
-    width: 100%;
-    height: 48px;
-    padding: 0px 12px;
-    border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
-    border-radius: 8px 8px 0 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: ${({ theme }) => theme.size[4]};
-
-    align-items: center;
-    div {
-      height: 100%;
-      font-size: ${({ theme }) => theme.font.size[13]};
-      font-weight: 400;
-      cursor: pointer;
-      border-bottom: 1px solid transparent;
-
-      position: relative;
-      display: inline-block;
-      text-decoration: none;
-      overflow: hidden;
-
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.size[8]};
+  `,
+  Web3AuthProfileContainer: styled.div`
+      position: relative;
+  `,
+  WrapperWallet: styled.div`
+      position: absolute;
+      top: 14px;
+      left: 15px;
+      border-radius: 50%;
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+      width: 14px;
+      height: 14px;
 
-      &::after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 1px;
-        bottom: 0;
-        left: 0;
-        background-color: ${({ theme }) => theme.colorV2.purple[1]};
-        transform: scaleX(0);
-        transform-origin: bottom left;
-        transition: transform 0.3s ease-out;
+      img {
+          border-radius: 50%;
+          width: 14px;
+          height: 14px;
       }
+  `,
+  Web3AuthProfileImage: styled(Image)`
+      border-radius: 50%;
+  `,
+  CopyIcon: styled(FiCopy)`
+      font-size: 11px;
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+
       &:hover {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-        span {
-          opacity: 1;
+          cursor: pointer;
           color: ${({ theme }) => theme.colorV2.purple[1]};
-        }
       }
+  `,
+  WalletAddressContainer: styled.div`
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: ${({ theme }) => theme.color.white};
 
-      &:hover::after {
-        transform: scaleX(1);
+      svg {
+          color: ${({ theme }) => theme.color.foreground};
       }
+  `,
+  PoolsIcon: styled(PiChartPieSlice)`
+      font-size: 16px;
+  `,
+  AnalyticsIcon: styled(PiChartBar)`
+      font-size: 16px;
+  `,
+  ActivitiesIcon: styled(PiChartLine)`
+      font-size: 16px;
+  `,
 
-      &.activated::after,
-      &.activated:hover::after {
-        transform: scaleX(0);
-        transition: none;
-      }
+  AssetHeaderCard: styled.div`
+      width: 100%;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0px 8px;
 
-      &.activated {
-        border-bottom: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-        span {
-          color: ${({ theme }) => theme.colorV2.purple[1]};
-          opacity: 1;
-        }
-      }
+      border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
+      border-radius: 8px 8px 0 0;
 
       span {
-        color: ${({ theme }) => theme.colorV2.gray[1]};
-        opacity: 0.6;
+          font-weight: 400;
+          font-size: ${({ theme }) => theme.font.size[13]};
+          color: ${({ theme }) => theme.colorV2.gray[1]};
+          opacity: 0.6;
       }
-    }
+  `,
+  AssetsCard: styled.div`
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[16]};
+  `,
+  HeaderTabContainer: styled.div`
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      > div {
+          &:nth-child(1) {
+              padding: 12px 12px 0px 12px;
+              display: flex;
+              flex-direction: column;
+              gap: ${({ theme }) => theme.size[8]};
+
+              > span {
+                  font-size: ${({ theme }) => theme.font.size[13]};
+                  font-style: normal;
+                  font-weight: 400;
+                  color: ${({ theme }) => theme.colorV2.gray[1]};
+              }
+          }
+      }
+  `,
+  HeaderTabHeader: styled.div`
+      width: 100%;
+      height: 48px;
+      padding: 0px 12px;
+      border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
+      border-radius: 8px 8px 0 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: ${({ theme }) => theme.size[4]};
+
+      align-items: center;
+
+      div {
+          height: 100%;
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-weight: 400;
+          cursor: pointer;
+          border-bottom: 1px solid transparent;
+
+          position: relative;
+          display: inline-block;
+          text-decoration: none;
+          overflow: hidden;
+
+          display: flex;
+          align-items: center;
+          gap: ${({ theme }) => theme.size[8]};
+
+          &::after {
+              content: '';
+              position: absolute;
+              width: 100%;
+              height: 1px;
+              bottom: 0;
+              left: 0;
+              background-color: ${({ theme }) => theme.colorV2.purple[1]};
+              transform: scaleX(0);
+              transform-origin: bottom left;
+              transition: transform 0.3s ease-out;
+          }
+
+          &:hover {
+              color: ${({ theme }) => theme.colorV2.purple[1]};
+
+              span {
+                  opacity: 1;
+                  color: ${({ theme }) => theme.colorV2.purple[1]};
+              }
+          }
+
+          &:hover::after {
+              transform: scaleX(1);
+          }
+
+          &.activated::after,
+          &.activated:hover::after {
+              transform: scaleX(0);
+              transition: none;
+          }
+
+          &.activated {
+              border-bottom: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+              color: ${({ theme }) => theme.colorV2.purple[1]};
+
+              span {
+                  color: ${({ theme }) => theme.colorV2.purple[1]};
+                  opacity: 1;
+              }
+          }
+
+          span {
+              color: ${({ theme }) => theme.colorV2.gray[1]};
+              opacity: 0.6;
+          }
+      }
   `,
 
   EstimatedBalanceContainer: styled.div`
-    display: flex;
-    height: 32px;
-    min-height: 32px;
-    padding: 0px 8px;
-    align-items: center;
-    justify-content: space-between;
-    gap: 4px;
-    align-self: stretch;
-    border-radius: 8px;
-    background: ${({ theme }) => theme.colorV2.white};
+      display: flex;
+      height: 32px;
+      min-height: 32px;
+      padding: 0px 8px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      align-self: stretch;
+      border-radius: 8px;
+      background: ${({ theme }) => theme.colorV2.white};
 
-    box-shadow: ${({ theme }) => theme.shadow[100]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
 
-    span {
-      &:nth-child(1) {
-        color: ${({ theme }) => theme.colorV2.gray[1]};
-        font-size: ${({ theme }) => theme.font.size[13]};
-        font-weight: 400;
-        opacity: 0.6;
+      span {
+          &:nth-child(1) {
+              color: ${({ theme }) => theme.colorV2.gray[1]};
+              font-size: ${({ theme }) => theme.font.size[13]};
+              font-weight: 400;
+              opacity: 0.6;
+          }
+
+          &:nth-child(2) {
+              font-size: ${({ theme }) => theme.font.size[15]};
+              color: ${({ theme }) => theme.colorV2.purple[1]};
+              font-weight: 500;
+          }
       }
-      &:nth-child(2) {
-        font-size: ${({ theme }) => theme.font.size[15]};
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-        font-weight: 500;
-      }
-    }
   `,
   ProductSelectCard: styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-
-    gap: ${({ theme }) => theme.size[8]};
-    div {
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
-    }
+
+      gap: ${({ theme }) => theme.size[8]};
+
+      div {
+          display: flex;
+          align-items: center;
+      }
   `
 }

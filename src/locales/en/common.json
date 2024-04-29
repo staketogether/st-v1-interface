@@ -648,6 +648,8 @@
       "description": "Invest in the best Cryptocurrencies for your portfolio"
     },
     "products": {
+      "stp-eth": "Stake Together Ether",
+      "stp-reth": "Stake Together Restaked Ether",
       "eth-staking": "Ethereum Staking",
       "eth-restaking": "Ethereum Restaking ",
       "celestia": "Celestia Staking",
@@ -663,6 +665,7 @@
       "eth-mainnet": "Ethereum",
       "eth-op": "Ethereum",
       "chz-chiliz": "Chiliz",
+      "mengo-chz": "Flamengo",
       "op-op": "Optimism",
       "arb-arb": "Arbitrum",
       "matic-matic": "Polygon"
@@ -752,8 +755,13 @@
       "eigenPointTooltip": "When you stake, you accumulate points in the Eigen Layer protocol, which may later launch a token and you will can receive shares",
       "togetherPoints": "When you stake, you accumulate points in the Stake Together protocol, which may later launch a token and you will can receive shares",
       "restakingDescription": "ReStaking Ethereum: Enhance Your Staking Efficiency. Experience the next level of Ethereum staking with our ReStaking solution, merging Stake Together protocol and Eigen Layer technology. Amplify your Ethereum's potential by using it as collateral in the Eigen Layer, contributing to network services and earning income from diverse sources. Our platform streamlines your staking process, providing a more effective and profitable approach to secure the network and gain rewards. Dive into ReStaking with Ethereum today and start benefiting from combined yields.",
-      "btc": "Bitcoin",
-      "eth": "Ethereum",
+      "btc": "Bitcoin is the first successful internet money based on peer-to-peer technology where no bank or central authority is involved in the transaction and production of Bitcoin currency. It was created by an individual or anonymous group under the pseudonym Satoshi Nakamoto.",
+      "eth": "Ethereum is a smart contract platform that empowers developers to build tokens and decentralized applications (DApps). ETH is the native currency of the Ethereum platform and also serves as a transaction fee for miners on the Ethereum network.",
+      "chz": "Chiliz, the creator of Fan Tokens, has launched its own Layer 1 EVM compatible blockchain. Chiliz Chain will become the leading infrastructure for sports, attracting teams, fans, and developers, to build web3 products and experiences that bring fans and brands together",
+      "matic": "Polygon (formerly known as Matic Network) is the first well-structured and user-friendly platform for scaling and developing Ethereum infrastructure. Its main component is the Polygon SDK, a modular and flexible framework that supports building various types of applications.",
+      "mengo-chz": "Flamengo",
+      "arb": "Arbitrum (ARB) is one of the most anticipated governance tokens in the crypto community. It is part of the main scalability project for the Ethereum network.",
+      "op": "Optimism (OP) is a scalability solution specifically designed for the Ethereum network. It operates as a secondary scalability layer, more commonly known as layer 2, which aims to improve the efficiency and performance of the Ethereum network without compromising its security and decentralization.",
       "actions": {
         "invest": "Invest",
         "withdraw": "Withdraw",
@@ -807,6 +815,9 @@
       },
       "chz-chiliz": {
         "name": "Chiliz"
+      },
+      "mengo-chz": {
+        "name": "Flamengo"
       },
       "op-op": {
         "name": "Optimism"

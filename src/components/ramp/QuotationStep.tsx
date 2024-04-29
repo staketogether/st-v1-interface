@@ -19,7 +19,6 @@ import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import { KycLevel } from './KycLevel'
 
 interface QuotationStepProps {
   asset: Asset
@@ -106,7 +105,7 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
 
   return (
     <Container>
-      <KycLevel amountValue={Number(debounceValue)} />
+      {/* <KycLevel amountValue={Number(debounceValue)} /> */}
       <BoxValuesContainer>
         <InputContainer className={`${error ? 'error' : ''}`}>
           <div>
