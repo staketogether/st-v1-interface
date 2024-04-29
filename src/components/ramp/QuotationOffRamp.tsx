@@ -3,7 +3,7 @@ import Button from '@/components/shared/Button'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import { BrlaBuyEthStep, fiatAmountVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
-import useQuoteRamp from '@/hooks/ramp/useQuote'
+import useQuoteOffRamp from '@/hooks/ramp/useQuoteOffRamp'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -46,11 +46,9 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
     quote,
     isValidating: quoteIsValidating,
     isLoading
-  } = useQuoteRamp(
-    'brl',
+  } = useQuoteOffRamp(
     amountDebounceValue,
     product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
-    1,
     ProviderType.brla,
     PaymentMethodType.pix,
     `${product.ramp[0].bridge?.toChainId}`,
