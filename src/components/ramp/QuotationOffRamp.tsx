@@ -13,7 +13,6 @@ import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import brlBrla from '@assets/icons/brl-brla.svg'
-import { ethers } from 'ethers'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { PiArrowDown, PiArrowRight } from 'react-icons/pi'
@@ -29,26 +28,27 @@ interface QuotationOffRampStepProps {
 export default function QuotationOffRampStep({ product }: QuotationOffRampStepProps) {
   const fiatAmount = useReactiveVar(fiatAmountVar)
   const [value, setValue] = useState<string>('0')
+  const [chainId] = product.chains
   console.log({
     value,
     fiatAmount
   })
 
   const amountDebounceValue = useDebounce(value, 300)
-  const amountWei = ethers.parseUnits(amountDebounceValue || '0', product.decimals)
   const { account } = useConnectedAccount()
   const { balance: ethBalance, isLoading: ethBalanceLoading } = useEthBalanceOf({
     walletAddress: account,
     chainId: product.chains[0],
     token: product.contractAddress
   })
+  console.log('product', product)
   const {
     quote,
     isValidating: quoteIsValidating,
     isLoading
   } = useQuoteOffRamp(
     amountDebounceValue,
-    product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
+    chainId,
     ProviderType.brla,
     PaymentMethodType.pix,
     `${product.ramp[0].bridge?.toChainId}`,
@@ -100,9 +100,11 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
   }
 
   useEffect(() => {
+    console.log('quote', quote)
     if (!quote) {
       return
     }
+
     quoteVar({
       ...quote,
       amountToken: truncateDecimal(quote?.amountToken)
@@ -115,6 +117,7 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
     method: 'PIX',
     assetId: product.id
   })
+
   return (
     <Container>
       <BoxValuesContainer>

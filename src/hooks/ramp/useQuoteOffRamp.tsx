@@ -20,6 +20,6 @@ export default function useQuoteOffRamp(
   const { data, error, isLoading, isValidating, mutate } = useSWR<Quote>(
     chainId && amount && provider && paymentMethod ? url : null
   )
-
+  console.log('data', data)
   return { quote: data, error, isLoading, isValidating, mutate }
 }
