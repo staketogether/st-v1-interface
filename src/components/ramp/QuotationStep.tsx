@@ -105,7 +105,6 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
 
   return (
     <Container>
-      {/* <KycLevel amountValue={Number(debounceValue)} /> */}
       <BoxValuesContainer>
         <InputContainer className={`${error ? 'error' : ''}`}>
           <div>
