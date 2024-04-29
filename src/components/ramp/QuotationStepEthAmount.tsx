@@ -26,12 +26,8 @@ export default function QuotationStepEthAmount({ product }: QuotationStepEthAmou
   const {
     quote: quoteEthValue,
     isValidating: ethValueIsValidating,
-<<<<<<< HEAD
     isLoading,
     mutate
-=======
-    isLoading
->>>>>>> origin/dev
   } = useQuoteBrla(
     'brl',
     amount,
