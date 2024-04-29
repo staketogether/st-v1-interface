@@ -44,10 +44,9 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
 
   useEffect(() => {
     if (address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0) {
-
       if (type === 'buy') {
         setRampData({
-          chainId: product.ramp[0].bridge?.fromChainId ?? 1,
+          chainId: product.ramp[0].chainId,
           paymentMethod: PaymentMethodType.pix,
           fiatCurrencyCode: 'brl',
           amount: Number(quote.amountBrl),
@@ -64,13 +63,11 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
         setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.PixKeyStep), timeToRedirect)
         return
       }
-
     }
     if (!kycLevelInfo?.level && !kycActivity && !isLoading) {
       setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc), timeToRedirect)
       return
     }
-
   }, [activity?.status, address, kyc?.level, quote, kycLevelInfo, kycActivity, isLoading, product.ramp, type])
 
   useEffect(() => {

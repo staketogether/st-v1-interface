@@ -88,7 +88,7 @@ export default function CheckoutStep({ asset }: CheckoutStepProps) {
           <Header>
             <div>
               <span>{t('v2.ramp.amountToBePaid')}:</span>
-              <span>R$ {quote?.amountBrl}</span>
+              <span>{new Intl.NumberFormat('pt-BR').format(Number(quote?.amountBrl ?? 0))}</span>
             </div>
             <span>
               {t('v2.ramp.checkout.for')} {pixBankInfo?.name}

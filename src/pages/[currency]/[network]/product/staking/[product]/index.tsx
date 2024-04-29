@@ -58,7 +58,7 @@ export const getStaticPaths: GetStaticPaths = () => {
   const currencies = ['usd', 'brl', 'eur']
 
   const paths = networks.map(network => {
-    return stakingList.filter(staking => staking.listed && staking.asset.chains.includes(network.chainId)).map(product => {
+    return stakingList.filter(staking => staking.listed && staking.enabled && staking.asset.chains.includes(network.chainId)).map(product => {
       return currencies.map(currency => {
         return {
           params: {
