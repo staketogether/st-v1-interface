@@ -45,7 +45,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
     <LayoutTemplate>
       <Metatags />
       <AssetsControl product={product} assetData={assetData} chainId={chainId} type='buy' />
-      <BuyEthControlModal chainId={chainId}/>
+      <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )
 }
@@ -58,29 +58,32 @@ export const getStaticPaths: GetStaticPaths = () => {
   ]
   const currencies = ['usd', 'brl', 'eur']
 
-  const paths = networks.map(network => {
-    return assetsList.filter(asset => asset.chains.includes(network.chainId) && asset.listed).map(asset => {
-      return currencies.map(currency => {
-        return {
-          params: {
-            network: network.network,
-            currency,
-            type: 'assets',
-            product: asset.id
-          }
-        }
-      })
+  const paths = networks
+    .map(network => {
+      return assetsList
+        .filter(asset => asset.chains.includes(network.chainId) && asset.enabled)
+        .map(asset => {
+          return currencies.map(currency => {
+            return {
+              params: {
+                network: network.network,
+                currency,
+                type: 'assets',
+                product: asset.id
+              }
+            }
+          })
+        })
     })
-  }).flat(2)
+    .flat(2)
 
   return { paths, fallback: 'blocking' }
 }
 
 async function fetchProductAssetData(uri: string): Promise<AssetStats> {
   const { backendUrl } = globalConfig
-  const marketData = await axios
-    .get<AssetStats>(`${backendUrl}/api/${uri}`)
-   return marketData.data
+  const marketData = await axios.get<AssetStats>(`${backendUrl}/api/${uri}`)
+  return marketData.data
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
@@ -101,9 +104,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   const contractAddress = productSelected.type === 'erc20' ? productSelected.contractAddress : productSelected.wrapperContractAddress
 
-  const assetData = await fetchProductAssetData(
-    `asset-stats/${productSelected.chains[0]}/${contractAddress}`,
-  )
+  const assetData = await fetchProductAssetData(`asset-stats/${productSelected.chains[0]}/${contractAddress}`)
 
   if (!assetData) {
     return {

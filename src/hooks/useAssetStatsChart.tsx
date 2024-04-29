@@ -25,7 +25,7 @@ export default function useAssetStatsChart({ chainId, contractAddress, currency,
       })
       .then(res => res.data)
 
-  const swrKey = [`assets-stats`, chainId, contractAddress]
+  const swrKey = [`assets-stats`, chainId, contractAddress, days, interval, currency]
 
   const { data, error, mutate, isLoading } = useSWR<AssetStatsChart>(swrKey, fetcher)
 

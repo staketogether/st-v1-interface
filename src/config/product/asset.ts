@@ -318,7 +318,7 @@ const stpReth: Asset = {
 export const mengoChz: Asset = {
   chains: [Chain.CHZ_MAINNET],
   enabled: true,
-  listed: true,
+  listed: false,
   new: true,
   points: { elPoints: false, stPoints: true },
   ramp: [
