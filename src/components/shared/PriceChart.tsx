@@ -83,7 +83,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
               />
               <Area type='monotone' dataKey='price' stroke='#774bc7' fill='#b993ff' />
               <XAxis hide interval='equidistantPreserveStart' />
-              <YAxis tickFormatter={(value) => handleQuotePrice(Number(value))} dataKey='price' interval='equidistantPreserveStart' />
+              <YAxis orientation='right' tickFormatter={(value) => handleQuotePrice(Number(value))} dataKey='price' interval='equidistantPreserveStart' />
             </AreaChart>
           </ResponsiveContainer>
         )}
@@ -124,10 +124,10 @@ const { Container, LoadingChart, FilterChartData } = {
 
     align-items: center;
     display: flex;
-    gap: ${({ theme }) => theme.size[12]};
+    gap: ${({ theme }) => theme.size[4]};
 
     font-size: ${({ theme }) => theme.font.size[12]};
-    padding: 4px 0px;
+    padding: 0;
 
     div {
       display: flex;
