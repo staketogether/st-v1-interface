@@ -12,7 +12,7 @@ import { Chain } from '../chain'
 
 export const ethMainnet: Asset = {
   id: 'eth-mainnet',
-  order: 1,
+  order: 0,
   symbol: 'ETH',
   isTestnet: false,
   contractAddress: '0x0000000000000000000000000000000000000000',
@@ -40,7 +40,7 @@ export const ethMainnet: Asset = {
 
 export const ethOp: Asset = {
   id: 'eth-op',
-  order: 1,
+  order: 2,
   symbol: 'ETH',
   contractAddress: '0x0000000000000000000000000000000000000000',
   type: 'native',
@@ -74,7 +74,7 @@ export const ethOp: Asset = {
 
 export const btcOp: Asset = {
   id: 'btc-op',
-  order: 2,
+  order: 1,
   symbol: 'wBTC',
   symbolImage: btcIcon,
   isTestnet: false,

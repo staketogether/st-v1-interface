@@ -94,6 +94,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
 const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, HeaderProduct, HeaderDescribeInfo, StatisticContainer } = {
   ProductContainer: styled.div`
     flex: 1;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
