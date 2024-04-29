@@ -61,7 +61,7 @@ export const getStaticPaths: GetStaticPaths = () => {
   const paths = networks
     .map(network => {
       return assetsList
-        .filter(asset => asset.chains.includes(network.chainId) && asset.enabled)
+        .filter(asset => asset.chains.includes(network.chainId) && asset.listed && asset.enabled)
         .map(asset => {
           return currencies.map(currency => {
             return {
