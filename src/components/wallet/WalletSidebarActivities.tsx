@@ -16,8 +16,8 @@ interface WalletSidebarActivitiesProps {
 
 export default function WalletSidebarActivities({ accountActivities, product }: WalletSidebarActivitiesProps) {
   const { t } = useLocaleTranslation()
-  const { locale } = useRouter()
   const { blockExplorer } = chainConfigByChainId(product.asset.chains[0])
+  const { locale } = useRouter()
   const getLocale = () => {
     return locale === 'en' ? 'en-US' : 'pt-BR'
   }

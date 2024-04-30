@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { PiClock } from 'react-icons/pi'
 import styled from 'styled-components'
 import { Asset } from '@/types/Asset'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface QuotationStepEthAmountProps {
   product: Asset
@@ -22,7 +23,11 @@ export default function QuotationStepEthAmount({ product }: QuotationStepEthAmou
   // Quote ETH amount separately. Today we quote on Ethereum chain directly because both products are on Ethereum.
   // In the future, we will quote on the chain of the product and need to treat ethereum restaking separately.
   const { t } = useLocaleTranslation()
-  const { quote: quoteEthValue, isValidating: ethValueIsValidating } = useQuoteBrla(
+  const {
+    quote: quoteEthValue,
+    isValidating: ethValueIsValidating,
+    isLoading
+  } = useQuoteBrla(
     'brl',
     amount,
     product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
@@ -68,9 +73,8 @@ export default function QuotationStepEthAmount({ product }: QuotationStepEthAmou
   return (
     <PriceInfoContainer>
       <div>
-        <span>{t('v2.ramp.quote.price')}</span>
         <span>
-          1 {product.symbol} = {activeValue.toLocaleString('pt-BR')} BRL
+          1 {product.symbol} = {isLoading ? <SkeletonLoading height={18} width={80} /> : activeValue.toLocaleString('pt-BR')} BRL
         </span>
       </div>
       <span className='gray'>
@@ -100,6 +104,10 @@ const { PriceInfoContainer } = {
         line-height: 16px;
         letter-spacing: 0em;
         text-align: left;
+
+        display: flex;
+        align-items: center;
+        gap: 4px;
       }
       > span:last-child {
         font-size: 15px;

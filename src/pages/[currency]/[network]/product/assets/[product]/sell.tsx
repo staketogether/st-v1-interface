@@ -14,11 +14,11 @@ import { chainConfigByChainId } from '@/config/chain'
 import { Asset } from '@/types/Asset'
 import { assetsList } from '@/config/product/asset'
 import AssetsControl from '@/components/assets/AssetsControl'
-import { MobulaMarketAsset, MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
+import { AssetStats } from '@/types/AssetStats'
 
 export interface ProductProps {
   product: Asset
-  assetData: MobulaMarketAsset
+  assetData: AssetStats
   chainId: number
 }
 
@@ -45,7 +45,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
     <LayoutTemplate>
       <Metatags />
       <AssetsControl product={product} assetData={assetData} chainId={chainId} type='buy' />
-      <BuyEthControlModal chainId={chainId}/>
+      <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )
 }
@@ -58,35 +58,32 @@ export const getStaticPaths: GetStaticPaths = () => {
   ]
   const currencies = ['usd', 'brl', 'eur']
 
-  const paths = networks.map(network => {
-    return assetsList.filter(asset => asset.chains.includes(network.chainId)).map(asset => {
-      return currencies.map(currency => {
-        return {
-          params: {
-            network: network.network,
-            currency,
-            type: 'assets',
-            product: asset.id
-          }
-        }
-      })
+  const paths = networks
+    .map(network => {
+      return assetsList
+        .filter(asset => asset.chains.includes(network.chainId) && asset.listed && asset.enabled)
+        .map(asset => {
+          return currencies.map(currency => {
+            return {
+              params: {
+                network: network.network,
+                currency,
+                type: 'assets',
+                product: asset.id
+              }
+            }
+          })
+        })
     })
-  }).flat(2)
+    .flat(2)
 
   return { paths, fallback: 'blocking' }
 }
 
-async function fetchProductAssetData(uri: string, asset: string, blockchain: string, symbol: string): Promise<MobulaMarketAsset> {
+async function fetchProductAssetData(uri: string): Promise<AssetStats> {
   const { backendUrl } = globalConfig
-  const marketData = await axios
-    .get<MobulaMarketAssetResponse>(`${backendUrl}/api/${uri}`, {
-      params: {
-        asset,
-        blockchain,
-        symbol
-      }
-    })
-   return marketData.data.data
+  const marketData = await axios.get<AssetStats>(`${backendUrl}/api/${uri}`)
+  return marketData.data
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
@@ -105,12 +102,9 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
 
-  const assetData = await fetchProductAssetData(
-    'mobula/market-asset-data',
-    productSelected.mobula.asset,
-    productSelected.mobula.blockchain,
-    productSelected.mobula.symbol
-  )
+  const contractAddress = productSelected.type === 'erc20' ? productSelected.contractAddress : productSelected.wrapperContractAddress
+
+  const assetData = await fetchProductAssetData(`asset-stats/${productSelected.chains[0]}/${contractAddress}`)
 
   if (!assetData) {
     return {

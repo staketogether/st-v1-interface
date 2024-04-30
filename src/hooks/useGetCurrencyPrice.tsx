@@ -1,11 +1,11 @@
 import { assetsList } from '@/config/product/asset'
 import { globalConfig } from '@/config/global'
-import { MobulaMarketAssetResponse } from '@/types/MobulaMarketAsset'
 import { makeVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect } from 'react'
+import { AssetStats } from '@/types/AssetStats'
 
-export const currencyPriceListVar = makeVar<{ name: string; value: number, price24h: number }[]>([])
+export const currencyPriceListVar = makeVar<{ id: string; value: number, price24h: number }[]>([])
 
 export default function useGetCurrencyPrice() {
   const { backendUrl } = globalConfig
@@ -14,22 +14,16 @@ export default function useGetCurrencyPrice() {
     const getDataPromise = async () => {
       try {
         const promises = assetsList.map(asset =>
-          axios.get<MobulaMarketAssetResponse>(`${backendUrl}/api/mobula/market-asset-data`, {
-            params: {
-              asset: asset.mobula.asset ? asset.mobula.asset : null,
-              blockchain: asset.mobula.blockchain ? asset.mobula.blockchain : null,
-              symbol: asset.mobula.symbol ? asset.mobula.symbol : null
-            }
-          })
+          axios.get<AssetStats>(`${backendUrl}/api/asset-stats/${asset.chains[0]}/${asset.type === 'erc20' ? asset.contractAddress : asset.wrapperContractAddress}`)
         )
 
         const responses = await Promise.all(promises)
 
         const responseData = responses.map(response => {
           return {
-            name: `${response.data.data.name}-${response.config.params.blockchain}`,
-            value: response.data.data.price,
-            price24h: response.data.data.price_change_24h
+            id: `${response.data.ref}`,
+            value: response.data.market_data.current_price.usd,
+            price24h: response.data.market_data.price_change_24h
 
           }
         })

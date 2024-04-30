@@ -130,10 +130,6 @@ export default function KycStep({ asset }: KycStepProps) {
     setCpfOrCnpj('')
   }, [chooseAccountType])
 
-  useEffect(() => {
-    console.log('errors', errors)
-  }, [errors])
-
   const cpfMask = (value: string) => {
     const response = value
       .replace(/\D/g, '')

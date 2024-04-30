@@ -21,6 +21,8 @@ import useEstimateTxInfo from '../useEstimateTxInfo'
 import useLocaleTranslation from '../useLocaleTranslation'
 import useStConfig from './useStConfig'
 import { Staking } from '@/types/Staking'
+import { queryAccountAssets } from '@/queries/subgraph/queryAccountAssets'
+import { queryAccountUsdBalance } from '@/queries/subgraph/queryAccountUsdBalance'
 
 export default function useDepositPool(
   netDepositAmount: bigint,
@@ -184,6 +186,8 @@ export default function useDepositPool(
           queryAccount,
           queryPool,
           queryDelegationShares,
+          queryAccountAssets,
+          queryAccountUsdBalance,
           queryAccountActivities,
           queryAccountDelegations,
           queryAccountRewards,

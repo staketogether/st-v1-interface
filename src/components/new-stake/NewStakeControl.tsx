@@ -15,8 +15,8 @@ import LottieAnimation from '../shared/LottieAnimation'
 import NetworkIcons from '../shared/NetworkIcons'
 import ProductInfo from './ProductInfo'
 import { Staking } from '@/types/Staking'
-import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 import { chainConfigByChainId } from '@/config/chain'
+import { AssetStats } from '@/types/AssetStats'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -31,7 +31,7 @@ const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl
 interface NewStakeControlProps {
   type: 'deposit' | 'withdraw'
   product: Staking
-  assetData: MobulaMarketAsset
+  assetData: AssetStats
   chainId: number
 }
 

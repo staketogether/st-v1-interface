@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react'
 import useCoinUsdToUserCurrency from './useCoinUsdToUserCurrency'
 import { currencyPriceListVar } from './useGetCurrencyPrice'
 
-export default function useCoinConversion(value: string, filter: string) {
+export default function useCoinConversion(value: string, chainId?: number, contractAddress?: string) {
   const [coinUsdPrice, setCoinUsdPrice] = useState<string | undefined>('0')
   const [loading, setLoading] = useState<boolean>(true)
 
   const currencyPriceList = useReactiveVar(currencyPriceListVar)
-  const currencyPrice = currencyPriceList.find(currency => currency.name === filter)?.value ?? 0
+  const currencyPrice = currencyPriceList.find(currency => currency.id === `${chainId}:${contractAddress?.toLowerCase()}`)?.value ?? 0
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 

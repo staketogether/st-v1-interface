@@ -4,7 +4,6 @@ import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
 import { Asset } from '@/types/Asset'
-import { MobulaMarketAsset } from '@/types/MobulaMarketAsset'
 import { notification } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -16,10 +15,11 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
+import { AssetStats } from '@/types/AssetStats'
 
 interface AssetsControlProps {
   product: Asset
-  assetData: MobulaMarketAsset
+  assetData: AssetStats
   chainId: number
   type: 'buy' | 'sell' | 'swap'
 }
