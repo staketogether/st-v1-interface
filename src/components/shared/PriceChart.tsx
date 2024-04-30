@@ -17,13 +17,22 @@ type PriceChartFilter = '1W' | '1M' | '3M' | '1Y'
 export default function PriceChart({ asset }: PriceChartProps) {
   const [activeFilter, setActiveFilter] = useState<PriceChartFilter>('1M')
 
+  const { t } = useLocaleTranslation()
+
   const filterChartOptions: PriceChartFilter[] = ['1W', '1M', '3M', '1Y']
+
+  const filterChartLabels = {
+    '1W': t('v3.chart.filter.oneWeek'),
+    '1M': t('v3.chart.filter.oneMonth'),
+    '3M': t('v3.chart.filter.threeMonths'),
+    '1Y': t('v3.chart.filter.oneYear')
+  }
 
   const handleFilter = () => {
     const filters: Record<PriceChartFilter, { day: number; interval: '5m' | 'hourly' | 'daily' }> = {
       '1W': { day: 7, interval: 'daily' },
       '1M': { day: 30, interval: 'daily' },
-      '3M': { day: 90, interval: 'daily' },
+      '3M': { day: 90, interval: 'daily'},
       '1Y': { day: 365, interval: 'daily' }
     }
 
@@ -37,8 +46,6 @@ export default function PriceChart({ asset }: PriceChartProps) {
     days: handleFilter().day,
     interval: handleFilter().interval
   })
-
-  const { t } = useLocaleTranslation()
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
@@ -90,7 +97,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
         <FilterChartData>
           {filterChartOptions.map((option, i) => (
             <div className={`${activeFilter === option && 'active'}`} key={`${i}-${option}`} onClick={() => setActiveFilter(option)}>
-              {option}
+              {filterChartLabels[option]}
             </div>
           ))}
         </FilterChartData>
@@ -148,5 +155,6 @@ const { Container, LoadingChart, FilterChartData, FormattedResponsiveContainer }
   FormattedResponsiveContainer: styled(ResponsiveContainer)`
     background-color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
   `
 }

@@ -812,6 +812,14 @@
         "description": "Invista em moedas de alto risco e alto retorno"
       }
     },
+    "chart": {
+      "filter": {
+        "oneWeek": "1S",
+        "oneMonth": "1M",
+        "threeMonths": "3M",
+        "oneYear": "1A"
+      }
+    },
     "products": {
       "eth-mainnet": {
         "name": "Ethereum"

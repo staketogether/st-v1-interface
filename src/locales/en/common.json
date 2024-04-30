@@ -789,6 +789,14 @@
         "description": "Invest in High-Risk, High-Reward Coins"
       }
     },
+    "chart": {
+      "filter": {
+        "oneWeek": "1W",
+        "oneMonth": "1M",
+        "threeMonths": "3M",
+        "oneYear": "1Y"
+      }
+    },
     "products": {
       "eth-mainnet": {
         "name": "Ethereum"
