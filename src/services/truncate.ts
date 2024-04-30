@@ -17,8 +17,8 @@ export function truncateWei(wei: bigint, maxDecimals = 4, smallValue = false): s
   const formatWei = ethers.formatEther(wei)
   const formattedValue = sliceString(formatWei, maxDecimals)
 
-  if (parseFloat(formattedValue) < 0.00001 && !smallValue) {
-    return '>0.00001'
+  if (parseFloat(formattedValue) < 0.000001 && !smallValue) {
+    return `>0.${'0'.repeat(maxDecimals - 1)}1`
   }
 
   return formattedValue

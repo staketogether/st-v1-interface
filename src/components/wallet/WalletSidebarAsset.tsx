@@ -15,8 +15,8 @@ export default function WalletSidebarAsset({ walletAsset }: { walletAsset: Accou
     )
   const contractAddress = asset?.type === 'erc20' ? asset?.contractAddress : asset?.wrapperContractAddress
   const fixedWalletBalance = walletAsset.decimals >= 18 ? walletAsset.balance : walletAsset.balance + '0'.repeat(18 - walletAsset.decimals)
-  const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance)))
-  const { priceConvertedValue } = useCoinConversion(formattedBalance, asset?.chains[0], contractAddress)
+  const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance), 6))
+  const { priceConvertedValue } = useCoinConversion(formattedBalance, asset?.chains[0] ?? walletAsset.chainId, contractAddress ?? walletAsset.contractAddress)
   const imageSrc = (asset?.symbolImage ?? walletAsset?.thumbnail) ?? defaultErc20Icon
 
   return (
