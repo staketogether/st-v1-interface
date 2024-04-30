@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 export const Intercom = () => {
   const { i18n } = useTranslation(['common'])
 
-  const language = i18n.language === 'pt' ? 'pt' : 'en'
+  const language = i18n.language === 'pt' ? 'pt-BR' : 'en-EN'
 
   return (
     <Script id='intercom-widget' strategy='afterInteractive'>{`
