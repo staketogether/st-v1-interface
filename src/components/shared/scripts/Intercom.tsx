@@ -10,7 +10,7 @@ export const Intercom = () => {
       window.Intercom("boot", {
         api_base: "https://api-iam.intercom.io",
         app_id: "k6jidofs",
-        language_override: ${i18n.language === 'pt' ? 'pt' : 'en'}
+        language_override: ${i18n.language === 'pt' ? '"pt"' : '"en"'}
       });
     `}</Script>
   )
