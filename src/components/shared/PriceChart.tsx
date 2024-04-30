@@ -60,13 +60,13 @@ export default function PriceChart({ asset }: PriceChartProps) {
             <LottieAnimation animationData={loadingAnimation} height={48} loop />
           </LoadingChart>
         ) : (
-          <ResponsiveContainer width='100%' minWidth={350} height={287}>
+          <FormattedResponsiveContainer width='100%' minWidth={350} height={287}>
             <AreaChart
               data={data}
               margin={{
                 top: 24,
                 left: 24,
-                right: 24,
+                right: 34,
                 bottom: 24
               }}
               style={{ fontSize: 11 }}
@@ -85,7 +85,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
               <XAxis hide interval='equidistantPreserveStart' />
               <YAxis domain={['dataMin', 'auto']} orientation='right' tickFormatter={(value) => handleQuotePrice(Number(value))} dataKey='price' interval='equidistantPreserveStart' />
             </AreaChart>
-          </ResponsiveContainer>
+          </FormattedResponsiveContainer>
         )}
         <FilterChartData>
           {filterChartOptions.map((option, i) => (
@@ -99,14 +99,12 @@ export default function PriceChart({ asset }: PriceChartProps) {
   )
 }
 
-const { Container, LoadingChart, FilterChartData } = {
+const { Container, LoadingChart, FilterChartData, FormattedResponsiveContainer } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[12]};
     align-items: start;
-    background-color: ${({ theme }) => theme.colorV2.white};
-    border-radius: ${({ theme }) => theme.size[8]};
   `,
   LoadingChart: styled.div`
     width: 100%;
@@ -146,5 +144,9 @@ const { Container, LoadingChart, FilterChartData } = {
         color: ${({ theme }) => theme.colorV2.white};
       }
     }
+  `,
+  FormattedResponsiveContainer: styled(ResponsiveContainer)`
+    background-color: ${({ theme }) => theme.colorV2.white};
+    border-radius: ${({ theme }) => theme.size[8]};
   `
 }
