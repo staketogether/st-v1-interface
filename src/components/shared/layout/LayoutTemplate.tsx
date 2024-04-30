@@ -8,6 +8,7 @@ import { lightTheme } from '../../../styles/theme'
 import { Cloudflare } from '../scripts/Cloudflare'
 import { GoogleTag } from '../scripts/GoogleTag'
 import { Hotjar } from '../scripts/Hotjar'
+import { Intercom } from '../scripts/Intercom'
 import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
@@ -56,6 +57,7 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
           <GoogleTag />
           <Hotjar />
           <Cloudflare />
+          <Intercom />
         </>
       )}
       <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
