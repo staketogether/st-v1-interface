@@ -52,7 +52,9 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
     if (v.includes(',')) {
       v = v.replace(',', '.')
     }
+
     const regex = /^(\d+(\.\d*)?|\.\d+)$/
+
     if (!v || regex.test(v)) {
       if (v.length > 19 + v.split('.')[0].length) return
 
@@ -136,7 +138,7 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
             <Input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder="0" />
           )}
           {!quoteIsValidating && asset.type === 'fan-token' && (
-            <Input type="number" onChange={({ target }) => handleChange(target.value)} value={value} min={0}
+            <Input type="number" onChange={({ target }) => handleChange(parseInt(target.value.toString(), 10).toString())} value={value} min={0}
                    placeholder="0" step={1}  />
           )}
         </InputContainer>
