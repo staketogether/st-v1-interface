@@ -1,7 +1,7 @@
 import QuotationStepEthAmount from '@/components/ramp/QuotationStepEthAmount'
 import Button from '@/components/shared/Button'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
-import { BrlaBuyEthStep, fiatAmountVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, amountToQuoteVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useQuoteRamp from '@/hooks/ramp/useQuote'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
@@ -27,7 +27,7 @@ interface QuotationOffRampStepProps {
 }
 
 export default function QuotationOffRampStep({ product }: QuotationOffRampStepProps) {
-  const fiatAmount = useReactiveVar(fiatAmountVar)
+  const fiatAmount = useReactiveVar(amountToQuoteVar)
   const [value, setValue] = useState<number | string>(fiatAmount ?? 0)
   const debounceValue = useDebounce(value, 300)
   const { account } = useConnectedAccount()
@@ -65,7 +65,7 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
       if (v.length > 19 + v.split('.')[0].length) return
 
       setValue(v)
-      fiatAmountVar(v)
+      amountToQuoteVar(v)
     }
   }
 

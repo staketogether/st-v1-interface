@@ -4,7 +4,7 @@ import { StaticImageData } from 'next/image'
 export enum AssetCategory {
   Crypto = 'crypto',
   Stable = 'stable',
-  Fan = 'fan',
+  FanToken = 'fan-token',
   Meme = 'meme',
   Lego = 'lego'
 }
@@ -89,4 +89,37 @@ export interface Erc20Asset {
   }[]
 }
 
-export type Asset = NativeAsset | Erc20Asset
+export interface FanTokenAsset {
+  id: AssetId
+  order: number
+  symbol: string
+  symbolImage: string | StaticImageData
+  url: string
+  category: AssetCategory
+  chains: Chain[]
+  listed: boolean
+  enabled: boolean
+  isTestnet: boolean
+  type: 'fan-token'
+  new: boolean
+  localeDescription: string
+  linkedAssets?: Record<Chain, Asset>
+  contractAddress: `0x${string}`
+  points: {
+    stPoints: boolean
+    elPoints: boolean
+  }
+  // Todo: Use ID on Backend instead of object
+  ramp: {
+    chainId: number
+    minDeposit: number
+    bridge?: {
+      fromChainId: number
+      fromToken: string
+      toChainId: number
+      toToken: string
+    }
+  }[]
+}
+
+export type Asset = NativeAsset | Erc20Asset | FanTokenAsset

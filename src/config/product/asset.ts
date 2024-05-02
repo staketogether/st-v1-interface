@@ -1,4 +1,4 @@
-import { Asset, AssetCategory } from '@/types/Asset'
+import { Asset, AssetCategory, Erc20Asset, FanTokenAsset, NativeAsset } from '@/types/Asset'
 import arbIcon from '@assets/assets/arbitrum.svg'
 import btcIcon from '@assets/assets/bitcoin.svg'
 import chzIcon from '@assets/assets/chiliz.svg'
@@ -10,7 +10,7 @@ import strEthIcon from '@assets/assets/str-eth.svg'
 import mengoChzIcon from '@assets/assets/mengo.png'
 import { Chain } from '../chain'
 
-export const ethMainnet: Asset = {
+export const ethMainnet: NativeAsset = {
   id: 'eth-mainnet',
   order: 0,
   symbol: 'ETH',
@@ -38,7 +38,7 @@ export const ethMainnet: Asset = {
   ]
 }
 
-export const ethOp: Asset = {
+export const ethOp: NativeAsset = {
   id: 'eth-op',
   order: 2,
   symbol: 'ETH',
@@ -72,7 +72,7 @@ export const ethOp: Asset = {
   ]
 }
 
-export const btcOp: Asset = {
+export const btcOp: Erc20Asset = {
   id: 'btc-op',
   order: 1,
   symbol: 'wBTC',
@@ -105,7 +105,7 @@ export const btcOp: Asset = {
   ]
 }
 
-export const chilizChz: Asset = {
+export const chilizChz: NativeAsset = {
   id: 'chz-chiliz',
   order: 6,
   symbol: 'CHZ',
@@ -133,7 +133,7 @@ export const chilizChz: Asset = {
   ]
 }
 
-export const opOptimism: Asset = {
+export const opOptimism: Erc20Asset = {
   id: 'op-op',
   order: 3,
   symbol: 'OP',
@@ -166,7 +166,7 @@ export const opOptimism: Asset = {
   ]
 }
 
-export const ethArbitrum: Asset = {
+export const ethArbitrum: NativeAsset = {
   id: 'arb-eth',
   order: 4,
   symbol: 'ETH',
@@ -200,7 +200,7 @@ export const ethArbitrum: Asset = {
   ]
 }
 
-export const arbArbitrum: Asset = {
+export const arbArbitrum: Erc20Asset = {
   id: 'arb-arb',
   order: 4,
   symbol: 'ARB',
@@ -233,7 +233,7 @@ export const arbArbitrum: Asset = {
   ]
 }
 
-export const maticPolygon: Asset = {
+export const maticPolygon: NativeAsset = {
   id: 'matic-matic',
   order: 5,
   symbol: 'MATIC',
@@ -261,7 +261,7 @@ export const maticPolygon: Asset = {
   ]
 }
 
-const stpEth: Asset = {
+const stpEth: Erc20Asset = {
   id: 'stp-eth',
   order: 1,
   symbol: 'ETH',
@@ -288,7 +288,7 @@ const stpEth: Asset = {
   ]
 }
 
-const stpReth: Asset = {
+const stpReth: Erc20Asset = {
   id: 'stp-reth',
   order: 2,
   symbol: 'strETH',
@@ -315,16 +315,16 @@ const stpReth: Asset = {
   ]
 }
 
-export const mengoChz: Asset = {
+export const mengoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
   enabled: true,
-  listed: false,
+  listed: true,
   new: true,
   points: { elPoints: false, stPoints: true },
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 10
+      minDeposit: 10,
     }
   ],
   id: 'mengo-chz',
@@ -333,9 +333,9 @@ export const mengoChz: Asset = {
   symbolImage: mengoChzIcon,
   isTestnet: false,
   contractAddress: '0xD1723Eb9e7C6eE7c7e2d421B2758dc0f2166eDDc',
-  type: 'erc20',
+  type: 'fan-token',
   url: '/currency/chiliz/product/assets/mengo-chz',
-  category: AssetCategory.Crypto,
+  category: AssetCategory.FanToken,
   localeDescription: 'mengo-chz'
 }
 

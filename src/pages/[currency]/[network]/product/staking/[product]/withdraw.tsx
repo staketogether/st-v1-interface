@@ -3,7 +3,7 @@ import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { fiatAmountVar, openBrlaModalVar } from '@/hooks/ramp/useControlModal'
+import { amountToQuoteVar, openBrlaModalVar } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
 import axios from 'axios'
@@ -33,7 +33,7 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
 
   useEffect(() => {
     if (router.query?.buy && router.query.payment === 'pix' && router.query.provider == 'brla') {
-      fiatAmountVar(router.query?.amount?.toString() ?? minAmount)
+      amountToQuoteVar(router.query?.amount?.toString() ?? minAmount)
       openBrlaModalVar(true)
     } else if (router.query.payment === 'credit') {
       buyCrypto()
