@@ -327,7 +327,7 @@ export const mengoChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 10,
+      minDeposit: 1,
     }
   ],
   id: 'mengo-chz',
@@ -351,7 +351,7 @@ export const galoChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 10,
+      minDeposit: 1,
     }
   ],
   id: 'galo-chz',
@@ -375,7 +375,7 @@ export const fluChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 10,
+      minDeposit: 1,
     }
   ],
   id: 'flu-chz',
@@ -399,7 +399,7 @@ export const vascoChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 10,
+      minDeposit: 1,
     }
   ],
   id: 'vasco-chz',
@@ -423,7 +423,7 @@ export const verdaoChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 10,
+      minDeposit: 1,
     }
   ],
   id: 'verdao-chz',
@@ -447,7 +447,7 @@ export const saciChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 10,
+      minDeposit: 1,
     }
   ],
   id: 'saci-chz',
@@ -471,7 +471,7 @@ export const spfcChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 10,
+      minDeposit: 1,
     }
   ],
   id: 'spfc-chz',
@@ -495,7 +495,7 @@ export const bahiaChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 10,
+      minDeposit: 1,
     }
   ],
   id: 'bahia-chz',
