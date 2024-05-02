@@ -23,7 +23,7 @@ export default function AnalyticsControl() {
   const staking = getStakingById('eth-staking')
   const { StakeTogether, Router, Withdrawals } = staking.contracts
 
-  const contractAddress = staking.asset.type === 'erc20' ? staking.asset.contractAddress : staking.asset.wrapperContractAddress
+  const contractAddress = staking.asset.type === 'native' ? staking.asset.wrapperContractAddress : staking.asset.contractAddress
 
   const { priceConvertedValue } = useCoinConversion('1', staking.asset.chains[0], contractAddress)
   const ethPrice = priceConvertedValue
