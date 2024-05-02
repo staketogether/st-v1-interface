@@ -47,9 +47,10 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
         chainId: product.ramp[0].chainId,
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
-        amount: Number(quote.amountBrl),
+        amount: product.type === 'fan-token' ? Number(quote.amountToken) : Number(quote.amountBrl),
         accountAddress: address,
         receiverAddress: address,
+        tokenToReceive: product.symbol,
         convertToChainId: product.ramp[0].bridge?.toChainId,
         convertToToken: product.ramp[0].bridge?.toToken
       })
