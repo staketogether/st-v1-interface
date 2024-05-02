@@ -8,10 +8,13 @@ import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from './LottieAnimation'
 import { useState } from 'react'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import useBreakpoint from 'antd/es/grid/hooks/useBreakpoint'
+import { Grid } from 'antd'
+
 interface PriceChartProps {
   asset: Asset
 }
+
+const { useBreakpoint } = Grid
 
 type PriceChartFilter = '1W' | '1M' | '3M' | '1Y'
 
