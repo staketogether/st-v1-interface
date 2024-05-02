@@ -170,7 +170,7 @@ export const opOptimism: Erc20Asset = {
 }
 
 export const ethArbitrum: NativeAsset = {
-  id: 'arb-eth',
+  id: 'eth-arb',
   order: 4,
   symbol: 'ETH',
   symbolImage: ethIcon,
@@ -292,7 +292,7 @@ const stpEth: Erc20Asset = {
 }
 
 const stpReth: Erc20Asset = {
-  id: 'stp-reth',
+  id: 'str-eth',
   order: 2,
   symbol: 'strETH',
   contractAddress: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
@@ -523,7 +523,12 @@ export const assetsList: Asset[] = [
   stpReth,
   mengoChz,
   galoChz,
-  fluChz
+  fluChz,
+  vascoChz,
+  verdaoChz,
+  saciChz,
+  spfcChz,
+  bahiaChz
 ]
 
 export function getAssetsByCategory(category: AssetCategory): Asset[] {

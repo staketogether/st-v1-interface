@@ -1,7 +1,7 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import AssetControl from '@/components/asset/AssetControl'
-import { getAssetsByCategory } from '@/config/product/asset'
+import { assetsList, getAssetsByCategory } from '@/config/product/asset'
 import { Asset, AssetCategory } from '@/types/Asset'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -25,7 +25,6 @@ export const getStaticPaths: GetStaticPaths = () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const assetsList = getAssetsByCategory(AssetCategory.Crypto)
 
   if (!assetsList?.length) {
     return {
