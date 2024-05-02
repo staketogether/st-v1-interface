@@ -42,7 +42,7 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
     'brl',
     debounceValue ? Number(debounceValue) : 0,
     product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
-    1,
+    true,
     ProviderType.brla,
     PaymentMethodType.pix,
     `${product.ramp[0].bridge?.toChainId}`,
