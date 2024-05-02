@@ -8,6 +8,7 @@ import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from './LottieAnimation'
 import { useState } from 'react'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import useBreakpoint from 'antd/es/grid/hooks/useBreakpoint'
 interface PriceChartProps {
   asset: Asset
 }
@@ -18,6 +19,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
   const [activeFilter, setActiveFilter] = useState<PriceChartFilter>('1M')
 
   const { t } = useLocaleTranslation()
+  const { md } = useBreakpoint()
 
   const filterChartOptions: PriceChartFilter[] = ['1W', '1M', '3M', '1Y']
 
@@ -73,7 +75,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
               margin={{
                 top: 24,
                 left: 24,
-                right: 34,
+                right: md ? 34 : 6,
                 bottom: 24
               }}
               style={{ fontSize: 11 }}

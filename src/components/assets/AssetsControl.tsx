@@ -94,7 +94,7 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
     min-width: 100%;
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
+    gap: ${({ theme }) => theme.size[8]};
     > div {
       width: 100%;
       display: flex;
@@ -112,7 +112,7 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
     > header {
       display: flex;
       flex-direction: column;
-      gap: ${({ theme }) => theme.size[8]};
+      gap: ${({ theme }) => theme.size[12]};
     }
   `,
   HeaderProductMobile: styled.div`
@@ -120,7 +120,7 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
 
     div {
       display: flex;
