@@ -36,7 +36,7 @@ export default function QuotationStepEthAmount({ product }: QuotationStepEthAmou
     PaymentMethodType.pix,
     product.ramp[0].bridge?.toChainId.toString(),
     product.ramp[0].bridge?.toToken ?? product.symbol,
-    false
+    true
   )
 
   useMemo(() => {
