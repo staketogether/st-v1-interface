@@ -8,6 +8,9 @@ import maticIcon from '@assets/assets/polygon.svg'
 import stpEthIcon from '@assets/assets/stp-eth.svg'
 import strEthIcon from '@assets/assets/str-eth.svg'
 import mengoChzIcon from '@assets/assets/mengo.png'
+import galoIcon from '@assets/assets/galo.png'
+import fluIcon from '@assets/assets/flu.png'
+import defaultIcon from '@assets/assets/default-erc-20.svg'
 import { Chain } from '../chain'
 
 export const ethMainnet: NativeAsset = {
@@ -339,6 +342,174 @@ export const mengoChz: FanTokenAsset = {
   localeDescription: 'mengo-chz'
 }
 
+export const galoChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 10,
+    }
+  ],
+  id: 'galo-chz',
+  order: 7,
+  symbol: 'GALO',
+  symbolImage: galoIcon,
+  isTestnet: false,
+  contractAddress: '0xe5274Eb169E0e3A60B9dC343F02BA940958e8683',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/galo-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'galo-chz'
+}
+
+export const fluChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 10,
+    }
+  ],
+  id: 'flu-chz',
+  order: 8,
+  symbol: 'FLU',
+  symbolImage: fluIcon,
+  isTestnet: false,
+  contractAddress: '0x86930777d43605C40bA786F7802778ff5413eFaB',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/flu-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'flu-chz'
+}
+
+export const vascoChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 10,
+    }
+  ],
+  id: 'vasco-chz',
+  order: 9,
+  symbol: 'VASCO',
+  symbolImage: defaultIcon,
+  isTestnet: false,
+  contractAddress: '0x6d72034D7508D16988bf84638D51592A8c02887b',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/vasco-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'vasco-chz'
+}
+
+export const verdaoChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 10,
+    }
+  ],
+  id: 'verdao-chz',
+  order: 10,
+  symbol: 'VERDAO',
+  symbolImage: defaultIcon,
+  isTestnet: false,
+  contractAddress: '0x971364Ec452958d4D65Ba8D508FAa226d7117279',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/verdao-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'verdao-chz'
+}
+
+export const saciChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 10,
+    }
+  ],
+  id: 'saci-chz',
+  order: 11,
+  symbol: 'SACI',
+  symbolImage: defaultIcon,
+  isTestnet: false,
+  contractAddress: '0x3175e779b42D35e2C9EeafadCf5B6E6ec6E4f910',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/saci-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'saci-chz'
+}
+
+export const spfcChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 10,
+    }
+  ],
+  id: 'spfc-chz',
+  order: 12,
+  symbol: 'SPFC',
+  symbolImage: defaultIcon,
+  isTestnet: false,
+  contractAddress: '0x540165b9dFdDE31658F9BA0Ca5504EdA448BFfd0',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/spfc-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'spfc-chz'
+}
+
+export const bahiaChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 10,
+    }
+  ],
+  id: 'bahia-chz',
+  order: 13,
+  symbol: 'BAHIA',
+  symbolImage: defaultIcon,
+  isTestnet: false,
+  contractAddress: '0xE92e152fC0ff1368739670a5175175154Ceeef42',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/bahia-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'bahia-chz'
+}
+
 export const assetsList: Asset[] = [
   ethMainnet,
   ethOp,
@@ -350,7 +521,9 @@ export const assetsList: Asset[] = [
   ethArbitrum,
   stpEth,
   stpReth,
-  mengoChz
+  mengoChz,
+  galoChz,
+  fluChz
 ]
 
 export function getAssetsByCategory(category: AssetCategory): Asset[] {

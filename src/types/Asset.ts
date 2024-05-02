@@ -21,6 +21,13 @@ export type AssetId =
   | 'stp-eth'
   | 'stp-reth'
   | 'mengo-chz'
+  | 'galo-chz'
+  | 'flu-chz'
+  | 'vasco-chz'
+  | 'verdao-chz'
+  | 'saci-chz'
+  | 'spfc-chz'
+  | 'bahia-chz'
 
 export interface NativeAsset {
   id: AssetId
