@@ -666,6 +666,13 @@
       "eth-op": "Ethereum",
       "chz-chiliz": "Chiliz",
       "mengo-chz": "Flamengo",
+      "galo-chz": "Clube Atlético Mineiro",
+      "vasco-chz": "Vasco da Gama",
+      "verdao-chz": "Palmeiras",
+      "spfc-chz": "São Paulo",
+      "saci-chz": "Internacional",
+      "flu-chz": "Fluminense",
+      "bahia-chz": "Bahia",
       "op-op": "Optimism",
       "arb-arb": "Arbitrum",
       "matic-matic": "Polygon"
@@ -752,6 +759,13 @@
       "chz": "Chiliz, the creator of Fan Tokens, has launched its own Layer 1 EVM compatible blockchain. Chiliz Chain will become the leading infrastructure for sports, attracting teams, fans, and developers, to build web3 products and experiences that bring fans and brands together",
       "matic": "Polygon (formerly known as Matic Network) is the first well-structured and user-friendly platform for scaling and developing Ethereum infrastructure. Its main component is the Polygon SDK, a modular and flexible framework that supports building various types of applications.",
       "mengo-chz": "Flamengo",
+      "galo-chz": "Clube Atlético Mineiro",
+      "vasco-chz": "Vasco da Gama",
+      "verdao-chz": "Palmeiras",
+      "spfc-chz": "São Paulo",
+      "saci-chz": "Internacional",
+      "bahia-chz": "Bahia",
+      "flu-chz": "Fluminense",
       "arb": "Arbitrum (ARB) is one of the most anticipated governance tokens in the crypto community. It is part of the main scalability project for the Ethereum network.",
       "op": "Optimism (OP) is a scalability solution specifically designed for the Ethereum network. It operates as a secondary scalability layer, more commonly known as layer 2, which aims to improve the efficiency and performance of the Ethereum network without compromising its security and decentralization.",
       "actions": {
@@ -780,7 +794,7 @@
         "title": "Stablecoins",
         "description": "Invest in the Most Liquid Stablecoins"
       },
-      "fan": {
+      "fan-token": {
         "title": "Fan Tokens",
         "description": "Invest in Your Favorite Team"
       },
@@ -804,6 +818,9 @@
       "eth-op": {
         "name": "Ethereum"
       },
+      "eth-arb": {
+        "name": "Ethereum"
+      },
       "btc-op": {
         "name": "Bitcoin"
       },
@@ -818,6 +835,27 @@
       },
       "mengo-chz": {
         "name": "Flamengo"
+      },
+      "galo-chz": {
+        "name": "Clube Atlético Mineiro"
+      },
+      "vasco-chz": {
+        "name": "Vasco da Gama"
+      },
+      "flu-chz": {
+        "name": "Fluminense"
+      },
+      "verdao-chz": {
+        "name": "Palmeiras"
+      },
+      "saci-chz": {
+        "name": "Internacional"
+      },
+      "spfc-chz": {
+        "name": "São Paulo"
+      },
+      "bahia-chz": {
+        "name": "Bahia"
       },
       "op-op": {
         "name": "Optimism"

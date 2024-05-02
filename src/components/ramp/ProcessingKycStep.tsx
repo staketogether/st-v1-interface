@@ -47,27 +47,20 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
         chainId: product.ramp[0].chainId,
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
-        amount: Number(quote.amountBrl),
+        amount: product.type === 'fan-token' ? Number(quote.amountToken) : Number(quote.amountBrl),
         accountAddress: address,
         receiverAddress: address,
+        tokenToReceive: product.symbol,
         convertToChainId: product.ramp[0].bridge?.toChainId,
-        convertToToken: product.ramp[0].bridge?.toToken
+        convertToToken: product.ramp[0].bridge?.toToken,
+        fixOutput: product.type === 'fan-token'
       })
       return
     }
     if (!kycLevelInfo?.level && !kycActivity && !isLoading) {
       setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc), timeToRedirect)
     }
-  }, [
-    activity?.status,
-    address,
-    kyc?.level,
-    quote,
-    kycLevelInfo,
-    kycActivity,
-    isLoading,
-    product.ramp,
-  ])
+  }, [activity?.status, address, kyc?.level, quote, kycLevelInfo, kycActivity, isLoading, product.ramp, product.type, product.symbol])
 
   useEffect(() => {
     if (activity?.status === 'error' && isError) {

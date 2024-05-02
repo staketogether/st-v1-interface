@@ -3,7 +3,7 @@ import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import { amountToQuoteVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
 import axios from 'axios'
@@ -33,7 +33,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
 
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
-      fiatAmountVar(router.query?.amount?.toString() ?? minAmount.toString())
+      amountToQuoteVar(router.query?.amount?.toString() ?? minAmount.toString())
       openQuoteEthModal(product.asset)
     } else if (router.query.payment === 'credit') {
       buyCrypto()
@@ -97,7 +97,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
 
-  const contractAddress = productSelected.asset.type === 'erc20' ? productSelected.asset.contractAddress : productSelected.asset.wrapperContractAddress
+  const contractAddress = productSelected.asset.type === 'native' ? productSelected.asset.wrapperContractAddress : productSelected.asset.contractAddress
 
   const assetData = await fetchProductAssetData(
     `asset-stats/${chainId}/${contractAddress}`,

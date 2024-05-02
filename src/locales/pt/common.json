@@ -688,6 +688,13 @@
       "eth-op": "Ethereum",
       "chz-chiliz": "Chiliz",
       "mengo-chz": "Flamengo",
+      "galo-chz": "Clube Atlético Mineiro",
+      "flu-chz": "Fluminense",
+      "vasco-chz": "Vasco da Gama",
+      "verdao-chz": "Palmeiras",
+      "spfc-chz": "São Paulo",
+      "saci-chz": "Internacional",
+      "bahia-chz": "Bahia",
       "op-op": "Optimism",
       "arb-arb": "Arbitrum",
       "matic-matic": "Polygon"
@@ -775,6 +782,13 @@
       "chz": "A Chiliz, criadora dos Fan Tokens, lançou sua própria blockchain Layer 1 compatível com EVM. A Chiliz Chain se tornará a principal infraestrutura para esportes, atraindo equipes, fãs e desenvolvedores, para construir produtos e experiências web3 que unem fãs e marcas.",
       "matic": "Polygon (anteriormente conhecida como Matik Network) é a primeira plataforma bem estruturada e fácil de usar para a escala e desenvolvimento de infraestrutura da Ethereum. Seu componente principal é o SDK Polygon, uma estrutura modular e flexível que suporta a construção de vários tipos de aplicações.",
       "mengo-chz": "Flamengo",
+      "galo-chz": "Clube Atlético Mineiro",
+      "vasco-chz": "Vasco da Gama",
+      "verdao-chz": "Palmeiras",
+      "flu-chz": "Fluminense",
+      "spfc-chz": "São Paulo",
+      "saci-chz": "Internacional",
+      "bahia-chz": "Bahia",
       "arb": "Arbitrum (ARB) é um dos tokens de governança mais aguardados pela comunidade cripto. Ele faz parte do principal projeto de escalabilidade da rede Ethereum.",
       "op": "O Optimism (OP) é uma solução de escalabilidade projetada especificamente para a rede Ethereum. Ele opera como uma camada de escalabilidade secundária, mais conhecida como layer 2 que visa melhorar a eficiência e o desempenho da rede Ethereum, sem comprometer sua segurança e descentralização.",
       "actions": {
@@ -803,7 +817,7 @@
         "title": "Stablecoins",
         "description": "Invista nas Moedas Estáveis de Maior Liquidez"
       },
-      "fan": {
+      "fan-token": {
         "title": "Fan Tokens",
         "description": "Invista no seu Time do Coração"
       },
@@ -827,13 +841,22 @@
       "eth-op": {
         "name": "Ethereum"
       },
+      "eth-arb": {
+        "name": "Ethereum"
+      },
       "btc-op": {
         "name": "Bitcoin"
       },
       "eth-staking": {
         "name": "Staking de Ethereum"
       },
+      "stp-eth": {
+        "name": "Staking de Ethereum"
+      },
       "eth-restaking": {
+        "name": "Restaking de Ethereum"
+      },
+      "str-eth": {
         "name": "Restaking de Ethereum"
       },
       "chz-chiliz": {
@@ -841,6 +864,27 @@
       },
       "mengo-chz": {
         "name": "Flamengo"
+      },
+      "galo-chz": {
+        "name": "Clube Atlético Mineiro"
+      },
+      "vasco-chz": {
+        "name": "Vasco da Gama"
+      },
+      "verdao-chz": {
+        "name": "Palmeiras"
+      },
+      "saci-chz": {
+        "name": "Internacional"
+      },
+      "spfc-chz": {
+        "name": "São Paulo"
+      },
+      "flu-chz": {
+        "name": "Fluminense"
+      },
+      "bahia-chz": {
+        "name": "Bahia"
       },
       "op-op": {
         "name": "Optimism"
