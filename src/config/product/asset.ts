@@ -10,7 +10,11 @@ import strEthIcon from '@assets/assets/str-eth.svg'
 import mengoChzIcon from '@assets/assets/mengo.png'
 import galoIcon from '@assets/assets/galo.png'
 import fluIcon from '@assets/assets/flu.png'
-import defaultIcon from '@assets/assets/default-erc-20.svg'
+import verdaoIcon from '@assets/assets/saci.png'
+import vascoIcon from '@assets/assets/vasco.png'
+import saciIcon from '@assets/assets/saci.png'
+import spfcIcon from '@assets/assets/spfc.png'
+import bahiaIcon from '@assets/assets/bahia.png'
 import { Chain } from '../chain'
 
 export const ethMainnet: NativeAsset = {
@@ -123,7 +127,7 @@ export const chilizChz: NativeAsset = {
   chains: [Chain.CHZ_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -150,7 +154,7 @@ export const opOptimism: Erc20Asset = {
   chains: [Chain.OP_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -184,7 +188,7 @@ export const ethArbitrum: NativeAsset = {
   chains: [Chain.ARB_MAINNET],
   listed: false,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -217,7 +221,7 @@ export const arbArbitrum: Erc20Asset = {
   chains: [Chain.ARB_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -251,7 +255,7 @@ export const maticPolygon: NativeAsset = {
   chains: [Chain.POL_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -405,7 +409,7 @@ export const vascoChz: FanTokenAsset = {
   id: 'vasco-chz',
   order: 9,
   symbol: 'VASCO',
-  symbolImage: defaultIcon,
+  symbolImage: vascoIcon,
   isTestnet: false,
   contractAddress: '0x6d72034D7508D16988bf84638D51592A8c02887b',
   type: 'fan-token',
@@ -429,7 +433,7 @@ export const verdaoChz: FanTokenAsset = {
   id: 'verdao-chz',
   order: 10,
   symbol: 'VERDAO',
-  symbolImage: defaultIcon,
+  symbolImage: verdaoIcon,
   isTestnet: false,
   contractAddress: '0x971364Ec452958d4D65Ba8D508FAa226d7117279',
   type: 'fan-token',
@@ -453,7 +457,7 @@ export const saciChz: FanTokenAsset = {
   id: 'saci-chz',
   order: 11,
   symbol: 'SACI',
-  symbolImage: defaultIcon,
+  symbolImage: saciIcon,
   isTestnet: false,
   contractAddress: '0x3175e779b42D35e2C9EeafadCf5B6E6ec6E4f910',
   type: 'fan-token',
@@ -477,7 +481,7 @@ export const spfcChz: FanTokenAsset = {
   id: 'spfc-chz',
   order: 12,
   symbol: 'SPFC',
-  symbolImage: defaultIcon,
+  symbolImage: spfcIcon,
   isTestnet: false,
   contractAddress: '0x540165b9dFdDE31658F9BA0Ca5504EdA448BFfd0',
   type: 'fan-token',
@@ -501,7 +505,7 @@ export const bahiaChz: FanTokenAsset = {
   id: 'bahia-chz',
   order: 13,
   symbol: 'BAHIA',
-  symbolImage: defaultIcon,
+  symbolImage: bahiaIcon,
   isTestnet: false,
   contractAddress: '0xE92e152fC0ff1368739670a5175175154Ceeef42',
   type: 'fan-token',
