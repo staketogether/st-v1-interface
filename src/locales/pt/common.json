@@ -688,7 +688,7 @@
       "eth-op": "Ethereum",
       "chz-chiliz": "Chiliz",
       "mengo-chz": "Flamengo",
-      "galo-chz": "Clube Atlético Mineiro",
+      "galo-chz": "Atlético Mineiro",
       "flu-chz": "Fluminense",
       "vasco-chz": "Vasco da Gama",
       "verdao-chz": "Palmeiras",
@@ -782,7 +782,7 @@
       "chz": "A Chiliz, criadora dos Fan Tokens, lançou sua própria blockchain Layer 1 compatível com EVM. A Chiliz Chain se tornará a principal infraestrutura para esportes, atraindo equipes, fãs e desenvolvedores, para construir produtos e experiências web3 que unem fãs e marcas.",
       "matic": "Polygon (anteriormente conhecida como Matik Network) é a primeira plataforma bem estruturada e fácil de usar para a escala e desenvolvimento de infraestrutura da Ethereum. Seu componente principal é o SDK Polygon, uma estrutura modular e flexível que suporta a construção de vários tipos de aplicações.",
       "mengo-chz": "Flamengo",
-      "galo-chz": "Clube Atlético Mineiro",
+      "galo-chz": "Atlético Mineiro",
       "vasco-chz": "Vasco da Gama",
       "verdao-chz": "Palmeiras",
       "flu-chz": "Fluminense",
@@ -866,7 +866,7 @@
         "name": "Flamengo"
       },
       "galo-chz": {
-        "name": "Clube Atlético Mineiro"
+        "name": "Atlético Mineiro"
       },
       "vasco-chz": {
         "name": "Vasco da Gama"
