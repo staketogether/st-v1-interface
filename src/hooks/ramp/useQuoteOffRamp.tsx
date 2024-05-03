@@ -12,7 +12,7 @@ interface useQuoteOffRampProps {
 }
 
 export default function useQuoteOffRamp({ amount, chainId, provider, paymentMethod, includeMarkup, tokenSymbol }: useQuoteOffRampProps) {
-  const uri = `api/ramp/quote/sell/${provider}?chainId=${chainId}&paymentMethod=${paymentMethod}&amount=${amount}&tokenSymbol=${tokenSymbol}${includeMarkup ?? '&includeMarkup=true'}`
+  const uri = `api/ramp/quote/sell/${provider}?chainId=${chainId}&paymentMethod=${paymentMethod}&amount=${amount}&tokenSymbol=${tokenSymbol}${includeMarkup && '&includeMarkup=true'}`
 
   const { data, error, isLoading, isValidating, mutate } = useSWR<Quote>(chainId && amount && provider && paymentMethod ? uri : null)
   console.log('data', data)
