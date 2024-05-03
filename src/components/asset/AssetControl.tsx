@@ -63,8 +63,6 @@ const { Container, Products, Title } = {
       h1 {
         font-size: 48px;
       }
-
-      max-width: 270px;
     }
   `,
   Products: styled.div`

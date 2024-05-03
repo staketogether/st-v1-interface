@@ -22,8 +22,8 @@ import ConnectWallet from '../shared/ConnectWallet'
 
 export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell' | 'swap'; asset: Asset }) {
   const { t } = useLocaleTranslation()
-  const { address } = useAccount()
-  const { refetch } = useEthBalanceOf({ walletAddress: address, chainId: 1 })
+  const { address: walletAddress } = useAccount()
+  const { refetch } = useEthBalanceOf({ walletAddress: walletAddress, chainId: 1 })
 
   const steps = {
     MethodPayment: <PaymentMethod asset={asset} />,
@@ -33,11 +33,11 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={asset} type={type} />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} type={type} />,
-    Checkout: <CheckoutStep asset={asset} />,
+    Checkout: <CheckoutStep asset={asset} type={type} />,
     TimeOutCheckout: <TimeOutCheckout asset={asset} />,
     Success: <SuccessStep product={asset} />,
     PixKeyStep: <PixKeyStep />,
-    ProcessingCheckoutOffRampStep: <ProcessingCheckoutOffRampStep product={asset} type={type} />,
+    ProcessingCheckoutOffRampStep: <ProcessingCheckoutOffRampStep walletAddress={walletAddress} asset={asset} type={type} />,
     error: <GenericErrorComponent />
   }
 
@@ -50,22 +50,22 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
   const title = currentStep in titleList && titleList[currentStep]
 
   useEffect(() => {
-    if (address && currentStep === BrlaBuyEthStep.ConnectWallet) {
+    if (walletAddress && currentStep === BrlaBuyEthStep.ConnectWallet) {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
       return
     }
 
-    if (address && currentStep === BrlaBuyEthStep.Success) {
+    if (walletAddress && currentStep === BrlaBuyEthStep.Success) {
       refetch()
       return
     }
-  }, [address, currentStep, refetch])
+  }, [walletAddress, currentStep, refetch])
 
   useEffect(() => {
-    if (address) {
+    if (walletAddress) {
       changeWalletAddress()
     }
-  }, [address])
+  }, [walletAddress])
 
   return (
     <Container>

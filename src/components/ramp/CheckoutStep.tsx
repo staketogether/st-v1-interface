@@ -1,5 +1,4 @@
 import { BrlaBuyEthStep, clearModal, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
-import usePixBankInfo from '@/hooks/ramp/usePixBankInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -10,20 +9,18 @@ import { QRCode, notification } from 'antd'
 import { useEffect, useState } from 'react'
 import { PiCopy } from 'react-icons/pi'
 import styled from 'styled-components'
-import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
 import SwapInfo from './SwapInfo'
 
 interface CheckoutStepProps {
   asset: Asset
+  type: 'buy' | 'sell' | 'swap'
 }
 
-export default function CheckoutStep({ asset }: CheckoutStepProps) {
+export default function CheckoutStep({ asset, type }: CheckoutStepProps) {
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
   const quote = useReactiveVar(quoteVar)
-  const { address } = useAccount()
-  const { pixBankInfo } = usePixBankInfo(ProviderType.brla, qrCode?.id, address)
   const { activity } = useRampActivity(ProviderType.brla, qrCode?.id)
   const [time, setTime] = useState({ hours: 1, minutes: 0, seconds: 0 })
 
@@ -83,7 +80,7 @@ export default function CheckoutStep({ asset }: CheckoutStepProps) {
   return (
     <Container>
       <Body>
-        <SwapInfo asset={asset} />
+        <SwapInfo asset={asset} type={type} />
         <PixArea>
           <Header>
             <div>

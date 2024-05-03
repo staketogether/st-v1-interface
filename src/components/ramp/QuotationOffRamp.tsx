@@ -41,12 +41,8 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
     chainId: product.chains[0],
     token: product.contractAddress
   })
-  console.log('product', product)
-  const {
-    quote,
-    isValidating: quoteIsValidating,
-    isLoading
-  } = useQuoteOffRamp(
+
+  const { quote } = useQuoteOffRamp(
     amountDebounceValue,
     chainId,
     ProviderType.brla,
@@ -100,7 +96,6 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
   }
 
   useEffect(() => {
-    console.log('quote', quote)
     if (!quote) {
       return
     }

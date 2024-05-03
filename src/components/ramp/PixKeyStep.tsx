@@ -1,4 +1,4 @@
-import { BrlaBuyEthStep, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, offRampPixKeyVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form'
@@ -94,11 +94,8 @@ export default function PixKeyStep() {
   ]
 
   const onSubmit = (data: PixKey) => {
-    console.log(data)
-
-    if (data) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingCheckoutOffRampStep)
-    }
+    offRampPixKeyVar(data.key)
+    stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingCheckoutOffRampStep)
   }
 
   return (

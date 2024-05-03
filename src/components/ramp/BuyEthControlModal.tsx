@@ -1,5 +1,4 @@
 import Modal from '@/components/shared/Modal'
-import { globalConfig } from '@/config/global'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
@@ -11,10 +10,8 @@ import {
 } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'
-import axios from 'axios'
 import { useEffect } from 'react'
 import styled from 'styled-components'
-import { SWRConfig } from 'swr'
 import { useAccount } from 'wagmi'
 import ConnectWallet from '../shared/ConnectWallet'
 import CheckoutStep from './CheckoutStep'
@@ -44,8 +41,8 @@ export default function BuyEthControlModal({ chainId }: { chainId: number }) {
     QuotationOffRamp: <QuotationOffRampStep product={asset} />,
     Kyc: <KycStep asset={asset} />,
     ConnectWallet: <ConnectWallet useModal />,
-    ProcessingKyc: <ProcessingKycStep product={asset} />,
-    ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} />,
+    ProcessingKyc: <ProcessingKycStep product={asset} type={'buy'} />,
+    ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} type={'buy'} />,
     Checkout: <CheckoutStep asset={asset} />,
     TimeOutCheckout: <TimeOutCheckout asset={asset} />,
     Success: <SuccessStep product={asset} />,
@@ -59,7 +56,6 @@ export default function BuyEthControlModal({ chainId }: { chainId: number }) {
     MethodPayment: t('v2.ramp.provider')
   }
   const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', asset.symbol)
-  const { backendUrl } = globalConfig
 
   useEffect(() => {
     if (address && currentStep === BrlaBuyEthStep.ConnectWallet) {

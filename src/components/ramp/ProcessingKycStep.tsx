@@ -29,6 +29,7 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
   const kycActivity = useReactiveVar(kycIdVar)
   const kyc = useReactiveVar(kycLevelVar)
   const kycActivityId = Number(kyc?.level ?? 0) > 0 || !kycActivity ? undefined : kycActivity
+
   const { activity, isError } = useRampActivity(ProviderType.brla, kycActivityId ?? undefined)
   const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc?.level ? undefined : address, true)
 
@@ -38,7 +39,6 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
       process: <PiClockLight size={32} color={theme.color.secondary} />,
       success: <PiCheckCircleFill size={32} color={theme.color.green[500]} />
     }
-
     return icons[moment]
   }
 
