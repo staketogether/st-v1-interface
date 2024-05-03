@@ -666,6 +666,13 @@
       "eth-op": "Ethereum",
       "chz-chiliz": "Chiliz",
       "mengo-chz": "Flamengo",
+      "galo-chz": "Atlético Mineiro",
+      "vasco-chz": "Vasco da Gama",
+      "verdao-chz": "Palmeiras",
+      "spfc-chz": "São Paulo",
+      "saci-chz": "Internacional",
+      "flu-chz": "Fluminense",
+      "bahia-chz": "Bahia",
       "op-op": "Optimism",
       "arb-arb": "Arbitrum",
       "matic-matic": "Polygon"
@@ -759,7 +766,14 @@
       "eth": "Ethereum is a smart contract platform that empowers developers to build tokens and decentralized applications (DApps). ETH is the native currency of the Ethereum platform and also serves as a transaction fee for miners on the Ethereum network.",
       "chz": "Chiliz, the creator of Fan Tokens, has launched its own Layer 1 EVM compatible blockchain. Chiliz Chain will become the leading infrastructure for sports, attracting teams, fans, and developers, to build web3 products and experiences that bring fans and brands together",
       "matic": "Polygon (formerly known as Matic Network) is the first well-structured and user-friendly platform for scaling and developing Ethereum infrastructure. Its main component is the Polygon SDK, a modular and flexible framework that supports building various types of applications.",
-      "mengo-chz": "Flamengo",
+      "mengo-chz": "Stake on the future of your team buying Flamengo Fan Token",
+      "galo-chz": "Stake on the future of your team buying Atlético Mineiro Fan Token",
+      "vasco-chz": "Stake on the future of your team buying Vasco da Gama Fan Token",
+      "verdao-chz": "Stake on the future of your team buying Palmeiras Fan Token",
+      "spfc-chz": "Stake on the future of your team buying São Paulo Fan Token",
+      "saci-chz": "Stake on the future of your team buying Internacional Fan Token",
+      "bahia-chz": "Stake on the future of your team buying Bahia Fan Token",
+      "flu-chz": "Stake on the future of your team buying Fluminense Fan Token",
       "arb": "Arbitrum (ARB) is one of the most anticipated governance tokens in the crypto community. It is part of the main scalability project for the Ethereum network.",
       "op": "Optimism (OP) is a scalability solution specifically designed for the Ethereum network. It operates as a secondary scalability layer, more commonly known as layer 2, which aims to improve the efficiency and performance of the Ethereum network without compromising its security and decentralization.",
       "actions": {
@@ -788,7 +802,7 @@
         "title": "Stablecoins",
         "description": "Invest in the Most Liquid Stablecoins"
       },
-      "fan": {
+      "fan-token": {
         "title": "Fan Tokens",
         "description": "Invest in Your Favorite Team"
       },
@@ -797,11 +811,22 @@
         "description": "Invest in High-Risk, High-Reward Coins"
       }
     },
+    "chart": {
+      "filter": {
+        "oneWeek": "1W",
+        "oneMonth": "1M",
+        "threeMonths": "3M",
+        "oneYear": "1Y"
+      }
+    },
     "products": {
       "eth-mainnet": {
         "name": "Ethereum"
       },
       "eth-op": {
+        "name": "Ethereum"
+      },
+      "eth-arb": {
         "name": "Ethereum"
       },
       "btc-op": {
@@ -818,6 +843,27 @@
       },
       "mengo-chz": {
         "name": "Flamengo"
+      },
+      "galo-chz": {
+        "name": "Atlético Mineiro"
+      },
+      "vasco-chz": {
+        "name": "Vasco da Gama"
+      },
+      "flu-chz": {
+        "name": "Fluminense"
+      },
+      "verdao-chz": {
+        "name": "Palmeiras"
+      },
+      "saci-chz": {
+        "name": "Internacional"
+      },
+      "spfc-chz": {
+        "name": "São Paulo"
+      },
+      "bahia-chz": {
+        "name": "Bahia"
       },
       "op-op": {
         "name": "Optimism"

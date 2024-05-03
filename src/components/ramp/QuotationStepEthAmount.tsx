@@ -32,12 +32,12 @@ export default function QuotationStepEthAmount({ product }: QuotationStepEthAmou
     'brl',
     amount,
     product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
-    0,
+    product.type === 'fan-token',
     ProviderType.brla,
     PaymentMethodType.pix,
-    `${product.ramp[0].bridge?.toChainId}`,
-    product.ramp[0].bridge?.toToken,
-    false
+    product.ramp[0].bridge?.toChainId.toString(),
+    product.ramp[0].bridge?.toToken ?? product.symbol,
+    true
   )
 
   useMemo(() => {

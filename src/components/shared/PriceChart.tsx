@@ -8,22 +8,36 @@ import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from './LottieAnimation'
 import { useState } from 'react'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Grid } from 'antd'
+
 interface PriceChartProps {
   asset: Asset
 }
+
+const { useBreakpoint } = Grid
 
 type PriceChartFilter = '1W' | '1M' | '3M' | '1Y'
 
 export default function PriceChart({ asset }: PriceChartProps) {
   const [activeFilter, setActiveFilter] = useState<PriceChartFilter>('1M')
 
+  const { t } = useLocaleTranslation()
+  const { md } = useBreakpoint()
+
   const filterChartOptions: PriceChartFilter[] = ['1W', '1M', '3M', '1Y']
+
+  const filterChartLabels = {
+    '1W': t('v3.chart.filter.oneWeek'),
+    '1M': t('v3.chart.filter.oneMonth'),
+    '3M': t('v3.chart.filter.threeMonths'),
+    '1Y': t('v3.chart.filter.oneYear')
+  }
 
   const handleFilter = () => {
     const filters: Record<PriceChartFilter, { day: number; interval: '5m' | 'hourly' | 'daily' }> = {
       '1W': { day: 7, interval: 'daily' },
       '1M': { day: 30, interval: 'daily' },
-      '3M': { day: 90, interval: 'daily' },
+      '3M': { day: 90, interval: 'daily'},
       '1Y': { day: 365, interval: 'daily' }
     }
 
@@ -37,8 +51,6 @@ export default function PriceChart({ asset }: PriceChartProps) {
     days: handleFilter().day,
     interval: handleFilter().interval
   })
-
-  const { t } = useLocaleTranslation()
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
@@ -60,13 +72,13 @@ export default function PriceChart({ asset }: PriceChartProps) {
             <LottieAnimation animationData={loadingAnimation} height={48} loop />
           </LoadingChart>
         ) : (
-          <ResponsiveContainer width='100%' minWidth={350} height={287}>
+          <FormattedResponsiveContainer width='100%' minWidth={350} height={287}>
             <AreaChart
               data={data}
               margin={{
                 top: 24,
                 left: 24,
-                right: 24,
+                right: md ? 34 : 6,
                 bottom: 24
               }}
               style={{ fontSize: 11 }}
@@ -85,12 +97,12 @@ export default function PriceChart({ asset }: PriceChartProps) {
               <XAxis hide interval='equidistantPreserveStart' />
               <YAxis domain={['dataMin', 'auto']} orientation='right' tickFormatter={(value) => handleQuotePrice(Number(value))} dataKey='price' interval='equidistantPreserveStart' />
             </AreaChart>
-          </ResponsiveContainer>
+          </FormattedResponsiveContainer>
         )}
         <FilterChartData>
           {filterChartOptions.map((option, i) => (
             <div className={`${activeFilter === option && 'active'}`} key={`${i}-${option}`} onClick={() => setActiveFilter(option)}>
-              {option}
+              {filterChartLabels[option]}
             </div>
           ))}
         </FilterChartData>
@@ -99,14 +111,12 @@ export default function PriceChart({ asset }: PriceChartProps) {
   )
 }
 
-const { Container, LoadingChart, FilterChartData } = {
+const { Container, LoadingChart, FilterChartData, FormattedResponsiveContainer } = {
   Container: styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[12]};
     align-items: start;
-    background-color: ${({ theme }) => theme.colorV2.white};
-    border-radius: ${({ theme }) => theme.size[8]};
   `,
   LoadingChart: styled.div`
     width: 100%;
@@ -146,5 +156,10 @@ const { Container, LoadingChart, FilterChartData } = {
         color: ${({ theme }) => theme.colorV2.white};
       }
     }
+  `,
+  FormattedResponsiveContainer: styled(ResponsiveContainer)`
+    background-color: ${({ theme }) => theme.colorV2.white};
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
   `
 }

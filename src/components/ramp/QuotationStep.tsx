@@ -1,7 +1,7 @@
 import QuotationStepEthAmount from '@/components/ramp/QuotationStepEthAmount'
 import AssetIcon from '@/components/shared/AssetIcon'
 import Button from '@/components/shared/Button'
-import { BrlaBuyEthStep, fiatAmountVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, amountToQuoteVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useQuoteRamp from '@/hooks/ramp/useQuote'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
@@ -25,20 +25,20 @@ interface QuotationStepProps {
 }
 
 export default function QuotationStep({ asset }: QuotationStepProps) {
-  const fiatAmount = useReactiveVar(fiatAmountVar)
-  const [value, setValue] = useState<string>(fiatAmount ?? '0')
+  const amountToQuote = useReactiveVar(amountToQuoteVar)
+  const [value, setValue] = useState<string>(amountToQuote ?? '0')
   const debounceValue = useDebounce(value, 300)
-const minDeposit = asset.ramp[0].minDeposit
+  const minDeposit = asset.ramp[0].minDeposit
 
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
     debounceValue ? Number(debounceValue) : 0,
     asset.ramp[0].bridge?.fromChainId ?? asset.ramp[0].chainId,
-    0,
+    asset.type === 'fan-token',
     ProviderType.brla,
     PaymentMethodType.pix,
-    `${asset.ramp[0].bridge?.toChainId}`,
-    asset.ramp[0].bridge?.toToken,
+    asset.ramp[0].bridge?.toChainId.toString(),
+    asset.ramp[0].bridge?.toToken ?? asset.symbol ,
     true
   )
 
@@ -52,12 +52,14 @@ const minDeposit = asset.ramp[0].minDeposit
     if (v.includes(',')) {
       v = v.replace(',', '.')
     }
+
     const regex = /^(\d+(\.\d*)?|\.\d+)$/
+
     if (!v || regex.test(v)) {
       if (v.length > 19 + v.split('.')[0].length) return
 
       setValue(v)
-      fiatAmountVar(v)
+      amountToQuoteVar(v)
     }
   }
 
@@ -81,7 +83,10 @@ const minDeposit = asset.ramp[0].minDeposit
     }
 
     if (errorMinValue) {
-      return `${t('v2.stake.minAmount')} ${new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'brl' }).format(minDeposit)}`
+      return `${t('v2.stake.minAmount')} ${new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'brl'
+      }).format(minDeposit)}`
     }
 
     return t('next')
@@ -106,23 +111,35 @@ const minDeposit = asset.ramp[0].minDeposit
   return (
     <Container>
       <BoxValuesContainer>
-        <InputContainer className={`${error ? 'error' : ''}`}>
+        <InputContainer disabled={asset.type === 'fan-token'} className={`${error ? 'error' : ''}`}>
           <div>
-            <Image src={brlBrla} width={36} height={24} alt='BRL' />
+            <Image src={brlBrla} width={36} height={24} alt="BRL" />
             <span>BRL</span>
           </div>
-          <input type='number' onChange={({ target }) => handleChange(target.value)} value={value} min={0} placeholder='0' step={1} />
+          {!quoteIsValidating && asset.type === 'fan-token' && (
+            <Input value={truncateDecimal(quote?.amountBrl ?? '0')} disabled placeholder="0" />
+          )}
+          {!quoteIsValidating && asset.type !== 'fan-token' && (
+            <Input type="number" onChange={({ target }) => handleChange(target.value)} value={value} min={0}
+                   placeholder="0" step={1} />
+          )}
         </InputContainer>
         <ArrowDown />
-        <InputContainer>
+        <InputContainer disabled={asset.type !== 'fan-token'}>
           <div>
-            <AssetIcon marginRight='8px' image={asset.symbolImage} chain={asset.chains[0]} size={24} altName={asset.symbol} />
+            <AssetIcon marginRight="8px" image={asset.symbolImage} chain={asset.chains[0]} size={24}
+                       altName={asset.symbol} />
             <span>{asset.symbol}</span>
           </div>
-          {quoteIsValidating ? (
+          {quoteIsValidating && (
             <SkeletonLoading width={60} height={20} />
-          ) : (
-            <input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder='0' />
+          )}
+          {!quoteIsValidating && asset.type !== 'fan-token' && (
+            <Input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder="0" />
+          )}
+          {!quoteIsValidating && asset.type === 'fan-token' && (
+            <Input type="number" onChange={({ target }) => handleChange(parseInt(target.value.toString(), 10).toString())} value={value} min={0}
+                   placeholder="0" step={1}  />
           )}
         </InputContainer>
       </BoxValuesContainer>
@@ -134,82 +151,87 @@ const minDeposit = asset.ramp[0].minDeposit
         icon={!error && !errorMinValue && <PiArrowRight />}
       />
       <footer>
-        {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
+        {t('v2.ramp.quote.terms')} <a href="#">{t('v2.ramp.quote.policies')}.</a>
       </footer>
     </Container>
   )
 }
 
-const { Container, InputContainer, ArrowDown, BoxValuesContainer } = {
+const { Container, InputContainer, ArrowDown, BoxValuesContainer, Input } = {
   Container: styled.div`
-    width: auto;
-    color: ${({ theme }) => theme.colorV2.gray[1]};
-
-    > header {
-      font-size: ${({ theme }) => theme.font.size[13]};
-      font-weight: 400;
-    }
-
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.size[24]};
-
-    > footer {
-      font-size: 13px;
+      width: auto;
       color: ${({ theme }) => theme.colorV2.gray[1]};
-      opacity: 0.6;
-      text-align: center;
-    }
+
+      > header {
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-weight: 400;
+      }
+
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: ${({ theme }) => theme.size[24]};
+
+      > footer {
+          font-size: 13px;
+          color: ${({ theme }) => theme.colorV2.gray[1]};
+          opacity: 0.6;
+          text-align: center;
+      }
   `,
   BoxValuesContainer: styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
-    align-items: center;
-  `,
-  InputContainer: styled.div`
-    width: 100%;
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: ${({ theme }) => theme.size[16]};
-
-    border-radius: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.colorV2.gray[2]};
-    padding: ${({ theme }) => theme.size[8]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    font-weight: 500;
-
-    border: 1px solid transparent;
-
-    &.error {
-      border: 1px solid ${({ theme }) => theme.color.red[300]};
-    }
-
-    > div {
-      font-size: ${({ theme }) => theme.font.size[15]};
+      flex: 1;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[8]};
       align-items: center;
-    }
+  `,
+  InputContainer: styled.div<{ disabled?: boolean }>`
+      width: 100%;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: ${({ theme }) => theme.size[16]};
 
-    input {
+      border-radius: ${({ theme }) => theme.size[8]};
+      padding: ${({ theme }) => theme.size[8]};
+      border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+      background: ${({ theme }) => theme.colorV2.white};
+
+      ${({ disabled, theme }) => disabled && `
+        background: ${theme.colorV2.gray[2]};
+        box-shadow: ${theme.shadow[100]};
+        border: 1px solid transparent;
+      `}
+
+      font-weight: 500;
+
+      &.error {
+          border: 1px solid ${({ theme }) => theme.color.red[300]};
+      }
+
+      > div {
+          font-size: ${({ theme }) => theme.font.size[15]};
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+      }
+  `,
+  ArrowDown: styled(PiArrowDown)`
+      font-size: ${({ theme }) => theme.font.size[24]};
+  `,
+  Input: styled.input<{ disabled?: boolean }>`
       width: 50%;
-      border: 0;
+      border-radius: 8px;
       background: transparent;
+      border: 0;
       font-size: ${({ theme }) => theme.font.size[22]};
       font-weight: 500;
       color: ${({ theme }) => theme.colorV2.gray[1]};
       text-align: right;
+
       &:focus {
-        outline: none;
+          outline: none;
       }
-    }
-  `,
-  ArrowDown: styled(PiArrowDown)`
-    font-size: ${({ theme }) => theme.font.size[24]};
   `
 }

@@ -16,8 +16,10 @@ export interface BuyRampRequest {
   amount: number
   accountAddress: string
   receiverAddress: string
+  tokenToReceive?: string
   convertToChainId?: number
   convertToToken?: string
+  fixOutput?: boolean
 }
 
 export interface OffRampRequest {

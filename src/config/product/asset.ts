@@ -1,4 +1,4 @@
-import { Asset, AssetCategory } from '@/types/Asset'
+import { Asset, AssetCategory, Erc20Asset, FanTokenAsset, NativeAsset } from '@/types/Asset'
 import arbIcon from '@assets/assets/arbitrum.svg'
 import btcIcon from '@assets/assets/bitcoin.svg'
 import chzIcon from '@assets/assets/chiliz.svg'
@@ -9,9 +9,16 @@ import maticIcon from '@assets/assets/polygon.svg'
 import mengoChzIcon from '@assets/assets/mengo.png'
 import stpEthIcon from '@assets/assets/stp-eth.svg'
 import strEthIcon from '@assets/assets/str-eth.svg'
+import galoIcon from '@assets/assets/galo.png'
+import fluIcon from '@assets/assets/flu.png'
+import verdaoIcon from '@assets/assets/verdao.png'
+import vascoIcon from '@assets/assets/vasco.png'
+import saciIcon from '@assets/assets/saci.png'
+import spfcIcon from '@assets/assets/spfc.png'
+import bahiaIcon from '@assets/assets/bahia.png'
 import { Chain } from '../chain'
 
-export const ethMainnet: Asset = {
+export const ethMainnet: NativeAsset = {
   id: 'eth-mainnet',
   order: 0,
   decimals: 18,
@@ -40,7 +47,7 @@ export const ethMainnet: Asset = {
   ]
 }
 
-export const ethOp: Asset = {
+export const ethOp: NativeAsset = {
   id: 'eth-op',
   decimals: 18,
   order: 2,
@@ -75,7 +82,7 @@ export const ethOp: Asset = {
   ]
 }
 
-export const btcOp: Asset = {
+export const btcOp: Erc20Asset = {
   id: 'btc-op',
   order: 1,
   decimals: 8,
@@ -109,7 +116,7 @@ export const btcOp: Asset = {
   ]
 }
 
-export const chilizChz: Asset = {
+export const chilizChz: NativeAsset = {
   id: 'chz-chiliz',
   order: 6,
   symbol: 'CHZ',
@@ -125,7 +132,7 @@ export const chilizChz: Asset = {
   chains: [Chain.CHZ_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -138,7 +145,7 @@ export const chilizChz: Asset = {
   ]
 }
 
-export const opOptimism: Asset = {
+export const opOptimism: Erc20Asset = {
   id: 'op-op',
   order: 3,
   symbol: 'OP',
@@ -153,7 +160,7 @@ export const opOptimism: Asset = {
   chains: [Chain.OP_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -172,8 +179,8 @@ export const opOptimism: Asset = {
   ]
 }
 
-export const ethArbitrum: Asset = {
-  id: 'arb-eth',
+export const ethArbitrum: NativeAsset = {
+  id: 'eth-arb',
   order: 4,
   symbol: 'ETH',
   symbolImage: ethIcon,
@@ -188,7 +195,7 @@ export const ethArbitrum: Asset = {
   chains: [Chain.ARB_MAINNET],
   listed: false,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -207,7 +214,7 @@ export const ethArbitrum: Asset = {
   ]
 }
 
-export const arbArbitrum: Asset = {
+export const arbArbitrum: Erc20Asset = {
   id: 'arb-arb',
   order: 4,
   symbol: 'ARB',
@@ -222,7 +229,7 @@ export const arbArbitrum: Asset = {
   chains: [Chain.ARB_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -241,7 +248,7 @@ export const arbArbitrum: Asset = {
   ]
 }
 
-export const maticPolygon: Asset = {
+export const maticPolygon: NativeAsset = {
   id: 'matic-matic',
   order: 5,
   symbol: 'MATIC',
@@ -257,7 +264,7 @@ export const maticPolygon: Asset = {
   chains: [Chain.POL_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -270,7 +277,7 @@ export const maticPolygon: Asset = {
   ]
 }
 
-const stpEth: Asset = {
+const stpEth: Erc20Asset = {
   id: 'stp-eth',
   order: 1,
   symbol: 'ETH',
@@ -297,8 +304,8 @@ const stpEth: Asset = {
   ]
 }
 
-const stpReth: Asset = {
-  id: 'stp-reth',
+const stpReth: Erc20Asset = {
+  id: 'str-eth',
   order: 2,
   symbol: 'strETH',
   contractAddress: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
@@ -324,16 +331,16 @@ const stpReth: Asset = {
   ]
 }
 
-export const mengoChz: Asset = {
+export const mengoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
   enabled: true,
-  listed: false,
+  listed: true,
   new: true,
   points: { elPoints: false, stPoints: true },
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 10
+      minDeposit: 1
     }
   ],
   id: 'mengo-chz',
@@ -342,10 +349,178 @@ export const mengoChz: Asset = {
   symbolImage: mengoChzIcon,
   isTestnet: false,
   contractAddress: '0xD1723Eb9e7C6eE7c7e2d421B2758dc0f2166eDDc',
-  type: 'erc20',
+  type: 'fan-token',
   url: '/currency/chiliz/product/assets/mengo-chz',
-  category: AssetCategory.Crypto,
+  category: AssetCategory.FanToken,
   localeDescription: 'mengo-chz'
+}
+
+export const galoChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 1
+    }
+  ],
+  id: 'galo-chz',
+  order: 7,
+  symbol: 'GALO',
+  symbolImage: galoIcon,
+  isTestnet: false,
+  contractAddress: '0xe5274Eb169E0e3A60B9dC343F02BA940958e8683',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/galo-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'galo-chz'
+}
+
+export const fluChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 1
+    }
+  ],
+  id: 'flu-chz',
+  order: 8,
+  symbol: 'FLU',
+  symbolImage: fluIcon,
+  isTestnet: false,
+  contractAddress: '0x86930777d43605C40bA786F7802778ff5413eFaB',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/flu-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'flu-chz'
+}
+
+export const vascoChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 1
+    }
+  ],
+  id: 'vasco-chz',
+  order: 9,
+  symbol: 'VASCO',
+  symbolImage: vascoIcon,
+  isTestnet: false,
+  contractAddress: '0x6d72034D7508D16988bf84638D51592A8c02887b',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/vasco-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'vasco-chz'
+}
+
+export const verdaoChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 1
+    }
+  ],
+  id: 'verdao-chz',
+  order: 10,
+  symbol: 'VERDAO',
+  symbolImage: verdaoIcon,
+  isTestnet: false,
+  contractAddress: '0x971364Ec452958d4D65Ba8D508FAa226d7117279',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/verdao-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'verdao-chz'
+}
+
+export const saciChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 1
+    }
+  ],
+  id: 'saci-chz',
+  order: 11,
+  symbol: 'SACI',
+  symbolImage: saciIcon,
+  isTestnet: false,
+  contractAddress: '0x3175e779b42D35e2C9EeafadCf5B6E6ec6E4f910',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/saci-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'saci-chz'
+}
+
+export const spfcChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 1
+    }
+  ],
+  id: 'spfc-chz',
+  order: 12,
+  symbol: 'SPFC',
+  symbolImage: spfcIcon,
+  isTestnet: false,
+  contractAddress: '0x540165b9dFdDE31658F9BA0Ca5504EdA448BFfd0',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/spfc-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'spfc-chz'
+}
+
+export const bahiaChz: FanTokenAsset = {
+  chains: [Chain.CHZ_MAINNET],
+  enabled: true,
+  listed: true,
+  new: true,
+  points: { elPoints: false, stPoints: true },
+  ramp: [
+    {
+      chainId: 88888,
+      minDeposit: 1
+    }
+  ],
+  id: 'bahia-chz',
+  order: 13,
+  symbol: 'BAHIA',
+  symbolImage: bahiaIcon,
+  isTestnet: false,
+  contractAddress: '0xE92e152fC0ff1368739670a5175175154Ceeef42',
+  type: 'fan-token',
+  url: '/currency/chiliz/product/assets/bahia-chz',
+  category: AssetCategory.FanToken,
+  localeDescription: 'bahia-chz'
 }
 
 export const assetsList: Asset[] = [
@@ -359,7 +534,14 @@ export const assetsList: Asset[] = [
   ethArbitrum,
   stpEth,
   stpReth,
-  mengoChz
+  mengoChz,
+  galoChz,
+  fluChz,
+  vascoChz,
+  verdaoChz,
+  saciChz,
+  spfcChz,
+  bahiaChz
 ]
 
 export function getAssetsByCategory(category: AssetCategory): Asset[] {

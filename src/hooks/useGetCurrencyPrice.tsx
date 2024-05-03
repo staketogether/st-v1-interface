@@ -14,7 +14,7 @@ export default function useGetCurrencyPrice() {
     const getDataPromise = async () => {
       try {
         const promises = assetsList.map(asset =>
-          axios.get<AssetStats>(`${backendUrl}/api/asset-stats/${asset.chains[0]}/${asset.type === 'erc20' ? asset.contractAddress : asset.wrapperContractAddress}`)
+          axios.get<AssetStats>(`${backendUrl}/api/asset-stats/${asset.chains[0]}/${asset.type === 'native' ? asset.wrapperContractAddress : asset.contractAddress}`)
         )
 
         const responses = await Promise.all(promises)

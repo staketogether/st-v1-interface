@@ -31,7 +31,8 @@ export interface DepositConfig {
   toToken?: string
 }
 export const openBrlaModalVar = makeVar(false)
-export const fiatAmountVar = makeVar<string>('')
+export const amountToQuoteVar = makeVar<string>('')
+export const typeRampVar = makeVar<'buy' | 'sell'>('buy')
 export const stepsControlBuyCryptoVar = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.Quotation)
 export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
 export const offRampPixKeyVar = makeVar<string>('')
@@ -47,7 +48,7 @@ export const clearModal = () => {
   kycLevelVar(null)
   kycIdVar(null)
   quoteVar(undefined)
-  fiatAmountVar('')
+  amountToQuoteVar('')
   stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
   openBrlaModalVar(false)
 }
@@ -63,7 +64,7 @@ export const changeWalletAddress = () => {
   kycLevelVar(null)
   kycIdVar(null)
   quoteVar(undefined)
-  fiatAmountVar('')
+  amountToQuoteVar()
   stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
 }
 

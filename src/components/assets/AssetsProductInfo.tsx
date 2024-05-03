@@ -105,7 +105,7 @@ const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, He
       @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
         display: flex;
         flex-direction: column;
-        gap: ${({ theme }) => theme.size[12]};
+        gap: ${({ theme }) => theme.size[16]};
       }
     }
   `,
@@ -120,15 +120,16 @@ const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, He
     div {
       display: flex;
       align-items: center;
-      gap: ${({ theme }) => theme.size[8]};
 
       &:nth-child(1) {
         font-size: ${({ theme }) => theme.font.size[22]};
         font-style: normal;
         font-weight: 500;
+        gap: ${({ theme }) => theme.size[12]};
       }
 
       &:nth-child(2) {
+        gap: ${({ theme }) => theme.size[4]};
         span {
           font-size: ${({ theme }) => theme.font.size[13]};
           font-style: normal;

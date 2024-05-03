@@ -5,7 +5,7 @@ import { Metatags } from '@/components/shared/meta/Metatags'
 import { chainConfigByChainId } from '@/config/chain'
 import { globalConfig } from '@/config/global'
 import { assetsList } from '@/config/product/asset'
-import { BrlaBuyEthStep, fiatAmountVar, openQuoteEthModal, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { BrlaBuyEthStep, amountToQuoteVar, openQuoteEthModal, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
 import { Asset } from '@/types/Asset'
@@ -34,7 +34,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
 
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
-      fiatAmountVar(router.query?.amount?.toString() ?? minAmount.toString())
+      amountToQuoteVar(router.query?.amount?.toString() ?? minAmount.toString())
       //TROCAR PARA O PRODUTO CORRETO
       openQuoteEthModal(product)
     } else if (router.query.payment === 'credit') {
@@ -103,7 +103,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
 
-  const contractAddress = productSelected.type === 'erc20' ? productSelected.contractAddress : productSelected.wrapperContractAddress
+  const contractAddress = productSelected.type === 'native' ? productSelected.wrapperContractAddress : productSelected.contractAddress
 
   const assetData = await fetchProductAssetData(`asset-stats/${productSelected.chains[0]}/${contractAddress}`)
 
