@@ -41,6 +41,9 @@ export default function AssetCard({ asset }: AssetCardProps) {
       <PriceContainer>
         <div>
           <AssetPrice asset={asset} />
+          <div className='price'>
+            +5.98%
+          </div>
         </div>
       </PriceContainer>
     </CardContainer>
@@ -50,24 +53,39 @@ export default function AssetCard({ asset }: AssetCardProps) {
 const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
   PriceContainer: styled.div`
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     gap: 12px;
-    height: 22px;
 
     > div {
-      display: flex;
       gap: 8px;
-
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
       > span {
         color: ${({ theme }) => theme.colorV2.blue[1]};
         font-size: ${({ theme }) => theme.font.size[22]};
         font-weight: 500;
       }
     }
+
+    div.price {
+      display: flex;
+      align-self: flex-end;
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1px solid var(--green-text, #37A950);
+      background: var(--white, #FFF);
+      color: var(--green-text, #37A950);
+      font-size: 16px;
+      font-weight: 600;
+      line-height: normal
+    }
   `,
   CardContainer: styled(Link)`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
     padding: 24px;
     gap: 24px;

@@ -2,6 +2,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset, AssetCategory } from '@/types/Asset'
 import styled from 'styled-components'
 import AssetCard from './AssetCard'
+import { useState } from 'react'
 
 interface TokenControlProps {
   assetsList: Asset[]
@@ -10,34 +11,47 @@ interface TokenControlProps {
 
 export default function AssetControl({ assetsList, category }: TokenControlProps) {
   const { t } = useLocaleTranslation()
+  const [active, setActive] = useState("all")
+
+  const filters = [
+    { key: 1, value: 'all' },
+    { key: 2, value: 'blockchains' },
+    { key: 3, value: 'defi' },
+    { key: 4, value: 'stablecoin' },
+    { key: 5, value: 'fantokens' }
+  ]
+
 
   return (
     <Container>
       <Title>
         <h1>{t(`v3.pages.${category}.title`)}</h1>
         <h2>{t(`v3.pages.${category}.description`)}</h2>
+
+        <ContainerButton>
+          {filters.map(filter => (
+            <div key={filter.key} className={`${filter.value === active ? 'active' : ''}`} onClick={() => setActive(filter.value)}>{filter.value}</div>
+          ))}
+        </ContainerButton>
       </Title>
       <Products>
-        <nav>
           {assetsList.map(asset => (
             <AssetCard asset={asset} key={asset.id} />
           ))}
-        </nav>
       </Products>
     </Container>
   )
 }
 
-const { Container, Products, Title } = {
+const { Container, Products, Title, ContainerButton } = {
   Container: styled.div`
     width: 100%;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
-    grid-template-columns: 1fr;
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      grid-template-columns: 350px 1fr;
-    }
+   
   `,
+
   Title: styled.div`
     display: flex;
     flex-direction: column;
@@ -64,19 +78,38 @@ const { Container, Products, Title } = {
         font-size: 48px;
       }
 
-      max-width: 270px;
     }
   `,
-  Products: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: ${({ theme }) => theme.size[8]};
-    nav {
+
+  Products: styled.nav`
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
       gap: ${({ theme }) => theme.size[24]};
+  `,
+  ContainerButton: styled.div`
+    display: flex;
+    flex-wrap: nowrap;
+    gap: ${({ theme }) => theme.size[8]};
+
+    div {
+      display: flex;
+      height: 40px;
+      padding: 4px 16px;
+      align-items: center;
+      border-radius: 8px;
+
+      color: var(--grey-80, #5C626B);
+      font-family: Montserrat;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      background: #FFF;
+    }
+
+    div.active {
+      background: var(--Primary, #373B8A);
+      color: var(--background-light-blue, #EEF2FD);
     }
   `
 }
