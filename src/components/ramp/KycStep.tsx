@@ -173,7 +173,6 @@ export default function KycStep({ asset }: KycStepProps) {
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
       <Container>
-        {/* <SwapInfo asset={asset} type={type} /> */}
         <h2>{t('v2.ramp.checkOut')}</h2>
         <span>{t('v2.ramp.kyc.description')}</span>
         <ContainerRadio>

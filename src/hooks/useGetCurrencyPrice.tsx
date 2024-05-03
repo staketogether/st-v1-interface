@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import { AssetStats } from '@/types/AssetStats'
 
-export const currencyPriceListVar = makeVar<{ id: string; value: number, price24h: number }[]>([])
+export const currencyPriceListVar = makeVar<{ id: string; value: number; price24h: number }[]>([])
 
 export default function useGetCurrencyPrice() {
   const { backendUrl } = globalConfig
@@ -14,7 +14,9 @@ export default function useGetCurrencyPrice() {
     const getDataPromise = async () => {
       try {
         const promises = assetsList.map(asset =>
-          axios.get<AssetStats>(`${backendUrl}/api/asset-stats/${asset.chains[0]}/${asset.type === 'native' ? asset.wrapperContractAddress : asset.contractAddress}`)
+          axios.get<AssetStats>(
+            `${backendUrl}/api/asset-stats/${asset.chains[0]}/${asset.type === 'native' ? asset.wrapperContractAddress : asset.contractAddress}`
+          )
         )
 
         const responses = await Promise.all(promises)
@@ -24,7 +26,6 @@ export default function useGetCurrencyPrice() {
             id: `${response.data.ref}`,
             value: response.data.market_data.current_price.usd,
             price24h: response.data.market_data.price_change_24h
-
           }
         })
 

@@ -81,14 +81,12 @@ export default function AssetInput({
           <AssetIcon
             image={productAsset.symbolImage ?? ethMainnet.symbolImage}
             chain={productAsset.chains[0]}
-            size={24}
+            size={32}
             altName={productAsset.symbol}
           />
-          {accountIsConnected && (
-            <span className='max' onClick={onMaxFunction}>
-              MAX
-            </span>
-          )}
+          <span className='max' onClick={onMaxFunction}>
+            MAX
+          </span>
         </CoinActionContainer>
         <input
           ref={inputRef}

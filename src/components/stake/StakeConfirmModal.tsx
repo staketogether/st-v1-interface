@@ -27,26 +27,24 @@ interface StakeConfirmModalProps {
 }
 
 export default function StakeConfirmModal({
-                                            amount,
-                                            type,
-                                            labelButton,
-                                            transactionLoading,
-                                            walletActionLoading,
-                                            transactionIsSuccess,
-                                            youReceive,
-                                            txHash,
-                                            withdrawTypeSelected,
-                                            product,
-                                            chainId,
-                                            onClick,
-                                            onClose
-                                          }: StakeConfirmModalProps) {
+  amount,
+  type,
+  labelButton,
+  transactionLoading,
+  walletActionLoading,
+  transactionIsSuccess,
+  youReceive,
+  txHash,
+  withdrawTypeSelected,
+  product,
+  chainId,
+  onClick,
+  onClose
+}: StakeConfirmModalProps) {
   const { isOpen } = useStakeConfirmModal()
   const { t } = useLocaleTranslation()
   const isWithdraw = type === 'withdraw'
-  const titleModal = isWithdraw
-    ? t('v2.stake.confirmModal.withdrawTitle')
-    : t('v2.stake.confirmModal.depositTitle')
+  const titleModal = isWithdraw ? t('v2.stake.confirmModal.withdrawTitle') : t('v2.stake.confirmModal.depositTitle')
 
   return (
     <Modal
@@ -77,8 +75,7 @@ export default function StakeConfirmModal({
                 <span>{t('v2.stake.confirmModal.withdrawing')}</span>
                 <div>
                   <span>
-                    <span className={'purple'}>{truncateDecimal(amount, 6)}</span>{' '}
-                    <span className={'purple'}>{product.symbol}</span>
+                    <span className={'purple'}>{truncateDecimal(amount, 6)}</span> <span className={'purple'}>{product.symbol}</span>
                   </span>
                   <TokensSymbolIcons productSymbol={product.symbol} size={32} />
                 </div>
@@ -88,11 +85,9 @@ export default function StakeConfirmModal({
                 <div>
                   <span>
                     <span>{truncateWei(youReceive, 6)}</span>
-                    <span>{` ${
-                      withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
-                    }`}</span>{' '}
+                    <span>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>{' '}
                   </span>
-                  <AssetIcon size={32} altName={product.symbol} chain={product.asset.chains[0]} image={product.symbolImage}/>
+                  <AssetIcon size={32} altName={product.symbol} chain={product.asset.chains[0]} image={product.symbolImage} />
                 </div>
               </ContainerPayment>
             </>
@@ -104,7 +99,7 @@ export default function StakeConfirmModal({
                   <span>
                     <span>{truncateDecimal(amount, 6)}</span> <span>{t('eth.symbol')}</span>
                   </span>
-                  <AssetIcon size={32} altName={product.symbol} chain={product.asset.chains[0]} image={product.symbolImage}/>
+                  <AssetIcon size={32} altName={product.symbol} chain={product.asset.chains[0]} image={product.symbolImage} />
                 </div>
               </ContainerPayment>
               <ContainerPayment>
