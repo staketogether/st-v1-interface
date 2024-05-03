@@ -30,5 +30,5 @@ export default function useQuoteRamp(
     }
   )
 
-  return { quote: data, error, isLoading, isValidating, mutate }
+  return { quote: data, error, isLoading, isValidating }
 }
