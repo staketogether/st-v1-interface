@@ -12,6 +12,10 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import PriceChart from '../shared/PriceChart'
 import { AssetStats } from '@/types/AssetStats'
+import useQuoteBrla from '@/hooks/ramp/useQuote'
+import { ProviderType } from '@/types/provider.type'
+import { PaymentMethodType } from '@/types/payment-method.type'
+import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 
 interface AssetsProductInfoProps {
   product: Asset
@@ -22,8 +26,11 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
   const { t } = useLocaleTranslation()
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
+  const { usdToCurrency, currencyToUsd } = useFiatUsdConversion()
   const router = useRouter()
   const config = chainConfigByChainId(product.chains[0])
+  const amountToQuote = product.ramp[0].minDeposit
+
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
 
@@ -34,6 +41,25 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
       placement: 'topRight'
     })
   }
+
+  const {
+    quote: quotedAmount,
+  } = useQuoteBrla(
+    'brl',
+    amountToQuote,
+    product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
+    product.type === 'fan-token',
+    ProviderType.brla,
+    PaymentMethodType.pix,
+    product.ramp[0].bridge?.toChainId.toString(),
+    product.ramp[0].bridge?.toToken ?? product.symbol,
+    true
+  )
+
+  const quotedBrlAmount = Number(quotedAmount?.amountBrl ?? 0) / Number(quotedAmount?.amountToken ?? 0)
+  const quotedUsdAmount = currencyToUsd(quotedBrlAmount, 'BRL')
+  const quotedFiatAmount = usdToCurrency(quotedUsdAmount.raw)
+
   return (
     <ProductContainer>
       <header>
@@ -60,7 +86,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <span className='price'>{`${handleQuotePrice(assetData?.market_data.current_price.usd || 0)}`}</span>
+              <span className='price'>{`${quotedFiatAmount.formatted}`}</span>
             </div>
           </SymbolContainer>
         </HeaderDescribeInfo>

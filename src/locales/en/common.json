@@ -811,6 +811,10 @@
         "oneYear": "1Y"
       }
     },
+    "assetDetail": {
+      "quantity": "Quantidade",
+      "totalAmount": "Valor Total"
+    },
     "products": {
       "eth-mainnet": {
         "name": "Ethereum"

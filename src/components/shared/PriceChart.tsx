@@ -22,7 +22,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
   const [activeFilter, setActiveFilter] = useState<PriceChartFilter>('1M')
 
   const { t } = useLocaleTranslation()
-  const { md } = useBreakpoint()
+  const { xs, sm } = useBreakpoint()
 
   const filterChartOptions: PriceChartFilter[] = ['1W', '1M', '3M', '1Y']
 
@@ -78,7 +78,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
               margin={{
                 top: 24,
                 left: 24,
-                right: md ? 34 : 6,
+                right: !xs && !sm ? 34 : 6,
                 bottom: 24
               }}
               style={{ fontSize: 11 }}
