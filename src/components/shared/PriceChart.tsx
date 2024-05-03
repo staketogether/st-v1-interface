@@ -49,7 +49,8 @@ export default function PriceChart({ asset }: PriceChartProps) {
     contractAddress: asset.contractAddress,
     currency: 'usd',
     days: handleFilter().day,
-    interval: handleFilter().interval
+    interval: handleFilter().interval,
+    refreshInterval: 30 * 1000
   })
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
