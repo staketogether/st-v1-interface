@@ -181,7 +181,7 @@ export const ethArbitrum: NativeAsset = {
   isTestnet: false,
   type: 'native',
   wrapperContractAddress: '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',
-  url: '/currency/arbitrum/product/assets/arb-eth',
+  url: '/currency/arbitrum/product/assets/eth-arb',
   contractAddress: '0x0000000000000000000000000000000000000000',
   category: AssetCategory.Crypto,
   localeDescription: 'eth',

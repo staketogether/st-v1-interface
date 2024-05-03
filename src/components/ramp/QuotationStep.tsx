@@ -82,6 +82,10 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
     }
 
     if (errorMinValue) {
+      if (asset.type === 'fan-token') {
+        return `${t('v2.stake.minTokenAmount')} ${minDeposit} ${asset.symbol}`
+      }
+
       return `${t('v2.stake.minAmount')} ${new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'brl'
