@@ -35,7 +35,6 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
       amountToQuoteVar(router.query?.amount?.toString() ?? minAmount.toString())
-      //TROCAR PARA O PRODUTO CORRETO
       openQuoteEthModal(product)
     } else if (router.query.payment === 'credit') {
       buyCrypto()
