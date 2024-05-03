@@ -7,6 +7,7 @@ import useOffRampSell from '@/hooks/ramp/useOffRampSell'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import { fiatAmountVar, offRampPixKeyVar } from '@/hooks/ramp/useControlModal'
+import { useEffect } from 'react'
 
 interface ProcessingCheckoutStepProps {
   asset: Asset
@@ -41,6 +42,10 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
     }
     return icons[moment]
   }
+
+  useEffect(() => {
+    sendSellToken()
+  }, [sendSellToken])
 
   const validationSteps = [
     {
