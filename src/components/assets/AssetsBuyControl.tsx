@@ -28,7 +28,7 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
   const steps = {
     MethodPayment: <PaymentMethod asset={asset} />,
     Quotation: <QuotationStep asset={asset} />,
-    QuotationOffRamp: <QuotationOffRampStep product={asset} />,
+    QuotationOffRamp: <QuotationOffRampStep asset={asset} />,
     Kyc: <KycStep asset={asset} />,
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={asset} type={type} />,

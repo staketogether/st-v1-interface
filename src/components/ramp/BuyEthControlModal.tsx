@@ -38,7 +38,7 @@ export default function BuyEthControlModal({ chainId }: { chainId: number }) {
   const steps = {
     MethodPayment: <PaymentMethod asset={asset} />,
     Quotation: <QuotationStep asset={asset} />,
-    QuotationOffRamp: <QuotationOffRampStep product={asset} />,
+    QuotationOffRamp: <QuotationOffRampStep asset={asset} />,
     Kyc: <KycStep asset={asset} />,
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={asset} type={'buy'} />,

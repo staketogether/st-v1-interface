@@ -1,4 +1,3 @@
-import QuotationStepEthAmount from '@/components/ramp/QuotationStepEthAmount'
 import Button from '@/components/shared/Button'
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import { BrlaBuyEthStep, amountToQuoteVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
@@ -11,7 +10,6 @@ import { truncateDecimal } from '@/services/truncate'
 import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
-import { useReactiveVar } from '@apollo/client'
 import brlBrla from '@assets/icons/brl-brla.svg'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
@@ -22,35 +20,29 @@ import { useAccount } from 'wagmi'
 import AssetInput from '../assets/AssetsInput'
 
 interface QuotationOffRampStepProps {
-  product: Asset
+  asset: Asset
 }
 
-export default function QuotationOffRampStep({ product }: QuotationOffRampStepProps) {
-  const fiatAmount = useReactiveVar(amountToQuoteVar)
+export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampStepProps) {
   const [value, setValue] = useState<string>('0')
-  const [chainId] = product.chains
-  console.log({
-    value,
-    fiatAmount
-  })
-
+  const [chainId] = asset.chains
+  console.log(chainId)
   const amountDebounceValue = useDebounce(value, 300)
   const { account } = useConnectedAccount()
   const { balance: ethBalance, isLoading: ethBalanceLoading } = useEthBalanceOf({
     walletAddress: account,
-    chainId: product.chains[0],
-    token: product.contractAddress
+    chainId,
+    token: asset.contractAddress
   })
 
-  const { quote } = useQuoteOffRamp(
-    amountDebounceValue,
+  const { quote } = useQuoteOffRamp({
+    amount: amountDebounceValue,
     chainId,
-    ProviderType.brla,
-    PaymentMethodType.pix,
-    `${product.ramp[0].bridge?.toChainId}`,
-    product.ramp[0].bridge?.toToken,
-    true
-  )
+    provider: ProviderType.brla,
+    paymentMethod: PaymentMethodType.pix,
+    includeMarkup: true,
+    tokenSymbol: asset.symbol
+  })
 
   const { address } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', address)
@@ -106,11 +98,11 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
     })
   }, [quote])
 
-  useFacebookPixel(`offramp-quotation:${product.id}`, !!quote, {
+  useFacebookPixel(`offramp-quotation:${asset.id}`, !!quote, {
     amountToken: parseFloat(quote?.amountToken ?? '0'),
     amountFiat: parseFloat(quote?.amountBrl ?? '0'),
     method: 'PIX',
-    assetId: product.id
+    assetId: asset.id
   })
 
   return (
@@ -121,7 +113,7 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
           onChange={v => {
             handleChange(v)
           }}
-          productAsset={product}
+          productAsset={asset}
           hasError={false}
           balance={ethBalance}
           balanceLoading={ethBalanceLoading}
@@ -137,7 +129,6 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
           <input type='number' disabled value={quote?.amountBrl} min={0} placeholder='0' step={1} />
         </InputContainer>
       </BoxValuesContainer>
-      <QuotationStepEthAmount product={product} />
       <Button onClick={handleNext} disabled={false} label={handleLabelButton()} icon={!error && !errorMinValue && <PiArrowRight />} />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
