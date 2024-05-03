@@ -181,7 +181,7 @@ export const ethArbitrum: NativeAsset = {
   isTestnet: false,
   type: 'native',
   wrapperContractAddress: '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',
-  url: '/currency/arbitrum/product/assets/arb-eth',
+  url: '/currency/arbitrum/product/assets/eth-arb',
   contractAddress: '0x0000000000000000000000000000000000000000',
   category: AssetCategory.Crypto,
   localeDescription: 'eth',
@@ -331,7 +331,7 @@ export const mengoChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 1,
+      minDeposit: 1
     }
   ],
   id: 'mengo-chz',
@@ -355,7 +355,7 @@ export const galoChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 1,
+      minDeposit: 1
     }
   ],
   id: 'galo-chz',
@@ -379,7 +379,7 @@ export const fluChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 1,
+      minDeposit: 1
     }
   ],
   id: 'flu-chz',
@@ -403,7 +403,7 @@ export const vascoChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 1,
+      minDeposit: 1
     }
   ],
   id: 'vasco-chz',
@@ -427,7 +427,7 @@ export const verdaoChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 1,
+      minDeposit: 1
     }
   ],
   id: 'verdao-chz',
@@ -451,7 +451,7 @@ export const saciChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 1,
+      minDeposit: 1
     }
   ],
   id: 'saci-chz',
@@ -475,7 +475,7 @@ export const spfcChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 1,
+      minDeposit: 1
     }
   ],
   id: 'spfc-chz',
@@ -499,7 +499,7 @@ export const bahiaChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 1,
+      minDeposit: 1
     }
   ],
   id: 'bahia-chz',

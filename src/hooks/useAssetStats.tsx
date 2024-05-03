@@ -11,10 +11,7 @@ interface UseGetAssetStatsProps {
 export default function useAssetStats({ chainId, contractAddress }: UseGetAssetStatsProps) {
   const { backendUrl } = globalConfig
 
-  const fetcher = () =>
-    axios
-      .get<AssetStats>(`${backendUrl}/api/asset-stats/${chainId}/${contractAddress}`)
-      .then(res => res.data)
+  const fetcher = () => axios.get<AssetStats>(`${backendUrl}/api/asset-stats/${chainId}/${contractAddress}`).then(res => res.data)
 
   const swrKey = [`assets-stats`, chainId, contractAddress]
 

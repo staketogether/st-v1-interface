@@ -269,13 +269,13 @@ export default function KycStep({ asset }: KycStepProps) {
   useFacebookPixel(`onramp-kyc:${asset.id}`, !!formData, {
     assetId: asset.id,
     kycLevel: 1,
-    email: String(formData?.email),
+    email: String(formData?.email)
   })
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='kycForm'>
       <Container>
-        <SwapInfo asset={asset}/>
+        <SwapInfo asset={asset} />
         <h2>{t('v2.ramp.checkOut')}</h2>
         <span>{t('v2.ramp.kyc.description')}</span>
         <ContainerRadio>

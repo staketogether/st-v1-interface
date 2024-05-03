@@ -4,7 +4,6 @@ import useLocaleTranslation from './useLocaleTranslation'
 import { getStakingById } from '@/config/product/staking'
 
 export default function useAddStwEthToWallet() {
-
   const staking = getStakingById('eth-staking')
   const { Withdrawals } = staking.contracts
 

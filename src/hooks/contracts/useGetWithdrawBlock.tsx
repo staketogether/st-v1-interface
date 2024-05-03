@@ -15,7 +15,7 @@ interface useGetWithdrawBlockProps {
 export default function useGetWithdrawBlock({ walletAddress, enabled = true, product, chainId }: useGetWithdrawBlockProps) {
   const [withdrawBlock, setWithdrawBlock] = useState<bigint>(0n)
   const { StakeTogether } = product.contracts
-  const {transactionConfig} = chainConfigByChainId(chainId)
+  const { transactionConfig } = chainConfigByChainId(chainId)
 
   const { isFetching, refetch, data } = useReadContract({
     query: {
