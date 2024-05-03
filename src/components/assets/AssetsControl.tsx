@@ -97,11 +97,11 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
-      
-      @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-          gap: 0;
-      }
-      
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      gap: 0;
+    }
+
     > div {
       width: 100%;
       display: flex;
@@ -138,7 +138,7 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
         font-style: normal;
         font-weight: 500;
         gap: ${({ theme }) => theme.size[12]};
-        
+
         > span {
           width: 100%;
         }

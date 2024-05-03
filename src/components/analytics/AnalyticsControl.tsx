@@ -41,13 +41,25 @@ export default function AnalyticsControl() {
 
   const poolsCount = analytics?.poolsCount
   const totalPoolsRewards = formatNumberByLocale(truncateDecimal(String(analytics?.totalPoolRewards) || '0', 2), locale)
-  const { priceConvertedValue: totalPoolsRewardsUsdPriceFormatted } = useCoinConversion(totalPoolsRewards, staking.asset.chains[0], contractAddress)
+  const { priceConvertedValue: totalPoolsRewardsUsdPriceFormatted } = useCoinConversion(
+    totalPoolsRewards,
+    staking.asset.chains[0],
+    contractAddress
+  )
 
   const totalContractsBalance = formatNumberByLocale(truncateDecimal(String(analytics?.contractBalance) || '0', 2), locale)
-  const { priceConvertedValue: totalContractsBalanceUsdFormatted } = useCoinConversion(totalContractsBalance, staking.asset.chains[0], contractAddress)
+  const { priceConvertedValue: totalContractsBalanceUsdFormatted } = useCoinConversion(
+    totalContractsBalance,
+    staking.asset.chains[0],
+    contractAddress
+  )
 
   const validatorsAmountTotal = formatNumberByLocale(truncateDecimal(String(analytics?.validatorsAmountTotal) || '0', 2), locale)
-  const { priceConvertedValue: validatorsAmountTotalUsdFormatted } = useCoinConversion(validatorsAmountTotal, staking.asset.chains[0], contractAddress)
+  const { priceConvertedValue: validatorsAmountTotalUsdFormatted } = useCoinConversion(
+    validatorsAmountTotal,
+    staking.asset.chains[0],
+    contractAddress
+  )
 
   const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } = useEthBalanceOf({
     walletAddress: StakeTogether,

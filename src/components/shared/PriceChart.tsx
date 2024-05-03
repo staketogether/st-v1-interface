@@ -37,7 +37,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
     const filters: Record<PriceChartFilter, { day: number; interval: '5m' | 'hourly' | 'daily' }> = {
       '1W': { day: 7, interval: 'daily' },
       '1M': { day: 30, interval: 'daily' },
-      '3M': { day: 90, interval: 'daily'},
+      '3M': { day: 90, interval: 'daily' },
       '1Y': { day: 365, interval: 'daily' }
     }
 
@@ -96,7 +96,13 @@ export default function PriceChart({ asset }: PriceChartProps) {
               />
               <Area type='monotone' dataKey='price' stroke='#774bc7' fill='#b993ff' />
               <XAxis hide interval='equidistantPreserveStart' />
-              <YAxis domain={['dataMin', 'auto']} orientation='right' tickFormatter={(value) => handleQuotePrice(Number(value))} dataKey='price' interval='equidistantPreserveStart' />
+              <YAxis
+                domain={['dataMin', 'auto']}
+                orientation='right'
+                tickFormatter={value => handleQuotePrice(Number(value))}
+                dataKey='price'
+                interval='equidistantPreserveStart'
+              />
             </AreaChart>
           </FormattedResponsiveContainer>
         )}

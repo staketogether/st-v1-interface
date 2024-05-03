@@ -8,11 +8,18 @@ interface UseAssetStatsChartProps {
   contractAddress: string
   currency: 'brl' | 'eur' | 'usd'
   days: number
-  interval: '5m' | 'hourly' | 'daily',
+  interval: '5m' | 'hourly' | 'daily'
   refreshInterval?: number
 }
 
-export default function useAssetStatsChart({ chainId, contractAddress, currency, days, interval, refreshInterval }: UseAssetStatsChartProps) {
+export default function useAssetStatsChart({
+  chainId,
+  contractAddress,
+  currency,
+  days,
+  interval,
+  refreshInterval
+}: UseAssetStatsChartProps) {
   const { backendUrl } = globalConfig
 
   const fetcher = () =>

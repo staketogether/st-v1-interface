@@ -6,10 +6,10 @@ export default function useAccountAssetsUsdBalance(accountAddress?: `0x${string}
   const { data, loading } = useQuery<{ accountAssetsUsdBalance: string }>(queryAccountUsdBalance, {
     client: stBackendClient,
     variables: {
-      accountAddress: accountAddress?.toLowerCase(),
+      accountAddress: accountAddress?.toLowerCase()
     },
-    skip: !accountAddress,
+    skip: !accountAddress
   })
 
-  return { balance: data?.accountAssetsUsdBalance ?? "0", loading }
+  return { balance: data?.accountAssetsUsdBalance ?? '0', loading }
 }

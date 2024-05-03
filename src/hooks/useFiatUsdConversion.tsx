@@ -48,7 +48,7 @@ export default function useFiatUsdConversion() {
         // Replace the generic dollar symbol with the specific currency symbol
         result = result.replace('$', `${symbol} `)
 
-        return { formatted: result, raw: result}
+        return { formatted: result, raw: result }
       } else {
         return { formatted: 'N/A', raw: 0 }
       }

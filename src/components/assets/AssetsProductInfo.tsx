@@ -16,7 +16,6 @@ import useQuoteBrla from '@/hooks/ramp/useQuote'
 import { ProviderType } from '@/types/provider.type'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
-import { useState } from 'react'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 
 interface AssetsProductInfoProps {
@@ -25,7 +24,7 @@ interface AssetsProductInfoProps {
 }
 
 export default function AssetsProductInfo({ product, assetData }: AssetsProductInfoProps) {
-  const [amountToQuote, setAmountToQuote] = useState<number | undefined>(product.ramp[0].minDeposit)
+  const amountToQuote = product.ramp[0].minDeposit
 
   const { t } = useLocaleTranslation()
 
@@ -45,10 +44,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
     })
   }
 
-  const {
-    quote: quotedAmount,
-    isLoading: loadingQuotedAmount
-  } = useQuoteBrla(
+  const { quote: quotedAmount, isLoading: loadingQuotedAmount } = useQuoteBrla(
     'brl',
     amountToQuote,
     product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
@@ -88,13 +84,13 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
           <SymbolContainer>
             <div>
               <TokensSymbolIcons productSymbol={product.symbol} size={23} />
-              <span className="symbol">{product.symbol}</span>
+              <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
               {loadingQuotedAmount ? (
                 <SkeletonLoading width={66} height={22} />
               ) : (
-                <span className="price">{`${quotedFiatAmount.formatted}`}</span>
+                <span className='price'>{`${quotedFiatAmount.formatted}`}</span>
               )}
             </div>
           </SymbolContainer>
@@ -106,15 +102,15 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
         <StatisticContainer>
           <div>
             <span>{t('v2.ethereumStaking.marketCap')}</span>
-            <span className="valueItem">{`${handleQuotePrice(assetData?.market_data.market_cap.usd || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.market_data.market_cap.usd || 0)}`}</span>
           </div>
           <div>
             <span>Volume</span>
-            <span className="valueItem">{`${handleQuotePrice(assetData?.market_data.total_volume.usd || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.market_data.total_volume.usd || 0)}`}</span>
           </div>
           <div>
             <span>{t('v2.ethereumStaking.priceChange')}</span>
-            <span className="valueItem">{`${assetData?.market_data.price_change_percentage_1y?.toFixed(2)}%`}</span>
+            <span className='valueItem'>{`${assetData?.market_data.price_change_percentage_1y?.toFixed(2)}%`}</span>
           </div>
         </StatisticContainer>
       </ProductBodyContainer>
@@ -126,171 +122,163 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
   )
 }
 
-const {
-  ProductContainer,
-  SymbolContainer,
-  ProductBodyContainer,
-  ShareButton,
-  HeaderProduct,
-  HeaderDescribeInfo,
-  StatisticContainer
-} = {
+const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, HeaderProduct, HeaderDescribeInfo, StatisticContainer } = {
   ProductContainer: styled.div`
-      flex: 1;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[24]};
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[24]};
 
-      > header {
-          display: none;
+    > header {
+      display: none;
 
-          @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-              display: flex;
-              flex-direction: column;
-              gap: ${({ theme }) => theme.size[16]};
-          }
+      @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+        display: flex;
+        flex-direction: column;
+        gap: ${({ theme }) => theme.size[16]};
       }
+    }
   `,
 
   HeaderProduct: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: ${({ theme }) => theme.size[8]};
+
+    div {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: ${({ theme }) => theme.size[8]};
 
-      div {
-          display: flex;
-          align-items: center;
-
-          &:nth-child(1) {
-              font-size: ${({ theme }) => theme.font.size[22]};
-              font-style: normal;
-              font-weight: 500;
-              gap: ${({ theme }) => theme.size[12]};
-          }
-
-          &:nth-child(2) {
-              gap: ${({ theme }) => theme.size[4]};
-
-              span {
-                  font-size: ${({ theme }) => theme.font.size[13]};
-                  font-style: normal;
-                  font-weight: 500;
-                  opacity: 0.6;
-              }
-          }
+      &:nth-child(1) {
+        font-size: ${({ theme }) => theme.font.size[22]};
+        font-style: normal;
+        font-weight: 500;
+        gap: ${({ theme }) => theme.size[12]};
       }
+
+      &:nth-child(2) {
+        gap: ${({ theme }) => theme.size[4]};
+
+        span {
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-style: normal;
+          font-weight: 500;
+          opacity: 0.6;
+        }
+      }
+    }
   `,
   HeaderDescribeInfo: styled.div`
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: ${({ theme }) => theme.size[16]};
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: ${({ theme }) => theme.size[16]};
   `,
   SymbolContainer: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+
+    div {
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.size[8]};
 
-      div {
-          display: flex;
-          align-items: center;
-          gap: ${({ theme }) => theme.size[8]};
+      span {
+        &.symbol {
+          font-size: ${({ theme }) => theme.font.size[15]};
+          font-weight: 400;
+        }
 
-          span {
-              &.symbol {
-                  font-size: ${({ theme }) => theme.font.size[15]};
-                  font-weight: 400;
-              }
-
-              &.price {
-                  color: ${({ theme }) => theme.colorV2.blue[1]};
-                  font-size: ${({ theme }) => theme.font.size[22]};
-                  font-weight: 500;
-              }
-          }
+        &.price {
+          color: ${({ theme }) => theme.colorV2.blue[1]};
+          font-size: ${({ theme }) => theme.font.size[22]};
+          font-weight: 500;
+        }
       }
+    }
   `,
 
   ProductBodyContainer: styled.section`
-      display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[12]};
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[12]};
 
-      > h2 {
-          color: ${({ theme }) => theme.colorV2.blue[1]};
-          font-size: ${({ theme }) => theme.font.size[15]};
-          line-height: 18px;
-          font-weight: 500;
+    > h2 {
+      color: ${({ theme }) => theme.colorV2.blue[1]};
+      font-size: ${({ theme }) => theme.font.size[15]};
+      line-height: 18px;
+      font-weight: 500;
+    }
+
+    a,
+    span {
+      font-size: 13px;
+      font-weight: 400;
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      opacity: 0.8;
+      line-height: 1.5rem;
+
+      &.valueItem {
+        font-size: 16px;
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        opacity: 1;
       }
 
-      a,
-      span {
-          font-size: 13px;
-          font-weight: 400;
-          color: ${({ theme }) => theme.colorV2.gray[1]};
-          opacity: 0.8;
-          line-height: 1.5rem;
+      &.copy {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[4]};
+        cursor: pointer;
 
-          &.valueItem {
-              font-size: 16px;
-              color: ${({ theme }) => theme.colorV2.gray[1]};
-              opacity: 1;
-          }
-
-          &.copy {
-              display: flex;
-              align-items: center;
-              gap: ${({ theme }) => theme.size[4]};
-              cursor: pointer;
-
-              img {
-                  margin-top: 1px;
-              }
-          }
+        img {
+          margin-top: 1px;
+        }
       }
+    }
 
-      a:hover {
-          color: ${({ theme }) => theme.colorV2.purple[1]};
-      }
+    a:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
   `,
   StatisticContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[12]};
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    div {
       display: flex;
       flex-direction: column;
-      gap: ${({ theme }) => theme.size[12]};
-      @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-      }
-
-      div {
-          display: flex;
-          flex-direction: column;
-          gap: ${({ theme }) => theme.size[8]};
-      }
+      gap: ${({ theme }) => theme.size[8]};
+    }
   `,
 
   ShareButton: styled.div`
-      height: 24px;
-      background: ${({ theme }) => theme.colorV2.white};
-      display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[4]};
-      padding: 0px 8px;
-      cursor: pointer;
-      border-radius: ${({ theme }) => theme.size[8]};
+    height: 24px;
+    background: ${({ theme }) => theme.colorV2.white};
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
+    padding: 0px 8px;
+    cursor: pointer;
+    border-radius: ${({ theme }) => theme.size[8]};
 
-      box-shadow: ${({ theme }) => theme.shadow[100]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
 
+    color: ${({ theme }) => theme.colorV2.purple[1]};
+    font-weight: 400;
+    font-size: ${({ theme }) => theme.font.size[13]};
+
+    svg {
       color: ${({ theme }) => theme.colorV2.purple[1]};
-      font-weight: 400;
-      font-size: ${({ theme }) => theme.font.size[13]};
-
-      svg {
-          color: ${({ theme }) => theme.colorV2.purple[1]};
-      }
+    }
   `
 }

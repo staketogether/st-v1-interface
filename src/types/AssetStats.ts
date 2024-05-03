@@ -95,14 +95,12 @@ export interface AssetStats {
       btc: number
       eur: number
       usd: number
-
     }
     market_cap_fdv_ratio: number
     total_volume: {
       btc: number
       eur: number
       usd: number
-
     }
     high_24h: {
       btc: number

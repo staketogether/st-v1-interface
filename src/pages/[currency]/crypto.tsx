@@ -25,7 +25,6 @@ export const getStaticPaths: GetStaticPaths = () => {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-
   if (!assetsList?.length) {
     return {
       notFound: true

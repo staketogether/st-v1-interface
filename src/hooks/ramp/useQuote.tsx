@@ -26,7 +26,7 @@ export default function useQuoteRamp(
   const { data, error, isLoading, isValidating } = useSWR<Quote>(
     chainId && fiatCurrencyCode && amount && provider && paymentMethod ? url : null,
     {
-      refreshInterval,
+      refreshInterval
     }
   )
 
