@@ -57,20 +57,24 @@ export const getStaticPaths: GetStaticPaths = () => {
 
   const currencies = ['usd', 'brl', 'eur']
 
-  const paths = networks.map(network => {
-    return stakingList.filter(staking => staking.enabled && staking.listed && staking.asset.chains.includes(network.chainId)).map(product => {
-      return currencies.map(currency => {
-        return {
-          params: {
-            network: network.network,
-            currency,
-            type: 'staking',
-            product: product.id
-          }
-        }
-      })
+  const paths = networks
+    .map(network => {
+      return stakingList
+        .filter(staking => staking.enabled && staking.listed && staking.asset.chains.includes(network.chainId))
+        .map(product => {
+          return currencies.map(currency => {
+            return {
+              params: {
+                network: network.network,
+                currency,
+                type: 'staking',
+                product: product.id
+              }
+            }
+          })
+        })
     })
-  }).flat(2)
+    .flat(2)
 
   return { paths, fallback: 'blocking' }
 }
@@ -93,7 +97,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
 
-  const contractAddress = foundProduct.asset.type === 'native' ? foundProduct.asset.wrapperContractAddress : foundProduct.asset.contractAddress
+  const contractAddress =
+    foundProduct.asset.type === 'native' ? foundProduct.asset.wrapperContractAddress : foundProduct.asset.contractAddress
 
   const assetData = await fetchProductAssetData(`asset-stats/${chainId}/${contractAddress}`)
 

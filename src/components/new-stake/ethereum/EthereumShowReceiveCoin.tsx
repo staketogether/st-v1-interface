@@ -17,13 +17,7 @@ interface EthereumStpETHInputProps {
   chainId: number
 }
 
-export default function EthereumShowReceiveCoin({
-  amountValue,
-  balance,
-  balanceLoading,
-  type,
-  product
-}: EthereumStpETHInputProps) {
+export default function EthereumShowReceiveCoin({ amountValue, balance, balanceLoading, type, product }: EthereumStpETHInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
 

@@ -317,7 +317,8 @@
         "rewardsTooltip": "Recompensas geradas pelo staking de ethereum."
       },
       "statistics": "Status do Protocolo",
-      "minAmount": "Depósito minimo",
+      "minAmount": "Valor minimo",
+      "minTokenAmount": "Quantidade mínima",
       "minWithdraw": "Saque minimo",
       "apy": "Rendimento anual",
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
@@ -686,6 +687,7 @@
       "btc-op": "Bitcoin",
       "eth-mainnet": "Ethereum",
       "eth-op": "Ethereum",
+      "eth-arb": "Ethereum",
       "chz-chiliz": "Chiliz",
       "mengo-chz": "Flamengo",
       "galo-chz": "Atlético Mineiro",
@@ -839,7 +841,10 @@
       "stable": "Stablecoins",
       "fan-token": "Fan Tokens",
       "meme": "Memecoins",
-      "crypto": "Crypto"
+      "crypto": "Crypto",
+    "assetDetail": {
+      "quantity": "Quantidade",
+      "totalAmount": "Valor Total"
     },
     "products": {
       "eth-mainnet": {
