@@ -24,7 +24,7 @@ const configs: ChainConfig[] = [
     name: 'Ethereum',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL),
     isTestnet: false,
-    paymasterKey: '0x',
+    paymasterKey: process.env.NEXT_PUBLIC_PAYMASTER_ETH_MAINNET,
     blockExplorer: {
       baseUrl: mainnet.blockExplorers.default.url
     },
@@ -38,7 +38,7 @@ const configs: ChainConfig[] = [
     name: 'Optimism',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OP_MAINNET_URL),
     isTestnet: false,
-    paymasterKey: '0x',
+    paymasterKey: process.env.NEXT_PUBLIC_PAYMASTER_OP_MAINNET,
     blockExplorer: {
       baseUrl: optimism.blockExplorers.default.url
     },
@@ -52,7 +52,7 @@ const configs: ChainConfig[] = [
     name: 'Arbitrum',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ARB_MAINNET_URL),
     isTestnet: false,
-    paymasterKey: '0x',
+    paymasterKey: process.env.NEXT_PUBLIC_PAYMASTER_ARB_MAINNET,
     blockExplorer: {
       baseUrl: arbitrum.blockExplorers.default.url
     },
@@ -66,7 +66,7 @@ const configs: ChainConfig[] = [
     name: 'Polygon',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_POL_MAINNET_URL),
     isTestnet: false,
-    paymasterKey: '0x',
+    paymasterKey: process.env.NEXT_PUBLIC_PAYMASTER_POL_MAINNET,
     blockExplorer: {
       baseUrl: polygon.blockExplorers.default.url
     },
@@ -80,7 +80,7 @@ const configs: ChainConfig[] = [
     name: 'Chiliz',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET_URL),
     isTestnet: false,
-    paymasterKey: '0x',
+    paymasterKey: process.env.NEXT_PUBLIC_PAYMASTER_CHZ_MAINNET,
     blockExplorer: {
       baseUrl: chiliz.blockExplorers.default.url
     },

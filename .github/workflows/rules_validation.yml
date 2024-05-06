@@ -68,6 +68,11 @@ jobs:
           echo NEXT_PUBLIC_RPC_ARB_TESTNET_URL=1 >> .env
           echo NEXT_PUBLIC_RPC_POL_TESTNET_URL=1 >> .env
           echo NEXT_PUBLIC_RPC_CHZ_TESTNET_URL=1 >> .env
+          echo NEXT_PUBLIC_PAYMASTER_ETH_MAINNET=1 >> .env
+          echo NEXT_PUBLIC_PAYMASTER_OP_MAINNET=1 >> .env
+          echo NEXT_PUBLIC_PAYMASTER_ARB_MAINNET=1 >> .env
+          echo NEXT_PUBLIC_PAYMASTER_POL_MAINNET=1 >> .env
+          echo NEXT_PUBLIC_PAYMASTER_CHZ_MAINNET=1 >> .env
 
       - name: Install dependencies
         run: pnpm install
