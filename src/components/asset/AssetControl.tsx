@@ -58,14 +58,14 @@ const { Container, Products, Title, ContainerButton } = {
     gap: ${({ theme }) => theme.size[12]};
     color: ${({ theme }) => theme.colorV2.blue[1]};
     h1 {
-      font-size: 32px;
+      font-size: ${({ theme }) => theme.font.size[32]};
       font-style: normal;
       font-weight: 500;
       line-height: normal;
       line-height: 52px;
     }
     h2 {
-      font-size: 20px;
+      font-size: ${({ theme }) => theme.font.size[20]};
       font-style: normal;
       font-weight: 400;
       line-height: normal;
@@ -93,6 +93,7 @@ const { Container, Products, Title, ContainerButton } = {
       
   `,
   ContainerButton: styled.div`
+    height: 50px;
     display: flex;
     flex-wrap: nowrap;
     gap: ${({ theme }) => theme.size[8]};
@@ -106,21 +107,22 @@ const { Container, Products, Title, ContainerButton } = {
     div {
       display: flex;
       height: 40px;
-      padding: 4px 16px;
+      padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[16]};
       align-items: center;
-      border-radius: 8px;
+      border-radius: ${({ theme }) => theme.size[8]};
+      box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
 
-      color: var(--grey-80, #5C626B);
-      font-family: Montserrat;
-      font-size: 16px;
+      color: ${({ theme }) => theme.color.gray[600]};
+      font-size: ${({ theme }) => theme.font.size[16]};
       font-style: normal;
       font-weight: 500;
       background: #FFF;
-    }
+      cursor: pointer;
 
-    div.active {
-      background: var(--Primary, #373B8A);
-      color: var(--background-light-blue, #EEF2FD);
+      &.active {
+        background: ${({ theme }) => theme.color.primary};
+        color: ${({ theme }) => theme.color.gray[200]};
+      }
     }
   `
 }
