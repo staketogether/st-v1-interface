@@ -6,8 +6,8 @@ import WrapProcessingStep from './WrapProcessingStep'
 import useOffRampSell from '@/hooks/ramp/useOffRampSell'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
-import { fiatAmountVar, offRampPixKeyVar } from '@/hooks/ramp/useControlModal'
 import { useEffect } from 'react'
+import { amountToQuoteVar, offRampPixKeyVar } from '@/hooks/ramp/useControlModal'
 
 interface ProcessingCheckoutStepProps {
   asset: Asset
@@ -20,10 +20,10 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
   const { t } = useLocaleTranslation()
 
   const offRampPixKey = useReactiveVar(offRampPixKeyVar)
-  const fiatAmount = useReactiveVar(fiatAmountVar)
+  const fiatAmount = useReactiveVar(amountToQuoteVar)
   const address = walletAddress ?? '0x'
 
-  const { sendSellToken, loading } = useOffRampSell({
+  const { sendSellToken } = useOffRampSell({
     requestBody: {
       walletAddress: address,
       pixKey: fiatAmount,
