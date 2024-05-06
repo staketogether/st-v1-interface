@@ -6,38 +6,47 @@ import { useState } from 'react'
 
 interface TokenControlProps {
   assetsList: Asset[]
-  category: AssetCategory
 }
 
-export default function AssetControl({ assetsList, category }: TokenControlProps) {
+export default function AssetControl({ assetsList }: TokenControlProps) {
   const { t } = useLocaleTranslation()
-  const [active, setActive] = useState("all")
+  const [filterActive, setFilterActive] = useState<AssetCategory | 'all'>('all')
 
-  const filters = [
+  const filters: { key: number; value: AssetCategory | 'all' }[] = [
     { key: 1, value: 'all' },
-    { key: 2, value: 'blockchains' },
-    { key: 3, value: 'defi' },
-    { key: 4, value: 'stablecoin' },
-    { key: 5, value: 'fantokens' }
+    { key: 2, value: AssetCategory.Crypto },
+    { key: 3, value: AssetCategory.FanToken }
   ]
 
+  const filterAssetList = () => {
+    if (filterActive === 'all') {
+      return assetsList
+    }
+    return assetsList.filter(asset => asset.category === filterActive)
+  }
 
   return (
     <Container>
       <Title>
-        <h1>{t(`v3.pages.${category}.title`)}</h1>
-        <h2>{t(`v3.pages.${category}.description`)}</h2>
+        <h1>{t(`v3.pages.${AssetCategory.Crypto}.title`)}</h1>
+        <h2>{t(`v3.pages.${AssetCategory.Crypto}.description`)}</h2>
 
         <ContainerButton>
           {filters.map(filter => (
-            <div key={filter.key} className={`${filter.value === active ? 'active' : ''}`} onClick={() => setActive(filter.value)}>{filter.value}</div>
+            <div
+              key={filter.key}
+              className={`${filter.value === filterActive ? 'active' : ''}`}
+              onClick={() => setFilterActive(filter.value)}
+            >
+              {t(`v3.crypto-filter.${filter.value}`)}
+            </div>
           ))}
         </ContainerButton>
       </Title>
       <Products>
-          {assetsList.map(asset => (
-            <AssetCard asset={asset} key={asset.id} />
-          ))}
+        {filterAssetList().map(asset => (
+          <AssetCard asset={asset} key={asset.id} />
+        ))}
       </Products>
     </Container>
   )
@@ -49,7 +58,6 @@ const { Container, Products, Title, ContainerButton } = {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
-   
   `,
 
   Title: styled.div`
@@ -77,20 +85,18 @@ const { Container, Products, Title, ContainerButton } = {
       h1 {
         font-size: 48px;
       }
-
     }
   `,
 
   Products: styled.nav`
-      width: 100%;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: ${({ theme }) => theme.size[24]};
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: ${({ theme }) => theme.size[24]};
 
-      @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      }
-      
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
   `,
   ContainerButton: styled.div`
     height: 50px;
@@ -116,7 +122,7 @@ const { Container, Products, Title, ContainerButton } = {
       font-size: ${({ theme }) => theme.font.size[16]};
       font-style: normal;
       font-weight: 500;
-      background: #FFF;
+      background: #fff;
       cursor: pointer;
 
       &.active {

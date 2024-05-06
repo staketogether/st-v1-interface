@@ -39,12 +39,8 @@ export default function AssetCard({ asset }: AssetCardProps) {
         {asset.new && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
       <PriceContainer>
-        <div>
-          <AssetPrice asset={asset} />
-          <div className='price price-up'>
-            +5.98%
-          </div>
-        </div>
+        <AssetPrice asset={asset} />
+        {/* <div className='price price-up'>+5.98%</div> */}
       </PriceContainer>
     </CardContainer>
   )
@@ -52,43 +48,36 @@ export default function AssetCard({ asset }: AssetCardProps) {
 
 const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
   PriceContainer: styled.div`
+    gap: ${({ theme }) => theme.size[8]};
     display: flex;
+    justify-content: center;
     flex-direction: column;
-    justify-content: space-between;
-    gap: ${({ theme }) => theme.size[12]};
 
-    > div {
-      gap: ${({ theme }) => theme.size[8]};
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      > span {
-        color: ${({ theme }) => theme.colorV2.blue[1]};
-        font-size: ${({ theme }) => theme.font.size[22]};
-        font-weight: 500;
-      }
-    }
-
-    div.price {
+    &.price {
       display: flex;
       align-self: flex-end;
       padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[8]};
       border-radius: ${({ theme }) => theme.size[8]};
       background: ${({ theme }) => theme.colorV2.white[1]};
-      
+
       font-size: ${({ theme }) => theme.font.size[16]};
       font-weight: 600;
-      line-height: normal
+      line-height: normal;
     }
 
-    .price-up {
+    &.price-up {
       color: ${({ theme }) => theme.color.green[500]};
       border: 1px solid ${({ theme }) => theme.color.green[500]};
     }
 
-    .price-down {
+    &.price-down {
       color: ${({ theme }) => theme.color.red[500]};
       border: 1px solid ${({ theme }) => theme.color.red[500]};
+    }
+    > span {
+      color: ${({ theme }) => theme.colorV2.blue[1]};
+      font-size: ${({ theme }) => theme.font.size[22]};
+      font-weight: 500;
     }
   `,
   CardContainer: styled(Link)`

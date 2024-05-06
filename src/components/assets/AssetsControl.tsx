@@ -133,7 +133,7 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
         font-style: normal;
         font-weight: 500;
         gap: ${({ theme }) => theme.size[12]};
-        
+
         > span {
           width: 100%;
         }
