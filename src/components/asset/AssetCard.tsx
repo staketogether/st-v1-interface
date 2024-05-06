@@ -40,7 +40,6 @@ export default function AssetCard({ asset }: AssetCardProps) {
       </ImageContainer>
       <PriceContainer>
         <AssetPrice asset={asset} />
-        {/* <div className='price price-up'>+5.98%</div> */}
       </PriceContainer>
     </CardContainer>
   )
