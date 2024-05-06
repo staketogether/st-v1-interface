@@ -814,7 +814,7 @@
       }
     },
     "crypto-filter": {
-      "all": "Todos",
+      "all": "All",
       "stable": "Stablecoins",
       "fan-token": "Fan Tokens",
       "meme": "Memecoins",
@@ -823,7 +823,7 @@
     "assetDetail": {
       "quantity": "Quantity",
       "totalAmount": "Total Amount"
-    } },
+    },
     "products": {
       "eth-mainnet": {
         "name": "Ethereum"
