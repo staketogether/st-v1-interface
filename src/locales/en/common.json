@@ -320,6 +320,7 @@
       },
       "statistics": "Protocol's Status",
       "minAmount": "Min amount",
+      "minTokenAmount": "Min amount",
       "minWithdraw": "Min Withdraw",
       "apy": "Annual Percentage Yield",
       "apyTooltip": " Annual Percentage Yield represents the depositor's investment return over one year, considering auto-reinvestment and compound interest. (APY)",
@@ -664,6 +665,7 @@
       "btc-op": "Bitcoin",
       "eth-mainnet": "Ethereum",
       "eth-op": "Ethereum",
+      "eth-arb": "Ethereum",
       "chz-chiliz": "Chiliz",
       "mengo-chz": "Flamengo",
       "galo-chz": "Atlético Mineiro",
@@ -812,12 +814,15 @@
       }
     },
     "crypto-filter": {
-      "all": "All",
+      "all": "Todos",
       "stable": "Stablecoins",
       "fan-token": "Fan Tokens",
       "meme": "Memecoins",
-      "crypto": "Crypto"
-    },
+      "crypto": "Crypto",
+    "assetDetail": {
+      "quantity": "Quantity",
+      "totalAmount": "Total Amount"
+    } },
     "products": {
       "eth-mainnet": {
         "name": "Ethereum"

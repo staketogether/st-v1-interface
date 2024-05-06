@@ -38,7 +38,7 @@ export default function useWithdrawValidator(
   const [estimatedGas, setEstimatedGas] = useState<bigint | undefined>(undefined)
 
   const { registerWithdraw } = useMixpanelAnalytics()
-  const StakeTogether = product.contracts.StakeTogether ?? '' as `0x${string}`
+  const StakeTogether = product.contracts.StakeTogether ?? ('' as `0x${string}`)
   const subgraphClient = getSubgraphClient({ stakingId: product.id })
   const { web3AuthUserInfo } = useConnectedAccount()
 

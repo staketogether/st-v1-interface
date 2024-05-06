@@ -97,6 +97,11 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      gap: 0;
+    }
+
     > div {
       width: 100%;
       display: flex;

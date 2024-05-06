@@ -12,6 +12,11 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import PriceChart from '../shared/PriceChart'
 import { AssetStats } from '@/types/AssetStats'
+import useQuoteBrla from '@/hooks/ramp/useQuote'
+import { ProviderType } from '@/types/provider.type'
+import { PaymentMethodType } from '@/types/payment-method.type'
+import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
+import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 
 interface AssetsProductInfoProps {
   product: Asset
@@ -19,11 +24,15 @@ interface AssetsProductInfoProps {
 }
 
 export default function AssetsProductInfo({ product, assetData }: AssetsProductInfoProps) {
+  const amountToQuote = product.ramp[0].minDeposit
+
   const { t } = useLocaleTranslation()
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
+  const { usdToCurrency, currencyToUsd } = useFiatUsdConversion()
   const router = useRouter()
   const config = chainConfigByChainId(product.chains[0])
+
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
 
@@ -34,6 +43,24 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
       placement: 'topRight'
     })
   }
+
+  const { quote: quotedAmount, isLoading: loadingQuotedAmount } = useQuoteBrla(
+    'brl',
+    amountToQuote,
+    product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
+    product.type === 'fan-token',
+    ProviderType.brla,
+    PaymentMethodType.pix,
+    product.ramp[0].bridge?.toChainId.toString(),
+    product.ramp[0].bridge?.toToken ?? product.symbol,
+    true,
+    5 * 1000
+  )
+
+  const quotedBrlAmount = Number(quotedAmount?.amountBrl ?? 0) / Number(quotedAmount?.amountToken ?? 0)
+  const quotedUsdAmount = currencyToUsd(quotedBrlAmount, 'BRL')
+  const quotedFiatAmount = usdToCurrency(quotedUsdAmount.raw)
+
   return (
     <ProductContainer>
       <header>
@@ -60,7 +87,11 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <span className='price'>{`${handleQuotePrice(assetData?.market_data.current_price.usd || 0)}`}</span>
+              {loadingQuotedAmount ? (
+                <SkeletonLoading width={66} height={22} />
+              ) : (
+                <span className='price'>{`${quotedFiatAmount.formatted}`}</span>
+              )}
             </div>
           </SymbolContainer>
         </HeaderDescribeInfo>
@@ -130,6 +161,7 @@ const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, He
 
       &:nth-child(2) {
         gap: ${({ theme }) => theme.size[4]};
+
         span {
           font-size: ${({ theme }) => theme.font.size[13]};
           font-style: normal;
@@ -150,6 +182,7 @@ const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, He
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
+
     div {
       display: flex;
       align-items: center;
@@ -160,6 +193,7 @@ const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, He
           font-size: ${({ theme }) => theme.font.size[15]};
           font-weight: 400;
         }
+
         &.price {
           color: ${({ theme }) => theme.colorV2.blue[1]};
           font-size: ${({ theme }) => theme.font.size[22]};
@@ -180,6 +214,7 @@ const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, He
       line-height: 18px;
       font-weight: 500;
     }
+
     a,
     span {
       font-size: 13px;
@@ -199,6 +234,7 @@ const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, He
         align-items: center;
         gap: ${({ theme }) => theme.size[4]};
         cursor: pointer;
+
         img {
           margin-top: 1px;
         }
@@ -240,6 +276,7 @@ const { ProductContainer, SymbolContainer, ProductBodyContainer, ShareButton, He
     color: ${({ theme }) => theme.colorV2.purple[1]};
     font-weight: 400;
     font-size: ${({ theme }) => theme.font.size[13]};
+
     svg {
       color: ${({ theme }) => theme.colorV2.purple[1]};
     }

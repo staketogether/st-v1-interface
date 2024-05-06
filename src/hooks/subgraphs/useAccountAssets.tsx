@@ -7,9 +7,9 @@ export default function useAccountAssets(accountAddress?: `0x${string}`) {
   const { data, loading } = useQuery<{ accountAssets: AccountAsset[] }>(queryAccountAssets, {
     client: stBackendClient,
     variables: {
-      accountAddress: accountAddress?.toLowerCase(),
+      accountAddress: accountAddress?.toLowerCase()
     },
-    skip: !accountAddress,
+    skip: !accountAddress
   })
 
   return { accountAssets: data?.accountAssets ?? [], loading }

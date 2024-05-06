@@ -22,7 +22,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
   const [activeFilter, setActiveFilter] = useState<PriceChartFilter>('1M')
 
   const { t } = useLocaleTranslation()
-  const { md } = useBreakpoint()
+  const { xs, sm } = useBreakpoint()
 
   const filterChartOptions: PriceChartFilter[] = ['1W', '1M', '3M', '1Y']
 
@@ -37,7 +37,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
     const filters: Record<PriceChartFilter, { day: number; interval: '5m' | 'hourly' | 'daily' }> = {
       '1W': { day: 7, interval: 'daily' },
       '1M': { day: 30, interval: 'daily' },
-      '3M': { day: 90, interval: 'daily'},
+      '3M': { day: 90, interval: 'daily' },
       '1Y': { day: 365, interval: 'daily' }
     }
 
@@ -49,7 +49,8 @@ export default function PriceChart({ asset }: PriceChartProps) {
     contractAddress: asset.contractAddress,
     currency: 'usd',
     days: handleFilter().day,
-    interval: handleFilter().interval
+    interval: handleFilter().interval,
+    refreshInterval: 30 * 1000
   })
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
@@ -78,7 +79,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
               margin={{
                 top: 24,
                 left: 24,
-                right: md ? 34 : 6,
+                right: !xs && !sm ? 34 : 6,
                 bottom: 24
               }}
               style={{ fontSize: 11 }}
@@ -95,7 +96,13 @@ export default function PriceChart({ asset }: PriceChartProps) {
               />
               <Area type='monotone' dataKey='price' stroke='#774bc7' fill='#b993ff' />
               <XAxis hide interval='equidistantPreserveStart' />
-              <YAxis domain={['dataMin', 'auto']} orientation='right' tickFormatter={(value) => handleQuotePrice(Number(value))} dataKey='price' interval='equidistantPreserveStart' />
+              <YAxis
+                domain={['dataMin', 'auto']}
+                orientation='right'
+                tickFormatter={value => handleQuotePrice(Number(value))}
+                dataKey='price'
+                interval='equidistantPreserveStart'
+              />
             </AreaChart>
           </FormattedResponsiveContainer>
         )}

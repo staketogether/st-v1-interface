@@ -8,16 +8,20 @@ import { truncateWei } from '@/services/truncate'
 import defaultErc20Icon from '@assets/assets/default-erc-20.svg'
 
 export default function WalletSidebarAsset({ walletAsset }: { walletAsset: AccountAsset }) {
-  const asset = assetsList
-    .find((supportedAsset) =>
-      supportedAsset.contractAddress.toLowerCase() === walletAsset.contractAddress.toLowerCase()
-      && supportedAsset.chains[0] === walletAsset.chainId
-    )
+  const asset = assetsList.find(
+    supportedAsset =>
+      supportedAsset.contractAddress.toLowerCase() === walletAsset.contractAddress.toLowerCase() &&
+      supportedAsset.chains[0] === walletAsset.chainId
+  )
   const contractAddress = asset?.type === 'native' ? asset?.wrapperContractAddress : asset?.contractAddress
   const fixedWalletBalance = walletAsset.decimals >= 18 ? walletAsset.balance : walletAsset.balance + '0'.repeat(18 - walletAsset.decimals)
   const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance), 6))
-  const { priceConvertedValue } = useCoinConversion(formattedBalance, asset?.chains[0] ?? walletAsset.chainId, contractAddress ?? walletAsset.contractAddress)
-  const imageSrc = (asset?.symbolImage ?? walletAsset?.thumbnail) ?? defaultErc20Icon
+  const { priceConvertedValue } = useCoinConversion(
+    formattedBalance,
+    asset?.chains[0] ?? walletAsset.chainId,
+    contractAddress ?? walletAsset.contractAddress
+  )
+  const imageSrc = asset?.symbolImage ?? walletAsset?.thumbnail ?? defaultErc20Icon
 
   return (
     <BalanceContainer key={walletAsset.chainId}>
@@ -40,57 +44,57 @@ export default function WalletSidebarAsset({ walletAsset }: { walletAsset: Accou
 
 const { BalanceContainer } = {
   BalanceContainer: styled.div`
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-      div {
+    div {
+      &:nth-child(1) {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[8]};
+
+        > div {
+          display: flex;
+          flex-direction: column;
+
+          span {
+            text-align: start;
+
+            &:nth-child(1) {
+              font-size: ${({ theme }) => theme.font.size[13]};
+              color: ${({ theme }) => theme.colorV2.gray[1]};
+            }
+
+            &:nth-child(2) {
+              font-size: ${({ theme }) => theme.font.size[12]};
+              color: ${({ theme }) => theme.colorV2.gray[1]};
+              opacity: 0.8;
+            }
+          }
+        }
+      }
+
+      &:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+
+        span {
+          text-align: end;
+
           &:nth-child(1) {
-              display: flex;
-              align-items: center;
-              gap: ${({ theme }) => theme.size[8]};
-
-              > div {
-                  display: flex;
-                  flex-direction: column;
-
-                  span {
-                      text-align: start;
-
-                      &:nth-child(1) {
-                          font-size: ${({ theme }) => theme.font.size[13]};
-                          color: ${({ theme }) => theme.colorV2.gray[1]};
-                      }
-
-                      &:nth-child(2) {
-                          font-size: ${({ theme }) => theme.font.size[12]};
-                          color: ${({ theme }) => theme.colorV2.gray[1]};
-                          opacity: 0.8;
-                      }
-                  }
-              }
+            font-size: ${({ theme }) => theme.font.size[13]};
+            color: ${({ theme }) => theme.colorV2.purple[1]};
           }
 
           &:nth-child(2) {
-              display: flex;
-              flex-direction: column;
-
-              span {
-                  text-align: end;
-
-                  &:nth-child(1) {
-                      font-size: ${({ theme }) => theme.font.size[13]};
-                      color: ${({ theme }) => theme.colorV2.purple[1]};
-                  }
-
-                  &:nth-child(2) {
-                      font-size: ${({ theme }) => theme.font.size[12]};
-                      color: ${({ theme }) => theme.colorV2.gray[1]};
-                      opacity: 0.8;
-                  }
-              }
+            font-size: ${({ theme }) => theme.font.size[12]};
+            color: ${({ theme }) => theme.colorV2.gray[1]};
+            opacity: 0.8;
           }
+        }
       }
-  `,
+    }
+  `
 }
