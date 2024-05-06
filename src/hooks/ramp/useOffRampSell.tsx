@@ -1,3 +1,4 @@
+import { globalConfig } from '@/config/global'
 import { PaymentDetails } from '@/types/offRampSell'
 import { ProviderType } from '@/types/provider.type'
 import axios from 'axios'
@@ -20,7 +21,8 @@ export default function useOffRampSell({ requestBody, rampProvider }: { requestB
     if (!smartWallet) return
     setLoading(true)
     try {
-      const paymentDetails = await axios.post<PaymentDetails>(`/api/ramp/sell/${rampProvider}`, requestBody)
+      const { backendUrl } = globalConfig
+      const paymentDetails = await axios.post<PaymentDetails>(`${backendUrl}/api/ramp/sell/${rampProvider}`, requestBody)
       if (paymentDetails.data.bridge) {
         const { tx } = paymentDetails.data.bridge
         await smartWallet.sendTransaction(tx)
