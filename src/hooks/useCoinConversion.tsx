@@ -31,5 +31,9 @@ export default function useCoinConversion(value: string, chainId?: number, contr
     }
   }, [value, currencyPrice, loadingCurrencyPrices])
 
-  return { price: coinUsdPrice, loading: loading || loadingCurrencyPrices, priceConvertedValue: handleQuotePrice(Number(coinUsdPrice) ?? 0) }
+  return {
+    price: coinUsdPrice,
+    loading: loading || loadingCurrencyPrices,
+    priceConvertedValue: handleQuotePrice(Number(coinUsdPrice) ?? 0)
+  }
 }

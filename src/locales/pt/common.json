@@ -841,7 +841,8 @@
       "stable": "Stablecoins",
       "fan-token": "Fan Tokens",
       "meme": "Memecoins",
-      "crypto": "Crypto",
+      "crypto": "Crypto"
+    },
     "assetDetail": {
       "quantity": "Quantidade",
       "totalAmount": "Valor Total"
