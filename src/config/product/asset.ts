@@ -535,7 +535,7 @@ export const assetsList: Asset[] = [
   bahiaChz
 ]
 
-export function getAssets(): Asset[] {
+export function getListedAssets(): Asset[] {
   return assetsList.filter(asset => asset.listed).sort((a, b) => a.order - b.order)
 }
 

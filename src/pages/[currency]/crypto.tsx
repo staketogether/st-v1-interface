@@ -1,7 +1,7 @@
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import AssetControl from '@/components/asset/AssetControl'
-import { assetsList, getAssets } from '@/config/product/asset'
+import { assetsList, getListedAssets } from '@/config/product/asset'
 import { Asset } from '@/types/Asset'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -33,7 +33,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      assets: getAssets(),
+      assets: getListedAssets(),
       ...(await serverSideTranslations(locale ?? 'en', ['common']))
     },
     revalidate: 24 * 60 * 60
