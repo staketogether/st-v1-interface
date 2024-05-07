@@ -65,8 +65,8 @@ export default function PriceChart({ asset }: PriceChartProps) {
     asset.ramp[0].minDeposit,
     asset.ramp[0].bridge?.fromChainId ?? asset.ramp[0].chainId,
     asset.type === 'fan-token',
-    ProviderType.brla,
-    PaymentMethodType.pix,
+    ProviderType[asset.ramp[0].provider],
+    PaymentMethodType[asset.ramp[0].paymentMethod],
     asset.ramp[0].bridge?.toChainId.toString(),
     asset.ramp[0].bridge?.toToken ?? asset.symbol,
     true

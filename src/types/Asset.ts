@@ -13,6 +13,7 @@ export interface Ramp {
   chainId: number
   minDeposit: number
   provider: 'brla'
+  paymentMethod: 'pix'
   bridge?: {
     fromChainId: number
     fromToken: string

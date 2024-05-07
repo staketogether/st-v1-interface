@@ -42,6 +42,7 @@ export const ethMainnet: NativeAsset = {
       chainId: 1,
       minDeposit: 300,
       provider: 'brla',
+      paymentMethod: 'pix',
     }
   ]
 }
@@ -71,6 +72,7 @@ export const ethOp: NativeAsset = {
       chainId: 10,
       minDeposit: 10,
       provider: 'brla',
+      paymentMethod: 'pix',
       bridge: {
         fromChainId: 137,
         fromToken: 'MATIC',
@@ -105,6 +107,7 @@ export const btcOp: Erc20Asset = {
       chainId: 10,
       minDeposit: 10,
       provider: 'brla',
+      paymentMethod: 'pix',
       bridge: {
         fromChainId: 137,
         fromToken: 'MATIC',
@@ -140,6 +143,7 @@ export const chilizChz: NativeAsset = {
       chainId: 88888,
       minDeposit: 10,
       provider: 'brla',
+      paymentMethod: 'pix',
     }
   ]
 }
@@ -168,6 +172,7 @@ export const opOptimism: Erc20Asset = {
       chainId: 10,
       minDeposit: 10,
       provider: 'brla',
+      paymentMethod: 'pix',
       bridge: {
         fromChainId: 137,
         fromToken: 'MATIC',
@@ -203,6 +208,7 @@ export const ethArbitrum: NativeAsset = {
       chainId: 42161,
       minDeposit: 10,
       provider: 'brla',
+      paymentMethod: 'pix',
       bridge: {
         fromChainId: 137,
         fromToken: 'MATIC',
@@ -237,6 +243,7 @@ export const arbArbitrum: Erc20Asset = {
       chainId: 42161,
       minDeposit: 10,
       provider: 'brla',
+      paymentMethod: 'pix',
       bridge: {
         fromChainId: 137,
         fromToken: 'MATIC',
@@ -271,6 +278,7 @@ export const maticPolygon: NativeAsset = {
     {
       chainId: 137,
       provider: 'brla',
+      paymentMethod: 'pix',
       minDeposit: 10
     }
   ]
@@ -299,6 +307,7 @@ const stpEth: Erc20Asset = {
     {
       chainId: 1,
       provider: 'brla',
+      paymentMethod: 'pix',
       minDeposit: 300
     }
   ]
@@ -327,6 +336,7 @@ const stpReth: Erc20Asset = {
     {
       chainId: 1,
       provider: 'brla',
+      paymentMethod: 'pix',
       minDeposit: 300
     }
   ]
@@ -342,6 +352,7 @@ export const mengoChz: FanTokenAsset = {
     {
       chainId: 88888,
       provider: 'brla',
+      paymentMethod: 'pix',
       minDeposit: 1
     }
   ],
@@ -367,6 +378,7 @@ export const galoChz: FanTokenAsset = {
     {
       chainId: 88888,
       provider: 'brla',
+      paymentMethod: 'pix',
       minDeposit: 1
     }
   ],
@@ -392,6 +404,7 @@ export const fluChz: FanTokenAsset = {
     {
       chainId: 88888,
       provider: 'brla',
+      paymentMethod: 'pix',
       minDeposit: 1
     }
   ],
@@ -417,6 +430,7 @@ export const vascoChz: FanTokenAsset = {
     {
       chainId: 88888,
       provider: 'brla',
+      paymentMethod: 'pix',
       minDeposit: 1
     }
   ],
@@ -442,6 +456,7 @@ export const verdaoChz: FanTokenAsset = {
     {
       chainId: 88888,
       provider: 'brla',
+      paymentMethod: 'pix',
       minDeposit: 1
     }
   ],
@@ -467,6 +482,7 @@ export const saciChz: FanTokenAsset = {
     {
       chainId: 88888,
       provider: 'brla',
+      paymentMethod: 'pix',
       minDeposit: 1
     }
   ],
@@ -492,6 +508,7 @@ export const spfcChz: FanTokenAsset = {
     {
       chainId: 88888,
       provider: 'brla',
+      paymentMethod: 'pix',
       minDeposit: 1
     }
   ],
@@ -517,6 +534,7 @@ export const bahiaChz: FanTokenAsset = {
     {
       chainId: 88888,
       provider: 'brla',
+      paymentMethod: 'pix',
       minDeposit: 1
     }
   ],
