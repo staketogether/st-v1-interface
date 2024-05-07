@@ -1,5 +1,4 @@
 import Modal from '@/components/shared/Modal'
-import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import {
   BrlaBuyEthStep,
   changeWalletAddress,
@@ -26,10 +25,9 @@ import SuccessStep from './SuccessStep'
 import { TimeOutCheckout } from './TimeOutCheckout'
 import { getAssetById } from '@/config/product/asset'
 
-export default function BuyEthControlModal({ chainId }: { chainId: number }) {
+export default function BuyEthControlModal() {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
-  const { refetch } = useEthBalanceOf({ walletAddress: address, chainId })
 
   const rampAssetId = useReactiveVar(rampAssetIdVar)
   const asset = getAssetById(rampAssetId)
@@ -61,12 +59,7 @@ export default function BuyEthControlModal({ chainId }: { chainId: number }) {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
       return
     }
-
-    if (address && currentStep === BrlaBuyEthStep.Success) {
-      refetch()
-      return
-    }
-  }, [address, currentStep, refetch])
+  }, [address, currentStep])
 
   useEffect(() => {
     if (address) {

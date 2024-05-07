@@ -8,12 +8,13 @@ import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 
 interface SwapInfoProps {
-  asset: Asset,
+  asset: Asset
   type: 'buy' | 'sell' | 'swap'
 }
 
 export default function SwapInfo({ asset, type }: SwapInfoProps) {
   const quote = useReactiveVar(quoteVar)
+  console.log(quote)
   const [first, second] = [
     <SwapToken key='brla'>
       <div>
@@ -23,7 +24,7 @@ export default function SwapInfo({ asset, type }: SwapInfoProps) {
       <span>{quote?.amountBrl}</span>
     </SwapToken>,
     <SwapToken key={asset.symbol}>
-      <div >
+      <div>
         <AssetIcon image={asset.symbolImage} chain={asset.chains[0]} size={16} altName={asset.symbol} />
         <span>{asset.symbol}</span>
       </div>
@@ -34,7 +35,7 @@ export default function SwapInfo({ asset, type }: SwapInfoProps) {
     <Container>
       {type === 'buy' ? first : second}
       <PiArrowRight size={24} />
-      {type === 'buy' ? second : first}
+      {type === 'sell' ? first : second}
     </Container>
   )
 }
@@ -78,7 +79,6 @@ const { Container, SwapToken } = {
       text-align: left;
     }
     &.left {
-      
     }
   `
 }

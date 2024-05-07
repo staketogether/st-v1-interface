@@ -19,13 +19,16 @@ interface ProcessingKycStepProps {
 }
 
 export default function ProcessingKycStep({ product, type }: ProcessingKycStepProps) {
+  const [rampData, setRampData] = useState<BuyRampRequest | undefined>(undefined)
+
   const timeToRedirect = 3000
   const theme = useTheme()
   const quote = useReactiveVar(quoteVar)
+
   const { address } = useAccount()
-  const [rampData, setRampData] = useState<BuyRampRequest | undefined>(undefined)
   const { t } = useLocaleTranslation()
   const { buyRampResponse, isError: isErrorBuyRamp } = useBuyRamp('brla', rampData)
+
   const kycActivity = useReactiveVar(kycIdVar)
   const kyc = useReactiveVar(kycLevelVar)
   const kycActivityId = Number(kyc?.level ?? 0) > 0 || !kycActivity ? undefined : kycActivity
@@ -42,8 +45,11 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
     return icons[moment]
   }
 
+  const kycVerify = address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0
+
   useEffect(() => {
-    if (address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0) {
+    if (!kycVerify) return
+    if (type === 'buy') {
       setRampData({
         chainId: product.ramp[0].chainId,
         paymentMethod: PaymentMethodType.pix,
@@ -56,29 +62,22 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
         convertToToken: product.ramp[0].bridge?.toToken,
         fixOutput: product.type === 'fan-token'
       })
-
-      if (type === 'sell') {
-        // redirect to pix
-        setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.PixKeyStep), timeToRedirect)
-        return
-      }
       return
     }
-    if (!kycLevelInfo?.level && !kycActivity && !isLoading) {
-      setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc), timeToRedirect)
-      return
+    if (type === 'sell') {
+      stepsControlBuyCryptoVar(BrlaBuyEthStep.PixKeyStep)
     }
   }, [
-    activity?.status,
     address,
     isLoading,
-    kyc?.level,
     kycActivity,
     kycLevelInfo?.level,
+    kycVerify,
     product.ramp,
     product.symbol,
     product.type,
-    quote,
+    quote?.amountBrl,
+    quote?.amountToken,
     type
   ])
 

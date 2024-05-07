@@ -13,7 +13,7 @@ export default function WrapProcessingStep({
 }: {
   validationSteps: ValidationSteps[]
   title: string
-  asset: Asset,
+  asset: Asset
   type: 'buy' | 'sell' | 'swap'
 }) {
   return (

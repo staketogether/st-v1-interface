@@ -1,14 +1,15 @@
 import { amountToQuoteVar, offRampPixKeyVar } from '@/hooks/ramp/useControlModal'
-import useOffRampSell from '@/hooks/ramp/useOffRampSell'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
-import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
-import { useEffect } from 'react'
-import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
+import { PiCheckCircleFill, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import WrapProcessingStep from './WrapProcessingStep'
-
+import loadingAnimation from '@assets/animations/loading-animation.json'
+import LottieAnimation from '../shared/LottieAnimation'
+import { useEffect } from 'react'
+import useOffRampSell from '@/hooks/ramp/useOffRampSell'
+import { ProviderType } from '@/types/provider.type'
 interface ProcessingCheckoutStepProps {
   asset: Asset
   type: 'buy' | 'sell' | 'swap'
@@ -36,7 +37,7 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
 
   const getIcon = (moment: 'waiting' | 'process' | 'success') => {
     const icons = {
-      waiting: <PiCircleLight size={32} color={theme.color.secondary} />,
+      waiting: <LottieAnimation animationData={loadingAnimation} height={32} loop />,
       process: <PiClockLight size={32} color={theme.color.secondary} />,
       success: <PiCheckCircleFill size={32} color={theme.color.green[500]} />
     }

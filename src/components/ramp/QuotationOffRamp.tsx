@@ -17,6 +17,7 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import AssetInput from '../assets/AssetsInput'
 import useBalanceOf from '@/hooks/contracts/useBalanceOf'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface QuotationOffRampStepProps {
   asset: Asset
@@ -24,12 +25,14 @@ interface QuotationOffRampStepProps {
 
 export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampStepProps) {
   const [value, setValue] = useState<string>('0')
-  const [chainId] = asset.chains
 
   const amountDebounceValue = useDebounce(value, 300)
+  const [chainId] = asset.chains
+
+  const { t } = useLocaleTranslation()
   const { tokenBalance, isLoading: tokenBalanceLoading } = useBalanceOf({ contractAddress: asset.contractAddress })
 
-  const { quote } = useQuoteOffRamp({
+  const { quote, isLoading } = useQuoteOffRamp({
     amount: amountDebounceValue,
     chainId,
     provider: ProviderType.brla,
@@ -51,11 +54,10 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
   const { address: userWalletAddress } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', userWalletAddress)
 
-  const { t } = useLocaleTranslation()
   const limit = Number(amountDebounceValue) >= Number(kycLevelInfo?.limits.limitSwapSell ?? 0)
   const errorLimitReached = limit && !!kycLevelInfo?.limits.limitSwapSell
   const errorMaxSellValue = !(Number(tokenBalance.balance) >= Number(amountDebounceValue))
-  const hasError = errorLimitReached || errorMaxSellValue
+  const disabledButton = errorLimitReached || errorMaxSellValue || !Number(value) || isLoading
 
   const handleChange = (v: string) => {
     if (v.includes(',')) {
@@ -125,12 +127,16 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
             <Image src={brlBrla} width={36} height={24} alt='BRL' />
             <span>BRL</span>
           </div>
-          <input type='number' disabled value={quote?.amountBrl} min={0} placeholder='0' step={1} />
+          {isLoading ? (
+            <SkeletonLoading width={120} />
+          ) : (
+            <input type='number' disabled value={quote?.amountBrl} min={0} placeholder='0' step={1} />
+          )}
         </InputContainer>
       </BoxValuesContainer>
       <Button
         onClick={handleNext}
-        disabled={hasError}
+        disabled={disabledButton}
         label={handleLabelButton()}
         icon={!errorLimitReached && !errorMaxSellValue && <PiArrowRight />}
       />

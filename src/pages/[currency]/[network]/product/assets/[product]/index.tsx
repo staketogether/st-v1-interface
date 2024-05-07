@@ -5,11 +5,12 @@ import { Metatags } from '@/components/shared/meta/Metatags'
 import { chainConfigByChainId } from '@/config/chain'
 import { globalConfig } from '@/config/global'
 import { assetsList } from '@/config/product/asset'
-import { amountToQuoteVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import { amountToQuoteVar, openBrlaModalVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
 import { Asset } from '@/types/Asset'
 import { AssetStats } from '@/types/AssetStats'
+import { useReactiveVar } from '@apollo/client'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -24,6 +25,7 @@ export interface ProductProps {
 
 export default function Product({ asset, assetData, chainId }: ProductProps) {
   const router = useRouter()
+  const controlModal = useReactiveVar(openBrlaModalVar)
   const minAmount = asset.ramp[0].minDeposit
   const config = chainConfigByChainId(asset.chains[0])
   const { onInit: buyCrypto } = useTransak({
@@ -44,7 +46,7 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
     <LayoutTemplate>
       <Metatags />
       <AssetsControl product={asset} assetData={assetData} chainId={chainId} type='buy' />
-      <BuyEthControlModal chainId={chainId} />
+      {controlModal && <BuyEthControlModal />}
     </LayoutTemplate>
   )
 }
