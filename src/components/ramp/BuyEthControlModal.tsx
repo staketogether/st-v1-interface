@@ -29,7 +29,6 @@ import { getAssetById } from '@/config/product/asset'
 export default function BuyEthControlModal({ chainId }: { chainId: number }) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
-  // precisa remover isso
   const { refetch } = useEthBalanceOf({ walletAddress: address, chainId })
 
   const rampAssetId = useReactiveVar(rampAssetIdVar)
@@ -43,7 +42,7 @@ export default function BuyEthControlModal({ chainId }: { chainId: number }) {
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={asset} type={'buy'} />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} type={'buy'} />,
-    Checkout: <CheckoutStep asset={asset} />,
+    Checkout: <CheckoutStep asset={asset} type={'buy'} />,
     TimeOutCheckout: <TimeOutCheckout asset={asset} />,
     Success: <SuccessStep product={asset} />,
     error: <GenericErrorComponent />

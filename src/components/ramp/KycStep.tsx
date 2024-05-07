@@ -131,17 +131,12 @@ export default function KycStep({ asset }: KycStepProps) {
     setCpfOrCnpj('')
   }, [chooseAccountType])
 
-  useEffect(() => {
-    console.log('errors', errors)
-  }, [errors])
-
   const handleMaskDate = (value: string) => {
     setBirthDay(value.replace(/\D+/g, '').replace(/^(\d{2})(\d{2})(\d+)$/, '$1/$2/$3'))
   }
 
   const handleMaskCpfOrCnpj = (value: string) => {
     if (chooseAccountType === TypeAccount.CPF) {
-      console.log('entrei')
       const data = cpfMask(value)
       setCpfOrCnpj(data)
       return

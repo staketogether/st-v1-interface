@@ -15,6 +15,6 @@ export default function useQuoteOffRamp({ amount, chainId, provider, paymentMeth
   const uri = `api/ramp/quote/sell/${provider}?chainId=${chainId}&paymentMethod=${paymentMethod}&amount=${amount}&tokenSymbol=${tokenSymbol}${includeMarkup && '&includeMarkup=true'}`
 
   const { data, error, isLoading, isValidating, mutate } = useSWR<Quote>(chainId && amount && provider && paymentMethod ? uri : null)
-  console.log('data', data)
+
   return { quote: data, error, isLoading, isValidating, mutate }
 }

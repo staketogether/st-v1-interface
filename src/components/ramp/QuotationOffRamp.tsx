@@ -1,9 +1,7 @@
 import Button from '@/components/shared/Button'
-import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import { BrlaBuyEthStep, amountToQuoteVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useQuoteOffRamp from '@/hooks/ramp/useQuoteOffRamp'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
@@ -18,6 +16,7 @@ import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import AssetInput from '../assets/AssetsInput'
+import useBalanceOf from '@/hooks/contracts/useBalanceOf'
 
 interface QuotationOffRampStepProps {
   asset: Asset
@@ -26,14 +25,9 @@ interface QuotationOffRampStepProps {
 export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampStepProps) {
   const [value, setValue] = useState<string>('0')
   const [chainId] = asset.chains
-  console.log(chainId)
+
   const amountDebounceValue = useDebounce(value, 300)
-  const { account } = useConnectedAccount()
-  const { balance: ethBalance, isLoading: ethBalanceLoading } = useEthBalanceOf({
-    walletAddress: account,
-    chainId,
-    token: asset.contractAddress
-  })
+  const { tokenBalance, isLoading: tokenBalanceLoading } = useBalanceOf({ contractAddress: asset.contractAddress })
 
   const { quote } = useQuoteOffRamp({
     amount: amountDebounceValue,
@@ -43,14 +37,25 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
     includeMarkup: true,
     tokenSymbol: asset.symbol
   })
+  useEffect(() => {
+    if (!quote) {
+      return
+    }
 
-  const { address } = useAccount()
-  const { kycLevelInfo } = useKycLevelInfo('brla', address)
+    quoteVar({
+      ...quote,
+      amountToken: truncateDecimal(quote?.amountToken)
+    })
+  }, [quote])
+
+  const { address: userWalletAddress } = useAccount()
+  const { kycLevelInfo } = useKycLevelInfo('brla', userWalletAddress)
 
   const { t } = useLocaleTranslation()
   const limit = Number(amountDebounceValue) >= Number(kycLevelInfo?.limits.limitSwapSell ?? 0)
-  const error = limit && !!kycLevelInfo?.limits.limitSwapSell
-  const errorMinValue = amountDebounceValue
+  const errorLimitReached = limit && !!kycLevelInfo?.limits.limitSwapSell
+  const errorMaxSellValue = !(Number(tokenBalance.balance) >= Number(amountDebounceValue))
+  const hasError = errorLimitReached || errorMaxSellValue
 
   const handleChange = (v: string) => {
     if (v.includes(',')) {
@@ -66,7 +71,7 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
   }
 
   const handleNext = useCallback(() => {
-    if (!address) {
+    if (!userWalletAddress) {
       stepsControlBuyCryptoVar(BrlaBuyEthStep.ConnectWallet)
       return
     }
@@ -77,26 +82,19 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
     }
 
     stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
-  }, [address, kycLevelInfo?.level])
+  }, [userWalletAddress, kycLevelInfo?.level])
 
   const handleLabelButton = () => {
-    if (error) {
+    if (errorLimitReached) {
       return `${t('v2.stake.depositErrorMessage.DepositLimitReached')}`
+    }
+
+    if (errorMaxSellValue) {
+      return 'Invalid amount'
     }
 
     return t('next')
   }
-
-  useEffect(() => {
-    if (!quote) {
-      return
-    }
-
-    quoteVar({
-      ...quote,
-      amountToken: truncateDecimal(quote?.amountToken)
-    })
-  }, [quote])
 
   useFacebookPixel(`offramp-quotation:${asset.id}`, !!quote, {
     amountToken: parseFloat(quote?.amountToken ?? '0'),
@@ -113,15 +111,16 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
           onChange={v => {
             handleChange(v)
           }}
+          onMaxFunction={() => setValue(tokenBalance.balance)}
           productAsset={asset}
           hasError={false}
-          balance={ethBalance}
-          balanceLoading={ethBalanceLoading}
-          accountIsConnected={!!account}
+          balance={tokenBalance.balance}
+          balanceLoading={tokenBalanceLoading}
+          accountIsConnected={!!userWalletAddress}
         />
 
         <ArrowDown />
-        <InputContainer className={`${error ? 'error' : ''}`}>
+        <InputContainer className={`${errorLimitReached ? 'error' : ''}`}>
           <div>
             <Image src={brlBrla} width={36} height={24} alt='BRL' />
             <span>BRL</span>
@@ -129,7 +128,12 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
           <input type='number' disabled value={quote?.amountBrl} min={0} placeholder='0' step={1} />
         </InputContainer>
       </BoxValuesContainer>
-      <Button onClick={handleNext} disabled={false} label={handleLabelButton()} icon={!error && !errorMinValue && <PiArrowRight />} />
+      <Button
+        onClick={handleNext}
+        disabled={hasError}
+        label={handleLabelButton()}
+        icon={!errorLimitReached && !errorMaxSellValue && <PiArrowRight />}
+      />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
       </footer>

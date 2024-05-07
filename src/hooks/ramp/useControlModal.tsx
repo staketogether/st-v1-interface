@@ -31,8 +31,8 @@ export interface DepositConfig {
   toToken?: string
 }
 export const openBrlaModalVar = makeVar(false)
+
 export const amountToQuoteVar = makeVar<string>('')
-export const typeRampVar = makeVar<'buy' | 'sell'>('buy')
 export const stepsControlBuyCryptoVar = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.Quotation)
 export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
 export const offRampPixKeyVar = makeVar<string>('')

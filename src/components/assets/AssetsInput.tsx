@@ -1,18 +1,15 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { formatNumberByLocale } from '@/services/format'
-import { truncateWei } from '@/services/truncate'
-
-import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import styled from 'styled-components'
 import { Asset } from '@/types/Asset'
 import { ethMainnet } from '@/config/product/asset'
+import { truncateDecimal } from '@/services/truncate'
 
 interface EthereumInputProps {
   ethAmountValue: string
-  balance: bigint
+  balance: string
   balanceLoading: boolean
   hasError: boolean
   onChange: (value: string) => void
@@ -32,7 +29,6 @@ export default function AssetInput({
   accountIsConnected
 }: EthereumInputProps) {
   const { t } = useLocaleTranslation()
-  const { locale } = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const containerHeaderRef = useRef<HTMLDivElement>(null)
 
@@ -72,7 +68,7 @@ export default function AssetInput({
           {balanceLoading ? (
             <SkeletonLoading width={120} />
           ) : (
-            <span>{`${t('balance')}: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${productAsset.symbol}`}</span>
+            <span>{`${t('balance')}: ${truncateDecimal(balance, 6)} ${productAsset.symbol}`}</span>
           )}
         </div>
       )}

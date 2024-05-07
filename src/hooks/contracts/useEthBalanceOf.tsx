@@ -3,21 +3,20 @@ import { useBalance } from 'wagmi'
 
 interface UseEthBalanceOf {
   walletAddress?: `0x${string}`
-  token?: `0x${string}`
   chainId: number
 }
 
-export default function useEthBalanceOf({ walletAddress, chainId, token }: UseEthBalanceOf) {
+export default function useEthBalanceOf({ walletAddress, chainId }: UseEthBalanceOf) {
   const [balance, setBalance] = useState<bigint>(0n)
 
   const { isFetching, refetch, data } = useBalance({
     address: walletAddress,
     chainId,
-    token,
     query: {
       enabled: !!walletAddress
     }
   })
+
   const ethBalance = data?.value ?? 0n
   useEffect(() => {
     setBalance(ethBalance)
