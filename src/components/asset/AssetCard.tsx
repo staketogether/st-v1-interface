@@ -114,7 +114,7 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
     > div {
       display: flex;
       align-items: center;
-      gap: ${({ theme }) => theme.size[12]};
+      gap: ${({ theme }) => theme.size[8]};
       > span {
         color: ${({ theme }) => theme.colorV2.black};
         font-size: ${({ theme }) => theme.font.size[20]};

@@ -9,5 +9,5 @@ interface AssetPriceProps {
 
 export default function AssetPrice({ asset, className }: AssetPriceProps) {
   const { priceConvertedValue, loading } = useCoinConversion('1', asset.chains[0], asset.contractAddress)
-  return loading ? <SkeletonLoading width={80} /> : <span className={className}>{priceConvertedValue}</span>
+  return loading ? <SkeletonLoading width={64} /> : <span className={className}>{priceConvertedValue}</span>
 }
