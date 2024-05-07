@@ -148,7 +148,7 @@ export const opOptimism: Erc20Asset = {
   isTestnet: false,
   url: '/currency/optimism/product/assets/op-op',
   type: 'erc20',
-  contractAddress: '0x4200000000000000000000000000000000000042',
+  contractAddress: '0x0000000000000000000000000000000000000000',
   category: AssetCategory.Crypto,
   localeDescription: 'op',
   chains: [Chain.OP_MAINNET],
