@@ -53,15 +53,6 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
       icon: getIcon('waiting'),
       text: t('v2.ramp.offRamp.requestRequested')
     }
-    // {
-    //   icon: getIcon(isPaymentIdentified ? 'success' : 'process'),
-    //   text: 'Realizar transferencia para brla'
-    // },
-    // {
-    //   icon: !isPaymentIdentified ? getIcon('waiting') : getIcon(finishedPayment ? 'success' : 'process'),
-    //   text: 'Aguardando Transação',
-    //   disable: !finishedPayment
-    // }
   ]
 
   return <WrapProcessingStep asset={asset} validationSteps={validationSteps} title={t('v2.ramp.processingPayment')} type={type} />
