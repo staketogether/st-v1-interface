@@ -40,7 +40,8 @@ export const ethMainnet: NativeAsset = {
   ramp: [
     {
       chainId: 1,
-      minDeposit: 300
+      minDeposit: 300,
+      provider: 'brla',
     }
   ]
 }
@@ -69,6 +70,7 @@ export const ethOp: NativeAsset = {
     {
       chainId: 10,
       minDeposit: 10,
+      provider: 'brla',
       bridge: {
         fromChainId: 137,
         fromToken: 'MATIC',
@@ -102,6 +104,7 @@ export const btcOp: Erc20Asset = {
     {
       chainId: 10,
       minDeposit: 10,
+      provider: 'brla',
       bridge: {
         fromChainId: 137,
         fromToken: 'MATIC',
@@ -135,7 +138,8 @@ export const chilizChz: NativeAsset = {
   ramp: [
     {
       chainId: 88888,
-      minDeposit: 10
+      minDeposit: 10,
+      provider: 'brla',
     }
   ]
 }
@@ -163,6 +167,7 @@ export const opOptimism: Erc20Asset = {
     {
       chainId: 10,
       minDeposit: 10,
+      provider: 'brla',
       bridge: {
         fromChainId: 137,
         fromToken: 'MATIC',
@@ -197,6 +202,7 @@ export const ethArbitrum: NativeAsset = {
     {
       chainId: 42161,
       minDeposit: 10,
+      provider: 'brla',
       bridge: {
         fromChainId: 137,
         fromToken: 'MATIC',
@@ -230,6 +236,7 @@ export const arbArbitrum: Erc20Asset = {
     {
       chainId: 42161,
       minDeposit: 10,
+      provider: 'brla',
       bridge: {
         fromChainId: 137,
         fromToken: 'MATIC',
@@ -263,6 +270,7 @@ export const maticPolygon: NativeAsset = {
   ramp: [
     {
       chainId: 137,
+      provider: 'brla',
       minDeposit: 10
     }
   ]
@@ -290,6 +298,7 @@ const stpEth: Erc20Asset = {
   ramp: [
     {
       chainId: 1,
+      provider: 'brla',
       minDeposit: 300
     }
   ]
@@ -317,6 +326,7 @@ const stpReth: Erc20Asset = {
   ramp: [
     {
       chainId: 1,
+      provider: 'brla',
       minDeposit: 300
     }
   ]
@@ -331,6 +341,7 @@ export const mengoChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
+      provider: 'brla',
       minDeposit: 1
     }
   ],
@@ -355,6 +366,7 @@ export const galoChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
+      provider: 'brla',
       minDeposit: 1
     }
   ],
@@ -379,6 +391,7 @@ export const fluChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
+      provider: 'brla',
       minDeposit: 1
     }
   ],
@@ -403,6 +416,7 @@ export const vascoChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
+      provider: 'brla',
       minDeposit: 1
     }
   ],
@@ -427,6 +441,7 @@ export const verdaoChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
+      provider: 'brla',
       minDeposit: 1
     }
   ],
@@ -451,6 +466,7 @@ export const saciChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
+      provider: 'brla',
       minDeposit: 1
     }
   ],
@@ -475,6 +491,7 @@ export const spfcChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
+      provider: 'brla',
       minDeposit: 1
     }
   ],
@@ -499,6 +516,7 @@ export const bahiaChz: FanTokenAsset = {
   ramp: [
     {
       chainId: 88888,
+      provider: 'brla',
       minDeposit: 1
     }
   ],

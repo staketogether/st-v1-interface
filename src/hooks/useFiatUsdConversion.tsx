@@ -43,12 +43,10 @@ export default function useFiatUsdConversion() {
 
       if (!isNaN(amount) && rate && !isNaN(rate)) {
         // Use currency.js to multiply and initially format the amount
-        let result = currency(amount, { symbol: '$', precision: 2 }).multiply(rate).format()
+        const result = currency(amount, { symbol: '$', precision: 2 }).multiply(rate)
 
         // Replace the generic dollar symbol with the specific currency symbol
-        result = result.replace('$', `${symbol} `)
-
-        return { formatted: result, raw: result }
+        return { formatted: result.format().replace('$', `${symbol} `), raw: result.toJSON() }
       } else {
         return { formatted: 'N/A', raw: 0 }
       }

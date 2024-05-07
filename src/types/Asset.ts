@@ -9,6 +9,18 @@ export enum AssetCategory {
   Lego = 'lego'
 }
 
+export interface Ramp {
+  chainId: number
+  minDeposit: number
+  provider: 'brla'
+  bridge?: {
+    fromChainId: number
+    fromToken: string
+    toChainId: number
+    toToken: string
+  }
+}
+
 export type AssetId =
   | 'eth-mainnet'
   | 'eth-op'
@@ -51,16 +63,7 @@ export interface NativeAsset {
     elPoints: boolean
   }
   // Todo: Use ID on Backend instead of object
-  ramp: {
-    chainId: number
-    minDeposit: number
-    bridge?: {
-      fromChainId: number
-      fromToken: string
-      toChainId: number
-      toToken: string
-    }
-  }[]
+  ramp: Ramp[]
 }
 
 export interface Erc20Asset {
@@ -84,16 +87,7 @@ export interface Erc20Asset {
     elPoints: boolean
   }
   // Todo: Use ID on Backend instead of object
-  ramp: {
-    chainId: number
-    minDeposit: number
-    bridge?: {
-      fromChainId: number
-      fromToken: string
-      toChainId: number
-      toToken: string
-    }
-  }[]
+  ramp: Ramp[]
 }
 
 export interface FanTokenAsset {
@@ -117,16 +111,7 @@ export interface FanTokenAsset {
     elPoints: boolean
   }
   // Todo: Use ID on Backend instead of object
-  ramp: {
-    chainId: number
-    minDeposit: number
-    bridge?: {
-      fromChainId: number
-      fromToken: string
-      toChainId: number
-      toToken: string
-    }
-  }[]
+  ramp: Ramp[]
 }
 
 export type Asset = NativeAsset | Erc20Asset | FanTokenAsset
