@@ -122,7 +122,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
               margin={{
                 top: 24,
                 left: 24,
-                right: !xs && !sm ? 34 : 6,
+                right: !xs && !sm ? 39 : 6,
                 bottom: 24
               }}
               style={{ fontSize: 11 }}
