@@ -845,6 +845,13 @@
         "oneYear": "1A"
       }
     },
+    "crypto-filter": {
+      "all": "Todos",
+      "stable": "Stablecoins",
+      "fan-token": "Fan Tokens",
+      "meme": "Memecoins",
+      "crypto": "Cripto"
+    },
     "assetDetail": {
       "quantity": "Quantidade",
       "totalAmount": "Valor Total"
