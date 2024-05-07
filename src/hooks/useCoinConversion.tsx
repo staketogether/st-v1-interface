@@ -19,8 +19,6 @@ export default function useCoinConversion(value: string, chainId?: number, contr
       return
     }
 
-    console.log('amount', amount, 'currencyPrice', currencyPrice, 'loadingCurrencyPrices', loadingCurrencyPrices)
-
     if (!isNaN(amount) && !isNaN(currencyPrice)) {
       const priceCalc = amount * currencyPrice
       setCoinUsdPrice(priceCalc.toString())

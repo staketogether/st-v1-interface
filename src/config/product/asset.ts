@@ -106,7 +106,7 @@ export const btcOp: Erc20Asset = {
         fromChainId: 137,
         fromToken: 'MATIC',
         toChainId: 10,
-        toToken: 'bitcoin'
+        toToken: 'wbtc'
       }
     }
   ]
