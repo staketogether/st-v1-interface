@@ -1,4 +1,4 @@
-import { clearModal } from '@/hooks/ramp/useControlModal'
+import { clearRampVars } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ReactNode } from 'react'
 import { PiWarningOctagon } from 'react-icons/pi'
@@ -19,7 +19,7 @@ export default function GenericErrorComponent({ icon, message, subTitle, onClose
       onClose()
       return
     }
-    clearModal()
+    clearRampVars()
   }
   return (
     <Container>

@@ -1,4 +1,4 @@
-import { BrlaBuyEthStep, clearModal, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, clearRampVars, qrCodeVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useControlModal'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -34,7 +34,7 @@ export default function CheckoutStep({ asset, type }: CheckoutStepProps) {
 
   useEffect(() => {
     if (activity?.type === 'pix-to-token' && activity.status !== 'error' && activity.status !== 'created') {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingCheckoutStep)
+      rampStepControlVar(RampSteps.ProcessingCheckoutStep)
     }
   }, [activity])
 
@@ -46,7 +46,7 @@ export default function CheckoutStep({ asset, type }: CheckoutStepProps) {
         const hours = minutes < 0 ? prevTime.hours - 1 : prevTime.hours
         if (hours === 0 && minutes === 0 && seconds === 0) {
           clearInterval(intervalId)
-          setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.TimeOutCheckout), 3000)
+          setTimeout(() => rampStepControlVar(RampSteps.TimeOutCheckout), 3000)
           return {
             ...prevTime,
             seconds: 0
@@ -117,7 +117,7 @@ export default function CheckoutStep({ asset, type }: CheckoutStepProps) {
         </KeyPixArea>
       </Body>
       <Footer>
-        <Button type='button' label={t('v2.ramp.cancelDeposit')} className='outline' block onClick={clearModal} />
+        <Button type='button' label={t('v2.ramp.cancelDeposit')} className='outline' block onClick={clearRampVars} />
       </Footer>
     </Container>
   )

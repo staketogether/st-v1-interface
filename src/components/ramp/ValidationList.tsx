@@ -14,7 +14,7 @@ export default function ValidationList({ validationSteps }: Readonly<{ validatio
     <StatusContainer>
       {validationSteps.map((step, index) => (
         <>
-          <Status key={index}>
+          <Status key={`listKey-${index}`}>
             {step.icon}
             <div>
               <span>{step.text}</span>

@@ -5,7 +5,7 @@ import { makeVar } from '@apollo/client'
 import { BuyRamp } from './useBuyRamp'
 import { KycLevelInfo } from './useKycLevelInfo'
 
-export enum BrlaBuyEthStep {
+export enum RampSteps {
   MethodPayment = 'MethodPayment',
   Quotation = 'Quotation',
   QuotationOffRamp = 'QuotationOffRamp',
@@ -33,7 +33,7 @@ export interface DepositConfig {
 export const openBrlaModalVar = makeVar(false)
 
 export const amountToQuoteVar = makeVar<string>('')
-export const stepsControlBuyCryptoVar = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.Quotation)
+export const rampStepControlVar = makeVar<RampSteps>(RampSteps.Quotation)
 export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
 export const offRampPixKeyVar = makeVar<string>('')
 
@@ -43,18 +43,20 @@ export const kycLevelVar = makeVar<KycLevelInfo | null>(null)
 export const kycIdVar = makeVar<string | null>(null)
 export const rampAssetIdVar = makeVar<AssetId>('eth-mainnet')
 
-export const clearModal = () => {
+export const clearRampVars = () => {
   qrCodeVar(null)
   kycLevelVar(null)
   kycIdVar(null)
   quoteVar(undefined)
+  offRampPixKeyVar('')
   amountToQuoteVar('')
-  stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
+  pixBankInfoVar(undefined)
+  rampStepControlVar(RampSteps.Quotation)
   openBrlaModalVar(false)
 }
 
 export const openQuoteEthModal = (asset: Asset) => {
-  stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
+  rampStepControlVar(RampSteps.Quotation)
   rampAssetIdVar(asset.id)
   openBrlaModalVar(true)
 }
@@ -65,7 +67,7 @@ export const changeWalletAddress = () => {
   kycIdVar(null)
   quoteVar(undefined)
   amountToQuoteVar()
-  stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
+  rampStepControlVar(RampSteps.Quotation)
 }
 
 export const openModal = (asset: Asset) => {

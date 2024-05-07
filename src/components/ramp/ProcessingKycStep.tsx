@@ -1,5 +1,5 @@
 import useBuyRamp, { BuyRampRequest } from '@/hooks/ramp/useBuyRamp'
-import { BrlaBuyEthStep, kycIdVar, kycLevelVar, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, kycIdVar, kycLevelVar, qrCodeVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -65,7 +65,7 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
       return
     }
     if (type === 'sell') {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.PixKeyStep)
+      rampStepControlVar(RampSteps.PixKeyStep)
     }
   }, [
     address,
@@ -83,14 +83,14 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
 
   useEffect(() => {
     if (activity?.status === 'error' && isError) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.Error)
+      rampStepControlVar(RampSteps.Error)
     }
   }, [activity?.status, isError, isErrorBuyRamp])
 
   useEffect(() => {
     if (buyRampResponse?.brCode) {
       qrCodeVar(buyRampResponse)
-      setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Checkout), timeToRedirect)
+      setTimeout(() => rampStepControlVar(RampSteps.Checkout), timeToRedirect)
     }
   }, [activity?.status, activity?.type, buyRampResponse])
 

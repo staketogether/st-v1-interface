@@ -14,7 +14,7 @@ interface SwapInfoProps {
 
 export default function SwapInfo({ asset, type }: SwapInfoProps) {
   const quote = useReactiveVar(quoteVar)
-  console.log(quote)
+
   const [first, second] = [
     <SwapToken key='brla'>
       <div>

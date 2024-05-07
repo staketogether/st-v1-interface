@@ -1,5 +1,5 @@
 import { globalConfig } from '@/config/global'
-import { BrlaBuyEthStep, kycIdVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, kycIdVar, rampStepControlVar } from '@/hooks/ramp/useControlModal'
 import useKycCreate, { KycCreate, KycPayload, TypeAccount } from '@/hooks/ramp/useKycCreate'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -45,7 +45,7 @@ export default function KycStep({ asset }: KycStepProps) {
   const handleSuccess = (data: { id?: string }) => {
     if (data?.id) {
       kycIdVar(data?.id)
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
+      rampStepControlVar(RampSteps.ProcessingKyc)
     }
   }
 

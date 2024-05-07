@@ -98,16 +98,24 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_PAYMASTER_ETH_MAINNET) {
     throw new Error('NEXT_PUBLIC_PAYMASTER_ETH_MAINNET not found in env')
   }
+
   if (!process.env.NEXT_PUBLIC_PAYMASTER_OP_MAINNET) {
     throw new Error('NEXT_PUBLIC_PAYMASTER_OP_MAINNET not found in env')
   }
+
   if (!process.env.NEXT_PUBLIC_PAYMASTER_ARB_MAINNET) {
     throw new Error('NEXT_PUBLIC_PAYMASTER_ARB_MAINNET not found in env')
   }
+
   if (!process.env.NEXT_PUBLIC_PAYMASTER_POL_MAINNET) {
     throw new Error('NEXT_PUBLIC_PAYMASTER_POL_MAINNET not found in env')
   }
+
   if (!process.env.NEXT_PUBLIC_PAYMASTER_CHZ_MAINNET) {
     throw new Error('NEXT_PUBLIC_PAYMASTER_CHZ_MAINNET not found in env')
+  }
+
+  if (!process.env.NEXT_PUBLIC_PAYMASTER_BUNDLER_KEY) {
+    throw new Error('NEXT_PUBLIC_PAYMASTER_BUNDLER_KEY not found in env')
   }
 }

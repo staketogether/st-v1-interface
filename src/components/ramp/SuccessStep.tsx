@@ -1,4 +1,4 @@
-import { clearModal, quoteVar } from '@/hooks/ramp/useControlModal'
+import { clearRampVars, quoteVar } from '@/hooks/ramp/useControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'
@@ -75,7 +75,7 @@ export default function SuccessStep({ product }: SuccessStepProps) {
           <span className='right bold'>{quote?.amountToken} ETH</span>
         </Info>
       </DepositInfo>
-      <Button type='button' label={t('close')} onClick={() => clearModal()} />
+      <Button type='button' label={t('close')} onClick={() => clearRampVars()} />
     </Container>
   )
 }

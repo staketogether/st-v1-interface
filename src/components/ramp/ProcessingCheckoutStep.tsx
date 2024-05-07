@@ -1,4 +1,4 @@
-import { BrlaBuyEthStep, qrCodeVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, qrCodeVar, rampStepControlVar } from '@/hooks/ramp/useControlModal'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
@@ -23,12 +23,12 @@ export default function ProcessingCheckoutStep({ product, type }: ProcessingChec
   const { activity } = useRampActivity(ProviderType.brla, qrCode?.id)
 
   if (activity?.status === 'success') {
-    setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.Success), timeToRedirect)
+    setTimeout(() => rampStepControlVar(RampSteps.Success), timeToRedirect)
   }
 
   useEffect(() => {
     if (activity?.status === 'error') {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.Error)
+      rampStepControlVar(RampSteps.Error)
     }
   }, [activity?.status])
 

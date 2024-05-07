@@ -1,10 +1,9 @@
 import Button from '@/components/shared/Button'
-import { BrlaBuyEthStep, amountToQuoteVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, amountToQuoteVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useQuoteOffRamp from '@/hooks/ramp/useQuoteOffRamp'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { truncateDecimal } from '@/services/truncate'
 import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
@@ -47,9 +46,9 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
 
     quoteVar({
       ...quote,
-      amountToken: truncateDecimal(quote?.amountToken)
+      amountToken: amountDebounceValue
     })
-  }, [quote])
+  }, [quote, amountDebounceValue])
 
   const { address: userWalletAddress } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', userWalletAddress)
@@ -74,16 +73,16 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
 
   const handleNext = useCallback(() => {
     if (!userWalletAddress) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.ConnectWallet)
+      rampStepControlVar(RampSteps.ConnectWallet)
       return
     }
 
     if (!kycLevelInfo?.level) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc)
+      rampStepControlVar(RampSteps.Kyc)
       return
     }
 
-    stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
+    rampStepControlVar(RampSteps.ProcessingKyc)
   }, [userWalletAddress, kycLevelInfo?.level])
 
   const handleLabelButton = () => {

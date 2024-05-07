@@ -15,6 +15,7 @@ import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
 import { AssetStats } from '@/types/AssetStats'
+import { clearRampVars } from '@/hooks/ramp/useControlModal'
 
 interface AssetsControlProps {
   product: Asset
@@ -50,6 +51,12 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
     })
   }
   useFacebookPixel(`pageview:asset_${product.id}`)
+
+  useEffect(() => {
+    return () => {
+      clearRampVars()
+    }
+  }, [])
 
   return (
     <Container>

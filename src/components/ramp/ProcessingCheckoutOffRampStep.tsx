@@ -1,4 +1,4 @@
-import { amountToQuoteVar, offRampPixKeyVar } from '@/hooks/ramp/useControlModal'
+import { offRampPixKeyVar, quoteVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
@@ -21,17 +21,11 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
   const { t } = useLocaleTranslation()
 
   const offRampPixKey = useReactiveVar(offRampPixKeyVar)
-  const fiatAmount = useReactiveVar(amountToQuoteVar)
+  const quote = useReactiveVar(quoteVar)
   const address = walletAddress ?? '0x'
 
   const { sendSellToken } = useOffRampSell({
-    requestBody: {
-      walletAddress: address,
-      pixKey: offRampPixKey,
-      amount: fiatAmount,
-      chainId: asset.chains[0],
-      tokenSymbol: asset.symbol
-    },
+    chainId: asset.chains[0],
     rampProvider: ProviderType.brla
   })
 
@@ -45,8 +39,12 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
   }
 
   useEffect(() => {
-    sendSellToken()
-  }, [sendSellToken])
+    async function send() {
+      if (!address || !offRampPixKey || !quote?.amountToken) return
+      await sendSellToken({ walletAddress: address, pixKey: offRampPixKey, amount: quote?.amountToken, tokenSymbol: asset.symbol })
+    }
+    send()
+  }, [address, asset.chains, asset.symbol, quote?.amountToken, offRampPixKey, sendSellToken])
 
   const validationSteps = [
     {

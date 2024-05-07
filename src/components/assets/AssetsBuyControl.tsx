@@ -1,4 +1,4 @@
-import { BrlaBuyEthStep, changeWalletAddress, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, changeWalletAddress, rampStepControlVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
@@ -39,7 +39,7 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
     error: <GenericErrorComponent />
   }
 
-  const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
+  const currentStep = useReactiveVar(rampStepControlVar)
 
   const titleList: Record<string, string> = {
     Success: t('v2.ramp.success'),
@@ -48,8 +48,8 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
   const title = currentStep in titleList && titleList[currentStep]
 
   useEffect(() => {
-    if (walletAddress && currentStep === BrlaBuyEthStep.ConnectWallet) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
+    if (walletAddress && currentStep === RampSteps.ConnectWallet) {
+      rampStepControlVar(RampSteps.ProcessingKyc)
       return
     }
   }, [walletAddress, currentStep])

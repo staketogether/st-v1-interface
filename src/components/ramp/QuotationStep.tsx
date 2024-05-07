@@ -1,6 +1,6 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import Button from '@/components/shared/Button'
-import { BrlaBuyEthStep, amountToQuoteVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, amountToQuoteVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -66,16 +66,16 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
 
   const handleNext = useCallback(() => {
     if (!address) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.ConnectWallet)
+      rampStepControlVar(RampSteps.ConnectWallet)
       return
     }
 
     if (!kycLevelInfo?.level) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc)
+      rampStepControlVar(RampSteps.Kyc)
       return
     }
 
-    stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
+    rampStepControlVar(RampSteps.ProcessingKyc)
   }, [address, kycLevelInfo?.level])
 
   const handleLabelButton = () => {

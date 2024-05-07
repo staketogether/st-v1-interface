@@ -1,11 +1,11 @@
 import Modal from '@/components/shared/Modal'
 import {
-  BrlaBuyEthStep,
+  RampSteps,
   changeWalletAddress,
-  clearModal,
+  clearRampVars,
   rampAssetIdVar,
   openBrlaModalVar,
-  stepsControlBuyCryptoVar
+  rampStepControlVar
 } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'
@@ -47,7 +47,7 @@ export default function BuyEthControlModal() {
   }
 
   const controlModal = useReactiveVar(openBrlaModalVar)
-  const currentStep = useReactiveVar(stepsControlBuyCryptoVar)
+  const currentStep = useReactiveVar(rampStepControlVar)
   const titleList: Record<string, string> = {
     Success: t('v2.ramp.success'),
     MethodPayment: t('v2.ramp.provider')
@@ -55,8 +55,8 @@ export default function BuyEthControlModal() {
   const title = currentStep in titleList ? titleList[currentStep] : t('v2.ramp.title').replace('symbol', asset.symbol)
 
   useEffect(() => {
-    if (address && currentStep === BrlaBuyEthStep.ConnectWallet) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
+    if (address && currentStep === RampSteps.ConnectWallet) {
+      rampStepControlVar(RampSteps.ProcessingKyc)
       return
     }
   }, [address, currentStep])
@@ -72,10 +72,10 @@ export default function BuyEthControlModal() {
       className={currentStep.toLowerCase()}
       title={title}
       isOpen={controlModal}
-      onClose={clearModal}
+      onClose={clearRampVars}
       width={'auto'}
-      showCloseIcon={currentStep !== BrlaBuyEthStep.Success}
-      showHeader={![BrlaBuyEthStep.TimeOutCheckout, BrlaBuyEthStep.Error].includes(currentStep)}
+      showCloseIcon={currentStep !== RampSteps.Success}
+      showHeader={![RampSteps.TimeOutCheckout, RampSteps.Error].includes(currentStep)}
     >
       <Container>{steps[currentStep]}</Container>
     </Modal>
