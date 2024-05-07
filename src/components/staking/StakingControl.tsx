@@ -17,11 +17,9 @@ export default function StakingControl({ stakingList }: TokenControlProps) {
         <h2>{t(`v3.pages.staking.description`)}</h2>
       </Title>
       <Products>
-        <nav>
-          {stakingList.map(staking => (
-            <StakingCard staking={staking} key={staking.id} />
-          ))}
-        </nav>
+        {stakingList.map(staking => (
+          <StakingCard staking={staking} key={staking.id} />
+        ))}
       </Products>
     </Container>
   )
@@ -33,9 +31,6 @@ const { Container, Products, Title } = {
     display: grid;
     gap: ${({ theme }) => theme.size[24]};
     grid-template-columns: 1fr;
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      grid-template-columns: 350px 1fr;
-    }
   `,
   Title: styled.div`
     display: flex;
@@ -43,14 +38,14 @@ const { Container, Products, Title } = {
     gap: ${({ theme }) => theme.size[12]};
     color: ${({ theme }) => theme.colorV2.blue[1]};
     h1 {
-      font-size: 32px;
+      font-size: ${({ theme }) => theme.font.size[32]};
       font-style: normal;
       font-weight: 500;
       line-height: normal;
       line-height: 52px;
     }
     h2 {
-      font-size: 20px;
+      font-size: ${({ theme }) => theme.font.size[20]};
       font-style: normal;
       font-weight: 400;
       line-height: normal;
@@ -62,20 +57,16 @@ const { Container, Products, Title } = {
       h1 {
         font-size: 48px;
       }
-
-      max-width: 270px;
     }
   `,
-  Products: styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: ${({ theme }) => theme.size[8]};
-    nav {
-      width: 100%;
-      display: grid;
+  Products: styled.nav`
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: ${({ theme }) => theme.size[24]};
+
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: ${({ theme }) => theme.size[24]};
     }
   `
 }
