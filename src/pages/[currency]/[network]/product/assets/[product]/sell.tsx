@@ -1,5 +1,4 @@
 import AssetsControl from '@/components/assets/AssetsControl'
-import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { chainConfigByChainId } from '@/config/chain'
@@ -45,7 +44,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
     <LayoutTemplate>
       <Metatags />
       <AssetsControl product={product} assetData={assetData} chainId={chainId} type='sell' />
-      <BuyEthControlModal chainId={chainId} />
+      {/* <BuyEthControlModal chainId={chainId} /> */}
     </LayoutTemplate>
   )
 }

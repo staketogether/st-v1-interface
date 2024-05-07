@@ -3,12 +3,24 @@ import { Asset } from '@/types/Asset'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import AssetsBuyControl from './AssetsBuyControl'
+import dynamic from 'next/dynamic'
+import LottieAnimation from '../shared/LottieAnimation'
+import loadingAnimation from '@assets/animations/loading-animation.json'
 
 interface AssetsActionsControlProps {
   type: 'buy' | 'sell' | 'swap'
   product: Asset
 }
+
+const AssetsBuyControl = dynamic(() => import('./AssetsBuyControl'), {
+  ssr: false,
+  loading: () => (
+    <LoadingContainer>
+      <LottieAnimation animationData={loadingAnimation} height={70} loop />
+    </LoadingContainer>
+  ),
+  suspense: true
+})
 
 export default function AssetsActionsControl({ type, product }: AssetsActionsControlProps) {
   const { t } = useLocaleTranslation()
@@ -38,7 +50,7 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
   )
 }
 
-const { EthereumContainer, BuyAssetContainer } = {
+const { EthereumContainer, LoadingContainer, BuyAssetContainer } = {
   EthereumContainer: styled.div`
     display: flex;
     flex-direction: column;
@@ -116,6 +128,16 @@ const { EthereumContainer, BuyAssetContainer } = {
           }
         }
       }
+    }
+  `,
+  LoadingContainer: styled.div`
+    width: 100%;
+    min-height: 400px;
+
+    display: grid;
+    place-items: center;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      min-height: 524px;
     }
   `,
   BuyAssetContainer: styled.div``

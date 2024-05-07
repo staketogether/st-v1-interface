@@ -21,6 +21,7 @@ export default function useBalanceOf({ contractAddress, walletAddress }: useBala
     decimals: 18,
     symbol: ''
   })
+
   const { address: accountAddress } = useAccount()
   const address = walletAddress ? walletAddress : accountAddress ?? '0x0'
   const { data, isFetching, isLoading, refetch } = useReadContracts({

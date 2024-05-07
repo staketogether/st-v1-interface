@@ -1,4 +1,3 @@
-import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
 import { BrlaBuyEthStep, changeWalletAddress, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
@@ -23,7 +22,6 @@ import ConnectWallet from '../shared/ConnectWallet'
 export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell' | 'swap'; asset: Asset }) {
   const { t } = useLocaleTranslation()
   const { address: walletAddress } = useAccount()
-  const { refetch } = useEthBalanceOf({ walletAddress: walletAddress, chainId: 1 })
 
   const steps = {
     MethodPayment: <PaymentMethod asset={asset} />,
@@ -54,12 +52,7 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
       stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
       return
     }
-
-    if (walletAddress && currentStep === BrlaBuyEthStep.Success) {
-      refetch()
-      return
-    }
-  }, [walletAddress, currentStep, refetch])
+  }, [walletAddress, currentStep])
 
   useEffect(() => {
     if (walletAddress) {
