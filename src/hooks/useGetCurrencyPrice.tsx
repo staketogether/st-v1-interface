@@ -31,7 +31,6 @@ export default function useGetCurrencyPrice() {
             percentChange24h: response.data.market_data.price_change_percentage_24h
           }
         })
-        console.log('responseData', responseData)
         currencyPriceListVar(responseData)
         setLoading(false)
       } catch (error) {
