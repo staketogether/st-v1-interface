@@ -49,7 +49,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
     return filters[activeFilter]
   }
 
-  const { usdToCurrency, currencyToUsd } = useFiatUsdConversion()
+  const { currencyToUsd } = useFiatUsdConversion()
 
   const { assetStats, isLoading } = useAssetStatsChart({
     chainId: asset.chains[0],
@@ -74,7 +74,6 @@ export default function PriceChart({ asset }: PriceChartProps) {
 
   const quotedBrlAmount = Number(quotedAmount?.amountBrl ?? 0) / Number(quotedAmount?.amountToken ?? 0)
   const quotedUsdAmount = currencyToUsd(quotedBrlAmount, 'BRL')
-  const quotedFiatAmount = usdToCurrency(quotedUsdAmount.raw)
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
@@ -93,20 +92,20 @@ export default function PriceChart({ asset }: PriceChartProps) {
   }, [assetStats?.prices])
 
   const concatChartData = useMemo(() => {
-    if (quotedFiatAmount && !quotedLoading) {
+    if (quotedUsdAmount && !quotedLoading) {
       const currentTimestamp = DateTime.now().toLocaleString()
 
       return [
         ...chartData,
         {
           timestamp: currentTimestamp,
-          price: quotedFiatAmount.raw
+          price: quotedUsdAmount.raw
         }
       ]
     }
 
     return chartData
-  }, [quotedFiatAmount, chartData, quotedLoading])
+  }, [quotedUsdAmount, quotedLoading, chartData])
 
   return (
     <>
