@@ -28,8 +28,8 @@ export default function useOffRampSell({ chainId, rampProvider }: { chainId: num
         if (paymentDetails.data.bridge) {
           const { tx } = paymentDetails.data.bridge
           const teste = await smartWallet.sendTransaction(tx, { paymasterServiceData: { mode: PaymasterMode.SPONSORED } })
-          console.log('teste', teste.waitForTxHash())
-          console.log('teste', teste.wait())
+          console.log('teste', await teste.waitForTxHash())
+          console.log('teste', await teste.wait())
           rampStepControlVar(RampSteps.Success)
         } else {
           await smartWallet.sendTransaction(
