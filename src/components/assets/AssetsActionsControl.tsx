@@ -132,13 +132,10 @@ const { EthereumContainer, LoadingContainer, BuyAssetContainer } = {
   `,
   LoadingContainer: styled.div`
     width: 100%;
-    min-height: 400px;
+    min-height: 352px;
 
     display: grid;
     place-items: center;
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-height: 524px;
-    }
   `,
   BuyAssetContainer: styled.div``
 }

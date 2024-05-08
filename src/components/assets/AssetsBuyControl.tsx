@@ -23,32 +23,18 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
   const { t } = useLocaleTranslation()
   const { address: walletAddress } = useAccount()
 
-  const steps = {
-    MethodPayment: <PaymentMethod asset={asset} />,
-    Quotation: <QuotationStep asset={asset} />,
-    QuotationOffRamp: <QuotationOffRampStep asset={asset} />,
-    Kyc: <KycStep asset={asset} />,
-    ConnectWallet: <ConnectWallet useModal />,
-    ProcessingKyc: <ProcessingKycStep product={asset} type={type} />,
-    ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} type={type} />,
-    Checkout: <CheckoutStep asset={asset} type={type} />,
-    TimeOutCheckout: <TimeOutCheckout asset={asset} />,
-    Success: <SuccessStep product={asset} />,
-    PixKeyStep: <PixKeyStep />,
-    ProcessingCheckoutOffRampStep: <ProcessingCheckoutOffRampStep walletAddress={walletAddress} asset={asset} type={type} />,
-    error: <GenericErrorComponent />
-  }
-
+  rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)
   const currentStep = useReactiveVar(rampStepControlVar)
 
   const titleList: Record<string, string> = {
     Success: type === 'buy' ? t('v2.ramp.onRamp.success') : t('v2.ramp.offRamp.success'),
     MethodPayment: t('v2.ramp.provider')
   }
-  const title = currentStep in titleList && titleList[currentStep]
+
+  const title = currentStep ? currentStep in titleList && titleList[currentStep] : ''
 
   useEffect(() => {
-    if (walletAddress && currentStep === RampSteps.ConnectWallet) {
+    if (walletAddress && currentStep && currentStep === RampSteps.ConnectWallet) {
       rampStepControlVar(RampSteps.ProcessingKyc)
       return
     }
@@ -60,10 +46,26 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
     }
   }, [walletAddress])
 
+  const steps = {
+    MethodPayment: <PaymentMethod asset={asset} />,
+    Quotation: <QuotationStep asset={asset} />,
+    QuotationOffRamp: <QuotationOffRampStep asset={asset} />,
+    Kyc: <KycStep asset={asset} />,
+    ConnectWallet: <ConnectWallet useModal />,
+    ProcessingKyc: <ProcessingKycStep product={asset} type={type} />,
+    ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} type={type} />,
+    Checkout: <CheckoutStep asset={asset} type={type} />,
+    TimeOutCheckout: <TimeOutCheckout asset={asset} />,
+    Success: <SuccessStep product={asset} type={type} />,
+    PixKeyStep: <PixKeyStep />,
+    ProcessingCheckoutOffRampStep: <ProcessingCheckoutOffRampStep walletAddress={walletAddress} asset={asset} type={type} />,
+    error: <GenericErrorComponent />
+  }
+
   return (
     <Container>
       {title && <h2>{title}</h2>}
-      {steps[currentStep]}
+      {currentStep && steps[currentStep]}
     </Container>
   )
 }

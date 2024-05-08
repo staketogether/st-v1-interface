@@ -1,4 +1,4 @@
-import { RampSteps, clearRampVars, qrCodeVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
+import { RampSteps, clearRampVars, pixBankInfoVar, qrCodeVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -21,6 +21,7 @@ export default function CheckoutStep({ asset, type }: CheckoutStepProps) {
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
   const quote = useReactiveVar(quoteVar)
+  const pixBankInfo = useReactiveVar(pixBankInfoVar)
   const { activity } = useRampActivity(ProviderType.brla, qrCode?.id)
   const [time, setTime] = useState({ hours: 1, minutes: 0, seconds: 0 })
 

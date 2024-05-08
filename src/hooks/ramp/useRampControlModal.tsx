@@ -33,7 +33,7 @@ export interface DepositConfig {
 export const openBrlaModalVar = makeVar(false)
 
 export const amountToQuoteVar = makeVar<string>('')
-export const rampStepControlVar = makeVar<RampSteps>(RampSteps.Quotation)
+export const rampStepControlVar = makeVar<RampSteps | undefined>(undefined)
 export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
 export const offRampPixKeyVar = makeVar<string>('')
 
@@ -51,7 +51,7 @@ export const clearRampVars = () => {
   offRampPixKeyVar('')
   amountToQuoteVar('')
   pixBankInfoVar(undefined)
-  rampStepControlVar(RampSteps.Quotation)
+  rampStepControlVar(undefined)
   openBrlaModalVar(false)
 }
 

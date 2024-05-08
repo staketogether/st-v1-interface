@@ -4,7 +4,7 @@ import { Metatags } from '@/components/shared/meta/Metatags'
 import { chainConfigByChainId } from '@/config/chain'
 import { globalConfig } from '@/config/global'
 import { assetsList } from '@/config/product/asset'
-import { RampSteps, amountToQuoteVar, openQuoteEthModal, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
+import { amountToQuoteVar, openQuoteEthModal } from '@/hooks/ramp/useRampControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
 import { Asset } from '@/types/Asset'
@@ -25,7 +25,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
   const router = useRouter()
   const minAmount = product.ramp[0].minDeposit
   const config = chainConfigByChainId(product.chains[0])
-  rampStepControlVar(RampSteps.QuotationOffRamp)
+
   const { onInit: buyCrypto } = useTransak({
     productsAvailed: 'BUY',
     network: config.name.toLowerCase()
