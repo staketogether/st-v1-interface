@@ -5,6 +5,7 @@ import { useAccount, useReadContracts } from 'wagmi'
 interface useBalanceOfProps {
   contractAddress: `0x${string}`
   walletAddress?: `0x${string}`
+  chainId: number
 }
 
 interface TokenBalance {
@@ -14,7 +15,7 @@ interface TokenBalance {
   symbol: string
 }
 
-export default function useBalanceOf({ contractAddress, walletAddress }: useBalanceOfProps) {
+export default function useBalanceOf({ contractAddress, walletAddress, chainId }: useBalanceOfProps) {
   const [tokenBalance, setTokenBalance] = useState<TokenBalance>({
     rawBalance: BigInt(0),
     balance: '0',
@@ -26,22 +27,26 @@ export default function useBalanceOf({ contractAddress, walletAddress }: useBala
   const address = walletAddress ? walletAddress : accountAddress ?? '0x0'
   const { data, isFetching, isLoading, refetch } = useReadContracts({
     allowFailure: false,
+
     contracts: [
       {
         address: contractAddress,
         abi: erc20Abi,
         functionName: 'balanceOf',
-        args: [address]
+        args: [address],
+        chainId
       },
       {
         address: contractAddress,
         abi: erc20Abi,
-        functionName: 'decimals'
+        functionName: 'decimals',
+        chainId
       },
       {
         address: contractAddress,
         abi: erc20Abi,
-        functionName: 'symbol'
+        functionName: 'symbol',
+        chainId
       }
     ]
   })

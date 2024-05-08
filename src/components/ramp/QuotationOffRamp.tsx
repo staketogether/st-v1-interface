@@ -29,7 +29,7 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
   const [chainId] = asset.chains
 
   const { t } = useLocaleTranslation()
-  const { tokenBalance, isLoading: tokenBalanceLoading } = useBalanceOf({ contractAddress: asset.contractAddress })
+  const { tokenBalance, isLoading: tokenBalanceLoading } = useBalanceOf({ contractAddress: asset.contractAddress, chainId })
 
   const { quote, isLoading } = useQuoteOffRamp({
     amount: amountDebounceValue,

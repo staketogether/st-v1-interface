@@ -5,9 +5,12 @@ import { Asset } from '@/types/Asset'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import { useEffect } from 'react'
-import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
+import { PiClockLight } from 'react-icons/pi'
+import loadingAnimation from '@assets/animations/loading-animation.json'
 import { useTheme } from 'styled-components'
 import WrapProcessingStep from './WrapProcessingStep'
+import LottieAnimation from '../shared/LottieAnimation'
+import successAnimation from '@assets/animations/success-animation.json'
 
 interface ProcessingCheckoutStepProps {
   product: Asset
@@ -36,9 +39,9 @@ export default function ProcessingCheckoutStep({ product, type }: ProcessingChec
 
   const getIcon = (moment: 'waiting' | 'process' | 'success') => {
     const icons = {
-      waiting: <PiCircleLight size={32} color={theme.color.secondary} />,
+      waiting: <LottieAnimation animationData={loadingAnimation} height={32} loop />,
       process: <PiClockLight size={32} color={theme.color.secondary} />,
-      success: <PiCheckCircleFill size={32} color={theme.color.green[500]} />
+      success: <LottieAnimation animationData={successAnimation} height={32} />
     }
 
     return icons[moment]

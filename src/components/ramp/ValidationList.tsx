@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 export interface ValidationSteps {
   icon: ReactNode
-  text: string
+  text: ReactNode | string
   subText?: string
 }
 

@@ -28,6 +28,7 @@ export default function useOffRampSell({ chainId, rampProvider }: { chainId: num
           const { tx } = paymentDetails.data.bridge
           const teste = await smartWallet.sendTransaction(tx)
           console.log('teste', teste)
+          rampStepControlVar(RampSteps.Success)
         } else {
           await smartWallet.sendTransaction({
             to: paymentDetails.data.paymentWalletAddress,

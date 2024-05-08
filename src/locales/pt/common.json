@@ -709,7 +709,6 @@
     },
     "ramp": {
       "title": "Comprar symbol com PIX",
-      "success": "Depósito concluído com sucesso",
       "checkOut": "Finalizar Compra",
       "processingRegistration": "Processando Cadastro",
       "processingPayment": "Processando Pagamento",
@@ -765,11 +764,14 @@
         "paymentTime": "Tempo de pagamento",
         "timeOut": "Infelizmente o seu prazo para efetuar o pagamento expirou!"
       },
+      "onRamp": {
+        "success": "Depósito concluído com sucesso"
+      },
       "offRamp": {
         "requestRequested": "Pedido solicitado",
         "exchange": "Swap BRLA na Blockchain",
         "sendingPix": "Enviado Pix",
-        "success": "Seu dinheiro já está disponível no sua conta",
+        "success": "Saque realizado com sucesso!",
         "youReceived": "Você Recebeu",
         "successTitle": "Saque realizado com sucesso!"
       }

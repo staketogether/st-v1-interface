@@ -61,15 +61,6 @@ export const openQuoteEthModal = (asset: Asset) => {
   openBrlaModalVar(true)
 }
 
-export const changeWalletAddress = () => {
-  qrCodeVar(null)
-  kycLevelVar(null)
-  kycIdVar(null)
-  quoteVar(undefined)
-  amountToQuoteVar()
-  rampStepControlVar(RampSteps.Quotation)
-}
-
 export const openModal = (asset: Asset) => {
   rampAssetIdVar(asset.id)
   openBrlaModalVar(true)

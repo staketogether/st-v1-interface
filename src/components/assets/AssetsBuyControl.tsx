@@ -1,4 +1,4 @@
-import { RampSteps, changeWalletAddress, rampStepControlVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, clearRampVars, rampStepControlVar } from '@/hooks/ramp/useControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
@@ -42,7 +42,7 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
   const currentStep = useReactiveVar(rampStepControlVar)
 
   const titleList: Record<string, string> = {
-    Success: t('v2.ramp.success'),
+    Success: type === 'buy' ? t('v2.ramp.onRamp.success') : t('v2.ramp.offRamp.success'),
     MethodPayment: t('v2.ramp.provider')
   }
   const title = currentStep in titleList && titleList[currentStep]
@@ -56,7 +56,7 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
 
   useEffect(() => {
     if (walletAddress) {
-      changeWalletAddress()
+      clearRampVars()
     }
   }, [walletAddress])
 
