@@ -36,8 +36,7 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
   const isWrongNetwork = asset.chains[0] !== walletChainId?.id
 
   const { sendSellToken } = useOffRampSell({
-    chainId: asset.chains[0],
-    rampProvider: ProviderType.brla
+    asset
   })
 
   const getIcon = (moment: 'waiting' | 'process' | 'success') => {

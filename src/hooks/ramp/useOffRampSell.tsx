@@ -1,12 +1,13 @@
 import { globalConfig } from '@/config/global'
 import { PaymentDetails } from '@/types/offRampSell'
-import { ProviderType } from '@/types/provider.type'
 import axios from 'axios'
 import { useCallback, useState } from 'react'
 import usePaymasterSmartWallet from '../usePaymasterSmartWallet'
 import { RampSteps, rampStepControlVar } from './useRampControlModal'
 import { PaymasterMode } from '@biconomy/account'
-import { encodeFunctionData, erc20Abi } from 'viem'
+import { encodeFunctionData, erc20Abi, parseEther } from 'viem'
+import { MaxUint256 } from 'ethers'
+import { Asset } from '@/types/Asset'
 
 interface useOffRampSellRequest {
   walletAddress: `0x${string}`
@@ -15,9 +16,9 @@ interface useOffRampSellRequest {
   tokenSymbol: string
 }
 
-export default function useOffRampSell({ chainId, rampProvider }: { chainId: number; rampProvider: ProviderType }) {
+export default function useOffRampSell({ asset }: { asset: Asset }) {
   const [loading, setLoading] = useState(false)
-  const { smartWallet } = usePaymasterSmartWallet({ chainId })
+  const { smartWallet } = usePaymasterSmartWallet({ chainId: asset.chains[0] })
 
   const sendSellToken = useCallback(
     async (requestBody: useOffRampSellRequest) => {
@@ -25,18 +26,18 @@ export default function useOffRampSell({ chainId, rampProvider }: { chainId: num
       setLoading(true)
       try {
         const { backendUrl } = globalConfig
-        const paymentDetails = await axios.post<PaymentDetails>(`${backendUrl}/api/ramp/sell/${rampProvider}`, { ...requestBody, chainId })
+        const paymentDetails = await axios.post<PaymentDetails>(`${backendUrl}/api/ramp/sell/${asset.ramp[0].provider}`, { ...requestBody, chainId: asset.chains[0] })
         if (paymentDetails.data.bridge) {
           const approveTxData = encodeFunctionData({
             abi: erc20Abi,
-            args: [await smartWallet.getAddress(), BigInt(paymentDetails.data.maximumTokenAmount)],
-            functionName: 'approve'
+            args: [await smartWallet.getAddress(), 141738092086n],
+            functionName: 'approve',
           })
 
           console.log(approveTxData, 'approveTxData')
 
           const approveTx = {
-            to: paymentDetails.data.bridge.tx.to,
+            to: asset.contractAddress,
             data: approveTxData
           }
 
@@ -64,12 +65,13 @@ export default function useOffRampSell({ chainId, rampProvider }: { chainId: num
           )
         }
         setLoading(false)
-      } catch {
+      } catch (e) {
+        console.log(e)
         rampStepControlVar(RampSteps.QuotationOffRamp)
         setLoading(false)
       }
     },
-    [rampProvider, smartWallet, chainId]
+    [asset.chains, asset.ramp, smartWallet]
   )
 
   return { sendSellToken, loading }
