@@ -6,6 +6,7 @@ import { useCallback, useState } from 'react'
 import usePaymasterSmartWallet from '../usePaymasterSmartWallet'
 import { RampSteps, rampStepControlVar } from './useRampControlModal'
 import { PaymasterMode } from '@biconomy/account'
+import { encodeFunctionData, erc20Abi } from 'viem'
 
 interface useOffRampSellRequest {
   walletAddress: `0x${string}`
@@ -26,10 +27,25 @@ export default function useOffRampSell({ chainId, rampProvider }: { chainId: num
         const { backendUrl } = globalConfig
         const paymentDetails = await axios.post<PaymentDetails>(`${backendUrl}/api/ramp/sell/${rampProvider}`, { ...requestBody, chainId })
         if (paymentDetails.data.bridge) {
-          const { tx } = paymentDetails.data.bridge
-          const teste = await smartWallet.sendTransaction(tx, { paymasterServiceData: { mode: PaymasterMode.SPONSORED } })
-          console.log('teste', await teste.waitForTxHash())
-          console.log('teste', await teste.wait())
+          const approveTxData = encodeFunctionData({
+            abi: erc20Abi,
+            args: [await smartWallet.getAddress(), BigInt(paymentDetails.data.maximumTokenAmount)],
+            functionName: 'approve'
+          })
+          const approveTx = {
+            to: paymentDetails.data.bridge.tx.to,
+            data: approveTxData
+          }
+
+          const { tx: sellTx } = paymentDetails.data.bridge
+
+          const userOp = await smartWallet.buildUserOp([approveTx, sellTx], {
+            paymasterServiceData: { mode: PaymasterMode.SPONSORED }
+          })
+
+          const opResponse = await smartWallet.sendUserOp(userOp)
+          const opStatus = await opResponse.waitForTxHash()
+          console.log('opStatus', opStatus)
           rampStepControlVar(RampSteps.Success)
         } else {
           await smartWallet.sendTransaction(
