@@ -2,11 +2,10 @@ import { Chain } from '@/config/chain'
 import { StaticImageData } from 'next/image'
 
 export enum AssetCategory {
-  Crypto = 'crypto',
   Stable = 'stable',
   FanToken = 'fan-token',
-  Meme = 'meme',
-  Lego = 'lego'
+  Defi = 'defi',
+  Infrastructure = 'infrastructure',
 }
 
 export interface Ramp {
@@ -41,6 +40,21 @@ export type AssetId =
   | 'saci-chz'
   | 'spfc-chz'
   | 'bahia-chz'
+  | 'pendle-arb'
+  | 'chainlink-op'
+  | 'render-arb'
+  | 'thegraph-arb'
+  | 'worldcoin-op'
+  | 'aave-op'
+  | 'uniswap-op'
+  | 'ssv-eth'
+  | 'usdc-op'
+  | 'usdt-op'
+  | 'brla-matic'
+  | 'eurt-op'
+  | 'goldt-op'
+  | 'solana-eth'
+  | 'thorchain-eth'
 
 export interface NativeAsset {
   id: AssetId
