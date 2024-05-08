@@ -97,10 +97,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
 
-  const contractAddress =
-    foundProduct.asset.type === 'native' ? foundProduct.asset.wrapperContractAddress : foundProduct.asset.contractAddress
-
-  const assetData = await fetchProductAssetData(`asset-stats/${chainId}/${contractAddress}`)
+  const assetData = await fetchProductAssetData(`asset-stats/${chainId}/${foundProduct.asset.contractAddress}`)
 
   if (!assetData) {
     return {

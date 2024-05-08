@@ -23,12 +23,11 @@ export default function AnalyticsControl() {
   const staking = getStakingById('eth-staking')
   const { StakeTogether, Router, Withdrawals } = staking.contracts
 
-  const contractAddress = staking.asset.type === 'native' ? staking.asset.wrapperContractAddress : staking.asset.contractAddress
 
-  const { priceConvertedValue } = useCoinConversion('1', staking.asset.chains[0], contractAddress)
+  const { priceConvertedValue } = useCoinConversion('1', staking.asset.chains[0], staking.asset.contractAddress)
   const ethPrice = priceConvertedValue
   const tvl = formatNumberByLocale(truncateDecimal(String(analytics?.totalValueLocked) || '0', 2), locale)
-  const { priceConvertedValue: tvlUsdPrice } = useCoinConversion(tvl, staking.asset.chains[0], contractAddress)
+  const { priceConvertedValue: tvlUsdPrice } = useCoinConversion(tvl, staking.asset.chains[0], staking.asset.contractAddress)
 
   const tvlUsdPriceFormatted = tvlUsdPrice
   const totalAccounts = analytics?.accountsCount
@@ -36,7 +35,7 @@ export default function AnalyticsControl() {
   const withdrawalsCount = analytics?.withdrawalsCount
 
   const totalRewards = formatNumberByLocale(truncateDecimal(String(analytics?.totalRewards) || '0', 2), locale)
-  const { priceConvertedValue: totalRewardsUsdPrice } = useCoinConversion(totalRewards, staking.asset.chains[0], contractAddress)
+  const { priceConvertedValue: totalRewardsUsdPrice } = useCoinConversion(totalRewards, staking.asset.chains[0], staking.asset.contractAddress)
   const totalRewardsUsdPriceFormatted = totalRewardsUsdPrice
 
   const poolsCount = analytics?.poolsCount
@@ -44,21 +43,21 @@ export default function AnalyticsControl() {
   const { priceConvertedValue: totalPoolsRewardsUsdPriceFormatted } = useCoinConversion(
     totalPoolsRewards,
     staking.asset.chains[0],
-    contractAddress
+    staking.asset.contractAddress
   )
 
   const totalContractsBalance = formatNumberByLocale(truncateDecimal(String(analytics?.contractBalance) || '0', 2), locale)
   const { priceConvertedValue: totalContractsBalanceUsdFormatted } = useCoinConversion(
     totalContractsBalance,
     staking.asset.chains[0],
-    contractAddress
+    staking.asset.contractAddress
   )
 
   const validatorsAmountTotal = formatNumberByLocale(truncateDecimal(String(analytics?.validatorsAmountTotal) || '0', 2), locale)
   const { priceConvertedValue: validatorsAmountTotalUsdFormatted } = useCoinConversion(
     validatorsAmountTotal,
     staking.asset.chains[0],
-    contractAddress
+    staking.asset.contractAddress
   )
 
   const { balance: stakeTogetherContract, isLoading: stakeTogetherContractLoading } = useEthBalanceOf({

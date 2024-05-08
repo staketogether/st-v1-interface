@@ -6,9 +6,13 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import styled from 'styled-components'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from './LottieAnimation'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Grid } from 'antd'
+import { ProviderType } from '@/types/provider.type'
+import { PaymentMethodType } from '@/types/payment-method.type'
+import useQuoteBrla from '@/hooks/ramp/useQuote'
+import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 
 interface PriceChartProps {
   asset: Asset
@@ -20,6 +24,7 @@ type PriceChartFilter = '1W' | '1M' | '3M' | '1Y'
 
 export default function PriceChart({ asset }: PriceChartProps) {
   const [activeFilter, setActiveFilter] = useState<PriceChartFilter>('1M')
+  const [chartData, setChartData] = useState<{ timestamp: string, price: number }[]>([])
 
   const { t } = useLocaleTranslation()
   const { xs, sm } = useBreakpoint()
@@ -44,6 +49,8 @@ export default function PriceChart({ asset }: PriceChartProps) {
     return filters[activeFilter]
   }
 
+  const { usdToCurrency, currencyToUsd } = useFiatUsdConversion()
+
   const { assetStats, isLoading } = useAssetStatsChart({
     chainId: asset.chains[0],
     contractAddress: asset.contractAddress,
@@ -53,17 +60,53 @@ export default function PriceChart({ asset }: PriceChartProps) {
     refreshInterval: 30 * 1000
   })
 
+  const { quote: quotedAmount, isLoading: quotedLoading } = useQuoteBrla(
+    'brl',
+    asset.ramp[0].minDeposit,
+    asset.ramp[0].bridge?.fromChainId ?? asset.ramp[0].chainId,
+    asset.type === 'fan-token',
+    ProviderType[asset.ramp[0].provider],
+    PaymentMethodType[asset.ramp[0].paymentMethod],
+    asset.ramp[0].bridge?.toChainId.toString(),
+    asset.ramp[0].bridge?.toToken ?? asset.symbol,
+    true
+  )
+
+  const quotedBrlAmount = Number(quotedAmount?.amountBrl ?? 0) / Number(quotedAmount?.amountToken ?? 0)
+  const quotedUsdAmount = currencyToUsd(quotedBrlAmount, 'BRL')
+  const quotedFiatAmount = usdToCurrency(quotedUsdAmount.raw)
+
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
-  const data = assetStats?.prices.length
-    ? assetStats.prices.map(item => {
+  useEffect(() => {
+    const statsChartData: { timestamp: string, price: number }[] = assetStats?.prices.length
+      ? assetStats.prices.map(item => {
         const dateTime = DateTime.fromMillis(item[0]).toLocaleString()
         return {
           timestamp: dateTime,
           price: item[1]
         }
       })
-    : []
+      : []
+
+    setChartData(statsChartData)
+  }, [assetStats?.prices])
+
+  const concatChartData = useMemo(() => {
+    if (quotedFiatAmount && !quotedLoading) {
+      const currentTimestamp = DateTime.now().toLocaleString()
+
+      return [
+        ...chartData,
+        {
+          timestamp: currentTimestamp,
+          price: quotedFiatAmount.raw
+        }
+      ]
+    }
+
+    return chartData
+  }, [quotedFiatAmount, chartData, quotedLoading])
 
   return (
     <>
@@ -75,11 +118,11 @@ export default function PriceChart({ asset }: PriceChartProps) {
         ) : (
           <FormattedResponsiveContainer width='100%' minWidth={350} height={287}>
             <AreaChart
-              data={data}
+              data={concatChartData}
               margin={{
                 top: 24,
                 left: 24,
-                right: !xs && !sm ? 34 : 6,
+                right: !xs && !sm ? 39 : 6,
                 bottom: 24
               }}
               style={{ fontSize: 11 }}
