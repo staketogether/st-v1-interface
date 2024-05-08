@@ -28,21 +28,6 @@ export default function LayoutHeader() {
   const basePath = `/[currency]`
   const isHome = pathname === basePath
 
-  const currencyText = [
-    {
-      key: 1,
-      currency: 'brl'
-    },
-    {
-      key: 2,
-      currency: 'usd'
-    },
-    {
-      key: 1,
-      currency: 'eur'
-    },
-  ]
-
   return (
     <Container>
       <MenuContainer>
@@ -77,9 +62,7 @@ export default function LayoutHeader() {
         <ContainerCurrency>
           <GlobeIcon />
           <span>PT</span>
-          {currencyText.map(crn => (
-            <span key={crn.key}>{currency === crn.currency ? `| ${crn.currency.toLocaleUpperCase()}` : ""}</span>
-          ))}
+          <span>| {(currency as string).toUpperCase()}</span>
         </ContainerCurrency>
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
