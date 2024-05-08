@@ -1,66 +1,44 @@
 import { useEffect, useState } from 'react'
 import { erc20Abi, formatUnits } from 'viem'
-import { useAccount, useReadContracts } from 'wagmi'
+import { useAccount, useReadContract } from 'wagmi'
 
 interface useBalanceOfProps {
   contractAddress: `0x${string}`
   walletAddress?: `0x${string}`
   chainId: number
+  decimals: number
 }
 
 interface TokenBalance {
   rawBalance: bigint
   balance: string
-  decimals: number
-  symbol: string
 }
 
-export default function useBalanceOf({ contractAddress, walletAddress, chainId }: useBalanceOfProps) {
+export default function useBalanceOf({ contractAddress, walletAddress, chainId, decimals }: useBalanceOfProps) {
   const [tokenBalance, setTokenBalance] = useState<TokenBalance>({
     rawBalance: BigInt(0),
-    balance: '0',
-    decimals: 18,
-    symbol: ''
+    balance: '0'
   })
 
   const { address: accountAddress } = useAccount()
-  const address = walletAddress ? walletAddress : accountAddress ?? '0x0'
-  const { data, isFetching, isLoading, refetch } = useReadContracts({
-    allowFailure: false,
 
-    contracts: [
-      {
-        address: contractAddress,
-        abi: erc20Abi,
-        functionName: 'balanceOf',
-        args: [address],
-        chainId
-      },
-      {
-        address: contractAddress,
-        abi: erc20Abi,
-        functionName: 'decimals',
-        chainId
-      },
-      {
-        address: contractAddress,
-        abi: erc20Abi,
-        functionName: 'symbol',
-        chainId
-      }
-    ]
+  const address = walletAddress ? walletAddress : accountAddress ?? '0x0'
+  const { data, isFetching, isLoading, refetch } = useReadContract({
+    abi: erc20Abi,
+    address: contractAddress,
+    chainId: chainId,
+    functionName: 'balanceOf',
+    args: [address]
   })
 
   useEffect(() => {
     if (data) {
-      const balance = formatUnits(data[0], data[1])
-      const decimals = data[1]
-      const symbol = data[2]
-      const rawBalance = data[0]
+      const balance = formatUnits(data, decimals)
+      const rawBalance = data
 
-      setTokenBalance({ rawBalance, balance, decimals, symbol })
+      setTokenBalance({ rawBalance, balance })
     }
-  }, [data])
+  }, [data, decimals])
 
   return { isLoading: isFetching || isLoading, refetch, tokenBalance }
 }

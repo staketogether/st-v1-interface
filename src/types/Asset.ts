@@ -74,7 +74,7 @@ export interface Erc20Asset {
   symbol: string
   symbolImage: string | StaticImageData
   url: string
-  decimals?: number
+  decimals: number
   category: AssetCategory
   chains: Chain[]
   listed: boolean
@@ -97,6 +97,7 @@ export interface FanTokenAsset {
   id: AssetId
   order: number
   symbol: string
+  decimals: number
   symbolImage: string | StaticImageData
   url: string
   category: AssetCategory

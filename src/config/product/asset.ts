@@ -44,7 +44,7 @@ export const ethMainnet: NativeAsset = {
       chainId: 1,
       minDeposit: 300,
       provider: 'brla',
-      paymentMethod: 'pix',
+      paymentMethod: 'pix'
     }
   ]
 }
@@ -148,7 +148,7 @@ export const chilizChz: NativeAsset = {
       chainId: 88888,
       minDeposit: 10,
       provider: 'brla',
-      paymentMethod: 'pix',
+      paymentMethod: 'pix'
     }
   ]
 }
@@ -296,6 +296,7 @@ export const maticPolygon: NativeAsset = {
 const stpEth: Erc20Asset = {
   id: 'stp-eth',
   order: 1,
+  decimals: 18,
   symbol: 'ETH',
   contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
   type: 'erc20',
@@ -326,6 +327,7 @@ const stpReth: Erc20Asset = {
   id: 'str-eth',
   order: 2,
   symbol: 'strETH',
+  decimals: 18,
   contractAddress: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
   type: 'erc20',
   symbolImage: strEthIcon,
@@ -353,6 +355,7 @@ const stpReth: Erc20Asset = {
 
 export const mengoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: true,
@@ -379,6 +382,7 @@ export const mengoChz: FanTokenAsset = {
 
 export const galoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: true,
@@ -405,6 +409,7 @@ export const galoChz: FanTokenAsset = {
 
 export const fluChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: true,
@@ -432,6 +437,7 @@ export const fluChz: FanTokenAsset = {
 export const vascoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
   enabled: true,
+  decimals: 0,
   listed: true,
   new: true,
   points: { elPoints: false, stPoints: true },
@@ -457,6 +463,7 @@ export const vascoChz: FanTokenAsset = {
 
 export const verdaoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: true,
@@ -483,6 +490,7 @@ export const verdaoChz: FanTokenAsset = {
 
 export const saciChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: true,
@@ -509,6 +517,7 @@ export const saciChz: FanTokenAsset = {
 
 export const spfcChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: true,
@@ -535,6 +544,7 @@ export const spfcChz: FanTokenAsset = {
 
 export const bahiaChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: true,
