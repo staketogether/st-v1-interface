@@ -1,12 +1,11 @@
 import { Asset } from '@/types/Asset'
 import { useEffect, useState } from 'react'
 import { erc20Abi, formatUnits } from 'viem'
-import { useAccount, useReadContract } from 'wagmi'
+import { useAccount, useBalance, useReadContract } from 'wagmi'
 
 interface useBalanceOfProps {
   asset: Asset
   walletAddress?: `0x${string}`
-  chainId: number
 }
 
 interface TokenBalance {
@@ -14,31 +13,65 @@ interface TokenBalance {
   balance: string
 }
 
-export default function useBalanceOf({ asset, walletAddress, chainId }: useBalanceOfProps) {
+export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps) {
   const [tokenBalance, setTokenBalance] = useState<TokenBalance>({
     rawBalance: BigInt(0),
     balance: '0'
   })
-
+  const [chainId] = asset.chains
   const { address: accountAddress } = useAccount()
 
   const address = walletAddress ? walletAddress : accountAddress ?? '0x0'
-  const { data, isFetching, isLoading, refetch } = useReadContract({
+
+  const {
+    isLoading: nativeIsLoading,
+    isFetching: nativeIsFetching,
+    refetch: nativeRefetch,
+    data: nativeData
+  } = useBalance({
+    address: walletAddress ? walletAddress : undefined,
+    chainId,
+    query: {
+      enabled: asset.type === 'native'
+    }
+  })
+
+  useEffect(() => {
+    if (nativeData) {
+      const balance = formatUnits(nativeData.value, asset.decimals)
+      const rawBalance = nativeData.value
+
+      setTokenBalance({ rawBalance, balance })
+    }
+  }, [nativeData, asset])
+
+  const {
+    data: erc20Data,
+    isFetching: erc20Fetching,
+    isLoading: erc20Loading,
+    refetch: erc20Refetch
+  } = useReadContract({
     abi: erc20Abi,
     address: asset.contractAddress,
     chainId: chainId,
     functionName: 'balanceOf',
-    args: [address]
+    args: [address],
+    query: {
+      enabled: asset.type !== 'native' && !!address
+    }
   })
 
   useEffect(() => {
-    if (data) {
-      const balance = formatUnits(data, asset.decimals)
-      const rawBalance = data
+    if (erc20Data) {
+      const balance = formatUnits(erc20Data, asset.decimals)
+      const rawBalance = erc20Data
 
       setTokenBalance({ rawBalance, balance })
     }
-  }, [data, asset])
+  }, [erc20Data, asset])
 
-  return { isLoading: isFetching || isLoading, refetch, tokenBalance }
+  const isLoading = asset.type === 'native' ? nativeIsLoading || nativeIsFetching : erc20Fetching || erc20Loading
+  const refetch = asset.type === 'native' ? nativeRefetch : erc20Refetch
+
+  return { isLoading, refetch, tokenBalance }
 }

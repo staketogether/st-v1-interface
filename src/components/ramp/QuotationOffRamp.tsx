@@ -27,11 +27,11 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
 
   const amountDebounceValue = useDebounce(value, 300)
   const [chainId] = asset.chains
-
+  const { address: walletAddress } = useAccount()
   const { t } = useLocaleTranslation()
   const { tokenBalance, isLoading: tokenBalanceLoading } = useBalanceOf({
     asset,
-    chainId
+    walletAddress
   })
 
   const { quote, isLoading } = useQuoteOffRamp({
