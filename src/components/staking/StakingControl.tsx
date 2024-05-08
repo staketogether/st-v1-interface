@@ -49,10 +49,11 @@ const { Container, Products, Title } = {
       font-style: normal;
       font-weight: 400;
       line-height: normal;
+      color: ${({ theme }) => theme.color.gray[600]};
     }
 
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      gap: ${({ theme }) => theme.size[24]};
+      gap: ${({ theme }) => theme.size[8]};
 
       h1 {
         font-size: 48px;
