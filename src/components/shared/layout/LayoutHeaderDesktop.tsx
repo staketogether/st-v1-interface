@@ -31,17 +31,14 @@ export default function LayoutHeader() {
   const currencyText = [
     {
       key: 1,
-      lang: 'PT',
       currency: 'brl'
     },
     {
       key: 2,
-      lang: 'EN',
       currency: 'usd'
     },
     {
       key: 1,
-      lang: 'EN',
       currency: 'eur'
     },
   ]
@@ -79,8 +76,9 @@ export default function LayoutHeader() {
         <LayoutNetworkDropdown />
         <ContainerCurrency>
           <GlobeIcon />
+          <span>PT</span>
           {currencyText.map(crn => (
-            <span key={crn.key}>{currency === crn.currency ? `${crn.lang} | ${crn.currency.toLocaleUpperCase()}` : ""}</span>
+            <span key={crn.key}>{currency === crn.currency ? `| ${crn.currency.toLocaleUpperCase()}` : ""}</span>
           ))}
         </ContainerCurrency>
         <Wallet account={account} accountIsConnected={accountIsConnected} />
@@ -142,6 +140,7 @@ const { Container, MenuContainer, WalletContainer, ContainerCurrency, Logo, Menu
       font-size: ${({ theme }) => theme.font.size[14]};
       font-weight: 500;
       white-space: nowrap;
+      cursor: pointer;
     }
   
   `,
