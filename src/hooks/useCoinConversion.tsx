@@ -7,8 +7,7 @@ export default function useCoinConversion(value: string, chainId?: number, contr
   const [loading, setLoading] = useState<boolean>(true)
 
   const { currencyPriceList, isLoading: loadingCurrencyPrices } = useGetCurrencyPrice()
-  const currencyPrice = currencyPriceList.find(currency => currency.id === `${chainId}:${contractAddress?.toLowerCase()}`)?.value ?? 0
-
+  const currencyPrice = currencyPriceList.find(currency => currency.id === `${chainId}:${contractAddress?.toLowerCase()}`)
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
   useEffect(() => {
@@ -19,8 +18,8 @@ export default function useCoinConversion(value: string, chainId?: number, contr
       return
     }
 
-    if (!isNaN(amount) && !isNaN(currencyPrice)) {
-      const priceCalc = amount * currencyPrice
+    if (currencyPrice?.value && !isNaN(amount) && !isNaN(currencyPrice?.value)) {
+      const priceCalc = amount * currencyPrice.value
       setCoinUsdPrice(priceCalc.toString())
       setLoading(false)
     } else {
@@ -31,6 +30,7 @@ export default function useCoinConversion(value: string, chainId?: number, contr
 
   return {
     price: coinUsdPrice,
+    percentChange24h: currencyPrice?.percentChange24h,
     loading: loading || loadingCurrencyPrices,
     priceConvertedValue: handleQuotePrice(Number(coinUsdPrice) ?? 0)
   }
