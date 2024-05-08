@@ -4,7 +4,7 @@ import { ProviderType } from '@/types/provider.type'
 import axios from 'axios'
 import { useCallback, useState } from 'react'
 import usePaymasterSmartWallet from '../usePaymasterSmartWallet'
-import { RampSteps, rampStepControlVar } from './useControlModal'
+import { RampSteps, rampStepControlVar } from './useRampControlModal'
 
 interface useOffRampSellRequest {
   walletAddress: `0x${string}`

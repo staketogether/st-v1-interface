@@ -1,4 +1,4 @@
-import { RampSteps, clearRampVars, qrCodeVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, clearRampVars, qrCodeVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'

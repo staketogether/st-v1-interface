@@ -6,7 +6,7 @@ import {
   rampAssetIdVar,
   openBrlaModalVar,
   rampStepControlVar
-} from '@/hooks/ramp/useControlModal'
+} from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'
 import { useEffect } from 'react'

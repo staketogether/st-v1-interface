@@ -1,5 +1,5 @@
 import useBuyRamp, { BuyRampRequest } from '@/hooks/ramp/useBuyRamp'
-import { RampSteps, kycIdVar, kycLevelVar, qrCodeVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, kycIdVar, kycLevelVar, qrCodeVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'

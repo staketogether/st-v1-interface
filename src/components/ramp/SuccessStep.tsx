@@ -1,4 +1,4 @@
-import { clearRampVars, quoteVar } from '@/hooks/ramp/useControlModal'
+import { clearRampVars, quoteVar } from '@/hooks/ramp/useRampControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useReactiveVar } from '@apollo/client'

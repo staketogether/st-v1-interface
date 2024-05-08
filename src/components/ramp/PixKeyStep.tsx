@@ -1,4 +1,4 @@
-import { RampSteps, offRampPixKeyVar, rampStepControlVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, offRampPixKeyVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form'

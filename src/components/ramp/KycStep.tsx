@@ -1,5 +1,5 @@
 import { globalConfig } from '@/config/global'
-import { RampSteps, kycIdVar, rampStepControlVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, kycIdVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useKycCreate, { KycCreate, KycPayload, TypeAccount } from '@/hooks/ramp/useKycCreate'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'

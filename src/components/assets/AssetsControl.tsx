@@ -15,7 +15,7 @@ import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
 import { AssetStats } from '@/types/AssetStats'
-import { clearRampVars } from '@/hooks/ramp/useControlModal'
+import { clearRampVars } from '@/hooks/ramp/useRampControlModal'
 
 interface AssetsControlProps {
   product: Asset

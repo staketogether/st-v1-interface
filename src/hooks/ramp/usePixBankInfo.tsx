@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import { pixBankInfoVar } from './useControlModal'
+import { pixBankInfoVar } from './useRampControlModal'
 
 export interface PixBankInfo {
   name: string

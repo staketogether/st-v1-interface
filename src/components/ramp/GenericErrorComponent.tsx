@@ -1,4 +1,4 @@
-import { clearRampVars } from '@/hooks/ramp/useControlModal'
+import { clearRampVars } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ReactNode } from 'react'
 import { PiWarningOctagon } from 'react-icons/pi'

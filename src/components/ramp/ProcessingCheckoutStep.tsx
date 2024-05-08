@@ -1,4 +1,4 @@
-import { RampSteps, qrCodeVar, rampStepControlVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, qrCodeVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'

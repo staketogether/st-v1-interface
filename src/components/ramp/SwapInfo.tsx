@@ -1,4 +1,4 @@
-import { quoteVar } from '@/hooks/ramp/useControlModal'
+import { quoteVar } from '@/hooks/ramp/useRampControlModal'
 import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
 import brla from '@assets/images/BRLA.svg'

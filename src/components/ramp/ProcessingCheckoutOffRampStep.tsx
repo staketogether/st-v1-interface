@@ -1,4 +1,4 @@
-import { offRampPixKeyVar, quoteVar } from '@/hooks/ramp/useControlModal'
+import { offRampPixKeyVar, quoteVar } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'

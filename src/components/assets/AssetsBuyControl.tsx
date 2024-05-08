@@ -1,4 +1,4 @@
-import { RampSteps, clearRampVars, rampStepControlVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, clearRampVars, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'

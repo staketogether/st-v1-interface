@@ -1,5 +1,5 @@
 import { chainConfigByChainId } from '@/config/chain'
-import { RampSteps, openBrlaModalVar, rampStepControlVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, openBrlaModalVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useTransak from '@/hooks/useTransak'
 import { Asset } from '@/types/Asset'
