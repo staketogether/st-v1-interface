@@ -78,8 +78,12 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
 
   useEffect(() => {
     async function send() {
-      if (isWrongNetwork) return
-      if (!address || !offRampPixKey || !quote?.amountToken) return
+      if (isWrongNetwork) {
+        return
+      }
+      if (!address || !offRampPixKey || !quote?.amountToken) {
+        return
+      }
       await sendSellToken({ walletAddress: address, pixKey: offRampPixKey, amount: quote?.amountToken, tokenSymbol: asset.symbol })
     }
     send()
