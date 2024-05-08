@@ -32,6 +32,9 @@ export default function useOffRampSell({ chainId, rampProvider }: { chainId: num
             args: [await smartWallet.getAddress(), BigInt(paymentDetails.data.maximumTokenAmount)],
             functionName: 'approve'
           })
+
+          console.log(approveTxData, 'approveTxData')
+
           const approveTx = {
             to: paymentDetails.data.bridge.tx.to,
             data: approveTxData
@@ -39,9 +42,13 @@ export default function useOffRampSell({ chainId, rampProvider }: { chainId: num
 
           const { tx: sellTx } = paymentDetails.data.bridge
 
+          console.log([approveTx, sellTx], 'txs')
+
           const userOp = await smartWallet.buildUserOp([approveTx, sellTx], {
             paymasterServiceData: { mode: PaymasterMode.SPONSORED }
           })
+
+          console.log('userOp', userOp)
 
           const opResponse = await smartWallet.sendUserOp(userOp)
           const opStatus = await opResponse.waitForTxHash()
