@@ -15,7 +15,7 @@ import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
 import { AssetStats } from '@/types/AssetStats'
-import { clearRampVars } from '@/hooks/ramp/useRampControlModal'
+import { RampSteps, clearRampVars, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 
 interface AssetsControlProps {
   product: Asset
@@ -33,6 +33,7 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
   const config = chainConfigByChainId(chainId)
+  rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)
 
   useEffect(() => {
     if (isWrongNetwork && connector && connector.name === 'Web3Auth') {

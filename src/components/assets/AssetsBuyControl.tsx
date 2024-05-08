@@ -23,7 +23,6 @@ export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell'
   const { t } = useLocaleTranslation()
   const { address: walletAddress } = useAccount()
 
-  rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)
   const currentStep = useReactiveVar(rampStepControlVar)
 
   const titleList: Record<string, string> = {
