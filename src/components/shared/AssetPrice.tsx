@@ -9,10 +9,10 @@ interface AssetPriceProps {
 
 export default function AssetPrice({ asset, className }: AssetPriceProps) {
 
-  const { priceConvertedValue, loading, percentChange24h } = useCoinConversion('1', asset.chains[0], asset.contractAddress)
-  const signalPercentChange24h = percentChange24h && percentChange24h > 0 ? '+' : ''
+  const { priceConvertedValue, loading, priceChangePercentage24h } = useCoinConversion('1', asset.chains[0], asset.contractAddress)
+  const signalPercentChange24h = priceChangePercentage24h && priceChangePercentage24h > 0 ? '+' : ''
   return loading ? <SkeletonLoading width={64} /> : <>
     <span className={className}>{priceConvertedValue}</span>
-    {percentChange24h && <span className={percentChange24h > 0 ? 'price-up' : 'price-down'}>{`${signalPercentChange24h}${percentChange24h.toFixed(2)}%`}</span >}
+    {priceChangePercentage24h && <span className={priceChangePercentage24h > 0 ? 'price-up' : 'price-down'}>{`${signalPercentChange24h}${priceChangePercentage24h.toFixed(2)}%`}</span >}
   </>
 }

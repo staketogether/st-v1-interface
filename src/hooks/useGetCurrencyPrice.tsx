@@ -5,7 +5,7 @@ import { makeVar, useReactiveVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-export const currencyPriceListVar = makeVar<{ id: string; value: number; price24h: number, percentChange24h: number }[]>([])
+export const currencyPriceListVar = makeVar<{ id: string; value: number; price24h: number, priceChangePercentage24h: number }[]>([])
 
 export default function useGetCurrencyPrice() {
   const { backendUrl } = globalConfig
@@ -28,13 +28,12 @@ export default function useGetCurrencyPrice() {
             id: `${response.data.ref}`,
             value: response.data.market_data.current_price.usd,
             price24h: response.data.market_data.price_change_24h,
-            percentChange24h: response.data.market_data.price_change_percentage_24h
+            priceChangePercentage24h: response.data.market_data.price_change_percentage_24h
           }
         })
         currencyPriceListVar(responseData)
         setLoading(false)
       } catch (error) {
-        console.error('Error Quotation price:', error)
         setLoading(false)
       }
     }

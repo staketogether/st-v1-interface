@@ -30,7 +30,7 @@ export default function useCoinConversion(value: string, chainId?: number, contr
 
   return {
     price: coinUsdPrice,
-    percentChange24h: currencyPrice?.percentChange24h,
+    priceChangePercentage24h: currencyPrice?.priceChangePercentage24h,
     loading: loading || loadingCurrencyPrices,
     priceConvertedValue: handleQuotePrice(Number(coinUsdPrice) ?? 0)
   }
