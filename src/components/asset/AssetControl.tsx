@@ -63,7 +63,6 @@ const { Container, Products, Title, ContainerButton } = {
   Title: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
     color: ${({ theme }) => theme.colorV2.blue[1]};
     h1 {
       font-size: ${({ theme }) => theme.font.size[32]};
@@ -77,10 +76,11 @@ const { Container, Products, Title, ContainerButton } = {
       font-style: normal;
       font-weight: 400;
       line-height: normal;
+      color: ${({ theme }) => theme.color.gray[600]};
     }
 
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      gap: ${({ theme }) => theme.size[24]};
+      gap: ${({ theme }) => theme.size[8]};
 
       h1 {
         font-size: 48px;
@@ -104,6 +104,7 @@ const { Container, Products, Title, ContainerButton } = {
     flex-wrap: nowrap;
     gap: ${({ theme }) => theme.size[8]};
     overflow-x: auto;
+    margin-top: 32px;
 
     &::-webkit-scrollbar {
       width: 0;
