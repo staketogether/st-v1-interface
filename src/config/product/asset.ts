@@ -15,6 +15,21 @@ import vascoIcon from '@assets/assets/vasco.png'
 import saciIcon from '@assets/assets/saci.png'
 import spfcIcon from '@assets/assets/spfc.png'
 import bahiaIcon from '@assets/assets/bahia.png'
+import pendleIcon from '@assets/assets/pendle.png'
+import chainlinkIcon from '@assets/assets/chainlink.png'
+import renderIcon from '@assets/assets/render.png'
+import theGraphIcon from '@assets/assets/thegraph.png'
+import worldcoinIcon from '@assets/assets/worldcoin.png'
+import uniswapIcon from '@assets/assets/uniswap.png'
+import ssvIcon from '@assets/assets/ssv.png'
+import usdcIcon from '@assets/assets/usdc.png'
+import usdtIcon from '@assets/assets/usdt.png'
+import brlaIcon from '@assets/assets/brla.png'
+import eurtIcon from '@assets/assets/eurt.png'
+import xautIcon from '@assets/assets/xaut.png'
+import solanaIcon from '@assets/assets/solana.png'
+import thorchainIcon from '@assets/assets/thorchain.png'
+import aaveIcon from '@assets/assets/aave.png'
 import { Chain } from '../chain'
 
 export const ethMainnet: NativeAsset = {
@@ -554,7 +569,7 @@ export const pendleArb: Erc20Asset = {
   id: 'pendle-arb',
   order: 14,
   symbol: 'PENDLE',
-  symbolImage: arbIcon,
+  symbolImage: pendleIcon,
   isTestnet: false,
   url: '/currency/arbitrum/product/assets/pendle-arb',
   type: 'erc20',
@@ -589,7 +604,7 @@ export const chainlinkOp: Erc20Asset = {
   id: 'chainlink-op',
   order: 15,
   symbol: 'LINK',
-  symbolImage: opIcon,
+  symbolImage: chainlinkIcon,
   isTestnet: false,
   url: '/currency/optimism/product/assets/chainlink-op',
   type: 'erc20',
@@ -624,7 +639,7 @@ export const renderArb: Erc20Asset = {
   id: 'render-arb',
   order: 16,
   symbol: 'RNDR',
-  symbolImage: arbIcon,
+  symbolImage: renderIcon,
   isTestnet: false,
   url: '/currency/arbitrum/product/assets/render-arb',
   type: 'erc20',
@@ -659,7 +674,7 @@ export const thegraphArb: Erc20Asset = {
   id: 'thegraph-arb',
   order: 17,
   symbol: 'GRT',
-  symbolImage: arbIcon,
+  symbolImage: theGraphIcon,
   isTestnet: false,
   url: '/currency/arbitrum/product/assets/thegraph-arb',
   type: 'erc20',
@@ -694,7 +709,7 @@ export const worldcoinOp: Erc20Asset = {
   id: 'worldcoin-op',
   order: 18,
   symbol: 'WORLD',
-  symbolImage: opIcon,
+  symbolImage: worldcoinIcon,
   isTestnet: false,
   url: '/currency/optimism/product/assets/worldcoin-op',
   type: 'erc20',
@@ -729,7 +744,7 @@ export const aaveOp: Erc20Asset = {
   id: 'aave-op',
   order: 19,
   symbol: 'AAVE',
-  symbolImage: opIcon,
+  symbolImage: aaveIcon,
   isTestnet: false,
   url: '/currency/optimism/product/assets/aave-op',
   type: 'erc20',
@@ -764,7 +779,7 @@ export const uniswapOp: Erc20Asset = {
   id: 'uniswap-op',
   order: 20,
   symbol: 'UNI',
-  symbolImage: opIcon,
+  symbolImage: uniswapIcon,
   isTestnet: false,
   url: '/currency/optimism/product/assets/uniswap-op',
   type: 'erc20',
@@ -799,7 +814,7 @@ export const ssvEth: Erc20Asset = {
   id: 'ssv-eth',
   order: 21,
   symbol: 'SSV',
-  symbolImage: stpEthIcon,
+  symbolImage: ssvIcon,
   isTestnet: false,
   url: '/currency/ethereum/product/assets/ssv-eth',
   type: 'erc20',
@@ -828,7 +843,7 @@ export const usdcOp: Erc20Asset = {
   id: 'usdc-op',
   order: 22,
   symbol: 'USDC',
-  symbolImage: opIcon,
+  symbolImage: usdcIcon,
   isTestnet: false,
   url: '/currency/optimism/product/assets/usdc-op',
   type: 'erc20',
@@ -863,7 +878,7 @@ export const usdtOp: Erc20Asset = {
   id: 'usdt-op',
   order: 23,
   symbol: 'USDT',
-  symbolImage: opIcon,
+  symbolImage: usdtIcon,
   isTestnet: false,
   url: '/currency/optimism/product/assets/usdt-op',
   type: 'erc20',
@@ -898,7 +913,7 @@ export const brlaMatic: Erc20Asset = {
   id: 'brla-matic',
   order: 24,
   symbol: 'BRLA',
-  symbolImage: maticIcon,
+  symbolImage: brlaIcon,
   isTestnet: false,
   url: '/currency/polygon/product/assets/brla-matic',
   type: 'erc20',
@@ -927,7 +942,7 @@ export const eurtOp: Erc20Asset = {
   id: 'eurt-op',
   order: 25,
   symbol: 'EURT',
-  symbolImage: opIcon,
+  symbolImage: eurtIcon,
   isTestnet: false,
   url: '/currency/optimism/product/assets/eurt-op',
   type: 'erc20',
@@ -962,7 +977,7 @@ export const goldtOp: Erc20Asset = {
   id: 'goldt-op',
   order: 26,
   symbol: 'XAUT',
-  symbolImage: opIcon,
+  symbolImage: xautIcon,
   isTestnet: false,
   url: '/currency/optimism/product/assets/goldt-op',
   type: 'erc20',
@@ -990,8 +1005,8 @@ export const goldtOp: Erc20Asset = {
 export const solanaEth: Erc20Asset = {
   id: 'solana-eth',
   order: 27,
-  symbol: 'ETH',
-  symbolImage: ethIcon,
+  symbol: 'SOL',
+  symbolImage: solanaIcon,
   isTestnet: false,
   url: '/currency/ethereum/product/assets/solana-eth',
   type: 'erc20',
@@ -1019,8 +1034,8 @@ export const solanaEth: Erc20Asset = {
 export const thorchainEth: Erc20Asset = {
   id: 'thorchain-eth',
   order: 28,
-  symbol: 'ETH',
-  symbolImage: ethIcon,
+  symbol: 'RUNE',
+  symbolImage: thorchainIcon,
   isTestnet: false,
   url: '/currency/ethereum/product/assets/thorchain-eth',
   type: 'erc20',
