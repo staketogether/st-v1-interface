@@ -5,9 +5,9 @@ import { useCallback, useState } from 'react'
 import usePaymasterSmartWallet from '../usePaymasterSmartWallet'
 import { RampSteps, rampStepControlVar } from './useRampControlModal'
 import { PaymasterMode } from '@biconomy/account'
-import { encodeFunctionData, erc20Abi, parseEther } from 'viem'
-import { MaxUint256 } from 'ethers'
+import { encodeFunctionData, erc20Abi } from 'viem'
 import { Asset } from '@/types/Asset'
+import { useAccount } from 'wagmi'
 
 interface useOffRampSellRequest {
   walletAddress: `0x${string}`
@@ -19,6 +19,7 @@ interface useOffRampSellRequest {
 export default function useOffRampSell({ asset }: { asset: Asset }) {
   const [loading, setLoading] = useState(false)
   const { smartWallet } = usePaymasterSmartWallet({ chainId: asset.chains[0] })
+  const { address } = useAccount()
 
   const sendSellToken = useCallback(
     async (requestBody: useOffRampSellRequest) => {
@@ -30,7 +31,7 @@ export default function useOffRampSell({ asset }: { asset: Asset }) {
         if (paymentDetails.data.bridge) {
           const approveTxData = encodeFunctionData({
             abi: erc20Abi,
-            args: [await smartWallet.getAddress(), 141738092086n],
+            args: [paymentDetails.data.bridge.tx.to as `0x${string}`, 141738092086n],
             functionName: 'approve',
           })
 
@@ -38,21 +39,28 @@ export default function useOffRampSell({ asset }: { asset: Asset }) {
 
           const approveTx = {
             to: asset.contractAddress,
-            data: approveTxData
+            data: approveTxData,
+            from: address
           }
 
-          const { tx: sellTx } = paymentDetails.data.bridge
-
-          console.log([approveTx, sellTx], 'txs')
-
-          const userOp = await smartWallet.buildUserOp([approveTx, sellTx], {
+          const approvalOp = await smartWallet.sendTransaction(approveTx, {
             paymasterServiceData: { mode: PaymasterMode.SPONSORED }
           })
 
-          console.log('userOp', userOp)
+          await approvalOp.wait()
 
-          const opResponse = await smartWallet.sendUserOp(userOp)
-          const opStatus = await opResponse.waitForTxHash()
+          const { tx } = paymentDetails.data.bridge
+          const sellTx = {
+            to: tx.to,
+            data: tx.data,
+            value: tx.value
+          }
+
+          const userOp = await smartWallet.sendTransaction(sellTx, {
+            paymasterServiceData: { mode: PaymasterMode.SPONSORED }
+          })
+
+          const opStatus = await userOp.waitForTxHash()
           console.log('opStatus', opStatus)
           rampStepControlVar(RampSteps.Success)
         } else {
