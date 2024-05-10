@@ -26,7 +26,7 @@ export function AssetsSend({ asset }: { asset: Asset }) {
   const { account } = useConnectedAccount()
   const { isLoading, tokenBalance } = useBalanceOf({ asset, walletAddress: account })
 
-  const { data: hash, error, isPending, sendTransaction } = useSendTransaction()
+  const { data: hash, sendTransaction } = useSendTransaction()
   const {
     register,
     handleSubmit,
