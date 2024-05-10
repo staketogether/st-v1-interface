@@ -39,9 +39,7 @@ export default function AssetCard({ asset }: AssetCardProps) {
         {asset.new && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
       <PriceContainer>
-        <div>
-          <AssetPrice asset={asset} />
-        </div>
+        <AssetPrice asset={asset} showChangePercentage />
       </PriceContainer>
     </CardContainer>
   )
@@ -49,28 +47,51 @@ export default function AssetCard({ asset }: AssetCardProps) {
 
 const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
   PriceContainer: styled.div`
+    gap: ${({ theme }) => theme.size[8]};
     display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    height: 22px;
+    justify-content: center;
+    flex-direction: column;
 
-    > div {
-      display: flex;
-      gap: 8px;
+    > span {
+      color: ${({ theme }) => theme.colorV2.blue[1]};
+      font-size: ${({ theme }) => theme.font.size[22]};
+      font-weight: 500;
+      border-radius: ${({ theme }) => theme.size[8]};
+      padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[8]};
+      &.price {
+        display: flex;
+        align-self: flex-end;
+        background: ${({ theme }) => theme.colorV2.white[1]};
 
-      > span {
-        color: ${({ theme }) => theme.colorV2.blue[1]};
-        font-size: ${({ theme }) => theme.font.size[22]};
-        font-weight: 500;
+        font-size: ${({ theme }) => theme.font.size[16]};
+        font-weight: 600;
+        line-height: normal;
+      }
+
+      &.price-up {
+        align-self: end;
+        font-size: ${({ theme }) => theme.font.size[16]};
+        font-weight: 600;
+        color: ${({ theme }) => theme.color.green[500]};
+        border: 1px solid ${({ theme }) => theme.color.green[500]};
+      }
+
+      &.price-down {
+        align-self: end;
+        font-weight: 600;
+        font-size: ${({ theme }) => theme.font.size[16]};
+        color: ${({ theme }) => theme.color.red[500]};
+        border: 1px solid ${({ theme }) => theme.color.red[500]};
       }
     }
   `,
   CardContainer: styled(Link)`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
-    padding: 24px;
-    gap: 24px;
+    padding: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[24]};
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.colorV2.white};
     box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
@@ -99,10 +120,15 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
     > div {
       display: flex;
       align-items: center;
-      gap: ${({ theme }) => theme.size[12]};
+      gap: ${({ theme }) => theme.size[8]};
+
+      @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+        gap: ${({ theme }) => theme.size[12]};
+      }
+
       > span {
         color: ${({ theme }) => theme.colorV2.black};
-        font-size: 20px;
+        font-size: ${({ theme }) => theme.font.size[20]};
         font-weight: 500;
       }
     }
@@ -115,7 +141,7 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
     height: 25px;
 
     border-radius: 99px;
-    border-radius: 4px;
+    border-radius: ${({ theme }) => theme.size[4]};
     background-color: ${({ theme }) => theme.colorV2.gray[2]};
     border: 1px solid ${({ theme }) => theme.color.blackAlpha[100]};
 
@@ -133,7 +159,7 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
     justify-content: center;
 
     color: ${({ theme }) => theme.colorV2.white} !important;
-    border-radius: 4px;
+    border-radius: ${({ theme }) => theme.size[4]};
     background: linear-gradient(108deg, #3c43ee -11.12%, #ab00fc 110.08%);
 
     font-size: 13px;

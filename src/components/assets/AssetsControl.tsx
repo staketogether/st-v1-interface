@@ -63,7 +63,7 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
         <HeaderProductMobile>
           <div>
             <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={chainId} />
-            {t(`v2.products.${product.id}`)}
+            <span>{t(`v2.products.${product.id}`)}</span>
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
@@ -71,8 +71,10 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
           </div>
           <div>
             <span>{t('v2.ethereumStaking.networkAvailable')}</span>
-            <NetworkIcons network={config.name.toLowerCase()} size={16} />
-            <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
+            <AvailableNetwork>
+              <NetworkIcons network={config.name.toLowerCase()} size={16} />
+              <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
+            </AvailableNetwork>
           </div>
         </HeaderProductMobile>
       </header>
@@ -87,14 +89,19 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
   )
 }
 
-const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, ShareButton } = {
+const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, ShareButton, AvailableNetwork } = {
   Container: styled.div`
     position: relative;
     width: 100%;
     min-width: 100%;
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
+    gap: ${({ theme }) => theme.size[24]};
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      gap: 0;
+    }
+
     > div {
       width: 100%;
       display: flex;
@@ -112,7 +119,7 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
     > header {
       display: flex;
       flex-direction: column;
-      gap: ${({ theme }) => theme.size[8]};
+      gap: ${({ theme }) => theme.size[12]};
     }
   `,
   HeaderProductMobile: styled.div`
@@ -120,20 +127,25 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
 
-    div {
+    > div {
       display: flex;
       align-items: center;
-      gap: ${({ theme }) => theme.size[8]};
 
       &:nth-child(1) {
         font-size: ${({ theme }) => theme.font.size[22]};
         font-style: normal;
         font-weight: 500;
+        gap: ${({ theme }) => theme.size[12]};
+
+        > span {
+          width: 100%;
+        }
       }
 
       &:nth-child(2) {
+        gap: ${({ theme }) => theme.size[4]};
         span {
           font-size: ${({ theme }) => theme.font.size[13]};
           font-style: normal;
@@ -187,5 +199,10 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
     svg {
       color: ${({ theme }) => theme.colorV2.purple[1]};
     }
+  `,
+  AvailableNetwork: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
   `
 }

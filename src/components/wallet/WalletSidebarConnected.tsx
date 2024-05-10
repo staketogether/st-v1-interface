@@ -10,16 +10,7 @@ import { Drawer, Select, notification } from 'antd'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
-import {
-  PiCaretRight,
-  PiChalkboardTeacher,
-  PiChartBar,
-  PiChartLine,
-  PiChartPieSlice,
-  PiGear,
-  PiSignOut,
-  PiWallet
-} from 'react-icons/pi'
+import { PiCaretRight, PiChalkboardTeacher, PiChartBar, PiChartLine, PiChartPieSlice, PiGear, PiSignOut, PiWallet } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useDisconnect } from 'wagmi'
 import { mainnet, optimism } from 'wagmi/chains'
@@ -96,7 +87,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     accountShare: restakingAccountShare
   } = useStAccount({ address: address, productName: 'eth-restaking', chainId: optimism.id })
 
-
   const stAccount = {
     'eth-staking': {
       accountDelegations: stakeAccountDelegations,
@@ -160,14 +150,11 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   })
 
   return (
-    <DrawerContainer placement="right" size="default" onClose={() => setOpenSidebar(false)} mask={true}
-                     open={openSidebar}>
+    <DrawerContainer placement='right' size='default' onClose={() => setOpenSidebar(false)} mask={true} open={openSidebar}>
       {isSettingsActive && !isPanelActive && <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />}
-      {isPanelActive && !isSettingsActive && !isWeb3AuthSettingsActive &&
-        <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
+      {isPanelActive && !isSettingsActive && !isWeb3AuthSettingsActive && <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
       {!isSettingsActive && !isPanelActive && isWeb3AuthSettingsActive && (
-        <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive}
-                                             walletAddress={address} />
+        <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive} walletAddress={address} />
       )}
       {!isSettingsActive && !isPanelActive && !isWeb3AuthSettingsActive && (
         <>
@@ -176,8 +163,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <Web3AuthProfileContainer>
                 {web3AuthUserInfo && web3AuthUserInfo.typeOfLogin && web3AuthUserInfo.profileImage ? (
                   <>
-                    <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={24}
-                                          height={24} />
+                    <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={24} height={24} />
                     <WrapperWallet>{handleWalletProviderImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}</WrapperWallet>
                   </>
                 ) : (
@@ -199,12 +185,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 {!nameLoading && name && !web3AuthUserInfo && (
                   <WalletAddressContainer onClick={() => copyToClipboard(name)}>
                     <span>{truncateText(name, 16)}</span>
-                    <CopyIcon className="copy" />
+                    <CopyIcon className='copy' />
                   </WalletAddressContainer>
                 )}
                 <WalletAddressContainer onClick={() => copyToClipboard(address)}>
                   <span>{truncateAddress(address)}</span>
-                  <CopyIcon className="copy" />
+                  <CopyIcon className='copy' />
                 </WalletAddressContainer>
               </div>
             </HeaderUserContainer>
@@ -243,9 +229,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             }
           >
             <AssetsCard>
-              {accountAssets?.map((walletAsset, index) =>
-                <WalletSidebarAsset walletAsset={walletAsset} key={index} />
-              )}
+              {accountAssets?.map((walletAsset, index) => <WalletSidebarAsset walletAsset={walletAsset} key={index} />)}
             </AssetsCard>
           </Card>
           <Card
@@ -254,25 +238,22 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 <div>
                   <span>{t('selectProduct')}</span>
                   <Select
-                    defaultValue="eth-staking"
+                    defaultValue='eth-staking'
                     style={{ width: '100%', height: '40px' }}
                     onChange={e => setProductTabSelected(e as 'eth-staking' | 'eth-restaking')}
                     options={selectProductOptions}
                   />
                 </div>
                 <HeaderTabHeader>
-                  <div onClick={() => setTabActivated('delegations')}
-                       className={`${tabActivated === 'delegations' && 'activated'} `}>
+                  <div onClick={() => setTabActivated('delegations')} className={`${tabActivated === 'delegations' && 'activated'} `}>
                     <PoolsIcon />
                     <span>{t('delegations')}</span>
                   </div>
-                  <div onClick={() => setTabActivated('rewards')}
-                       className={`${tabActivated === 'rewards' && 'activated'} `}>
+                  <div onClick={() => setTabActivated('rewards')} className={`${tabActivated === 'rewards' && 'activated'} `}>
                     <AnalyticsIcon />
                     <span>{t('rewards')}</span>
                   </div>
-                  <div onClick={() => setTabActivated('activity')}
-                       className={`${tabActivated === 'activity' && 'activated'} `}>
+                  <div onClick={() => setTabActivated('activity')} className={`${tabActivated === 'activity' && 'activated'} `}>
                     <ActivitiesIcon />
                     <span>{t('activity')}</span>
                   </div>
@@ -289,8 +270,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             />
           </Card>
 
-          {stwETHBalance > 0n &&
-            <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />}
+          {stwETHBalance > 0n && <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />}
         </>
       )}
       <UpdateDelegationsModal
@@ -331,344 +311,344 @@ const {
   AssetsCard
 } = {
   DrawerContainer: styled(Drawer)`
-      background-color: ${({ theme }) => theme.colorV2.foreground} !important;
+    background-color: ${({ theme }) => theme.colorV2.foreground} !important;
 
-      .ant-drawer-header.ant-drawer-header-close-only {
-          display: none;
-      }
+    .ant-drawer-header.ant-drawer-header-close-only {
+      display: none;
+    }
 
-      .ant-drawer-body {
-          width: calc(100vw - 60px);
-          display: flex;
-          flex-direction: column;
-          gap: ${({ theme }) => theme.size[16]};
-          padding: ${({ theme }) => theme.size[16]};
-          @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-              width: 380px;
-          }
+    .ant-drawer-body {
+      width: calc(100vw - 60px);
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[16]};
+      padding: ${({ theme }) => theme.size[16]};
+      @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+        width: 380px;
       }
+    }
   `,
   HeaderContainer: styled.div`
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[16]};
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[16]};
   `,
   HeaderUserContainer: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[12]};
+    border-radius: 8px;
+    padding: 4px 8px;
+
+    background: ${({ theme }) => theme.colorV2.blue[1]};
+    border-radius: 8px;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+
+    > div {
       display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[12]};
-      border-radius: 8px;
-      padding: 4px 8px;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[4]};
 
-      background: ${({ theme }) => theme.colorV2.blue[1]};
-      border-radius: 8px;
-      box-shadow: ${({ theme }) => theme.shadow[100]};
-
-      > div {
-          display: flex;
-          flex-direction: column;
-          gap: ${({ theme }) => theme.size[4]};
-
-          span {
-              display: flex;
-              align-items: center;
-              gap: ${({ theme }) => theme.size[4]};
-              cursor: pointer;
-          }
+      span {
+        display: flex;
+        align-items: center;
+        gap: ${({ theme }) => theme.size[4]};
+        cursor: pointer;
       }
+    }
   `,
   ClosedSidebarButton: styled.button`
-      position: absolute;
-      left: -44px;
-      width: 32px;
-      height: 32px;
-      border: 0;
-      border-radius: ${({ theme }) => theme.size[8]};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
-      background: ${({ theme }) => theme.color.white};
-      transition: background 0.2s ease;
-      line-height: 36px;
+    position: absolute;
+    left: -44px;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    background: ${({ theme }) => theme.color.white};
+    transition: background 0.2s ease;
+    line-height: 36px;
 
-      &:hover {
-          background: ${({ theme }) => theme.color.whiteAlpha[700]};
-      }
+    &:hover {
+      background: ${({ theme }) => theme.color.whiteAlpha[700]};
+    }
   `,
   SettingIcon: styled(PiGear)`
-      color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
 
-      &:hover {
-          color: ${({ theme }) => theme.colorV2.purple[1]} !important;
-      }
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+    }
   `,
   WalletIcon: styled(PiWallet)`
-      color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
 
-      &:hover {
-          color: ${({ theme }) => theme.colorV2.purple[1]} !important;
-      }
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+    }
   `,
   PanelIcon: styled(PiChalkboardTeacher)`
-      color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
 
-      &:hover {
-          color: ${({ theme }) => theme.colorV2.purple[1]} !important;
-      }
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+    }
   `,
   CloseSidebar: styled(PiCaretRight)`
-      color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
   `,
   SidebarButton: styled.button`
-      display: grid;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      border: 0;
-      border-radius: ${({ theme }) => theme.size[8]};
-      background: ${({ theme }) => theme.colorV2.white};
-      transition: background 0.2s ease;
-      line-height: 36px;
-      box-shadow: ${({ theme }) => theme.shadow[300]};
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.colorV2.white};
+    transition: background 0.2s ease;
+    line-height: 36px;
+    box-shadow: ${({ theme }) => theme.shadow[300]};
+
+    svg {
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+    }
+
+    &:hover {
+      background: ${({ theme }) => theme.colorV2.gray[2]};
 
       svg {
-          color: ${({ theme }) => theme.colorV2.gray[1]};
+        color: ${({ theme }) => theme.colorV2.purple[1]};
       }
+    }
 
-      &:hover {
-          background: ${({ theme }) => theme.colorV2.gray[2]};
-
-          svg {
-              color: ${({ theme }) => theme.colorV2.purple[1]};
-          }
-      }
-
-      &:first-of-type {
-          margin-left: auto;
-      }
+    &:first-of-type {
+      margin-left: auto;
+    }
   `,
   Logout: styled(PiSignOut)`
-      color: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.color.primary};
   `,
   Actions: styled.div`
-      display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[8]};
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
   `,
   Web3AuthProfileContainer: styled.div`
-      position: relative;
+    position: relative;
   `,
   WrapperWallet: styled.div`
-      position: absolute;
-      top: 14px;
-      left: 15px;
+    position: absolute;
+    top: 14px;
+    left: 15px;
+    border-radius: 50%;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    width: 14px;
+    height: 14px;
+
+    img {
       border-radius: 50%;
-      box-shadow: ${({ theme }) => theme.shadow[100]};
       width: 14px;
       height: 14px;
-
-      img {
-          border-radius: 50%;
-          width: 14px;
-          height: 14px;
-      }
+    }
   `,
   Web3AuthProfileImage: styled(Image)`
-      border-radius: 50%;
+    border-radius: 50%;
   `,
   CopyIcon: styled(FiCopy)`
-      font-size: 11px;
-      color: ${({ theme }) => theme.colorV2.gray[1]};
+    font-size: 11px;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
 
-      &:hover {
-          cursor: pointer;
-          color: ${({ theme }) => theme.colorV2.purple[1]};
-      }
+    &:hover {
+      cursor: pointer;
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+    }
   `,
   WalletAddressContainer: styled.div`
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: ${({ theme }) => theme.color.white};
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: ${({ theme }) => theme.color.white};
 
-      svg {
-          color: ${({ theme }) => theme.color.foreground};
-      }
+    svg {
+      color: ${({ theme }) => theme.color.foreground};
+    }
   `,
   PoolsIcon: styled(PiChartPieSlice)`
-      font-size: 16px;
+    font-size: 16px;
   `,
   AnalyticsIcon: styled(PiChartBar)`
-      font-size: 16px;
+    font-size: 16px;
   `,
   ActivitiesIcon: styled(PiChartLine)`
-      font-size: 16px;
+    font-size: 16px;
   `,
 
   AssetHeaderCard: styled.div`
-      width: 100%;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0px 8px;
+    width: 100%;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 8px;
 
-      border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
-      border-radius: 8px 8px 0 0;
+    border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
+    border-radius: 8px 8px 0 0;
 
-      span {
-          font-weight: 400;
-          font-size: ${({ theme }) => theme.font.size[13]};
-          color: ${({ theme }) => theme.colorV2.gray[1]};
-          opacity: 0.6;
-      }
+    span {
+      font-weight: 400;
+      font-size: ${({ theme }) => theme.font.size[13]};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      opacity: 0.6;
+    }
   `,
   AssetsCard: styled.div`
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: ${({ theme }) => theme.size[16]};
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[16]};
   `,
   HeaderTabContainer: styled.div`
-      display: flex;
-      flex-direction: column;
-      width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 
-      > div {
-          &:nth-child(1) {
-              padding: 12px 12px 0px 12px;
-              display: flex;
-              flex-direction: column;
-              gap: ${({ theme }) => theme.size[8]};
+    > div {
+      &:nth-child(1) {
+        padding: 12px 12px 0px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: ${({ theme }) => theme.size[8]};
 
-              > span {
-                  font-size: ${({ theme }) => theme.font.size[13]};
-                  font-style: normal;
-                  font-weight: 400;
-                  color: ${({ theme }) => theme.colorV2.gray[1]};
-              }
-          }
+        > span {
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-style: normal;
+          font-weight: 400;
+          color: ${({ theme }) => theme.colorV2.gray[1]};
+        }
       }
+    }
   `,
   HeaderTabHeader: styled.div`
-      width: 100%;
-      height: 48px;
-      padding: 0px 12px;
-      border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
-      border-radius: 8px 8px 0 0;
+    width: 100%;
+    height: 48px;
+    padding: 0px 12px;
+    border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
+    border-radius: 8px 8px 0 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: ${({ theme }) => theme.size[4]};
+
+    align-items: center;
+
+    div {
+      height: 100%;
+      font-size: ${({ theme }) => theme.font.size[13]};
+      font-weight: 400;
+      cursor: pointer;
+      border-bottom: 1px solid transparent;
+
+      position: relative;
+      display: inline-block;
+      text-decoration: none;
+      overflow: hidden;
 
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: ${({ theme }) => theme.size[4]};
+      gap: ${({ theme }) => theme.size[8]};
 
-      align-items: center;
-
-      div {
-          height: 100%;
-          font-size: ${({ theme }) => theme.font.size[13]};
-          font-weight: 400;
-          cursor: pointer;
-          border-bottom: 1px solid transparent;
-
-          position: relative;
-          display: inline-block;
-          text-decoration: none;
-          overflow: hidden;
-
-          display: flex;
-          align-items: center;
-          gap: ${({ theme }) => theme.size[8]};
-
-          &::after {
-              content: '';
-              position: absolute;
-              width: 100%;
-              height: 1px;
-              bottom: 0;
-              left: 0;
-              background-color: ${({ theme }) => theme.colorV2.purple[1]};
-              transform: scaleX(0);
-              transform-origin: bottom left;
-              transition: transform 0.3s ease-out;
-          }
-
-          &:hover {
-              color: ${({ theme }) => theme.colorV2.purple[1]};
-
-              span {
-                  opacity: 1;
-                  color: ${({ theme }) => theme.colorV2.purple[1]};
-              }
-          }
-
-          &:hover::after {
-              transform: scaleX(1);
-          }
-
-          &.activated::after,
-          &.activated:hover::after {
-              transform: scaleX(0);
-              transition: none;
-          }
-
-          &.activated {
-              border-bottom: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
-              color: ${({ theme }) => theme.colorV2.purple[1]};
-
-              span {
-                  color: ${({ theme }) => theme.colorV2.purple[1]};
-                  opacity: 1;
-              }
-          }
-
-          span {
-              color: ${({ theme }) => theme.colorV2.gray[1]};
-              opacity: 0.6;
-          }
+      &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+        background-color: ${({ theme }) => theme.colorV2.purple[1]};
+        transform: scaleX(0);
+        transform-origin: bottom left;
+        transition: transform 0.3s ease-out;
       }
+
+      &:hover {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+
+        span {
+          opacity: 1;
+          color: ${({ theme }) => theme.colorV2.purple[1]};
+        }
+      }
+
+      &:hover::after {
+        transform: scaleX(1);
+      }
+
+      &.activated::after,
+      &.activated:hover::after {
+        transform: scaleX(0);
+        transition: none;
+      }
+
+      &.activated {
+        border-bottom: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+
+        span {
+          color: ${({ theme }) => theme.colorV2.purple[1]};
+          opacity: 1;
+        }
+      }
+
+      span {
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        opacity: 0.6;
+      }
+    }
   `,
 
   EstimatedBalanceContainer: styled.div`
-      display: flex;
-      height: 32px;
-      min-height: 32px;
-      padding: 0px 8px;
-      align-items: center;
-      justify-content: space-between;
-      gap: 4px;
-      align-self: stretch;
-      border-radius: 8px;
-      background: ${({ theme }) => theme.colorV2.white};
+    display: flex;
+    height: 32px;
+    min-height: 32px;
+    padding: 0px 8px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    align-self: stretch;
+    border-radius: 8px;
+    background: ${({ theme }) => theme.colorV2.white};
 
-      box-shadow: ${({ theme }) => theme.shadow[100]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
 
-      span {
-          &:nth-child(1) {
-              color: ${({ theme }) => theme.colorV2.gray[1]};
-              font-size: ${({ theme }) => theme.font.size[13]};
-              font-weight: 400;
-              opacity: 0.6;
-          }
-
-          &:nth-child(2) {
-              font-size: ${({ theme }) => theme.font.size[15]};
-              color: ${({ theme }) => theme.colorV2.purple[1]};
-              font-weight: 500;
-          }
+    span {
+      &:nth-child(1) {
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+        font-size: ${({ theme }) => theme.font.size[13]};
+        font-weight: 400;
+        opacity: 0.6;
       }
+
+      &:nth-child(2) {
+        font-size: ${({ theme }) => theme.font.size[15]};
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+        font-weight: 500;
+      }
+    }
   `,
   ProductSelectCard: styled.div`
-      width: 100%;
-      height: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    gap: ${({ theme }) => theme.size[8]};
+
+    div {
       display: flex;
       align-items: center;
-
-      gap: ${({ theme }) => theme.size[8]};
-
-      div {
-          display: flex;
-          align-items: center;
-      }
+    }
   `
 }

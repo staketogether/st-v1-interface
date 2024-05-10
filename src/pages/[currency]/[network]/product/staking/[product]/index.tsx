@@ -3,7 +3,7 @@ import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { fiatAmountVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import { amountToQuoteVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
 import axios from 'axios'
@@ -33,7 +33,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
 
   useEffect(() => {
     if (router.query.payment === 'pix' && router.query.provider == 'brla') {
-      fiatAmountVar(router.query?.amount?.toString() ?? minAmount.toString())
+      amountToQuoteVar(router.query?.amount?.toString() ?? minAmount.toString())
       openQuoteEthModal(product.asset)
     } else if (router.query.payment === 'credit') {
       buyCrypto()
@@ -44,7 +44,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
     <LayoutTemplate>
       <Metatags />
       <NewStakeControl type='deposit' product={product} assetData={assetData} chainId={chainId} />
-      <BuyEthControlModal chainId={chainId}/>
+      <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )
 }
@@ -57,29 +57,32 @@ export const getStaticPaths: GetStaticPaths = () => {
 
   const currencies = ['usd', 'brl', 'eur']
 
-  const paths = networks.map(network => {
-    return stakingList.filter(staking => staking.listed && staking.enabled && staking.asset.chains.includes(network.chainId)).map(product => {
-      return currencies.map(currency => {
-        return {
-          params: {
-            network: network.network,
-            currency,
-            type: 'staking',
-            product: product.id
-          }
-        }
-      })
+  const paths = networks
+    .map(network => {
+      return stakingList
+        .filter(staking => staking.listed && staking.enabled && staking.asset.chains.includes(network.chainId))
+        .map(product => {
+          return currencies.map(currency => {
+            return {
+              params: {
+                network: network.network,
+                currency,
+                type: 'staking',
+                product: product.id
+              }
+            }
+          })
+        })
     })
-  }).flat(2)
+    .flat(2)
 
   return { paths, fallback: 'blocking' }
 }
 
 async function fetchProductAssetData(uri: string): Promise<AssetStats> {
   const { backendUrl } = globalConfig
-  const marketData = await axios
-    .get<AssetStats>(`${backendUrl}/api/${uri}`)
-   return marketData.data
+  const marketData = await axios.get<AssetStats>(`${backendUrl}/api/${uri}`)
+  return marketData.data
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
@@ -97,11 +100,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
 
-  const contractAddress = productSelected.asset.type === 'erc20' ? productSelected.asset.contractAddress : productSelected.asset.wrapperContractAddress
-
-  const assetData = await fetchProductAssetData(
-    `asset-stats/${chainId}/${contractAddress}`,
-  )
+  const assetData = await fetchProductAssetData(`asset-stats/${chainId}/${productSelected.asset.contractAddress}`)
 
   if (!assetData) {
     return {

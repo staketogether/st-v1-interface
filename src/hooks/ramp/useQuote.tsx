@@ -7,20 +7,27 @@ export default function useQuoteRamp(
   fiatCurrencyCode: string,
   amount?: number,
   chainId?: number,
-  isCryptoAmount = 0,
+  fixOutput = false,
   provider?: ProviderType,
   paymentMethod?: PaymentMethodType,
   toChain?: string,
   toToken?: string,
-  includeMarkup?: boolean
+  includeMarkup?: boolean,
+  refreshInterval?: number
 ) {
-  let url = `api/ramp/quote/${provider}?chainId=${chainId}&paymentMethod=${paymentMethod}&fiatCurrencyCode=${fiatCurrencyCode}&amount=${amount}&isCryptoAmount=${isCryptoAmount}&includeMarkup=${includeMarkup}`
-  if (toChain && toToken) {
-    url += `&toChain=${toChain}&toToken=${toToken}`
+  let url = `api/ramp/quote/${provider}?chainId=${chainId}&paymentMethod=${paymentMethod}&fiatCurrencyCode=${fiatCurrencyCode}&amount=${amount}&fixOutput=${fixOutput}&includeMarkup=${includeMarkup}`
+  if (toChain) {
+    url += `&toChain=${toChain}`
+  }
+  if (toToken) {
+    url += `&toToken=${toToken}`
   }
 
   const { data, error, isLoading, isValidating } = useSWR<Quote>(
-    chainId && fiatCurrencyCode && amount && provider && paymentMethod ? url : null
+    chainId && fiatCurrencyCode && amount && provider && paymentMethod ? url : null,
+    {
+      refreshInterval
+    }
   )
 
   return { quote: data, error, isLoading, isValidating }

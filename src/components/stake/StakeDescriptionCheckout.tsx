@@ -19,12 +19,12 @@ interface StakeDescriptionCheckoutProps {
 }
 
 export default function StakeDescriptionCheckout({
-                                                   type,
-                                                   youReceiveDeposit,
-                                                   amount,
-                                                   withdrawTypeSelected,
-                                                   product
-                                                 }: StakeDescriptionCheckoutProps) {
+  type,
+  youReceiveDeposit,
+  amount,
+  withdrawTypeSelected,
+  product
+}: StakeDescriptionCheckoutProps) {
   const { t } = useLocaleTranslation()
 
   const stakeTogetherContract = product.contracts.StakeTogether
@@ -56,9 +56,7 @@ export default function StakeDescriptionCheckout({
         {type === 'withdraw' && (
           <span>
             <span className='blue'>{` ${truncateDecimal(amount, 6) || '0'} `}</span>
-            <span className='blue'>{` ${
-              withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
-            }`}</span>
+            <span className='blue'>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>
           </span>
         )}
       </div>
@@ -79,11 +77,8 @@ export default function StakeDescriptionCheckout({
         )}
         {type === 'withdraw' && (
           <span>
-            <span className='purple'>1</span> <span className='purple'>{product.symbol}</span> =
-            <span className='blue'>1</span>
-            <span className='blue'>{` ${
-              withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')
-            }`}</span>
+            <span className='purple'>1</span> <span className='purple'>{product.symbol}</span> =<span className='blue'>1</span>
+            <span className='blue'>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>
           </span>
         )}
       </div>

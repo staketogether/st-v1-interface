@@ -3,7 +3,7 @@ import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { fiatAmountVar, openBrlaModalVar } from '@/hooks/ramp/useControlModal'
+import { amountToQuoteVar, openBrlaModalVar } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
 import axios from 'axios'
@@ -33,7 +33,7 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
 
   useEffect(() => {
     if (router.query?.buy && router.query.payment === 'pix' && router.query.provider == 'brla') {
-      fiatAmountVar(router.query?.amount?.toString() ?? minAmount)
+      amountToQuoteVar(router.query?.amount?.toString() ?? minAmount)
       openBrlaModalVar(true)
     } else if (router.query.payment === 'credit') {
       buyCrypto()
@@ -57,20 +57,24 @@ export const getStaticPaths: GetStaticPaths = () => {
 
   const currencies = ['usd', 'brl', 'eur']
 
-  const paths = networks.map(network => {
-    return stakingList.filter(staking => staking.enabled && staking.listed && staking.asset.chains.includes(network.chainId)).map(product => {
-      return currencies.map(currency => {
-        return {
-          params: {
-            network: network.network,
-            currency,
-            type: 'staking',
-            product: product.id
-          }
-        }
-      })
+  const paths = networks
+    .map(network => {
+      return stakingList
+        .filter(staking => staking.enabled && staking.listed && staking.asset.chains.includes(network.chainId))
+        .map(product => {
+          return currencies.map(currency => {
+            return {
+              params: {
+                network: network.network,
+                currency,
+                type: 'staking',
+                product: product.id
+              }
+            }
+          })
+        })
     })
-  }).flat(2)
+    .flat(2)
 
   return { paths, fallback: 'blocking' }
 }
@@ -93,9 +97,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
 
-  const contractAddress = foundProduct.asset.type === 'erc20' ? foundProduct.asset.contractAddress : foundProduct.asset.wrapperContractAddress
-
-  const assetData = await fetchProductAssetData(`asset-stats/${chainId}/${contractAddress}`)
+  const assetData = await fetchProductAssetData(`asset-stats/${chainId}/${foundProduct.asset.contractAddress}`)
 
   if (!assetData) {
     return {

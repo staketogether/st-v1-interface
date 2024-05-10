@@ -15,8 +15,10 @@ export interface BuyRampRequest {
   amount: number
   accountAddress: string
   receiverAddress: string
+  tokenToReceive?: string
   convertToChainId?: number
   convertToToken?: string
+  fixOutput?: boolean
 }
 export default function useBuyRamp(provider: 'brla' | 'transak', request?: BuyRampRequest) {
   const { backendUrl } = globalConfig

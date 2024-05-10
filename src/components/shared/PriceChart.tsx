@@ -6,18 +6,28 @@ import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YA
 import styled from 'styled-components'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from './LottieAnimation'
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Grid } from 'antd'
+import { ProviderType } from '@/types/provider.type'
+import { PaymentMethodType } from '@/types/payment-method.type'
+import useQuoteBrla from '@/hooks/ramp/useQuote'
+import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
+
 interface PriceChartProps {
   asset: Asset
 }
+
+const { useBreakpoint } = Grid
 
 type PriceChartFilter = '1W' | '1M' | '3M' | '1Y'
 
 export default function PriceChart({ asset }: PriceChartProps) {
   const [activeFilter, setActiveFilter] = useState<PriceChartFilter>('1M')
+  const [chartData, setChartData] = useState<{ timestamp: string, price: number }[]>([])
 
   const { t } = useLocaleTranslation()
+  const { xs, sm } = useBreakpoint()
 
   const filterChartOptions: PriceChartFilter[] = ['1W', '1M', '3M', '1Y']
 
@@ -32,32 +42,70 @@ export default function PriceChart({ asset }: PriceChartProps) {
     const filters: Record<PriceChartFilter, { day: number; interval: '5m' | 'hourly' | 'daily' }> = {
       '1W': { day: 7, interval: 'daily' },
       '1M': { day: 30, interval: 'daily' },
-      '3M': { day: 90, interval: 'daily'},
+      '3M': { day: 90, interval: 'daily' },
       '1Y': { day: 365, interval: 'daily' }
     }
 
     return filters[activeFilter]
   }
 
+  const { currencyToUsd } = useFiatUsdConversion()
+
   const { assetStats, isLoading } = useAssetStatsChart({
     chainId: asset.chains[0],
     contractAddress: asset.contractAddress,
     currency: 'usd',
     days: handleFilter().day,
-    interval: handleFilter().interval
+    interval: handleFilter().interval,
+    refreshInterval: 30 * 1000
   })
+
+  const { quote: quotedAmount, isLoading: quotedLoading } = useQuoteBrla(
+    'brl',
+    asset.ramp[0].minDeposit,
+    asset.ramp[0].bridge?.fromChainId ?? asset.ramp[0].chainId,
+    asset.type === 'fan-token',
+    ProviderType[asset.ramp[0].provider],
+    PaymentMethodType[asset.ramp[0].paymentMethod],
+    asset.ramp[0].bridge?.toChainId.toString(),
+    asset.ramp[0].bridge?.toToken ?? asset.symbol,
+    true
+  )
+
+  const quotedBrlAmount = Number(quotedAmount?.amountBrl ?? 0) / Number(quotedAmount?.amountToken ?? 0)
+  const quotedUsdAmount = currencyToUsd(quotedBrlAmount, 'BRL')
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
-  const data = assetStats?.prices.length
-    ? assetStats.prices.map(item => {
+  useEffect(() => {
+    const statsChartData: { timestamp: string, price: number }[] = assetStats?.prices.length
+      ? assetStats.prices.map(item => {
         const dateTime = DateTime.fromMillis(item[0]).toLocaleString()
         return {
           timestamp: dateTime,
           price: item[1]
         }
       })
-    : []
+      : []
+
+    setChartData(statsChartData)
+  }, [assetStats?.prices])
+
+  const concatChartData = useMemo(() => {
+    if (quotedUsdAmount && !quotedLoading) {
+      const currentTimestamp = DateTime.now().toLocaleString()
+
+      return [
+        ...chartData,
+        {
+          timestamp: currentTimestamp,
+          price: quotedUsdAmount.raw
+        }
+      ]
+    }
+
+    return chartData
+  }, [quotedUsdAmount, quotedLoading, chartData])
 
   return (
     <>
@@ -69,11 +117,11 @@ export default function PriceChart({ asset }: PriceChartProps) {
         ) : (
           <FormattedResponsiveContainer width='100%' minWidth={350} height={287}>
             <AreaChart
-              data={data}
+              data={concatChartData}
               margin={{
                 top: 24,
                 left: 24,
-                right: 34,
+                right: !xs && !sm ? 39 : 6,
                 bottom: 24
               }}
               style={{ fontSize: 11 }}
@@ -90,7 +138,13 @@ export default function PriceChart({ asset }: PriceChartProps) {
               />
               <Area type='monotone' dataKey='price' stroke='#774bc7' fill='#b993ff' />
               <XAxis hide interval='equidistantPreserveStart' />
-              <YAxis domain={['dataMin', 'auto']} orientation='right' tickFormatter={(value) => handleQuotePrice(Number(value))} dataKey='price' interval='equidistantPreserveStart' />
+              <YAxis
+                domain={['dataMin', 'auto']}
+                orientation='right'
+                tickFormatter={value => handleQuotePrice(Number(value))}
+                dataKey='price'
+                interval='equidistantPreserveStart'
+              />
             </AreaChart>
           </FormattedResponsiveContainer>
         )}
