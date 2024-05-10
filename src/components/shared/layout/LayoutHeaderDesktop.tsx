@@ -22,11 +22,11 @@ export default function LayoutHeader() {
   const { isActive } = useActiveRoute()
   const { account, accountIsConnected } = useConnectedAccount()
 
-  const router = useRouter()
-  const { currency, network } = router.query
+  const { query, pathname, locale } = useRouter()
+  const { currency, network } = query
 
   const basePath = `/[currency]`
-  const isHome = router.pathname === basePath
+  const isHome = pathname === basePath
 
   return (
     <Container>
@@ -61,7 +61,7 @@ export default function LayoutHeader() {
         <LayoutNetworkDropdown />
         <ContainerCurrency>
           <GlobeIcon />
-          <span>{router.locale === 'pt' ? 'PT' : 'EN'}</span>
+          <span>{locale === 'pt' ? 'PT' : 'EN'}</span>
           <span>| {(currency as string).toUpperCase()}</span>
         </ContainerCurrency>
         <Wallet account={account} accountIsConnected={accountIsConnected} />
