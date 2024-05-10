@@ -969,7 +969,7 @@ export const goldtOp: Erc20Asset = {
   contractAddress: '0x68749665FF8D2d112Fa859AA293F07A622782F38',
   category: AssetCategory.Stable,
   localeDescription: 'goldt',
-  chains: [Chain.OP_MAINNET],
+  chains: [Chain.ETH_MAINNET],
   listed: true,
   enabled: true,
   new: true,
@@ -979,16 +979,10 @@ export const goldtOp: Erc20Asset = {
   },
   ramp: [
     {
-      chainId: 10,
-      minDeposit: 10,
+      chainId: 1,
+      minDeposit: 300,
       provider: 'brla',
       paymentMethod: 'pix',
-      bridge: {
-        fromChainId: 137,
-        fromToken: 'MATIC',
-        toChainId: 10,
-        toToken: 'GOLDT'
-      }
     }
   ]
 }
