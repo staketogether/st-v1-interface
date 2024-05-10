@@ -25,9 +25,9 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
       type: 'sell',
       label: t('sell'),
       url: `${asset.url.replace('currency', currency)}/withdraw`,
-      disabled: false,
+      disabled: true,
       icon: <PiCurrencyDollar />,
-      tooltipLabel: ''
+      tooltipLabel: t('soon')
     },
     {
       type: 'swap',

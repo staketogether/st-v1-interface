@@ -73,5 +73,5 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
   const isLoading = asset.type === 'native' ? nativeIsLoading || nativeIsFetching : erc20Fetching || erc20Loading
   const refetch = asset.type === 'native' ? nativeRefetch : erc20Refetch
 
-  return { isLoading, refetch, tokenBalance }
+  return { isLoading, tokenBalance, refetch }
 }
