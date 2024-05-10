@@ -925,49 +925,49 @@
         "name": "Polygon"
       },
       "pendle-arb": {
-          "name": "Pendle"
+        "name": "Pendle"
       },
       "chainlink-op": {
-          "name": "Chainlink"
+        "name": "Chainlink"
       },
       "render-arb": {
-          "name": "Render"
+        "name": "Render"
       },
       "thegraph-arb": {
-          "name": "The Graph"
+        "name": "The Graph"
       },
       "worldcoin-op": {
-          "name": "Worldcoin"
+        "name": "Worldcoin"
       },
       "aave-op": {
-          "name": "Aave"
+        "name": "Aave"
       },
       "uniswap-op": {
-          "name": "Uniswap"
+        "name": "Uniswap"
       },
       "ssv-eth": {
-          "name": "SSV"
+        "name": "SSV"
       },
       "usdc-op": {
-          "name": "USDC"
+        "name": "USDC"
       },
       "usdt-op": {
-          "name": "USDT"
+        "name": "USDT"
       },
       "brla-matic": {
-          "name": "BRLA"
+        "name": "BRLA"
       },
       "eurt-op": {
-          "name": "EURT"
+        "name": "EURT"
       },
       "goldt-op": {
-          "name": "Gold Tether"
+        "name": "Gold Tether"
       },
       "solana-eth": {
-          "name": "Solana"
+        "name": "Solana"
       },
       "thorchain-eth": {
-          "name": "Thorchain"
+        "name": "Thorchain"
       }
     }
   }

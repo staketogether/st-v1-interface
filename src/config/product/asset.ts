@@ -42,7 +42,7 @@ export const ethMainnet: NativeAsset = {
       chainId: 1,
       minDeposit: 300,
       provider: 'brla',
-      paymentMethod: 'pix',
+      paymentMethod: 'pix'
     }
   ]
 }
@@ -143,7 +143,7 @@ export const chilizChz: NativeAsset = {
       chainId: 88888,
       minDeposit: 10,
       provider: 'brla',
-      paymentMethod: 'pix',
+      paymentMethod: 'pix'
     }
   ]
 }
@@ -819,7 +819,7 @@ export const ssvEth: Erc20Asset = {
       chainId: 1,
       minDeposit: 300,
       provider: 'brla',
-      paymentMethod: 'pix',
+      paymentMethod: 'pix'
     }
   ]
 }
@@ -1017,7 +1017,7 @@ export const solanaEth: Erc20Asset = {
       chainId: 1,
       minDeposit: 300,
       provider: 'brla',
-      paymentMethod: 'pix',
+      paymentMethod: 'pix'
     }
   ]
 }
@@ -1046,7 +1046,7 @@ export const thorchainEth: Erc20Asset = {
       chainId: 1,
       minDeposit: 300,
       provider: 'brla',
-      paymentMethod: 'pix',
+      paymentMethod: 'pix'
     }
   ]
 }

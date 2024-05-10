@@ -5,7 +5,7 @@ export enum AssetCategory {
   Stable = 'stable',
   FanToken = 'fan-token',
   Defi = 'defi',
-  Infrastructure = 'infrastructure',
+  Infrastructure = 'infrastructure'
 }
 
 export interface Ramp {

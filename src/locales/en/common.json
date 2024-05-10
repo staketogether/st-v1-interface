@@ -914,7 +914,7 @@
         "name": "Aave"
       },
       "uniswap-op": {
-          "name": "Uniswap"
+        "name": "Uniswap"
       },
       "ssv-eth": {
         "name": "SSV"
@@ -923,7 +923,7 @@
         "name": "USDC"
       },
       "usdt-op": {
-          "name": "USDT"
+        "name": "USDT"
       },
       "brla-matic": {
         "name": "BRLA"
