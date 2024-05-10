@@ -1,11 +1,11 @@
-import { assetsList } from '@/config/product/asset'
 import { globalConfig } from '@/config/global'
+import { assetsList } from '@/config/product/asset'
+import { AssetStats } from '@/types/AssetStats'
 import { makeVar, useReactiveVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { AssetStats } from '@/types/AssetStats'
 
-export const currencyPriceListVar = makeVar<{ id: string; value: number; price24h: number }[]>([])
+export const currencyPriceListVar = makeVar<{ id: string; value: number; price24h: number, priceChangePercentage24h: number }[]>([])
 
 export default function useGetCurrencyPrice() {
   const { backendUrl } = globalConfig
@@ -27,14 +27,13 @@ export default function useGetCurrencyPrice() {
           return {
             id: `${response.data.ref}`,
             value: response.data.market_data.current_price.usd,
-            price24h: response.data.market_data.price_change_24h
+            price24h: response.data.market_data.price_change_24h,
+            priceChangePercentage24h: response.data.market_data.price_change_percentage_24h
           }
         })
-
         currencyPriceListVar(responseData)
         setLoading(false)
       } catch (error) {
-        console.error('Error Quotation price:', error)
         setLoading(false)
       }
     }
