@@ -58,11 +58,11 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
     justify-content: center;
     flex-direction: column;
 
-      > span {
-        color: ${({ theme }) => theme.colorV2.blue[1]};
-        font-size: ${({ theme }) => theme.font.size[22]};
-        font-weight: 500;
-      }
+    > span {
+      color: ${({ theme }) => theme.colorV2.blue[1]};
+      font-size: ${({ theme }) => theme.font.size[22]};
+      font-weight: 500;
+    }
   `,
   Apy: styled.div`
     padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[8]};
@@ -73,7 +73,7 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
     font-size: ${({ theme }) => theme.font.size[16]};
     font-weight: 600;
     line-height: normal;
-    
+
     text-align: center;
   `,
   CardContainer: styled(Link)`
