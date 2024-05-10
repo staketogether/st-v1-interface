@@ -699,7 +699,22 @@
       "bahia-chz": "Bahia",
       "op-op": "Optimism",
       "arb-arb": "Arbitrum",
-      "matic-matic": "Polygon"
+      "matic-matic": "Polygon",
+      "pendle-arb": "Pendle",
+      "chainlink-op": "Chainlink",
+      "render-arb": "Render",
+      "thegraph-arb": "The Graph",
+      "worldcoin-op": "Worldcoin",
+      "aave-op": "Aave",
+      "uniswap-op": "Uniswap",
+      "ssv-et": "SSV",
+      "usdc-op": "USDC",
+      "usdt-op": "USDT",
+      "brla-matic": "BRLA",
+      "eurt-op": "EURT",
+      "goldt-op": "Gold Tether",
+      "solana-eth": "Solana",
+      "thorchain-eth": "Thorchain"
     },
     "notifyBar": {
       "incentives": {

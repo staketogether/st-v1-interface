@@ -961,7 +961,7 @@ export const eurtOp: Erc20Asset = {
 export const goldtOp: Erc20Asset = {
   id: 'goldt-op',
   order: 26,
-  symbol: 'GOLDT',
+  symbol: 'XAUT',
   symbolImage: opIcon,
   isTestnet: false,
   url: '/currency/optimism/product/assets/goldt-op',
