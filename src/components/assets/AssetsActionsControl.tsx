@@ -1,13 +1,16 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Asset } from '@/types/Asset'
+import { AssetActionType } from '@/types/AssetActionType'
 import { Tooltip } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import AssetsBuyControl from './AssetsBuyControl'
-import { Asset } from '@/types/Asset'
+import { AssetsReceive } from './AssetsReceive'
+import { AssetsSend } from './AssetsSend'
 
 interface AssetsActionsControlProps {
-  type: 'buy' | 'sell' | 'swap'
+  type: AssetActionType
   product: Asset
 }
 
@@ -25,10 +28,19 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
               <Link href={product.url.replace('currency', currency)}>{t('buy')}</Link>
             </li>
             <Tooltip title={t('soon')}>
-              <li className={`${type === 'sell' && 'activated'} disabled`}>
+              <li className={`${type === 'sell' && 'activated'}`}>
                 <Link href={`${product.url.replace('currency', currency)}/withdraw`}>{t('sell')}</Link>
               </li>
             </Tooltip>
+            <li className={`${type === 'swap' && 'activated'}`}>
+              <Link href={`${product.url.replace('currency', currency)}/swap`}>{t('swap')}</Link>
+            </li>
+            <li className={`${type === 'send' && 'activated'}`}>
+              <Link href={`${product.url.replace('currency', currency)}/send`}>{t('send')}</Link>
+            </li>
+            <li className={`${type === 'receive' && 'activated'}`}>
+              <Link href={`${product.url.replace('currency', currency)}/receive`}>{t('receive')}</Link>
+            </li>
           </ul>
         </nav>
       </header>
@@ -43,7 +55,8 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
             <AssetsBuyControl type={type} asset={product} />
           </BuyAssetContainer>
         )}
-        {type === 'sell' && <div>sell</div>}
+        {type === 'send' && <AssetsSend asset={product} />}
+        {type === 'receive' && <AssetsReceive asset={product} />}
       </div>
     </EthereumContainer>
   )

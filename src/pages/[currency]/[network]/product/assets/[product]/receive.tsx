@@ -44,7 +44,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <AssetsControl product={product} assetData={assetData} chainId={chainId} type='sell' />
+      <AssetsControl product={product} assetData={assetData} chainId={chainId} type='receive' />
       <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )

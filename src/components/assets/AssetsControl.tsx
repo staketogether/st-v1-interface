@@ -4,6 +4,8 @@ import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
 import { Asset } from '@/types/Asset'
+import { AssetActionType } from '@/types/AssetActionType'
+import { AssetStats } from '@/types/AssetStats'
 import { notification } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -15,13 +17,12 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
-import { AssetStats } from '@/types/AssetStats'
 
 interface AssetsControlProps {
   product: Asset
   assetData: AssetStats
   chainId: number
-  type: 'buy' | 'sell' | 'swap'
+  type: AssetActionType
 }
 
 export default function AssetsControl({ product, assetData, chainId, type }: AssetsControlProps) {
