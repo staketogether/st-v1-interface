@@ -2,10 +2,11 @@ import useLocaleTranslation from "@/hooks/useLocaleTranslation"
 import { useForm } from "react-hook-form"
 import { PiArrowRight } from "react-icons/pi"
 import styled from "styled-components"
+import { encodeFunctionData, erc20Abi } from 'viem'
 import Button from "../shared/Button"
 import Input from "../shared/inputs/Input"
 
-import { parseEther } from "ethers"
+import { ethers, parseEther } from "ethers"
 
 import { Asset } from "@/types/Asset"
 import { useSendTransaction } from "wagmi"
@@ -40,6 +41,19 @@ export function AssetsSend({ asset }: { asset: Asset }) {
 
         const to = data.walletTo as `0x${string}`
         const value = data.amountToken
+        if (asset?.contractAddress) {
+            const transferTxData = encodeFunctionData({
+                abi: erc20Abi,
+                args: [to, ethers.parseUnits(value, asset.decimals)],
+                functionName: 'transfer',
+            })
+            sendTransaction({
+                to,
+                data: transferTxData
+            })
+
+            return
+        }
         sendTransaction({ to, value: parseEther(value), chainId: chain })
     }
     return (
