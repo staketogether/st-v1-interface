@@ -14,8 +14,10 @@ export default function AssetControl({ assetsList }: TokenControlProps) {
 
   const filters: { key: number; value: AssetCategory | 'all' }[] = [
     { key: 1, value: 'all' },
-    { key: 2, value: AssetCategory.Crypto },
-    { key: 3, value: AssetCategory.FanToken }
+    { key: 2, value: AssetCategory.Infrastructure },
+    { key: 3, value: AssetCategory.Stable },
+    { key: 4, value: AssetCategory.Defi },
+    { key: 5, value: AssetCategory.FanToken }
   ]
 
   const filterAssetList = () => {
@@ -28,8 +30,8 @@ export default function AssetControl({ assetsList }: TokenControlProps) {
   return (
     <Container>
       <Title>
-        <h1>{t(`v3.pages.${AssetCategory.Crypto}.title`)}</h1>
-        <h2>{t(`v3.pages.${AssetCategory.Crypto}.description`)}</h2>
+        <h1>{t(`v3.pages.crypto.title`)}</h1>
+        <h2>{t(`v3.pages.crypto.description`)}</h2>
 
         <ContainerButton>
           {filters.map(filter => (

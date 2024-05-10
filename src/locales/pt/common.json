@@ -793,6 +793,21 @@
       "bahia-chz": "Invista no futuro do seu time comprando o Fan Token do Bahia",
       "arb": "Arbitrum (ARB) é um dos tokens de governança mais aguardados pela comunidade cripto. Ele faz parte do principal projeto de escalabilidade da rede Ethereum.",
       "op": "O Optimism (OP) é uma solução de escalabilidade projetada especificamente para a rede Ethereum. Ele opera como uma camada de escalabilidade secundária, mais conhecida como layer 2 que visa melhorar a eficiência e o desempenho da rede Ethereum, sem comprometer sua segurança e descentralização.",
+      "pendle-arb": "Pendle é uma plataforma de derivativos de ativos cripto que permite que os usuários tokenizem e negociem futuros de rendimento de ativos cripto. Pendle é construído no Arbitrum, uma solução de escalabilidade para a rede Ethereum.",
+      "chainlink-op": "Chainlink é uma plataforma de oráculos descentralizada que conecta contratos inteligentes com dados do mundo real. O Chainlink é construído no Optimism, uma solução de escalabilidade para a rede Ethereum.",
+      "render-arb": "Render é uma plataforma de computação descentralizada que permite que os usuários aluguem seu poder de computação para processamento de dados. Render é construído no Arbitrum, uma solução de escalabilidade para a rede Ethereum.",
+      "thegraph-arb": "The Graph é uma plataforma de indexação de dados descentralizada que permite que os desenvolvedores consultem e indexem dados de blockchain. The Graph é construído no Arbitrum, uma solução de escalabilidade para a rede Ethereum.",
+      "worldcoin-op": "Worldcoin é uma plataforma de identidade descentralizada que permite que os usuários verifiquem sua identidade e recebam uma renda básica universal. Worldcoin é construído no Optimism, uma solução de escalabilidade para a rede Ethereum.",
+      "aave-op": "Aave é uma plataforma de empréstimo e empréstimo descentralizada que permite que os usuários emprestem e tomem emprestado ativos cripto. Aave é construído no Optimism, uma solução de escalabilidade para a rede Ethereum.",
+      "uniswap-op": "Uniswap é uma plataforma de troca descentralizada que permite que os usuários troquem ativos cripto sem intermediários. Uniswap é construído no Optimism, uma solução de escalabilidade para a rede Ethereum.",
+      "ssv-eth": "SSV é uma solução de segurança para a rede Ethereum que permite que os validadores protejam seus ativos cripto. SSV é construído no Ethereum, a principal blockchain de contratos inteligentes.",
+      "usdc-op": "USDC é uma stablecoin lastreada em dólar americano que permite que os usuários troquem ativos cripto sem volatilidade. USDC é construído no Optimism, uma solução de escalabilidade para a rede Ethereum.",
+      "usdt-op": "USDT é uma stablecoin lastreada em dólar americano que permite que os usuários troquem ativos cripto sem volatilidade. USDT é construído no Optimism, uma solução de escalabilidade para a rede Ethereum.",
+      "brla-matic": "BRLA é uma stablecoin lastreada em real brasileiro que permite que os usuários troquem ativos cripto sem volatilidade. BRLA é construído no Polygon, uma solução de escalabilidade para a rede Ethereum.",
+      "eurt-op": "EURT é uma stablecoin lastreada em euro que permite que os usuários troquem ativos cripto sem volatilidade. EURT é construído no Optimism, uma solução de escalabilidade para a rede Ethereum.",
+      "goldt-op": "Gold Tether (XAUT) é uma stablecoin lastreada em ouro que permite que os usuários troquem ativos cripto sem volatilidade. GOLDT é construído no Optimism, uma solução de escalabilidade para a rede Ethereum.",
+      "solana-eth": "Solana é uma blockchain de contratos inteligentes de alto desempenho que permite que os desenvolvedores criem aplicativos descentralizados escaláveis. Solana é construído no Ethereum, a principal blockchain de contratos inteligentes.",
+      "thorchain-eth": "Thorchain é uma plataforma de troca descentralizada que permite que os usuários troquem ativos cripto sem intermediários. Thorchain é construído no Ethereum, a principal blockchain de contratos inteligentes.",
       "actions": {
         "invest": "Investir",
         "withdraw": "Resgatar",
@@ -838,9 +853,10 @@
     },
     "crypto-filter": {
       "all": "Todos",
+      "infrastructure": "Infraestrutura",
       "stable": "Stablecoins",
       "fan-token": "Fan Tokens",
-      "meme": "Memecoins",
+      "defi": "DeFi",
       "crypto": "Cripto"
     },
     "assetDetail": {
@@ -907,6 +923,51 @@
       },
       "matic-matic": {
         "name": "Polygon"
+      },
+      "pendle-arb": {
+          "name": "Pendle"
+      },
+      "chainlink-op": {
+          "name": "Chainlink"
+      },
+      "render-arb": {
+          "name": "Render"
+      },
+      "thegraph-arb": {
+          "name": "The Graph"
+      },
+      "worldcoin-op": {
+          "name": "Worldcoin"
+      },
+      "aave-op": {
+          "name": "Aave"
+      },
+      "uniswap-op": {
+          "name": "Uniswap"
+      },
+      "ssv-eth": {
+          "name": "SSV"
+      },
+      "usdc-op": {
+          "name": "USDC"
+      },
+      "usdt-op": {
+          "name": "USDT"
+      },
+      "brla-matic": {
+          "name": "BRLA"
+      },
+      "eurt-op": {
+          "name": "EURT"
+      },
+      "goldt-op": {
+          "name": "Gold Tether"
+      },
+      "solana-eth": {
+          "name": "Solana"
+      },
+      "thorchain-eth": {
+          "name": "Thorchain"
       }
     }
   }

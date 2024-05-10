@@ -552,7 +552,7 @@ export const bahiaChz: FanTokenAsset = {
 
 export const pendleArb: Erc20Asset = {
   id: 'pendle-arb',
-  order: 5,
+  order: 14,
   symbol: 'PENDLE',
   symbolImage: arbIcon,
   isTestnet: false,
@@ -587,7 +587,7 @@ export const pendleArb: Erc20Asset = {
 
 export const chainlinkOp: Erc20Asset = {
   id: 'chainlink-op',
-  order: 6,
+  order: 15,
   symbol: 'LINK',
   symbolImage: opIcon,
   isTestnet: false,
@@ -622,7 +622,7 @@ export const chainlinkOp: Erc20Asset = {
 
 export const renderArb: Erc20Asset = {
   id: 'render-arb',
-  order: 7,
+  order: 16,
   symbol: 'RNDR',
   symbolImage: arbIcon,
   isTestnet: false,
@@ -657,7 +657,7 @@ export const renderArb: Erc20Asset = {
 
 export const thegraphArb: Erc20Asset = {
   id: 'thegraph-arb',
-  order: 8,
+  order: 17,
   symbol: 'GRT',
   symbolImage: arbIcon,
   isTestnet: false,
@@ -692,7 +692,7 @@ export const thegraphArb: Erc20Asset = {
 
 export const worldcoinOp: Erc20Asset = {
   id: 'worldcoin-op',
-  order: 9,
+  order: 18,
   symbol: 'WORLD',
   symbolImage: opIcon,
   isTestnet: false,
@@ -727,7 +727,7 @@ export const worldcoinOp: Erc20Asset = {
 
 export const aaveOp: Erc20Asset = {
   id: 'aave-op',
-  order: 10,
+  order: 19,
   symbol: 'AAVE',
   symbolImage: opIcon,
   isTestnet: false,
@@ -762,7 +762,7 @@ export const aaveOp: Erc20Asset = {
 
 export const uniswapOp: Erc20Asset = {
   id: 'uniswap-op',
-  order: 11,
+  order: 20,
   symbol: 'UNI',
   symbolImage: opIcon,
   isTestnet: false,
@@ -797,7 +797,7 @@ export const uniswapOp: Erc20Asset = {
 
 export const ssvEth: Erc20Asset = {
   id: 'ssv-eth',
-  order: 12,
+  order: 21,
   symbol: 'SSV',
   symbolImage: stpEthIcon,
   isTestnet: false,
@@ -826,7 +826,7 @@ export const ssvEth: Erc20Asset = {
 
 export const usdcOp: Erc20Asset = {
   id: 'usdc-op',
-  order: 13,
+  order: 22,
   symbol: 'USDC',
   symbolImage: opIcon,
   isTestnet: false,
@@ -861,7 +861,7 @@ export const usdcOp: Erc20Asset = {
 
 export const usdtOp: Erc20Asset = {
   id: 'usdt-op',
-  order: 14,
+  order: 23,
   symbol: 'USDT',
   symbolImage: opIcon,
   isTestnet: false,
@@ -896,7 +896,7 @@ export const usdtOp: Erc20Asset = {
 
 export const brlaMatic: Erc20Asset = {
   id: 'brla-matic',
-  order: 15,
+  order: 24,
   symbol: 'BRLA',
   symbolImage: maticIcon,
   isTestnet: false,
@@ -925,7 +925,7 @@ export const brlaMatic: Erc20Asset = {
 
 export const eurtOp: Erc20Asset = {
   id: 'eurt-op',
-  order: 16,
+  order: 25,
   symbol: 'EURT',
   symbolImage: opIcon,
   isTestnet: false,
@@ -960,7 +960,7 @@ export const eurtOp: Erc20Asset = {
 
 export const goldtOp: Erc20Asset = {
   id: 'goldt-op',
-  order: 17,
+  order: 26,
   symbol: 'GOLDT',
   symbolImage: opIcon,
   isTestnet: false,
@@ -995,7 +995,7 @@ export const goldtOp: Erc20Asset = {
 
 export const solanaEth: Erc20Asset = {
   id: 'solana-eth',
-  order: 18,
+  order: 27,
   symbol: 'ETH',
   symbolImage: ethIcon,
   isTestnet: false,
@@ -1024,7 +1024,7 @@ export const solanaEth: Erc20Asset = {
 
 export const thorchainEth: Erc20Asset = {
   id: 'thorchain-eth',
-  order: 19,
+  order: 28,
   symbol: 'ETH',
   symbolImage: ethIcon,
   isTestnet: false,
