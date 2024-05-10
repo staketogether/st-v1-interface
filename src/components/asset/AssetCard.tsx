@@ -39,7 +39,7 @@ export default function AssetCard({ asset }: AssetCardProps) {
         {asset.new && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
       <PriceContainer>
-        <AssetPrice asset={asset} />
+        <AssetPrice asset={asset} showChangePercentage />
       </PriceContainer>
     </CardContainer>
   )
@@ -52,7 +52,6 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
     justify-content: center;
     flex-direction: column;
 
-    
     > span {
       color: ${({ theme }) => theme.colorV2.blue[1]};
       font-size: ${({ theme }) => theme.font.size[22]};
@@ -122,11 +121,11 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
       display: flex;
       align-items: center;
       gap: ${({ theme }) => theme.size[8]};
-        
+
       @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-          gap: ${({ theme }) => theme.size[12]};
+        gap: ${({ theme }) => theme.size[12]};
       }
-        
+
       > span {
         color: ${({ theme }) => theme.colorV2.black};
         font-size: ${({ theme }) => theme.font.size[20]};
