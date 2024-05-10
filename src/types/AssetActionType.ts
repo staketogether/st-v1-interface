@@ -1,1 +1,1 @@
-export type AssetActionType = 'buy' | 'sell' | 'swap' | 'send' | 'receive'
+export type AssetActionType = 'buy' | 'sell' | 'swap' | 'send' | 'receive' | 'deposit' | 'withdraw'
