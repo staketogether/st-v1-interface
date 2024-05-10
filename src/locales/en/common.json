@@ -54,6 +54,7 @@
   "searchPool": "Search Pools",
   "projectEmpty": "Project Not Found",
   "copyClipboard": "Copy to Clipboard",
+  "copyWalletAddress": "Copy Address",
   "copiedToClipboard": "Link copied, share it now!",
   "addressCopiedToClipboard": "Address Copied",
   "deposit": "Deposit",
