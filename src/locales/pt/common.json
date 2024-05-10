@@ -267,7 +267,7 @@
       "exit": "Sair",
       "support": "Suporte",
       "analytics": "Analytics",
-      "staking": "Staking",
+      "staking": "Investimentos",
       "assets": "Criptomoedas"
     },
     "sidebar": {
@@ -808,7 +808,7 @@
   "v3": {
     "pages": {
       "staking": {
-        "title": "Staking",
+        "title": "Investimentos",
         "description": "Invista em Infraestrutura com Rendimentos Sustentáveis"
       },
       "crypto": {
