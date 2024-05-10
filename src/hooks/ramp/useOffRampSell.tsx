@@ -27,12 +27,15 @@ export default function useOffRampSell({ asset }: { asset: Asset }) {
       setLoading(true)
       try {
         const { backendUrl } = globalConfig
-        const paymentDetails = await axios.post<PaymentDetails>(`${backendUrl}/api/ramp/sell/${asset.ramp[0].provider}`, { ...requestBody, chainId: asset.chains[0] })
+        const paymentDetails = await axios.post<PaymentDetails>(`${backendUrl}/api/ramp/sell/${asset.ramp[0].provider}`, {
+          ...requestBody,
+          chainId: asset.chains[0]
+        })
         if (paymentDetails.data.bridge) {
           const approveTxData = encodeFunctionData({
             abi: erc20Abi,
             args: [paymentDetails.data.bridge.tx.to as `0x${string}`, 141738092086n],
-            functionName: 'approve',
+            functionName: 'approve'
           })
 
           console.log(approveTxData, 'approveTxData')

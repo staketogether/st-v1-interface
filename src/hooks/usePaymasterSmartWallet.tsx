@@ -20,7 +20,7 @@ export default function usePaymasterSmartWallet({ chainId }: usePaymasterSmartWa
       const smartWalletProvider = await createSmartAccountClient({
         signer: walletClient,
         biconomyPaymasterApiKey: paymasterKey,
-        bundlerUrl: `https://bundler.biconomy.io/api/v2/${chainId}/dewj2189.wh1289hU-7E49-45ic-af80-f3HiQHBJs`,
+        bundlerUrl: `https://bundler.biconomy.io/api/v2/${chainId}/dewj2189.wh1289hU-7E49-45ic-af80-f3HiQHBJs`
       })
       setSmartWallet(smartWalletProvider)
     }
