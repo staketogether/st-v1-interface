@@ -41,20 +41,21 @@ export function AssetsSend({ asset }: { asset: Asset }) {
 
         const to = data.walletTo as `0x${string}`
         const value = data.amountToken
-        if (asset?.contractAddress) {
-            const transferTxData = encodeFunctionData({
-                abi: erc20Abi,
-                args: [to, ethers.parseUnits(value, asset.decimals)],
-                functionName: 'transfer',
-            })
-            sendTransaction({
-                to,
-                data: transferTxData
-            })
+        if (asset.type === 'native') {
+            const tx = sendTransaction({ to, value: parseEther(value), chainId: chain })
 
             return
         }
-        sendTransaction({ to, value: parseEther(value), chainId: chain })
+        const transferTxData = encodeFunctionData({
+            abi: erc20Abi,
+            args: [to, ethers.parseUnits(value, asset.decimals)],
+            functionName: 'transfer',
+        })
+        sendTransaction({
+            to,
+            data: transferTxData
+        })
+
     }
     return (
         <FormContainer onSubmit={handleSubmit(onSubmit)} id='assetSendForm'>
