@@ -803,7 +803,8 @@
         "operationFee": "Taxa de Operação",
         "balance": "Saldo"
       },
-      "balanceCardMessage": "Coloque sua cripto para render com Staking"
+      "balanceCardMessage": "Coloque sua cripto para render com Staking",
+      "balanceStakingCardMessage": "Compre Ethereum e comece a investir em Staking"
     }
   },
   "soon": "Em Breve",

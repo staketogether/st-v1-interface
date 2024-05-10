@@ -1,5 +1,4 @@
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
-import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useRouter } from 'next/router'
@@ -13,9 +12,11 @@ import NavActions from '@/components/shared/NavActions'
 interface EthereumFormControlProps {
   type: 'deposit' | 'withdraw'
   product: Staking
+  stpETHBalance: bigint
+  stpETHBalanceLoading: boolean
   chainId: number
 }
-export default function EthereumFormControl({ type, product, chainId }: EthereumFormControlProps) {
+export default function EthereumFormControl({ type, product, chainId, stpETHBalance, stpETHBalanceLoading }: EthereumFormControlProps) {
   const { query } = useRouter()
   const { currency } = query as { currency: string }
   const { account } = useConnectedAccount()
@@ -26,22 +27,6 @@ export default function EthereumFormControl({ type, product, chainId }: Ethereum
     isLoading: ethBalanceLoading,
     refetch: ethBalanceRefetch
   } = useEthBalanceOf({ walletAddress: account, chainId })
-
-  const { accountBalance: stpETHBalance, isLoading: stpETHBalanceLoading } = useLsdBalance({
-    walletAddress: account,
-    product: product,
-    chainId: chainId
-  })
-
-  // function handleRampButton() {
-  //   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-  //   type === 'deposit'
-  //     ? openModal(product.asset)
-  //     : notification.info({
-  //         message: `${t('offramp')}`,
-  //         placement: 'topRight'
-  //       })
-  // }
 
   const navActionsList = [
     {

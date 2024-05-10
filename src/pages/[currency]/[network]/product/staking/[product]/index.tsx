@@ -43,7 +43,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <NewStakeControl type='deposit' product={product} assetData={assetData} chainId={chainId} />
+      <NewStakeControl type='deposit' staking={product} assetData={assetData} chainId={chainId} />
       <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )

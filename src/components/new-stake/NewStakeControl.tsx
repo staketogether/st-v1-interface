@@ -6,7 +6,7 @@ import { Tooltip, notification } from 'antd'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
@@ -17,6 +17,8 @@ import ProductInfo from './ProductInfo'
 import { Staking } from '@/types/Staking'
 import { chainConfigByChainId } from '@/config/chain'
 import { AssetStats } from '@/types/AssetStats'
+import StakingBalanceCard from './StakingBalanceCard'
+import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -30,18 +32,24 @@ const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl
 
 interface NewStakeControlProps {
   type: 'deposit' | 'withdraw'
-  product: Staking
+  staking: Staking
   assetData: AssetStats
   chainId: number
 }
 
-export default function NewStakeControl({ product, type, assetData, chainId }: NewStakeControlProps) {
+export default function NewStakeControl({ staking, type, assetData, chainId }: NewStakeControlProps) {
+  const [userWalletAddress, setUserWalletAddress] = useState<`0x${string}` | undefined>(undefined)
   const { t } = useLocaleTranslation()
 
   const { query } = useRouter()
   const { currency } = query
 
-  const { chain: walletChainId, connector } = useAccount()
+  const { chain: walletChainId, connector, address } = useAccount()
+  useEffect(() => {
+    if (address) {
+      setUserWalletAddress(address)
+    }
+  }, [address])
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
   const config = chainConfigByChainId(chainId)
@@ -51,6 +59,12 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
       switchChain({ chainId })
     }
   }, [chainId, connector, isWrongNetwork, switchChain])
+
+  const { accountBalance: stpETHBalance, isLoading: stpETHBalanceLoading } = useLsdBalance({
+    walletAddress: userWalletAddress,
+    product: staking,
+    chainId: chainId
+  })
 
   const copyToClipboard = async () => {
     const url = `${window.location.href}`
@@ -62,7 +76,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
       placement: 'topRight'
     })
   }
-  useFacebookPixel(`pageview:staking_${product.id}`)
+  useFacebookPixel(`pageview:staking_${staking.id}`)
 
   return (
     <Container>
@@ -73,8 +87,8 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <AssetIcon image={product.symbolImage} size={36} chain={chainId} altName={product.id} />
-            {t(`v2.products.${product.id}`)}
+            <AssetIcon image={staking.symbolImage} size={36} chain={chainId} altName={staking.id} />
+            {t(`v2.products.${staking.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
@@ -88,7 +102,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
         </HeaderProductMobile>
         <RewardsPointsContainer>
           <span>{t('v2.ethereumStaking.myRewardsPoints')}</span>
-          {product.points.elPoints && (
+          {staking.points.elPoints && (
             <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
               <TagPointsContainer>
                 Eigen
@@ -96,7 +110,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
               </TagPointsContainer>
             </Tooltip>
           )}
-          {product.points.stPoints && (
+          {staking.points.stPoints && (
             <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
               <TagPointsContainer className='purple'>
                 Together
@@ -108,9 +122,25 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
       </header>
 
       <div>
-        <ProductInfo product={product} assetData={assetData} chainId={chainId} />
+        <ProductInfo product={staking} assetData={assetData} chainId={chainId} />
         <ActionContainer>
-          <EthereumFormControl product={product} type={type} chainId={chainId} />
+          <ActionStakingContainer>
+            <EthereumFormControl
+              stpETHBalance={stpETHBalance}
+              stpETHBalanceLoading={stpETHBalanceLoading}
+              product={staking}
+              type={type}
+              chainId={chainId}
+            />
+          </ActionStakingContainer>
+          {userWalletAddress && (
+            <StakingBalanceCard
+              stpETHBalance={stpETHBalance}
+              stpETHBalanceLoading={stpETHBalanceLoading}
+              staking={staking}
+              userWalletAddress={userWalletAddress}
+            />
+          )}
         </ActionContainer>
       </div>
     </Container>
@@ -120,6 +150,7 @@ export default function NewStakeControl({ product, type, assetData, chainId }: N
 const {
   Container,
   ActionContainer,
+  ActionStakingContainer,
   RewardsPointsContainer,
   HeaderBackAction,
   LoadingContainer,
@@ -236,6 +267,14 @@ const {
   ActionContainer: styled.div`
     width: 100%;
     max-width: 400px;
+
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[24]};
+  `,
+  ActionStakingContainer: styled.div`
+    width: 100%;
     padding: ${({ theme }) => theme.size[24]};
     background-color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${({ theme }) => theme.size[8]};

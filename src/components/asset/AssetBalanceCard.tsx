@@ -22,7 +22,6 @@ export default function AssetBalanceCard({ asset, userWalletAddress }: AssetBala
   const { t } = useLocaleTranslation()
   const { query, push } = useRouter()
   const { currency } = query as { currency: string }
-
   const isPossibleToInvest = stakingList.find(staking => staking.asset.id === asset.id)
 
   return (
