@@ -7,7 +7,6 @@ import styled from 'styled-components'
 import { lightTheme } from '../../../styles/theme'
 import { Cloudflare } from '../scripts/Cloudflare'
 import { GoogleTag } from '../scripts/GoogleTag'
-import { Hotjar } from '../scripts/Hotjar'
 import LayoutFooterClean from './LayoutFooterClean'
 import LayoutHeaderClean from './LayoutHeaderClean'
 
@@ -48,12 +47,10 @@ export default function LayoutClean({ children }: LayoutTemplateProps) {
       {isProduction && (
         <>
           <GoogleTag />
-          <Hotjar />
           <Cloudflare />
         </>
       )}
       <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
-
       <LayoutHeaderClean />
       {children}
       <LayoutFooterClean />
