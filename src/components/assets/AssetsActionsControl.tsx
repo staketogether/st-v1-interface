@@ -11,20 +11,20 @@ import NavActions from '../shared/NavActions'
 
 interface AssetsActionsControlProps {
   type: AssetActionType
-  product: Asset
+  asset: Asset
 }
 
-export default function AssetsActionsControl({ type, product }: AssetsActionsControlProps) {
+export default function AssetsActionsControl({ type, asset }: AssetsActionsControlProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
 
   const navActionsList = [
-    { type: 'buy', label: t('buy'), url: product.url.replace('currency', currency), disabled: false, icon: <PiPlus />, tooltipLabel: '' },
+    { type: 'buy', label: t('buy'), url: asset.url.replace('currency', currency), disabled: false, icon: <PiPlus />, tooltipLabel: '' },
     {
       type: 'sell',
       label: t('sell'),
-      url: `${product.url.replace('currency', currency)}/withdraw`,
+      url: `${asset.url.replace('currency', currency)}/withdraw`,
       disabled: false,
       icon: <PiCurrencyDollar />,
       tooltipLabel: ''
@@ -32,7 +32,7 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
     {
       type: 'swap',
       label: t('swap'),
-      url: `${product.url.replace('currency', currency)}/swap`,
+      url: `${asset.url.replace('currency', currency)}/swap`,
       disabled: true,
       icon: <PiArrowsClockwise />,
       tooltipLabel: t('soon')
@@ -40,7 +40,7 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
     {
       type: 'send',
       label: t('send'),
-      url: `${product.url.replace('currency', currency)}/send`,
+      url: `${asset.url.replace('currency', currency)}/send`,
       disabled: false,
       icon: <PiArrowUp />,
       tooltipLabel: ''
@@ -48,7 +48,7 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
     {
       type: 'receive',
       label: t('receive'),
-      url: `${product.url.replace('currency', currency)}/receive`,
+      url: `${asset.url.replace('currency', currency)}/receive`,
       disabled: false,
       icon: <PiArrowDown />,
       tooltipLabel: ''
@@ -61,16 +61,16 @@ export default function AssetsActionsControl({ type, product }: AssetsActionsCon
       <div>
         {type === 'buy' && (
           <BuyAssetContainer>
-            <AssetsBuyControl type={type} asset={product} />
+            <AssetsBuyControl type={type} asset={asset} />
           </BuyAssetContainer>
         )}
         {type === 'sell' && (
           <BuyAssetContainer>
-            <AssetsBuyControl type={type} asset={product} />
+            <AssetsBuyControl type={type} asset={asset} />
           </BuyAssetContainer>
         )}
-        {type === 'send' && <AssetsSend asset={product} />}
-        {type === 'receive' && <AssetsReceive asset={product} />}
+        {type === 'send' && <AssetsSend asset={asset} />}
+        {type === 'receive' && <AssetsReceive />}
       </div>
     </EthereumContainer>
   )
