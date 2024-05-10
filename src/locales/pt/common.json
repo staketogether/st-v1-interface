@@ -802,7 +802,8 @@
         "withdraw": "Resgatar",
         "operationFee": "Taxa de Operação",
         "balance": "Saldo"
-      }
+      },
+      "balanceCardMessage": "Coloque sua cripto para render com Staking"
     }
   },
   "soon": "Em Breve",

@@ -1,23 +1,21 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { formatNumberByLocale } from '@/services/format'
-import { truncateWei } from '@/services/truncate'
-
-import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import styled from 'styled-components'
 import { Asset } from '@/types/Asset'
 import { ethMainnet } from '@/config/product/asset'
+import { truncateDecimal } from '@/services/truncate'
 
 interface EthereumInputProps {
   ethAmountValue: string
-  balance: bigint
+  balance: string
   balanceLoading: boolean
   hasError: boolean
   onChange: (value: string) => void
   onMaxFunction?: () => void
   productAsset: Asset
+  accountIsConnected: boolean
 }
 
 export default function AssetInput({
@@ -27,10 +25,10 @@ export default function AssetInput({
   hasError,
   onChange,
   onMaxFunction,
-  productAsset
+  productAsset,
+  accountIsConnected
 }: EthereumInputProps) {
   const { t } = useLocaleTranslation()
-  const { locale } = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const containerHeaderRef = useRef<HTMLDivElement>(null)
 
@@ -65,13 +63,15 @@ export default function AssetInput({
 
   return (
     <InputContent onClick={handleFocusInput} ref={containerHeaderRef}>
-      <div>
-        {balanceLoading ? (
-          <SkeletonLoading width={120} />
-        ) : (
-          <span>{`${t('balance')}: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${productAsset.symbol}`}</span>
-        )}
-      </div>
+      {accountIsConnected && (
+        <div>
+          {balanceLoading ? (
+            <SkeletonLoading width={120} />
+          ) : (
+            <span>{`${t('balance')}: ${truncateDecimal(balance, 6)} ${productAsset.symbol}`}</span>
+          )}
+        </div>
+      )}
       <div>
         <CoinActionContainer>
           <AssetIcon
@@ -102,10 +102,12 @@ export default function AssetInput({
 const { InputContent, CoinActionContainer } = {
   InputContent: styled.div`
     width: 100%;
+    min-height: 45px;
     display: flex;
+    justify-content: center;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[16]};
-    padding: 16px;
+    padding: 8px;
     border-radius: ${({ theme }) => theme.size[8]};
     background-color: ${({ theme }) => theme.colorV2.gray[2]};
     border: 1px solid ${({ theme }) => theme.colorV2.gray[2]};

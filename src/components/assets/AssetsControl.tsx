@@ -17,6 +17,7 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
+import AssetBalanceCard from '../asset/AssetBalanceCard'
 
 interface AssetsControlProps {
   product: Asset
@@ -30,7 +31,7 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
   rampAssetIdVar(product.id)
   const { query } = useRouter()
   const { currency } = query
-  const { chain: walletChainId, connector } = useAccount()
+  const { chain: walletChainId, connector, address } = useAccount()
 
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
@@ -83,14 +84,17 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
       <div>
         <AssetsProductInfo product={product} assetData={assetData} />
         <ActionContainer>
-          <AssetsActionsControl type={type} asset={product} />
+          <ActionContainerControlCard>
+            <AssetsActionsControl type={type} asset={product} />
+          </ActionContainerControlCard>
+          {address && <AssetBalanceCard asset={product} userWalletAddress={address} />}
         </ActionContainer>
       </div>
     </Container>
   )
 }
 
-const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, ShareButton, AvailableNetwork } = {
+const { Container, ActionContainerControlCard, ActionContainer, HeaderBackAction, HeaderProductMobile, ShareButton, AvailableNetwork } = {
   Container: styled.div`
     position: relative;
     width: 100%;
@@ -163,6 +167,14 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
   ActionContainer: styled.div`
     width: 100%;
     max-width: 400px;
+
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[24]};
+  `,
+  ActionContainerControlCard: styled.div`
+    width: 100%;
     padding: ${({ theme }) => theme.size[24]};
     background-color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${({ theme }) => theme.size[8]};

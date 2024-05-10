@@ -777,7 +777,8 @@
         "withdraw": "Withdraw",
         "operationFee": "Operation Fee",
         "balance": "Balance"
-      }
+      },
+     "balanceCardMessage": "Put your crypto to work with Staking"
     }
   },
   "soon": "Soon",
