@@ -17,6 +17,7 @@ const nextConfig = {
       }
     ]
   },
+  transpilePackages: ['@lifi/widget', '@lifi/wallet-management'],
   async redirects() {
     return [
       {

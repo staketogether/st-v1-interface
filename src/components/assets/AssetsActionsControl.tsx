@@ -1,49 +1,82 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Tooltip } from 'antd'
-import Link from 'next/link'
+import { Asset } from '@/types/Asset'
+import { AssetActionType } from '@/types/AssetActionType'
+import { PiArrowDown, PiArrowUp, PiArrowsClockwise, PiCurrencyDollar, PiPlus } from 'react-icons/pi'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import AssetsBuyControl from './AssetsBuyControl'
-import { Asset } from '@/types/Asset'
+import { AssetsReceive } from './AssetsReceive'
+import { AssetsSend } from './AssetsSend'
+import NavActions from '../shared/NavActions'
+import { AssetsSwap } from '@/components/assets/AssetsSwap'
 
 interface AssetsActionsControlProps {
-  type: 'buy' | 'sell' | 'swap'
-  product: Asset
+  type: AssetActionType
+  asset: Asset
 }
 
-export default function AssetsActionsControl({ type, product }: AssetsActionsControlProps) {
+export default function AssetsActionsControl({ type, asset }: AssetsActionsControlProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
 
+  const navActionsList = [
+    { type: 'buy', label: t('buy'), url: asset.url.replace('currency', currency), disabled: false, icon: <PiPlus />, tooltipLabel: '' },
+    {
+      type: 'sell',
+      label: t('sell'),
+      url: `${asset.url.replace('currency', currency)}/withdraw`,
+      disabled: true,
+      icon: <PiCurrencyDollar />,
+      tooltipLabel: t('soon')
+    },
+    {
+      type: 'swap',
+      label: t('swap'),
+      url: `${asset.url.replace('currency', currency)}/swap`,
+      disabled: false,
+      icon: <PiArrowsClockwise />,
+      tooltipLabel: ''
+    },
+    {
+      type: 'send',
+      label: t('send'),
+      url: `${asset.url.replace('currency', currency)}/send`,
+      disabled: false,
+      icon: <PiArrowUp />,
+      tooltipLabel: ''
+    },
+    {
+      type: 'receive',
+      label: t('receive'),
+      url: `${asset.url.replace('currency', currency)}/receive`,
+      disabled: false,
+      icon: <PiArrowDown />,
+      tooltipLabel: ''
+    }
+  ]
+
   return (
     <EthereumContainer>
-      <header>
-        <nav>
-          <ul>
-            <li className={`${type === 'buy' && 'activated'}`}>
-              <Link href={product.url.replace('currency', currency)}>{t('buy')}</Link>
-            </li>
-            <Tooltip title={t('soon')}>
-              <li className={`${type === 'sell' && 'activated'} disabled`}>
-                <Link href={`${product.url.replace('currency', currency)}/withdraw`}>{t('sell')}</Link>
-              </li>
-            </Tooltip>
-          </ul>
-        </nav>
-      </header>
+      <NavActions typeActive={type} navActionsList={navActionsList} />
       <div>
         {type === 'buy' && (
           <BuyAssetContainer>
-            <AssetsBuyControl type={type} asset={product} />
+            <AssetsBuyControl type={type} asset={asset} />
           </BuyAssetContainer>
         )}
         {type === 'sell' && (
           <BuyAssetContainer>
-            <AssetsBuyControl type={type} asset={product} />
+            <AssetsBuyControl type={type} asset={asset} />
           </BuyAssetContainer>
         )}
-        {type === 'sell' && <div>sell</div>}
+        {type === 'swap' && (
+          <BuyAssetContainer>
+            <AssetsSwap asset={asset} />
+          </BuyAssetContainer>
+        )}
+        {type === 'send' && <AssetsSend asset={asset} />}
+        {type === 'receive' && <AssetsReceive />}
       </div>
     </EthereumContainer>
   )
@@ -54,80 +87,6 @@ const { EthereumContainer, BuyAssetContainer } = {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    nav {
-      ul {
-        display: flex;
-        gap: ${({ theme }) => theme.size[24]};
-        align-items: center;
-        li {
-          height: 24px;
-          font-size: ${({ theme }) => theme.font.size[15]};
-          font-weight: 400;
-          cursor: pointer;
-
-          position: relative;
-          display: inline-block;
-          text-decoration: none;
-          overflow: hidden;
-
-          &::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 1px;
-            bottom: 0;
-            left: 0;
-            background-color: ${({ theme }) => theme.colorV2.purple[1]};
-            transform: scaleX(0);
-            transform-origin: bottom left;
-            transition: transform 0.3s ease-out;
-          }
-          &:hover {
-            a {
-              color: ${({ theme }) => theme.colorV2.purple[1]};
-              opacity: 1;
-            }
-          }
-
-          &:hover::after {
-            transform: scaleX(1);
-          }
-
-          &.activated::after,
-          &.activated:hover::after {
-            transform: scaleX(0);
-            transition: none;
-          }
-
-          &.activated {
-            border-bottom: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
-            a {
-              color: ${({ theme }) => theme.colorV2.purple[1]};
-              opacity: 1;
-            }
-          }
-          &.disabled {
-            cursor: not-allowed;
-            opacity: 0.6;
-            a {
-              pointer-events: none;
-              cursor: not-allowed;
-            }
-          }
-          a {
-            color: ${({ theme }) => theme.colorV2.gray[1]};
-            opacity: 0.6;
-          }
-        }
-      }
-    }
   `,
   BuyAssetContainer: styled.div``
 }
