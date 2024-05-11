@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/named
 import { LiFiWidget, WidgetConfig } from '@lifi/widget'
 import { chainConfigs } from '@/config/chain'
 import { Asset } from '@/types/Asset'
@@ -9,7 +10,7 @@ export const LiFiSwap = ({ asset }: { asset: Asset }) => {
     chains: { allow: chainConfigs.map(chain => chain.chainId) },
     useRecommendedRoute: true,
     languages: {
-      default: locale === 'pt' ? 'pt' : 'en',
+      default: locale === 'pt' ? 'pt' : 'en'
     },
     variant: 'compact',
     hiddenUI: ['poweredBy', 'appearance', 'walletMenu', 'history', 'language', 'drawerCloseButton'],
@@ -35,11 +36,11 @@ export const LiFiSwap = ({ asset }: { asset: Asset }) => {
               display: 'none'
             }
           }
-        },
+        }
       },
       container: {
         boxShadow: '0',
-        borderRadius: '16px',
+        borderRadius: '16px'
       },
       palette: {
         primary: {
@@ -71,12 +72,8 @@ export const LiFiSwap = ({ asset }: { asset: Asset }) => {
         borderRadiusSecondary: 8
       }
     },
+    integrator: ''
   }
 
-  return (
-    <LiFiWidget
-      config={widgetConfig}
-      integrator="stake_together"
-    />
-  );
-};
+  return <LiFiWidget config={widgetConfig} integrator='stake_together' />
+}
