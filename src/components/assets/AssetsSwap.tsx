@@ -3,12 +3,9 @@ import dynamic from 'next/dynamic'
 import styled from 'styled-components'
 
 export function AssetsSwap({ asset }: { asset: Asset }) {
-  const LiFiWidgetNext = dynamic(
-    () => import('./LiFiSwap').then((module) => module.LiFiSwap),
-    {
-      ssr: false,
-    },
-  );
+  const LiFiWidgetNext = dynamic(() => import('./LiFiSwap').then(module => module.LiFiSwap), {
+    ssr: false
+  })
 
   return (
     <SwapContainer>
@@ -21,5 +18,11 @@ const { SwapContainer } = {
   SwapContainer: styled.div`
     // Necessary to avoid the widget from being too narrow
     margin: 0 -24px;
-  `,
+
+    div {
+      &.MuiBox-root {
+        height: auto !important;
+      }
+    }
+  `
 }

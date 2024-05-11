@@ -2,7 +2,7 @@ import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useRef } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Asset } from '@/types/Asset'
 import { ethMainnet } from '@/config/product/asset'
 import { truncateDecimal } from '@/services/truncate'
@@ -16,12 +16,14 @@ interface EthereumInputProps {
   onMaxFunction?: () => void
   productAsset: Asset
   accountIsConnected: boolean
+  background?: 'gray' | 'white'
 }
 
 export default function AssetInput({
   balance,
   balanceLoading,
   ethAmountValue,
+  background = 'gray',
   hasError,
   onChange,
   onMaxFunction,
@@ -62,7 +64,7 @@ export default function AssetInput({
   }
 
   return (
-    <InputContent onClick={handleFocusInput} ref={containerHeaderRef}>
+    <InputContent onClick={handleFocusInput} ref={containerHeaderRef} background={background}>
       {accountIsConnected && (
         <div>
           {balanceLoading ? (
@@ -100,7 +102,7 @@ export default function AssetInput({
 }
 
 const { InputContent, CoinActionContainer } = {
-  InputContent: styled.div`
+  InputContent: styled.div<{ background: 'gray' | 'white' }>`
     width: 100%;
     min-height: 45px;
     display: flex;
@@ -109,8 +111,16 @@ const { InputContent, CoinActionContainer } = {
     gap: ${({ theme }) => theme.size[16]};
     padding: 8px;
     border-radius: ${({ theme }) => theme.size[8]};
-    background-color: ${({ theme }) => theme.colorV2.gray[2]};
-    border: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
+    ${({ background }) =>
+      background === 'gray'
+        ? css`
+            background: ${({ theme }) => theme.colorV2.gray[2]};
+            border: 1px solid transparent;
+          `
+        : css`
+            background: ${({ theme }) => theme.colorV2.white};
+            border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+          `}
     box-shadow: ${({ theme }) => theme.shadow[100]};
     cursor: text;
 

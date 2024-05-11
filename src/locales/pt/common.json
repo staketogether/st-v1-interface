@@ -86,6 +86,8 @@
   "selectProduct": "Selecionar Produto",
   "estimatedBalance": "Saldo Estimado",
   "investments": "Investimentos",
+  "genericTransactionSuccess": "Transação Realizada com Sucesso!",
+  "sendAddress": "Endereço de Destino",
   "time": {
     "days": "Dias",
     "day": "Dia",
