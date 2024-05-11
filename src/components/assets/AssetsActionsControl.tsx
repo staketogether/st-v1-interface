@@ -8,6 +8,7 @@ import AssetsBuyControl from './AssetsBuyControl'
 import { AssetsReceive } from './AssetsReceive'
 import { AssetsSend } from './AssetsSend'
 import NavActions from '../shared/NavActions'
+import { AssetsSwap } from '@/components/assets/AssetsSwap'
 
 interface AssetsActionsControlProps {
   type: AssetActionType
@@ -33,9 +34,9 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
       type: 'swap',
       label: t('swap'),
       url: `${asset.url.replace('currency', currency)}/swap`,
-      disabled: true,
+      disabled: false,
       icon: <PiArrowsClockwise />,
-      tooltipLabel: t('soon')
+      tooltipLabel: ''
     },
     {
       type: 'send',
@@ -67,6 +68,11 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
         {type === 'sell' && (
           <BuyAssetContainer>
             <AssetsBuyControl type={type} asset={asset} />
+          </BuyAssetContainer>
+        )}
+        {type === 'swap' && (
+          <BuyAssetContainer>
+            <AssetsSwap asset={asset} />
           </BuyAssetContainer>
         )}
         {type === 'send' && <AssetsSend asset={asset} />}
