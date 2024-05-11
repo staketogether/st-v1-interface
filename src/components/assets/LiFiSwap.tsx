@@ -25,6 +25,7 @@ export const LiFiSwap = ({ asset }: { asset: Asset }) => {
           styleOverrides: {
             root: {
               fontSize: '14px',
+              border: '1px solid #A0A5AB !important'
             }
           }
         },
@@ -70,11 +71,6 @@ export const LiFiSwap = ({ asset }: { asset: Asset }) => {
         borderRadiusSecondary: 8
       }
     },
-    walletConfig: {
-      async onConnect() {
-        console.log('connected')
-      }
-    }
   }
 
   return (
