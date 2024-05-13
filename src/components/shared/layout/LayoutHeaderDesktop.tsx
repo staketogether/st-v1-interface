@@ -10,6 +10,7 @@ import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import SkeletonLoading from '../icons/SkeletonLoading'
+import Search from '@/components/search/SearchControl'
 
 const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
   ssr: false,
@@ -56,6 +57,7 @@ export default function LayoutHeader() {
             </MenuButton>
           </Link>
         </Menu>
+        <Search />
       </MenuContainer>
       <WalletContainer>
         <LayoutNetworkDropdown />
