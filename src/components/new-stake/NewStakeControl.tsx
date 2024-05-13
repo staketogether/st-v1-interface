@@ -19,6 +19,7 @@ import { chainConfigByChainId } from '@/config/chain'
 import { AssetStats } from '@/types/AssetStats'
 import StakingBalanceCard from './StakingBalanceCard'
 import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
+import StakingDelegatePools from './StakingDelegatePools'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -134,12 +135,24 @@ export default function NewStakeControl({ staking, type, assetData, chainId }: N
             />
           </ActionStakingContainer>
           {userWalletAddress && (
-            <StakingBalanceCard
-              stpETHBalance={stpETHBalance}
-              stpETHBalanceLoading={stpETHBalanceLoading}
-              staking={staking}
-              userWalletAddress={userWalletAddress}
-            />
+            <Card>
+              <StakingBalanceCard
+                stpETHBalance={stpETHBalance}
+                stpETHBalanceLoading={stpETHBalanceLoading}
+                staking={staking}
+                userWalletAddress={userWalletAddress}
+              />
+            </Card>
+          )}
+          {userWalletAddress && (
+            <Card>
+              <StakingDelegatePools
+                stpETHBalance={stpETHBalance}
+                stpETHBalanceLoading={stpETHBalanceLoading}
+                staking={staking}
+                userWalletAddress={userWalletAddress}
+              />
+            </Card>
           )}
         </ActionContainer>
       </div>
@@ -156,7 +169,8 @@ const {
   LoadingContainer,
   TagPointsContainer,
   HeaderProductMobile,
-  ShareButton
+  ShareButton,
+  Card
 } = {
   Container: styled.div`
     position: relative;
@@ -184,6 +198,13 @@ const {
       flex-direction: column;
       gap: ${({ theme }) => theme.size[8]};
     }
+  `,
+  Card: styled.div`
+    width: 100%;
+    background: ${({ theme }) => theme.colorV2.white};
+    padding: ${({ theme }) => theme.size[24]};
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
   `,
   TagPointsContainer: styled.div`
     height: 20px;
