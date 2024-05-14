@@ -1,18 +1,20 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
-import { MdOutlineShowChart } from "react-icons/md";
+import { PiCoinsLight, PiChartLine } from 'react-icons/pi'
 import { stakingList } from "@/config/product/staking";
 import { getListedAssets } from "@/config/product/asset";
+import { getListedStaking } from "@/config/product/staking";
 import styled from 'styled-components'
-import Fuse, { FuseResult } from "fuse.js";
+import Fuse from "fuse.js";
 import AssetIcon from "../shared/AssetIcon";
-
+import useLocaleTranslation from "@/hooks/useLocaleTranslation";
 
 
 export default function Search() {
+    const { t } = useLocaleTranslation()
     const [value, setValue] = useState('');
     const listedAssets = getListedAssets();
-    const listedStaking = stakingList.filter(e => e.listed)
+    const listedStaking = getListedStaking()
 
     const stakingOptions = {
         includeScore: true,
@@ -61,53 +63,54 @@ export default function Search() {
 
     console.log(assetsListFiltered)
 
-
     return (
         <Container>
             <SearchContainer>
                 <SearchIcon />
                 <input placeholder="Search" type="search" onChange={(e) => setValue(e.target.value)} />
             </SearchContainer>
-            <WrapperResult>
-                <WrapperCard>
-                    {assetsListFiltered.length &&
-                        <div>
-                            <MdOutlineShowChart />
-                            <span>Criptomoedas</span>
-                        </div>
-                    }
-                    {assetsListFiltered.map(asset => (
-                        <Card key={asset.item.id}>
-                            <AssetIcon image={asset.item.symbolImage} chain={asset.item.chains[0]} size={32} altName={asset.item.id} />
-                            <div>
-                                <h2>{asset.item.symbol}</h2>
-                                <span>ETH</span>
-                            </div>
-                        </Card>
-                    ))}
-                    {stakingListsFiltered.length &&
-                        <div>
-                            <MdOutlineShowChart />
-                            <span>Investimentos</span>
-                        </div>
-                    }
-                    {stakingListsFiltered.map(staking => (
-                        <Card>
-                            <AssetIcon image={staking.item.symbolImage} chain={staking.item.asset.chains[0]} size={32} altName={staking.item.id} />
-                            <div>
-                                <h2>{staking.item.symbol}</h2>
-                                <span>ETH</span>
-                            </div>
-                        </Card>
-                    ))}
-                </WrapperCard>
-            </WrapperResult>
+            {!!(stakingListsFiltered.length || assetsListFiltered.length) &&
+              <WrapperResult>
+              <WrapperCard>
+                  {!!assetsListFiltered.length &&
+                      <div>
+                          <PiCoinsLight />
+                          <span>{t('v2.header.assets')}</span>
+                      </div>
+                  }
+                  {assetsListFiltered.map(asset => (
+                      <Card key={asset.item.id}>
+                          <AssetIcon image={asset.item.symbolImage} chain={asset.item.chains[0]} size={32} altName={asset.item.id} />
+                          <div>
+                              <h2>{asset.item.symbol}</h2>
+                              <span>{}</span>
+                          </div>
+                      </Card>
+                  ))}
+                  {!!stakingListsFiltered.length &&
+                      <div>
+                          <PiChartLine />
+                          <span>{t('v2.header.staking')}</span>
+                      </div>
+                  }
+                  {stakingListsFiltered.map(staking => (
+                      <Card>
+                          <AssetIcon image={staking.item.symbolImage} chain={staking.item.asset.chains[0]} size={32} altName={staking.item.id} />
+                          <div>
+                              <h2>{staking.item.symbol}</h2>
+                              <span>{}</span>
+                          </div>
+                      </Card>
+                  ))}
+              </WrapperCard>
+              </WrapperResult>
+            }
         </Container>
     )
 }
 
 
-const { Container, SearchContainer, WrapperResult, WrapperCard, Card, SearchIcon } = {
+const { Container, SearchContainer, WrapperResult, WrapperCard, Card, SearchIcon,  } = {
     Container: styled.div`
     height: auto;
     display: flex;
@@ -131,11 +134,21 @@ const { Container, SearchContainer, WrapperResult, WrapperCard, Card, SearchIcon
         border: 0;
         outline: 0;
         background: transparent;
+
+        &::-webkit-search-cancel-button {
+            appearance: none; 
+        }
+        &::-webkit-search-cancel-button::after {
+            content: 'X';
+            font-style: italic;
+            color: red;
+        }
     }
     `,
     WrapperResult: styled.div`
-    width: 300px;
-    height: 300px;
+    width: 293px;
+    height: auto;
+    
     background: ${({ theme }) => theme.color.white};
     position: absolute;
     z-index: 1;
@@ -145,7 +158,9 @@ const { Container, SearchContainer, WrapperResult, WrapperCard, Card, SearchIcon
     `,
     WrapperCard: styled.div`
     width: 100%;
-    height: 300px;
+    height: auto;
+    min-height: 150px;
+    max-height: 250px;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -155,19 +170,21 @@ const { Container, SearchContainer, WrapperResult, WrapperCard, Card, SearchIcon
         display: flex;
         align-items: center;
         gap: ${({ theme }) => theme.size[8]};
-        padding: 8px;
+        padding: ${({ theme }) => theme.size[8]};
     }
     `,
     Card: styled.div`
     display: flex;
+    transition: background-color 0.2s;
 
-    >div {
-        display: inherit;
+    &:hover {
+        background-color: ${({ theme }) => theme.color.gray[100]};
     }
 
     div:nth-of-type(2) {
         flex-direction: column;
-        text-align: right;
+        text-align: left;
+        margin-left: ${({ theme }) => theme.size[4]};
     }
     `,
     SearchIcon: styled(BiSearch)`
