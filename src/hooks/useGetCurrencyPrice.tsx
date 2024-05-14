@@ -26,9 +26,9 @@ export default function useGetCurrencyPrice() {
         const responseData = responses.map(response => {
           return {
             id: `${response.data.ref}`,
-            value: response.data.market_data.current_price.usd,
-            price24h: response.data.market_data.price_change_24h,
-            priceChangePercentage24h: response.data.market_data.price_change_percentage_24h
+            value: response.data.marketCapUsd,
+            price24h: response.data.priceChange24h,
+            priceChangePercentage24h: response.data.priceChangePercentage24h
           }
         })
         currencyPriceListVar(responseData)
