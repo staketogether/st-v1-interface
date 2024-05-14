@@ -148,7 +148,7 @@ export const chilizChz: NativeAsset = {
       chainId: 88888,
       minDeposit: 10,
       provider: 'brla',
-      paymentMethod: 'pix',
+      paymentMethod: 'pix'
     }
   ]
 }

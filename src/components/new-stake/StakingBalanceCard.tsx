@@ -79,18 +79,10 @@ export default function StakingBalanceCard({ staking, stpETHBalance, stpETHBalan
 
 const { Container, InvestContainer, ValueInfo } = {
   Container: styled.div`
-    width: 100%;
-    background: ${({ theme }) => theme.colorV2.white};
-
-    padding: ${({ theme }) => theme.size[24]};
-
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: ${({ theme }) => theme.size[24]};
-
-    border-radius: ${({ theme }) => theme.size[8]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
 
     header {
       width: 100%;

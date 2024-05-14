@@ -1,6 +1,6 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useForm } from 'react-hook-form'
-import { PiArrowRight } from 'react-icons/pi'
+import { PiArrowLineRight, PiArrowRight, PiArrowsCounterClockwise } from 'react-icons/pi'
 import styled from 'styled-components'
 import { encodeFunctionData, erc20Abi } from 'viem'
 import Button from '../shared/Button'
@@ -16,6 +16,9 @@ import useBalanceOf from '@/hooks/contracts/useBalanceOf'
 import useAssetSendTransaction from '@/hooks/contracts/useSendTransaction'
 import { notification } from 'antd'
 import { useRouter } from 'next/router'
+import { chainConfigByChainId } from '@/config/chain'
+import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import { useSwitchChain } from 'wagmi'
 
 interface AssetSendProps {
   walletTo: string
@@ -25,7 +28,11 @@ export function AssetsSend({ asset }: { asset: Asset }) {
   const [sendAmount, setSendAmount] = useState<string>('0')
 
   const { t } = useLocaleTranslation()
-  const { account } = useConnectedAccount()
+  const { account, chainId: walletChainId } = useConnectedAccount()
+  const isWrongNetwork = asset.chains[0] !== walletChainId
+  const { name } = chainConfigByChainId(asset.chains[0])
+  const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
+
   const { isLoading, tokenBalance } = useBalanceOf({ asset, walletAddress: account })
   const { reload } = useRouter()
   const {
@@ -51,7 +58,31 @@ export function AssetsSend({ asset }: { asset: Asset }) {
     formState: { errors }
   } = useForm<AssetSendProps>()
 
+  const handleChange = (v: string) => {
+    if (v.includes(',')) {
+      v = v.replace(',', '.')
+    }
+    const regex = /^(\d+(\.\d*)?|\.\d+)$/
+    if (!v || regex.test(v)) {
+      if (v.length > 19 + v.split('.')[0].length) return
+
+      setSendAmount(v)
+    }
+  }
+
+  const { switchChain } = useSwitchChain()
   const onSubmit = (data: AssetSendProps) => {
+    if (!account) {
+      setOpenSidebarConnectWallet(true)
+      return
+    }
+
+    if (isWrongNetwork && !!account && switchChain) {
+      switchChain({
+        chainId: asset.chains[0]
+      })
+      return
+    }
     const [chain] = asset.chains
 
     const to = data.walletTo as `0x${string}`
@@ -79,17 +110,30 @@ export function AssetsSend({ asset }: { asset: Asset }) {
     })
   }
 
-  const handleChange = (v: string) => {
-    if (v.includes(',')) {
-      v = v.replace(',', '.')
+  function handleButtonName() {
+    if (!account) {
+      return t('connectWallet')
     }
-    const regex = /^(\d+(\.\d*)?|\.\d+)$/
-    if (!v || regex.test(v)) {
-      if (v.length > 19 + v.split('.')[0].length) return
 
-      setSendAmount(v)
+    if (isWrongNetwork && !!account) {
+      return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
     }
+
+    return t('next')
   }
+
+  function handleButtonIcon() {
+    if (!account) {
+      return <PiArrowLineRight />
+    }
+
+    if (isWrongNetwork && !!account) {
+      return <PiArrowsCounterClockwise />
+    }
+
+    return <PiArrowRight />
+  }
+
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='assetSendForm'>
       <div>
@@ -119,13 +163,14 @@ export function AssetsSend({ asset }: { asset: Asset }) {
           accountIsConnected={!!account}
         />
       </div>
+
       <Button
         form='assetSendForm'
-        isLoading={transactionLoading}
+        isLoading={transactionLoading || openSidebarConnectWallet}
         type='submit'
-        label={t('next')}
-        icon={<PiArrowRight />}
-        disabled={transactionLoading}
+        label={handleButtonName()}
+        icon={handleButtonIcon()}
+        disabled={transactionLoading || openSidebarConnectWallet || Number(sendAmount) <= 0}
       />
     </FormContainer>
   )
