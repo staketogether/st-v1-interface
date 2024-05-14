@@ -56,8 +56,10 @@ export default function LayoutHeader() {
             </MenuButton>
           </Link>
         </Menu>
-        <LayoutHeaderSearch />
       </MenuContainer>
+      <SearchArea>
+        <LayoutHeaderSearch />
+      </SearchArea>
       <WalletContainer>
         <LayoutNetworkDropdown />
         <ContainerCurrency>
@@ -75,6 +77,7 @@ const {
   Container,
   MenuContainer,
   WalletContainer,
+  SearchArea,
   ContainerCurrency,
   Logo,
   Menu,
@@ -96,9 +99,12 @@ const {
     z-index: 5;
     width: 100%;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      display: grid;
-      grid-template-columns: 1fr auto;
+      display: flex;
+      justify-content: space-between;
     }
+  `,
+  SearchArea: styled.div`
+    width: 294px;
   `,
   MenuContainer: styled.div`
     display: flex;

@@ -127,16 +127,17 @@ const { Container, WrapperResult, WrapperCard, Row } = {
     height: auto;
     display: flex;
     flex-direction: column;
+    position: relative;
   `,
   WrapperResult: styled.div`
-    width: 293px;
+    width: 100%;
     height: auto;
 
     background: ${({ theme }) => theme.color.white};
     position: absolute;
     z-index: 1;
-    top: 64px;
-    border-radius: 0px 0px 8px 8px;
+    top: 40px;
+    border-radius: 8px;
     box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 0.2);
   `,
   WrapperCard: styled.div`

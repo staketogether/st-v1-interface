@@ -38,7 +38,7 @@ export default function SearchInput({ search, setSearch, className, ...props }: 
 const { InputSearchArea, InputSearch } = {
   InputSearchArea: styled.div`
     width: 100%;
-    height: 40px;
+    height: 32px;
 
     display: grid;
     grid-template-columns: 1fr auto;
