@@ -1,9 +1,15 @@
 import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
+import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import { chainConfigByChainId } from '@/config/chain'
+import useQuoteBrla from '@/hooks/ramp/useQuote'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
+import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
 import { Asset } from '@/types/Asset'
+import { AssetStats } from '@/types/AssetStats'
+import { PaymentMethodType } from '@/types/payment-method.type'
+import { ProviderType } from '@/types/provider.type'
 import { notification } from 'antd'
 import { useRouter } from 'next/router'
 import { PiShareNetwork } from 'react-icons/pi'
@@ -11,12 +17,6 @@ import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import PriceChart from '../shared/PriceChart'
-import { AssetStats } from '@/types/AssetStats'
-import useQuoteBrla from '@/hooks/ramp/useQuote'
-import { ProviderType } from '@/types/provider.type'
-import { PaymentMethodType } from '@/types/payment-method.type'
-import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
-import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 
 interface AssetsProductInfoProps {
   product: Asset
@@ -102,15 +102,15 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
         <StatisticContainer>
           <div>
             <span>{t('v2.ethereumStaking.marketCap')}</span>
-            <span className='valueItem'>{`${handleQuotePrice(assetData?.market_data.market_cap.usd || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.marketCapUsd || 0)}`}</span>
           </div>
           <div>
             <span>Volume</span>
-            <span className='valueItem'>{`${handleQuotePrice(assetData?.market_data.total_volume.usd || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.totalVolume || 0)}`}</span>
           </div>
           <div>
             <span>{t('v2.ethereumStaking.priceChange')}</span>
-            <span className='valueItem'>{`${assetData?.market_data.price_change_percentage_1y?.toFixed(2)}%`}</span>
+            <span className='valueItem'>{`${assetData?.priceChangePercentage1Y?.toFixed(2)}%`}</span>
           </div>
         </StatisticContainer>
       </ProductBodyContainer>
