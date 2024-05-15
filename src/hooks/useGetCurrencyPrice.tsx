@@ -17,7 +17,7 @@ export default function useGetCurrencyPrice() {
       try {
         const promises = assetsList.map(asset =>
           axios.get<AssetStats>(
-            `${backendUrl}/api/asset-stats/${asset.chains[0]}/${asset.type === 'native' ? asset.wrapperContractAddress : asset.contractAddress}`
+            `${backendUrl}/api/asset-stats/${asset.chains[0]}/${asset.contractAddress}`
           )
         )
 

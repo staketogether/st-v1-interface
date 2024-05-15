@@ -30,6 +30,13 @@ import stpEthIcon from '@assets/assets/stp-eth.svg'
 import strEthIcon from '@assets/assets/str-eth.svg'
 import vascoIcon from '@assets/assets/vasco.png'
 import verdaoIcon from '@assets/assets/verdao.png'
+import galoIcon from '@assets/assets/galo.png'
+import fluIcon from '@assets/assets/flu.png'
+import verdaoIcon from '@assets/assets/verdao.png'
+import vascoIcon from '@assets/assets/vasco.png'
+import saciIcon from '@assets/assets/saci.png'
+import spfcIcon from '@assets/assets/spfc.png'
+import bahiaIcon from '@assets/assets/bahia.png'
 import { Chain } from '../chain'
 
 export const ethMainnet: NativeAsset = {
