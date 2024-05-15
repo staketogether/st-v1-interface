@@ -14,9 +14,9 @@ export default function AssetPrice({ asset, className, showChangePercentage = fa
   const signalPercentChange24h = priceChangePercentage24h && priceChangePercentage24h > 0 ? '+' : ''
   return loading ? (
     <ContainerLoading> 
-    <SkeletonLoading width={80} height={30}/> 
-    <SkeletonLoading width={80} height={25}/> 
-  </ContainerLoading>
+      {showChangePercentage && <SkeletonLoading width={80} height={30}/>}
+      <SkeletonLoading width={80} height={25}/> 
+    </ContainerLoading>
   ) : (
     <>
       <span className={className}>{priceConvertedValue}</span>

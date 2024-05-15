@@ -1,5 +1,4 @@
 import AssetIcon from '@/components/shared/AssetIcon'
-import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 import dynamic from 'next/dynamic'
