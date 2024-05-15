@@ -23,7 +23,6 @@ export default function AnalyticsControl() {
   const staking = getStakingById('eth-staking')
   const { StakeTogether, Router, Withdrawals } = staking.contracts
 
-
   const { priceConvertedValue } = useCoinConversion('1', staking.asset.chains[0], staking.asset.contractAddress)
   const ethPrice = priceConvertedValue
   const tvl = formatNumberByLocale(truncateDecimal(String(analytics?.totalValueLocked) || '0', 2), locale)
@@ -35,7 +34,11 @@ export default function AnalyticsControl() {
   const withdrawalsCount = analytics?.withdrawalsCount
 
   const totalRewards = formatNumberByLocale(truncateDecimal(String(analytics?.totalRewards) || '0', 2), locale)
-  const { priceConvertedValue: totalRewardsUsdPrice } = useCoinConversion(totalRewards, staking.asset.chains[0], staking.asset.contractAddress)
+  const { priceConvertedValue: totalRewardsUsdPrice } = useCoinConversion(
+    totalRewards,
+    staking.asset.chains[0],
+    staking.asset.contractAddress
+  )
   const totalRewardsUsdPriceFormatted = totalRewardsUsdPrice
 
   const poolsCount = analytics?.poolsCount
