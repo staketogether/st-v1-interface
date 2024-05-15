@@ -38,12 +38,11 @@ const { Container, CurrentNetwork } = {
     cursor: pointer;
 
     &:hover {
-      background: ${({ theme }) => theme.colorV2.gray[3]};
-      /* background: ${({ theme }) => theme.colorV2.purple[1]};
+      background: ${({ theme }) => theme.colorV2.purple[1]};
 
       div {
         color: ${({ theme }) => theme.color.white};
-      } */
+      }
     }
   `,
   CurrentNetwork: styled.div`

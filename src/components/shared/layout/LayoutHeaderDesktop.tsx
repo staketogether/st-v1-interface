@@ -4,13 +4,13 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCodesandboxLogo, PiCurrencyEth } from 'react-icons/pi'
+import { PiCodesandboxLogo, PiCoinsLight, PiChartLine, PiGlobe } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import SkeletonLoading from '../icons/SkeletonLoading'
-
+import LayoutHeaderSearch from './LayoutHeaderSearch'
 const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} height={32} />,
@@ -22,7 +22,7 @@ export default function LayoutHeader() {
   const { isActive } = useActiveRoute()
   const { account, accountIsConnected } = useConnectedAccount()
 
-  const { query, pathname } = useRouter()
+  const { query, pathname, locale } = useRouter()
   const { currency, network } = query
 
   const basePath = `/[currency]`
@@ -39,13 +39,13 @@ export default function LayoutHeader() {
         <Menu>
           <Link href={`/${currency as string}/crypto`}>
             <MenuButton className={`${isHome || isActive('crypto') ? 'active' : ''}`}>
-              <InvestIcon />
+              <CoinsIcon />
               {t('v2.header.assets')}
             </MenuButton>
           </Link>
           <Link href={`/${currency as string}/staking`}>
             <MenuButton className={`${isHome || isActive('staking') ? 'active' : ''}`}>
-              <InvestIcon />
+              <ChartIcon />
               {t('v2.header.staking')}
             </MenuButton>
           </Link>
@@ -57,15 +57,36 @@ export default function LayoutHeader() {
           </Link>
         </Menu>
       </MenuContainer>
+      <SearchArea>
+        <LayoutHeaderSearch />
+      </SearchArea>
       <WalletContainer>
         <LayoutNetworkDropdown />
+        <ContainerCurrency>
+          <GlobeIcon />
+          <span>{locale === 'pt' ? 'PT' : 'EN'}</span>
+          <span>| {(currency as string).toUpperCase()}</span>
+        </ContainerCurrency>
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
     </Container>
   )
 }
 
-const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, InvestIcon, ProjectsIcon } = {
+const {
+  Container,
+  MenuContainer,
+  WalletContainer,
+  SearchArea,
+  ContainerCurrency,
+  Logo,
+  Menu,
+  MenuButton,
+  GlobeIcon,
+  ProjectsIcon,
+  CoinsIcon,
+  ChartIcon
+} = {
   Container: styled.header`
     display: none;
     gap: ${({ theme }) => theme.size[32]};
@@ -78,9 +99,12 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, Inves
     z-index: 5;
     width: 100%;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      display: grid;
-      grid-template-columns: 1fr auto;
+      display: flex;
+      justify-content: space-between;
     }
+  `,
+  SearchArea: styled.div`
+    width: 294px;
   `,
   MenuContainer: styled.div`
     display: flex;
@@ -89,7 +113,7 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, Inves
     gap: ${({ theme }) => theme.size[32]};
 
     > div:first-of-type {
-      height: 32px;
+      height: ${props => props.theme.size[32]};
       display: grid;
       grid-template-columns: 162px;
       align-items: center;
@@ -104,8 +128,22 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, Inves
     display: grid;
     align-items: center;
     justify-content: flex-end;
-    gap: ${({ theme }) => theme.size[12]};
-    grid-template-columns: auto auto;
+    gap: ${({ theme }) => theme.size[16]};
+    grid-template-columns: auto auto auto;
+  `,
+  ContainerCurrency: styled.div`
+    display: flex;
+    align-items: center;
+    gap: 2px;
+
+    span {
+      color: ${({ theme }) => theme.color.gray[600]};
+      font-family: Montserrat;
+      font-size: ${({ theme }) => theme.font.size[14]};
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+    }
   `,
   Menu: styled.nav`
     display: none;
@@ -118,11 +156,11 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, Inves
   `,
   Logo: styled(Link)`
     width: 40px;
-    height: 32px;
+    height: ${props => props.theme.size[32]};
   `,
   MenuButton: styled.button`
     width: auto;
-    height: 32px;
+    height: ${props => props.theme.size[32]};
     border-radius: 99px;
 
     display: flex;
@@ -144,10 +182,17 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, Inves
       color: ${({ theme }) => theme.colorV2.purple[1]} !important;
     }
   `,
-  InvestIcon: styled(PiCurrencyEth)`
-    font-size: 15px;
+  CoinsIcon: styled(PiCoinsLight)`
+    font-size: ${props => props.theme.size[24]};
+  `,
+  GlobeIcon: styled(PiGlobe)`
+    font-size: ${props => props.theme.size[24]};
+    color: ${({ theme }) => theme.color.gray[500]};
+  `,
+  ChartIcon: styled(PiChartLine)`
+    font-size: ${props => props.theme.size[24]};
   `,
   ProjectsIcon: styled(PiCodesandboxLogo)`
-    font-size: 15px;
+    font-size: ${props => props.theme.size[24]};
   `
 }

@@ -39,7 +39,7 @@ export default function AssetCard({ asset }: AssetCardProps) {
         {asset.new && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
       <PriceContainer>
-        <AssetPrice asset={asset} />
+        <AssetPrice asset={asset} showChangePercentage />
       </PriceContainer>
     </CardContainer>
   )
@@ -52,31 +52,37 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
     justify-content: center;
     flex-direction: column;
 
-    &.price {
-      display: flex;
-      align-self: flex-end;
-      padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[8]};
-      border-radius: ${({ theme }) => theme.size[8]};
-      background: ${({ theme }) => theme.colorV2.white[1]};
-
-      font-size: ${({ theme }) => theme.font.size[16]};
-      font-weight: 600;
-      line-height: normal;
-    }
-
-    &.price-up {
-      color: ${({ theme }) => theme.color.green[500]};
-      border: 1px solid ${({ theme }) => theme.color.green[500]};
-    }
-
-    &.price-down {
-      color: ${({ theme }) => theme.color.red[500]};
-      border: 1px solid ${({ theme }) => theme.color.red[500]};
-    }
     > span {
       color: ${({ theme }) => theme.colorV2.blue[1]};
       font-size: ${({ theme }) => theme.font.size[22]};
       font-weight: 500;
+      border-radius: ${({ theme }) => theme.size[8]};
+      padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[8]};
+      &.price {
+        display: flex;
+        align-self: flex-end;
+        background: ${({ theme }) => theme.colorV2.white[1]};
+
+        font-size: ${({ theme }) => theme.font.size[16]};
+        font-weight: 600;
+        line-height: normal;
+      }
+
+      &.price-up {
+        align-self: end;
+        font-size: ${({ theme }) => theme.font.size[16]};
+        font-weight: 600;
+        color: ${({ theme }) => theme.color.green[500]};
+        border: 1px solid ${({ theme }) => theme.color.green[500]};
+      }
+
+      &.price-down {
+        align-self: end;
+        font-weight: 600;
+        font-size: ${({ theme }) => theme.font.size[16]};
+        color: ${({ theme }) => theme.color.red[500]};
+        border: 1px solid ${({ theme }) => theme.color.red[500]};
+      }
     }
   `,
   CardContainer: styled(Link)`

@@ -25,6 +25,7 @@
   "rewards": "Rewards",
   "generatedRewards": "Generated Rewards",
   "delegates": "Delegates",
+  "totalDelegated": "Total Delegated",
   "processing": "Processing...",
   "invested": "Invested",
   "investedOnProject": "Invested on Project",
@@ -39,6 +40,8 @@
   "exchange": "Get Faucet",
   "buy": "Buy",
   "sell": "Sell",
+  "swap": "Swap",
+  "send": "Send",
   "available": "Available",
   "receive": "Receive",
   "getEthFaucet": "Get ETH Faucet",
@@ -52,6 +55,7 @@
   "searchPool": "Search Pools",
   "projectEmpty": "Project Not Found",
   "copyClipboard": "Copy to Clipboard",
+  "copyWalletAddress": "Copy Address",
   "copiedToClipboard": "Link copied, share it now!",
   "addressCopiedToClipboard": "Address Copied",
   "deposit": "Deposit",
@@ -82,6 +86,8 @@
   "selectProduct": "Select Product",
   "estimatedBalance": "Estimated Balance",
   "investments": "Investments",
+  "genericTransactionSuccess": "Transaction Successful",
+  "sendAddress": "Send Address",
   "time": {
     "days": "Days",
     "day": "Day",
@@ -714,7 +720,6 @@
       "useThePixQRCode": "Use the Pix QR Code to pay",
       "orUseThePixKey": "Or use the Pix Key",
       "cancelDeposit": "Cancel deposit",
-
       "copyQrCode": "Copy QR Code",
       "yourEths": "Your ETH will be in your account",
       "timeReceive": "within 30 minutes",
@@ -805,7 +810,9 @@
         "withdraw": "Withdraw",
         "operationFee": "Operation Fee",
         "balance": "Balance"
-      }
+      },
+     "balanceCardMessage": "Put your crypto to work with Staking",
+     "balanceStakingCardMessage": "Buy Ethereum and start investing in Staking"
     }
   },
   "soon": "Soon",

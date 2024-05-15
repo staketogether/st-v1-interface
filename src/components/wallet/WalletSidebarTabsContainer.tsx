@@ -14,6 +14,8 @@ interface WalletSidebarTabsContainerProps {
   accountActivities: AccountActivity[]
   activatedTab: 'delegations' | 'rewards' | 'activity'
   stakingAsset: StakingId
+  accountTotalShares: bigint
+  userWalletAddress: `0x${string}`
 }
 
 export default function WalletSidebarTabsContainer({
@@ -21,11 +23,20 @@ export default function WalletSidebarTabsContainer({
   accountActivities,
   accountRewards,
   activatedTab,
+  accountTotalShares,
+  userWalletAddress,
   stakingAsset
 }: WalletSidebarTabsContainerProps) {
   const staking = getStakingById(stakingAsset)
   const tabs = {
-    delegations: <WalletSidebarPortfolio product={staking} accountDelegations={accountDelegations} />,
+    delegations: (
+      <WalletSidebarPortfolio
+        product={staking}
+        accountDelegations={accountDelegations}
+        accountTotalShares={accountTotalShares}
+        userWalletAddress={userWalletAddress}
+      />
+    ),
     rewards: <WalletSidebarRewards product={staking} accountRewards={accountRewards} productSelected={stakingAsset} />,
     activity: <WalletSidebarActivities accountActivities={accountActivities} product={staking} />
   }

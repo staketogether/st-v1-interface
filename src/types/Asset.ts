@@ -60,6 +60,7 @@ export interface NativeAsset {
   id: AssetId
   order: number
   symbol: string
+  decimals: number
   symbolImage: string
   url: string
   category: AssetCategory
@@ -83,10 +84,12 @@ export interface NativeAsset {
 
 export interface Erc20Asset {
   id: AssetId
+
   order: number
   symbol: string
   symbolImage: string | StaticImageData
   url: string
+  decimals: number
   category: AssetCategory
   chains: Chain[]
   listed: boolean
@@ -112,6 +115,7 @@ export interface FanTokenAsset {
   symbolImage: string | StaticImageData
   url: string
   category: AssetCategory
+  decimals: number
   chains: Chain[]
   listed: boolean
   enabled: boolean

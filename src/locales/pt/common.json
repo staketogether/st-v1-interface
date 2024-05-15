@@ -25,6 +25,7 @@
   "rewards": "Recompensas",
   "generatedRewards": "Recompensas geradas",
   "delegates": "Delegados",
+  "totalDelegated": "Total Delegado",
   "processing": "Processando...",
   "invested": "Investidos",
   "investedOnProject": "Investido no Projeto",
@@ -39,6 +40,9 @@
   "exchange": "Pegar Faucet",
   "buy": "Comprar",
   "sell": "Vender",
+  "swap": "Trocar",
+  "send": "Enviar",
+  "receiver": "Receber",
   "available": "Disponível",
   "receive": "Receber",
   "getEthFaucet": "Pegar Faucet de ETH",
@@ -53,6 +57,7 @@
   "searchPool": "Pesquisar Projetos",
   "projectEmpty": "Projeto não encontrado",
   "copyClipboard": "Copiar para Área de Transferência",
+  "copyWalletAddress": "Copiar Endereço",
   "copiedToClipboard": "Endereço Copiado",
   "addressCopiedToClipboard": "Endereço Copiado",
   "deposit": "Depositar",
@@ -82,6 +87,8 @@
   "selectProduct": "Selecionar Produto",
   "estimatedBalance": "Saldo Estimado",
   "investments": "Investimentos",
+  "genericTransactionSuccess": "Transação Realizada com Sucesso!",
+  "sendAddress": "Endereço de Destino",
   "time": {
     "days": "Dias",
     "day": "Dia",
@@ -828,7 +835,9 @@
         "withdraw": "Resgatar",
         "operationFee": "Taxa de Operação",
         "balance": "Saldo"
-      }
+      },
+      "balanceCardMessage": "Coloque sua cripto para render com Staking",
+      "balanceStakingCardMessage": "Compre Ethereum e comece a investir em Staking"
     }
   },
   "soon": "Em Breve",
@@ -838,7 +847,7 @@
   "v3": {
     "pages": {
       "staking": {
-        "title": "Staking",
+        "title": "Investimentos",
         "description": "Invista em Infraestrutura com Rendimentos Sustentáveis"
       },
       "crypto": {

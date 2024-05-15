@@ -1,20 +1,20 @@
+import AssetsControl from '@/components/assets/AssetsControl'
 import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
+import { chainConfigByChainId } from '@/config/chain'
 import { globalConfig } from '@/config/global'
+import { assetsList } from '@/config/product/asset'
 import { amountToQuoteVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
 import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
+import { Asset } from '@/types/Asset'
+import { AssetStats } from '@/types/AssetStats'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { chainConfigByChainId } from '@/config/chain'
-import { Asset } from '@/types/Asset'
-import { assetsList } from '@/config/product/asset'
-import AssetsControl from '@/components/assets/AssetsControl'
-import { AssetStats } from '@/types/AssetStats'
 
 export interface ProductProps {
   product: Asset
@@ -44,7 +44,7 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <AssetsControl product={product} assetData={assetData} chainId={chainId} type='buy' />
+      <AssetsControl product={product} assetData={assetData} chainId={chainId} type='sell' />
       <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )

@@ -23,7 +23,6 @@ import Card from '../shared/Card'
 import Withdrawals from '../shared/Withdrawals'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
@@ -267,18 +266,14 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               accountActivities={accountActivities}
               activatedTab={tabActivated}
               stakingAsset={productTabSelected}
+              accountTotalShares={accountShare}
+              userWalletAddress={address}
             />
           </Card>
 
           {stwETHBalance > 0n && <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />}
         </>
       )}
-      <UpdateDelegationsModal
-        accountDelegations={accountDelegations}
-        accountTotalShares={accountShare}
-        userAccount={address}
-        productSelected={productTabSelected}
-      />
     </DrawerContainer>
   )
 }

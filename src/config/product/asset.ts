@@ -5,16 +5,12 @@ import chzIcon from '@assets/assets/chiliz.svg'
 import ethIcon from '@assets/assets/ethereum.svg'
 import opIcon from '@assets/assets/optimism.svg'
 import maticIcon from '@assets/assets/polygon.svg'
-import stpEthIcon from '@assets/assets/stp-eth.svg'
-import strEthIcon from '@assets/assets/str-eth.svg'
-import mengoChzIcon from '@assets/assets/mengo.png'
-import galoIcon from '@assets/assets/galo.png'
+import bahiaIcon from '@assets/assets/bahia.png'
 import fluIcon from '@assets/assets/flu.png'
-import verdaoIcon from '@assets/assets/verdao.png'
-import vascoIcon from '@assets/assets/vasco.png'
+import galoIcon from '@assets/assets/galo.png'
+import mengoChzIcon from '@assets/assets/mengo.png'
 import saciIcon from '@assets/assets/saci.png'
 import spfcIcon from '@assets/assets/spfc.png'
-import bahiaIcon from '@assets/assets/bahia.png'
 import pendleIcon from '@assets/assets/pendle.png'
 import chainlinkIcon from '@assets/assets/chainlink.png'
 import renderIcon from '@assets/assets/render.png'
@@ -30,11 +26,16 @@ import xautIcon from '@assets/assets/xaut.png'
 import solanaIcon from '@assets/assets/solana.png'
 import thorchainIcon from '@assets/assets/thorchain.png'
 import aaveIcon from '@assets/assets/aave.png'
+import stpEthIcon from '@assets/assets/stp-eth.svg'
+import strEthIcon from '@assets/assets/str-eth.svg'
+import vascoIcon from '@assets/assets/vasco.png'
+import verdaoIcon from '@assets/assets/verdao.png'
 import { Chain } from '../chain'
 
 export const ethMainnet: NativeAsset = {
   id: 'eth-mainnet',
   order: 0,
+  decimals: 18,
   symbol: 'ETH',
   isTestnet: false,
   contractAddress: '0x0000000000000000000000000000000000000000',
@@ -64,6 +65,7 @@ export const ethMainnet: NativeAsset = {
 
 export const ethOp: NativeAsset = {
   id: 'eth-op',
+  decimals: 18,
   order: 2,
   symbol: 'ETH',
   contractAddress: '0x0000000000000000000000000000000000000000',
@@ -101,6 +103,7 @@ export const ethOp: NativeAsset = {
 export const btcOp: Erc20Asset = {
   id: 'btc-op',
   order: 1,
+  decimals: 8,
   symbol: 'wBTC',
   symbolImage: btcIcon,
   isTestnet: false,
@@ -137,6 +140,7 @@ export const chilizChz: NativeAsset = {
   id: 'chz-chiliz',
   order: 6,
   symbol: 'CHZ',
+  decimals: 18,
   symbolImage: chzIcon,
   isTestnet: false,
   contractAddress: '0x0000000000000000000000000000000000000000',
@@ -168,6 +172,7 @@ export const opOptimism: Erc20Asset = {
   order: 3,
   symbol: 'OP',
   symbolImage: opIcon,
+  decimals: 18,
   isTestnet: false,
   url: '/currency/optimism/product/assets/op-op',
   type: 'erc20',
@@ -203,6 +208,7 @@ export const ethArbitrum: NativeAsset = {
   order: 4,
   symbol: 'ETH',
   symbolImage: ethIcon,
+  decimals: 18,
   isTestnet: false,
   type: 'native',
   wrapperContractAddress: '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',
@@ -238,6 +244,7 @@ export const arbArbitrum: Erc20Asset = {
   id: 'arb-arb',
   order: 4,
   symbol: 'ARB',
+  decimals: 18,
   symbolImage: arbIcon,
   isTestnet: false,
   type: 'erc20',
@@ -273,6 +280,7 @@ export const maticPolygon: NativeAsset = {
   id: 'matic-matic',
   order: 5,
   symbol: 'MATIC',
+  decimals: 18,
   symbolImage: maticIcon,
   contractAddress: '0x0000000000000000000000000000000000000000',
   isTestnet: false,
@@ -302,6 +310,7 @@ export const maticPolygon: NativeAsset = {
 const stpEth: Erc20Asset = {
   id: 'stp-eth',
   order: 1,
+  decimals: 18,
   symbol: 'ETH',
   contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
   type: 'erc20',
@@ -332,6 +341,7 @@ const stpReth: Erc20Asset = {
   id: 'str-eth',
   order: 2,
   symbol: 'strETH',
+  decimals: 18,
   contractAddress: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
   type: 'erc20',
   symbolImage: strEthIcon,
@@ -359,6 +369,7 @@ const stpReth: Erc20Asset = {
 
 export const mengoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: false,
@@ -385,6 +396,7 @@ export const mengoChz: FanTokenAsset = {
 
 export const galoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: false,
@@ -411,6 +423,7 @@ export const galoChz: FanTokenAsset = {
 
 export const fluChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: false,
@@ -438,6 +451,7 @@ export const fluChz: FanTokenAsset = {
 export const vascoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
   enabled: true,
+  decimals: 0,
   listed: true,
   new: false,
   points: { elPoints: false, stPoints: true },
@@ -463,6 +477,7 @@ export const vascoChz: FanTokenAsset = {
 
 export const verdaoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: false,
@@ -489,6 +504,7 @@ export const verdaoChz: FanTokenAsset = {
 
 export const saciChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: false,
@@ -515,6 +531,7 @@ export const saciChz: FanTokenAsset = {
 
 export const spfcChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: false,
@@ -541,6 +558,7 @@ export const spfcChz: FanTokenAsset = {
 
 export const bahiaChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  decimals: 0,
   enabled: true,
   listed: true,
   new: false,
