@@ -21,19 +21,6 @@ export interface Ramp {
   }
 }
 
-export interface Ramp {
-  chainId: number
-  minDeposit: number
-  provider: 'brla'
-  paymentMethod: 'pix'
-  bridge?: {
-    fromChainId: number
-    fromToken: string
-    toChainId: number
-    toToken: string
-  }
-}
-
 export type AssetId =
   | 'eth-mainnet'
   | 'eth-op'
