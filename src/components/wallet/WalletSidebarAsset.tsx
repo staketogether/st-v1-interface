@@ -47,6 +47,14 @@ const { BalanceContainer } = {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: ${({ theme }) => theme.colorV2.background};
+    }
 
     div {
       &:nth-child(1) {

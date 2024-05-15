@@ -33,16 +33,19 @@ import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
 import WalletSidebarAsset from '@/components/wallet/WalletSidebarAsset'
 import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
+import WalletSidebarAssetContainer from './WalletSidebarAssetContainer'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
 }
 
+type TabActivated = 'assets' | 'rewards' | 'historic' | 'delegations'
+
 export default function WalletSidebarConnected({ address }: WalletSidebarConnectedProps) {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
-  const [tabActivated, setTabActivated] = useState<'delegations' | 'rewards' | 'activity'>('delegations')
+  const [tabActivated, setTabActivated] = useState<TabActivated>('delegations')
   const [productTabSelected, setProductTabSelected] = useState<StakingId>('eth-staking')
   const [userNetWorth, setUserNetWorth] = useState<string>('0')
 
@@ -148,6 +151,13 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     }
   })
 
+  const tabOptions: { label: string; value: TabActivated }[] = [
+    { label: t('assets'), value: 'assets' },
+    { label: t('rewards'), value: 'rewards' },
+    { label: t('historic'), value: 'historic' },
+    { label: t('delegations'), value: 'delegations' }
+  ]
+
   return (
     <DrawerContainer placement='right' size='default' onClose={() => setOpenSidebar(false)} mask={true} open={openSidebar}>
       {isSettingsActive && !isPanelActive && <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />}
@@ -162,33 +172,34 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               <Web3AuthProfileContainer>
                 {web3AuthUserInfo && web3AuthUserInfo.typeOfLogin && web3AuthUserInfo.profileImage ? (
                   <>
-                    <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={24} height={24} />
+                    <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={32} height={32} />{' '}
                     <WrapperWallet>{handleWalletProviderImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}</WrapperWallet>
                   </>
                 ) : (
                   <>
                     <WrapperWallet>{handleWalletProviderImage(walletConnected, 16)}</WrapperWallet>
-                    <EnsAvatar address={address} size={24} chainId={chainId} />
+                    <EnsAvatar address={address} size={32} chainId={chainId} />
                   </>
                 )}
               </Web3AuthProfileContainer>
               <div>
                 {web3AuthUserInfo?.email && (
-                  <WalletAddressContainer>
-                    <span onClick={() => web3AuthUserInfo?.email && copyToClipboard(web3AuthUserInfo.email)}>
-                      {truncateText(web3AuthUserInfo.email, 20)}
-                    </span>
+                  <WalletAddressContainer
+                    className='bold'
+                    onClick={() => web3AuthUserInfo?.email && copyToClipboard(web3AuthUserInfo.email)}
+                  >
+                    {truncateText(web3AuthUserInfo.email, 20)}
                   </WalletAddressContainer>
                 )}
                 {nameLoading && <SkeletonLoading width={140} height={14} />}
                 {!nameLoading && name && !web3AuthUserInfo && (
                   <WalletAddressContainer onClick={() => copyToClipboard(name)}>
-                    <span>{truncateText(name, 16)}</span>
+                    {truncateText(name, 16)}
                     <CopyIcon className='copy' />
                   </WalletAddressContainer>
                 )}
-                <WalletAddressContainer onClick={() => copyToClipboard(address)}>
-                  <span>{truncateAddress(address)}</span>
+                <WalletAddressContainer onClick={() => copyToClipboard(address)} className={`${!web3AuthUserInfo?.email && 'bold'}`}>
+                  {truncateAddress(address)}
                   <CopyIcon className='copy' />
                 </WalletAddressContainer>
               </div>
@@ -219,18 +230,16 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             <span>{t('estimatedBalance')}</span>
             <span>{userNetWorth}</span>
           </EstimatedBalanceContainer>
-          <Card
-            header={
-              <AssetHeaderCard>
-                <span>{t('assets')}</span>
-                <span>{t('balance')}</span>
-              </AssetHeaderCard>
-            }
-          >
-            <AssetsCard>
-              {accountAssets?.map((walletAsset, index) => <WalletSidebarAsset walletAsset={walletAsset} key={index} />)}
-            </AssetsCard>
-          </Card>
+          <TabContainer>
+            {tabOptions.map((tab, index) => (
+              <TabItem key={index} onClick={() => setTabActivated(tab.value)} className={tabActivated === tab.value ? 'activated' : ''}>
+                <span>{tab.label}</span>
+              </TabItem>
+            ))}
+          </TabContainer>
+
+          <WalletSidebarAssetContainer accountAssets={accountAssets} />
+
           <Card
             header={
               <HeaderTabContainer>
@@ -291,6 +300,7 @@ const {
   Actions,
   HeaderUserContainer,
   Web3AuthProfileImage,
+  TabItem,
   Web3AuthProfileContainer,
   WrapperWallet,
   CopyIcon,
@@ -303,10 +313,11 @@ const {
   AssetHeaderCard,
   EstimatedBalanceContainer,
   HeaderTabHeader,
-  AssetsCard
+  AssetsCard,
+  TabContainer
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: ${({ theme }) => theme.colorV2.foreground} !important;
+    background-color: ${({ theme }) => theme.colorV2.white} !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
@@ -319,7 +330,7 @@ const {
       gap: ${({ theme }) => theme.size[16]};
       padding: ${({ theme }) => theme.size[16]};
       @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-        width: 380px;
+        width: 420px;
       }
     }
   `,
@@ -336,9 +347,7 @@ const {
     border-radius: 8px;
     padding: 4px 8px;
 
-    background: ${({ theme }) => theme.colorV2.blue[1]};
     border-radius: 8px;
-    box-shadow: ${({ theme }) => theme.shadow[100]};
 
     > div {
       display: flex;
@@ -369,27 +378,9 @@ const {
       background: ${({ theme }) => theme.color.whiteAlpha[700]};
     }
   `,
-  SettingIcon: styled(PiGear)`
-    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
-
-    &:hover {
-      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
-    }
-  `,
-  WalletIcon: styled(PiWallet)`
-    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
-
-    &:hover {
-      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
-    }
-  `,
-  PanelIcon: styled(PiChalkboardTeacher)`
-    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
-
-    &:hover {
-      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
-    }
-  `,
+  SettingIcon: styled(PiGear)``,
+  WalletIcon: styled(PiWallet)``,
+  PanelIcon: styled(PiChalkboardTeacher)``,
   CloseSidebar: styled(PiCaretRight)`
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
   `,
@@ -401,21 +392,18 @@ const {
     height: 32px;
     border: 0;
     border-radius: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.colorV2.white};
+    background: ${({ theme }) => theme.colorV2.blue[1]};
+    color: ${({ theme }) => theme.color.white};
     transition: background 0.2s ease;
     line-height: 36px;
     box-shadow: ${({ theme }) => theme.shadow[300]};
 
     svg {
-      color: ${({ theme }) => theme.colorV2.gray[1]};
+      color: ${({ theme }) => theme.color.white};
     }
 
     &:hover {
-      background: ${({ theme }) => theme.colorV2.gray[2]};
-
-      svg {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-      }
+      background: ${({ theme }) => theme.colorV2.purple[1]};
     }
 
     &:first-of-type {
@@ -435,14 +423,15 @@ const {
   `,
   WrapperWallet: styled.div`
     position: absolute;
-    top: 14px;
-    left: 15px;
+    top: 20px;
+    left: 21px;
     border-radius: 50%;
     box-shadow: ${({ theme }) => theme.shadow[100]};
     width: 14px;
     height: 14px;
 
     img {
+      border: 1px solid ${({ theme }) => theme.colorV2.blue[1]} !important;
       border-radius: 50%;
       width: 14px;
       height: 14px;
@@ -464,10 +453,15 @@ const {
     display: flex;
     align-items: center;
     gap: 6px;
-    color: ${({ theme }) => theme.color.white};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    cursor: pointer;
+
+    &.bold {
+      font-weight: 500;
+    }
 
     svg {
-      color: ${({ theme }) => theme.color.foreground};
+      color: ${({ theme }) => theme.colorV2.gray[1]};
     }
   `,
   PoolsIcon: styled(PiChartPieSlice)`
@@ -522,6 +516,34 @@ const {
           font-weight: 400;
           color: ${({ theme }) => theme.colorV2.gray[1]};
         }
+      }
+    }
+  `,
+  TabContainer: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+  `,
+  TabItem: styled.div`
+    border-radius: 8px;
+    display: flex;
+    padding: 0px 8px;
+    align-items: center;
+    height: 32px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    span {
+      color: ${({ theme }) => theme.colorV2.gray[1]};
+      font-size: ${({ theme }) => theme.font.size[13]};
+      font-weight: 400;
+    }
+
+    &:hover,
+    &.activated {
+      background: ${({ theme }) => theme.colorV2.blue[1]};
+      span {
+        color: ${({ theme }) => theme.color.white};
       }
     }
   `,
@@ -606,28 +628,20 @@ const {
 
   EstimatedBalanceContainer: styled.div`
     display: flex;
-    height: 32px;
-    min-height: 32px;
-    padding: 0px 8px;
-    align-items: center;
-    justify-content: space-between;
-    gap: 4px;
-    align-self: stretch;
-    border-radius: 8px;
-    background: ${({ theme }) => theme.colorV2.white};
+    flex-direction: column;
 
-    box-shadow: ${({ theme }) => theme.shadow[100]};
+    gap: 4px;
 
     span {
       &:nth-child(1) {
         color: ${({ theme }) => theme.colorV2.gray[1]};
         font-size: ${({ theme }) => theme.font.size[13]};
-        font-weight: 400;
+        font-weight: 500;
         opacity: 0.6;
       }
 
       &:nth-child(2) {
-        font-size: ${({ theme }) => theme.font.size[15]};
+        font-size: ${({ theme }) => theme.font.size[32]};
         color: ${({ theme }) => theme.colorV2.purple[1]};
         font-weight: 500;
       }
