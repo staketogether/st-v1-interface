@@ -122,8 +122,9 @@ export default function QuotationOffRampStep({ product }: QuotationOffRampStepPr
           }}
           productAsset={product}
           hasError={false}
-          balance={ethBalance}
+          balance={ethBalance.toString()}
           balanceLoading={ethBalanceLoading}
+          accountIsConnected={false}
         />
 
         <ArrowDown />

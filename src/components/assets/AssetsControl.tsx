@@ -4,10 +4,12 @@ import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
 import { Asset } from '@/types/Asset'
+import { AssetActionType } from '@/types/AssetActionType'
+import { AssetStats } from '@/types/AssetStats'
 import { notification } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
@@ -15,21 +17,39 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
-import { AssetStats } from '@/types/AssetStats'
+import loadingAnimation from '@assets/animations/loading-animation.json'
+import dynamic from 'next/dynamic'
+import LottieAnimation from '../shared/LottieAnimation'
 
 interface AssetsControlProps {
   product: Asset
   assetData: AssetStats
   chainId: number
-  type: 'buy' | 'sell' | 'swap'
+  type: AssetActionType
 }
 
+const AssetBalanceCard = dynamic(() => import('../asset/AssetBalanceCard'), {
+  ssr: false,
+  loading: () => (
+    <LoadingContainer>
+      <LottieAnimation animationData={loadingAnimation} height={20} loop />
+    </LoadingContainer>
+  ),
+  suspense: true
+})
+
 export default function AssetsControl({ product, assetData, chainId, type }: AssetsControlProps) {
+  const [userWalletAddress, setUserWalletAddress] = useState<`0x${string}` | undefined>(undefined)
   const { t } = useLocaleTranslation()
   rampAssetIdVar(product.id)
   const { query } = useRouter()
   const { currency } = query
-  const { chain: walletChainId, connector } = useAccount()
+  const { chain: walletChainId, connector, address } = useAccount()
+  useEffect(() => {
+    if (address) {
+      setUserWalletAddress(address)
+    }
+  }, [address])
 
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
@@ -82,14 +102,26 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
       <div>
         <AssetsProductInfo product={product} assetData={assetData} />
         <ActionContainer>
-          <AssetsActionsControl type={type} product={product} />
+          <ActionContainerControlCard>
+            <AssetsActionsControl type={type} asset={product} />
+          </ActionContainerControlCard>
+          {userWalletAddress && <AssetBalanceCard asset={product} userWalletAddress={userWalletAddress} />}
         </ActionContainer>
       </div>
     </Container>
   )
 }
 
-const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, ShareButton, AvailableNetwork } = {
+const {
+  Container,
+  ActionContainerControlCard,
+  LoadingContainer,
+  ActionContainer,
+  HeaderBackAction,
+  HeaderProductMobile,
+  ShareButton,
+  AvailableNetwork
+} = {
   Container: styled.div`
     position: relative;
     width: 100%;
@@ -120,6 +152,16 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
       display: flex;
       flex-direction: column;
       gap: ${({ theme }) => theme.size[12]};
+    }
+  `,
+  LoadingContainer: styled.div`
+    width: 100%;
+    min-height: 453px;
+
+    display: grid;
+    place-items: center;
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      min-height: 524px;
     }
   `,
   HeaderProductMobile: styled.div`
@@ -162,6 +204,14 @@ const { Container, ActionContainer, HeaderBackAction, HeaderProductMobile, Share
   ActionContainer: styled.div`
     width: 100%;
     max-width: 400px;
+
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[24]};
+  `,
+  ActionContainerControlCard: styled.div`
+    width: 100%;
     padding: ${({ theme }) => theme.size[24]};
     background-color: ${({ theme }) => theme.colorV2.white};
     border-radius: ${({ theme }) => theme.size[8]};

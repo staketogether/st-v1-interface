@@ -65,6 +65,10 @@ export const ethRestaking: Staking = {
 
 export const stakingList: Staking[] = [ethStaking, ethRestaking]
 
+export function getListedStaking() {
+  return stakingList.filter(staking => staking.listed).sort((a, b) => a.order - b.order)
+}
+
 export function getStakingById(id: string): Staking {
   const staking = stakingList.find(s => s.id === id)
 

@@ -13,9 +13,21 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   tooltip?: string
   height?: number
   inputType?: 'outline'
+  background?: 'gray' | 'white'
 }
 
-export default function Input({ title, register, error, disabled, tooltip, disabledLabel, height, inputType, ...props }: InputProps) {
+export default function Input({
+  title,
+  register,
+  error,
+  disabled,
+  tooltip,
+  background = 'gray',
+  disabledLabel,
+  height,
+  inputType,
+  ...props
+}: InputProps) {
   return (
     <Content className={` ${disabledLabel ? 'disabled' : ''}`}>
       {title && !tooltip && <span>{title}</span>}
@@ -27,7 +39,11 @@ export default function Input({ title, register, error, disabled, tooltip, disab
           </Tooltip>
         </span>
       )}
-      <InputContainer className={`${disabled ? 'disabled' : ''} ${error ? 'error' : ''} ${inputType}`} height={height}>
+      <InputContainer
+        className={`${disabled ? 'disabled' : ''}  ${error ? 'error' : ''} ${inputType}`}
+        height={height}
+        background={background}
+      >
         <input type='text' {...register} disabled={disabled} {...props} />
       </InputContainer>
       <ErrorMessage>{error}</ErrorMessage>
@@ -53,7 +69,7 @@ const { InputContainer, Content, ErrorMessage, QuestionIcon } = {
       gap: 4px;
     }
   `,
-  InputContainer: styled.div<{ height?: number }>`
+  InputContainer: styled.div<{ height?: number; background: 'gray' | 'white' }>`
     width: 100%;
     display: flex;
     gap: ${({ theme }) => theme.size[4]};
@@ -63,11 +79,19 @@ const { InputContainer, Content, ErrorMessage, QuestionIcon } = {
         height: ${height}px;
       `}
     border-radius: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.colorV2.gray[2]};
+    ${({ background }) =>
+      background === 'gray'
+        ? css`
+            background: ${({ theme }) => theme.colorV2.gray[2]};
+            border: 1px solid transparent;
+          `
+        : css`
+            background: ${({ theme }) => theme.colorV2.white};
+            border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+          `}
     padding: ${({ theme }) => theme.size[12]} ${({ theme }) => theme.size[16]};
     box-shadow: ${({ theme }) => theme.shadow[200]};
-    background: ${({ theme }) => theme.colorV2.gray[2]};
-    border: 1px solid transparent;
+
     &.disabled {
       cursor: not-allowed;
       color: ${({ theme }) => theme.color.blackAlpha[600]};

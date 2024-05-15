@@ -1,5 +1,4 @@
 import AssetIcon from '@/components/shared/AssetIcon'
-import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 import dynamic from 'next/dynamic'
@@ -13,7 +12,6 @@ interface AssetCardProps {
 
 const AssetPrice = dynamic(() => import('../shared/AssetPrice'), {
   ssr: false,
-  loading: () => <SkeletonLoading width={80} />,
   suspense: true
 })
 
@@ -90,6 +88,7 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
+    height: 113px;
     padding: ${({ theme }) => theme.size[24]};
     gap: ${({ theme }) => theme.size[24]};
     border-radius: ${({ theme }) => theme.size[8]};
@@ -164,5 +163,5 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
 
     font-size: 13px;
     font-weight: 500;
-  `
+  `,
 }
