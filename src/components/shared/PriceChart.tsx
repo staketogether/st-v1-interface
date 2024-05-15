@@ -24,7 +24,7 @@ type PriceChartFilter = '1W' | '1M' | '3M' | '1Y'
 
 export default function PriceChart({ asset }: PriceChartProps) {
   const [activeFilter, setActiveFilter] = useState<PriceChartFilter>('1M')
-  const [chartData, setChartData] = useState<{ timestamp: string, price: number }[]>([])
+  const [chartData, setChartData] = useState<{ timestamp: string; price: number }[]>([])
 
   const { t } = useLocaleTranslation()
   const { xs, sm } = useBreakpoint()
@@ -78,14 +78,14 @@ export default function PriceChart({ asset }: PriceChartProps) {
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
   useEffect(() => {
-    const statsChartData: { timestamp: string, price: number }[] = assetStats?.prices.length
+    const statsChartData: { timestamp: string; price: number }[] = assetStats?.prices.length
       ? assetStats.prices.map(item => {
-        const dateTime = DateTime.fromMillis(item[0]).toLocaleString()
-        return {
-          timestamp: dateTime,
-          price: item[1]
-        }
-      })
+          const dateTime = DateTime.fromMillis(item[0]).toLocaleString()
+          return {
+            timestamp: dateTime,
+            price: item[1]
+          }
+        })
       : []
 
     setChartData(statsChartData)
