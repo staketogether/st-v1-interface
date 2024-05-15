@@ -20,7 +20,11 @@ export default function AnalyticsValidatorRow({ validator, index }: AnalyticsVal
 
   const asset = getAssetById('eth-staking')
   const validatorBalance = formatNumberByLocale(truncateDecimal(String(validator.balance) || '0', 2), locale)
-  const { priceConvertedValue: validatorBalanceUsdPriceFormatted } = useCoinConversion(validatorBalance, asset.chains[0], asset.contractAddress)
+  const { priceConvertedValue: validatorBalanceUsdPriceFormatted } = useCoinConversion(
+    validatorBalance,
+    asset.chains[0],
+    asset.contractAddress
+  )
 
   return (
     <ValidatorTableRow href={`https://beaconcha.in/validator/${validator.validatorindex}`} target='_blank'>

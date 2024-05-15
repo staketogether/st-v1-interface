@@ -13,6 +13,11 @@ export default function SearchInput({ search, setSearch, className, ...props }: 
   const { t } = useLocaleTranslation()
   return (
     <InputSearchArea className={search.length > 0 ? 'selected' : ''}>
+       {!search && !search.length && (
+        <button>
+          <PiMagnifyingGlass fontSize={16} />
+        </button>
+      )}
       <InputSearch
         type='text'
         value={search}
@@ -21,11 +26,7 @@ export default function SearchInput({ search, setSearch, className, ...props }: 
         className={className}
         {...props}
       />
-      {!search && !search.length && (
-        <button>
-          <PiMagnifyingGlass fontSize={16} />
-        </button>
-      )}
+     
       {search && search.length > 0 && (
         <button onClick={() => setSearch('')}>
           <PiX fontSize={16} />
@@ -38,16 +39,16 @@ export default function SearchInput({ search, setSearch, className, ...props }: 
 const { InputSearchArea, InputSearch } = {
   InputSearchArea: styled.div`
     width: 100%;
-    height: 40px;
+    height: 32px;
 
-    display: grid;
-    grid-template-columns: 1fr auto;
+    display: flex;
+  
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
 
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
-    padding: 0 ${({ theme }) => theme.size[16]};
+    padding: 0 ${({ theme }) => theme.size[8]};
 
     transition: background-color 0.1s ease;
     background: ${({ theme }) => theme.colorV2.gray[2]};
@@ -77,6 +78,10 @@ const { InputSearchArea, InputSearch } = {
       border: none;
       color: ${({ theme }) => theme.colorV2.gray[1]};
 
+      svg {
+        color: ${({ theme }) => theme.color.gray[500]};
+      }
+
       &:hover {
         cursor: default;
         &:nth-of-type(2) {
@@ -84,6 +89,9 @@ const { InputSearchArea, InputSearch } = {
           cursor: pointer;
         }
       }
+    }
+    button:nth-last-child(1) {
+      cursor: pointer;
     }
   `,
   InputSearch: styled.input`
@@ -96,7 +104,7 @@ const { InputSearchArea, InputSearch } = {
     padding: 0 ${({ theme }) => theme.size[4]};
     transition: background-color 0.1s ease;
 
-    width: auto;
+    width: 100%;
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.colorV2.gray[1]};

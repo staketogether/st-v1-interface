@@ -684,7 +684,22 @@
       "bahia-chz": "Bahia",
       "op-op": "Optimism",
       "arb-arb": "Arbitrum",
-      "matic-matic": "Polygon"
+      "matic-matic": "Polygon",
+      "pendle-arb": "Pendle",
+      "chainlink-op": "Chainlink",
+      "render-arb": "Render",
+      "thegraph-arb": "The Graph",
+      "worldcoin-op": "Worldcoin",
+      "aave-op": "Aave",
+      "uniswap-op": "Uniswap",
+      "ssv-et": "SSV",
+      "usdc-op": "USDC",
+      "usdt-op": "USDT",
+      "brla-matic": "BRLA",
+      "eurt-op": "EURT",
+      "goldt-op": "Gold Tether",
+      "solana-eth": "Solana",
+      "thorchain-eth": "Thorchain"
     },
     "notifyBar": {
       "incentives": {
@@ -776,6 +791,21 @@
       "flu-chz": "Stake on the future of your team buying Fluminense Fan Token",
       "arb": "Arbitrum (ARB) is one of the most anticipated governance tokens in the crypto community. It is part of the main scalability project for the Ethereum network.",
       "op": "Optimism (OP) is a scalability solution specifically designed for the Ethereum network. It operates as a secondary scalability layer, more commonly known as layer 2, which aims to improve the efficiency and performance of the Ethereum network without compromising its security and decentralization.",
+      "pendle-arb": "Pendle is a protocol that allows users to tokenize future yield from DeFi protocols. It enables users to trade future yield in the form of tokens, which can be used to hedge against interest rate volatility or to speculate on future yield.",
+      "chainlink-op": "Chainlink (LINK) is a decentralized oracle network that enables smart contracts to securely interact with real-world data. It provides reliable, tamper-proof inputs and outputs for complex smart contracts on any blockchain.",
+      "render-arb": "Render (RNDR) is a blockchain-based platform that enables users to create and monetize 3D content. It allows users to access a decentralized network of GPUs to render high-quality 3D graphics and animations.",
+      "thegraph-arb": "The Graph (GRT) is a decentralized protocol that enables developers to build and query subgraphs, which are open APIs that provide data from blockchain networks. It allows developers to access and query blockchain data in a decentralized and efficient manner.",
+      "worldcoin-op": "Worldcoin is a decentralized social network that aims to provide users with a fair and transparent platform for sharing and monetizing their data. It uses blockchain technology to create a secure and privacy-focused social network that rewards users for their contributions.",
+      "aave-op": "Aave is a decentralized finance (DeFi) protocol that allows users to lend and borrow cryptocurrencies in a trustless and permissionless manner. It enables users to earn interest on their crypto holdings by providing liquidity to the platform or to borrow assets by collateralizing their holdings.",
+      "uniswap-op": "Uniswap is a decentralized exchange (DEX) that allows users to trade cryptocurrencies directly from their wallets. It uses an automated market maker (AMM) model to provide liquidity for trading pairs, enabling users to swap tokens without the need for a centralized intermediary.",
+      "ssv-eth": "SSV is a decentralized protocol that enables users to stake their Ethereum (ETH) holdings and earn rewards by participating in the Ethereum 2.0 network. It allows users to contribute to the security and decentralization of the Ethereum network while earning passive income through staking.",
+      "usdc-op": "USDC is a stablecoin pegged to the US dollar that is issued by regulated financial institutions. It enables users to transact and store value in a digital form that is backed by real-world assets, providing stability and liquidity in the cryptocurrency market.",
+      "usdt-op": "USDT is a stablecoin pegged to the US dollar that is issued by regulated financial institutions. It enables users to transact and store value in a digital form that is backed by real-world assets, providing stability and liquidity in the cryptocurrency market.",
+      "brla-matic": "BRLA is a stablecoin pegged to the Brazilian real that is issued by regulated financial institutions. It enables users to transact and store value in a digital form that is backed by real-world assets, providing stability and liquidity in the cryptocurrency market.",
+      "eurt-op": "EURT is a stablecoin pegged to the Euro that is issued by regulated financial institutions. It enables users to transact and store value in a digital form that is backed by real-world assets, providing stability and liquidity in the cryptocurrency market.",
+      "goldt-op": "GOLDT is a stablecoin pegged to the price of gold that is issued by regulated financial institutions. It enables users to transact and store value in a digital form that is backed by real-world assets, providing stability and liquidity in the cryptocurrency market.",
+      "solana-eth": "Solana is a high-performance blockchain platform that enables fast and secure decentralized applications (dApps) and crypto assets. It uses a unique consensus mechanism called Proof of History (PoH) to achieve high throughput and low latency for transactions.",
+      "thorchain-eth": "Thorchain is a decentralized liquidity protocol that enables users to swap assets across different blockchains in a trustless and permissionless manner. It allows users to trade cryptocurrencies directly from their wallets without the need for a centralized exchange.",
       "actions": {
         "invest": "Invest",
         "withdraw": "Withdraw",
@@ -823,9 +853,10 @@
     },
     "crypto-filter": {
       "all": "All",
-      "stable": "Stablecoins",
-      "fan-token": "Fan Tokens",
-      "meme": "Memecoins",
+      "infrastructure": "Infrastructure",
+      "stable": "Stablecoin",
+      "fan-token": "Fan Token",
+      "defi": "DeFi",
       "crypto": "Crypto"
     },
     "assetDetail": {
@@ -886,6 +917,51 @@
       },
       "matic-matic": {
         "name": "Polygon"
+      },
+      "pendle-arb": {
+        "name": "Pendle"
+      },
+      "chainlink-op": {
+        "name": "Chainlink"
+      },
+      "render-arb": {
+        "name": "Render"
+      },
+      "thegraph-arb": {
+        "name": "The Graph"
+      },
+      "worldcoin-op": {
+        "name": "Worldcoin"
+      },
+      "aave-op": {
+        "name": "Aave"
+      },
+      "uniswap-op": {
+        "name": "Uniswap"
+      },
+      "ssv-eth": {
+        "name": "SSV"
+      },
+      "usdc-op": {
+        "name": "USDC"
+      },
+      "usdt-op": {
+        "name": "USDT"
+      },
+      "brla-matic": {
+        "name": "BRLA"
+      },
+      "eurt-op": {
+        "name": "EURT"
+      },
+      "goldt-op": {
+        "name": "GOLDT"
+      },
+      "solana-eth": {
+        "name": "Solana"
+      },
+      "thorchain-eth": {
+        "name": "Thorchain"
       }
     }
   }

@@ -4,13 +4,13 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCodesandboxLogo, PiCoinsLight, PiChartLine, PiGlobe  } from 'react-icons/pi'
+import { PiCodesandboxLogo, PiCoinsLight, PiChartLine, PiGlobe } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import SkeletonLoading from '../icons/SkeletonLoading'
-
+import LayoutHeaderSearch from './LayoutHeaderSearch'
 const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} height={32} />,
@@ -57,6 +57,9 @@ export default function LayoutHeader() {
           </Link>
         </Menu>
       </MenuContainer>
+      <SearchArea>
+        <LayoutHeaderSearch />
+      </SearchArea>
       <WalletContainer>
         <LayoutNetworkDropdown />
         <ContainerCurrency>
@@ -70,7 +73,20 @@ export default function LayoutHeader() {
   )
 }
 
-const { Container, MenuContainer, WalletContainer, ContainerCurrency, Logo, Menu, MenuButton, GlobeIcon, ProjectsIcon, CoinsIcon, ChartIcon } = {
+const {
+  Container,
+  MenuContainer,
+  WalletContainer,
+  SearchArea,
+  ContainerCurrency,
+  Logo,
+  Menu,
+  MenuButton,
+  GlobeIcon,
+  ProjectsIcon,
+  CoinsIcon,
+  ChartIcon
+} = {
   Container: styled.header`
     display: none;
     gap: ${({ theme }) => theme.size[32]};
@@ -83,9 +99,12 @@ const { Container, MenuContainer, WalletContainer, ContainerCurrency, Logo, Menu
     z-index: 5;
     width: 100%;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      display: grid;
-      grid-template-columns: 1fr auto;
+      display: flex;
+      justify-content: space-between;
     }
+  `,
+  SearchArea: styled.div`
+    width: 294px;
   `,
   MenuContainer: styled.div`
     display: flex;
@@ -125,7 +144,6 @@ const { Container, MenuContainer, WalletContainer, ContainerCurrency, Logo, Menu
       white-space: nowrap;
       cursor: pointer;
     }
-  
   `,
   Menu: styled.nav`
     display: none;

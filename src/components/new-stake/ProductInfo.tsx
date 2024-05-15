@@ -111,7 +111,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           </div>
           <div>
             <span>{t('v2.ethereumStaking.priceChange')}</span>
-            <span className='valueItem'>{`${assetData?.priceChangePercentage1Y.toFixed(2)}%`}</span>
+            <span className='valueItem'>{`${assetData?.priceChangePercentage1Y?.toFixed(2)}%`}</span>
           </div>
         </StatisticContainer>
       </ProductBodyContainer>
