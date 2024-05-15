@@ -1,6 +1,7 @@
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useCoinConversion from '@/hooks/useCoinConversion'
 import { Asset } from '@/types/Asset'
+import styled from 'styled-components'
 
 interface AssetPriceProps {
   asset: Asset
@@ -12,7 +13,10 @@ export default function AssetPrice({ asset, className, showChangePercentage = fa
   const { priceConvertedValue, loading, priceChangePercentage24h } = useCoinConversion('1', asset.chains[0], asset.contractAddress)
   const signalPercentChange24h = priceChangePercentage24h && priceChangePercentage24h > 0 ? '+' : ''
   return loading ? (
-    <SkeletonLoading width={64} />
+    <ContainerLoading> 
+      {showChangePercentage && <SkeletonLoading width={80} height={30}/>}
+      <SkeletonLoading width={80} height={25}/> 
+    </ContainerLoading>
   ) : (
     <>
       <span className={className}>{priceConvertedValue}</span>
@@ -23,4 +27,13 @@ export default function AssetPrice({ asset, className, showChangePercentage = fa
       )}
     </>
   )
+}
+
+
+const {ContainerLoading} = {
+  ContainerLoading: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[8]};
+  `
 }
