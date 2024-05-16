@@ -1122,11 +1122,11 @@ export const assetsList: Asset[] = [
   usdtOp,
   brlaMatic,
   goldtOp,
-  solanaEth
-  // chainlinkOp,
+  solanaEth,
+  chainlinkOp,
   // renderArb,
   // eurtOp,
-  // thorchainEth
+  thorchainEth
 ]
 
 export function getListedAssets(): Asset[] {
