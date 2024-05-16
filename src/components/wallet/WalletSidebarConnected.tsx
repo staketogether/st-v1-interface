@@ -26,14 +26,14 @@ import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
-import useStAccount from './hooks/useStAccount'
+
 import { stakingList } from '@/config/product/staking'
 import { StakingId } from '@/types/Staking'
 import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
-import WalletSidebarAsset from '@/components/wallet/WalletSidebarAsset'
 import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
-import WalletSidebarAssetContainer from './WalletSidebarAssetContainer'
+import WalletSidebarAssetContainer from './assets/WalletSidebarAssetContainer'
+import useStAccount from '@/hooks/useStAccount'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -158,6 +158,13 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
     { label: t('delegations'), value: 'delegations' }
   ]
 
+  const activeTab = {
+    assets: <WalletSidebarAssetContainer accountAssets={accountAssets} />,
+    rewards: <WalletSidebarAssetContainer accountAssets={accountAssets} />,
+    historic: <WalletSidebarAssetContainer accountAssets={accountAssets} />,
+    delegations: <WalletSidebarAssetContainer accountAssets={accountAssets} />
+  }
+
   return (
     <DrawerContainer placement='right' size='default' onClose={() => setOpenSidebar(false)} mask={true} open={openSidebar}>
       {isSettingsActive && !isPanelActive && <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />}
@@ -237,8 +244,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
               </TabItem>
             ))}
           </TabContainer>
-
-          <WalletSidebarAssetContainer accountAssets={accountAssets} />
+          {activeTab[tabActivated]}
 
           <Card
             header={
@@ -310,10 +316,8 @@ const {
   ActivitiesIcon,
   SidebarButton,
   WalletAddressContainer,
-  AssetHeaderCard,
   EstimatedBalanceContainer,
   HeaderTabHeader,
-  AssetsCard,
   TabContainer
 } = {
   DrawerContainer: styled(Drawer)`
@@ -472,31 +476,6 @@ const {
   `,
   ActivitiesIcon: styled(PiChartLine)`
     font-size: 16px;
-  `,
-
-  AssetHeaderCard: styled.div`
-    width: 100%;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 8px;
-
-    border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
-    border-radius: 8px 8px 0 0;
-
-    span {
-      font-weight: 400;
-      font-size: ${({ theme }) => theme.font.size[13]};
-      color: ${({ theme }) => theme.colorV2.gray[1]};
-      opacity: 0.6;
-    }
-  `,
-  AssetsCard: styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[16]};
   `,
   HeaderTabContainer: styled.div`
     display: flex;

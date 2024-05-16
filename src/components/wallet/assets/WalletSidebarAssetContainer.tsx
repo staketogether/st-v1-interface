@@ -4,12 +4,15 @@ import { AccountAsset } from '@/types/AccountAsset'
 import React from 'react'
 import styled from 'styled-components'
 import WalletSidebarAsset from './WalletSidebarAsset'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { chainConfigByChainId } from '@/config/chain'
 
 interface WalletSidebarAssetContainerProps {
   accountAssets: AccountAsset[]
 }
 
 export default function WalletSidebarAssetContainer({ accountAssets }: WalletSidebarAssetContainerProps) {
+  const { t } = useLocaleTranslation()
   const assetContractAddressList = stakingList.map(staking => staking.contracts.StakeTogether)
   const investedAssetList = assetContractAddressList.map(contractAddress => {
     const accountAssetData = accountAssets.find(
@@ -19,6 +22,7 @@ export default function WalletSidebarAssetContainer({ accountAssets }: WalletSid
       return accountAssetData
     }
     const asset = assetsList.find(assetPlatform => assetPlatform.contractAddress.toLowerCase() === contractAddress.toLowerCase())
+
     if (asset) {
       const assetMapped: AccountAsset = {
         chainId: asset.chains[0],
@@ -27,7 +31,7 @@ export default function WalletSidebarAssetContainer({ accountAssets }: WalletSid
         thumbnail: undefined,
         balance: '0',
         decimals: asset.decimals,
-        name: asset.id
+        name: chainConfigByChainId(asset.chains[0]).name
       }
       return assetMapped
     }
@@ -52,7 +56,7 @@ export default function WalletSidebarAssetContainer({ accountAssets }: WalletSid
   return (
     <Container>
       <div>
-        <Title>Invested</Title>
+        <Title>{t('invested')}</Title>
         <ContainerList>
           {investedAssetList.map(investedAsset => (
             <WalletSidebarAsset walletAsset={investedAsset} key={investedAsset.symbol} />
@@ -60,7 +64,7 @@ export default function WalletSidebarAssetContainer({ accountAssets }: WalletSid
         </ContainerList>
       </div>
       <div>
-        <Title>Tokens</Title>
+        <Title>{t('assets')}</Title>
         <ContainerList>
           {accountAssetsFiltered.map(accountAsset => (
             <WalletSidebarAsset walletAsset={accountAsset} key={accountAsset.symbol} />

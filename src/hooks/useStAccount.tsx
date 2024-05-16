@@ -1,13 +1,13 @@
 import { getSubgraphClient } from '@/config/apollo'
+import { queryAccount } from '@/queries/subgraph/queryAccount'
 import { queryAccountActivities } from '@/queries/subgraph/queryAccountActivities'
 import { queryAccountRewards } from '@/queries/subgraph/queryAccountRewards'
+import { Account } from '@/types/Account'
 import { AccountActivity } from '@/types/AccountActivity'
 import { AccountReward } from '@/types/AccountReward'
+import { Delegation } from '@/types/Delegation'
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
-import { queryAccount } from '../../../queries/subgraph/queryAccount'
-import { Account } from '../../../types/Account'
-import { Delegation } from '../../../types/Delegation'
 
 interface useStAccountProps {
   address?: `0x${string}`

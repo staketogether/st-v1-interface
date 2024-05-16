@@ -311,7 +311,7 @@ const stpEth: Erc20Asset = {
   id: 'stp-eth',
   order: 1,
   decimals: 18,
-  symbol: 'ETH',
+  symbol: 'stpETH',
   contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
   type: 'erc20',
   symbolImage: stpEthIcon,
@@ -1028,7 +1028,7 @@ export const goldtOp: Erc20Asset = {
       chainId: 1,
       minDeposit: 300,
       provider: 'brla',
-      paymentMethod: 'pix',
+      paymentMethod: 'pix'
     }
   ]
 }
