@@ -170,7 +170,7 @@ export function AssetsSend({ asset }: { asset: Asset }) {
         type='submit'
         label={handleButtonName()}
         icon={handleButtonIcon()}
-        disabled={transactionLoading || openSidebarConnectWallet || Number(sendAmount) <= 0}
+        disabled={transactionLoading || openSidebarConnectWallet || !!(Number(sendAmount) <= 0 && !isWrongNetwork)}
       />
     </FormContainer>
   )
