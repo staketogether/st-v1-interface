@@ -163,5 +163,5 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag } = {
 
     font-size: 13px;
     font-weight: 500;
-  `
+  `,
 }
