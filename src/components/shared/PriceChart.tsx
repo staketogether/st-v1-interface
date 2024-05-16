@@ -1,18 +1,18 @@
+import useQuoteBrla from '@/hooks/ramp/useQuote'
 import useAssetStatsChart from '@/hooks/useAssetStatsChart'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
+import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
+import { PaymentMethodType } from '@/types/payment-method.type'
+import { ProviderType } from '@/types/provider.type'
+import loadingAnimation from '@assets/animations/loading-animation.json'
+import { Grid } from 'antd'
 import { DateTime } from 'luxon'
+import { useEffect, useMemo, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import styled from 'styled-components'
-import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from './LottieAnimation'
-import { useEffect, useMemo, useState } from 'react'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Grid } from 'antd'
-import { ProviderType } from '@/types/provider.type'
-import { PaymentMethodType } from '@/types/payment-method.type'
-import useQuoteBrla from '@/hooks/ramp/useQuote'
-import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 
 interface PriceChartProps {
   asset: Asset
@@ -78,14 +78,14 @@ export default function PriceChart({ asset }: PriceChartProps) {
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
   useEffect(() => {
-    const statsChartData: { timestamp: string; price: number }[] = assetStats?.prices.length
+    const statsChartData: { timestamp: string; price: number }[] = assetStats?.prices?.length
       ? assetStats.prices.map(item => {
-          const dateTime = DateTime.fromMillis(item[0]).toLocaleString()
-          return {
-            timestamp: dateTime,
-            price: item[1]
-          }
-        })
+        const dateTime = DateTime.fromMillis(item[0]).toLocaleString()
+        return {
+          timestamp: dateTime,
+          price: item[1]
+        }
+      })
       : []
 
     setChartData(statsChartData)
