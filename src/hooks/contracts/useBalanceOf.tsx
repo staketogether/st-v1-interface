@@ -18,6 +18,7 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
     rawBalance: BigInt(0),
     balance: '0'
   })
+
   const [chainId] = asset.chains
   const { address: accountAddress } = useAccount()
 
@@ -30,14 +31,11 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
     data: nativeData
   } = useBalance({
     address: walletAddress ? walletAddress : undefined,
-    chainId,
-    query: {
-      enabled: asset.type === 'native'
-    }
+    chainId
   })
 
   useEffect(() => {
-    if (nativeData) {
+    if (nativeData && asset.type === 'native') {
       const balance = formatUnits(nativeData.value, asset.decimals)
       const rawBalance = nativeData.value
 
@@ -55,17 +53,13 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
     address: asset.contractAddress,
     chainId: chainId,
     functionName: 'balanceOf',
-    args: [address],
-    query: {
-      enabled: asset.type !== 'native' && !!address
-    }
+    args: [address]
   })
 
   useEffect(() => {
-    if (erc20Data) {
+    if (erc20Data && asset.type !== 'native') {
       const balance = formatUnits(erc20Data, asset.decimals)
       const rawBalance = erc20Data
-
       setTokenBalance({ rawBalance, balance })
     }
   }, [erc20Data, asset])
