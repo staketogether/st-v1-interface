@@ -34,9 +34,9 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
       type: 'swap',
       label: t('swap'),
       url: `${asset.url.replace('currency', currency)}/swap`,
-      disabled: false,
+      disabled: true,
       icon: <PiArrowsClockwise />,
-      tooltipLabel: ''
+      tooltipLabel: t('soon')
     },
     {
       type: 'send',

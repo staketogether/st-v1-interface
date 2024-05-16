@@ -1028,7 +1028,7 @@ export const goldtOp: Erc20Asset = {
       chainId: 1,
       minDeposit: 300,
       provider: 'brla',
-      paymentMethod: 'pix',
+      paymentMethod: 'pix'
     }
   ]
 }
@@ -1113,8 +1113,6 @@ export const assetsList: Asset[] = [
   spfcChz,
   bahiaChz,
   pendleArb,
-  chainlinkOp,
-  renderArb,
   thegraphArb,
   worldcoinOp,
   aaveOp,
@@ -1123,10 +1121,12 @@ export const assetsList: Asset[] = [
   usdcOp,
   usdtOp,
   brlaMatic,
-  eurtOp,
   goldtOp,
-  solanaEth,
-  thorchainEth
+  solanaEth
+  // chainlinkOp,
+  // renderArb,
+  // eurtOp,
+  // thorchainEth
 ]
 
 export function getListedAssets(): Asset[] {
