@@ -1113,8 +1113,6 @@ export const assetsList: Asset[] = [
   spfcChz,
   bahiaChz,
   pendleArb,
-  // chainlinkOp,
-  // renderArb,
   thegraphArb,
   worldcoinOp,
   aaveOp,
@@ -1123,9 +1121,11 @@ export const assetsList: Asset[] = [
   usdcOp,
   usdtOp,
   brlaMatic,
-  // eurtOp,
   goldtOp,
   solanaEth
+  // chainlinkOp,
+  // renderArb,
+  // eurtOp,
   // thorchainEth
 ]
 
