@@ -11,11 +11,12 @@ interface AssetPriceProps {
 
 export default function AssetPrice({ asset, className, showChangePercentage = false }: AssetPriceProps) {
   const { priceConvertedValue, loading, priceChangePercentage24h } = useCoinConversion('1', asset.chains[0], asset.contractAddress)
+  console.log(priceConvertedValue, priceChangePercentage24h)
   const signalPercentChange24h = priceChangePercentage24h && priceChangePercentage24h > 0 ? '+' : ''
   return loading ? (
-    <ContainerLoading> 
-      {showChangePercentage && <SkeletonLoading width={80} height={30}/>}
-      <SkeletonLoading width={80} height={25}/> 
+    <ContainerLoading>
+      {showChangePercentage && <SkeletonLoading width={80} height={30} />}
+      <SkeletonLoading width={80} height={25} />
     </ContainerLoading>
   ) : (
     <>
@@ -29,8 +30,7 @@ export default function AssetPrice({ asset, className, showChangePercentage = fa
   )
 }
 
-
-const {ContainerLoading} = {
+const { ContainerLoading } = {
   ContainerLoading: styled.div`
     display: flex;
     flex-direction: column;

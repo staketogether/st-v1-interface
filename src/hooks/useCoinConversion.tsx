@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import useCoinUsdToUserCurrency from './useCoinUsdToUserCurrency'
-import useGetCurrencyPrice from './useGetCurrencyPrice'
+import { currencyPriceListVar } from './useGetCurrencyPrice'
+import { useReactiveVar } from '@apollo/client'
 
 export default function useCoinConversion(value: string, chainId?: number, contractAddress?: string) {
   const [coinUsdPrice, setCoinUsdPrice] = useState<string | undefined>('0')
   const [loading, setLoading] = useState<boolean>(true)
 
-  const { currencyPriceList, isLoading: loadingCurrencyPrices } = useGetCurrencyPrice()
+  const currencyPriceList = useReactiveVar(currencyPriceListVar)
+
   const currencyPrice = currencyPriceList.find(currency => currency.id === `${chainId}:${contractAddress?.toLowerCase()}`)
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
@@ -14,7 +16,7 @@ export default function useCoinConversion(value: string, chainId?: number, contr
     const normalizedAmount = value.replace(',', '.')
     const amount = Number(normalizedAmount)
 
-    if (loadingCurrencyPrices) {
+    if (!currencyPriceList.length) {
       return
     }
 
@@ -26,12 +28,12 @@ export default function useCoinConversion(value: string, chainId?: number, contr
       setCoinUsdPrice('0')
       setLoading(false)
     }
-  }, [value, currencyPrice, loadingCurrencyPrices])
+  }, [value, currencyPrice, currencyPriceList])
 
   return {
     price: coinUsdPrice,
     priceChangePercentage24h: currencyPrice?.priceChangePercentage24h,
-    loading: loading || loadingCurrencyPrices,
+    loading: loading || !currencyPriceList.length,
     priceConvertedValue: handleQuotePrice(Number(coinUsdPrice) ?? 0)
   }
 }
