@@ -5,7 +5,7 @@ import { makeVar, useReactiveVar } from '@apollo/client'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 
-export const currencyPriceListVar = makeVar<{ id: string; value: number; price24h: number, priceChangePercentage24h: number }[]>([])
+export const currencyPriceListVar = makeVar<{ id: string; value: number; price24h: number; priceChangePercentage24h: number }[]>([])
 
 export default function useGetCurrencyPrice() {
   const { backendUrl } = globalConfig
@@ -16,9 +16,7 @@ export default function useGetCurrencyPrice() {
     const getDataPromise = async () => {
       try {
         const promises = assetsList.map(asset =>
-          axios.get<AssetStats>(
-            `${backendUrl}/api/asset-stats/${asset.chains[0]}/${asset.type === 'native' ? asset.wrapperContractAddress : asset.contractAddress}`
-          )
+          axios.get<AssetStats>(`${backendUrl}/api/asset-stats/${asset.chains[0]}/${asset.contractAddress}`)
         )
 
         const responses = await Promise.all(promises)
@@ -26,7 +24,7 @@ export default function useGetCurrencyPrice() {
         const responseData = responses.map(response => {
           return {
             id: `${response.data.ref}`,
-            value: response.data.marketCapUsd,
+            value: response.data.currentPriceUsd,
             price24h: response.data.priceChange24h,
             priceChangePercentage24h: response.data.priceChangePercentage24h
           }
@@ -37,8 +35,8 @@ export default function useGetCurrencyPrice() {
         setLoading(false)
       }
     }
-    getDataPromise()
-  }, [backendUrl])
+    if (!currencyPriceList.length) getDataPromise()
+  }, [backendUrl, currencyPriceList])
 
   return { isLoading: loading, currencyPriceList }
 }

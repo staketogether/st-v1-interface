@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCodesandboxLogo, PiCoinsLight, PiChartLine, PiGlobe } from 'react-icons/pi'
+import { PiCodesandboxLogo, PiCoinsLight, PiChartLine, PiGlobe  } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -144,6 +144,7 @@ const {
       white-space: nowrap;
       cursor: pointer;
     }
+  
   `,
   Menu: styled.nav`
     display: none;

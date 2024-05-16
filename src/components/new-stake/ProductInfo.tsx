@@ -103,7 +103,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
         <StatisticContainer>
           <div>
             <span>{t('v2.ethereumStaking.marketCap')}</span>
-            <span className='valueItem'>{`${handleQuotePrice(assetData?.marketCapUsd || 0)}`}</span>
+            <span className='valueItem'>{`${handleQuotePrice(assetData?.marketCap || 0)}`}</span>
           </div>
           <div>
             <span>Volume</span>

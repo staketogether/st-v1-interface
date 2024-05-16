@@ -5,12 +5,7 @@ import chzIcon from '@assets/assets/chiliz.svg'
 import ethIcon from '@assets/assets/ethereum.svg'
 import opIcon from '@assets/assets/optimism.svg'
 import maticIcon from '@assets/assets/polygon.svg'
-import bahiaIcon from '@assets/assets/bahia.png'
-import fluIcon from '@assets/assets/flu.png'
-import galoIcon from '@assets/assets/galo.png'
 import mengoChzIcon from '@assets/assets/mengo.png'
-import saciIcon from '@assets/assets/saci.png'
-import spfcIcon from '@assets/assets/spfc.png'
 import pendleIcon from '@assets/assets/pendle.png'
 import chainlinkIcon from '@assets/assets/chainlink.png'
 import renderIcon from '@assets/assets/render.png'
@@ -28,8 +23,13 @@ import thorchainIcon from '@assets/assets/thorchain.png'
 import aaveIcon from '@assets/assets/aave.png'
 import stpEthIcon from '@assets/assets/stp-eth.svg'
 import strEthIcon from '@assets/assets/str-eth.svg'
-import vascoIcon from '@assets/assets/vasco.png'
+import galoIcon from '@assets/assets/galo.png'
+import fluIcon from '@assets/assets/flu.png'
 import verdaoIcon from '@assets/assets/verdao.png'
+import vascoIcon from '@assets/assets/vasco.png'
+import saciIcon from '@assets/assets/saci.png'
+import spfcIcon from '@assets/assets/spfc.png'
+import bahiaIcon from '@assets/assets/bahia.png'
 import { Chain } from '../chain'
 
 export const ethMainnet: NativeAsset = {
@@ -1113,8 +1113,6 @@ export const assetsList: Asset[] = [
   spfcChz,
   bahiaChz,
   pendleArb,
-  chainlinkOp,
-  renderArb,
   thegraphArb,
   worldcoinOp,
   aaveOp,
@@ -1123,10 +1121,12 @@ export const assetsList: Asset[] = [
   usdcOp,
   usdtOp,
   brlaMatic,
-  eurtOp,
   goldtOp,
-  solanaEth,
-  thorchainEth
+  solanaEth
+  // chainlinkOp,
+  // renderArb,
+  // eurtOp,
+  // thorchainEth
 ]
 
 export function getListedAssets(): Asset[] {

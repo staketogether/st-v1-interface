@@ -1,5 +1,6 @@
 export interface AssetStats {
-  marketCapUsd: number,
+  currentPriceUsd: number,
+  marketCap: number,
   totalVolume: number,
   priceChangePercentage1Y: number,
   priceChange24h: number,
