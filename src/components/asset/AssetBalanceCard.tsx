@@ -19,6 +19,7 @@ interface AssetBalanceCardProps {
 
 export default function AssetBalanceCard({ asset, userWalletAddress }: AssetBalanceCardProps) {
   const { isLoading, tokenBalance } = useBalanceOf({ asset, walletAddress: userWalletAddress })
+
   const { t } = useLocaleTranslation()
   const { query, push } = useRouter()
   const { currency } = query as { currency: string }

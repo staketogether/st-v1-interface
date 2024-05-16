@@ -5,11 +5,13 @@ import { notification } from 'antd'
 import QRCode from 'react-qr-code'
 import { useAccount } from 'wagmi'
 import { FiCopy } from 'react-icons/fi'
+import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
+import { PiArrowLineRight } from 'react-icons/pi'
 
 export function AssetsReceive() {
   const { t } = useLocaleTranslation()
   const account = useAccount()
-
+  const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
   const handleCopyClipboard = () => {
     navigator.clipboard.writeText(account?.address ?? '')
     notification.success({
@@ -19,16 +21,24 @@ export function AssetsReceive() {
   }
   return (
     <Container>
-      <Code value={account?.address ?? ''} />
-      <WalletContainer>
-        <span>{account?.address ?? ''}</span>
-      </WalletContainer>
-      <Button label={t('copyWalletAddress')} icon={<FiCopy />} block onClick={handleCopyClipboard} />
+      {account.address && (
+        <>
+          <Code value={account?.address ?? ''} />
+          <WalletContainer>
+            <span>{account?.address ?? ''}</span>
+          </WalletContainer>
+        </>
+      )}
+      {account.address ? (
+        <Button label={t('copyWalletAddress')} icon={<FiCopy />} block onClick={handleCopyClipboard} />
+      ) : (
+        <Button label={t('v2.header.enter')} icon={<ConnectWalletIcon />} block onClick={() => setOpenSidebarConnectWallet(true)} />
+      )}
     </Container>
   )
 }
 
-const { Container, Code, WalletContainer } = {
+const { Container, Code, WalletContainer, ConnectWalletIcon } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -56,5 +66,8 @@ const { Container, Code, WalletContainer } = {
       display: flex;
       align-items: center;
     }
+  `,
+  ConnectWalletIcon: styled(PiArrowLineRight)`
+    font-size: 16px;
   `
 }
