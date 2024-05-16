@@ -8,7 +8,7 @@ export interface ActionItem {
   type: string
   label: string
   url: string
-  disabled: boolean
+  disabled?: boolean
   icon: React.JSX.Element
   tooltipLabel: string
 }
