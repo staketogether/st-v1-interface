@@ -1,4 +1,4 @@
-import useAddSethToWallet from '@/hooks/useAddSethToWallet'
+import useAddTokenToWallet from '@/hooks/useAddSethToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import stSymbol from '@assets/st-symbol.svg'
 import { Tooltip } from 'antd'
@@ -17,7 +17,7 @@ interface StpEthIconProps {
 export default function StpethIcon({ size = 32, showPlusIcon }: StpEthIconProps) {
   const { StakeTogether } = getStakingById('eth-staking').contracts
 
-  const { addToWalletAction } = useAddSethToWallet({ productSymbol: 'stpETH', contractAddress: StakeTogether })
+  const { addToWalletAction } = useAddTokenToWallet({ productSymbol: 'stpETH', contractAddress: StakeTogether })
   const { t } = useLocaleTranslation()
   return (
     <Tooltip title={t('addToWalletTooltip')}>

@@ -13,15 +13,15 @@ interface EthereumStpETHInputProps {
   balance: bigint
   balanceLoading: boolean
   type: 'deposit' | 'withdraw'
-  product: Staking
+  staking: Staking
   chainId: number
 }
 
-export default function EthereumShowReceiveCoin({ amountValue, balance, balanceLoading, type, product }: EthereumStpETHInputProps) {
+export default function EthereumShowReceiveCoin({ amountValue, balance, balanceLoading, type, staking }: EthereumStpETHInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
 
-  const stakeTogetherContractAddress = product.contracts.StakeTogether
+  const stakeTogetherContractAddress = staking.contracts.StakeTogether
 
   return (
     <InputContent>
@@ -30,7 +30,7 @@ export default function EthereumShowReceiveCoin({ amountValue, balance, balanceL
           <SkeletonLoading width={120} />
         ) : (
           <span>{`${t('balance')}: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${
-            type === 'deposit' ? product.symbol : t('eth.symbol')
+            type === 'deposit' ? staking.symbol : t('eth.symbol')
           }`}</span>
         )}
       </div>
@@ -38,12 +38,18 @@ export default function EthereumShowReceiveCoin({ amountValue, balance, balanceL
         <CoinActionContainer>
           {type === 'deposit' ? (
             <>
-              <TokensSymbolIcons productSymbol={product.symbol} size={32} showPlusIcon contractAddress={stakeTogetherContractAddress} />
+              <TokensSymbolIcons
+                image={staking.symbolImage}
+                size={32}
+                showPlusIcon
+                contractAddress={stakeTogetherContractAddress}
+                altName={staking.symbol}
+              />
             </>
           ) : (
-            <AssetIcon altName={product.asset.symbol} image={product.asset.symbolImage} chain={product.asset.chains[0]} size={32} />
+            <AssetIcon altName={staking.asset.symbol} image={staking.asset.symbolImage} chain={staking.asset.chains[0]} size={32} />
           )}
-          <span>{type === 'deposit' ? product.symbol : t('eth.symbol')}</span>
+          <span>{type === 'deposit' ? staking.symbol : t('eth.symbol')}</span>
         </CoinActionContainer>
         <input type='text' placeholder='0' value={amountValue} disabled />
       </div>

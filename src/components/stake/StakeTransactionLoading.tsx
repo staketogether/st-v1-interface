@@ -1,5 +1,5 @@
 import { chainConfigByChainId } from '@/config/chain'
-import useAddSethToWallet from '@/hooks/useAddSethToWallet'
+import useAddTokenToWallet from '@/hooks/useAddSethToWallet'
 import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -25,7 +25,7 @@ interface StakeTransactionLoadingProps {
   txHash: string | undefined
   type: 'deposit' | 'withdraw'
   withdrawTypeSelected: WithdrawType
-  product: Staking
+  staking: Staking
   chainId: number
 }
 
@@ -38,33 +38,33 @@ export default function StakeTransactionLoading({
   txHash,
   type,
   withdrawTypeSelected,
-  product,
+  staking,
   chainId
 }: StakeTransactionLoadingProps) {
   const { t } = useLocaleTranslation()
   const isWithdraw = type === 'withdraw'
 
   const { blockExplorer } = chainConfigByChainId(chainId)
-  const stakeTogetherContractAddress = product.contracts.StakeTogether
+  const stakeTogetherContractAddress = staking.contracts.StakeTogether
 
-  const { addToWalletAction } = useAddSethToWallet({
-    productSymbol: product.symbol,
+  const { addToWalletAction } = useAddTokenToWallet({
+    productSymbol: staking.symbol,
     contractAddress: stakeTogetherContractAddress
   })
   const { addToWalletAction: addStwEthToWalletAction } = useAddStwEthToWallet()
 
   useFacebookPixel(
-    `deposit-confirmation:${product.id}`,
+    `deposit-confirmation:${staking.id}`,
     walletActionLoading && !transactionLoading && !transactionIsSuccess && !isWithdraw,
     {
       value: parseFloat(truncateWei(youReceive, 6)),
-      stakingId: product.id
+      stakingId: staking.id
     }
   )
 
-  useFacebookPixel(`deposit-success:${product.id}`, transactionIsSuccess && !isWithdraw, {
+  useFacebookPixel(`deposit-success:${staking.id}`, transactionIsSuccess && !isWithdraw, {
     value: parseFloat(truncateWei(youReceive, 6)),
-    stakingId: product.id,
+    stakingId: staking.id,
     txHash: String(txHash)
   })
 
@@ -89,13 +89,13 @@ export default function StakeTransactionLoading({
           {isWithdraw ? (
             <>
               <div>
-                <TokensSymbolIcons productSymbol={product.symbol} size={32} />
+                <TokensSymbolIcons image={staking.symbolImage} altName={staking.symbol} size={32} />
                 <span className={'purple'}>{`${amount}`}</span>
-                <span className={'purple'}>{product.symbol}</span>
+                <span className={'purple'}>{staking.symbol}</span>
               </div>
               <ArrowIcon fontSize={18} />
               <div>
-                <AssetIcon altName={product.id} chain={product.asset.chains[0]} size={32} image={product.symbolImage} />
+                <AssetIcon altName={staking.id} chain={staking.asset.chains[0]} size={32} image={staking.symbolImage} />
                 <span>{`${truncateWei(youReceive, 6)}`}</span>
                 <span>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>
               </div>
@@ -103,15 +103,15 @@ export default function StakeTransactionLoading({
           ) : (
             <>
               <div>
-                <AssetIcon image={product.symbolImage} altName={product.id} chain={product.asset.chains[0]} size={32} />
+                <AssetIcon image={staking.symbolImage} altName={staking.id} chain={staking.asset.chains[0]} size={32} />
                 <span>{`${amount}`}</span>
                 <span> {t('eth.symbol')}</span>
               </div>
               <ArrowIcon fontSize={18} />
               <div>
-                <TokensSymbolIcons productSymbol={product.symbol} size={32} />
+                <TokensSymbolIcons image={staking.symbolImage} altName={staking.symbol} size={32} />
                 <span className={'purple'}>{`${truncateWei(youReceive, 6)}`}</span>
-                <span className={'purple'}> {product.symbol}</span>
+                <span className={'purple'}> {staking.symbol}</span>
               </div>
             </>
           )}
@@ -120,7 +120,7 @@ export default function StakeTransactionLoading({
       {!isWithdraw && transactionIsSuccess && (
         <AddAssetInWalletButton onClick={addToWalletAction}>
           <span>{t('addSethToWallet.add')} </span>
-          <TokensSymbolIcons productSymbol={product.symbol} size={23} />
+          <TokensSymbolIcons image={staking.symbolImage} altName={staking.symbol} size={23} />
           <span>{t('addSethToWallet.yourWallet')}</span>
         </AddAssetInWalletButton>
       )}

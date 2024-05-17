@@ -194,7 +194,7 @@ export default function EthereumDeposit({
               setAmount(value)
             }}
             type={type}
-            product={product}
+            staking={product}
             hasError={cantDeposit && Number(amount) > 0}
             balance={ethBalance}
             balanceLoading={ethBalanceLoading}
@@ -207,7 +207,7 @@ export default function EthereumDeposit({
             balanceLoading={stpETHBalanceLoading}
             type={type}
             chainId={chainId}
-            product={product}
+            staking={product}
           />
         </InputContainer>
         <EthereumProjectSelect
@@ -242,7 +242,7 @@ export default function EthereumDeposit({
         youReceive={youReceiveDeposit}
         txHash={txHash}
         type={'deposit'}
-        product={product}
+        staking={product}
         labelButton={handleLabelButton()}
         onClick={deposit}
         chainId={chainId}

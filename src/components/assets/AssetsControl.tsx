@@ -100,7 +100,7 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
       </header>
 
       <div>
-        <AssetsProductInfo product={product} assetData={assetData} />
+        <AssetsProductInfo asset={product} assetData={assetData} />
         <ActionContainer>
           <ActionContainerControlCard>
             <AssetsActionsControl type={type} asset={product} />
