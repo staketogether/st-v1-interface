@@ -1,4 +1,5 @@
 import useAddTokenToWallet, { AddSethToWalletProps } from '@/hooks/useAddTokenToWallet'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Tooltip } from 'antd'
 import Image, { StaticImageData } from 'next/image'
@@ -16,19 +17,24 @@ interface TokensSymbolIconsProps {
 export default function TokensSymbolIcons({ image, size, tokenForAddWallet, altName }: TokensSymbolIconsProps) {
   const { addToWalletAction } = useAddTokenToWallet()
   const { t } = useLocaleTranslation()
+  const { web3AuthUserInfo, accountIsConnected } = useConnectedAccount()
 
-  return (
-    <Tooltip title={t('addToWalletTooltip')}>
-      <Warper size={size} onClick={tokenForAddWallet ? () => addToWalletAction(tokenForAddWallet) : () => {}}>
-        <Image src={image} width={size} height={size} alt={altName} />
-        {!!tokenForAddWallet && (
-          <div>
-            <PiPlusBold style={{ fontSize: size <= 24 ? 7 : 9 }} />
-          </div>
-        )}
-      </Warper>
-    </Tooltip>
+  const TokenContainer = (
+    <Warper size={size} onClick={tokenForAddWallet ? () => addToWalletAction(tokenForAddWallet) : () => {}}>
+      <Image src={image} width={size} height={size} alt={altName} />
+      {!!tokenForAddWallet && accountIsConnected && !web3AuthUserInfo && (
+        <div>
+          <PiPlusBold style={{ fontSize: size <= 24 ? 7 : 9 }} />
+        </div>
+      )}
+    </Warper>
   )
+
+  if (!web3AuthUserInfo) {
+    return <Tooltip title={t('addToWalletTooltip')}>{TokenContainer}</Tooltip>
+  }
+
+  return TokenContainer
 }
 
 const { Warper } = {

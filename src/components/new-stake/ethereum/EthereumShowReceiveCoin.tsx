@@ -41,7 +41,12 @@ export default function EthereumShowReceiveCoin({ amountValue, balance, balanceL
               <TokensSymbolIcons
                 image={staking.symbolImage}
                 size={32}
-                showPlusIcon
+                tokenForAddWallet={{
+                  contractAddress: staking.contracts.StakeTogether,
+                  symbol: staking.symbol,
+                  decimals: 18,
+                  image: staking.symbolImage
+                }}
                 contractAddress={stakeTogetherContractAddress}
                 altName={staking.symbol}
               />

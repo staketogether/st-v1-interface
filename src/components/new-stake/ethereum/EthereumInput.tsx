@@ -82,7 +82,17 @@ export default function EthereumInput({
             <AssetIcon altName={staking.id} image={ethMainnet.symbolImage} chain={staking.asset.chains[0]} size={32} />
           ) : (
             <>
-              <TokensSymbolIcons image={staking.symbolImage} size={32} altName={staking.symbol} />
+              <TokensSymbolIcons
+                image={staking.symbolImage}
+                size={32}
+                altName={staking.symbol}
+                tokenForAddWallet={{
+                  contractAddress: staking.contracts.StakeTogether,
+                  symbol: staking.symbol,
+                  decimals: 18,
+                  image: staking.symbolImage
+                }}
+              />
             </>
           )}
           <span>{type === 'deposit' ? t('eth.symbol') : staking.symbol}</span>

@@ -72,7 +72,12 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
                 image={product.symbolImage}
                 size={23}
                 contractAddress={stakeTogetherContractAddress}
-                showPlusIcon
+                tokenForAddWallet={{
+                  contractAddress: stakeTogetherContractAddress,
+                  symbol: product.symbol,
+                  decimals: 18,
+                  image: product.symbolImage
+                }}
                 altName={''}
               />
               <span className='symbol'>{product.symbol}</span>

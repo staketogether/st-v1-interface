@@ -47,10 +47,7 @@ export default function StakeTransactionLoading({
   const { blockExplorer } = chainConfigByChainId(chainId)
   const stakeTogetherContractAddress = staking.contracts.StakeTogether
 
-  const { addToWalletAction } = useAddTokenToWallet({
-    productSymbol: staking.symbol,
-    contractAddress: stakeTogetherContractAddress
-  })
+  const { addToWalletAction } = useAddTokenToWallet()
   const { addToWalletAction: addStwEthToWalletAction } = useAddStwEthToWallet()
 
   useFacebookPixel(
@@ -118,7 +115,16 @@ export default function StakeTransactionLoading({
         </ResumeStake>
       </div>
       {!isWithdraw && transactionIsSuccess && (
-        <AddAssetInWalletButton onClick={addToWalletAction}>
+        <AddAssetInWalletButton
+          onClick={() =>
+            addToWalletAction({
+              contractAddress: stakeTogetherContractAddress,
+              symbol: staking.symbol,
+              decimals: 18,
+              image: staking.symbolImage
+            })
+          }
+        >
           <span>{t('addSethToWallet.add')} </span>
           <TokensSymbolIcons image={staking.symbolImage} altName={staking.symbol} size={23} />
           <span>{t('addSethToWallet.yourWallet')}</span>
