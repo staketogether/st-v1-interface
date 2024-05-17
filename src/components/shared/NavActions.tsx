@@ -19,9 +19,9 @@ interface MenuActionsProps {
 }
 
 export default function NavActions({ typeActive, navActionsList }: MenuActionsProps) {
-  function handleItemList(action: ActionItem) {
+  function handleItemList(action: ActionItem, index: number) {
     return (
-      <li className={`${typeActive === action.type && 'activated'} ${action.disabled && 'disabled'}`}>
+      <li className={`${typeActive === action.type && 'activated'} ${action.disabled && 'disabled'}`} key={`nav-row-${index}`}>
         <Link href={action.url}>
           <IconContainer>{action.icon}</IconContainer>
           <span>{action.label}</span>
@@ -34,14 +34,14 @@ export default function NavActions({ typeActive, navActionsList }: MenuActionsPr
     <header>
       <Nav>
         <ul>
-          {navActionsList.map(action => (
+          {navActionsList.map((action, index) => (
             <>
               {action.tooltipLabel && (
                 <Tooltip title={action.tooltipLabel} key={action.type}>
-                  {handleItemList(action)}
+                  {handleItemList(action, index)}
                 </Tooltip>
               )}
-              {!action.tooltipLabel && handleItemList(action)}
+              {!action.tooltipLabel && handleItemList(action, index)}
             </>
           ))}
         </ul>
@@ -55,7 +55,7 @@ const { Nav, IconContainer } = {
     width: 100%;
     ul {
       display: flex;
-      gap: 2px;
+      gap: ${({ theme }) => theme.size[4]};
       align-items: center;
 
       li {
