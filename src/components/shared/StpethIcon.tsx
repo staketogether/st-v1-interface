@@ -1,4 +1,4 @@
-import useAddTokenToWallet from '@/hooks/useAddSethToWallet'
+import useAddTokenToWallet from '@/hooks/useAddTokenToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import stSymbol from '@assets/st-symbol.svg'
 import { Tooltip } from 'antd'

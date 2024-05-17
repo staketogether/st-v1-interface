@@ -1,5 +1,5 @@
 import { chainConfigByChainId } from '@/config/chain'
-import useAddTokenToWallet from '@/hooks/useAddSethToWallet'
+import useAddTokenToWallet from '@/hooks/useAddTokenToWallet'
 import useAddStwEthToWallet from '@/hooks/useAddStwEthToWallet'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'

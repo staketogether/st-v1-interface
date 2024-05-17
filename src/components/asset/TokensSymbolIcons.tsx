@@ -1,4 +1,4 @@
-import useAddTokenToWallet, { AddSethToWalletProps } from '@/hooks/useAddSethToWallet'
+import useAddTokenToWallet, { AddSethToWalletProps } from '@/hooks/useAddTokenToWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Tooltip } from 'antd'
 import Image, { StaticImageData } from 'next/image'

@@ -28,6 +28,7 @@ const TokensShowValuePrice = dynamic(() => import('../shared/AssetPrice'), {
 })
 
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
+  console.log(assetData)
   const config = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
 
