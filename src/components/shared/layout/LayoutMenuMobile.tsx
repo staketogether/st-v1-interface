@@ -14,13 +14,13 @@ function LayoutMenuMobile() {
   const isHome = pathname === basePath && isReady
   return (
     <Container>
-      <NextLink href={`/${currency as string}/staking`} className={`${isHome || isActive('staking') ? 'active' : ''}`}>
-        <InvestIcon />
-        {t('v2.header.staking')}
-      </NextLink>
       <NextLink href={`/${currency as string}/crypto`} className={`${isHome || isActive('crypto') ? 'active' : ''}`}>
         <InvestIcon />
         {t('v2.header.assets')}
+      </NextLink>
+      <NextLink href={`/${currency as string}/staking`} className={`${isHome || isActive('staking') ? 'active' : ''}`}>
+        <InvestIcon />
+        {t('v2.header.staking')}
       </NextLink>
       <NextLink
         href={`/${currency as string}/${(network as string) || 'optimism'}/project`}

@@ -13,13 +13,21 @@ import Button from '../shared/Button'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import { Staking } from '@/types/Staking'
+import UpdateDelegationsModal from '../update-delegations/UpdateDelegationsModal'
 
 interface WalletSidebarPortfolioProps {
   accountDelegations: Delegation[]
   product: Staking
+  accountTotalShares: bigint
+  userWalletAddress: `0x${string}`
 }
 
-export default function WalletSidebarPortfolio({ accountDelegations, product }: WalletSidebarPortfolioProps) {
+export default function WalletSidebarPortfolio({
+  accountDelegations,
+  product,
+  userWalletAddress,
+  accountTotalShares
+}: WalletSidebarPortfolioProps) {
   const { t } = useLocaleTranslation()
   const { setOpenSidebar } = useWalletSidebar()
   const { query, locale } = useRouter()
@@ -32,47 +40,55 @@ export default function WalletSidebarPortfolio({ accountDelegations, product }: 
   const stakeTogetherPool = product.stakeTogetherPool
 
   return (
-    <Container>
-      {accountDelegations.length === 0 && (
-        <EmptyContainer>
-          <span>{t('noStake')}</span>
-        </EmptyContainer>
-      )}
-      {accountDelegations.map((delegation, index) => {
-        const poolMetadata = handleMetadataPools(delegation.delegated.address)
-        const urlRedirect =
-          stakeTogetherPool?.toLowerCase() === delegation.delegated.address.toLowerCase()
-            ? `${product.url}`
-            : `${product.url.replace('currency', currency)}?projectAddress=${delegation.delegated.address}`
-        return (
-          <DelegatedPool key={index} href={urlRedirect} onClick={() => setOpenSidebar(false)}>
-            <div>
-              <Project>
-                <CommunityLogo
-                  size={24}
-                  src={poolMetadata?.logo.url}
-                  alt={poolMetadata?.logo.fileName ?? ''}
-                  loading={isLoading}
-                  listed={!!poolMetadata}
-                />
-                {poolMetadata?.name ? (
-                  <CommunityName name={poolMetadata.name} loading={isLoading} />
-                ) : (
-                  <CommunityName walletAddress={delegation.delegated.address} loading={isLoading} />
-                )}
-              </Project>
-            </div>
-            <div>
-              {formatNumberByLocale(truncateWei(delegation.delegationBalance, 6), locale)}
-              <span>{product.symbol}</span>
-            </div>
-          </DelegatedPool>
-        )
-      })}
-      {accountDelegations.length > 0 && (
-        <Button small={true} label={t('edit')} icon={<EditIcon />} block onClick={() => setOpenSidebarEditPortfolio(true)} />
-      )}
-    </Container>
+    <>
+      <Container>
+        {accountDelegations.length === 0 && (
+          <EmptyContainer>
+            <span>{t('noStake')}</span>
+          </EmptyContainer>
+        )}
+        {accountDelegations.map((delegation, index) => {
+          const poolMetadata = handleMetadataPools(delegation.delegated.address)
+          const urlRedirect =
+            stakeTogetherPool?.toLowerCase() === delegation.delegated.address.toLowerCase()
+              ? `${product.url}`
+              : `${product.url.replace('currency', currency)}?projectAddress=${delegation.delegated.address}`
+          return (
+            <DelegatedPool key={index} href={urlRedirect} onClick={() => setOpenSidebar(false)}>
+              <div>
+                <Project>
+                  <CommunityLogo
+                    size={24}
+                    src={poolMetadata?.logo.url}
+                    alt={poolMetadata?.logo.fileName ?? ''}
+                    loading={isLoading}
+                    listed={!!poolMetadata}
+                  />
+                  {poolMetadata?.name ? (
+                    <CommunityName name={poolMetadata.name} loading={isLoading} />
+                  ) : (
+                    <CommunityName walletAddress={delegation.delegated.address} loading={isLoading} />
+                  )}
+                </Project>
+              </div>
+              <div>
+                {formatNumberByLocale(truncateWei(delegation.delegationBalance, 6), locale)}
+                <span>{product.symbol}</span>
+              </div>
+            </DelegatedPool>
+          )
+        })}
+        {accountDelegations.length > 0 && (
+          <Button label={t('edit')} icon={<EditIcon />} block onClick={() => setOpenSidebarEditPortfolio(true)} />
+        )}
+      </Container>
+      <UpdateDelegationsModal
+        accountDelegations={accountDelegations}
+        accountTotalShares={accountTotalShares}
+        userAccount={userWalletAddress}
+        productSelected={product.id}
+      />
+    </>
   )
 }
 const { Container, DelegatedPool, EditIcon, EmptyContainer, Project } = {

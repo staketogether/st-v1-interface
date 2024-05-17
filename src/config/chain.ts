@@ -18,7 +18,7 @@ export interface ChainConfig {
   }
 }
 
-const configs: ChainConfig[] = [
+export const chainConfigs: ChainConfig[] = [
   {
     chainId: mainnet.id,
     name: 'Ethereum',
@@ -178,13 +178,13 @@ export enum Chain {
  * @deprecated
  */
 export default function chainConfig(): ChainConfig {
-  const config = configs.find(c => c.chainId === Number(process.env.NEXT_PUBLIC_CHAIN_ID))
+  const config = chainConfigs.find(c => c.chainId === Number(process.env.NEXT_PUBLIC_CHAIN_ID))
   if (!config) throw new Error('chainId not found in chainConfig')
   return config
 }
 
 export function chainConfigByChainId(chainId: number): ChainConfig {
-  const config: ChainConfig | undefined = configs.find(c => c.chainId === chainId)
+  const config: ChainConfig | undefined = chainConfigs.find(c => c.chainId === chainId)
   if (!config) throw new Error('chainConfigByChainId: chainId not found')
   return config
 }

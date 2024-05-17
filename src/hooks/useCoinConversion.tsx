@@ -1,37 +1,41 @@
 import { useEffect, useState } from 'react'
 import useCoinUsdToUserCurrency from './useCoinUsdToUserCurrency'
-import useGetCurrencyPrice from './useGetCurrencyPrice'
+import { currencyPriceListVar } from './useGetCurrencyPrice'
+import { useReactiveVar } from '@apollo/client'
 
 export default function useCoinConversion(value: string, chainId?: number, contractAddress?: string) {
   const [coinUsdPrice, setCoinUsdPrice] = useState<string | undefined>('0')
   const [loading, setLoading] = useState<boolean>(true)
 
-  const { currencyPriceList, isLoading: loadingCurrencyPrices } = useGetCurrencyPrice()
-  const currencyPrice = currencyPriceList.find(currency => currency.id === `${chainId}:${contractAddress?.toLowerCase()}`)?.value ?? 0
+  const currencyPriceList = useReactiveVar(currencyPriceListVar)
 
+  const currencyPrice = currencyPriceList.find(
+    currency => currency.id.toLocaleLowerCase() === `${chainId}:${contractAddress?.toLowerCase()}`
+  )
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
   useEffect(() => {
     const normalizedAmount = value.replace(',', '.')
     const amount = Number(normalizedAmount)
 
-    if (loadingCurrencyPrices) {
+    if (!currencyPriceList.length) {
       return
     }
 
-    if (!isNaN(amount) && !isNaN(currencyPrice)) {
-      const priceCalc = amount * currencyPrice
+    if (currencyPrice?.value && !isNaN(amount) && !isNaN(currencyPrice?.value)) {
+      const priceCalc = amount * currencyPrice.value
       setCoinUsdPrice(priceCalc.toString())
       setLoading(false)
     } else {
       setCoinUsdPrice('0')
       setLoading(false)
     }
-  }, [value, currencyPrice, loadingCurrencyPrices])
+  }, [value, currencyPrice, currencyPriceList])
 
   return {
     price: coinUsdPrice,
-    loading: loading || loadingCurrencyPrices,
+    priceChangePercentage24h: currencyPrice?.priceChangePercentage24h,
+    loading: loading || !currencyPriceList.length,
     priceConvertedValue: handleQuotePrice(Number(coinUsdPrice) ?? 0)
   }
 }

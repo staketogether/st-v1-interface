@@ -43,7 +43,7 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <NewStakeControl type='withdraw' product={product} assetData={assetData} chainId={chainId} />
+      <NewStakeControl type='withdraw' staking={product} assetData={assetData} chainId={chainId} />
       <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )

@@ -10,6 +10,21 @@ import defaultIcon from '@assets/assets/default-erc-20.svg'
 import arbitrumIcon from '@assets/assets/arbitrum.svg'
 import polygonIcon from '@assets/assets/polygon.svg'
 import chilizIcon from '@assets/assets/chiliz.svg'
+import pendleIcon from '@assets/assets/pendle.png'
+import chainlinkIcon from '@assets/assets/chainlink.png'
+import renderIcon from '@assets/assets/render.png'
+import theGraphIcon from '@assets/assets/thegraph.png'
+import worldcoinIcon from '@assets/assets/worldcoin.png'
+import uniswapIcon from '@assets/assets/uniswap.png'
+import ssvIcon from '@assets/assets/ssv.png'
+import usdcIcon from '@assets/assets/usdc.png'
+import usdtIcon from '@assets/assets/usdt.png'
+import brlaIcon from '@assets/assets/brla.png'
+import eurtIcon from '@assets/assets/eurt.png'
+import xautIcon from '@assets/assets/xaut.png'
+import solanaIcon from '@assets/assets/solana.png'
+import thorchainIcon from '@assets/assets/thorchain.png'
+import aaveIcon from '@assets/assets/aave.png'
 import stIcon from '@assets/st-symbol.svg'
 import stpRETHIcon from '@assets/stpRETHIcon.svg'
 import { Tooltip } from 'antd'
@@ -49,7 +64,22 @@ export default function TokensSymbolIcons({ productSymbol, size, showPlusIcon, c
     VERDAO: defaultIcon,
     SACI: defaultIcon,
     SPFC: defaultIcon,
-    BAHIA: defaultIcon
+    BAHIA: defaultIcon,
+    PENDLE: pendleIcon,
+    LINK: chainlinkIcon,
+    RNDR: renderIcon,
+    GRT: theGraphIcon,
+    WRLD: worldcoinIcon,
+    UNI: uniswapIcon,
+    SSV: ssvIcon,
+    USDC: usdcIcon,
+    USDT: usdtIcon,
+    BRLA: brlaIcon,
+    EURT: eurtIcon,
+    XAUT: xautIcon,
+    SOL: solanaIcon,
+    RUNE: thorchainIcon,
+    AAVE: aaveIcon
   }
   const { addToWalletAction } = useAddSethToWallet({
     productSymbol,

@@ -39,9 +39,7 @@ export default function StakingCard({ staking }: StakingCardProps) {
         {staking.new && <NewTag>{t('new')}</NewTag>}
       </ImageContainer>
       <PriceContainer>
-        <div>
-          <AssetPrice asset={staking.asset} />
-        </div>
+        <AssetPrice asset={staking.asset} />
         {staking?.apy && (
           <Apy>
             <span className='label'>APY</span>
@@ -55,40 +53,35 @@ export default function StakingCard({ staking }: StakingCardProps) {
 
 const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
   PriceContainer: styled.div`
+    gap: ${({ theme }) => theme.size[8]};
     display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    height: 22px;
+    justify-content: center;
+    flex-direction: column;
 
-    > div {
-      display: flex;
-      gap: 8px;
-
-      > span {
-        color: ${({ theme }) => theme.colorV2.blue[1]};
-        font-size: ${({ theme }) => theme.font.size[22]};
-        font-weight: 500;
-      }
+    > span {
+      color: ${({ theme }) => theme.colorV2.blue[1]};
+      font-size: ${({ theme }) => theme.font.size[22]};
+      font-weight: 500;
     }
   `,
   Apy: styled.div`
-    > span.label {
-      font-size: ${({ theme }) => theme.font.size[12]};
-      font-weight: 400 !important;
-      margin-top: 2px;
-    }
-
-    color: green !important;
+    padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[8]};
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.colorV2.white[1]};
+    color: ${({ theme }) => theme.color.green[500]};
+    border: 1px solid ${({ theme }) => theme.color.green[500]};
     font-size: ${({ theme }) => theme.font.size[16]};
-    font-weight: 400;
-    align-items: center;
+    font-weight: 600;
+    line-height: normal;
+
+    text-align: center;
   `,
   CardContainer: styled(Link)`
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     width: 100%;
-    padding: 24px;
-    gap: 24px;
+    padding: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[24]};
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.colorV2.white};
     box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
@@ -120,20 +113,20 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
       gap: ${({ theme }) => theme.size[12]};
       > span {
         color: ${({ theme }) => theme.colorV2.black};
-        font-size: 20px;
+        font-size: ${({ theme }) => theme.font.size[20]};
         font-weight: 500;
       }
     }
   `,
   Soon: styled.div`
     display: flex;
-    padding: 3px 8px;
+    padding: 3px ${({ theme }) => theme.size[8]};
     align-items: center;
     gap: 10px;
     height: 25px;
 
     border-radius: 99px;
-    border-radius: 4px;
+    border-radius: ${({ theme }) => theme.size[4]};
     background-color: ${({ theme }) => theme.colorV2.gray[2]};
     border: 1px solid ${({ theme }) => theme.color.blackAlpha[100]};
 
@@ -151,7 +144,7 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
     justify-content: center;
 
     color: ${({ theme }) => theme.colorV2.white} !important;
-    border-radius: 4px;
+    border-radius: ${({ theme }) => theme.size[4]};
     background: linear-gradient(108deg, #3c43ee -11.12%, #ab00fc 110.08%);
 
     font-size: 13px;

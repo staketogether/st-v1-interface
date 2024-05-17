@@ -17,11 +17,12 @@ const nextConfig = {
       }
     ]
   },
+  transpilePackages: ['@lifi/widget', '@lifi/wallet-management'],
   async redirects() {
     return [
       {
         source: '/',
-        destination: '/brl/staking',
+        destination: '/brl/crypto',
         permanent: false
       }
     ]

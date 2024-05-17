@@ -1,4 +1,5 @@
 import AssetsControl from '@/components/assets/AssetsControl'
+import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { chainConfigByChainId } from '@/config/chain'

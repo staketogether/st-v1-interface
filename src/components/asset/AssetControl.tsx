@@ -14,8 +14,10 @@ export default function AssetControl({ assetsList }: TokenControlProps) {
 
   const filters: { key: number; value: AssetCategory | 'all' }[] = [
     { key: 1, value: 'all' },
-    { key: 2, value: AssetCategory.Crypto },
-    { key: 3, value: AssetCategory.FanToken }
+    { key: 2, value: AssetCategory.Infrastructure },
+    { key: 3, value: AssetCategory.Stable },
+    { key: 4, value: AssetCategory.Defi },
+    { key: 5, value: AssetCategory.FanToken }
   ]
 
   const filterAssetList = () => {
@@ -28,8 +30,8 @@ export default function AssetControl({ assetsList }: TokenControlProps) {
   return (
     <Container>
       <Title>
-        <h1>{t(`v3.pages.${AssetCategory.Crypto}.title`)}</h1>
-        <h2>{t(`v3.pages.${AssetCategory.Crypto}.description`)}</h2>
+        <h1>{t(`v3.pages.crypto.title`)}</h1>
+        <h2>{t(`v3.pages.crypto.description`)}</h2>
 
         <ContainerButton>
           {filters.map(filter => (
@@ -63,7 +65,6 @@ const { Container, Products, Title, ContainerButton } = {
   Title: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
     color: ${({ theme }) => theme.colorV2.blue[1]};
     h1 {
       font-size: ${({ theme }) => theme.font.size[32]};
@@ -77,10 +78,11 @@ const { Container, Products, Title, ContainerButton } = {
       font-style: normal;
       font-weight: 400;
       line-height: normal;
+      color: ${({ theme }) => theme.color.gray[600]};
     }
 
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      gap: ${({ theme }) => theme.size[24]};
+      gap: ${({ theme }) => theme.size[8]};
 
       h1 {
         font-size: 48px;
@@ -104,6 +106,7 @@ const { Container, Products, Title, ContainerButton } = {
     flex-wrap: nowrap;
     gap: ${({ theme }) => theme.size[8]};
     overflow-x: auto;
+    margin-top: 32px;
 
     &::-webkit-scrollbar {
       width: 0;

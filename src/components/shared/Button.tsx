@@ -85,7 +85,8 @@ const { Container, LoadingIcon } = {
     &.green {
       background: ${({ theme }) => theme.color.green[400]};
       &:hover {
-        background: ${({ theme }) => theme.color.green[500]};
+        background: ${({ theme }) => theme.color.green[400]};
+        opacity: 0.8;
       }
     }
 
