@@ -392,7 +392,7 @@ export const mengoChz: FanTokenAsset = {
   url: '/currency/chiliz/product/assets/mengo-chz',
   category: AssetCategory.FanToken,
   localeDescription: 'mengo-chz',
-  actionsDisable: {
+  disableActions: {
     swap: true
   }
 }
@@ -422,7 +422,7 @@ export const galoChz: FanTokenAsset = {
   url: '/currency/chiliz/product/assets/galo-chz',
   category: AssetCategory.FanToken,
   localeDescription: 'galo-chz',
-  actionsDisable: {
+  disableActions: {
     swap: true
   }
 }
@@ -452,7 +452,7 @@ export const fluChz: FanTokenAsset = {
   url: '/currency/chiliz/product/assets/flu-chz',
   category: AssetCategory.FanToken,
   localeDescription: 'flu-chz',
-  actionsDisable: {
+  disableActions: {
     swap: true
   }
 }
@@ -482,7 +482,7 @@ export const vascoChz: FanTokenAsset = {
   url: '/currency/chiliz/product/assets/vasco-chz',
   category: AssetCategory.FanToken,
   localeDescription: 'vasco-chz',
-  actionsDisable: {
+  disableActions: {
     swap: true
   }
 }
@@ -512,7 +512,7 @@ export const verdaoChz: FanTokenAsset = {
   url: '/currency/chiliz/product/assets/verdao-chz',
   category: AssetCategory.FanToken,
   localeDescription: 'verdao-chz',
-  actionsDisable: {
+  disableActions: {
     swap: true
   }
 }
@@ -542,7 +542,7 @@ export const saciChz: FanTokenAsset = {
   url: '/currency/chiliz/product/assets/saci-chz',
   category: AssetCategory.FanToken,
   localeDescription: 'saci-chz',
-  actionsDisable: {
+  disableActions: {
     swap: true
   }
 }
@@ -572,7 +572,7 @@ export const spfcChz: FanTokenAsset = {
   url: '/currency/chiliz/product/assets/spfc-chz',
   category: AssetCategory.FanToken,
   localeDescription: 'spfc-chz',
-  actionsDisable: {
+  disableActions: {
     swap: true
   }
 }
@@ -782,7 +782,7 @@ export const worldcoinOp: Erc20Asset = {
       }
     }
   ],
-  actionsDisable: {
+  disableActions: {
     swap: true
   }
 }
@@ -989,7 +989,7 @@ export const brlaMatic: Erc20Asset = {
       minDeposit: 10
     }
   ],
-  actionsDisable: {
+  disableActions: {
     swap: true
   }
 }
@@ -1088,7 +1088,7 @@ export const solanaEth: Erc20Asset = {
       paymentMethod: 'pix'
     }
   ],
-  actionsDisable: {
+  disableActions: {
     swap: true
   }
 }

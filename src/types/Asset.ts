@@ -9,7 +9,7 @@ export enum AssetCategory {
 }
 
 export interface TokenActions {
-  actionsDisable?: {
+  disableActions?: {
     buy?: boolean
     sell?: boolean
     swap?: boolean

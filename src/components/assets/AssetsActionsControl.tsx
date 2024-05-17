@@ -34,25 +34,25 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
       type: 'swap',
       label: t('swap'),
       url: `${asset.url.replace('currency', currency)}/swap`,
-      disabled: asset?.actionsDisable?.swap,
+      disabled: asset?.disableActions?.swap,
       icon: <PiArrowsClockwise />,
-      tooltipLabel: asset?.actionsDisable?.swap ? t('soon') : ''
+      tooltipLabel: asset?.disableActions?.swap ? t('soon') : ''
     },
     {
       type: 'send',
       label: t('send'),
       url: `${asset.url.replace('currency', currency)}/send`,
-      disabled: asset?.actionsDisable?.send,
+      disabled: asset?.disableActions?.send,
       icon: <PiArrowUp />,
-      tooltipLabel: asset?.actionsDisable?.send ? t('soon') : ''
+      tooltipLabel: asset?.disableActions?.send ? t('soon') : ''
     },
     {
       type: 'receive',
       label: t('receive'),
       url: `${asset.url.replace('currency', currency)}/receive`,
-      disabled: asset?.actionsDisable?.receive,
+      disabled: asset?.disableActions?.receive,
       icon: <PiArrowDown />,
-      tooltipLabel: asset?.actionsDisable?.receive ? t('soon') : ''
+      tooltipLabel: asset?.disableActions?.receive ? t('soon') : ''
     }
   ]
 
