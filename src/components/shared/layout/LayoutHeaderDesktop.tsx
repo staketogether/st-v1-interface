@@ -38,7 +38,7 @@ export default function LayoutHeader() {
         </div>
         <Menu>
           <Link href={`/${currency as string}/crypto`}>
-            <MenuButton className={`${isHome || isActive('crypto') ? 'active' : ''}`}>
+            <MenuButton className={`${isHome || isActive('crypto') || isActive('assets') ? 'active' : ''}`}>
               <CoinsIcon />
               {t('v2.header.assets')}
             </MenuButton>
