@@ -42,9 +42,11 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
   const [userWalletAddress, setUserWalletAddress] = useState<`0x${string}` | undefined>(undefined)
   const { t } = useLocaleTranslation()
   rampAssetIdVar(product.id)
+
   const { query } = useRouter()
   const { currency } = query
   const { chain: walletChainId, connector, address } = useAccount()
+
   useEffect(() => {
     if (address) {
       setUserWalletAddress(address)

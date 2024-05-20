@@ -20,7 +20,7 @@ const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
-  const { account, accountIsConnected } = useConnectedAccount()
+  const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
 
   const { query, pathname, locale } = useRouter()
   const { currency, network } = query
@@ -67,7 +67,7 @@ export default function LayoutHeader() {
           <span>{locale === 'pt' ? 'PT' : 'EN'}</span>
           <span>| {(currency as string).toUpperCase()}</span>
         </ContainerCurrency>
-        <Wallet account={account} accountIsConnected={accountIsConnected} />
+        <Wallet account={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
       </WalletContainer>
     </Container>
   )

@@ -19,14 +19,12 @@ interface MenuActionsProps {
 }
 
 export default function NavActions({ typeActive, navActionsList }: MenuActionsProps) {
-  function handleItemList(action: ActionItem, index: number) {
+  function handleItemList(action: ActionItem) {
     return (
-      <li className={`${typeActive === action.type && 'activated'} ${action.disabled && 'disabled'}`} key={`nav-row-${index}`}>
-        <Link href={action.url}>
-          <IconContainer>{action.icon}</IconContainer>
-          <span>{action.label}</span>
-        </Link>
-      </li>
+      <Link href={action.url}>
+        <IconContainer>{action.icon}</IconContainer>
+        <span>{action.label}</span>
+      </Link>
     )
   }
 
@@ -35,14 +33,10 @@ export default function NavActions({ typeActive, navActionsList }: MenuActionsPr
       <Nav>
         <ul>
           {navActionsList.map((action, index) => (
-            <>
-              {action.tooltipLabel && (
-                <Tooltip title={action.tooltipLabel} key={action.type}>
-                  {handleItemList(action, index)}
-                </Tooltip>
-              )}
-              {!action.tooltipLabel && handleItemList(action, index)}
-            </>
+            <li className={`${typeActive === action.type && 'activated'} ${action.disabled && 'disabled'}`} key={`nav-row-${index}`}>
+              {action.tooltipLabel && <Tooltip title={action.tooltipLabel}>{handleItemList(action)}</Tooltip>}
+              {!action.tooltipLabel && handleItemList(action)}
+            </li>
           ))}
         </ul>
       </Nav>
