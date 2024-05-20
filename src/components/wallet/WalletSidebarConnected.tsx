@@ -34,6 +34,7 @@ import WalletSidebarAsset from '@/components/wallet/WalletSidebarAsset'
 import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import { assetsList } from '@/config/product/asset'
+import { AccountAsset } from '@/types/AccountAsset'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -85,10 +86,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
       )
       if (hasAssetExist) {
         return accountAsset
+      } else {
+        return null
       }
     })
-    .filter(hasAsset => hasAsset !== undefined)
-  console.log(accountAssetsFiltered, accountAssets)
+    .filter((item): item is AccountAsset => item !== null)
+
   const {
     accountDelegations: restakingAccountDelegations,
     accountBalance: restakingAccountBalance,
@@ -240,7 +243,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             }
           >
             <AssetsCard>
-              {accountAssets?.map((walletAsset, index) => <WalletSidebarAsset walletAsset={walletAsset} key={index} />)}
+              {accountAssetsFiltered?.map((walletAsset, index) => <WalletSidebarAsset walletAsset={walletAsset} key={index} />)}
             </AssetsCard>
           </Card>
           <Card
