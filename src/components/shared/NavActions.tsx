@@ -21,7 +21,7 @@ interface MenuActionsProps {
 export default function NavActions({ typeActive, navActionsList }: MenuActionsProps) {
   function handleItemList(action: ActionItem) {
     return (
-      <Link href={action.url}>
+      <Link href={action.url} className={`${action.disabled && 'disabled'}`} onClick={e => action.disabled && e.preventDefault()}>
         <IconContainer>{action.icon}</IconContainer>
         <span>{action.label}</span>
       </Link>
@@ -33,18 +33,10 @@ export default function NavActions({ typeActive, navActionsList }: MenuActionsPr
       <Nav>
         <ul>
           {navActionsList.map((action, index) => (
-            <>
-              {action.tooltipLabel && (
-                <li className={`${typeActive === action.type && 'activated'} ${action.disabled && 'disabled'}`} key={`nav-row-${index}`}>
-                  <Tooltip title={action.tooltipLabel}>{handleItemList(action)}</Tooltip>
-                </li>
-              )}
-              {!action.tooltipLabel && (
-                <li className={`${typeActive === action.type && 'activated'} ${action.disabled && 'disabled'}`} key={`nav-row-${index}`}>
-                  {handleItemList(action)}
-                </li>
-              )}
-            </>
+            <li className={`${typeActive === action.type && 'activated'} `} key={`nav-row-${index}`}>
+              {action.tooltipLabel && <Tooltip title={action.tooltipLabel}>{handleItemList(action)}</Tooltip>}
+              {!action.tooltipLabel && handleItemList(action)}
+            </li>
           ))}
         </ul>
       </Nav>
@@ -81,6 +73,10 @@ const { Nav, IconContainer } = {
           flex-direction: column;
           font-size: ${({ theme }) => theme.font.size[13]};
           color: ${({ theme }) => theme.colorV2.blue[1]};
+
+          &.disabled {
+            cursor: not-allowed;
+          }
         }
 
         span {
@@ -94,14 +90,6 @@ const { Nav, IconContainer } = {
           a {
             opacity: 1;
             filter: none;
-          }
-        }
-
-        &.disabled {
-          cursor: not-allowed;
-          a {
-            pointer-events: none;
-            cursor: not-allowed;
           }
         }
       }
