@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
@@ -33,12 +32,15 @@ import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
 import WalletSidebarAsset from '@/components/wallet/WalletSidebarAsset'
 import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
+import { assetsList } from '@/config/product/asset'
+import { AccountAsset } from '@/types/AccountAsset'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
+  walletChainId: number
 }
 
-export default function WalletSidebarConnected({ address }: WalletSidebarConnectedProps) {
+export default function WalletSidebarConnected({ address, walletChainId }: WalletSidebarConnectedProps) {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
@@ -55,9 +57,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
-  const { chainId } = chainConfig()
-
-  const { name, nameLoading } = useEns(address, chainId)
+  const { name, nameLoading, avatar, avatarLoading } = useEns(address, walletChainId)
 
   const web3AuthInstance = useReactiveVar(web3AuthInstanceVar)
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
@@ -76,6 +76,19 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { accountAssets } = useAccountAssets(address)
   const { balance: usdTotalBalance } = useAccountAssetsUsdBalance(address)
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
+
+  const accountAssetsFiltered = accountAssets
+    ?.map(accountAsset => {
+      const hasAssetExist = assetsList.find(
+        asset => asset.contractAddress.toLocaleLowerCase() === accountAsset.contractAddress.toLocaleLowerCase()
+      )
+      if (hasAssetExist) {
+        return accountAsset
+      } else {
+        return null
+      }
+    })
+    .filter((item): item is AccountAsset => item !== null)
 
   const {
     accountDelegations: restakingAccountDelegations,
@@ -168,7 +181,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 ) : (
                   <>
                     <WrapperWallet>{handleWalletProviderImage(walletConnected, 16)}</WrapperWallet>
-                    <EnsAvatar address={address} size={24} chainId={chainId} />
+                    <EnsAvatar address={address} size={24} avatar={avatar} avatarLoading={avatarLoading} />
                   </>
                 )}
               </Web3AuthProfileContainer>
@@ -228,7 +241,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
             }
           >
             <AssetsCard>
-              {accountAssets?.map((walletAsset, index) => <WalletSidebarAsset walletAsset={walletAsset} key={index} />)}
+              {accountAssetsFiltered?.map((walletAsset, index) => <WalletSidebarAsset walletAsset={walletAsset} key={index} />)}
             </AssetsCard>
           </Card>
           <Card

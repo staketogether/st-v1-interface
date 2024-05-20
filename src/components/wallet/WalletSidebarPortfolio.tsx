@@ -33,7 +33,7 @@ export default function WalletSidebarPortfolio({
   const { query, locale } = useRouter()
   const { currency } = query as { currency: string }
   const { poolsList, isLoading } = useContentfulPoolsList()
-  const { setOpenSidebar: setOpenSidebarEditPortfolio } = useWalletSidebarEditPortfolio()
+  const { setOpenSidebar: setOpenSidebarEditPortfolio, openSidebar } = useWalletSidebarEditPortfolio()
   const handleMetadataPools = (address: `0x${string}`) => {
     return poolsList.find(pool => pool.wallet.toLowerCase() === address.toLocaleLowerCase())
   }
@@ -82,12 +82,14 @@ export default function WalletSidebarPortfolio({
           <Button label={t('edit')} icon={<EditIcon />} block onClick={() => setOpenSidebarEditPortfolio(true)} />
         )}
       </Container>
-      <UpdateDelegationsModal
-        accountDelegations={accountDelegations}
-        accountTotalShares={accountTotalShares}
-        userAccount={userWalletAddress}
-        productSelected={product.id}
-      />
+      {openSidebar && (
+        <UpdateDelegationsModal
+          accountDelegations={accountDelegations}
+          accountTotalShares={accountTotalShares}
+          userAccount={userWalletAddress}
+          productSelected={product.id}
+        />
+      )}
     </>
   )
 }

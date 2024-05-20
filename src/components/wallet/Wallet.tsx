@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { useEffect } from 'react'
@@ -9,24 +8,24 @@ import WalletSidebarConnected from './WalletSidebarConnected'
 interface WalletProps {
   account: `0x${string}` | undefined
   accountIsConnected: boolean
+  walletChainId?: number
 }
 
-export default function Wallet({ account, accountIsConnected }: WalletProps) {
+export default function Wallet({ account, accountIsConnected, walletChainId }: WalletProps) {
   const { registerConnectWallet } = useMixpanelAnalytics()
   const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
-  const chain = chainConfig()
 
   useEffect(() => {
-    if (accountIsConnected && account) {
+    if (accountIsConnected && account && walletChainId) {
       setOpenSidebarConnectWallet(false)
-      registerConnectWallet(account, chain.chainId)
+      registerConnectWallet(account, walletChainId)
     }
-  }, [account, accountIsConnected, chain.chainId, registerConnectWallet, setOpenSidebarConnectWallet])
+  }, [account, accountIsConnected, walletChainId, registerConnectWallet, setOpenSidebarConnectWallet])
 
-  return accountIsConnected && account ? (
+  return accountIsConnected && account && walletChainId ? (
     <>
       <WalletConnectedButton address={account} />
-      <WalletSidebarConnected address={account} />
+      <WalletSidebarConnected address={account} walletChainId={walletChainId} />
     </>
   ) : (
     <WalletDisconnectedButton />

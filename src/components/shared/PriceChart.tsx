@@ -1,15 +1,11 @@
-import useQuoteBrla from '@/hooks/ramp/useQuote'
 import useAssetStatsChart from '@/hooks/useAssetStatsChart'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
-import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
-import { PaymentMethodType } from '@/types/payment-method.type'
-import { ProviderType } from '@/types/provider.type'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import { Grid } from 'antd'
 import { DateTime } from 'luxon'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import styled from 'styled-components'
 import LottieAnimation from './LottieAnimation'
@@ -49,8 +45,6 @@ export default function PriceChart({ asset }: PriceChartProps) {
     return filters[activeFilter]
   }
 
-  const { currencyToUsd } = useFiatUsdConversion()
-
   const { assetStats, isLoading } = useAssetStatsChart({
     chainId: asset.chains[0],
     contractAddress: asset.contractAddress,
@@ -59,21 +53,6 @@ export default function PriceChart({ asset }: PriceChartProps) {
     interval: handleFilter().interval,
     refreshInterval: 30 * 1000
   })
-
-  const { quote: quotedAmount, isLoading: quotedLoading } = useQuoteBrla(
-    'brl',
-    asset.ramp[0].minDeposit,
-    asset.ramp[0].bridge?.fromChainId ?? asset.ramp[0].chainId,
-    asset.type === 'fan-token',
-    ProviderType[asset.ramp[0].provider],
-    PaymentMethodType[asset.ramp[0].paymentMethod],
-    asset.ramp[0].bridge?.toChainId.toString(),
-    asset.ramp[0].bridge?.toToken ?? asset.symbol,
-    true
-  )
-
-  const quotedBrlAmount = Number(quotedAmount?.amountBrl ?? 0) / Number(quotedAmount?.amountToken ?? 0)
-  const quotedUsdAmount = currencyToUsd(quotedBrlAmount, 'BRL')
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
@@ -91,22 +70,6 @@ export default function PriceChart({ asset }: PriceChartProps) {
     setChartData(statsChartData)
   }, [assetStats?.prices])
 
-  const concatChartData = useMemo(() => {
-    if (quotedUsdAmount && !quotedLoading) {
-      const currentTimestamp = DateTime.now().toLocaleString()
-
-      return [
-        ...chartData,
-        {
-          timestamp: currentTimestamp,
-          price: quotedUsdAmount.raw
-        }
-      ]
-    }
-
-    return chartData
-  }, [quotedUsdAmount, quotedLoading, chartData])
-
   return (
     <>
       <Container>
@@ -117,7 +80,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
         ) : (
           <FormattedResponsiveContainer width='100%' minWidth={350} height={287}>
             <AreaChart
-              data={concatChartData}
+              data={chartData}
               margin={{
                 top: 24,
                 left: 24,

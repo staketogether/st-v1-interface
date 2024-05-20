@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCodesandboxLogo, PiCoinsLight, PiChartLine, PiGlobe  } from 'react-icons/pi'
+import { PiCodesandboxLogo, PiCoinsLight, PiChartLine, PiGlobe } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -20,7 +20,7 @@ const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
-  const { account, accountIsConnected } = useConnectedAccount()
+  const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
 
   const { query, pathname, locale } = useRouter()
   const { currency, network } = query
@@ -38,7 +38,7 @@ export default function LayoutHeader() {
         </div>
         <Menu>
           <Link href={`/${currency as string}/crypto`}>
-            <MenuButton className={`${isHome || isActive('crypto') ? 'active' : ''}`}>
+            <MenuButton className={`${isHome || isActive('crypto') || isActive('assets') ? 'active' : ''}`}>
               <CoinsIcon />
               {t('v2.header.assets')}
             </MenuButton>
@@ -67,7 +67,7 @@ export default function LayoutHeader() {
           <span>{locale === 'pt' ? 'PT' : 'EN'}</span>
           <span>| {(currency as string).toUpperCase()}</span>
         </ContainerCurrency>
-        <Wallet account={account} accountIsConnected={accountIsConnected} />
+        <Wallet account={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
       </WalletContainer>
     </Container>
   )
@@ -104,7 +104,7 @@ const {
     }
   `,
   SearchArea: styled.div`
-    width: 294px;
+    width: 400px;
   `,
   MenuContainer: styled.div`
     display: flex;
@@ -144,7 +144,6 @@ const {
       white-space: nowrap;
       cursor: pointer;
     }
-  
   `,
   Menu: styled.nav`
     display: none;

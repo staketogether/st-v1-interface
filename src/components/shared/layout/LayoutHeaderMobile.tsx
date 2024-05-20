@@ -25,7 +25,7 @@ export default function LayoutHeaderMobile() {
 
   const { query } = useRouter()
   const { currency } = query
-  const { account, accountIsConnected } = useConnectedAccount()
+  const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
   const { setOpenSidebarMobileMenu } = useLayoutSidebarMobileMenu()
   const { setWalletSidebarMobileSettings } = useWalletSidebarMobileSettings()
 
@@ -38,7 +38,7 @@ export default function LayoutHeaderMobile() {
           </Logo>
           <WalletContainer>
             <LayoutNetworkDropdown mobile />
-            <Wallet account={account} accountIsConnected={accountIsConnected} />
+            <Wallet account={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
             <MenuContainer onClick={() => setOpenSidebarMobileMenu(true)}>
               <MenuIcon />
             </MenuContainer>
