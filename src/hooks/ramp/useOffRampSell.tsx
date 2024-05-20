@@ -32,26 +32,6 @@ export default function useOffRampSell({ asset }: { asset: Asset }) {
           chainId: asset.chains[0]
         })
         if (paymentDetails.data.bridge) {
-          const approveTxData = encodeFunctionData({
-            abi: erc20Abi,
-            args: [paymentDetails.data.bridge.tx.to as `0x${string}`, 141738092086n],
-            functionName: 'approve'
-          })
-
-          console.log(approveTxData, 'approveTxData')
-
-          const approveTx = {
-            to: asset.contractAddress,
-            data: approveTxData,
-            from: address
-          }
-
-          const approvalOp = await smartWallet.sendTransaction(approveTx, {
-            paymasterServiceData: { mode: PaymasterMode.SPONSORED }
-          })
-
-          await approvalOp.wait()
-
           const { tx } = paymentDetails.data.bridge
           const sellTx = {
             to: tx.to,
