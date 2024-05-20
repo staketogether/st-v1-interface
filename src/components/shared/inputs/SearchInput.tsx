@@ -13,11 +13,10 @@ export default function SearchInput({ search, setSearch, className, ...props }: 
   const { t } = useLocaleTranslation()
   return (
     <InputSearchArea className={search.length > 0 ? 'selected' : ''}>
-       {!search && !search.length && (
-        <button>
-          <PiMagnifyingGlass fontSize={16} />
-        </button>
-      )}
+      <button>
+        <PiMagnifyingGlass fontSize={16} />
+      </button>
+
       <InputSearch
         type='text'
         value={search}
@@ -26,7 +25,7 @@ export default function SearchInput({ search, setSearch, className, ...props }: 
         className={className}
         {...props}
       />
-     
+
       {search && search.length > 0 && (
         <button onClick={() => setSearch('')}>
           <PiX fontSize={16} />
@@ -42,7 +41,7 @@ const { InputSearchArea, InputSearch } = {
     height: 32px;
 
     display: flex;
-  
+
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
 

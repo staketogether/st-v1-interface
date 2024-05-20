@@ -1,18 +1,16 @@
 import Image from 'next/image'
 import { PiUser } from 'react-icons/pi'
 import styled from 'styled-components'
-import useEns from '../../../hooks/useEns'
 import SkeletonLoading from '../icons/SkeletonLoading'
 
 interface EnsAvatarProps {
   address: `0x${string}`
   size?: number
-  chainId: number
+  avatar?: string
+  avatarLoading: boolean
 }
 
-export default function EnsAvatar({ address, size = 24, chainId }: EnsAvatarProps) {
-  const { avatar, avatarLoading } = useEns(address, chainId)
-
+export default function EnsAvatar({ address, size = 24, avatarLoading, avatar }: EnsAvatarProps) {
   if (avatarLoading) {
     return <SkeletonLoading $borderRadius='50%' width={size} height={size} />
   }

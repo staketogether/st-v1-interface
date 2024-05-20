@@ -6,6 +6,7 @@ import { assetsList } from '@/config/product/asset'
 import styled from 'styled-components'
 import { truncateWei } from '@/services/truncate'
 import defaultErc20Icon from '@assets/assets/default-erc-20.svg'
+import { stakingList } from '@/config/product/staking'
 
 export default function WalletSidebarAsset({ walletAsset }: { walletAsset: AccountAsset }) {
   const asset = assetsList.find(
@@ -13,13 +14,19 @@ export default function WalletSidebarAsset({ walletAsset }: { walletAsset: Accou
       supportedAsset.contractAddress.toLowerCase() === walletAsset.contractAddress.toLowerCase() &&
       supportedAsset.chains[0] === walletAsset.chainId
   )
+
+  const assetIsStakingAsset = stakingList.find(
+    staking => staking.contracts.StakeTogether.toLocaleLowerCase() === walletAsset.contractAddress.toLocaleLowerCase()
+  )
+
+  const AssetAddress = assetIsStakingAsset
+    ? '0x0000000000000000000000000000000000000000'
+    : asset?.contractAddress ?? walletAsset.contractAddress
+
   const fixedWalletBalance = walletAsset.decimals >= 18 ? walletAsset.balance : walletAsset.balance + '0'.repeat(18 - walletAsset.decimals)
   const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance), 6))
-  const { priceConvertedValue } = useCoinConversion(
-    formattedBalance,
-    asset?.chains[0] ?? walletAsset.chainId,
-    asset?.contractAddress ?? walletAsset.contractAddress
-  )
+
+  const { priceConvertedValue } = useCoinConversion(formattedBalance, asset?.chains[0] ?? walletAsset.chainId, AssetAddress)
   const imageSrc = asset?.symbolImage ?? walletAsset?.thumbnail ?? defaultErc20Icon
 
   return (
