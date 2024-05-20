@@ -33,10 +33,18 @@ export default function NavActions({ typeActive, navActionsList }: MenuActionsPr
       <Nav>
         <ul>
           {navActionsList.map((action, index) => (
-            <li className={`${typeActive === action.type && 'activated'} ${action.disabled && 'disabled'}`} key={`nav-row-${index}`}>
-              {action.tooltipLabel && <Tooltip title={action.tooltipLabel}>{handleItemList(action)}</Tooltip>}
-              {!action.tooltipLabel && handleItemList(action)}
-            </li>
+            <>
+              {action.tooltipLabel && (
+                <li className={`${typeActive === action.type && 'activated'} ${action.disabled && 'disabled'}`} key={`nav-row-${index}`}>
+                  <Tooltip title={action.tooltipLabel}>{handleItemList(action)}</Tooltip>
+                </li>
+              )}
+              {!action.tooltipLabel && (
+                <li className={`${typeActive === action.type && 'activated'} ${action.disabled && 'disabled'}`} key={`nav-row-${index}`}>
+                  {handleItemList(action)}
+                </li>
+              )}
+            </>
           ))}
         </ul>
       </Nav>
