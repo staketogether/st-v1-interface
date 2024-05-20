@@ -4,6 +4,7 @@ export interface AccountAsset {
   symbol: string
   thumbnail?: string
   balance: string
+  imageUrl?: string
   decimals: number
   name: string
 }

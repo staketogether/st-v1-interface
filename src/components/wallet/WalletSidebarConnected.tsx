@@ -33,6 +33,7 @@ import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
 import WalletSidebarAsset from '@/components/wallet/WalletSidebarAsset'
 import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
+import { assetsList } from '@/config/product/asset'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -77,6 +78,17 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const { balance: usdTotalBalance } = useAccountAssetsUsdBalance(address)
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
+  const accountAssetsFiltered = accountAssets
+    ?.map(accountAsset => {
+      const hasAssetExist = assetsList.find(
+        asset => asset.contractAddress.toLocaleLowerCase() === accountAsset.contractAddress.toLocaleLowerCase()
+      )
+      if (hasAssetExist) {
+        return accountAsset
+      }
+    })
+    .filter(hasAsset => hasAsset !== undefined)
+  console.log(accountAssetsFiltered, accountAssets)
   const {
     accountDelegations: restakingAccountDelegations,
     accountBalance: restakingAccountBalance,
