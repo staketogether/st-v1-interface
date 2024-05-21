@@ -25,10 +25,10 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
     {
       type: 'sell',
       label: t('sell'),
-      url: `${asset.url.replace('currency', currency)}/withdraw`,
-      disabled: true,
+      url: `${asset.url.replace('currency', currency)}/sell`,
+      disabled: asset?.disableActions?.sell,
       icon: <PiCurrencyDollar />,
-      tooltipLabel: t('soon')
+      tooltipLabel: asset?.disableActions?.sell ? t('soon') : ''
     },
     {
       type: 'swap',
@@ -82,18 +82,11 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
   )
 }
 
-const { EthereumContainer, LoadingContainer, BuyAssetContainer } = {
+const { EthereumContainer, BuyAssetContainer } = {
   EthereumContainer: styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
-  `,
-  LoadingContainer: styled.div`
-    width: 100%;
-    min-height: 352px;
-
-    display: grid;
-    place-items: center;
   `,
   BuyAssetContainer: styled.div``
 }

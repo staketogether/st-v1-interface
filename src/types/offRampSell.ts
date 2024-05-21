@@ -1,11 +1,11 @@
 export interface Transaction {
-  data: string
-  to: string
-  value: string
+  data: `0x${string}`
+  to: `0x${string}`
+  value: bigint
   from: string
   chainId: number
-  gasPrice: string
-  gasLimit: string
+  gasPrice: bigint
+  gasLimit: bigint
 }
 
 export interface Bridge {
