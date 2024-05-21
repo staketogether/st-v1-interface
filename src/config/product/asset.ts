@@ -1,35 +1,35 @@
 import { Asset, AssetCategory, Erc20Asset, FanTokenAsset, NativeAsset } from '@/types/Asset'
+import aaveIcon from '@assets/assets/aave.png'
 import arbIcon from '@assets/assets/arbitrum.svg'
+import bahiaIcon from '@assets/assets/bahia.png'
 import btcIcon from '@assets/assets/bitcoin.svg'
+import brlaIcon from '@assets/assets/brla.png'
+import chainlinkIcon from '@assets/assets/chainlink.png'
 import chzIcon from '@assets/assets/chiliz.svg'
 import ethIcon from '@assets/assets/ethereum.svg'
-import opIcon from '@assets/assets/optimism.svg'
-import maticIcon from '@assets/assets/polygon.svg'
-import mengoChzIcon from '@assets/assets/mengo.png'
-import pendleIcon from '@assets/assets/pendle.png'
-import chainlinkIcon from '@assets/assets/chainlink.png'
-import renderIcon from '@assets/assets/render.png'
-import theGraphIcon from '@assets/assets/thegraph.png'
-import worldcoinIcon from '@assets/assets/worldcoin.png'
-import uniswapIcon from '@assets/assets/uniswap.png'
-import ssvIcon from '@assets/assets/ssv.png'
-import usdcIcon from '@assets/assets/usdc.png'
-import usdtIcon from '@assets/assets/usdt.png'
-import brlaIcon from '@assets/assets/brla.png'
 import eurtIcon from '@assets/assets/eurt.png'
-import xautIcon from '@assets/assets/xaut.png'
+import fluIcon from '@assets/assets/flu.png'
+import galoIcon from '@assets/assets/galo.png'
+import mengoChzIcon from '@assets/assets/mengo.png'
+import opIcon from '@assets/assets/optimism.svg'
+import pendleIcon from '@assets/assets/pendle.png'
+import maticIcon from '@assets/assets/polygon.svg'
+import renderIcon from '@assets/assets/render.png'
+import saciIcon from '@assets/assets/saci.png'
 import solanaIcon from '@assets/assets/solana.png'
-import thorchainIcon from '@assets/assets/thorchain.png'
-import aaveIcon from '@assets/assets/aave.png'
+import spfcIcon from '@assets/assets/spfc.png'
+import ssvIcon from '@assets/assets/ssv.png'
 import stpEthIcon from '@assets/assets/stp-eth.svg'
 import strEthIcon from '@assets/assets/str-eth.svg'
-import galoIcon from '@assets/assets/galo.png'
-import fluIcon from '@assets/assets/flu.png'
-import verdaoIcon from '@assets/assets/verdao.png'
+import theGraphIcon from '@assets/assets/thegraph.png'
+import thorchainIcon from '@assets/assets/thorchain.png'
+import uniswapIcon from '@assets/assets/uniswap.png'
+import usdcIcon from '@assets/assets/usdc.png'
+import usdtIcon from '@assets/assets/usdt.png'
 import vascoIcon from '@assets/assets/vasco.png'
-import saciIcon from '@assets/assets/saci.png'
-import spfcIcon from '@assets/assets/spfc.png'
-import bahiaIcon from '@assets/assets/bahia.png'
+import verdaoIcon from '@assets/assets/verdao.png'
+import worldcoinIcon from '@assets/assets/worldcoin.png'
+import xautIcon from '@assets/assets/xaut.png'
 import { Chain } from '../chain'
 
 export const ethMainnet: NativeAsset = {
@@ -311,7 +311,7 @@ const stpEth: Erc20Asset = {
   id: 'stp-eth',
   order: 1,
   decimals: 18,
-  symbol: 'ETH',
+  symbol: 'stpETH',
   contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
   type: 'erc20',
   symbolImage: stpEthIcon,
@@ -391,7 +391,10 @@ export const mengoChz: FanTokenAsset = {
   type: 'fan-token',
   url: '/currency/chiliz/product/assets/mengo-chz',
   category: AssetCategory.FanToken,
-  localeDescription: 'mengo-chz'
+  localeDescription: 'mengo-chz',
+  disableActions: {
+    swap: true
+  }
 }
 
 export const galoChz: FanTokenAsset = {
@@ -418,7 +421,10 @@ export const galoChz: FanTokenAsset = {
   type: 'fan-token',
   url: '/currency/chiliz/product/assets/galo-chz',
   category: AssetCategory.FanToken,
-  localeDescription: 'galo-chz'
+  localeDescription: 'galo-chz',
+  disableActions: {
+    swap: true
+  }
 }
 
 export const fluChz: FanTokenAsset = {
@@ -445,7 +451,10 @@ export const fluChz: FanTokenAsset = {
   type: 'fan-token',
   url: '/currency/chiliz/product/assets/flu-chz',
   category: AssetCategory.FanToken,
-  localeDescription: 'flu-chz'
+  localeDescription: 'flu-chz',
+  disableActions: {
+    swap: true
+  }
 }
 
 export const vascoChz: FanTokenAsset = {
@@ -472,7 +481,10 @@ export const vascoChz: FanTokenAsset = {
   type: 'fan-token',
   url: '/currency/chiliz/product/assets/vasco-chz',
   category: AssetCategory.FanToken,
-  localeDescription: 'vasco-chz'
+  localeDescription: 'vasco-chz',
+  disableActions: {
+    swap: true
+  }
 }
 
 export const verdaoChz: FanTokenAsset = {
@@ -499,7 +511,10 @@ export const verdaoChz: FanTokenAsset = {
   type: 'fan-token',
   url: '/currency/chiliz/product/assets/verdao-chz',
   category: AssetCategory.FanToken,
-  localeDescription: 'verdao-chz'
+  localeDescription: 'verdao-chz',
+  disableActions: {
+    swap: true
+  }
 }
 
 export const saciChz: FanTokenAsset = {
@@ -526,7 +541,10 @@ export const saciChz: FanTokenAsset = {
   type: 'fan-token',
   url: '/currency/chiliz/product/assets/saci-chz',
   category: AssetCategory.FanToken,
-  localeDescription: 'saci-chz'
+  localeDescription: 'saci-chz',
+  disableActions: {
+    swap: true
+  }
 }
 
 export const spfcChz: FanTokenAsset = {
@@ -553,7 +571,10 @@ export const spfcChz: FanTokenAsset = {
   type: 'fan-token',
   url: '/currency/chiliz/product/assets/spfc-chz',
   category: AssetCategory.FanToken,
-  localeDescription: 'spfc-chz'
+  localeDescription: 'spfc-chz',
+  disableActions: {
+    swap: true
+  }
 }
 
 export const bahiaChz: FanTokenAsset = {
@@ -760,7 +781,10 @@ export const worldcoinOp: Erc20Asset = {
         toToken: 'WORLD'
       }
     }
-  ]
+  ],
+  disableActions: {
+    swap: true
+  }
 }
 
 export const aaveOp: Erc20Asset = {
@@ -964,7 +988,10 @@ export const brlaMatic: Erc20Asset = {
       paymentMethod: 'pix',
       minDeposit: 10
     }
-  ]
+  ],
+  disableActions: {
+    swap: true
+  }
 }
 
 export const eurtOp: Erc20Asset = {
@@ -1060,7 +1087,10 @@ export const solanaEth: Erc20Asset = {
       provider: 'brla',
       paymentMethod: 'pix'
     }
-  ]
+  ],
+  disableActions: {
+    swap: true
+  }
 }
 
 export const thorchainEth: Erc20Asset = {

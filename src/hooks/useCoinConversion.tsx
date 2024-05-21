@@ -12,6 +12,7 @@ export default function useCoinConversion(value: string, chainId?: number, contr
   const currencyPrice = currencyPriceList.find(
     currency => currency.id.toLocaleLowerCase() === `${chainId}:${contractAddress?.toLowerCase()}`
   )
+
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
   useEffect(() => {

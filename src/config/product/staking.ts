@@ -2,8 +2,6 @@ import ethIcon from '@assets/network/ethereum.svg'
 import restakingIcon from '@assets/assets/restaking.svg'
 import { ethMainnet, ethOp } from '@/config/product/asset'
 import { Staking } from '@/types/Staking'
-import stIcon from '@assets/st-symbol.svg'
-import stpRETHIcon from '@assets/stpRETHIcon.svg'
 
 export const ethStaking: Staking = {
   asset: ethMainnet,
@@ -13,7 +11,7 @@ export const ethStaking: Staking = {
   id: 'eth-staking',
   order: 4,
   symbol: 'stpETH',
-  symbolImage: stIcon,
+  symbolImage: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
   logoImage: ethIcon,
   isTestnet: false,
   points: {
@@ -38,7 +36,8 @@ export const ethRestaking: Staking = {
   id: 'eth-restaking',
   order: 5,
   symbol: 'strETH',
-  symbolImage: stpRETHIcon,
+  symbolImage:
+    'https://raw.githubusercontent.com/staketogether/st-v1-interface/faa3dcdbf60ea06f922c3c9dd1ed1d8f20fa1cbb/public/assets/stpRETHIcon.svg',
   logoImage: restakingIcon,
   url: '/currency/optimism/product/staking/eth-restaking',
   listed: true,

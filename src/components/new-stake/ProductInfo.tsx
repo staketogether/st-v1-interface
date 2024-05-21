@@ -50,7 +50,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={chainId} />
+            <AssetIcon image={product.logoImage} size={36} altName={product.id} chain={chainId} />
             {t(`v2.products.${product.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
@@ -67,7 +67,18 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
         <HeaderDescribeInfo>
           <SymbolContainer>
             <div>
-              <TokensSymbolIcons productSymbol={product.symbol} size={23} contractAddress={stakeTogetherContractAddress} showPlusIcon />
+              <TokensSymbolIcons
+                image={product.symbolImage}
+                size={23}
+                contractAddress={stakeTogetherContractAddress}
+                tokenForAddWallet={{
+                  contractAddress: stakeTogetherContractAddress,
+                  symbol: product.symbol,
+                  decimals: 18,
+                  image: product.symbolImage
+                }}
+                altName={''}
+              />
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
