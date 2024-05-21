@@ -39,7 +39,7 @@ export default function EthereumFormControl({ type, product, chainId, stpETHBala
     },
     {
       type: 'withdraw',
-      label: t('swap'),
+      label: t('withdraw'),
       url: `${product.url.replace('currency', currency)}/withdraw`,
       disabled: false,
       icon: <PiUploadSimple />,
