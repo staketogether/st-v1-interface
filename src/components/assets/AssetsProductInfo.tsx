@@ -1,4 +1,3 @@
-import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
 import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -12,26 +11,27 @@ import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import PriceChart from '../shared/PriceChart'
-import useQuoteBrla from '@/hooks/ramp/useQuote'
-import { ProviderType } from '@/types/provider.type'
-import { PaymentMethodType } from '@/types/payment-method.type'
-import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
+import dynamic from 'next/dynamic'
 
 interface AssetsProductInfoProps {
-  product: Asset
+  asset: Asset
   assetData: AssetStats
 }
 
-export default function AssetsProductInfo({ product, assetData }: AssetsProductInfoProps) {
-  const amountToQuote = product.ramp[0].minDeposit
+const AssetPrice = dynamic(() => import('../shared/AssetPrice'), {
+  ssr: false,
+  loading: () => <SkeletonLoading width={80} />,
+  suspense: true
+})
 
+export default function AssetsProductInfo({ asset, assetData }: AssetsProductInfoProps) {
   const { t } = useLocaleTranslation()
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
-  const { usdToCurrency, currencyToUsd } = useFiatUsdConversion()
+
   const router = useRouter()
-  const config = chainConfigByChainId(product.chains[0])
+  const config = chainConfigByChainId(asset.chains[0])
 
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
@@ -44,30 +44,13 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
     })
   }
 
-  const { quote: quotedAmount, isLoading: loadingQuotedAmount } = useQuoteBrla(
-    'brl',
-    amountToQuote,
-    product.ramp[0].bridge?.fromChainId ?? product.ramp[0].chainId,
-    product.type === 'fan-token',
-    ProviderType.brla,
-    PaymentMethodType.pix,
-    product.ramp[0].bridge?.toChainId.toString(),
-    product.ramp[0].bridge?.toToken ?? product.symbol,
-    true,
-    5 * 1000
-  )
-
-  const quotedBrlAmount = Number(quotedAmount?.amountBrl ?? 0) / Number(quotedAmount?.amountToken ?? 0)
-  const quotedUsdAmount = currencyToUsd(quotedBrlAmount, 'BRL')
-  const quotedFiatAmount = usdToCurrency(quotedUsdAmount.raw)
-
   return (
     <ProductContainer>
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={product.chains[0]} />
-            {t(`v2.products.${product.id}`)}
+            <AssetIcon image={asset.symbolImage} size={36} altName={asset.id} chain={asset.chains[0]} />
+            {t(`v2.products.${asset.id}`)}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
@@ -83,20 +66,15 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
         <HeaderDescribeInfo>
           <SymbolContainer>
             <div>
-              <TokensSymbolIcons productSymbol={product.symbol} size={23} />
-              <span className='symbol'>{product.symbol}</span>
+              <span className='symbol'>{asset.symbol}</span>
             </div>
             <div>
-              {loadingQuotedAmount ? (
-                <SkeletonLoading width={66} height={22} />
-              ) : (
-                <span className='price'>{`${quotedFiatAmount.formatted}`}</span>
-              )}
+              <AssetPrice asset={asset} className='price' />
             </div>
           </SymbolContainer>
         </HeaderDescribeInfo>
       </header>
-      <PriceChart asset={product} />
+      <PriceChart asset={asset} />
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>
@@ -116,7 +94,7 @@ export default function AssetsProductInfo({ product, assetData }: AssetsProductI
       </ProductBodyContainer>
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.description')}</h2>
-        <span>{t(`v2.ethereumStaking.${product.localeDescription}`)}</span>
+        <span>{t(`v2.ethereumStaking.${asset.localeDescription}`)}</span>
       </ProductBodyContainer>
     </ProductContainer>
   )

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PiCoinsLight, PiChartLine } from 'react-icons/pi'
 import { getListedStaking } from '@/config/product/staking'
 import { getListedAssets } from '@/config/product/asset'
@@ -14,6 +14,7 @@ import SearchInput from '../inputs/SearchInput'
 export default function LayoutHeaderSearch() {
   const [searchValue, setSearchValue] = useState('')
   const [showResultArea, setShowResultArea] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const listedAssets = getListedAssets()
   const listedStaking = getListedStaking()
@@ -73,17 +74,32 @@ export default function LayoutHeaderSearch() {
 
   const hasItemsFiltered = !!(assetsListFiltered.length || stakingListsFiltered.length)
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showResultArea) setShowResultArea(false)
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setShowResultArea(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showResultArea])
+
   return (
-    <Container>
-      <SearchInput
-        search={searchValue}
-        setSearch={setSearchValue}
-        onBlur={() => setShowResultArea(false)}
-        onFocus={() => setShowResultArea(true)}
-      />
+    <Container ref={containerRef}>
+      <SearchInput search={searchValue} setSearch={setSearchValue} onFocus={() => setShowResultArea(true)} />
 
       {showResultArea && hasItemsFiltered && (
-        <WrapperResult>
+        <WrapperResult onBlur={() => setShowResultArea(false)}>
           <WrapperCard>
             {!!assetsListFiltered.length && (
               <header>
@@ -92,7 +108,7 @@ export default function LayoutHeaderSearch() {
               </header>
             )}
             {assetsListFiltered.map(asset => (
-              <Row key={asset.item.id} href={asset.item.url.replace('currency', currency)}>
+              <Row key={asset.item.id} href={asset.item.url.replace('currency', currency)} onClick={() => setShowResultArea(false)}>
                 <AssetIcon image={asset.item.symbolImage} chain={asset.item.chains[0]} size={32} altName={asset.item.id} />
                 <div>
                   <h2>{asset.item.symbol}</h2>
@@ -107,7 +123,7 @@ export default function LayoutHeaderSearch() {
               </header>
             )}
             {stakingListsFiltered.map(staking => (
-              <Row key={staking.item.id} href={staking.item.url.replace('currency', currency)}>
+              <Row key={staking.item.id} href={staking.item.url.replace('currency', currency)} onClick={() => setShowResultArea(false)}>
                 <AssetIcon image={staking.item.symbolImage} chain={staking.item.asset.chains[0]} size={32} altName={staking.item.id} />
                 <div>
                   <h2>{staking.item.symbol}</h2>

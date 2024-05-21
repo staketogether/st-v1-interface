@@ -2,11 +2,9 @@ import AssetsControl from '@/components/assets/AssetsControl'
 import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
-import { chainConfigByChainId } from '@/config/chain'
 import { globalConfig } from '@/config/global'
 import { assetsList } from '@/config/product/asset'
-import { amountToQuoteVar, openBrlaModalVar, openQuoteEthModal } from '@/hooks/ramp/useRampControlModal'
-import useTransak from '@/hooks/useTransak'
+import { openBrlaModalVar } from '@/hooks/ramp/useRampControlModal'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
 import { Asset } from '@/types/Asset'
 import { AssetStats } from '@/types/AssetStats'
@@ -14,8 +12,6 @@ import { useReactiveVar } from '@apollo/client'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 export interface ProductProps {
   asset: Asset
@@ -24,23 +20,16 @@ export interface ProductProps {
 }
 
 export default function Product({ asset, assetData, chainId }: ProductProps) {
-  const router = useRouter()
   const controlModal = useReactiveVar(openBrlaModalVar)
-  const minAmount = asset.ramp[0].minDeposit
-  const config = chainConfigByChainId(asset.chains[0])
-  const { onInit: buyCrypto } = useTransak({
-    productsAvailed: 'BUY',
-    network: config.name.toLowerCase()
-  })
 
-  useEffect(() => {
-    if (router.query.payment === 'pix' && router.query.provider == 'brla') {
-      amountToQuoteVar(router.query?.amount?.toString() ?? minAmount.toString())
-      openQuoteEthModal(asset)
-    } else if (router.query.payment === 'credit') {
-      buyCrypto()
-    }
-  }, [buyCrypto, minAmount, asset, router.query?.amount, router.query.payment, router.query.provider])
+  // useEffect(() => {
+  //   if (router.query.payment === 'pix' && router.query.provider == 'brla') {
+  //     amountToQuoteVar(router.query?.amount?.toString() ?? minAmount.toString())
+  //     openQuoteEthModal(asset)
+  //   } else if (router.query.payment === 'credit') {
+  //     buyCrypto()
+  //   }
+  // }, [buyCrypto, minAmount, asset, router.query?.amount, router.query.payment, router.query.provider])
 
   return (
     <LayoutTemplate>

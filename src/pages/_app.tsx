@@ -1,7 +1,6 @@
 import { globalConfig } from '@/config/global'
 import { config } from '@/config/wagmi'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
-import useGetCurrencyPerEthPrice from '@/hooks/useGetCurrencyPrice'
 import useGetQuotUsdForCurrency from '@/hooks/useGetUsdConversionRatesPrice'
 import useSettingsCurrency from '@/hooks/useSettingCurrency'
 import { ApolloProvider } from '@apollo/client'
@@ -28,7 +27,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   const queryClient = new QueryClient()
 
   useSettingsCurrency()
-  useGetCurrencyPerEthPrice()
   useGetQuotUsdForCurrency()
   useGetCurrencyPrice()
 

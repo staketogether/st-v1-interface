@@ -252,7 +252,7 @@ export default function EthereumWithdraw({
             balanceLoading={stpETHBalanceLoading}
             onMaxFunction={() => setAmount(truncateWei(stpETHBalance, 18, true))}
             type={type}
-            product={product}
+            staking={product}
           />
 
           <EthereumShowReceiveCoin
@@ -260,7 +260,7 @@ export default function EthereumWithdraw({
             balance={ethBalance}
             balanceLoading={ethBalanceLoading}
             type={type}
-            product={product}
+            staking={product}
             chainId={chainId}
           />
         </InputContainer>
@@ -314,7 +314,7 @@ export default function EthereumWithdraw({
         onClose={() => setOpenStakeConfirmModal(false)}
         withdrawTypeSelected={WithdrawType.POOL}
         chainId={chainId}
-        product={product}
+        staking={product}
       />
     </>
   )

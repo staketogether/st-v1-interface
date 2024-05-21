@@ -96,7 +96,7 @@ export default function WalletLottery({ poolAddress, chainId }: WalletLotteryPro
                   <Result>
                     <h2>{t('v2.draw.result')}</h2>
                     <div>
-                      <EnsAvatar address={result} size={18} chainId={1} />
+                      <EnsAvatar address={result} size={18} avatar='' avatarLoading={false} />
                       <EnsName address={result} chainId={chainId} />
                       <CopyIcon onClick={() => copyToClipboard(result)} />
                     </div>
