@@ -720,14 +720,14 @@ export const chzChiliz: NativeAsset = {
   symbolImage: chzIcon,
   contractAddress: '0x0000000000000000000000000000000000000000',
   type: 'native',
-  wrapperContractAddress: '0x678c34581db0a7808d0aC669d7025f1408C9a3C6   ',
-  url: '/currency/chiliz-spicy/product/assets/chz-chiliz',
+  wrapperContractAddress: '0x677F7e16C7Dd57be1D4C8aD1244883214953DC47',
+  url: '/currency/chiliz/product/assets/chz-chiliz',
   new: true,
   enabled: true,
   category: AssetCategory.Infrastructure,
-  listed: true,
+  listed: false,
   isTestnet: true,
-  chains: [Chain.CHZ_TESTNET],
+  chains: [Chain.CHZ_MAINNET],
   points: {
     stPoints: true,
     elPoints: false

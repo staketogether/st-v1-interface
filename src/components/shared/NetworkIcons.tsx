@@ -15,7 +15,6 @@ interface NetworkIconProps {
 }
 
 export default function NetworkIcons({ network, size, enabled = true }: NetworkIconProps) {
-  console.log('network', network)
   const networkIcons = {
     ethereum: ethereumIcon,
     optimism: optimismIcon,

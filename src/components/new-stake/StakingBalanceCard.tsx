@@ -64,7 +64,7 @@ export default function StakingBalanceCard({ staking, stpETHBalance, stpETHBalan
           </div>
         </ValueInfo>
       </header>
-      <InvestContainer>
+      {<InvestContainer>
         <span>{t('v2.ethereumStaking.balanceStakingCardMessage')}</span>
         <Button
           onClick={() => push(`${staking.asset.url.replace('currency', currency)}`)}
@@ -72,7 +72,7 @@ export default function StakingBalanceCard({ staking, stpETHBalance, stpETHBalan
           color={'green'}
           icon={<PiTrendUp />}
         />
-      </InvestContainer>
+      </InvestContainer>}
     </Container>
   )
 }
