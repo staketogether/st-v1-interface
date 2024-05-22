@@ -67,7 +67,7 @@ export const chzStaking: Staking = {
   id: 'chz-staking',
   order: 6,
   symbol: 'stCHZ',
-  symbolImage: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
+  symbolImage: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-chz.png',
   logoImage: chzIcon,
   url: '/currency/chiliz-spicy/product/staking/chz-staking',
   listed: true,
