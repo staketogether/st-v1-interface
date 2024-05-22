@@ -712,6 +712,44 @@ export const renderArb: Erc20Asset = {
   ]
 }
 
+export const chzChiliz: NativeAsset = {
+  id: 'chz-chiliz',
+  order: 16,
+  symbol: 'CHZ',
+  decimals: 18,
+  symbolImage: chzIcon,
+  contractAddress: '0x0000000000000000000000000000000000000000',
+  type: 'native',
+  wrapperContractAddress: '0x678c34581db0a7808d0aC669d7025f1408C9a3C6   ',
+  url: '/currency/chiliz-spicy/product/assets/chz-chiliz',
+  new: true,
+  enabled: true,
+  category: AssetCategory.Infrastructure,
+  listed: true,
+  isTestnet: true,
+  chains: [Chain.CHZ_TESTNET],
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  localeDescription: 'chz-chiliz',
+  disableActions: {
+    swap: true,
+    buy: false,
+    receive: false,
+    sell: true,
+    send: false
+  },
+  ramp: [
+    {
+      chainId: 88888,
+      provider: 'brla',
+      paymentMethod: 'pix',
+      minDeposit: 10
+    }
+  ]
+}
+
 export const thegraphArb: Erc20Asset = {
   id: 'thegraph-arb',
   order: 17,
@@ -1152,11 +1190,12 @@ export const assetsList: Asset[] = [
   usdtOp,
   brlaMatic,
   goldtOp,
-  solanaEth
+  solanaEth,
   // chainlinkOp,
   // renderArb,
   // eurtOp,
-  // thorchainEth
+  // thorchainEth,
+  chzChiliz
 ]
 
 export function getListedAssets(): Asset[] {

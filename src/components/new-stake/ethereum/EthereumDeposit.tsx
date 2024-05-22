@@ -23,6 +23,7 @@ import EthereumInput from './EthereumInput'
 import EthereumProjectSelect from './EthereumProjectSelect'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
 import { Staking } from '@/types/Staking'
+import { capitalize } from '@/config/utils'
 
 interface EthereumDepositProps {
   type: 'deposit' | 'withdraw'
@@ -223,7 +224,7 @@ export default function EthereumDeposit({
         {!!isWrongNetwork && account && (
           <Button
             onClick={openStakeConfirmation}
-            label={`${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`}
+            label={`${t('switch')} ${capitalize(name.toLowerCase().replaceAll('-', ' '))}`}
             disabled={false}
             icon={<WrongNetworkIcon />}
           />

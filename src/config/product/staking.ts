@@ -1,6 +1,7 @@
+import chzIcon from '@assets/network/chiliz.svg'
 import ethIcon from '@assets/network/ethereum.svg'
 import restakingIcon from '@assets/assets/restaking.svg'
-import { ethMainnet, ethOp } from '@/config/product/asset'
+import { chzChiliz, ethMainnet, ethOp } from '@/config/product/asset'
 import { Staking } from '@/types/Staking'
 
 export const ethStaking: Staking = {
@@ -62,7 +63,36 @@ export const ethRestaking: Staking = {
   subgraph: 'https://api.studio.thegraph.com/query/60033/stake-together-optimism/version/latest'
 }
 
-export const stakingList: Staking[] = [ethStaking, ethRestaking]
+export const chzStaking: Staking = {
+  id: 'chz-staking',
+  order: 6,
+  symbol: 'stpCHZ',
+  symbolImage: 'https://raw.githubusercontent.com/staketogether/st-v1-interface/dev/public/assets/st-icon.png',
+  logoImage: chzIcon,
+  url: '/currency/chiliz-spicy/product/staking/chz-staking',
+  listed: true,
+  isTestnet: false,
+  enabled: true,
+  new: true,
+  apy: 5.7,
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  asset: chzChiliz,
+  localeDescription: 'chilizStakingDescription',
+  contracts: {
+    Airdrop: '0xc3bE66C9dA5f669D104345a9C10064867265De09',
+    Withdrawals: '0x5384cF13B2eB115B4fbd3F3c91a7Eab275Be5974',
+    Router: '0x59270aC214141f3c879aFc4F6Eef2B2DAF8EB6E2',
+    StakeTogether: '0x4B3098C2A9Bd72f0c6103d26FE8087563C7B3F4D',
+    StakeTogetherWrapper: '0x4B3098C2A9Bd72f0c6103d26FE8087563C7B3F4D'
+  },
+  stakeTogetherPool: '0x4B3098C2A9Bd72f0c6103d26FE8087563C7B3F4D',
+  subgraph: ''
+}
+
+export const stakingList: Staking[] = [ethStaking, ethRestaking, chzStaking]
 
 export function getListedStaking() {
   return stakingList.filter(staking => staking.listed).sort((a, b) => a.order - b.order)

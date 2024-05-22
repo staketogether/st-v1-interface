@@ -15,11 +15,13 @@ interface NetworkIconProps {
 }
 
 export default function NetworkIcons({ network, size, enabled = true }: NetworkIconProps) {
+  console.log('network', network)
   const networkIcons = {
     ethereum: ethereumIcon,
     optimism: optimismIcon,
     ['optimism-sepolia']: optimismIcon,
     chiliz: chilizIcon,
+    'chiliz-spicy': chilizIcon,
     arbitrum: arbitrumIcon,
     polygon: polygonIcon,
     solana: solanaIcon,
