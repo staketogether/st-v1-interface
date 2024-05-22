@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import styled from 'styled-components'
 import { Staking } from '@/types/Staking'
-import { ethMainnet } from '@/config/product/asset'
 
 interface EthereumInputProps {
   ethAmountValue: string
