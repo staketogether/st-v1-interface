@@ -79,7 +79,7 @@ export default function EthereumInput({
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <AssetIcon altName={staking.id} image={ethMainnet.symbolImage} chain={staking.asset.chains[0]} size={32} />
+            <AssetIcon altName={staking.id} image={staking.asset.symbolImage} chain={staking.asset.chains[0]} size={32} />
           ) : (
             <>
               <TokensSymbolIcons
@@ -95,7 +95,7 @@ export default function EthereumInput({
               />
             </>
           )}
-          <span>{type === 'deposit' ? t('eth.symbol') : staking.symbol}</span>
+          <span>{type === 'deposit' ? staking.asset.symbol : staking.symbol}</span>
           <span className='max' onClick={onMaxFunction}>
             MAX
           </span>
