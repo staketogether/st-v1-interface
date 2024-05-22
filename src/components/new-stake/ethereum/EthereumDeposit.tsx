@@ -142,7 +142,7 @@ export default function EthereumDeposit({
       return errorLabel
     }
 
-    return t('form.deposit')
+    return t('form.deposit').replace('Ether', product.asset.symbol)
   }
 
   const handleInputMaxValue = () => {
