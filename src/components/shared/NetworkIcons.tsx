@@ -20,7 +20,7 @@ export default function NetworkIcons({ network, size, enabled = true }: NetworkI
     optimism: optimismIcon,
     ['optimism-sepolia']: optimismIcon,
     chiliz: chilizIcon,
-    'chiliz-spicy': chilizIcon,
+    'spicy': chilizIcon,
     arbitrum: arbitrumIcon,
     polygon: polygonIcon,
     solana: solanaIcon,

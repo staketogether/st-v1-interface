@@ -137,7 +137,7 @@ export const chainConfigs: ChainConfig[] = [
   },
   {
     chainId: spicy.id,
-    name: 'chiliz-spicy',
+    name: 'spicy',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_CHZ_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {
