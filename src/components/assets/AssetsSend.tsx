@@ -19,6 +19,7 @@ import { useRouter } from 'next/router'
 import { chainConfigByChainId } from '@/config/chain'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { useSwitchChain } from 'wagmi'
+import { capitalize } from '@/config/utils'
 
 interface AssetSendProps {
   walletTo: string
@@ -116,7 +117,7 @@ export function AssetsSend({ asset }: { asset: Asset }) {
     }
 
     if (isWrongNetwork && !!account) {
-      return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
+      return `${t('switch')} ${capitalize(name.toLowerCase().replaceAll('-', ' '))}`
     }
 
     return t('next')

@@ -2,6 +2,7 @@ import { chainConfigByChainId } from '@/config/chain'
 import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 import NetworkIcon from '../NetworkIcon'
+import { capitalize } from '@/config/utils'
 
 interface LayoutNetworkDropdownProps {
   mobile?: boolean
@@ -14,10 +15,12 @@ export default function LayoutNetworkDropdown({ mobile }: LayoutNetworkDropdownP
     return null
   }
 
+  const chainConfig = chainConfigByChainId(chain?.id)
+
   return (
     <Container>
       <NetworkIcon chain={chain?.id} size={24} />
-      {!mobile && <CurrentNetwork>{chainConfigByChainId(chain?.id).name}</CurrentNetwork>}
+      {!mobile && <CurrentNetwork>{capitalize(chainConfig.name.replaceAll('-', ' '))}</CurrentNetwork>}
     </Container>
   )
 }

@@ -68,6 +68,7 @@ export type AssetId =
 
 export interface NativeAsset extends TokenActions {
   id: AssetId
+  name: string
   order: number
   symbol: string
   decimals: number
@@ -94,7 +95,7 @@ export interface NativeAsset extends TokenActions {
 
 export interface Erc20Asset extends TokenActions {
   id: AssetId
-
+  name: string
   order: number
   symbol: string
   symbolImage: string | StaticImageData
@@ -120,6 +121,7 @@ export interface Erc20Asset extends TokenActions {
 
 export interface FanTokenAsset extends TokenActions {
   id: AssetId
+  name: string
   order: number
   symbol: string
   symbolImage: string | StaticImageData

@@ -18,8 +18,9 @@ import { Staking } from '@/types/Staking'
 import { chainConfigByChainId } from '@/config/chain'
 import { AssetStats } from '@/types/AssetStats'
 import StakingBalanceCard from './StakingBalanceCard'
-import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 import StakingDelegatePools from './StakingDelegatePools'
+import useErc20BalanceOf from '@/hooks/contracts/useErc20BalanceOf'
+import { makeVar, useReactiveVar } from '@apollo/client'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -38,22 +39,31 @@ interface NewStakeControlProps {
   chainId: number
 }
 
+export const updateStpBalanceVar = makeVar(false)
+
 export default function NewStakeControl({ staking, type, assetData, chainId }: NewStakeControlProps) {
   const [userWalletAddress, setUserWalletAddress] = useState<`0x${string}` | undefined>(undefined)
   const { t } = useLocaleTranslation()
 
   const { query } = useRouter()
   const { currency } = query
+  const updateStpBalance = useReactiveVar(updateStpBalanceVar)
 
   const { chain: walletChainId, connector, address } = useAccount()
+  const isWrongNetwork = chainId !== walletChainId?.id
+  const { switchChain } = useSwitchChain()
+  const config = chainConfigByChainId(chainId)
+  const {
+    balance: stpETHBalance,
+    isLoading: stpETHBalanceLoading,
+    refetch: stpETHBalanceRefetch
+  } = useErc20BalanceOf({ chainId, walletAddress: userWalletAddress, token: staking.contracts.StakeTogether })
+
   useEffect(() => {
     if (address) {
       setUserWalletAddress(address)
     }
   }, [address])
-  const isWrongNetwork = chainId !== walletChainId?.id
-  const { switchChain } = useSwitchChain()
-  const config = chainConfigByChainId(chainId)
 
   useEffect(() => {
     if (isWrongNetwork && connector && connector.name === 'Web3Auth') {
@@ -61,11 +71,12 @@ export default function NewStakeControl({ staking, type, assetData, chainId }: N
     }
   }, [chainId, connector, isWrongNetwork, switchChain])
 
-  const { accountBalance: stpETHBalance, isLoading: stpETHBalanceLoading } = useLsdBalance({
-    walletAddress: userWalletAddress,
-    product: staking,
-    chainId: chainId
-  })
+  useEffect(() => {
+    if (updateStpBalance) {
+      stpETHBalanceRefetch()
+      updateStpBalanceVar(false)
+    }
+  }, [stpETHBalanceRefetch, updateStpBalance])
 
   const copyToClipboard = async () => {
     const url = `${window.location.href}`
@@ -179,6 +190,7 @@ const {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[12]};
+
     > div {
       width: 100%;
       display: flex;
@@ -193,6 +205,7 @@ const {
         align-items: start;
       }
     }
+
     > header {
       display: flex;
       flex-direction: column;
@@ -249,6 +262,7 @@ const {
       align-items: center;
       gap: ${({ theme }) => theme.size[4]};
     }
+
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       display: none;
     }
@@ -340,6 +354,7 @@ const {
     font-weight: 400;
     border-radius: ${({ theme }) => theme.size[8]};
     font-size: ${({ theme }) => theme.font.size[13]};
+
     svg {
       color: ${({ theme }) => theme.colorV2.purple[1]};
     }
