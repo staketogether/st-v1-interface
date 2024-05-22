@@ -813,8 +813,8 @@
         "operationFee": "Operation Fee",
         "balance": "Balance"
       },
-     "balanceCardMessage": "Put your crypto to work with Staking",
-     "balanceStakingCardMessage": "Buy Ethereum and start investing in Staking"
+      "balanceCardMessage": "Put your crypto to work with Staking",
+      "balanceStakingCardMessage": "Buy Ethereum and start investing in Staking"
     }
   },
   "soon": "Soon",

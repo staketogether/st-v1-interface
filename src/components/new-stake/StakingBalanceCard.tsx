@@ -64,15 +64,17 @@ export default function StakingBalanceCard({ staking, stpETHBalance, stpETHBalan
           </div>
         </ValueInfo>
       </header>
-      {<InvestContainer>
-        <span>{t('v2.ethereumStaking.balanceStakingCardMessage').replace('Ethereum', staking.asset.name)}</span>
-        <Button
-          onClick={() => push(`${staking.asset.url.replace('currency', currency)}`)}
-          label={t('buy')}
-          color={'green'}
-          icon={<PiTrendUp />}
-        />
-      </InvestContainer>}
+      {
+        <InvestContainer>
+          <span>{t('v2.ethereumStaking.balanceStakingCardMessage').replace('Ethereum', staking.asset.name)}</span>
+          <Button
+            onClick={() => push(`${staking.asset.url.replace('currency', currency)}`)}
+            label={t('buy')}
+            color={'green'}
+            icon={<PiTrendUp />}
+          />
+        </InvestContainer>
+      }
     </Container>
   )
 }
