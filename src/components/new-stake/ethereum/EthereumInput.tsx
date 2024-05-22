@@ -72,7 +72,7 @@ export default function EthereumInput({
           <SkeletonLoading width={120} />
         ) : (
           <span>{`${t('balance')}: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${
-            type === 'deposit' ? t('eth.symbol') : staking.symbol
+            type === 'deposit' ? staking.asset.symbol : staking.symbol
           }`}</span>
         )}
       </div>
