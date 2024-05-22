@@ -27,6 +27,7 @@ import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
 import { Staking } from '@/types/Staking'
+import { capitalize } from '@/config/utils'
 
 interface EthereumWithdrawProps {
   type: 'deposit' | 'withdraw'
@@ -276,7 +277,7 @@ export default function EthereumWithdraw({
         {!!isWrongNetwork && account && (
           <Button
             onClick={openStakeConfirmation}
-            label={`${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`}
+            label={`${t('switch')} ${capitalize(name.toLowerCase().replaceAll('-', ' '))}`}
             disabled={false}
             icon={<WrongNetworkIcon />}
           />

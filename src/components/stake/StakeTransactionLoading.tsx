@@ -94,7 +94,7 @@ export default function StakeTransactionLoading({
               <div>
                 <AssetIcon altName={staking.id} chain={staking.asset.chains[0]} size={32} image={staking.symbolImage} />
                 <span>{`${truncateWei(youReceive, 6)}`}</span>
-                <span>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>
+                <span>{` ${withdrawTypeSelected === WithdrawType.POOL ? staking.asset.symbol : t('wse.symbol')}`}</span>
               </div>
             </>
           ) : (
@@ -102,7 +102,7 @@ export default function StakeTransactionLoading({
               <div>
                 <AssetIcon image={staking.symbolImage} altName={staking.id} chain={staking.asset.chains[0]} size={32} />
                 <span>{`${amount}`}</span>
-                <span> {t('eth.symbol')}</span>
+                <span> {staking.asset.symbol}</span>
               </div>
               <ArrowIcon fontSize={18} />
               <div>

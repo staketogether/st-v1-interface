@@ -59,12 +59,12 @@ export default function PriceChart({ asset }: PriceChartProps) {
   useEffect(() => {
     const statsChartData: { timestamp: string; price: number }[] = assetStats?.prices?.length
       ? assetStats.prices.map(item => {
-        const dateTime = DateTime.fromMillis(item[0]).toLocaleString()
-        return {
-          timestamp: dateTime,
-          price: item[1]
-        }
-      })
+          const dateTime = DateTime.fromMillis(item[0]).toLocaleString()
+          return {
+            timestamp: dateTime,
+            price: item[1]
+          }
+        })
       : []
 
     setChartData(statsChartData)

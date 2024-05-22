@@ -681,6 +681,7 @@
       "stp-eth": "Stake Together Ether",
       "stp-reth": "Stake Together Ether Reinvestido",
       "eth-staking": "Staking de Ethereum",
+      "chz-staking": "Staking de Chiliz",
       "eth-restaking": "Restaking de Ethereum ",
       "celestia": "Staking de Celestia",
       "polygon": "Staking de Polygon ",
@@ -812,6 +813,7 @@
       "eigenPointTooltip": "Ao fazer Staking você acumula pontos no protocolo Eigen Layer, que futuramente poderá lançar token e você pode receber parte desses tokens",
       "togetherPoints": "Ao fazer Staking você acumula pontos no protocolo Stake Togetherque futuramente poderá lançar token e você pode receber parte desses tokens",
       "restakingDescription": "Restaking de Ethereum: Potencialize a Eficiência do Seu Staking. Experimente o próximo nível de staking de Ethereum com nossa solução de ReStaking, que combina o protocolo Stake Together com a tecnologia Eigen Layer. Amplie o potencial do seu Ethereum usando-o como garantia na Eigen Layer, contribuindo para os serviços da rede e ganhando renda de fontes diversificadas. Nossa plataforma simplifica seu processo de staking, proporcionando uma abordagem mais eficaz e lucrativa para garantir a segurança da rede e obter recompensas. Mergulhe no ReStaking com Ethereum hoje e comece a aproveitar os rendimentos combinados.",
+      "chilizStakingDescription": "Staking de Chiliz: Ganhe Recompensas com o Fan Token do seu Time. Faça staking de Chiliz e ganhe recompensas com o Fan Token do seu time favorito. Aproveite a oportunidade de apoiar seu time e ganhar recompensas em criptomoedas. Nossa plataforma oferece uma maneira fácil e segura de fazer staking de Chiliz e ganhar recompensas em Ethereum. Comece a fazer staking de Chiliz hoje e torne-se um verdadeiro torcedor do seu time favorito.",
       "btc": "Bitcoin é o primeiro dinheiro de internet bem sucedido com base na tecnologia par-a-par em que nenhum banco ou autoridade central está envolvido na transação e produção da moeda Bitcoin. Foi criado por um indivíduo ou grupo anônimo sob o pseudônimo de Satoshi Nakamoto.",
       "eth": "Ethereum é uma plataforma de contratos inteligentes que capacita desenvolvedores a construir tokens e aplicações descentralizadas (DApps). A ETH é a moeda nativa da plataforma Ethereum e também funciona como tarifa de transação aos mineradores da rede Ethereum.",
       "chz": "A Chiliz, criadora dos Fan Tokens, lançou sua própria blockchain Layer 1 compatível com EVM. A Chiliz Chain se tornará a principal infraestrutura para esportes, atraindo equipes, fãs e desenvolvedores, para construir produtos e experiências web3 que unem fãs e marcas.",
@@ -919,6 +921,9 @@
       },
       "eth-restaking": {
         "name": "Restaking de Ethereum"
+      },
+      "chz-staking": {
+        "name": "Staking de Chiliz"
       },
       "str-eth": {
         "name": "Restaking de Ethereum"
