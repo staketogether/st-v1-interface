@@ -34,6 +34,7 @@ import { Chain } from '../chain'
 
 export const ethMainnet: NativeAsset = {
   id: 'eth-mainnet',
+  name: 'Ethereum',
   order: 0,
   decimals: 18,
   symbol: 'ETH',
@@ -65,6 +66,7 @@ export const ethMainnet: NativeAsset = {
 
 export const ethOp: NativeAsset = {
   id: 'eth-op',
+  name: 'Ethereum',
   decimals: 18,
   order: 2,
   symbol: 'ETH',
@@ -102,6 +104,7 @@ export const ethOp: NativeAsset = {
 
 export const btcOp: Erc20Asset = {
   id: 'btc-op',
+  name: 'Bitcoin',
   order: 1,
   decimals: 8,
   symbol: 'wBTC',
@@ -138,6 +141,7 @@ export const btcOp: Erc20Asset = {
 
 export const chilizChz: NativeAsset = {
   id: 'chz-chiliz',
+  name: 'Chiliz',
   order: 6,
   symbol: 'CHZ',
   decimals: 18,
@@ -145,7 +149,7 @@ export const chilizChz: NativeAsset = {
   isTestnet: false,
   contractAddress: '0x0000000000000000000000000000000000000000',
   type: 'native',
-  wrapperContractAddress: '0x721EF6871f1c4Efe730Dce047D40D1743B886946',
+  wrapperContractAddress: '0x677F7e16C7Dd57be1D4C8aD1244883214953DC47',
   url: '/currency/chiliz/product/assets/chz-chiliz',
   category: AssetCategory.Infrastructure,
   localeDescription: 'chz',
@@ -169,6 +173,7 @@ export const chilizChz: NativeAsset = {
 
 export const opOptimism: Erc20Asset = {
   id: 'op-op',
+  name: 'Optimism',
   order: 3,
   symbol: 'OP',
   symbolImage: opIcon,
@@ -206,6 +211,7 @@ export const opOptimism: Erc20Asset = {
 export const ethArbitrum: NativeAsset = {
   id: 'eth-arb',
   order: 4,
+  name: 'Ethereum',
   symbol: 'ETH',
   symbolImage: ethIcon,
   decimals: 18,
@@ -242,6 +248,7 @@ export const ethArbitrum: NativeAsset = {
 
 export const arbArbitrum: Erc20Asset = {
   id: 'arb-arb',
+  name: 'Arbitrum',
   order: 4,
   symbol: 'ARB',
   decimals: 18,
@@ -279,6 +286,7 @@ export const arbArbitrum: Erc20Asset = {
 export const maticPolygon: NativeAsset = {
   id: 'matic-matic',
   order: 5,
+  name: 'Polygon',
   symbol: 'MATIC',
   decimals: 18,
   symbolImage: maticIcon,
@@ -310,6 +318,7 @@ export const maticPolygon: NativeAsset = {
 const stpEth: Erc20Asset = {
   id: 'stp-eth',
   order: 1,
+  name: 'Stake Togethe Ethereum',
   decimals: 18,
   symbol: 'stpETH',
   contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
@@ -339,6 +348,7 @@ const stpEth: Erc20Asset = {
 
 const stpReth: Erc20Asset = {
   id: 'str-eth',
+  name: 'Stake Together Restaked Ethereum',
   order: 2,
   symbol: 'strETH',
   decimals: 18,
@@ -369,6 +379,7 @@ const stpReth: Erc20Asset = {
 
 export const mengoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  name: 'Flamengo Fan Token',
   decimals: 0,
   enabled: true,
   listed: true,
@@ -399,6 +410,7 @@ export const mengoChz: FanTokenAsset = {
 
 export const galoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  name: 'Atlético Mineiro Fan Token',
   decimals: 0,
   enabled: true,
   listed: true,
@@ -429,6 +441,7 @@ export const galoChz: FanTokenAsset = {
 
 export const fluChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  name: 'Fluminense Fan Token',
   decimals: 0,
   enabled: true,
   listed: true,
@@ -459,6 +472,7 @@ export const fluChz: FanTokenAsset = {
 
 export const vascoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  name: 'Vasco Fan Token',
   enabled: true,
   decimals: 0,
   listed: true,
@@ -489,6 +503,7 @@ export const vascoChz: FanTokenAsset = {
 
 export const verdaoChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  name: 'Palmeiras Fan Token',
   decimals: 0,
   enabled: true,
   listed: true,
@@ -518,6 +533,7 @@ export const verdaoChz: FanTokenAsset = {
 }
 
 export const saciChz: FanTokenAsset = {
+  name: 'Internacional Fan Token',
   chains: [Chain.CHZ_MAINNET],
   decimals: 0,
   enabled: true,
@@ -548,6 +564,7 @@ export const saciChz: FanTokenAsset = {
 }
 
 export const spfcChz: FanTokenAsset = {
+  name: 'São Paulo Fan Token',
   chains: [Chain.CHZ_MAINNET],
   decimals: 0,
   enabled: true,
@@ -579,6 +596,7 @@ export const spfcChz: FanTokenAsset = {
 
 export const bahiaChz: FanTokenAsset = {
   chains: [Chain.CHZ_MAINNET],
+  name: 'Bahia Fan Token',
   decimals: 0,
   enabled: true,
   listed: true,
@@ -606,6 +624,7 @@ export const bahiaChz: FanTokenAsset = {
 
 export const pendleArb: Erc20Asset = {
   id: 'pendle-arb',
+  name: 'Pendle',
   order: 14,
   symbol: 'PENDLE',
   symbolImage: pendleIcon,
@@ -642,6 +661,7 @@ export const pendleArb: Erc20Asset = {
 
 export const chainlinkOp: Erc20Asset = {
   id: 'chainlink-op',
+  name: 'Chainlink',
   order: 15,
   symbol: 'LINK',
   symbolImage: chainlinkIcon,
@@ -678,6 +698,7 @@ export const chainlinkOp: Erc20Asset = {
 
 export const renderArb: Erc20Asset = {
   id: 'render-arb',
+  name: 'Render Network',
   order: 16,
   symbol: 'RNDR',
   symbolImage: renderIcon,
@@ -712,22 +733,23 @@ export const renderArb: Erc20Asset = {
   ]
 }
 
-export const chzChiliz: NativeAsset = {
+export const spicyChiliz: NativeAsset = {
   id: 'chz-chiliz',
+  name: 'Chiliz',
   order: 16,
   symbol: 'CHZ',
   decimals: 18,
   symbolImage: chzIcon,
   contractAddress: '0x0000000000000000000000000000000000000000',
   type: 'native',
-  wrapperContractAddress: '0x677F7e16C7Dd57be1D4C8aD1244883214953DC47',
+  wrapperContractAddress: '0x678c34581db0a7808d0aC669d7025f1408C9a3C6',
   url: '/currency/chiliz/product/assets/chz-chiliz',
   new: true,
   enabled: true,
   category: AssetCategory.Infrastructure,
   listed: false,
   isTestnet: true,
-  chains: [Chain.CHZ_MAINNET],
+  chains: [Chain.CHZ_TESTNET],
   points: {
     stPoints: true,
     elPoints: false
@@ -753,6 +775,7 @@ export const chzChiliz: NativeAsset = {
 export const thegraphArb: Erc20Asset = {
   id: 'thegraph-arb',
   order: 17,
+  name: 'The Graph',
   symbol: 'GRT',
   symbolImage: theGraphIcon,
   decimals: 18,
@@ -789,6 +812,7 @@ export const thegraphArb: Erc20Asset = {
 export const worldcoinOp: Erc20Asset = {
   id: 'worldcoin-op',
   order: 18,
+  name: 'Worldcoin',
   symbol: 'WORLD',
   symbolImage: worldcoinIcon,
   decimals: 18,
@@ -829,6 +853,7 @@ export const aaveOp: Erc20Asset = {
   id: 'aave-op',
   order: 19,
   symbol: 'AAVE',
+  name: 'Aave',
   symbolImage: aaveIcon,
   decimals: 18,
   isTestnet: false,
@@ -864,6 +889,7 @@ export const aaveOp: Erc20Asset = {
 export const uniswapOp: Erc20Asset = {
   id: 'uniswap-op',
   order: 20,
+  name: 'Uniswap',
   symbol: 'UNI',
   symbolImage: uniswapIcon,
   decimals: 18,
@@ -901,6 +927,7 @@ export const ssvEth: Erc20Asset = {
   id: 'ssv-eth',
   order: 21,
   symbol: 'SSV',
+  name: 'SSV Network',
   symbolImage: ssvIcon,
   decimals: 18,
   isTestnet: false,
@@ -931,6 +958,7 @@ export const usdcOp: Erc20Asset = {
   id: 'usdc-op',
   order: 22,
   symbol: 'USDC',
+  name: 'USD Coin',
   symbolImage: usdcIcon,
   decimals: 6,
   isTestnet: false,
@@ -965,6 +993,7 @@ export const usdcOp: Erc20Asset = {
 
 export const usdtOp: Erc20Asset = {
   id: 'usdt-op',
+  name: 'Tether USD',
   order: 23,
   symbol: 'USDT',
   symbolImage: usdtIcon,
@@ -1002,6 +1031,7 @@ export const usdtOp: Erc20Asset = {
 export const brlaMatic: Erc20Asset = {
   id: 'brla-matic',
   order: 24,
+  name: 'BRLA',
   symbol: 'BRLA',
   symbolImage: brlaIcon,
   decimals: 18,
@@ -1035,6 +1065,7 @@ export const brlaMatic: Erc20Asset = {
 export const eurtOp: Erc20Asset = {
   id: 'eurt-op',
   order: 25,
+  name: 'Tether EUR',
   symbol: 'EURT',
   symbolImage: eurtIcon,
   decimals: 6,
@@ -1071,6 +1102,7 @@ export const eurtOp: Erc20Asset = {
 export const goldtOp: Erc20Asset = {
   id: 'goldt-op',
   order: 26,
+  name: 'Tether Gold',
   symbol: 'XAUT',
   symbolImage: xautIcon,
   decimals: 6,
@@ -1102,6 +1134,7 @@ export const solanaEth: Erc20Asset = {
   id: 'solana-eth',
   order: 27,
   symbol: 'WSOL',
+  name: 'Solana',
   symbolImage: solanaIcon,
   decimals: 18,
   isTestnet: false,
@@ -1135,6 +1168,7 @@ export const thorchainEth: Erc20Asset = {
   id: 'thorchain-eth',
   order: 28,
   symbol: 'RUNE',
+  name: 'Thorchain',
   symbolImage: thorchainIcon,
   decimals: 18,
   isTestnet: false,
@@ -1195,7 +1229,7 @@ export const assetsList: Asset[] = [
   // renderArb,
   // eurtOp,
   // thorchainEth,
-  chzChiliz
+  spicyChiliz
 ]
 
 export function getListedAssets(): Asset[] {

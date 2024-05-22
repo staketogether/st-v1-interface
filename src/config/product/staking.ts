@@ -1,7 +1,7 @@
 import chzIcon from '@assets/network/chiliz.svg'
 import ethIcon from '@assets/network/ethereum.svg'
 import restakingIcon from '@assets/assets/restaking.svg'
-import { chzChiliz, ethMainnet, ethOp } from '@/config/product/asset'
+import { spicyChiliz, ethMainnet, ethOp } from '@/config/product/asset'
 import { Staking } from '@/types/Staking'
 
 export const ethStaking: Staking = {
@@ -79,7 +79,7 @@ export const chzStaking: Staking = {
     stPoints: true,
     elPoints: false
   },
-  asset: chzChiliz,
+  asset: spicyChiliz,
   localeDescription: 'chilizStakingDescription',
   contracts: {
     Airdrop: '0xc3bE66C9dA5f669D104345a9C10064867265De09',

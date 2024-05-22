@@ -65,7 +65,7 @@ export default function StakingBalanceCard({ staking, stpETHBalance, stpETHBalan
         </ValueInfo>
       </header>
       {<InvestContainer>
-        <span>{t('v2.ethereumStaking.balanceStakingCardMessage')}</span>
+        <span>{t('v2.ethereumStaking.balanceStakingCardMessage').replace('Ethereum', staking.asset.name)}</span>
         <Button
           onClick={() => push(`${staking.asset.url.replace('currency', currency)}`)}
           label={t('buy')}
