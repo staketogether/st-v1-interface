@@ -224,7 +224,6 @@ export default function useDepositPool(
 
   const deposit = () => {
     setAwaitWalletAction(true)
-    console.log(prepareTransactionData)
     writeContract(prepareTransactionData!.request)
   }
 
