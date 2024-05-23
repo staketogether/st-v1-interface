@@ -659,6 +659,7 @@
       "stp-reth": "Stake Together Restaked Ether",
       "eth-staking": "Ethereum Staking",
       "eth-restaking": "Ethereum Restaking ",
+      "chz-staking": "Chiliz Staking ",
       "celestia": "Celestia Staking",
       "polygon": "Polygon Staking",
       "solana": "Solana Staking",
@@ -775,6 +776,7 @@
       "highestValueWeeks": "Highest Value in the Last 52 Weeks",
       "eigenPointTooltip": "When you stake, you accumulate points in the Eigen Layer protocol, which may later launch a token and you will can receive shares",
       "togetherPoints": "When you stake, you accumulate points in the Stake Together protocol, which may later launch a token and you will can receive shares",
+      "chilizStakingDescriotion": "Chiliz Staking: Support Your Favorite Teams, Earn Rewards. Stake your CHZ tokens and support your favorite sports teams while earning rewards. Our platform allows you to stake CHZ tokens and participate in the Chiliz ecosystem, contributing to the growth and success of your favorite teams. Earn rewards from staking and participate in governance decisions to shape the future of sports and entertainment. Start staking CHZ today and be part of the Chiliz community.",
       "restakingDescription": "ReStaking Ethereum: Enhance Your Staking Efficiency. Experience the next level of Ethereum staking with our ReStaking solution, merging Stake Together protocol and Eigen Layer technology. Amplify your Ethereum's potential by using it as collateral in the Eigen Layer, contributing to network services and earning income from diverse sources. Our platform streamlines your staking process, providing a more effective and profitable approach to secure the network and gain rewards. Dive into ReStaking with Ethereum today and start benefiting from combined yields.",
       "btc": "Bitcoin is the first successful internet money based on peer-to-peer technology where no bank or central authority is involved in the transaction and production of Bitcoin currency. It was created by an individual or anonymous group under the pseudonym Satoshi Nakamoto.",
       "eth": "Ethereum is a smart contract platform that empowers developers to build tokens and decentralized applications (DApps). ETH is the native currency of the Ethereum platform and also serves as a transaction fee for miners on the Ethereum network.",
@@ -811,8 +813,8 @@
         "operationFee": "Operation Fee",
         "balance": "Balance"
       },
-     "balanceCardMessage": "Put your crypto to work with Staking",
-     "balanceStakingCardMessage": "Buy Ethereum and start investing in Staking"
+      "balanceCardMessage": "Put your crypto to work with Staking",
+      "balanceStakingCardMessage": "Buy Ethereum and start investing in Staking"
     }
   },
   "soon": "Soon",
@@ -874,6 +876,9 @@
       },
       "btc-op": {
         "name": "Bitcoin"
+      },
+      "chz-staking": {
+        "name": "Chiliz Staking"
       },
       "eth-staking": {
         "name": "Ethereum Staking"

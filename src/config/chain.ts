@@ -124,7 +124,7 @@ export const chainConfigs: ChainConfig[] = [
   },
   {
     chainId: polygonMumbai.id,
-    name: 'Polygon Mumbai',
+    name: 'polygon-mumbai',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_POL_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {
@@ -137,7 +137,7 @@ export const chainConfigs: ChainConfig[] = [
   },
   {
     chainId: spicy.id,
-    name: 'Chiliz Spicy',
+    name: 'spicy',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_CHZ_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {

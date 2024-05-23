@@ -61,6 +61,23 @@ const ethStaking = new ApolloClient({
   connectToDevTools: true
 })
 
+const chzStaking = new ApolloClient({
+  uri: getStakingById('chz-staking').subgraph,
+  ssrMode: typeof window === 'undefined',
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          pool: {
+            keyArgs: ['id', 'delegate_contains']
+          }
+        }
+      }
+    }
+  }),
+  connectToDevTools: true
+})
+
 const ethRestaking = new ApolloClient({
   uri: getStakingById('eth-restaking').subgraph,
   ssrMode: typeof window === 'undefined',
@@ -81,7 +98,8 @@ const ethRestaking = new ApolloClient({
 export function getSubgraphClient({ stakingId }: { stakingId: StakingId }) {
   const stakingClients = {
     ['eth-staking']: ethStaking,
-    ['eth-restaking']: ethRestaking
+    ['eth-restaking']: ethRestaking,
+    ['chz-staking']: chzStaking
   }
   return stakingClients[stakingId]
 }

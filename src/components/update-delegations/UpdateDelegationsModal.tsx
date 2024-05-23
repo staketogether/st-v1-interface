@@ -20,6 +20,7 @@ import ListProjectModal from './ListProjectModal'
 import ReviewUpdateDelegationsRequest from './ReviewUpdateDelegationsRequest'
 import { getStakingById } from '@/config/product/staking'
 import { ethers } from 'ethers'
+import { capitalize } from '@/services/truncate'
 
 interface UpdateDelegationsModalProps {
   accountDelegations: Delegation[]
@@ -160,7 +161,7 @@ export default function UpdateDelegationsModal({
   const { name } = chainConfigByChainId(staking.asset.chains[0])
   const handleLabelButton = () => {
     if (isWrongNetwork) {
-      return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
+      return `${t('switch')} ${capitalize(name.toLowerCase().replaceAll('-', ' '))}`
     }
     if (prepareTransactionIsError) {
       return prepareTransactionErrorMessage
