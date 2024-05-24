@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import styled from 'styled-components'
 import { Staking } from '@/types/Staking'
-import { ethMainnet } from '@/config/product/asset'
 
 interface EthereumInputProps {
   ethAmountValue: string
@@ -72,14 +71,14 @@ export default function EthereumInput({
           <SkeletonLoading width={120} />
         ) : (
           <span>{`${t('balance')}: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${
-            type === 'deposit' ? t('eth.symbol') : staking.symbol
+            type === 'deposit' ? staking.asset.symbol : staking.symbol
           }`}</span>
         )}
       </div>
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <AssetIcon altName={staking.id} image={ethMainnet.symbolImage} chain={staking.asset.chains[0]} size={32} />
+            <AssetIcon altName={staking.id} image={staking.asset.symbolImage} chain={staking.asset.chains[0]} size={32} />
           ) : (
             <>
               <TokensSymbolIcons
@@ -95,7 +94,7 @@ export default function EthereumInput({
               />
             </>
           )}
-          <span>{type === 'deposit' ? t('eth.symbol') : staking.symbol}</span>
+          <span>{type === 'deposit' ? staking.asset.symbol : staking.symbol}</span>
           <span className='max' onClick={onMaxFunction}>
             MAX
           </span>

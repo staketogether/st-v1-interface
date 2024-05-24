@@ -23,6 +23,7 @@ import useStConfig from './useStConfig'
 import { Staking } from '@/types/Staking'
 import { queryAccountAssets } from '@/queries/subgraph/queryAccountAssets'
 import { queryAccountUsdBalance } from '@/queries/subgraph/queryAccountUsdBalance'
+import { updateStpBalanceVar } from '@/components/new-stake/NewStakeControl'
 
 export default function useDepositPool(
   netDepositAmount: bigint,
@@ -181,6 +182,7 @@ export default function useDepositPool(
     if (awaitTransactionSuccess && awaitWalletAction) {
       setAwaitWalletAction(false)
 
+      updateStpBalanceVar(true)
       subgraphClient.refetchQueries({
         include: [
           queryAccount,

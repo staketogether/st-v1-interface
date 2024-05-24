@@ -85,7 +85,7 @@ export default function StakeConfirmModal({
                 <div>
                   <span>
                     <span>{truncateWei(youReceive, 6)}</span>
-                    <span>{` ${withdrawTypeSelected === WithdrawType.POOL ? t('eth.symbol') : t('wse.symbol')}`}</span>{' '}
+                    <span>{` ${withdrawTypeSelected === WithdrawType.POOL ? staking.asset.symbol : t('wse.symbol')}`}</span>{' '}
                   </span>
                   <AssetIcon size={32} altName={staking.symbol} chain={staking.asset.chains[0]} image={staking.symbolImage} />
                 </div>
@@ -97,7 +97,7 @@ export default function StakeConfirmModal({
                 <span>{t('v2.stake.confirmModal.deposit')}</span>
                 <div>
                   <span>
-                    <span>{truncateDecimal(amount, 6)}</span> <span>{t('eth.symbol')}</span>
+                    <span>{truncateDecimal(amount, 6)}</span> <span>{staking.asset.symbol}</span>
                   </span>
                   <AssetIcon size={32} altName={staking.symbol} chain={staking.asset.chains[0]} image={staking.symbolImage} />
                 </div>

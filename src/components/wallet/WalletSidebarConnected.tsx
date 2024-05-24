@@ -73,6 +73,15 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
     accountShare: stakeAccountShare
   } = useStAccount({ address: address, productName: 'eth-staking', chainId: mainnet.id })
 
+  const {
+    accountDelegations: stpChzAccountDelegations,
+    accountBalance: stpChzAccountBalance,
+    accountRewards: stpChzAccountRewards,
+    accountActivities: stpChzAccountActivities,
+    accountIsLoading: stpChzAccountIsLoading,
+    accountShare: stpChzAccountShare
+  } = useStAccount({ address: address, productName: 'chz-staking', chainId: 88882 })
+
   const { accountAssets } = useAccountAssets(address)
   const { balance: usdTotalBalance } = useAccountAssetsUsdBalance(address)
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
@@ -115,6 +124,14 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
       accountActivities: restakingAccountActivities,
       accountIsLoading: restakingAccountIsLoading,
       accountShare: restakingAccountShare
+    },
+    'chz-staking': {
+      accountDelegations: stpChzAccountDelegations,
+      accountBalance: stpChzAccountBalance,
+      accountRewards: stpChzAccountRewards,
+      accountActivities: stpChzAccountActivities,
+      accountIsLoading: stpChzAccountIsLoading,
+      accountShare: stpChzAccountShare
     }
   }
 
