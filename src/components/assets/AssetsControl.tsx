@@ -14,7 +14,6 @@ import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
 import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
-import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import dynamic from 'next/dynamic'
@@ -29,6 +28,16 @@ interface AssetsControlProps {
 }
 
 const AssetBalanceCard = dynamic(() => import('../asset/AssetBalanceCard'), {
+  ssr: false,
+  loading: () => (
+    <LoadingContainer>
+      <LottieAnimation animationData={loadingAnimation} height={20} loop />
+    </LoadingContainer>
+  ),
+  suspense: true
+})
+
+const AssetsActionsControl = dynamic(() => import('./AssetsActionsControl'), {
   ssr: false,
   loading: () => (
     <LoadingContainer>

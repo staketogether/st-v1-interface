@@ -16,7 +16,7 @@ export interface Bridge {
 export interface PaymentDetails {
   id: string
   due: string
-  paymentWalletAddress: string
+  paymentWalletAddress: `0x${string}`
   maximumTokenAmount: string
   minimumTokenAmount: string
   token: string

@@ -9,7 +9,6 @@ import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from '../shared/LottieAnimation'
 import { useEffect } from 'react'
 import useOffRampSell from '@/hooks/ramp/useOffRampSell'
-import { ProviderType } from '@/types/provider.type'
 import { useAccount, useSwitchChain } from 'wagmi'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import Button from '../shared/Button'
@@ -35,7 +34,7 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
   const address = walletAddress ?? '0x'
   const isWrongNetwork = asset.chains[0] !== walletChainId?.id
 
-  const { sendSellToken } = useOffRampSell({
+  const { sendSellToken, isLoading: sendSellTokenLoading } = useOffRampSell({
     asset
   })
 
@@ -83,10 +82,12 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
       if (!address || !offRampPixKey || !quote?.amountToken) {
         return
       }
-      await sendSellToken({ walletAddress: address, pixKey: offRampPixKey, amount: quote?.amountToken, tokenSymbol: asset.symbol })
+      if (!sendSellTokenLoading) {
+        await sendSellToken({ walletAddress: address, pixKey: offRampPixKey, amount: quote?.amountToken, tokenSymbol: asset.symbol })
+      }
     }
     send()
-  }, [address, asset.chains, asset.symbol, quote?.amountToken, offRampPixKey, sendSellToken, isWrongNetwork])
+  }, [address, asset.chains, asset.symbol, quote?.amountToken, offRampPixKey, sendSellToken, isWrongNetwork, sendSellTokenLoading])
 
   const validationSteps = [
     {
