@@ -7,7 +7,7 @@ import { Staking } from '@/types/Staking'
 export const ethStaking: Staking = {
   asset: ethMainnet,
   enabled: true,
-  listed: false,
+  listed: true,
   new: false,
   id: 'eth-staking',
   order: 4,
@@ -72,7 +72,7 @@ export const chzStaking: Staking = {
   url: '/currency/chiliz-spicy/product/staking/chz-staking',
   listed: false,
   isTestnet: false,
-  enabled: true,
+  enabled: false,
   new: true,
   apy: 5.7,
   points: {
