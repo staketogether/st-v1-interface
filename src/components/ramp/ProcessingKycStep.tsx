@@ -3,6 +3,7 @@ import { BrlaBuyEthStep, kycIdVar, kycLevelVar, qrCodeVar, quoteVar, stepsContro
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -11,7 +12,6 @@ import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import { useAccount } from 'wagmi'
 import WrapProcessingStep from './WrapProcessingStep'
-import { Asset } from '@/types/Asset'
 
 interface ProcessingKycStepProps {
   product: Asset
@@ -43,16 +43,15 @@ export default function ProcessingKycStep({ product }: ProcessingKycStepProps) {
 
   useEffect(() => {
     if (address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0) {
+      const [ramp] = product.ramp
       setRampData({
-        chainId: product.ramp[0].chainId,
+        chainIdToReceive: ramp.chainId,
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
         amount: product.type === 'fan-token' ? Number(quote.amountToken) : Number(quote.amountBrl),
         accountAddress: address,
         receiverAddress: address,
         tokenToReceive: product.symbol,
-        convertToChainId: product.ramp[0].bridge?.toChainId,
-        convertToToken: product.ramp[0].bridge?.toToken,
         fixOutput: product.type === 'fan-token'
       })
       return
