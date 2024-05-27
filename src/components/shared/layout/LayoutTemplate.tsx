@@ -12,6 +12,7 @@ import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
+import useRegisterSocialLoginUsers from '@/hooks/marketing/useRegisterSocialLoginUsers'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -24,6 +25,8 @@ interface LayoutTemplateProps {
 }
 
 export default function LayoutTemplate({ children }: LayoutTemplateProps) {
+  useRegisterSocialLoginUsers()
+
   const isProduction = process.env.NODE_ENV == 'production'
 
   const router = useRouter()
