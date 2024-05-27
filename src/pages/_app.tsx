@@ -19,7 +19,6 @@ import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
 import { ethereumMainnetClient } from '@/config/apollo'
 import useGetCurrencyPrice from '@/hooks/useGetCurrencyPrice'
-import useRegisterSocialLoginUsers from '@/hooks/marketing/useRegisterSocialLoginUsers'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
@@ -30,7 +29,6 @@ const App = ({ Component, pageProps }: AppProps) => {
   useSettingsCurrency()
   useGetQuotUsdForCurrency()
   useGetCurrencyPrice()
-  useRegisterSocialLoginUsers()
 
   useEffect(() => {
     initMixpanel()
