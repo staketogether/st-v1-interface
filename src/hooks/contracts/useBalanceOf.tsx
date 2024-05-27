@@ -57,7 +57,6 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
   })
 
   useEffect(() => {
-    console.log(erc20Data, asset)
     if (erc20Data !== undefined && asset.type !== 'native') {
       const balance = formatUnits(erc20Data, asset.decimals)
       const rawBalance = erc20Data
