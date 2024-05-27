@@ -31,7 +31,7 @@ export function AssetsReceive() {
           </WalletContainer>
         </>
       )}
-      {account && 
+      {account.address && 
       <AlertMessageComponent message={t('disclaimer')} header={(
         <ChildHeader>
         <span>{t('compatibility')}</span>

@@ -1,7 +1,6 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useForm } from 'react-hook-form'
-import { PiWallet } from "react-icons/pi";
-import { PiArrowLineRight, PiArrowRight, PiArrowsCounterClockwise } from 'react-icons/pi'
+import { PiArrowLineRight, PiArrowRight, PiArrowsCounterClockwise, PiWallet } from 'react-icons/pi'
 import styled from 'styled-components'
 import { encodeFunctionData, erc20Abi } from 'viem'
 import Button from '../shared/Button'
