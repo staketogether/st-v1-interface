@@ -1,6 +1,8 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import styled from 'styled-components'
 import Button from '../shared/Button'
+import NetworkIcons from '../shared/NetworkIcons'
+import AlertMessageComponent from '../shared/AlertMessageComponent'
 import { notification } from 'antd'
 import QRCode from 'react-qr-code'
 import { useAccount } from 'wagmi'
@@ -29,6 +31,18 @@ export function AssetsReceive() {
           </WalletContainer>
         </>
       )}
+      <AlertMessageComponent message={'Atenção! Confirme se o ativo que você vai receber é compatível com as redes Ethereum, Optimism, Arbitrum, Polygon e Chiliz. Ativos incompatíveis com seu endereço podem ser perdidos permanentemente.'}>
+        <ChildHeader>
+          <span>Compatível com as redes:</span>
+          <div>
+            <NetworkIcons network={'ethereum'} size={24}></NetworkIcons>
+            <NetworkIcons network={'optimism'} size={24}></NetworkIcons>
+            <NetworkIcons network={'arbitrum'} size={24}></NetworkIcons>
+            <NetworkIcons network={'polygon'} size={24}></NetworkIcons>
+            <NetworkIcons network={'chiliz'} size={24}></NetworkIcons>
+          </div>
+        </ChildHeader>
+      </AlertMessageComponent>
       {account.address ? (
         <Button label={t('copyWalletAddress')} icon={<FiCopy />} block onClick={handleCopyClipboard} />
       ) : (
@@ -38,7 +52,7 @@ export function AssetsReceive() {
   )
 }
 
-const { Container, Code, WalletContainer, ConnectWalletIcon } = {
+const { Container, Code, WalletContainer, ConnectWalletIcon, ChildHeader } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -69,5 +83,28 @@ const { Container, Code, WalletContainer, ConnectWalletIcon } = {
   `,
   ConnectWalletIcon: styled(PiArrowLineRight)`
     font-size: 16px;
+  `,
+  ChildHeader: styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  span {
+    font-size: ${({ theme }) => theme.font.size[16]};
+    color: ${({ theme }) => theme.color.gray[900]};
+  }
+
+>div {
+    flex-direction: row;
+    padding: ${({ theme }) => theme.size[8]};
+    
+    img {
+      margin-right: ${({ theme }) => theme.size[8]};
+      margin-bottom: ${({ theme }) => theme.size[8]};
+    }
+  }
+  
   `
 }

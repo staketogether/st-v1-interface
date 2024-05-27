@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { encodeFunctionData, erc20Abi } from 'viem'
 import Button from '../shared/Button'
 import Input from '../shared/inputs/Input'
+import AlertMessageComponent from '../shared/AlertMessageComponent'
 
 import { ethers, isAddress, parseEther } from 'ethers'
 
@@ -164,7 +165,7 @@ export function AssetsSend({ asset }: { asset: Asset }) {
           accountIsConnected={!!account}
         />
       </div>
-
+      <AlertMessageComponent message={'Atenção! Confirme se o ativo que você vai receber é compatível com as redes Ethereum, Optimism, Arbitrum, Polygon e Chiliz. Ativos incompatíveis com seu endereço podem ser perdidos permanentemente.'}></AlertMessageComponent>
       <Button
         form='assetSendForm'
         isLoading={transactionLoading || openSidebarConnectWallet}
