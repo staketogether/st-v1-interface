@@ -1,4 +1,3 @@
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import React, { ReactNode } from 'react'
 import { PiWarning } from 'react-icons/pi'
 import styled from 'styled-components'
