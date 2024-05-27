@@ -31,7 +31,7 @@ export function AssetsReceive() {
           </WalletContainer>
         </>
       )}
-      <AlertMessageComponent message={'Atenção! Confirme se o ativo que você vai receber é compatível com as redes Ethereum, Optimism, Arbitrum, Polygon e Chiliz. Ativos incompatíveis com seu endereço podem ser perdidos permanentemente.'}>
+      <AlertMessageComponent>
         <ChildHeader>
           <span>Compatível com as redes:</span>
           <div>

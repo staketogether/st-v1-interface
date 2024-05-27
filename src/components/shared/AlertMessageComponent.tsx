@@ -1,19 +1,21 @@
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import React, { ReactNode } from 'react'
 import { PiWarning } from 'react-icons/pi'
 import styled from 'styled-components'
 
 interface AlertMessageComponentProps {
-  message: string,
   children?: ReactNode,
 }
 
-export default function AlertMessageComponent({ message, children }: AlertMessageComponentProps) {
+export default function AlertMessageComponent({children }: AlertMessageComponentProps) {
+  const { t } = useLocaleTranslation()
+
   return (
     <Container>
       {children}
       <MessageContainer>
         <WarningIcon />
-        <span>{message}</span>
+        <span>{t('disclaimer')}</span>
       </MessageContainer>
     </Container>
   )

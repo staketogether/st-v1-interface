@@ -7,6 +7,7 @@
   "edit": "Edit",
   "wallet": "Wallet",
   "connectWallet": "Connect Wallet",
+  "disclaimer": "Attention! Confirm that the asset you will receive is compatible with the Ethereum, Optimism, Arbitrum, Polygon and Chiliz networks. Assets incompatible with your address may be lost permanently.",
   "signUpNow": "Sign up now, it's completely free!",
   "privacyDeclare": "I declare that I am at least 18 years old and accept the terms of the",
   "privacyPolicy": "Privacy Policy",
