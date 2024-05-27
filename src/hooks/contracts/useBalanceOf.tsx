@@ -30,7 +30,7 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
     refetch: nativeRefetch,
     data: nativeData
   } = useBalance({
-    address: walletAddress ? walletAddress : undefined,
+    address: address !== '0x0' ? address : undefined,
     chainId
   })
 
@@ -57,7 +57,8 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
   })
 
   useEffect(() => {
-    if (erc20Data && asset.type !== 'native') {
+    console.log(erc20Data, asset)
+    if (erc20Data !== undefined && asset.type !== 'native') {
       const balance = formatUnits(erc20Data, asset.decimals)
       const rawBalance = erc20Data
       setTokenBalance({ rawBalance, balance })
