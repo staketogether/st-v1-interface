@@ -8,6 +8,8 @@
   "wallet": "Carteira",
   "connectWallet": "Conectar Carteira",
   "disclaimer": "Atenção! Confirme se o ativo que você vai receber é compatível com as redes Ethereum, Optimism, Arbitrum, Polygon e Chiliz. Ativos incompatíveis com seu endereço podem ser perdidos permanentemente.",
+  "compatibility": "Compatível com as redes:",
+  "connectYourWallet": "Conecte sua carteira para continuar",
   "signUpNow": "Cadastre agora é totalmente gratis!",
   "privacyDeclare": "Declaro ter pelo menos 18 anos e aceito os termos de",
   "privacyPolicy": "Política de Privacidade",

@@ -4,18 +4,18 @@ import { PiWarning } from 'react-icons/pi'
 import styled from 'styled-components'
 
 interface AlertMessageComponentProps {
-  children?: ReactNode,
+  message: string,
+  header?: ReactNode,
 }
 
-export default function AlertMessageComponent({children }: AlertMessageComponentProps) {
-  const { t } = useLocaleTranslation()
+export default function AlertMessageComponent({ message, header }: AlertMessageComponentProps) {
 
   return (
     <Container>
-      {children}
+      {header}
       <MessageContainer>
         <WarningIcon />
-        <span>{t('disclaimer')}</span>
+        <span>{message}</span>
       </MessageContainer>
     </Container>
   )

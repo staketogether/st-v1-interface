@@ -76,7 +76,6 @@
     "@commitlint/config-conventional": "^18.6.3",
     "@types/luxon": "^3.4.2",
     "@types/mixpanel-browser": "^2.49.0",
-    "@types/node": "20.12.12",
     "@types/react": "^18.2.79",
     "@types/react-google-recaptcha": "^2.1.9",
     "@typescript-eslint/eslint-plugin": "^6.21.0",

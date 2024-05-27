@@ -31,18 +31,19 @@ export function AssetsReceive() {
           </WalletContainer>
         </>
       )}
-      <AlertMessageComponent>
+      {account && 
+      <AlertMessageComponent message={t('disclaimer')} header={(
         <ChildHeader>
-          <span>Compatível com as redes:</span>
-          <div>
-            <NetworkIcons network={'ethereum'} size={24}></NetworkIcons>
-            <NetworkIcons network={'optimism'} size={24}></NetworkIcons>
-            <NetworkIcons network={'arbitrum'} size={24}></NetworkIcons>
-            <NetworkIcons network={'polygon'} size={24}></NetworkIcons>
-            <NetworkIcons network={'chiliz'} size={24}></NetworkIcons>
-          </div>
-        </ChildHeader>
-      </AlertMessageComponent>
+        <span>{t('compatibility')}</span>
+        <div>
+          <NetworkIcons network={'ethereum'} size={24}></NetworkIcons>
+          <NetworkIcons network={'optimism'} size={24}></NetworkIcons>
+          <NetworkIcons network={'arbitrum'} size={24}></NetworkIcons>
+          <NetworkIcons network={'polygon'} size={24}></NetworkIcons>
+          <NetworkIcons network={'chiliz'} size={24}></NetworkIcons>
+        </div>
+      </ChildHeader>
+      )}/>}
       {account.address ? (
         <Button label={t('copyWalletAddress')} icon={<FiCopy />} block onClick={handleCopyClipboard} />
       ) : (

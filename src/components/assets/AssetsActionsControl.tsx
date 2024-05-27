@@ -87,6 +87,7 @@ const { EthereumContainer, BuyAssetContainer } = {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
+    flex-wrap: wrap;
   `,
   BuyAssetContainer: styled.div``
 }
