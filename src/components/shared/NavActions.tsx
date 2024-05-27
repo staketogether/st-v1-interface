@@ -76,7 +76,6 @@ const { Nav, IconContainer } = {
 
           &.disabled {
             cursor: not-allowed;
-            background: ${({ theme }) => theme.colorV2.foreground};
             background: ${({ theme }) => theme.colorV2.white};
             border: 1px solid ${({ theme }) => theme.colorV2.foreground};
             &:hover {
