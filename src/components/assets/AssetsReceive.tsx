@@ -10,6 +10,8 @@ import { FiCopy } from 'react-icons/fi'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { PiArrowLineRight } from 'react-icons/pi'
 
+import { chainConfigs } from '@/config/chain'
+
 export function AssetsReceive() {
   const { t } = useLocaleTranslation()
   const account = useAccount()
@@ -21,6 +23,8 @@ export function AssetsReceive() {
       placement: 'topRight'
     })
   }
+
+  console.log('')
   return (
     <Container>
       {account.address && (
@@ -36,11 +40,12 @@ export function AssetsReceive() {
         <ChildHeader>
         <span>{t('compatibility')}</span>
         <div>
-          <NetworkIcons network={'ethereum'} size={24}></NetworkIcons>
-          <NetworkIcons network={'optimism'} size={24}></NetworkIcons>
-          <NetworkIcons network={'arbitrum'} size={24}></NetworkIcons>
-          <NetworkIcons network={'polygon'} size={24}></NetworkIcons>
-          <NetworkIcons network={'chiliz'} size={24}></NetworkIcons>
+          {chainConfigs.map(chain => (
+            chain.isTestnet === false && 
+            <>
+            <NetworkIcons network={chain.name.toLowerCase()} size={24}/>
+            </>
+          ))}
         </div>
       </ChildHeader>
       )}/>}
