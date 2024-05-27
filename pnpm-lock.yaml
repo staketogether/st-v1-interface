@@ -177,9 +177,6 @@ importers:
       '@types/mixpanel-browser':
         specifier: ^2.49.0
         version: 2.49.0
-      '@types/node':
-        specifier: 20.12.12
-        version: 20.12.12
       '@types/react':
         specifier: ^18.2.79
         version: 18.3.3
