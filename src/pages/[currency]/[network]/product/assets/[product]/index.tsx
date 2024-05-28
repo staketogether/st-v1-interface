@@ -20,7 +20,7 @@ export default function Product({ asset, assetData, chainId }: ProductProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <AssetsControl product={asset} assetData={assetData} chainId={chainId} type='buy' />
+      <AssetsControl asset={asset} assetData={assetData} chainId={chainId} type='buy' />
     </LayoutTemplate>
   )
 }

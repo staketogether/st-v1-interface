@@ -801,7 +801,7 @@
         "success": "Saque realizado com sucesso!",
         "youReceived": "Você Recebeu",
         "successTitle": "Saque realizado com sucesso!",
-        "alertMessage": "Atenção! Para movimentar tokens na rede Optimism, é necessário ter saldo em Ether (ETH) para cobrir as taxas de transação",
+        "alertMessage": "Atenção! Para movimentar tokens na rede [network], é necessário ter saldo na moeda nativa para cobrir as taxas de transação",
         "unlock": "Desbloquear token",
         "unlocked": "token Desbloqueado",
         "sendToken": "Enviar token",

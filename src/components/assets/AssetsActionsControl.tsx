@@ -9,13 +9,23 @@ import NavActions from '../shared/NavActions'
 import AssetsRampControl from './AssetsRampControl'
 import { AssetsReceive } from './AssetsReceive'
 import { AssetsSend } from './AssetsSend'
+import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 
 interface AssetsActionsControlProps {
   type: AssetActionType
   asset: Asset
+  userTokenBalance: TokenBalance
+  userTokenIsLoading: boolean
+  userTokenRefetch: () => void
 }
 
-export default function AssetsActionsControl({ type, asset }: AssetsActionsControlProps) {
+export default function AssetsActionsControl({
+  type,
+  asset,
+  userTokenBalance,
+  userTokenIsLoading,
+  userTokenRefetch
+}: AssetsActionsControlProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
@@ -62,12 +72,24 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
       <div>
         {type === 'buy' && (
           <BuyAssetContainer>
-            <AssetsRampControl type={type} asset={asset} />
+            <AssetsRampControl
+              type={type}
+              asset={asset}
+              userTokenBalance={userTokenBalance}
+              userTokenIsLoading={userTokenIsLoading}
+              userTokenRefetch={userTokenRefetch}
+            />
           </BuyAssetContainer>
         )}
         {type === 'sell' && (
           <BuyAssetContainer>
-            <AssetsRampControl type={type} asset={asset} />
+            <AssetsRampControl
+              type={type}
+              asset={asset}
+              userTokenBalance={userTokenBalance}
+              userTokenIsLoading={userTokenIsLoading}
+              userTokenRefetch={userTokenRefetch}
+            />
           </BuyAssetContainer>
         )}
         {type === 'swap' && (

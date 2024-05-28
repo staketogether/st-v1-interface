@@ -19,9 +19,10 @@ import loadingAnimation from '@assets/animations/loading-animation.json'
 import dynamic from 'next/dynamic'
 import LottieAnimation from '../shared/LottieAnimation'
 import { RampSteps, clearRampVars, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
+import useBalanceOf from '@/hooks/contracts/useBalanceOf'
 
 interface AssetsControlProps {
-  product: Asset
+  asset: Asset
   assetData: AssetStats
   chainId: number
   type: AssetActionType
@@ -47,7 +48,7 @@ const AssetsActionsControl = dynamic(() => import('./AssetsActionsControl'), {
   suspense: true
 })
 
-export default function AssetsControl({ product, assetData, chainId, type }: AssetsControlProps) {
+export default function AssetsControl({ asset, assetData, chainId, type }: AssetsControlProps) {
   const [userWalletAddress, setUserWalletAddress] = useState<`0x${string}` | undefined>(undefined)
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
@@ -65,6 +66,14 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
   const config = chainConfigByChainId(chainId)
   rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)
 
+  const {
+    tokenBalance: userTokenBalance,
+    isLoading: userTokenIsLoading,
+    refetch: userTokenRefetch
+  } = useBalanceOf({
+    asset
+  })
+
   useEffect(() => {
     if (isWrongNetwork && connector && connector.name === 'Web3Auth') {
       switchChain({ chainId })
@@ -81,7 +90,7 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
       placement: 'topRight'
     })
   }
-  useFacebookPixel(`pageview:asset_${product.id}`)
+  useFacebookPixel(`pageview:asset_${asset.id}`)
 
   useEffect(() => {
     return () => {
@@ -98,8 +107,8 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={chainId} />
-            <span>{t(`v2.products.${product.id}`)}</span>
+            <AssetIcon image={asset.symbolImage} size={36} altName={asset.id} chain={chainId} />
+            <span>{t(`v2.products.${asset.id}`)}</span>
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
@@ -116,12 +125,25 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
       </header>
 
       <div>
-        <AssetsProductInfo asset={product} assetData={assetData} />
+        <AssetsProductInfo asset={asset} assetData={assetData} />
         <ActionContainer>
           <ActionContainerControlCard>
-            <AssetsActionsControl type={type} asset={product} />
+            <AssetsActionsControl
+              type={type}
+              asset={asset}
+              userTokenBalance={userTokenBalance}
+              userTokenIsLoading={userTokenIsLoading}
+              userTokenRefetch={userTokenRefetch}
+            />
           </ActionContainerControlCard>
-          {userWalletAddress && <AssetBalanceCard asset={product} userWalletAddress={userWalletAddress} />}
+          {userWalletAddress && (
+            <AssetBalanceCard
+              userTokenBalance={userTokenBalance}
+              userTokenIsLoading={userTokenIsLoading}
+              asset={asset}
+              userWalletAddress={userWalletAddress}
+            />
+          )}
         </ActionContainer>
       </div>
     </Container>

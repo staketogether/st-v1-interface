@@ -15,25 +15,23 @@ import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import AssetInput from '../assets/AssetsInput'
-import useBalanceOf from '@/hooks/contracts/useBalanceOf'
+import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import AlertMessageComponent from '../shared/AlertMessageComponent'
+import { chainConfigByChainId } from '@/config/chain'
 
 interface QuotationOffRampStepProps {
   asset: Asset
+  userTokenBalance: TokenBalance
+  userTokenIsLoading: boolean
 }
 
-export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampStepProps) {
+export default function QuotationOffRampStep({ asset: asset, userTokenBalance, userTokenIsLoading }: QuotationOffRampStepProps) {
   const [value, setValue] = useState<string>('0')
 
   const amountDebounceValue = useDebounce(value, 300)
   const [chainId] = asset.chains
-  const { address: walletAddress } = useAccount()
   const { t } = useLocaleTranslation()
-  const { tokenBalance, isLoading: tokenBalanceLoading } = useBalanceOf({
-    asset,
-    walletAddress
-  })
 
   const { quote, isLoading } = useQuoteOffRamp({
     amount: amountDebounceValue,
@@ -59,7 +57,7 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
 
   const limit = Number(amountDebounceValue) >= Number(kycLevelInfo?.limits.limitSwapSell ?? 0)
   const errorLimitReached = limit && !!kycLevelInfo?.limits.limitSwapSell
-  const errorMaxSellValue = !(Number(tokenBalance.balance) >= Number(amountDebounceValue))
+  const errorMaxSellValue = !(Number(userTokenBalance.balance) >= Number(amountDebounceValue))
   const disabledButton = errorLimitReached || errorMaxSellValue || !Number(value) || isLoading
 
   const handleChange = (v: string) => {
@@ -107,7 +105,7 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
     method: 'PIX',
     assetId: asset.id
   })
-
+  const { name } = chainConfigByChainId(asset.chains[0])
   return (
     <Container>
       <BoxValuesContainer>
@@ -116,11 +114,11 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
           onChange={v => {
             handleChange(v)
           }}
-          onMaxFunction={() => setValue(tokenBalance.balance)}
+          onMaxFunction={() => setValue(userTokenBalance.balance)}
           productAsset={asset}
           hasError={false}
-          balance={tokenBalance.balance}
-          balanceLoading={tokenBalanceLoading}
+          balance={userTokenBalance.balance}
+          balanceLoading={userTokenIsLoading}
           accountIsConnected={!!userWalletAddress}
         />
 
@@ -143,7 +141,7 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
         label={handleLabelButton()}
         icon={!errorLimitReached && !errorMaxSellValue && <PiArrowRight />}
       />
-      <AlertMessageComponent message={t('v2.ramp.offRamp.alertMessage')} />
+      <AlertMessageComponent message={t('v2.ramp.offRamp.alertMessage').replace('[network]', name)} />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
       </footer>

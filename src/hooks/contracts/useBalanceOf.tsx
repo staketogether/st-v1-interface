@@ -8,7 +8,7 @@ interface useBalanceOfProps {
   walletAddress?: `0x${string}`
 }
 
-interface TokenBalance {
+export interface TokenBalance {
   rawBalance: bigint
   balance: string
 }
@@ -30,10 +30,10 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
     refetch: nativeRefetch,
     data: nativeData
   } = useBalance({
-    address: walletAddress ? walletAddress : undefined,
+    address: address,
     chainId,
     query: {
-      enabled: asset.type === 'native' && !!walletAddress
+      enabled: asset.type === 'native' && !!address
     }
   })
 

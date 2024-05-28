@@ -21,9 +21,10 @@ interface ProcessingCheckoutStepProps {
   asset: Asset
   type: 'buy' | 'sell' | 'swap'
   walletAddress: `0x${string}` | undefined
+  userTokenRefetch: () => void
 }
 
-export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddress }: ProcessingCheckoutStepProps) {
+export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddress, userTokenRefetch }: ProcessingCheckoutStepProps) {
   const theme = useTheme()
   const { t } = useLocaleTranslation()
 
@@ -42,10 +43,18 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
     isLoading: verifySellTokenLoading,
     paymentDetails,
     sendSellTokenLoading,
+    awaitTransactionSuccess,
     sendSellTokenTx
   } = useOffRampSell({
     asset
   })
+
+  useEffect(() => {
+    if (awaitTransactionSuccess) {
+      userTokenRefetch()
+    }
+  }, [awaitTransactionSuccess, userTokenRefetch])
+
   const sendAmountToken = quote?.amountToken
   useEffect(() => {
     async function send() {

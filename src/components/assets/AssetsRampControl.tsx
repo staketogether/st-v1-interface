@@ -18,8 +18,17 @@ import QuotationStep from '../ramp/QuotationStep'
 import SuccessStep from '../ramp/SuccessStep'
 import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
 import ConnectWallet from '../shared/ConnectWallet'
+import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 
-export default function AssetsRampControl({ asset, type }: { type: 'buy' | 'sell' | 'swap'; asset: Asset }) {
+interface AssetsRampControlProps {
+  type: 'buy' | 'sell' | 'swap'
+  asset: Asset
+  userTokenBalance: TokenBalance
+  userTokenIsLoading: boolean
+  userTokenRefetch: () => void
+}
+
+export default function AssetsRampControl({ asset, type, userTokenBalance, userTokenIsLoading, userTokenRefetch }: AssetsRampControlProps) {
   const { t } = useLocaleTranslation()
   const { address: walletAddress } = useAccount()
 
@@ -48,7 +57,7 @@ export default function AssetsRampControl({ asset, type }: { type: 'buy' | 'sell
   const steps = {
     MethodPayment: <PaymentMethod asset={asset} />,
     Quotation: <QuotationStep asset={asset} />,
-    QuotationOffRamp: <QuotationOffRampStep asset={asset} />,
+    QuotationOffRamp: <QuotationOffRampStep asset={asset} userTokenBalance={userTokenBalance} userTokenIsLoading={userTokenIsLoading} />,
     Kyc: <KycStep asset={asset} />,
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={asset} type={type} />,
@@ -57,7 +66,9 @@ export default function AssetsRampControl({ asset, type }: { type: 'buy' | 'sell
     TimeOutCheckout: <TimeOutCheckout asset={asset} />,
     Success: <SuccessStep product={asset} type={type} />,
     PixKeyStep: <PixKeyStep />,
-    ProcessingCheckoutOffRampStep: <ProcessingCheckoutOffRampStep walletAddress={walletAddress} asset={asset} type={type} />,
+    ProcessingCheckoutOffRampStep: (
+      <ProcessingCheckoutOffRampStep userTokenRefetch={userTokenRefetch} walletAddress={walletAddress} asset={asset} type={type} />
+    ),
     error: <GenericErrorComponent />
   }
 
