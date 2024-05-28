@@ -1,20 +1,14 @@
 import AssetsControl from '@/components/assets/AssetsControl'
-import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
-import { chainConfigByChainId } from '@/config/chain'
 import { globalConfig } from '@/config/global'
 import { assetsList } from '@/config/product/asset'
-import { amountToQuoteVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
-import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
 import { Asset } from '@/types/Asset'
 import { AssetStats } from '@/types/AssetStats'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 
 export interface ProductProps {
   product: Asset
@@ -23,29 +17,10 @@ export interface ProductProps {
 }
 
 export default function Product({ product, assetData, chainId }: ProductProps) {
-  const router = useRouter()
-  const minAmount = product.ramp[0].minDeposit
-  const config = chainConfigByChainId(product.chains[0])
-  const { onInit: buyCrypto } = useTransak({
-    productsAvailed: 'BUY',
-    network: config.name.toLowerCase()
-  })
-
-  useEffect(() => {
-    if (router.query.payment === 'pix' && router.query.provider == 'brla') {
-      amountToQuoteVar(router.query?.amount?.toString() ?? minAmount.toString())
-      //TROCAR PARA O PRODUTO CORRETO
-      openQuoteEthModal(product)
-    } else if (router.query.payment === 'credit') {
-      buyCrypto()
-    }
-  }, [buyCrypto, minAmount, product, router, router.events, router.query?.amount, router.query.buy])
-
   return (
     <LayoutTemplate>
       <Metatags />
       <AssetsControl product={product} assetData={assetData} chainId={chainId} type='send' />
-      <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )
 }

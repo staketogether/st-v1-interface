@@ -11,6 +11,7 @@ export interface Transaction {
 export interface Bridge {
   tx: Transaction
   executionDuration: number
+  approvalAddress: `0x${string}`
 }
 
 export interface PaymentDetails {

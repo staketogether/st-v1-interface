@@ -19,7 +19,7 @@ import SuccessStep from '../ramp/SuccessStep'
 import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
 import ConnectWallet from '../shared/ConnectWallet'
 
-export default function AssetsBuyControl({ asset, type }: { type: 'buy' | 'sell' | 'swap'; asset: Asset }) {
+export default function AssetsRampControl({ asset, type }: { type: 'buy' | 'sell' | 'swap'; asset: Asset }) {
   const { t } = useLocaleTranslation()
   const { address: walletAddress } = useAccount()
 

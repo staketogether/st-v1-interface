@@ -1,6 +1,4 @@
 import useEthBalanceOf from '@/hooks/contracts/useEthBalanceOf'
-import { openModal } from '@/hooks/ramp/useRampControlModal'
-import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useRouter } from 'next/router'

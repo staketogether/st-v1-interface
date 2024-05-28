@@ -17,6 +17,7 @@ import { useAccount } from 'wagmi'
 import AssetInput from '../assets/AssetsInput'
 import useBalanceOf from '@/hooks/contracts/useBalanceOf'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import AlertMessageComponent from '../shared/AlertMessageComponent'
 
 interface QuotationOffRampStepProps {
   asset: Asset
@@ -142,6 +143,7 @@ export default function QuotationOffRampStep({ asset: asset }: QuotationOffRampS
         label={handleLabelButton()}
         icon={!errorLimitReached && !errorMaxSellValue && <PiArrowRight />}
       />
+      <AlertMessageComponent message={t('v2.ramp.offRamp.alertMessage')} />
       <footer>
         {t('v2.ramp.quote.terms')} <a href='#'>{t('v2.ramp.quote.policies')}.</a>
       </footer>

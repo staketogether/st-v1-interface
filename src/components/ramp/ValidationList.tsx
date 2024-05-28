@@ -21,12 +21,10 @@ export default function ValidationList({ validationSteps }: Readonly<{ validatio
               {step.subText && <span>{step.subText}</span>}
             </div>
           </Status>
-          {index < validationSteps.length - 1 ? (
-            <Divider>
+          {index < validationSteps.length - 1 && (
+            <Divider key={`listKey-divider`}>
               <Image src={line} alt='' width={0} height={17} />
             </Divider>
-          ) : (
-            <></>
           )}
         </>
       ))}

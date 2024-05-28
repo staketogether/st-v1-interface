@@ -13,7 +13,7 @@ export default function usePaymasterSmartWallet({ chainId }: usePaymasterSmartWa
   const { data: walletClient } = useWalletClient()
   const { chain: walletChainId } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
-  console.log(paymasterKey)
+
   useEffect(() => {
     async function createSmartWallet() {
       if (!walletClient || isWrongNetwork) return

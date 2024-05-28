@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowUp, PiArrowsClockwise, PiCurrencyDollar, PiPlus } from 'react-icons/pi'
 import styled from 'styled-components'
 import NavActions from '../shared/NavActions'
-import AssetsBuyControl from './AssetsBuyControl'
+import AssetsRampControl from './AssetsRampControl'
 import { AssetsReceive } from './AssetsReceive'
 import { AssetsSend } from './AssetsSend'
 
@@ -62,12 +62,12 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
       <div>
         {type === 'buy' && (
           <BuyAssetContainer>
-            <AssetsBuyControl type={type} asset={asset} />
+            <AssetsRampControl type={type} asset={asset} />
           </BuyAssetContainer>
         )}
         {type === 'sell' && (
           <BuyAssetContainer>
-            <AssetsBuyControl type={type} asset={asset} />
+            <AssetsRampControl type={type} asset={asset} />
           </BuyAssetContainer>
         )}
         {type === 'swap' && (

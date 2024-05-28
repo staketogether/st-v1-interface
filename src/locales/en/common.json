@@ -88,6 +88,10 @@
   "investments": "Investments",
   "genericTransactionSuccess": "Transaction Successful",
   "sendAddress": "Send Address",
+   "unlockTransaction": {
+    "failTransaction": "Failed to perform Unlock",
+    "success": "Unlocking Completed Successfully"
+  },
   "time": {
     "days": "Days",
     "day": "Day",
@@ -769,7 +773,11 @@
         "sendingPix": "Sending Pix",
         "success": "Your money is now available in your account",
         "youReceived": "You received",
-        "successTitle": "Withdrawal successful!"
+        "successTitle": "Withdrawal successful!",
+         "alertMessage": "Attention! To move tokens on the Optimism network, you must have a balance in Ether (ETH) to cover transaction fees",
+         "unlock": "Unlock token",
+        "unlocked": "token Unlocked",
+        "sendToken": "Send token"
       }
     },
     "ethereumStaking": {
