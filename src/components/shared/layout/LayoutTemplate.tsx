@@ -7,7 +7,6 @@ import styled from 'styled-components'
 import { lightTheme } from '../../../styles/theme'
 import { Cloudflare } from '../scripts/Cloudflare'
 import { GoogleTag } from '../scripts/GoogleTag'
-import { PipeDrive } from '../scripts/PipeDrive'
 import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
@@ -55,7 +54,6 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
         <>
           <GoogleTag />
           <Cloudflare />
-          <PipeDrive />
         </>
       )}
       <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />
