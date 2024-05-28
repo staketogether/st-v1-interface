@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { PiArrowRight } from 'react-icons/pi'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
+import { truncateDecimal } from '@/services/truncate'
 
 interface SwapInfoProps {
   asset: Asset
@@ -28,7 +29,7 @@ export default function SwapInfo({ asset, type }: SwapInfoProps) {
         <AssetIcon image={asset.symbolImage} chain={asset.chains[0]} size={16} altName={asset.symbol} />
         <span>{asset.symbol}</span>
       </div>
-      <span>{quote?.amountToken}</span>
+      <span>{truncateDecimal(quote?.amountToken ?? '0', 6)}</span>
     </SwapToken>
   ]
   return (
