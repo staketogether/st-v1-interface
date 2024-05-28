@@ -41,7 +41,7 @@ export function AssetsReceive() {
         <ChildHeader>
         <span>{t('compatibility')}</span>
         <div>
-          {mainnetChain.map(chainFiltered => <NetworkIcons key={chainFiltered.chainId} network={chainFiltered.name.toLowerCase()} size={24}/>)}
+          {mainnetChains.map(chainFiltered => <NetworkIcons key={chainFiltered.chainId} network={chainFiltered.name.toLowerCase()} size={24}/>)}
         </div>
       </ChildHeader>
       )}/>}
