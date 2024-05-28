@@ -27,15 +27,13 @@ export default function SuccessStep({ product, type }: SuccessStepProps) {
 
   const symbol = type === 'buy' ? product.symbol : 'BRL'
   const messageReceive = type === 'buy' ? t('v2.ramp.yourEths') : t('v2.ramp.yourEths').replace('ETH', 'BRL')
-
+  const value = type === 'buy' ? quote?.amountToken : quote?.amountBrl
   return (
     <Container>
       <LottieAnimation animationData={successAnimation} height={80} />
       <DepositToken>
         <div>
-          <span>
-            {quote?.amountToken} {symbol}
-          </span>
+          <span>{`${value} ${symbol}`}</span>
         </div>
         <div>
           <span>{messageReceive}</span>
