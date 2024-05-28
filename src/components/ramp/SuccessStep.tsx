@@ -1,12 +1,12 @@
 import { clearModal, quoteVar } from '@/hooks/ramp/useControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
 import successAnimation from '@assets/animations/success-animation.json'
 import styled from 'styled-components'
 import Button from '../shared/Button'
 import LottieAnimation from '../shared/LottieAnimation'
-import { Asset } from '@/types/Asset'
 
 interface SuccessStepProps {
   product: Asset
@@ -33,7 +33,7 @@ export default function SuccessStep({ product }: SuccessStepProps) {
           </span>
         </div>
         <div>
-          <span>{t('v2.ramp.yourEths')}</span>
+          <span>{t('v2.ramp.yourEths').replace('TOKENS', product.symbol)}</span>
           <span className='purple'>{t('v2.ramp.timeReceive')}</span>
         </div>
       </DepositToken>
