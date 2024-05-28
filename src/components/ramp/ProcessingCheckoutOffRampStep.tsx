@@ -119,7 +119,8 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
     }
   }, [approveIsSuccess, allowanceRefetch])
 
-  const verifyUserIsApprovedAddress = paymentDetails?.bridge.approvalAddress && allowanceData && allowanceData > 0
+  const verifyUserIsApprovedAddress =
+    (paymentDetails?.bridge.approvalAddress && allowanceData && allowanceData > 0) ?? asset.type === 'native'
 
   function verifyAllowanceLabel() {
     if (verifyUserIsApprovedAddress) {
