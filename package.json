@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.9.11",
-    "@biconomy/account": "^4.2.0",
     "@emotion/is-prop-valid": "^1.2.2",
     "@lifi/widget": "^3.0.0-alpha.38",
     "@lottiefiles/react-lottie-player": "^3.5.3",

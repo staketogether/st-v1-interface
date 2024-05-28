@@ -33,7 +33,7 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
     address: walletAddress ? walletAddress : undefined,
     chainId,
     query: {
-      enabled: asset.type === 'native'
+      enabled: asset.type === 'native' && !!walletAddress
     }
   })
 

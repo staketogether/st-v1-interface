@@ -11,7 +11,6 @@ export interface ChainConfig {
   provider: ethers.JsonRpcProvider
   blockExplorer: BlockExplorerConfig
   isTestnet: boolean
-  paymasterKey?: string
   transactionConfig: {
     blockTimePerSeconds: number
     confirmations: number
@@ -24,7 +23,6 @@ export const chainConfigs: ChainConfig[] = [
     name: 'Ethereum',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL),
     isTestnet: false,
-    paymasterKey: process.env.NEXT_PUBLIC_PAYMASTER_ETH_MAINNET,
     blockExplorer: {
       baseUrl: mainnet.blockExplorers.default.url
     },
@@ -38,7 +36,6 @@ export const chainConfigs: ChainConfig[] = [
     name: 'Optimism',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OP_MAINNET_URL),
     isTestnet: false,
-    paymasterKey: process.env.NEXT_PUBLIC_PAYMASTER_OP_MAINNET,
     blockExplorer: {
       baseUrl: optimism.blockExplorers.default.url
     },
@@ -52,7 +49,6 @@ export const chainConfigs: ChainConfig[] = [
     name: 'Arbitrum',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ARB_MAINNET_URL),
     isTestnet: false,
-    paymasterKey: process.env.NEXT_PUBLIC_PAYMASTER_ARB_MAINNET,
     blockExplorer: {
       baseUrl: arbitrum.blockExplorers.default.url
     },
@@ -66,7 +62,6 @@ export const chainConfigs: ChainConfig[] = [
     name: 'Polygon',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_POL_MAINNET_URL),
     isTestnet: false,
-    paymasterKey: process.env.NEXT_PUBLIC_PAYMASTER_POL_MAINNET,
     blockExplorer: {
       baseUrl: polygon.blockExplorers.default.url
     },
@@ -80,7 +75,6 @@ export const chainConfigs: ChainConfig[] = [
     name: 'Chiliz',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET_URL),
     isTestnet: false,
-    paymasterKey: process.env.NEXT_PUBLIC_PAYMASTER_CHZ_MAINNET,
     blockExplorer: {
       baseUrl: chiliz.blockExplorers.default.url
     },
@@ -94,7 +88,6 @@ export const chainConfigs: ChainConfig[] = [
     name: 'Sepolia',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ETH_TESTNET_URL),
     isTestnet: true,
-    paymasterKey: '0x',
     blockExplorer: {
       baseUrl: sepolia.blockExplorers.default.url
     },
@@ -108,7 +101,6 @@ export const chainConfigs: ChainConfig[] = [
     name: 'OptimismSp',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OP_TESTNET_URL),
     isTestnet: true,
-    paymasterKey: 'XWk3Bd3kC.5a555601-f5ab-4fed-ab01-5ad406015e80',
     blockExplorer: {
       baseUrl: optimismSepolia.blockExplorers.default.url
     },
@@ -122,7 +114,6 @@ export const chainConfigs: ChainConfig[] = [
     name: 'Arbitrum Sepolia',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ARB_TESTNET_URL),
     isTestnet: true,
-    paymasterKey: '0x',
     blockExplorer: {
       baseUrl: arbitrumSepolia.blockExplorers.default.url
     },
@@ -136,7 +127,6 @@ export const chainConfigs: ChainConfig[] = [
     name: 'polygon-mumbai',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_POL_TESTNET_URL),
     isTestnet: true,
-    paymasterKey: '0x',
     blockExplorer: {
       baseUrl: polygonMumbai.blockExplorers.default.url
     },
@@ -150,7 +140,6 @@ export const chainConfigs: ChainConfig[] = [
     name: 'spicy',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_CHZ_TESTNET_URL),
     isTestnet: true,
-    paymasterKey: '0x',
     blockExplorer: {
       baseUrl: spicy.blockExplorers.default.url
     },

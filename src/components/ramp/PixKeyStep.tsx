@@ -84,8 +84,8 @@ export default function PixKeyStep() {
       value: { label: 'Aleatório', value: 'RANDOM' }
     },
     {
-      key: 'CPNJ',
-      value: { label: 'CPNJ', value: 'CPNJ' }
+      key: 'CNPJ',
+      value: { label: 'CNPJ', value: 'CNPJ' }
     },
     {
       key: 'EMAIL',
