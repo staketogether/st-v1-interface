@@ -13,6 +13,8 @@ import { PiArrowLineRight } from 'react-icons/pi'
 import { chainConfigs } from '@/config/chain'
 
 export function AssetsReceive() {
+
+  const chainByTestNet = chainConfigs.filter(chain => chain.isTestnet === false)
   const { t } = useLocaleTranslation()
   const account = useAccount()
   const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
@@ -24,7 +26,6 @@ export function AssetsReceive() {
     })
   }
 
-  console.log('')
   return (
     <Container>
       {account.address && (
@@ -40,12 +41,7 @@ export function AssetsReceive() {
         <ChildHeader>
         <span>{t('compatibility')}</span>
         <div>
-          {chainConfigs.map(chain => (
-            chain.isTestnet === false && 
-            <>
-            <NetworkIcons network={chain.name.toLowerCase()} size={24}/>
-            </>
-          ))}
+          {chainByTestNet.map(chainFiltered => <NetworkIcons network={chainFiltered.name.toLowerCase()} size={24}/>)}
         </div>
       </ChildHeader>
       )}/>}
@@ -111,6 +107,5 @@ const { Container, Code, WalletContainer, ConnectWalletIcon, ChildHeader } = {
       margin-bottom: ${({ theme }) => theme.size[8]};
     }
   }
-  
   `
 }
