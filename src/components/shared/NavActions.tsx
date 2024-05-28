@@ -57,10 +57,6 @@ const { Nav, IconContainer } = {
         width: 100%;
         a {
           background: ${({ theme }) => theme.colorV2.foreground};
-
-          filter: grayscale(100%);
-          opacity: 0.4;
-
           transition: grayscale 0ms.3 ease-out;
 
           border-radius: ${({ theme }) => theme.size[8]};
@@ -76,6 +72,9 @@ const { Nav, IconContainer } = {
 
           &.disabled {
             cursor: not-allowed;
+            background: ${({ theme }) => theme.colorV2.foreground};
+            filter: grayscale(100%);
+            opacity: 0.4;
           }
         }
 
@@ -90,6 +89,16 @@ const { Nav, IconContainer } = {
           a {
             opacity: 1;
             filter: none;
+            background: ${({ theme }) => theme.color.primary};
+          }
+
+          span {
+            color: ${({ theme }) => theme.color.white};
+          }
+
+          svg {
+            color: ${({ theme }) => theme.colorV2.blue[1]};
+            background-color: ${({ theme }) => theme.colorV2.white};
           }
         }
       }
