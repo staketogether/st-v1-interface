@@ -804,7 +804,11 @@
         "alertMessage": "Atenção! Para movimentar tokens na rede Optimism, é necessário ter saldo em Ether (ETH) para cobrir as taxas de transação",
         "unlock": "Desbloquear token",
         "unlocked": "token Desbloqueado",
-        "sendToken": "Enviar token"
+        "sendToken": "Enviar token",
+        "pixKeyLabel": {
+          "phone": "Telefone",
+          "random": "Aleatório"
+        }
       }
     },
     "ethereumStaking": {

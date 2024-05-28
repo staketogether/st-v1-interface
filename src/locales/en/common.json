@@ -777,7 +777,11 @@
          "alertMessage": "Attention! To move tokens on the Optimism network, you must have a balance in Ether (ETH) to cover transaction fees",
          "unlock": "Unlock token",
         "unlocked": "token Unlocked",
-        "sendToken": "Send token"
+        "sendToken": "Send token",
+         "pixKeyLabel": {
+          "phone": "Phone",
+          "random": "Random"
+        }
       }
     },
     "ethereumStaking": {

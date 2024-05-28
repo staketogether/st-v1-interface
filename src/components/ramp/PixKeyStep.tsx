@@ -77,11 +77,11 @@ export default function PixKeyStep() {
     },
     {
       key: 'PHONE',
-      value: { label: 'Telefone', value: 'PHONE' }
+      value: { label: t('v2.ramp.offRamp.pixKeyLabel.phone'), value: 'PHONE' }
     },
     {
       key: 'RANDOM',
-      value: { label: 'Aleatório', value: 'RANDOM' }
+      value: { label: t('v2.ramp.offRamp.pixKeyLabel.random'), value: 'RANDOM' }
     },
     {
       key: 'CNPJ',
