@@ -80,7 +80,6 @@ export default function EthereumWithdraw({
     chainId
   })
 
-  console.log('withdrawTimeLeft', withdrawTimeLeft)
   const { withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance, refetch: withdrawValidatorsBalanceRefetch } =
     useWithdrawValidatorBalance({ product, chainId })
   const { stConfig } = useStConfig({ name: product.id, chainId })
