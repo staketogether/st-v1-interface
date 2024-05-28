@@ -14,7 +14,7 @@ import { chainConfigs } from '@/config/chain'
 
 export function AssetsReceive() {
 
-  const chainByTestNet = chainConfigs.filter(chain => chain.isTestnet === false)
+  const mainnetChain = chainConfigs.filter(chain => !chain.isTestnet)
   const { t } = useLocaleTranslation()
   const account = useAccount()
   const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
@@ -41,7 +41,7 @@ export function AssetsReceive() {
         <ChildHeader>
         <span>{t('compatibility')}</span>
         <div>
-          {chainByTestNet.map(chainFiltered => <NetworkIcons network={chainFiltered.name.toLowerCase()} size={24}/>)}
+          {mainnetChain.map(chainFiltered => <NetworkIcons key={chainFiltered.chainId} network={chainFiltered.name.toLowerCase()} size={24}/>)}
         </div>
       </ChildHeader>
       )}/>}
