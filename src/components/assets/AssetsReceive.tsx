@@ -14,7 +14,7 @@ import { chainConfigs } from '@/config/chain'
 
 export function AssetsReceive() {
 
-  const mainnetChain = chainConfigs.filter(chain => !chain.isTestnet)
+  const mainnetChains = chainConfigs.filter(chain => !chain.isTestnet)
   const { t } = useLocaleTranslation()
   const account = useAccount()
   const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
