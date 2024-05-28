@@ -3,6 +3,7 @@ import StakeConfirmModal from '@/components/stake/StakeConfirmModal'
 import StakeWithdrawCounter from '@/components/stake/StakeWithdrawCounter'
 import StakeWithdrawSwitchTypes from '@/components/stake/StakeWithdrawSwitchTypes'
 import { chainConfigByChainId } from '@/config/chain'
+import { capitalize } from '@/config/utils'
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
 import useStConfig from '@/hooks/contracts/useStConfig'
 import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
@@ -15,6 +16,7 @@ import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet
 import { fbqTrackEvent } from '@/services/FacebookPixel'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
+import { Staking } from '@/types/Staking'
 import { WithdrawType } from '@/types/Withdraw'
 import { Tooltip } from 'antd'
 import { ethers } from 'ethers'
@@ -26,8 +28,6 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount, useSwitchChain } from 'wagmi'
 import EthereumInput from './EthereumInput'
 import EthereumShowReceiveCoin from './EthereumShowReceiveCoin'
-import { Staking } from '@/types/Staking'
-import { capitalize } from '@/config/utils'
 
 interface EthereumWithdrawProps {
   type: 'deposit' | 'withdraw'
@@ -79,6 +79,8 @@ export default function EthereumWithdraw({
     product,
     chainId
   })
+
+  console.log('withdrawTimeLeft', withdrawTimeLeft)
   const { withdrawValidatorsBalance: withdrawLiquidityValidatorsBalance, refetch: withdrawValidatorsBalanceRefetch } =
     useWithdrawValidatorBalance({ product, chainId })
   const { stConfig } = useStConfig({ name: product.id, chainId })
