@@ -808,7 +808,7 @@
         "unlock": "Desbloquear token",
         "unlocked": "token Desbloqueado",
         "sendToken": "Enviar token",
-        "connectedNetwork": "Connected the [network]",
+        "connectedNetwork": "Conectado em [network]",
         "pixKeyLabel": {
           "phone": "Telefone",
           "random": "Aleatório"
