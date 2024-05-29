@@ -31,7 +31,7 @@ export default function AssetBalanceCard({ asset, userTokenBalance, userTokenIsL
         <span>{t('balance')}</span>
         <ContainerImage>
           <AssetIcon image={asset.symbolImage} size={24} altName={asset.id} chain={asset.chains[0]} />
-          {userTokenIsLoading ? <SkeletonLoading width={80} height={18} /> : <span>{truncateDecimal(userTokenBalance.balance, 6)}</span>}
+          {userTokenIsLoading ? <SkeletonLoading width={80} height={18} /> : <span>{truncateDecimal(userTokenBalance.balance, asset.decimals)}</span>}
         </ContainerImage>
       </header>
       {isPossibleToInvest && (
