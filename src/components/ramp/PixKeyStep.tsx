@@ -50,11 +50,11 @@ export default function PixKeyStep() {
 
   const handleValidate = () => {
     const validates = {
-      CPF: () => (isValidCPF(key) && 'cpf invalido') || undefined,
-      PHONE: () => (isValidPhone(key) && 'telefone invalido') || undefined,
+      CPF: () => (isValidCPF(key) && t('v2.ramp.offRamp.pixKeyFormError.cpf')) || undefined,
+      PHONE: () => (isValidPhone(key) && t('v2.ramp.offRamp.pixKeyFormError.phone')) || undefined,
       RANDOM: undefined,
-      CNPJ: () => (isValidCNPJ(key) && 'cnpj invalido') || undefined,
-      EMAIL: () => (isValidEmail(key) && 'email invalido') || undefined
+      CNPJ: () => (isValidCNPJ(key) && t('v2.ramp.offRamp.pixKeyFormError.cnpj')) || undefined,
+      EMAIL: () => (isValidEmail(key) && t('v2.ramp.offRamp.pixKeyFormError.email')) || undefined
     }
     return validates[type]
   }

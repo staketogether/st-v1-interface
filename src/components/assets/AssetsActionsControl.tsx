@@ -70,18 +70,7 @@ export default function AssetsActionsControl({
     <EthereumContainer>
       <NavActions typeActive={type} navActionsList={navActionsList} />
       <div>
-        {type === 'buy' && (
-          <BuyAssetContainer>
-            <AssetsRampControl
-              type={type}
-              asset={asset}
-              userTokenBalance={userTokenBalance}
-              userTokenIsLoading={userTokenIsLoading}
-              userTokenRefetch={userTokenRefetch}
-            />
-          </BuyAssetContainer>
-        )}
-        {type === 'sell' && (
+        {(type === 'buy' || type === 'sell') && (
           <BuyAssetContainer>
             <AssetsRampControl
               type={type}

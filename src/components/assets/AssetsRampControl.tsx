@@ -21,7 +21,7 @@ import ConnectWallet from '../shared/ConnectWallet'
 import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 
 interface AssetsRampControlProps {
-  type: 'buy' | 'sell' | 'swap'
+  type: 'buy' | 'sell'
   asset: Asset
   userTokenBalance: TokenBalance
   userTokenIsLoading: boolean

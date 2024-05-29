@@ -86,7 +86,7 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
     if (isWrongNetwork) {
       return <Button small onClick={changeNetwork} label={changeNetworkLabel} disabled={false} icon={<WrongNetworkIcon />} />
     }
-    return 'verified wallet network '
+    return t('v2.ramp.offRamp.connectedNetwork').replace('[network]', `${name.charAt(0).toUpperCase() + name.slice(1)}`)
   }
 
   useEffect(() => {

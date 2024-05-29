@@ -808,9 +808,16 @@
         "unlock": "Desbloquear token",
         "unlocked": "token Desbloqueado",
         "sendToken": "Enviar token",
+        "connectedNetwork": "Connected the [network]",
         "pixKeyLabel": {
           "phone": "Telefone",
           "random": "Aleatório"
+        },
+        "pixKeyFormError": {
+          "cpf": "CPF inválido",
+          "phone": "Telefone inválido",
+          "cnpj": "CNPJ inválido",
+          "email": "Email inválido"
         }
       }
     },

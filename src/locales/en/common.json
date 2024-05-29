@@ -781,9 +781,16 @@
          "unlock": "Unlock token",
         "unlocked": "token Unlocked",
         "sendToken": "Send token",
+        "connectedNetwork": "Connected the [network]",
          "pixKeyLabel": {
           "phone": "Phone",
           "random": "Random"
+        },
+        "pixKeyFormError": {
+          "cpf": "Invalid CPF",
+          "phone": "Invalid phone",
+          "cnpj": "Invalid CNPJ",
+          "email": "Invalid Email address"
         }
       }
     },

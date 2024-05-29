@@ -24,7 +24,6 @@ export const phoneMask = (value: string) => {
     return number.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
   } else if (number.length === 11) {
     return number.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
-  } else {
-    return value
   }
+  return value
 }
