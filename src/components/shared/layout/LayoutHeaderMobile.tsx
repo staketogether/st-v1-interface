@@ -87,12 +87,18 @@ const { Container, Content, WalletContainer, Logo, MenuContainer, SettingIcon, M
     display: grid;
     grid-template-columns: auto 1fr;
     gap: ${({ theme }) => theme.size[24]};
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+      gap: 2px;
+    }
   `,
   WalletContainer: styled.div`
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
     justify-content: flex-end;
+    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+      gap: 2px;
+    }
   `,
   Logo: styled(Link)`
     width: 40px;
