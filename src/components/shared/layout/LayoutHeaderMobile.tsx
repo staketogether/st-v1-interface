@@ -15,11 +15,13 @@ import stIcon from '../../../../public/assets/st-icon.png'
 import SkeletonLoading from '../icons/SkeletonLoading'
 import LayoutSidebarMobileMenu from './LayoutSidebarMobileMenu'
 
+/*
 const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} height={32} />,
   suspense: true
 })
+*/
 
 export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
@@ -27,7 +29,6 @@ export default function LayoutHeaderMobile() {
   const { query } = useRouter()
   const { currency } = query
   const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
-  const { setOpenSidebarMobileMenu } = useLayoutSidebarMobileMenu()
   const { setWalletSidebarMobileSettings } = useWalletSidebarMobileSettings()
 
   return (
@@ -56,7 +57,7 @@ export default function LayoutHeaderMobile() {
   )
 }
 
-const { Container, Content, WalletContainer, Logo, MenuContainer, SettingIcon, MenuIcon } = {
+const { Container, Content, WalletContainer, Logo, MenuContainer, SettingIcon } = {
   Container: styled.header`
     display: grid;
     gap: ${({ theme }) => theme.size[24]};
@@ -75,9 +76,6 @@ const { Container, Content, WalletContainer, Logo, MenuContainer, SettingIcon, M
     &:hover {
       background-color: ${({ theme }) => theme.colorV2.foreground};
     }
-  `,
-  MenuIcon: styled(PiListBold)`
-    font-size: 18px;
   `,
   Content: styled.div`
     display: grid;
