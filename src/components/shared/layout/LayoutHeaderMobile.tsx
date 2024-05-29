@@ -1,27 +1,18 @@
 import Wallet from '@/components/wallet/Wallet'
 import WalletSidebarMobileSetting from '@/components/wallet/WalletSidebarMobileSetting'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
-import useLayoutSidebarMobileMenu from '@/hooks/useLayoutSidebarMobileMenu'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletSidebarMobileSettings from '@/hooks/useWalletSidebarMobileSettings'
-import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiGear, PiListBold } from 'react-icons/pi'
+import { PiGear } from 'react-icons/pi'
 import { GoSearch } from "react-icons/go";
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
-import SkeletonLoading from '../icons/SkeletonLoading'
 import LayoutSidebarMobileMenu from './LayoutSidebarMobileMenu'
 
-/*
-const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
-  ssr: false,
-  loading: () => <SkeletonLoading width={80} height={32} />,
-  suspense: true
-})
-*/
+
 
 export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
