@@ -1,12 +1,12 @@
 import { RampSteps, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
 import successAnimation from '@assets/animations/success-animation.json'
 import styled from 'styled-components'
 import Button from '../shared/Button'
 import LottieAnimation from '../shared/LottieAnimation'
-import { Asset } from '@/types/Asset'
 
 interface SuccessStepProps {
   product: Asset
@@ -26,7 +26,8 @@ export default function SuccessStep({ product, type }: SuccessStepProps) {
   })
 
   const symbol = type === 'buy' ? product.symbol : 'BRL'
-  const messageReceive = type === 'buy' ? t('v2.ramp.yourEths') : t('v2.ramp.yourEths').replace('ETH', 'BRL')
+  const messageReceive =
+    type === 'buy' ? t('v2.ramp.yourEths').replace('TOKENS', product.symbol) : t('v2.ramp.yourEths').replace('ETH', 'BRL')
   const value = type === 'buy' ? quote?.amountToken : quote?.amountBrl
   return (
     <Container>
