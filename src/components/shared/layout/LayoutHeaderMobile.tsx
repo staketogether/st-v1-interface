@@ -86,18 +86,17 @@ const { Container, Content, WalletContainer, Logo, MenuContainer, SettingIcon, M
   Content: styled.div`
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: ${({ theme }) => theme.size[24]};
-    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-      gap: 2px;
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      gap: ${({ theme }) => theme.size[24]};
     }
   `,
   WalletContainer: styled.div`
     display: flex;
     align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: 3px;
     justify-content: flex-end;
-    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-      gap: 2px;
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      gap: ${({ theme }) => theme.size[8]};
     }
   `,
   Logo: styled(Link)`
