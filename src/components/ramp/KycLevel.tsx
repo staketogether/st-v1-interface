@@ -3,7 +3,7 @@ import { useReactiveVar } from '@apollo/client'
 import { Tooltip } from 'antd'
 import { PiInfoThin, PiQuestion } from 'react-icons/pi'
 import styled from 'styled-components'
-import { kycLevelVar } from '../../hooks/ramp/useControlModal'
+import { kycLevelVar } from '../../hooks/ramp/useRampControlModal'
 
 export function KycLevel({ amountValue }: { amountValue: number }) {
   const { t } = useLocaleTranslation()

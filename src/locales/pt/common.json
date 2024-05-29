@@ -86,12 +86,16 @@
   "knowMore": "Saiba mais",
   "buyCryptoTitle": "Comprar Ether",
   "sellCryptoTitle": "Vender Vender",
-  "genericErrorMessage": "Desculpa! Algum coisa deu errado Tente novamente",
+  "genericErrorMessage": "Desculpa! Alguma coisa deu errado Tente novamente",
   "selectProduct": "Selecionar Produto",
   "estimatedBalance": "Saldo Estimado",
   "investments": "Investimentos",
   "genericTransactionSuccess": "Transação Realizada com Sucesso!",
   "sendAddress": "Endereço de Destino",
+  "unlockTransaction": {
+    "failTransaction": "Falha ao realizar Desbloqueio",
+    "success": "Desbloqueio Realizado com Sucesso"
+  },
   "time": {
     "days": "Dias",
     "day": "Dia",
@@ -735,11 +739,11 @@
     },
     "ramp": {
       "title": "Comprar symbol com PIX",
-      "success": "Depósito concluído com sucesso",
       "checkOut": "Finalizar Compra",
       "processingRegistration": "Processando Cadastro",
       "processingPayment": "Processando Pagamento",
       "generatingQRCode": "Gerando QR Code",
+      "validatingWithdrawal": "Validando Saque",
       "paymentIdentified": "Pagamento identificado",
       "mintingBRLA": "Mintagem BRLA na Blockchain",
       "swapBrlToEth": "Swap  BRLA para ETH",
@@ -789,6 +793,32 @@
         "bank": "Banco",
         "paymentTime": "Tempo de pagamento",
         "timeOut": "Infelizmente o seu prazo para efetuar o pagamento expirou!"
+      },
+      "onRamp": {
+        "success": "Depósito concluído com sucesso"
+      },
+      "offRamp": {
+        "requestRequested": "Pedido solicitado",
+        "exchange": "Swap BRLA na Blockchain",
+        "sendingPix": "Enviado Pix",
+        "success": "Saque realizado com sucesso!",
+        "youReceived": "Você Recebeu",
+        "successTitle": "Saque realizado com sucesso!",
+        "alertMessage": "Atenção! Para movimentar tokens na rede [network], é necessário ter saldo na moeda nativa para cobrir as taxas de transação",
+        "unlock": "Desbloquear token",
+        "unlocked": "token Desbloqueado",
+        "sendToken": "Enviar token",
+        "connectedNetwork": "Conectado em [network]",
+        "pixKeyLabel": {
+          "phone": "Telefone",
+          "random": "Aleatório"
+        },
+        "pixKeyFormError": {
+          "cpf": "CPF inválido",
+          "phone": "Telefone inválido",
+          "cnpj": "CNPJ inválido",
+          "email": "Email inválido"
+        }
       }
     },
     "ethereumStaking": {

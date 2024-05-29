@@ -91,6 +91,10 @@
   "investments": "Investments",
   "genericTransactionSuccess": "Transaction Successful",
   "sendAddress": "Send Address",
+   "unlockTransaction": {
+    "failTransaction": "Failed to perform Unlock",
+    "success": "Unlocking Completed Successfully"
+  },
   "time": {
     "days": "Days",
     "day": "Day",
@@ -717,6 +721,7 @@
       "processingRegistration": "Processing Registration",
       "processingPayment": "Processing Payment",
       "generatingQRCode": "Generating QR Code",
+      "validatingWithdrawal": "Validating withdrawal",
       "paymentIdentified": "Payment Identified",
       "mintingBRLA": "Minting BRLA on the Blockchain",
       "swapBrlToEth": "Swap BRLA for ETH",
@@ -764,6 +769,29 @@
         "bank": "Bank",
         "paymentTime": "Payment time",
         "timeOut": "Unfortunately, your deadline to make payment has expired!"
+      },
+      "offRamp": {
+        "requestRequested": "Request requested",
+        "exchange": "Exchange BRLA for Blockchain",
+        "sendingPix": "Sending Pix",
+        "success": "Your money is now available in your account",
+        "youReceived": "You received",
+        "successTitle": "Withdrawal successful!",
+         "alertMessage": "Attention! To move tokens on the [network], you must have a balance in the native currency to cover transaction fees",
+         "unlock": "Unlock token",
+        "unlocked": "token Unlocked",
+        "sendToken": "Send token",
+        "connectedNetwork": "Connected the [network]",
+         "pixKeyLabel": {
+          "phone": "Phone",
+          "random": "Random"
+        },
+        "pixKeyFormError": {
+          "cpf": "Invalid CPF",
+          "phone": "Invalid phone",
+          "cnpj": "Invalid CNPJ",
+          "email": "Invalid Email address"
+        }
       }
     },
     "ethereumStaking": {

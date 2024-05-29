@@ -1,4 +1,4 @@
-import { quoteVar } from '@/hooks/ramp/useControlModal'
+import { quoteVar } from '@/hooks/ramp/useRampControlModal'
 import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
 import brla from '@assets/images/BRLA.svg'
@@ -6,30 +6,37 @@ import Image from 'next/image'
 import { PiArrowRight } from 'react-icons/pi'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
+import { truncateDecimal } from '@/services/truncate'
 
 interface SwapInfoProps {
   asset: Asset
+  type: 'buy' | 'sell' | 'swap'
 }
 
-export default function SwapInfo({ asset }: SwapInfoProps) {
+export default function SwapInfo({ asset, type }: SwapInfoProps) {
   const quote = useReactiveVar(quoteVar)
+
+  const [first, second] = [
+    <SwapToken key='brla'>
+      <div>
+        <Image src={brla} width={16} height={16} alt='brla' />
+        <span>BRLA</span>
+      </div>
+      <span>{quote?.amountBrl}</span>
+    </SwapToken>,
+    <SwapToken key={asset.symbol}>
+      <div>
+        <AssetIcon image={asset.symbolImage} chain={asset.chains[0]} size={16} altName={asset.symbol} />
+        <span>{asset.symbol}</span>
+      </div>
+      <span>{truncateDecimal(quote?.amountToken ?? '0', 6)}</span>
+    </SwapToken>
+  ]
   return (
     <Container>
-      <SwapToken>
-        <div>
-          <Image src={brla} width={16} height={16} alt='brla' />
-          <span>BRLA</span>
-        </div>
-        <span>{quote?.amountBrl}</span>
-      </SwapToken>
+      {type === 'buy' ? first : second}
       <PiArrowRight size={24} />
-      <SwapToken className='left'>
-        <div>
-          <AssetIcon image={asset.symbolImage} chain={asset.chains[0]} size={16} altName={asset.symbol} />
-          <span>{asset.symbol}</span>
-        </div>
-        <span>{quote?.amountToken}</span>
-      </SwapToken>
+      {type === 'sell' ? first : second}
     </Container>
   )
 }
@@ -43,6 +50,12 @@ const { Container, SwapToken } = {
     border-radius: 8px;
     gap: 8px;
     background: ${({ theme }) => theme.colorV2.gray[2]};
+    > div:nth-child(3) {
+      margin: 0 0 0 auto;
+      > div {
+        justify-content: right;
+      }
+    }
   `,
   SwapToken: styled.div`
     padding: 8px 16px;
@@ -67,10 +80,6 @@ const { Container, SwapToken } = {
       text-align: left;
     }
     &.left {
-      margin: 0 0 0 auto;
-      > div {
-        justify-content: right;
-      }
     }
   `
 }

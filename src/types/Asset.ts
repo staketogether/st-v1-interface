@@ -68,10 +68,10 @@ export type AssetId =
 
 export interface NativeAsset extends TokenActions {
   id: AssetId
+  decimals: number
   name: string
   order: number
   symbol: string
-  decimals: number
   symbolImage: string
   url: string
   category: AssetCategory
@@ -124,10 +124,10 @@ export interface FanTokenAsset extends TokenActions {
   name: string
   order: number
   symbol: string
+  decimals: number
   symbolImage: string | StaticImageData
   url: string
   category: AssetCategory
-  decimals: number
   chains: Chain[]
   listed: boolean
   enabled: boolean

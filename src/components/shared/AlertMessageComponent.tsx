@@ -3,12 +3,11 @@ import { PiWarning } from 'react-icons/pi'
 import styled from 'styled-components'
 
 interface AlertMessageComponentProps {
-  message: string,
-  header?: ReactNode,
+  message: string
+  header?: ReactNode
 }
 
 export default function AlertMessageComponent({ message, header }: AlertMessageComponentProps) {
-
   return (
     <Container>
       {header}
@@ -37,10 +36,10 @@ const { Container, WarningIcon, MessageContainer } = {
   `,
   WarningIcon: styled(PiWarning)`
     font-size: 24px;
-  `, 
+  `,
   MessageContainer: styled.div`
-        display: grid;
-        grid-template-columns: 24px 1fr;
-        gap: ${({ theme }) => theme.size[8]};
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: ${({ theme }) => theme.size[8]};
   `
 }

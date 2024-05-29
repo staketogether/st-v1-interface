@@ -6,16 +6,26 @@ import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowUp, PiArrowsClockwise, PiCurrencyDollar, PiPlus } from 'react-icons/pi'
 import styled from 'styled-components'
 import NavActions from '../shared/NavActions'
-import AssetsBuyControl from './AssetsBuyControl'
+import AssetsRampControl from './AssetsRampControl'
 import { AssetsReceive } from './AssetsReceive'
 import { AssetsSend } from './AssetsSend'
+import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 
 interface AssetsActionsControlProps {
   type: AssetActionType
   asset: Asset
+  userTokenBalance: TokenBalance
+  userTokenIsLoading: boolean
+  userTokenRefetch: () => void
 }
 
-export default function AssetsActionsControl({ type, asset }: AssetsActionsControlProps) {
+export default function AssetsActionsControl({
+  type,
+  asset,
+  userTokenBalance,
+  userTokenIsLoading,
+  userTokenRefetch
+}: AssetsActionsControlProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
@@ -25,10 +35,10 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
     {
       type: 'sell',
       label: t('sell'),
-      url: `${asset.url.replace('currency', currency)}/withdraw`,
-      disabled: true,
+      url: `${asset.url.replace('currency', currency)}/sell`,
+      disabled: asset?.disableActions?.sell,
       icon: <PiCurrencyDollar />,
-      tooltipLabel: t('soon')
+      tooltipLabel: asset?.disableActions?.sell ? t('soon') : ''
     },
     {
       type: 'swap',
@@ -60,14 +70,15 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
     <EthereumContainer>
       <NavActions typeActive={type} navActionsList={navActionsList} />
       <div>
-        {type === 'buy' && (
+        {(type === 'buy' || type === 'sell') && (
           <BuyAssetContainer>
-            <AssetsBuyControl type={type} asset={asset} />
-          </BuyAssetContainer>
-        )}
-        {type === 'sell' && (
-          <BuyAssetContainer>
-            <AssetsBuyControl type={type} asset={asset} />
+            <AssetsRampControl
+              type={type}
+              asset={asset}
+              userTokenBalance={userTokenBalance}
+              userTokenIsLoading={userTokenIsLoading}
+              userTokenRefetch={userTokenRefetch}
+            />
           </BuyAssetContainer>
         )}
         {type === 'swap' && (

@@ -1,5 +1,4 @@
 import NewStakeControl from '@/components/new-stake/NewStakeControl'
-import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
@@ -40,7 +39,6 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
     <LayoutTemplate>
       <Metatags />
       <NewStakeControl type='deposit' staking={product} assetData={assetData} chainId={chainId} />
-      <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )
 }

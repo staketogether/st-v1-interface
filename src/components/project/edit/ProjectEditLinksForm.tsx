@@ -1,6 +1,6 @@
 import Button from '@/components/shared/Button'
 import Input from '@/components/shared/inputs/Input'
-import { projectRegexFields, projectRegexOnKeyDown } from '@/components/shared/regex'
+import { projectRegexFields, projectRegexOnKeyDown } from '@/components/shared/input-helper/regex'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { EditProjectForm } from '@/types/Project'
 import React, { useEffect, useRef } from 'react'

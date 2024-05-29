@@ -1,15 +1,14 @@
 import AssetsControl from '@/components/assets/AssetsControl'
-import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
+import { assetsList } from '@/config/product/asset'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
+import { Asset } from '@/types/Asset'
+import { AssetStats } from '@/types/AssetStats'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { Asset } from '@/types/Asset'
-import { assetsList } from '@/config/product/asset'
-import { AssetStats } from '@/types/AssetStats'
 
 export interface ProductProps {
   asset: Asset
@@ -18,28 +17,10 @@ export interface ProductProps {
 }
 
 export default function Product({ asset, assetData, chainId }: ProductProps) {
-  // const router = useRouter()
-  // const minAmount = asset.ramp[0].minDeposit
-  // const config = chainConfigByChainId(asset.chains[0])
-  // const { onInit: buyCrypto } = useTransak({
-  //   productsAvailed: 'BUY',
-  //   network: config.name.toLowerCase()
-  // })
-
-  // useEffect(() => {
-  //   if (router.query.payment === 'pix' && router.query.provider == 'brla') {
-  //     amountToQuoteVar(router.query?.amount?.toString() ?? minAmount.toString())
-  //     openQuoteEthModal(asset)
-  //   } else if (router.query.payment === 'credit') {
-  //     buyCrypto()
-  //   }
-  // }, [buyCrypto, minAmount, asset, router.query?.amount, router.query.payment, router.query.provider])
-
   return (
     <LayoutTemplate>
       <Metatags />
-      <AssetsControl product={asset} assetData={assetData} chainId={chainId} type='buy' />
-      <BuyEthControlModal chainId={chainId} />
+      <AssetsControl asset={asset} assetData={assetData} chainId={chainId} type='buy' />
     </LayoutTemplate>
   )
 }
