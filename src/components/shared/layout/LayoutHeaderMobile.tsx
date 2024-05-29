@@ -9,6 +9,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiGear, PiListBold } from 'react-icons/pi'
+import { GoSearch } from "react-icons/go";
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import SkeletonLoading from '../icons/SkeletonLoading'
@@ -37,18 +38,15 @@ export default function LayoutHeaderMobile() {
             <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
           </Logo>
           <WalletContainer>
-            <LayoutNetworkDropdown mobile />
-            <Wallet account={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
-            <MenuContainer onClick={() => setOpenSidebarMobileMenu(true)}>
-              <MenuIcon />
-            </MenuContainer>
             <MenuContainer
               onClick={() => {
                 setWalletSidebarMobileSettings(true)
               }}
             >
-              <SettingIcon />
+              <GoSearch size={22}/>
+              <SettingIcon size={22}/>
             </MenuContainer>
+            <Wallet account={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
           </WalletContainer>
         </Content>
       </Container>
@@ -69,13 +67,11 @@ const { Container, Content, WalletContainer, Logo, MenuContainer, SettingIcon, M
   MenuContainer: styled.div`
     cursor: pointer;
     border-radius: ${({ theme }) => theme.size[8]};
-    height: 32px;
-    width: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: ${({ theme }) => theme.colorV2.gray[2]};
-    box-shadow: ${({ theme }) => theme.shadow[200]};
+    color: ${({ theme }) => theme.color.gray[500]};
+    gap: ${({ theme }) => theme.size[16]};
     &:hover {
       background-color: ${({ theme }) => theme.colorV2.foreground};
     }
@@ -91,7 +87,7 @@ const { Container, Content, WalletContainer, Logo, MenuContainer, SettingIcon, M
   WalletContainer: styled.div`
     display: flex;
     align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[16]};
     justify-content: flex-end;
   `,
   Logo: styled(Link)`
