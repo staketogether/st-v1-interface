@@ -17,3 +17,13 @@ export const projectRegexOnKeyDown = {
   socialMedia: /^(?!.*\.\.)(?!.*__)[a-zA-Z0-9_.]{0,30}$/,
   youtubeChanel: /^[a-zA-Z0-9\-.@]$/
 }
+
+export const onKeyDownFields = {
+  onlyNumbers: /^\d+$/,
+  all: /^.*$/
+}
+
+export const regexFields = {
+  email: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}(?:\.[A-Za-z]{2,})?$/,
+  phoneMask: /^\([1-9]{2}\) (?:[2-5][0-9]{3}-[0-9]{4}|9[0-9]{4}-[0-9]{4})$/
+}

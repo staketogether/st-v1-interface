@@ -1,4 +1,4 @@
-import { openQuoteEthModal } from '@/hooks/ramp/useControlModal'
+import { openQuoteEthModal } from '@/hooks/ramp/useRampControlModal'
 import { useTranslation } from 'react-i18next'
 import GenericErrorComponent from './GenericErrorComponent'
 import { Asset } from '@/types/Asset'

@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import Button from '../shared/Button'
 import Input from '../shared/inputs/Input'
-import { projectRegexFields, projectRegexOnKeyDown } from '../shared/regex'
+import { projectRegexFields, projectRegexOnKeyDown } from '../shared/input-helper/regex'
 
 export function ContactForm() {
   const { t } = useLocaleTranslation()
