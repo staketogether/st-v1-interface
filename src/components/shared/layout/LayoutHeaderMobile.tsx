@@ -11,11 +11,14 @@ import { GoSearch } from "react-icons/go";
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import LayoutSidebarMobileMenu from './LayoutSidebarMobileMenu'
-
+import SearchDrawer from '../SearchHeaderDrawer'
+import useHeaderDrawer from '@/hooks/useHeaderDrawer'
 
 
 export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
+
+  const { openDrawer, setOpenDrawer } = useHeaderDrawer()
 
   const { query } = useRouter()
   const { currency } = query
@@ -30,13 +33,13 @@ export default function LayoutHeaderMobile() {
             <Image src={stIcon} alt={t('stakeTogether')} width={40} height={32} />
           </Logo>
           <WalletContainer>
-            <MenuContainer
-              onClick={() => {
+            <MenuContainer>
+              <GoSearch size={22}  onClick={() => {
+                setOpenDrawer(true)
+              }}/>
+              <SettingIcon size={22}  onClick={() => {
                 setWalletSidebarMobileSettings(true)
-              }}
-            >
-              <GoSearch size={22}/>
-              <SettingIcon size={22}/>
+              }}/>
             </MenuContainer>
             <Wallet account={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
           </WalletContainer>
@@ -44,6 +47,7 @@ export default function LayoutHeaderMobile() {
       </Container>
       <LayoutSidebarMobileMenu account={account} />
       <WalletSidebarMobileSetting />
+      <SearchDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer}/>
     </>
   )
 }
