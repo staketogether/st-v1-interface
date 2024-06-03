@@ -1,7 +1,7 @@
 import useActiveRoute from '@/hooks/useActiveRoute'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCodesandboxLogo, PiCurrencyEth } from 'react-icons/pi'
+import { PiCodesandboxLogo, PiCurrencyEth, PiCoinsLight, PiChartLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 
@@ -15,11 +15,11 @@ function LayoutMenuMobile() {
   return (
     <Container>
       <NextLink href={`/${currency as string}/crypto`} className={`${isHome || isActive('crypto') ? 'active' : ''}`}>
-        <InvestIcon />
+        <PiCoinsLight />
         {t('v2.header.assets')}
       </NextLink>
       <NextLink href={`/${currency as string}/staking`} className={`${isHome || isActive('staking') ? 'active' : ''}`}>
-        <InvestIcon />
+        <PiChartLine />
         {t('v2.header.staking')}
       </NextLink>
       <NextLink
@@ -52,6 +52,11 @@ const { Container, NextLink, InvestIcon, ProjectsIcon } = {
     border-top: 1px solid ${({ theme }) => theme.color.blue[200]};
     box-shadow: ${({ theme }) => theme.shadow[100]};
 
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       display: none;
     }
@@ -78,7 +83,7 @@ const { Container, NextLink, InvestIcon, ProjectsIcon } = {
   // `,
   ProjectsIcon: styled(PiCodesandboxLogo)`
     font-size: 15px;
-  `
+  `,
   // GiftsIcon: styled(PiGift)`
   //   font-size: 14px;
   // `

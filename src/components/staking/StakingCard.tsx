@@ -68,8 +68,8 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
     padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[8]};
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.colorV2.white[1]};
-    color: ${({ theme }) => theme.color.green[500]};
-    border: 1px solid ${({ theme }) => theme.color.green[500]};
+    color: ${({ theme }) => theme.color.green[400]};
+    border: 1px solid ${({ theme }) => theme.color.green[400]};
     font-size: ${({ theme }) => theme.font.size[16]};
     font-weight: 600;
     line-height: normal;
