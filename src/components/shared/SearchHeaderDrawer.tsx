@@ -9,7 +9,7 @@ import useHeaderSearch from '@/hooks/useHeaderSearch'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { HiArrowLeft } from "react-icons/hi2";
 
-type SearchDrawerProps = {
+interface SearchDrawerProps {
     openDrawer: boolean,
     setOpenDrawer: (arg: boolean) => void,
 }
