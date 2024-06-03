@@ -94,7 +94,7 @@ const { Container, Products, Title, ContainerButton } = {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[12]};
 
     @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
