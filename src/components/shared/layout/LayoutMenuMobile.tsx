@@ -33,7 +33,7 @@ function LayoutMenuMobile() {
   )
 }
 
-const { Container, NextLink, InvestIcon, ProjectsIcon } = {
+const { Container, NextLink, ProjectsIcon } = {
   Container: styled.nav`
     width: 100vw;
     position: fixed;
@@ -75,9 +75,9 @@ const { Container, NextLink, InvestIcon, ProjectsIcon } = {
       color: ${({ theme }) => theme.color.secondary};
     }
   `,
-  InvestIcon: styled(PiCurrencyEth)`
-    font-size: 14px;
-  `,
+ // InvestIcon: styled(PiCurrencyEth)`
+   // font-size: 14px;
+ // `,
   // IncentivesIcon: styled(PiCellSignalFull)`
   //   font-size: 16px;
   // `,
