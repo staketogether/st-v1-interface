@@ -66,7 +66,7 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
   `,
   Apy: styled.div`
     padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[8]};
-    border-radius: ${({ theme }) => theme.size[8]};
+    border-radius: ${({ theme }) => theme.size[4]};
     background: ${({ theme }) => theme.colorV2.white[1]};
     color: ${({ theme }) => theme.color.green[400]};
     border: 1px solid ${({ theme }) => theme.color.green[400]};
