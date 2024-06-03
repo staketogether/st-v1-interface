@@ -39,12 +39,12 @@ interface NewStakeControlProps {
   chainId: number
 }
 
+
 export const updateStpBalanceVar = makeVar(false)
 
 export default function NewStakeControl({ staking, type, assetData, chainId }: NewStakeControlProps) {
   const [userWalletAddress, setUserWalletAddress] = useState<`0x${string}` | undefined>(undefined)
   const { t } = useLocaleTranslation()
-
   const { query } = useRouter()
   const { currency } = query
   const updateStpBalance = useReactiveVar(updateStpBalanceVar)
@@ -106,10 +106,16 @@ export default function NewStakeControl({ staking, type, assetData, chainId }: N
               <span>{t('share')}</span>
             </ShareButton>
           </div>
-          <div>
-            <span>{t('v2.ethereumStaking.networkAvailable')}</span>
-            <NetworkIcons network={config.name.toLowerCase()} size={16} />
-            <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
+          <div className='containerPrice'>
+            <div>
+              <span>{staking.symbol}</span>
+              <span>{assetData.currentPriceUsd}</span>
+            </div>
+            <Available>
+              <span>{t('v2.ethereumStaking.networkAvailable')}</span>
+              <NetworkIcons network={config.name.toLowerCase()} size={16} />
+              <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
+           </Available>
           </div>
         </HeaderProductMobile>
         <RewardsPointsContainer>
@@ -180,6 +186,7 @@ const {
   LoadingContainer,
   TagPointsContainer,
   HeaderProductMobile,
+  Available,
   ShareButton,
   Card
 } = {
@@ -285,19 +292,37 @@ const {
         font-weight: 500;
       }
 
-      &:nth-child(2) {
-        span {
-          font-size: ${({ theme }) => theme.font.size[13]};
-          font-style: normal;
-          font-weight: 500;
-          opacity: 0.6;
+      &.containerPrice {
+        flex-direction: column;
+        align-items: flex-start;
+        div:nth-child(1) {
+          span {
+            font-size: 22px;
+          }
+          span:nth-child(1) {
+            color: ${({ theme }) => theme.color.black};
+            font-weight: 500;
+          }
+          span:nth-child(2) {
+            color: ${({ theme }) => theme.color.primary};
+            font-weight: 500;
+          }
         }
+       
       }
     }
 
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       display: none;
     }
+  `,
+  Available: styled.div`
+   span {
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-style: normal;
+          font-weight: 500;
+          opacity: 0.6;
+        }
   `,
   ActionContainer: styled.div`
     width: 100%;
