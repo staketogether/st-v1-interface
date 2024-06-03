@@ -1,7 +1,7 @@
 import useActiveRoute from '@/hooks/useActiveRoute'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCodesandboxLogo, PiCurrencyEth, PiCoinsLight, PiChartLine } from 'react-icons/pi'
+import { PiCodesandboxLogo, PiCoinsLight, PiChartLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 
