@@ -20,6 +20,7 @@ import dynamic from 'next/dynamic'
 import LottieAnimation from '../shared/LottieAnimation'
 import { RampSteps, clearRampVars, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useBalanceOf from '@/hooks/contracts/useBalanceOf'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface AssetsControlProps {
   asset: Asset
@@ -35,6 +36,12 @@ const AssetBalanceCard = dynamic(() => import('../asset/AssetBalanceCard'), {
       <LottieAnimation animationData={loadingAnimation} height={20} loop />
     </LoadingContainer>
   ),
+  suspense: true
+})
+
+const AssetPrice = dynamic(() => import('../shared/AssetPrice'), {
+  ssr: false,
+  loading: () => <SkeletonLoading width={80} />,
   suspense: true
 })
 
@@ -118,8 +125,12 @@ export default function AssetsControl({ asset, assetData, chainId, type }: Asset
             </ShareButton>
           </div>
           <div>
-            <span>{t('v2.ethereumStaking.networkAvailable')}</span>
+            <div>
+              <span>{asset.symbol.toLocaleUpperCase()}</span>
+              <AssetPrice asset={asset} />
+            </div>
             <AvailableNetwork>
+              <span>{t('v2.ethereumStaking.networkAvailable')}</span>
               <NetworkIcons network={config.name.toLowerCase()} size={16} />
               <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
             </AvailableNetwork>
@@ -214,26 +225,40 @@ const {
 
     > div {
       display: flex;
-      align-items: center;
 
       &:nth-child(1) {
+        width: 100%;
         font-size: ${({ theme }) => theme.font.size[22]};
         font-style: normal;
         font-weight: 500;
         gap: ${({ theme }) => theme.size[12]};
-
+        
         > span {
           width: 100%;
         }
       }
 
       &:nth-child(2) {
-        gap: ${({ theme }) => theme.size[4]};
-        span {
-          font-size: ${({ theme }) => theme.font.size[13]};
-          font-style: normal;
-          font-weight: 500;
-          opacity: 0.6;
+        display: flex;
+        flex-direction: column;
+        gap: ${({ theme }) => theme.size[12]};
+
+        div:nth-child(1) {
+          display: flex;
+          align-items: center;
+          gap: ${({ theme }) => theme.size[4]};
+
+          span:nth-child(1) {
+            color: ${({ theme }) => theme.colorV2.gray[1]};
+            font-size: ${({ theme }) => theme.font.size[22]};
+            font-weight: 500;
+          }
+
+          span:nth-child(2) {
+            color: ${({ theme }) => theme.colorV2.blue[1]};
+            font-size: ${({ theme }) => theme.font.size[22]};
+            font-weight: 500;
+          }
         }
       }
     }
@@ -295,5 +320,12 @@ const {
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[4]};
+
+     span {
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-style: normal;
+          font-weight: 500;
+          opacity: 0.6;
+        }
   `
 }
