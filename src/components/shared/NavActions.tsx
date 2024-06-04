@@ -67,8 +67,8 @@ const { Nav, IconContainer } = {
           display: flex;
           align-items: center;
           flex-direction: column;
-          font-size: ${({ theme }) => theme.font.size[13]};
           color: ${({ theme }) => theme.colorV2.blue[1]};
+          font-size: 10px;
 
           &.disabled {
             cursor: not-allowed;
@@ -99,6 +99,12 @@ const { Nav, IconContainer } = {
           svg {
             color: ${({ theme }) => theme.colorV2.blue[1]};
             background-color: ${({ theme }) => theme.colorV2.white};
+          }
+        }
+
+        @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+          a {
+          font-size: ${({ theme }) => theme.font.size[13]};
           }
         }
       }

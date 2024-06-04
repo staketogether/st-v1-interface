@@ -21,7 +21,7 @@ const { SwapContainer } = {
 
     div {
       &.MuiBox-root {
-        height: auto !important;
+        height: auto;
       }
     }
   `
