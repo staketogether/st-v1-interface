@@ -246,7 +246,7 @@ const {
           gap: ${({ theme }) => theme.size[4]};
 
           span:nth-child(1) {
-            color: ${({ theme }) => theme.color.black};
+            color: ${({ theme }) => theme.colorV2.gray[1]};
             font-size: ${({ theme }) => theme.font.size[22]};
             font-weight: 500;
           }
