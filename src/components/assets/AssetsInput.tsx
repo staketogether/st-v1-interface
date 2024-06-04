@@ -7,7 +7,7 @@ import { Asset } from '@/types/Asset'
 import { ethMainnet } from '@/config/product/asset'
 import { truncateDecimal } from '@/services/truncate'
 
-interface EthereumInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface EthereumInputProps {
   ethAmountValue: string
   balance: string
   balanceLoading: boolean
@@ -17,6 +17,7 @@ interface EthereumInputProps extends InputHTMLAttributes<HTMLInputElement> {
   productAsset: Asset
   accountIsConnected: boolean
   background?: 'gray' | 'white'
+  inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode']
 }
 
 export default function AssetInput({
@@ -28,8 +29,8 @@ export default function AssetInput({
   onChange,
   onMaxFunction,
   productAsset,
-  accountIsConnected,
-  ...rest
+  inputMode,
+  accountIsConnected
 }: EthereumInputProps) {
   const { t } = useLocaleTranslation()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -95,8 +96,8 @@ export default function AssetInput({
           placeholder='0'
           onFocus={handleFocusContainer}
           onBlur={handleBlurContainer}
+          inputMode={inputMode}
           className={`${hasError && 'error'}`}
-          {...rest}
         />
       </div>
     </InputContent>
