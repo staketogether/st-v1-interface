@@ -64,7 +64,10 @@ export default function AssetsControl({ asset, assetData, chainId, type }: Asset
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
   const config = chainConfigByChainId(chainId)
-  rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)
+
+  useEffect(() => {
+    rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)
+  }, [type])
 
   const {
     tokenBalance: userTokenBalance,
