@@ -1,13 +1,13 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { useRef } from 'react'
+import { InputHTMLAttributes, useRef } from 'react'
 import styled, { css } from 'styled-components'
 import { Asset } from '@/types/Asset'
 import { ethMainnet } from '@/config/product/asset'
 import { truncateDecimal } from '@/services/truncate'
 
-interface EthereumInputProps {
+interface EthereumInputProps extends InputHTMLAttributes<HTMLInputElement> {
   ethAmountValue: string
   balance: string
   balanceLoading: boolean
@@ -28,7 +28,8 @@ export default function AssetInput({
   onChange,
   onMaxFunction,
   productAsset,
-  accountIsConnected
+  accountIsConnected,
+  ...rest
 }: EthereumInputProps) {
   const { t } = useLocaleTranslation()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -90,11 +91,12 @@ export default function AssetInput({
           ref={inputRef}
           type='text'
           value={ethAmountValue}
-          onChange={e => handleChangeValue(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeValue(e.target.value)}
           placeholder='0'
           onFocus={handleFocusContainer}
           onBlur={handleBlurContainer}
           className={`${hasError && 'error'}`}
+          {...rest}
         />
       </div>
     </InputContent>

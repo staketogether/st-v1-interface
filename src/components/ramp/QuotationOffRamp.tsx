@@ -117,6 +117,7 @@ export default function QuotationOffRampStep({ asset: asset, userTokenBalance, u
           onMaxFunction={() => setValue(userTokenBalance.balance)}
           productAsset={asset}
           hasError={false}
+          inputMode='numeric'
           balance={userTokenBalance.balance}
           balanceLoading={userTokenIsLoading}
           accountIsConnected={!!userWalletAddress}
