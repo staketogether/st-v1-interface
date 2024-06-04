@@ -93,6 +93,21 @@ export default function PixKeyStep() {
     }
   ]
 
+  const handleInputMode = () => {
+    switch (type) {
+      case 'CPF':
+        return 'numeric'
+      case 'PHONE':
+        return 'tel'
+      case 'CNPJ':
+        return 'numeric'
+      case 'EMAIL':
+        return 'email'
+      default:
+        return 'text'
+    }
+  }
+
   const onSubmit = (data: PixKey) => {
     offRampPixKeyVar(data.key)
     rampStepControlVar(RampSteps.ProcessingCheckoutOffRampStep)
@@ -110,6 +125,7 @@ export default function PixKeyStep() {
           validate: handleValidate(),
           onBlur: () => trigger('key')
         })}
+        inputMode={handleInputMode()}
         onChange={(event: ChangeEvent<HTMLInputElement>) => handleMask(event.target.value)}
         maxLength={handleMinLength()}
         error={errors.key?.message}
