@@ -67,7 +67,7 @@ export default function AssetsControl({ asset, assetData, chainId, type }: Asset
 
   useEffect(() => {
     rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)
-  }, [])
+  }, [type])
 
   const {
     tokenBalance: userTokenBalance,
