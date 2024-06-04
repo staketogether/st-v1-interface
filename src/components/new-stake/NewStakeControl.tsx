@@ -21,6 +21,7 @@ import StakingBalanceCard from './StakingBalanceCard'
 import StakingDelegatePools from './StakingDelegatePools'
 import useErc20BalanceOf from '@/hooks/contracts/useErc20BalanceOf'
 import { makeVar, useReactiveVar } from '@apollo/client'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -38,6 +39,12 @@ interface NewStakeControlProps {
   assetData: AssetStats
   chainId: number
 }
+
+const TokensShowValuePrice = dynamic(() => import('../shared/AssetPrice'), {
+  ssr: false,
+  loading: () => <SkeletonLoading width={80} />,
+  suspense: true
+})
 
 
 export const updateStpBalanceVar = makeVar(false)
@@ -106,36 +113,38 @@ export default function NewStakeControl({ staking, type, assetData, chainId }: N
               <span>{t('share')}</span>
             </ShareButton>
           </div>
-          <div className='containerPrice'>
+          <ContainerPrice>
             <div>
               <span>{staking.symbol}</span>
-              <span>{assetData.currentPriceUsd}</span>
+              <TokensShowValuePrice asset={staking.asset} />
             </div>
             <Available>
               <span>{t('v2.ethereumStaking.networkAvailable')}</span>
               <NetworkIcons network={config.name.toLowerCase()} size={16} />
               <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
-           </Available>
-          </div>
+            </Available>
+          </ContainerPrice>
         </HeaderProductMobile>
         <RewardsPointsContainer>
           <span>{t('v2.ethereumStaking.myRewardsPoints')}</span>
-          {staking.points.elPoints && (
-            <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
-              <TagPointsContainer>
-                Eigen
-                <div>0.0</div>
-              </TagPointsContainer>
-            </Tooltip>
-          )}
-          {staking.points.stPoints && (
-            <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
-              <TagPointsContainer className='purple'>
-                Together
-                <div>0.0</div>
-              </TagPointsContainer>
-            </Tooltip>
-          )}
+          <div>
+            {staking.points.elPoints && (
+              <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
+                <TagPointsContainer>
+                  Eigen
+                  <div>0.0</div>
+                </TagPointsContainer>
+              </Tooltip>
+            )}
+            {staking.points.stPoints && (
+              <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
+                <TagPointsContainer className='purple'>
+                  Together
+                  <div>0.0</div>
+                </TagPointsContainer>
+              </Tooltip>
+            )}
+         </div>
         </RewardsPointsContainer>
       </header>
 
@@ -183,6 +192,7 @@ const {
   ActionStakingContainer,
   RewardsPointsContainer,
   HeaderBackAction,
+  ContainerPrice,
   LoadingContainer,
   TagPointsContainer,
   HeaderProductMobile,
@@ -256,9 +266,8 @@ const {
   `,
   RewardsPointsContainer: styled.div`
     display: flex;
-    align-items: center;
     gap: ${({ theme }) => theme.size[12]};
-
+    flex-direction: column;
     > span {
       color: ${({ theme }) => theme.colorV2.gray[1]};
       opacity: 0.6;
@@ -270,6 +279,16 @@ const {
       gap: ${({ theme }) => theme.size[4]};
     }
 
+    >div {
+      display: flex;
+      gap: ${({ theme }) => theme.size[12]};
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      flex-direction: row;
+      align-items: center;
+    }
+
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       display: none;
     }
@@ -279,22 +298,29 @@ const {
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
 
     div {
       display: flex;
       align-items: center;
-      gap: ${({ theme }) => theme.size[8]};
 
       &:nth-child(1) {
         font-size: ${({ theme }) => theme.font.size[22]};
         font-style: normal;
         font-weight: 500;
+        gap: ${({ theme }) => theme.size[8]};
       }
+    }
 
-      &.containerPrice {
-        flex-direction: column;
-        align-items: flex-start;
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      display: none;
+    }
+  `,
+  ContainerPrice: styled.div`
+    flex-direction: column;
+    align-items: flex-start;
+    gap: ${({ theme }) => theme.size[12]};
+
         div:nth-child(1) {
           span {
             font-size: 22px;
@@ -306,15 +332,13 @@ const {
           span:nth-child(2) {
             color: ${({ theme }) => theme.color.primary};
             font-weight: 500;
+            align-self: flex-start;
           }
         }
-       
-      }
-    }
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      display: none;
-    }
+        div:nth-child(2) {
+          align-self: flex-start;
+          gap: ${({ theme }) => theme.size[8]};
+        }
   `,
   Available: styled.div`
    span {
