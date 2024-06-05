@@ -168,7 +168,8 @@
     "smartContract": "Contrato Inteligente",
     "audit": "Auditorias",
     "documentation": "Documentação",
-    "support": "Suporte"
+    "support": "Suporte",
+    "contract": "Contrato"
   },
   "addSethToWallet": {
     "add": "Adicione",

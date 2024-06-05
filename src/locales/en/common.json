@@ -169,7 +169,8 @@
     "smartContract": "Smart Contract",
     "audit": "Audits",
     "documentation": "Docs",
-    "support": "Support"
+    "support": "Support",
+    "contract": "Contract"
   },
   "addSethToWallet": {
     "add": "Add",
