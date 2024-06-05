@@ -25,14 +25,6 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
   const { currency } = router.query
   const { setItem } = useLocalStorage()
 
-  if (!chain) {
-    return null
-  }
-  const chainConfig = chainConfigByChainId(chain?.id)
-
-  const changeLocale = (newLocale: string) => {
-    router.push(router.pathname, router.asPath, { locale: newLocale })
-  }
   const changeCurrency = useCallback(
     (newCurrency: string) => {
       router.push({
@@ -46,6 +38,15 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
     },
     [router, setItem]
   )
+
+  if (!chain) {
+    return null
+  }
+  const chainConfig = chainConfigByChainId(chain?.id)
+
+  const changeLocale = (newLocale: string) => {
+    router.push(router.pathname, router.asPath, { locale: newLocale })
+  }
 
   return (
     <>
