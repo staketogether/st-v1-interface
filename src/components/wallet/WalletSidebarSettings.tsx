@@ -9,7 +9,6 @@ import { useAccount } from 'wagmi';
 import { chainConfigByChainId } from '@/config/chain';
 import { capitalize } from '@/services/truncate';
 import NetworkIcon from '../shared/NetworkIcon';
-import { globalConfig } from '@/config/global';
 
 interface WalletSlideBarSettingsProps {
   setIsSettingsActive?: (value: boolean) => void
@@ -21,16 +20,15 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
   const [isCoinOpen, setIsCoinOpen] = useState(false);
 
   const { chain } = useAccount()
+  const { t } = useLocaleTranslation()
+  const router = useRouter()
+  const { currency } = router.query
+  const { setItem } = useLocalStorage()
+
   if (!chain) {
     return null
   }
   const chainConfig = chainConfigByChainId(chain?.id)
-
-  const { t } = useLocaleTranslation()
-
-  const router = useRouter()
-  const { currency, locale } = router.query
-  const { setItem } = useLocalStorage()
 
   const changeLocale = (newLocale: string) => {
     router.push(router.pathname, router.asPath, { locale: newLocale })
