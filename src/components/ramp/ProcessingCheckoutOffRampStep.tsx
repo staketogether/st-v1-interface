@@ -94,7 +94,7 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
       switchChain({ chainId: asset.chains[0] })
     }
   }, [isWrongNetwork, asset.chains, switchChain])
-  const spenderAddress = paymentDetails?.bridge.approvalAddress ?? '0x'
+  const spenderAddress = paymentDetails?.bridge?.approvalAddress ?? '0x'
 
   const {
     allowanceData,
@@ -118,7 +118,7 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
     spenderAddress,
     chainId: asset.chains[0],
     contractAddress: asset.contractAddress,
-    enabled: !!paymentDetails?.bridge.approvalAddress && !allowanceData && asset.type === 'erc20'
+    enabled: !!paymentDetails?.bridge?.approvalAddress && !allowanceData && asset.type === 'erc20'
   })
   const approveIsLoading = isLoading || awaitWalletAction
 
@@ -129,7 +129,7 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
   }, [approveIsSuccess, allowanceRefetch])
 
   const verifyUserIsApprovedAddress =
-    (paymentDetails?.bridge.approvalAddress && allowanceData && allowanceData > 0) ?? asset.type === 'native'
+    (paymentDetails?.bridge?.approvalAddress && allowanceData && allowanceData > 0) ?? asset.type === 'native'
 
   function verifyAllowanceLabel() {
     if (verifyUserIsApprovedAddress) {
