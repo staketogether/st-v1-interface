@@ -1,78 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
 import { PiCoinsLight, PiChartLine } from 'react-icons/pi'
-import { getListedStaking } from '@/config/product/staking'
-import { getListedAssets } from '@/config/product/asset'
 import styled from 'styled-components'
-import Fuse from 'fuse.js'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import AssetIcon from '../AssetIcon'
 import { chainConfigByChainId } from '@/config/chain'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import SearchInput from '../inputs/SearchInput'
+import useHeaderSearch from '@/hooks/useHeaderSearch'
 
 export default function LayoutHeaderSearch() {
   const [searchValue, setSearchValue] = useState('')
   const [showResultArea, setShowResultArea] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
-
-  const listedAssets = getListedAssets()
-  const listedStaking = getListedStaking()
-
+  
   const { t } = useLocaleTranslation()
 
-  const stakingOptions = {
-    includeScore: true,
-    keys: [
-      {
-        name: 'id',
-        weight: 1
-      },
-      {
-        name: 'symbol',
-        weight: 2
-      },
-      {
-        name: 'contracts.StakeTogether',
-        weight: 2
-      }
-    ],
-    threshold: 0.3
-  }
-
-  const assetOptions = {
-    includeScore: true,
-    keys: [
-      {
-        name: 'id',
-        weight: 1
-      },
-      {
-        name: 'symbol',
-        weight: 2
-      },
-      {
-        name: 'contractAddress',
-        weight: 3
-      }
-    ],
-    threshold: 0.3
-  }
-
-  const assetFuse = new Fuse(listedAssets, assetOptions)
-  const stakingFuse = new Fuse(listedStaking, stakingOptions)
-
-  const assetsListFiltered = assetFuse.search({
-    $or: [{ id: searchValue }, { symbol: searchValue }, { contractAddress: searchValue }]
-  })
-  const stakingListsFiltered = stakingFuse.search({
-    $or: [{ id: searchValue }, { symbol: searchValue }]
-  })
-
+  const {hasItemsFiltered, assetsListFiltered, stakingListsFiltered}  = useHeaderSearch(searchValue)
+  
   const { query } = useRouter()
   const { currency } = query as { currency: string }
-
-  const hasItemsFiltered = !!(assetsListFiltered.length || stakingListsFiltered.length)
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
