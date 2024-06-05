@@ -7,7 +7,7 @@ export default function useHeaderSearch(searchValue: string) {
     const listedAssets = getListedAssets()
     const listedStaking = getListedStaking()
 
-    let searchVal = searchValue.toLowerCase()
+    const searchVal = searchValue.toLowerCase()
 
     const stakingOptions = {
         includeScore: true,
