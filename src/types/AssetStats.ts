@@ -1,10 +1,11 @@
 export interface AssetStats {
   currentPriceUsd: number
+  imageUrl: string
   marketCap: number
-  totalVolume: number
-  priceChangePercentage1Y: number
   priceChange24h: number
+  priceChangePercentage1Y: number
   priceChangePercentage24h: number
+  ref: `${number}:0x${string}`
   totalSupply: number
-  ref: string
+  totalVolume: number
 }
