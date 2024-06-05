@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
-import { PiArrowLeft, PiArrowSquareOut, PiCheckBold } from 'react-icons/pi'
+import { PiArrowLeft, PiCheckBold } from 'react-icons/pi'
 import { HiOutlineChevronDown, HiOutlineChevronUp } from "react-icons/hi2";
 import styled from 'styled-components'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
@@ -9,7 +9,6 @@ import { useAccount } from 'wagmi';
 import { chainConfigByChainId } from '@/config/chain';
 import { capitalize } from '@/services/truncate';
 import NetworkIcon from '../shared/NetworkIcon';
-import packageData from '../../../package.json'
 import { globalConfig } from '@/config/global';
 
 interface WalletSlideBarSettingsProps {
@@ -17,11 +16,9 @@ interface WalletSlideBarSettingsProps {
   showBackButton?: boolean
 }
 
-
 export default function WalletSidebarSettings({ setIsSettingsActive, showBackButton = true }: WalletSlideBarSettingsProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isCoinOpen, setIsCoinOpen] = useState(false);
-  const [isNetworkOpen, setIsNetworkOpen] = useState(false);
 
   const { chain } = useAccount()
   if (!chain) {
@@ -29,26 +26,15 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
   }
   const chainConfig = chainConfigByChainId(chain?.id)
 
-
   const { t } = useLocaleTranslation()
 
   const router = useRouter()
   const { currency, locale } = router.query
   const { setItem } = useLocalStorage()
 
-   const date = new Date()
-    const { websiteUrl, auditUrl } = globalConfig
-    const documentationUrl = locale ? (locale === 'en' ? globalConfig.docsEn : globalConfig.docsPt) : globalConfig.docsEn
-
   const changeLocale = (newLocale: string) => {
     router.push(router.pathname, router.asPath, { locale: newLocale })
   }
-
-  const handleLocaleChange = (locale: string) => {
-    changeLocale(locale);
-    setIsOpen(false);
-  };
-
   const changeCurrency = useCallback(
     (newCurrency: string) => {
       router.push({
@@ -118,38 +104,19 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
       </SettingContainer>
       <SettingContainer>
         <h3>{t('settings.network')}</h3>
-        <Select onClick={() => setIsNetworkOpen(!isNetworkOpen)} className={``}>
+        <Select  className={``}>
           <div>
             <NetworkIcon chain={chain?.id} size={24} />
             <span>{capitalize(chainConfig.name.replaceAll('-', ' '))}</span>
             <CheckedIcon />
           </div>
-          {isNetworkOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
         </Select>
       </SettingContainer>
-
-      <FooterContainer>
-        <FooterContent>
-          <a href={auditUrl} target='_blank'>
-            {t('footer.contract')} <PiArrowSquareOut />
-          </a>
-          <a href={auditUrl} target='_blank'>
-            {t('footer.audit')} <PiArrowSquareOut />
-          </a>
-          <a href={documentationUrl} target='_blank'>
-            {t('footer.documentation')} <PiArrowSquareOut />
-          </a>
-          <a href={`${websiteUrl}`} target='_blank'>
-            {t('footer.website')} <PiArrowSquareOut />
-          </a>
-          <a href={websiteUrl}>{`© ${date.getFullYear()} Stake Together | v${packageData.version} `}</a>
-        </FooterContent>
-      </FooterContainer>
     </>
   )
 }
 
-const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, DropdownMenu, Select, FooterContainer, FooterContent } = {
+const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, DropdownMenu, Select } = {
   CloseIcon: styled(PiArrowLeft)`
     font-size: 18px;
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
@@ -249,15 +216,16 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, DropdownMenu, 
       }
   `,
   DropdownMenu: styled.div`
-  width: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[8]};
     position: absolute;
     z-index: 999;
-    top: 90px;
-    background-color: white;
-    border: 0 !important;
+    top: 85px;
+    background-color: ${({ theme }) => theme.colorV2.white};
+    border: 1px solid ${({ theme }) => theme.colorV2.white};
+
     div {
       width: 100%;
       display: flex;
@@ -269,42 +237,4 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, DropdownMenu, 
       border-radius: ${({ theme }) => theme.size[8]};
     }
   `,
-  FooterContainer: styled.div`
-    display: flex;
-    height: 100%;
-    align-items: center;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[12]};
-
-    padding-bottom: 40px;
-    justify-content: flex-end;
-  `,
-  FooterContent: styled.div`
-    a {
-      width: 100%;
-      text-decoration: none;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      align-items: center;
-      padding: 4px 0;
-
-      font-size: ${({ theme }) => theme.font.size[14]};
-      font-weight: 500;
-      color: ${({ theme }) => theme.color.gray[800]};
-      opacity: 0.8;
-
-      &:nth-child(5) {
-        padding-top: 4px;
-        margin-bottom: 8px;
-        border-top: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
-      }
-
-      &:nth-child(6) {
-        border-top: 1px solid ${({ theme }) => theme.colorV2.gray[1]};
-        padding-top: 16px;
-      }
-    }
-  `
 }
