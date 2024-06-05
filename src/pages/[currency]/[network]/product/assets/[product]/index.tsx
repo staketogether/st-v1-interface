@@ -77,7 +77,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
 
-  const assetData = await fetchProductAssetData(`asset-stats/${chainId}/${productSelected.contractAddress}`)
+  const assetData = await fetchProductAssetData(`assets/${chainId}/${productSelected.contractAddress}`)
 
   if (!assetData) {
     return {

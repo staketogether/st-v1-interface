@@ -1,48 +1,39 @@
 import { AccountAsset } from '@/types/AccountAsset'
-import useCoinConversion from '@/hooks/useCoinConversion'
 import AssetIcon from '@/components/shared/AssetIcon'
 import { formatNumberByLocale } from '@/services/format'
 import { assetsList } from '@/config/product/asset'
 import styled from 'styled-components'
 import { truncateWei } from '@/services/truncate'
 import defaultErc20Icon from '@assets/assets/default-erc-20.svg'
-import { stakingList } from '@/config/product/staking'
+import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 
-export default function WalletSidebarAsset({ walletAsset }: { walletAsset: AccountAsset }) {
-  const asset = assetsList.find(
+export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
+  const configAsset = assetsList.find(
     supportedAsset =>
-      supportedAsset.contractAddress.toLowerCase() === walletAsset.contractAddress.toLowerCase() &&
-      supportedAsset.chains[0] === walletAsset.chainId
+      supportedAsset.contractAddress.toLowerCase() === asset.contractAddress.toLowerCase() &&
+      supportedAsset.chains[0] === asset.chainId
   )
 
-  const assetIsStakingAsset = stakingList.find(
-    staking => staking.contracts.StakeTogether.toLocaleLowerCase() === walletAsset.contractAddress.toLocaleLowerCase()
-  )
-
-  const AssetAddress = assetIsStakingAsset
-    ? '0x0000000000000000000000000000000000000000'
-    : asset?.contractAddress ?? walletAsset.contractAddress
-
-  const fixedWalletBalance = walletAsset.decimals >= 18 ? walletAsset.balance : walletAsset.balance + '0'.repeat(18 - walletAsset.decimals)
+  const fixedWalletBalance = asset.decimals >= 18 ? asset.balance : asset.balance + '0'.repeat(18 - asset.decimals)
   const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance), 6))
 
-  const { priceConvertedValue } = useCoinConversion(formattedBalance, asset?.chains[0] ?? walletAsset.chainId, AssetAddress)
-  const imageSrc = asset?.symbolImage ?? walletAsset?.thumbnail ?? defaultErc20Icon
+  const imageSrc = configAsset?.symbolImage ?? asset?.thumbnail ?? defaultErc20Icon
+  const { usdToCurrency } = useFiatUsdConversion()
 
   return (
-    <BalanceContainer key={walletAsset.chainId}>
+    <BalanceContainer key={asset.chainId}>
       <div>
         <div>
-          <AssetIcon image={imageSrc} size={24} altName={walletAsset.symbol} chain={walletAsset.chainId} />
+          <AssetIcon image={imageSrc} size={24} altName={asset.symbol} chain={asset.chainId} />
         </div>
         <div>
-          <span>{walletAsset.symbol}</span>
-          <span>{walletAsset.name}</span>
+          <span>{asset.symbol}</span>
+          <span>{asset.name}</span>
         </div>
       </div>
       <div>
         <span>{formattedBalance}</span>
-        <span>{priceConvertedValue}</span>
+        <span>{usdToCurrency(asset.balanceUsd).formatted}</span>
       </div>
     </BalanceContainer>
   )

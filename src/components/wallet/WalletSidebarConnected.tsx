@@ -32,8 +32,6 @@ import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
 import WalletSidebarAsset from '@/components/wallet/WalletSidebarAsset'
 import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
-import { assetsList } from '@/config/product/asset'
-import { AccountAsset } from '@/types/AccountAsset'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -85,19 +83,6 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
   const { accountAssets } = useAccountAssets(address)
   const { balance: usdTotalBalance } = useAccountAssetsUsdBalance(address)
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
-
-  const accountAssetsFiltered = accountAssets
-    ?.map(accountAsset => {
-      const hasAssetExist = assetsList.find(
-        asset => asset.contractAddress.toLocaleLowerCase() === accountAsset.contractAddress.toLocaleLowerCase()
-      )
-      if (hasAssetExist) {
-        return accountAsset
-      } else {
-        return null
-      }
-    })
-    .filter((item): item is AccountAsset => item !== null)
 
   const {
     accountDelegations: restakingAccountDelegations,
@@ -258,7 +243,7 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
             }
           >
             <AssetsCard>
-              {accountAssetsFiltered?.map((walletAsset, index) => <WalletSidebarAsset walletAsset={walletAsset} key={index} />)}
+              {accountAssets.map((asset, index) => <WalletSidebarAsset asset={asset} key={index} />)}
             </AssetsCard>
           </Card>
           <Card
