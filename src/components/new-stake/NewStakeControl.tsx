@@ -326,7 +326,7 @@ const {
             font-size: 22px;
           }
           span:nth-child(1) {
-            color: ${({ theme }) => theme.color.gray[1]};
+            color: ${({ theme }) => theme.colorV2.gray[1]};
             font-weight: 500;
           }
           span:nth-child(2) {
