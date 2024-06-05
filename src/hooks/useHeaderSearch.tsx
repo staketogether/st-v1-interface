@@ -7,6 +7,8 @@ export default function useHeaderSearch(searchValue: string) {
     const listedAssets = getListedAssets()
     const listedStaking = getListedStaking()
 
+    let searchVal = searchValue.toLowerCase()
+
     const stakingOptions = {
         includeScore: true,
         keys: [
@@ -49,10 +51,10 @@ export default function useHeaderSearch(searchValue: string) {
     const stakingFuse = new Fuse(listedStaking, stakingOptions)
 
     const assetsListFiltered = assetFuse.search({
-        $or: [{ id: searchValue }, { symbol: searchValue }, { contractAddress: searchValue }]
+        $or: [{ id: searchVal }, { symbol: searchVal }, { contractAddress: searchVal }]
     })
     const stakingListsFiltered = stakingFuse.search({
-        $or: [{ id: searchValue }, { symbol: searchValue }]
+        $or: [{ id: searchVal }, { symbol: searchVal }]
     })
 
     const hasItemsFiltered = !!(assetsListFiltered.length || stakingListsFiltered.length)
