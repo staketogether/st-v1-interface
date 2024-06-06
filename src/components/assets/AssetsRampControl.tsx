@@ -64,7 +64,7 @@ export default function AssetsRampControl({ asset, type, userTokenBalance, userT
     ProcessingKyc: <ProcessingKycStep product={asset} type={type} />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} type={type} />,
     Checkout: <CheckoutStep asset={asset} type={type} />,
-    TimeOutCheckout: <TimeOutCheckout asset={asset} />,
+    TimeOutCheckout: <TimeOutCheckout type={type} />,
     Success: <SuccessStep product={asset} type={type} />,
     PixKeyStep: <PixKeyStep />,
     ProcessingCheckoutOffRampStep: (
