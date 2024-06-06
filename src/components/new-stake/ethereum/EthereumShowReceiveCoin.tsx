@@ -56,7 +56,9 @@ export default function EthereumShowReceiveCoin({ amountValue, balance, balanceL
           )}
           <span>{type === 'deposit' ? staking.symbol : t('eth.symbol')}</span>
         </CoinActionContainer>
-        <input type='text' placeholder='0' value={amountValue} disabled />
+        <input type='text' placeholder='0' value={amountValue} disabled
+          inputMode='decimal'
+        />
       </div>
     </InputContent>
   )
