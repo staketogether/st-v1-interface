@@ -107,6 +107,7 @@ export default function EthereumInput({
           placeholder='0'
           onFocus={handleFocusContainer}
           onBlur={handleBlurContainer}
+          inputMode='decimal'
           className={`${hasError && 'error'}`}
         />
       </div>
