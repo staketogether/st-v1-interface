@@ -33,6 +33,7 @@ export default function AssetsRampControl({ asset, type, userTokenBalance, userT
   const { address: walletAddress } = useAccount()
 
   const currentStep = useReactiveVar(rampStepControlVar)
+  useEffect(() => {}, [currentStep, type])
 
   const titleList: Record<string, string> = {
     Success: type === 'buy' ? t('v2.ramp.onRamp.success') : t('v2.ramp.offRamp.success'),
@@ -50,9 +51,9 @@ export default function AssetsRampControl({ asset, type, userTokenBalance, userT
 
   useEffect(() => {
     if (walletAddress) {
-      clearRampVars()
+      clearRampVars(type)
     }
-  }, [walletAddress])
+  }, [walletAddress, type])
 
   const steps = {
     MethodPayment: <PaymentMethod asset={asset} />,
@@ -69,7 +70,7 @@ export default function AssetsRampControl({ asset, type, userTokenBalance, userT
     ProcessingCheckoutOffRampStep: (
       <ProcessingCheckoutOffRampStep userTokenRefetch={userTokenRefetch} walletAddress={walletAddress} asset={asset} type={type} />
     ),
-    error: <GenericErrorComponent />
+    error: <GenericErrorComponent type={type} />
   }
 
   return (
