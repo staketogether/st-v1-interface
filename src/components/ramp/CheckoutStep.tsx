@@ -14,7 +14,7 @@ import SwapInfo from './SwapInfo'
 
 interface CheckoutStepProps {
   asset: Asset
-  type: 'buy' | 'sell' | 'swap'
+  type: 'buy' | 'sell'
 }
 
 export default function CheckoutStep({ asset, type }: CheckoutStepProps) {
@@ -118,7 +118,7 @@ export default function CheckoutStep({ asset, type }: CheckoutStepProps) {
         </KeyPixArea>
       </Body>
       <Footer>
-        <Button type='button' label={t('v2.ramp.cancelDeposit')} className='outline' block onClick={clearRampVars} />
+        <Button type='button' label={t('v2.ramp.cancelDeposit')} className='outline' block onClick={() => clearRampVars(type)} />
       </Footer>
     </Container>
   )

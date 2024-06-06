@@ -70,22 +70,16 @@ export default function AssetsActionsControl({
     <EthereumContainer>
       <NavActions typeActive={type} navActionsList={navActionsList} />
       <div>
-        {(type === 'buy' || type === 'sell') && (
-          <BuyAssetContainer>
-            <AssetsRampControl
-              type={type}
-              asset={asset}
-              userTokenBalance={userTokenBalance}
-              userTokenIsLoading={userTokenIsLoading}
-              userTokenRefetch={userTokenRefetch}
-            />
-          </BuyAssetContainer>
+        {!!(type === 'buy' || type === 'sell') && (
+          <AssetsRampControl
+            type={type}
+            asset={asset}
+            userTokenBalance={userTokenBalance}
+            userTokenIsLoading={userTokenIsLoading}
+            userTokenRefetch={userTokenRefetch}
+          />
         )}
-        {type === 'swap' && (
-          <BuyAssetContainer>
-            <AssetsSwap asset={asset} />
-          </BuyAssetContainer>
-        )}
+        {type === 'swap' && <AssetsSwap asset={asset} />}
         {type === 'send' && <AssetsSend asset={asset} />}
         {type === 'receive' && <AssetsReceive />}
       </div>
@@ -93,11 +87,10 @@ export default function AssetsActionsControl({
   )
 }
 
-const { EthereumContainer, BuyAssetContainer } = {
+const { EthereumContainer } = {
   EthereumContainer: styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
-  `,
-  BuyAssetContainer: styled.div``
+  `
 }

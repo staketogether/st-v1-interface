@@ -35,7 +35,7 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   const router = useRouter()
   const { currency } = router.query
   const { setItem, getItem } = useLocalStorage()
-  const { xs, sm, md } = useBreakpoint()
+  const { md } = useBreakpoint()
 
   const changeCurrency = useCallback(
     (newCurrency: string) => {
@@ -58,12 +58,11 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
 
   return (
     <Container className={montserrat.className}>
-      { md && <PipeDrive />}
+      {md && <PipeDrive />}
       {isProduction && (
         <>
           <GoogleTag />
           <Cloudflare />
-
         </>
       )}
       <NextNProgress color={lightTheme.color.secondary} options={{ showSpinner: false }} />

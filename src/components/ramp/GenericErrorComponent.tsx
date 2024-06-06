@@ -10,16 +10,17 @@ interface GenericErrorComponentProps {
   message?: string
   subTitle?: string
   onClose?: () => void
+  type: 'buy' | 'sell'
 }
 
-export default function GenericErrorComponent({ icon, message, subTitle, onClose }: GenericErrorComponentProps) {
+export default function GenericErrorComponent({ icon, type, message, subTitle, onClose }: GenericErrorComponentProps) {
   const { t } = useLocaleTranslation()
   const handleClose = () => {
     if (onClose) {
       onClose()
       return
     }
-    clearRampVars()
+    clearRampVars(type)
   }
   return (
     <Container>
