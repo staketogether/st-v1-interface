@@ -53,16 +53,15 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
     }
 
     if (type === 'buy') {
+      const [ramp] = product.ramp
       setRampData({
-        chainId: product.ramp[0].chainId,
+        chainIdToReceive: ramp.chainId,
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
         amount: product.type === 'fan-token' ? Number(quote.amountToken) : Number(quote.amountBrl),
         accountAddress: address,
         receiverAddress: address,
         tokenToReceive: product.symbol,
-        convertToChainId: product.ramp[0].bridge?.toChainId,
-        convertToToken: product.ramp[0].bridge?.toToken,
         fixOutput: product.type === 'fan-token'
       })
       return
