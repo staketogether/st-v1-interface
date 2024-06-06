@@ -1,14 +1,14 @@
 import { useRouter } from 'next/router'
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import { PiArrowLeft, PiCheckBold } from 'react-icons/pi'
-import { HiOutlineChevronDown, HiOutlineChevronUp } from "react-icons/hi2";
 import styled from 'styled-components'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-import { useAccount } from 'wagmi';
-import { chainConfigByChainId } from '@/config/chain';
-import { capitalize } from '@/services/truncate';
-import NetworkIcon from '../shared/NetworkIcon';
+import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi2'
+import { capitalize } from '@/services/truncate'
+import NetworkIcon from '../shared/NetworkIcon'
+import { useAccount } from 'wagmi'
+import { chainConfigByChainId, ChainConfig } from '@/config/chain'
 
 interface WalletSlideBarSettingsProps {
   setIsSettingsActive?: (value: boolean) => void
@@ -18,12 +18,26 @@ interface WalletSlideBarSettingsProps {
 export default function WalletSidebarSettings({ setIsSettingsActive, showBackButton = true }: WalletSlideBarSettingsProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isCoinOpen, setIsCoinOpen] = useState(false);
+  const [chainConfig, setChainConfig] = useState<ChainConfig | undefined>(undefined);
+  const { t } = useLocaleTranslation()
 
   const { chain } = useAccount()
-  const { t } = useLocaleTranslation()
   const router = useRouter()
   const { currency } = router.query
   const { setItem } = useLocalStorage()
+
+  useEffect(() => {
+    if (chain?.id) {
+      const config = chainConfigByChainId(chain.id)
+      setChainConfig(config)
+    } else {
+      setChainConfig(undefined)
+    }
+  }, [chain])
+
+  const changeLocale = (newLocale: string) => {
+    router.push(router.pathname, router.asPath, { locale: newLocale })
+  }
 
   const changeCurrency = useCallback(
     (newCurrency: string) => {
@@ -39,15 +53,6 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
     [router, setItem]
   )
 
-  if (!chain) {
-    return null
-  }
-  const chainConfig = chainConfigByChainId(chain?.id)
-
-  const changeLocale = (newLocale: string) => {
-    router.push(router.pathname, router.asPath, { locale: newLocale })
-  }
-
   return (
     <>
       <Header>
@@ -58,7 +63,6 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
         )}
         <h2>{t('settings.title')}</h2>
       </Header>
-
       <SettingContainer>
         <h3>{t('settings.locale')}</h3>
         <Select onClick={() => setIsOpen(!isOpen)} className="">
@@ -84,6 +88,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
           <span>{currency?.toString().toLocaleUpperCase()}</span>
           {isCoinOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
         </Select>
+
         {isCoinOpen && (
           <DropdownMenu>
             <Select onClick={() => changeCurrency('usd')} className={`${currency === 'usd' ? 'active' : ''}`}>
@@ -101,16 +106,18 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
           </DropdownMenu>
         )}
       </SettingContainer>
-      <SettingContainer>
-        <h3>{t('settings.network')}</h3>
-        <Select  className={``}>
-          <div>
-            <NetworkIcon chain={chain?.id} size={24} />
-            <span>{capitalize(chainConfig.name.replaceAll('-', ' '))}</span>
-            <CheckedIcon />
-          </div>
-        </Select>
-      </SettingContainer>
+      {chainConfig && (
+        <SettingContainer>
+          <h3>{t('settings.network')}</h3>
+          <Select className={``}>
+            <div>
+              <NetworkIcon chain={chain?.id} size={24} />
+              <span>{capitalize(chainConfig.name.replaceAll('-', ' '))}</span>
+              <CheckedIcon />
+            </div>
+          </Select>
+        </SettingContainer>
+      )}
     </>
   )
 }
@@ -167,7 +174,7 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, DropdownMenu, 
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[8]};
-    position: relative;
+
     h3 {
       font-weight: 400;
       font-size: ${({ theme }) => theme.font.size[15]};
@@ -176,7 +183,7 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, DropdownMenu, 
     }
   `,
   Select: styled.div`
-  cursor: pointer;
+      cursor: pointer;
       width: 100%;
       display: flex;
       justify-content: space-between;
@@ -184,30 +191,18 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, DropdownMenu, 
       height: 44px;
       gap: ${({ theme }) => theme.size[8]};
       padding: ${({ theme }) => theme.size[16]} ${({ theme }) => theme.size[16]};
+      transition: background 0.2s ease;
+      font-weight: 400;
      
       border-radius: ${({ theme }) => theme.size[8]};
-
       box-shadow: ${({ theme }) => theme.shadow[100]};
-      border-radius: ${({ theme }) => theme.size[8]};
       background: ${({ theme }) => theme.colorV2.white};
-
-      border-radius: 8px;
       border: 1px solid var(--gray-50-border, #A0A5AB);
-
       &:hover {
         color: ${({ theme }) => theme.colorV2.purple[1]};
         background: ${({ theme }) => theme.colorV2.gray[4]};
-      }
-
-      &.active {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-      }
-
-      img {
         box-shadow: ${({ theme }) => theme.shadow[100]};
-        border-radius: 100%;
       }
-
       div {
         align-items: center;
         gap: ${({ theme }) => theme.size[8]};
@@ -219,12 +214,8 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, DropdownMenu, 
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[8]};
-    position: absolute;
-    z-index: 999;
-    top: 85px;
     background-color: ${({ theme }) => theme.colorV2.white};
     border: 1px solid ${({ theme }) => theme.colorV2.white};
-
     div {
       width: 100%;
       display: flex;
@@ -235,5 +226,5 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, DropdownMenu, 
       background: ${({ theme }) => theme.colorV2.white};
       border-radius: ${({ theme }) => theme.size[8]};
     }
-  `,
+  `
 }
