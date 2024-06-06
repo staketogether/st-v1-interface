@@ -190,7 +190,7 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
               <div>
                 {web3AuthUserInfo?.email && (
                   <WalletAddressContainer>
-                    <span onClick={() => web3AuthUserInfo?.email && copyToClipboard(web3AuthUserInfo.email)}>
+                    <span className='email' onClick={() => web3AuthUserInfo?.email && copyToClipboard(web3AuthUserInfo.email)}>
                       {truncateText(web3AuthUserInfo.email, 20)}
                     </span>
                   </WalletAddressContainer>
@@ -203,7 +203,7 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
                   </WalletAddressContainer>
                 )}
                 <WalletAddressContainer onClick={() => copyToClipboard(address)}>
-                  <span>{truncateAddress(address)}</span>
+                  <span>{truncateAddress(address, 4)}</span>
                   <CopyIcon className='copy' />
                 </WalletAddressContainer>
               </div>
@@ -342,7 +342,7 @@ const {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[8]};
   `,
   HeaderUserContainer: styled.div`
     display: flex;
@@ -483,6 +483,18 @@ const {
 
     svg {
       color: ${({ theme }) => theme.color.foreground};
+    }
+    span {
+      &.email {
+        width: 111px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+          width: 100%;
+        }
+      }
     }
   `,
   PoolsIcon: styled(PiChartPieSlice)`

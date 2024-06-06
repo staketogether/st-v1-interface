@@ -30,7 +30,7 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
     refetch: nativeRefetch,
     data: nativeData
   } = useBalance({
-    address: address,
+    address,
     chainId,
     query: {
       enabled: asset.type === 'native' && !!address
@@ -63,7 +63,7 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
   })
 
   useEffect(() => {
-    if (erc20Data && asset.type !== 'native') {
+    if (erc20Data !== undefined && asset.type !== 'native') {
       const balance = formatUnits(erc20Data, asset.decimals)
       const rawBalance = erc20Data
 
