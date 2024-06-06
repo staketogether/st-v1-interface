@@ -48,7 +48,10 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
   const kycVerify = address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0
 
   useEffect(() => {
-    if (!kycVerify) return
+    if (!kycVerify) {
+      return
+    }
+
     if (type === 'buy') {
       setRampData({
         chainId: product.ramp[0].chainId,

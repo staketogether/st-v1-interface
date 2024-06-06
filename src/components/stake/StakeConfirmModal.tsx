@@ -1,14 +1,14 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useStakeConfirmModal from '@/hooks/useStakeConfirmModal'
 import { truncateDecimal, truncateWei } from '@/services/truncate'
+import { Staking } from '@/types/Staking'
 import { WithdrawType } from '@/types/Withdraw'
 import styled from 'styled-components'
+import TokensSymbolIcons from '../asset/TokensSymbolIcons'
 import AssetIcon from '../shared/AssetIcon'
 import Modal from '../shared/Modal'
-import TokensSymbolIcons from '../asset/TokensSymbolIcons'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
 import StakeTransactionLoading from './StakeTransactionLoading'
-import { Staking } from '@/types/Staking'
 
 interface StakeConfirmModalProps {
   amount: string
@@ -99,7 +99,7 @@ export default function StakeConfirmModal({
                   <span>
                     <span>{truncateDecimal(amount, 6)}</span> <span>{staking.asset.symbol}</span>
                   </span>
-                  <AssetIcon size={32} altName={staking.symbol} chain={staking.asset.chains[0]} image={staking.symbolImage} />
+                  <AssetIcon size={32} altName={staking.symbol} chain={staking.asset.chains[0]} image={staking.asset.symbolImage} />
                 </div>
               </ContainerPayment>
               <ContainerPayment>

@@ -157,6 +157,9 @@ export const chilizChz: NativeAsset = {
   listed: true,
   enabled: true,
   new: false,
+  disableActions: {
+    swap: true
+  },
   points: {
     stPoints: true,
     elPoints: false

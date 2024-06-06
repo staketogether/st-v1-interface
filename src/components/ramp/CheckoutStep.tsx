@@ -86,7 +86,7 @@ export default function CheckoutStep({ asset, type }: CheckoutStepProps) {
           <Header>
             <div>
               <span>{t('v2.ramp.amountToBePaid')}:</span>
-              <span>{new Intl.NumberFormat('pt-BR').format(Number(quote?.amountBrl ?? 0))}</span>
+              <span>R$ {new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2 }).format(Number(quote?.amountBrl ?? 0))}</span>
             </div>
             <span>
               {t('v2.ramp.checkout.for')} {pixBankInfo?.name}
@@ -133,22 +133,10 @@ const { Container, PixArea, Header, Body, Code, KeyPixArea, QrCodeArea, Footer, 
   `,
   Body: styled.div`
     padding: 0 5px 0px 0px;
-
     gap: 24px;
     display: flex;
     flex-direction: column;
-
     margin-right: 5px;
-    max-height: 570px;
-    overflow-y: auto;
-    overflow-x: none;
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      margin-right: auto;
-      max-height: auto;
-      overflow-y: auto;
-      overflow-x: none;
-    }
   `,
   PixArea: styled.div`
     display: grid;
