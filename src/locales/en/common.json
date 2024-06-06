@@ -7,6 +7,12 @@
   "edit": "Edit",
   "wallet": "Wallet",
   "connectWallet": "Connect Wallet",
+  "disclaimer": "Attention! Confirm that the asset you will receive is compatible with the Ethereum, Optimism, Arbitrum, Polygon and Chiliz networks. Assets incompatible with your address may be lost permanently.",
+  "compatibility": "Compatible with networks:",
+  "tokens": "Tokens",
+  "products": "Products",
+  "noItemFound": "No items was found",
+  "connectYourWallet": "Connect your wallet to continue",
   "signUpNow": "Sign up now, it's completely free!",
   "privacyDeclare": "I declare that I am at least 18 years old and accept the terms of the",
   "privacyPolicy": "Privacy Policy",
@@ -88,6 +94,10 @@
   "investments": "Investments",
   "genericTransactionSuccess": "Transaction Successful",
   "sendAddress": "Send Address",
+   "unlockTransaction": {
+    "failTransaction": "Failed to perform Unlock",
+    "success": "Unlocking Completed Successfully"
+  },
   "time": {
     "days": "Days",
     "day": "Day",
@@ -714,6 +724,7 @@
       "processingRegistration": "Processing Registration",
       "processingPayment": "Processing Payment",
       "generatingQRCode": "Generating QR Code",
+      "validatingWithdrawal": "Validating withdrawal",
       "paymentIdentified": "Payment Identified",
       "mintingBRLA": "Minting BRLA on the Blockchain",
       "swapBrlToEth": "Swap BRLA for ETH",
@@ -722,7 +733,7 @@
       "orUseThePixKey": "Or use the Pix Key",
       "cancelDeposit": "Cancel deposit",
       "copyQrCode": "Copy QR Code",
-      "yourEths": "Your ETH will be in your account",
+      "yourEths": "Your TOKENS will be in your account",
       "timeReceive": "within 30 minutes",
       "exchange": "Exchange",
       "networkFee": "Network Fee",
@@ -761,6 +772,29 @@
         "bank": "Bank",
         "paymentTime": "Payment time",
         "timeOut": "Unfortunately, your deadline to make payment has expired!"
+      },
+      "offRamp": {
+        "requestRequested": "Request requested",
+        "exchange": "Exchange BRLA for Blockchain",
+        "sendingPix": "Sending Pix",
+        "success": "Your money is now available in your account",
+        "youReceived": "You received",
+        "successTitle": "Withdrawal successful!",
+         "alertMessage": "Attention! To move tokens on the [network], you must have a balance in the native currency to cover transaction fees",
+         "unlock": "Unlock token",
+        "unlocked": "token Unlocked",
+        "sendToken": "Send token",
+        "connectedNetwork": "Connected the [network]",
+         "pixKeyLabel": {
+          "phone": "Phone",
+          "random": "Random"
+        },
+        "pixKeyFormError": {
+          "cpf": "Invalid CPF",
+          "phone": "Invalid phone",
+          "cnpj": "Invalid CNPJ",
+          "email": "Invalid Email address"
+        }
       }
     },
     "ethereumStaking": {

@@ -1,5 +1,4 @@
 import { chainConfigByChainId } from '@/config/chain'
-import { rampAssetIdVar } from '@/hooks/ramp/useControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
@@ -15,14 +14,16 @@ import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
 import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
-import AssetsActionsControl from './AssetsActionsControl'
 import AssetsProductInfo from './AssetsProductInfo'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import dynamic from 'next/dynamic'
 import LottieAnimation from '../shared/LottieAnimation'
+import { RampSteps, clearRampVars, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
+import useBalanceOf from '@/hooks/contracts/useBalanceOf'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface AssetsControlProps {
-  product: Asset
+  asset: Asset
   assetData: AssetStats
   chainId: number
   type: AssetActionType
@@ -38,11 +39,25 @@ const AssetBalanceCard = dynamic(() => import('../asset/AssetBalanceCard'), {
   suspense: true
 })
 
-export default function AssetsControl({ product, assetData, chainId, type }: AssetsControlProps) {
+const AssetPrice = dynamic(() => import('../shared/AssetPrice'), {
+  ssr: false,
+  loading: () => <SkeletonLoading width={80} />,
+  suspense: true
+})
+
+const AssetsActionsControl = dynamic(() => import('./AssetsActionsControl'), {
+  ssr: false,
+  loading: () => (
+    <LoadingContainer>
+      <LottieAnimation animationData={loadingAnimation} height={20} loop />
+    </LoadingContainer>
+  ),
+  suspense: true
+})
+
+export default function AssetsControl({ asset, assetData, chainId, type }: AssetsControlProps) {
   const [userWalletAddress, setUserWalletAddress] = useState<`0x${string}` | undefined>(undefined)
   const { t } = useLocaleTranslation()
-  rampAssetIdVar(product.id)
-
   const { query } = useRouter()
   const { currency } = query
   const { chain: walletChainId, connector, address } = useAccount()
@@ -56,6 +71,18 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
   const config = chainConfigByChainId(chainId)
+
+  useEffect(() => {
+    rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)
+  }, [type])
+
+  const {
+    tokenBalance: userTokenBalance,
+    isLoading: userTokenIsLoading,
+    refetch: userTokenRefetch
+  } = useBalanceOf({
+    asset
+  })
 
   useEffect(() => {
     if (isWrongNetwork && connector && connector.name === 'Web3Auth') {
@@ -73,7 +100,13 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
       placement: 'topRight'
     })
   }
-  useFacebookPixel(`pageview:asset_${product.id}`)
+  useFacebookPixel(`pageview:asset_${asset.id}`)
+
+  useEffect(() => {
+    return () => {
+      clearRampVars()
+    }
+  }, [])
 
   return (
     <Container>
@@ -84,16 +117,20 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <AssetIcon image={product.symbolImage} size={36} altName={product.id} chain={chainId} />
-            <span>{t(`v2.products.${product.id}`)}</span>
+            <AssetIcon image={asset.symbolImage} size={36} altName={asset.id} chain={chainId} />
+            <span>{t(`v2.products.${asset.id}`)}</span>
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
             </ShareButton>
           </div>
           <div>
-            <span>{t('v2.ethereumStaking.networkAvailable')}</span>
+            <div>
+              <span>{asset.symbol.toLocaleUpperCase()}</span>
+              <AssetPrice asset={asset} />
+            </div>
             <AvailableNetwork>
+              <span>{t('v2.ethereumStaking.networkAvailable')}</span>
               <NetworkIcons network={config.name.toLowerCase()} size={16} />
               <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
             </AvailableNetwork>
@@ -102,12 +139,25 @@ export default function AssetsControl({ product, assetData, chainId, type }: Ass
       </header>
 
       <div>
-        <AssetsProductInfo asset={product} assetData={assetData} />
+        <AssetsProductInfo asset={asset} assetData={assetData} />
         <ActionContainer>
           <ActionContainerControlCard>
-            <AssetsActionsControl type={type} asset={product} />
+            <AssetsActionsControl
+              type={type}
+              asset={asset}
+              userTokenBalance={userTokenBalance}
+              userTokenIsLoading={userTokenIsLoading}
+              userTokenRefetch={userTokenRefetch}
+            />
           </ActionContainerControlCard>
-          {userWalletAddress && <AssetBalanceCard asset={product} userWalletAddress={userWalletAddress} />}
+          {userWalletAddress && (
+            <AssetBalanceCard
+              userTokenBalance={userTokenBalance}
+              userTokenIsLoading={userTokenIsLoading}
+              asset={asset}
+              userWalletAddress={userWalletAddress}
+            />
+          )}
         </ActionContainer>
       </div>
     </Container>
@@ -175,26 +225,40 @@ const {
 
     > div {
       display: flex;
-      align-items: center;
 
       &:nth-child(1) {
+        width: 100%;
         font-size: ${({ theme }) => theme.font.size[22]};
         font-style: normal;
         font-weight: 500;
         gap: ${({ theme }) => theme.size[12]};
-
+        
         > span {
           width: 100%;
         }
       }
 
       &:nth-child(2) {
-        gap: ${({ theme }) => theme.size[4]};
-        span {
-          font-size: ${({ theme }) => theme.font.size[13]};
-          font-style: normal;
-          font-weight: 500;
-          opacity: 0.6;
+        display: flex;
+        flex-direction: column;
+        gap: ${({ theme }) => theme.size[12]};
+
+        div:nth-child(1) {
+          display: flex;
+          align-items: center;
+          gap: ${({ theme }) => theme.size[4]};
+
+          span:nth-child(1) {
+            color: ${({ theme }) => theme.colorV2.gray[1]};
+            font-size: ${({ theme }) => theme.font.size[22]};
+            font-weight: 500;
+          }
+
+          span:nth-child(2) {
+            color: ${({ theme }) => theme.colorV2.blue[1]};
+            font-size: ${({ theme }) => theme.font.size[22]};
+            font-weight: 500;
+          }
         }
       }
     }
@@ -256,5 +320,12 @@ const {
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[4]};
+
+     span {
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-style: normal;
+          font-weight: 500;
+          opacity: 0.6;
+        }
   `
 }

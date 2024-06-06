@@ -98,7 +98,7 @@ export const chainConfigs: ChainConfig[] = [
   },
   {
     chainId: optimismSepolia.id,
-    name: 'Optimism',
+    name: 'OptimismSp',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OP_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {

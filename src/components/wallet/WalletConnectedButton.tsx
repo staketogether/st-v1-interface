@@ -29,12 +29,12 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   return (
     <ConnectedButton onClick={handleActionButton}>
       <EnsAddress>
+        <WalletName walletAddress={address} web3AuthUserInfo={web3AuthUserInfo} ensName={ensName} ensLoading={ensLoading} />
         {web3AuthUserInfo?.profileImage ? (
           <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={24} height={24} />
         ) : (
           <EnsAvatar address={address} size={24} avatarLoading={avatarLoading} avatar={avatar} />
         )}
-        <WalletName walletAddress={address} web3AuthUserInfo={web3AuthUserInfo} ensName={ensName} ensLoading={ensLoading} />
       </EnsAddress>
     </ConnectedButton>
   )
@@ -71,8 +71,7 @@ const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
   `,
   EnsAddress: styled.div`
     display: grid;
-    grid-template-columns: 24px auto;
-    justify-content: flex-end;
+    grid-template-columns: auto 24px;
     align-items: center;
     gap: 8px;
   `,

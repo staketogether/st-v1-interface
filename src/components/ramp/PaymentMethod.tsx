@@ -1,5 +1,5 @@
 import { chainConfigByChainId } from '@/config/chain'
-import { BrlaBuyEthStep, openBrlaModalVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, openBrlaModalVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useTransak from '@/hooks/useTransak'
 import { Asset } from '@/types/Asset'
@@ -24,10 +24,10 @@ export default function PaymentMethod({ asset }: PaymentMethodProps) {
   })
 
   const handlePix = () => {
-    stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
+    rampStepControlVar(RampSteps.Quotation)
   }
   const handleCreditCard = () => {
-    stepsControlBuyCryptoVar(BrlaBuyEthStep.MethodPayment)
+    rampStepControlVar(RampSteps.MethodPayment)
     onInit()
   }
 

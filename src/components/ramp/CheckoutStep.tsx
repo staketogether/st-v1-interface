@@ -1,5 +1,4 @@
-import { BrlaBuyEthStep, clearModal, qrCodeVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
-import usePixBankInfo from '@/hooks/ramp/usePixBankInfo'
+import { RampSteps, clearRampVars, pixBankInfoVar, qrCodeVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -10,20 +9,19 @@ import { QRCode, notification } from 'antd'
 import { useEffect, useState } from 'react'
 import { PiCopy } from 'react-icons/pi'
 import styled from 'styled-components'
-import { useAccount } from 'wagmi'
 import Button from '../shared/Button'
 import SwapInfo from './SwapInfo'
 
 interface CheckoutStepProps {
   asset: Asset
+  type: 'buy' | 'sell' | 'swap'
 }
 
-export default function CheckoutStep({ asset }: CheckoutStepProps) {
+export default function CheckoutStep({ asset, type }: CheckoutStepProps) {
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
   const quote = useReactiveVar(quoteVar)
-  const { address } = useAccount()
-  const { pixBankInfo } = usePixBankInfo(ProviderType.brla, qrCode?.id, address)
+  const pixBankInfo = useReactiveVar(pixBankInfoVar)
   const { activity } = useRampActivity(ProviderType.brla, qrCode?.id)
   const [time, setTime] = useState({ hours: 1, minutes: 0, seconds: 0 })
 
@@ -37,7 +35,7 @@ export default function CheckoutStep({ asset }: CheckoutStepProps) {
 
   useEffect(() => {
     if (activity?.type === 'pix-to-token' && activity.status !== 'error' && activity.status !== 'created') {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingCheckoutStep)
+      rampStepControlVar(RampSteps.ProcessingCheckoutStep)
     }
   }, [activity])
 
@@ -49,7 +47,7 @@ export default function CheckoutStep({ asset }: CheckoutStepProps) {
         const hours = minutes < 0 ? prevTime.hours - 1 : prevTime.hours
         if (hours === 0 && minutes === 0 && seconds === 0) {
           clearInterval(intervalId)
-          setTimeout(() => stepsControlBuyCryptoVar(BrlaBuyEthStep.TimeOutCheckout), 3000)
+          setTimeout(() => rampStepControlVar(RampSteps.TimeOutCheckout), 3000)
           return {
             ...prevTime,
             seconds: 0
@@ -83,7 +81,7 @@ export default function CheckoutStep({ asset }: CheckoutStepProps) {
   return (
     <Container>
       <Body>
-        <SwapInfo asset={asset} />
+        <SwapInfo asset={asset} type={type} />
         <PixArea>
           <Header>
             <div>
@@ -120,7 +118,7 @@ export default function CheckoutStep({ asset }: CheckoutStepProps) {
         </KeyPixArea>
       </Body>
       <Footer>
-        <Button type='button' label={t('v2.ramp.cancelDeposit')} className='outline' block onClick={clearModal} />
+        <Button type='button' label={t('v2.ramp.cancelDeposit')} className='outline' block onClick={clearRampVars} />
       </Footer>
     </Container>
   )

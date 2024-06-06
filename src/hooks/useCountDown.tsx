@@ -6,7 +6,8 @@ export default function useCountDown(durationInMilliseconds: number) {
 
   const formatTime = (time: number): [string, string] => {
     const str = time.toString().padStart(2, '0')
-    return [str.charAt(0), str.charAt(1)]
+    const timeReturn = str.charAt(0).length - 1 > 1 ? str.charAt(0) : `0${str.charAt(0)}`
+    return [timeReturn, str.charAt(1)]
   }
 
   useEffect(() => {

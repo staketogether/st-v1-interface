@@ -1,18 +1,19 @@
-import { clearModal, quoteVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
 import successAnimation from '@assets/animations/success-animation.json'
 import styled from 'styled-components'
 import Button from '../shared/Button'
 import LottieAnimation from '../shared/LottieAnimation'
-import { Asset } from '@/types/Asset'
 
 interface SuccessStepProps {
   product: Asset
+  type: 'buy' | 'sell' | 'swap'
 }
 
-export default function SuccessStep({ product }: SuccessStepProps) {
+export default function SuccessStep({ product, type }: SuccessStepProps) {
   const { t } = useLocaleTranslation()
   const quote = useReactiveVar(quoteVar)
 
@@ -23,17 +24,20 @@ export default function SuccessStep({ product }: SuccessStepProps) {
     method: 'PIX',
     assetId: product.id
   })
+
+  const symbol = type === 'buy' ? product.symbol : 'BRL'
+  const messageReceive =
+    type === 'buy' ? t('v2.ramp.yourEths').replace('TOKENS', product.symbol) : t('v2.ramp.yourEths').replace('ETH', 'BRL')
+  const value = type === 'buy' ? quote?.amountToken : quote?.amountBrl
   return (
     <Container>
       <LottieAnimation animationData={successAnimation} height={80} />
       <DepositToken>
         <div>
-          <span>
-            {quote?.amountToken} {product.symbol}
-          </span>
+          <span>{`${value} ${symbol}`}</span>
         </div>
         <div>
-          <span>{t('v2.ramp.yourEths')}</span>
+          <span>{messageReceive}</span>
           <span className='purple'>{t('v2.ramp.timeReceive')}</span>
         </div>
       </DepositToken>
@@ -41,7 +45,7 @@ export default function SuccessStep({ product }: SuccessStepProps) {
         <Info>
           <span>{t('v2.ramp.youReceived')}</span>
           <span className='right secondary'>
-            {quote?.amountToken} {product.symbol}
+            {quote?.amountToken} {symbol}
           </span>
         </Info>
         <Info>
@@ -75,7 +79,11 @@ export default function SuccessStep({ product }: SuccessStepProps) {
           <span className='right bold'>{quote?.amountToken} ETH</span>
         </Info>
       </DepositInfo>
-      <Button type='button' label={t('close')} onClick={() => clearModal()} />
+      <Button
+        type='button'
+        label={t('close')}
+        onClick={() => rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)}
+      />
     </Container>
   )
 }

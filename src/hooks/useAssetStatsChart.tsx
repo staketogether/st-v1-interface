@@ -24,7 +24,7 @@ export default function useAssetStatsChart({
 
   const fetcher = () =>
     axios
-      .get<AssetStatsChart>(`${backendUrl}/api/asset-stats/${chainId}/${contractAddress}/chart`, {
+      .get<AssetStatsChart>(`${backendUrl}/api/assets/${chainId}/${contractAddress}/chart`, {
         params: {
           currency,
           days,

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import useSWR from 'swr'
-import { kycLevelVar } from './useControlModal'
+import { kycLevelVar } from './useRampControlModal'
 
 export interface KycLevelInfo {
   level: number
