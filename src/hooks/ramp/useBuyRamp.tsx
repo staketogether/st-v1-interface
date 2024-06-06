@@ -10,15 +10,13 @@ export interface BuyRamp {
   brCode: string
 }
 export interface BuyRampRequest {
-  chainId: number
+  chainIdToReceive: number
+  tokenToReceive: string
   paymentMethod: PaymentMethodType
   fiatCurrencyCode: string
   amount: number
   accountAddress: string
   receiverAddress: string
-  tokenToReceive?: string
-  convertToChainId?: number
-  convertToToken?: string
   fixOutput?: boolean
 }
 

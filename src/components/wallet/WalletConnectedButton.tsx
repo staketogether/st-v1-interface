@@ -45,16 +45,20 @@ const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
     display: flex;
     gap: ${({ theme }) => theme.size[16]};
     align-items: center;
-    width: auto;
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.colorV2.blue[1]};
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
-    padding: 0 10px;
+    padding: 0 5px;
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[200]};
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      width: auto;
+      padding: 0 10px;
+    }
 
     &:hover {
       background-color: ${({ theme }) => theme.colorV2.purple[1]};
