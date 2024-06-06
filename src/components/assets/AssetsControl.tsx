@@ -18,7 +18,7 @@ import AssetsProductInfo from './AssetsProductInfo'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import dynamic from 'next/dynamic'
 import LottieAnimation from '../shared/LottieAnimation'
-import { RampSteps, clearRampVars, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
+import { clearRampVars } from '@/hooks/ramp/useRampControlModal'
 import useBalanceOf from '@/hooks/contracts/useBalanceOf'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
@@ -72,10 +72,6 @@ export default function AssetsControl({ asset, assetData, chainId, type }: Asset
   const { switchChain } = useSwitchChain()
   const config = chainConfigByChainId(chainId)
 
-  useEffect(() => {
-    rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)
-  }, [type])
-
   const {
     tokenBalance: userTokenBalance,
     isLoading: userTokenIsLoading,
@@ -104,9 +100,9 @@ export default function AssetsControl({ asset, assetData, chainId, type }: Asset
 
   useEffect(() => {
     return () => {
-      clearRampVars()
+      if (type === 'buy' || type === 'sell') clearRampVars(type)
     }
-  }, [])
+  }, [type])
 
   return (
     <Container>
@@ -232,7 +228,7 @@ const {
         font-style: normal;
         font-weight: 500;
         gap: ${({ theme }) => theme.size[12]};
-        
+
         > span {
           width: 100%;
         }
@@ -321,11 +317,11 @@ const {
     align-items: center;
     gap: ${({ theme }) => theme.size[4]};
 
-     span {
-          font-size: ${({ theme }) => theme.font.size[13]};
-          font-style: normal;
-          font-weight: 500;
-          opacity: 0.6;
-        }
+    span {
+      font-size: ${({ theme }) => theme.font.size[13]};
+      font-style: normal;
+      font-weight: 500;
+      opacity: 0.6;
+    }
   `
 }

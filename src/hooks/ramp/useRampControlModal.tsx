@@ -1,5 +1,5 @@
 import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo'
-import { Asset, AssetId } from '@/types/Asset'
+import { AssetId } from '@/types/Asset'
 import { Quote } from '@/types/quote.type'
 import { makeVar } from '@apollo/client'
 import { BuyRamp } from './useBuyRamp'
@@ -43,7 +43,7 @@ export const kycLevelVar = makeVar<KycLevelInfo | null>(null)
 export const kycIdVar = makeVar<string | null>(null)
 export const rampAssetIdVar = makeVar<AssetId>('eth-mainnet')
 
-export const clearRampVars = () => {
+export const clearRampVars = (type: 'buy' | 'sell') => {
   qrCodeVar(null)
   kycLevelVar(null)
   kycIdVar(null)
@@ -51,17 +51,6 @@ export const clearRampVars = () => {
   offRampPixKeyVar('')
   amountToQuoteVar('')
   pixBankInfoVar(undefined)
-  rampStepControlVar(undefined)
+  rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)
   openBrlaModalVar(false)
-}
-
-export const openQuoteEthModal = (asset: Asset) => {
-  rampStepControlVar(RampSteps.Quotation)
-  rampAssetIdVar(asset.id)
-  openBrlaModalVar(true)
-}
-
-export const openModal = (asset: Asset) => {
-  rampAssetIdVar(asset.id)
-  openBrlaModalVar(true)
 }

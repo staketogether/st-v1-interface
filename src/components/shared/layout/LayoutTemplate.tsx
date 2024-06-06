@@ -12,6 +12,8 @@ import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
 import useRegisterSocialLoginUsers from '@/hooks/marketing/useRegisterSocialLoginUsers'
+import { PipeDrive } from '@/components/shared/scripts/PipeDrive'
+import { Grid } from 'antd'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -23,6 +25,8 @@ interface LayoutTemplateProps {
   children: ReactNode
 }
 
+const { useBreakpoint } = Grid
+
 export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   useRegisterSocialLoginUsers()
 
@@ -31,6 +35,7 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   const router = useRouter()
   const { currency } = router.query
   const { setItem, getItem } = useLocalStorage()
+  const { md } = useBreakpoint()
 
   const changeCurrency = useCallback(
     (newCurrency: string) => {
@@ -53,6 +58,7 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
 
   return (
     <Container className={montserrat.className}>
+      {md && <PipeDrive />}
       {isProduction && (
         <>
           <GoogleTag />
