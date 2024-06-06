@@ -11,7 +11,7 @@ interface UseGetAssetStatsProps {
 export default function useAssetStats({ chainId, contractAddress }: UseGetAssetStatsProps) {
   const { backendUrl } = globalConfig
   const isValid = !!(chainId && contractAddress)
-  const fetcher = () => axios.get<AssetStats>(`${backendUrl}/api/asset-stats/${chainId}/${contractAddress}`).then(res => res.data)
+  const fetcher = () => axios.get<AssetStats>(`${backendUrl}/api/assets/${chainId}/${contractAddress}`).then(res => res.data)
 
   const swrKey = [isValid ? `assets-stats` : null, chainId, contractAddress, { dedupingInterval: 300000 }]
 
