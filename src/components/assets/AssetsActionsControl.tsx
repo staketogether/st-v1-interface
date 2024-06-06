@@ -26,7 +26,6 @@ export default function AssetsActionsControl({
   userTokenIsLoading,
   userTokenRefetch
 }: AssetsActionsControlProps) {
-  console.log('type', type)
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
