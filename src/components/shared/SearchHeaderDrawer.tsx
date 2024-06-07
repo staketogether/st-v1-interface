@@ -41,7 +41,7 @@ export default function SearchDrawer({openDrawer, setOpenDrawer}: SearchDrawerPr
                             </header>
                         )}
                         {assetsListFiltered.map(asset => (
-                            <Row href={asset.item.url.replace('currency', currency)} key={asset.item.id}>
+                          <Row href={asset.item.url.replace('currency', currency)} onClick={() => setOpenDrawer(false)} key={asset.item.id}>
                                 <AssetIcon image={asset.item.symbolImage} chain={asset.item.chains[0]} size={32} altName={asset.item.id} />
                                 <div>
                                     <h2>{asset.item.symbol}</h2>
@@ -54,7 +54,7 @@ export default function SearchDrawer({openDrawer, setOpenDrawer}: SearchDrawerPr
                             </header>
                         )}
                         {stakingListsFiltered.map(staking => (
-                            <Row href={staking.item.url.replace('currency', currency)} key={staking.item.id}>
+                          <Row href={staking.item.url.replace('currency', currency)} onClick={() => setOpenDrawer(false)} key={staking.item.id}>
                                 <AssetIcon image={staking.item.symbolImage} chain={staking.item.asset.chains[0]} size={32} altName={staking.item.id} />
                                 <div>
                                     <h2>{staking.item.symbol}</h2>
