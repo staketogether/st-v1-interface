@@ -55,8 +55,8 @@ export default function QuotationOffRampStep({ asset: asset, userTokenBalance, u
   const { address: userWalletAddress } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', userWalletAddress)
 
-  const limit = Number(amountDebounceValue) >= Number(kycLevelInfo?.limits.limitSwapSell ?? 0)
-  const errorLimitReached = limit && !!kycLevelInfo?.limits.limitSwapSell
+  const limit = Number(amountDebounceValue) >= Number(kycLevelInfo?.limits?.limitSwapSell ?? 0)
+  const errorLimitReached = limit && !!kycLevelInfo?.limits?.limitSwapSell
   const errorMaxSellValue = !(Number(userTokenBalance.balance) >= Number(amountDebounceValue))
   const disabledButton = errorLimitReached || errorMaxSellValue || !Number(value) || isLoading
 
