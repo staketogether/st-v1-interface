@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import WalletSidebarPortfolio from '../wallet/WalletSidebarPortfolio'
-import useStAccount from '../wallet/hooks/useStAccount'
+import useStAccount from '../../hooks/useStAccount'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { truncateWei } from '@/services/truncate'
 
