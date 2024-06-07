@@ -246,7 +246,7 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
             
             <AssetsCard>
               {loading ?
-                <LottieAnimation animationData={loadingAnimation} height={20} loop />
+                <LottieAnimation animationData={loadingAnimation} width={70} height={70} loop />
                 : accountAssets.map((asset, index) => <WalletSidebarAsset asset={asset} key={index} />)}
             </AssetsCard>
           </Card>
@@ -531,9 +531,11 @@ const {
   `,
   AssetsCard: styled.div`
     width: 100%;
+    height: 299px;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[16]};
+    justify-content: center;
   `,
   HeaderTabContainer: styled.div`
     display: flex;
