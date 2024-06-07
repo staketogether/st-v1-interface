@@ -45,8 +45,8 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
   const { kycLevelInfo } = useKycLevelInfo('brla', address)
   const { t } = useLocaleTranslation()
 
-  const limit = Number(debounceValue) * 100 >= Number(kycLevelInfo?.limits.limitSwapBuy ?? 0)
-  const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
+  const limit = Number(debounceValue) * 100 >= Number(kycLevelInfo?.limits?.limitSwapBuy ?? 0)
+  const error = limit && !!kycLevelInfo?.limits?.limitSwapBuy
   const errorMinValue = Number(debounceValue) < minDeposit
 
   const handleChange = (v: string) => {
