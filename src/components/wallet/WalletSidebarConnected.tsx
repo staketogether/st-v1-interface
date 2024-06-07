@@ -32,7 +32,8 @@ import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
 import WalletSidebarAsset from '@/components/wallet/WalletSidebarAsset'
 import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
-
+import loadingAnimation from '@assets/animations/loading-animation.json'
+import LottieAnimation from '../shared/LottieAnimation'
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
   walletChainId: number
@@ -80,7 +81,7 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
     accountShare: stpChzAccountShare
   } = useStAccount({ address: address, productName: 'chz-staking', chainId: 88882 })
 
-  const { accountAssets } = useAccountAssets(address)
+  const { accountAssets, loading } = useAccountAssets(address)
   const { balance: usdTotalBalance } = useAccountAssetsUsdBalance(address)
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
@@ -242,8 +243,11 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
               </AssetHeaderCard>
             }
           >
+            
             <AssetsCard>
-              {accountAssets.map((asset, index) => <WalletSidebarAsset asset={asset} key={index} />)}
+              {loading ?
+                <LottieAnimation animationData={loadingAnimation} height={20} loop />
+                : accountAssets.map((asset, index) => <WalletSidebarAsset asset={asset} key={index} />)}
             </AssetsCard>
           </Card>
           <Card

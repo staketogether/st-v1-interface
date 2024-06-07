@@ -22,21 +22,21 @@ export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const { usdToCurrency } = useFiatUsdConversion()
 
   return (
-    <BalanceContainer href={`${configAsset?.url}`} key={asset.chainId}>
-      <div>
+      <BalanceContainer href={`${configAsset?.url}`} key={asset.chainId}>
         <div>
-          <AssetIcon image={imageSrc} size={24} altName={asset.symbol} chain={asset.chainId} />
+          <div>
+            <AssetIcon image={imageSrc} size={24} altName={asset.symbol} chain={asset.chainId} />
+          </div>
+          <div>
+            <span>{asset.symbol}</span>
+            <span>{asset.name}</span>
+          </div>
         </div>
         <div>
-          <span>{asset.symbol}</span>
-          <span>{asset.name}</span>
+          <span>{formattedBalance}</span>
+          <span>{usdToCurrency(asset.balanceUsd).formatted}</span>
         </div>
-      </div>
-      <div>
-        <span>{formattedBalance}</span>
-        <span>{usdToCurrency(asset.balanceUsd).formatted}</span>
-      </div>
-    </BalanceContainer>
+      </BalanceContainer>
   )
 }
 
@@ -46,6 +46,9 @@ const { BalanceContainer } = {
     display: flex;
     align-items: center;
     justify-content: space-between;
+   transition: background-color 0.2s;
+   border-radius: ${({ theme }) => theme.size[8]};
+   padding: 2px;
 
     div {
       &:nth-child(1) {
@@ -94,5 +97,9 @@ const { BalanceContainer } = {
         }
       }
     }
+
+    &:hover {
+     background-color: ${({ theme }) => theme.colorV2.foreground};
+   }
   `
 }
