@@ -28,7 +28,6 @@ export default function WalletSidebarMobileSetting() {
 
 const { DrawerContainer, ClosedSidebarButton, CloseSidebar } = {
   DrawerContainer: styled(Drawer)`
-    background: ${({ theme }) => theme.colorV2.background} !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
