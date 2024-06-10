@@ -1,14 +1,14 @@
+import styled from 'styled-components'
+import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi2'
 import { useRouter } from 'next/router'
 import { useCallback, useState, useEffect } from 'react'
 import { PiArrowLeft, PiCheckBold } from 'react-icons/pi'
-import styled from 'styled-components'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi2'
-import { capitalize } from '@/services/truncate'
 import NetworkIcon from '../shared/NetworkIcon'
 import { useAccount } from 'wagmi'
 import { chainConfigByChainId, ChainConfig } from '@/config/chain'
+import { capitalize } from '@/services/truncate'
 
 interface WalletSlideBarSettingsProps {
   setIsSettingsActive?: (value: boolean) => void
@@ -37,6 +37,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
 
   const changeLocale = (newLocale: string) => {
     router.push(router.pathname, router.asPath, { locale: newLocale })
+    setIsOpen(false) // Close the select dropdown after changing the locale
   }
 
   const changeCurrency = useCallback(
@@ -47,8 +48,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
       })
 
       setItem('currency', newCurrency)
-      setIsOpen(false);
-      setIsCoinOpen(false);
+      setIsCoinOpen(false); // Close the select dropdown after changing the currency
     },
     [router, setItem]
   )
@@ -65,64 +65,56 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
       </Header>
       <SettingContainer>
         <h3>{t('settings.locale')}</h3>
-        <Select onClick={() => setIsOpen(!isOpen)} className="">
-          <span>{router.locale === 'en' ? 'English' : 'Português'}</span>
-          {isOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
-        </Select>
-        {isOpen && (
-          <DropdownMenu>
-            <Select onClick={() => changeLocale('en')} className={`${router.locale === 'en' ? 'active' : ''}`}>
-              <span>English</span>
-              {router.locale === 'en' && <CheckedIcon />}
-            </Select>
-            <Select onClick={() => changeLocale('pt')} className={`${router.locale === 'pt' ? 'active' : ''}`}>
-              <span>Português</span>
-              {router.locale === 'pt' && <CheckedIcon />}
-            </Select>
-          </DropdownMenu>
-        )}
+        <SelectWrapper>
+          <StyledSelect
+            value={router.locale}
+            onClick={() => setIsOpen(!isOpen)}
+            onBlur={() => setIsOpen(false)}
+            onChange={(e) => changeLocale(e.target.value)}
+          >
+            <option value="en">English</option>
+            <option value="pt">Português</option>
+          </StyledSelect>
+          <SelectIcon>
+            {isOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
+          </SelectIcon>
+        </SelectWrapper>
       </SettingContainer>
       <SettingContainer>
         <h3>{t('settings.currency')}</h3>
-        <Select onClick={() => setIsCoinOpen(!isCoinOpen)} className={``}>
-          <span>{currency?.toString().toLocaleUpperCase()}</span>
-          {isCoinOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
-        </Select>
-
-        {isCoinOpen && (
-          <DropdownMenu>
-            <Select onClick={() => changeCurrency('usd')} className={`${currency === 'usd' ? 'active' : ''}`}>
-              <span>USD</span>
-              {currency === 'usd' && <CheckedIcon />}
-            </Select>
-            <Select onClick={() => changeCurrency('eur')} className={`${currency === 'eur' ? 'active' : ''}`}>
-              <span>EUR</span>
-              {currency === 'eur' && <CheckedIcon />}
-            </Select>
-            <Select onClick={() => changeCurrency('brl')} className={`${currency === 'brl' ? 'active' : ''}`}>
-              <span>BRL</span>
-              {currency === 'brl' && <CheckedIcon />}
-            </Select>
-          </DropdownMenu>
-        )}
+        <SelectWrapper>
+          <StyledSelect
+            value={currency}
+            onClick={() => setIsCoinOpen(!isCoinOpen)}
+            onBlur={() => setIsCoinOpen(false)}
+            onChange={(e) => changeCurrency(e.target.value)}
+          >
+            <option value="usd">USD</option>
+            <option value="eur">EUR</option>
+            <option value="brl">BRL</option>
+          </StyledSelect>
+          <SelectIcon>
+            {isCoinOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
+          </SelectIcon>
+        </SelectWrapper>
       </SettingContainer>
       {chainConfig && (
         <SettingContainer>
           <h3>{t('settings.network')}</h3>
-          <Select className={``}>
-            <div>
+          <StyledSelect as="div">
+            <Network>
               <NetworkIcon chain={chain?.id} size={24} />
               <span>{capitalize(chainConfig.name.replaceAll('-', ' '))}</span>
               <CheckedIcon />
-            </div>
-          </Select>
+            </Network>
+          </StyledSelect>
         </SettingContainer>
       )}
     </>
   )
 }
 
-const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, DropdownMenu, Select } = {
+const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, SelectWrapper, StyledSelect, SelectIcon, Network } = {
   CloseIcon: styled(PiArrowLeft)`
     font-size: 18px;
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
@@ -181,50 +173,49 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, DropdownMenu, 
       margin-top: 4px;
       margin-bottom: 4px;
     }
-  `,
-  Select: styled.div`
-      cursor: pointer;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 44px;
-      gap: ${({ theme }) => theme.size[8]};
-      padding: ${({ theme }) => theme.size[16]} ${({ theme }) => theme.size[16]};
-      transition: background 0.2s ease;
-      font-weight: 400;
-     
-      border-radius: ${({ theme }) => theme.size[8]};
-      box-shadow: ${({ theme }) => theme.shadow[100]};
-      background: ${({ theme }) => theme.colorV2.white};
-      border: 1px solid var(--gray-50-border, #A0A5AB);
-      &:hover {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-        background: ${({ theme }) => theme.colorV2.gray[4]};
-        box-shadow: ${({ theme }) => theme.shadow[100]};
-      }
-      div {
-        align-items: center;
-        gap: ${({ theme }) => theme.size[8]};
-        display: flex;
-      }
-  `,
-  DropdownMenu: styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[8]};
-    background-color: ${({ theme }) => theme.colorV2.white};
-    border: 1px solid ${({ theme }) => theme.colorV2.white};
     div {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      height: 44px;
-      gap: ${({ theme }) => theme.size[8]};
-      padding: ${({ theme }) => theme.size[16]} ${({ theme }) => theme.size[16]};
-      background: ${({ theme }) => theme.colorV2.white};
-      border-radius: ${({ theme }) => theme.size[8]};
+   
     }
+  `,
+  SelectWrapper: styled.div`
+    position: relative;
+    width: 100%;
+  `,
+  StyledSelect: styled.select`
+    cursor: pointer;
+    width: 100%;
+    height: 44px;
+    padding: 0 0 0 ${({ theme }) => theme.size[16]};
+    transition: background 0.2s ease;
+    font-weight: 400;
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    background: ${({ theme }) => theme.colorV2.white};
+    outline: 0;
+    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+    appearance: none;
+
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+      background: ${({ theme }) => theme.colorV2.gray[4]};
+      box-shadow: ${({ theme }) => theme.shadow[100]};
+    }
+    option {
+      background: ${({ theme }) => theme.colorV2.white};
+    }
+  `,
+  Network: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+    padding: ${({ theme }) => theme.size[8]} 0px;
+  `,
+  SelectIcon: styled.div`
+    position: absolute;
+    top: 50%;
+    right: ${({ theme }) => theme.size[16]};
+    transform: translateY(-50%);
+    pointer-events: none; /* Make the icon unclickable */
+    color: ${({ theme }) => theme.colorV2.purple[1]};
   `
 }
