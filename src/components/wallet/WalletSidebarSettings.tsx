@@ -173,9 +173,6 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, SelectWrapper,
       margin-top: 4px;
       margin-bottom: 4px;
     }
-    div {
-   
-    }
   `,
   SelectWrapper: styled.div`
     position: relative;
@@ -202,6 +199,7 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, SelectWrapper,
     }
     option {
       background: ${({ theme }) => theme.colorV2.white};
+      width: 100%;
     }
   `,
   Network: styled.div`
@@ -215,7 +213,7 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, SelectWrapper,
     top: 50%;
     right: ${({ theme }) => theme.size[16]};
     transform: translateY(-50%);
-    pointer-events: none; /* Make the icon unclickable */
+    pointer-events: none;
     color: ${({ theme }) => theme.colorV2.purple[1]};
   `
 }
