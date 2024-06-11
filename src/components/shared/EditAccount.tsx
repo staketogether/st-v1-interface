@@ -44,7 +44,7 @@ export default function EditAccount() {
               <label htmlFor="">Chave PIX</label>
               <Input type="text" placeholder="fulano@gmail.com" />
            </div>
-            <FiTrash2 />
+            <FiTrash2 size={24}/>
           </Wrapper>
           <Button>Cadastrar nova chave</Button>
         </FormSection>
@@ -55,7 +55,7 @@ export default function EditAccount() {
               <label htmlFor="">Address</label>
               <Input type="text" placeholder="0x4f...d862A" />
             </div>
-            <FiTrash2 />
+            <FiTrash2 size={24}/>
           </Wrapper>
           <Button>Cadastrar nova chave</Button>
         </FormSection>
@@ -120,10 +120,22 @@ export const { Container, FormSection, KYCard, Wrapper, Input, Button } = {
   border-radius: ${({ theme }) => theme.size[4]};
   padding: ${({ theme }) => theme.size[8]};
   flex-direction: row !important;
-  align-items: flex-start;
   justify-content: space-between;
   border-radius: ${({ theme }) => theme.size[8]};
 
+  div {
+    width: 100%;
+  }
+
+  div:nth-child(3) {
+    flex: 1;
+    align-items: flex-end;
+
+    label {
+      white-space: nowrap;
+    }
+  }
+ 
   input {
     border: 0;
     padding: 0;
@@ -142,14 +154,10 @@ export const { Container, FormSection, KYCard, Wrapper, Input, Button } = {
   align-items: center;
   border-radius: ${({ theme }) => theme.size[8]};
 
-  label {
+ div {
+  width :100%;
+   label {
     color: ${({ theme }) => theme.color.gray[400]} !important;
-  }
-
-  svg {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
   }
 
   input {
@@ -157,5 +165,6 @@ export const { Container, FormSection, KYCard, Wrapper, Input, Button } = {
     padding: 0;
     width: 100%;
   }
+ }
   `
 }

@@ -325,7 +325,6 @@ const {
   AssetsCard
 } = {
   DrawerContainer: styled(Drawer)`
-
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
     }
