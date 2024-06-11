@@ -33,8 +33,10 @@ export default function AssetsRampControl({ asset, type, userTokenBalance, userT
   const { address: walletAddress } = useAccount()
 
   const currentStep = useReactiveVar(rampStepControlVar)
-  useEffect(() => {}, [currentStep, type])
-
+  useEffect(() => {
+    if (!currentStep) rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)
+  }, [currentStep, type])
+  console.log('loop')
   const titleList: Record<string, string> = {
     Success: type === 'buy' ? t('v2.ramp.onRamp.success') : t('v2.ramp.offRamp.success'),
     MethodPayment: t('v2.ramp.provider')
