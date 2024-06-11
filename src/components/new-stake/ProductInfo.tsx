@@ -14,6 +14,8 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import PriceChart from '../shared/PriceChart'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import { useAccount } from 'wagmi'
+import useAccountElPoints from '@/hooks/subgraphs/useAcountElPoints'
 
 interface ProductInfoProps {
   product: Staking
@@ -34,6 +36,11 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
   const stakeTogetherContractAddress = product.contracts.StakeTogether
   const router = useRouter()
+
+  const { address } = useAccount()
+  const { elPoints } = useAccountElPoints("0x1693885cb1c33d5f05c118909b788ce1e5b6a0b2")
+  
+  console.log(elPoints)
 
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
