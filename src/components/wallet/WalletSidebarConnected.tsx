@@ -243,7 +243,6 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
               </AssetHeaderCard>
             }
           >
-            
             <AssetsCard>
               {loading ?
                 <LottieAnimation animationData={loadingAnimation} width={70} height={70} loop />
@@ -531,7 +530,6 @@ const {
   `,
   AssetsCard: styled.div`
     width: 100%;
-    height: 299px;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[16]};
