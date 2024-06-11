@@ -10,6 +10,7 @@ import { PiArrowLeft, PiArrowRight, PiEye } from 'react-icons/pi'
 import styled from 'styled-components'
 import DefaultButton from '../shared/Button'
 import Modal from '../shared/Modal'
+import EditAccount from '../shared/EditAccount'
 
 interface web3AuthWalletSettingsProps {
   setWeb3authWalletActive?: (value: boolean) => void
@@ -42,59 +43,12 @@ export default function WalletSidebarWeb3AuthWalletSettings({
   return (
     <>
       <Header>
+        <h2>Edit Account</h2>
         <Button onClick={() => setIsWalletSidebarWeb3AuthSettingsActive && setIsWalletSidebarWeb3AuthSettingsActive(false)}>
-          <CloseIcon />
+          <AiOutlineClose />
         </Button>
-
-        <h2>{t('wallet')}</h2>
       </Header>
-      <Container>
-        <a className='copy' href={`${ethereum.blockExplorer.baseUrl}/address/${walletAddress}`} target='_blank'>
-          <Card>
-            <Image src={etherscan} alt='etherscan icon' width={16} height={16} />
-            {t('web3AuthWalletSettings.showEtherScan')}
-          </Card>
-        </a>
-        <a className='copy' href={`${optimism.blockExplorer.baseUrl}/address/${walletAddress}`} target='_blank'>
-          <Card>
-            <Image src={etherscan} alt='etherscan icon' width={16} height={16} />
-            {t('web3AuthWalletSettings.showOptimismScan')}
-          </Card>
-        </a>
-        <Card onClick={() => setNotifyModal(true)}>{t('web3AuthWalletSettings.export')}</Card>
-        {showPrivateKeyContainer && (
-          <PrivateKeyContainer>
-            <h2>{t('web3AuthWalletSettings.privateKeyContainer.title')}</h2>
-            <span>{t('web3AuthWalletSettings.privateKeyContainer.description')}</span>
-            <ShowPrivateKeyContainer>
-              <span className={(!showPrivateKey && 'blur') || ''}>{privateKey}</span>
-              {!showPrivateKey && (
-                <div>
-                  <DefaultButton
-                    onClick={() => setShowPrivateKey(true)}
-                    label={t('web3AuthWalletSettings.privateKeyContainer.showPrivateKey')}
-                    block
-                    small
-                    color='red'
-                    icon={<PiEye />}
-                  />
-                </div>
-              )}
-            </ShowPrivateKeyContainer>
-            <span>{t('web3AuthWalletSettings.privateKeyContainer.notify')}</span>
-            <DefaultButton
-              onClick={() => {
-                setShowPrivateKeyContainer(false)
-                setShowPrivateKey(false)
-              }}
-              label={t('close')}
-              block
-              small
-              icon={<AiOutlineClose />}
-            />
-          </PrivateKeyContainer>
-        )}
-      </Container>
+      <EditAccount />
 
       <Modal title={t('web3AuthWalletSettings.modal.title')} isOpen={notifyModal} onClose={() => setNotifyModal(false)} width={420}>
         <AlertMessageContainer>
@@ -124,12 +78,12 @@ export default function WalletSidebarWeb3AuthWalletSettings({
   )
 }
 
-const { Header, CloseIcon, Container, Button, Card, ShowPrivateKeyContainer, PrivateKeyContainer, AlertMessageContainer } = {
+const { Header, CloseIcon, Button, ShowPrivateKeyContainer, PrivateKeyContainer, AlertMessageContainer } = {
   Header: styled.div`
     min-height: 32px;
     width: 100%;
     display: grid;
-    grid-template-columns: 32px 1fr;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
 
     gap: ${({ theme }) => theme.size[16]};
@@ -137,6 +91,11 @@ const { Header, CloseIcon, Container, Button, Card, ShowPrivateKeyContainer, Pri
     h2 {
       font-size: ${({ theme }) => theme.font.size[16]};
       font-weight: 400;
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      font-size: ${({ theme }) => theme.font.size[18]};
+      font-weight: 500;
     }
   `,
   CloseIcon: styled(PiArrowLeft)`
@@ -154,12 +113,15 @@ const { Header, CloseIcon, Container, Button, Card, ShowPrivateKeyContainer, Pri
     width: 32px;
     height: 32px;
     border: 0;
-    border-radius: ${({ theme }) => theme.size[8]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
     background: ${({ theme }) => theme.color.white};
     transition: background 0.2s ease;
     line-height: 36px;
-
+    display: flex;
+    gap: 10px;
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.color.white};
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.20);
+    
     &:hover {
       background: ${({ theme }) => theme.color.whiteAlpha[600]};
     }
@@ -167,32 +129,12 @@ const { Header, CloseIcon, Container, Button, Card, ShowPrivateKeyContainer, Pri
     &:first-of-type {
       margin-left: auto;
     }
-  `,
-  Container: styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[16]};
-  `,
-  Card: styled.div`
-    width: 100%;
-    padding: 0px 16px;
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[4]};
 
-    height: 42px;
-    border-radius: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.color.white};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-
-    font-size: ${({ theme }) => theme.font.size[15]};
-    color: ${({ theme }) => theme.colorV2.gray[1]};
-    font-weight: 400;
-
-    cursor: pointer;
-    &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[600]};
+    svg {
+      width: 9.894px;
+      height: 10.188px;
+      flex-shrink: 0;
+      color: ${({ theme }) => theme.colorV2.blue[3]};
     }
   `,
   PrivateKeyContainer: styled.div`

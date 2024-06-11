@@ -325,7 +325,6 @@ const {
   AssetsCard
 } = {
   DrawerContainer: styled(Drawer)`
-    background-color: ${({ theme }) => theme.colorV2.foreground} !important;
 
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
