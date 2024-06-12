@@ -34,12 +34,12 @@ import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBal
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from '../shared/LottieAnimation'
-interface WalletSidebarConnectedProps {
+interface WalletSidebarEvmConnectedProps {
   address: `0x${string}`
   walletChainId: number
 }
 
-export default function WalletSidebarConnected({ address, walletChainId }: WalletSidebarConnectedProps) {
+export default function WalletSidebarEvmConnected({ address, walletChainId }: WalletSidebarEvmConnectedProps) {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
@@ -243,11 +243,12 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
               </AssetHeaderCard>
             }
           >
-            
             <AssetsCard>
-              {loading ?
+              {loading ? (
                 <LottieAnimation animationData={loadingAnimation} width={70} height={70} loop />
-                : accountAssets.map((asset, index) => <WalletSidebarAsset asset={asset} key={index} />)}
+              ) : (
+                accountAssets.map((asset, index) => <WalletSidebarAsset asset={asset} key={index} />)
+              )}
             </AssetsCard>
           </Card>
           <Card

@@ -4,6 +4,7 @@ import optimismIcon from '@assets/network/optimist.svg'
 import polygonIcon from '@assets/network/polygon.svg'
 import chilizIcon from '@assets/network/chiliz.svg'
 import solanaIcon from '@assets/network/solana.svg'
+import bitcoinIcon from '@assets/assets/bitcoin.svg'
 import { Tooltip } from 'antd'
 import Image from 'next/image'
 import styled from 'styled-components'
@@ -12,9 +13,10 @@ interface NetworkIconProps {
   network: string
   size: number
   enabled?: boolean
+  showTooltip?: boolean
 }
 
-export default function NetworkIcons({ network, size, enabled = true }: NetworkIconProps) {
+export default function NetworkIcons({ network, size, enabled = true, showTooltip = true }: NetworkIconProps) {
   const networkIcons = {
     ethereum: ethereumIcon,
     optimism: optimismIcon,
@@ -24,9 +26,21 @@ export default function NetworkIcons({ network, size, enabled = true }: NetworkI
     arbitrum: arbitrumIcon,
     polygon: polygonIcon,
     solana: solanaIcon,
-    holesky: ethereumIcon
+    holesky: ethereumIcon,
+    bitcoin: bitcoinIcon
   }
 
+  if (!showTooltip) {
+    return (
+      <NetworkIcon
+        className={`${enabled ? '' : 'disabled'}`}
+        src={networkIcons[network as keyof typeof networkIcons]}
+        width={size}
+        height={size}
+        alt={network}
+      />
+    )
+  }
   return (
     <Tooltip title={network}>
       <NetworkIcon

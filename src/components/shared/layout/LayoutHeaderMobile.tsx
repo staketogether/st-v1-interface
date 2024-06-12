@@ -7,13 +7,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiGear } from 'react-icons/pi'
-import { GoSearch } from "react-icons/go";
+import { GoSearch } from 'react-icons/go'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import LayoutSidebarMobileMenu from './LayoutSidebarMobileMenu'
 import SearchDrawer from '../SearchHeaderDrawer'
 import useHeaderDrawer from '@/hooks/useHeaderDrawer'
-
 
 export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
@@ -34,20 +33,26 @@ export default function LayoutHeaderMobile() {
           </Logo>
           <WalletContainer>
             <MenuContainer>
-              <GoSearch size={22}  onClick={() => {
-                setOpenDrawer(true)
-              }}/>
-              <SettingIcon size={22}  onClick={() => {
-                setWalletSidebarMobileSettings(true)
-              }}/>
+              <GoSearch
+                size={22}
+                onClick={() => {
+                  setOpenDrawer(true)
+                }}
+              />
+              <SettingIcon
+                size={22}
+                onClick={() => {
+                  setWalletSidebarMobileSettings(true)
+                }}
+              />
             </MenuContainer>
-            <Wallet account={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
+            <Wallet evmWalletAddress={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
           </WalletContainer>
         </Content>
       </Container>
       <LayoutSidebarMobileMenu account={account} />
       <WalletSidebarMobileSetting />
-      <SearchDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer}/>
+      <SearchDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
     </>
   )
 }

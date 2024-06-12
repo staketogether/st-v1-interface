@@ -8,17 +8,22 @@ import { lightTheme } from '../../../styles/theme'
 import { Cloudflare } from '../scripts/Cloudflare'
 import { GoogleTag } from '../scripts/GoogleTag'
 import LayoutFooter from './LayoutFooter'
-import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
 import useRegisterSocialLoginUsers from '@/hooks/marketing/useRegisterSocialLoginUsers'
 import { PipeDrive } from '@/components/shared/scripts/PipeDrive'
 import { Grid } from 'antd'
+import dynamic from 'next/dynamic'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
   weight: ['300', '400', '500'],
   variable: '--font-montserrat'
+})
+
+const LayoutHeaderDesktop = dynamic(() => import('./LayoutHeaderDesktop'), {
+  ssr: false,
+  suspense: true
 })
 
 interface LayoutTemplateProps {

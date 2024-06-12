@@ -11,6 +11,7 @@ import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import SkeletonLoading from '../icons/SkeletonLoading'
 import LayoutHeaderSearch from './LayoutHeaderSearch'
+import useBtcConnectWallet from '@/hooks/btc-wallet/useBtcConnectWallet'
 const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} height={32} />,
@@ -20,7 +21,12 @@ const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
+
   const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
+  const { btcWalletIsConnected, btcWalletAddress } = useBtcConnectWallet()
+  const ordinalsWallet = btcWalletAddress[1]
+
+  const userWalletIsConnected = accountIsConnected || btcWalletIsConnected
 
   const { query, pathname, locale } = useRouter()
   const { currency, network } = query
@@ -67,7 +73,13 @@ export default function LayoutHeader() {
           <span>{locale === 'pt' ? 'PT' : 'EN'}</span>
           <span>| {(currency as string).toUpperCase()}</span>
         </ContainerCurrency>
-        <Wallet account={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
+        <Wallet
+          evmWalletAddress={account}
+          accountIsConnected={userWalletIsConnected}
+          walletChainId={walletChainId}
+          isBtcConnected={btcWalletIsConnected}
+          bitcoinWalletAddress={ordinalsWallet?.address}
+        />
       </WalletContainer>
     </Container>
   )
