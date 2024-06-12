@@ -29,7 +29,8 @@ export const getStaticPaths: GetStaticPaths = () => {
   const networks = [
     { network: 'optimism', chainId: 10 },
     { network: 'ethereum', chainId: 1 },
-    { network: 'chiliz', chainId: 88888 }
+    { network: 'chiliz', chainId: 88888 },
+    { network: 'era', chainId: 324 }
   ]
   const currencies = ['usd', 'brl', 'eur']
 
