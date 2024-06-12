@@ -4,13 +4,13 @@ import styled from 'styled-components'
 import SkeletonLoading from '../icons/SkeletonLoading'
 
 interface EnsAvatarProps {
-  address: `0x${string}`
+  address: string
   size?: number
   avatar?: string
-  avatarLoading: boolean
+  avatarLoading?: boolean
 }
 
-export default function EnsAvatar({ address, size = 24, avatarLoading, avatar }: EnsAvatarProps) {
+export default function EnsAvatar({ address, size = 24, avatarLoading = false, avatar = '' }: EnsAvatarProps) {
   if (avatarLoading) {
     return <SkeletonLoading $borderRadius='50%' width={size} height={size} />
   }
