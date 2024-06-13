@@ -151,7 +151,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: zkSync.id,
     name: 'zksync',
-    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_CHZ_TESTNET_URL),
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ZKSYNC_MAINNET_RPC_URL),
     isTestnet: false,
     blockExplorer: {
       baseUrl: zkSync.blockExplorers.default.url
