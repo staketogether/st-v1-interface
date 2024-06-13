@@ -1,5 +1,6 @@
 import arbitrumIcon from '@assets/network/arbitrum.svg'
 import chilizIcon from '@assets/network/chiliz.svg'
+import bitcoinIcon from '@assets/assets/bitcoin.svg'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
 import polygonIcon from '@assets/network/polygon.svg'
@@ -19,6 +20,7 @@ export default function NetworkIcon({ chain, size, enabled = true }: NetworkIcon
   }
 
   const networkIcons = {
+    [0]: bitcoinIcon,
     [mainnet.id]: ethereumIcon,
     [optimism.id]: optimismIcon,
     [arbitrum.id]: arbitrumIcon,
