@@ -65,6 +65,10 @@ export type AssetId =
   | 'goldt-op'
   | 'solana-eth'
   | 'thorchain-eth'
+  | 'usdt-era'
+  | 'wbtc-era'
+  | 'eth-era'
+
 
 export interface NativeAsset extends TokenActions {
   id: AssetId
