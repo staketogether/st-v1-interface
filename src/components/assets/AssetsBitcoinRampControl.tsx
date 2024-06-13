@@ -24,8 +24,6 @@ const AssetsBitcoinRampControl = ({ asset }: AssetsBitcoinRampControlProps) => {
     walletAddress: btcWalletAddress.find((address) => address.purpose === AddressPurpose.Ordinals)?.address,
   })
 
-  transak.
-
   // To get all the events
   Transak.on('*', (data) => {
     console.log(data);
