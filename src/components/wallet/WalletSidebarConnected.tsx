@@ -57,7 +57,7 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
 
   const handleWalletProviderImage = useWalletProviderImage()
 
-  const { accountAssets } = useAccountAssets(address)
+  const { accountAssets, loading } = useAccountAssets(address)
   const { balance: usdTotalBalance } = useAccountAssetsUsdBalance(address)
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
@@ -96,10 +96,10 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
   ]
 
   const activeTab = {
-    assets: <WalletSidebarAssetContainer accountAssets={accountAssets} />,
-    rewards: <WalletSidebarAssetContainer accountAssets={accountAssets} />,
-    historic: <WalletSidebarAssetContainer accountAssets={accountAssets} />,
-    delegations: <WalletSidebarAssetContainer accountAssets={accountAssets} />
+    assets: <WalletSidebarAssetContainer accountAssets={accountAssets} accountAssetsLoading={loading} />,
+    rewards: <WalletSidebarAssetContainer accountAssets={accountAssets} accountAssetsLoading={loading} />,
+    historic: <WalletSidebarAssetContainer accountAssets={accountAssets} accountAssetsLoading={loading} />,
+    delegations: <WalletSidebarAssetContainer accountAssets={accountAssets} accountAssetsLoading={loading} />
   }
 
   return (

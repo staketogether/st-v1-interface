@@ -1,73 +1,46 @@
-import { assetsList } from '@/config/product/asset'
-import { stakingList } from '@/config/product/staking'
 import { AccountAsset } from '@/types/AccountAsset'
 import React from 'react'
 import styled from 'styled-components'
 import WalletSidebarAsset from './WalletSidebarAsset'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { chainConfigByChainId } from '@/config/chain'
+import { stakingList } from '@/config/product/staking'
 
 interface WalletSidebarAssetContainerProps {
   accountAssets: AccountAsset[]
+  accountAssetsLoading: boolean
 }
 
 export default function WalletSidebarAssetContainer({ accountAssets }: WalletSidebarAssetContainerProps) {
   const { t } = useLocaleTranslation()
-  const assetContractAddressList = stakingList.map(staking => staking.contracts.StakeTogether)
-  const investedAssetList = assetContractAddressList.map(contractAddress => {
-    const accountAssetData = accountAssets.find(
-      accountAsset => accountAsset.contractAddress.toLowerCase() === contractAddress.toLowerCase()
-    )
-    if (accountAssetData) {
-      return accountAssetData
-    }
-    const asset = assetsList.find(assetPlatform => assetPlatform.contractAddress.toLowerCase() === contractAddress.toLowerCase())
-
-    if (asset) {
-      const assetMapped: AccountAsset = {
-        chainId: asset.chains[0],
-        contractAddress: asset.contractAddress,
-        symbol: asset.symbol,
-        thumbnail: undefined,
-        balance: '0',
-        decimals: asset.decimals,
-        name: chainConfigByChainId(asset.chains[0]).name
+  const assetStakingAddressList = stakingList.map(staking => staking.contracts.StakeTogether)
+  const investedAssetList = assetStakingAddressList
+    .map(contractAddress => {
+      const accountAssetData = accountAssets.find(
+        accountAsset => accountAsset.contractAddress.toLowerCase() === contractAddress.toLowerCase()
+      )
+      if (accountAssetData) {
+        return accountAssetData
       }
-      return assetMapped
-    }
-    const nullAsset: AccountAsset = {
-      chainId: 1,
-      contractAddress: '0x',
-      symbol: '',
-      thumbnail: undefined,
-      balance: '0',
-      decimals: 0,
-      name: ''
-    }
-    return nullAsset
-  })
+    })
+    .filter(item => item !== undefined) as AccountAsset[]
 
-  const accountAssetsFiltered = accountAssets.filter(
-    item =>
-      item.contractAddress.toLocaleLowerCase() !==
-      investedAssetList.find(investedAsset => investedAsset.contractAddress === item.contractAddress)?.contractAddress.toLocaleLowerCase()
-  )
-
+  const accountAssetsFiltered = accountAssets.filter(accountAsset => !assetStakingAddressList.includes(accountAsset.contractAddress))
+  console.log(accountAssets)
   return (
     <Container>
       <div>
         <Title>{t('invested')}</Title>
         <ContainerList>
-          {investedAssetList.map(investedAsset => (
-            <WalletSidebarAsset walletAsset={investedAsset} key={investedAsset.symbol} />
+          {investedAssetList.map((investedAsset, i) => (
+            <WalletSidebarAsset asset={investedAsset} key={`${investedAsset.symbol}-${i}`} />
           ))}
         </ContainerList>
       </div>
       <div>
         <Title>{t('assets')}</Title>
         <ContainerList>
-          {accountAssetsFiltered.map(accountAsset => (
-            <WalletSidebarAsset walletAsset={accountAsset} key={accountAsset.symbol} />
+          {accountAssetsFiltered.map((accountAsset, i) => (
+            <WalletSidebarAsset asset={accountAsset} key={`${accountAsset.symbol}-${i}`} />
           ))}
         </ContainerList>
       </div>

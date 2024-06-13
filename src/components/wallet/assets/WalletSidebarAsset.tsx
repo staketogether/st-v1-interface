@@ -5,13 +5,14 @@ import { assetsList } from '@/config/product/asset'
 import styled from 'styled-components'
 import { truncateWei } from '@/services/truncate'
 import defaultErc20Icon from '@assets/assets/default-erc-20.svg'
-import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
+// import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import Link from 'next/link'
+import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 
 export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const configAsset = assetsList.find(
     supportedAsset =>
-      supportedAsset.contractAddress.toLowerCase() === asset.contractAddress.toLowerCase() && supportedAsset.chains[0] === asset.chainId
+      supportedAsset.contractAddress.toLowerCase() === asset?.contractAddress.toLowerCase() && supportedAsset.chains[0] === asset.chainId
   )
 
   const fixedWalletBalance = asset.decimals >= 18 ? asset.balance : asset.balance + '0'.repeat(18 - asset.decimals)
@@ -21,7 +22,7 @@ export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const { usdToCurrency } = useFiatUsdConversion()
 
   return (
-    <BalanceContainer href={`${configAsset?.url}`} key={asset.chainId}>
+    <BalanceContainer href={`${configAsset?.url}`}>
       <div>
         <div>
           <AssetIcon image={imageSrc} size={24} altName={asset.symbol} chain={asset.chainId} />
