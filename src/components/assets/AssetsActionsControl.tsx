@@ -10,6 +10,7 @@ import AssetsRampControl from './AssetsRampControl'
 import { AssetsReceive } from './AssetsReceive'
 import { AssetsSend } from './AssetsSend'
 import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
+import AssetsBitcoinRampControl from '@/components/assets/AssetsBitcoinRampControl'
 
 interface AssetsActionsControlProps {
   type: AssetActionType
@@ -70,7 +71,10 @@ export default function AssetsActionsControl({
     <EthereumContainer>
       <NavActions typeActive={type} navActionsList={navActionsList} />
       <div>
-        {!!(type === 'buy' || type === 'sell') && (
+        {asset.type === 'bitcoin' && type === 'buy' && (
+          <AssetsBitcoinRampControl asset={asset} />
+        )}
+        {asset.type !== 'bitcoin' && (type === 'buy' || type === 'sell') && (
           <AssetsRampControl
             type={type}
             asset={asset}
