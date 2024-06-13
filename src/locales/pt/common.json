@@ -534,7 +534,9 @@
         "alreadyCpf": "CPF cadastrado em outra carteira, tente novamente por meio da carteira:",
         "alreadyEmail": "E-mail cadastrado em outra carteira, tente novamente por meio da carteira:",
         "invalidCnpj": "CNPJ inválido",
-        "birthDate": "Data de nascimento inválida"
+        "birthDate": "Data de nascimento inválida",
+        "pixKey" : "Qual chave pix você deseja usar para receber?",
+        "key": "Chave"
       },
       "messages": {
         "success": "Projeto cadastrado com sucesso",

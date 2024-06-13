@@ -115,9 +115,9 @@ export default function PixKeyStep() {
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='pixKey'>
-      <Select register={register('type')} options={options} title='Qual chave pix você deseja usar para receber?' />
+      <Select register={register('type')} options={options} title={`${t('v2.createProject.formMessages.pixKey')}`} />
       <Input
-        title='Chave'
+        title={`${t('v2.createProject.formMessages.key')}`}
         disabled={false}
         disabledLabel={false}
         register={register('key', {
