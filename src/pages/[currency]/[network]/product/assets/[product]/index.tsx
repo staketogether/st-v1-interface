@@ -71,9 +71,21 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   const chainId = handleChainIdByNetwork(network)
 
-  if (!productSelected || !chainId) {
+  if (!productSelected || chainId === undefined) {
     return {
       notFound: true
+    }
+  }
+
+  if (productSelected.type === 'bitcoin') {
+    return {
+      props: {
+        assetData: {},
+        chainId,
+        asset: productSelected,
+        ...(await serverSideTranslations(locale ?? 'en', ['common']))
+      },
+      revalidate: 24 * 60 * 60
     }
   }
 

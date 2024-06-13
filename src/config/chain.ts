@@ -19,6 +19,19 @@ export interface ChainConfig {
 
 export const chainConfigs: ChainConfig[] = [
   {
+    chainId: 0,
+    name: 'Bitcoin',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_BTC_MAINNET_URL),
+    isTestnet: false,
+    blockExplorer: {
+      baseUrl: 'https://btcscan.org'
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 15,
+      confirmations: 2
+    }
+  },
+  {
     chainId: mainnet.id,
     name: 'Ethereum',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL),
@@ -151,6 +164,7 @@ export const chainConfigs: ChainConfig[] = [
 ]
 
 export enum Chain {
+  BTC_MAINNET = 0,
   ETH_MAINNET = mainnet.id,
   OP_MAINNET = optimism.id,
   ARB_MAINNET = arbitrum.id,

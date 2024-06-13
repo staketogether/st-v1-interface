@@ -55,10 +55,11 @@ export function getVideoIdFromUrl(url?: string): string | null {
   }
 }
 
-export type AllowedNetworks = 'ethereum' | 'holesky' | 'optimism-sepolia' | 'optimism'
+export type AllowedNetworks = 'ethereum' | 'holesky' | 'optimism' | 'bitcoin' | 'chiliz' | 'polygon' | 'arbitrum'
 
 export const handleChainIdByNetwork = (network: AllowedNetworks) => {
   const chainIdByNetwork = {
+    bitcoin: 0,
     ethereum: 1,
     holesky: 17000,
     'optimism-sepolia': 11155420,
@@ -69,5 +70,5 @@ export const handleChainIdByNetwork = (network: AllowedNetworks) => {
     arbitrum: 42161
   }
 
-  return chainIdByNetwork[network] || 0
+  return chainIdByNetwork[network] ?? undefined
 }
