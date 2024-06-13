@@ -512,9 +512,7 @@
         "invalidCnpj": "Invalid CNPJ",
         "alreadyCpf": "CPF registered in another wallet, try again through the wallet",
         "alreadyEmail": "E-mail registered in another wallet, try again through the wallet",
-        "birthDate": "Invalid birth date",
-        "pixKey": "Which pix key do you want to use to receive?",
-        "key": "Key"
+        "birthDate": "Invalid birth date"
       },
       "messages": {
         "success": "Project created successfully",
@@ -788,6 +786,8 @@
         "unlocked": "token Unlocked",
         "sendToken": "Send token",
         "connectedNetwork": "Connected the [network]",
+        "pixKey": "Which pix key do you want to use to receive?",
+        "key": "Key",
          "pixKeyLabel": {
           "phone": "Phone",
           "random": "Random"

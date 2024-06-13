@@ -534,9 +534,7 @@
         "alreadyCpf": "CPF cadastrado em outra carteira, tente novamente por meio da carteira:",
         "alreadyEmail": "E-mail cadastrado em outra carteira, tente novamente por meio da carteira:",
         "invalidCnpj": "CNPJ inválido",
-        "birthDate": "Data de nascimento inválida",
-        "pixKey" : "Qual chave pix você deseja usar para receber?",
-        "key": "Chave"
+        "birthDate": "Data de nascimento inválida"
       },
       "messages": {
         "success": "Projeto cadastrado com sucesso",
@@ -815,6 +813,8 @@
         "unlocked": "token Desbloqueado",
         "sendToken": "Enviar token",
         "connectedNetwork": "Conectado em [network]",
+        "pixKey": "Qual chave pix você deseja usar para receber?",
+        "key": "Chave",
         "pixKeyLabel": {
           "phone": "Telefone",
           "random": "Aleatório"
