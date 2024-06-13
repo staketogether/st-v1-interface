@@ -1,7 +1,7 @@
-// eslint-disable-next-line import/named
-import { LiFiWidget, WidgetConfig } from '@lifi/widget'
 import { chainConfigs } from '@/config/chain'
 import { Asset } from '@/types/Asset'
+// eslint-disable-next-line import/named
+import { LiFiWidget, WidgetConfig } from '@lifi/widget'
 import { useRouter } from 'next/router'
 
 export const LiFiSwap = ({ asset }: { asset: Asset }) => {
@@ -72,7 +72,7 @@ export const LiFiSwap = ({ asset }: { asset: Asset }) => {
         borderRadiusSecondary: 8
       }
     },
-    integrator: ''
+    integrator: 'stake_together'
   }
 
   return <LiFiWidget config={widgetConfig} integrator='stake_together' />

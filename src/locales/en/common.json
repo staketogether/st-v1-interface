@@ -7,6 +7,12 @@
   "edit": "Edit",
   "wallet": "Wallet",
   "connectWallet": "Connect Wallet",
+  "disclaimer": "Attention! Confirm that the asset you will receive is compatible with the Ethereum, Optimism, Arbitrum, Polygon and Chiliz networks. Assets incompatible with your address may be lost permanently.",
+  "compatibility": "Compatible with networks:",
+  "tokens": "Tokens",
+  "products": "Products",
+  "noItemFound": "No items was found",
+  "connectYourWallet": "Connect your wallet to continue",
   "signUpNow": "Sign up now, it's completely free!",
   "privacyDeclare": "I declare that I am at least 18 years old and accept the terms of the",
   "privacyPolicy": "Privacy Policy",
@@ -89,6 +95,10 @@
   "investments": "Investments",
   "genericTransactionSuccess": "Transaction Successful",
   "sendAddress": "Send Address",
+   "unlockTransaction": {
+    "failTransaction": "Failed to perform Unlock",
+    "success": "Unlocking Completed Successfully"
+  },
   "time": {
     "days": "Days",
     "day": "Day",
@@ -163,7 +173,8 @@
     "smartContract": "Smart Contract",
     "audit": "Audits",
     "documentation": "Docs",
-    "support": "Support"
+    "support": "Support",
+    "contract": "Contract"
   },
   "addSethToWallet": {
     "add": "Add",
@@ -660,6 +671,7 @@
       "stp-reth": "Stake Together Restaked Ether",
       "eth-staking": "Ethereum Staking",
       "eth-restaking": "Ethereum Restaking ",
+      "chz-staking": "Chiliz Staking ",
       "celestia": "Celestia Staking",
       "polygon": "Polygon Staking",
       "solana": "Solana Staking",
@@ -714,6 +726,7 @@
       "processingRegistration": "Processing Registration",
       "processingPayment": "Processing Payment",
       "generatingQRCode": "Generating QR Code",
+      "validatingWithdrawal": "Validating withdrawal",
       "paymentIdentified": "Payment Identified",
       "mintingBRLA": "Minting BRLA on the Blockchain",
       "swapBrlToEth": "Swap BRLA for ETH",
@@ -722,7 +735,7 @@
       "orUseThePixKey": "Or use the Pix Key",
       "cancelDeposit": "Cancel deposit",
       "copyQrCode": "Copy QR Code",
-      "yourEths": "Your ETH will be in your account",
+      "yourEths": "Your TOKENS will be in your account",
       "timeReceive": "within 30 minutes",
       "exchange": "Exchange",
       "networkFee": "Network Fee",
@@ -761,6 +774,29 @@
         "bank": "Bank",
         "paymentTime": "Payment time",
         "timeOut": "Unfortunately, your deadline to make payment has expired!"
+      },
+      "offRamp": {
+        "requestRequested": "Request requested",
+        "exchange": "Exchange BRLA for Blockchain",
+        "sendingPix": "Sending Pix",
+        "success": "Your money is now available in your account",
+        "youReceived": "You received",
+        "successTitle": "Withdrawal successful!",
+         "alertMessage": "Attention! To move tokens on the [network], you must have a balance in the native currency to cover transaction fees",
+         "unlock": "Unlock token",
+        "unlocked": "token Unlocked",
+        "sendToken": "Send token",
+        "connectedNetwork": "Connected the [network]",
+         "pixKeyLabel": {
+          "phone": "Phone",
+          "random": "Random"
+        },
+        "pixKeyFormError": {
+          "cpf": "Invalid CPF",
+          "phone": "Invalid phone",
+          "cnpj": "Invalid CNPJ",
+          "email": "Invalid Email address"
+        }
       }
     },
     "ethereumStaking": {
@@ -776,6 +812,7 @@
       "highestValueWeeks": "Highest Value in the Last 52 Weeks",
       "eigenPointTooltip": "When you stake, you accumulate points in the Eigen Layer protocol, which may later launch a token and you will can receive shares",
       "togetherPoints": "When you stake, you accumulate points in the Stake Together protocol, which may later launch a token and you will can receive shares",
+      "chilizStakingDescriotion": "Chiliz Staking: Support Your Favorite Teams, Earn Rewards. Stake your CHZ tokens and support your favorite sports teams while earning rewards. Our platform allows you to stake CHZ tokens and participate in the Chiliz ecosystem, contributing to the growth and success of your favorite teams. Earn rewards from staking and participate in governance decisions to shape the future of sports and entertainment. Start staking CHZ today and be part of the Chiliz community.",
       "restakingDescription": "ReStaking Ethereum: Enhance Your Staking Efficiency. Experience the next level of Ethereum staking with our ReStaking solution, merging Stake Together protocol and Eigen Layer technology. Amplify your Ethereum's potential by using it as collateral in the Eigen Layer, contributing to network services and earning income from diverse sources. Our platform streamlines your staking process, providing a more effective and profitable approach to secure the network and gain rewards. Dive into ReStaking with Ethereum today and start benefiting from combined yields.",
       "btc": "Bitcoin is the first successful internet money based on peer-to-peer technology where no bank or central authority is involved in the transaction and production of Bitcoin currency. It was created by an individual or anonymous group under the pseudonym Satoshi Nakamoto.",
       "eth": "Ethereum is a smart contract platform that empowers developers to build tokens and decentralized applications (DApps). ETH is the native currency of the Ethereum platform and also serves as a transaction fee for miners on the Ethereum network.",
@@ -812,8 +849,8 @@
         "operationFee": "Operation Fee",
         "balance": "Balance"
       },
-     "balanceCardMessage": "Put your crypto to work with Staking",
-     "balanceStakingCardMessage": "Buy Ethereum and start investing in Staking"
+      "balanceCardMessage": "Put your crypto to work with Staking",
+      "balanceStakingCardMessage": "Buy Ethereum and start investing in Staking"
     }
   },
   "soon": "Soon",
@@ -875,6 +912,9 @@
       },
       "btc-op": {
         "name": "Bitcoin"
+      },
+      "chz-staking": {
+        "name": "Chiliz Staking"
       },
       "eth-staking": {
         "name": "Ethereum Staking"

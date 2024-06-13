@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 export interface ValidationSteps {
   icon: ReactNode
-  text: string
+  text: ReactNode | string
   subText?: string
 }
 
@@ -14,19 +14,17 @@ export default function ValidationList({ validationSteps }: Readonly<{ validatio
     <StatusContainer>
       {validationSteps.map((step, index) => (
         <>
-          <Status key={index}>
+          <Status key={`listKey-${index}`}>
             {step.icon}
             <div>
               <span>{step.text}</span>
               {step.subText && <span>{step.subText}</span>}
             </div>
           </Status>
-          {index < validationSteps.length - 1 ? (
-            <Divider>
+          {index < validationSteps.length - 1 && (
+            <Divider key={`listKey-divider`}>
               <Image src={line} alt='' width={0} height={17} />
             </Divider>
-          ) : (
-            <></>
           )}
         </>
       ))}

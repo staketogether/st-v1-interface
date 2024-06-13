@@ -1,4 +1,4 @@
-import { clearModal } from '@/hooks/ramp/useControlModal'
+import { clearRampVars } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ReactNode } from 'react'
 import { PiWarningOctagon } from 'react-icons/pi'
@@ -10,16 +10,17 @@ interface GenericErrorComponentProps {
   message?: string
   subTitle?: string
   onClose?: () => void
+  type: 'buy' | 'sell'
 }
 
-export default function GenericErrorComponent({ icon, message, subTitle, onClose }: GenericErrorComponentProps) {
+export default function GenericErrorComponent({ icon, type, message, subTitle, onClose }: GenericErrorComponentProps) {
   const { t } = useLocaleTranslation()
   const handleClose = () => {
     if (onClose) {
       onClose()
       return
     }
-    clearModal()
+    clearRampVars(type)
   }
   return (
     <Container>

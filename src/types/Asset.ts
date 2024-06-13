@@ -8,6 +8,16 @@ export enum AssetCategory {
   Infrastructure = 'infrastructure'
 }
 
+export interface TokenActions {
+  disableActions?: {
+    buy?: boolean
+    sell?: boolean
+    swap?: boolean
+    send?: boolean
+    receive?: boolean
+  }
+}
+
 export interface Ramp {
   chainId: number
   minDeposit: number
@@ -56,11 +66,12 @@ export type AssetId =
   | 'solana-eth'
   | 'thorchain-eth'
 
-export interface NativeAsset {
+export interface NativeAsset extends TokenActions {
   id: AssetId
+  decimals: number
+  name: string
   order: number
   symbol: string
-  decimals: number
   symbolImage: string
   url: string
   category: AssetCategory
@@ -82,9 +93,9 @@ export interface NativeAsset {
   ramp: Ramp[]
 }
 
-export interface Erc20Asset {
+export interface Erc20Asset extends TokenActions {
   id: AssetId
-
+  name: string
   order: number
   symbol: string
   symbolImage: string | StaticImageData
@@ -108,14 +119,15 @@ export interface Erc20Asset {
   ramp: Ramp[]
 }
 
-export interface FanTokenAsset {
+export interface FanTokenAsset extends TokenActions {
   id: AssetId
+  name: string
   order: number
   symbol: string
+  decimals: number
   symbolImage: string | StaticImageData
   url: string
   category: AssetCategory
-  decimals: number
   chains: Chain[]
   listed: boolean
   enabled: boolean

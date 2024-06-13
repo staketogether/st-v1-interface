@@ -5,7 +5,7 @@ import useSWR from 'swr'
 
 export default function useQuoteRamp(
   fiatCurrencyCode: string,
-  amount?: number,
+  amount?: number | string,
   chainId?: number,
   fixOutput = false,
   provider?: ProviderType,

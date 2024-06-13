@@ -1,18 +1,12 @@
 import NewStakeControl from '@/components/new-stake/NewStakeControl'
-import BuyEthControlModal from '@/components/ramp/BuyEthControlModal'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { amountToQuoteVar, openQuoteEthModal } from '@/hooks/ramp/useControlModal'
-import useTransak from '@/hooks/useTransak'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 import { Staking } from '@/types/Staking'
-import { chainConfigByChainId } from '@/config/chain'
 import { stakingList } from '@/config/product/staking'
 import { AssetStats } from '@/types/AssetStats'
 
@@ -23,28 +17,28 @@ export interface ProductProps {
 }
 
 export default function Product({ product, assetData, chainId }: ProductProps) {
-  const router = useRouter()
-  const minAmount = product.asset.ramp[0].minDeposit
-  const config = chainConfigByChainId(chainId)
-  const { onInit: buyCrypto } = useTransak({
-    productsAvailed: 'BUY',
-    network: config.name.toLowerCase()
-  })
+  // const router = useRouter()
+  // const minAmount = product.asset.ramp[0].minDeposit
+  // const config = chainConfigByChainId(chainId)
 
-  useEffect(() => {
-    if (router.query.payment === 'pix' && router.query.provider == 'brla') {
-      amountToQuoteVar(router.query?.amount?.toString() ?? minAmount.toString())
-      openQuoteEthModal(product.asset)
-    } else if (router.query.payment === 'credit') {
-      buyCrypto()
-    }
-  }, [buyCrypto, minAmount, product, router.query?.amount, router.query.payment, router.query.provider])
+  // const { onInit: buyCrypto } = useTransak({
+  //   productsAvailed: 'BUY',
+  //   network: config.name.toLowerCase()
+  // })
+
+  // useEffect(() => {
+  //   if (router.query.payment === 'pix' && router.query.provider == 'brla') {
+  //     amountToQuoteVar(router.query?.amount?.toString() ?? minAmount.toString())
+  //     openQuoteEthModal(product.asset)
+  //   } else if (router.query.payment === 'credit') {
+  //     buyCrypto()
+  //   }
+  // }, [buyCrypto, minAmount, product, router.query?.amount, router.query.payment, router.query.provider])
 
   return (
     <LayoutTemplate>
       <Metatags />
       <NewStakeControl type='deposit' staking={product} assetData={assetData} chainId={chainId} />
-      <BuyEthControlModal chainId={chainId} />
     </LayoutTemplate>
   )
 }
@@ -100,7 +94,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
 
-  const assetData = await fetchProductAssetData(`asset-stats/${chainId}/${productSelected.asset.contractAddress}`)
+  const assetData = await fetchProductAssetData(`assets/${chainId}/${productSelected.asset.contractAddress}`)
 
   if (!assetData) {
     return {

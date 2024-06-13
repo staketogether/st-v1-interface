@@ -1,41 +1,35 @@
 import { useEffect, useState } from 'react'
-import useCoinUsdToUserCurrency from './useCoinUsdToUserCurrency'
-import { currencyPriceListVar } from './useGetCurrencyPrice'
-import { useReactiveVar } from '@apollo/client'
+import useAssetStats from './useAssetStats'
+import useFiatUsdConversion from './useFiatUsdConversion'
 
 export default function useCoinConversion(value: string, chainId?: number, contractAddress?: string) {
   const [coinUsdPrice, setCoinUsdPrice] = useState<string | undefined>('0')
   const [loading, setLoading] = useState<boolean>(true)
 
-  const currencyPriceList = useReactiveVar(currencyPriceListVar)
+  const { assetStats, isLoading } = useAssetStats({ chainId, contractAddress })
+  const currencyPrice = assetStats?.currentPriceUsd ?? 0
+  const priceChangePercentage24h = assetStats?.priceChangePercentage24h ?? 0
 
-  const currencyPrice = currencyPriceList.find(
-    currency => currency.id.toLocaleLowerCase() === `${chainId}:${contractAddress?.toLowerCase()}`
-  )
-  const { handleQuotePrice } = useCoinUsdToUserCurrency()
+  const { usdToCurrency } = useFiatUsdConversion()
 
   useEffect(() => {
     const normalizedAmount = value.replace(',', '.')
     const amount = Number(normalizedAmount)
 
-    if (!currencyPriceList.length) {
-      return
-    }
-
-    if (currencyPrice?.value && !isNaN(amount) && !isNaN(currencyPrice?.value)) {
-      const priceCalc = amount * currencyPrice.value
+    if (currencyPrice && !isNaN(amount) && !isNaN(currencyPrice) && !isLoading) {
+      const priceCalc = amount * currencyPrice
       setCoinUsdPrice(priceCalc.toString())
       setLoading(false)
     } else {
       setCoinUsdPrice('0')
       setLoading(false)
     }
-  }, [value, currencyPrice, currencyPriceList])
+  }, [value, currencyPrice, isLoading])
 
   return {
     price: coinUsdPrice,
-    priceChangePercentage24h: currencyPrice?.priceChangePercentage24h,
-    loading: loading || !currencyPriceList.length,
-    priceConvertedValue: handleQuotePrice(Number(coinUsdPrice) ?? 0)
+    priceChangePercentage24h: priceChangePercentage24h,
+    loading: loading || isLoading,
+    priceConvertedValue: usdToCurrency(Number(coinUsdPrice) ?? 0).formatted
   }
 }

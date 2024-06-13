@@ -1,8 +1,7 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import Button from '@/components/shared/Button'
-import { BrlaBuyEthStep, amountToQuoteVar, quoteVar, stepsControlBuyCryptoVar } from '@/hooks/ramp/useControlModal'
+import { RampSteps, amountToQuoteVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
-import useQuoteRamp from '@/hooks/ramp/useQuote'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
@@ -18,6 +17,7 @@ import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import useQuoteRamp from '@/hooks/ramp/useQuote'
 
 interface QuotationStepProps {
   asset: Asset
@@ -44,9 +44,11 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
   const { address } = useAccount()
   const { kycLevelInfo } = useKycLevelInfo('brla', address)
   const { t } = useLocaleTranslation()
-  const limit = Number(debounceValue) * 100 >= Number(kycLevelInfo?.limits.limitSwapBuy ?? 0)
-  const error = limit && !!kycLevelInfo?.limits.limitSwapBuy
+
+  const limit = Number(debounceValue) * 100 >= Number(kycLevelInfo?.limits?.limitSwapBuy ?? 0)
+  const error = limit && !!kycLevelInfo?.limits?.limitSwapBuy
   const errorMinValue = Number(debounceValue) < minDeposit
+
   const handleChange = (v: string) => {
     if (v.includes(',')) {
       v = v.replace(',', '.')
@@ -64,16 +66,16 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
 
   const handleNext = useCallback(() => {
     if (!address) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.ConnectWallet)
+      rampStepControlVar(RampSteps.ConnectWallet)
       return
     }
 
     if (!kycLevelInfo?.level) {
-      stepsControlBuyCryptoVar(BrlaBuyEthStep.Kyc)
+      rampStepControlVar(RampSteps.Kyc)
       return
     }
 
-    stepsControlBuyCryptoVar(BrlaBuyEthStep.ProcessingKyc)
+    rampStepControlVar(RampSteps.ProcessingKyc)
   }, [address, kycLevelInfo?.level])
 
   const handleLabelButton = () => {

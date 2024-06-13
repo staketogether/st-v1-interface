@@ -10,7 +10,7 @@ import styled from 'styled-components'
 interface SymbolIconsProps {
   altName: string
   image: string | StaticImageData
-  chain: number
+  chain?: number
   size: number
   marginRight?: string | number
 }
@@ -32,15 +32,17 @@ export default function AssetIcon({ altName, image, size, chain, marginRight }: 
   return (
     <Wrapper style={{ marginRight: marginRight ? marginRight : 'inherit' }} size={size}>
       <Image src={image} width={size} height={size} alt={altName} />
-      <div>
-        <Image
-          src={chainsIcon[chain]}
-          width={size <= 24 ? 14 : 16}
-          height={size <= 24 ? 14 : 16}
-          alt={'Network'}
-          className='white-border'
-        />
-      </div>
+      {chain && (
+        <div>
+          <Image
+            src={chainsIcon[chain]}
+            width={size <= 24 ? 14 : 16}
+            height={size <= 24 ? 14 : 16}
+            alt={'Network'}
+            className='white-border'
+          />
+        </div>
+      )}
     </Wrapper>
   )
 }

@@ -1,9 +1,14 @@
-import { useRouter } from 'next/router'
-import { useCallback } from 'react'
-import { PiArrowLeft, PiCheckBold } from 'react-icons/pi'
 import styled from 'styled-components'
+import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi2'
+import { useRouter } from 'next/router'
+import { useCallback, useState, useEffect } from 'react'
+import { PiArrowLeft, PiCheckBold } from 'react-icons/pi'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
+import NetworkIcon from '../shared/NetworkIcon'
+import { useAccount } from 'wagmi'
+import { chainConfigByChainId, ChainConfig } from '@/config/chain'
+import { capitalize } from '@/services/truncate'
 
 interface WalletSlideBarSettingsProps {
   setIsSettingsActive?: (value: boolean) => void
@@ -11,14 +16,28 @@ interface WalletSlideBarSettingsProps {
 }
 
 export default function WalletSidebarSettings({ setIsSettingsActive, showBackButton = true }: WalletSlideBarSettingsProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isCoinOpen, setIsCoinOpen] = useState(false);
+  const [chainConfig, setChainConfig] = useState<ChainConfig | undefined>(undefined);
   const { t } = useLocaleTranslation()
 
+  const { chain } = useAccount()
   const router = useRouter()
   const { currency } = router.query
   const { setItem } = useLocalStorage()
 
+  useEffect(() => {
+    if (chain?.id) {
+      const config = chainConfigByChainId(chain.id)
+      setChainConfig(config)
+    } else {
+      setChainConfig(undefined)
+    }
+  }, [chain])
+
   const changeLocale = (newLocale: string) => {
     router.push(router.pathname, router.asPath, { locale: newLocale })
+    setIsOpen(false) // Close the select dropdown after changing the locale
   }
 
   const changeCurrency = useCallback(
@@ -29,6 +48,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
       })
 
       setItem('currency', newCurrency)
+      setIsCoinOpen(false); // Close the select dropdown after changing the currency
     },
     [router, setItem]
   )
@@ -45,35 +65,56 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
       </Header>
       <SettingContainer>
         <h3>{t('settings.locale')}</h3>
-        <div onClick={() => changeLocale('en')} className={`${router.locale === 'en' ? 'active' : ''}`}>
-          <span>English</span>
-          {router.locale === 'en' && <CheckedIcon />}
-        </div>
-        <div onClick={() => changeLocale('pt')} className={`${router.locale === 'pt' ? 'active' : ''}`}>
-          <span>Português</span>
-          {router.locale === 'pt' && <CheckedIcon />}
-        </div>
+        <SelectWrapper>
+          <StyledSelect
+            value={router.locale}
+            onClick={() => setIsOpen(!isOpen)}
+            onBlur={() => setIsOpen(false)}
+            onChange={(e) => changeLocale(e.target.value)}
+          >
+            <option value="en">English</option>
+            <option value="pt">Português</option>
+          </StyledSelect>
+          <SelectIcon>
+            {isOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
+          </SelectIcon>
+        </SelectWrapper>
       </SettingContainer>
       <SettingContainer>
         <h3>{t('settings.currency')}</h3>
-        <div onClick={() => changeCurrency('usd')} className={`${currency === 'usd' ? 'active' : ''}`}>
-          <span>USD</span>
-          {currency === 'usd' && <CheckedIcon />}
-        </div>
-        <div onClick={() => changeCurrency('eur')} className={`${currency === 'eur' ? 'active' : ''}`}>
-          <span>EUR</span>
-          {currency === 'eur' && <CheckedIcon />}
-        </div>
-        <div onClick={() => changeCurrency('brl')} className={`${currency === 'brl' ? 'active' : ''}`}>
-          <span>BRL</span>
-          {currency === 'brl' && <CheckedIcon />}
-        </div>
+        <SelectWrapper>
+          <StyledSelect
+            value={currency}
+            onClick={() => setIsCoinOpen(!isCoinOpen)}
+            onBlur={() => setIsCoinOpen(false)}
+            onChange={(e) => changeCurrency(e.target.value)}
+          >
+            <option value="usd">USD</option>
+            <option value="eur">EUR</option>
+            <option value="brl">BRL</option>
+          </StyledSelect>
+          <SelectIcon>
+            {isCoinOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
+          </SelectIcon>
+        </SelectWrapper>
       </SettingContainer>
+      {chainConfig && (
+        <SettingContainer>
+          <h3>{t('settings.network')}</h3>
+          <StyledSelect as="div">
+            <Network>
+              <NetworkIcon chain={chain?.id} size={24} />
+              <span>{capitalize(chainConfig.name.replaceAll('-', ' '))}</span>
+              <CheckedIcon />
+            </Network>
+          </StyledSelect>
+        </SettingContainer>
+      )}
     </>
   )
 }
 
-const { Header, CloseIcon, SettingContainer, Button, CheckedIcon } = {
+const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, SelectWrapper, StyledSelect, SelectIcon, Network } = {
   CloseIcon: styled(PiArrowLeft)`
     font-size: 18px;
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
@@ -132,37 +173,47 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon } = {
       margin-top: 4px;
       margin-bottom: 4px;
     }
+  `,
+  SelectWrapper: styled.div`
+    position: relative;
+    width: 100%;
+  `,
+  StyledSelect: styled.select`
+    cursor: pointer;
+    width: 100%;
+    height: 44px;
+    padding: 0 0 0 ${({ theme }) => theme.size[16]};
+    transition: background 0.2s ease;
+    font-weight: 400;
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    background: ${({ theme }) => theme.colorV2.white};
+    outline: 0;
+    border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
+    appearance: none;
 
-    div {
-      cursor: pointer;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      height: 44px;
-      gap: ${({ theme }) => theme.size[8]};
-      padding: ${({ theme }) => theme.size[16]} ${({ theme }) => theme.size[16]};
-
-      transition: background 0.2s ease;
-      font-weight: 400;
-      border-radius: ${({ theme }) => theme.size[8]};
-
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]};
+      background: ${({ theme }) => theme.colorV2.gray[4]};
       box-shadow: ${({ theme }) => theme.shadow[100]};
-      border-radius: ${({ theme }) => theme.size[8]};
-      background: ${({ theme }) => theme.colorV2.white};
-
-      &:hover {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-        background: ${({ theme }) => theme.colorV2.gray[4]};
-      }
-
-      &.active {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-      }
-
-      img {
-        box-shadow: ${({ theme }) => theme.shadow[100]};
-        border-radius: 100%;
-      }
     }
+    option {
+      background: ${({ theme }) => theme.colorV2.white};
+      width: 100%;
+    }
+  `,
+  Network: styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[8]};
+    padding: ${({ theme }) => theme.size[8]} 0px;
+  `,
+  SelectIcon: styled.div`
+    position: absolute;
+    top: 50%;
+    right: ${({ theme }) => theme.size[16]};
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: ${({ theme }) => theme.colorV2.purple[1]};
   `
 }

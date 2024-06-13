@@ -93,11 +93,13 @@ const { Container, Products, Title, ContainerButton } = {
   Products: styled.nav`
     width: 100%;
     display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: ${({ theme }) => theme.size[8]};
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: ${({ theme }) => theme.size[24]};
 
-    @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     }
   `,
   ContainerButton: styled.div`

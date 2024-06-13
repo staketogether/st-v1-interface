@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
@@ -6,47 +5,40 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import { useReactiveVar } from '@apollo/client'
-import { Drawer, Select, notification } from 'antd'
+import { Drawer, notification } from 'antd'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
-import { PiCaretRight, PiChalkboardTeacher, PiChartBar, PiChartLine, PiChartPieSlice, PiGear, PiSignOut, PiWallet } from 'react-icons/pi'
+import { PiCaretRight, PiChalkboardTeacher, PiGear, PiSignOut, PiWallet } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useDisconnect } from 'wagmi'
-import { mainnet, optimism } from 'wagmi/chains'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 import { capitalize, truncateAddress, truncateText } from '../../services/truncate'
 import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
-import AssetIcon from '../shared/AssetIcon'
-import Card from '../shared/Card'
+
 import Withdrawals from '../shared/Withdrawals'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletSidebarSettings from './WalletSidebarSettings'
-import WalletSidebarTabsContainer from './WalletSidebarTabsContainer'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
 
-import { stakingList } from '@/config/product/staking'
-import { StakingId } from '@/types/Staking'
 import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
 import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import WalletSidebarAssetContainer from './assets/WalletSidebarAssetContainer'
-import useStAccount from '@/hooks/useStAccount'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
+  walletChainId: number
 }
 
 type TabActivated = 'assets' | 'rewards' | 'historic' | 'delegations'
-
-export default function WalletSidebarConnected({ address }: WalletSidebarConnectedProps) {
+export default function WalletSidebarConnected({ address, walletChainId }: WalletSidebarConnectedProps) {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<TabActivated>('delegations')
-  const [productTabSelected, setProductTabSelected] = useState<StakingId>('eth-staking')
   const [userNetWorth, setUserNetWorth] = useState<string>('0')
 
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
@@ -58,57 +50,16 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const { balance: stwETHBalance, refetch: stwETHRefetch } = useStwEthBalance(address)
 
-  const { chainId } = chainConfig()
-
-  const { name, nameLoading } = useEns(address, chainId)
+  const { name, nameLoading, avatar, avatarLoading } = useEns(address, walletChainId)
 
   const web3AuthInstance = useReactiveVar(web3AuthInstanceVar)
   const { web3AuthUserInfo, walletConnected } = useConnectedAccount()
 
   const handleWalletProviderImage = useWalletProviderImage()
 
-  const {
-    accountDelegations: stakeAccountDelegations,
-    accountBalance: stakeAccountBalance,
-    accountRewards: stakeAccountRewards,
-    accountActivities: stakeAccountActivities,
-    accountIsLoading: stakeAccountIsLoading,
-    accountShare: stakeAccountShare
-  } = useStAccount({ address: address, productName: 'eth-staking', chainId: mainnet.id })
-
   const { accountAssets } = useAccountAssets(address)
   const { balance: usdTotalBalance } = useAccountAssetsUsdBalance(address)
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
-
-  const {
-    accountDelegations: restakingAccountDelegations,
-    accountBalance: restakingAccountBalance,
-    accountRewards: restakingAccountRewards,
-    accountActivities: restakingAccountActivities,
-    accountIsLoading: restakingAccountIsLoading,
-    accountShare: restakingAccountShare
-  } = useStAccount({ address: address, productName: 'eth-restaking', chainId: optimism.id })
-
-  const stAccount = {
-    'eth-staking': {
-      accountDelegations: stakeAccountDelegations,
-      accountBalance: stakeAccountBalance,
-      accountRewards: stakeAccountRewards,
-      accountActivities: stakeAccountActivities,
-      accountIsLoading: stakeAccountIsLoading,
-      accountShare: stakeAccountShare
-    },
-    'eth-restaking': {
-      accountDelegations: restakingAccountDelegations,
-      accountBalance: restakingAccountBalance,
-      accountRewards: restakingAccountRewards,
-      accountActivities: restakingAccountActivities,
-      accountIsLoading: restakingAccountIsLoading,
-      accountShare: restakingAccountShare
-    }
-  }
-
-  const { accountDelegations, accountRewards, accountActivities, accountShare } = stAccount[productTabSelected]
 
   async function disconnectWallet() {
     setOpenSidebar(false)
@@ -136,20 +87,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   useEffect(() => {
     setUserNetWorth(handleQuotePrice(Number(usdTotalBalance)))
   }, [handleQuotePrice, usdTotalBalance])
-
-  const products = stakingList.filter(product => product.enabled)
-
-  const selectProductOptions = products.map(product => {
-    return {
-      value: product.id,
-      label: (
-        <ProductSelectCard>
-          <AssetIcon image={product.logoImage} size={24} altName={product.id} chain={product.asset.chains[0]} />
-          <span>{t(`v3.products.${product.id}.name`)}</span>
-        </ProductSelectCard>
-      )
-    }
-  })
 
   const tabOptions: { label: string; value: TabActivated }[] = [
     { label: t('assets'), value: 'assets' },
@@ -185,17 +122,16 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 ) : (
                   <>
                     <WrapperWallet>{handleWalletProviderImage(walletConnected, 16)}</WrapperWallet>
-                    <EnsAvatar address={address} size={32} chainId={chainId} />
+                    <EnsAvatar address={address} size={24} avatar={avatar} avatarLoading={avatarLoading} />
                   </>
                 )}
               </Web3AuthProfileContainer>
               <div>
                 {web3AuthUserInfo?.email && (
-                  <WalletAddressContainer
-                    className='bold'
-                    onClick={() => web3AuthUserInfo?.email && copyToClipboard(web3AuthUserInfo.email)}
-                  >
-                    {truncateText(web3AuthUserInfo.email, 20)}
+                  <WalletAddressContainer>
+                    <span className='email' onClick={() => web3AuthUserInfo?.email && copyToClipboard(web3AuthUserInfo.email)}>
+                      {truncateText(web3AuthUserInfo.email, 20)}
+                    </span>
                   </WalletAddressContainer>
                 )}
                 {nameLoading && <SkeletonLoading width={140} height={14} />}
@@ -205,8 +141,8 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                     <CopyIcon className='copy' />
                   </WalletAddressContainer>
                 )}
-                <WalletAddressContainer onClick={() => copyToClipboard(address)} className={`${!web3AuthUserInfo?.email && 'bold'}`}>
-                  {truncateAddress(address)}
+                <WalletAddressContainer onClick={() => copyToClipboard(address)}>
+                  <span>{truncateAddress(address, 4)}</span>
                   <CopyIcon className='copy' />
                 </WalletAddressContainer>
               </div>
@@ -246,46 +182,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
           </TabContainer>
           {activeTab[tabActivated]}
 
-          <Card
-            header={
-              <HeaderTabContainer>
-                <div>
-                  <span>{t('selectProduct')}</span>
-                  <Select
-                    defaultValue='eth-staking'
-                    style={{ width: '100%', height: '40px' }}
-                    onChange={e => setProductTabSelected(e as 'eth-staking' | 'eth-restaking')}
-                    options={selectProductOptions}
-                  />
-                </div>
-                <HeaderTabHeader>
-                  <div onClick={() => setTabActivated('delegations')} className={`${tabActivated === 'delegations' && 'activated'} `}>
-                    <PoolsIcon />
-                    <span>{t('delegations')}</span>
-                  </div>
-                  <div onClick={() => setTabActivated('rewards')} className={`${tabActivated === 'rewards' && 'activated'} `}>
-                    <AnalyticsIcon />
-                    <span>{t('rewards')}</span>
-                  </div>
-                  <div onClick={() => setTabActivated('activity')} className={`${tabActivated === 'activity' && 'activated'} `}>
-                    <ActivitiesIcon />
-                    <span>{t('activity')}</span>
-                  </div>
-                </HeaderTabHeader>
-              </HeaderTabContainer>
-            }
-          >
-            <WalletSidebarTabsContainer
-              accountDelegations={accountDelegations}
-              accountRewards={accountRewards}
-              accountActivities={accountActivities}
-              activatedTab={tabActivated}
-              stakingAsset={productTabSelected}
-              accountTotalShares={accountShare}
-              userWalletAddress={address}
-            />
-          </Card>
-
           {stwETHBalance > 0n && <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />}
         </>
       )}
@@ -298,7 +194,6 @@ const {
   HeaderContainer,
   CloseSidebar,
   ClosedSidebarButton,
-  HeaderTabContainer,
   Logout,
   SettingIcon,
   WalletIcon,
@@ -310,14 +205,9 @@ const {
   Web3AuthProfileContainer,
   WrapperWallet,
   CopyIcon,
-  PoolsIcon,
-  AnalyticsIcon,
-  ProductSelectCard,
-  ActivitiesIcon,
   SidebarButton,
   WalletAddressContainer,
   EstimatedBalanceContainer,
-  HeaderTabHeader,
   TabContainer
 } = {
   DrawerContainer: styled(Drawer)`
@@ -342,7 +232,7 @@ const {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: ${({ theme }) => theme.size[16]};
+    gap: ${({ theme }) => theme.size[8]};
   `,
   HeaderUserContainer: styled.div`
     display: flex;
@@ -467,33 +357,15 @@ const {
     svg {
       color: ${({ theme }) => theme.colorV2.gray[1]};
     }
-  `,
-  PoolsIcon: styled(PiChartPieSlice)`
-    font-size: 16px;
-  `,
-  AnalyticsIcon: styled(PiChartBar)`
-    font-size: 16px;
-  `,
-  ActivitiesIcon: styled(PiChartLine)`
-    font-size: 16px;
-  `,
-  HeaderTabContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    > div {
-      &:nth-child(1) {
-        padding: 12px 12px 0px 12px;
-        display: flex;
-        flex-direction: column;
-        gap: ${({ theme }) => theme.size[8]};
-
-        > span {
-          font-size: ${({ theme }) => theme.font.size[13]};
-          font-style: normal;
-          font-weight: 400;
-          color: ${({ theme }) => theme.colorV2.gray[1]};
+    span {
+      &.email {
+        width: 111px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+          width: 100%;
         }
       }
     }
@@ -526,84 +398,6 @@ const {
       }
     }
   `,
-  HeaderTabHeader: styled.div`
-    width: 100%;
-    height: 48px;
-    padding: 0px 12px;
-    border-bottom: 1px solid ${({ theme }) => theme.colorV2.gray[2]};
-    border-radius: 8px 8px 0 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: ${({ theme }) => theme.size[4]};
-
-    align-items: center;
-
-    div {
-      height: 100%;
-      font-size: ${({ theme }) => theme.font.size[13]};
-      font-weight: 400;
-      cursor: pointer;
-      border-bottom: 1px solid transparent;
-
-      position: relative;
-      display: inline-block;
-      text-decoration: none;
-      overflow: hidden;
-
-      display: flex;
-      align-items: center;
-      gap: ${({ theme }) => theme.size[8]};
-
-      &::after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 1px;
-        bottom: 0;
-        left: 0;
-        background-color: ${({ theme }) => theme.colorV2.purple[1]};
-        transform: scaleX(0);
-        transform-origin: bottom left;
-        transition: transform 0.3s ease-out;
-      }
-
-      &:hover {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-
-        span {
-          opacity: 1;
-          color: ${({ theme }) => theme.colorV2.purple[1]};
-        }
-      }
-
-      &:hover::after {
-        transform: scaleX(1);
-      }
-
-      &.activated::after,
-      &.activated:hover::after {
-        transform: scaleX(0);
-        transition: none;
-      }
-
-      &.activated {
-        border-bottom: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-
-        span {
-          color: ${({ theme }) => theme.colorV2.purple[1]};
-          opacity: 1;
-        }
-      }
-
-      span {
-        color: ${({ theme }) => theme.colorV2.gray[1]};
-        opacity: 0.6;
-      }
-    }
-  `,
 
   EstimatedBalanceContainer: styled.div`
     display: flex;
@@ -624,19 +418,6 @@ const {
         color: ${({ theme }) => theme.colorV2.purple[1]};
         font-weight: 500;
       }
-    }
-  `,
-  ProductSelectCard: styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-
-    gap: ${({ theme }) => theme.size[8]};
-
-    div {
-      display: flex;
-      align-items: center;
     }
   `
 }

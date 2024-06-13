@@ -1,12 +1,12 @@
 import { StaticImageData } from 'next/image'
 import { Asset } from '@/types/Asset'
 
-export type StakingId = 'eth-staking' | 'eth-restaking'
+export type StakingId = 'eth-staking' | 'eth-restaking' | 'chz-staking'
 export interface Staking {
   id: StakingId
   order: number
   symbol: string
-  symbolImage: string | StaticImageData
+  symbolImage: string
   logoImage: string | StaticImageData
   url: string
   listed: boolean

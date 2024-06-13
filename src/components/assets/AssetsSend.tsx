@@ -1,10 +1,11 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useForm } from 'react-hook-form'
-import { PiArrowLineRight, PiArrowRight, PiArrowsCounterClockwise } from 'react-icons/pi'
+import { PiArrowLineRight, PiArrowRight, PiArrowsCounterClockwise, PiWallet } from 'react-icons/pi'
 import styled from 'styled-components'
 import { encodeFunctionData, erc20Abi } from 'viem'
 import Button from '../shared/Button'
 import Input from '../shared/inputs/Input'
+import AlertMessageComponent from '../shared/AlertMessageComponent'
 
 import { ethers, isAddress, parseEther } from 'ethers'
 
@@ -19,6 +20,7 @@ import { useRouter } from 'next/router'
 import { chainConfigByChainId } from '@/config/chain'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { useSwitchChain } from 'wagmi'
+import { capitalize } from '@/config/utils'
 
 interface AssetSendProps {
   walletTo: string
@@ -116,7 +118,7 @@ export function AssetsSend({ asset }: { asset: Asset }) {
     }
 
     if (isWrongNetwork && !!account) {
-      return `${t('switch')} ${name.charAt(0).toUpperCase() + name.slice(1)}`
+      return `${t('switch')} ${capitalize(name.toLowerCase().replaceAll('-', ' '))}`
     }
 
     return t('next')
@@ -136,52 +138,92 @@ export function AssetsSend({ asset }: { asset: Asset }) {
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='assetSendForm'>
-      <div>
-        <Input
-          title={t('sendAddress')}
-          disabled={false}
-          disabledLabel={false}
-          register={register('walletTo', {
-            required: `${t('v2.createProject.formMessages.required')}`
-          })}
-          maxLength={64}
-          background='white'
-          error={errors.walletTo?.message}
-          placeholder={'0x'}
+      {account &&
+        <div>
+          <Input
+            title={t('sendAddress')}
+            disabled={false}
+            disabledLabel={false}
+            register={register('walletTo', {
+              required: `${t('v2.createProject.formMessages.required')}`
+            })}
+            maxLength={64}
+            background='white'
+            error={errors.walletTo?.message}
+            placeholder={'0x'}
+          />
+          <AssetInput
+            ethAmountValue={sendAmount}
+            onChange={v => {
+              handleChange(v)
+            }}
+            onMaxFunction={() => setSendAmount(tokenBalance.balance)}
+            productAsset={asset}
+            hasError={false}
+            background='white'
+            balance={tokenBalance.balance}
+            balanceLoading={isLoading}
+            accountIsConnected={!!account}
+          />
+        </div>
+      }
+      {account && <AlertMessageComponent message={t('disclaimer')} />}
+      {!account &&
+        <ConnectWallet>
+          <WalletIcon />
+          <span>{t('connectYourWallet')}</span>
+          <Button
+            form='assetSendForm'
+            isLoading={transactionLoading || openSidebarConnectWallet}
+            type='submit'
+            block
+            label={handleButtonName()}
+            disabled={transactionLoading || openSidebarConnectWallet || !!(Number(sendAmount) <= 0 && !isWrongNetwork)}
+          />
+        </ConnectWallet>
+      }
+      {account &&
+        <Button
+          form='assetSendForm'
+          isLoading={transactionLoading || openSidebarConnectWallet}
+          type='submit'
+          label={handleButtonName()}
+          icon={handleButtonIcon()}
+          disabled={transactionLoading || openSidebarConnectWallet || !!(Number(sendAmount) <= 0 && !isWrongNetwork)}
         />
-        <AssetInput
-          ethAmountValue={sendAmount}
-          onChange={v => {
-            handleChange(v)
-          }}
-          onMaxFunction={() => setSendAmount(tokenBalance.balance)}
-          productAsset={asset}
-          hasError={false}
-          background='white'
-          balance={tokenBalance.balance}
-          balanceLoading={isLoading}
-          accountIsConnected={!!account}
-        />
-      </div>
-
-      <Button
-        form='assetSendForm'
-        isLoading={transactionLoading || openSidebarConnectWallet}
-        type='submit'
-        label={handleButtonName()}
-        icon={handleButtonIcon()}
-        disabled={transactionLoading || openSidebarConnectWallet || !!(Number(sendAmount) <= 0 && !isWrongNetwork)}
-      />
+      }
     </FormContainer>
   )
 }
 
-const { FormContainer } = {
+const { FormContainer, ConnectWallet, WalletIcon } = {
   FormContainer: styled.form`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[32]};
     max-height: 450px;
     max-width: 420px;
+  `,
+  ConnectWallet: styled.div`
+    width: 100%;
+    border-radius: ${({ theme }) => theme.size[8]};
+    align-items: start;
+    background: ${({ theme }) => theme.colorV2.gray[2]};
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[16]};
+    padding: ${({ theme }) => theme.size[24]};
+
+    span {
+      font-size: ${({ theme }) => theme.font.size[16]};
+      font-weight: 500;
+      color: ${({ theme }) => theme.color.gray[500]};
+    }
+  `,
+  WalletIcon: styled(PiWallet)`
+    width: 80px;
+    height: 80px;
+    color: ${({ theme }) => theme.color.gray[500]};
   `
 }

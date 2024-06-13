@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 
 interface useStAccountProps {
   address?: `0x${string}`
-  productName: 'eth-staking' | 'eth-restaking'
+  productName: 'eth-staking' | 'eth-restaking' | 'chz-staking'
   chainId: number
 }
 

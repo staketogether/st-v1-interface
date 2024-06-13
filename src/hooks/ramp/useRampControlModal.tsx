@@ -1,15 +1,17 @@
 import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo'
-import { Asset, AssetId } from '@/types/Asset'
+import { AssetId } from '@/types/Asset'
 import { Quote } from '@/types/quote.type'
 import { makeVar } from '@apollo/client'
 import { BuyRamp } from './useBuyRamp'
 import { KycLevelInfo } from './useKycLevelInfo'
 
-export enum BrlaBuyEthStep {
+export enum RampSteps {
   MethodPayment = 'MethodPayment',
   Quotation = 'Quotation',
   QuotationOffRamp = 'QuotationOffRamp',
   Kyc = 'Kyc',
+  ProcessingCheckoutOffRampStep = 'ProcessingCheckoutOffRampStep',
+  PixKeyStep = 'PixKeyStep',
   ConnectWallet = 'ConnectWallet',
   ProcessingKyc = 'ProcessingKyc',
   ProcessingCheckoutStep = 'ProcessingCheckoutStep',
@@ -29,42 +31,26 @@ export interface DepositConfig {
   toToken?: string
 }
 export const openBrlaModalVar = makeVar(false)
+
 export const amountToQuoteVar = makeVar<string>('')
-export const typeRampVar = makeVar<'buy' | 'sell'>('buy')
-export const stepsControlBuyCryptoVar = makeVar<BrlaBuyEthStep>(BrlaBuyEthStep.Quotation)
+export const rampStepControlVar = makeVar<RampSteps | undefined>(undefined)
+export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
+export const offRampPixKeyVar = makeVar<string>('')
+
 export const quoteVar = makeVar<Quote | undefined>(undefined)
 export const qrCodeVar = makeVar<BuyRamp | null>(null)
 export const kycLevelVar = makeVar<KycLevelInfo | null>(null)
 export const kycIdVar = makeVar<string | null>(null)
-export const pixBankInfoVar = makeVar<PixBankInfo | undefined>(undefined)
 export const rampAssetIdVar = makeVar<AssetId>('eth-mainnet')
 
-export const clearModal = () => {
+export const clearRampVars = (type: 'buy' | 'sell') => {
   qrCodeVar(null)
   kycLevelVar(null)
   kycIdVar(null)
   quoteVar(undefined)
+  offRampPixKeyVar('')
   amountToQuoteVar('')
-  stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
+  pixBankInfoVar(undefined)
+  rampStepControlVar(type === 'buy' ? RampSteps.Quotation : RampSteps.QuotationOffRamp)
   openBrlaModalVar(false)
-}
-
-export const openQuoteEthModal = (asset: Asset) => {
-  stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
-  rampAssetIdVar(asset.id)
-  openBrlaModalVar(true)
-}
-
-export const changeWalletAddress = () => {
-  qrCodeVar(null)
-  kycLevelVar(null)
-  kycIdVar(null)
-  quoteVar(undefined)
-  amountToQuoteVar()
-  stepsControlBuyCryptoVar(BrlaBuyEthStep.Quotation)
-}
-
-export const openModal = (asset: Asset) => {
-  rampAssetIdVar(asset.id)
-  openBrlaModalVar(true)
 }

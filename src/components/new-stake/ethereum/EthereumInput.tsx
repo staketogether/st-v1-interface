@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import { useRef } from 'react'
 import styled from 'styled-components'
 import { Staking } from '@/types/Staking'
-import { ethMainnet } from '@/config/product/asset'
 
 interface EthereumInputProps {
   ethAmountValue: string
@@ -18,7 +17,7 @@ interface EthereumInputProps {
   onChange: (value: string) => void
   onMaxFunction?: () => void
   type: 'deposit' | 'withdraw'
-  product: Staking
+  staking: Staking
 }
 
 export default function EthereumInput({
@@ -29,7 +28,7 @@ export default function EthereumInput({
   onChange,
   onMaxFunction,
   type,
-  product
+  staking
 }: EthereumInputProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
@@ -72,18 +71,30 @@ export default function EthereumInput({
           <SkeletonLoading width={120} />
         ) : (
           <span>{`${t('balance')}: ${formatNumberByLocale(truncateWei(balance, 5), locale)} ${
-            type === 'deposit' ? t('eth.symbol') : product.symbol
+            type === 'deposit' ? staking.asset.symbol : staking.symbol
           }`}</span>
         )}
       </div>
       <div>
         <CoinActionContainer>
           {type === 'deposit' ? (
-            <AssetIcon altName={product.id} image={ethMainnet.symbolImage} chain={product.asset.chains[0]} size={32} />
+            <AssetIcon altName={staking.id} image={staking.asset.symbolImage} chain={staking.asset.chains[0]} size={32} />
           ) : (
-            <TokensSymbolIcons productSymbol={product.symbol} size={32} />
+            <>
+              <TokensSymbolIcons
+                image={staking.symbolImage}
+                size={32}
+                altName={staking.symbol}
+                tokenForAddWallet={{
+                  contractAddress: staking.contracts.StakeTogether,
+                  symbol: staking.symbol,
+                  decimals: 18,
+                  image: staking.symbolImage
+                }}
+              />
+            </>
           )}
-          <span>{type === 'deposit' ? t('eth.symbol') : product.symbol}</span>
+          <span>{type === 'deposit' ? staking.asset.symbol : staking.symbol}</span>
           <span className='max' onClick={onMaxFunction}>
             MAX
           </span>
@@ -96,6 +107,7 @@ export default function EthereumInput({
           placeholder='0'
           onFocus={handleFocusContainer}
           onBlur={handleBlurContainer}
+          inputMode='decimal'
           className={`${hasError && 'error'}`}
         />
       </div>

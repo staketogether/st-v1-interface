@@ -8,7 +8,7 @@ export interface ActionItem {
   type: string
   label: string
   url: string
-  disabled: boolean
+  disabled?: boolean
   icon: React.JSX.Element
   tooltipLabel: string
 }
@@ -21,12 +21,10 @@ interface MenuActionsProps {
 export default function NavActions({ typeActive, navActionsList }: MenuActionsProps) {
   function handleItemList(action: ActionItem) {
     return (
-      <li className={`${typeActive === action.type && 'activated'} ${action.disabled && 'disabled'}`}>
-        <Link href={action.url}>
-          <IconContainer>{action.icon}</IconContainer>
-          <span>{action.label}</span>
-        </Link>
-      </li>
+      <Link href={action.url} className={`${action.disabled && 'disabled'}`} onClick={e => action.disabled && e.preventDefault()}>
+        <IconContainer>{action.icon}</IconContainer>
+        <span>{action.label}</span>
+      </Link>
     )
   }
 
@@ -34,15 +32,11 @@ export default function NavActions({ typeActive, navActionsList }: MenuActionsPr
     <header>
       <Nav>
         <ul>
-          {navActionsList.map(action => (
-            <>
-              {action.tooltipLabel && (
-                <Tooltip title={action.tooltipLabel} key={action.type}>
-                  {handleItemList(action)}
-                </Tooltip>
-              )}
+          {navActionsList.map((action, index) => (
+            <li className={`${typeActive === action.type && 'activated'} `} key={`nav-row-${index}`}>
+              {action.tooltipLabel && <Tooltip title={action.tooltipLabel}>{handleItemList(action)}</Tooltip>}
               {!action.tooltipLabel && handleItemList(action)}
-            </>
+            </li>
           ))}
         </ul>
       </Nav>
@@ -55,7 +49,7 @@ const { Nav, IconContainer } = {
     width: 100%;
     ul {
       display: flex;
-      gap: 2px;
+      gap: ${({ theme }) => theme.size[4]};
       align-items: center;
 
       li {
@@ -63,10 +57,6 @@ const { Nav, IconContainer } = {
         width: 100%;
         a {
           background: ${({ theme }) => theme.colorV2.foreground};
-
-          filter: grayscale(100%);
-          opacity: 0.4;
-
           transition: grayscale 0ms.3 ease-out;
 
           border-radius: ${({ theme }) => theme.size[8]};
@@ -77,8 +67,15 @@ const { Nav, IconContainer } = {
           display: flex;
           align-items: center;
           flex-direction: column;
-          font-size: ${({ theme }) => theme.font.size[13]};
           color: ${({ theme }) => theme.colorV2.blue[1]};
+          font-size: 10px;
+
+          &.disabled {
+            cursor: not-allowed;
+            background: ${({ theme }) => theme.colorV2.foreground};
+            filter: grayscale(100%);
+            opacity: 0.4;
+          }
         }
 
         span {
@@ -92,14 +89,22 @@ const { Nav, IconContainer } = {
           a {
             opacity: 1;
             filter: none;
+            background: ${({ theme }) => theme.color.primary};
+          }
+
+          span {
+            color: ${({ theme }) => theme.color.white};
+          }
+
+          svg {
+            color: ${({ theme }) => theme.colorV2.blue[1]};
+            background-color: ${({ theme }) => theme.colorV2.white};
           }
         }
 
-        &.disabled {
-          cursor: not-allowed;
+        @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
           a {
-            pointer-events: none;
-            cursor: not-allowed;
+          font-size: ${({ theme }) => theme.font.size[13]};
           }
         }
       }

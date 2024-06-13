@@ -64,6 +64,7 @@ export const handleChainIdByNetwork = (network: AllowedNetworks) => {
     'optimism-sepolia': 11155420,
     optimism: 10,
     chiliz: 88888,
+    'chiliz-spicy': 88882,
     polygon: 137,
     arbitrum: 42161
   }

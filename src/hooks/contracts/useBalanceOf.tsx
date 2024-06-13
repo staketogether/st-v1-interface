@@ -8,7 +8,7 @@ interface useBalanceOfProps {
   walletAddress?: `0x${string}`
 }
 
-interface TokenBalance {
+export interface TokenBalance {
   rawBalance: bigint
   balance: string
 }
@@ -18,6 +18,7 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
     rawBalance: BigInt(0),
     balance: '0'
   })
+
   const [chainId] = asset.chains
   const { address: accountAddress } = useAccount()
 
@@ -29,15 +30,15 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
     refetch: nativeRefetch,
     data: nativeData
   } = useBalance({
-    address: walletAddress ? walletAddress : undefined,
+    address,
     chainId,
     query: {
-      enabled: asset.type === 'native'
+      enabled: asset.type === 'native' && !!address
     }
   })
 
   useEffect(() => {
-    if (nativeData) {
+    if (nativeData && asset.type === 'native') {
       const balance = formatUnits(nativeData.value, asset.decimals)
       const rawBalance = nativeData.value
 
@@ -62,7 +63,7 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
   })
 
   useEffect(() => {
-    if (erc20Data) {
+    if (erc20Data !== undefined && asset.type !== 'native') {
       const balance = formatUnits(erc20Data, asset.decimals)
       const rawBalance = erc20Data
 

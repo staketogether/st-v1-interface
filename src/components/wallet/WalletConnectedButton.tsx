@@ -20,7 +20,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   const { chain: walletChainId } = useAccount()
 
   const { web3AuthUserInfo } = useConnectedAccount()
-  const { name: ensName, nameLoading: ensLoading } = useEns(address, walletChainId?.id ?? mainnet.id)
+  const { name: ensName, nameLoading: ensLoading, avatar, avatarLoading } = useEns(address, walletChainId?.id ?? mainnet.id)
 
   const handleActionButton = () => {
     setOpenSidebar(true)
@@ -29,12 +29,12 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
   return (
     <ConnectedButton onClick={handleActionButton}>
       <EnsAddress>
+        <WalletName walletAddress={address} web3AuthUserInfo={web3AuthUserInfo} ensName={ensName} ensLoading={ensLoading} />
         {web3AuthUserInfo?.profileImage ? (
           <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={24} height={24} />
         ) : (
-          <EnsAvatar address={address} size={24} chainId={walletChainId?.id ?? mainnet.id} />
+          <EnsAvatar address={address} size={24} avatarLoading={avatarLoading} avatar={avatar} />
         )}
-        <WalletName walletAddress={address} web3AuthUserInfo={web3AuthUserInfo} ensName={ensName} ensLoading={ensLoading} />
       </EnsAddress>
     </ConnectedButton>
   )
@@ -45,16 +45,20 @@ const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
     display: flex;
     gap: ${({ theme }) => theme.size[16]};
     align-items: center;
-    width: auto;
     height: 32px;
     font-size: ${({ theme }) => theme.font.size[14]};
     color: ${({ theme }) => theme.color.white};
     background-color: ${({ theme }) => theme.colorV2.blue[1]};
     border: none;
     border-radius: ${({ theme }) => theme.size[8]};
-    padding: 0 10px;
+    padding: 0 5px;
     transition: background-color 0.1s ease;
     box-shadow: ${({ theme }) => theme.shadow[200]};
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      width: auto;
+      padding: 0 10px;
+    }
 
     &:hover {
       background-color: ${({ theme }) => theme.colorV2.purple[1]};
@@ -67,8 +71,7 @@ const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
   `,
   EnsAddress: styled.div`
     display: grid;
-    grid-template-columns: 24px auto;
-    justify-content: flex-end;
+    grid-template-columns: auto 24px;
     align-items: center;
     gap: 8px;
   `,

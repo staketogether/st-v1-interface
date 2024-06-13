@@ -1,89 +1,52 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PiCoinsLight, PiChartLine } from 'react-icons/pi'
-import { getListedStaking } from '@/config/product/staking'
-import { getListedAssets } from '@/config/product/asset'
 import styled from 'styled-components'
-import Fuse from 'fuse.js'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import AssetIcon from '../AssetIcon'
 import { chainConfigByChainId } from '@/config/chain'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import SearchInput from '../inputs/SearchInput'
+import useHeaderSearch from '@/hooks/useHeaderSearch'
 
 export default function LayoutHeaderSearch() {
   const [searchValue, setSearchValue] = useState('')
   const [showResultArea, setShowResultArea] = useState(false)
-
-  const listedAssets = getListedAssets()
-  const listedStaking = getListedStaking()
-
+  const containerRef = useRef<HTMLDivElement>(null)
+  
   const { t } = useLocaleTranslation()
 
-  const stakingOptions = {
-    includeScore: true,
-    keys: [
-      {
-        name: 'id',
-        weight: 1
-      },
-      {
-        name: 'symbol',
-        weight: 2
-      },
-      {
-        name: 'contracts.StakeTogether',
-        weight: 2
-      }
-    ],
-    threshold: 0.3
-  }
-
-  const assetOptions = {
-    includeScore: true,
-    keys: [
-      {
-        name: 'id',
-        weight: 1
-      },
-      {
-        name: 'symbol',
-        weight: 2
-      },
-      {
-        name: 'contractAddress',
-        weight: 3
-      }
-    ],
-    threshold: 0.3
-  }
-
-  const assetFuse = new Fuse(listedAssets, assetOptions)
-  const stakingFuse = new Fuse(listedStaking, stakingOptions)
-
-  const assetsListFiltered = assetFuse.search({
-    $or: [{ id: searchValue }, { symbol: searchValue }, { contractAddress: searchValue }]
-  })
-  const stakingListsFiltered = stakingFuse.search({
-    $or: [{ id: searchValue }, { symbol: searchValue }]
-  })
-
+  const {hasItemsFiltered, assetsListFiltered, stakingListsFiltered}  = useHeaderSearch(searchValue)
+  
   const { query } = useRouter()
   const { currency } = query as { currency: string }
 
-  const hasItemsFiltered = !!(assetsListFiltered.length || stakingListsFiltered.length)
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showResultArea) setShowResultArea(false)
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setShowResultArea(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showResultArea])
 
   return (
-    <Container>
-      <SearchInput
-        search={searchValue}
-        setSearch={setSearchValue}
-        onBlur={() => setShowResultArea(false)}
-        onFocus={() => setShowResultArea(true)}
-      />
+    <Container ref={containerRef}>
+      <SearchInput search={searchValue} setSearch={setSearchValue} onFocus={() => setShowResultArea(true)} />
 
       {showResultArea && hasItemsFiltered && (
-        <WrapperResult>
+        <WrapperResult onBlur={() => setShowResultArea(false)}>
           <WrapperCard>
             {!!assetsListFiltered.length && (
               <header>
@@ -92,7 +55,7 @@ export default function LayoutHeaderSearch() {
               </header>
             )}
             {assetsListFiltered.map(asset => (
-              <Row key={asset.item.id} href={asset.item.url.replace('currency', currency)}>
+              <Row key={asset.item.id} href={asset.item.url.replace('currency', currency)} onClick={() => setShowResultArea(false)}>
                 <AssetIcon image={asset.item.symbolImage} chain={asset.item.chains[0]} size={32} altName={asset.item.id} />
                 <div>
                   <h2>{asset.item.symbol}</h2>
@@ -107,7 +70,7 @@ export default function LayoutHeaderSearch() {
               </header>
             )}
             {stakingListsFiltered.map(staking => (
-              <Row key={staking.item.id} href={staking.item.url.replace('currency', currency)}>
+              <Row key={staking.item.id} href={staking.item.url.replace('currency', currency)} onClick={() => setShowResultArea(false)}>
                 <AssetIcon image={staking.item.symbolImage} chain={staking.item.asset.chains[0]} size={32} altName={staking.item.id} />
                 <div>
                   <h2>{staking.item.symbol}</h2>

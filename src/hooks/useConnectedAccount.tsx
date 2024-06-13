@@ -32,6 +32,10 @@ export default function useConnectedAccount() {
 
   useEffect(() => {
     setAccount(address)
+    if (!address) {
+      setAccount(undefined)
+      setWeb3AuthUserInfo(null)
+    }
   }, [address])
 
   useEffect(() => {

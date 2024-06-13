@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 
-import useBalanceOf from '@/hooks/contracts/useBalanceOf'
+import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { truncateDecimal } from '@/services/truncate'
 import Button from '../shared/Button'
@@ -15,10 +15,11 @@ import { stakingList } from '@/config/product/staking'
 interface AssetBalanceCardProps {
   asset: Asset
   userWalletAddress: `0x${string}`
+  userTokenBalance: TokenBalance
+  userTokenIsLoading: boolean
 }
 
-export default function AssetBalanceCard({ asset, userWalletAddress }: AssetBalanceCardProps) {
-  const { isLoading, tokenBalance } = useBalanceOf({ asset, walletAddress: userWalletAddress })
+export default function AssetBalanceCard({ asset, userTokenBalance, userTokenIsLoading }: AssetBalanceCardProps) {
   const { t } = useLocaleTranslation()
   const { query, push } = useRouter()
   const { currency } = query as { currency: string }
@@ -30,7 +31,7 @@ export default function AssetBalanceCard({ asset, userWalletAddress }: AssetBala
         <span>{t('balance')}</span>
         <ContainerImage>
           <AssetIcon image={asset.symbolImage} size={24} altName={asset.id} chain={asset.chains[0]} />
-          {isLoading ? <SkeletonLoading width={80} height={18} /> : <span>{truncateDecimal(tokenBalance.balance, 6)}</span>}
+          {userTokenIsLoading ? <SkeletonLoading width={80} height={18} /> : <span>{truncateDecimal(userTokenBalance.balance, asset.decimals)}</span>}
         </ContainerImage>
       </header>
       {isPossibleToInvest && (

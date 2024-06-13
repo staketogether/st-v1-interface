@@ -7,7 +7,9 @@ export const queryAccountAssets = gql`
       symbol
       thumbnail
       balance
+      balanceUsd
       decimals
+      # imageUrl
       name
       contractAddress
     }

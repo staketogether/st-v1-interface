@@ -18,8 +18,10 @@ import { Staking } from '@/types/Staking'
 import { chainConfigByChainId } from '@/config/chain'
 import { AssetStats } from '@/types/AssetStats'
 import StakingBalanceCard from './StakingBalanceCard'
-import useLsdBalance from '@/hooks/subgraphs/useLsdBalance'
 import StakingDelegatePools from './StakingDelegatePools'
+import useErc20BalanceOf from '@/hooks/contracts/useErc20BalanceOf'
+import { makeVar, useReactiveVar } from '@apollo/client'
+import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl'), {
   ssr: false,
@@ -38,22 +40,37 @@ interface NewStakeControlProps {
   chainId: number
 }
 
+const TokensShowValuePrice = dynamic(() => import('../shared/AssetPrice'), {
+  ssr: false,
+  loading: () => <SkeletonLoading width={80} />,
+  suspense: true
+})
+
+
+export const updateStpBalanceVar = makeVar(false)
+
 export default function NewStakeControl({ staking, type, assetData, chainId }: NewStakeControlProps) {
   const [userWalletAddress, setUserWalletAddress] = useState<`0x${string}` | undefined>(undefined)
   const { t } = useLocaleTranslation()
-
   const { query } = useRouter()
   const { currency } = query
+  const updateStpBalance = useReactiveVar(updateStpBalanceVar)
 
   const { chain: walletChainId, connector, address } = useAccount()
+  const isWrongNetwork = chainId !== walletChainId?.id
+  const { switchChain } = useSwitchChain()
+  const config = chainConfigByChainId(chainId)
+  const {
+    balance: stpETHBalance,
+    isLoading: stpETHBalanceLoading,
+    refetch: stpETHBalanceRefetch
+  } = useErc20BalanceOf({ chainId, walletAddress: userWalletAddress, token: staking.contracts.StakeTogether })
+
   useEffect(() => {
     if (address) {
       setUserWalletAddress(address)
     }
   }, [address])
-  const isWrongNetwork = chainId !== walletChainId?.id
-  const { switchChain } = useSwitchChain()
-  const config = chainConfigByChainId(chainId)
 
   useEffect(() => {
     if (isWrongNetwork && connector && connector.name === 'Web3Auth') {
@@ -61,11 +78,12 @@ export default function NewStakeControl({ staking, type, assetData, chainId }: N
     }
   }, [chainId, connector, isWrongNetwork, switchChain])
 
-  const { accountBalance: stpETHBalance, isLoading: stpETHBalanceLoading } = useLsdBalance({
-    walletAddress: userWalletAddress,
-    product: staking,
-    chainId: chainId
-  })
+  useEffect(() => {
+    if (updateStpBalance) {
+      stpETHBalanceRefetch()
+      updateStpBalanceVar(false)
+    }
+  }, [stpETHBalanceRefetch, updateStpBalance])
 
   const copyToClipboard = async () => {
     const url = `${window.location.href}`
@@ -95,30 +113,38 @@ export default function NewStakeControl({ staking, type, assetData, chainId }: N
               <span>{t('share')}</span>
             </ShareButton>
           </div>
-          <div>
-            <span>{t('v2.ethereumStaking.networkAvailable')}</span>
-            <NetworkIcons network={config.name.toLowerCase()} size={16} />
-            <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
-          </div>
+          <ContainerPrice>
+            <div>
+              <span>{staking.symbol}</span>
+              <TokensShowValuePrice asset={staking.asset} />
+            </div>
+            <Available>
+              <span>{t('v2.ethereumStaking.networkAvailable')}</span>
+              <NetworkIcons network={config.name.toLowerCase()} size={16} />
+              <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
+            </Available>
+          </ContainerPrice>
         </HeaderProductMobile>
         <RewardsPointsContainer>
           <span>{t('v2.ethereumStaking.myRewardsPoints')}</span>
-          {staking.points.elPoints && (
-            <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
-              <TagPointsContainer>
-                Eigen
-                <div>0.0</div>
-              </TagPointsContainer>
-            </Tooltip>
-          )}
-          {staking.points.stPoints && (
-            <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
-              <TagPointsContainer className='purple'>
-                Together
-                <div>0.0</div>
-              </TagPointsContainer>
-            </Tooltip>
-          )}
+          <div>
+            {staking.points.elPoints && (
+              <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
+                <TagPointsContainer>
+                  Eigen
+                  <div>0.0</div>
+                </TagPointsContainer>
+              </Tooltip>
+            )}
+            {staking.points.stPoints && (
+              <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
+                <TagPointsContainer className='purple'>
+                  Together
+                  <div>0.0</div>
+                </TagPointsContainer>
+              </Tooltip>
+            )}
+         </div>
         </RewardsPointsContainer>
       </header>
 
@@ -166,9 +192,11 @@ const {
   ActionStakingContainer,
   RewardsPointsContainer,
   HeaderBackAction,
+  ContainerPrice,
   LoadingContainer,
   TagPointsContainer,
   HeaderProductMobile,
+  Available,
   ShareButton,
   Card
 } = {
@@ -179,6 +207,7 @@ const {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[12]};
+
     > div {
       width: 100%;
       display: flex;
@@ -193,6 +222,7 @@ const {
         align-items: start;
       }
     }
+
     > header {
       display: flex;
       flex-direction: column;
@@ -236,9 +266,8 @@ const {
   `,
   RewardsPointsContainer: styled.div`
     display: flex;
-    align-items: center;
     gap: ${({ theme }) => theme.size[12]};
-
+    flex-direction: column;
     > span {
       color: ${({ theme }) => theme.colorV2.gray[1]};
       opacity: 0.6;
@@ -249,6 +278,17 @@ const {
       align-items: center;
       gap: ${({ theme }) => theme.size[4]};
     }
+
+    >div {
+      display: flex;
+      gap: ${({ theme }) => theme.size[12]};
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      flex-direction: row;
+      align-items: center;
+    }
+
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       display: none;
     }
@@ -258,32 +298,55 @@ const {
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[12]};
 
     div {
       display: flex;
       align-items: center;
-      gap: ${({ theme }) => theme.size[8]};
 
       &:nth-child(1) {
         font-size: ${({ theme }) => theme.font.size[22]};
         font-style: normal;
         font-weight: 500;
-      }
-
-      &:nth-child(2) {
-        span {
-          font-size: ${({ theme }) => theme.font.size[13]};
-          font-style: normal;
-          font-weight: 500;
-          opacity: 0.6;
-        }
+        gap: ${({ theme }) => theme.size[8]};
       }
     }
 
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       display: none;
     }
+  `,
+  ContainerPrice: styled.div`
+    flex-direction: column;
+    align-items: flex-start;
+    gap: ${({ theme }) => theme.size[12]};
+
+        div:nth-child(1) {
+          span {
+            font-size: 22px;
+          }
+          span:nth-child(1) {
+            color: ${({ theme }) => theme.colorV2.gray[1]};
+            font-weight: 500;
+          }
+          span:nth-child(2) {
+            color: ${({ theme }) => theme.color.primary};
+            font-weight: 500;
+            align-self: flex-start;
+          }
+        }
+        div:nth-child(2) {
+          align-self: flex-start;
+          gap: ${({ theme }) => theme.size[8]};
+        }
+  `,
+  Available: styled.div`
+   span {
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-style: normal;
+          font-weight: 500;
+          opacity: 0.6;
+        }
   `,
   ActionContainer: styled.div`
     width: 100%;
@@ -340,6 +403,7 @@ const {
     font-weight: 400;
     border-radius: ${({ theme }) => theme.size[8]};
     font-size: ${({ theme }) => theme.font.size[13]};
+
     svg {
       color: ${({ theme }) => theme.colorV2.purple[1]};
     }

@@ -1,21 +1,31 @@
+import { AssetsSwap } from '@/components/assets/AssetsSwap'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 import { AssetActionType } from '@/types/AssetActionType'
-import { PiArrowDown, PiArrowUp, PiArrowsClockwise, PiCurrencyDollar, PiPlus } from 'react-icons/pi'
 import { useRouter } from 'next/router'
+import { PiArrowDown, PiArrowUp, PiArrowsClockwise, PiCurrencyDollar, PiPlus } from 'react-icons/pi'
 import styled from 'styled-components'
-import AssetsBuyControl from './AssetsBuyControl'
+import NavActions from '../shared/NavActions'
+import AssetsRampControl from './AssetsRampControl'
 import { AssetsReceive } from './AssetsReceive'
 import { AssetsSend } from './AssetsSend'
-import NavActions from '../shared/NavActions'
-import { AssetsSwap } from '@/components/assets/AssetsSwap'
+import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 
 interface AssetsActionsControlProps {
   type: AssetActionType
   asset: Asset
+  userTokenBalance: TokenBalance
+  userTokenIsLoading: boolean
+  userTokenRefetch: () => void
 }
 
-export default function AssetsActionsControl({ type, asset }: AssetsActionsControlProps) {
+export default function AssetsActionsControl({
+  type,
+  asset,
+  userTokenBalance,
+  userTokenIsLoading,
+  userTokenRefetch
+}: AssetsActionsControlProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
@@ -25,34 +35,34 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
     {
       type: 'sell',
       label: t('sell'),
-      url: `${asset.url.replace('currency', currency)}/withdraw`,
-      disabled: true,
+      url: `${asset.url.replace('currency', currency)}/sell`,
+      disabled: asset?.disableActions?.sell,
       icon: <PiCurrencyDollar />,
-      tooltipLabel: t('soon')
+      tooltipLabel: asset?.disableActions?.sell ? t('soon') : ''
     },
     {
       type: 'swap',
       label: t('swap'),
       url: `${asset.url.replace('currency', currency)}/swap`,
-      disabled: true,
+      disabled: asset?.disableActions?.swap,
       icon: <PiArrowsClockwise />,
-      tooltipLabel: t('soon')
+      tooltipLabel: asset?.disableActions?.swap ? t('soon') : ''
     },
     {
       type: 'send',
       label: t('send'),
       url: `${asset.url.replace('currency', currency)}/send`,
-      disabled: false,
+      disabled: asset?.disableActions?.send,
       icon: <PiArrowUp />,
-      tooltipLabel: ''
+      tooltipLabel: asset?.disableActions?.send ? t('soon') : ''
     },
     {
       type: 'receive',
       label: t('receive'),
       url: `${asset.url.replace('currency', currency)}/receive`,
-      disabled: false,
+      disabled: asset?.disableActions?.receive,
       icon: <PiArrowDown />,
-      tooltipLabel: ''
+      tooltipLabel: asset?.disableActions?.receive ? t('soon') : ''
     }
   ]
 
@@ -60,21 +70,16 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
     <EthereumContainer>
       <NavActions typeActive={type} navActionsList={navActionsList} />
       <div>
-        {type === 'buy' && (
-          <BuyAssetContainer>
-            <AssetsBuyControl type={type} asset={asset} />
-          </BuyAssetContainer>
+        {!!(type === 'buy' || type === 'sell') && (
+          <AssetsRampControl
+            type={type}
+            asset={asset}
+            userTokenBalance={userTokenBalance}
+            userTokenIsLoading={userTokenIsLoading}
+            userTokenRefetch={userTokenRefetch}
+          />
         )}
-        {type === 'sell' && (
-          <BuyAssetContainer>
-            <AssetsBuyControl type={type} asset={asset} />
-          </BuyAssetContainer>
-        )}
-        {type === 'swap' && (
-          <BuyAssetContainer>
-            <AssetsSwap asset={asset} />
-          </BuyAssetContainer>
-        )}
+        {type === 'swap' && <AssetsSwap asset={asset} />}
         {type === 'send' && <AssetsSend asset={asset} />}
         {type === 'receive' && <AssetsReceive />}
       </div>
@@ -82,11 +87,10 @@ export default function AssetsActionsControl({ type, asset }: AssetsActionsContr
   )
 }
 
-const { EthereumContainer, BuyAssetContainer } = {
+const { EthereumContainer } = {
   EthereumContainer: styled.div`
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[24]};
-  `,
-  BuyAssetContainer: styled.div``
+  `
 }

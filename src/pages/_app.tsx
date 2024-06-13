@@ -1,7 +1,6 @@
 import { globalConfig } from '@/config/global'
 import { config } from '@/config/wagmi'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
-import useGetCurrencyPerEthPrice from '@/hooks/useGetCurrencyPrice'
 import useGetQuotUsdForCurrency from '@/hooks/useGetUsdConversionRatesPrice'
 import useSettingsCurrency from '@/hooks/useSettingCurrency'
 import { ApolloProvider } from '@apollo/client'
@@ -19,7 +18,6 @@ import validEnv from '../config/env'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
 import { ethereumMainnetClient } from '@/config/apollo'
-import useGetCurrencyPrice from '@/hooks/useGetCurrencyPrice'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
@@ -28,9 +26,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   const queryClient = new QueryClient()
 
   useSettingsCurrency()
-  useGetCurrencyPerEthPrice()
   useGetQuotUsdForCurrency()
-  useGetCurrencyPrice()
 
   useEffect(() => {
     initMixpanel()
