@@ -1,8 +1,6 @@
-import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { FiTrash2 } from 'react-icons/fi'
 import styled from 'styled-components'
-import { useAccount } from 'wagmi'
 
 export default function EditAccount() {
 
