@@ -1,4 +1,4 @@
-import { chainConfigByChainId } from '@/config/chain'
+import { Chain, chainConfigByChainId } from '@/config/chain'
 import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 import NetworkIcon from '../NetworkIcon'
@@ -14,15 +14,17 @@ export default function LayoutNetworkDropdown({ mobile }: LayoutNetworkDropdownP
 
   const { btcWalletIsConnected } = useBtcConnectWallet()
 
-  if (!chain) {
+  const chainId = btcWalletIsConnected ? Chain.BTC_MAINNET : chain?.id ?? null
+
+  if (!chainId) {
     return null
   }
 
-  const chainConfig = chainConfigByChainId(chain?.id)
+  const chainConfig = chainConfigByChainId(chainId)
 
   return (
     <Container>
-      <NetworkIcon chain={chain?.id} size={24} />
+      <NetworkIcon chain={chainConfig?.chainId} size={24} />
       {!mobile && <CurrentNetwork>{capitalize(chainConfig.name.replaceAll('-', ' '))}</CurrentNetwork>}
     </Container>
   )
