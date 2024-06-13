@@ -3,6 +3,8 @@ import chilizIcon from '@assets/network/chiliz.svg'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
 import polygonIcon from '@assets/network/polygon.svg'
+import btcIcon from '@assets/assets/bitcoin.svg'
+
 import Image from 'next/image'
 import styled from 'styled-components'
 import { arbitrum, arbitrumSepolia, chiliz, mainnet, optimism, optimismSepolia, polygon, polygonMumbai, sepolia, spicy } from 'wagmi/chains'
@@ -28,7 +30,8 @@ export default function NetworkIcon({ chain, size, enabled = true }: NetworkIcon
     [optimismSepolia.id]: optimismIcon,
     [arbitrumSepolia.id]: arbitrumIcon,
     [polygonMumbai.id]: polygonIcon,
-    [spicy.id]: chilizIcon
+    [spicy.id]: chilizIcon,
+    [0]: btcIcon
   }
 
   return (
