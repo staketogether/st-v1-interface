@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useAccount } from 'wagmi'
 import NetworkIcon from '../NetworkIcon'
 import { capitalize } from '@/config/utils'
+import useBtcConnectWallet from '@/hooks/btc-wallet/useBtcConnectWallet'
 
 interface LayoutNetworkDropdownProps {
   mobile?: boolean
@@ -10,6 +11,8 @@ interface LayoutNetworkDropdownProps {
 
 export default function LayoutNetworkDropdown({ mobile }: LayoutNetworkDropdownProps) {
   const { chain } = useAccount()
+
+  const { btcWalletIsConnected } = useBtcConnectWallet()
 
   if (!chain) {
     return null
