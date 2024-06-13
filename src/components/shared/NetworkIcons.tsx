@@ -1,9 +1,10 @@
 import arbitrumIcon from '@assets/network/arbitrum.svg'
+import chilizIcon from '@assets/network/chiliz.svg'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
 import polygonIcon from '@assets/network/polygon.svg'
-import chilizIcon from '@assets/network/chiliz.svg'
 import solanaIcon from '@assets/network/solana.svg'
+import zkSyncIcon from '@assets/network/zk.png'
 import { Tooltip } from 'antd'
 import Image from 'next/image'
 import styled from 'styled-components'
@@ -24,7 +25,8 @@ export default function NetworkIcons({ network, size, enabled = true }: NetworkI
     arbitrum: arbitrumIcon,
     polygon: polygonIcon,
     solana: solanaIcon,
-    holesky: ethereumIcon
+    holesky: ethereumIcon,
+    zksync: zkSyncIcon
   }
 
   return (

@@ -1198,6 +1198,81 @@ export const thorchainEth: Erc20Asset = {
   ]
 }
 
+export const zkSyncUsdt: Erc20Asset = {
+  id: 'usdt-era',
+  order: 28,
+  symbol: 'USDT',
+  name: 'Tether USD',
+  symbolImage: usdtIcon,
+  decimals: 6,
+  isTestnet: false,
+  url: '/currency/era/product/assets/usdt-era',
+  type: 'erc20',
+  contractAddress: '0x493257fd37edb34451f62edf8d2a0c418852ba4c',
+  category: AssetCategory.Stable,
+  localeDescription: 'usdt-era',
+  chains: [Chain.ERA_MAINNET],
+  listed: true,
+  enabled: true,
+  new: true,
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  ramp: [
+    {
+      chainId: 324,
+      provider: 'brla',
+      paymentMethod: 'pix',
+      minDeposit: 10,
+      bridge: {
+        fromChainId: 137,
+        fromToken: 'MATIC',
+        toToken: 'USDT',
+        toChainId: 324
+      }
+    }
+  ]
+}
+
+export const zkSyncETH: NativeAsset = {
+  id: 'eth-era',
+  name: 'Ethereum',
+  order: 16,
+  symbol: 'ETH',
+  decimals: 18,
+  symbolImage: ethIcon,
+  contractAddress: '0x0000000000000000000000000000000000000000',
+  type: 'native',
+  wrapperContractAddress: '0x678c34581db0a7808d0aC669d7025f1408C9a3C6',
+  url: '/currency/era/product/assets/eth-era',
+  new: true,
+  enabled: true,
+  category: AssetCategory.Infrastructure,
+  listed: true,
+  isTestnet: false,
+  chains: [Chain.ERA_MAINNET],
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  localeDescription: 'eth-era',
+  ramp: [
+    {
+      chainId: 324,
+      provider: 'brla',
+      paymentMethod: 'pix',
+      minDeposit: 10,
+      bridge: {
+        fromChainId: 137,
+        fromToken: 'MATIC',
+        toToken: 'ETH',
+        toChainId: 324
+      }
+    }
+  ]
+}
+
 export const assetsList: Asset[] = [
   ethMainnet,
   ethOp,
@@ -1232,7 +1307,9 @@ export const assetsList: Asset[] = [
   // renderArb,
   // eurtOp,
   // thorchainEth,
-  spicyChiliz
+  spicyChiliz,
+  zkSyncUsdt,
+  zkSyncETH,
 ]
 
 export function getListedAssets(): Asset[] {
