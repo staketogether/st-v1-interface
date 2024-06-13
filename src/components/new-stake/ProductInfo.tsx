@@ -2,7 +2,7 @@ import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
 import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { capitalize } from '@/services/truncate'
+import { capitalize, truncateWei } from '@/services/truncate'
 import { AssetStats } from '@/types/AssetStats'
 import { Staking } from '@/types/Staking'
 import { Tooltip, notification } from 'antd'
@@ -38,10 +38,9 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
   const router = useRouter()
 
   const { address } = useAccount()
-  const { elPoints } = useAccountElPoints("0x1693885cb1c33d5f05c118909b788ce1e5b6a0b2")
+  const { elPoints } = useAccountElPoints(address)
+  const formatedPoints = truncateWei(BigInt(elPoints))
   
-  console.log(elPoints)
-
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
 
@@ -100,7 +99,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
                 <TagPointsContainer>
                   Eigen
-                  <div>0.0</div>
+                  <div>{formatedPoints}</div>
                 </TagPointsContainer>
               </Tooltip>
             )}
