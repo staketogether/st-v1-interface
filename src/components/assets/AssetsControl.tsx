@@ -6,7 +6,6 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
 import { Asset } from '@/types/Asset'
 import { AssetActionType } from '@/types/AssetActionType'
-import { AssetStats } from '@/types/AssetStats'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import { notification } from 'antd'
 import dynamic from 'next/dynamic'
@@ -24,7 +23,6 @@ import AssetsProductInfo from './AssetsProductInfo'
 
 interface AssetsControlProps {
   asset: Asset
-  assetData: AssetStats
   chainId: number
   type: AssetActionType
 }
@@ -55,7 +53,7 @@ const AssetsActionsControl = dynamic(() => import('./AssetsActionsControl'), {
   suspense: true
 })
 
-export default function AssetsControl({ asset, assetData, chainId, type }: AssetsControlProps) {
+export default function AssetsControl({ asset, chainId, type }: AssetsControlProps) {
   const [userWalletAddress, setUserWalletAddress] = useState<`0x${string}` | undefined>(undefined)
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
@@ -135,7 +133,7 @@ export default function AssetsControl({ asset, assetData, chainId, type }: Asset
       </header>
 
       <div>
-        <AssetsProductInfo asset={asset} assetData={assetData} />
+        <AssetsProductInfo asset={asset} />
         <ActionContainer>
           <ActionContainerControlCard>
             <AssetsActionsControl
