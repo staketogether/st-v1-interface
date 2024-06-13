@@ -114,10 +114,10 @@ export default function PixKeyStep() {
   }
 
   return (
-    <FormContainer onSubmit={handleSubmit(onSubmit)} id='v2.ramp.offRamp.key'>
+    <FormContainer onSubmit={handleSubmit(onSubmit)} id='pixKey'>
       <Select register={register('type')} options={options} title={`${t('v2.ramp.offRamp.pixKey')}`} />
       <Input
-        title={`${t('v2.createProject.formMessages.key')}`}
+        title={`${t('v2.ramp.offRamp.key')}`}
         disabled={false}
         disabledLabel={false}
         register={register('key', {
