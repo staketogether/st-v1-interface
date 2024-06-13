@@ -703,6 +703,7 @@
       "productNotAvailable": "Produto Indisponivel",
       "bitcoin": "Staking de Bitcoin",
       "chiliz": "Staking de Chiliz",
+      "btc-btc": "Bitcoin",
       "btc-op": "Bitcoin",
       "eth-mainnet": "Ethereum",
       "eth-op": "Ethereum",
@@ -937,6 +938,9 @@
         "name": "Ethereum"
       },
       "btc-op": {
+        "name": "Bitcoin"
+      },
+      "btc-btc": {
         "name": "Bitcoin"
       },
       "eth-staking": {

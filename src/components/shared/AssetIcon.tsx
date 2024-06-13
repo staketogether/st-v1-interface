@@ -4,6 +4,7 @@ import chilizIcon from '@assets/network/chiliz.svg'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
 import polygonIcon from '@assets/network/polygon.svg'
+import bitcoinIcon from '@assets/assets/bitcoin.svg'
 import Image, { StaticImageData } from 'next/image'
 import btcIcon from '@assets/assets/bitcoin.svg'
 import styled from 'styled-components'
@@ -18,6 +19,7 @@ interface SymbolIconsProps {
 
 export default function AssetIcon({ altName, image, size, chain, marginRight }: SymbolIconsProps) {
   const chainsIcon = {
+    [Chain.BTC_MAINNET]: bitcoinIcon,
     [Chain.ETH_MAINNET]: ethereumIcon,
     [Chain.OP_MAINNET]: optimismIcon,
     [Chain.ARB_MAINNET]: arbitrumIcon,
@@ -34,7 +36,7 @@ export default function AssetIcon({ altName, image, size, chain, marginRight }: 
   return (
     <Wrapper style={{ marginRight: marginRight ? marginRight : 'inherit' }} size={size}>
       <Image src={image} width={size} height={size} alt={altName} />
-      {chain && (
+      {chain !== undefined && (
         <div>
           <Image
             src={chainsIcon[chain]}
