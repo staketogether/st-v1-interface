@@ -14,6 +14,9 @@ import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import PriceChart from '../shared/PriceChart'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import { useAccount } from 'wagmi'
+import useAccountStPoints from '@/hooks/subgraphs/useAccountStPoints'
+import { truncateWei } from '@/services/truncate'
 
 interface ProductInfoProps {
   product: Staking
@@ -30,6 +33,9 @@ const TokensShowValuePrice = dynamic(() => import('../shared/AssetPrice'), {
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
   const config = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
+
+  const { address } = useAccount() 
+  const { points } = useAccountStPoints(address)
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
   const stakeTogetherContractAddress = product.contracts.StakeTogether
@@ -101,7 +107,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
                 <TagPointsContainer className='purple'>
                   Together
-                  <div>0.0</div>
+                  <div>{truncateWei(BigInt(points))}</div>
                 </TagPointsContainer>
               </Tooltip>
             )}

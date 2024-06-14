@@ -796,6 +796,8 @@
         "unlocked": "token Unlocked",
         "sendToken": "Send token",
         "connectedNetwork": "Connected the [network]",
+        "pixKey": "Which pix key do you want to use to receive?",
+        "key": "Key",
          "pixKeyLabel": {
           "phone": "Phone",
           "random": "Random"

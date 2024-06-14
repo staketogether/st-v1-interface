@@ -823,6 +823,8 @@
         "unlocked": "token Desbloqueado",
         "sendToken": "Enviar token",
         "connectedNetwork": "Conectado em [network]",
+        "pixKey": "Qual chave pix você deseja usar para receber?",
+        "key": "Chave",
         "pixKeyLabel": {
           "phone": "Telefone",
           "random": "Aleatório"
