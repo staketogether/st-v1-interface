@@ -2,7 +2,7 @@ import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
 import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { capitalize } from '@/services/truncate'
+import { capitalize, truncateWei } from '@/services/truncate'
 import { AssetStats } from '@/types/AssetStats'
 import { Staking } from '@/types/Staking'
 import { Tooltip, notification } from 'antd'
@@ -16,7 +16,7 @@ import PriceChart from '../shared/PriceChart'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { useAccount } from 'wagmi'
 import useAccountStPoints from '@/hooks/subgraphs/useAccountStPoints'
-import { truncateWei } from '@/services/truncate'
+import useAccountElPoints from '@/hooks/subgraphs/useAcountElPoints'
 
 interface ProductInfoProps {
   product: Staking
@@ -33,14 +33,19 @@ const TokensShowValuePrice = dynamic(() => import('../shared/AssetPrice'), {
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
   const config = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
-
-  const { address } = useAccount() 
+  
+  const { address } = useAccount()
   const { points } = useAccountStPoints(address)
+  const { elPoints } = useAccountElPoints(address)
+  const formatedPoints = truncateWei(BigInt(elPoints))
+  const formatedStPoints = truncateWei(BigInt(points))
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
   const stakeTogetherContractAddress = product.contracts.StakeTogether
   const router = useRouter()
 
+
+  
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
 
@@ -99,7 +104,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
                 <TagPointsContainer>
                   Eigen
-                  <div>0.0</div>
+                  <div>{formatedPoints}</div>
                 </TagPointsContainer>
               </Tooltip>
             )}
@@ -107,7 +112,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
                 <TagPointsContainer className='purple'>
                   Together
-                  <div>{truncateWei(BigInt(points))}</div>
+                  <div>{formatedStPoints}</div>
                 </TagPointsContainer>
               </Tooltip>
             )}
