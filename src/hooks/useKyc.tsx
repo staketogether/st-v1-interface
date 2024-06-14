@@ -2,7 +2,6 @@ import useSWR from 'swr';
 import axios from 'axios';
 import { globalConfig } from '@/config/global'
 
-
 export default function userKyc(id: string) {
   const { backendUrl } = globalConfig
   const fetcher = (uri: string) => axios.get(`${backendUrl}/${uri}`).then((res) => res.data);
