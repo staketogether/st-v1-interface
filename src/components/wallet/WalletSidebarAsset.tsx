@@ -7,6 +7,7 @@ import { truncateWei } from '@/services/truncate'
 import defaultErc20Icon from '@assets/assets/default-erc-20.svg'
 import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const configAsset = assetsList.find(
@@ -21,8 +22,11 @@ export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const imageSrc = configAsset?.symbolImage ?? asset?.thumbnail ?? defaultErc20Icon
   const { usdToCurrency } = useFiatUsdConversion()
 
+  const { query } = useRouter()
+  const { currency } = query as { currency: string }
+
   return (
-      <BalanceContainer href={`${configAsset?.url}`} key={asset.chainId}>
+      <BalanceContainer href={`${configAsset?.url.replace('currency', currency)} `} key={asset.chainId}>
         <div>
           <div>
             <AssetIcon image={imageSrc} size={24} altName={asset.symbol} chain={asset.chainId} />
