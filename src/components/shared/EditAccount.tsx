@@ -1,25 +1,38 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useState } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
-import { AiOutlineClose } from "react-icons/ai";
-import Modal from './Modal'
 import styled from 'styled-components'
 import ModalProfile from './ModalProfile';
-import { useAccount } from 'wagmi';
 import userKyc from '@/hooks/useKyc';
+import { PiArrowLeft } from 'react-icons/pi';
+import ModalPix from './ModalPix';
+import ModalKyc from './ModalKyc';
 
-export default function EditAccount() {
+interface web3AuthWalletSettingsProps {
+  setWeb3authWalletActive?: (value: boolean) => void
+  walletAddress: `0x${string}`
+}
+
+export default function EditAccount({
+  setWeb3authWalletActive: setIsWalletSidebarWeb3AuthSettingsActive,
+  walletAddress
+}: web3AuthWalletSettingsProps) {
   const [isModalProfileOpen, setIsModalProfileOpen] = useState(false)
   const [isModalPixOpen, setIsModalPixOpen] = useState(false)
+  const [isModalKycOpen, setIsModalKycOpen] = useState(false)
 
-  const { address } = useAccount()
-  
-  const { data } = userKyc(address)
-  
+  const { res } = userKyc(walletAddress)
+
   const { t } = useLocaleTranslation()
 
   return (
     <>
+      <HeaderDrawer>
+        <h2>{t('web3AuthWalletSettings.editAccount')}</h2>
+        <ButtonDrawer onClick={() => setIsWalletSidebarWeb3AuthSettingsActive && setIsWalletSidebarWeb3AuthSettingsActive(false)}>
+          <PiArrowLeft />
+        </ButtonDrawer>
+      </HeaderDrawer>
       <Container>
         <Section>
           <Header>
@@ -38,7 +51,7 @@ export default function EditAccount() {
         <Section>
           <Header>
             <h3>KYC</h3>
-            <Button onClick={() => setIsModalPixOpen(true)}>{t('soon')}</Button>
+            <Button onClick={() => setIsModalKycOpen(true)}>{t('soon')}</Button>
           </Header>
           <KYCard>
             <WrapperInfo>
@@ -58,7 +71,7 @@ export default function EditAccount() {
         <Section>
           <Header>
             <h3>{t('web3AuthWalletSettings.pixKey')}</h3>
-            <Button disabled>{t('soon')}</Button>
+            <Button onClick={() => setIsModalPixOpen(true)}>{t('soon')}</Button>
           </Header>
           <Wrapper>
             <WrapperInfo>
@@ -86,29 +99,10 @@ export default function EditAccount() {
         <ModalProfile isOpen={isModalProfileOpen} onClose={() => setIsModalProfileOpen(false)} />
       }
       {isModalPixOpen &&
-        <Modal showHeader={false} isOpen={isModalPixOpen} onClose={() => setIsModalPixOpen(false)}>
-          <ContainerEdit>
-            <ModalHeader>
-              <span>Add Pix Key</span>
-              <AiOutlineClose onClick={() => setIsModalPixOpen(false)} />
-            </ModalHeader>
-            <WrapperInfo>
-              <label>{t('v2.ramp.offRamp.pixKey')}</label>
-              <WrapperField>
-                <select>
-                  <option value="celular">Celular</option>
-                </select>
-              </WrapperField>
-            </WrapperInfo>
-            <WrapperInfo>
-              <label>Celular</label>
-              <WrapperField>
-                <input type="cel" placeholder='+55' />
-              </WrapperField>
-            </WrapperInfo>
-            <button>Save</button>
-          </ContainerEdit>
-        </Modal>
+        <ModalPix isOpen={isModalPixOpen} onClose={() => setIsModalPixOpen(false)} />
+      }
+      {isModalKycOpen && 
+        <ModalKyc isOpen={isModalKycOpen} onClose={() => setIsModalKycOpen(false)} />
       }
      
     </>
@@ -116,7 +110,54 @@ export default function EditAccount() {
 }
 
 
-export const { Container, Section, Header, WrapperInfo, KYCard, Wrapper, Span, WrapperField, Button, ModalHeader, ContainerEdit } = {
+export const { HeaderDrawer, ButtonDrawer, Container, Section, Header, WrapperInfo, KYCard, Wrapper, Span, WrapperField, Button, ModalHeader, ContainerEdit } = {
+  HeaderDrawer: styled.div`
+    min-height: 32px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+
+    gap: ${({ theme }) => theme.size[16]};
+
+    h2 {
+      font-size: ${({ theme }) => theme.font.size[16]};
+      font-weight: 400;
+    }
+
+    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+      font-size: ${({ theme }) => theme.font.size[18]};
+      font-weight: 500;
+    }
+  `,
+  ButtonDrawer: styled.button`
+     display: grid;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    background: ${({ theme }) => theme.color.white};
+    transition: background 0.2s ease;
+    line-height: 36px;
+
+    &:hover {
+      background: ${({ theme }) => theme.color.whiteAlpha[600]};
+    }
+
+    &:first-of-type {
+      margin-left: auto;
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      color: ${({ theme }) => theme.colorV2.blue[3]};
+    }
+  `,
   Container: styled.div`
   display: flex;
   flex-direction: column;

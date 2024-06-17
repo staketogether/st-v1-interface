@@ -22,13 +22,6 @@ export default function WalletSidebarWeb3AuthWalletSettings({
 
   return (
     <>
-      <Header>
-        <h2>{t('web3AuthWalletSettings.editAccount')}</h2>
-        <Button onClick={() => setIsWalletSidebarWeb3AuthSettingsActive && setIsWalletSidebarWeb3AuthSettingsActive(false)}>
-          <PiArrowLeft />
-        </Button>
-      </Header>
-      <EditAccount />
       <Container>
         <a className='copy' href={`${ethereum.blockExplorer.baseUrl}/address/${walletAddress}`} target='_blank'>
           <Card>
@@ -47,26 +40,7 @@ export default function WalletSidebarWeb3AuthWalletSettings({
   )
 }
 
-const { Header, Button, Container, Card } = {
-  Header: styled.div`
-    min-height: 32px;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-
-    gap: ${({ theme }) => theme.size[16]};
-
-    h2 {
-      font-size: ${({ theme }) => theme.font.size[16]};
-      font-weight: 400;
-    }
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-      font-size: ${({ theme }) => theme.font.size[18]};
-      font-weight: 500;
-    }
-  `,
+const { Container, Card } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -94,34 +68,6 @@ const { Header, Button, Container, Card } = {
     cursor: pointer;
     &:hover {
       background: ${({ theme }) => theme.color.whiteAlpha[600]};
-    }
-  `,
-  Button: styled.button`
-     display: grid;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: 0;
-    border-radius: ${({ theme }) => theme.size[8]};
-    box-shadow: ${({ theme }) => theme.shadow[100]};
-    background: ${({ theme }) => theme.color.white};
-    transition: background 0.2s ease;
-    line-height: 36px;
-
-    &:hover {
-      background: ${({ theme }) => theme.color.whiteAlpha[600]};
-    }
-
-    &:first-of-type {
-      margin-left: auto;
-    }
-
-    svg {
-      width: 24px;
-      height: 24px;
-      flex-shrink: 0;
-      color: ${({ theme }) => theme.colorV2.blue[3]};
     }
   `,
 }
