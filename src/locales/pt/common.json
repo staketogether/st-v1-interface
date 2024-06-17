@@ -874,7 +874,7 @@
       "goldt-op": "Gold Tether (XAUT) é uma stablecoin lastreada em ouro que permite que os usuários troquem ativos cripto sem volatilidade. GOLDT é construído no Optimism, uma solução de escalabilidade para a rede Ethereum.",
       "solana-eth": "Solana é uma blockchain de contratos inteligentes de alto desempenho que permite que os desenvolvedores criem aplicativos descentralizados escaláveis. Solana é construído no Ethereum, a principal blockchain de contratos inteligentes.",
       "thorchain-eth": "Thorchain é uma plataforma de troca descentralizada que permite que os usuários troquem ativos cripto sem intermediários. Thorchain é construído no Ethereum, a principal blockchain de contratos inteligentes.",
-      "zk-zksync": "ZK",
+      "zk-zksync": "ZKSync é uma solução de escalabilidade para a rede Ethereum que permite que os usuários façam transações mais rápidas e baratas. ZKSync é construído no Ethereum, a principal blockchain de contratos inteligentes.",
       "eth-zksync": "Ethereum",
       "wbtc-zksync": "Bitcoin",
       "actions": {
