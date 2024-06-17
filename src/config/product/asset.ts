@@ -1304,7 +1304,6 @@ export const assetsList: Asset[] = [
   brlaMatic,
   goldtOp,
   solanaEth,
-  eurtOp,
   chainlinkOp,
   renderArb,
   thorchainEth,
