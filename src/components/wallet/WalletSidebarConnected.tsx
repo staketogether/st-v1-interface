@@ -27,6 +27,7 @@ import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
 import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import WalletSidebarAssetContainer from './assets/WalletSidebarAssetContainer'
+import useAccountRewards from '@/hooks/subgraphs/useAccountRewards'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
