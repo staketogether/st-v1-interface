@@ -12,8 +12,7 @@ import { useRouter } from 'next/router'
 export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const configAsset = assetsList.find(
     supportedAsset =>
-      supportedAsset.contractAddress.toLowerCase() === asset.contractAddress.toLowerCase() &&
-      supportedAsset.chains[0] === asset.chainId
+      supportedAsset.contractAddress.toLowerCase() === asset.contractAddress.toLowerCase() && supportedAsset.chains[0] === asset.chainId
   )
 
   const fixedWalletBalance = asset.decimals >= 18 ? asset.balance : asset.balance + '0'.repeat(18 - asset.decimals)
@@ -26,21 +25,25 @@ export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const { usdToCurrency } = useFiatUsdConversion()
 
   return (
-      <BalanceContainer href={`${configAsset?.url.replace('currency', currency)} `} key={asset.chainId}>
+    <BalanceContainer
+      href={`${configAsset?.url.replace('currency', currency)} `}
+      key={asset.chainId}
+      className={`${!configAsset && 'disabled'}`}
+    >
+      <div>
         <div>
-          <div>
-            <AssetIcon image={imageSrc} size={24} altName={asset.symbol} chain={asset.chainId} />
-          </div>
-          <div>
-            <span>{asset.symbol}</span>
-            <span>{asset.name}</span>
-          </div>
+          <AssetIcon image={imageSrc} size={24} altName={asset.symbol} chain={asset.chainId} />
         </div>
         <div>
-          <span>{formattedBalance}</span>
-          <span>{usdToCurrency(asset.balanceUsd).formatted}</span>
+          <span>{asset.symbol}</span>
+          <span>{asset.name}</span>
         </div>
-      </BalanceContainer>
+      </div>
+      <div>
+        <span>{formattedBalance}</span>
+        <span>{usdToCurrency(asset.balanceUsd).formatted}</span>
+      </div>
+    </BalanceContainer>
   )
 }
 
@@ -50,9 +53,9 @@ const { BalanceContainer } = {
     display: flex;
     align-items: center;
     justify-content: space-between;
-   transition: background-color 0.2s;
-   border-radius: ${({ theme }) => theme.size[8]};
-   padding: 2px;
+    transition: background-color 0.2s;
+    border-radius: ${({ theme }) => theme.size[8]};
+    padding: 2px;
 
     div {
       &:nth-child(1) {
@@ -103,7 +106,13 @@ const { BalanceContainer } = {
     }
 
     &:hover {
-     background-color: ${({ theme }) => theme.colorV2.foreground};
-   }
+      background-color: ${({ theme }) => theme.colorV2.foreground};
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.5;
+    }
   `
 }

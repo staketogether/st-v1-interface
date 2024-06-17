@@ -328,7 +328,7 @@ const stpEth: Erc20Asset = {
   contractAddress: '0x218dE5E6324c5351C3a2bf0c40d76f585B8dE04d',
   type: 'erc20',
   symbolImage: stpEthIcon,
-  url: '/currency/ethereum/product/assets/stp-eth',
+  url: '/currency/ethereum/product/staking/eth-staking',
   category: AssetCategory.Defi,
   chains: [Chain.ETH_MAINNET],
   listed: false,
@@ -359,7 +359,7 @@ const stpReth: Erc20Asset = {
   contractAddress: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
   type: 'erc20',
   symbolImage: strEthIcon,
-  url: '/currency/ethereum/product/assets/stp-reth',
+  url: '/currency/optimism/product/staking/eth-restaking',
   category: AssetCategory.Defi,
   chains: [Chain.OP_MAINNET],
   listed: false,
@@ -1309,7 +1309,7 @@ export const assetsList: Asset[] = [
   thorchainEth,
   spicyChiliz,
   // zkSyncZK,
-  zkSyncETH,
+  zkSyncETH
 ]
 
 export function getListedAssets(): Asset[] {

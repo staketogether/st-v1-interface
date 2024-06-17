@@ -244,9 +244,11 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
             }
           >
             <AssetsCard>
-              {loading ?
+              {loading ? (
                 <LottieAnimation animationData={loadingAnimation} width={70} height={70} loop />
-                : accountAssets.map((asset, index) => <WalletSidebarAsset asset={asset} key={index} />)}
+              ) : (
+                accountAssets.map((asset, index) => <WalletSidebarAsset asset={asset} key={index} />)
+              )}
             </AssetsCard>
           </Card>
           <Card
