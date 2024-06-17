@@ -531,8 +531,6 @@ const {
   `,
   AssetsCard: styled.div`
     width: 100%;
-    height: auto;
-    max-height: 299px;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[16]};
