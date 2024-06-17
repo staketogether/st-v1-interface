@@ -1,9 +1,21 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { useState } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
+import { AiOutlineClose } from "react-icons/ai";
+import Modal from './Modal'
 import styled from 'styled-components'
+import ModalProfile from './ModalProfile';
+import { useAccount } from 'wagmi';
+import userKyc from '@/hooks/useKyc';
 
 export default function EditAccount() {
+  const [isModalProfileOpen, setIsModalProfileOpen] = useState(false)
+  const [isModalPixOpen, setIsModalPixOpen] = useState(false)
 
+  const { address } = useAccount()
+  
+  const { data } = userKyc(address)
+  
   const { t } = useLocaleTranslation()
 
   return (
@@ -12,7 +24,7 @@ export default function EditAccount() {
         <Section>
           <Header>
             <h3>{t('web3AuthWalletSettings.profile')}</h3>
-            <Button disabled>{t('soon')}</Button>
+            <Button onClick={() => setIsModalProfileOpen(true)}>{t('soon')}</Button>
           </Header>
           <WrapperInfo>
             <span>{t('web3AuthWalletSettings.userName')}</span>
@@ -26,7 +38,7 @@ export default function EditAccount() {
         <Section>
           <Header>
             <h3>KYC</h3>
-            <Button disabled>{t('soon')}</Button>
+            <Button onClick={() => setIsModalPixOpen(true)}>{t('soon')}</Button>
           </Header>
           <KYCard>
             <WrapperInfo>
@@ -70,12 +82,41 @@ export default function EditAccount() {
           </Wrapper>
         </Section>
       </Container>
+      {isModalProfileOpen &&
+        <ModalProfile isOpen={isModalProfileOpen} onClose={() => setIsModalProfileOpen(false)} />
+      }
+      {isModalPixOpen &&
+        <Modal showHeader={false} isOpen={isModalPixOpen} onClose={() => setIsModalPixOpen(false)}>
+          <ContainerEdit>
+            <ModalHeader>
+              <span>Add Pix Key</span>
+              <AiOutlineClose onClick={() => setIsModalPixOpen(false)} />
+            </ModalHeader>
+            <WrapperInfo>
+              <label>{t('v2.ramp.offRamp.pixKey')}</label>
+              <WrapperField>
+                <select>
+                  <option value="celular">Celular</option>
+                </select>
+              </WrapperField>
+            </WrapperInfo>
+            <WrapperInfo>
+              <label>Celular</label>
+              <WrapperField>
+                <input type="cel" placeholder='+55' />
+              </WrapperField>
+            </WrapperInfo>
+            <button>Save</button>
+          </ContainerEdit>
+        </Modal>
+      }
+     
     </>
   )
 }
 
 
-export const { Container, Section, Header, WrapperInfo, KYCard, Wrapper, Span, Button } = {
+export const { Container, Section, Header, WrapperInfo, KYCard, Wrapper, Span, WrapperField, Button, ModalHeader, ContainerEdit } = {
   Container: styled.div`
   display: flex;
   flex-direction: column;
@@ -109,13 +150,43 @@ export const { Container, Section, Header, WrapperInfo, KYCard, Wrapper, Span, B
     }
   `,
   Span: styled.span`
-  padding: 10px;
+  padding: 13px;
+  height: 40px;
   border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
   border-radius: ${({ theme }) => theme.size[8]};
   outline: 0;
   font-weight: 400;
   font-size: ${({ theme }) => theme.font.size[13]};
   color: ${({ theme }) => theme.colorV2.gray[1]};
+  `,
+  WrapperField: styled.div`
+  display: flex;
+  height: 40px;
+  padding: 0px ${({ theme }) => theme.size[16]};
+  gap: ${({ theme }) => theme.size[4]};
+  border-radius: ${({ theme }) => theme.size[8]};
+  border: 0;
+  outline: 0;
+  background: ${({ theme }) => theme.colorV2.gray[2]};
+  box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.20);
+  align-items: center;
+  justify-content: space-between;
+
+  select {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 0;
+    outline: 0;
+  }
+
+  input {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+  }
   `,
   Button: styled.button`
     display: flex;
@@ -188,5 +259,44 @@ export const { Container, Section, Header, WrapperInfo, KYCard, Wrapper, Span, B
  svg {
   cursor: pointer;
  }
+  `,
+  ModalHeader: styled.header`
+  display: flex;
+  justify-content: space-between;
+  span {
+    font-size: ${({ theme }) => theme.font.size[18]};
+    font-weight: 500;
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+  }
+  svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    color: ${({ theme }) => theme.colorV2.blue[3]};
+    cursor: pointer;
+  }
+  `,
+  ContainerEdit: styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.size[24]};
+
+  button {
+    display: flex;
+    height: 40px;
+    padding: 0px ${({ theme }) => theme.size[16]};
+    justify-content: center;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
+    align-self: stretch;
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.color.primary};
+    color: ${({ theme }) => theme.color.white};
+    border: 0;
+    outline: 0;
+    font-size: ${({ theme }) => theme.font.size[14]};
+    font-weight: 500;
+  }
+
   `
 }
