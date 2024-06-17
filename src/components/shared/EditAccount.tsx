@@ -1,16 +1,10 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { useState } from 'react'
 import { FiTrash2 } from 'react-icons/fi'
-import { AiOutlineClose } from "react-icons/ai";
-import Modal from './Modal'
 import styled from 'styled-components'
-import ModalProfile from './ModalProfile';
 import { useAccount } from 'wagmi';
 import userKyc from '@/hooks/useKyc';
 
 export default function EditAccount() {
-  const [isModalProfileOpen, setIsModalProfileOpen] = useState(false)
-  const [isModalPixOpen, setIsModalPixOpen] = useState(false)
 
   const { address } = useAccount()
   
@@ -24,7 +18,7 @@ export default function EditAccount() {
         <Section>
           <Header>
             <h3>{t('web3AuthWalletSettings.profile')}</h3>
-            <Button onClick={() => setIsModalProfileOpen(true)}>{t('soon')}</Button>
+            <Button>{t('soon')}</Button>
           </Header>
           <WrapperInfo>
             <span>{t('web3AuthWalletSettings.userName')}</span>
@@ -38,7 +32,7 @@ export default function EditAccount() {
         <Section>
           <Header>
             <h3>KYC</h3>
-            <Button onClick={() => setIsModalPixOpen(true)}>{t('soon')}</Button>
+            <Button>{t('soon')}</Button>
           </Header>
           <KYCard>
             <WrapperInfo>
@@ -81,36 +75,7 @@ export default function EditAccount() {
             <FiTrash2 size={24} />
           </Wrapper>
         </Section>
-      </Container>
-      {isModalProfileOpen &&
-        <ModalProfile isOpen={isModalProfileOpen} onClose={() => setIsModalProfileOpen(false)} />
-      }
-      {isModalPixOpen &&
-        <Modal showHeader={false} isOpen={isModalPixOpen} onClose={() => setIsModalPixOpen(false)}>
-          <ContainerEdit>
-            <ModalHeader>
-              <span>Add Pix Key</span>
-              <AiOutlineClose onClick={() => setIsModalPixOpen(false)} />
-            </ModalHeader>
-            <WrapperInfo>
-              <label>{t('v2.ramp.offRamp.pixKey')}</label>
-              <WrapperField>
-                <select>
-                  <option value="celular">Celular</option>
-                </select>
-              </WrapperField>
-            </WrapperInfo>
-            <WrapperInfo>
-              <label>Celular</label>
-              <WrapperField>
-                <input type="cel" placeholder='+55' />
-              </WrapperField>
-            </WrapperInfo>
-            <button>Save</button>
-          </ContainerEdit>
-        </Modal>
-      }
-     
+      </Container>    
     </>
   )
 }
