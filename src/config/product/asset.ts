@@ -359,7 +359,7 @@ const stpReth: Erc20Asset = {
   contractAddress: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
   type: 'erc20',
   symbolImage: strEthIcon,
-  url: '/currency/ethereum/product/assets/stp-reth',
+  url: '/currency/ethereum/product/staking/eth-staking',
   category: AssetCategory.Defi,
   chains: [Chain.OP_MAINNET],
   listed: false,
