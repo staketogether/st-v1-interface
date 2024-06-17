@@ -711,9 +711,9 @@
       "goldt-op": "Gold Tether",
       "solana-eth": "Solana",
       "thorchain-eth": "Thorchain",
-      "usdt-era": "USDT",
-      "eth-era": "Ethereum",
-      "wbtc-era": "Bitcoin"
+      "zk-zksync": "ZK",
+      "eth-zksync": "Ethereum",
+      "wbtc-zksync": "Bitcoin"
     },
     "notifyBar": {
       "incentives": {
@@ -845,9 +845,9 @@
       "goldt-op": "GOLDT is a stablecoin pegged to the price of gold that is issued by regulated financial institutions. It enables users to transact and store value in a digital form that is backed by real-world assets, providing stability and liquidity in the cryptocurrency market.",
       "solana-eth": "Solana is a high-performance blockchain platform that enables fast and secure decentralized applications (dApps) and crypto assets. It uses a unique consensus mechanism called Proof of History (PoH) to achieve high throughput and low latency for transactions.",
       "thorchain-eth": "Thorchain is a decentralized liquidity protocol that enables users to swap assets across different blockchains in a trustless and permissionless manner. It allows users to trade cryptocurrencies directly from their wallets without the need for a centralized exchange.",
-      "usdt-era": "USDT",
-      "eth-era": "Ethereum",
-      "wbtc-era": "Bitcoin",
+      "zk-zksync": "ZK",
+      "eth-zksync": "Ethereum",
+      "wbtc-zksync": "Bitcoin",
       "actions": {
         "invest": "Invest",
         "withdraw": "Withdraw",
@@ -1008,10 +1008,10 @@
       "thorchain-eth": {
         "name": "Thorchain"
       },
-      "usdt-era": {
-        "name": "USDT"
+      "zk-zksync": {
+        "name": "ZK"
       },
-      "eth-era": {
+      "eth-zksync": {
         "name": "Ethereum"
       }
     }

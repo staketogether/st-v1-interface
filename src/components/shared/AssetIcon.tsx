@@ -28,7 +28,7 @@ export default function AssetIcon({ altName, image, size, chain, marginRight }: 
     [Chain.ARB_TESTNET]: arbitrumIcon,
     [Chain.POL_TESTNET]: polygonIcon,
     [Chain.CHZ_TESTNET]: chilizIcon,
-    [Chain.ERA_MAINNET]: zkIcon
+    [Chain.ZKSYNC_MAINNET]: zkIcon
   }
 
   return (
