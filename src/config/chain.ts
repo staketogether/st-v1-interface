@@ -174,7 +174,7 @@ export enum Chain {
   ARB_TESTNET = arbitrumSepolia.id,
   POL_TESTNET = polygonMumbai.id,
   CHZ_TESTNET = spicy.id,
-  ERA_MAINNET = zkSync.id
+  ZKSYNC_MAINNET = zkSync.id
 }
 
 /**
