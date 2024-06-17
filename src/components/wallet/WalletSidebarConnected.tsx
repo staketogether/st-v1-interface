@@ -27,7 +27,9 @@ import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
 import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import WalletSidebarAssetContainer from './assets/WalletSidebarAssetContainer'
-import useAccountRewards from '@/hooks/subgraphs/useAccountRewards'
+import useSidebarAccountRewards from '@/hooks/useSidebarAccountRewards'
+import useUserAccountHistory from '@/hooks/useUserAccountHistory'
+import WalletSidebarRewardsContainer from './WalletSidebarRewardsContainer'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -59,6 +61,9 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
   const handleWalletProviderImage = useWalletProviderImage()
 
   const { accountAssets, loading } = useAccountAssets(address)
+  const { accountRewards, loading: accountRewardsLoading } = useSidebarAccountRewards({ walletAddress: address })
+  const { accountHistory, loading: userAccountHistory } = useUserAccountHistory({ walletAddress: address })
+
   const { balance: usdTotalBalance } = useAccountAssetsUsdBalance(address)
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
@@ -98,7 +103,7 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
 
   const activeTab = {
     assets: <WalletSidebarAssetContainer accountAssets={accountAssets} accountAssetsLoading={loading} />,
-    rewards: <WalletSidebarAssetContainer accountAssets={accountAssets} accountAssetsLoading={loading} />,
+    rewards: <WalletSidebarRewardsContainer accountRewards={accountRewards} accountRewardsLoading={accountRewardsLoading} />,
     historic: <WalletSidebarAssetContainer accountAssets={accountAssets} accountAssetsLoading={loading} />,
     delegations: <WalletSidebarAssetContainer accountAssets={accountAssets} accountAssetsLoading={loading} />
   }

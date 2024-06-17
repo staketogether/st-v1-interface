@@ -25,7 +25,7 @@ export default function WalletSidebarAssetContainer({ accountAssets }: WalletSid
     .filter(item => item !== undefined) as AccountAsset[]
 
   const accountAssetsFiltered = accountAssets.filter(accountAsset => !assetStakingAddressList.includes(accountAsset.contractAddress))
-  console.log(accountAssets)
+
   return (
     <Container>
       <div>
