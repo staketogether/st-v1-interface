@@ -7,7 +7,7 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
 import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
-import { ProviderType } from '@/types/provider.type'
+import { RampProviderType } from '@/types/rampProviderType'
 import { useReactiveVar } from '@apollo/client'
 import brlBrla from '@assets/icons/brl-brla.svg'
 import Image from 'next/image'
@@ -34,7 +34,7 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
     debounceValue ? Number(debounceValue) : 0,
     asset.ramp[0].bridge?.fromChainId ?? asset.ramp[0].chainId,
     asset.type === 'fan-token',
-    ProviderType.brla,
+    RampProviderType.brla,
     PaymentMethodType.pix,
     asset.ramp[0].bridge?.toChainId.toString(),
     asset.ramp[0].bridge?.toToken ?? asset.symbol,

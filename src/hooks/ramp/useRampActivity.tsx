@@ -1,8 +1,8 @@
 import { ActivityRamp } from '@/types/ActivityRamp'
-import { ProviderType } from '@/types/provider.type'
+import { RampProviderType } from '@/types/rampProviderType'
 import useSWR from 'swr'
 
-export default function useRampActivity(provider?: ProviderType, activityId?: string) {
+export default function useRampActivity(provider?: RampProviderType, activityId?: string) {
   const url = `api/ramp/activity/${provider}/${activityId}`
   const { data, error } = useSWR<ActivityRamp>(provider && activityId ? url : null, { refreshInterval: 5000 })
 

@@ -6,7 +6,7 @@ import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
-import { ProviderType } from '@/types/provider.type'
+import { RampProviderType } from '@/types/rampProviderType'
 import brlBrla from '@assets/icons/brl-brla.svg'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
@@ -36,7 +36,7 @@ export default function QuotationOffRampStep({ asset: asset, userTokenBalance, u
   const { quote, isLoading } = useQuoteOffRamp({
     amount: amountDebounceValue,
     chainId,
-    provider: ProviderType.brla,
+    provider: RampProviderType.brla,
     paymentMethod: PaymentMethodType.pix,
     includeMarkup: true,
     tokenSymbol: asset.symbol

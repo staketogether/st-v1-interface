@@ -2,7 +2,7 @@ import { RampSteps, qrCodeVar, rampStepControlVar } from '@/hooks/ramp/useRampCo
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
-import { ProviderType } from '@/types/provider.type'
+import { RampProviderType } from '@/types/rampProviderType'
 import { useReactiveVar } from '@apollo/client'
 import { useEffect } from 'react'
 import { PiClockLight } from 'react-icons/pi'
@@ -23,7 +23,7 @@ export default function ProcessingCheckoutStep({ product, type }: ProcessingChec
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
 
-  const { activity } = useRampActivity(ProviderType.brla, qrCode?.id)
+  const { activity } = useRampActivity(RampProviderType.brla, qrCode?.id)
 
   if (activity?.status === 'success') {
     setTimeout(() => rampStepControlVar(RampSteps.Success), timeToRedirect)

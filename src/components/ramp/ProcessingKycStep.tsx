@@ -5,7 +5,7 @@ import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
-import { ProviderType } from '@/types/provider.type'
+import { RampProviderType } from '@/types/rampProviderType'
 import { useReactiveVar } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
@@ -33,7 +33,7 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
   const kyc = useReactiveVar(kycLevelVar)
   const kycActivityId = Number(kyc?.level ?? 0) > 0 || !kycActivity ? undefined : kycActivity
 
-  const { activity, isError } = useRampActivity(ProviderType.brla, kycActivityId ?? undefined)
+  const { activity, isError } = useRampActivity(RampProviderType.brla, kycActivityId ?? undefined)
   const { kycLevelInfo, isLoading } = useKycLevelInfo('brla', kyc?.level ? undefined : address, true)
 
   const getIcon = (moment: 'waiting' | 'process' | 'success') => {

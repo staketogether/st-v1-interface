@@ -3,7 +3,7 @@ import useRampActivity from '@/hooks/ramp/useRampActivity'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
-import { ProviderType } from '@/types/provider.type'
+import { RampProviderType } from '@/types/rampProviderType'
 import { useReactiveVar } from '@apollo/client'
 import { QRCode, notification } from 'antd'
 import { useEffect, useState } from 'react'
@@ -22,7 +22,7 @@ export default function CheckoutStep({ asset, type }: CheckoutStepProps) {
   const qrCode = useReactiveVar(qrCodeVar)
   const quote = useReactiveVar(quoteVar)
   const pixBankInfo = useReactiveVar(pixBankInfoVar)
-  const { activity } = useRampActivity(ProviderType.brla, qrCode?.id)
+  const { activity } = useRampActivity(RampProviderType.brla, qrCode?.id)
   const [time, setTime] = useState({ hours: 1, minutes: 0, seconds: 0 })
 
   const handleCopyClipboard = () => {

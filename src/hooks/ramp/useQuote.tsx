@@ -1,5 +1,5 @@
 import { PaymentMethodType } from '@/types/payment-method.type'
-import { ProviderType } from '@/types/provider.type'
+import { RampProviderType } from '@/types/rampProviderType'
 import { Quote } from '@/types/quote.type'
 import useSWR from 'swr'
 
@@ -8,7 +8,7 @@ export default function useQuoteRamp(
   amount?: number | string,
   chainId?: number,
   fixOutput = false,
-  provider?: ProviderType,
+  provider?: RampProviderType,
   paymentMethod?: PaymentMethodType,
   toChain?: string,
   toToken?: string,

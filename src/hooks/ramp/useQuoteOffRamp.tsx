@@ -1,11 +1,11 @@
 import { PaymentMethodType } from '@/types/payment-method.type'
-import { ProviderType } from '@/types/provider.type'
+import { RampProviderType } from '@/types/rampProviderType'
 import { Quote } from '@/types/quote.type'
 import useSWR from 'swr'
 interface useQuoteOffRampProps {
   amount: string
   chainId: number
-  provider: ProviderType
+  provider: RampProviderType
   paymentMethod: PaymentMethodType
   includeMarkup: boolean
   tokenSymbol: string

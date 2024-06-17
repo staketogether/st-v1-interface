@@ -1,10 +1,10 @@
 import { globalConfig } from '@/config/global'
-import { ProviderType } from '@/types/provider.type'
+import { RampProviderType } from '@/types/rampProviderType'
 import axios, { AxiosError } from 'axios'
 import useSWR from 'swr'
 
-interface SellTokenProps {
-  provider: ProviderType
+export interface SellTokenProps {
+  provider: RampProviderType
   walletAddress: string
   pixKey: string
   amount?: number
