@@ -848,7 +848,7 @@
       "goldt-op": "GOLDT is a stablecoin pegged to the price of gold that is issued by regulated financial institutions. It enables users to transact and store value in a digital form that is backed by real-world assets, providing stability and liquidity in the cryptocurrency market.",
       "solana-eth": "Solana is a high-performance blockchain platform that enables fast and secure decentralized applications (dApps) and crypto assets. It uses a unique consensus mechanism called Proof of History (PoH) to achieve high throughput and low latency for transactions.",
       "thorchain-eth": "Thorchain is a decentralized liquidity protocol that enables users to swap assets across different blockchains in a trustless and permissionless manner. It allows users to trade cryptocurrencies directly from their wallets without the need for a centralized exchange.",
-      "zk-zksync": "ZK",
+      "zk-zksync": "zkSync Era is a Layer-2 protocol that scales Ethereum with cutting-edge ZK tech. Our mission is not only to merely increase Ethereum's throughput, but to fully preserve its foundational values – freedom, self-sovereignty, decentralization – at scale.",
       "eth-zksync": "Ethereum",
       "wbtc-zksync": "Bitcoin",
       "actions": {
