@@ -1308,7 +1308,7 @@ export const assetsList: Asset[] = [
   renderArb,
   thorchainEth,
   spicyChiliz,
-  zkSyncZK,
+  // zkSyncZK,
   zkSyncETH,
 ]
 
