@@ -714,7 +714,8 @@
       "thorchain-eth": "Thorchain",
       "zk-zksync": "ZK",
       "eth-zksync": "Ethereum",
-      "wbtc-zksync": "Bitcoin"
+      "wbtc-zksync": "Bitcoin",
+      "dog-btc": "DOG•GO•TO•THE•MOON"
     },
     "notifyBar": {
       "incentives": {
@@ -849,6 +850,7 @@
       "solana-eth": "Solana is a high-performance blockchain platform that enables fast and secure decentralized applications (dApps) and crypto assets. It uses a unique consensus mechanism called Proof of History (PoH) to achieve high throughput and low latency for transactions.",
       "thorchain-eth": "Thorchain is a decentralized liquidity protocol that enables users to swap assets across different blockchains in a trustless and permissionless manner. It allows users to trade cryptocurrencies directly from their wallets without the need for a centralized exchange.",
       "zk-zksync": "zkSync Era is a Layer-2 protocol that scales Ethereum with cutting-edge ZK tech. Our mission is not only to merely increase Ethereum's throughput, but to fully preserve its foundational values – freedom, self-sovereignty, decentralization – at scale.",
+      "dog-btc": "DOG•GO•TO•THE•MOON is a meme coin that aims to bring fun and excitement to the cryptocurrency market. It is inspired by the popular Dogecoin and aims to create a community of dog lovers and crypto enthusiasts who share a passion for memes and digital assets.",
       "eth-zksync": "Ethereum",
       "wbtc-zksync": "Bitcoin",
       "actions": {
@@ -1016,6 +1018,9 @@
       },
       "zk-zksync": {
         "name": "ZK"
+      },
+      "dog-btc": {
+        "name": "DOG•GO•TO•THE•MOON"
       },
       "eth-zksync": {
         "name": "Ethereum"

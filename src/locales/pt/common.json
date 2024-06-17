@@ -736,6 +736,7 @@
       "solana-eth": "Solana",
       "thorchain-eth": "Thorchain",
       "zk-zksync": "ZK",
+      "dog-btc": "DOG•GO•TO•THE•MOON",
       "eth-zksync": "Ethereum",
       "wbtc-zksync": "Bitcoin"
     },
@@ -876,6 +877,7 @@
       "solana-eth": "Solana é uma blockchain de contratos inteligentes de alto desempenho que permite que os desenvolvedores criem aplicativos descentralizados escaláveis. Solana é construído no Ethereum, a principal blockchain de contratos inteligentes.",
       "thorchain-eth": "Thorchain é uma plataforma de troca descentralizada que permite que os usuários troquem ativos cripto sem intermediários. Thorchain é construído no Ethereum, a principal blockchain de contratos inteligentes.",
       "zk-zksync": "ZKSync é uma solução de escalabilidade para a rede Ethereum que permite que os usuários façam transações mais rápidas e baratas. ZKSync é construído no Ethereum, a principal blockchain de contratos inteligentes.",
+      "dog-btc": "DOG•GO•TO•THE•MOON é uma criptomoeda meme que permite que os usuários invistam em ativos cripto de alto risco e alto retorno. DOG•GO•TO•THE•MOON é construído no Bitcoin, a principal criptomoeda.",
       "eth-zksync": "Ethereum",
       "wbtc-zksync": "Bitcoin",
       "actions": {
@@ -1049,6 +1051,9 @@
       },
       "zk-zksync": {
         "name": "ZK"
+      },
+      "dog-btc": {
+        "name": "DOG•GO•TO•THE•MOON"
       },
       "eth-zksync": {
         "name": "Ethereum"

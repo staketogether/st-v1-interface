@@ -69,6 +69,7 @@ export type AssetId =
   | 'zk-zksync'
   | 'wbtc-zksync'
   | 'eth-zksync'
+  | 'dog-btc'
 
 
 export interface NativeAsset extends TokenActions {
