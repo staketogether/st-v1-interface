@@ -67,7 +67,8 @@ export const handleChainIdByNetwork = (network: AllowedNetworks) => {
     chiliz: 88888,
     'chiliz-spicy': 88882,
     polygon: 137,
-    arbitrum: 42161
+    arbitrum: 42161,
+    era: 324
   }
 
   return chainIdByNetwork[network] ?? undefined

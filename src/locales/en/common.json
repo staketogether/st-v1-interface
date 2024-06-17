@@ -94,7 +94,7 @@
   "investments": "Investments",
   "genericTransactionSuccess": "Transaction Successful",
   "sendAddress": "Send Address",
-   "unlockTransaction": {
+  "unlockTransaction": {
     "failTransaction": "Failed to perform Unlock",
     "success": "Unlocking Completed Successfully"
   },
@@ -711,7 +711,10 @@
       "eurt-op": "EURT",
       "goldt-op": "Gold Tether",
       "solana-eth": "Solana",
-      "thorchain-eth": "Thorchain"
+      "thorchain-eth": "Thorchain",
+      "zk-zksync": "ZK",
+      "eth-zksync": "Ethereum",
+      "wbtc-zksync": "Bitcoin"
     },
     "notifyBar": {
       "incentives": {
@@ -782,11 +785,13 @@
         "success": "Your money is now available in your account",
         "youReceived": "You received",
         "successTitle": "Withdrawal successful!",
-         "alertMessage": "Attention! To move tokens on the [network], you must have a balance in the native currency to cover transaction fees",
-         "unlock": "Unlock token",
+        "alertMessage": "Attention! To move tokens on the [network], you must have a balance in the native currency to cover transaction fees",
+        "unlock": "Unlock token",
         "unlocked": "token Unlocked",
         "sendToken": "Send token",
         "connectedNetwork": "Connected the [network]",
+        "pixKey": "Which pix key do you want to use to receive?",
+        "key": "Key",
          "pixKeyLabel": {
           "phone": "Phone",
           "random": "Random"
@@ -843,6 +848,9 @@
       "goldt-op": "GOLDT is a stablecoin pegged to the price of gold that is issued by regulated financial institutions. It enables users to transact and store value in a digital form that is backed by real-world assets, providing stability and liquidity in the cryptocurrency market.",
       "solana-eth": "Solana is a high-performance blockchain platform that enables fast and secure decentralized applications (dApps) and crypto assets. It uses a unique consensus mechanism called Proof of History (PoH) to achieve high throughput and low latency for transactions.",
       "thorchain-eth": "Thorchain is a decentralized liquidity protocol that enables users to swap assets across different blockchains in a trustless and permissionless manner. It allows users to trade cryptocurrencies directly from their wallets without the need for a centralized exchange.",
+      "zk-zksync": "ZK",
+      "eth-zksync": "Ethereum",
+      "wbtc-zksync": "Bitcoin",
       "actions": {
         "invest": "Invest",
         "withdraw": "Withdraw",
@@ -1005,6 +1013,12 @@
       },
       "thorchain-eth": {
         "name": "Thorchain"
+      },
+      "zk-zksync": {
+        "name": "ZK"
+      },
+      "eth-zksync": {
+        "name": "Ethereum"
       }
     }
   }

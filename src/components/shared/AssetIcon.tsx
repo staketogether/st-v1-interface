@@ -4,6 +4,7 @@ import chilizIcon from '@assets/network/chiliz.svg'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
 import polygonIcon from '@assets/network/polygon.svg'
+import zkIcon from '@assets/network/zk.png'
 import bitcoinIcon from '@assets/assets/bitcoin.svg'
 import Image, { StaticImageData } from 'next/image'
 import styled from 'styled-components'
@@ -28,7 +29,8 @@ export default function AssetIcon({ altName, image, size, chain, marginRight }: 
     [Chain.OP_TESTNET]: optimismIcon,
     [Chain.ARB_TESTNET]: arbitrumIcon,
     [Chain.POL_TESTNET]: polygonIcon,
-    [Chain.CHZ_TESTNET]: chilizIcon
+    [Chain.CHZ_TESTNET]: chilizIcon,
+    [Chain.ZKSYNC_MAINNET]: zkIcon
   }
 
   return (

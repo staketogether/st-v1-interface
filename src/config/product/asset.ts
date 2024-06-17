@@ -30,6 +30,7 @@ import vascoIcon from '@assets/assets/vasco.png'
 import verdaoIcon from '@assets/assets/verdao.png'
 import worldcoinIcon from '@assets/assets/worldcoin.png'
 import xautIcon from '@assets/assets/xaut.png'
+import zkIcon from '@assets/assets/zk.webp'
 import { Chain } from '../chain'
 
 export const ethMainnet: NativeAsset = {
@@ -68,7 +69,7 @@ export const ethOp: NativeAsset = {
   id: 'eth-op',
   name: 'Ethereum',
   decimals: 18,
-  order: 2,
+  order: 3,
   symbol: 'ETH',
   contractAddress: '0x0000000000000000000000000000000000000000',
   type: 'native',
@@ -135,7 +136,7 @@ export const btcBtc: BitcoinAsset = {
 export const btcOp: Erc20Asset = {
   id: 'btc-op',
   name: 'Bitcoin',
-  order: 1,
+  order: 4,
   decimals: 8,
   symbol: 'wBTC',
   symbolImage: btcIcon,
@@ -172,7 +173,7 @@ export const btcOp: Erc20Asset = {
 export const chilizChz: NativeAsset = {
   id: 'chz-chiliz',
   name: 'Chiliz',
-  order: 6,
+  order: 5,
   symbol: 'CHZ',
   decimals: 18,
   symbolImage: chzIcon,
@@ -207,7 +208,7 @@ export const chilizChz: NativeAsset = {
 export const opOptimism: Erc20Asset = {
   id: 'op-op',
   name: 'Optimism',
-  order: 3,
+  order: 6,
   symbol: 'OP',
   symbolImage: opIcon,
   decimals: 18,
@@ -243,7 +244,7 @@ export const opOptimism: Erc20Asset = {
 
 export const ethArbitrum: NativeAsset = {
   id: 'eth-arb',
-  order: 4,
+  order: 7,
   name: 'Ethereum',
   symbol: 'ETH',
   symbolImage: ethIcon,
@@ -282,7 +283,7 @@ export const ethArbitrum: NativeAsset = {
 export const arbArbitrum: Erc20Asset = {
   id: 'arb-arb',
   name: 'Arbitrum',
-  order: 4,
+  order: 8,
   symbol: 'ARB',
   decimals: 18,
   symbolImage: arbIcon,
@@ -318,7 +319,7 @@ export const arbArbitrum: Erc20Asset = {
 
 export const maticPolygon: NativeAsset = {
   id: 'matic-matic',
-  order: 5,
+  order: 9,
   name: 'Polygon',
   symbol: 'MATIC',
   decimals: 18,
@@ -350,7 +351,7 @@ export const maticPolygon: NativeAsset = {
 
 const stpEth: Erc20Asset = {
   id: 'stp-eth',
-  order: 1,
+  order: -1,
   name: 'Stake Togethe Ethereum',
   decimals: 18,
   symbol: 'stpETH',
@@ -382,7 +383,7 @@ const stpEth: Erc20Asset = {
 const stpReth: Erc20Asset = {
   id: 'str-eth',
   name: 'Stake Together Restaked Ethereum',
-  order: 2,
+  order: -2,
   symbol: 'strETH',
   decimals: 18,
   contractAddress: '0xE00553D4aEd5d90DaC7ebC7f763a7a61Fd28d508',
@@ -427,7 +428,7 @@ export const mengoChz: FanTokenAsset = {
     }
   ],
   id: 'mengo-chz',
-  order: 6,
+  order: 10,
   symbol: 'MENGO',
   symbolImage: mengoChzIcon,
   isTestnet: false,
@@ -458,7 +459,7 @@ export const galoChz: FanTokenAsset = {
     }
   ],
   id: 'galo-chz',
-  order: 7,
+  order: 11,
   symbol: 'GALO',
   symbolImage: galoIcon,
   isTestnet: false,
@@ -489,7 +490,7 @@ export const fluChz: FanTokenAsset = {
     }
   ],
   id: 'flu-chz',
-  order: 8,
+  order: 12,
   symbol: 'FLU',
   symbolImage: fluIcon,
   isTestnet: false,
@@ -520,7 +521,7 @@ export const vascoChz: FanTokenAsset = {
     }
   ],
   id: 'vasco-chz',
-  order: 9,
+  order: 13,
   symbol: 'VASCO',
   symbolImage: vascoIcon,
   isTestnet: false,
@@ -551,7 +552,7 @@ export const verdaoChz: FanTokenAsset = {
     }
   ],
   id: 'verdao-chz',
-  order: 10,
+  order: 14,
   symbol: 'VERDAO',
   symbolImage: verdaoIcon,
   isTestnet: false,
@@ -582,7 +583,7 @@ export const saciChz: FanTokenAsset = {
     }
   ],
   id: 'saci-chz',
-  order: 11,
+  order: 15,
   symbol: 'SACI',
   symbolImage: saciIcon,
   isTestnet: false,
@@ -613,7 +614,7 @@ export const spfcChz: FanTokenAsset = {
     }
   ],
   id: 'spfc-chz',
-  order: 12,
+  order: 16,
   symbol: 'SPFC',
   symbolImage: spfcIcon,
   isTestnet: false,
@@ -644,7 +645,7 @@ export const bahiaChz: FanTokenAsset = {
     }
   ],
   id: 'bahia-chz',
-  order: 13,
+  order: 17,
   symbol: 'BAHIA',
   symbolImage: bahiaIcon,
   isTestnet: false,
@@ -658,7 +659,7 @@ export const bahiaChz: FanTokenAsset = {
 export const pendleArb: Erc20Asset = {
   id: 'pendle-arb',
   name: 'Pendle',
-  order: 14,
+  order: 18,
   symbol: 'PENDLE',
   symbolImage: pendleIcon,
   decimals: 18,
@@ -671,7 +672,7 @@ export const pendleArb: Erc20Asset = {
   chains: [Chain.ARB_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -695,20 +696,20 @@ export const pendleArb: Erc20Asset = {
 export const chainlinkOp: Erc20Asset = {
   id: 'chainlink-op',
   name: 'Chainlink',
-  order: 15,
+  order: 19,
   symbol: 'LINK',
   symbolImage: chainlinkIcon,
   decimals: 18,
   isTestnet: false,
   url: '/currency/optimism/product/assets/chainlink-op',
   type: 'erc20',
-  contractAddress: '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4',
+  contractAddress: '0x350a791bfc2c21f9ed5d10980dad2e2638ffa7f6',
   category: AssetCategory.Defi,
   localeDescription: 'chainlink-op',
   chains: [Chain.OP_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -732,7 +733,7 @@ export const chainlinkOp: Erc20Asset = {
 export const renderArb: Erc20Asset = {
   id: 'render-arb',
   name: 'Render Network',
-  order: 16,
+  order: 20,
   symbol: 'RNDR',
   symbolImage: renderIcon,
   decimals: 18,
@@ -745,7 +746,7 @@ export const renderArb: Erc20Asset = {
   chains: [Chain.ARB_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -769,7 +770,7 @@ export const renderArb: Erc20Asset = {
 export const spicyChiliz: NativeAsset = {
   id: 'chz-chiliz',
   name: 'Chiliz',
-  order: 16,
+  order: -3,
   symbol: 'CHZ',
   decimals: 18,
   symbolImage: chzIcon,
@@ -777,7 +778,7 @@ export const spicyChiliz: NativeAsset = {
   type: 'native',
   wrapperContractAddress: '0x678c34581db0a7808d0aC669d7025f1408C9a3C6',
   url: '/currency/chiliz/product/assets/chz-chiliz',
-  new: true,
+  new: false,
   enabled: true,
   category: AssetCategory.Infrastructure,
   listed: false,
@@ -807,7 +808,7 @@ export const spicyChiliz: NativeAsset = {
 
 export const thegraphArb: Erc20Asset = {
   id: 'thegraph-arb',
-  order: 17,
+  order: 21,
   name: 'The Graph',
   symbol: 'GRT',
   symbolImage: theGraphIcon,
@@ -821,7 +822,7 @@ export const thegraphArb: Erc20Asset = {
   chains: [Chain.ARB_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -844,7 +845,7 @@ export const thegraphArb: Erc20Asset = {
 
 export const worldcoinOp: Erc20Asset = {
   id: 'worldcoin-op',
-  order: 18,
+  order: 22,
   name: 'Worldcoin',
   symbol: 'WORLD',
   symbolImage: worldcoinIcon,
@@ -858,7 +859,7 @@ export const worldcoinOp: Erc20Asset = {
   chains: [Chain.OP_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -884,7 +885,7 @@ export const worldcoinOp: Erc20Asset = {
 
 export const aaveOp: Erc20Asset = {
   id: 'aave-op',
-  order: 19,
+  order: 23,
   symbol: 'AAVE',
   name: 'Aave',
   symbolImage: aaveIcon,
@@ -898,7 +899,7 @@ export const aaveOp: Erc20Asset = {
   chains: [Chain.OP_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -925,7 +926,7 @@ export const uniswapOp: Erc20Asset = {
   name: 'Uniswap',
   symbol: 'UNI',
   symbolImage: uniswapIcon,
-  decimals: 18,
+  decimals: 24,
   isTestnet: false,
   url: '/currency/optimism/product/assets/uniswap-op',
   type: 'erc20',
@@ -935,7 +936,7 @@ export const uniswapOp: Erc20Asset = {
   chains: [Chain.OP_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -958,7 +959,7 @@ export const uniswapOp: Erc20Asset = {
 
 export const ssvEth: Erc20Asset = {
   id: 'ssv-eth',
-  order: 21,
+  order: 25,
   symbol: 'SSV',
   name: 'SSV Network',
   symbolImage: ssvIcon,
@@ -972,7 +973,7 @@ export const ssvEth: Erc20Asset = {
   chains: [Chain.ETH_MAINNET],
   listed: false,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -989,7 +990,7 @@ export const ssvEth: Erc20Asset = {
 
 export const usdcOp: Erc20Asset = {
   id: 'usdc-op',
-  order: 22,
+  order: 26,
   symbol: 'USDC',
   name: 'USD Coin',
   symbolImage: usdcIcon,
@@ -1003,7 +1004,7 @@ export const usdcOp: Erc20Asset = {
   chains: [Chain.OP_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -1027,7 +1028,7 @@ export const usdcOp: Erc20Asset = {
 export const usdtOp: Erc20Asset = {
   id: 'usdt-op',
   name: 'Tether USD',
-  order: 23,
+  order: 27,
   symbol: 'USDT',
   symbolImage: usdtIcon,
   decimals: 6,
@@ -1040,7 +1041,7 @@ export const usdtOp: Erc20Asset = {
   chains: [Chain.OP_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -1063,7 +1064,7 @@ export const usdtOp: Erc20Asset = {
 
 export const brlaMatic: Erc20Asset = {
   id: 'brla-matic',
-  order: 24,
+  order: 28,
   name: 'BRLA',
   symbol: 'BRLA',
   symbolImage: brlaIcon,
@@ -1077,7 +1078,7 @@ export const brlaMatic: Erc20Asset = {
   chains: [Chain.POL_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -1097,7 +1098,7 @@ export const brlaMatic: Erc20Asset = {
 
 export const eurtOp: Erc20Asset = {
   id: 'eurt-op',
-  order: 25,
+  order: 29,
   name: 'Tether EUR',
   symbol: 'EURT',
   symbolImage: eurtIcon,
@@ -1111,7 +1112,7 @@ export const eurtOp: Erc20Asset = {
   chains: [Chain.OP_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -1134,7 +1135,7 @@ export const eurtOp: Erc20Asset = {
 
 export const goldtOp: Erc20Asset = {
   id: 'goldt-op',
-  order: 26,
+  order: 30,
   name: 'Tether Gold',
   symbol: 'XAUT',
   symbolImage: xautIcon,
@@ -1148,7 +1149,7 @@ export const goldtOp: Erc20Asset = {
   chains: [Chain.ETH_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -1165,7 +1166,7 @@ export const goldtOp: Erc20Asset = {
 
 export const solanaEth: Erc20Asset = {
   id: 'solana-eth',
-  order: 27,
+  order: 31,
   symbol: 'WSOL',
   name: 'Solana',
   symbolImage: solanaIcon,
@@ -1179,7 +1180,7 @@ export const solanaEth: Erc20Asset = {
   chains: [Chain.ETH_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -1199,7 +1200,7 @@ export const solanaEth: Erc20Asset = {
 
 export const thorchainEth: Erc20Asset = {
   id: 'thorchain-eth',
-  order: 28,
+  order: 32,
   symbol: 'RUNE',
   name: 'Thorchain',
   symbolImage: thorchainIcon,
@@ -1213,7 +1214,7 @@ export const thorchainEth: Erc20Asset = {
   chains: [Chain.ETH_MAINNET],
   listed: true,
   enabled: true,
-  new: true,
+  new: false,
   points: {
     stPoints: true,
     elPoints: false
@@ -1224,6 +1225,81 @@ export const thorchainEth: Erc20Asset = {
       minDeposit: 300,
       provider: 'brla',
       paymentMethod: 'pix'
+    }
+  ]
+}
+
+export const zkSyncZK: Erc20Asset = {
+  id: 'zk-zksync',
+  order: 1,
+  symbol: 'ZK',
+  name: 'ZKSync',
+  symbolImage: zkIcon,
+  decimals: 6,
+  isTestnet: false,
+  url: '/currency/era/product/assets/zk-zksync',
+  type: 'erc20',
+  contractAddress: '0x5A7d6b2F92C77FAD6CCaBd7EE0624E64907Eaf3E',
+  category: AssetCategory.Infrastructure,
+  localeDescription: 'zk-zksync',
+  chains: [Chain.ZKSYNC_MAINNET],
+  listed: true,
+  enabled: true,
+  new: true,
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  ramp: [
+    {
+      chainId: 324,
+      provider: 'brla',
+      paymentMethod: 'pix',
+      minDeposit: 10,
+      bridge: {
+        fromChainId: 137,
+        fromToken: 'MATIC',
+        toToken: 'ZK',
+        toChainId: 324
+      }
+    }
+  ]
+}
+
+export const zkSyncETH: NativeAsset = {
+  id: 'eth-zksync',
+  name: 'Ethereum',
+  order: 0,
+  symbol: 'ETH',
+  decimals: 18,
+  symbolImage: ethIcon,
+  contractAddress: '0x0000000000000000000000000000000000000000',
+  type: 'native',
+  wrapperContractAddress: '0x678c34581db0a7808d0aC669d7025f1408C9a3C6',
+  url: '/currency/era/product/assets/eth-zksync',
+  new: true,
+  enabled: true,
+  category: AssetCategory.Infrastructure,
+  listed: true,
+  isTestnet: false,
+  chains: [Chain.ZKSYNC_MAINNET],
+  points: {
+    stPoints: true,
+    elPoints: false
+  },
+  localeDescription: 'eth-zksync',
+  ramp: [
+    {
+      chainId: 324,
+      provider: 'brla',
+      paymentMethod: 'pix',
+      minDeposit: 10,
+      bridge: {
+        fromChainId: 137,
+        fromToken: 'MATIC',
+        toToken: 'ETH',
+        toChainId: 324
+      }
     }
   ]
 }
@@ -1258,11 +1334,12 @@ export const assetsList: Asset[] = [
   brlaMatic,
   goldtOp,
   solanaEth,
-  // chainlinkOp,
-  // renderArb,
-  // eurtOp,
-  // thorchainEth,
+  chainlinkOp,
+  renderArb,
+  thorchainEth,
   spicyChiliz,
+  zkSyncZK,
+  zkSyncETH,
   btcBtc
 ]
 
