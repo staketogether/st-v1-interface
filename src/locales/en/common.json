@@ -86,6 +86,8 @@
   "poolDetail": "Pool Detail",
   "learnMore": "Learn More",
   "knowMore": "Know More",
+  "errorBuyingCrypto": "Failed to buy Ether. Try again later",
+  "errorSellingCrypto": "Failed to sell Ether. Try again later",
   "buyCryptoTitle": "Buy Ether",
   "sellCryptoTitle": "Sell Ether",
   "genericErrorMessage": "Sorry! Something went wrong. Please try again",

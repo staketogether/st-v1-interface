@@ -19,7 +19,7 @@ export default function useSellToken(requestData: SellTokenProps) {
   const { provider, amount, onSuccessCallback, onErrorCallback } = requestData
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   const fetcher = (uri: string) => axios.post(`${backendUrl}/${uri}`, requestData).then(r => r.data)
-  const { data, error, mutate, isLoading } = useSWR<{ id: string }>(amount ? `api/ramp/sell/${provider}` : null, fetcher, {
+  const { data, error, isLoading } = useSWR<{ id: string }>(amount ? `api/ramp/sell/${provider}` : null, fetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
@@ -33,7 +33,6 @@ export default function useSellToken(requestData: SellTokenProps) {
   return {
     data,
     isLoading,
-    error,
-    mutate
+    error
   }
 }

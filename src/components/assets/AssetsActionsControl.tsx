@@ -71,7 +71,7 @@ export default function AssetsActionsControl({
     <EthereumContainer>
       <NavActions typeActive={type} navActionsList={navActionsList} />
       <div>
-        {asset.type === 'bitcoin' && type === 'buy' && (
+        {asset.type === 'bitcoin' && (type === 'buy' || type === 'sell') && (
           <AssetsBitcoinRampControl asset={asset} type={type} />
         )}
         {asset.type !== 'bitcoin' && (type === 'buy' || type === 'sell') && (

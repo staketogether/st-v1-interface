@@ -36,6 +36,6 @@ export default function useBuyRamp(provider: 'brla' | 'transak', request?: BuyRa
   return {
     buyRampResponse: data,
     isLoading: !error && !data,
-    isError: error
+    error
   }
 }

@@ -27,7 +27,7 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
 
   const { address } = useAccount()
   const { t } = useLocaleTranslation()
-  const { buyRampResponse, isError: isErrorBuyRamp } = useBuyRamp('brla', rampData)
+  const { buyRampResponse, error: isErrorBuyRamp } = useBuyRamp('brla', rampData)
 
   const kycActivity = useReactiveVar(kycIdVar)
   const kyc = useReactiveVar(kycLevelVar)

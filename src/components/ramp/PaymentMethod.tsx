@@ -1,7 +1,7 @@
 import { chainConfigByChainId } from '@/config/chain'
 import { RampSteps, openBrlaModalVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import useTransak from '@/hooks/useTransak'
+import useTransakRamp from '@/hooks/useTransakRamp'
 import { Asset } from '@/types/Asset'
 import CreditCard from '@assets/images/master-visa.svg'
 import Pix from '@assets/images/pix-full.svg'
@@ -18,7 +18,7 @@ export default function PaymentMethod({ asset }: PaymentMethodProps) {
   const [networkAvailable] = asset.chains
   const chain = chainConfigByChainId(networkAvailable)
   const { t } = useLocaleTranslation()
-  const { onInit, isClosed } = useTransak({
+  const { onInit, isClosed } = useTransakRamp({
     productsAvailed: 'BUY',
     network: chain.name
   })
