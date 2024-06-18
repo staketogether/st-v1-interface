@@ -1,10 +1,10 @@
 import { gql } from '@apollo/client'
 
 export interface SidebarAccountRewards {
-  amount: number
+  amount: bigint
   chainId: number
   timestamp: number
-  token: string
+  contractAddress: `0x${string}`
   txHash: string
 }
 
@@ -14,7 +14,7 @@ export const querySidebarAccountRewards = gql`
       amount
       chainId
       timestamp
-      token
+      contractAddress
       txHash
     }
   }

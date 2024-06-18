@@ -9,7 +9,7 @@ export interface UserAccountHistory {
 }
 
 export const queryUserAccountHistory = gql`
-  query queryUserAccountHistory($accountAddress: ID!) {
+  query queryUserAccountHistory($accountAddress: String!) {
     accountActivities(accountAddress: $accountAddress) {
       amount
       additionalData {

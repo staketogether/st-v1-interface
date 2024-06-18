@@ -63,7 +63,7 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
   const { accountAssets, loading } = useAccountAssets(address)
   const { accountRewards, loading: accountRewardsLoading } = useSidebarAccountRewards({ walletAddress: address })
   const { accountHistory, loading: userAccountHistory } = useUserAccountHistory({ walletAddress: address })
-
+  console.log('aq', accountHistory)
   const { balance: usdTotalBalance } = useAccountAssetsUsdBalance(address)
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 

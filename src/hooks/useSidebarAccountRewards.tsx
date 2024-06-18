@@ -7,14 +7,16 @@ interface useSidebarAccountRewardsProps {
 }
 
 export default function useSidebarAccountRewards({ walletAddress }: useSidebarAccountRewardsProps) {
-  const { data, loading, refetch } = useQuery<SidebarAccountRewards[]>(querySidebarAccountRewards, {
+  const { data, loading, refetch } = useQuery<{
+    accountRewards: SidebarAccountRewards[]
+  }>(querySidebarAccountRewards, {
     variables: { accountAddress: walletAddress?.toLowerCase() },
     skip: !walletAddress,
     client: stBackendClient
   })
 
   return {
-    accountRewards: data ?? [],
+    accountRewards: data?.accountRewards ?? [],
     loading,
     refetch
   }

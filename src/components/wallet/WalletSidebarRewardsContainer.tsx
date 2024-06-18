@@ -1,8 +1,12 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { SidebarAccountRewards } from '@/queries/subgraph/queryBackendAccountRewards'
-import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
+import AssetIcon from '../shared/AssetIcon'
+import { stakingList } from '@/config/product/staking'
+import { chainConfigByChainId } from '@/config/chain'
+import { truncateTimestamp, truncateWei } from '@/services/truncate'
+import { useRouter } from 'next/router'
 
 interface WalletSidebarAssetContainerProps {
   accountRewards: SidebarAccountRewards[]
@@ -10,29 +14,40 @@ interface WalletSidebarAssetContainerProps {
 }
 
 export default function WalletSidebarRewardsContainer({ accountRewards }: WalletSidebarAssetContainerProps) {
-  console.log('aq', accountRewards)
   const { t } = useLocaleTranslation()
+  const { locale } = useRouter()
+
   return (
     <Container>
       <div>
         <Title>{t('rewards')}</Title>
         <ContainerList>
-          <BalanceContainer href={`#`} target='_blank'>
-            <div>
-              <div>
-                <div>asset</div>
-                {/* <AssetIcon image={imageSrc} size={24} altName={asset.symbol} chain={asset.chainId} /> */}
-              </div>
-              <div>
-                <span>Stake Eth</span>
-                <span>Ethereum</span>
-              </div>
-            </div>
-            <div>
-              <span>0.0001 stpETH</span>
-              <span>10 days ago</span>
-            </div>
-          </BalanceContainer>
+          {accountRewards.map(reward => {
+            const { blockExplorer } = chainConfigByChainId(reward.chainId)
+            const staking = stakingList.find(item => item.contracts.StakeTogether.toLowerCase() === reward.contractAddress.toLowerCase())
+
+            if (!staking) return null
+
+            return (
+              <BalanceContainer href={`${blockExplorer.baseUrl}/tx/${reward.txHash}`} target='_blank' key={reward.txHash}>
+                <div>
+                  <div>
+                    <AssetIcon image={staking.symbolImage ?? ''} size={24} altName={staking.asset.symbol} chain={staking.asset.chains[0]} />
+                  </div>
+                  <div>
+                    <span> {t(`v2.products.${staking.id}`)}</span>
+                    <span>{staking.asset.name}</span>
+                  </div>
+                </div>
+                <div>
+                  <span>
+                    {truncateWei(reward.amount, 8)} {staking.symbol}
+                  </span>
+                  <span>{truncateTimestamp(reward.timestamp, locale ?? 'en')}</span>
+                </div>
+              </BalanceContainer>
+            )
+          })}
         </ContainerList>
       </div>
     </Container>
