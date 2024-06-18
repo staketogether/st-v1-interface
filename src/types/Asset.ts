@@ -36,6 +36,7 @@ export type AssetId =
   | 'eth-op'
   | 'btc-op'
   | 'btc-btc'
+  | 'dog-btc'
   | 'chz-chiliz'
   | 'op-op'
   | 'arb-arb'
@@ -101,6 +102,7 @@ export interface NativeAsset extends TokenActions {
 export interface BitcoinAsset extends TokenActions {
   type: 'bitcoin'
   id: AssetId
+  assetId: string
   name: string
   order: number
   symbol: string

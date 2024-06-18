@@ -1,4 +1,4 @@
-import useAssetStats from "@/hooks/useAssetStats"
+import useAsset from "@/hooks/useAsset"
 import useCoinUsdToUserCurrency from "@/hooks/useCoinUsdToUserCurrency"
 import useLocaleTranslation from "@/hooks/useLocaleTranslation"
 import { Asset } from "@/types/Asset"
@@ -10,12 +10,14 @@ interface AssetsStatisticProps {
   asset: Asset
 }
 
-export default function AssetsStatistic({ asset: { chains, contractAddress } }: AssetsStatisticProps) {
+export default function AssetsStatistic({ asset }: AssetsStatisticProps) {
   const { t } = useLocaleTranslation()
-  const [chain] = chains
+  const [chain] = asset.chains
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
+  const id = asset.type === 'bitcoin' ? 'bitcoin' : asset.contractAddress
 
-  const { assetStats: assetData } = useAssetStats({ chainId: chain, contractAddress })
+  const { asset: assetData } = useAsset({ chainId: chain, id: contractAddress })
+
   return (
     <ProductBodyContainer>
       <h2>{t('v2.ethereumStaking.statistics')}</h2>
