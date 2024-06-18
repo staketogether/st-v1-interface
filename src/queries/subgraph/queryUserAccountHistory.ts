@@ -10,13 +10,14 @@ export interface UserAccountHistory {
     chainTo: number
     tokenTo: `0x${string}`
   }
-  amount: '100000000000000'
+  amount: bigint
   assetType: 'staking' | 'asset'
   chainId: number
   createdAt: Date
   id: number
   token: string
-  type: 'deposit' | 'withdraw'
+  contractAddress: `0x${string}`
+  type: 'deposit' | 'withdraw' | 'sell-crypto' | 'buy-crypto' | 'swap'
 }
 
 export const queryUserAccountHistory = gql`
