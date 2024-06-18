@@ -1,10 +1,10 @@
-import { Asset, EvmAsset } from '@/types/Asset'
+import { Asset } from '@/types/Asset'
 import { useEffect, useState } from 'react'
 import { erc20Abi, formatUnits } from 'viem'
 import { useAccount, useBalance, useReadContract } from 'wagmi'
 
 interface useBalanceOfProps {
-  asset: EvmAsset
+  asset: Asset
   walletAddress?: `0x${string}`
 }
 
@@ -14,6 +14,7 @@ export interface TokenBalance {
 }
 
 export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps) {
+
   const [tokenBalance, setTokenBalance] = useState<TokenBalance>({
     rawBalance: BigInt(0),
     balance: '0'
@@ -53,7 +54,7 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
     refetch: erc20Refetch
   } = useReadContract({
     abi: erc20Abi,
-    address: asset.contractAddress,
+    address: asset.type === 'bitcoin' || asset.type === 'bitcoin-runes' ? '0x' : asset.contractAddress,
     chainId: chainId,
     functionName: 'balanceOf',
     args: [address],

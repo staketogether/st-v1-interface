@@ -110,7 +110,7 @@ export default function QuotationOffRampStep({ asset: asset, userTokenBalance, u
     <Container>
       <BoxValuesContainer>
         <AssetInput
-          ethAmountValue={String(value)}
+          cryptoAmountValue={String(value)}
           onChange={v => {
             handleChange(v)
           }}

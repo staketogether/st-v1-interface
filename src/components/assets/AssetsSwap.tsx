@@ -1,7 +1,7 @@
 import { Asset } from '@/types/Asset'
 import dynamic from 'next/dynamic'
 import styled from 'styled-components'
-import BitcoinSwap from '@/components/assets/BitcoinSwap'
+import BitcoinRunesSwap from '@/components/assets/BitcoinRunesSwap'
 
 export function AssetsSwap({ asset }: { asset: Asset }) {
   const LiFiSwap = dynamic(() => import('./LiFiSwap').then(module => module.LiFiSwap), {
@@ -10,8 +10,8 @@ export function AssetsSwap({ asset }: { asset: Asset }) {
 
   return (
     <SwapContainer>
-      { asset.type === 'bitcoin' && <BitcoinSwap asset={asset} /> }
-      { asset.type !== 'bitcoin' && <LiFiSwap asset={asset} /> }
+      { asset.type === 'bitcoin-runes' && <BitcoinRunesSwap asset={asset} /> }
+      { !asset.type.includes('bitcoin') && <LiFiSwap asset={asset} /> }
     </SwapContainer>
   )
 }

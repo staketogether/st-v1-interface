@@ -126,6 +126,32 @@ export interface BitcoinAsset extends TokenActions {
   ramp: Ramp[]
 }
 
+export interface BitcoinRunesAsset extends TokenActions {
+  type: 'bitcoin-runes'
+  id: AssetId
+  assetId: string
+  name: string
+  order: number
+  symbol: string
+  symbolImage: string | StaticImageData
+  url: string
+  decimals: number
+  category: AssetCategory
+  chains: Chain[]
+  listed: boolean
+  enabled: boolean
+  isTestnet: boolean
+  new: boolean
+  localeDescription: string
+  linkedAssets?: Record<Chain, Asset>
+  points: {
+    stPoints: boolean
+    elPoints: boolean
+  }
+  // Todo: Use ID on Backend instead of object
+  ramp: Ramp[]
+}
+
 export interface Erc20Asset extends TokenActions {
   id: AssetId
   name: string
@@ -178,5 +204,5 @@ export interface FanTokenAsset extends TokenActions {
   ramp: Ramp[]
 }
 
-export type Asset = NativeAsset | Erc20Asset | FanTokenAsset | BitcoinAsset
+export type Asset = NativeAsset | Erc20Asset | FanTokenAsset | BitcoinAsset | BitcoinRunesAsset
 export type EvmAsset = Erc20Asset | NativeAsset | FanTokenAsset

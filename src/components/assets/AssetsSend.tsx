@@ -153,7 +153,7 @@ export function AssetsSend({ asset }: { asset: Asset }) {
             placeholder={'0x'}
           />
           <AssetInput
-            ethAmountValue={sendAmount}
+            cryptoAmountValue={sendAmount}
             onChange={v => {
               handleChange(v)
             }}
