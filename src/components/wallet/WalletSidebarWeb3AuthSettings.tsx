@@ -3,7 +3,6 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
 import styled from 'styled-components'
-import EditAccount from '../shared/EditAccount'
 import { PiArrowLeft } from 'react-icons/pi'
 
 interface web3AuthWalletSettingsProps {
