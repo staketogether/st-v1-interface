@@ -31,6 +31,7 @@ import useSidebarAccountRewards from '@/hooks/useSidebarAccountRewards'
 import useUserAccountHistory from '@/hooks/useUserAccountHistory'
 import WalletSidebarRewardsContainer from './WalletSidebarRewardsContainer'
 import WalletSidebarAccountHistoryContainer from './WalletSidebarAccountHistoryContainer'
+import WalletSidebarAccountDelegations from './WalletSidebarAccountDelegations'
 
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
@@ -106,7 +107,7 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
     assets: <WalletSidebarAssetContainer accountAssets={accountAssets} accountAssetsLoading={loading} />,
     rewards: <WalletSidebarRewardsContainer accountRewards={accountRewards} accountRewardsLoading={accountRewardsLoading} />,
     historic: <WalletSidebarAccountHistoryContainer accountHistory={accountHistory} accountHistoryLoading={accountHistoryLoading} />,
-    delegations: <WalletSidebarAssetContainer accountAssets={accountAssets} accountAssetsLoading={loading} />
+    delegations: <WalletSidebarAccountDelegations address={address} />
   }
 
   return (
