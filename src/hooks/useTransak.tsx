@@ -7,8 +7,9 @@ import useLocaleTranslation from './useLocaleTranslation'
 
 interface TransakProps {
   onSuccess?: () => void
-  productsAvailed: 'BUY' | 'SELL'
-  network: string
+  productsAvailed: 'BUY' | 'SELL',
+  network: string,
+  containerId?: string
 }
 
 export default function useTransak(config: TransakProps) {
@@ -17,8 +18,9 @@ export default function useTransak(config: TransakProps) {
   const [isClosed, setIsClosed] = useState(false)
   const defaultTransakConfig: TransakConfig = useMemo(
     () => ({
+      containerId: config.containerId,
       apiKey: process.env.NEXT_PUBLIC_TRANSAK_API_KEY!,
-      environment: Transak.ENVIRONMENTS.PRODUCTION,
+      environment: Transak.ENVIRONMENTS.STAGING,
       exchangeScreenTitle: config.productsAvailed === 'SELL' ? t('sellCryptoTitle') : t('buyCryptoTitle'),
       network: config.network,
       colorMode: 'LIGHT',
@@ -27,7 +29,7 @@ export default function useTransak(config: TransakProps) {
       hideMenu: true,
       cryptoCurrencyList: 'ETH'
     }),
-    [config.network, config.productsAvailed, t, theme.colorV2.blue]
+    [config.containerId, config.network, config.productsAvailed, t, theme.colorV2.blue]
   )
 
   const [transakConfig, setTransakConfig] = useState<TransakConfig>(defaultTransakConfig)

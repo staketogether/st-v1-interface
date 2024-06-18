@@ -59,7 +59,7 @@ export type AllowedNetworks = 'ethereum' | 'holesky' | 'optimism' | 'bitcoin' | 
 
 export const handleChainIdByNetwork = (network: AllowedNetworks) => {
   const chainIdByNetwork = {
-    bitcoin: 0,
+    bitcoin: 500,
     ethereum: 1,
     holesky: 17000,
     'optimism-sepolia': 11155420,

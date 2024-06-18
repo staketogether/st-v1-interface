@@ -18,6 +18,7 @@ interface AssetsBitcoinRampControlProps {
 const AssetsBitcoinRampControl = ({ asset, type }: AssetsBitcoinRampControlProps) => {
   const [buyData, setBuyData] = useState<BuyRampRequest | undefined>(undefined)
   const [amountToSell, setAmountToSell] = useState<number | undefined>(undefined)
+  const [transakWidget, setTransakWidget] = useState<Transak | undefined>(undefined)
 
   const { btcWalletAddress } = useBtcConnectWallet()
   const { query } = useRouter()
@@ -32,21 +33,26 @@ const AssetsBitcoinRampControl = ({ asset, type }: AssetsBitcoinRampControlProps
   })
 
   useEffect(() => {
-    const transak = new Transak({
-      containerId: 'transak_widget',
-      network: 'mainnet',
-      environment: 'STAGING',
-      widgetHeight: '550px',
-      productsAvailed: type.toUpperCase(),
-      disableWalletAddressForm: true,
-      widgetWidth: '450px',
-      defaultFiatCurrency: query.currency as string,
-      apiKey: '68dc9c67-5762-4bae-844e-917744dd627d',
-      walletAddress: btcWalletAddress.find((address) => address.purpose === AddressPurpose.Ordinals)?.address,
-    })
+    if (transakWidget === undefined) {
+      setTransakWidget(new Transak({
+        containerId: 'transak_widget',
+        network: 'mainnet',
+        environment: Transak.ENVIRONMENTS.STAGING,
+        productsAvailed: type.toUpperCase(),
+        disableWalletAddressForm: true,
+        colorMode: 'LIGHT',
+        hideMenu: true,
+        widgetWidth: '450px',
+        defaultFiatCurrency: query.currency as string,
+        apiKey: '68dc9c67-5762-4bae-844e-917744dd627d',
+        walletAddress: btcWalletAddress.find((address) => address.purpose === AddressPurpose.Ordinals)?.address,
+      }))
 
-    transak.init();
-    transak.getUser()
+      return
+    }
+
+    transakWidget?.init();
+    transakWidget?.getUser()
 
     // To get all the events
     Transak.on('*', (data) => {
@@ -75,16 +81,17 @@ const AssetsBitcoinRampControl = ({ asset, type }: AssetsBitcoinRampControlProps
     Transak.on(Transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (orderData) => {
       console.log('Successful order: ');
       console.log(orderData);
-      transak.close();
+      transakWidget?.close();
     });
 
     // Cleanup code
     return () => {
-      transak.close();
+      transakWidget?.cleanup();
+      transakWidget?.close();
     };
-  }, [btcWalletAddress, query.currency]);
+  }, [transakWidget, btcWalletAddress, query.currency, type]);
 
-  return (<div id='transak_widget' />)
+  return (<div id='transak_widget' style={{ height: '450px' }} />)
 }
 
 export default AssetsBitcoinRampControl

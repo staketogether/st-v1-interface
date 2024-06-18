@@ -24,8 +24,8 @@ dependencies:
     specifier: ^5.29.2
     version: 5.29.2(react@18.2.0)
   '@transak/transak-sdk':
-    specifier: ^2.1.3
-    version: 2.1.3
+    specifier: ^3.1.1
+    version: 3.1.1
   '@wagmi/cli':
     specifier: ^2.1.4
     version: 2.1.4(typescript@5.3.3)
@@ -5419,11 +5419,10 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@transak/transak-sdk@2.1.3:
-    resolution: {integrity: sha512-F4tyCL3vCcIFrRT8h/+NsAozRaJ6EM1bny2UZk7Dp7qLMdGjpviD4LfdqEoWW4Gu25Qn6PVu2Q5DuSNTjvEn4Q==}
-    engines: {node: '>=16.0.0'}
+  /@transak/transak-sdk@3.1.1:
+    resolution: {integrity: sha512-zqUAEIQYq6mekhid/WhIHlLVWzD8tsuoEjsLdb9uubHFl+Ba8QGdZSVzxjhuTnHR3hVK5YdVHbil90CN43wTLA==}
+    engines: {node: '>=18.0.0'}
     dependencies:
-      '@types/events': 3.0.3
       events: 3.3.0
       pako: 2.1.0
       query-string: 8.2.0
@@ -5521,10 +5520,6 @@ packages:
 
   /@types/dom-screen-wake-lock@1.0.3:
     resolution: {integrity: sha512-3Iten7X3Zgwvk6kh6/NRdwN7WbZ760YgFCsF5AxDifltUQzW1RaW+WRmcVtgwFzLjaNu64H+0MPJ13yRa8g3Dw==}
-    dev: false
-
-  /@types/events@3.0.3:
-    resolution: {integrity: sha512-trOc4AAUThEz9hapPtSd7wf5tiQKvTtu5b371UxXdTuqzIh0ArcRspRP0i0Viu+LXstIQ1z96t1nsPxT9ol01g==}
     dev: false
 
   /@types/filesystem@0.0.36:

@@ -72,7 +72,7 @@ export default function AssetsActionsControl({
       <NavActions typeActive={type} navActionsList={navActionsList} />
       <div>
         {asset.type === 'bitcoin' && type === 'buy' && (
-          <AssetsBitcoinRampControl asset={asset} />
+          <AssetsBitcoinRampControl asset={asset} type={type} />
         )}
         {asset.type !== 'bitcoin' && (type === 'buy' || type === 'sell') && (
           <AssetsRampControl
