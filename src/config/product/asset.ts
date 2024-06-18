@@ -31,6 +31,7 @@ import verdaoIcon from '@assets/assets/verdao.png'
 import worldcoinIcon from '@assets/assets/worldcoin.png'
 import xautIcon from '@assets/assets/xaut.png'
 import zkIcon from '@assets/assets/zk.webp'
+import dogIcon from '@assets/assets/dog.webp'
 import { Chain } from '../chain'
 
 export const ethMainnet: NativeAsset = {
@@ -106,7 +107,7 @@ export const ethOp: NativeAsset = {
 export const btcBtc: BitcoinAsset = {
   id: 'btc-btc',
   name: 'Bitcoin',
-  order: 0,
+  order: -2,
   decimals: 8,
   symbol: 'BTC',
   symbolImage: btcIcon,
@@ -1304,6 +1305,31 @@ export const zkSyncETH: NativeAsset = {
   ]
 }
 
+export const dogBtc: BitcoinAsset = {
+  localeDescription: '',
+  points: { elPoints: false, stPoints: true },
+  ramp: [{
+    chainId: 0,
+    paymentMethod: 'pix',
+    provider: 'transak',
+    minDeposit: 300
+  }],
+  type: 'bitcoin',
+  id: 'dog-btc',
+  new: true,
+  name: 'DOG•GO•TO•THE•MOON',
+  symbol: 'DOG',
+  chains: [Chain.BTC_MAINNET],
+  listed: true,
+  enabled: true,
+  decimals: 0,
+  url: '/currency/bitcoin/product/assets/dog-btc',
+  symbolImage: dogIcon,
+  order: -1,
+  category: AssetCategory.Defi,
+  isTestnet: false
+}
+
 export const assetsList: Asset[] = [
   ethMainnet,
   ethOp,
@@ -1340,7 +1366,8 @@ export const assetsList: Asset[] = [
   spicyChiliz,
   zkSyncZK,
   zkSyncETH,
-  btcBtc
+  btcBtc,
+  dogBtc
 ]
 
 export function getListedAssets(): Asset[] {
