@@ -32,7 +32,13 @@ export default function AssetsActionsControl({
   const { currency } = query as { currency: string }
 
   const navActionsList = [
-    { type: 'buy', label: t('buy'), url: asset.url.replace('currency', currency), disabled: false, icon: <PiPlus />, tooltipLabel: '' },
+    { type: 'buy',
+      label: t('buy'),
+      url: asset.url.replace('currency', currency),
+      disabled: asset?.disableActions?.buy,
+      icon: <PiPlus />,
+      tooltipLabel: asset?.disableActions?.buy ? t('soon') : ''
+    },
     {
       type: 'sell',
       label: t('sell'),

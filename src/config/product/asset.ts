@@ -125,6 +125,9 @@ export const btcBtc: BitcoinAsset = {
     stPoints: false,
     elPoints: false
   },
+  disableActions: {
+    swap: true
+  },
   ramp: [
     {
       chainId: 0,
@@ -1316,6 +1319,12 @@ export const dogBtc: BitcoinAsset = {
     provider: 'transak',
     minDeposit: 300
   }],
+  disableActions: {
+    buy: true,
+    sell: true,
+    send: true,
+    receive: true,
+  },
   type: 'bitcoin',
   id: 'dog-btc',
   new: true,
@@ -1325,7 +1334,7 @@ export const dogBtc: BitcoinAsset = {
   listed: true,
   enabled: true,
   decimals: 0,
-  url: '/currency/bitcoin/product/assets/dog-btc',
+  url: '/currency/bitcoin/product/assets/dog-btc/swap',
   symbolImage: dogIcon,
   order: -1,
   category: AssetCategory.Defi,
