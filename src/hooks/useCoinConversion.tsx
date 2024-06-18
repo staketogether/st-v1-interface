@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import useAsset from './useAsset'
 import useFiatUsdConversion from './useFiatUsdConversion'
 
-export default function useCoinConversion(value: string, chainId?: number, contractAddress?: string) {
+export default function useCoinConversion(value: string, chainId?: number, id?: string) {
   const [coinUsdPrice, setCoinUsdPrice] = useState<string | undefined>('0')
   const [loading, setLoading] = useState<boolean>(true)
 
-  const { asset, isLoading } = useAsset({ chainId, id: contractAddress })
+  const { asset, isLoading } = useAsset({ chainId, id: id })
   const currencyPrice = asset?.currentPriceUsd ?? 0
   const priceChangePercentage24h = asset?.priceChangePercentage24h ?? 0
 

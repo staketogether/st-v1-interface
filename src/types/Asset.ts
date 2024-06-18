@@ -179,3 +179,4 @@ export interface FanTokenAsset extends TokenActions {
 }
 
 export type Asset = NativeAsset | Erc20Asset | FanTokenAsset | BitcoinAsset
+export type EvmAsset = Erc20Asset | NativeAsset | FanTokenAsset

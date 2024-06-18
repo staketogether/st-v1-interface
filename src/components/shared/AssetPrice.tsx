@@ -10,7 +10,8 @@ interface AssetPriceProps {
 }
 
 export default function AssetPrice({ asset, className, showChangePercentage = false }: AssetPriceProps) {
-  const { priceConvertedValue, loading, priceChangePercentage24h } = useCoinConversion('1', asset.chains[0], asset.contractAddress)
+  const assetId = asset.type === 'bitcoin' ? asset.assetId : asset.contractAddress
+  const { priceConvertedValue, loading, priceChangePercentage24h } = useCoinConversion('1', asset.chains[0], assetId)
 
   const signalPercentChange24h = priceChangePercentage24h && priceChangePercentage24h > 0 ? '+' : ''
   return loading ? (

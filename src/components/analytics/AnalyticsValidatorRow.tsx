@@ -1,4 +1,4 @@
-import { getAssetById } from '@/config/product/asset'
+import { getEvmAssetById } from '@/config/product/asset'
 import useCoinConversion from '@/hooks/useCoinConversion'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
@@ -18,7 +18,7 @@ export default function AnalyticsValidatorRow({ validator, index }: AnalyticsVal
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
 
-  const asset = getAssetById('eth-staking')
+  const asset = getEvmAssetById('eth-staking')
   const validatorBalance = formatNumberByLocale(truncateDecimal(String(validator.balance) || '0', 2), locale)
   const { priceConvertedValue: validatorBalanceUsdPriceFormatted } = useCoinConversion(
     validatorBalance,

@@ -1,4 +1,4 @@
-import { Asset, AssetCategory, BitcoinAsset, Erc20Asset, FanTokenAsset, NativeAsset } from '@/types/Asset'
+import { Asset, AssetCategory, BitcoinAsset, Erc20Asset, EvmAsset, FanTokenAsset, NativeAsset } from '@/types/Asset'
 import aaveIcon from '@assets/assets/aave.png'
 import arbIcon from '@assets/assets/arbitrum.svg'
 import bahiaIcon from '@assets/assets/bahia.png'
@@ -106,6 +106,7 @@ export const ethOp: NativeAsset = {
 
 export const btcBtc: BitcoinAsset = {
   id: 'btc-btc',
+  assetId: 'bitcoin',
   name: 'Bitcoin',
   order: -2,
   decimals: 8,
@@ -1306,7 +1307,8 @@ export const zkSyncETH: NativeAsset = {
 }
 
 export const dogBtc: BitcoinAsset = {
-  localeDescription: '',
+  localeDescription: 'dog-btc',
+  assetId: 'dog-go-to-the-moon-rune',
   points: { elPoints: false, stPoints: true },
   ramp: [{
     chainId: 0,
@@ -1381,12 +1383,12 @@ export function getAssetsByCategory(category: AssetCategory): Asset[] {
     .sort((a, b) => a.order - b.order)
 }
 
-export function getAssetById(id: string): Asset {
-  const asset = assetsList.find(assetItem => assetItem.id === id)
+export function getEvmAssetById(id: string): EvmAsset {
+  const asset = assetsList.filter(asset => asset.type !== 'bitcoin').find(assetItem => assetItem.id === id)
 
   if (!asset) {
     throw new Error(`Asset with id ${id} not found`)
   }
 
-  return asset
+  return asset as EvmAsset
 }

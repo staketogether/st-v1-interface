@@ -11,6 +11,7 @@ import Link from 'next/link'
 export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const configAsset = assetsList.find(
     supportedAsset =>
+      supportedAsset.type !== 'bitcoin' &&
       supportedAsset.contractAddress.toLowerCase() === asset.contractAddress.toLowerCase() &&
       supportedAsset.chains[0] === asset.chainId
   )

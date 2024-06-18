@@ -1,6 +1,6 @@
 import { offRampPixKeyVar, quoteVar } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
+import { EvmAsset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
 import { PiArrowsCounterClockwise, PiClockLight, PiCurrencyDollar } from 'react-icons/pi'
 import styled, { useTheme } from 'styled-components'
@@ -18,7 +18,7 @@ import successAnimation from '@assets/animations/success-animation.json'
 import useAllowance from '@/hooks/contracts/useAllowance'
 import useApprove from '@/hooks/contracts/useApprove'
 interface ProcessingCheckoutStepProps {
-  asset: Asset
+  asset: EvmAsset
   type: 'buy' | 'sell' | 'swap'
   walletAddress: `0x${string}` | undefined
   userTokenRefetch: () => void

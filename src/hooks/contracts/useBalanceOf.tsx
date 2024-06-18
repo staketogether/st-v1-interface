@@ -1,10 +1,10 @@
-import { Asset } from '@/types/Asset'
+import { Asset, EvmAsset } from '@/types/Asset'
 import { useEffect, useState } from 'react'
 import { erc20Abi, formatUnits } from 'viem'
 import { useAccount, useBalance, useReadContract } from 'wagmi'
 
 interface useBalanceOfProps {
-  asset: Asset
+  asset: EvmAsset
   walletAddress?: `0x${string}`
 }
 

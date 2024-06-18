@@ -14,9 +14,9 @@ export default function AssetsStatistic({ asset }: AssetsStatisticProps) {
   const { t } = useLocaleTranslation()
   const [chain] = asset.chains
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
-  const id = asset.type === 'bitcoin' ? 'bitcoin' : asset.contractAddress
+  const id = asset.type === 'bitcoin' ? asset.assetId : asset.contractAddress
 
-  const { asset: assetData } = useAsset({ chainId: chain, id: contractAddress })
+  const { asset: assetData } = useAsset({ chainId: chain, id })
 
   return (
     <ProductBodyContainer>

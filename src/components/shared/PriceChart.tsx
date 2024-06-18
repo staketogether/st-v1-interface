@@ -47,7 +47,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
 
   const { assetStats, isLoading } = useAssetStatsChart({
     chainId: asset.chains[0],
-    contractAddress: asset.contractAddress,
+    contractAddress: asset.type === 'bitcoin' ? asset.assetId : asset.contractAddress,
     currency: 'usd',
     days: handleFilter().day,
     interval: handleFilter().interval,
