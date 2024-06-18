@@ -2,18 +2,17 @@ import useSWR from 'swr';
 import axios from 'axios';
 import { globalConfig } from '@/config/global'
 
-interface UserKyc {
-  email: string, 
-  fullName: string,
+interface UserProfile {
+  id: number
 }
 
-export default function userKyc(id: number ) {
+export default function userProfile(wallet: `0x${string}`) {
   const { backendUrl } = globalConfig
   const fetcher = (uri: string) => axios.get(`${backendUrl}/${uri}`).then((res) => res.data);
-  const { data, error } = useSWR<UserKyc>(id ? `/api/user-kyc/${id}` : null, fetcher);
+  const { data, error } = useSWR<UserProfile>(wallet ? `/api/user-profile/${wallet}` : null, fetcher);
 
   return {
-    kyc: data,
+    profile: data,
     isLoading: !error && !data,
     isError: error
   };

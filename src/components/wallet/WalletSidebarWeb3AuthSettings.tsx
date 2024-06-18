@@ -28,7 +28,6 @@ export default function WalletSidebarWeb3AuthWalletSettings({
           <PiArrowLeft />
         </Button>
       </Header>
-      <EditAccount />
       <Container>
         <a className='copy' href={`${ethereum.blockExplorer.baseUrl}/address/${walletAddress}`} target='_blank'>
           <Card>

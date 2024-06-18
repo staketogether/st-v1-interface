@@ -1,14 +1,54 @@
+import userKyc from '@/hooks/useKyc';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import userPixKey from '@/hooks/usePixKey';
+import userProfile from '@/hooks/useProfile';
+import userWalletAddress from '@/hooks/useWalletAddress';
 import { FiTrash2 } from 'react-icons/fi'
 import styled from 'styled-components'
 import { useAccount } from 'wagmi';
-import userKyc from '@/hooks/useKyc';
+import { cnpjMask, cpfMask, phoneMask } from '../shared/input-helper/mask'
+import { truncateAddress } from '@/services/truncate';
+import { useEffect, useState } from 'react';
 
 export default function EditAccount() {
-
+  const [maskedPixKeys, setMaskedPixKeys] = useState<string[] | undefined>([])
+  const [formatWalletAddress, setFormatWalletAddress] = useState<string[] | undefined>([])
   const { address } = useAccount()
-  
-  const { data } = userKyc(address)
+
+  const { profile } = userProfile("0xae5462E47577bcde3663F2A748fE8019372Fe1C7")
+  const { kyc } = userKyc(profile ? profile.id : 0)
+  const { pixKey } = userPixKey(profile ? profile.id : 0)
+  const { wallets } = userWalletAddress(profile ? profile.id : 0)
+
+
+  useEffect(() => {
+    if (wallets && wallets.length > 0) {
+      const formatedWallets = wallets.map(wallet => {
+        return truncateAddress(wallet.walletAddress)
+      })
+      setFormatWalletAddress(formatedWallets)
+    } else {
+      setFormatWalletAddress([])
+    }
+  }, [wallets])
+
+  useEffect(() => {
+    if (pixKey && pixKey.length > 0) {
+      const maskedKeys = pixKey.map(pix => {
+        switch (pix.type) {
+          case 'cpfCnpj':
+            return cnpjMask(pix.pixKey);
+          case 'phone_number':
+            return phoneMask(pix.pixKey);
+          default:
+            return pix.pixKey; 
+        }
+      });
+      setMaskedPixKeys(maskedKeys);
+    } else {
+      setMaskedPixKeys([]);
+    }
+  }, [pixKey])
   
   const { t } = useLocaleTranslation()
 
@@ -18,21 +58,21 @@ export default function EditAccount() {
         <Section>
           <Header>
             <h3>{t('web3AuthWalletSettings.profile')}</h3>
-            <Button>{t('soon')}</Button>
+            <Button disabled>{t('soon')}</Button>
           </Header>
           <WrapperInfo>
             <span>{t('web3AuthWalletSettings.userName')}</span>
-            <Span>Nome</Span>
+            <Span>{kyc?.fullName}</Span>
           </WrapperInfo>
           <WrapperInfo>
             <span>{t('web3AuthWalletSettings.email')}</span>
-            <Span>email@exemple.com</Span>
+            <Span>{kyc?.email}</Span>
           </WrapperInfo>
         </Section>
         <Section>
           <Header>
             <h3>KYC</h3>
-            <Button>{t('soon')}</Button>
+            <Button disabled>{t('soon')}</Button>
           </Header>
           <KYCard>
             <WrapperInfo>
@@ -54,26 +94,30 @@ export default function EditAccount() {
             <h3>{t('web3AuthWalletSettings.pixKey')}</h3>
             <Button disabled>{t('soon')}</Button>
           </Header>
-          <Wrapper>
-            <WrapperInfo>
-              <span >{t('web3AuthWalletSettings.pixKey')}</span>
-              <span>email@exemple.com</span>
-            </WrapperInfo>
-            <FiTrash2 size={24} />
-          </Wrapper>
+          {maskedPixKeys?.map((pix) => (
+            <Wrapper>
+              <WrapperInfo>
+                <span >{t('web3AuthWalletSettings.pixKey')}</span>
+                <span>{pix}</span>
+              </WrapperInfo>
+              <FiTrash2 size={24} />
+            </Wrapper>
+          ))}
         </Section>
         <Section>
           <Header>
             <h3>{t('web3AuthWalletSettings.wallets')}</h3>
             <Button disabled>{t('soon')}</Button>
           </Header>
-          <Wrapper>
-            <WrapperInfo>
-              <span >{t('web3AuthWalletSettings.address')}</span>
-              <span>0x41f45...d862A</span>
-            </WrapperInfo>
-            <FiTrash2 size={24} />
-          </Wrapper>
+          {formatWalletAddress?.map(wallet => (
+            <Wrapper>
+              <WrapperInfo>
+                <span >{t('web3AuthWalletSettings.address')}</span>
+                <span>{wallet}</span>
+              </WrapperInfo>
+              <FiTrash2 size={24} />
+            </Wrapper>
+          ))}
         </Section>
       </Container>    
     </>

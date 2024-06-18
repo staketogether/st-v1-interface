@@ -34,6 +34,7 @@ import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBal
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from '../shared/LottieAnimation'
+import EditAccount from '../shared/EditAccount'
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
   walletChainId: number
@@ -169,7 +170,10 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
       {isSettingsActive && !isPanelActive && <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />}
       {isPanelActive && !isSettingsActive && !isWeb3AuthSettingsActive && <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
       {!isSettingsActive && !isPanelActive && isWeb3AuthSettingsActive && (
-        <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive} walletAddress={address} />
+        <>
+          <EditAccount />
+          <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive} walletAddress={address} />
+        </>
       )}
       {!isSettingsActive && !isPanelActive && !isWeb3AuthSettingsActive && (
         <>
