@@ -23,8 +23,12 @@ export default function Wallet({ evmWalletAddress, bitcoinWalletAddress, account
       setOpenSidebarConnectWallet(false)
       registerConnectWallet(evmWalletAddress, walletChainId)
     }
-  }, [evmWalletAddress, accountIsConnected, walletChainId, registerConnectWallet, setOpenSidebarConnectWallet])
-  if (accountIsConnected && evmWalletAddress && walletChainId && bitcoinWalletAddress && !isBtcConnected) {
+    if (accountIsConnected && bitcoinWalletAddress) {
+      setOpenSidebarConnectWallet(false)
+      registerConnectWallet(bitcoinWalletAddress, 0)
+    }
+  }, [evmWalletAddress, accountIsConnected, walletChainId, bitcoinWalletAddress, registerConnectWallet, setOpenSidebarConnectWallet])
+  if (accountIsConnected && evmWalletAddress && walletChainId && !bitcoinWalletAddress && !isBtcConnected) {
     return (
       <>
         <WalletEvmConnectedButton address={evmWalletAddress} />

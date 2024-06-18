@@ -1,11 +1,14 @@
 import { chainConfigByChainId } from '@/config/chain'
+import useBalanceOf from '@/hooks/contracts/useBalanceOf'
+import { clearRampVars } from '@/hooks/ramp/useRampControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
 import { Asset } from '@/types/Asset'
 import { AssetActionType } from '@/types/AssetActionType'
-import { AssetStats } from '@/types/AssetStats'
+import loadingAnimation from '@assets/animations/loading-animation.json'
 import { notification } from 'antd'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -13,18 +16,13 @@ import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
 import AssetIcon from '../shared/AssetIcon'
-import NetworkIcons from '../shared/NetworkIcons'
-import AssetsProductInfo from './AssetsProductInfo'
-import loadingAnimation from '@assets/animations/loading-animation.json'
-import dynamic from 'next/dynamic'
 import LottieAnimation from '../shared/LottieAnimation'
-import { clearRampVars } from '@/hooks/ramp/useRampControlModal'
-import useBalanceOf from '@/hooks/contracts/useBalanceOf'
+import NetworkIcons from '../shared/NetworkIcons'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import AssetsProductInfo from './AssetsProductInfo'
 
 interface AssetsControlProps {
   asset: Asset
-  assetData: AssetStats
   chainId: number
   type: AssetActionType
 }
@@ -55,7 +53,7 @@ const AssetsActionsControl = dynamic(() => import('./AssetsActionsControl'), {
   suspense: true
 })
 
-export default function AssetsControl({ asset, assetData, chainId, type }: AssetsControlProps) {
+export default function AssetsControl({ asset, chainId, type }: AssetsControlProps) {
   const [userWalletAddress, setUserWalletAddress] = useState<`0x${string}` | undefined>(undefined)
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
@@ -135,7 +133,7 @@ export default function AssetsControl({ asset, assetData, chainId, type }: Asset
       </header>
 
       <div>
-        <AssetsProductInfo asset={asset} assetData={assetData} />
+        <AssetsProductInfo asset={asset} />
         <ActionContainer>
           <ActionContainerControlCard>
             <AssetsActionsControl

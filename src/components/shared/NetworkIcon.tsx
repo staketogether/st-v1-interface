@@ -4,9 +4,11 @@ import bitcoinIcon from '@assets/assets/bitcoin.svg'
 import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
 import polygonIcon from '@assets/network/polygon.svg'
+
 import Image from 'next/image'
 import styled from 'styled-components'
 import { arbitrum, arbitrumSepolia, chiliz, mainnet, optimism, optimismSepolia, polygon, polygonMumbai, sepolia, spicy } from 'wagmi/chains'
+import { Chain } from '@/config/chain'
 
 interface NetworkIconProps {
   chain?: number
@@ -20,7 +22,7 @@ export default function NetworkIcon({ chain, size, enabled = true }: NetworkIcon
   }
 
   const networkIcons = {
-    [0]: bitcoinIcon,
+    [Chain.BTC_MAINNET]: bitcoinIcon,
     [mainnet.id]: ethereumIcon,
     [optimism.id]: optimismIcon,
     [arbitrum.id]: arbitrumIcon,
@@ -33,15 +35,7 @@ export default function NetworkIcon({ chain, size, enabled = true }: NetworkIcon
     [spicy.id]: chilizIcon
   }
 
-  return (
-    <Icon
-      className={`${enabled ? '' : 'disabled'}`}
-      width={size}
-      height={size}
-      src={networkIcons[chain as keyof typeof networkIcons]}
-      alt='Network'
-    />
-  )
+  return <Icon className={`${enabled ? '' : 'disabled'}`} width={size} height={size} src={networkIcons[chain]} alt='Network' />
 }
 
 const { Icon } = {

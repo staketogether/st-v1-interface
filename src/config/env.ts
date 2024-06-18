@@ -94,4 +94,8 @@ export default function validEnv() {
   if (!process.env.NEXT_PUBLIC_RPC_CHZ_TESTNET_URL) {
     throw new Error('NEXT_PUBLIC_RPC_CHZ_TESTNET_URL not found in env')
   }
+
+  if (!process.env.NEXT_PUBLIC_RPC_ZKSYNC_MAINNET_RPC_URL) {
+    throw new Error('NEXT_PUBLIC_RPC_ZKSYNC_MAINNET_RPC_URL not found in env')
+  }
 }

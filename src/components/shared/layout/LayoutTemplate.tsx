@@ -8,7 +8,6 @@ import { lightTheme } from '../../../styles/theme'
 import { Cloudflare } from '../scripts/Cloudflare'
 import { GoogleTag } from '../scripts/GoogleTag'
 import LayoutFooter from './LayoutFooter'
-import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
 import useRegisterSocialLoginUsers from '@/hooks/marketing/useRegisterSocialLoginUsers'
 import { PipeDrive } from '@/components/shared/scripts/PipeDrive'
@@ -22,6 +21,11 @@ const montserrat = Montserrat({
 })
 
 const LayoutHeaderDesktop = dynamic(() => import('./LayoutHeaderDesktop'), {
+  ssr: false,
+  suspense: true
+})
+
+const LayoutHeaderMobile = dynamic(() => import('./LayoutHeaderMobile'), {
   ssr: false,
   suspense: true
 })

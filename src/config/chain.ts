@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { arbitrum, arbitrumSepolia, chiliz, mainnet, optimism, optimismSepolia, polygon, polygonMumbai, sepolia, spicy } from 'wagmi/chains'
+import { arbitrum, arbitrumSepolia, chiliz, mainnet, optimism, optimismSepolia, polygon, polygonMumbai, sepolia, spicy, zkSync } from 'wagmi/chains'
 
 interface BlockExplorerConfig {
   baseUrl: string
@@ -19,7 +19,7 @@ export interface ChainConfig {
 
 export const chainConfigs: ChainConfig[] = [
   {
-    chainId: 0,
+    chainId: 500,
     name: 'Bitcoin',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_BTC_MAINNET_URL),
     isTestnet: false,
@@ -160,11 +160,24 @@ export const chainConfigs: ChainConfig[] = [
       blockTimePerSeconds: 4,
       confirmations: 2
     }
+  },
+  {
+    chainId: zkSync.id,
+    name: 'zksync',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ZKSYNC_MAINNET_RPC_URL),
+    isTestnet: false,
+    blockExplorer: {
+      baseUrl: zkSync.blockExplorers.default.url
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 4,
+      confirmations: 2
+    }
   }
 ]
 
 export enum Chain {
-  BTC_MAINNET = 0,
+  BTC_MAINNET = 500,
   ETH_MAINNET = mainnet.id,
   OP_MAINNET = optimism.id,
   ARB_MAINNET = arbitrum.id,
@@ -174,7 +187,8 @@ export enum Chain {
   OP_TESTNET = optimismSepolia.id,
   ARB_TESTNET = arbitrumSepolia.id,
   POL_TESTNET = polygonMumbai.id,
-  CHZ_TESTNET = spicy.id
+  CHZ_TESTNET = spicy.id,
+  ZKSYNC_MAINNET = zkSync.id
 }
 
 /**

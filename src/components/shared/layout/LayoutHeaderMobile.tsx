@@ -13,6 +13,7 @@ import stIcon from '../../../../public/assets/st-icon.png'
 import LayoutSidebarMobileMenu from './LayoutSidebarMobileMenu'
 import SearchDrawer from '../SearchHeaderDrawer'
 import useHeaderDrawer from '@/hooks/useHeaderDrawer'
+import useBtcConnectWallet from '@/hooks/btc-wallet/useBtcConnectWallet'
 
 export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
@@ -23,6 +24,11 @@ export default function LayoutHeaderMobile() {
   const { currency } = query
   const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
   const { setWalletSidebarMobileSettings } = useWalletSidebarMobileSettings()
+
+  const { btcWalletIsConnected, btcWalletAddress } = useBtcConnectWallet()
+  const ordinalsWallet = btcWalletAddress[1]
+
+  const userWalletIsConnected = accountIsConnected || btcWalletIsConnected
 
   return (
     <>
@@ -46,7 +52,13 @@ export default function LayoutHeaderMobile() {
                 }}
               />
             </MenuContainer>
-            <Wallet evmWalletAddress={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
+            <Wallet
+              evmWalletAddress={account}
+              accountIsConnected={userWalletIsConnected}
+              walletChainId={walletChainId}
+              isBtcConnected={btcWalletIsConnected}
+              bitcoinWalletAddress={ordinalsWallet?.address}
+            />
           </WalletContainer>
         </Content>
       </Container>
