@@ -1,4 +1,6 @@
+import useRegisterSocialLoginUsers from '@/hooks/marketing/useRegisterSocialLoginUsers'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { Grid } from 'antd'
 import { Montserrat } from 'next/font/google'
 import { useRouter } from 'next/router'
 import NextNProgress from 'nextjs-progressbar'
@@ -11,9 +13,6 @@ import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
-import useRegisterSocialLoginUsers from '@/hooks/marketing/useRegisterSocialLoginUsers'
-import { PipeDrive } from '@/components/shared/scripts/PipeDrive'
-import { Grid } from 'antd'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -58,7 +57,6 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
 
   return (
     <Container className={montserrat.className}>
-      {md && <PipeDrive />}
       {isProduction && (
         <>
           <GoogleTag />
