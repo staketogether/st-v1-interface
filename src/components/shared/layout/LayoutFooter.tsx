@@ -5,15 +5,14 @@ import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 
 export default function LayoutFooter() {
   const date = new Date()
-  const { websiteUrl, auditUrl } = globalConfig
-  const router = useRouter()
+  const { websiteUrl } = globalConfig
 
   const { t } = useLocaleTranslation()
 
   const { query } = useRouter()
   const { currency, network } = query
 
-  const commitHash = process.env.COMMIT_HASH || ''
+  const commitHash = process.env.COMMIT_HASH ?? ''
   const shortCommitHash = commitHash.substring(0, 5)
 
   return (

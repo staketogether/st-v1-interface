@@ -14,7 +14,7 @@ interface SearchDrawerProps {
 }
 
 export default function SearchDrawer({ openDrawer, setOpenDrawer }: SearchDrawerProps) {
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue] = useState('')
   const initialValue = 'eth'
   const { t } = useLocaleTranslation()
 

@@ -51,7 +51,7 @@ export default function StakingCard({ staking }: StakingCardProps) {
   )
 }
 
-const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
+const { CardContainer, ImageContainer, PriceContainer, Soon, Apy } = {
   PriceContainer: styled.div`
     gap: ${({ theme }) => theme.size[16]};
     display: flex;
@@ -138,20 +138,20 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
 
     font-size: 13px;
     font-weight: 400;
-  `,
-  NewTag: styled.div`
-    width: 50px;
-    height: 25px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: ${({ theme }) => theme.colorV2.white} !important;
-    border-radius: ${({ theme }) => theme.size[4]};
-    background: linear-gradient(108deg, #3c43ee -11.12%, #ab00fc 110.08%);
-
-    font-size: 12px;
-    font-weight: 500;
   `
+  // NewTag: styled.div`
+  //   width: 50px;
+  //   height: 25px;
+
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+
+  //   color: ${({ theme }) => theme.colorV2.white} !important;
+  //   border-radius: ${({ theme }) => theme.size[4]};
+  //   background: linear-gradient(108deg, #3c43ee -11.12%, #ab00fc 110.08%);
+
+  //   font-size: 12px;
+  //   font-weight: 500;
+  // `
 }

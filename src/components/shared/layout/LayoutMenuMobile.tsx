@@ -1,7 +1,7 @@
 import useActiveRoute from '@/hooks/useActiveRoute'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCodesandboxLogo, PiCurrencyEth } from 'react-icons/pi'
+import { PiCurrencyEth } from 'react-icons/pi'
 import styled from 'styled-components'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 
@@ -9,7 +9,7 @@ function LayoutMenuMobile() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   const { query, pathname, isReady } = useRouter()
-  const { currency, network } = query
+  const { currency } = query
   const basePath = `/[currency]`
   const isHome = pathname === basePath && isReady
   return (
@@ -26,7 +26,7 @@ function LayoutMenuMobile() {
   )
 }
 
-const { Container, NextLink, InvestIcon, ProjectsIcon } = {
+const { Container, NextLink, InvestIcon } = {
   Container: styled.nav`
     width: 100vw;
     position: fixed;
@@ -65,13 +65,13 @@ const { Container, NextLink, InvestIcon, ProjectsIcon } = {
   `,
   InvestIcon: styled(PiCurrencyEth)`
     font-size: 14px;
-  `,
+  `
   // IncentivesIcon: styled(PiCellSignalFull)`
   //   font-size: 16px;
   // `,
-  ProjectsIcon: styled(PiCodesandboxLogo)`
-    font-size: 15px;
-  `
+  // ProjectsIcon: styled(PiCodesandboxLogo)`
+  //   font-size: 15px;
+  // `
   // GiftsIcon: styled(PiGift)`
   //   font-size: 14px;
   // `

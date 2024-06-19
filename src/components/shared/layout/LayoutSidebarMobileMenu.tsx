@@ -27,11 +27,9 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
     locale: 'en-US'
   })
   const { screenWidth, breakpoints } = useResizeView()
-  const { locale } = useRouter()
 
   const date = new Date()
-  const { websiteUrl, auditUrl } = globalConfig
-  const documentationUrl = locale ? (locale === 'en' ? globalConfig.docsEn : globalConfig.docsPt) : globalConfig.docsEn
+  const { websiteUrl } = globalConfig
 
   const { query } = useRouter()
   const { currency, network } = query

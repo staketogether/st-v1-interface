@@ -1,6 +1,5 @@
 import useRegisterSocialLoginUsers from '@/hooks/marketing/useRegisterSocialLoginUsers'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
-import { Grid } from 'antd'
 import { Montserrat } from 'next/font/google'
 import { useRouter } from 'next/router'
 import NextNProgress from 'nextjs-progressbar'
@@ -24,8 +23,6 @@ interface LayoutTemplateProps {
   children: ReactNode
 }
 
-const { useBreakpoint } = Grid
-
 export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   useRegisterSocialLoginUsers()
 
@@ -34,7 +31,6 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   const router = useRouter()
   const { currency } = router.query
   const { setItem, getItem } = useLocalStorage()
-  const { md } = useBreakpoint()
 
   const changeCurrency = useCallback(
     (newCurrency: string) => {

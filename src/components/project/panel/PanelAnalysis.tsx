@@ -12,7 +12,7 @@ import { useDebounce } from 'usehooks-ts'
 import PanelProjectDetailModal from './PanelProjectDetailModal'
 
 export default function PanelAnalysis() {
-  const [search, setSearch] = useState<string>('')
+  const [search] = useState<string>('')
   const [projectSelected, setProjectSelected] = useState<ContentfulPool | null>(null)
   const debouncedSearch = useDebounce(search, 300)
   const isSearchAddress = search.startsWith('0x')

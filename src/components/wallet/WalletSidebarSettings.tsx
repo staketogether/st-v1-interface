@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router'
 import { useCallback, useState } from 'react'
 import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi2'
-import { PiArrowLeft, PiCheckBold } from 'react-icons/pi'
+import { PiArrowLeft } from 'react-icons/pi'
 import styled from 'styled-components'
-import { useAccount } from 'wagmi'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 
@@ -18,7 +17,6 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
 
   const { t } = useLocaleTranslation()
 
-  const { chain } = useAccount()
   const router = useRouter()
   const { currency } = router.query
   const { setItem } = useLocalStorage()
@@ -86,7 +84,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
   )
 }
 
-const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, SelectWrapper, StyledSelect, SelectIcon, Network } = {
+const { Header, CloseIcon, SettingContainer, Button, SelectWrapper, StyledSelect, SelectIcon } = {
   CloseIcon: styled(PiArrowLeft)`
     font-size: 18px;
     color: ${({ theme }) => theme.colorV2.blue[1]} !important;
@@ -130,10 +128,6 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, SelectWrapper,
       font-weight: 400;
     }
   `,
-  CheckedIcon: styled(PiCheckBold)`
-    color: ${({ theme }) => theme.colorV2.purple[1]};
-    font-size: ${({ theme }) => theme.font.size[12]};
-  `,
   SettingContainer: styled.div`
     display: flex;
     flex-direction: column;
@@ -173,12 +167,6 @@ const { Header, CloseIcon, SettingContainer, Button, CheckedIcon, SelectWrapper,
       background: ${({ theme }) => theme.colorV2.white};
       width: 100%;
     }
-  `,
-  Network: styled.div`
-    display: flex;
-    align-items: center;
-    gap: ${({ theme }) => theme.size[8]};
-    padding: ${({ theme }) => theme.size[8]} 0px;
   `,
   SelectIcon: styled.div`
     position: absolute;

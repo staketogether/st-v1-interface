@@ -3,12 +3,11 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiChartLine, PiCodesandboxLogo, PiCoinsLight, PiGlobe } from 'react-icons/pi'
+import { PiChartLine, PiCoinsLight, PiGlobe } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import LayoutHeaderSearch from './LayoutHeaderSearch'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
@@ -16,7 +15,7 @@ export default function LayoutHeader() {
   const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
 
   const { query, pathname, locale } = useRouter()
-  const { currency, network } = query
+  const { currency } = query
 
   const basePath = `/[currency]`
   const isHome = pathname === basePath
@@ -44,9 +43,7 @@ export default function LayoutHeader() {
           </Link>
         </Menu>
       </MenuContainer>
-      <SearchArea>
-        <LayoutHeaderSearch />
-      </SearchArea>
+
       <WalletContainer>
         <ContainerCurrency>
           <GlobeIcon />
@@ -59,20 +56,7 @@ export default function LayoutHeader() {
   )
 }
 
-const {
-  Container,
-  MenuContainer,
-  WalletContainer,
-  SearchArea,
-  ContainerCurrency,
-  Logo,
-  Menu,
-  MenuButton,
-  GlobeIcon,
-  ProjectsIcon,
-  CoinsIcon,
-  ChartIcon
-} = {
+const { Container, MenuContainer, WalletContainer, ContainerCurrency, Logo, Menu, MenuButton, GlobeIcon, CoinsIcon, ChartIcon } = {
   Container: styled.header`
     display: none;
     gap: ${({ theme }) => theme.size[32]};
@@ -88,9 +72,6 @@ const {
       display: flex;
       justify-content: space-between;
     }
-  `,
-  SearchArea: styled.div`
-    width: 400px;
   `,
   MenuContainer: styled.div`
     display: flex;
@@ -176,9 +157,6 @@ const {
     color: ${({ theme }) => theme.color.gray[500]};
   `,
   ChartIcon: styled(PiChartLine)`
-    font-size: ${props => props.theme.size[24]};
-  `,
-  ProjectsIcon: styled(PiCodesandboxLogo)`
     font-size: ${props => props.theme.size[24]};
   `
 }

@@ -12,7 +12,7 @@ import PanelApprovedButton from './PanelApprovedButton'
 import PanelProjectDetailModal from './PanelProjectDetailModal'
 
 export default function PanelApprovedList() {
-  const [search, setSearch] = useState<string>('')
+  const [search] = useState<string>('')
   const [projectSelected, setProjectSelected] = useState<(ContentfulPool & { isContractPublished: boolean }) | null>(null)
   const debouncedSearch = useDebounce(search, 300)
   const isSearchAddress = search.startsWith('0x')
