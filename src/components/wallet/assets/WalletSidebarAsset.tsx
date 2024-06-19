@@ -1,20 +1,26 @@
 import { AccountAsset } from '@/types/AccountAsset'
 import AssetIcon from '@/components/shared/AssetIcon'
 import { formatNumberByLocale } from '@/services/format'
-import { assetsList } from '@/config/product/asset'
 import styled from 'styled-components'
 import { truncateWei } from '@/services/truncate'
 import defaultErc20Icon from '@assets/assets/default-erc-20.svg'
-// import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import Link from 'next/link'
 import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import { useRouter } from 'next/router'
+import { assetsList } from '@/config/product/asset'
+import { Asset, Erc20Asset, FanTokenAsset, NativeAsset } from '@/types/Asset'
 
 export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
-  const configAsset = assetsList.find(
-    supportedAsset =>
-      supportedAsset.contractAddress.toLowerCase() === asset?.contractAddress.toLowerCase() && supportedAsset.chains[0] === asset.chainId
-  )
+  const configAsset = assetsList.find(supportedAsset => {
+    function isSupportedAsset(assetItem: Asset): assetItem is NativeAsset | Erc20Asset | FanTokenAsset {
+      return (
+        (assetItem as NativeAsset).type === 'native' ||
+        (assetItem as Erc20Asset).type === 'erc20' ||
+        (assetItem as FanTokenAsset).type === 'fan-token'
+      )
+    }
+    return isSupportedAsset(supportedAsset) && supportedAsset?.contractAddress?.toLowerCase() === asset?.contractAddress.toLowerCase()
+  })
   const { query } = useRouter()
   const { currency } = query as { currency: string }
   const fixedWalletBalance = asset.decimals >= 18 ? asset.balance : asset.balance + '0'.repeat(18 - asset.decimals)
