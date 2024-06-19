@@ -2,6 +2,9 @@
 const { i18n } = require('./next-i18next.config')
 
 const nextConfig = {
+  env: {
+    COMMIT_HASH: process.env.COMMIT_HASH
+  },
   i18n,
   swcMinify: true,
   reactStrictMode: true,
