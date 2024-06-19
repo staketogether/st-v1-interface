@@ -22,6 +22,7 @@ export default function useWalletProviderImage() {
       case 'Safe':
         return <Image src={safeLogo} alt={'Safe'} width={size} height={size} />
       default:
+        return null
         break
     }
   }

@@ -24,7 +24,11 @@ export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const { usdToCurrency } = useFiatUsdConversion()
 
   return (
-    <BalanceContainer href={`${configAsset?.url.replace('currency', currency)}`}>
+    <BalanceContainer
+      href={`${configAsset?.url.replace('currency', currency)} `}
+      key={asset.contractAddress}
+      className={`${!configAsset && 'disabled'}`}
+    >
       <div>
         <div>
           <AssetIcon image={imageSrc} size={24} altName={asset.symbol} chain={asset.chainId} />
@@ -107,6 +111,11 @@ const { BalanceContainer } = {
 
     &:hover {
       background-color: ${({ theme }) => theme.colorV2.foreground};
+    }
+    &.disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.5;
     }
   `
 }

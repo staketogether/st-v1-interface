@@ -8,6 +8,8 @@ import { mainnet, optimism } from 'viem/chains'
 import AssetIcon from '../shared/AssetIcon'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Select } from 'antd'
+import LottieAnimation from '@/components/shared/LottieAnimation'
+import loadingAnimation from '@assets/animations/loading-animation.json'
 
 interface WalletSidebarAssetContainerProps {
   address: `0x${string}`
@@ -71,51 +73,48 @@ export default function WalletSidebarAccountDelegations({ address }: WalletSideb
     }
   }
 
-  const { accountDelegations, accountShare } = stAccount[productTabSelected]
-
+  const { accountDelegations, accountShare, accountIsLoading } = stAccount[productTabSelected]
   const staking = getStakingById(productTabSelected)
 
   const products = stakingList.filter(product => product.enabled)
 
   const selectProductOptions = products.map(product => {
     return {
-      key: product.id,
-      value: {
-        label: (
-          <ProductSelectCard>
-            <AssetIcon image={product.logoImage} size={24} altName={product.id} chain={product.asset.chains[0]} />
-            <span>{t(`v3.products.${product.id}.name`)}</span>
-          </ProductSelectCard>
-        ),
-        value: product.id
-      }
+      value: product.id,
+      label: (
+        <ProductSelectCard>
+          <AssetIcon image={product.logoImage} size={24} altName={product.id} chain={product.asset.chains[0]} />
+          <span>{t(`v3.products.${product.id}.name`)}</span>
+        </ProductSelectCard>
+      )
     }
   })
+
   return (
     <Container>
-      {accountDelegations.length === 0 && <span>{t('noDelegations')}</span>}
-      {accountDelegations.length > 0 && (
-        <>
-          <HeaderTabContainer>
-            <div>
-              <span>{t('selectProduct')}</span>
-              <Select
-                defaultValue='eth-staking'
-                style={{ width: '100%', height: '50px' }}
-                onChange={e => setProductTabSelected(e as unknown as 'eth-staking' | 'eth-restaking')}
-                options={selectProductOptions}
-              />
-            </div>
-          </HeaderTabContainer>
-
+      <>
+        <HeaderTabContainer>
+          <div>
+            <span>{t('selectProduct')}</span>
+            <Select
+              defaultValue='eth-staking'
+              style={{ width: '100%', height: '50px' }}
+              onChange={e => setProductTabSelected(e as unknown as 'eth-staking' | 'eth-restaking')}
+              options={selectProductOptions}
+            />
+          </div>
+        </HeaderTabContainer>
+        {accountIsLoading ? (
+          <LottieAnimation animationData={loadingAnimation} width={70} height={70} loop />
+        ) : (
           <WalletSidebarPortfolio
             product={staking}
             accountDelegations={accountDelegations}
             accountTotalShares={accountShare}
             userWalletAddress={address}
           />
-        </>
-      )}
+        )}
+      </>
     </Container>
   )
 }
@@ -129,7 +128,7 @@ const { Container, HeaderTabContainer, ProductSelectCard } = {
   `,
   ProductSelectCard: styled.div`
     width: 100%;
-    height: 100%;
+    min-height: 44px;
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};

@@ -7,17 +7,20 @@ import { stakingList } from '@/config/product/staking'
 import { chainConfigByChainId } from '@/config/chain'
 import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { useRouter } from 'next/router'
-
+import LottieAnimation from '@/components/shared/LottieAnimation'
+import loadingAnimation from '@assets/animations/loading-animation.json'
 interface WalletSidebarAssetContainerProps {
   accountRewards: SidebarAccountRewards[]
   accountRewardsLoading: boolean
 }
 
-export default function WalletSidebarRewardsContainer({ accountRewards }: WalletSidebarAssetContainerProps) {
+export default function WalletSidebarRewardsContainer({ accountRewards, accountRewardsLoading }: WalletSidebarAssetContainerProps) {
   const { t } = useLocaleTranslation()
   const { locale } = useRouter()
 
-  return (
+  return accountRewardsLoading ? (
+    <LottieAnimation animationData={loadingAnimation} width={70} height={70} loop />
+  ) : (
     <Container>
       <div>
         <Title>{t('rewards')}</Title>

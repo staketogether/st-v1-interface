@@ -4,13 +4,15 @@ import styled from 'styled-components'
 import WalletSidebarAsset from './WalletSidebarAsset'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { stakingList } from '@/config/product/staking'
+import LottieAnimation from '@/components/shared/LottieAnimation'
+import loadingAnimation from '@assets/animations/loading-animation.json'
 
 interface WalletSidebarAssetContainerProps {
   accountAssets: AccountAsset[]
   accountAssetsLoading: boolean
 }
 
-export default function WalletSidebarAssetContainer({ accountAssets }: WalletSidebarAssetContainerProps) {
+export default function WalletSidebarAssetContainer({ accountAssets, accountAssetsLoading }: WalletSidebarAssetContainerProps) {
   const { t } = useLocaleTranslation()
   const assetStakingAddressList = stakingList.map(staking => staking.contracts.StakeTogether)
   const investedAssetList = assetStakingAddressList
@@ -26,7 +28,9 @@ export default function WalletSidebarAssetContainer({ accountAssets }: WalletSid
 
   const accountAssetsFiltered = accountAssets.filter(accountAsset => !assetStakingAddressList.includes(accountAsset.contractAddress))
 
-  return (
+  return accountAssetsLoading ? (
+    <LottieAnimation animationData={loadingAnimation} width={70} height={70} loop />
+  ) : (
     <Container>
       <div>
         <Title>{t('invested')}</Title>

@@ -43,7 +43,7 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
-  const [tabActivated, setTabActivated] = useState<TabActivated>('delegations')
+  const [tabActivated, setTabActivated] = useState<TabActivated>('assets')
   const [userNetWorth, setUserNetWorth] = useState<string>('0')
 
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
@@ -124,13 +124,15 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
               <Web3AuthProfileContainer>
                 {web3AuthUserInfo && web3AuthUserInfo.typeOfLogin && web3AuthUserInfo.profileImage ? (
                   <>
-                    <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={32} height={32} />{' '}
+                    <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={40} height={40} />
                     <WrapperWallet>{handleWalletProviderImage(capitalize(web3AuthUserInfo.typeOfLogin), 16)}</WrapperWallet>
                   </>
                 ) : (
                   <>
-                    <WrapperWallet>{handleWalletProviderImage(walletConnected, 16)}</WrapperWallet>
-                    <EnsAvatar address={address} size={24} avatar={avatar} avatarLoading={avatarLoading} />
+                    {handleWalletProviderImage(walletConnected, 16) && (
+                      <WrapperWallet>{handleWalletProviderImage(walletConnected, 16)}</WrapperWallet>
+                    )}
+                    <EnsAvatar address={address} size={40} avatar={avatar} avatarLoading={avatarLoading} />
                   </>
                 )}
               </Web3AuthProfileContainer>
@@ -325,8 +327,8 @@ const {
   `,
   WrapperWallet: styled.div`
     position: absolute;
-    top: 20px;
-    left: 21px;
+    top: 27px;
+    left: 27px;
     border-radius: 50%;
     box-shadow: ${({ theme }) => theme.shadow[100]};
     width: 14px;
