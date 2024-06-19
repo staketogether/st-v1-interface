@@ -129,6 +129,7 @@ export interface BitcoinAsset extends TokenActions {
 export interface BitcoinRunesAsset extends TokenActions {
   type: 'bitcoin-runes'
   id: AssetId
+  rune: string
   assetId: string
   name: string
   order: number

@@ -1321,6 +1321,7 @@ export const zkSyncETH: NativeAsset = {
 export const dogBtc: BitcoinRunesAsset = {
   localeDescription: 'dog-btc',
   assetId: 'dog-go-to-the-moon-rune',
+  rune: 'DOGGOTOTHEMOON',
   points: { elPoints: false, stPoints: true },
   ramp: [{
     chainId: 0,

@@ -15,6 +15,10 @@ interface GlobalConfig {
   analyticsSubgraph: string
   backendSubgraph: string
   discordTicket: string
+  magicEden : {
+    baseUrl: string
+    apiKey?: string
+  }
 }
 
 export const globalConfig: GlobalConfig = {
@@ -33,5 +37,9 @@ export const globalConfig: GlobalConfig = {
   backendUrl: process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://st-backend-dev-thz2yhu72a-ue.a.run.app',
   contentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`,
   analyticsSubgraph: 'https://st-analytics-api-ddfui.ondigitalocean.app/graphql',
-  backendSubgraph: `${process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://st-backend-dev-thz2yhu72a-ue.a.run.app'}/graphql`
+  backendSubgraph: `${process.env.NEXT_PUBLIC_BACKEND_URL ?? 'https://st-backend-dev-thz2yhu72a-ue.a.run.app'}/graphql`,
+  magicEden: {
+    baseUrl: 'https://api-mainnet.magiceden.dev/v2',
+    apiKey: process.env.NEXT_PUBLIC_MAGIC_EDEN_API_KEY
+  }
 }
