@@ -27,11 +27,12 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
     locale: 'en-US'
   })
   const { screenWidth, breakpoints } = useResizeView()
-  const { locale } = useRouter()
 
   const date = new Date()
-  const { websiteUrl, auditUrl } = globalConfig
-  const documentationUrl = locale ? (locale === 'en' ? globalConfig.docsEn : globalConfig.docsPt) : globalConfig.docsEn
+  const { websiteUrl } = globalConfig
+
+  const { query } = useRouter()
+  const { currency, network } = query
 
   return (
     <>
@@ -64,18 +65,18 @@ export default function LayoutSidebarMobileMenu({ account }: LayoutSidebarMobile
           </TopContainer>
           <FooterContainer>
             <FooterContent>
-              <a href={auditUrl} target='_blank'>
-                {t('footer.audit')} <PiArrowSquareOut />
-              </a>
-              <a href={documentationUrl} target='_blank'>
-                {t('footer.documentation')} <PiArrowSquareOut />
-              </a>
-              <a href={`${websiteUrl}`} target='_blank'>
-                {t('footer.website')} <PiArrowSquareOut />
-              </a>
               <a href={`mailto:support@staketogether.org`} target='_blank'>
                 {t('footer.support')} <PiArrowSquareOut />
               </a>
+
+              <a href={`/${currency as string}/${network as string}/project`} target='_blank'>
+                {t('footer.projects')}
+              </a>
+
+              <a href={`${websiteUrl}`} target='_blank'>
+                {t('footer.website')} <PiArrowSquareOut />
+              </a>
+
               <a href={websiteUrl}>{`© ${date.getFullYear()} Stake Together | v${packageData.version} `}</a>
             </FooterContent>
           </FooterContainer>

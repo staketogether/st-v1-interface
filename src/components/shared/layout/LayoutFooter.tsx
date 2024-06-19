@@ -1,37 +1,31 @@
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import packageData from '../../../../package.json'
 import { globalConfig } from '../../../config/global'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 
 export default function LayoutFooter() {
   const date = new Date()
-  const { websiteUrl, auditUrl } = globalConfig
-  const router = useRouter()
+  const { websiteUrl } = globalConfig
 
   const { t } = useLocaleTranslation()
-  const documentationUrl = router.locale ? (router.locale === 'en' ? globalConfig.docsEn : globalConfig.docsPt) : globalConfig.docsEn
+
+  const { query } = useRouter()
+  const { currency, network } = query
+
+  const commitHash = process.env.COMMIT_HASH ?? ''
+  const shortCommitHash = commitHash.substring(0, 5)
 
   return (
     <Container>
       <div>
-        <div>
-          <span>{`v${packageData.version}`}</span>
-        </div>
-        <span>
-          <a href={auditUrl} target='_blank'>
-            {t('footer.audit')}
-          </a>
-        </span>
-        <span>
-          <a href={documentationUrl} target='_blank'>
-            {t('footer.documentation')}
-          </a>
-        </span>
+        <span>{`${shortCommitHash}`}</span>
       </div>
       <div>
         <a href={`mailto:support@staketogether.org`} target='_blank'>
           {t('footer.support')}
+        </a>
+        <a href={`/${currency as string}/${network as string}/project`} target='_blank'>
+          {t('footer.projects')}
         </a>
         <a href={`${websiteUrl}`} target='_blank'>
           {t('footer.website')}

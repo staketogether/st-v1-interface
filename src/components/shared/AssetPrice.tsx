@@ -14,13 +14,13 @@ export default function AssetPrice({ asset, className, showChangePercentage = fa
   const signalPercentChange24h = priceChangePercentage24h && priceChangePercentage24h > 0 ? '+' : ''
   return loading ? (
     <ContainerLoading>
-      {showChangePercentage && <SkeletonLoading width={80} height={30} />}
-      <SkeletonLoading width={80} height={25} />
+      {showChangePercentage && <SkeletonLoading width={80} height={24} />}
+      <SkeletonLoading width={80} height={24} />
     </ContainerLoading>
   ) : (
     <>
       <span className={className}>{priceConvertedValue}</span>
-        {!!(priceChangePercentage24h && showChangePercentage) && (
+      {!!(priceChangePercentage24h && showChangePercentage) && (
         <span
           className={priceChangePercentage24h > 0 ? 'price-up' : 'price-down'}
         >{`${signalPercentChange24h}${priceChangePercentage24h.toFixed(2)}%`}</span>
@@ -32,7 +32,9 @@ export default function AssetPrice({ asset, className, showChangePercentage = fa
 const { ContainerLoading } = {
   ContainerLoading: styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center;
     gap: ${({ theme }) => theme.size[8]};
+    height: 40px;
   `
 }
