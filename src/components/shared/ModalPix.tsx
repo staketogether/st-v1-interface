@@ -1,40 +1,72 @@
 import Modal from "./Modal";
 import { AiOutlineClose } from "react-icons/ai";
 import styled from "styled-components";
-import { WrapperInfo } from "./EditAccount";
 import useLocaleTranslation from "@/hooks/useLocaleTranslation";
+import { useState } from "react";
 
 interface EditPixInfoProps {
   isOpen: boolean,
   onClose: () => void
 }
 
-
 export default function ModalPix({ isOpen, onClose }: EditPixInfoProps) {
+  const [pixkeyType, setPixKeyType] = useState("celular")
   const { t } = useLocaleTranslation()
+
+  function handlePixKeyType() {
+    if (pixkeyType === 'celular') {
+      return (
+        <>
+        <label> {t('editAccount.mobilePhone')}</label>
+        <WrapperField>
+          <input type="cel" placeholder='+55' />
+        </WrapperField>
+        </>
+      )
+    } else if (pixkeyType === 'cpf') {
+      return (
+        <>
+          <label> {t('editAccount.kyc.cpf')}</label>
+          <WrapperField>
+            <input type="text" placeholder='000.000.000-00' />
+          </WrapperField>
+        </>
+      )
+    } else if (pixkeyType === 'cnpj') {
+      return (
+        <>
+          <label> {t('editAccount.cnpj')}</label>
+          <WrapperField>
+            <input type="text" placeholder='00.000.000/0001-00' />
+          </WrapperField>
+        </>
+      )
+    }
+  }
 
   return (
     <Modal showHeader={false} isOpen={isOpen} onClose={onClose}>
       <ContainerEdit>
         <ModalHeader>
-          <span>Add Pix Key</span>
-          <AiOutlineClose onClick={onClose} />
+          <span>{t('editAccount.addPixKey')}</span>
+          <button onClick={onClose}>
+            <AiOutlineClose onClick={onClose} />
+          </button>
         </ModalHeader>
-        <WrapperInfo>
+        <Wrapper>
           <label>{t('v2.ramp.offRamp.pixKey')}</label>
           <WrapperField>
-            <select>
-              <option value="celular">Celular</option>
+            <select onChange={(e) => setPixKeyType(e.target.value)}>
+              <option value="celular">{t('editAccount.mobilePhone')}</option>
+              <option value="cpf">{t('editAccount.kyc.cpf')}</option>
+              <option value="cnpj">{t('editAccount.cnpj')}</option>
             </select>
           </WrapperField>
-        </WrapperInfo>
-        <WrapperInfo>
-          <label>Celular</label>
-          <WrapperField>
-            <input type="cel" placeholder='+55' />
-          </WrapperField>
-        </WrapperInfo>
-        <button>Save</button>
+        </Wrapper>
+        <Wrapper>
+          {handlePixKeyType()}
+        </Wrapper>
+        <button>{t('editAccount.registerNewPixKey')}</button>
       </ContainerEdit>
     </Modal>
   )
@@ -49,12 +81,21 @@ const { WrapperField, ContainerEdit, Wrapper, ModalHeader } = {
     font-weight: 500;
     color: ${({ theme }) => theme.colorV2.gray[1]};
   }
-  svg {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    color: ${({ theme }) => theme.colorV2.blue[3]};
-    cursor: pointer;
+
+  button {
+    gap: 10px;
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.color.white} !important;
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.20);
+      width: 32px !important;
+      height: 32px !important;
+     svg {
+      flex-shrink: 0;
+      color: ${({ theme }) => theme.colorV2.blue[3]};
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+  }
   }
   `,
   ContainerEdit: styled.div`
@@ -116,5 +157,5 @@ const { WrapperField, ContainerEdit, Wrapper, ModalHeader } = {
     span {
     color: ${({ theme }) => theme.colorV2.gray[1]};
     }
-  `,
+  `
 }

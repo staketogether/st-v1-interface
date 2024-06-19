@@ -140,10 +140,7 @@
     "withdrawSuccess": "Saque Bem-Sucedido",
     "withdrawError": "Falha ao Sacar"
   },
-  "web3AuthWalletSettings": {
-    "showEtherScan": "Ver no Etherscan",
-    "showOptimismScan": "Ver na Optmism Etherscan",
-    "export": "Exportar Chave Privada",
+  "editAccount": {
     "editAccount": "Editar conta",
     "editProfile": "Editar Perfil",
     "profile": "Perfil",
@@ -155,6 +152,24 @@
     "kycLevel": "KYC Level",
     "purchaseLimit": "Limite de compra",
     "limitUsed": "Limite usado",
+    "addPixKey": "Adicionar chave pix",
+    "mobilePhone": "Celular",
+    "cnpj": "CNPJ",
+    "save": "Salvar",
+    "registerNewPixKey": "Cadastrar nova chave",
+    "kyc": {
+      "updateKycMessage": "Para executar compras com moedas FIAT na plataforma stake together é necessário o cadastro de Know your Customer (KYC)",
+      "updateKyc": "Atualizar KYC",
+      "accountType": "Tipo de conta",
+      "fullName": "Nome Completo",
+      "cpf": "CPF",
+      "birthday": "Data de Nascimento"
+    }
+  },
+  "web3AuthWalletSettings": {
+    "showEtherScan": "Ver no Etherscan",
+    "showOptimismScan": "Ver na Optmism Etherscan",
+    "export": "Exportar Chave Privada",
     "modal": {
       "title": "Atenção",
       "description": "Ao usar nossos serviços, através da sua conta do Google, você entende e aceita que!",

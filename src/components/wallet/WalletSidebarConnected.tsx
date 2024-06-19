@@ -34,7 +34,6 @@ import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBal
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from '../shared/LottieAnimation'
-import EditAccount from '../shared/EditAccount'
 interface WalletSidebarConnectedProps {
   address: `0x${string}`
   walletChainId: number
@@ -44,7 +43,6 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
-  const [isEditAccountActive, setIsEditAccountActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<'delegations' | 'rewards' | 'activity'>('delegations')
   const [productTabSelected, setProductTabSelected] = useState<StakingId>('eth-staking')
   const [userNetWorth, setUserNetWorth] = useState<string>('0')
@@ -171,10 +169,7 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
       {isSettingsActive && !isPanelActive && <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />}
       {isPanelActive && !isSettingsActive && !isWeb3AuthSettingsActive && <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
       {!isSettingsActive && !isPanelActive && isWeb3AuthSettingsActive && (
-        <>
-          <EditAccount walletAddress={address} setWeb3authWalletActive={setIsWeb3AuthSettingsActive} />
-          <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive} walletAddress={address} />
-        </>
+        <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive} walletAddress={address} />
       )}
       {!isSettingsActive && !isPanelActive && !isWeb3AuthSettingsActive && (
         <>
@@ -248,11 +243,12 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
               </AssetHeaderCard>
             }
           >
-            
             <AssetsCard>
-              {loading ?
+              {loading ? (
                 <LottieAnimation animationData={loadingAnimation} width={70} height={70} loop />
-                : accountAssets.map((asset, index) => <WalletSidebarAsset asset={asset} key={index} />)}
+              ) : (
+                accountAssets.map((asset, index) => <WalletSidebarAsset asset={asset} key={index} />)
+              )}
             </AssetsCard>
           </Card>
           <Card
@@ -330,6 +326,8 @@ const {
   AssetsCard
 } = {
   DrawerContainer: styled(Drawer)`
+    background-color: ${({ theme }) => theme.colorV2.foreground} !important;
+
     .ant-drawer-header.ant-drawer-header-close-only {
       display: none;
     }
@@ -534,7 +532,6 @@ const {
   `,
   AssetsCard: styled.div`
     width: 100%;
-    height: 299px;
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[16]};

@@ -15,22 +15,24 @@ export default function ModalProfile({ isOpen, onClose }: EditProfileModalProps)
     <Modal showHeader={false} isOpen={isOpen} onClose={onClose}>
       <ContainerEdit>
         <ModalHeader>
-          <span>{t('web3AuthWalletSettings.editProfile')}</span>
-          <AiOutlineClose onClick={onClose} />
+          <span>{t('editAccount.editProfile')}</span>
+          <button onClick={onClose}>
+            <AiOutlineClose onClick={onClose} />
+          </button>
         </ModalHeader>
         <Wrapper>
-          <label>{t('web3AuthWalletSettings.userName')}</label>
+          <label>{t('editAccount.userName')}</label>
           <WrapperField>
             <input type="text" placeholder='Nome' />
           </WrapperField>
         </Wrapper>
         <Wrapper>
-          <label>{t('web3AuthWalletSettings.email')}</label>
+          <label>{t('editAccount.email')}</label>
           <WrapperField>
             <input type="email" placeholder='email@email.com' />
           </WrapperField>
         </Wrapper>
-        <button>Save</button>
+        <button>{t('editAccount.save')}</button>
       </ContainerEdit>
     </Modal>
   )
@@ -45,13 +47,23 @@ const { WrapperField, ContainerEdit, Wrapper, ModalHeader } = {
     font-weight: 500;
     color: ${({ theme }) => theme.colorV2.gray[1]};
   }
-  svg {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    color: ${({ theme }) => theme.colorV2.blue[3]};
-    cursor: pointer;
+
+  button {
+    gap: 10px;
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.color.white} !important;
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.20);
+      width: 32px !important;
+      height: 32px !important;
+     svg {
+      flex-shrink: 0;
+      color: ${({ theme }) => theme.colorV2.blue[3]};
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
   }
+  }
+ 
   `,
   ContainerEdit: styled.div`
   display: flex;
