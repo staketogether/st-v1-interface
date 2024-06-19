@@ -6,9 +6,9 @@
     "node": "20.x"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "COMMIT_HASH=$(git rev-parse --short HEAD) next dev",
+    "build": "COMMIT_HASH=$(git rev-parse --short HEAD) next build",
+    "start": "COMMIT_HASH=$(git rev-parse --short HEAD) next start",
     "lint": "next lint",
     "prettier": "prettier --write './src/**/*.*'",
     "prettier:check": "prettier --check './src/**/*.*'",

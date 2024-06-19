@@ -1,6 +1,5 @@
 import Wallet from '@/components/wallet/Wallet'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
-import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -9,13 +8,7 @@ import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import SkeletonLoading from '../icons/SkeletonLoading'
 import LayoutHeaderSearch from './LayoutHeaderSearch'
-const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
-  ssr: false,
-  loading: () => <SkeletonLoading width={80} height={32} />,
-  suspense: true
-})
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
@@ -55,7 +48,6 @@ export default function LayoutHeader() {
         <LayoutHeaderSearch />
       </SearchArea>
       <WalletContainer>
-        <LayoutNetworkDropdown />
         <ContainerCurrency>
           <GlobeIcon />
           <span>{locale === 'pt' ? 'PT' : 'EN'}</span>

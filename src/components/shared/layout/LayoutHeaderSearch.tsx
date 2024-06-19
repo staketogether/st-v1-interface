@@ -1,23 +1,22 @@
-import { useEffect, useRef, useState } from 'react'
-import { PiCoinsLight, PiChartLine } from 'react-icons/pi'
-import styled from 'styled-components'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import AssetIcon from '../AssetIcon'
 import { chainConfigByChainId } from '@/config/chain'
+import useHeaderSearch from '@/hooks/useHeaderSearch'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import SearchInput from '../inputs/SearchInput'
-import useHeaderSearch from '@/hooks/useHeaderSearch'
+import { useEffect, useRef, useState } from 'react'
+import { PiChartLine, PiCoinsLight } from 'react-icons/pi'
+import styled from 'styled-components'
+import AssetIcon from '../AssetIcon'
 
 export default function LayoutHeaderSearch() {
   const [searchValue, setSearchValue] = useState('')
   const [showResultArea, setShowResultArea] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
-  
+
   const { t } = useLocaleTranslation()
 
-  const {hasItemsFiltered, assetsListFiltered, stakingListsFiltered}  = useHeaderSearch(searchValue)
-  
+  const { hasItemsFiltered, assetsListFiltered, stakingListsFiltered } = useHeaderSearch(searchValue)
+
   const { query } = useRouter()
   const { currency } = query as { currency: string }
 
@@ -43,8 +42,6 @@ export default function LayoutHeaderSearch() {
 
   return (
     <Container ref={containerRef}>
-      <SearchInput search={searchValue} setSearch={setSearchValue} onFocus={() => setShowResultArea(true)} />
-
       {showResultArea && hasItemsFiltered && (
         <WrapperResult onBlur={() => setShowResultArea(false)}>
           <WrapperCard>
