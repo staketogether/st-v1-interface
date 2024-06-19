@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCodesandboxLogo, PiCoinsLight, PiChartLine, PiGlobe } from 'react-icons/pi'
+import { PiChartLine, PiCodesandboxLogo, PiCoinsLight, PiGlobe } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -47,12 +47,6 @@ export default function LayoutHeader() {
             <MenuButton className={`${isHome || isActive('staking') ? 'active' : ''}`}>
               <ChartIcon />
               {t('v2.header.staking')}
-            </MenuButton>
-          </Link>
-          <Link href={`/${currency as string}/${(network as string) || 'optimism'}/project`}>
-            <MenuButton className={`${!isHome && isActive('project') ? 'active' : ''}`}>
-              <ProjectsIcon />
-              {t('v2.header.projects')}
             </MenuButton>
           </Link>
         </Menu>

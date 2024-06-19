@@ -12,6 +12,9 @@ export default function LayoutFooter() {
   const { t } = useLocaleTranslation()
   const documentationUrl = router.locale ? (router.locale === 'en' ? globalConfig.docsEn : globalConfig.docsPt) : globalConfig.docsEn
 
+  const { query } = useRouter()
+  const { currency, network } = query
+
   return (
     <Container>
       <div>
@@ -26,6 +29,11 @@ export default function LayoutFooter() {
         <span>
           <a href={documentationUrl} target='_blank'>
             {t('footer.documentation')}
+          </a>
+        </span>
+        <span>
+          <a href={`/${currency as string}/${network as string}/project`} target='_blank'>
+            {t('footer.projects')}
           </a>
         </span>
       </div>

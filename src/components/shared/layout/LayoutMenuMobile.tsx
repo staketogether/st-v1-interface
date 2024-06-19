@@ -22,13 +22,6 @@ function LayoutMenuMobile() {
         <InvestIcon />
         {t('v2.header.staking')}
       </NextLink>
-      <NextLink
-        href={`/${currency as string}/${(network as string) || 'optimism'}/project`}
-        className={`${!isHome && isActive('project') ? 'active' : ''}`}
-      >
-        <ProjectsIcon />
-        {t('v2.header.projects')}
-      </NextLink>
     </Container>
   )
 }
