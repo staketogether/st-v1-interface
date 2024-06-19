@@ -3,12 +3,12 @@ import React from 'react'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import { stakingList } from '@/config/product/staking'
-import { chainConfigByChainId } from '@/config/chain'
 import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { useRouter } from 'next/router'
 import { UserAccountHistory } from '@/queries/subgraph/queryUserAccountHistory'
 import { assetsList } from '@/config/product/asset'
-
+import LottieAnimation from '@/components/shared/LottieAnimation'
+import loadingAnimation from '@assets/animations/loading-animation.json'
 interface WalletSidebarAssetContainerProps {
   accountHistory: UserAccountHistory[]
   accountHistoryLoading: boolean
@@ -26,22 +26,23 @@ export default function WalletSidebarAccountHistoryContainer({ accountHistory, a
     ['withdraw']: t('withdraw')
   }
 
-  return (
+  return accountHistoryLoading ? (
+    <LottieAnimation animationData={loadingAnimation} width={70} height={70} loop />
+  ) : (
     <Container>
       <ContainerList>
         {accountHistory.map(history => {
-          const { blockExplorer } = chainConfigByChainId(history.chainId)
           let staking = null
           if (history.assetType === 'staking') {
-            staking = stakingList.find(item => item.contracts.StakeTogether.toLowerCase() === history.contractAddress.toLowerCase())
+            staking = stakingList.find(item => item.contracts.StakeTogether.toLowerCase() === history.token.toLowerCase())
           }
           let asset = null
           if (history.assetType === 'asset') {
-            asset = assetsList.find(item => item.contractAddress.toLowerCase() === history.contractAddress.toLowerCase())
+            asset = assetsList.find(item => item.contractAddress.toLowerCase() === history.token.toLowerCase())
           }
-
+          console.log('history', history)
           return (
-            <BalanceContainer href={`${blockExplorer.baseUrl}/tx/`} target='_blank' key={history.id}>
+            <BalanceContainer key={history.id}>
               <div>
                 <div>
                   <AssetIcon
@@ -54,11 +55,13 @@ export default function WalletSidebarAccountHistoryContainer({ accountHistory, a
                 <div>
                   <span> {typeMap[history.type]}</span>
                   {truncateWei(history.amount, 8)} {history.assetType === 'staking' && staking ? staking.symbol : asset?.symbol ?? ''}
+                  {' > '}
+                  {`${history.assetType === 'staking' && staking ? truncateWei(history.amount, 8) : history.additionalData.amountFiat / 100} ${history.assetType === 'staking' && staking ? staking.asset.symbol : asset?.symbol}`}
                 </div>
               </div>
               <div>
                 <span></span>
-                <span>{truncateTimestamp(history.createdAt.getTime(), locale ?? 'en')}</span>
+                <span>{truncateTimestamp(Math.floor(new Date(history.createdAt).getTime() / 1000), locale ?? 'en')}</span>
               </div>
             </BalanceContainer>
           )
@@ -80,7 +83,7 @@ const { Container, ContainerList, BalanceContainer } = {
     flex-direction: column;
     gap: ${({ theme }) => theme.size[8]};
   `,
-  BalanceContainer: styled.a`
+  BalanceContainer: styled.div`
     width: 100%;
     display: flex;
     align-items: center;

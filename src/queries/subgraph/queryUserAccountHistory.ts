@@ -3,8 +3,8 @@ import { gql } from '@apollo/client'
 export interface UserAccountHistory {
   additionalData: {
     amountCollateral: string
-    amountFiat: string
-    amountTo: string
+    amountFiat: number
+    amountTo: number
     brlId: number
     chainId: number
     chainTo: number
@@ -15,8 +15,7 @@ export interface UserAccountHistory {
   chainId: number
   createdAt: Date
   id: number
-  token: string
-  contractAddress: `0x${string}`
+  token: `0x${string}`
   type: 'deposit' | 'withdraw' | 'sell-crypto' | 'buy-crypto' | 'swap'
 }
 

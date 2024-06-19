@@ -16,13 +16,11 @@ import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 import { capitalize, truncateAddress, truncateText } from '../../services/truncate'
 import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
-
 import Withdrawals from '../shared/Withdrawals'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletSidebarSettings from './WalletSidebarSettings'
 import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
-
 import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
 import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
