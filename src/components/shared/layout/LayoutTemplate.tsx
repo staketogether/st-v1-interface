@@ -1,3 +1,4 @@
+import useRegisterSocialLoginUsers from '@/hooks/marketing/useRegisterSocialLoginUsers'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Montserrat } from 'next/font/google'
 import { useRouter } from 'next/router'
@@ -11,9 +12,6 @@ import LayoutFooter from './LayoutFooter'
 import LayoutHeaderDesktop from './LayoutHeaderDesktop'
 import LayoutHeaderMobile from './LayoutHeaderMobile'
 import LayoutMenuMobile from './LayoutMenuMobile'
-import useRegisterSocialLoginUsers from '@/hooks/marketing/useRegisterSocialLoginUsers'
-import { PipeDrive } from '@/components/shared/scripts/PipeDrive'
-import { Grid } from 'antd'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -25,8 +23,6 @@ interface LayoutTemplateProps {
   children: ReactNode
 }
 
-const { useBreakpoint } = Grid
-
 export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   useRegisterSocialLoginUsers()
 
@@ -35,7 +31,6 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   const router = useRouter()
   const { currency } = router.query
   const { setItem, getItem } = useLocalStorage()
-  const { md } = useBreakpoint()
 
   const changeCurrency = useCallback(
     (newCurrency: string) => {
@@ -58,7 +53,6 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
 
   return (
     <Container className={montserrat.className}>
-      {md && <PipeDrive />}
       {isProduction && (
         <>
           <GoogleTag />
@@ -120,7 +114,7 @@ const { Container, Wrapper, Content, Body } = {
   `,
   Body: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
 
     gap: ${props => props.theme.size[32]};
     justify-content: center;

@@ -1,11 +1,11 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Staking } from '@/types/Staking'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
-import { Staking } from '@/types/Staking'
 
 interface StakingCardProps {
   staking: Staking
@@ -32,10 +32,10 @@ export default function StakingCard({ staking }: StakingCardProps) {
     >
       <ImageContainer>
         <div>
-          <AssetIcon image={staking.logoImage} chain={staking.asset.chains[0]} size={32} altName={staking.id} />
+          <AssetIcon image={staking.logoImage} chain={staking.asset.chains[0]} size={28} altName={staking.id} />
           <span>{t(`v3.products.${staking.id}.name`)}</span>
         </div>
-        {staking.new && <NewTag>{t('new')}</NewTag>}
+        {/* {staking.new && <NewTag>{t('new')}</NewTag>} */}
         {!staking.enabled && <Soon>{t('soon')}</Soon>}
       </ImageContainer>
       <PriceContainer>
@@ -51,12 +51,13 @@ export default function StakingCard({ staking }: StakingCardProps) {
   )
 }
 
-const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
+const { CardContainer, ImageContainer, PriceContainer, Soon, Apy } = {
   PriceContainer: styled.div`
-    gap: ${({ theme }) => theme.size[8]};
+    gap: ${({ theme }) => theme.size[16]};
     display: flex;
     justify-content: center;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
 
     > span {
       width: 100%;
@@ -65,12 +66,6 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
       font-weight: 500;
       white-space: nowrap;
     }
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-      >span {
-        font-size: ${({ theme }) => theme.font.size[22]};
-      }
-    }
   `,
   Apy: styled.div`
     padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[8]};
@@ -78,20 +73,18 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
     background: ${({ theme }) => theme.colorV2.white[1]};
     color: ${({ theme }) => theme.color.green[500]};
     border: 1px solid ${({ theme }) => theme.color.green[500]};
-    font-size: ${({ theme }) => theme.font.size[12]};
+    font-size: ${({ theme }) => theme.font.size[14]};
     font-weight: 600;
     line-height: normal;
     text-align: center;
-
-     @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-        font-size: ${({ theme }) => theme.font.size[16]};
-    }
+    min-width: 84px;
+    min-height: 24px;
   `,
   CardContainer: styled(Link)`
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: ${({ theme }) => theme.size[24]};
+    padding: 8px 16px;
     gap: ${({ theme }) => theme.size[16]};
     border-radius: ${({ theme }) => theme.size[8]};
     background: ${({ theme }) => theme.colorV2.white};
@@ -112,10 +105,6 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
     &.disabled {
       opacity: 0.6;
     }
-
-      @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-      padding: ${({ theme }) => theme.size[24]};
-    }
   `,
   ImageContainer: styled.div`
     display: flex;
@@ -125,16 +114,11 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
     > div {
       display: flex;
       align-items: center;
-      gap: ${({ theme }) => theme.size[12]};
+      gap: ${({ theme }) => theme.size[16]};
       > span {
         color: ${({ theme }) => theme.colorV2.black};
         font-size: ${({ theme }) => theme.font.size[16]};
         font-weight: 500;
-      }
-      @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-        >span {
-          font-size: ${({ theme }) => theme.font.size[20]};
-        }
       }
     }
   `,
@@ -154,20 +138,20 @@ const { CardContainer, ImageContainer, PriceContainer, Soon, NewTag, Apy } = {
 
     font-size: 13px;
     font-weight: 400;
-  `,
-  NewTag: styled.div`
-    width: 50px;
-    height: 25px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: ${({ theme }) => theme.colorV2.white} !important;
-    border-radius: ${({ theme }) => theme.size[4]};
-    background: linear-gradient(108deg, #3c43ee -11.12%, #ab00fc 110.08%);
-
-    font-size: 13px;
-    font-weight: 500;
   `
+  // NewTag: styled.div`
+  //   width: 50px;
+  //   height: 25px;
+
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+
+  //   color: ${({ theme }) => theme.colorV2.white} !important;
+  //   border-radius: ${({ theme }) => theme.size[4]};
+  //   background: linear-gradient(108deg, #3c43ee -11.12%, #ab00fc 110.08%);
+
+  //   font-size: 12px;
+  //   font-weight: 500;
+  // `
 }

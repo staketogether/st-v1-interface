@@ -1,8 +1,8 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset, AssetCategory } from '@/types/Asset'
+import { useState } from 'react'
 import styled from 'styled-components'
 import AssetCard from './AssetCard'
-import { useState } from 'react'
 
 interface TokenControlProps {
   assetsList: Asset[]
@@ -59,7 +59,7 @@ const { Container, Products, Title, ContainerButton } = {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[12]};
   `,
 
   Title: styled.div`
@@ -71,10 +71,9 @@ const { Container, Products, Title, ContainerButton } = {
       font-style: normal;
       font-weight: 500;
       line-height: normal;
-      line-height: 52px;
     }
     h2 {
-      font-size: ${({ theme }) => theme.font.size[20]};
+      font-size: ${({ theme }) => theme.font.size[16]};
       font-style: normal;
       font-weight: 400;
       line-height: normal;
@@ -85,7 +84,7 @@ const { Container, Products, Title, ContainerButton } = {
       gap: ${({ theme }) => theme.size[8]};
 
       h1 {
-        font-size: 48px;
+        font-size: 36px;
       }
     }
   `,
@@ -93,14 +92,8 @@ const { Container, Products, Title, ContainerButton } = {
   Products: styled.nav`
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, 1fr);
     gap: ${({ theme }) => theme.size[8]};
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: ${({ theme }) => theme.size[24]};
-
-    }
   `,
   ContainerButton: styled.div`
     height: 50px;
@@ -108,7 +101,7 @@ const { Container, Products, Title, ContainerButton } = {
     flex-wrap: nowrap;
     gap: ${({ theme }) => theme.size[8]};
     overflow-x: auto;
-    margin-top: 32px;
+    margin-top: 16px;
 
     &::-webkit-scrollbar {
       width: 0;
@@ -118,13 +111,13 @@ const { Container, Products, Title, ContainerButton } = {
     div {
       display: flex;
       height: 40px;
-      padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[16]};
+      padding: ${({ theme }) => theme.size[12]};
       align-items: center;
       border-radius: ${({ theme }) => theme.size[8]};
       box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
 
       color: ${({ theme }) => theme.color.gray[600]};
-      font-size: ${({ theme }) => theme.font.size[16]};
+      font-size: ${({ theme }) => theme.font.size[14]};
       font-style: normal;
       font-weight: 500;
       background: #fff;

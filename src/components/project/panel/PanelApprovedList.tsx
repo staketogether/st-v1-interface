@@ -1,7 +1,6 @@
 import CommunityLogo from '@/components/shared/community/CommunityLogo'
 import CommunityName from '@/components/shared/community/CommunityName'
 import Loading from '@/components/shared/icons/Loading'
-import SearchInput from '@/components/shared/inputs/SearchInput'
 import useContentfulProjectListByStatus from '@/hooks/contentful/useContentfulProjectListByStatus'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useProjectDetailModal from '@/hooks/useProjectDetailModal'
@@ -13,7 +12,7 @@ import PanelApprovedButton from './PanelApprovedButton'
 import PanelProjectDetailModal from './PanelProjectDetailModal'
 
 export default function PanelApprovedList() {
-  const [search, setSearch] = useState<string>('')
+  const [search] = useState<string>('')
   const [projectSelected, setProjectSelected] = useState<(ContentfulPool & { isContractPublished: boolean }) | null>(null)
   const debouncedSearch = useDebounce(search, 300)
   const isSearchAddress = search.startsWith('0x')
@@ -35,7 +34,6 @@ export default function PanelApprovedList() {
   return (
     <>
       <Container>
-        <SearchInput search={search} setSearch={setSearch} />
         <Content>
           {(initialLoading || loadingFetchMore) && <Loading size={18} />}
           {!!projectList.length &&
