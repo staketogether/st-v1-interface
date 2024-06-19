@@ -59,7 +59,7 @@ const { Container, Products, Title, ContainerButton } = {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
+    gap: ${({ theme }) => theme.size[12]};
   `,
 
   Title: styled.div`
@@ -71,7 +71,6 @@ const { Container, Products, Title, ContainerButton } = {
       font-style: normal;
       font-weight: 500;
       line-height: normal;
-      line-height: 52px;
     }
     h2 {
       font-size: ${({ theme }) => theme.font.size[16]};
@@ -102,7 +101,7 @@ const { Container, Products, Title, ContainerButton } = {
     flex-wrap: nowrap;
     gap: ${({ theme }) => theme.size[8]};
     overflow-x: auto;
-    margin-top: 32px;
+    margin-top: 16px;
 
     &::-webkit-scrollbar {
       width: 0;

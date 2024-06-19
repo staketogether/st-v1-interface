@@ -1,14 +1,11 @@
-import styled from 'styled-components'
-import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi2'
 import { useRouter } from 'next/router'
-import { useCallback, useState, useEffect } from 'react'
+import { useCallback, useState } from 'react'
+import { HiOutlineChevronDown, HiOutlineChevronUp } from 'react-icons/hi2'
 import { PiArrowLeft, PiCheckBold } from 'react-icons/pi'
+import styled from 'styled-components'
+import { useAccount } from 'wagmi'
 import { useLocalStorage } from '../../hooks/useLocalStorage'
 import useLocaleTranslation from '../../hooks/useLocaleTranslation'
-import NetworkIcon from '../shared/NetworkIcon'
-import { useAccount } from 'wagmi'
-import { chainConfigByChainId, ChainConfig } from '@/config/chain'
-import { capitalize } from '@/services/truncate'
 
 interface WalletSlideBarSettingsProps {
   setIsSettingsActive?: (value: boolean) => void
@@ -16,24 +13,15 @@ interface WalletSlideBarSettingsProps {
 }
 
 export default function WalletSidebarSettings({ setIsSettingsActive, showBackButton = true }: WalletSlideBarSettingsProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isCoinOpen, setIsCoinOpen] = useState(false);
-  const [chainConfig, setChainConfig] = useState<ChainConfig | undefined>(undefined);
+  const [isOpen, setIsOpen] = useState(false)
+  const [isCoinOpen, setIsCoinOpen] = useState(false)
+
   const { t } = useLocaleTranslation()
 
   const { chain } = useAccount()
   const router = useRouter()
   const { currency } = router.query
   const { setItem } = useLocalStorage()
-
-  useEffect(() => {
-    if (chain?.id) {
-      const config = chainConfigByChainId(chain.id)
-      setChainConfig(config)
-    } else {
-      setChainConfig(undefined)
-    }
-  }, [chain])
 
   const changeLocale = (newLocale: string) => {
     router.push(router.pathname, router.asPath, { locale: newLocale })
@@ -48,7 +36,7 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
       })
 
       setItem('currency', newCurrency)
-      setIsCoinOpen(false); // Close the select dropdown after changing the currency
+      setIsCoinOpen(false) // Close the select dropdown after changing the currency
     },
     [router, setItem]
   )
@@ -70,14 +58,12 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
             value={router.locale}
             onClick={() => setIsOpen(!isOpen)}
             onBlur={() => setIsOpen(false)}
-            onChange={(e) => changeLocale(e.target.value)}
+            onChange={e => changeLocale(e.target.value)}
           >
-            <option value="en">English</option>
-            <option value="pt">Português</option>
+            <option value='en'>English</option>
+            <option value='pt'>Português</option>
           </StyledSelect>
-          <SelectIcon>
-            {isOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
-          </SelectIcon>
+          <SelectIcon>{isOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}</SelectIcon>
         </SelectWrapper>
       </SettingContainer>
       <SettingContainer>
@@ -87,29 +73,15 @@ export default function WalletSidebarSettings({ setIsSettingsActive, showBackBut
             value={currency}
             onClick={() => setIsCoinOpen(!isCoinOpen)}
             onBlur={() => setIsCoinOpen(false)}
-            onChange={(e) => changeCurrency(e.target.value)}
+            onChange={e => changeCurrency(e.target.value)}
           >
-            <option value="usd">USD</option>
-            <option value="eur">EUR</option>
-            <option value="brl">BRL</option>
+            <option value='usd'>USD</option>
+            <option value='eur'>EUR</option>
+            <option value='brl'>BRL</option>
           </StyledSelect>
-          <SelectIcon>
-            {isCoinOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}
-          </SelectIcon>
+          <SelectIcon>{isCoinOpen ? <HiOutlineChevronUp /> : <HiOutlineChevronDown />}</SelectIcon>
         </SelectWrapper>
       </SettingContainer>
-      {chainConfig && (
-        <SettingContainer>
-          <h3>{t('settings.network')}</h3>
-          <StyledSelect as="div">
-            <Network>
-              <NetworkIcon chain={chain?.id} size={24} />
-              <span>{capitalize(chainConfig.name.replaceAll('-', ' '))}</span>
-              <CheckedIcon />
-            </Network>
-          </StyledSelect>
-        </SettingContainer>
-      )}
     </>
   )
 }

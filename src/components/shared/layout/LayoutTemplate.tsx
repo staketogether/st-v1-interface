@@ -118,7 +118,7 @@ const { Container, Wrapper, Content, Body } = {
   `,
   Body: styled.div`
     display: grid;
-    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.xl});
+    grid-template-columns: minmax(320px, ${({ theme }) => theme.breakpoints.lg});
 
     gap: ${props => props.theme.size[32]};
     justify-content: center;
