@@ -39,13 +39,13 @@ export default function ModalKyc({ isOpen, onClose }: EditKycInfoProps) {
         <Wrapper>
           <label>{t('editAccount.kyc.fullName')}</label>
           <WrapperField>
-            <input type="text" placeholder="Insira seu nome igual ao do seu documento"/>
+            <input type="text" placeholder={t('editAccount.kyc.placeholder.fullNamePlaceholder')} />
           </WrapperField>
         </Wrapper>
         <Wrapper>
           <label>{t('editAccount.email')}</label>
           <WrapperField>
-            <input type="text" placeholder="Insira seu email para contato"/>
+            <input type="text" placeholder={t('editAccount.kyc.placeholder.emailPlaceholder')} />
           </WrapperField>
         </Wrapper>
         <Wrapper>

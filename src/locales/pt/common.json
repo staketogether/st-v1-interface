@@ -163,7 +163,11 @@
       "accountType": "Tipo de conta",
       "fullName": "Nome Completo",
       "cpf": "CPF",
-      "birthday": "Data de Nascimento"
+      "birthday": "Data de Nascimento",
+      "placeholder": {
+        "fullNamePlaceholder": "Insira seu nome igual ao do seu documento",
+        "emailPlaceholder": "Insira seu e-mail para contato"
+      }
     }
   },
   "web3AuthWalletSettings": {

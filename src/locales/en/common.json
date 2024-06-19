@@ -164,7 +164,11 @@
       "accountType": "Account Type",
       "fullName": "Full Name",
       "cpf": "CPF",
-      "birthday": "Birthday"
+      "birthday": "Birthday",
+      "placeholder": {
+        "fullNamePlaceholder": "Enter your name the same as your document",
+        "emailPlaceholder": "Enter your contact email"
+      }
     }
   },
   "web3AuthWalletSettings": {
