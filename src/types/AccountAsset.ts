@@ -1,6 +1,6 @@
 export interface AccountAsset {
   chainId: number
-  contractAddress: string
+  contractAddress: `0x${string}`
   symbol: string
   thumbnail?: string
   balance: string

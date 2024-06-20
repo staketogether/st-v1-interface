@@ -5,21 +5,19 @@ import { assetsList } from '@/config/product/asset'
 import styled from 'styled-components'
 import { truncateWei } from '@/services/truncate'
 import defaultErc20Icon from '@assets/assets/default-erc-20.svg'
-import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
+// import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import Link from 'next/link'
+import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import { useRouter } from 'next/router'
 
 export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const configAsset = assetsList.find(
-    supportedAsset =>
-      supportedAsset.contractAddress.toLowerCase() === asset.contractAddress.toLowerCase() && supportedAsset.chains[0] === asset.chainId
+    supportedAsset => supportedAsset.contractAddress.toLowerCase() === asset?.contractAddress.toLowerCase()
   )
-
-  const fixedWalletBalance = asset.decimals >= 18 ? asset.balance : asset.balance + '0'.repeat(18 - asset.decimals)
-  const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance), 6))
-
   const { query } = useRouter()
   const { currency } = query as { currency: string }
+  const fixedWalletBalance = asset.decimals >= 18 ? asset.balance : asset.balance + '0'.repeat(18 - asset.decimals)
+  const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance), 6))
 
   const imageSrc = configAsset?.symbolImage ?? asset?.thumbnail ?? defaultErc20Icon
   const { usdToCurrency } = useFiatUsdConversion()
@@ -27,7 +25,7 @@ export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   return (
     <BalanceContainer
       href={`${configAsset?.url.replace('currency', currency)} `}
-      key={asset.chainId}
+      key={asset.contractAddress}
       className={`${!configAsset && 'disabled'}`}
     >
       <div>
@@ -53,9 +51,14 @@ const { BalanceContainer } = {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: background-color 0.2s;
-    border-radius: ${({ theme }) => theme.size[8]};
-    padding: 2px;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: ${({ theme }) => theme.colorV2.background};
+    }
 
     div {
       &:nth-child(1) {
@@ -108,7 +111,6 @@ const { BalanceContainer } = {
     &:hover {
       background-color: ${({ theme }) => theme.colorV2.foreground};
     }
-
     &.disabled {
       cursor: not-allowed;
       pointer-events: none;
