@@ -1,4 +1,4 @@
-import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
+import TokensSymbolIcons from '@/components/shared/TokensSymbolIcons'
 import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -33,7 +33,7 @@ const TokensShowValuePrice = dynamic(() => import('../shared/AssetPrice'), {
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
   const config = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
-  
+
   const { address } = useAccount()
   const { points } = useAccountStPoints(address)
   const { elPoints } = useAccountElPoints(address)
@@ -44,8 +44,6 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
   const stakeTogetherContractAddress = product.contracts.StakeTogether
   const router = useRouter()
 
-
-  
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
 

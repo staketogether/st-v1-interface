@@ -1,20 +1,15 @@
+import CryptoPageControl from '@/components/cryptoPage/CryptoPageControl'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
-import AssetControl from '@/components/asset/AssetControl'
-import { assetsList, getListedAssets } from '@/config/product/asset'
-import { Asset } from '@/types/Asset'
+import { assetsList } from '@/config/product/asset'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-interface CryptoProps {
-  assets: Asset[]
-}
-
-export default function Crypto({ assets }: CryptoProps) {
+export default function Crypto() {
   return (
     <LayoutTemplate>
       <Metatags />
-      <AssetControl assetsList={assets} />
+      <CryptoPageControl />
     </LayoutTemplate>
   )
 }
@@ -33,9 +28,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   return {
     props: {
-      assets: getListedAssets(),
       ...(await serverSideTranslations(locale ?? 'en', ['common']))
-    },
-    revalidate: 24 * 60 * 60
+    }
   }
 }

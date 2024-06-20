@@ -27,7 +27,7 @@ interface AssetsControlProps {
   type: AssetActionType
 }
 
-const AssetBalanceCard = dynamic(() => import('../asset/AssetBalanceCard'), {
+const AssetBalanceCard = dynamic(() => import('../cryptoPage/AssetBalanceCard'), {
   ssr: false,
   loading: () => (
     <LoadingContainer>

@@ -7,8 +7,17 @@ import { StakingId } from '@/types/Staking'
 export const stBackendClient = new ApolloClient({
   uri: globalConfig.backendSubgraph,
   ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache(),
-
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          assets: {
+            keyArgs: ['chainId', 'orderBy', 'orderDirection', 'category']
+          }
+        }
+      }
+    }
+  }),
   connectToDevTools: true
 })
 
