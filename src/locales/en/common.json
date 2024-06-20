@@ -141,10 +141,7 @@
     "withdrawSuccess": "Withdrawal Successful",
     "withdrawError": "Failed to Withdraw"
   },
-  "web3AuthWalletSettings": {
-    "showEtherScan": "View on Etherscan",
-    "showOptimismScan": "View on Optimism Etherscan",
-    "export": "Export",
+  "editAccount": {
     "editAccount": "Edit Account",
     "editProfile": "Edit Profile",
     "profile": "Profile",
@@ -156,6 +153,32 @@
     "kycLevel": "KYC Level",
     "purchaseLimit": "Purchase limit",
     "limitUsed": "Limit used",
+    "addPixKey": "Add pix key",
+    "mobilePhone": "Mobile Phone",
+    "cnpj": "CNPJ",
+    "save": "Save",
+    "registerNewPixKey": "Register new key",
+    "showEtherScan": "View on Etherscan",
+    "showOptimismScan": "View on Optimism Etherscan",
+    "export": "Export",
+    "kyc": {
+      "kyc": "KYC",
+      "updateKycMessage": "To make purchases with FIAT currencies on the stake together platform, Know your Customer (KYC) registration is required.",
+      "updateKyc": "Update KYC",
+      "accountType": "Account Type",
+      "fullName": "Full Name",
+      "cpf": "CPF",
+      "birthday": "Birthday",
+      "placeholder": {
+        "fullNamePlaceholder": "Enter your name the same as your document",
+        "emailPlaceholder": "Enter your contact email"
+      }
+    }
+  },
+  "web3AuthWalletSettings": {
+    "showEtherScan": "View on Etherscan",
+    "showOptimismScan": "View on Optimism Etherscan",
+    "export": "Export",
     "modal": {
       "title": "Attention",
       "description": "By using our services through your Google account, you understand and agree that:",

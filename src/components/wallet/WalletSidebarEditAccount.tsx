@@ -13,7 +13,6 @@ import { useEffect, useState } from 'react';
 import { PiArrowLeft } from 'react-icons/pi';
 import { chainConfigByChainId } from '@/config/chain';
 import etherscan from '@assets/icons/etherscan.svg'
-import { useReactiveVar } from '@apollo/client';
 import Image from 'next/image'
 
 interface walletSidebarEditAccountProps {
@@ -37,7 +36,7 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
 
   useEffect(() => {
     if (wallets && wallets.length > 0) {
-      const formatedWallets = wallets.map(wallet => {
+      const formatedWallets = wallets.map((wallet) => {
         return truncateAddress(wallet.walletAddress)
       })
       setFormatWalletAddress(formatedWallets)
@@ -64,58 +63,60 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
     }
   }, [pixKey])
 
+  
+
   return (
     <>
       <HeaderDrawer>
         <ButtonDrawer onClick={() => setIsWalletSidebarActive && setIsWalletSidebarActive(false)}>
           <CloseIcon />
         </ButtonDrawer>
-        <h2>{t('wallet')}</h2>
+        <h2>{t('editAccount.profile')}</h2>
       </HeaderDrawer>
       <Container>
         <Section>
           <Header>
-            <h3>{t('web3AuthWalletSettings.profile')}</h3>
+            <h3>{t('editAccount.profile')}</h3>
             <Button disabled>{t('soon')}</Button>
           </Header>
           <WrapperInfo>
-            <span>{t('web3AuthWalletSettings.userName')}</span>
+            <span>{t('editAccount.userName')}</span>
             <Span>{kyc?.fullName}</Span>
           </WrapperInfo>
           <WrapperInfo>
-            <span>{t('web3AuthWalletSettings.email')}</span>
+            <span>{t('editAccount.email')}</span>
             <Span>{kyc?.email}</Span>
           </WrapperInfo>
         </Section>
         <Section>
           <Header>
-            <h3>KYC</h3>
+            <h3>{t('editAccount.kyc.kyc')}</h3>
             <Button disabled>{t('soon')}</Button>
           </Header>
           <KYCard>
             <WrapperInfo>
-              <span>{t('web3AuthWalletSettings.kycLevel')}:</span>
+              <span>{t('editAccount.kycLevel')}:</span>
               <span>0</span>
             </WrapperInfo>
             <WrapperInfo>
-              <span>{t('web3AuthWalletSettings.purchaseLimit')}:</span>
+              <span>{t('editAccount.purchaseLimit')}:</span>
               <span>R$ 0</span>
             </WrapperInfo>
             <WrapperInfo>
-              <span>{t('web3AuthWalletSettings.limitUsed')}:</span>
+              <span>{t('editAccount.limitUsed')}:</span>
               <span>R$ 0</span>
             </WrapperInfo>
           </KYCard>
         </Section>
         <Section>
           <Header>
-            <h3>{t('web3AuthWalletSettings.pixKey')}</h3>
+            <h3>{t('editAccount.pixKey')}</h3>
             <Button disabled>{t('soon')}</Button>
           </Header>
           {maskedPixKeys?.map((pix) => (
             <Wrapper>
               <WrapperInfo>
-                <span >{t('web3AuthWalletSettings.pixKey')}</span>
+                <span >{t('editAccount.pixKey')}</span>
                 <span>{pix}</span>
               </WrapperInfo>
               <FiTrash2 size={24} />
@@ -124,37 +125,40 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
         </Section>
         <Section>
           <Header>
-            <h3>{t('web3AuthWalletSettings.wallets')}</h3>
+            <h3>{t('editAccount.wallets')}</h3>
             <Button disabled>{t('soon')}</Button>
           </Header>
-          <Wrapper>
-            <WrapperInfo>
-              <span >{t('web3AuthWalletSettings.address')}</span>
-              <span>0xae54...2Fe1C7</span>
-            </WrapperInfo>
-            <span>Exportar</span>
-          </Wrapper>
+          
           {formatWalletAddress?.map(wallet => (
-            <Wrapper>
-              <WrapperInfo>
-                <span >{t('web3AuthWalletSettings.address')}</span>
-                <span>{wallet}</span>
-              </WrapperInfo>
-              <FiTrash2 size={24} />
-            </Wrapper>
+            <>
+              <Wrapper>
+                <WrapperInfo>
+                  <span >{t('wallet')}</span>
+                  <span>{wallet}</span>
+                </WrapperInfo>
+                <ExportButton>{t('editAccount.export')}</ExportButton>
+              </Wrapper>
+              <Wrapper>
+                <WrapperInfo>
+                  <span >{t('wallet')}</span>
+                  <span>{wallet}</span>
+                </WrapperInfo>
+                <FiTrash2 size={24} />
+              </Wrapper>
+            </>
           ))}
         </Section>
         <Container>
           <a className='copy' href={`${ethereum.blockExplorer.baseUrl}/address/${address}`} target='_blank'>
             <Card>
               <Image src={etherscan} alt='etherscan icon' width={16} height={16} />
-              {t('web3AuthWalletSettings.showEtherScan')}
+              {t('editAccount.showEtherScan')}
             </Card>
           </a>
           <a className='copy' href={`${optimism.blockExplorer.baseUrl}/address/${address}`} target='_blank'>
             <Card>
               <Image src={etherscan} alt='etherscan icon' width={16} height={16} />
-              {t('web3AuthWalletSettings.showOptimismScan')}
+              {t('editAccount.showOptimismScan')}
             </Card>
           </a>
        </Container>
@@ -164,7 +168,7 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
 }
 
 
-export const { Container, Section, HeaderDrawer, Header, WrapperInfo, KYCard, Wrapper, Span, WrapperField, ButtonDrawer, Button, ModalHeader, ContainerEdit, CloseIcon, Card } = {
+export const { Container, Section, HeaderDrawer, Header, WrapperInfo, KYCard, Wrapper, ExportButton, Span, WrapperField, ButtonDrawer, Button, ModalHeader, ContainerEdit, CloseIcon, Card } = {
   HeaderDrawer: styled.div`
     min-height: 32px;
     width: 100%;
@@ -350,6 +354,12 @@ export const { Container, Section, HeaderDrawer, Header, WrapperInfo, KYCard, Wr
  svg {
   cursor: pointer;
  }
+  `,
+  ExportButton: styled.div`
+    cursor: pointer;
+    color: ${({ theme }) => theme.color.primary};
+    font-size: ${({ theme }) => theme.font.size[15]};
+    font-weight: 400;
   `,
   ModalHeader: styled.header`
   display: flex;
