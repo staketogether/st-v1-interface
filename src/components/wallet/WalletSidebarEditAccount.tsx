@@ -1,13 +1,11 @@
 import userKyc from '@/hooks/useKyc';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import userPixKey from '@/hooks/usePixKey';
-import { web3AuthInstanceVar } from '@/config/web3Auth'
 import userProfile from '@/hooks/useProfile';
 import userWalletAddress from '@/hooks/useWalletAddress';
 import { FiTrash2 } from 'react-icons/fi'
 import styled from 'styled-components'
-import { useAccount } from 'wagmi';
-import { cnpjMask, cpfMask, phoneMask } from '../shared/input-helper/mask'
+import { cpfMask, phoneMask } from '../shared/input-helper/mask'
 import { truncateAddress } from '@/services/truncate';
 import { useEffect, useState } from 'react';
 import { PiArrowLeft } from 'react-icons/pi';
@@ -15,7 +13,6 @@ import { chainConfigByChainId } from '@/config/chain';
 import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
 import ModalExportWallet from '../shared/ModalExportWallet';
-import { useRouter } from 'next/router';
 import { formatNumberByLocale } from '@/services/format';
 
 interface walletSidebarEditAccountProps {
@@ -28,7 +25,7 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
   const [formatWalletAddress, setFormatWalletAddress] = useState<string[] | undefined>([])
 
   const [notifyModal, setNotifyModal] = useState(false)
-  const { profile } = userProfile("0xae5462E47577bcde3663F2A748fE8019372Fe1C7")
+  const { profile } = userProfile(walletAddress)
   const { kyc } = userKyc(profile ? profile.id : 0)
   const { pixKey } = userPixKey(profile ? profile.id : 0)
   const { wallets } = userWalletAddress(profile ? profile.id : 0)
