@@ -4,7 +4,7 @@ import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useQuoteOffRamp from '@/hooks/ramp/useQuoteOffRamp'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
+import { StaticAsset } from '@/types/StaticAsset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import brlBrla from '@assets/icons/brl-brla.svg'
@@ -21,7 +21,7 @@ import AlertMessageComponent from '../shared/AlertMessageComponent'
 import { chainConfigByChainId } from '@/config/chain'
 
 interface QuotationOffRampStepProps {
-  asset: Asset
+  asset: StaticAsset
   userTokenBalance: TokenBalance
   userTokenIsLoading: boolean
 }
@@ -115,7 +115,7 @@ export default function QuotationOffRampStep({ asset: asset, userTokenBalance, u
             handleChange(v)
           }}
           onMaxFunction={() => setValue(userTokenBalance.balance)}
-          productAsset={asset}
+          asset={asset}
           hasError={false}
           inputMode='decimal'
           balance={userTokenBalance.balance}

@@ -1,4 +1,4 @@
-import { Asset } from '@/types/Asset'
+import { StaticAsset } from '@/types/StaticAsset'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import styled from 'styled-components'
 import LottieAnimation from '../shared/LottieAnimation'
@@ -13,7 +13,7 @@ export default function WrapProcessingStep({
 }: {
   validationSteps: ValidationSteps[]
   title: string
-  asset: Asset
+  asset: StaticAsset
   type: 'buy' | 'sell' | 'swap'
 }) {
   return (

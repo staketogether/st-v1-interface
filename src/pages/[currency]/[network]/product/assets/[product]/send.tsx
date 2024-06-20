@@ -3,14 +3,14 @@ import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { assetsList } from '@/config/product/asset'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
+import { StaticAsset } from '@/types/StaticAsset'
 import { Asset } from '@/types/Asset'
-import { AssetStats } from '@/types/AssetStats'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 export interface ProductProps {
-  asset: Asset
-  assetData: AssetStats
+  asset: StaticAsset
+  assetData: Asset
   chainId: number
 }
 
@@ -18,7 +18,7 @@ export default function Product({ asset, chainId }: ProductProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <AssetsControl asset={asset} chainId={chainId} type='send' />
+      <AssetsControl assetId={asset} chainId={chainId} type='send' />
     </LayoutTemplate>
   )
 }
@@ -60,22 +60,18 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     product: string
   }
 
-  const productSelected = assetsList.find(item => item.id === product)
-
   const chainId = handleChainIdByNetwork(network)
 
-  if (!productSelected || !chainId) {
+  if (!chainId) {
     return {
       notFound: true
     }
   }
 
-
-
   return {
     props: {
       chainId,
-      asset: productSelected,
+      assetId: product,
       ...(await serverSideTranslations(locale ?? 'en', ['common']))
     },
     revalidate: 24 * 60 * 60

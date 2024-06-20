@@ -1,7 +1,6 @@
 import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 import { RampSteps, clearRampVars, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
 import { useEffect } from 'react'
 import styled from 'styled-components'
@@ -19,16 +18,18 @@ import QuotationStep from '../ramp/QuotationStep'
 import SuccessStep from '../ramp/SuccessStep'
 import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
 import ConnectWallet from '../shared/ConnectWallet'
+import { Asset } from '@/types/Asset'
 
 interface AssetsRampControlProps {
   type: 'buy' | 'sell'
-  asset: Asset
+  asset?: Asset
+  chainId: number
   userTokenBalance: TokenBalance
   userTokenIsLoading: boolean
   userTokenRefetch: () => void
 }
 
-export default function AssetsRampControl({ asset, type, userTokenBalance, userTokenIsLoading, userTokenRefetch }: AssetsRampControlProps) {
+export default function AssetsRampControl({ asset, chainId, type, userTokenBalance, userTokenIsLoading, userTokenRefetch }: AssetsRampControlProps) {
   const { t } = useLocaleTranslation()
   const { address: walletAddress } = useAccount()
 
@@ -58,16 +59,16 @@ export default function AssetsRampControl({ asset, type, userTokenBalance, userT
   }, [walletAddress, type])
 
   const steps = {
-    MethodPayment: <PaymentMethod asset={asset} />,
+    MethodPayment: <PaymentMethod chainId={chainId} asset={asset} />,
     Quotation: <QuotationStep asset={asset} />,
     QuotationOffRamp: <QuotationOffRampStep asset={asset} userTokenBalance={userTokenBalance} userTokenIsLoading={userTokenIsLoading} />,
-    Kyc: <KycStep asset={asset} />,
+    Kyc: <KycStep asset={asset} chainId={chainId} />,
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep product={asset} type={type} />,
     ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} type={type} />,
-    Checkout: <CheckoutStep asset={asset} type={type} />,
+    Checkout: <CheckoutStep chainId={chainId} asset={asset} type={type} />,
     TimeOutCheckout: <TimeOutCheckout type={type} />,
-    Success: <SuccessStep product={asset} type={type} />,
+    Success: <SuccessStep asset={asset} type={type} />,
     PixKeyStep: <PixKeyStep />,
     ProcessingCheckoutOffRampStep: (
       <ProcessingCheckoutOffRampStep userTokenRefetch={userTokenRefetch} walletAddress={walletAddress} asset={asset} type={type} />

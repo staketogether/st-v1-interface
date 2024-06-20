@@ -3,7 +3,7 @@ import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize, truncateWei } from '@/services/truncate'
-import { AssetStats } from '@/types/AssetStats'
+import { Asset } from '@/types/Asset'
 import { Staking } from '@/types/Staking'
 import { Tooltip, notification } from 'antd'
 import dynamic from 'next/dynamic'
@@ -20,7 +20,7 @@ import useAccountElPoints from '@/hooks/subgraphs/useAcountElPoints'
 
 interface ProductInfoProps {
   product: Staking
-  assetData: AssetStats
+  assetData: Asset
   chainId: number
 }
 

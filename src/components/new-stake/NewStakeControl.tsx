@@ -16,7 +16,7 @@ import NetworkIcons from '../shared/NetworkIcons'
 import ProductInfo from './ProductInfo'
 import { Staking } from '@/types/Staking'
 import { chainConfigByChainId } from '@/config/chain'
-import { AssetStats } from '@/types/AssetStats'
+import { Asset } from '@/types/Asset'
 import StakingBalanceCard from './StakingBalanceCard'
 import StakingDelegatePools from './StakingDelegatePools'
 import useErc20BalanceOf from '@/hooks/contracts/useErc20BalanceOf'
@@ -36,7 +36,7 @@ const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl
 interface NewStakeControlProps {
   type: 'deposit' | 'withdraw'
   staking: Staking
-  assetData: AssetStats
+  assetData: Asset
   chainId: number
 }
 

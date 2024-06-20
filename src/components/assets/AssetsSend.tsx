@@ -9,7 +9,6 @@ import AlertMessageComponent from '../shared/AlertMessageComponent'
 
 import { ethers, isAddress, parseEther } from 'ethers'
 
-import { Asset } from '@/types/Asset'
 import AssetInput from './AssetsInput'
 import { useEffect, useState } from 'react'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
@@ -21,27 +20,34 @@ import { chainConfigByChainId } from '@/config/chain'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { useSwitchChain } from 'wagmi'
 import { capitalize } from '@/config/utils'
+import { Asset } from '@/types/Asset'
 
 interface AssetSendProps {
   walletTo: string
 }
 
-export function AssetsSend({ asset }: { asset: Asset }) {
+export function AssetsSend({ asset, chainId }: { asset?: Asset, chainId: number }) {
   const [sendAmount, setSendAmount] = useState<string>('0')
 
   const { t } = useLocaleTranslation()
   const { account, chainId: walletChainId } = useConnectedAccount()
-  const isWrongNetwork = asset.chains[0] !== walletChainId
-  const { name } = chainConfigByChainId(asset.chains[0])
+  const isWrongNetwork = chainId !== walletChainId
+  const { name } = chainConfigByChainId(chainId)
   const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
-  const { isLoading, tokenBalance } = useBalanceOf({ asset, walletAddress: account })
+  const { isLoading, tokenBalance } = useBalanceOf({
+    chainId,
+    decimals: asset?.decimals,
+    type: asset?.type ?? 'erc20',
+    contractAddress: asset?.networks[chainId].contractAddress,
+    walletAddress: account
+  })
   const { reload } = useRouter()
   const {
     sendTransaction,
     isLoading: transactionLoading,
     isSuccess: transactionSuccess
-  } = useAssetSendTransaction({ chainId: asset.chains[0] })
+  } = useAssetSendTransaction({ chainId })
 
   useEffect(() => {
     function verifyTransaction() {
@@ -81,11 +87,10 @@ export function AssetsSend({ asset }: { asset: Asset }) {
 
     if (isWrongNetwork && !!account && switchChain) {
       switchChain({
-        chainId: asset.chains[0]
+        chainId
       })
       return
     }
-    const [chain] = asset.chains
 
     const to = data.walletTo as `0x${string}`
 
@@ -97,13 +102,13 @@ export function AssetsSend({ asset }: { asset: Asset }) {
       })
       return
     }
-    if (asset.type === 'native') {
-      sendTransaction({ to, value: parseEther(sendAmount), chainId: chain })
+    if (asset?.type === 'native') {
+      sendTransaction({ to, value: parseEther(sendAmount), chainId })
       return
     }
     const transferTxData = encodeFunctionData({
       abi: erc20Abi,
-      args: [to, ethers.parseUnits(sendAmount, asset.decimals)],
+      args: [to, ethers.parseUnits(sendAmount, asset?.decimals)],
       functionName: 'transfer'
     })
     sendTransaction({
@@ -153,12 +158,13 @@ export function AssetsSend({ asset }: { asset: Asset }) {
             placeholder={'0x'}
           />
           <AssetInput
+            chainId={chainId}
             ethAmountValue={sendAmount}
             onChange={v => {
               handleChange(v)
             }}
             onMaxFunction={() => setSendAmount(tokenBalance.balance)}
-            productAsset={asset}
+            asset={asset}
             hasError={false}
             background='white'
             balance={tokenBalance.balance}

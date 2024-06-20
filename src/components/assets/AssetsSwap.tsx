@@ -1,15 +1,15 @@
-import { Asset } from '@/types/Asset'
 import dynamic from 'next/dynamic'
 import styled from 'styled-components'
+import { Asset } from '@/types/Asset'
 
-export function AssetsSwap({ asset }: { asset: Asset }) {
+export function AssetsSwap({ asset, chainId }: { asset?: Asset, chainId: number }) {
   const LiFiWidgetNext = dynamic(() => import('./LiFiSwap').then(module => module.LiFiSwap), {
     ssr: false
   })
 
   return (
     <SwapContainer>
-      <LiFiWidgetNext asset={asset} />
+      <LiFiWidgetNext chainId={chainId} asset={asset} />
     </SwapContainer>
   )
 }

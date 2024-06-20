@@ -2,21 +2,21 @@ import { chainConfigByChainId } from '@/config/chain'
 import { RampSteps, openBrlaModalVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useTransak from '@/hooks/useTransak'
-import { Asset } from '@/types/Asset'
 import CreditCard from '@assets/images/master-visa.svg'
 import Pix from '@assets/images/pix-full.svg'
 import Image from 'next/image'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import Button from '../shared/Button'
+import { Asset } from '@/types/Asset'
 
 interface PaymentMethodProps {
-  asset: Asset
+  asset?: Asset
+  chainId: number
 }
 
-export default function PaymentMethod({ asset }: PaymentMethodProps) {
-  const [networkAvailable] = asset.chains
-  const chain = chainConfigByChainId(networkAvailable)
+export default function PaymentMethod({ asset, chainId }: PaymentMethodProps) {
+  const chain = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
   const { onInit, isClosed } = useTransak({
     productsAvailed: 'BUY',
@@ -37,7 +37,7 @@ export default function PaymentMethod({ asset }: PaymentMethodProps) {
     }
   }, [isClosed])
 
-  if (asset.symbol === 'wBtc') {
+  if (asset?.symbol === 'wBtc') {
     handlePix()
   }
 

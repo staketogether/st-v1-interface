@@ -6,7 +6,7 @@ import { RampSteps, amountToQuoteVar, quoteVar, rampStepControlVar } from '@/hoo
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
-import { Asset } from '@/types/Asset'
+import { StaticAsset } from '@/types/StaticAsset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -21,7 +21,7 @@ import AssetNetworkSwitch, { Network } from '../assets/AssetsNetworkSwitch'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface QuotationStepProps {
-  asset: Asset
+  asset: StaticAsset
 }
 
 export default function QuotationStep({ asset }: QuotationStepProps) {

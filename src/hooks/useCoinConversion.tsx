@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
-import useAssetStats from './useAssetStats'
+import useAsset from './useAsset'
 import useFiatUsdConversion from './useFiatUsdConversion'
 
 export default function useCoinConversion(value: string, chainId?: number, contractAddress?: string) {
   const [coinUsdPrice, setCoinUsdPrice] = useState<string | undefined>('0')
   const [loading, setLoading] = useState<boolean>(true)
 
-  const { assetStats, isLoading } = useAssetStats({ chainId, contractAddress })
-  const currencyPrice = assetStats?.currentPriceUsd ?? 0
-  const priceChangePercentage24h = assetStats?.priceChangePercentage24h ?? 0
+  const { asset, isLoading } = useAsset({ chainId, assetId: contractAddress })
+  const currencyPrice = asset?.currentPriceUsd ?? 0
+  const priceChangePercentage24h = asset?.priceChangePercentage24h ?? 0
 
   const { usdToCurrency } = useFiatUsdConversion()
 

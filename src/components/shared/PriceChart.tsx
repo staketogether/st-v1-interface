@@ -1,7 +1,6 @@
-import useAssetStatsChart from '@/hooks/useAssetStatsChart'
+import useAssetChart from '@/hooks/useAssetChart'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import { Grid } from 'antd'
 import { DateTime } from 'luxon'
@@ -9,16 +8,18 @@ import { useEffect, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import styled from 'styled-components'
 import LottieAnimation from './LottieAnimation'
+import { Asset } from '@/types/Asset'
 
 interface PriceChartProps {
-  asset: Asset
+  asset?: Asset
+  chainId: number
 }
 
 const { useBreakpoint } = Grid
 
 type PriceChartFilter = '1W' | '1M' | '3M' | '1Y'
 
-export default function PriceChart({ asset }: PriceChartProps) {
+export default function PriceChart({ asset, chainId }: PriceChartProps) {
   const [activeFilter, setActiveFilter] = useState<PriceChartFilter>('1M')
   const [chartData, setChartData] = useState<{ timestamp: string; price: number }[]>([])
 
@@ -45,9 +46,9 @@ export default function PriceChart({ asset }: PriceChartProps) {
     return filters[activeFilter]
   }
 
-  const { assetStats, isLoading } = useAssetStatsChart({
-    chainId: asset.chains[0],
-    contractAddress: asset.contractAddress,
+  const { assetStats, isLoading } = useAssetChart({
+    chainId,
+    contractAddress: asset?.networks[chainId].contractAddress,
     currency: 'usd',
     days: handleFilter().day,
     interval: handleFilter().interval,

@@ -3,18 +3,20 @@ import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { InputHTMLAttributes, useRef } from 'react'
 import styled, { css } from 'styled-components'
-import { Asset } from '@/types/Asset'
+import { StaticAsset } from '@/types/StaticAsset'
 import { ethMainnet } from '@/config/product/asset'
 import { truncateDecimal } from '@/services/truncate'
+import { Asset } from '@/types/Asset'
 
 interface EthereumInputProps {
   ethAmountValue: string
   balance: string
+  chainId: number
   balanceLoading: boolean
   hasError: boolean
   onChange: (value: string) => void
   onMaxFunction?: () => void
-  productAsset: Asset
+  asset?: Asset
   accountIsConnected: boolean
   background?: 'gray' | 'white'
   inputMode?: InputHTMLAttributes<HTMLInputElement>['inputMode']
@@ -24,11 +26,12 @@ export default function AssetInput({
   balance,
   balanceLoading,
   ethAmountValue,
+  chainId,
   background = 'gray',
   hasError,
   onChange,
   onMaxFunction,
-  productAsset,
+  asset,
   inputMode,
   accountIsConnected
 }: EthereumInputProps) {
@@ -72,17 +75,17 @@ export default function AssetInput({
           {balanceLoading ? (
             <SkeletonLoading width={120} />
           ) : (
-            <span>{`${t('balance')}: ${truncateDecimal(balance, 6)} ${productAsset.symbol}`}</span>
+            <span>{`${t('balance')}: ${truncateDecimal(balance, 6)} ${asset?.symbol}`}</span>
           )}
         </div>
       )}
       <div>
         <CoinActionContainer>
           <AssetIcon
-            image={productAsset.symbolImage ?? ethMainnet.symbolImage}
-            chain={productAsset.chains[0]}
+            image={asset?.imageUrl ?? ethMainnet.symbolImage}
+            chain={chainId}
             size={32}
-            altName={productAsset.symbol}
+            altName={asset?.symbol}
           />
           <span className='max' onClick={onMaxFunction}>
             MAX

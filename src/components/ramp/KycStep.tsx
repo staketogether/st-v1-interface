@@ -3,7 +3,6 @@ import { RampSteps, kycIdVar, rampStepControlVar } from '@/hooks/ramp/useRampCon
 import useKycCreate, { KycCreate, KycPayload, TypeAccount } from '@/hooks/ramp/useKycCreate'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
 import { notification } from 'antd'
 import { AxiosError } from 'axios'
 import { ChangeEvent, useEffect, useState } from 'react'
@@ -16,12 +15,14 @@ import { cnpjMask, cpfMask } from '../shared/input-helper/mask'
 import { projectRegexFields, projectRegexOnKeyDown } from '../shared/input-helper/regex'
 import { handleValidateBirthDate, isValidCNPJ, isValidCPF } from '../shared/input-helper/validate'
 import Input from '../shared/inputs/Input'
+import { Asset } from '@/types/Asset'
 
 interface KycStepProps {
-  asset: Asset
+  asset?: Asset
+  chainId: number
 }
 
-export default function KycStep({ asset }: KycStepProps) {
+export default function KycStep({ asset, chainId }: KycStepProps) {
   const { t } = useLocaleTranslation()
   const { address } = useAccount()
   const [formData, setFormaData] = useState<KycPayload>()
@@ -159,8 +160,8 @@ export default function KycStep({ asset }: KycStepProps) {
     return ''
   }
 
-  useFacebookPixel(`onramp-kyc:${asset.id}`, !!formData, {
-    assetId: asset.id,
+  useFacebookPixel(`onramp-kyc:${asset?.networks[chainId].contractAddress}`, !!formData, {
+    assetId: `${asset?.networks[chainId].contractAddress}`,
     kycLevel: 1,
     email: String(formData?.email)
   })

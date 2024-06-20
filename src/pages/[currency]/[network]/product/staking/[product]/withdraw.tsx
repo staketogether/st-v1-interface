@@ -8,11 +8,11 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { Staking } from '@/types/Staking'
 import { stakingList } from '@/config/product/staking'
-import { AssetStats } from '@/types/AssetStats'
+import { Asset } from '@/types/Asset'
 
 export interface HomeProps {
   product: Staking
-  assetData: AssetStats
+  assetData: Asset
   chainId: number
 }
 
@@ -54,9 +54,9 @@ export const getStaticPaths: GetStaticPaths = () => {
 
   return { paths, fallback: 'blocking' }
 }
-async function fetchProductAssetData(uri: string): Promise<AssetStats> {
+async function fetchProductAssetData(uri: string): Promise<Asset> {
   const { backendUrl } = globalConfig
-  const marketData = await axios.get<AssetStats>(`${backendUrl}/api/${uri}`)
+  const marketData = await axios.get<Asset>(`${backendUrl}/api/${uri}`)
 
   return marketData.data
 }

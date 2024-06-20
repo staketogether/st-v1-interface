@@ -2,7 +2,6 @@ import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import { chainConfigByChainId } from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
-import { Asset } from '@/types/Asset'
 import { notification } from 'antd'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
@@ -11,9 +10,11 @@ import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import NetworkIcons from '../shared/NetworkIcons'
 import PriceChart from '../shared/PriceChart'
+import { Asset } from '@/types/Asset'
 
 interface AssetsProductInfoProps {
-  asset: Asset
+  asset?: Asset
+  chainId: number
 }
 
 const AssetPrice = dynamic(() => import('../shared/AssetPrice'), {
@@ -28,13 +29,12 @@ const AssetsStatistic = dynamic(() => import('./AssetsStatistic'), {
   suspense: true
 })
 
-export default function AssetsProductInfo({ asset }: AssetsProductInfoProps) {
+export default function AssetsProductInfo({ asset, chainId }: AssetsProductInfoProps) {
   const { t } = useLocaleTranslation()
 
-
-
   const router = useRouter()
-  const config = chainConfigByChainId(asset.chains[0])
+  const { locale } = router
+  const config = chainConfigByChainId(chainId)
 
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
@@ -52,8 +52,8 @@ export default function AssetsProductInfo({ asset }: AssetsProductInfoProps) {
       <header>
         <HeaderProduct>
           <div>
-            <AssetIcon image={asset.symbolImage} size={36} altName={asset.id} chain={asset.chains[0]} />
-            {t(`v2.products.${asset.id}`)}
+            <AssetIcon image={asset?.imageUrl} size={36} altName={asset?.name} chain={chainId} />
+            {asset?.name}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
@@ -69,19 +69,19 @@ export default function AssetsProductInfo({ asset }: AssetsProductInfoProps) {
         <HeaderDescribeInfo>
           <SymbolContainer>
             <div>
-              <span className='symbol'>{asset.symbol}</span>
+              <span className='symbol'>{asset?.symbol}</span>
             </div>
             <div>
-              <AssetPrice asset={asset} className='price' />
+              <AssetPrice chainId={chainId} contractAddress={asset?.networks[chainId].contractAddress} className='price' />
             </div>
           </SymbolContainer>
         </HeaderDescribeInfo>
       </header>
-      <PriceChart asset={asset} />
+      <PriceChart asset={asset} chainId={chainId}/>
       <AssetsStatistic asset={asset} />
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.description')}</h2>
-        <span>{t(`v2.ethereumStaking.${asset.localeDescription}`)}</span>
+        <span>{asset?.description[locale as 'en' | 'pt' ?? 'en']}</span>
       </ProductBodyContainer>
     </ProductContainer>
   )

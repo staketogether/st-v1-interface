@@ -1,4 +1,5 @@
 import type { RcFile } from 'antd/es/upload/interface'
+import { ChainConfig, chainConfigs } from '@/config/chain'
 
 export function formatNumberByLocale(num: string, lang?: string): string {
   if (Number(num) < 1) {
@@ -56,6 +57,25 @@ export function getVideoIdFromUrl(url?: string): string | null {
 }
 
 export type AllowedNetworks = 'ethereum' | 'holesky' | 'optimism-sepolia' | 'optimism'
+
+export const chainByMobulaName = (mobulaName: 'ethereum' | 'optimistic' | 'chiliz' | 'polygon' | 'arbitrum' | 'zksync'): ChainConfig => {
+  const chainMobulaName = {
+    ethereum: 1,
+    optimistic: 10,
+    chiliz: 88888,
+    polygon: 137,
+    arbitrum: 42161,
+    zksync: 324
+  }
+
+  const chain = chainConfigs.find(config => config.chainId === chainMobulaName[mobulaName])
+
+  if (!chain) {
+    throw new Error('Chain not found')
+  }
+
+  return chain
+}
 
 export const handleChainIdByNetwork = (network: AllowedNetworks) => {
   const chainIdByNetwork = {

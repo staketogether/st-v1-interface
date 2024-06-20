@@ -8,6 +8,7 @@ interface BlockExplorerConfig {
 export interface ChainConfig {
   chainId: number
   name: string
+  type: 'bitcoin' | 'evm'
   provider: ethers.JsonRpcProvider
   blockExplorer: BlockExplorerConfig
   isTestnet: boolean
@@ -21,6 +22,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: mainnet.id,
     name: 'Ethereum',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
@@ -34,6 +36,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: optimism.id,
     name: 'Optimism',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OP_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
@@ -47,6 +50,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: arbitrum.id,
     name: 'Arbitrum',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ARB_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
@@ -60,6 +64,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: polygon.id,
     name: 'Polygon',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_POL_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
@@ -73,6 +78,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: chiliz.id,
     name: 'Chiliz',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
@@ -86,6 +92,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: sepolia.id,
     name: 'Sepolia',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ETH_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {
@@ -99,6 +106,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: optimismSepolia.id,
     name: 'OptimismSp',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OP_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {
@@ -112,6 +120,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: arbitrumSepolia.id,
     name: 'Arbitrum Sepolia',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ARB_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {
@@ -125,6 +134,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: polygonMumbai.id,
     name: 'polygon-mumbai',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_POL_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {
@@ -138,6 +148,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: spicy.id,
     name: 'spicy',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_CHZ_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {
@@ -151,6 +162,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: zkSync.id,
     name: 'zksync',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ZKSYNC_MAINNET_RPC_URL),
     isTestnet: false,
     blockExplorer: {

@@ -2,12 +2,12 @@ import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import AssetControl from '@/components/asset/AssetControl'
 import { assetsList, getListedAssets } from '@/config/product/asset'
-import { Asset } from '@/types/Asset'
+import { StaticAsset } from '@/types/StaticAsset'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 interface CryptoProps {
-  assets: Asset[]
+  assets: StaticAsset[]
 }
 
 export default function Crypto({ assets }: CryptoProps) {

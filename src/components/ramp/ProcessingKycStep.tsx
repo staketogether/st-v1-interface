@@ -3,7 +3,7 @@ import { RampSteps, kycIdVar, kycLevelVar, qrCodeVar, quoteVar, rampStepControlV
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
+import { StaticAsset } from '@/types/StaticAsset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -14,7 +14,7 @@ import { useAccount } from 'wagmi'
 import WrapProcessingStep from './WrapProcessingStep'
 
 interface ProcessingKycStepProps {
-  product: Asset
+  product: StaticAsset
   type: 'buy' | 'sell' | 'swap'
 }
 

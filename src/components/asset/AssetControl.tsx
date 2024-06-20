@@ -1,11 +1,11 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset, AssetCategory } from '@/types/Asset'
+import { StaticAsset, AssetCategory } from '@/types/StaticAsset'
 import { useState } from 'react'
 import styled from 'styled-components'
 import AssetCard from './AssetCard'
 
 interface TokenControlProps {
-  assetsList: Asset[]
+  assetsList: StaticAsset[]
 }
 
 export default function AssetControl({ assetsList }: TokenControlProps) {

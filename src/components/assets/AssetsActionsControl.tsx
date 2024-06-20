@@ -1,6 +1,5 @@
 import { AssetsSwap } from '@/components/assets/AssetsSwap'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
 import { AssetActionType } from '@/types/AssetActionType'
 import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowUp, PiArrowsClockwise, PiCurrencyDollar, PiPlus } from 'react-icons/pi'
@@ -10,10 +9,13 @@ import AssetsRampControl from './AssetsRampControl'
 import { AssetsReceive } from './AssetsReceive'
 import { AssetsSend } from './AssetsSend'
 import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
+import { Asset } from '@/types/Asset'
+import { chainConfigByChainId } from '@/config/chain'
 
 interface AssetsActionsControlProps {
   type: AssetActionType
-  asset: Asset
+  asset?: Asset
+  chainId: number
   userTokenBalance: TokenBalance
   userTokenIsLoading: boolean
   userTokenRefetch: () => void
@@ -21,6 +23,7 @@ interface AssetsActionsControlProps {
 
 export default function AssetsActionsControl({
   type,
+  chainId,
   asset,
   userTokenBalance,
   userTokenIsLoading,
@@ -29,40 +32,44 @@ export default function AssetsActionsControl({
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
+  const config = chainConfigByChainId(chainId)
+  const assetUrlBase = `${currency}/${config.name}/product/assets/${asset?.networks[chainId].contractAddress}`
+
+  const isActionsDisabled = config.type === 'bitcoin'
 
   const navActionsList = [
-    { type: 'buy', label: t('buy'), url: asset.url.replace('currency', currency), disabled: false, icon: <PiPlus />, tooltipLabel: '' },
+    { type: 'buy', label: t('buy'), url: assetUrlBase, disabled: false, icon: <PiPlus />, tooltipLabel: '' },
     {
       type: 'sell',
       label: t('sell'),
-      url: `${asset.url.replace('currency', currency)}/sell`,
-      disabled: asset?.disableActions?.sell,
+      url: `${assetUrlBase}/sell`,
+      disabled: isActionsDisabled,
       icon: <PiCurrencyDollar />,
-      tooltipLabel: asset?.disableActions?.sell ? t('soon') : ''
+      tooltipLabel: isActionsDisabled ? t('soon') : ''
     },
     {
       type: 'swap',
       label: t('swap'),
-      url: `${asset.url.replace('currency', currency)}/swap`,
-      disabled: asset?.disableActions?.swap,
+      url: `${assetUrlBase}/swap`,
+      disabled: isActionsDisabled,
       icon: <PiArrowsClockwise />,
-      tooltipLabel: asset?.disableActions?.swap ? t('soon') : ''
+      tooltipLabel: isActionsDisabled ? t('soon') : ''
     },
     {
       type: 'send',
       label: t('send'),
-      url: `${asset.url.replace('currency', currency)}/send`,
-      disabled: asset?.disableActions?.send,
+      url: `${assetUrlBase}/send`,
+      disabled: isActionsDisabled,
       icon: <PiArrowUp />,
-      tooltipLabel: asset?.disableActions?.send ? t('soon') : ''
+      tooltipLabel: isActionsDisabled ? t('soon') : ''
     },
     {
       type: 'receive',
       label: t('receive'),
-      url: `${asset.url.replace('currency', currency)}/receive`,
-      disabled: asset?.disableActions?.receive,
+      url: `${assetUrlBase}/receive`,
+      disabled: isActionsDisabled,
       icon: <PiArrowDown />,
-      tooltipLabel: asset?.disableActions?.receive ? t('soon') : ''
+      tooltipLabel: isActionsDisabled ? t('soon') : ''
     }
   ]
 
@@ -72,6 +79,7 @@ export default function AssetsActionsControl({
       <div>
         {!!(type === 'buy' || type === 'sell') && (
           <AssetsRampControl
+            chainId={chainId}
             type={type}
             asset={asset}
             userTokenBalance={userTokenBalance}
@@ -79,8 +87,8 @@ export default function AssetsActionsControl({
             userTokenRefetch={userTokenRefetch}
           />
         )}
-        {type === 'swap' && <AssetsSwap asset={asset} />}
-        {type === 'send' && <AssetsSend asset={asset} />}
+        {type === 'swap' && <AssetsSwap chainId={chainId} asset={asset} />}
+        {type === 'send' && <AssetsSend chainId={chainId} asset={asset} />}
         {type === 'receive' && <AssetsReceive />}
       </div>
     </EthereumContainer>

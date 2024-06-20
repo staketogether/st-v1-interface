@@ -2,7 +2,7 @@ import { globalConfig } from '@/config/global'
 import { PaymentDetails } from '@/types/offRampSell'
 import axios from 'axios'
 import { useCallback, useEffect, useState } from 'react'
-import { Asset } from '@/types/Asset'
+import { StaticAsset } from '@/types/StaticAsset'
 import { RampSteps, rampStepControlVar } from './useRampControlModal'
 import { ethers } from 'ethers'
 import { useSendTransaction, useWaitForTransactionReceipt as useWaitForTransaction } from 'wagmi'
@@ -17,7 +17,7 @@ interface useOffRampSellRequest {
   tokenSymbol: string
 }
 
-export default function useOffRampSell({ asset }: { asset: Asset }) {
+export default function useOffRampSell({ asset }: { asset: StaticAsset }) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [sendSellTokenLoading, setSendSellTokenLoading] = useState(false)
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(null)

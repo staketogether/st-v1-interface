@@ -1,13 +1,13 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
+import { StaticAsset } from '@/types/StaticAsset'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
 interface AssetCardProps {
-  asset: Asset
+  asset: StaticAsset
 }
 
 const AssetPrice = dynamic(() => import('../shared/AssetPrice'), {
