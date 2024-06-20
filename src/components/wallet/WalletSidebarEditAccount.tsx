@@ -17,7 +17,6 @@ import Image from 'next/image'
 import ModalExportWallet from '../shared/ModalExportWallet';
 import { useRouter } from 'next/router';
 import { formatNumberByLocale } from '@/services/format';
-import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency';
 
 interface walletSidebarEditAccountProps {
   setWalletSidebar?: (value: boolean) => void
@@ -29,7 +28,7 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
   const [formatWalletAddress, setFormatWalletAddress] = useState<string[] | undefined>([])
 
   const [notifyModal, setNotifyModal] = useState(false)
-  const { profile } = userProfile(walletAddress)
+  const { profile } = userProfile("0xae5462E47577bcde3663F2A748fE8019372Fe1C7")
   const { kyc } = userKyc(profile ? profile.id : 0)
   const { pixKey } = userPixKey(profile ? profile.id : 0)
   const { wallets } = userWalletAddress(profile ? profile.id : 0)
