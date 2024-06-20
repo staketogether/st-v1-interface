@@ -34,7 +34,6 @@ export default function AssetCard({ asset }: AssetCardProps) {
           <span>{t(`v3.products.${asset.id}.name`)}</span>
         </div>
         {!asset.enabled && <Soon>{t('soon')}</Soon>}
-        {/* {asset.new && <NewTag>{t('new')}</NewTag>} */}
       </ImageContainer>
       <PriceContainer>
         <AssetPrice asset={asset} showChangePercentage />
@@ -44,6 +43,33 @@ export default function AssetCard({ asset }: AssetCardProps) {
 }
 
 const { CardContainer, ImageContainer, PriceContainer, Soon } = {
+  CardContainer: styled(Link)`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 16px;
+    gap: 0;
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.colorV2.white};
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+    border: 1px solid transparent;
+    transition:
+      border 0.3s ease,
+      color 0.3s ease;
+
+    &:hover {
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+
+      > div:first-child > div > span {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
+      }
+    }
+
+    &.disabled {
+      opacity: 0.6;
+    }
+  `,
   PriceContainer: styled.div`
     gap: ${({ theme }) => theme.size[8]};
     display: inline-flex;
@@ -51,7 +77,6 @@ const { CardContainer, ImageContainer, PriceContainer, Soon } = {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    height: 26px;
 
     > span {
       color: ${({ theme }) => theme.colorV2.blue[1]};
@@ -93,37 +118,7 @@ const { CardContainer, ImageContainer, PriceContainer, Soon } = {
       }
     }
   `,
-  CardContainer: styled(Link)`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    padding: 8px 16px;
-    gap: 0;
-    border-radius: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.colorV2.white};
-    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
-    border: 1px solid transparent;
-    transition:
-      border 0.3s ease,
-      color 0.3s ease;
 
-    &:hover {
-      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
-
-      > div:first-child > div > span {
-        color: ${({ theme }) => theme.colorV2.purple[1]};
-      }
-    }
-
-    &.disabled {
-      opacity: 0.6;
-    }
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-      padding: 8px 16px;
-    }
-  `,
   ImageContainer: styled.div`
     display: flex;
     justify-content: space-between;

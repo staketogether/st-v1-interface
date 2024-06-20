@@ -45,16 +45,23 @@ export default function AssetControl({ assetsList }: TokenControlProps) {
           ))}
         </ContainerButton>
       </Title>
-      <Products>
+      <AssetsList>
+        <header>
+          <div>nome</div>
+          <div>preço</div>
+          <div>variação</div>
+          <div>Valor de mercado</div>
+          <div />
+        </header>
         {filterAssetList().map(asset => (
           <AssetCard asset={asset} key={asset.id} />
         ))}
-      </Products>
+      </AssetsList>
     </Container>
   )
 }
 
-const { Container, Products, Title, ContainerButton } = {
+const { Container, AssetsList, Title, ContainerButton } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -89,11 +96,30 @@ const { Container, Products, Title, ContainerButton } = {
     }
   `,
 
-  Products: styled.nav`
+  AssetsList: styled.nav`
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 1fr);
-    gap: ${({ theme }) => theme.size[8]};
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[4]};
+    > header {
+      display: grid;
+      grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+      background: ${({ theme }) => theme.colorV2.white};
+      box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+      border-radius: ${({ theme }) => theme.size[8]};
+      padding: 4px 16px;
+      align-items: center;
+      gap: 16px;
+      div {
+        font-size: 13px;
+        font-weight: 400;
+      }
+    }
+  `,
+  orderByContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[4]};
   `,
   ContainerButton: styled.div`
     height: 50px;
