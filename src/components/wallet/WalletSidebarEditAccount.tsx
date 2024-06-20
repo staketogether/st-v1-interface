@@ -29,7 +29,7 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
   const [formatWalletAddress, setFormatWalletAddress] = useState<string[] | undefined>([])
 
   const [notifyModal, setNotifyModal] = useState(false)
-  const { profile } = userProfile("0xae5462E47577bcde3663F2A748fE8019372Fe1C7")
+  const { profile } = userProfile(walletAddress)
   const { kyc } = userKyc(profile ? profile.id : 0)
   const { pixKey } = userPixKey(profile ? profile.id : 0)
   const { wallets } = userWalletAddress(profile ? profile.id : 0)
