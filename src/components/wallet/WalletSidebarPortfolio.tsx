@@ -44,7 +44,7 @@ export default function WalletSidebarPortfolio({
       <Container>
         {accountDelegations.length === 0 && (
           <EmptyContainer>
-            <span>{t('noStake')}</span>
+            <span>{t('noDelegations')}</span>
           </EmptyContainer>
         )}
         {accountDelegations.map((delegation, index) => {
