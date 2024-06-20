@@ -1,3 +1,4 @@
+import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 import { RampSteps, clearRampVars, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { Asset } from '@/types/Asset'
@@ -18,7 +19,6 @@ import QuotationStep from '../ramp/QuotationStep'
 import SuccessStep from '../ramp/SuccessStep'
 import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
 import ConnectWallet from '../shared/ConnectWallet'
-import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 
 interface AssetsRampControlProps {
   type: 'buy' | 'sell'
