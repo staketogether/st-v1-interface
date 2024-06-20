@@ -25,10 +25,39 @@ interface QuotationStepProps {
 }
 
 export default function QuotationStep({ asset }: QuotationStepProps) {
+  const { networks } = {
+    "networks": [
+      {
+        "name": "Ethereum",
+        "chainId": 1,
+        "contractAddress": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
+      },
+      {
+        "name": "Polygon",
+        "chainId": 137,
+        "contractAddress": "0xb33eaad8d922b1083446dc23f610c2567fb5180f"
+      },
+      {
+        "name": "Optimistic",
+        "chainId": 10,
+        "contractAddress": "0x6fd9d7ad17242c41f7131d257212c54a0e816691"
+      },
+      {
+        "name": "Arbitrum",
+        "chainId": 42161,
+        "contractAddress": "0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0"
+      }
+    ]
+  }
+  //apenas para mock networks[0]
+  const [currentNetwork, setCurrentNetwork] = useState<Network>(networks[0])
   const amountToQuote = useReactiveVar(amountToQuoteVar)
   const [value, setValue] = useState<string>(amountToQuote ?? '0')
   const debounceValue = useDebounce(value, 300)
   const minDeposit = asset.ramp[0].minDeposit
+  useEffect(() => {
+    console.log('status', currentNetwork)
+  }, [currentNetwork])
 
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
@@ -115,30 +144,7 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
   })
 
 
-  const { networks } = {
-    "networks": [
-      {
-        "name": "Ethereum",
-        "chainId": 1,
-        "contractAddress": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
-      },
-      {
-        "name": "Polygon",
-        "chainId": 137,
-        "contractAddress": "0xb33eaad8d922b1083446dc23f610c2567fb5180f"
-      },
-      {
-        "name": "Optimistic",
-        "chainId": 10,
-        "contractAddress": "0x6fd9d7ad17242c41f7131d257212c54a0e816691"
-      },
-      {
-        "name": "Arbitrum",
-        "chainId": 42161,
-        "contractAddress": "0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0"
-      }
-    ]
-  }
+
   return (
     <Container>
       <BoxValuesContainer>
@@ -199,7 +205,7 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
 
           </div>
         </InputContainer>
-        <AssetNetworkSwitch networks={networks} title='Rede de recebimento' onChange={(data: Network) => console.log(data)} />
+        <AssetNetworkSwitch networks={networks} title='Rede de recebimento' onChange={(data: Network) => setCurrentNetwork(data)} />
       </BoxValuesContainer>
       <Button
         onClick={handleNext}
