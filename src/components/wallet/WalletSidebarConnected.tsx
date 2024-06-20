@@ -42,7 +42,6 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<TabActivated>('assets')
-  const [userNetWorth, setUserNetWorth] = useState<string>('0')
 
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
   const { connector } = useAccount()
@@ -64,7 +63,7 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
   const { accountRewards, loading: accountRewardsLoading } = useSidebarAccountRewards({ walletAddress: address })
   const { accountHistory, loading: accountHistoryLoading } = useUserAccountHistory({ walletAddress: address })
 
-  const { balance: usdTotalBalance } = useAccountAssetsUsdBalance(address)
+  const { balance: usdTotalBalance, loading: assetsUsdBalanceLoading } = useAccountAssetsUsdBalance(address)
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
   async function disconnectWallet() {
@@ -89,10 +88,6 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
       setIsPanelActive(false)
     }
   }, [address])
-
-  useEffect(() => {
-    setUserNetWorth(handleQuotePrice(Number(usdTotalBalance)))
-  }, [handleQuotePrice, usdTotalBalance])
 
   const tabOptions: { label: string; value: TabActivated }[] = [
     { label: t('assets'), value: 'assets' },
@@ -179,7 +174,11 @@ export default function WalletSidebarConnected({ address, walletChainId }: Walle
           </HeaderContainer>
           <EstimatedBalanceContainer>
             <span>{t('estimatedBalance')}</span>
-            <span>{userNetWorth}</span>
+            {assetsUsdBalanceLoading ? (
+              <SkeletonLoading height={32} width={100} />
+            ) : (
+              <span>{handleQuotePrice(Number(usdTotalBalance))}</span>
+            )}
           </EstimatedBalanceContainer>
           <TabContainer>
             {tabOptions.map((tab, index) => (
