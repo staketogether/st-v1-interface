@@ -7,8 +7,8 @@ import { useRouter } from 'next/router'
 import { Staking } from '@/types/Staking'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { truncateWei } from '@/services/truncate'
-import useStAccount from '../wallet/hooks/useStAccount'
 import useCoinConversion from '@/hooks/useCoinConversion'
+import useStAccount from '@/hooks/useStAccount'
 
 interface StakingBalanceCardProps {
   staking: Staking
