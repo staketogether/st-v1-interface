@@ -14,6 +14,10 @@ import { PiArrowLeft } from 'react-icons/pi';
 import { chainConfigByChainId } from '@/config/chain';
 import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
+import ModalExportWallet from '../shared/ModalExportWallet';
+import { useRouter } from 'next/router';
+import { formatNumberByLocale } from '@/services/format';
+import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency';
 
 interface walletSidebarEditAccountProps {
   setWalletSidebar?: (value: boolean) => void
@@ -23,8 +27,8 @@ interface walletSidebarEditAccountProps {
 export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWalletSidebarActive, walletAddress }: walletSidebarEditAccountProps) {
   const [maskedPixKeys, setMaskedPixKeys] = useState<string[] | undefined>([])
   const [formatWalletAddress, setFormatWalletAddress] = useState<string[] | undefined>([])
-  const { address } = useAccount()
 
+  const [notifyModal, setNotifyModal] = useState(false)
   const { profile } = userProfile("0xae5462E47577bcde3663F2A748fE8019372Fe1C7")
   const { kyc } = userKyc(profile ? profile.id : 0)
   const { pixKey } = userPixKey(profile ? profile.id : 0)
@@ -33,7 +37,7 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
   const { t } = useLocaleTranslation()
   const optimism = chainConfigByChainId(10)
   const ethereum = chainConfigByChainId(1)
-
+  
   useEffect(() => {
     if (wallets && wallets.length > 0) {
       const formatedWallets = wallets.map((wallet) => {
@@ -50,7 +54,7 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
       const maskedKeys = pixKey.map(pix => {
         switch (pix.type) {
           case 'cpfCnpj':
-            return cnpjMask(pix.pixKey);
+            return cpfMask(pix.pixKey);
           case 'phone_number':
             return phoneMask(pix.pixKey);
           default:
@@ -63,117 +67,119 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
     }
   }, [pixKey])
 
-  
 
   return (
     <>
       <HeaderDrawer>
+        <h2>{t('editAccount.editAccount')}</h2>
         <ButtonDrawer onClick={() => setIsWalletSidebarActive && setIsWalletSidebarActive(false)}>
           <CloseIcon />
         </ButtonDrawer>
-        <h2>{t('editAccount.profile')}</h2>
       </HeaderDrawer>
-      <Container>
-        <Section>
-          <Header>
-            <h3>{t('editAccount.profile')}</h3>
-            <Button disabled>{t('soon')}</Button>
-          </Header>
-          <WrapperInfo>
-            <span>{t('editAccount.userName')}</span>
-            <Span>{kyc?.fullName}</Span>
-          </WrapperInfo>
-          <WrapperInfo>
-            <span>{t('editAccount.email')}</span>
-            <Span>{kyc?.email}</Span>
-          </WrapperInfo>
-        </Section>
-        <Section>
-          <Header>
-            <h3>{t('editAccount.kyc.kyc')}</h3>
-            <Button disabled>{t('soon')}</Button>
-          </Header>
-          <KYCard>
+      {profile && (
+        <Container>
+          <Section>
+            <Header>
+              <h3>{t('editAccount.profile')}</h3>
+              <Button disabled>{t('soon')}</Button>
+            </Header>
             <WrapperInfo>
-              <span>{t('editAccount.kycLevel')}:</span>
-              <span>0</span>
+              <span>{t('editAccount.userName')}</span>
+              <Span>{kyc?.fullName}</Span>
             </WrapperInfo>
             <WrapperInfo>
-              <span>{t('editAccount.purchaseLimit')}:</span>
-              <span>R$ 0</span>
+              <span>{t('editAccount.email')}</span>
+              <Span>{kyc?.email}</Span>
             </WrapperInfo>
-            <WrapperInfo>
-              <span>{t('editAccount.limitUsed')}:</span>
-              <span>R$ 0</span>
-            </WrapperInfo>
-          </KYCard>
-        </Section>
-        <Section>
-          <Header>
-            <h3>{t('editAccount.pixKey')}</h3>
-            <Button disabled>{t('soon')}</Button>
-          </Header>
-          {maskedPixKeys?.map((pix) => (
-            <Wrapper>
+          </Section>
+          <Section>
+            <Header>
+              <h3>{t('editAccount.kyc.kyc')}</h3>
+              <Button disabled>{t('soon')}</Button>
+            </Header>
+            <KYCard>
               <WrapperInfo>
-                <span >{t('editAccount.pixKey')}</span>
-                <span>{pix}</span>
+                <span>{t('editAccount.kycLevel')}:</span>
+                <span>0</span>
               </WrapperInfo>
-              <FiTrash2 size={24} />
-            </Wrapper>
-          ))}
-        </Section>
-        <Section>
-          <Header>
-            <h3>{t('editAccount.wallets')}</h3>
-            <Button disabled>{t('soon')}</Button>
-          </Header>
-          
-          {formatWalletAddress?.map(wallet => (
-            <>
+              <WrapperInfo>
+                <span>{t('editAccount.purchaseLimit')}:</span>
+                <span>R$ {formatNumberByLocale("0", 'pt-BR')}</span>
+              </WrapperInfo>
+              <WrapperInfo>
+                <span>{t('editAccount.limitUsed')}:</span>
+                <span>R$ {formatNumberByLocale("0", 'pt-BR')}</span>
+              </WrapperInfo>
+            </KYCard>
+          </Section>
+          <Section>
+            <Header>
+              <h3>{t('editAccount.pixKey')}</h3>
+              <Button disabled>{t('soon')}</Button>
+            </Header>
+            {maskedPixKeys?.map((pix) => (
               <Wrapper>
                 <WrapperInfo>
-                  <span >{t('wallet')}</span>
-                  <span>{wallet}</span>
-                </WrapperInfo>
-                <ExportButton>{t('editAccount.export')}</ExportButton>
-              </Wrapper>
-              <Wrapper>
-                <WrapperInfo>
-                  <span >{t('wallet')}</span>
-                  <span>{wallet}</span>
+                  <span >{t('editAccount.pixKey')}</span>
+                  <span>{pix}</span>
                 </WrapperInfo>
                 <FiTrash2 size={24} />
               </Wrapper>
-            </>
-          ))}
-        </Section>
-        <Container>
-          <a className='copy' href={`${ethereum.blockExplorer.baseUrl}/address/${address}`} target='_blank'>
-            <Card>
-              <Image src={etherscan} alt='etherscan icon' width={16} height={16} />
-              {t('editAccount.showEtherScan')}
-            </Card>
-          </a>
-          <a className='copy' href={`${optimism.blockExplorer.baseUrl}/address/${address}`} target='_blank'>
-            <Card>
-              <Image src={etherscan} alt='etherscan icon' width={16} height={16} />
-              {t('editAccount.showOptimismScan')}
-            </Card>
-          </a>
-       </Container>
+            ))}
+          </Section>
+          <Section>
+            <Header>
+              <h3>{t('editAccount.wallets')}</h3>
+              <Button disabled>{t('soon')}</Button>
+            </Header>
+
+            {formatWalletAddress?.map(wallet => (
+              <>
+                <Wrapper>
+                  <WrapperInfo>
+                    <span >{t('wallet')}</span>
+                    <span>{wallet}</span>
+                  </WrapperInfo>
+                  <ExportButton onClick={() => setNotifyModal(true)}>{t('editAccount.export')}</ExportButton>
+                </Wrapper>
+                <Wrapper>
+                  <WrapperInfo>
+                    <span >{t('wallet')}</span>
+                    <span>{wallet}</span>
+                  </WrapperInfo>
+                  <FiTrash2 size={24} />
+                </Wrapper>
+              </>
+            ))}
+          </Section>
+        </Container>
+      )}
+      <Container>
+        <a className='copy' href={`${ethereum.blockExplorer.baseUrl}/address/${walletAddress}`} target='_blank'>
+          <Card>
+            <Image src={etherscan} alt='etherscan icon' width={16} height={16} />
+            {t('editAccount.showEtherScan')}
+          </Card>
+        </a>
+        <a className='copy' href={`${optimism.blockExplorer.baseUrl}/address/${walletAddress}`} target='_blank'>
+          <Card>
+            <Image src={etherscan} alt='etherscan icon' width={16} height={16} />
+            {t('editAccount.showOptimismScan')}
+          </Card>
+        </a>
       </Container>
+      {notifyModal && (
+        <ModalExportWallet notifyModal={notifyModal} setNotifyModal={() => setNotifyModal(true)} onClose={() => setNotifyModal(false)}/>
+      )}
     </>
   )
 }
-
 
 export const { Container, Section, HeaderDrawer, Header, WrapperInfo, KYCard, Wrapper, ExportButton, Span, WrapperField, ButtonDrawer, Button, ModalHeader, ContainerEdit, CloseIcon, Card } = {
   HeaderDrawer: styled.div`
     min-height: 32px;
     width: 100%;
-    display: grid;
-    grid-template-columns: 32px 1fr;
+    display: flex;
     align-items: center;
 
     gap: ${({ theme }) => theme.size[16]};
