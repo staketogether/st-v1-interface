@@ -10,7 +10,7 @@ interface UserWallet {
 export default function userWalletAddress(id: number) {
   const { backendUrl } = globalConfig
   const fetcher = (uri: string) => axios.get(`${backendUrl}/${uri}`).then((res) => res.data);
-  const { data, error } = useSWR<Array<UserWallet>>(id ? `/api/user-wallet/${id}` : null, fetcher);
+  const { data, error } = useSWR<UserWallet[]>(id ? `/api/user-wallet/${id}` : null, fetcher);
 
   return {
     wallets: data,
