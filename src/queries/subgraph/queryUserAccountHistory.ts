@@ -4,7 +4,7 @@ export interface UserAccountHistory {
   additionalData: {
     amountCollateral: string
     amountFiat: number
-    amountTo: number
+    amountTo: string
     brlId: number
     chainId: number
     chainTo: number
@@ -29,7 +29,7 @@ export const queryUserAccountHistory = gql`
         brlId
         chainId
         chainTo
-        tokeTo
+        tokenTo
       }
       amount
       assetType

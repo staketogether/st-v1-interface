@@ -3,12 +3,13 @@ import React from 'react'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import { stakingList } from '@/config/product/staking'
-import { truncateTimestamp, truncateWei } from '@/services/truncate'
+import { truncateDecimal, truncateTimestamp, truncateWei } from '@/services/truncate'
 import { useRouter } from 'next/router'
 import { UserAccountHistory } from '@/queries/subgraph/queryUserAccountHistory'
 import { assetsList } from '@/config/product/asset'
 import LottieAnimation from '@/components/shared/LottieAnimation'
 import loadingAnimation from '@assets/animations/loading-animation.json'
+import { Staking } from '@/types/Staking'
 interface WalletSidebarAssetContainerProps {
   accountHistory: UserAccountHistory[]
   accountHistoryLoading: boolean
@@ -26,13 +27,15 @@ export default function WalletSidebarAccountHistoryContainer({ accountHistory, a
     ['withdraw']: t('withdraw')
   }
 
+  console.log(accountHistory)
+
   return accountHistoryLoading ? (
     <LottieAnimation animationData={loadingAnimation} width={70} height={70} loop />
   ) : (
     <Container>
       <ContainerList>
         {accountHistory.map(history => {
-          let staking = null
+          let staking: Staking | null | undefined = null
           if (history.assetType === 'staking') {
             staking = stakingList.find(item => item.contracts.StakeTogether.toLowerCase() === history.token.toLowerCase())
           }
@@ -40,7 +43,37 @@ export default function WalletSidebarAccountHistoryContainer({ accountHistory, a
           if (history.assetType === 'asset') {
             asset = assetsList.find(item => item.contractAddress.toLowerCase() === history.token.toLowerCase())
           }
-          console.log('history', history)
+
+          function getOneInfo() {
+            if (history.assetType === 'staking' && staking) {
+              return truncateWei(history.amount, 8)
+            } else if (history.assetType === 'asset' && history.type === 'swap') {
+              return truncateDecimal(Number(history.amount).toString(), 8)
+            }
+            return truncateDecimal(Number(history.amount).toString(), 8)
+          }
+
+          function getSecondInfo() {
+            if (history.assetType === 'staking' && staking) {
+              return truncateWei(history.amount, 8)
+            } else if (history.assetType === 'asset' && history.type === 'swap') {
+              return truncateDecimal(history.additionalData.amountTo, 8)
+            }
+
+            return truncateDecimal((Number(history.additionalData.amountFiat) / 100).toString(), 8)
+          }
+
+          function getSecondSymbol() {
+            if (history.assetType === 'staking' && staking) {
+              return staking.asset.symbol
+            } else if (history.assetType === 'asset' && history.type === 'swap') {
+              const assetTo = assetsList.find(item => item.contractAddress.toLowerCase() === history.additionalData.tokenTo.toLowerCase())
+              if (assetTo) return assetTo.symbol
+            }
+
+            return 'BRL'
+          }
+
           return (
             <BalanceContainer key={history.id}>
               <div>
@@ -49,14 +82,14 @@ export default function WalletSidebarAccountHistoryContainer({ accountHistory, a
                     image={history.assetType === 'staking' && staking ? staking.symbolImage : asset?.symbolImage ?? ''}
                     size={24}
                     altName='Asset Icon'
-                    chain={history.assetType === 'staking' && staking ? staking.asset.chains[0] : asset?.chains[0] ?? 1}
+                    chain={history.assetType === 'staking' && staking ? staking.asset.chains[0] : history.chainId}
                   />
                 </div>
                 <div>
                   <span> {typeMap[history.type]}</span>
-                  {truncateWei(history.amount, 8)} {history.assetType === 'staking' && staking ? staking.symbol : asset?.symbol ?? ''}
+                  {getOneInfo()} {history.assetType === 'staking' && staking ? staking.symbol : asset?.symbol ?? ''}
                   {' > '}
-                  {`${history.assetType === 'staking' && staking ? truncateWei(history.amount, 8) : history.additionalData.amountFiat / 100} ${history.assetType === 'staking' && staking ? staking.asset.symbol : asset?.symbol}`}
+                  {`${getSecondInfo()} ${getSecondSymbol()}`}
                 </div>
               </div>
               <div>
