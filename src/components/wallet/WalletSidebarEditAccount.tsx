@@ -1,6 +1,7 @@
 import userKyc from '@/hooks/useKyc';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import userPixKey from '@/hooks/usePixKey';
+import { web3AuthInstanceVar } from '@/config/web3Auth'
 import userProfile from '@/hooks/useProfile';
 import userWalletAddress from '@/hooks/useWalletAddress';
 import { FiTrash2 } from 'react-icons/fi'
@@ -9,8 +10,18 @@ import { useAccount } from 'wagmi';
 import { cnpjMask, cpfMask, phoneMask } from '../shared/input-helper/mask'
 import { truncateAddress } from '@/services/truncate';
 import { useEffect, useState } from 'react';
+import { PiArrowLeft } from 'react-icons/pi';
+import { chainConfigByChainId } from '@/config/chain';
+import etherscan from '@assets/icons/etherscan.svg'
+import { useReactiveVar } from '@apollo/client';
+import Image from 'next/image'
 
-export default function EditAccount() {
+interface walletSidebarEditAccountProps {
+  setWalletSidebar?: (value: boolean) => void
+  walletAddress: `0x${string}`
+}
+
+export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWalletSidebarActive, walletAddress }: walletSidebarEditAccountProps) {
   const [maskedPixKeys, setMaskedPixKeys] = useState<string[] | undefined>([])
   const [formatWalletAddress, setFormatWalletAddress] = useState<string[] | undefined>([])
   const { address } = useAccount()
@@ -20,6 +31,9 @@ export default function EditAccount() {
   const { pixKey } = userPixKey(profile ? profile.id : 0)
   const { wallets } = userWalletAddress(profile ? profile.id : 0)
 
+  const { t } = useLocaleTranslation()
+  const optimism = chainConfigByChainId(10)
+  const ethereum = chainConfigByChainId(1)
 
   useEffect(() => {
     if (wallets && wallets.length > 0) {
@@ -41,7 +55,7 @@ export default function EditAccount() {
           case 'phone_number':
             return phoneMask(pix.pixKey);
           default:
-            return pix.pixKey; 
+            return pix.pixKey;
         }
       });
       setMaskedPixKeys(maskedKeys);
@@ -49,11 +63,15 @@ export default function EditAccount() {
       setMaskedPixKeys([]);
     }
   }, [pixKey])
-  
-  const { t } = useLocaleTranslation()
 
   return (
     <>
+      <HeaderDrawer>
+        <ButtonDrawer onClick={() => setIsWalletSidebarActive && setIsWalletSidebarActive(false)}>
+          <CloseIcon />
+        </ButtonDrawer>
+        <h2>{t('wallet')}</h2>
+      </HeaderDrawer>
       <Container>
         <Section>
           <Header>
@@ -109,6 +127,13 @@ export default function EditAccount() {
             <h3>{t('web3AuthWalletSettings.wallets')}</h3>
             <Button disabled>{t('soon')}</Button>
           </Header>
+          <Wrapper>
+            <WrapperInfo>
+              <span >{t('web3AuthWalletSettings.address')}</span>
+              <span>0xae54...2Fe1C7</span>
+            </WrapperInfo>
+            <span>Exportar</span>
+          </Wrapper>
           {formatWalletAddress?.map(wallet => (
             <Wrapper>
               <WrapperInfo>
@@ -119,13 +144,49 @@ export default function EditAccount() {
             </Wrapper>
           ))}
         </Section>
-      </Container>    
+        <Container>
+          <a className='copy' href={`${ethereum.blockExplorer.baseUrl}/address/${address}`} target='_blank'>
+            <Card>
+              <Image src={etherscan} alt='etherscan icon' width={16} height={16} />
+              {t('web3AuthWalletSettings.showEtherScan')}
+            </Card>
+          </a>
+          <a className='copy' href={`${optimism.blockExplorer.baseUrl}/address/${address}`} target='_blank'>
+            <Card>
+              <Image src={etherscan} alt='etherscan icon' width={16} height={16} />
+              {t('web3AuthWalletSettings.showOptimismScan')}
+            </Card>
+          </a>
+       </Container>
+      </Container>
     </>
   )
 }
 
 
-export const { Container, Section, Header, WrapperInfo, KYCard, Wrapper, Span, WrapperField, Button, ModalHeader, ContainerEdit } = {
+export const { Container, Section, HeaderDrawer, Header, WrapperInfo, KYCard, Wrapper, Span, WrapperField, ButtonDrawer, Button, ModalHeader, ContainerEdit, CloseIcon, Card } = {
+  HeaderDrawer: styled.div`
+    min-height: 32px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    align-items: center;
+
+    gap: ${({ theme }) => theme.size[16]};
+
+    h2 {
+      font-size: ${({ theme }) => theme.font.size[16]};
+      font-weight: 400;
+    }
+  `,
+  CloseIcon: styled(PiArrowLeft)`
+    font-size: 18px;
+    color: ${({ theme }) => theme.colorV2.blue[1]} !important;
+    cursor: pointer;
+    &:hover {
+      color: ${({ theme }) => theme.colorV2.purple[1]} !important;
+    }
+  `,
   Container: styled.div`
   display: flex;
   flex-direction: column;
@@ -196,6 +257,27 @@ export const { Container, Section, Header, WrapperInfo, KYCard, Wrapper, Span, W
     outline: 0;
     background: transparent;
   }
+  `,
+  ButtonDrawer: styled.button`
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    background: ${({ theme }) => theme.color.white};
+    transition: background 0.2s ease;
+    line-height: 36px;
+
+    &:hover {
+      background: ${({ theme }) => theme.color.whiteAlpha[600]};
+    }
+
+    &:first-of-type {
+      margin-left: auto;
+    }
   `,
   Button: styled.button`
     display: flex;
@@ -306,6 +388,28 @@ export const { Container, Section, Header, WrapperInfo, KYCard, Wrapper, Span, W
     font-size: ${({ theme }) => theme.font.size[14]};
     font-weight: 500;
   }
+  `,
+  Card: styled.div`
+    width: 100%;
+    height: 42px;
+    padding: 0px 16px;
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.size[4]};
+    justify-content: center;
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.color.white};
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    border: ${({ theme }) => theme.color.primary};
 
-  `
+    font-size: ${({ theme }) => theme.font.size[15]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    font-weight: 400;
+    border: 1px solid ${({ theme }) => theme.color.primary};
+
+    cursor: pointer;
+    &:hover {
+      background: ${({ theme }) => theme.color.whiteAlpha[600]};
+    }
+  `,
 }
