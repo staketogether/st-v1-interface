@@ -3,6 +3,7 @@ import { Asset, AssetCategory } from '@/types/Asset'
 import { useState } from 'react'
 import styled from 'styled-components'
 import AssetCard from './AssetCard'
+import { PiCaretDown, PiCaretUp, PiCaretUpDown } from 'react-icons/pi'
 
 interface TokenControlProps {
   assetsList: Asset[]
@@ -47,7 +48,13 @@ export default function AssetControl({ assetsList }: TokenControlProps) {
       </Title>
       <AssetsList>
         <header>
-          <div>nome</div>
+          <div>
+            nome{' '}
+            <OrderByContainer>
+              <PiCaretUp />
+              <PiCaretDown />
+            </OrderByContainer>
+          </div>
           <div>preço</div>
           <div>variação</div>
           <div>Valor de mercado</div>
@@ -61,7 +68,7 @@ export default function AssetControl({ assetsList }: TokenControlProps) {
   )
 }
 
-const { Container, AssetsList, Title, ContainerButton } = {
+const { Container, AssetsList, Title, ContainerButton, OrderByContainer } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -113,13 +120,15 @@ const { Container, AssetsList, Title, ContainerButton } = {
       div {
         font-size: 13px;
         font-weight: 400;
+        display: flex;
+        align-items: center;
+        gap: 4px;
       }
     }
   `,
-  orderByContainer: styled.div`
+  OrderByContainer: styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
   `,
   ContainerButton: styled.div`
     height: 50px;
