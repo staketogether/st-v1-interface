@@ -20,21 +20,19 @@ export default function WalletSidebarAccountHistoryContainer({ accountHistory, a
   const { locale } = useRouter()
 
   const typeMap = {
-    ['buy-crypto']: t('buy'),
-    ['sell-crypto']: t('sell'),
-    ['swap']: t('swap'),
-    ['deposit']: t('deposit'),
-    ['withdraw']: t('withdraw')
+    ['buy-crypto']: t('deposited'),
+    ['sell-crypto']: t('v2.activities.withdraw'),
+    ['swap']: t('exchanged'),
+    ['deposit']: t('invested'),
+    ['withdraw']: t('rescued')
   }
-
-  console.log(accountHistory)
 
   return accountHistoryLoading ? (
     <LottieAnimation animationData={loadingAnimation} width={70} height={70} loop />
   ) : (
     <Container>
       <ContainerList>
-        {accountHistory.map(history => {
+        {accountHistory.map((history, i) => {
           let staking: Staking | null | undefined = null
           if (history.assetType === 'staking') {
             staking = stakingList.find(item => item.contracts.StakeTogether.toLowerCase() === history.token.toLowerCase())
@@ -75,7 +73,7 @@ export default function WalletSidebarAccountHistoryContainer({ accountHistory, a
           }
 
           return (
-            <BalanceContainer key={history.id}>
+            <BalanceContainer key={`${i}-${history.createdAt.toString()}`}>
               <div>
                 <div>
                   <AssetIcon
