@@ -1,7 +1,8 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import Button from '@/components/shared/Button'
-import { RampSteps, amountToQuoteVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
+import useQuoteRamp from '@/hooks/ramp/useQuote'
+import { RampSteps, amountToQuoteVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
@@ -16,8 +17,8 @@ import { PiArrowRight } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
+import AssetNetworkSwitch, { Network } from '../assets/AssetsNetworkSwitch'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import useQuoteRamp from '@/hooks/ramp/useQuote'
 
 interface QuotationStepProps {
   asset: Asset
@@ -113,6 +114,31 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
     assetId: asset.id
   })
 
+
+  const { networks } = {
+    "networks": [
+      {
+        "name": "Ethereum",
+        "chainId": 1,
+        "contractAddress": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
+      },
+      {
+        "name": "Polygon",
+        "chainId": 137,
+        "contractAddress": "0xb33eaad8d922b1083446dc23f610c2567fb5180f"
+      },
+      {
+        "name": "Optimistic",
+        "chainId": 10,
+        "contractAddress": "0x6fd9d7ad17242c41f7131d257212c54a0e816691"
+      },
+      {
+        "name": "Arbitrum",
+        "chainId": 42161,
+        "contractAddress": "0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0"
+      }
+    ]
+  }
   return (
     <Container>
       <BoxValuesContainer>
@@ -170,8 +196,10 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
             {!quoteIsValidating && asset.type === 'fan-token' && (
               <Input value={truncateDecimal(quote?.amountBrl ?? '0')} disabled placeholder='0' />
             )}
+
           </div>
         </InputContainer>
+        <AssetNetworkSwitch networks={networks} title='Rede de recebimento' onChange={(data: Network) => console.log(data)} />
       </BoxValuesContainer>
       <Button
         onClick={handleNext}
@@ -240,8 +268,8 @@ const { Container, InputContainer, BoxValuesContainer, Input } = {
       background: ${({ theme }) => theme.colorV2.white};
 
       ${({ disabled, theme }) =>
-        disabled &&
-        `
+      disabled &&
+      `
             background: ${theme.colorV2.gray[2]};
             box-shadow: ${theme.shadow[100]};
             border: 1px solid transparent;
