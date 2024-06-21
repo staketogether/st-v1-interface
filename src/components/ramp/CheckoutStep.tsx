@@ -2,7 +2,6 @@ import { RampSteps, clearRampVars, pixBankInfoVar, qrCodeVar, quoteVar, rampStep
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import { QRCode, notification } from 'antd'
@@ -11,13 +10,15 @@ import { PiCopy } from 'react-icons/pi'
 import styled from 'styled-components'
 import Button from '../shared/Button'
 import SwapInfo from './SwapInfo'
+import { Asset } from '@/types/Asset'
 
 interface CheckoutStepProps {
-  asset: Asset
+  asset?: Asset
+  chainId: number
   type: 'buy' | 'sell'
 }
 
-export default function CheckoutStep({ asset, type }: CheckoutStepProps) {
+export default function CheckoutStep({ asset, chainId, type }: CheckoutStepProps) {
   const { t } = useLocaleTranslation()
   const qrCode = useReactiveVar(qrCodeVar)
   const quote = useReactiveVar(quoteVar)
@@ -71,17 +72,17 @@ export default function CheckoutStep({ asset, type }: CheckoutStepProps) {
     `
   }
 
-  useFacebookPixel(`onramp-checkout:${asset.id}`, !!qrCode, {
+  useFacebookPixel(`onramp-checkout:${asset?.name}`, !!qrCode, {
     amountToken: parseFloat(quote?.amountToken ?? '0'),
     amountFiat: parseFloat(quote?.amountBrl ?? '0'),
     method: 'PIX',
-    assetId: asset.id
+    assetId: `${asset?.name}`
   })
 
   return (
     <Container>
       <Body>
-        <SwapInfo asset={asset} type={type} />
+        <SwapInfo chainId={chainId} asset={asset} type={type} />
         <PixArea>
           <Header>
             <div>

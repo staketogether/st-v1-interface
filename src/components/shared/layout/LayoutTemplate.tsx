@@ -1,3 +1,4 @@
+import useRegisterSocialLoginUsers from '@/hooks/marketing/useRegisterSocialLoginUsers'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Montserrat } from 'next/font/google'
 import { useRouter } from 'next/router'
@@ -9,10 +10,6 @@ import { Cloudflare } from '../scripts/Cloudflare'
 import { GoogleTag } from '../scripts/GoogleTag'
 import LayoutFooter from './LayoutFooter'
 import LayoutMenuMobile from './LayoutMenuMobile'
-import useRegisterSocialLoginUsers from '@/hooks/marketing/useRegisterSocialLoginUsers'
-import { PipeDrive } from '@/components/shared/scripts/PipeDrive'
-import { Grid } from 'antd'
-import dynamic from 'next/dynamic'
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -34,8 +31,6 @@ interface LayoutTemplateProps {
   children: ReactNode
 }
 
-const { useBreakpoint } = Grid
-
 export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   useRegisterSocialLoginUsers()
 
@@ -44,7 +39,6 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
   const router = useRouter()
   const { currency } = router.query
   const { setItem, getItem } = useLocalStorage()
-  const { md } = useBreakpoint()
 
   const changeCurrency = useCallback(
     (newCurrency: string) => {
@@ -67,7 +61,6 @@ export default function LayoutTemplate({ children }: LayoutTemplateProps) {
 
   return (
     <Container className={montserrat.className}>
-      {md && <PipeDrive />}
       {isProduction && (
         <>
           <GoogleTag />

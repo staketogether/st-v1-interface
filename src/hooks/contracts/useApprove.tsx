@@ -11,7 +11,7 @@ import { ethers } from 'ethers'
 interface useApproveProps {
   accountAddress: `0x${string}`
   spenderAddress: `0x${string}`
-  contractAddress: `0x${string}`
+  contractAddress?: `0x${string}`
   chainId: number
   enabled: boolean
 }

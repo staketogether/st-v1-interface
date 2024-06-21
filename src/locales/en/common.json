@@ -5,6 +5,9 @@
   "addToWalletTooltip": "Add token to your wallet",
   "save": "Save",
   "edit": "Edit",
+  "rescued": "Rescued",
+  "exchanged": "Exchanged",
+  "deposited": "Deposited",
   "wallet": "Wallet",
   "connectWallet": "Connect Wallet",
   "disclaimer": "Attention! Confirm that the asset you will receive is compatible with the Ethereum, Optimism, Arbitrum, Polygon and Chiliz networks. Assets incompatible with your address may be lost permanently.",
@@ -76,6 +79,7 @@
   "activities": "Activities",
   "analytics": "Analytics",
   "activity": "Activity",
+  "historic": "Historic",
   "success": "Success",
   "viewOnExplorer": "View on Explorer",
   "try": "Try Again",
@@ -172,6 +176,7 @@
     "smartContract": "Smart Contract",
     "audit": "Audits",
     "documentation": "Docs",
+    "projects": "Projects",
     "support": "Support",
     "contract": "Contract"
   },
@@ -873,7 +878,7 @@
       },
       "crypto": {
         "title": "Crypto",
-        "description": "Invest in the Top Crypto in the Market"
+        "description": "Buy, sell, and trade cryptocurrencies securely and decentralized"
       },
       "stable": {
         "title": "Stablecoins",

@@ -5,6 +5,9 @@
   "addToWalletTooltip": "Adicionar o token a sua carteira",
   "save": "Salvar",
   "edit": "Editar",
+  "rescued": "Resgatado",
+  "exchanged": "Troca",
+  "deposited": "Depositado",
   "wallet": "Carteira",
   "connectWallet": "Conectar Carteira",
   "disclaimer": "Atenção! Confirme se o ativo que você vai receber é compatível com as redes Ethereum, Optimism, Arbitrum, Polygon e Chiliz. Ativos incompatíveis com seu endereço podem ser perdidos permanentemente.",
@@ -77,6 +80,7 @@
   "about": "Sobre",
   "analytics": "Análise",
   "activity": "Atividade",
+  "historic": "Histórico",
   "success": "Sucesso",
   "viewOnExplorer": "Ver no Explorer",
   "try": "Tentar novamente",
@@ -171,6 +175,7 @@
     "smartContract": "Contrato Inteligente",
     "audit": "Auditorias",
     "documentation": "Documentação",
+    "projects": "Projetos",
     "support": "Suporte",
     "contract": "Contrato"
   },
@@ -900,7 +905,7 @@
       },
       "crypto": {
         "title": "Criptomoedas",
-        "description": "Invista nas Principais Criptomoedas do Mercado"
+        "description": "Compre, venda e troque criptomoedas de maneira segura e descentralizada"
       },
       "stable": {
         "title": "Stablecoins",

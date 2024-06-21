@@ -1,9 +1,9 @@
-import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
+import TokensSymbolIcons from '@/components/shared/TokensSymbolIcons'
 import { chainConfigByChainId } from '@/config/chain'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize, truncateWei } from '@/services/truncate'
-import { AssetStats } from '@/types/AssetStats'
+import { Asset } from '@/types/Asset'
 import { Staking } from '@/types/Staking'
 import { Tooltip, notification } from 'antd'
 import dynamic from 'next/dynamic'
@@ -20,7 +20,7 @@ import useAccountElPoints from '@/hooks/subgraphs/useAcountElPoints'
 
 interface ProductInfoProps {
   product: Staking
-  assetData: AssetStats
+  assetData: Asset
   chainId: number
 }
 
@@ -33,7 +33,7 @@ const TokensShowValuePrice = dynamic(() => import('../shared/AssetPrice'), {
 export default function ProductInfo({ product, assetData, chainId }: ProductInfoProps) {
   const config = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
-  
+
   const { address } = useAccount()
   const { points } = useAccountStPoints(address)
   const { elPoints } = useAccountElPoints(address)
@@ -44,8 +44,6 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
   const stakeTogetherContractAddress = product.contracts.StakeTogether
   const router = useRouter()
 
-
-  
   const copyToClipboard = async () => {
     const url = `${window.location.origin}${router.asPath}`
 
@@ -56,6 +54,30 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
       placement: 'topRight'
     })
   }
+
+  const formattedStakingAsset: Asset = {
+    description: { en: '', pt: '' },
+    priceChange24h: 0,
+    priceChangePercentage1Y: 0,
+    priceChangePercentage24h: 0,
+    ref: '',
+    type: 'erc20',
+    networks: [{
+      chainId,
+      contractAddress: product.contracts.StakeTogether,
+      name: product.asset.name,
+    }],
+    symbol: product.symbol,
+    imageUrl: product.symbolImage,
+    name: product.asset.name,
+    isFanToken: false,
+    decimals: product.asset.decimals,
+    marketCap: 0,
+    totalVolume: 0,
+    totalSupply: 0
+  }
+
+
   return (
     <ProductContainer>
       <header>
@@ -93,7 +115,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <TokensShowValuePrice asset={product.asset} className='CoinValue' />
+              <TokensShowValuePrice chainId={chainId} contractAddress={product.asset.contractAddress} className='CoinValue' />
               <span className='apy'>{`APY ${product.apy}%`}</span>
             </div>
           </SymbolContainer>
@@ -119,7 +141,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           </RewardsPointsContainer>
         </HeaderDescribeInfo>
       </header>
-      <PriceChart asset={product.asset} />
+      <PriceChart asset={formattedStakingAsset} chainId={chainId}/>
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>

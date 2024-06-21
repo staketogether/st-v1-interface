@@ -1,22 +1,13 @@
 import Wallet from '@/components/wallet/Wallet'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
-import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiCodesandboxLogo, PiCoinsLight, PiChartLine, PiGlobe } from 'react-icons/pi'
+import { PiChartLine, PiCoinsLight, PiGlobe } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import SkeletonLoading from '../icons/SkeletonLoading'
-import LayoutHeaderSearch from './LayoutHeaderSearch'
-import useBtcConnectWallet from '@/hooks/btc-wallet/useBtcConnectWallet'
-const LayoutNetworkDropdown = dynamic(() => import('./LayoutNetworkDropdown'), {
-  ssr: false,
-  loading: () => <SkeletonLoading width={80} height={32} />,
-  suspense: true
-})
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
@@ -29,7 +20,7 @@ export default function LayoutHeader() {
   const userWalletIsConnected = accountIsConnected || btcWalletIsConnected
 
   const { query, pathname, locale } = useRouter()
-  const { currency, network } = query
+  const { currency } = query
 
   const basePath = `/[currency]`
   const isHome = pathname === basePath
@@ -55,19 +46,10 @@ export default function LayoutHeader() {
               {t('v2.header.staking')}
             </MenuButton>
           </Link>
-          <Link href={`/${currency as string}/${(network as string) || 'optimism'}/project`}>
-            <MenuButton className={`${!isHome && isActive('project') ? 'active' : ''}`}>
-              <ProjectsIcon />
-              {t('v2.header.projects')}
-            </MenuButton>
-          </Link>
         </Menu>
       </MenuContainer>
-      <SearchArea>
-        <LayoutHeaderSearch />
-      </SearchArea>
+
       <WalletContainer>
-        <LayoutNetworkDropdown />
         <ContainerCurrency>
           <GlobeIcon />
           <span>{locale === 'pt' ? 'PT' : 'EN'}</span>
@@ -85,20 +67,7 @@ export default function LayoutHeader() {
   )
 }
 
-const {
-  Container,
-  MenuContainer,
-  WalletContainer,
-  SearchArea,
-  ContainerCurrency,
-  Logo,
-  Menu,
-  MenuButton,
-  GlobeIcon,
-  ProjectsIcon,
-  CoinsIcon,
-  ChartIcon
-} = {
+const { Container, MenuContainer, WalletContainer, ContainerCurrency, Logo, Menu, MenuButton, GlobeIcon, CoinsIcon, ChartIcon } = {
   Container: styled.header`
     display: none;
     gap: ${({ theme }) => theme.size[32]};
@@ -114,9 +83,6 @@ const {
       display: flex;
       justify-content: space-between;
     }
-  `,
-  SearchArea: styled.div`
-    width: 400px;
   `,
   MenuContainer: styled.div`
     display: flex;
@@ -202,9 +168,6 @@ const {
     color: ${({ theme }) => theme.color.gray[500]};
   `,
   ChartIcon: styled(PiChartLine)`
-    font-size: ${props => props.theme.size[24]};
-  `,
-  ProjectsIcon: styled(PiCodesandboxLogo)`
     font-size: ${props => props.theme.size[24]};
   `
 }

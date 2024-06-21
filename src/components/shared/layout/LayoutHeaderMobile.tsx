@@ -7,18 +7,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { PiGear } from 'react-icons/pi'
-import { GoSearch } from 'react-icons/go'
 import styled from 'styled-components'
 import stIcon from '../../../../public/assets/st-icon.png'
 import LayoutSidebarMobileMenu from './LayoutSidebarMobileMenu'
-import SearchDrawer from '../SearchHeaderDrawer'
-import useHeaderDrawer from '@/hooks/useHeaderDrawer'
-import useBtcConnectWallet from '@/hooks/btc-wallet/useBtcConnectWallet'
 
 export default function LayoutHeaderMobile() {
   const { t } = useLocaleTranslation()
-
-  const { openDrawer, setOpenDrawer } = useHeaderDrawer()
 
   const { query } = useRouter()
   const { currency } = query
@@ -39,12 +33,6 @@ export default function LayoutHeaderMobile() {
           </Logo>
           <WalletContainer>
             <MenuContainer>
-              <GoSearch
-                size={22}
-                onClick={() => {
-                  setOpenDrawer(true)
-                }}
-              />
               <SettingIcon
                 size={22}
                 onClick={() => {
@@ -64,7 +52,6 @@ export default function LayoutHeaderMobile() {
       </Container>
       <LayoutSidebarMobileMenu account={account} />
       <WalletSidebarMobileSetting />
-      <SearchDrawer openDrawer={openDrawer} setOpenDrawer={setOpenDrawer} />
     </>
   )
 }

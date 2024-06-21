@@ -1,10 +1,10 @@
 import { chainConfigs } from '@/config/chain'
-import { Asset } from '@/types/Asset'
 // eslint-disable-next-line import/named
 import { LiFiWidget, WidgetConfig } from '@lifi/widget'
 import { useRouter } from 'next/router'
+import { Asset } from '@/types/Asset'
 
-export const LiFiSwap = ({ asset }: { asset: Asset }) => {
+export const LiFiSwap = ({ asset, chainId }: { asset?: Asset, chainId: number }) => {
   const { locale } = useRouter()
   const widgetConfig: WidgetConfig = {
     chains: { allow: chainConfigs.map(chain => chain.chainId) },
@@ -17,8 +17,8 @@ export const LiFiSwap = ({ asset }: { asset: Asset }) => {
     disabledUI: ['fromToken'],
     subvariant: 'default',
     appearance: 'light',
-    fromToken: asset.symbol,
-    fromChain: asset.chains[0],
+    fromToken: asset?.symbol,
+    fromChain: chainId,
     theme: {
       components: {
         MuiInputCard: {},

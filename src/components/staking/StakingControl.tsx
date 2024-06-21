@@ -1,7 +1,7 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { Staking } from '@/types/Staking'
 import styled from 'styled-components'
 import StakingCard from './StakingCard'
-import { Staking } from '@/types/Staking'
 
 interface TokenControlProps {
   stakingList: Staking[]
@@ -42,33 +42,24 @@ const { Container, Products, Title } = {
       font-style: normal;
       font-weight: 500;
       line-height: normal;
-      line-height: 52px;
     }
     h2 {
-      font-size: ${({ theme }) => theme.font.size[20]};
+      font-size: ${({ theme }) => theme.font.size[16]};
       font-style: normal;
       font-weight: 400;
       line-height: normal;
       color: ${({ theme }) => theme.color.gray[600]};
     }
-
-    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-      gap: ${({ theme }) => theme.size[8]};
-
-      h1 {
-        font-size: 48px;
-      }
-    }
   `,
   Products: styled.nav`
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, 1fr);
     gap: ${({ theme }) => theme.size[8]};
 
     @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: ${({ theme }) => theme.size[24]};
+      grid-template-columns: repeat(auto-fit, 1fr);
+      gap: ${({ theme }) => theme.size[12]};
     }
   `
 }

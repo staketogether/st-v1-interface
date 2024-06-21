@@ -5,14 +5,14 @@ import { AssetStatsChart } from '@/types/AssetStatsChart'
 
 interface UseAssetStatsChartProps {
   chainId: number
-  contractAddress: string
+  contractAddress?: string
   currency: 'brl' | 'eur' | 'usd'
   days: number
   interval: '5m' | 'hourly' | 'daily'
   refreshInterval?: number
 }
 
-export default function useAssetStatsChart({
+export default function useAssetChart({
   chainId,
   contractAddress,
   currency,

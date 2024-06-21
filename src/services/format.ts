@@ -1,4 +1,6 @@
 import type { RcFile } from 'antd/es/upload/interface'
+import { ChainConfig, chainConfigs } from '@/config/chain'
+import humanFormat from 'human-format'
 
 export function formatNumberByLocale(num: string, lang?: string): string {
   if (Number(num) < 1) {
@@ -55,7 +57,27 @@ export function getVideoIdFromUrl(url?: string): string | null {
   }
 }
 
-export type AllowedNetworks = 'ethereum' | 'holesky' | 'optimism' | 'bitcoin' | 'chiliz' | 'polygon' | 'arbitrum'
+export type AllowedNetworks = 'ethereum' | 'holesky' | 'bitcoin' | 'optimism-sepolia' | 'optimistic' | 'chiliz' | 'polygon' | 'arbitrum' | 'era'
+
+export const chainByMobulaName = (mobulaName: 'ethereum' | 'optimistic' | 'chiliz' | 'polygon' | 'arbitrum' | 'zksync'): ChainConfig => {
+  const chainMobulaName = {
+    bitcoin: 500,
+    ethereum: 1,
+    optimistic: 10,
+    chiliz: 88888,
+    polygon: 137,
+    arbitrum: 42161,
+    zksync: 324
+  }
+
+  const chain = chainConfigs.find(config => config.chainId === chainMobulaName[mobulaName])
+
+  if (!chain) {
+    throw new Error('Chain not found')
+  }
+
+  return chain
+}
 
 export const handleChainIdByNetwork = (network: AllowedNetworks) => {
   const chainIdByNetwork = {
@@ -63,7 +85,7 @@ export const handleChainIdByNetwork = (network: AllowedNetworks) => {
     ethereum: 1,
     holesky: 17000,
     'optimism-sepolia': 11155420,
-    optimism: 10,
+    optimistic: 10,
     chiliz: 88888,
     'chiliz-spicy': 88882,
     polygon: 137,
@@ -72,4 +94,14 @@ export const handleChainIdByNetwork = (network: AllowedNetworks) => {
   }
 
   return chainIdByNetwork[network] ?? undefined
+}
+
+export function toHumanFormat(value: number): string {
+  if (value === 0) {
+    return '0'
+  }
+
+  return humanFormat(Number(value), {
+    separator: ''
+  }).replace('G', 'B') // Necessary since the prefix for short scale is B, not G: https://en.wikipedia.org/wiki/Metric_prefix
 }

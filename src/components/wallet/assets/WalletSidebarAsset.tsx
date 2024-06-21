@@ -5,16 +5,17 @@ import { assetsList } from '@/config/product/asset'
 import styled from 'styled-components'
 import { truncateWei } from '@/services/truncate'
 import defaultErc20Icon from '@assets/assets/default-erc-20.svg'
-import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
+// import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import Link from 'next/link'
+import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
+import { useRouter } from 'next/router'
 
 export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const configAsset = assetsList.find(
-    supportedAsset =>
-      supportedAsset.contractAddress.toLowerCase() === asset.contractAddress.toLowerCase() &&
-      supportedAsset.chains[0] === asset.chainId
+    supportedAsset => supportedAsset.contractAddress.toLowerCase() === asset?.contractAddress.toLowerCase()
   )
-
+  const { query } = useRouter()
+  const { currency } = query as { currency: string }
   const fixedWalletBalance = asset.decimals >= 18 ? asset.balance : asset.balance + '0'.repeat(18 - asset.decimals)
   const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance), 6))
 
@@ -22,21 +23,25 @@ export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const { usdToCurrency } = useFiatUsdConversion()
 
   return (
-      <BalanceContainer href={`${configAsset?.url}`} key={asset.chainId}>
+    <BalanceContainer
+      href={`${configAsset?.url.replace('currency', currency)} `}
+      key={asset.contractAddress}
+      className={`${!configAsset && 'disabled'}`}
+    >
+      <div>
         <div>
-          <div>
-            <AssetIcon image={imageSrc} size={24} altName={asset.symbol} chain={asset.chainId} />
-          </div>
-          <div>
-            <span>{asset.symbol}</span>
-            <span>{asset.name}</span>
-          </div>
+          <AssetIcon image={imageSrc} size={24} altName={asset.symbol} chain={asset.chainId} />
         </div>
         <div>
-          <span>{formattedBalance}</span>
-          <span>{usdToCurrency(asset.balanceUsd).formatted}</span>
+          <span>{asset.symbol}</span>
+          <span>{asset.name}</span>
         </div>
-      </BalanceContainer>
+      </div>
+      <div>
+        <span>{formattedBalance}</span>
+        <span>{usdToCurrency(asset.balanceUsd).formatted}</span>
+      </div>
+    </BalanceContainer>
   )
 }
 
@@ -46,9 +51,14 @@ const { BalanceContainer } = {
     display: flex;
     align-items: center;
     justify-content: space-between;
-   transition: background-color 0.2s;
-   border-radius: ${({ theme }) => theme.size[8]};
-   padding: 2px;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: ${({ theme }) => theme.colorV2.background};
+    }
 
     div {
       &:nth-child(1) {
@@ -99,7 +109,12 @@ const { BalanceContainer } = {
     }
 
     &:hover {
-     background-color: ${({ theme }) => theme.colorV2.foreground};
-   }
+      background-color: ${({ theme }) => theme.colorV2.foreground};
+    }
+    &.disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.5;
+    }
   `
 }

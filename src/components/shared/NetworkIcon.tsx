@@ -7,8 +7,21 @@ import polygonIcon from '@assets/network/polygon.svg'
 
 import Image from 'next/image'
 import styled from 'styled-components'
-import { arbitrum, arbitrumSepolia, chiliz, mainnet, optimism, optimismSepolia, polygon, polygonMumbai, sepolia, spicy } from 'wagmi/chains'
+import {
+  arbitrum,
+  arbitrumSepolia,
+  chiliz,
+  mainnet,
+  optimism,
+  optimismSepolia,
+  polygon,
+  polygonMumbai,
+  sepolia,
+  spicy,
+  zkSync
+} from 'wagmi/chains'
 import { Chain } from '@/config/chain'
+import zkIcon from '@assets/network/zk.png'
 
 interface NetworkIconProps {
   chain?: number
@@ -32,7 +45,8 @@ export default function NetworkIcon({ chain, size, enabled = true }: NetworkIcon
     [optimismSepolia.id]: optimismIcon,
     [arbitrumSepolia.id]: arbitrumIcon,
     [polygonMumbai.id]: polygonIcon,
-    [spicy.id]: chilizIcon
+    [spicy.id]: chilizIcon,
+    [zkSync.id]: zkIcon
   }
 
   return <Icon className={`${enabled ? '' : 'disabled'}`} width={size} height={size} src={networkIcons[chain]} alt='Network' />

@@ -1,33 +1,33 @@
 import { RampSteps, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
 import successAnimation from '@assets/animations/success-animation.json'
 import styled from 'styled-components'
 import Button from '../shared/Button'
 import LottieAnimation from '../shared/LottieAnimation'
+import { Asset } from '@/types/Asset'
 
 interface SuccessStepProps {
-  product: Asset
+  asset?: Asset
   type: 'buy' | 'sell' | 'swap'
 }
 
-export default function SuccessStep({ product, type }: SuccessStepProps) {
+export default function SuccessStep({ asset, type }: SuccessStepProps) {
   const { t } = useLocaleTranslation()
   const quote = useReactiveVar(quoteVar)
 
   const exchange = (Number(quote?.amountBrl) / Number(quote?.amountToken)).toFixed(2)
-  useFacebookPixel(`onramp-success:${product.id}`, !!quote, {
+  useFacebookPixel(`onramp-success:${asset?.name}`, !!quote, {
     amountToken: parseFloat(quote?.amountToken ?? '0'),
     amountFiat: parseFloat(quote?.amountBrl ?? '0'),
     method: 'PIX',
-    assetId: product.id
+    assetId: `${asset?.name}`
   })
 
-  const symbol = type === 'buy' ? product.symbol : 'BRL'
+  const symbol = type === 'buy' ? asset?.symbol : 'BRL'
   const messageReceive =
-    type === 'buy' ? t('v2.ramp.yourEths').replace('TOKENS', product.symbol) : t('v2.ramp.yourEths').replace('ETH', 'BRL')
+    type === 'buy' ? t('v2.ramp.yourEths').replace('TOKENS', `${asset?.symbol}`) : t('v2.ramp.yourEths').replace('ETH', 'BRL')
   const value = type === 'buy' ? quote?.amountToken : quote?.amountBrl
   return (
     <Container>
@@ -53,13 +53,13 @@ export default function SuccessStep({ product, type }: SuccessStepProps) {
           <div className='right'>
             <span className='green'>R$ {exchange}</span>
             <span>=</span>
-            <span className='secondary'>1 {product.symbol}</span>
+            <span className='secondary'>1 {asset?.symbol}</span>
           </div>
         </Info>
         <Info>
           <div>
             <span className='green'>
-              {quote?.amountToken} {product.symbol}
+              {quote?.amountToken} {asset?.symbol}
             </span>
             <span>x</span>
             <span className='secondary'>R$ {exchange}</span>
