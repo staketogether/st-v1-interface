@@ -26,33 +26,7 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
-  const networks = [
-    { network: 'optimism', chainId: 10 },
-    { network: 'ethereum', chainId: 1 }
-  ]
-
-  const currencies = ['usd', 'brl', 'eur']
-
-  const paths = networks
-    .map(network => {
-      return stakingList
-        .filter(staking => staking.enabled && staking.listed && staking.asset.chains.includes(network.chainId))
-        .map(product => {
-          return currencies.map(currency => {
-            return {
-              params: {
-                network: network.network,
-                currency,
-                type: 'staking',
-                product: product.id
-              }
-            }
-          })
-        })
-    })
-    .flat(2)
-
-  return { paths, fallback: 'blocking' }
+  return { paths: [], fallback: 'blocking' }
 }
 async function fetchProductAssetData(uri: string): Promise<Asset> {
   const { backendUrl } = globalConfig
