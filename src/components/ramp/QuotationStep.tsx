@@ -19,6 +19,7 @@ import { useAccount } from 'wagmi'
 import AssetNetworkSwitch, { Network } from '../assets/AssetsNetworkSwitch'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { Asset } from '@/types/Asset'
+import { useRouter } from 'next/router'
 
 interface QuotationStepProps {
   asset?: Asset
@@ -26,8 +27,9 @@ interface QuotationStepProps {
 }
 
 export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
+  const router = useRouter()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentNetwork, setCurrentNetwork] = useState<Network | undefined>(asset?.networks[chainId] ?? undefined)
+  const [currentNetwork, setCurrentNetwork] = useState<Network | undefined>(asset?.networks.find(network => network.chainId === chainId) ?? undefined)
   const amountToQuote = useReactiveVar(amountToQuoteVar)
   const [value, setValue] = useState<string>(amountToQuote ?? '0')
   const debounceValue = useDebounce(value, 300)
@@ -111,13 +113,17 @@ export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
     })
   }, [quote])
 
-  useFacebookPixel(`onramp-quotation:${asset?.networks[chainId].contractAddress}`, quote?.amountToken !== undefined, {
+  useFacebookPixel(`onramp-quotation:${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`, quote?.amountToken !== undefined, {
     amountFiat: Number(debounceValue),
     amountToken: String(quote?.amountToken),
-    assetId: `${asset?.networks[chainId].contractAddress}`
+    assetId: `${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`
   })
 
-
+  const onNetworkChange = useCallback((network: Network) => {
+    setCurrentNetwork(network)
+    router.query.network = network.name.toLowerCase()
+    router.push(router)
+  }, [router])
 
   return (
     <Container>
@@ -179,7 +185,7 @@ export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
 
           </div>
         </InputContainer>
-        <AssetNetworkSwitch networks={asset?.networks ?? []} title='Rede de recebimento' onChange={(data: Network) => setCurrentNetwork(data)} />
+        <AssetNetworkSwitch selected={currentNetwork} networks={asset?.networks ?? []} title='Rede de recebimento' onChange={onNetworkChange} />
       </BoxValuesContainer>
       <Button
         onClick={handleNext}

@@ -59,7 +59,7 @@ export default function AssetsControl({ assetId, chainId, type }: AssetsControlP
   const { query } = useRouter()
   const { currency } = query
   const { chain: walletChainId, connector, address } = useAccount()
-  const { asset } = useAsset({ chainId, assetId})
+  const { asset } = useAsset({ chainId, assetId })
 
   useEffect(() => {
     if (address) {
@@ -76,7 +76,7 @@ export default function AssetsControl({ assetId, chainId, type }: AssetsControlP
     isLoading: userTokenIsLoading,
     refetch: userTokenRefetch
   } = useBalanceOf({
-    contractAddress: asset?.networks[chainId].contractAddress,
+    contractAddress: asset?.networks.find(network => network.chainId === chainId)?.contractAddress,
     chainId,
     type: asset?.type ?? 'erc20',
     walletAddress: userWalletAddress,
@@ -126,7 +126,7 @@ export default function AssetsControl({ assetId, chainId, type }: AssetsControlP
           <div>
             <div>
               <span>{asset?.symbol.toLocaleUpperCase()}</span>
-              <AssetPrice chainId={chainId} contractAddress={asset?.networks[chainId].contractAddress} />
+              <AssetPrice chainId={chainId} contractAddress={asset?.networks.find(network => network.chainId === chainId)?.contractAddress} />
             </div>
             <AvailableNetwork>
               <span>{t('v2.ethereumStaking.networkAvailable')}</span>

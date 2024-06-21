@@ -103,7 +103,7 @@ export default function ProcessingCheckoutOffRampStep({ asset, chainId, type, wa
     isLoading: allowanceIsLoading,
     refetch: allowanceRefetch
   } = useAllowance({
-    contractAddress: asset?.networks[chainId].contractAddress ? asset?.networks[chainId].contractAddress as `0x${string}` : undefined,
+    contractAddress: asset?.networks.find(network => network.chainId === chainId)?.contractAddress ? asset?.networks.find(network => network.chainId === chainId)?.contractAddress as `0x${string}` : undefined,
     userAccountAddress: address,
     spenderAddress,
     chainId
@@ -119,7 +119,7 @@ export default function ProcessingCheckoutOffRampStep({ asset, chainId, type, wa
     accountAddress: address,
     spenderAddress,
     chainId,
-    contractAddress: asset?.networks[chainId].contractAddress ? asset?.networks[chainId].contractAddress as `0x${string}` : undefined,
+    contractAddress: asset?.networks.find(network => network.chainId === chainId)?.contractAddress ? asset?.networks.find(network => network.chainId === chainId)?.contractAddress as `0x${string}` : undefined,
     enabled: !!paymentDetails?.bridge?.approvalAddress && !allowanceData && asset?.type === 'erc20'
   })
   const approveIsLoading = isLoading || awaitWalletAction

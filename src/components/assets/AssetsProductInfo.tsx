@@ -72,7 +72,7 @@ export default function AssetsProductInfo({ asset, chainId }: AssetsProductInfoP
               <span className='symbol'>{asset?.symbol}</span>
             </div>
             <div>
-              <AssetPrice chainId={chainId} contractAddress={asset?.networks[chainId].contractAddress} className='price' />
+              <AssetPrice chainId={chainId} contractAddress={asset?.networks.find(network => network.chainId === chainId)?.contractAddress} className='price' />
             </div>
           </SymbolContainer>
         </HeaderDescribeInfo>

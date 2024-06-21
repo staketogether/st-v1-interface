@@ -160,8 +160,8 @@ export default function KycStep({ asset, chainId }: KycStepProps) {
     return ''
   }
 
-  useFacebookPixel(`onramp-kyc:${asset?.networks[chainId].contractAddress}`, !!formData, {
-    assetId: `${asset?.networks[chainId].contractAddress}`,
+  useFacebookPixel(`onramp-kyc:${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`, !!formData, {
+    assetId: `${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`,
     kycLevel: 1,
     email: String(formData?.email)
   })

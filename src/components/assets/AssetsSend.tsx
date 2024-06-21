@@ -39,7 +39,7 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset, chainId: number 
     chainId,
     decimals: asset?.decimals,
     type: asset?.type ?? 'erc20',
-    contractAddress: asset?.networks[chainId].contractAddress,
+    contractAddress: asset?.networks.find(network => network.chainId === chainId)?.contractAddress,
     walletAddress: account
   })
   const { reload } = useRouter()

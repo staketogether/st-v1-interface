@@ -48,7 +48,7 @@ export default function PriceChart({ asset, chainId }: PriceChartProps) {
 
   const { assetStats, isLoading } = useAssetChart({
     chainId,
-    contractAddress: asset?.networks[chainId].contractAddress,
+    contractAddress: asset?.networks.find(network => network.chainId === chainId)?.contractAddress,
     currency: 'usd',
     days: handleFilter().day,
     interval: handleFilter().interval,

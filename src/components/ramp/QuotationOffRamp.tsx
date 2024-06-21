@@ -99,11 +99,11 @@ export default function QuotationOffRampStep({ asset, chainId, userTokenBalance,
     return t('next')
   }
 
-  useFacebookPixel(`offramp-quotation:${asset?.networks[chainId].contractAddress}`, !!quote, {
+  useFacebookPixel(`offramp-quotation:${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`, !!quote, {
     amountToken: parseFloat(quote?.amountToken ?? '0'),
     amountFiat: parseFloat(quote?.amountBrl ?? '0'),
     method: 'PIX',
-    assetId: `${asset?.networks[chainId].contractAddress}`
+    assetId: `${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`
   })
   const { name } = chainConfigByChainId(chainId)
   return (

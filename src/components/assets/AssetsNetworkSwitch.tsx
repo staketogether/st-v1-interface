@@ -11,10 +11,11 @@ export interface Network {
 interface AssetNetworkSwitchProps {
   title: string
   networks: Network[]
+  selected?: Network
   onChange?: (data: Network) => void
 }
 
-export default function AssetNetworkSwitch({ title, networks, onChange }: AssetNetworkSwitchProps) {
+export default function AssetNetworkSwitch({ title, networks, onChange, selected }: AssetNetworkSwitchProps) {
   const optionsList = networks.map(option => {
     return {
       value: option.chainId,
@@ -37,7 +38,7 @@ export default function AssetNetworkSwitch({ title, networks, onChange }: AssetN
     <Content>
       <span>{title}</span>
 
-      <Select defaultValue={1} style={{ width: '100%', height: '56px', outline: 'none' }} onChange={handleChange} options={optionsList} />
+      <Select defaultValue={selected?.chainId ?? 1} style={{ width: '100%', height: '56px', outline: 'none' }} onChange={handleChange} options={optionsList} />
     </Content>
   )
 }
