@@ -6,6 +6,8 @@ import CryptoAssetTableRow from './CryptoAssetTableRow'
 import { useCallback, useRef, useState } from 'react'
 import NetworkIcon from '../shared/NetworkIcon'
 import { Select } from 'antd'
+import loadingAnimation from '@assets/animations/loading-animation.json'
+import LottieAnimation from '../shared/LottieAnimation'
 
 interface FilterType {
   orderBy: 'market_cap' | 'price' | 'volume'
@@ -27,7 +29,6 @@ export default function CryptoPageControl() {
   const lastBookElementRef = useCallback(
     (node: Element | null) => {
       if (initialLoading || loadMoreLoading) return
-      console.log('passei aq')
       if (loadMoreRef.current) loadMoreRef.current.disconnect()
       loadMoreRef.current = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) {
@@ -78,7 +79,7 @@ export default function CryptoPageControl() {
       <FilterTabContainer>
         <CategoryContainer>
           <div className={`${!filter.category && 'active'}`} onClick={() => handleCategoryFilter(null)}>
-            <span>Todos</span>
+            <span>{t('v3.crypto-filter.all')}</span>
           </div>
           <div
             className={`${filter.category === 'Decentralized Finance (DeFi)' && 'active'}`}
@@ -103,10 +104,10 @@ export default function CryptoPageControl() {
       <AssetsListContainer>
         <header>
           <div>
-            <span>nome</span>
+            <span>{t('v3.crypto-table.name')}</span>
           </div>
           <div>
-            <span>preço</span>
+            <span>{t('v3.crypto-table.price')}</span>
             <OrderByContainer>
               <UpIcon
                 className={`${filter.orderBy === 'price' && filter.orderDirection === 'asc' && 'active'}`}
@@ -119,7 +120,7 @@ export default function CryptoPageControl() {
             </OrderByContainer>
           </div>
           <div>
-            <span>variação</span>
+            <span>{t('v3.crypto-table.change')}</span>
             <OrderByContainer>
               <UpIcon
                 className={`${filter.orderBy === 'volume' && filter.orderDirection === 'asc' && 'active'}`}
@@ -132,7 +133,7 @@ export default function CryptoPageControl() {
             </OrderByContainer>
           </div>
           <div>
-            <span>Valor de mercado</span>
+            <span>{t('v3.crypto-table.marketCap')}</span>
             <OrderByContainer>
               <UpIcon
                 className={`${filter.orderBy === 'market_cap' && filter.orderDirection === 'asc' && 'active'}`}
@@ -146,9 +147,12 @@ export default function CryptoPageControl() {
           </div>
           <div />
         </header>
-        {AssetsList.map(asset => {
-          return <CryptoAssetTableRow asset={asset} key={asset.ref} chainIdActivated={filter.chainId} />
-        })}
+        {initialLoading && <LottieAnimation animationData={loadingAnimation} height={70} loop />}
+        {!initialLoading &&
+          AssetsList.map(asset => {
+            return <CryptoAssetTableRow asset={asset} key={asset.ref} chainIdActivated={filter.chainId} />
+          })}
+        {loadMoreLoading && <LottieAnimation animationData={loadingAnimation} height={20} loop />}
       </AssetsListContainer>
       {!loadMoreLoading && !initialLoading && <div ref={lastBookElementRef} style={{ height: 20 }} />}
     </Container>

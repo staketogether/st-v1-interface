@@ -935,6 +935,12 @@
       "defi": "DeFi",
       "crypto": "Cripto"
     },
+    "crypto-table":{
+      "name": "Nome",
+      "price": "Preço",
+      "change": "Variação",
+      "marketCap": "Valor de Mercado"
+    },
     "assetDetail": {
       "quantity": "Quantidade",
       "totalAmount": "Valor Total"

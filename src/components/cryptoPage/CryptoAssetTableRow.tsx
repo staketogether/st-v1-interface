@@ -22,14 +22,16 @@ export default function CryptoAssetTableRow({ asset, chainIdActivated }: AssetCa
   const { usdToCurrency } = useFiatUsdConversion()
   const { t } = useLocaleTranslation()
   return (
-    <CardContainer href={{
-      pathname: `/[currency]/[network]/product/assets/[product]`,
-      query: {
-        currency,
-        network: network.name.toLowerCase(),
-        product: contractAddress
-      }
-    }}>
+    <CardContainer
+      href={{
+        pathname: `/[currency]/[network]/product/assets/[product]`,
+        query: {
+          currency,
+          network: network.name.toLowerCase(),
+          product: contractAddress
+        }
+      }}
+    >
       <ImageContainer>
         <div>
           <AssetIcon image={asset.imageUrl} chain={network.chainId} size={24} altName={network.name} />
