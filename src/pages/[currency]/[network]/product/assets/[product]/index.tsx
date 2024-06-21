@@ -29,6 +29,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     product: string
   }
 
+  console.log(network)
   const chainId = handleChainIdByNetwork(network)
 
   if (!chainId) {

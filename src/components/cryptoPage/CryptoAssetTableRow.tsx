@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import { toHumanFormat } from '@/services/format'
 import Button from '../shared/Button'
+import { useRouter } from 'next/router'
 
 interface AssetCardProps {
   asset: AssetData
@@ -14,11 +15,21 @@ interface AssetCardProps {
 
 export default function CryptoAssetTableRow({ asset, chainIdActivated }: AssetCardProps) {
   const network = asset.networks.find(item => item.chainId === chainIdActivated) ?? asset.networks[0]
+  const contractAddress = asset.networks.find(item => item.chainId === chainIdActivated)?.contractAddress
   const signalPercentChange24h = asset.priceChangePercentage24h > 0 ? '+' : ''
+  const { query } = useRouter()
+  const { currency } = query
   const { usdToCurrency } = useFiatUsdConversion()
   const { t } = useLocaleTranslation()
   return (
-    <CardContainer href={'#'}>
+    <CardContainer href={{
+      pathname: `/[currency]/[network]/product/assets/[product]`,
+      query: {
+        currency,
+        network: network.name.toLowerCase(),
+        product: contractAddress
+      }
+    }}>
       <ImageContainer>
         <div>
           <AssetIcon image={asset.imageUrl} chain={network.chainId} size={24} altName={network.name} />

@@ -35,7 +35,7 @@ export const chainConfigs: ChainConfig[] = [
   },
   {
     chainId: optimism.id,
-    name: 'Optimism',
+    name: 'Optimistic',
     type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OP_MAINNET_URL),
     isTestnet: false,

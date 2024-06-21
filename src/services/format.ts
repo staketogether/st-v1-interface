@@ -57,7 +57,7 @@ export function getVideoIdFromUrl(url?: string): string | null {
   }
 }
 
-export type AllowedNetworks = 'ethereum' | 'holesky' | 'optimism-sepolia' | 'optimism'
+export type AllowedNetworks = 'ethereum' | 'holesky' | 'optimism-sepolia' | 'optimistic' | 'chiliz' | 'polygon' | 'arbitrum' | 'era'
 
 export const chainByMobulaName = (mobulaName: 'ethereum' | 'optimistic' | 'chiliz' | 'polygon' | 'arbitrum' | 'zksync'): ChainConfig => {
   const chainMobulaName = {
@@ -83,7 +83,7 @@ export const handleChainIdByNetwork = (network: AllowedNetworks) => {
     ethereum: 1,
     holesky: 17000,
     'optimism-sepolia': 11155420,
-    optimism: 10,
+    optimistic: 10,
     chiliz: 88888,
     'chiliz-spicy': 88882,
     polygon: 137,

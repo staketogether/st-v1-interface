@@ -61,10 +61,10 @@ export default function CryptoPageControl() {
       value: option.chainId,
       key: option.chainId,
       label: (
-        <NetWorkItem>
+        <NetworkItem>
           <NetworkIcon chain={option.chainId} size={24} />
           <span>{option.network}</span>
-        </NetWorkItem>
+        </NetworkItem>
       )
     }
   })
@@ -155,7 +155,7 @@ export default function CryptoPageControl() {
   )
 }
 
-const { Container, AssetsListContainer, Title, OrderByContainer, NetWorkItem, UpIcon, DownIcon, FilterTabContainer, CategoryContainer } = {
+const { Container, AssetsListContainer, Title, OrderByContainer, NetworkItem, UpIcon, DownIcon, FilterTabContainer, CategoryContainer } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -189,7 +189,7 @@ const { Container, AssetsListContainer, Title, OrderByContainer, NetWorkItem, Up
       }
     }
   `,
-  NetWorkItem: styled.div`
+  NetworkItem: styled.div`
     display: flex;
     gap: ${({ theme }) => theme.size[4]};
     align-items: center;
