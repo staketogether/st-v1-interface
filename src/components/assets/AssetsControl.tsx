@@ -1,6 +1,7 @@
 import { chainConfigByChainId } from '@/config/chain'
 import useBalanceOf from '@/hooks/contracts/useBalanceOf'
 import { clearRampVars } from '@/hooks/ramp/useRampControlModal'
+import useAsset from '@/hooks/useAsset'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
@@ -19,7 +20,6 @@ import LottieAnimation from '../shared/LottieAnimation'
 import NetworkIcons from '../shared/NetworkIcons'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import AssetsProductInfo from './AssetsProductInfo'
-import useAsset from '@/hooks/useAsset'
 
 interface AssetsControlProps {
   assetId: string
@@ -138,7 +138,7 @@ export default function AssetsControl({ assetId, chainId, type }: AssetsControlP
       </header>
 
       <div>
-        <AssetsProductInfo asset={asset} chainId={chainId}/>
+        <AssetsProductInfo asset={asset} chainId={chainId} />
         <ActionContainer>
           <ActionContainerControlCard>
             <AssetsActionsControl
