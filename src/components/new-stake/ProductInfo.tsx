@@ -142,7 +142,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           </RewardsPointsContainer>
         </HeaderDescribeInfo>
       </header>
-      <PriceChart asset={formattedStakingAsset} chainId={chainId}/>
+      <PriceChart asset={formattedStakingAsset} assetId={product.asset.type === 'bitcoin' ? product.asset.symbol : product.asset.contractAddress} chainId={chainId}/>
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>
