@@ -4,7 +4,7 @@ import { useReadContract } from 'wagmi'
 
 interface useAllowanceProps {
   userAccountAddress: `0x${string}`
-  contractAddress: `0x${string}`
+  contractAddress?: `0x${string}`
   spenderAddress: `0x${string}`
   chainId: number
 }

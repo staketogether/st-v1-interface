@@ -14,9 +14,15 @@ export interface Asset {
   symbol: string
   name: string
   type: 'erc20' | 'native'
+  isFanToken: boolean
   decimals: number
   totalSupply: number
   ref: string
+  bridge?: {
+    chainId: number
+    tokenName: string
+    contractAddress: string
+  }
   imageUrl?: string
   description: {
     pt: string

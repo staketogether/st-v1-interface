@@ -60,18 +60,18 @@ export default function AssetsRampControl({ asset, chainId, type, userTokenBalan
 
   const steps = {
     MethodPayment: <PaymentMethod chainId={chainId} asset={asset} />,
-    Quotation: <QuotationStep asset={asset} />,
-    QuotationOffRamp: <QuotationOffRampStep asset={asset} userTokenBalance={userTokenBalance} userTokenIsLoading={userTokenIsLoading} />,
+    Quotation: <QuotationStep chainId={chainId} asset={asset} />,
+    QuotationOffRamp: <QuotationOffRampStep chainId={chainId} asset={asset} userTokenBalance={userTokenBalance} userTokenIsLoading={userTokenIsLoading} />,
     Kyc: <KycStep asset={asset} chainId={chainId} />,
     ConnectWallet: <ConnectWallet useModal />,
-    ProcessingKyc: <ProcessingKycStep product={asset} type={type} />,
-    ProcessingCheckoutStep: <ProcessingCheckoutStep product={asset} type={type} />,
+    ProcessingKyc: <ProcessingKycStep asset={asset} chainId={chainId} type={type} />,
+    ProcessingCheckoutStep: <ProcessingCheckoutStep asset={asset} chainId={chainId} type={type} />,
     Checkout: <CheckoutStep chainId={chainId} asset={asset} type={type} />,
     TimeOutCheckout: <TimeOutCheckout type={type} />,
     Success: <SuccessStep asset={asset} type={type} />,
     PixKeyStep: <PixKeyStep />,
     ProcessingCheckoutOffRampStep: (
-      <ProcessingCheckoutOffRampStep userTokenRefetch={userTokenRefetch} walletAddress={walletAddress} asset={asset} type={type} />
+      <ProcessingCheckoutOffRampStep chainId={chainId} userTokenRefetch={userTokenRefetch} walletAddress={walletAddress} asset={asset} type={type} />
     ),
     error: <GenericErrorComponent type={type} />
   }

@@ -1,7 +1,6 @@
 import { RampSteps, qrCodeVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { StaticAsset } from '@/types/StaticAsset'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import { useEffect } from 'react'
@@ -11,13 +10,15 @@ import { useTheme } from 'styled-components'
 import WrapProcessingStep from './WrapProcessingStep'
 import LottieAnimation from '../shared/LottieAnimation'
 import successAnimation from '@assets/animations/success-animation.json'
+import { Asset } from '@/types/Asset'
 
 interface ProcessingCheckoutStepProps {
-  product: StaticAsset
+  asset?: Asset
+  chainId: number
   type: 'buy' | 'sell' | 'swap'
 }
 
-export default function ProcessingCheckoutStep({ product, type }: ProcessingCheckoutStepProps) {
+export default function ProcessingCheckoutStep({ asset, chainId, type }: ProcessingCheckoutStepProps) {
   const theme = useTheme()
   const timeToRedirect = 3000
   const { t } = useLocaleTranslation()
@@ -53,7 +54,7 @@ export default function ProcessingCheckoutStep({ product, type }: ProcessingChec
     activity.additionalData.bridge &&
     typeof activity.additionalData.bridge === 'object' &&
     'txHash' in activity.additionalData.bridge
-  const finishedPayment = product.ramp[0].bridge ? paymentStatus === 'success' && !!successfulBridging : paymentStatus === 'success'
+  const finishedPayment = asset?.bridge ? paymentStatus === 'success' && !!successfulBridging : paymentStatus === 'success'
 
   const validationSteps = [
     {
@@ -67,5 +68,5 @@ export default function ProcessingCheckoutStep({ product, type }: ProcessingChec
     }
   ]
 
-  return <WrapProcessingStep asset={product} validationSteps={validationSteps} title={t('v2.ramp.processingPayment')} type={type} />
+  return <WrapProcessingStep asset={asset} chainId={chainId} validationSteps={validationSteps} title={t('v2.ramp.processingPayment')} type={type} />
 }

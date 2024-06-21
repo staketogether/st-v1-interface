@@ -3,7 +3,6 @@ import { RampSteps, kycIdVar, kycLevelVar, qrCodeVar, quoteVar, rampStepControlV
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { StaticAsset } from '@/types/StaticAsset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -12,13 +11,15 @@ import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import { useAccount } from 'wagmi'
 import WrapProcessingStep from './WrapProcessingStep'
+import { Asset } from '@/types/Asset'
 
 interface ProcessingKycStepProps {
-  product: StaticAsset
+  asset?: Asset
+  chainId: number
   type: 'buy' | 'sell' | 'swap'
 }
 
-export default function ProcessingKycStep({ product, type }: ProcessingKycStepProps) {
+export default function ProcessingKycStep({ asset, chainId, type }: ProcessingKycStepProps) {
   const [rampData, setRampData] = useState<BuyRampRequest | undefined>(undefined)
 
   const timeToRedirect = 3000
@@ -53,35 +54,22 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
     }
 
     if (type === 'buy') {
-      const [ramp] = product.ramp
       setRampData({
-        chainIdToReceive: ramp.chainId,
+        chainIdToReceive: chainId,
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
-        amount: product.type === 'fan-token' ? Number(quote.amountToken) : Number(quote.amountBrl),
+        amount: asset?.isFanToken ? Number(quote.amountToken) : Number(quote.amountBrl),
         accountAddress: address,
         receiverAddress: address,
-        tokenToReceive: product.symbol,
-        fixOutput: product.type === 'fan-token'
+        tokenToReceive: asset?.symbol,
+        fixOutput: asset?.isFanToken
       })
       return
     }
     if (type === 'sell') {
       rampStepControlVar(RampSteps.PixKeyStep)
     }
-  }, [
-    address,
-    isLoading,
-    kycActivity,
-    kycLevelInfo?.level,
-    kycVerify,
-    product.ramp,
-    product.symbol,
-    product.type,
-    quote?.amountBrl,
-    quote?.amountToken,
-    type
-  ])
+  }, [address, isLoading, kycActivity, kycLevelInfo?.level, kycVerify, asset?.symbol, quote?.amountBrl, quote?.amountToken, type, chainId, asset?.isFanToken])
 
   useEffect(() => {
     if (activity?.status === 'error' && isError) {
@@ -113,5 +101,5 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
     }
   ]
 
-  return <WrapProcessingStep asset={product} validationSteps={validationSteps} title={t('v2.ramp.processingRegistration')} type={type} />
+  return <WrapProcessingStep asset={asset} chainId={chainId} validationSteps={validationSteps} title={t('v2.ramp.processingRegistration')} type={type} />
 }
