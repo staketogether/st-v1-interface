@@ -1,5 +1,6 @@
 import type { RcFile } from 'antd/es/upload/interface'
 import { ChainConfig, chainConfigs } from '@/config/chain'
+import humanFormat from 'human-format'
 
 export function formatNumberByLocale(num: string, lang?: string): string {
   if (Number(num) < 1) {
@@ -91,4 +92,14 @@ export const handleChainIdByNetwork = (network: AllowedNetworks) => {
   }
 
   return chainIdByNetwork[network] || 0
+}
+
+export function toHumanFormat(value: number): string {
+  if (value === 0) {
+    return '0'
+  }
+
+  return humanFormat(Number(value), {
+    separator: ''
+  }).replace('G', 'B') // Necessary since the prefix for short scale is B, not G: https://en.wikipedia.org/wiki/Metric_prefix
 }
