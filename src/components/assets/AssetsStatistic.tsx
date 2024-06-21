@@ -1,36 +1,31 @@
-import useAssetStats from "@/hooks/useAssetStats"
 import useCoinUsdToUserCurrency from "@/hooks/useCoinUsdToUserCurrency"
 import useLocaleTranslation from "@/hooks/useLocaleTranslation"
-import { Asset } from "@/types/Asset"
 import styled from "styled-components"
-
-
+import { Asset } from '@/types/Asset'
 
 interface AssetsStatisticProps {
-  asset: Asset
+  asset?: Asset
 }
 
-export default function AssetsStatistic({ asset: { chains, contractAddress } }: AssetsStatisticProps) {
+export default function AssetsStatistic({ asset }: AssetsStatisticProps) {
   const { t } = useLocaleTranslation()
-  const [chain] = chains
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
 
-  const { assetStats: assetData } = useAssetStats({ chainId: chain, contractAddress })
   return (
     <ProductBodyContainer>
       <h2>{t('v2.ethereumStaking.statistics')}</h2>
       <StatisticContainer>
         <div>
           <span>{t('v2.ethereumStaking.marketCap')}</span>
-          <span className='valueItem'>{`${handleQuotePrice(assetData?.marketCap ?? 0)}`}</span>
+          <span className='valueItem'>{`${handleQuotePrice(asset?.marketCap ?? 0)}`}</span>
         </div>
         <div>
           <span>Volume</span>
-          <span className='valueItem'>{`${handleQuotePrice(assetData?.totalVolume ?? 0)}`}</span>
+          <span className='valueItem'>{`${handleQuotePrice(asset?.totalVolume ?? 0)}`}</span>
         </div>
         <div>
           <span>{t('v2.ethereumStaking.priceChange')}</span>
-          <span className='valueItem'>{`${assetData?.priceChangePercentage1Y?.toFixed(2)}%`}</span>
+          <span className='valueItem'>{`${asset?.priceChangePercentage1Y?.toFixed(2)}%`}</span>
         </div>
       </StatisticContainer>
     </ProductBodyContainer>

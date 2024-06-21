@@ -938,7 +938,7 @@
       },
       "crypto": {
         "title": "Criptomoedas",
-        "description": "Invista nas Principais Criptomoedas do Mercado"
+        "description": "Compre, venda e troque criptomoedas de maneira segura e descentralizada"
       },
       "stable": {
         "title": "Stablecoins",
@@ -968,6 +968,12 @@
       "fan-token": "Fan Tokens",
       "defi": "DeFi",
       "crypto": "Cripto"
+    },
+    "crypto-table":{
+      "name": "Nome",
+      "price": "Preço",
+      "change": "Variação",
+      "marketCap": "Valor de Mercado"
     },
     "assetDetail": {
       "quantity": "Quantidade",

@@ -1,4 +1,4 @@
-import { Asset, AssetCategory, Erc20Asset, FanTokenAsset, NativeAsset } from '@/types/Asset'
+import { StaticAsset, AssetCategory, Erc20Asset, FanTokenAsset, NativeAsset } from '@/types/StaticAsset'
 import aaveIcon from '@assets/assets/aave.png'
 import arbIcon from '@assets/assets/arbitrum.svg'
 import bahiaIcon from '@assets/assets/bahia.png'
@@ -1274,7 +1274,7 @@ export const zkSyncETH: NativeAsset = {
   ]
 }
 
-export const assetsList: Asset[] = [
+export const assetsList: StaticAsset[] = [
   ethMainnet,
   ethOp,
   btcOp,
@@ -1312,18 +1312,18 @@ export const assetsList: Asset[] = [
   zkSyncETH
 ]
 
-export function getListedAssets(): Asset[] {
+export function getListedAssets(): StaticAsset[] {
   return assetsList.filter(asset => asset.listed).sort((a, b) => a.order - b.order)
 }
 
-export function getAssetsByCategory(category: AssetCategory): Asset[] {
+export function getAssetsByCategory(category: AssetCategory): StaticAsset[] {
   return assetsList
     .filter(asset => asset.category === category)
     .filter(asset => asset.listed)
     .sort((a, b) => a.order - b.order)
 }
 
-export function getAssetById(id: string): Asset {
+export function getAssetById(id: string): StaticAsset {
   const asset = assetsList.find(assetItem => assetItem.id === id)
 
   if (!asset) {

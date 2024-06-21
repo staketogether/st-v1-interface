@@ -4,7 +4,6 @@ import { clearRampVars } from '@/hooks/ramp/useRampControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
-import { Asset } from '@/types/Asset'
 import { AssetActionType } from '@/types/AssetActionType'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import { notification } from 'antd'
@@ -20,14 +19,15 @@ import LottieAnimation from '../shared/LottieAnimation'
 import NetworkIcons from '../shared/NetworkIcons'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import AssetsProductInfo from './AssetsProductInfo'
+import useAsset from '@/hooks/useAsset'
 
 interface AssetsControlProps {
-  asset: Asset
+  assetId: string
   chainId: number
   type: AssetActionType
 }
 
-const AssetBalanceCard = dynamic(() => import('../asset/AssetBalanceCard'), {
+const AssetBalanceCard = dynamic(() => import('../cryptoPage/AssetBalanceCard'), {
   ssr: false,
   loading: () => (
     <LoadingContainer>
@@ -53,12 +53,13 @@ const AssetsActionsControl = dynamic(() => import('./AssetsActionsControl'), {
   suspense: true
 })
 
-export default function AssetsControl({ asset, chainId, type }: AssetsControlProps) {
+export default function AssetsControl({ assetId, chainId, type }: AssetsControlProps) {
   const [userWalletAddress, setUserWalletAddress] = useState<`0x${string}` | undefined>(undefined)
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query
   const { chain: walletChainId, connector, address } = useAccount()
+  const { asset } = useAsset({ chainId, assetId })
 
   useEffect(() => {
     if (address) {
@@ -75,7 +76,11 @@ export default function AssetsControl({ asset, chainId, type }: AssetsControlPro
     isLoading: userTokenIsLoading,
     refetch: userTokenRefetch
   } = useBalanceOf({
-    asset
+    contractAddress: asset?.networks.find(network => network.chainId === chainId)?.contractAddress,
+    chainId,
+    type: asset?.type ?? 'erc20',
+    walletAddress: userWalletAddress,
+    decimals: asset?.decimals
   })
 
   useEffect(() => {
@@ -94,7 +99,7 @@ export default function AssetsControl({ asset, chainId, type }: AssetsControlPro
       placement: 'topRight'
     })
   }
-  useFacebookPixel(`pageview:asset_${asset.id}`)
+  useFacebookPixel(`pageview:asset_${assetId}`)
 
   useEffect(() => {
     return () => {
@@ -111,8 +116,8 @@ export default function AssetsControl({ asset, chainId, type }: AssetsControlPro
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <AssetIcon image={asset.symbolImage} size={36} altName={asset.id} chain={chainId} />
-            <span>{t(`v2.products.${asset.id}`)}</span>
+            <AssetIcon image={asset?.imageUrl} size={36} altName={asset?.name} chain={chainId} />
+            <span>{asset?.name}</span>
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
@@ -120,8 +125,8 @@ export default function AssetsControl({ asset, chainId, type }: AssetsControlPro
           </div>
           <div>
             <div>
-              <span>{asset.symbol.toLocaleUpperCase()}</span>
-              <AssetPrice asset={asset} />
+              <span>{asset?.symbol.toLocaleUpperCase()}</span>
+              <AssetPrice chainId={chainId} contractAddress={asset?.networks.find(network => network.chainId === chainId)?.contractAddress} />
             </div>
             <AvailableNetwork>
               <span>{t('v2.ethereumStaking.networkAvailable')}</span>
@@ -133,7 +138,7 @@ export default function AssetsControl({ asset, chainId, type }: AssetsControlPro
       </header>
 
       <div>
-        <AssetsProductInfo asset={asset} />
+        <AssetsProductInfo asset={asset} chainId={chainId}/>
         <ActionContainer>
           <ActionContainerControlCard>
             <AssetsActionsControl
@@ -141,7 +146,7 @@ export default function AssetsControl({ asset, chainId, type }: AssetsControlPro
               asset={asset}
               userTokenBalance={userTokenBalance}
               userTokenIsLoading={userTokenIsLoading}
-              userTokenRefetch={userTokenRefetch}
+              userTokenRefetch={userTokenRefetch} chainId={chainId}
             />
           </ActionContainerControlCard>
           {userWalletAddress && (
@@ -149,6 +154,7 @@ export default function AssetsControl({ asset, chainId, type }: AssetsControlPro
               userTokenBalance={userTokenBalance}
               userTokenIsLoading={userTokenIsLoading}
               asset={asset}
+              chainId={chainId}
               userWalletAddress={userWalletAddress}
             />
           )}

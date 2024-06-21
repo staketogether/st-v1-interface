@@ -1,16 +1,16 @@
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
 import useCoinConversion from '@/hooks/useCoinConversion'
-import { Asset } from '@/types/Asset'
 import styled from 'styled-components'
 
 interface AssetPriceProps {
-  asset: Asset
+  contractAddress?: string
+  chainId: number
   className?: string
   showChangePercentage?: boolean
 }
 
-export default function AssetPrice({ asset, className, showChangePercentage = false }: AssetPriceProps) {
-  const { priceConvertedValue, loading, priceChangePercentage24h } = useCoinConversion('1', asset.chains[0], asset.contractAddress)
+export default function AssetPrice({ contractAddress, chainId, className, showChangePercentage = false }: AssetPriceProps) {
+  const { priceConvertedValue, loading, priceChangePercentage24h } = useCoinConversion('1', chainId, contractAddress)
   const signalPercentChange24h = priceChangePercentage24h && priceChangePercentage24h > 0 ? '+' : ''
   return loading ? (
     <ContainerLoading>

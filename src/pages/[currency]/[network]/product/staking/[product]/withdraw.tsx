@@ -8,11 +8,11 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { Staking } from '@/types/Staking'
 import { stakingList } from '@/config/product/staking'
-import { AssetStats } from '@/types/AssetStats'
+import { Asset } from '@/types/Asset'
 
 export interface HomeProps {
   product: Staking
-  assetData: AssetStats
+  assetData: Asset
   chainId: number
 }
 
@@ -26,37 +26,11 @@ export default function Home({ product, assetData, chainId }: HomeProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
-  const networks = [
-    { network: 'optimism', chainId: 10 },
-    { network: 'ethereum', chainId: 1 }
-  ]
-
-  const currencies = ['usd', 'brl', 'eur']
-
-  const paths = networks
-    .map(network => {
-      return stakingList
-        .filter(staking => staking.enabled && staking.listed && staking.asset.chains.includes(network.chainId))
-        .map(product => {
-          return currencies.map(currency => {
-            return {
-              params: {
-                network: network.network,
-                currency,
-                type: 'staking',
-                product: product.id
-              }
-            }
-          })
-        })
-    })
-    .flat(2)
-
-  return { paths, fallback: 'blocking' }
+  return { paths: [], fallback: 'blocking' }
 }
-async function fetchProductAssetData(uri: string): Promise<AssetStats> {
+async function fetchProductAssetData(uri: string): Promise<Asset> {
   const { backendUrl } = globalConfig
-  const marketData = await axios.get<AssetStats>(`${backendUrl}/api/${uri}`)
+  const marketData = await axios.get<Asset>(`${backendUrl}/api/${uri}`)
 
   return marketData.data
 }

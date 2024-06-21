@@ -1,5 +1,4 @@
 import { quoteVar } from '@/hooks/ramp/useRampControlModal'
-import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
 import brla from '@assets/images/BRLA.svg'
 import Image from 'next/image'
@@ -7,13 +6,15 @@ import { PiArrowRight } from 'react-icons/pi'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import { truncateDecimal } from '@/services/truncate'
+import { Asset } from '@/types/Asset'
 
 interface SwapInfoProps {
-  asset: Asset
+  asset?: Asset
+  chainId: number
   type: 'buy' | 'sell' | 'swap'
 }
 
-export default function SwapInfo({ asset, type }: SwapInfoProps) {
+export default function SwapInfo({ asset, chainId, type }: SwapInfoProps) {
   const quote = useReactiveVar(quoteVar)
 
   const [first, second] = [
@@ -24,10 +25,10 @@ export default function SwapInfo({ asset, type }: SwapInfoProps) {
       </div>
       <span>{quote?.amountBrl}</span>
     </SwapToken>,
-    <SwapToken key={asset.symbol}>
+    <SwapToken key={asset?.symbol}>
       <div>
-        <AssetIcon image={asset.symbolImage} chain={asset.chains[0]} size={16} altName={asset.symbol} />
-        <span>{asset.symbol}</span>
+        <AssetIcon image={asset?.imageUrl} chain={chainId} size={16} altName={asset?.symbol} />
+        <span>{asset?.symbol}</span>
       </div>
       <span>{truncateDecimal(quote?.amountToken ?? '0', 6)}</span>
     </SwapToken>

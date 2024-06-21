@@ -1,5 +1,5 @@
 import { PixBankInfo } from '@/hooks/ramp/usePixBankInfo'
-import { AssetId } from '@/types/Asset'
+import { AssetId } from '@/types/StaticAsset'
 import { Quote } from '@/types/quote.type'
 import { makeVar } from '@apollo/client'
 import { BuyRamp } from './useBuyRamp'

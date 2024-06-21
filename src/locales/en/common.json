@@ -911,7 +911,7 @@
       },
       "crypto": {
         "title": "Crypto",
-        "description": "Invest in the Top Crypto in the Market"
+        "description": "Buy, sell, and trade cryptocurrencies securely and decentralized"
       },
       "stable": {
         "title": "Stablecoins",
@@ -941,6 +941,12 @@
       "fan-token": "Fan Token",
       "defi": "DeFi",
       "crypto": "Crypto"
+    },
+      "crypto-table":{
+      "name": "Name",
+      "price": "Price",
+      "change": "Change",
+      "marketCap": "Market Cap"
     },
     "assetDetail": {
       "quantity": "Quantity",
