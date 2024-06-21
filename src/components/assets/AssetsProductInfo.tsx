@@ -14,6 +14,7 @@ import { Asset } from '@/types/Asset'
 
 interface AssetsProductInfoProps {
   asset?: Asset
+  assetId: string
   chainId: number
 }
 
@@ -29,7 +30,7 @@ const AssetsStatistic = dynamic(() => import('./AssetsStatistic'), {
   suspense: true
 })
 
-export default function AssetsProductInfo({ asset, chainId }: AssetsProductInfoProps) {
+export default function AssetsProductInfo({ asset, assetId, chainId }: AssetsProductInfoProps) {
   const { t } = useLocaleTranslation()
 
   const router = useRouter()
@@ -72,7 +73,7 @@ export default function AssetsProductInfo({ asset, chainId }: AssetsProductInfoP
               <span className='symbol'>{asset?.symbol}</span>
             </div>
             <div>
-              <AssetPrice chainId={chainId} contractAddress={asset?.networks.find(network => network.chainId === chainId)?.contractAddress} className='price' />
+              <AssetPrice chainId={chainId} contractAddress={assetId} className='price' />
             </div>
           </SymbolContainer>
         </HeaderDescribeInfo>
