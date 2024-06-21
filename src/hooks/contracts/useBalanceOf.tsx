@@ -1,10 +1,12 @@
-import { Asset } from '@/types/Asset'
 import { useEffect, useState } from 'react'
 import { erc20Abi, formatUnits } from 'viem'
 import { useAccount, useBalance, useReadContract } from 'wagmi'
 
 interface useBalanceOfProps {
-  asset: Asset
+  contractAddress?: string
+  type: 'native' | 'erc20'
+  chainId: number
+  decimals?: number
   walletAddress?: `0x${string}`
 }
 
@@ -13,13 +15,12 @@ export interface TokenBalance {
   balance: string
 }
 
-export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps) {
+export default function useBalanceOf({ contractAddress, decimals, type, chainId, walletAddress }: useBalanceOfProps) {
   const [tokenBalance, setTokenBalance] = useState<TokenBalance>({
     rawBalance: BigInt(0),
     balance: '0'
   })
 
-  const [chainId] = asset.chains
   const { address: accountAddress } = useAccount()
 
   const address = walletAddress ? walletAddress : accountAddress ?? '0x0'
@@ -33,18 +34,18 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
     address,
     chainId,
     query: {
-      enabled: asset.type === 'native' && !!address
+      enabled: type === 'native' && !!address
     }
   })
 
   useEffect(() => {
-    if (nativeData && asset.type === 'native') {
-      const balance = formatUnits(nativeData.value, asset.decimals)
+    if (nativeData && type === 'native' && decimals) {
+      const balance = formatUnits(nativeData.value, decimals)
       const rawBalance = nativeData.value
 
       setTokenBalance({ rawBalance, balance })
     }
-  }, [nativeData, asset])
+  }, [nativeData, type, decimals])
 
   const {
     data: erc20Data,
@@ -53,26 +54,26 @@ export default function useBalanceOf({ asset, walletAddress }: useBalanceOfProps
     refetch: erc20Refetch
   } = useReadContract({
     abi: erc20Abi,
-    address: asset.contractAddress,
+    address: contractAddress as `0x${string}`,
     chainId: chainId,
     functionName: 'balanceOf',
     args: [address],
     query: {
-      enabled: asset.type !== 'native' && !!address
+      enabled: type !== 'native' && !!address
     }
   })
 
   useEffect(() => {
-    if (erc20Data !== undefined && asset.type !== 'native') {
-      const balance = formatUnits(erc20Data, asset.decimals)
+    if (erc20Data !== undefined && type !== 'native' && decimals) {
+      const balance = formatUnits(erc20Data, decimals)
       const rawBalance = erc20Data
 
       setTokenBalance({ rawBalance, balance })
     }
-  }, [erc20Data, asset])
+  }, [erc20Data, type, decimals])
 
-  const isLoading = asset.type === 'native' ? nativeIsLoading || nativeIsFetching : erc20Fetching || erc20Loading
-  const refetch = asset.type === 'native' ? nativeRefetch : erc20Refetch
+  const isLoading = type === 'native' ? nativeIsLoading || nativeIsFetching : erc20Fetching || erc20Loading
+  const refetch = type === 'native' ? nativeRefetch : erc20Refetch
 
   return { isLoading, tokenBalance, refetch }
 }

@@ -13,7 +13,7 @@ import { PiArrowRight, PiCheckCircle } from 'react-icons/pi'
 import styled from 'styled-components'
 import AssetIcon from '../shared/AssetIcon'
 import LottieAnimation from '../shared/LottieAnimation'
-import TokensSymbolIcons from '../asset/TokensSymbolIcons'
+import TokensSymbolIcons from '../shared/TokensSymbolIcons'
 import { Staking } from '@/types/Staking'
 
 interface StakeTransactionLoadingProps {

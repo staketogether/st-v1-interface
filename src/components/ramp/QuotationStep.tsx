@@ -6,7 +6,6 @@ import { RampSteps, amountToQuoteVar, quoteVar, rampStepControlVar } from '@/hoo
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
-import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -19,55 +18,32 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import AssetNetworkSwitch, { Network } from '../assets/AssetsNetworkSwitch'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import { Asset } from '@/types/Asset'
+import { useRouter } from 'next/router'
 
 interface QuotationStepProps {
-  asset: Asset
+  asset?: Asset
+  chainId: number
 }
 
-export default function QuotationStep({ asset }: QuotationStepProps) {
-  const { networks } = {
-    "networks": [
-      {
-        "name": "Ethereum",
-        "chainId": 1,
-        "contractAddress": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
-      },
-      {
-        "name": "Polygon",
-        "chainId": 137,
-        "contractAddress": "0xb33eaad8d922b1083446dc23f610c2567fb5180f"
-      },
-      {
-        "name": "Optimistic",
-        "chainId": 10,
-        "contractAddress": "0x6fd9d7ad17242c41f7131d257212c54a0e816691"
-      },
-      {
-        "name": "Arbitrum",
-        "chainId": 42161,
-        "contractAddress": "0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0"
-      }
-    ]
-  }
-  //apenas para mock networks[0]
-  const [currentNetwork, setCurrentNetwork] = useState<Network>(networks[0])
+export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
+  const router = useRouter()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentNetwork, setCurrentNetwork] = useState<Network | undefined>(asset?.networks.find(network => network.chainId === chainId) ?? undefined)
   const amountToQuote = useReactiveVar(amountToQuoteVar)
   const [value, setValue] = useState<string>(amountToQuote ?? '0')
   const debounceValue = useDebounce(value, 300)
-  const minDeposit = asset.ramp[0].minDeposit
-  useEffect(() => {
-    console.log('status', currentNetwork)
-  }, [currentNetwork])
+  const minDeposit = 10
 
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
     debounceValue ? Number(debounceValue) : 0,
-    asset.ramp[0].bridge?.fromChainId ?? asset.ramp[0].chainId,
-    asset.type === 'fan-token',
+    asset?.bridge?.chainId ?? chainId,
+    asset?.isFanToken,
     ProviderType.brla,
     PaymentMethodType.pix,
-    asset.ramp[0].bridge?.toChainId.toString(),
-    asset.ramp[0].bridge?.toToken ?? asset.symbol,
+    asset?.bridge?.chainId ? chainId.toString() : undefined,
+    asset?.bridge?.contractAddress ?? asset?.symbol,
     true
   )
 
@@ -114,7 +90,7 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
     }
 
     if (errorMinValue) {
-      if (asset.type === 'fan-token') {
+      if (asset?.isFanToken) {
         return `${t('v2.stake.minTokenAmount')} ${minDeposit} ${asset.symbol}`
       }
 
@@ -137,37 +113,41 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
     })
   }, [quote])
 
-  useFacebookPixel(`onramp-quotation:${asset.id}`, quote?.amountToken !== undefined, {
+  useFacebookPixel(`onramp-quotation:${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`, quote?.amountToken !== undefined, {
     amountFiat: Number(debounceValue),
     amountToken: String(quote?.amountToken),
-    assetId: asset.id
+    assetId: `${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`
   })
 
-
+  const onNetworkChange = useCallback((network: Network) => {
+    setCurrentNetwork(network)
+    router.query.network = network.name.toLowerCase()
+    router.push(router)
+  }, [router])
 
   return (
     <Container>
       <BoxValuesContainer>
         <InputContainer className={`${error ? 'error' : ''}`}>
-          {asset.type === 'fan-token' && <span>{t('v3.assetDetail.quantity')}</span>}
-          {asset.type !== 'fan-token' && <span>{t('v3.assetDetail.totalAmount')}</span>}
+          {asset?.isFanToken && <span>{t('v3.assetDetail.quantity')}</span>}
+          {!asset?.isFanToken && <span>{t('v3.assetDetail.totalAmount')}</span>}
           <div>
-            {asset.type !== 'fan-token' && (
+            {!asset?.isFanToken && (
               <div>
                 <Image src={brlBrla} width={36} height={24} alt='BRL' />
                 <span>BRL</span>
               </div>
             )}
-            {asset.type === 'fan-token' && (
+            {asset?.isFanToken && (
               <div>
-                <AssetIcon marginRight='8px' image={asset.symbolImage} chain={asset.chains[0]} size={24} altName={asset.symbol} />
+                <AssetIcon marginRight='8px' image={asset.imageUrl} chain={chainId} size={24} altName={asset?.symbol} />
                 <span>{asset.symbol}</span>
               </div>
             )}
-            {asset.type !== 'fan-token' && (
+            {!asset?.isFanToken && (
               <Input type='number' onChange={({ target }) => handleChange(target.value)} value={value} min={0} placeholder='0' step={1} />
             )}
-            {asset.type === 'fan-token' && (
+            {asset?.isFanToken && (
               <Input
                 type='number'
                 onChange={({ target }) => handleChange(parseInt(target.value.toString(), 10).toString())}
@@ -180,32 +160,32 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
           </div>
         </InputContainer>
         <InputContainer disabled>
-          {asset.type !== 'fan-token' && <span>{t('v3.assetDetail.quantity')}</span>}
-          {asset.type === 'fan-token' && <span>{t('v3.assetDetail.totalAmount')}</span>}
+          {!asset?.isFanToken && <span>{t('v3.assetDetail.quantity')}</span>}
+          {asset?.isFanToken && <span>{t('v3.assetDetail.totalAmount')}</span>}
           <div>
-            {asset.type !== 'fan-token' && (
+            {!asset?.isFanToken && (
               <div>
-                <AssetIcon marginRight='8px' image={asset.symbolImage} chain={asset.chains[0]} size={24} altName={asset.symbol} />
-                <span>{asset.symbol}</span>
+                <AssetIcon marginRight='8px' image={asset?.imageUrl} chain={chainId} size={24} altName={asset?.symbol} />
+                <span>{asset?.symbol}</span>
               </div>
             )}
-            {asset.type === 'fan-token' && (
+            {asset?.isFanToken && (
               <div>
                 <Image src={brlBrla} width={36} height={24} alt='BRL' />
                 <span>BRL</span>
               </div>
             )}
             {quoteIsValidating && <SkeletonLoading width={60} height={20} />}
-            {!quoteIsValidating && asset.type !== 'fan-token' && (
+            {!quoteIsValidating && !asset?.isFanToken && (
               <Input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder='0' />
             )}
-            {!quoteIsValidating && asset.type === 'fan-token' && (
+            {!quoteIsValidating && asset?.isFanToken && (
               <Input value={truncateDecimal(quote?.amountBrl ?? '0')} disabled placeholder='0' />
             )}
 
           </div>
         </InputContainer>
-        <AssetNetworkSwitch networks={networks} title='Rede de recebimento' onChange={(data: Network) => setCurrentNetwork(data)} />
+        <AssetNetworkSwitch selected={currentNetwork} networks={asset?.networks ?? []} title='Rede de recebimento' onChange={onNetworkChange} />
       </BoxValuesContainer>
       <Button
         onClick={handleNext}

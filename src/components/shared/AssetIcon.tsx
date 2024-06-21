@@ -5,12 +5,13 @@ import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
 import polygonIcon from '@assets/network/polygon.svg'
 import zkIcon from '@assets/network/zk.png'
+import defaultIcon from '@assets/assets/default-erc-20.svg'
 import Image, { StaticImageData } from 'next/image'
 import styled from 'styled-components'
 
 interface SymbolIconsProps {
-  altName: string
-  image: string | StaticImageData
+  altName?: string
+  image?: string | StaticImageData
   chain?: number
   size: number
   marginRight?: string | number
@@ -33,7 +34,7 @@ export default function AssetIcon({ altName, image, size, chain, marginRight }: 
 
   return (
     <Wrapper style={{ marginRight: marginRight ? marginRight : 'inherit' }} size={size}>
-      <Image src={image} width={size} height={size} alt={altName} />
+      <Image src={image ?? defaultIcon} width={size} height={size} alt={`${altName}`} />
       {chain && (
         <div>
           <Image

@@ -1,5 +1,5 @@
 import { StaticImageData } from 'next/image'
-import { Asset } from '@/types/Asset'
+import { StaticAsset } from '@/types/StaticAsset'
 
 export type StakingId = 'eth-staking' | 'eth-restaking' | 'chz-staking'
 export interface Staking {
@@ -20,7 +20,7 @@ export interface Staking {
     stPoints: boolean
     elPoints: boolean
   }
-  asset: Asset
+  asset: StaticAsset
   contracts: {
     Airdrop: `0x${string}`
     Withdrawals: `0x${string}`
