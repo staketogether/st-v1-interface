@@ -3,22 +3,19 @@ import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { assetsList } from '@/config/product/asset'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
-import { StaticAsset } from '@/types/StaticAsset'
-import { Asset } from '@/types/Asset'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 export interface ProductProps {
-  asset: StaticAsset
-  assetData: Asset
+  assetId: string
   chainId: number
 }
 
-export default function Product({ asset, chainId }: ProductProps) {
+export default function Product({ assetId, chainId }: ProductProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <AssetsControl assetId={asset} chainId={chainId} type='buy' />
+      <AssetsControl assetId={assetId} chainId={chainId} type='buy' />
     </LayoutTemplate>
   )
 }

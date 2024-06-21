@@ -1,4 +1,3 @@
-import { StaticAsset } from '@/types/StaticAsset'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import styled from 'styled-components'
 import LottieAnimation from '../shared/LottieAnimation'

@@ -54,6 +54,30 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
       placement: 'topRight'
     })
   }
+
+  const formattedStakingAsset: Asset = {
+    description: { en: '', pt: '' },
+    priceChange24h: 0,
+    priceChangePercentage1Y: 0,
+    priceChangePercentage24h: 0,
+    ref: '',
+    type: 'erc20',
+    networks: [{
+      chainId,
+      contractAddress: product.contracts.StakeTogether,
+      name: product.asset.name,
+    }],
+    symbol: product.symbol,
+    imageUrl: product.symbolImage,
+    name: product.asset.name,
+    isFanToken: false,
+    decimals: product.asset.decimals,
+    marketCap: 0,
+    totalVolume: 0,
+    totalSupply: 0
+  }
+
+
   return (
     <ProductContainer>
       <header>
@@ -91,7 +115,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <TokensShowValuePrice asset={product.asset} className='CoinValue' />
+              <TokensShowValuePrice chainId={chainId} contractAddress={product.asset.contractAddress} className='CoinValue' />
               <span className='apy'>{`APY ${product.apy}%`}</span>
             </div>
           </SymbolContainer>
@@ -117,7 +141,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
           </RewardsPointsContainer>
         </HeaderDescribeInfo>
       </header>
-      <PriceChart asset={product.asset} />
+      <PriceChart asset={formattedStakingAsset} chainId={chainId}/>
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>

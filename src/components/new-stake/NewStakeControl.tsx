@@ -116,7 +116,7 @@ export default function NewStakeControl({ staking, type, assetData, chainId }: N
           <ContainerPrice>
             <div>
               <span>{staking.symbol}</span>
-              <TokensShowValuePrice asset={staking.asset} />
+              <TokensShowValuePrice chainId={chainId} contractAddress={staking.asset.contractAddress} />
             </div>
             <Available>
               <span>{t('v2.ethereumStaking.networkAvailable')}</span>

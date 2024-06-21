@@ -3,8 +3,6 @@ import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { assetsList } from '@/config/product/asset'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
-import { StaticAsset } from '@/types/StaticAsset'
-import { Asset } from '@/types/Asset'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
