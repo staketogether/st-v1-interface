@@ -1,7 +1,6 @@
 import { globalConfig } from '@/config/global'
 import { config } from '@/config/wagmi'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
-import useBtcConnectWallet from '@/hooks/btc-wallet/useBtcConnectWallet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import { useReactiveVar } from '@apollo/client'
@@ -25,7 +24,7 @@ export default function ConnectWallet({ useModal: isCreateProject, hasBtcWallet 
   const { connect, connectors } = useConnect({
     config
   })
-  const { btcConnectors, btcConnect } = useBtcConnectWallet()
+  // const { btcConnectors, btcConnect } = useBtcConnectWallet()
 
   const { i18n } = useTranslation(['common'])
 
@@ -120,7 +119,7 @@ export default function ConnectWallet({ useModal: isCreateProject, hasBtcWallet 
           })}
         </ContainerWalletConnect>
       )}
-      {walletTypeConnect === 'btc' && (
+      {/*{walletTypeConnect === 'btc' && (
         <ContainerWalletConnect>
           {btcConnectors.map(connector => (
             <div key={connector.id} onClick={() => hasAgreeTerms && btcConnect(connector)} className={`${hasAgreeTerms ? '' : 'disabled'}`}>
@@ -129,7 +128,7 @@ export default function ConnectWallet({ useModal: isCreateProject, hasBtcWallet 
             </div>
           ))}
         </ContainerWalletConnect>
-      )}
+      )}*/}
     </Container>
   )
 }

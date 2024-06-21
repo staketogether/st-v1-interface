@@ -19,10 +19,8 @@ export default function LayoutHeaderMobile() {
   const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
   const { setWalletSidebarMobileSettings } = useWalletSidebarMobileSettings()
 
-  const { btcWalletIsConnected, btcWalletAddress } = useBtcConnectWallet()
-  const ordinalsWallet = btcWalletAddress[1]
 
-  const userWalletIsConnected = accountIsConnected || btcWalletIsConnected
+  const userWalletIsConnected = accountIsConnected
 
   return (
     <>
@@ -44,8 +42,8 @@ export default function LayoutHeaderMobile() {
               evmWalletAddress={account}
               accountIsConnected={userWalletIsConnected}
               walletChainId={walletChainId}
-              isBtcConnected={btcWalletIsConnected}
-              bitcoinWalletAddress={ordinalsWallet?.address}
+              isBtcConnected={false}
+              bitcoinWalletAddress={undefined}
             />
           </WalletContainer>
         </Content>

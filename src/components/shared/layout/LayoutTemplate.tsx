@@ -10,6 +10,7 @@ import { Cloudflare } from '../scripts/Cloudflare'
 import { GoogleTag } from '../scripts/GoogleTag'
 import LayoutFooter from './LayoutFooter'
 import LayoutMenuMobile from './LayoutMenuMobile'
+import dynamic from 'next/dynamic'
 
 const montserrat = Montserrat({
   subsets: ['latin'],

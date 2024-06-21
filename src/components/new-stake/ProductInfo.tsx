@@ -77,6 +77,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
     totalSupply: 0
   }
 
+  const formattedProductId = product.asset.type === 'bitcoin' ? product.asset.symbol : product.asset.contractAddress
 
   return (
     <ProductContainer>
@@ -115,7 +116,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               <span className='symbol'>{product.symbol}</span>
             </div>
             <div>
-              <TokensShowValuePrice chainId={chainId} contractAddress={product.asset.contractAddress} className='CoinValue' />
+              <TokensShowValuePrice chainId={chainId} contractAddress={formattedProductId} className='CoinValue' />
               <span className='apy'>{`APY ${product.apy}%`}</span>
             </div>
           </SymbolContainer>

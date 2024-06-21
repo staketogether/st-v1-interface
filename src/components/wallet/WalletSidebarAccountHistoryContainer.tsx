@@ -39,7 +39,7 @@ export default function WalletSidebarAccountHistoryContainer({ accountHistory, a
           }
           let asset = null
           if (history.assetType === 'asset') {
-            asset = assetsList.find(item => item.contractAddress.toLowerCase() === history.token.toLowerCase())
+            asset = assetsList.find(item => item.type !== 'bitcoin' && item.contractAddress.toLowerCase() === history.token.toLowerCase())
           }
 
           function getOneInfo() {
@@ -65,7 +65,7 @@ export default function WalletSidebarAccountHistoryContainer({ accountHistory, a
             if (history.assetType === 'staking' && staking) {
               return staking.asset.symbol
             } else if (history.assetType === 'asset' && history.type === 'swap') {
-              const assetTo = assetsList.find(item => item.contractAddress.toLowerCase() === history.additionalData.tokenTo.toLowerCase())
+              const assetTo = assetsList.find(item => item.type !== 'bitcoin' && item.contractAddress.toLowerCase() === history.additionalData.tokenTo.toLowerCase())
               if (assetTo) return assetTo.symbol
             }
 

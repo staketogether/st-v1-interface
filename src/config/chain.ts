@@ -20,6 +20,7 @@ export interface ChainConfig {
 
 export const chainConfigs: ChainConfig[] = [
   {
+    type: 'bitcoin',
     chainId: 500,
     name: 'Bitcoin',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_BTC_MAINNET_URL),

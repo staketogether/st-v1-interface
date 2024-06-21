@@ -14,10 +14,8 @@ export default function LayoutHeader() {
   const { isActive } = useActiveRoute()
 
   const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
-  const { btcWalletIsConnected, btcWalletAddress } = useBtcConnectWallet()
-  const ordinalsWallet = btcWalletAddress[1]
 
-  const userWalletIsConnected = accountIsConnected || btcWalletIsConnected
+  const userWalletIsConnected = accountIsConnected
 
   const { query, pathname, locale } = useRouter()
   const { currency } = query
@@ -59,8 +57,8 @@ export default function LayoutHeader() {
           evmWalletAddress={account}
           accountIsConnected={userWalletIsConnected}
           walletChainId={walletChainId}
-          isBtcConnected={btcWalletIsConnected}
-          bitcoinWalletAddress={ordinalsWallet?.address}
+          isBtcConnected={false}
+          bitcoinWalletAddress={undefined}
         />
       </WalletContainer>
     </Container>

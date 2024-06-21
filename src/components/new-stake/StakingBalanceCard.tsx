@@ -32,12 +32,12 @@ export default function StakingBalanceCard({ staking, stpETHBalance, stpETHBalan
   const { priceConvertedValue: userLsdBalanceUsd, loading: lsdUsdLoading } = useCoinConversion(
     userLsdBalanceFormatted,
     staking.asset.chains[0],
-    staking.asset.contractAddress
+    staking.asset.type === 'bitcoin' ? 'btc' : staking.asset.contractAddress
   )
   const { priceConvertedValue: accountRewardsUsd, loading: rewardsUsdLoading } = useCoinConversion(
     accountTotalRewardsFormatted,
     staking.asset.chains[0],
-    staking.asset.contractAddress
+    staking.asset.type === 'bitcoin' ? 'btc' : staking.asset.contractAddress
   )
 
   return (
