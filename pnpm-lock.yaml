@@ -11,6 +11,9 @@ dependencies:
   '@emotion/is-prop-valid':
     specifier: ^1.2.2
     version: 1.2.2
+  '@hotjar/browser':
+    specifier: ^1.0.9
+    version: 1.0.9
   '@lifi/widget':
     specifier: ^3.0.0-alpha.38
     version: 3.0.0-alpha.38(@tanstack/react-query@5.29.2)(@types/react@18.2.79)(bs58@4.0.1)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)(typescript@5.3.3)(wagmi@2.5.20)
@@ -2748,6 +2751,10 @@ packages:
     resolution: {integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg==}
     dependencies:
       '@hapi/hoek': 9.3.0
+    dev: false
+
+  /@hotjar/browser@1.0.9:
+    resolution: {integrity: sha512-n9akDMod8BLGpYEQCrHwlYWWd63c1HlhUSXNIDfClZtKYXbUjIUOFlNZNNcUxgHTCsi4l2i+SWKsGsO0t93S8w==}
     dev: false
 
   /@humanwhocodes/config-array@0.11.14:
