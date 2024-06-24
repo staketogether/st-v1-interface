@@ -18,6 +18,7 @@ import validEnv from '../config/env'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
 import { ethereumMainnetClient } from '@/config/apollo'
+import hotjar from '@hotjar/browser'
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
@@ -31,6 +32,13 @@ const App = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
     initMixpanel()
   }, [initMixpanel])
+
+  useEffect(() => {
+    const hotjarId = Number(process.env.NEXT_PUBLIC_HOTJAR_ID!)
+    const hotjarVersion = 6;
+
+    hotjar.init(hotjarId, hotjarVersion);
+  }, [])
 
   return (
     <ApolloProvider client={ethereumMainnetClient}>
