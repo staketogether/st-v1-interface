@@ -12,7 +12,10 @@ import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
+
   const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
+
+  const userWalletIsConnected = accountIsConnected
 
   const { query, pathname, locale } = useRouter()
   const { currency } = query
@@ -50,7 +53,13 @@ export default function LayoutHeader() {
           <span>{locale === 'pt' ? 'PT' : 'EN'}</span>
           <span>| {(currency as string).toUpperCase()}</span>
         </ContainerCurrency>
-        <Wallet account={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
+        <Wallet
+          evmWalletAddress={account}
+          accountIsConnected={userWalletIsConnected}
+          walletChainId={walletChainId}
+          isBtcConnected={false}
+          bitcoinWalletAddress={undefined}
+        />
       </WalletContainer>
     </Container>
   )

@@ -10,17 +10,21 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useConnect } from 'wagmi'
+import NetworkIcons from './NetworkIcons'
 
 interface ConnectWalletProps {
   useModal?: boolean
+  hasBtcWallet?: boolean
 }
 
-export default function ConnectWallet({ useModal: isCreateProject }: ConnectWalletProps) {
+export default function ConnectWallet({ useModal: isCreateProject, hasBtcWallet }: ConnectWalletProps) {
+  const [walletTypeConnect, setWalletTypeConnect] = useState<'evm' | 'btc'>('evm')
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
 
   const { connect, connectors } = useConnect({
     config
   })
+  // const { btcConnectors, btcConnect } = useBtcConnectWallet()
 
   const { i18n } = useTranslation(['common'])
 
@@ -74,31 +78,62 @@ export default function ConnectWallet({ useModal: isCreateProject }: ConnectWall
           </a>
         </span>
       </Terms>
-      <ContainerWalletConnect className={`${isCreateProject && 'useModal'}`}>
-        {connectors.map((connector, index) => {
-          const walletName = connector.id === 'web3auth' ? handleConnectorIndex(index) : connector.name
-          return (
-            <div
-              key={connector.id + index}
-              className={`${hasAgreeTerms ? '' : 'disabled'}`}
-              onClick={() => hasAgreeTerms && handleConnectWallet(connector)}
-            >
-              {connector.icon ? (
-                <Image src={connector.icon} alt={connector.name} width={24} height={24} objectFit='fill' />
-              ) : (
-                handleConnectorImage(walletName)
-              )}
+      {hasBtcWallet && (
+        <WalletTypeContainer>
+          <div>
+            <WalletTypeCard className={`${walletTypeConnect === 'evm' && 'active'}`} onClick={() => setWalletTypeConnect('evm')}>
+              <div>
+                <NetworkIcons network='ethereum' size={24} showTooltip={false} />
+                <span>EVM</span>
+              </div>
+            </WalletTypeCard>
 
-              {walletName}
+            <WalletTypeCard className={`${walletTypeConnect === 'btc' && 'active'}`} onClick={() => setWalletTypeConnect('btc')}>
+              <div>
+                <NetworkIcons network='bitcoin' size={24} showTooltip={false} />
+                <span>Bitcoin</span>
+              </div>
+            </WalletTypeCard>
+          </div>
+        </WalletTypeContainer>
+      )}
+      {walletTypeConnect === 'evm' && (
+        <ContainerWalletConnect className={`${isCreateProject && 'useModal'}`}>
+          {connectors.map((connector, index) => {
+            const walletName = connector.id === 'web3auth' ? handleConnectorIndex(index) : connector.name
+            return (
+              <div
+                key={connector.id + index}
+                className={`${hasAgreeTerms ? '' : 'disabled'}`}
+                onClick={() => hasAgreeTerms && handleConnectWallet(connector)}
+              >
+                {connector.icon ? (
+                  <Image src={connector.icon} alt={connector.name} width={24} height={24} objectFit='fill' />
+                ) : (
+                  handleConnectorImage(walletName)
+                )}
+
+                {walletName}
+              </div>
+            )
+          })}
+        </ContainerWalletConnect>
+      )}
+      {/*{walletTypeConnect === 'btc' && (
+        <ContainerWalletConnect>
+          {btcConnectors.map(connector => (
+            <div key={connector.id} onClick={() => hasAgreeTerms && btcConnect(connector)} className={`${hasAgreeTerms ? '' : 'disabled'}`}>
+              <Image src={connector.icon} alt={connector.name} width={24} height={24} objectFit='fill' />
+              {connector.name}
             </div>
-          )
-        })}
-      </ContainerWalletConnect>
+          ))}
+        </ContainerWalletConnect>
+      )}*/}
     </Container>
   )
 }
 
-const { Container, ContainerWalletConnect, Terms } = {
+const { Container, ContainerWalletConnect, Terms, WalletTypeContainer, WalletTypeCard } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -167,6 +202,55 @@ const { Container, ContainerWalletConnect, Terms } = {
 
     > input {
       cursor: pointer;
+    }
+  `,
+  WalletTypeContainer: styled.div`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[16]};
+    > div {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
+    }
+  `,
+  WalletTypeCard: styled.div`
+    width: 100%;
+    height: 56px;
+
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.colorV2.white};
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: ${({ theme }) => theme.shadow[100]};
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    > div {
+      display: flex;
+      align-items: center;
+      gap: ${({ theme }) => theme.size[8]};
+
+      span {
+        font-size: 13px;
+        font-weight: 500;
+        color: ${({ theme }) => theme.colorV2.gray[1]};
+      }
+    }
+
+    &:hover,
+    &.active {
+      background: ${({ theme }) => theme.colorV2.blue[1]};
+      > div {
+        span {
+          color: ${({ theme }) => theme.colorV2.white};
+        }
+      }
     }
   `
 }

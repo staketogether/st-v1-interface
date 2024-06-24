@@ -31,13 +31,13 @@ import WalletSidebarAccountHistoryContainer from './WalletSidebarAccountHistoryC
 import WalletSidebarAccountDelegations from './WalletSidebarAccountDelegations'
 import WalletSidebarEditAccount from './WalletSidebarEditAccount'
 
-interface WalletSidebarConnectedProps {
+interface WalletSidebarEvmConnectedProps {
   address: `0x${string}`
   walletChainId: number
 }
 
 type TabActivated = 'assets' | 'rewards' | 'historic' | 'delegations'
-export default function WalletSidebarConnected({ address, walletChainId }: WalletSidebarConnectedProps) {
+export default function WalletSidebarEvmConnected({ address, walletChainId }: WalletSidebarEvmConnectedProps) {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWalletSidebarEditAccountActive, setIsWalletSidebarEditAccountActive] = useState(false)

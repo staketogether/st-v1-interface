@@ -21,7 +21,7 @@ export interface TokenActions {
 export interface Ramp {
   chainId: number
   minDeposit: number
-  provider: 'brla'
+  provider: 'brla' | 'transak'
   paymentMethod: 'pix'
   bridge?: {
     fromChainId: number
@@ -35,6 +35,7 @@ export type AssetId =
   | 'eth-mainnet'
   | 'eth-op'
   | 'btc-op'
+  | 'btc-btc'
   | 'chz-chiliz'
   | 'op-op'
   | 'arb-arb'
@@ -123,6 +124,30 @@ export interface Erc20Asset extends TokenActions {
   ramp: Ramp[]
 }
 
+export interface BitcoinAsset extends TokenActions {
+  id: AssetId
+  name: string
+  order: number
+  decimals: number
+  symbol: string
+  symbolImage: string
+  url: string
+  category: AssetCategory
+  chains: Chain[]
+  listed: boolean
+  enabled: boolean
+  isTestnet: boolean
+  type: 'bitcoin'
+  new: boolean
+  localeDescription: string
+  linkedAssets?: Record<Chain, StaticAsset>
+  points: {
+    stPoints: boolean
+    elPoints: boolean
+  }
+  ramp: Ramp[]
+}
+
 export interface FanTokenAsset extends TokenActions {
   id: AssetId
   name: string
@@ -149,4 +174,4 @@ export interface FanTokenAsset extends TokenActions {
   ramp: Ramp[]
 }
 
-export type StaticAsset = NativeAsset | Erc20Asset | FanTokenAsset
+export type StaticAsset = NativeAsset | Erc20Asset | FanTokenAsset | BitcoinAsset

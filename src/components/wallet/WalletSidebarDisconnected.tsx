@@ -37,7 +37,7 @@ export default function WalletSidebarDisconnected() {
               </div>
             </Actions>
           </HeaderContainer>
-          <ConnectWallet />
+          <ConnectWallet hasBtcWallet />
         </>
       )}
     </DrawerContainer>
