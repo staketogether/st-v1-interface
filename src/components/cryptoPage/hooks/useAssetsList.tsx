@@ -2,7 +2,7 @@ import { queryAssetsList } from '../queries/queryAsset'
 import { stBackendClient } from '@/config/apollo'
 import { AssetData } from '@/types/NewAsset'
 import { useQuery } from '@apollo/client'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 interface useAssetsListProps {
   offset?: number
@@ -18,10 +18,11 @@ export default function useAssetsList({
   chainId,
   limit = 10,
   orderBy = 'market_cap',
-  orderDirection = 'asc',
+  orderDirection = 'desc',
   category
 }: useAssetsListProps) {
   const [loadingFetchMore, setLoadingFetchMore] = useState<boolean>(false)
+  const [hasMoreItems, setHasMoreItems] = useState<boolean>(true)
   const { data, loading, fetchMore } = useQuery<{ assets: AssetData[] }>(queryAssetsList, {
     client: stBackendClient,
     variables: {
@@ -34,24 +35,39 @@ export default function useAssetsList({
     }
   })
 
-  const loadMore: (variables: useAssetsListProps) => Promise<void> = async variables => {
-    if (loading || loadingFetchMore) return
-    return
-    setLoadingFetchMore(true)
+  useEffect(() => {
+    setHasMoreItems(true)
+  }, [category, orderDirection, chainId, orderBy])
 
-    await fetchMore({
-      variables,
-      updateQuery: (prev, { fetchMoreResult }) => {
-        setLoadingFetchMore(false)
+  const loadMore = useCallback(
+    async (variables: useAssetsListProps) => {
+      if (loading || loadingFetchMore) {
+        return
+      }
+      setLoadingFetchMore(true)
 
-        if (!fetchMoreResult) return prev
-        return {
-          assets: {
-            ...fetchMoreResult.assets
+      await fetchMore({
+        variables,
+        updateQuery: (prev, { fetchMoreResult }) => {
+          setLoadingFetchMore(false)
+          if (fetchMoreResult.assets.length < limit) {
+            setHasMoreItems(false)
+          }
+          if (!fetchMoreResult) return prev
+          return {
+            assets: [...prev.assets, ...fetchMoreResult.assets]
           }
         }
-      }
-    })
+      })
+    },
+    [fetchMore, limit, loading, loadingFetchMore]
+  )
+
+  return {
+    AssetsList: data?.assets ?? [],
+    hasMoreItems,
+    initialLoading: loading,
+    loadMoreLoading: loadingFetchMore,
+    fetchMore: loadMore
   }
-  return { AssetsList: data?.assets ?? [], initialLoading: loading, loadMoreLoading: loadingFetchMore, fetchMore: loadMore }
 }

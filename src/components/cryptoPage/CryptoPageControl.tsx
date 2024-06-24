@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { PiCaretDown, PiCaretUp } from 'react-icons/pi'
 import useAssetsList from './hooks/useAssetsList'
 import CryptoAssetTableRow from './CryptoAssetTableRow'
-import { useCallback, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import NetworkIcon from '../shared/NetworkIcon'
 import { Select } from 'antd'
 import loadingAnimation from '@assets/animations/loading-animation.json'
@@ -17,28 +17,40 @@ interface FilterType {
 }
 
 export default function CryptoPageControl() {
-  const [filter, setFilter] = useState<FilterType>({ orderBy: 'market_cap', orderDirection: 'asc', category: null, chainId: 10 })
+  const [filter, setFilter] = useState<FilterType>({ orderBy: 'market_cap', orderDirection: 'desc', category: null, chainId: 10 })
   const { t } = useLocaleTranslation()
 
-  const { AssetsList, initialLoading, loadMoreLoading, fetchMore } = useAssetsList({
+  const { AssetsList, initialLoading, loadMoreLoading, fetchMore, hasMoreItems } = useAssetsList({
     chainId: filter.chainId,
     orderBy: filter.orderBy,
-    orderDirection: filter.orderDirection
+    orderDirection: filter.orderDirection,
+    category: filter.category
   })
-  const loadMoreRef = useRef<IntersectionObserver | null>(null)
-  const lastBookElementRef = useCallback(
-    (node: Element | null) => {
-      if (initialLoading || loadMoreLoading) return
-      if (loadMoreRef.current) loadMoreRef.current.disconnect()
-      loadMoreRef.current = new IntersectionObserver(entries => {
+
+  const observerTarget = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (initialLoading || loadMoreLoading || !hasMoreItems) return
+    const observer = new IntersectionObserver(
+      entries => {
         if (entries[0].isIntersecting) {
           fetchMore({ ...filter, chainId: 10, offset: AssetsList.length, limit: 10 })
         }
-      })
-      if (node) loadMoreRef.current.observe(node)
-    },
-    [AssetsList.length, fetchMore, filter, initialLoading, loadMoreLoading]
-  )
+      },
+      { threshold: 1 }
+    )
+
+    const target = observerTarget.current
+
+    if (target) {
+      observer.observe(target)
+    }
+
+    return () => {
+      if (target) {
+        observer.unobserve(target)
+      }
+    }
+  }, [observerTarget, initialLoading, loadMoreLoading, hasMoreItems, fetchMore, filter, AssetsList.length])
 
   function handleFilter(orderBy: 'market_cap' | 'price' | 'volume', orderDirection: 'desc' | 'asc') {
     setFilter({ ...filter, orderDirection, orderBy })
@@ -153,9 +165,9 @@ export default function CryptoPageControl() {
           AssetsList.map(asset => {
             return <CryptoAssetTableRow asset={asset} key={asset.ref} chainIdActivated={filter.chainId} />
           })}
-        {loadMoreLoading && <LottieAnimation animationData={loadingAnimation} height={20} loop />}
+        {loadMoreLoading && <LottieAnimation animationData={loadingAnimation} height={70} width={50} loop />}
       </AssetsListContainer>
-      {!loadMoreLoading && !initialLoading && <div ref={lastBookElementRef} style={{ height: 20 }} />}
+      {!loadMoreLoading && !initialLoading && <div ref={observerTarget} style={{ height: 20 }} />}
     </Container>
   )
 }
@@ -213,7 +225,7 @@ const { Container, AssetsListContainer, Title, OrderByContainer, NetworkItem, Up
     display: flex;
     gap: ${({ theme }) => theme.size[24]};
     align-items: center;
-    div {
+    > div {
       height: 24px;
       display: flex;
       justify-content: center;
@@ -234,31 +246,43 @@ const { Container, AssetsListContainer, Title, OrderByContainer, NetworkItem, Up
   `,
   UpIcon: styled(PiCaretUp)`
     cursor: pointer;
-    font-size: ${({ theme }) => theme.font.size[16]};
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    opacity: 0.3;
     &.active {
-      color: ${({ theme }) => theme.colorV2.purple[1]};
+      opacity: 1;
+      color: ${({ theme }) => theme.color.blue[800]};
     }
   `,
   DownIcon: styled(PiCaretDown)`
     cursor: pointer;
-    font-size: ${({ theme }) => theme.font.size[16]};
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    opacity: 0.3;
     &.active {
-      color: ${({ theme }) => theme.colorV2.purple[1]};
+      opacity: 1;
+      color: ${({ theme }) => theme.color.blue[800]};
     }
   `,
   AssetsListContainer: styled.nav`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
+
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.colorV2.white};
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+
     > header {
       display: grid;
       grid-template-columns: 3fr 1fr 1fr 2fr 1fr;
       background: ${({ theme }) => theme.colorV2.white};
-      box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
-      border-radius: ${({ theme }) => theme.size[8]};
+      border-radius: 8px 8px 0 0;
+
       padding: 4px 16px;
       align-items: center;
+
+      border-bottom: 1px solid ${({ theme }) => theme.colorV2.background};
 
       > div {
         font-size: 13px;
