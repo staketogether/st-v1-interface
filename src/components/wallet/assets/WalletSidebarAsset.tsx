@@ -114,6 +114,7 @@ const { BalanceContainer } = {
     }
     &.disabled {
       cursor: not-allowed;
+      pointer-events: none;
       opacity: 0.5;
     }
   `
