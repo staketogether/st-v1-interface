@@ -3,7 +3,7 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiChartLine, PiCoinsLight, PiGlobe } from 'react-icons/pi'
+import { PiChartLine, PiCodesandboxLogo, PiCoinsLight, PiGlobe } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -15,7 +15,7 @@ export default function LayoutHeader() {
   const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
 
   const { query, pathname, locale } = useRouter()
-  const { currency } = query
+  const { currency, network } = query
 
   const basePath = `/[currency]`
   const isHome = pathname === basePath
@@ -40,7 +40,12 @@ export default function LayoutHeader() {
               <ChartIcon />
               {t('v2.header.staking')}
             </MenuButton>
-          </Link>
+          </Link><Link href={`/${currency as string}/${(network as string) || 'optimism'}/project`}>
+          <MenuButton className={`${!isHome && isActive('project') ? 'active' : ''}`}>
+            <ProjectsIcon />
+            {t('v2.header.projects')}
+          </MenuButton>
+        </Link>
         </Menu>
       </MenuContainer>
 
@@ -56,7 +61,7 @@ export default function LayoutHeader() {
   )
 }
 
-const { Container, MenuContainer, WalletContainer, ContainerCurrency, Logo, Menu, MenuButton, GlobeIcon, CoinsIcon, ChartIcon } = {
+const { Container, MenuContainer, WalletContainer, ContainerCurrency, Logo, Menu, MenuButton, GlobeIcon, CoinsIcon, ChartIcon, ProjectsIcon } = {
   Container: styled.header`
     display: none;
     gap: ${({ theme }) => theme.size[32]};
@@ -157,6 +162,9 @@ const { Container, MenuContainer, WalletContainer, ContainerCurrency, Logo, Menu
     color: ${({ theme }) => theme.color.gray[500]};
   `,
   ChartIcon: styled(PiChartLine)`
+    font-size: ${props => props.theme.size[24]};
+  `,
+  ProjectsIcon: styled(PiCodesandboxLogo)`
     font-size: ${props => props.theme.size[24]};
   `
 }
