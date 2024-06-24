@@ -5,7 +5,7 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import { toHumanFormat } from '@/services/format'
-import Button from '../shared/Button'
+import Button from '../../shared/Button'
 import { useRouter } from 'next/router'
 
 interface AssetCardProps {

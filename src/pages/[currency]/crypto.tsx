@@ -1,4 +1,4 @@
-import CryptoPageControl from '@/components/cryptoPage/CryptoPageControl'
+import CryptoPageControl from '@/components/pages/crypto/CryptoPageControl'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { assetsList } from '@/config/product/asset'

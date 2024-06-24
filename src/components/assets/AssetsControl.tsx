@@ -27,7 +27,7 @@ interface AssetsControlProps {
   type: AssetActionType
 }
 
-const AssetBalanceCard = dynamic(() => import('../cryptoPage/AssetBalanceCard'), {
+const AssetBalanceCard = dynamic(() => import('../pages/crypto/AssetBalanceCard'), {
   ssr: false,
   loading: () => (
     <LoadingContainer>
@@ -139,7 +139,7 @@ export default function AssetsControl({ assetId, chainId, type }: AssetsControlP
       </header>
 
       <div>
-        <AssetsProductInfo asset={asset} assetId={assetId} chainId={chainId}/>
+        <AssetsProductInfo asset={asset} assetId={assetId} chainId={chainId} />
         <ActionContainer>
           <ActionContainerControlCard>
             <AssetsActionsControl
@@ -147,7 +147,8 @@ export default function AssetsControl({ assetId, chainId, type }: AssetsControlP
               asset={asset}
               userTokenBalance={userTokenBalance}
               userTokenIsLoading={userTokenIsLoading}
-              userTokenRefetch={userTokenRefetch} chainId={chainId}
+              userTokenRefetch={userTokenRefetch}
+              chainId={chainId}
             />
           </ActionContainerControlCard>
           {userWalletAddress && (
