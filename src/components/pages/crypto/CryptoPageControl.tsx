@@ -2,13 +2,13 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import styled from 'styled-components'
 import { PiCaretDown, PiCaretUp } from 'react-icons/pi'
 import useAssetsList from './hooks/useAssetsList'
-import CryptoAssetTableRow from './CryptoAssetTableRow'
-import { useCallback, useRef, useState } from 'react'
-import NetworkIcon from '../shared/NetworkIcon'
+import { useEffect, useRef, useState } from 'react'
+import NetworkIcon from '../../shared/NetworkIcon'
 import { Select } from 'antd'
 import loadingAnimation from '@assets/animations/loading-animation.json'
-import LottieAnimation from '../shared/LottieAnimation'
+import LottieAnimation from '../../shared/LottieAnimation'
 import Image from 'next/image'
+import CryptoAssetTableRow from './CryptoAssetTableRow'
 
 interface FilterType {
   orderBy: 'market_cap' | 'price' | 'volume'
@@ -18,28 +18,40 @@ interface FilterType {
 }
 
 export default function CryptoPageControl() {
-  const [filter, setFilter] = useState<FilterType>({ orderBy: 'market_cap', orderDirection: 'asc', category: null, chainId: 10 })
+  const [filter, setFilter] = useState<FilterType>({ orderBy: 'market_cap', orderDirection: 'desc', category: null, chainId: 10 })
   const { t } = useLocaleTranslation()
 
-  const { AssetsList, initialLoading, loadMoreLoading, fetchMore } = useAssetsList({
+  const { AssetsList, initialLoading, loadMoreLoading, fetchMore, hasMoreItems } = useAssetsList({
     chainId: filter.chainId,
     orderBy: filter.orderBy,
-    orderDirection: filter.orderDirection
+    orderDirection: filter.orderDirection,
+    category: filter.category
   })
-  const loadMoreRef = useRef<IntersectionObserver | null>(null)
-  const lastBookElementRef = useCallback(
-    (node: Element | null) => {
-      if (initialLoading || loadMoreLoading) return
-      if (loadMoreRef.current) loadMoreRef.current.disconnect()
-      loadMoreRef.current = new IntersectionObserver(entries => {
+
+  const observerTarget = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (initialLoading || loadMoreLoading || !hasMoreItems) return
+    const observer = new IntersectionObserver(
+      entries => {
         if (entries[0].isIntersecting) {
           fetchMore({ ...filter, chainId: 10, offset: AssetsList.length, limit: 10 })
         }
-      })
-      if (node) loadMoreRef.current.observe(node)
-    },
-    [AssetsList.length, fetchMore, filter, initialLoading, loadMoreLoading]
-  )
+      },
+      { threshold: 1 }
+    )
+
+    const target = observerTarget.current
+
+    if (target) {
+      observer.observe(target)
+    }
+
+    return () => {
+      if (target) {
+        observer.unobserve(target)
+      }
+    }
+  }, [observerTarget, initialLoading, loadMoreLoading, hasMoreItems, fetchMore, filter, AssetsList.length])
 
   function handleFilter(orderBy: 'market_cap' | 'price' | 'volume', orderDirection: 'desc' | 'asc') {
     setFilter({ ...filter, orderDirection, orderBy })
@@ -59,11 +71,10 @@ export default function CryptoPageControl() {
     { network: 'zkSync', chainId: 324 }
   ]
 
-
   const assets = [
-    { network: 'Bitcoin', price: "$60.383,69", variation: "-5.98%" },
-    { network: 'Optimism', price: "$60.383,69", variation: "-5.98%" },
-    { network: 'Pendle', price: "$60.383,69", variation: "-5.98%" },
+    { network: 'Bitcoin', price: '$60.383,69', variation: '-5.98%' },
+    { network: 'Optimism', price: '$60.383,69', variation: '-5.98%' },
+    { network: 'Pendle', price: '$60.383,69', variation: '-5.98%' }
   ]
 
   const optionsList = networks.map(option => {
@@ -85,40 +96,36 @@ export default function CryptoPageControl() {
         <h1>{t(`v3.pages.crypto.title`)}</h1>
         <h2>{t(`v3.pages.crypto.description`)}</h2>
       </Title>
-      <Featured>
+      <HeaderContainerCard>
         <Box open>
           <summary>{t(`tendencies`)}</summary>
           {assets.map(asset => (
-             <div key={asset.network}>
-            <Detail href='#'>
+            <Detail href='#' key={asset.network}>
               <div>
                 <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
-                  <span>{asset.network}</span>
+                <span>{asset.network}</span>
               </div>
               <div>
-                  <span>{asset.price}</span>
-                  <span className='price-down'>{asset.variation}</span>
+                <span>{asset.price}</span>
+                <span className='price-down'>{asset.variation}</span>
               </div>
             </Detail>
-            </div>
           ))}
         </Box>
         <Box open>
           <summary>{t(`latestAdded`)}</summary>
           <div>
             {assets.map(asset => (
-              <div key={asset.network}>
-                <Detail href='#'>
-                  <div>
-                    <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
-                    <span>{asset.network}</span>
-                  </div>
-                  <div>
-                    <span>{asset.price}</span>
-                    <span className='price-down'>{asset.variation}</span>
-                  </div>
-                </Detail>
-              </div>
+              <Detail href='#' key={asset.network}>
+                <div>
+                  <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
+                  <span>{asset.network}</span>
+                </div>
+                <div>
+                  <span>{asset.price}</span>
+                  <span className='price-down'>{asset.variation}</span>
+                </div>
+              </Detail>
             ))}
           </div>
         </Box>
@@ -126,22 +133,20 @@ export default function CryptoPageControl() {
           <summary>{t(`mostVisited`)}</summary>
           <div>
             {assets.map(asset => (
-              <div key={asset.network}>
-                <Detail href='#'>
-                  <div>
-                    <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
-                    <span>{asset.network}</span>
-                  </div>
-                  <div>
-                    <span>{asset.price}</span>
-                    <span className='price-down'>{asset.variation}</span>
-                  </div>
-                </Detail>
-              </div>
+              <Detail href='#' key={asset.network}>
+                <div>
+                  <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
+                  <span>{asset.network}</span>
+                </div>
+                <div>
+                  <span>{asset.price}</span>
+                  <span className='price-down'>{asset.variation}</span>
+                </div>
+              </Detail>
             ))}
           </div>
         </Box>
-      </Featured>
+      </HeaderContainerCard>
       <FilterTabContainer>
         <CategoryContainer>
           <div className={`${!filter.category && 'active'}`} onClick={() => handleCategoryFilter(null)}>
@@ -218,14 +223,27 @@ export default function CryptoPageControl() {
           AssetsList.map(asset => {
             return <CryptoAssetTableRow asset={asset} key={asset.ref} chainIdActivated={filter.chainId} />
           })}
-        {loadMoreLoading && <LottieAnimation animationData={loadingAnimation} height={20} loop />}
+        {loadMoreLoading && <LottieAnimation animationData={loadingAnimation} height={70} width={50} loop />}
       </AssetsListContainer>
-      {!loadMoreLoading && !initialLoading && <div ref={lastBookElementRef} style={{ height: 20 }} />}
+      {!loadMoreLoading && !initialLoading && <div ref={observerTarget} style={{ height: 20 }} />}
     </Container>
   )
 }
 
-const { Container, AssetsListContainer, Title, Featured, Box, Detail, OrderByContainer, NetworkItem, UpIcon, DownIcon, FilterTabContainer, CategoryContainer } = {
+const {
+  Container,
+  AssetsListContainer,
+  Title,
+  HeaderContainerCard,
+  Box,
+  Detail,
+  OrderByContainer,
+  NetworkItem,
+  UpIcon,
+  DownIcon,
+  FilterTabContainer,
+  CategoryContainer
+} = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -259,74 +277,72 @@ const { Container, AssetsListContainer, Title, Featured, Box, Detail, OrderByCon
       }
     }
   `,
-  Featured: styled.div`
-  width: 100%;
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
+  HeaderContainerCard: styled.div`
+    width: 100%;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-    flex-wrap: nowrap;
-  }
- 
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      flex-wrap: nowrap;
+    }
   `,
   Box: styled.details`
-  background: ${({ theme }) => theme.color.white};
-  border-radius: ${({ theme }) => theme.size[8]};
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  padding: ${({ theme }) => theme.size[16]};
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.size[16]};
-  cursor: pointer;
+    background: ${({ theme }) => theme.color.white};
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: ${({ theme }) => theme.size[16]} 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[16]};
+    cursor: pointer;
 
-  summary {
-    font-size: ${({ theme }) => theme.font.size[15]};
-    font-weight: 500;
-  }
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-  summary {
-    list-style: none;
-    padding: 0 0 ${({ theme }) => theme.size[16]} 0;
-  }
-  summary::-webkit-details-marker {
-      display: none;
+    summary {
+      font-size: ${({ theme }) => theme.font.size[15]};
+      font-weight: 500;
+      padding: 0px 16px 8px 16px;
     }
-  }
 
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      summary {
+        list-style: none;
+        pointer-events: none;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+    }
   `,
   Detail: styled.a`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
-  padding: 8px 0;
-  gap: 16px;
-  color: ${({ theme }) => theme.color.gray[700]};
-  font-weight: 500;
-
-  >div {
+    width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
-    gap: ${({ theme }) => theme.size[8]};
-  }
-  div:nth-child(2) {
-    gap: 49px;
-  }
-  span {
-    font-size: ${({ theme }) => theme.font.size[13]};
+    padding: 8px 16px;
+    gap: 16px;
+    color: ${({ theme }) => theme.color.gray[700]};
     font-weight: 500;
+    border: 1px solid transparent;
 
-    &.price-down {
-      color: ${({ theme }) => theme.color.red[500]};
+    > div {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      gap: ${({ theme }) => theme.size[8]};
     }
-  }
+
+    span {
+      font-size: ${({ theme }) => theme.font.size[13]};
+      font-weight: 500;
+
+      &.price-down {
+        color: ${({ theme }) => theme.color.red[500]};
+      }
+    }
     &:hover {
-      background: ${({ theme }) => theme.color.gray[100]};
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
     }
   `,
   NetworkItem: styled.div`
@@ -348,7 +364,7 @@ const { Container, AssetsListContainer, Title, Featured, Box, Detail, OrderByCon
     display: flex;
     gap: ${({ theme }) => theme.size[24]};
     align-items: center;
-    div {
+    > div {
       height: 24px;
       display: flex;
       justify-content: center;
@@ -369,31 +385,43 @@ const { Container, AssetsListContainer, Title, Featured, Box, Detail, OrderByCon
   `,
   UpIcon: styled(PiCaretUp)`
     cursor: pointer;
-    font-size: ${({ theme }) => theme.font.size[16]};
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    opacity: 0.3;
     &.active {
-      color: ${({ theme }) => theme.colorV2.purple[1]};
+      opacity: 1;
+      color: ${({ theme }) => theme.color.blue[800]};
     }
   `,
   DownIcon: styled(PiCaretDown)`
     cursor: pointer;
-    font-size: ${({ theme }) => theme.font.size[16]};
+    font-size: ${({ theme }) => theme.font.size[14]};
+    color: ${({ theme }) => theme.colorV2.gray[1]};
+    opacity: 0.3;
     &.active {
-      color: ${({ theme }) => theme.colorV2.purple[1]};
+      opacity: 1;
+      color: ${({ theme }) => theme.color.blue[800]};
     }
   `,
   AssetsListContainer: styled.nav`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[4]};
+
+    border-radius: ${({ theme }) => theme.size[8]};
+    background: ${({ theme }) => theme.colorV2.white};
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+
     > header {
       display: grid;
       grid-template-columns: 3fr 1fr 1fr 2fr 1fr;
       background: ${({ theme }) => theme.colorV2.white};
-      box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
-      border-radius: ${({ theme }) => theme.size[8]};
+      border-radius: 8px 8px 0 0;
+
       padding: 4px 16px;
       align-items: center;
+
+      border-bottom: 1px solid ${({ theme }) => theme.colorV2.background};
 
       > div {
         font-size: 13px;
