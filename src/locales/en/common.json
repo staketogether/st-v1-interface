@@ -98,6 +98,9 @@
   "investments": "Investments",
   "genericTransactionSuccess": "Transaction Successful",
   "sendAddress": "Send Address",
+  "tendencies": "Tendencies",
+  "latestAdded": "Latest added",
+  "mostVisited": "Most Visited",
   "unlockTransaction": {
     "failTransaction": "Failed to perform Unlock",
     "success": "Unlocking Completed Successfully"
