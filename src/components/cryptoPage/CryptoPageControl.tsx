@@ -71,11 +71,10 @@ export default function CryptoPageControl() {
     { network: 'zkSync', chainId: 324 }
   ]
 
-
   const assets = [
-    { network: 'Bitcoin', price: "$60.383,69", variation: "-5.98%" },
-    { network: 'Optimism', price: "$60.383,69", variation: "-5.98%" },
-    { network: 'Pendle', price: "$60.383,69", variation: "-5.98%" },
+    { network: 'Bitcoin', price: '$60.383,69', variation: '-5.98%' },
+    { network: 'Optimism', price: '$60.383,69', variation: '-5.98%' },
+    { network: 'Pendle', price: '$60.383,69', variation: '-5.98%' }
   ]
 
   const optionsList = networks.map(option => {
@@ -97,40 +96,36 @@ export default function CryptoPageControl() {
         <h1>{t(`v3.pages.crypto.title`)}</h1>
         <h2>{t(`v3.pages.crypto.description`)}</h2>
       </Title>
-      <Featured>
+      <HeaderContainerCard>
         <Box open>
           <summary>{t(`tendencies`)}</summary>
           {assets.map(asset => (
-             <div key={asset.network}>
-            <Detail href='#'>
+            <Detail href='#' key={asset.network}>
               <div>
                 <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
-                  <span>{asset.network}</span>
+                <span>{asset.network}</span>
               </div>
               <div>
-                  <span>{asset.price}</span>
-                  <span className='price-down'>{asset.variation}</span>
+                <span>{asset.price}</span>
+                <span className='price-down'>{asset.variation}</span>
               </div>
             </Detail>
-            </div>
           ))}
         </Box>
         <Box open>
           <summary>{t(`latestAdded`)}</summary>
           <div>
             {assets.map(asset => (
-              <div key={asset.network}>
-                <Detail href='#'>
-                  <div>
-                    <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
-                    <span>{asset.network}</span>
-                  </div>
-                  <div>
-                    <span>{asset.price}</span>
-                    <span className='price-down'>{asset.variation}</span>
-                  </div>
-                </Detail>
-              </div>
+              <Detail href='#' key={asset.network}>
+                <div>
+                  <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
+                  <span>{asset.network}</span>
+                </div>
+                <div>
+                  <span>{asset.price}</span>
+                  <span className='price-down'>{asset.variation}</span>
+                </div>
+              </Detail>
             ))}
           </div>
         </Box>
@@ -138,22 +133,20 @@ export default function CryptoPageControl() {
           <summary>{t(`mostVisited`)}</summary>
           <div>
             {assets.map(asset => (
-              <div key={asset.network}>
-                <Detail href='#'>
-                  <div>
-                    <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
-                    <span>{asset.network}</span>
-                  </div>
-                  <div>
-                    <span>{asset.price}</span>
-                    <span className='price-down'>{asset.variation}</span>
-                  </div>
-                </Detail>
-              </div>
+              <Detail href='#' key={asset.network}>
+                <div>
+                  <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
+                  <span>{asset.network}</span>
+                </div>
+                <div>
+                  <span>{asset.price}</span>
+                  <span className='price-down'>{asset.variation}</span>
+                </div>
+              </Detail>
             ))}
           </div>
         </Box>
-      </Featured>
+      </HeaderContainerCard>
       <FilterTabContainer>
         <CategoryContainer>
           <div className={`${!filter.category && 'active'}`} onClick={() => handleCategoryFilter(null)}>
@@ -237,7 +230,20 @@ export default function CryptoPageControl() {
   )
 }
 
-const { Container, AssetsListContainer, Title, Featured, Box, Detail, OrderByContainer, NetworkItem, UpIcon, DownIcon, FilterTabContainer, CategoryContainer } = {
+const {
+  Container,
+  AssetsListContainer,
+  Title,
+  HeaderContainerCard,
+  Box,
+  Detail,
+  OrderByContainer,
+  NetworkItem,
+  UpIcon,
+  DownIcon,
+  FilterTabContainer,
+  CategoryContainer
+} = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -271,74 +277,72 @@ const { Container, AssetsListContainer, Title, Featured, Box, Detail, OrderByCon
       }
     }
   `,
-  Featured: styled.div`
-  width: 100%;
-  display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
+  HeaderContainerCard: styled.div`
+    width: 100%;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-    flex-wrap: nowrap;
-  }
- 
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      flex-wrap: nowrap;
+    }
   `,
   Box: styled.details`
-  background: ${({ theme }) => theme.color.white};
-  border-radius: ${({ theme }) => theme.size[8]};
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  padding: ${({ theme }) => theme.size[16]};
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.size[16]};
-  cursor: pointer;
+    background: ${({ theme }) => theme.color.white};
+    border-radius: ${({ theme }) => theme.size[8]};
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: ${({ theme }) => theme.size[16]} 0px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.size[16]};
+    cursor: pointer;
 
-  summary {
-    font-size: ${({ theme }) => theme.font.size[15]};
-    font-weight: 500;
-  }
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-  summary {
-    list-style: none;
-    padding: 0 0 ${({ theme }) => theme.size[16]} 0;
-  }
-  summary::-webkit-details-marker {
-      display: none;
+    summary {
+      font-size: ${({ theme }) => theme.font.size[15]};
+      font-weight: 500;
+      padding: 0px 16px 8px 16px;
     }
-  }
 
+    @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+      summary {
+        list-style: none;
+        pointer-events: none;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+    }
   `,
   Detail: styled.a`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-align: center;
-  padding: 8px 0;
-  gap: 16px;
-  color: ${({ theme }) => theme.color.gray[700]};
-  font-weight: 500;
-
-  >div {
+    width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
-    gap: ${({ theme }) => theme.size[8]};
-  }
-  div:nth-child(2) {
-    gap: 49px;
-  }
-  span {
-    font-size: ${({ theme }) => theme.font.size[13]};
+    padding: 8px 16px;
+    gap: 16px;
+    color: ${({ theme }) => theme.color.gray[700]};
     font-weight: 500;
+    border: 1px solid transparent;
 
-    &.price-down {
-      color: ${({ theme }) => theme.color.red[500]};
+    > div {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      gap: ${({ theme }) => theme.size[8]};
     }
-  }
+
+    span {
+      font-size: ${({ theme }) => theme.font.size[13]};
+      font-weight: 500;
+
+      &.price-down {
+        color: ${({ theme }) => theme.color.red[500]};
+      }
+    }
     &:hover {
-      background: ${({ theme }) => theme.color.gray[100]};
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
     }
   `,
   NetworkItem: styled.div`
