@@ -89,7 +89,7 @@ export default function CryptoPageControl() {
         <Box open>
           <summary>{t(`tendencies`)}</summary>
           {assets.map(asset => (
-             <div>
+             <div key={asset.network}>
             <Detail href='#'>
               <div>
                 <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
@@ -107,7 +107,7 @@ export default function CryptoPageControl() {
           <summary>{t(`latestAdded`)}</summary>
           <div>
             {assets.map(asset => (
-              <div>
+              <div key={asset.network}>
                 <Detail href='#'>
                   <div>
                     <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
@@ -126,7 +126,7 @@ export default function CryptoPageControl() {
           <summary>Mais visitadas</summary>
           <div>
             {assets.map(asset => (
-              <div>
+              <div key={asset.network}>
                 <Detail href='#'>
                   <div>
                     <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
