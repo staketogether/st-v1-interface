@@ -19,6 +19,9 @@ export default function LayoutHeaderMobile() {
   const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
   const { setWalletSidebarMobileSettings } = useWalletSidebarMobileSettings()
 
+
+  const userWalletIsConnected = accountIsConnected
+
   return (
     <>
       <Container>
@@ -35,7 +38,13 @@ export default function LayoutHeaderMobile() {
                 }}
               />
             </MenuContainer>
-            <Wallet account={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
+            <Wallet
+              evmWalletAddress={account}
+              accountIsConnected={userWalletIsConnected}
+              walletChainId={walletChainId}
+              isBtcConnected={false}
+              bitcoinWalletAddress={undefined}
+            />
           </WalletContainer>
         </Content>
       </Container>

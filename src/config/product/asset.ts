@@ -1,4 +1,4 @@
-import { StaticAsset, AssetCategory, Erc20Asset, FanTokenAsset, NativeAsset } from '@/types/StaticAsset'
+import { StaticAsset, AssetCategory, BitcoinAsset, Erc20Asset, FanTokenAsset, NativeAsset } from '@/types/StaticAsset'
 import aaveIcon from '@assets/assets/aave.png'
 import arbIcon from '@assets/assets/arbitrum.svg'
 import bahiaIcon from '@assets/assets/bahia.png'
@@ -99,6 +99,36 @@ export const ethOp: NativeAsset = {
         toChainId: 10,
         toToken: 'ETH'
       }
+    }
+  ]
+}
+
+export const btcBtc: BitcoinAsset = {
+  id: 'btc-btc',
+  name: 'Bitcoin',
+  order: 0,
+  decimals: 8,
+  symbol: 'BTC',
+  symbolImage: btcIcon,
+  isTestnet: false,
+  url: '/currency/bitcoin/product/assets/btc-btc',
+  type: 'bitcoin',
+  category: AssetCategory.Infrastructure,
+  localeDescription: 'btc',
+  chains: [Chain.BTC_MAINNET],
+  listed: true,
+  enabled: true,
+  new: true,
+  points: {
+    stPoints: false,
+    elPoints: false
+  },
+  ramp: [
+    {
+      chainId: 0,
+      minDeposit: 300,
+      provider: 'transak',
+      paymentMethod: 'pix'
     }
   ]
 }
@@ -1309,7 +1339,8 @@ export const assetsList: StaticAsset[] = [
   thorchainEth,
   spicyChiliz,
   zkSyncZK,
-  zkSyncETH
+  zkSyncETH,
+  btcBtc
 ]
 
 export function getListedAssets(): StaticAsset[] {
