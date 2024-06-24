@@ -123,7 +123,7 @@ export default function CryptoPageControl() {
           </div>
         </Box>
         <Box open>
-          <summary>Mais visitadas</summary>
+          <summary>{t(`mostVisited`)}</summary>
           <div>
             {assets.map(asset => (
               <div key={asset.network}>
