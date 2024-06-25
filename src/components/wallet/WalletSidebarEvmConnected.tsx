@@ -30,6 +30,7 @@ import useUserAccountHistory from '@/hooks/useUserAccountHistory'
 import WalletSidebarRewardsContainer from './WalletSidebarRewardsContainer'
 import WalletSidebarAccountHistoryContainer from './WalletSidebarAccountHistoryContainer'
 import WalletSidebarAccountDelegations from './WalletSidebarAccountDelegations'
+import WalletSidebarEditAccount from './WalletSidebarEditAccount'
 
 interface WalletSidebarEvmConnectedProps {
   address: `0x${string}`
@@ -41,6 +42,7 @@ export default function WalletSidebarEvmConnected({ address, walletChainId }: Wa
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [isPanelActive, setIsPanelActive] = useState(false)
   const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
+  const [isWalletSidebarEditAccountActive, setIsWalletSidebarEditAccountActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<TabActivated>('assets')
 
   const { userCanViewPanel, verifyWalletLoading } = useVerifyWallet(address)
@@ -106,11 +108,11 @@ export default function WalletSidebarEvmConnected({ address, walletChainId }: Wa
   return (
     <DrawerContainer placement='right' size='default' onClose={() => setOpenSidebar(false)} mask={true} open={openSidebar}>
       {isSettingsActive && !isPanelActive && <WalletSidebarSettings setIsSettingsActive={setIsSettingsActive} />}
-      {isPanelActive && !isSettingsActive && !isWeb3AuthSettingsActive && <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
-      {!isSettingsActive && !isPanelActive && isWeb3AuthSettingsActive && (
-        <WalletSidebarWeb3AuthWalletSettings setWeb3authWalletActive={setIsWeb3AuthSettingsActive} walletAddress={address} />
+      {isPanelActive && !isSettingsActive && !isWalletSidebarEditAccountActive && <PanelWalletSidebarPanel setIsPanelActive={setIsPanelActive} />}
+      {!isSettingsActive && !isPanelActive && isWalletSidebarEditAccountActive && (
+        <WalletSidebarEditAccount setWalletSidebar={setIsWalletSidebarEditAccountActive} walletAddress={address} />
       )}
-      {!isSettingsActive && !isPanelActive && !isWeb3AuthSettingsActive && (
+      {!isSettingsActive && !isPanelActive && !isWalletSidebarEditAccountActive && (
         <>
           <HeaderContainer>
             <HeaderUserContainer>
@@ -160,7 +162,7 @@ export default function WalletSidebarEvmConnected({ address, walletChainId }: Wa
                 </SidebarButton>
               )}
               {showWalletSidebarWeb3AuthSettings && (
-                <SidebarButton onClick={() => setIsWeb3AuthSettingsActive(true)}>
+                <SidebarButton onClick={() => setIsWalletSidebarEditAccountActive(true)}>
                   <WalletIcon fontSize={16} />
                 </SidebarButton>
               )}

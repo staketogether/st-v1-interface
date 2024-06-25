@@ -147,6 +147,40 @@
     "withdrawSuccess": "Saque Bem-Sucedido",
     "withdrawError": "Falha ao Sacar"
   },
+  "editAccount": {
+    "editAccount": "Editar Conta",
+    "editProfile": "Editar Perfil",
+    "profile": "Perfil",
+    "userName": "Nome de Usuário",
+    "email": "E-mail",
+    "pixKey": "Chave Pix",
+    "wallets": "Carteiras",
+    "address": "Endereço",
+    "kycLevel": "Nível de KYC",
+    "purchaseLimit": "Limite de Compra",
+    "limitUsed": "Limite Utilizado",
+    "addPixKey": "Adicionar chave Pix",
+    "mobilePhone": "Celular",
+    "cnpj": "CNPJ",
+    "save": "Salvar",
+    "registerNewPixKey": "Registrar nova chave",
+    "showEtherScan": "Ver no Etherscan",
+    "showOptimismScan": "Ver no Optimism Etherscan",
+    "export": "Exportar",
+    "kyc": {
+      "kyc": "KYC",
+      "updateKycMessage": "Para fazer compras com moedas FIAT na plataforma Stake Together, é necessário o registro Conheça seu Cliente (KYC).",
+      "updateKyc": "Atualizar KYC",
+      "accountType": "Tipo de Conta",
+      "fullName": "Nome Completo",
+      "cpf": "CPF",
+      "birthday": "Data de Nascimento",
+      "placeholder": {
+        "fullNamePlaceholder": "Digite seu nome igual ao do documento",
+        "emailPlaceholder": "Digite seu e-mail de contato"
+      }
+    }
+  },
   "web3AuthWalletSettings": {
     "showEtherScan": "Ver no Etherscan",
     "showOptimismScan": "Ver na Optmism Etherscan",
