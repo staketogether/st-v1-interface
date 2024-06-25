@@ -7,9 +7,15 @@ interface UserPixKey {
   type: string;
 }
 
-export default function userPixKey(id: number | null) {
+interface UseUserPixKeyReturn {
+  pixKey: UserPixKey[] | undefined;
+  isLoading: boolean;
+  isError: any;
+}
+
+export default function useUserPixKey(id: number | null): UseUserPixKeyReturn {
   const { backendUrl } = globalConfig;
-  const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+  const fetcher = (url: string) => axios.get<UserPixKey[]>(url).then((res) => res.data);
 
   const url = id ? `${backendUrl}/api/pixkeys/${id}` : null;
   const { data, error } = useSWR<UserPixKey[]>(url, fetcher);

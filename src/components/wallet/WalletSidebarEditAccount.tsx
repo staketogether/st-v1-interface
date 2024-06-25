@@ -1,11 +1,9 @@
-import userProfile from '@/hooks/useProfileSearch';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import userPixKey from '@/hooks/usePixKey';
-import userProfileWallet from '@/hooks/useProfile';
+import useUserPixKey from '@/hooks/usePixKey';
 import userWalletAddress from '@/hooks/useWalletAddress';
 import { FiTrash2 } from 'react-icons/fi'
 import styled from 'styled-components'
-import { cnpjMask, cpfMask, phoneMask } from '../shared/input-helper/mask'
+import { cnpjMask, cpfMask } from '../shared/input-helper/mask'
 import { truncateAddress } from '@/services/truncate';
 import { useEffect, useState } from 'react';
 import { PiArrowLeft } from 'react-icons/pi';
@@ -14,6 +12,8 @@ import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
 import ModalExportWallet from '../shared/ModalExportWallet';
 import { formatNumberByLocale } from '@/services/format';
+import useUserProfile from '@/hooks/useProfileSearch';
+import useUserProfileWallet from '@/hooks/useProfile';
 
 interface walletSidebarEditAccountProps {
   setWalletSidebar?: (value: boolean) => void
@@ -25,9 +25,9 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
   const [formatWalletAddress, setFormatWalletAddress] = useState<string[] | undefined>([])
 
   const [notifyModal, setNotifyModal] = useState(false)
-  const { profileWallet } = userProfileWallet(walletAddress)
-  const { profileData } = userProfile(profileWallet ? profileWallet.id : 0)
-  const { pixKey } = userPixKey(profileWallet ? profileWallet.id : 0)
+  const { profileWallet } = useUserProfileWallet("0xae5462E47577bcde3663F2A748fE8019372Fe1C7")
+  const { profileData } = useUserProfile(profileWallet ? profileWallet.id : 0)
+  const { pixKey } = useUserPixKey(profileWallet ? profileWallet.id : 0)
   const { wallets } = userWalletAddress(profileWallet ? profileWallet.id : 0)
 
   const { t } = useLocaleTranslation()
@@ -115,7 +115,7 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
             </Header>
             <Wrapper>
               {maskedPixKeys?.map((pix) => (
-                <WrapperInfo>
+                <WrapperInfo key={pix}>
                   <span>{t('editAccount.pixKey')}</span>
                   <span>{pix}</span>
                 </WrapperInfo>
@@ -131,7 +131,7 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
 
             {formatWalletAddress?.map(wallet => (
               <>
-                <Wrapper>
+                <Wrapper key={wallet}>
                   <WrapperInfo>
                     <span >{t('wallet')}</span>
                     <span>{wallet}</span>
