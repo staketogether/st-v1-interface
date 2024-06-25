@@ -17,10 +17,11 @@ interface AssetBalanceCardProps {
   chainId: number
   userWalletAddress: `0x${string}`
   userTokenBalance: TokenBalance
+  assetIsLoading: boolean
   userTokenIsLoading: boolean
 }
 
-export default function AssetBalanceCard({ asset, chainId, userTokenBalance, userTokenIsLoading }: AssetBalanceCardProps) {
+export default function AssetBalanceCard({ asset, assetIsLoading, chainId, userTokenBalance, userTokenIsLoading }: AssetBalanceCardProps) {
   const { t } = useLocaleTranslation()
   const { query, push } = useRouter()
   const { currency } = query as { currency: string }
@@ -33,9 +34,14 @@ export default function AssetBalanceCard({ asset, chainId, userTokenBalance, use
       <header>
         <span>{t('balance')}</span>
         <ContainerImage>
-          <AssetIcon image={asset?.imageUrl} size={24} altName={asset?.name} chain={chainId} />
-          {userTokenIsLoading ? (
-            <SkeletonLoading width={80} height={18} />
+          {assetIsLoading ? (
+            <SkeletonLoading width={24} height={24} $borderRadius={'99px'} />
+          ) : (
+            <AssetIcon image={asset?.imageUrl} size={24} altName={asset?.name} chain={chainId} />
+          )}
+
+          {userTokenIsLoading || assetIsLoading ? (
+            <SkeletonLoading width={80} height={16} />
           ) : (
             <span>{truncateDecimal(userTokenBalance.balance, asset?.decimals)}</span>
           )}

@@ -1,8 +1,8 @@
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import styled from 'styled-components'
-import Button from '../shared/Button'
-import NetworkIcons from '../shared/NetworkIcons'
-import AlertMessageComponent from '../shared/AlertMessageComponent'
+import Button from '../../shared/Button'
+import NetworkIcons from '../../shared/NetworkIcons'
+import AlertMessageComponent from '../../shared/AlertMessageComponent'
 import { notification } from 'antd'
 import QRCode from 'react-qr-code'
 import { useAccount } from 'wagmi'
@@ -13,7 +13,6 @@ import { PiArrowLineRight } from 'react-icons/pi'
 import { chainConfigs } from '@/config/chain'
 
 export function AssetsReceive() {
-
   const mainnetChains = chainConfigs.filter(chain => !chain.isTestnet)
   const { t } = useLocaleTranslation()
   const account = useAccount()
@@ -36,15 +35,21 @@ export function AssetsReceive() {
           </WalletContainer>
         </>
       )}
-      {account.address && 
-      <AlertMessageComponent message={t('disclaimer')} header={(
-        <ChildHeader>
-        <span>{t('compatibility')}</span>
-        <div>
-          {mainnetChains.map(chainFiltered => <NetworkIcons key={chainFiltered.chainId} network={chainFiltered.name.toLowerCase()} size={24}/>)}
-        </div>
-      </ChildHeader>
-      )}/>}
+      {account.address && (
+        <AlertMessageComponent
+          message={t('disclaimer')}
+          header={
+            <ChildHeader>
+              <span>{t('compatibility')}</span>
+              <div>
+                {mainnetChains.map(chainFiltered => (
+                  <NetworkIcons key={chainFiltered.chainId} network={chainFiltered.name.toLowerCase()} size={24} />
+                ))}
+              </div>
+            </ChildHeader>
+          }
+        />
+      )}
       {account.address ? (
         <Button label={t('copyWalletAddress')} icon={<FiCopy />} block onClick={handleCopyClipboard} />
       ) : (
@@ -87,25 +92,25 @@ const { Container, Code, WalletContainer, ConnectWalletIcon, ChildHeader } = {
     font-size: 16px;
   `,
   ChildHeader: styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 
-  span {
-    font-size: ${({ theme }) => theme.font.size[16]};
-    color: ${({ theme }) => theme.color.gray[900]};
-  }
-
->div {
-    flex-direction: row;
-    padding: ${({ theme }) => theme.size[8]};
-    
-    img {
-      margin-right: ${({ theme }) => theme.size[8]};
-      margin-bottom: ${({ theme }) => theme.size[8]};
+    span {
+      font-size: ${({ theme }) => theme.font.size[16]};
+      color: ${({ theme }) => theme.color.gray[900]};
     }
-  }
+
+    > div {
+      flex-direction: row;
+      padding: ${({ theme }) => theme.size[8]};
+
+      img {
+        margin-right: ${({ theme }) => theme.size[8]};
+        margin-bottom: ${({ theme }) => theme.size[8]};
+      }
+    }
   `
 }
