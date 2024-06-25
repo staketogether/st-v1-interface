@@ -7,23 +7,47 @@ import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import { toHumanFormat } from '@/services/format'
 import Button from '../../shared/Button'
 import { useRouter } from 'next/router'
+import { Tooltip } from 'antd'
 
 interface AssetCardProps {
   asset: AssetData
-  chainIdActivated: number
+  chainId: number
 }
 
-export default function CryptoAssetTableRow({ asset, chainIdActivated }: AssetCardProps) {
-  const network = asset.networks.find(item => item.chainId === chainIdActivated) ?? asset.networks[0]
-  const contractAddress = asset.networks.find(item => item.chainId === chainIdActivated)?.contractAddress
+export default function CryptoAssetTableRow({ asset, chainId }: AssetCardProps) {
+  const network = asset.networks.find(item => item.chainId === chainId) ?? asset.networks[0]
+  const contractAddress = asset.networks.find(item => item.chainId === chainId)?.contractAddress
   const signalPercentChange24h = asset.priceChangePercentage24h > 0 ? '+' : ''
   const { query } = useRouter()
   const { currency } = query
   const { usdToCurrency } = useFiatUsdConversion()
   const { t } = useLocaleTranslation()
+  const isSimplified = !!process.env.NEXT_PUBLIC_SIMPLIFIED
+
+  if (chainId === 500 && isSimplified) {
+    return (
+      <UnlinkedCardContainer>
+        <ImageContainer>
+          <div>
+            <AssetIcon image={asset.imageUrl} chain={network.chainId} size={24} altName={network.name} />
+            <span>{asset.name}</span>
+          </div>
+        </ImageContainer>
+        <PriceContainer className='price'>{usdToCurrency(asset.currentPriceUsd).formatted}</PriceContainer>
+        <PriceContainer className={asset.priceChangePercentage24h > 0 ? 'price-up' : 'price-down'}>
+          {`${signalPercentChange24h}${asset.priceChangePercentage24h.toFixed(2)}%`}
+        </PriceContainer>
+        <PriceContainer className='price'>{toHumanFormat(usdToCurrency(asset.marketCap).raw)}</PriceContainer>
+        <Tooltip title={t('soon')}>
+          <Button label={t('buy')} small disabled />
+        </Tooltip>
+      </UnlinkedCardContainer>
+    )
+  }
+
   return (
     <CardContainer
-      href={{
+      href={ {
         pathname: `/[currency]/[network]/product/assets/[product]`,
         query: {
           currency,
@@ -48,7 +72,38 @@ export default function CryptoAssetTableRow({ asset, chainIdActivated }: AssetCa
   )
 }
 
-const { CardContainer, ImageContainer, PriceContainer } = {
+const { CardContainer, ImageContainer, UnlinkedCardContainer, PriceContainer } = {
+  UnlinkedCardContainer: styled.a`
+      display: grid;
+      grid-template-columns: 3fr 1fr 1fr 2fr 1fr;
+      align-items: center;
+      width: 100%;
+      padding: 12px 16px;
+      gap: 0;
+
+      border: 1px solid transparent;
+      transition:
+              border 0.3s ease,
+              color 0.3s ease;
+
+      border-bottom: 1px solid ${({ theme }) => theme.colorV2.background};
+      &:last-child {
+          border-bottom: none;
+          border-radius: 0 0 8px 8px;
+      }
+
+      &:hover {
+          border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+
+          > div:first-child > div > span {
+              color: ${({ theme }) => theme.colorV2.purple[1]};
+          }
+      }
+
+      &.disabled {
+          opacity: 0.6;
+      }
+  `,
   CardContainer: styled(Link)`
     display: grid;
     grid-template-columns: 3fr 1fr 1fr 2fr 1fr;

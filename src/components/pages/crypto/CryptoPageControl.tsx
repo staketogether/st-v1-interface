@@ -76,6 +76,8 @@ export default function CryptoPageControl() {
     { network: 'Pendle', price: '$60.383,69', variation: '-5.98%' }
   ]
 
+  const isSimplified = !!process.env.NEXT_PUBLIC_SIMPLIFIED
+
   const optionsList = networks.map(option => {
     return {
       value: option.chainId,
@@ -95,18 +97,19 @@ export default function CryptoPageControl() {
         <h1>{t(`v3.pages.crypto.title`)}</h1>
         <h2>{t(`v3.pages.crypto.description`)}</h2>
       </Title>
-      <HeaderContainerCard>
+      {!isSimplified && (<HeaderContainerCard>
         <Box open>
           <summary>{t(`tendencies`)}</summary>
           {assets.map(asset => (
-            <Detail href='#' key={asset.network}>
+            <Detail href="#" key={asset.network}>
               <div>
-                <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
+                <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24}
+                       alt={''} />
                 <span>{asset.network}</span>
               </div>
               <div>
                 <span>{asset.price}</span>
-                <span className='price-down'>{asset.variation}</span>
+                <span className="price-down">{asset.variation}</span>
               </div>
             </Detail>
           ))}
@@ -115,14 +118,15 @@ export default function CryptoPageControl() {
           <summary>{t(`latestAdded`)}</summary>
           <div>
             {assets.map(asset => (
-              <Detail href='#' key={asset.network}>
+              <Detail href="#" key={asset.network}>
                 <div>
-                  <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
+                  <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24}
+                         alt={''} />
                   <span>{asset.network}</span>
                 </div>
                 <div>
                   <span>{asset.price}</span>
-                  <span className='price-down'>{asset.variation}</span>
+                  <span className="price-down">{asset.variation}</span>
                 </div>
               </Detail>
             ))}
@@ -132,20 +136,21 @@ export default function CryptoPageControl() {
           <summary>{t(`mostVisited`)}</summary>
           <div>
             {assets.map(asset => (
-              <Detail href='#' key={asset.network}>
+              <Detail href="#" key={asset.network}>
                 <div>
-                  <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
+                  <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24}
+                         alt={''} />
                   <span>{asset.network}</span>
                 </div>
                 <div>
                   <span>{asset.price}</span>
-                  <span className='price-down'>{asset.variation}</span>
+                  <span className="price-down">{asset.variation}</span>
                 </div>
               </Detail>
             ))}
           </div>
         </Box>
-      </HeaderContainerCard>
+      </HeaderContainerCard>)}
       <FilterTabContainer>
         <CategoryContainer>
           <div className={`${!filter.category && 'active'}`} onClick={() => handleCategoryFilter(null)}>
@@ -220,7 +225,7 @@ export default function CryptoPageControl() {
         {initialLoading && <LottieAnimation animationData={loadingAnimation} height={70} loop />}
         {!initialLoading &&
           AssetsList.map(asset => {
-            return <CryptoAssetTableRow asset={asset} key={asset.ref} chainIdActivated={filter.chainId} />
+            return <CryptoAssetTableRow asset={asset} key={asset.ref} chainId={filter.chainId} />
           })}
         {loadMoreLoading && <LottieAnimation animationData={loadingAnimation} height={70} width={50} loop />}
       </AssetsListContainer>
