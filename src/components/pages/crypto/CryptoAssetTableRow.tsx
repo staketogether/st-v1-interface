@@ -5,7 +5,7 @@ import Link from 'next/link'
 import styled from 'styled-components'
 import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import { toHumanFormat } from '@/services/format'
-import Button from '../shared/Button'
+import Button from '../../shared/Button'
 import { useRouter } from 'next/router'
 
 interface AssetCardProps {
@@ -21,8 +21,6 @@ export default function CryptoAssetTableRow({ asset, chainIdActivated }: AssetCa
   const { currency } = query
   const { usdToCurrency } = useFiatUsdConversion()
   const { t } = useLocaleTranslation()
-
-  console.log(network.name)
 
   return (
     <CardContainer
@@ -59,13 +57,17 @@ const { CardContainer, ImageContainer, PriceContainer } = {
     width: 100%;
     padding: 12px 16px;
     gap: 0;
-    border-radius: ${({ theme }) => theme.size[8]};
-    background: ${({ theme }) => theme.colorV2.white};
-    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
+
     border: 1px solid transparent;
     transition:
       border 0.3s ease,
       color 0.3s ease;
+
+    border-bottom: 1px solid ${({ theme }) => theme.colorV2.background};
+    &:last-child {
+      border-bottom: none;
+      border-radius: 0 0 8px 8px;
+    }
 
     &:hover {
       border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
@@ -84,7 +86,6 @@ const { CardContainer, ImageContainer, PriceContainer } = {
     font-size: ${({ theme }) => theme.font.size[13]};
     font-weight: 500;
     border-radius: ${({ theme }) => theme.size[8]};
-    padding: ${({ theme }) => theme.size[4]} ${({ theme }) => theme.size[8]};
     white-space: nowrap;
 
     &.price {

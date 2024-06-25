@@ -12,7 +12,8 @@ import { useRouter } from 'next/router'
 
 export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const configAsset = assetsList.find(
-    supportedAsset => supportedAsset.type !== 'bitcoin' && supportedAsset.contractAddress.toLowerCase() === asset?.contractAddress.toLowerCase()
+    supportedAsset =>
+      supportedAsset.type !== 'bitcoin' && supportedAsset.contractAddress.toLowerCase() === asset?.contractAddress.toLowerCase()
   )
   const { query } = useRouter()
   const { currency } = query as { currency: string }

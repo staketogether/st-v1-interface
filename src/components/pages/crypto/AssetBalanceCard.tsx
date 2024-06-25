@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import AssetIcon from '../shared/AssetIcon'
+import AssetIcon from '../../shared/AssetIcon'
 
 import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import SkeletonLoading from '../../shared/icons/SkeletonLoading'
 import { truncateDecimal } from '@/services/truncate'
-import Button from '../shared/Button'
+import Button from '../../shared/Button'
 import { PiTrendUp } from 'react-icons/pi'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useRouter } from 'next/router'
@@ -24,7 +24,9 @@ export default function AssetBalanceCard({ asset, chainId, userTokenBalance, use
   const { t } = useLocaleTranslation()
   const { query, push } = useRouter()
   const { currency } = query as { currency: string }
-  const isPossibleToInvest = stakingList.find(staking => staking.asset.id === asset?.networks.find(network => network.chainId === chainId)?.contractAddress)
+  const isPossibleToInvest = stakingList.find(
+    staking => staking.asset.id === asset?.networks.find(network => network.chainId === chainId)?.contractAddress
+  )
 
   return (
     <Container>
@@ -32,7 +34,11 @@ export default function AssetBalanceCard({ asset, chainId, userTokenBalance, use
         <span>{t('balance')}</span>
         <ContainerImage>
           <AssetIcon image={asset?.imageUrl} size={24} altName={asset?.name} chain={chainId} />
-          {userTokenIsLoading ? <SkeletonLoading width={80} height={18} /> : <span>{truncateDecimal(userTokenBalance.balance, asset?.decimals)}</span>}
+          {userTokenIsLoading ? (
+            <SkeletonLoading width={80} height={18} />
+          ) : (
+            <span>{truncateDecimal(userTokenBalance.balance, asset?.decimals)}</span>
+          )}
         </ContainerImage>
       </header>
       {isPossibleToInvest && (
