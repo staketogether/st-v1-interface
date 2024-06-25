@@ -47,9 +47,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
 
-  const assetId = foundProduct.asset.type === 'bitcoin' ? foundProduct.asset.symbol : foundProduct.asset.contractAddress
-
-  const assetData = await fetchProductAssetData(`assets/${chainId}/${assetId}`)
+  const assetData = await fetchProductAssetData(`assets/${chainId}/${foundProduct.asset.contractAddress}`)
 
   if (!assetData) {
     return {

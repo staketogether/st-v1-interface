@@ -23,7 +23,7 @@ export default function AnalyticsValidatorRow({ validator, index }: AnalyticsVal
   const { priceConvertedValue: validatorBalanceUsdPriceFormatted } = useCoinConversion(
     validatorBalance,
     asset.chains[0],
-    asset.type === 'bitcoin' ? 'btc' : asset.contractAddress
+    asset.contractAddress
   )
 
   return (

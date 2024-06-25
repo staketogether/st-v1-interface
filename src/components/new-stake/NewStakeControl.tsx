@@ -56,8 +56,6 @@ export default function NewStakeControl({ staking, type, assetData, chainId }: N
   const { currency } = query
   const updateStpBalance = useReactiveVar(updateStpBalanceVar)
 
-  const stakingAssetId = staking.asset.type === 'bitcoin' ? staking.asset.symbol : staking.asset.contractAddress
-
   const { chain: walletChainId, connector, address } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
@@ -118,7 +116,7 @@ export default function NewStakeControl({ staking, type, assetData, chainId }: N
           <ContainerPrice>
             <div>
               <span>{staking.symbol}</span>
-              <TokensShowValuePrice chainId={chainId} contractAddress={stakingAssetId} />
+              <TokensShowValuePrice chainId={chainId} contractAddress={staking.asset.contractAddress} />
             </div>
             <Available>
               <span>{t('v2.ethereumStaking.networkAvailable')}</span>

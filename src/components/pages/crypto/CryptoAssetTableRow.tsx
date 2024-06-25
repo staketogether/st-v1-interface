@@ -21,7 +21,6 @@ export default function CryptoAssetTableRow({ asset, chainIdActivated }: AssetCa
   const { currency } = query
   const { usdToCurrency } = useFiatUsdConversion()
   const { t } = useLocaleTranslation()
-
   return (
     <CardContainer
       href={{
@@ -29,7 +28,7 @@ export default function CryptoAssetTableRow({ asset, chainIdActivated }: AssetCa
         query: {
           currency,
           network: network.name.toLowerCase(),
-          product: contractAddress?.replaceAll(' ', '').trim()
+          product: contractAddress
         }
       }}
     >

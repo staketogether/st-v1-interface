@@ -39,7 +39,7 @@ export default function StakingCard({ staking }: StakingCardProps) {
         {!staking.enabled && <Soon>{t('soon')}</Soon>}
       </ImageContainer>
       <PriceContainer>
-        <AssetPrice chainId={staking.asset.chains[0]} contractAddress={staking.asset.type === 'bitcoin' ? 'btc' : staking.asset.contractAddress} />
+        <AssetPrice chainId={staking.asset.chains[0]} contractAddress={staking.asset.contractAddress} />
         {staking?.apy && (
           <Apy>
             <span className='label'>APY</span>

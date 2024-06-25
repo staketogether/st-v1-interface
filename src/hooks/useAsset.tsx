@@ -1,7 +1,7 @@
 import { globalConfig } from '@/config/global'
-import { Asset } from '@/types/Asset'
 import axios from 'axios'
 import useSWR from 'swr'
+import { Asset } from '@/types/Asset'
 
 interface UseGetAssetStatsProps {
   chainId?: number

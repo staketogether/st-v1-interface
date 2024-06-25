@@ -12,7 +12,6 @@ import { Asset } from '@/types/Asset'
 
 interface PriceChartProps {
   asset?: Asset
-  assetId: string
   chainId: number
 }
 
@@ -20,8 +19,7 @@ const { useBreakpoint } = Grid
 
 type PriceChartFilter = '1W' | '1M' | '3M' | '1Y'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function PriceChart({ asset, assetId, chainId }: PriceChartProps) {
+export default function PriceChart({ asset, chainId }: PriceChartProps) {
   const [activeFilter, setActiveFilter] = useState<PriceChartFilter>('1M')
   const [chartData, setChartData] = useState<{ timestamp: string; price: number }[]>([])
 
@@ -50,7 +48,7 @@ export default function PriceChart({ asset, assetId, chainId }: PriceChartProps)
 
   const { assetStats, isLoading } = useAssetChart({
     chainId,
-    contractAddress: assetId,
+    contractAddress: asset?.networks.find(network => network.chainId === chainId)?.contractAddress,
     currency: 'usd',
     days: handleFilter().day,
     interval: handleFilter().interval,

@@ -1,7 +1,6 @@
 import { chainConfigByChainId } from '@/config/chain'
 import useBalanceOf from '@/hooks/contracts/useBalanceOf'
 import { clearRampVars } from '@/hooks/ramp/useRampControlModal'
-import useAsset from '@/hooks/useAsset'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { capitalize } from '@/services/truncate'
@@ -20,6 +19,7 @@ import LottieAnimation from '../shared/LottieAnimation'
 import NetworkIcons from '../shared/NetworkIcons'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import AssetsProductInfo from './AssetsProductInfo'
+import useAsset from '@/hooks/useAsset'
 
 interface AssetsControlProps {
   assetId: string
@@ -60,7 +60,6 @@ export default function AssetsControl({ assetId, chainId, type }: AssetsControlP
   const { currency } = query
   const { chain: walletChainId, connector, address } = useAccount()
   const { asset } = useAsset({ chainId, assetId })
-  console.log(asset)
 
   useEffect(() => {
     if (address) {
@@ -127,7 +126,7 @@ export default function AssetsControl({ assetId, chainId, type }: AssetsControlP
           <div>
             <div>
               <span>{asset?.symbol.toLocaleUpperCase()}</span>
-              <AssetPrice chainId={chainId} contractAddress={assetId} />
+              <AssetPrice chainId={chainId} contractAddress={asset?.networks.find(network => network.chainId === chainId)?.contractAddress} />
             </div>
             <AvailableNetwork>
               <span>{t('v2.ethereumStaking.networkAvailable')}</span>
@@ -139,7 +138,7 @@ export default function AssetsControl({ assetId, chainId, type }: AssetsControlP
       </header>
 
       <div>
-        <AssetsProductInfo asset={asset} assetId={assetId} chainId={chainId} />
+        <AssetsProductInfo asset={asset} chainId={chainId}/>
         <ActionContainer>
           <ActionContainerControlCard>
             <AssetsActionsControl

@@ -723,7 +723,6 @@
       "bitcoin": "Bitcoin Staking",
       "chiliz": "Chiliz Staking",
       "btc-op": "Bitcoin",
-      "btc-btc": "Bitcoin",
       "eth-mainnet": "Ethereum",
       "eth-op": "Ethereum",
       "eth-arb": "Ethereum",
@@ -967,9 +966,6 @@
         "name": "Ethereum"
       },
       "btc-op": {
-        "name": "Bitcoin"
-      },
-      "btc-btc": {
         "name": "Bitcoin"
       },
       "chz-staking": {

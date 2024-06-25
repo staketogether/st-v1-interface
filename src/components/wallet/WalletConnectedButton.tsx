@@ -1,14 +1,26 @@
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useEns from '@/hooks/useEns'
+import Image from 'next/image'
 import styled from 'styled-components'
+import { useAccount } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
+import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import WalletName from './WalletName'
 
-interface WalletBitcoinConnectedButtonProps {
-  address: string
+interface WalletConnectedButtonProps {
+  address: `0x${string}`
 }
 
-export default function WalletBitcoinConnectedButton({ address }: WalletBitcoinConnectedButtonProps) {
+export default function WalletConnectedButton({ address }: WalletConnectedButtonProps) {
   const { setOpenSidebar } = useWalletSidebar()
+  const { t } = useLocaleTranslation()
+
+  const { chain: walletChainId } = useAccount()
+
+  const { web3AuthUserInfo } = useConnectedAccount()
+  const { name: ensName, nameLoading: ensLoading, avatar, avatarLoading } = useEns(address, walletChainId?.id ?? mainnet.id)
 
   const handleActionButton = () => {
     setOpenSidebar(true)
@@ -17,14 +29,18 @@ export default function WalletBitcoinConnectedButton({ address }: WalletBitcoinC
   return (
     <ConnectedButton onClick={handleActionButton}>
       <EnsAddress>
-        <WalletName walletAddress={address} />
-        <EnsAvatar address={address} size={24} />
+        <WalletName walletAddress={address} web3AuthUserInfo={web3AuthUserInfo} ensName={ensName} ensLoading={ensLoading} />
+        {web3AuthUserInfo?.profileImage ? (
+          <Web3AuthProfileImage src={web3AuthUserInfo.profileImage} alt={t('stakeTogether')} width={24} height={24} />
+        ) : (
+          <EnsAvatar address={address} size={24} avatarLoading={avatarLoading} avatar={avatar} />
+        )}
       </EnsAddress>
     </ConnectedButton>
   )
 }
 
-const { ConnectedButton, EnsAddress } = {
+const { ConnectedButton, EnsAddress, Web3AuthProfileImage } = {
   ConnectedButton: styled.button`
     display: flex;
     gap: ${({ theme }) => theme.size[16]};
@@ -58,5 +74,8 @@ const { ConnectedButton, EnsAddress } = {
     grid-template-columns: auto 24px;
     align-items: center;
     gap: 8px;
+  `,
+  Web3AuthProfileImage: styled(Image)`
+    border-radius: 50%;
   `
 }

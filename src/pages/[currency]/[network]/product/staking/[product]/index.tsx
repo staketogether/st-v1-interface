@@ -62,7 +62,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   const chainId = handleChainIdByNetwork(network)
 
-  if (!productSelected || !chainId || productSelected.asset.type === 'bitcoin') {
+  if (!productSelected || !chainId) {
     return {
       notFound: true
     }

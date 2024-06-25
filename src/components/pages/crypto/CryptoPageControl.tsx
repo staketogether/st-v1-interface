@@ -62,7 +62,6 @@ export default function CryptoPageControl() {
   }
 
   const networks = [
-    { network: 'Bitcoin', chainId: 500 },
     { network: 'Optimism', chainId: 10 },
     { network: 'Ethereum', chainId: 1 },
     { network: 'Chiliz', chainId: 88888 },

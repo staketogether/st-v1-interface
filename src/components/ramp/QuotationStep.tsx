@@ -6,13 +6,11 @@ import { RampSteps, amountToQuoteVar, quoteVar, rampStepControlVar } from '@/hoo
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
-import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import brlBrla from '@assets/icons/brl-brla.svg'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { PiArrowRight } from 'react-icons/pi'
 import styled from 'styled-components'
@@ -20,6 +18,8 @@ import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
 import AssetNetworkSwitch, { Network } from '../assets/AssetsNetworkSwitch'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import { Asset } from '@/types/Asset'
+import { useRouter } from 'next/router'
 
 interface QuotationStepProps {
   asset?: Asset
@@ -29,7 +29,7 @@ interface QuotationStepProps {
 export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
   const router = useRouter()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  console.log('asset?.networks.find(network => network.chainId === chainId', asset?.networks.find(n => n.chainId === chainId))
+  const [currentNetwork, setCurrentNetwork] = useState<Network | undefined>(asset?.networks.find(network => network.chainId === chainId) ?? undefined)
   const amountToQuote = useReactiveVar(amountToQuoteVar)
   const [value, setValue] = useState<string>(amountToQuote ?? '0')
   const debounceValue = useDebounce(value, 300)
@@ -120,9 +120,8 @@ export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
   })
 
   const onNetworkChange = useCallback((network: Network) => {
-
+    setCurrentNetwork(network)
     router.query.network = network.name.toLowerCase()
-    router.query.product = network.contractAddress
     router.push(router)
   }, [router])
 
@@ -186,7 +185,7 @@ export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
 
           </div>
         </InputContainer>
-        <AssetNetworkSwitch chainId={chainId} networks={asset?.networks ?? []} title='Rede de recebimento' onChange={onNetworkChange} />
+        <AssetNetworkSwitch selected={currentNetwork} networks={asset?.networks ?? []} title='Rede de recebimento' onChange={onNetworkChange} />
       </BoxValuesContainer>
       <Button
         onClick={handleNext}
