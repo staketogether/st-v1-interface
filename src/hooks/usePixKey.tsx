@@ -26,7 +26,7 @@ export default function useUserPixKey(id: number | null): UseUserPixKeyReturn {
 
   return {
     pixKey: data,
-    isLoading: !error && !data,
-    isError: error || null,
+    isLoading: !error ?? !data,
+    isError: error ?? null,
   };
 }
