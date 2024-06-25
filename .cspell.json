@@ -90,6 +90,7 @@
     "wagmi",
     "worldcoin",
     "youtu",
-    "zksync"
+    "zksync",
+    "pixkeys"
   ]
 }
