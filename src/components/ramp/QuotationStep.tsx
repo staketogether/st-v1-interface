@@ -18,7 +18,7 @@ import { PiArrowRight } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
-import AssetNetworkSwitch, { Network } from '../assets/AssetsNetworkSwitch'
+import AssetNetworkSwitch, { Network } from '../pages/assets/AssetsNetworkSwitch'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface QuotationStepProps {
@@ -29,7 +29,10 @@ interface QuotationStepProps {
 export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
   const router = useRouter()
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  console.log('asset?.networks.find(network => network.chainId === chainId', asset?.networks.find(n => n.chainId === chainId))
+  console.log(
+    'asset?.networks.find(network => network.chainId === chainId',
+    asset?.networks.find(n => n.chainId === chainId)
+  )
   const amountToQuote = useReactiveVar(amountToQuoteVar)
   const [value, setValue] = useState<string>(amountToQuote ?? '0')
   const debounceValue = useDebounce(value, 300)
@@ -113,18 +116,24 @@ export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
     })
   }, [quote])
 
-  useFacebookPixel(`onramp-quotation:${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`, quote?.amountToken !== undefined, {
-    amountFiat: Number(debounceValue),
-    amountToken: String(quote?.amountToken),
-    assetId: `${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`
-  })
+  useFacebookPixel(
+    `onramp-quotation:${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`,
+    quote?.amountToken !== undefined,
+    {
+      amountFiat: Number(debounceValue),
+      amountToken: String(quote?.amountToken),
+      assetId: `${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`
+    }
+  )
 
-  const onNetworkChange = useCallback((network: Network) => {
-
-    router.query.network = network.name.toLowerCase()
-    router.query.product = network.contractAddress
-    router.push(router)
-  }, [router])
+  const onNetworkChange = useCallback(
+    (network: Network) => {
+      router.query.network = network.name.toLowerCase()
+      router.query.product = network.contractAddress
+      router.push(router)
+    },
+    [router]
+  )
 
   return (
     <Container>
@@ -180,10 +189,7 @@ export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
             {!quoteIsValidating && !asset?.isFanToken && (
               <Input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder='0' />
             )}
-            {!quoteIsValidating && asset?.isFanToken && (
-              <Input value={truncateDecimal(quote?.amountBrl ?? '0')} disabled placeholder='0' />
-            )}
-
+            {!quoteIsValidating && asset?.isFanToken && <Input value={truncateDecimal(quote?.amountBrl ?? '0')} disabled placeholder='0' />}
           </div>
         </InputContainer>
         <AssetNetworkSwitch chainId={chainId} networks={asset?.networks ?? []} title='Rede de recebimento' onChange={onNetworkChange} />
@@ -255,8 +261,8 @@ const { Container, InputContainer, BoxValuesContainer, Input } = {
       background: ${({ theme }) => theme.colorV2.white};
 
       ${({ disabled, theme }) =>
-      disabled &&
-      `
+        disabled &&
+        `
             background: ${theme.colorV2.gray[2]};
             box-shadow: ${theme.shadow[100]};
             border: 1px solid transparent;

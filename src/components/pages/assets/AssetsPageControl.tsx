@@ -15,10 +15,10 @@ import { useEffect, useState } from 'react'
 import { PiArrowLeft, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useAccount, useSwitchChain } from 'wagmi'
-import AssetIcon from '../shared/AssetIcon'
-import LottieAnimation from '../shared/LottieAnimation'
-import NetworkIcons from '../shared/NetworkIcons'
-import SkeletonLoading from '../shared/icons/SkeletonLoading'
+import AssetIcon from '../../shared/AssetIcon'
+import LottieAnimation from '../../shared/LottieAnimation'
+import NetworkIcons from '../../shared/NetworkIcons'
+import SkeletonLoading from '../../shared/icons/SkeletonLoading'
 import AssetsProductInfo from './AssetsProductInfo'
 
 interface AssetsControlProps {
@@ -27,7 +27,7 @@ interface AssetsControlProps {
   type: AssetActionType
 }
 
-const AssetBalanceCard = dynamic(() => import('../pages/crypto/AssetBalanceCard'), {
+const AssetBalanceCard = dynamic(() => import('../crypto/AssetBalanceCard'), {
   ssr: false,
   loading: () => (
     <LoadingContainer>
@@ -37,7 +37,7 @@ const AssetBalanceCard = dynamic(() => import('../pages/crypto/AssetBalanceCard'
   suspense: true
 })
 
-const AssetPrice = dynamic(() => import('../shared/AssetPrice'), {
+const AssetPrice = dynamic(() => import('../../shared/AssetPrice'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} />,
   suspense: true
@@ -53,14 +53,13 @@ const AssetsActionsControl = dynamic(() => import('./AssetsActionsControl'), {
   suspense: true
 })
 
-export default function AssetsControl({ assetId, chainId, type }: AssetsControlProps) {
+export default function AssetsPageControl({ assetId, chainId, type }: AssetsControlProps) {
   const [userWalletAddress, setUserWalletAddress] = useState<`0x${string}` | undefined>(undefined)
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
   const { currency } = query
   const { chain: walletChainId, connector, address } = useAccount()
   const { asset } = useAsset({ chainId, assetId })
-  console.log(asset)
 
   useEffect(() => {
     if (address) {

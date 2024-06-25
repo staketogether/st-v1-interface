@@ -7,9 +7,9 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
-import AssetIcon from '../shared/AssetIcon'
-import NetworkIcons from '../shared/NetworkIcons'
-import PriceChart from '../shared/PriceChart'
+import AssetIcon from '../../shared/AssetIcon'
+import NetworkIcons from '../../shared/NetworkIcons'
+import PriceChart from '../../shared/PriceChart'
 import { Asset } from '@/types/Asset'
 
 interface AssetsProductInfoProps {
@@ -18,7 +18,7 @@ interface AssetsProductInfoProps {
   chainId: number
 }
 
-const AssetPrice = dynamic(() => import('../shared/AssetPrice'), {
+const AssetPrice = dynamic(() => import('../../shared/AssetPrice'), {
   ssr: false,
   loading: () => <SkeletonLoading width={80} />,
   suspense: true
@@ -78,11 +78,11 @@ export default function AssetsProductInfo({ asset, assetId, chainId }: AssetsPro
           </SymbolContainer>
         </HeaderDescribeInfo>
       </header>
-      <PriceChart asset={asset} assetId={assetId} chainId={chainId}/>
+      <PriceChart asset={asset} assetId={assetId} chainId={chainId} />
       <AssetsStatistic asset={asset} />
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.description')}</h2>
-        <span>{asset?.description[locale as 'en' | 'pt' ?? 'en']}</span>
+        <span>{asset?.description[(locale as 'en' | 'pt') ?? 'en']}</span>
       </ProductBodyContainer>
     </ProductContainer>
   )
