@@ -1,11 +1,11 @@
-import userKyc from '@/hooks/useKyc';
+import userProfile from '@/hooks/useProfileSearch';
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import userPixKey from '@/hooks/usePixKey';
-import userProfile from '@/hooks/useProfile';
+import userProfileWallet from '@/hooks/useProfile';
 import userWalletAddress from '@/hooks/useWalletAddress';
 import { FiTrash2 } from 'react-icons/fi'
 import styled from 'styled-components'
-import { cpfMask, phoneMask } from '../shared/input-helper/mask'
+import { cnpjMask, cpfMask, phoneMask } from '../shared/input-helper/mask'
 import { truncateAddress } from '@/services/truncate';
 import { useEffect, useState } from 'react';
 import { PiArrowLeft } from 'react-icons/pi';
@@ -25,10 +25,10 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
   const [formatWalletAddress, setFormatWalletAddress] = useState<string[] | undefined>([])
 
   const [notifyModal, setNotifyModal] = useState(false)
-  const { profile } = userProfile(walletAddress)
-  const { kyc } = userKyc(profile ? profile.id : 0)
-  const { pixKey } = userPixKey(profile ? profile.id : 0)
-  const { wallets } = userWalletAddress(profile ? profile.id : 0)
+  const { profileWallet } = userProfileWallet("0xae5462E47577bcde3663F2A748fE8019372Fe1C7")
+  const { profileData } = userProfile(profileWallet ? profileWallet.id : 0)
+  const { pixKey } = userPixKey(profileWallet ? profileWallet.id : 0)
+  const { wallets } = userWalletAddress(profileWallet ? profileWallet.id : 0)
 
   const { t } = useLocaleTranslation()
   const optimism = chainConfigByChainId(10)
@@ -48,11 +48,11 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
   useEffect(() => {
     if (pixKey && pixKey.length > 0) {
       const maskedKeys = pixKey.map(pix => {
-        switch (pix.type) {
-          case 'cpfCnpj':
+        switch (pix.pixKey.length) {
+          case 11:
             return cpfMask(pix.pixKey);
-          case 'phone_number':
-            return phoneMask(pix.pixKey);
+          case 14:
+            return cnpjMask(pix.pixKey);
           default:
             return pix.pixKey;
         }
@@ -72,7 +72,7 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
           <CloseIcon />
         </ButtonDrawer>
       </HeaderDrawer>
-      {profile && (
+      {profileWallet && (
         <Container>
           <Section>
             <Header>
@@ -81,11 +81,11 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
             </Header>
             <WrapperInfo>
               <span>{t('editAccount.userName')}</span>
-              <Span>{kyc?.fullName}</Span>
+              <Span>{profileData?.kyc.fullName}</Span>
             </WrapperInfo>
             <WrapperInfo>
               <span>{t('editAccount.email')}</span>
-              <Span>{kyc?.email}</Span>
+              <Span>{profileData?.email}</Span>
             </WrapperInfo>
           </Section>
           <Section>
@@ -100,11 +100,11 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
               </WrapperInfo>
               <WrapperInfo>
                 <span>{t('editAccount.purchaseLimit')}:</span>
-                <span>R$ {formatNumberByLocale("0", 'pt-BR')}</span>
+                <span>R$ {formatNumberByLocale("0", "pt-BR")}</span>
               </WrapperInfo>
               <WrapperInfo>
                 <span>{t('editAccount.limitUsed')}:</span>
-                <span>R$ {formatNumberByLocale("0", 'pt-BR')}</span>
+                <span>R$ {formatNumberByLocale("0", "pt-BR")}</span>
               </WrapperInfo>
             </KYCard>
           </Section>
@@ -113,15 +113,15 @@ export default function WalletSidebarEditAccount({ setWalletSidebar: setIsWallet
               <h3>{t('editAccount.pixKey')}</h3>
               <Button disabled>{t('soon')}</Button>
             </Header>
-            {maskedPixKeys?.map((pix) => (
-              <Wrapper>
+            <Wrapper>
+              {maskedPixKeys?.map((pix) => (
                 <WrapperInfo>
-                  <span >{t('editAccount.pixKey')}</span>
+                  <span>{t('editAccount.pixKey')}</span>
                   <span>{pix}</span>
                 </WrapperInfo>
-                <FiTrash2 size={24} />
-              </Wrapper>
-            ))}
+              ))}
+              <FiTrash2 size={24} />
+            </Wrapper>
           </Section>
           <Section>
             <Header>
@@ -196,12 +196,20 @@ export const { Container, Section, HeaderDrawer, Header, WrapperInfo, KYCard, Wr
   Container: styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.size[24]};
+  gap: ${({ theme }) => theme.size[16]};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    gap: ${({ theme }) => theme.size[24]};
+  } 
 `,
   Section: styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.size[12]};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
+    gap: ${({ theme }) => theme.size[24]};
+  }
 
   h3 {
     font-size: ${({ theme }) => theme.font.size[15]};
