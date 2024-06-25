@@ -20,18 +20,22 @@ interface UserKyc {
 interface UseUserProfileReturn {
   profileData: UserKyc | undefined;
   isLoading: boolean;
-  isError: any;
+  isError: Error | null;
 }
 
 export default function useUserProfile(id: number): UseUserProfileReturn {
   const { backendUrl } = globalConfig;
-  const fetcher = (uri: string) => axios.get<UserKyc>(`${backendUrl}/${uri}`).then((res) => res.data);
+
+  const fetcher = async (uri: string): Promise<UserKyc> => {
+    const response = await axios.get<UserKyc>(`${backendUrl}/${uri}`);
+    return response.data;
+  };
 
   const { data, error } = useSWR<UserKyc>(id ? `/api/user-profile/profile/${id}` : null, fetcher);
 
   return {
     profileData: data,
-    isLoading: !error && !data,
-    isError: error,
+    isLoading: !error ?? !data,
+    isError: error ?? null,
   };
 }
