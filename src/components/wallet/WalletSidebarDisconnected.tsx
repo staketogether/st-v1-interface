@@ -39,6 +39,7 @@ export default function WalletSidebarDisconnected() {
             </Actions>
           </HeaderContainer>
           <ConnectWallet />
+        </>
       )}
     </DrawerContainer>
   )
