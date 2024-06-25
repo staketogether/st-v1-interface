@@ -31,9 +31,10 @@ export default function AssetsActionsControl({
 }: AssetsActionsControlProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
-  const { currency } = query as { currency: string }
+  const { currency, network, product } = query as { currency: string; network: string; product: string }
   const config = chainConfigByChainId(chainId)
-  const assetUrlBase = `${currency}/${config.name.toLowerCase()}/product/assets/${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`
+
+  const assetUrlBase = `/${currency}/${network}/product/assets/${product}`
 
   const isActionsDisabled = config.type === 'bitcoin'
 

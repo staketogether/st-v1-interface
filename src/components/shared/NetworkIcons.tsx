@@ -21,6 +21,7 @@ export default function NetworkIcons({ network, size, enabled = true, showToolti
   const networkIcons = {
     ethereum: ethereumIcon,
     optimism: optimismIcon,
+    optimistic: optimismIcon,
     ['optimism-sepolia']: optimismIcon,
     chiliz: chilizIcon,
     spicy: chilizIcon,

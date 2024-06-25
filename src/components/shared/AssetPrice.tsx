@@ -10,13 +10,12 @@ interface AssetPriceProps {
 }
 
 export default function AssetPrice({ contractAddress, chainId, className, showChangePercentage = false }: AssetPriceProps) {
-  console.log('contractAddress', contractAddress, 'chainId', chainId)
   const { priceConvertedValue, loading, priceChangePercentage24h } = useCoinConversion('1', chainId, contractAddress)
   const signalPercentChange24h = priceChangePercentage24h && priceChangePercentage24h > 0 ? '+' : ''
   return loading ? (
     <ContainerLoading>
       {showChangePercentage && <SkeletonLoading width={80} height={24} />}
-      <SkeletonLoading width={80} height={24} />
+      <SkeletonLoading width={120} height={22} />
     </ContainerLoading>
   ) : (
     <>

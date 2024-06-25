@@ -20,8 +20,7 @@ const { useBreakpoint } = Grid
 
 type PriceChartFilter = '1W' | '1M' | '3M' | '1Y'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function PriceChart({ asset, assetId, chainId }: PriceChartProps) {
+export default function PriceChart({ assetId, chainId }: PriceChartProps) {
   const [activeFilter, setActiveFilter] = useState<PriceChartFilter>('1M')
   const [chartData, setChartData] = useState<{ timestamp: string; price: number }[]>([])
 
@@ -78,7 +77,7 @@ export default function PriceChart({ asset, assetId, chainId }: PriceChartProps)
       <Container>
         {isLoading ? (
           <LoadingChart>
-            <LottieAnimation animationData={loadingAnimation} height={48} loop />
+            <LottieAnimation animationData={loadingAnimation} height={58} width={58} loop />
           </LoadingChart>
         ) : (
           <FormattedResponsiveContainer width='100%' minWidth={350} height={287}>
@@ -135,7 +134,7 @@ const { Container, LoadingChart, FilterChartData, FormattedResponsiveContainer }
   `,
   LoadingChart: styled.div`
     width: 100%;
-    height: 287px;
+    min-height: 287px;
     display: flex;
     align-items: center;
     justify-content: center;

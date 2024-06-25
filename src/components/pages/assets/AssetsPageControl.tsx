@@ -1,10 +1,8 @@
-import { chainConfigByChainId } from '@/config/chain'
 import useBalanceOf from '@/hooks/contracts/useBalanceOf'
 import { clearRampVars } from '@/hooks/ramp/useRampControlModal'
 import useAsset from '@/hooks/useAsset'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { capitalize } from '@/services/truncate'
 import { AssetActionType } from '@/types/AssetActionType'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import { notification } from 'antd'
@@ -20,6 +18,8 @@ import LottieAnimation from '../../shared/LottieAnimation'
 import NetworkIcons from '../../shared/NetworkIcons'
 import SkeletonLoading from '../../shared/icons/SkeletonLoading'
 import AssetsProductInfo from './AssetsProductInfo'
+import AssetPrice from '@/components/shared/AssetPrice'
+import AssetBalanceCard from '../crypto/AssetBalanceCard'
 
 interface AssetsControlProps {
   assetId: string
@@ -27,27 +27,11 @@ interface AssetsControlProps {
   type: AssetActionType
 }
 
-const AssetBalanceCard = dynamic(() => import('../crypto/AssetBalanceCard'), {
-  ssr: false,
-  loading: () => (
-    <LoadingContainer>
-      <LottieAnimation animationData={loadingAnimation} height={20} loop />
-    </LoadingContainer>
-  ),
-  suspense: true
-})
-
-const AssetPrice = dynamic(() => import('../../shared/AssetPrice'), {
-  ssr: false,
-  loading: () => <SkeletonLoading width={80} />,
-  suspense: true
-})
-
 const AssetsActionsControl = dynamic(() => import('./AssetsActionsControl'), {
   ssr: false,
   loading: () => (
     <LoadingContainer>
-      <LottieAnimation animationData={loadingAnimation} height={20} loop />
+      <LottieAnimation animationData={loadingAnimation} height={58} width={58} loop />
     </LoadingContainer>
   ),
   suspense: true
@@ -59,7 +43,9 @@ export default function AssetsPageControl({ assetId, chainId, type }: AssetsCont
   const { query } = useRouter()
   const { currency } = query
   const { chain: walletChainId, connector, address } = useAccount()
-  const { asset } = useAsset({ chainId, assetId })
+  const { asset, isLoading: assetIsLoading } = useAsset({ chainId, assetId })
+
+  const { networks } = asset ?? { networks: [] }
 
   useEffect(() => {
     if (address) {
@@ -69,7 +55,6 @@ export default function AssetsPageControl({ assetId, chainId, type }: AssetsCont
 
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
-  const config = chainConfigByChainId(chainId)
 
   const {
     tokenBalance: userTokenBalance,
@@ -116,8 +101,14 @@ export default function AssetsPageControl({ assetId, chainId, type }: AssetsCont
         </HeaderBackAction>
         <HeaderProductMobile>
           <div>
-            <AssetIcon image={asset?.imageUrl} size={36} altName={asset?.name} chain={chainId} />
-            <span>{asset?.name}</span>
+            {assetIsLoading ? (
+              <SkeletonLoading width={160} height={36} />
+            ) : (
+              <>
+                <AssetIcon image={asset?.imageUrl} size={36} altName={asset?.name} chain={chainId} />
+                <span>{asset?.name}</span>
+              </>
+            )}
             <ShareButton onClick={copyToClipboard}>
               <PiShareNetwork />
               <span>{t('share')}</span>
@@ -130,15 +121,22 @@ export default function AssetsPageControl({ assetId, chainId, type }: AssetsCont
             </div>
             <AvailableNetwork>
               <span>{t('v2.ethereumStaking.networkAvailable')}</span>
-              <NetworkIcons network={config.name.toLowerCase()} size={16} />
-              <span>{capitalize(config.name.toLowerCase().replaceAll('-', ' '))}</span>
+              {assetIsLoading ? (
+                <SkeletonLoading width={120} height={16} />
+              ) : (
+                <NetworksIconsContainer>
+                  {networks.map(network => (
+                    <NetworkIcons network={network.name.toLocaleLowerCase()} size={16} key={network.chainId} />
+                  ))}
+                </NetworksIconsContainer>
+              )}
             </AvailableNetwork>
           </div>
         </HeaderProductMobile>
       </header>
 
       <div>
-        <AssetsProductInfo asset={asset} assetId={assetId} chainId={chainId} />
+        <AssetsProductInfo asset={asset} assetId={assetId} chainId={chainId} assetIsLoading={assetIsLoading} />
         <ActionContainer>
           <ActionContainerControlCard>
             <AssetsActionsControl
@@ -157,6 +155,7 @@ export default function AssetsPageControl({ assetId, chainId, type }: AssetsCont
               asset={asset}
               chainId={chainId}
               userWalletAddress={userWalletAddress}
+              assetIsLoading={assetIsLoading}
             />
           )}
         </ActionContainer>
@@ -172,6 +171,7 @@ const {
   ActionContainer,
   HeaderBackAction,
   HeaderProductMobile,
+  NetworksIconsContainer,
   ShareButton,
   AvailableNetwork
 } = {
@@ -207,14 +207,19 @@ const {
       gap: ${({ theme }) => theme.size[12]};
     }
   `,
+  NetworksIconsContainer: styled.div`
+    img + img {
+      margin-left: -3px;
+    }
+  `,
   LoadingContainer: styled.div`
     width: 100%;
-    min-height: 453px;
+    min-height: 375px;
 
     display: grid;
     place-items: center;
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      min-height: 524px;
+      min-height: 459px;
     }
   `,
   HeaderProductMobile: styled.div`
