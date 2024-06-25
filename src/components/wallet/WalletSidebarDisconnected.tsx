@@ -11,7 +11,6 @@ export default function WalletSidebarDisconnected() {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const { t } = useLocaleTranslation()
   const { openSidebarConnectWallet, setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
-  const isSimplified = !!process.env.NEXT_PUBLIC_SIMPLIFIED
 
   return (
     <DrawerContainer
