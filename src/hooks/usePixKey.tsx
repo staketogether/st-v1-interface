@@ -10,19 +10,23 @@ interface UserPixKey {
 interface UseUserPixKeyReturn {
   pixKey: UserPixKey[] | undefined;
   isLoading: boolean;
-  isError: any;
+  isError: Error | null;
 }
 
 export default function useUserPixKey(id: number | null): UseUserPixKeyReturn {
   const { backendUrl } = globalConfig;
-  const fetcher = (url: string) => axios.get<UserPixKey[]>(url).then((res) => res.data);
+
+  const fetcher = async (url: string): Promise<UserPixKey[]> => {
+    const response = await axios.get<UserPixKey[]>(url);
+    return response.data;
+  };
 
   const url = id ? `${backendUrl}/api/pixkeys/${id}` : null;
-  const { data, error } = useSWR<UserPixKey[]>(url, fetcher);
+  const { data, error } = useSWR<UserPixKey[], Error>(url, fetcher);
 
   return {
     pixKey: data,
     isLoading: !error && !data,
-    isError: error,
+    isError: error || null,
   };
 }
