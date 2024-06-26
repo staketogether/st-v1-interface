@@ -1,16 +1,16 @@
-import styled from "styled-components"
-import Modal from "./Modal"
+import styled from 'styled-components'
+import Modal from './Modal'
 import DefaultButton from '../shared/Button'
-import useLocaleTranslation from "@/hooks/useLocaleTranslation"
-import { useEffect, useState } from "react"
-import { PiArrowRight, PiEye } from "react-icons/pi"
-import { AiOutlineClose } from "react-icons/ai"
-import { useReactiveVar } from "@apollo/client"
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { useEffect, useState } from 'react'
+import { PiArrowRight, PiEye } from 'react-icons/pi'
+import { AiOutlineClose } from 'react-icons/ai'
+import { useReactiveVar } from '@apollo/client'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 
 interface walletExportProps {
-  notifyModal: boolean,
-  setNotifyModal: (value: boolean) => void,
+  notifyModal: boolean
+  setNotifyModal: (value: boolean) => void
   onClose: () => void
 }
 
@@ -65,7 +65,7 @@ export default function ModalExportWallet({ notifyModal, setNotifyModal, onClose
             icon={<AiOutlineClose />}
           />
         </PrivateKeyContainer>
-      ) :
+      ) : (
         <AlertMessageContainer>
           <div>
             <span className='bold'>{t('web3AuthWalletSettings.modal.description')}</span>
@@ -88,11 +88,10 @@ export default function ModalExportWallet({ notifyModal, setNotifyModal, onClose
             <DefaultButton onClick={onClose} label={t('cancel')} block icon={<AiOutlineClose />} />
           </footer>
         </AlertMessageContainer>
-      }
+      )}
     </Modal>
   )
 }
-
 
 const { AlertMessageContainer, PrivateKeyContainer, ShowPrivateKeyContainer } = {
   AlertMessageContainer: styled.div`
@@ -163,5 +162,5 @@ const { AlertMessageContainer, PrivateKeyContainer, ShowPrivateKeyContainer } = 
     > div {
       position: absolute;
     }
-  `,
+  `
 }
