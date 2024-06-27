@@ -20,7 +20,6 @@ import Withdrawals from '../shared/Withdrawals'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletSidebarSettings from './WalletSidebarSettings'
-import WalletSidebarWeb3AuthWalletSettings from './WalletSidebarWeb3AuthSettings'
 import useAccountAssets from '@/hooks/subgraphs/useAccountAssets'
 import useAccountAssetsUsdBalance from '@/hooks/subgraphs/useAccountAssetsUsdBalance'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
@@ -41,7 +40,6 @@ type TabActivated = 'assets' | 'rewards' | 'historic' | 'delegations'
 export default function WalletSidebarEvmConnected({ address, walletChainId }: WalletSidebarEvmConnectedProps) {
   const [isSettingsActive, setIsSettingsActive] = useState(false)
   const [isPanelActive, setIsPanelActive] = useState(false)
-  const [isWeb3AuthSettingsActive, setIsWeb3AuthSettingsActive] = useState(false)
   const [isWalletSidebarEditAccountActive, setIsWalletSidebarEditAccountActive] = useState(false)
   const [tabActivated, setTabActivated] = useState<TabActivated>('assets')
 

@@ -48,6 +48,7 @@ export default function WalletSidebarEditAccount({
           case 14:
             return cnpjMask(pix.pixKey);
         }
+        break;
       case 'phone_number':
         return phoneMask(pix.pixKey);
       default:
