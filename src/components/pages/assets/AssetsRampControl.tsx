@@ -5,19 +5,19 @@ import { useReactiveVar } from '@apollo/client'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import { useAccount } from 'wagmi'
-import CheckoutStep from '../ramp/CheckoutStep'
-import GenericErrorComponent from '../ramp/GenericErrorComponent'
-import KycStep from '../ramp/KycStep'
-import PaymentMethod from '../ramp/PaymentMethod'
-import PixKeyStep from '../ramp/PixKeyStep'
-import ProcessingCheckoutOffRampStep from '../ramp/ProcessingCheckoutOffRampStep'
-import ProcessingCheckoutStep from '../ramp/ProcessingCheckoutStep'
-import ProcessingKycStep from '../ramp/ProcessingKycStep'
-import QuotationOffRampStep from '../ramp/QuotationOffRamp'
-import QuotationStep from '../ramp/QuotationStep'
-import SuccessStep from '../ramp/SuccessStep'
-import { TimeOutCheckout } from '../ramp/TimeOutCheckout'
-import ConnectWallet from '../shared/ConnectWallet'
+import CheckoutStep from '../../ramp/CheckoutStep'
+import GenericErrorComponent from '../../ramp/GenericErrorComponent'
+import KycStep from '../../ramp/KycStep'
+import PaymentMethod from '../../ramp/PaymentMethod'
+import PixKeyStep from '../../ramp/PixKeyStep'
+import ProcessingCheckoutOffRampStep from '../../ramp/ProcessingCheckoutOffRampStep'
+import ProcessingCheckoutStep from '../../ramp/ProcessingCheckoutStep'
+import ProcessingKycStep from '../../ramp/ProcessingKycStep'
+import QuotationOffRampStep from '../../ramp/QuotationOffRamp'
+import QuotationStep from '../../ramp/QuotationStep'
+import SuccessStep from '../../ramp/SuccessStep'
+import { TimeOutCheckout } from '../../ramp/TimeOutCheckout'
+import ConnectWallet from '../../shared/ConnectWallet'
 import { Asset } from '@/types/Asset'
 
 interface AssetsRampControlProps {
@@ -29,7 +29,14 @@ interface AssetsRampControlProps {
   userTokenRefetch: () => void
 }
 
-export default function AssetsRampControl({ asset, chainId, type, userTokenBalance, userTokenIsLoading, userTokenRefetch }: AssetsRampControlProps) {
+export default function AssetsRampControl({
+  asset,
+  chainId,
+  type,
+  userTokenBalance,
+  userTokenIsLoading,
+  userTokenRefetch
+}: AssetsRampControlProps) {
   const { t } = useLocaleTranslation()
   const { address: walletAddress } = useAccount()
 
@@ -61,7 +68,9 @@ export default function AssetsRampControl({ asset, chainId, type, userTokenBalan
   const steps = {
     MethodPayment: <PaymentMethod chainId={chainId} asset={asset} />,
     Quotation: <QuotationStep chainId={chainId} asset={asset} />,
-    QuotationOffRamp: <QuotationOffRampStep chainId={chainId} asset={asset} userTokenBalance={userTokenBalance} userTokenIsLoading={userTokenIsLoading} />,
+    QuotationOffRamp: (
+      <QuotationOffRampStep chainId={chainId} asset={asset} userTokenBalance={userTokenBalance} userTokenIsLoading={userTokenIsLoading} />
+    ),
     Kyc: <KycStep asset={asset} chainId={chainId} />,
     ConnectWallet: <ConnectWallet useModal />,
     ProcessingKyc: <ProcessingKycStep asset={asset} chainId={chainId} type={type} />,
@@ -71,7 +80,13 @@ export default function AssetsRampControl({ asset, chainId, type, userTokenBalan
     Success: <SuccessStep asset={asset} type={type} />,
     PixKeyStep: <PixKeyStep />,
     ProcessingCheckoutOffRampStep: (
-      <ProcessingCheckoutOffRampStep chainId={chainId} userTokenRefetch={userTokenRefetch} walletAddress={walletAddress} asset={asset} type={type} />
+      <ProcessingCheckoutOffRampStep
+        chainId={chainId}
+        userTokenRefetch={userTokenRefetch}
+        walletAddress={walletAddress}
+        asset={asset}
+        type={type}
+      />
     ),
     error: <GenericErrorComponent type={type} />
   }

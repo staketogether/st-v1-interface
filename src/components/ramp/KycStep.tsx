@@ -1,5 +1,5 @@
 import { globalConfig } from '@/config/global'
-import { RampSteps, kycIdVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
+import { RampSteps, kycIdVar, rampStepControlVar, kycLevelVar } from '@/hooks/ramp/useRampControlModal'
 import useKycCreate, { KycCreate, KycPayload, TypeAccount } from '@/hooks/ramp/useKycCreate'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
@@ -16,6 +16,7 @@ import { projectRegexFields, projectRegexOnKeyDown } from '../shared/input-helpe
 import { handleValidateBirthDate, isValidCNPJ, isValidCPF } from '../shared/input-helper/validate'
 import Input from '../shared/inputs/Input'
 import { Asset } from '@/types/Asset'
+import { KycLevelInfo } from '@/hooks/ramp/useKycLevelInfo'
 
 interface KycStepProps {
   asset?: Asset
@@ -44,10 +45,18 @@ export default function KycStep({ asset, chainId }: KycStepProps) {
   })
 
   const handleSuccess = (data: { id?: string }) => {
+    if (!data) {
+      return
+    }
+
+    // If data has id, it's the kyc activity id; else it's being returned the kyc level info
     if (data?.id) {
       kycIdVar(data?.id)
-      rampStepControlVar(RampSteps.ProcessingKyc)
+    } else {
+      kycLevelVar(data as KycLevelInfo)
     }
+
+    rampStepControlVar(RampSteps.ProcessingKyc)
   }
 
   const discordButton = (

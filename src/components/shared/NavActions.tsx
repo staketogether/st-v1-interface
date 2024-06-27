@@ -104,7 +104,7 @@ const { Nav, IconContainer } = {
 
         @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
           a {
-          font-size: ${({ theme }) => theme.font.size[13]};
+            font-size: ${({ theme }) => theme.font.size[13]};
           }
         }
       }

@@ -1,6 +1,6 @@
 import { Select } from 'antd'
 import styled from 'styled-components'
-import NetworkIcon from '../shared/NetworkIcon'
+import NetworkIcon from '../../shared/NetworkIcon'
 
 export interface Network {
   name: string
@@ -16,7 +16,6 @@ interface AssetNetworkSwitchProps {
 }
 
 export default function AssetNetworkSwitch({ title, networks, onChange, chainId: currentChainId }: AssetNetworkSwitchProps) {
-
   // const currentNetwork = networks.find(network => network.chainId === chainId)
   const optionsList = networks.map(option => {
     return {
@@ -39,7 +38,12 @@ export default function AssetNetworkSwitch({ title, networks, onChange, chainId:
   return (
     <Content>
       <span>{title}</span>
-      <Select defaultValue={currentChainId} style={{ width: '100%', height: '56px', outline: 'none' }} onChange={handleChange} options={optionsList} />
+      <Select
+        defaultValue={currentChainId}
+        style={{ width: '100%', height: '56px', outline: 'none' }}
+        onChange={handleChange}
+        options={optionsList}
+      />
     </Content>
   )
 }

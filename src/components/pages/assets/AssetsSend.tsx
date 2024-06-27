@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form'
 import { PiArrowLineRight, PiArrowRight, PiArrowsCounterClockwise, PiWallet } from 'react-icons/pi'
 import styled from 'styled-components'
 import { encodeFunctionData, erc20Abi } from 'viem'
-import Button from '../shared/Button'
-import Input from '../shared/inputs/Input'
-import AlertMessageComponent from '../shared/AlertMessageComponent'
+import Button from '../../shared/Button'
+import Input from '../../shared/inputs/Input'
+import AlertMessageComponent from '../../shared/AlertMessageComponent'
 
 import { ethers, isAddress, parseEther } from 'ethers'
 
@@ -26,7 +26,7 @@ interface AssetSendProps {
   walletTo: string
 }
 
-export function AssetsSend({ asset, chainId }: { asset?: Asset, chainId: number }) {
+export function AssetsSend({ asset, chainId }: { asset?: Asset; chainId: number }) {
   const [sendAmount, setSendAmount] = useState<string>('0')
 
   const { t } = useLocaleTranslation()
@@ -43,11 +43,7 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset, chainId: number 
     walletAddress: account
   })
   const { reload } = useRouter()
-  const {
-    sendTransaction,
-    isLoading: transactionLoading,
-    isSuccess: transactionSuccess
-  } = useAssetSendTransaction({ chainId })
+  const { sendTransaction, isLoading: transactionLoading, isSuccess: transactionSuccess } = useAssetSendTransaction({ chainId })
 
   useEffect(() => {
     function verifyTransaction() {
@@ -143,7 +139,7 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset, chainId: number 
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='assetSendForm'>
-      {account &&
+      {account && (
         <div>
           <Input
             title={t('sendAddress')}
@@ -172,9 +168,9 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset, chainId: number 
             accountIsConnected={!!account}
           />
         </div>
-      }
+      )}
       {account && <AlertMessageComponent message={t('disclaimer')} />}
-      {!account &&
+      {!account && (
         <ConnectWallet>
           <WalletIcon />
           <span>{t('connectYourWallet')}</span>
@@ -187,8 +183,8 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset, chainId: number 
             disabled={transactionLoading || openSidebarConnectWallet || !!(Number(sendAmount) <= 0 && !isWrongNetwork)}
           />
         </ConnectWallet>
-      }
-      {account &&
+      )}
+      {account && (
         <Button
           form='assetSendForm'
           isLoading={transactionLoading || openSidebarConnectWallet}
@@ -197,7 +193,7 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset, chainId: number 
           icon={handleButtonIcon()}
           disabled={transactionLoading || openSidebarConnectWallet || !!(Number(sendAmount) <= 0 && !isWrongNetwork)}
         />
-      }
+      )}
     </FormContainer>
   )
 }

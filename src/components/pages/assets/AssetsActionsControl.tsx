@@ -1,10 +1,10 @@
-import { AssetsSwap } from '@/components/assets/AssetsSwap'
+import { AssetsSwap } from '@/components/pages/assets/AssetsSwap'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { AssetActionType } from '@/types/AssetActionType'
 import { useRouter } from 'next/router'
 import { PiArrowDown, PiArrowUp, PiArrowsClockwise, PiCurrencyDollar, PiPlus } from 'react-icons/pi'
 import styled from 'styled-components'
-import NavActions from '../shared/NavActions'
+import NavActions from '../../shared/NavActions'
 import AssetsRampControl from './AssetsRampControl'
 import { AssetsReceive } from './AssetsReceive'
 import { AssetsSend } from './AssetsSend'
@@ -31,9 +31,10 @@ export default function AssetsActionsControl({
 }: AssetsActionsControlProps) {
   const { t } = useLocaleTranslation()
   const { query } = useRouter()
-  const { currency } = query as { currency: string }
+  const { currency, network, product } = query as { currency: string; network: string; product: string }
   const config = chainConfigByChainId(chainId)
-  const assetUrlBase = `${currency}/${config.name.toLowerCase()}/product/assets/${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`
+
+  const assetUrlBase = `/${currency}/${network}/product/assets/${product}`
 
   const isActionsDisabled = config.type === 'bitcoin'
 

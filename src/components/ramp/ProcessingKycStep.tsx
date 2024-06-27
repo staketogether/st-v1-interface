@@ -49,7 +49,7 @@ export default function ProcessingKycStep({ asset, chainId, type }: ProcessingKy
   const kycVerify = address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0
 
   useEffect(() => {
-    if (!kycVerify) {
+    if (kyc?.level === 0 || !quote || !address) {
       return
     }
 
@@ -69,7 +69,7 @@ export default function ProcessingKycStep({ asset, chainId, type }: ProcessingKy
     if (type === 'sell') {
       rampStepControlVar(RampSteps.PixKeyStep)
     }
-  }, [address, isLoading, kycActivity, kycLevelInfo?.level, kycVerify, asset?.symbol, quote?.amountBrl, quote?.amountToken, type, chainId, asset?.isFanToken])
+  }, [address, isLoading, kycActivity, kycLevelInfo?.level, kycVerify, asset?.symbol, quote?.amountBrl, quote?.amountToken, type, chainId, asset?.isFanToken, kyc?.level, quote])
 
   useEffect(() => {
     if (activity?.status === 'error' && isError) {
@@ -82,22 +82,24 @@ export default function ProcessingKycStep({ asset, chainId, type }: ProcessingKy
       qrCodeVar(buyRampResponse)
       setTimeout(() => rampStepControlVar(RampSteps.Checkout), timeToRedirect)
     }
-  }, [activity?.status, activity?.type, buyRampResponse])
+  }, [activity?.status, activity?.type, kyc, buyRampResponse])
+
+
 
   const validationSteps = [
     {
-      icon: getIcon(kycActivityId ? 'process' : 'success'),
+      icon: getIcon(!activity && !kyc ? 'process' : 'success'),
       text: t('v2.ramp.processingRegistration'),
       subText: t('v2.ramp.kyc.processTime'),
-      disable: !kycActivityId
+      disable: !activity && !kyc
     },
     {
       icon:
-        activity?.status === 'success' && Number(kyc?.level) > 0
+        buyRampResponse?.brCode
           ? getIcon('success')
           : getIcon(Number(kyc?.level) > 0 ? 'process' : 'waiting'),
       text: type === 'buy' ? t('v2.ramp.generatingQRCode') : t('v2.ramp.validatingWithdrawal'),
-      disable: activity?.status !== 'success'
+      disable: !buyRampResponse?.brCode
     }
   ]
 

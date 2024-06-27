@@ -1,4 +1,4 @@
-import AssetsControl from '@/components/assets/AssetsControl'
+import AssetsPageControl from '@/components/pages/assets/AssetsPageControl'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
@@ -14,7 +14,7 @@ export default function Product({ assetId, chainId }: ProductProps) {
   return (
     <LayoutTemplate>
       <Metatags />
-      <AssetsControl assetId={assetId} chainId={chainId} type='buy' />
+      <AssetsPageControl assetId={assetId} chainId={chainId} type='buy' />
     </LayoutTemplate>
   )
 }
@@ -29,7 +29,6 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     product: string
   }
 
-  console.log(network)
   const chainId = handleChainIdByNetwork(network)
 
   if (!chainId) {
