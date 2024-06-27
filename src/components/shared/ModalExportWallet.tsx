@@ -9,12 +9,12 @@ import { useReactiveVar } from '@apollo/client'
 import { web3AuthInstanceVar } from '@/config/web3Auth'
 
 interface walletExportProps {
-  notifyModal: boolean
-  setNotifyModal: (value: boolean) => void
+  isModalExportWalletOpen: boolean
+  setIsModalExportWallet: (value: boolean) => void
   onClose: () => void
 }
 
-export default function ModalExportWallet({ notifyModal, setNotifyModal, onClose }: walletExportProps) {
+export default function ModalExportWallet({ isModalExportWalletOpen, setIsModalExportWallet, onClose }: walletExportProps) {
   const [privateKey, setPrivateKey] = useState<string | null>('')
 
   const [showPrivateKey, setShowPrivateKey] = useState(false)
@@ -33,7 +33,7 @@ export default function ModalExportWallet({ notifyModal, setNotifyModal, onClose
   }, [web3AuthInstance])
 
   return (
-    <Modal title={t('web3AuthWalletSettings.modal.title')} isOpen={notifyModal} onClose={onClose} width={420}>
+    <Modal title={t('web3AuthWalletSettings.modal.title')} isOpen={isModalExportWalletOpen} onClose={onClose} width={420}>
       {showPrivateKeyContainer ? (
         <PrivateKeyContainer>
           <h2>{t('web3AuthWalletSettings.privateKeyContainer.title')}</h2>
@@ -77,7 +77,7 @@ export default function ModalExportWallet({ notifyModal, setNotifyModal, onClose
           <footer>
             <DefaultButton
               onClick={() => {
-                setNotifyModal(false)
+                setIsModalExportWallet(false)
                 setShowPrivateKeyContainer(true)
               }}
               label={t('next')}

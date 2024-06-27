@@ -7,12 +7,12 @@ interface UserProfile {
 }
 
 interface UseUserProfileWalletReturn {
-  profileWallet: UserProfile | undefined
-  isLoading: boolean
+  userProfileWallet: UserProfile | undefined
+  isLoadingUserWalletAddress: boolean
   isError: Error | null
 }
 
-export default function useUserProfileWallet(wallet: `0x${string}`): UseUserProfileWalletReturn {
+export default function useUserWalletAddress(userWalletAddress?: `0x${string}`): UseUserProfileWalletReturn {
   const { backendUrl } = globalConfig
 
   const fetcher = async (uri: string): Promise<UserProfile> => {
@@ -20,11 +20,11 @@ export default function useUserProfileWallet(wallet: `0x${string}`): UseUserProf
     return response.data
   }
 
-  const { data, error } = useSWR<UserProfile>(wallet ? `/api/user-profile/wallet/${wallet}` : null, fetcher)
+  const { data, error, isLoading } = useSWR<UserProfile>(userWalletAddress ? `/api/user-profile/wallet/${userWalletAddress}` : null, fetcher)
 
   return {
-    profileWallet: data,
-    isLoading: !error ?? !data,
+    userProfileWallet: data,
+    isLoadingUserWalletAddress: isLoading,
     isError: error ?? null
   }
 }

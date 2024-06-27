@@ -2,19 +2,21 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 
 import { FiTrash2 } from 'react-icons/fi'
 import styled from 'styled-components'
-import { cnpjMask, cpfMask } from '../shared/input-helper/mask'
+import { cnpjMask, cpfMask, phoneMask } from '../shared/input-helper/mask'
 import { truncateAddress } from '@/services/truncate'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { PiArrowLeft } from 'react-icons/pi'
 import { chainConfigByChainId } from '@/config/chain'
 import etherscan from '@assets/icons/etherscan.svg'
 import Image from 'next/image'
 import ModalExportWallet from '../shared/ModalExportWallet'
 import { formatNumberByLocale } from '@/services/format'
-import useUserProfile from '@/hooks/useProfileSearch'
-import useUserPixKey from '@/hooks/usePixKey'
-import useProfileUserWalletsAddressList from '@/hooks/useProfileUserWalletsAddressList'
-import useUserProfileWallet from '@/hooks/useProfile'
+import useProfileSearch from './hooks/useProfileSearch'
+import useUserWalletAddress from './hooks/useUserWalletAddress'
+import useUserListPixKeys from './hooks/useUserListPixKeys'
+import useUserWalletsList from './hooks/useUserWalletsList'
+import LottieAnimation from '../shared/LottieAnimation'
+import loadingAnimation from '@assets/animations/loading-animation.json'
 
 interface walletSidebarEditAccountProps {
   setWalletSidebar?: (value: boolean) => void
@@ -25,61 +27,42 @@ export default function WalletSidebarEditAccount({
   setWalletSidebar: setIsWalletSidebarActive,
   walletAddress
 }: walletSidebarEditAccountProps) {
-  const [maskedPixKeys, setMaskedPixKeys] = useState<string[] | undefined>([])
-  const [formatWalletAddress, setFormatWalletAddress] = useState<string[] | undefined>([])
 
-  const [notifyModal, setNotifyModal] = useState(false)
+  const [isModalExportWalletOpen, setIsModalExportWalletOpen] = useState(false)
 
-  const { profileWallet } = useUserProfileWallet('0xae5462E47577bcde3663F2A748fE8019372Fe1C7') //pegar o endereço da carteira do usuario
-  const { profileData } = useUserProfile(profileWallet ? profileWallet.id : 0) // provavelmente isso aqui esta errado
-  const { pixKey } = useUserPixKey(profileWallet ? profileWallet.id : 0)
-
-  const { wallets } = useProfileUserWalletsAddressList(profileWallet ? profileWallet.id : 0)
+  const { userProfileWallet, isLoadingUserWalletAddress } = useUserWalletAddress(walletAddress)
+  const { userProfile, isLoadingProfileSearch } = useProfileSearch(userProfileWallet?.id)
+  const { userListPixKeys, isLoadingPixKeys } = useUserListPixKeys(userProfileWallet?.id)
+  const { walletsList, isLoadingWalletsList } = useUserWalletsList(userProfileWallet?.id)
 
   const { t } = useLocaleTranslation()
   const optimism = chainConfigByChainId(10)
   const ethereum = chainConfigByChainId(1)
 
-  // você não precisa desse useEffect
-  useEffect(() => {
-    if (wallets && wallets.length > 0) {
-      const formatedWallets = wallets.map(wallet => {
-        return truncateAddress(wallet.walletAddress)
-      })
-      setFormatWalletAddress(formatedWallets)
-    } else {
-      setFormatWalletAddress([])
-    }
-  }, [wallets])
-
-  //você não precisa desse useEffect
-  useEffect(() => {
-    if (pixKey && pixKey.length > 0) {
-      const maskedKeys = pixKey.map(pix => {
+  const maskedPixKeys = userListPixKeys?.map(pix => {
+    switch (pix.type) {
+      case 'cpfCnpj':
         switch (pix.pixKey.length) {
           case 11:
-            return cpfMask(pix.pixKey)
+            return cpfMask(pix.pixKey);
           case 14:
-            return cnpjMask(pix.pixKey)
-          default:
-            return pix.pixKey
+            return cnpjMask(pix.pixKey);
         }
-      })
-      setMaskedPixKeys(maskedKeys)
-    } else {
-      setMaskedPixKeys([])
+      case 'phone_number':
+        return phoneMask(pix.pixKey);
+      default:
+        return pix.pixKey;
     }
-  }, [pixKey])
+  })
 
   return (
     <>
       <HeaderDrawer>
-        <h2>{t('editAccount.editAccount')}</h2>
         <ButtonDrawer onClick={() => setIsWalletSidebarActive && setIsWalletSidebarActive(false)}>
           <CloseIcon />
         </ButtonDrawer>
+        <h2>{t('editAccount.editAccount')}</h2>
       </HeaderDrawer>
-      {profileWallet && (
         <Container>
           <Section>
             <Header>
@@ -88,11 +71,11 @@ export default function WalletSidebarEditAccount({
             </Header>
             <WrapperInfo>
               <span>{t('editAccount.userName')}</span>
-              <Span>{profileData?.kyc.fullName}</Span>
+            <Span>{userProfile?.kyc.fullName}</Span>
             </WrapperInfo>
             <WrapperInfo>
               <span>{t('editAccount.email')}</span>
-              <Span>{profileData?.email}</Span>
+            <Span>{userProfile?.email}</Span>
             </WrapperInfo>
           </Section>
           <Section>
@@ -122,41 +105,45 @@ export default function WalletSidebarEditAccount({
             </Header>
             <Wrapper>
               {maskedPixKeys?.map(pix => (
-                <WrapperInfo key={pix}>
-                  <span>{t('editAccount.pixKey')}</span>
-                  <span>{pix}</span>
-                </WrapperInfo>
+                <>
+                  <WrapperInfo key={pix}>
+                    <span>{t('editAccount.pixKey')}</span>
+                    <span>{pix}</span>
+                  </WrapperInfo>
+                  <FiTrash2 size={24} />
+                </>
               ))}
-              <FiTrash2 size={24} />
             </Wrapper>
           </Section>
           <Section>
             <Header>
               <h3>{t('editAccount.wallets')}</h3>
               <Button disabled>{t('soon')}</Button>
-            </Header>
-
-            {formatWalletAddress?.map(wallet => (
-              <>
-                <Wrapper key={wallet}>
+          </Header>
+          
+          <Wrapper>
+            {walletsList?.map(wallet => (
+              wallet.type === 'evmSocialLogin' ? 
+                <>
                   <WrapperInfo>
                     <span>{t('wallet')}</span>
-                    <span>{wallet}</span>
+                    <span>{truncateAddress(wallet.walletAddress)}</span>
                   </WrapperInfo>
-                  <ExportButton onClick={() => setNotifyModal(true)}>{t('editAccount.export')}</ExportButton>
-                </Wrapper>
-                <Wrapper>
+                  <ExportButton onClick={() => setIsModalExportWalletOpen(true)}>{t('editAccount.export')}</ExportButton>
+                </>
+              :
+                <>
                   <WrapperInfo>
                     <span>{t('wallet')}</span>
-                    <span>{wallet}</span>
+                    <span>{truncateAddress(wallet.walletAddress)}</span>
                   </WrapperInfo>
                   <FiTrash2 size={24} />
-                </Wrapper>
-              </>
+                </>
             ))}
+          </Wrapper>
           </Section>
         </Container>
-      )}
+
       <Container>
         <a className='copy' href={`${ethereum.blockExplorer.baseUrl}/address/${walletAddress}`} target='_blank'>
           <Card>
@@ -171,8 +158,14 @@ export default function WalletSidebarEditAccount({
           </Card>
         </a>
       </Container>
-      {notifyModal && (
-        <ModalExportWallet notifyModal={notifyModal} setNotifyModal={() => setNotifyModal(true)} onClose={() => setNotifyModal(false)} />
+      {isLoadingUserWalletAddress &&
+       isLoadingProfileSearch &&
+       isLoadingPixKeys &&
+       isLoadingWalletsList &&
+        <LottieAnimation animationData={loadingAnimation} height={30} loop />
+      }
+      {isModalExportWalletOpen && (
+        <ModalExportWallet isModalExportWalletOpen={isModalExportWalletOpen} setIsModalExportWallet={() => setIsModalExportWalletOpen(true)} onClose={() => setIsModalExportWalletOpen(false)} />
       )}
     </>
   )
@@ -219,9 +212,12 @@ export const {
     display: flex;
     flex-direction: column;
     gap: ${({ theme }) => theme.size[16]};
+    padding-bottom: ${({ theme }) => theme.size[12]};
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
       gap: ${({ theme }) => theme.size[24]};
     }
+    position: relative;
+    z-index: 999px;
   `,
   Section: styled.div`
     display: flex;
@@ -303,9 +299,6 @@ export const {
     &:hover {
       background: ${({ theme }) => theme.color.whiteAlpha[600]};
     }
-    &:first-of-type {
-      margin-left: auto;
-    }
   `,
   Button: styled.button`
     display: flex;
@@ -357,6 +350,8 @@ export const {
   Wrapper: styled.div`
     border: 1px solid ${({ theme }) => theme.colorV2.gray[6]};
     border-radius: ${({ theme }) => theme.size[4]};
+    min-height: 40px;
+    height: auto;
     padding: ${({ theme }) => theme.size[8]};
     display: flex;
     flex-direction: row !important;

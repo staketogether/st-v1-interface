@@ -4,17 +4,16 @@ import { globalConfig } from '@/config/global'
 
 interface UserPixKey {
   pixKey: string
-  type: string
+  type: 'cpfCnpj' | 'email' | 'phone_number',
 }
 
-interface UseUserPixKeyReturn {
-  pixKey: UserPixKey[] | undefined
-  isLoading: boolean
+interface UseUserPixKey {
+  userListPixKeys: UserPixKey[] | undefined
+  isLoadingPixKeys: boolean
   isError: Error | null
 }
 
-//O NOME ESTA ERRADO, SE ELE RETORNA UMA LISTA O NOME NÃO DEVERIA ESTAR NO SINGULAR
-export default function useUserPixKey(id: number | null): UseUserPixKeyReturn {
+export default function useUserListPixKeys(userProfileId?: number | null): UseUserPixKey{
   const { backendUrl } = globalConfig
 
   const fetcher = async (url: string): Promise<UserPixKey[]> => {
@@ -22,13 +21,12 @@ export default function useUserPixKey(id: number | null): UseUserPixKeyReturn {
     return response.data
   }
 
-  const url = id ? `${backendUrl}/api/pixkeys/${id}` : null
-  //sempre puxar o isLoading para fazer um loading =)
+  const url = userProfileId ? `${backendUrl}/api/pixkeys/${userProfileId}` : null
   const { data, error, isLoading } = useSWR<UserPixKey[], Error>(url, fetcher)
 
   return {
-    pixKey: data,
-    isLoading: isLoading,
+    userListPixKeys: data,
+    isLoadingPixKeys: isLoading,
     isError: error ?? null
   }
 }

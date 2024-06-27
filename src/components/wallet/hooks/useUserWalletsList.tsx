@@ -7,16 +7,16 @@ interface UserWallet {
   type: string;
 }
 
-export default function useProfileUserWalletsAddressList(id: number | null) {
+export default function useUserWalletsList(userProfileId?: number | null) {
   const { backendUrl } = globalConfig;
   const fetcher = (url: string) => axios.get<UserWallet[]>(url).then((res) => res.data);
 
-  const url = id ? `${backendUrl}/api/user-wallet/${id}` : null;
-  const { data, error } = useSWR<UserWallet[]>(url, fetcher);
+  const url = userProfileId ? `${backendUrl}/api/user-wallet/${userProfileId}` : null;
+  const { data, error, isLoading } = useSWR<UserWallet[]>(url, fetcher);
 
   return {
-    wallets: data,
-    isLoading: !error && !data,
+    walletsList: data,
+    isLoadingWalletsList: isLoading,
     isError: error,
   };
 }
