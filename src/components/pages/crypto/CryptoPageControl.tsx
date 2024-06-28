@@ -13,7 +13,7 @@ import CryptoAssetTableRow from './CryptoAssetTableRow'
 interface FilterType {
   orderBy: 'market_cap' | 'price' | 'price_change_24h'
   orderDirection: 'desc' | 'asc'
-  category: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoins' | null
+  category: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoin' | null
   chainId: number
 }
 
@@ -34,7 +34,7 @@ export default function CryptoPageControl() {
     const observer = new IntersectionObserver(
       entries => {
         if (entries[0].isIntersecting) {
-          fetchMore({ ...filter, chainId: 10, offset: assetsList.length, limit: 10 })
+          fetchMore({ ...filter, offset: assetsList.length, limit: 10 })
         }
       },
       { threshold: 1 }
@@ -57,7 +57,7 @@ export default function CryptoPageControl() {
     setFilter({ ...filter, orderDirection, orderBy })
   }
 
-  function handleCategoryFilter(category: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoins' | null) {
+  function handleCategoryFilter(category: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoin' | null) {
     setFilter({ ...filter, category })
   }
 
@@ -98,60 +98,59 @@ export default function CryptoPageControl() {
         <h1>{t(`v3.pages.crypto.title`)}</h1>
         <h2>{t(`v3.pages.crypto.description`)}</h2>
       </Title>
-      {!isSimplified && (<HeaderContainerCard>
-        <Box open>
-          <summary>{t(`tendencies`)}</summary>
-          {assets.map(asset => (
-            <Detail href="#" key={asset.network}>
-              <div>
-                <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24}
-                       alt={''} />
-                <span>{asset.network}</span>
-              </div>
-              <div>
-                <span>{asset.price}</span>
-                <span className="price-down">{asset.variation}</span>
-              </div>
-            </Detail>
-          ))}
-        </Box>
-        <Box open>
-          <summary>{t(`latestAdded`)}</summary>
-          <div>
+      {!isSimplified && (
+        <HeaderContainerCard>
+          <Box open>
+            <summary>{t(`tendencies`)}</summary>
             {assets.map(asset => (
-              <Detail href="#" key={asset.network}>
+              <Detail href='#' key={asset.network}>
                 <div>
-                  <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24}
-                         alt={''} />
+                  <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
                   <span>{asset.network}</span>
                 </div>
                 <div>
                   <span>{asset.price}</span>
-                  <span className="price-down">{asset.variation}</span>
+                  <span className='price-down'>{asset.variation}</span>
                 </div>
               </Detail>
             ))}
-          </div>
-        </Box>
-        <Box open>
-          <summary>{t(`mostVisited`)}</summary>
-          <div>
-            {assets.map(asset => (
-              <Detail href="#" key={asset.network}>
-                <div>
-                  <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24}
-                         alt={''} />
-                  <span>{asset.network}</span>
-                </div>
-                <div>
-                  <span>{asset.price}</span>
-                  <span className="price-down">{asset.variation}</span>
-                </div>
-              </Detail>
-            ))}
-          </div>
-        </Box>
-      </HeaderContainerCard>)}
+          </Box>
+          <Box open>
+            <summary>{t(`latestAdded`)}</summary>
+            <div>
+              {assets.map(asset => (
+                <Detail href='#' key={asset.network}>
+                  <div>
+                    <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
+                    <span>{asset.network}</span>
+                  </div>
+                  <div>
+                    <span>{asset.price}</span>
+                    <span className='price-down'>{asset.variation}</span>
+                  </div>
+                </Detail>
+              ))}
+            </div>
+          </Box>
+          <Box open>
+            <summary>{t(`mostVisited`)}</summary>
+            <div>
+              {assets.map(asset => (
+                <Detail href='#' key={asset.network}>
+                  <div>
+                    <Image src={'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg'} width={24} height={24} alt={''} />
+                    <span>{asset.network}</span>
+                  </div>
+                  <div>
+                    <span>{asset.price}</span>
+                    <span className='price-down'>{asset.variation}</span>
+                  </div>
+                </Detail>
+              ))}
+            </div>
+          </Box>
+        </HeaderContainerCard>
+      )}
       <FilterTabContainer>
         <CategoryContainer>
           <div className={`${!filter.category && 'active'}`} onClick={() => handleCategoryFilter(null)}>
@@ -163,16 +162,20 @@ export default function CryptoPageControl() {
           >
             <span>Defi</span>
           </div>
-          <div className={`${filter.category === 'Stablecoins' && 'active'}`} onClick={() => handleCategoryFilter('Stablecoins')}>
-            <span>Stablecoin</span>
-          </div>
-          <div className={`${filter.category === 'Fan Token' && 'active'}`} onClick={() => handleCategoryFilter('Fan Token')}>
-            <span>Fan Tokens</span>
-          </div>
+          {filter.chainId !== 88888 && (
+            <div className={`${filter.category === 'Stablecoin' && 'active'}`} onClick={() => handleCategoryFilter('Stablecoin')}>
+              <span>Stablecoin</span>
+            </div>
+          )}
+          {filter.chainId === 88888 && (
+            <div className={`${filter.category === 'Fan Token' && 'active'}`} onClick={() => handleCategoryFilter('Fan Token')}>
+              <span>Fan Tokens</span>
+            </div>
+          )}
         </CategoryContainer>
         <Select
           defaultValue={filter.chainId}
-          style={{ height: '40px', outline: 'none', fontSize: '13px' }}
+          style={{ height: '40px', minWidth: '140px', outline: 'none', fontSize: '13px' }}
           onChange={data => setFilter({ ...filter, chainId: data })}
           options={optionsList}
         />
