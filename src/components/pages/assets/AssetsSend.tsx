@@ -2,7 +2,6 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useForm } from 'react-hook-form'
 import { PiArrowLineRight, PiArrowRight, PiArrowsCounterClockwise, PiWallet } from 'react-icons/pi'
 import styled from 'styled-components'
-import { erc20Abi } from 'viem'
 import Button from '../../shared/Button'
 import Input from '../../shared/inputs/Input'
 import AlertMessageComponent from '../../shared/AlertMessageComponent'
@@ -12,124 +11,35 @@ import { ethers, isAddress, parseEther } from 'ethers'
 import AssetInput from './AssetsInput'
 import { useCallback, useEffect, useState } from 'react'
 import useBalanceOf from '@/hooks/contracts/useBalanceOf'
-import useAssetSendTransaction from '@/hooks/contracts/useSendTransaction'
+import useAssetSendTransaction from '@/components/pages/assets/hooks/useSendTransaction'
 import { notification } from 'antd'
 import { useRouter } from 'next/router'
 import { chainConfigByChainId } from '@/config/chain'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
-import {
-  useAccount,
-  useSimulateContract,
-  useSwitchChain,
-  useWriteContract,
-  useWaitForTransactionReceipt as useWaitForTransaction
-} from 'wagmi'
+import { useSwitchChain } from 'wagmi'
 import { capitalize } from '@/config/utils'
 import { Asset, AssetNetwork } from '@/types/Asset'
 import AssetNetworkSwitch from './AssetsNetworkSwitch'
-import useEstimateTxInfo from '@/hooks/useEstimateTxInfo'
+import useTransferTransaction from './hooks/useTransferTransaction'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
 
 interface AssetSendProps {
   walletTo: string
 }
 
-export function AssetsSend({ asset, chainId }: { asset?: Asset; chainId: number }) {
+export function AssetsSend({ asset, chainId, userTokenRefetch }: { asset: Asset; chainId: number; userTokenRefetch: () => void }) {
   const [sendAmount, setSendAmount] = useState<string>('0')
 
-  const [estimateGasCost, setEstimateGasCost] = useState(0n)
-  const [maxFeePerGas, setMaxFeePerGas] = useState<bigint | undefined>(undefined)
-  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState<bigint | undefined>(undefined)
-  const [sendTransactionEstimatedGas, setSendTransactionEstimatedGas] = useState<bigint | undefined>(undefined)
-  const [prepareTransactionErrorMessage, setPrepareTransactionErrorMessage] = useState('')
-  const contractAddress = asset?.networks.find(network => network.chainId === chainId)?.contractAddress
-  const { address: account, chainId: walletChainId } = useAccount()
-  const { name, transactionConfig } = chainConfigByChainId(chainId)
-  const { reload, ...router } = useRouter()
+  const { account, chainId: walletChainId, web3AuthUserInfo } = useConnectedAccount()
+  const { name } = chainConfigByChainId(chainId)
   const { t } = useLocaleTranslation()
-
-  const simulateAmount = ethers.parseUnits('0.0000001', asset?.decimals)
-
-  const { estimateGas } = useEstimateTxInfo({
-    account: account,
-    functionName: 'transfer',
-    contractAddress: contractAddress ?? '0x',
-    args: [account, simulateAmount],
-    abi: erc20Abi,
-    chainId
-  })
-  console.log(sendTransactionEstimatedGas, prepareTransactionErrorMessage)
-
-  useEffect(() => {
-    const handleEstimateGasPrice = async () => {
-      const { estimatedCost, estimatedGas, estimatedMaxFeePerGas, estimatedMaxPriorityFeePerGas } = await estimateGas()
-      setSendTransactionEstimatedGas(estimatedGas)
-      setEstimateGasCost(estimatedCost)
-      setMaxFeePerGas(estimatedMaxFeePerGas)
-      setMaxPriorityFeePerGas(estimatedMaxPriorityFeePerGas)
-    }
-    if (estimateGasCost === 0n) {
-      handleEstimateGasPrice()
-    }
-  }, [estimateGas, estimateGasCost])
+  const router = useRouter()
 
   const {
-    isError: prepareTransactionIsError,
-    error: prepareTransactionError,
-    data: prepareTransferTransactionData
-  } = useSimulateContract({
-    functionName: 'transfer',
-    address: contractAddress ?? '0x',
-    args: [account ?? '0x', ethers.parseUnits(sendAmount, asset?.decimals)],
-    abi: erc20Abi,
-    chainId: chainId,
-    gas: !!sendTransactionEstimatedGas && sendTransactionEstimatedGas > 0n ? sendTransactionEstimatedGas : undefined,
-    maxFeePerGas: !!maxFeePerGas && maxFeePerGas > 0n ? maxFeePerGas : undefined,
-    maxPriorityFeePerGas: !!maxPriorityFeePerGas && maxPriorityFeePerGas > 0n ? maxPriorityFeePerGas : undefined
-  })
-  useEffect(() => {
-    if (prepareTransactionIsError && prepareTransactionError) {
-      const { cause } = prepareTransactionError as { cause?: { reason?: string; message?: string } }
-
-      if (
-        !cause?.reason &&
-        cause?.message &&
-        cause.message.includes('The total cost (gas * gas fee + value) of executing this transaction exceeds the balance')
-      ) {
-        setPrepareTransactionErrorMessage('insufficientGasBalance')
-        return
-      }
-      const response = cause as { data?: { errorName?: string } }
-
-      if (cause && response?.data?.errorName) {
-        setPrepareTransactionErrorMessage(response?.data?.errorName)
-      }
-    }
-  }, [prepareTransactionError, prepareTransactionIsError, t])
-
-  const { writeContract, data: txHash } = useWriteContract()
-  const { isLoading: awaitTransactionLoading, isSuccess: awaitTransactionSuccess } = useWaitForTransaction({
-    hash: txHash,
-    confirmations: transactionConfig.confirmations
-  })
-
-  const { sendTransaction, isLoading: nativeTransactionLoading, isSuccess: nativeTransactionSuccess } = useAssetSendTransaction({ chainId })
-  const isLoadingTransaction = nativeTransactionLoading || awaitTransactionLoading
-  const isSuccessTransaction = nativeTransactionSuccess || awaitTransactionSuccess
-
-  useEffect(() => {
-    function verifyTransaction() {
-      if (isSuccessTransaction) {
-        notification.success({ message: t('genericTransactionSuccess') })
-        reload()
-      }
-    }
-    verifyTransaction()
-  }, [reload, isSuccessTransaction, t])
-
-  const isWrongNetwork = chainId !== walletChainId
-
-  const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
-  const { isLoading: erc20IsLoading, tokenBalance: erc20TokenBalance } = useBalanceOf({
+    isLoading: erc20IsLoading,
+    tokenBalance: erc20TokenBalance,
+    refetch
+  } = useBalanceOf({
     chainId,
     decimals: asset?.decimals,
     type: asset?.type ?? 'erc20',
@@ -137,9 +47,48 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset; chainId: number 
     walletAddress: account
   })
 
+  const { tokenBalance: nativeTokenBalance, refetch: nativeTokenRefetch } = useBalanceOf({
+    chainId,
+    decimals: asset?.decimals,
+    type: 'native'
+  })
+
+  const {
+    awaitWalletAction,
+    isLoading: transferLoading,
+    isSuccess: transferSuccess,
+    sendTransfer,
+    prepareTransactionIsError,
+    prepareTransactionIsSuccess,
+    sendTransactionEstimatedGas
+  } = useTransferTransaction({ chainId, asset, sendAmountValue: sendAmount })
+  const { sendTransaction, isLoading: nativeTransactionLoading, isSuccess: nativeTransactionSuccess } = useAssetSendTransaction({ chainId })
+
+  const isLoadingTransaction = asset.type === 'native' ? nativeTransactionLoading : awaitWalletAction || transferLoading
+  const isSuccessTransaction = asset.type === 'native' ? nativeTransactionSuccess : transferSuccess
+  const prepareTransaction = asset.type === 'native' ? true : prepareTransactionIsSuccess
+  const prepareTransactionError = asset.type === 'native' ? false : prepareTransactionIsError
+
+  useEffect(() => {
+    function verifyTransaction() {
+      if (isSuccessTransaction) {
+        notification.success({ message: t('genericTransactionSuccess') })
+        userTokenRefetch()
+        refetch()
+        nativeTokenRefetch()
+      }
+    }
+    verifyTransaction()
+  }, [isSuccessTransaction, userTokenRefetch, refetch, nativeTokenRefetch, t])
+
+  const isWrongNetwork = chainId !== walletChainId
+
+  const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
+
   const sendAmountBigNumber =
     asset?.type === 'native' ? ethers.parseEther(sendAmount || '0') : ethers.parseUnits(sendAmount, asset?.decimals)
   const insufficientMinSend = sendAmountBigNumber > erc20TokenBalance.rawBalance
+  const userCanPayForGas = sendTransactionEstimatedGas <= nativeTokenBalance.rawBalance
 
   const {
     register,
@@ -161,6 +110,57 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset; chainId: number 
   }
 
   const { switchChain } = useSwitchChain()
+
+  function handleButtonName() {
+    if (!account) {
+      return t('connectWallet')
+    }
+
+    if (isWrongNetwork && !!account) {
+      return `${t('switch')} ${capitalize(name.toLowerCase().replaceAll('-', ' '))}`
+    }
+
+    if (insufficientMinSend) {
+      return t('form.insufficientFunds')
+    }
+
+    if (!userCanPayForGas) {
+      return t('form.insufficientFundsPerGas')
+    }
+
+    return t('next')
+  }
+
+  function handleButtonIcon() {
+    if (!account) {
+      return <PiArrowLineRight />
+    }
+
+    if (isWrongNetwork && !!account) {
+      return <PiArrowsCounterClockwise />
+    }
+
+    return <PiArrowRight />
+  }
+
+  const isDisabled =
+    asset.type === 'native'
+      ? insufficientMinSend || nativeTransactionLoading || (Number(sendAmount) <= 0 && !isWrongNetwork)
+      : insufficientMinSend ||
+        !prepareTransaction ||
+        prepareTransactionError ||
+        (Number(sendAmount) <= 0 && !isWrongNetwork) ||
+        (!userCanPayForGas && !!web3AuthUserInfo)
+
+  const onNetworkChange = useCallback(
+    (network: AssetNetwork) => {
+      router.query.network = network.name.toLowerCase()
+      router.query.product = network.contractAddress
+      router.push(router)
+    },
+    [router]
+  )
+
   const onSubmit = (data: AssetSendProps) => {
     if (!account) {
       setOpenSidebarConnectWallet(true)
@@ -206,47 +206,16 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset; chainId: number 
       )
       return
     }
-    writeContract(prepareTransferTransactionData!.request)
+
+    if (!userCanPayForGas && !!web3AuthUserInfo) {
+      notification.error({
+        message: t('form.insufficientFundsPerGas')
+      })
+      return
+    }
+
+    sendTransfer()
   }
-
-  function handleButtonName() {
-    if (!account) {
-      return t('connectWallet')
-    }
-
-    if (isWrongNetwork && !!account) {
-      return `${t('switch')} ${capitalize(name.toLowerCase().replaceAll('-', ' '))}`
-    }
-
-    if (insufficientMinSend) {
-      return t('form.insufficientFunds')
-    }
-
-    return t('next')
-  }
-
-  function handleButtonIcon() {
-    if (!account) {
-      return <PiArrowLineRight />
-    }
-
-    if (isWrongNetwork && !!account) {
-      return <PiArrowsCounterClockwise />
-    }
-
-    return <PiArrowRight />
-  }
-
-  const isDisabled = insufficientMinSend || nativeTransactionLoading || (Number(sendAmount) <= 0 && !isWrongNetwork)
-
-  const onNetworkChange = useCallback(
-    (network: AssetNetwork) => {
-      router.query.network = network.name.toLowerCase()
-      router.query.product = network.contractAddress
-      router.push(router)
-    },
-    [router]
-  )
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='assetSendForm'>
@@ -309,7 +278,7 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset; chainId: number 
           type='submit'
           label={handleButtonName()}
           icon={handleButtonIcon()}
-          disabled={isDisabled}
+          disabled={isDisabled || isLoadingTransaction}
         />
       )}
     </FormContainer>
