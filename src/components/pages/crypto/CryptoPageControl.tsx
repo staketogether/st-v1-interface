@@ -21,7 +21,7 @@ export default function CryptoPageControl() {
   const [filter, setFilter] = useState<FilterType>({ orderBy: 'market_cap', orderDirection: 'desc', category: null, chainId: 10 })
   const { t } = useLocaleTranslation()
 
-  const { AssetsList, initialLoading, loadMoreLoading, fetchMore, hasMoreItems } = useAssetsList({
+  const { assetsList, initialLoading, loadMoreLoading, fetchMore, hasMoreItems } = useAssetsList({
     chainId: filter.chainId,
     orderBy: filter.orderBy,
     orderDirection: filter.orderDirection,
@@ -34,7 +34,7 @@ export default function CryptoPageControl() {
     const observer = new IntersectionObserver(
       entries => {
         if (entries[0].isIntersecting) {
-          fetchMore({ ...filter, chainId: 10, offset: AssetsList.length, limit: 10 })
+          fetchMore({ ...filter, chainId: 10, offset: assetsList.length, limit: 10 })
         }
       },
       { threshold: 1 }
@@ -51,7 +51,7 @@ export default function CryptoPageControl() {
         observer.unobserve(target)
       }
     }
-  }, [observerTarget, initialLoading, loadMoreLoading, hasMoreItems, fetchMore, filter, AssetsList.length])
+  }, [observerTarget, initialLoading, loadMoreLoading, hasMoreItems, fetchMore, filter, assetsList.length])
 
   function handleFilter(orderBy: 'market_cap' | 'price' | 'price_change_24h', orderDirection: 'desc' | 'asc') {
     setFilter({ ...filter, orderDirection, orderBy })
@@ -225,7 +225,7 @@ export default function CryptoPageControl() {
         </header>
         {initialLoading && <LottieAnimation animationData={loadingAnimation} height={70} loop />}
         {!initialLoading &&
-          AssetsList.map(asset => {
+          assetsList.map(asset => {
             return <CryptoAssetTableRow asset={asset} key={asset.ref} chainId={filter.chainId} />
           })}
         {loadMoreLoading && <LottieAnimation animationData={loadingAnimation} height={70} width={50} loop />}

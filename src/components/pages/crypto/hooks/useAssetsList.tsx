@@ -64,7 +64,7 @@ export default function useAssetsList({
   )
 
   return {
-    AssetsList: data?.assets ?? [],
+    assetsList: data?.assets ?? [],
     hasMoreItems,
     initialLoading: loading,
     loadMoreLoading: loadingFetchMore,
