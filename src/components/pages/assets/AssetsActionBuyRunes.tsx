@@ -259,6 +259,10 @@ const { Container, InputContainer, Input, AssetOriginal, AssetConverted, Selecte
         grid-template-columns: repeat(4, 1fr);
         white-space: nowrap;
         gap: ${({ theme }) => theme.size[8]};
+
+        span:nth-last-child(2) {
+          text-align: center;
+        }
         span:nth-last-child(-n+1) {
           text-align: right;
         }
@@ -292,12 +296,10 @@ const { Container, InputContainer, Input, AssetOriginal, AssetConverted, Selecte
           display: grid;
           grid-template-columns: 1fr;
           align-items: center;
+          gap: 3px;
         }
-        div:nth-child(3) {
-          justify-self: center;
-        }
-        img {
-          justify-self: end;
+        div:nth-child(3),img {
+          justify-self: flex-end;
         }
       }
   `,
