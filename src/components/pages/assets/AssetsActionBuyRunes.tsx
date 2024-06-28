@@ -1,16 +1,31 @@
 import useLocaleTranslation from "@/hooks/useLocaleTranslation"
 import styled from "styled-components"
 import Image from 'next/image'
+import Button from '@/components/shared/Button'
+import { PiArrowRight } from "react-icons/pi"
+import AssetsNetworkSwitch, { Network } from "./AssetsNetworkSwitch"
+import { Asset } from "@/types/Asset"
+import { useCallback, useState } from "react"
+import { useRouter } from "next/router"
 
-export default function AssetsActionBuyRunes() {
+interface AssetsActionRunesProps {
+  asset?: Asset
+  chainId: number
+}
+
+export default function AssetsActionBuyRunes({ asset, chainId }: AssetsActionRunesProps) {
+  const [balanceValue, setBalanceValue] = useState("")
+  
   const { t } = useLocaleTranslation()
+  const nextBtnMessage = t("next")
+  const router = useRouter()
 
-  const ordens = [
+  const selectedOrders = [
     {
       quantity: '6,906.9',
       price: '12.420044',
       brlPrice: 'R$0,04164',
-      totalBTC: '0.00085800',
+      totalBTC: 0.00085800,
       totalBRL: 'R$256,67',
       origin: 'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg' 
     },
@@ -18,7 +33,7 @@ export default function AssetsActionBuyRunes() {
       quantity: '1,000',
       price: '12.420044',
       brlPrice: 'R$0,04164',
-      totalBTC: '0.00005800',
+      totalBTC: 0.00005800,
       totalBRL: 'R$46,67',
       origin: 'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg' 
     },
@@ -26,26 +41,37 @@ export default function AssetsActionBuyRunes() {
       quantity: '1,000',
       price: '12.420044',
       brlPrice: 'R$0,04164',
-      totalBTC: '0.00005800',
+      totalBTC: 0.00005800,
       totalBRL: 'R$52,67',
       origin: 'http://localhost:3000/_next/static/media/bitcoin.59eba954.svg' 
     }
   ];
 
+  const filteredList = selectedOrders.filter(order => order.totalBTC <= Number(balanceValue))
+
+  const onNetworkChange = useCallback(
+    (network: Network) => {
+      router.query.network = network.name.toLowerCase()
+      router.query.product = network.contractAddress
+      router.push(router)
+    },
+    [router]
+  )
 
   return (
     <Container>
+      <AssetsNetworkSwitch title={"Rede de recebimento"} networks={asset?.networks ?? []} chainId={chainId} onChange={onNetworkChange} />
         <InputContainer >
           <span>{t('v3.assetDetail.quantity')}</span>
           <div>
             <AssetOriginal>
-              <span>Balance 0.5 btc</span>
+            <span>{t('actionBuyRunes.balance')} 0.5 btc</span>
               <div>
                 <Image src={`	http://localhost:3000/_next/static/media/bitcoin.59eba954.svg`} width={32} height={32} alt='BRL' />
                 <span>BTC</span>
               </div>
             </AssetOriginal>
-              <Input type='number' min={0} placeholder='0' step={1} />
+          <Input type='number' min={0} placeholder='0' step={1} onChange={(e) => setBalanceValue(e.target.value)}/>
           </div>
         </InputContainer>
         <InputContainer disabled>
@@ -59,36 +85,54 @@ export default function AssetsActionBuyRunes() {
           </div>
       </InputContainer>
       <SelectedOrder>
-        <h2>Ordens Selecionadas</h2>
+        <h2>{t('actionBuyRunes.orders.selectedOrders')}</h2>
         <ul>
           <div>
-            <span>Quantidade:</span>
-            <span>Preço {`(Sats/DOG)`}</span>
-            <span>Total {`(BTC)`}</span>
-            <span>Origem</span>
+            <span>{t('v3.assetDetail.quantity')}</span>
+            <span>{t('actionBuyRunes.orders.price')} {`(Sats/DOG)`}</span>
+            <span>{t('actionBuyRunes.orders.total')} {`(BTC)`}</span>
+            <span>{t('actionBuyRunes.orders.origin')}</span>
          </div>
-          {ordens.map((ordem, index) => (
-            <li key={index} style={{ listStyle: 'none', marginBottom: '10px' }}>
-              <span>{ordem.quantity}</span>
-              <div>
-                <strong>{ordem.price}</strong>
-                <span>{ordem.brlPrice}</span>
+          {filteredList.map((order, index) => (
+              <li key={index}>
+                <span>{order.quantity}</span>
+                <div>
+                  <strong>{order.price}</strong>
+                  <span>{order.brlPrice}</span>
+                </div>
+                <div>
+                  <strong>{order.totalBTC.toString()}</strong>
+                  <span>{order.totalBRL}</span>
               </div>
-              <div>
-                <strong>{ordem.totalBTC}</strong>
-                <span>{ordem.totalBRL}</span>
-              </div>
-              <img src={ordem.origin} alt="Ícone" width="20" height="20" style={{ marginLeft: '5px' }} />
-            </li>
+              <Image src={order.origin} width={20} height={20} alt={""} />
+              </li>
           ))}
         </ul>
       </SelectedOrder>
+      <AveragePrice>
+        <div>
+          <span>{t('actionBuyRunes.averageBestPrice')}</span>
+          <span>12.420044 SATS / R$0,04164</span>
+        </div>
+        
+        <div>
+          <div>
+            <span>{t('actionBuyRunes.networkTax')}</span>
+            <span>{t('v3.assetDetail.quantity')}</span>
+          </div>
+          <div>
+            <span>0.00036000 BTC / R$134,43</span>
+            <span>0.00091800 BTC / R$468,43</span>
+          </div>
+        </div>
+      </AveragePrice>
+      <Button label={nextBtnMessage} icon={<PiArrowRight />}/>
     </Container>
   )
 }
 
 
-const { Container, InputContainer, BoxValuesContainer, Input, AssetOriginal, AssetConverted, SelectedOrder } = {
+const { Container, InputContainer, Input, AssetOriginal, AssetConverted, SelectedOrder, AveragePrice } = {
   Container: styled.div`
     width: auto;
     color: ${({ theme }) => theme.colorV2.gray[1]};
@@ -108,13 +152,6 @@ const { Container, InputContainer, BoxValuesContainer, Input, AssetOriginal, Ass
       opacity: 0.6;
       text-align: center;
     }
-  `,
-  BoxValuesContainer: styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: ${({ theme }) => theme.size[24]};
-    align-items: center;
   `,
   InputContainer: styled.div<{ disabled?: boolean }>`
     display: flex;
@@ -197,7 +234,11 @@ const { Container, InputContainer, BoxValuesContainer, Input, AssetOriginal, Ass
   SelectedOrder: styled.div`
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 10px;
+      border-top: 2px solid ${({ theme }) => theme.colorV2.gray[6]};
+      border-bottom: 2px solid ${({ theme }) => theme.colorV2.gray[6]};
+      padding: 16px 0 16px 0;
+
     h2 {
       color: ${({ theme }) => theme.colorV2.gray[1]};
       font-family: Montserrat;
@@ -208,20 +249,21 @@ const { Container, InputContainer, BoxValuesContainer, Input, AssetOriginal, Ass
 
    ul {
       display: grid;
-      gap: 6px;
+      gap: 12px;
+      height: auto;
+      max-height: 219px;
+      overflow: auto;
 
-      div {
-        width: 100%;
+     > div {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         white-space: nowrap;
-
-        span:nth-last-child(-n+2) {
+        gap: ${({ theme }) => theme.size[8]};
+        span:nth-last-child(-n+1) {
           text-align: right;
         }
         span {
           color: ${({ theme }) => theme.colorV2.gray[6]};
-          font-family: Montserrat;
           font-size: 11px;
           font-weight: 400;
         }
@@ -230,22 +272,69 @@ const { Container, InputContainer, BoxValuesContainer, Input, AssetOriginal, Ass
 
     li {
       display: grid;
-      grid-template-columns: repeat(5, auto);
-      justify-content: space-between;
-      text-align: right;
-      align-content: center;
+      grid-template-columns: repeat(4, 1fr);
+      padding: ${({ theme }) => theme.size[4]};
+      
       span, strong {
         color: ${({ theme }) => theme.colorV2.gray[1]};
         font-size: ${({ theme }) => theme.font.size[13]};
         font-weight: 500;
         align-self: flex-start;
       }
-      
-      div {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
+
+      span:nth-child(2) {
+          color: ${({ theme }) => theme.colorV2.gray[6]};
+          font-size: ${({ theme }) => theme.font.size[13]};
+          font-weight: 400;
       }
-    }
+      
+        div {
+          display: grid;
+          grid-template-columns: 1fr;
+          align-items: center;
+        }
+        div:nth-child(3) {
+          justify-self: center;
+        }
+        img {
+          justify-self: end;
+        }
+      }
   `,
+  AveragePrice: styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.size[8]};
+
+  >div:nth-child(1) {
+    display: flex;
+    justify-content: space-between;
+
+    span {
+      font-size: ${({ theme }) => theme.font.size[13]};
+      font-weight: 500;
+      color: ${({ theme }) => theme.color.green[400]};
+    }
+  }
+
+  div:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+
+    div:nth-child(1) {
+      display: flex;
+      flex-direction: column;
+      gap: ${({ theme }) => theme.size[8]};
+    }
+     div {
+      flex-direction: column;
+      ${({ theme }) => theme.size[8]}
+    }
+     span {
+      font-size: ${({ theme }) => theme.font.size[13]};
+      font-weight: 500;
+      color: ${({ theme }) => theme.color.gray[400]};
+    }
+  }
+  `
 }

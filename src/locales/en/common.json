@@ -203,6 +203,17 @@
     "messageTitleFinish": "on the Goerli network",
     "free": "free"
   },
+  "actionBuyRunes": {
+    "averageBestPrice": "Best Average Price",
+    "networkTax": "Network Fee",
+    "orders": {
+      "selectedOrders": "Selected Orders",
+      "price": "Price",
+      "total": "Total",
+      "origin": "Origin"
+    },
+    "balance": "Balance"
+  },
   "getFaucetErrorMessages": {
     "addressIsRequired": "Address is required",
     "passcodeIsRequired": "Passcode is required",

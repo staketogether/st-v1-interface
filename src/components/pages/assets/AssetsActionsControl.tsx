@@ -36,7 +36,6 @@ export default function AssetsActionsControl({
   const config = chainConfigByChainId(chainId)
 
   const assetUrlBase = `/${currency}/${network}/product/assets/${product}`
-
   const isActionsDisabled = config.type === 'bitcoin'
 
   const navActionsList = [
@@ -53,7 +52,7 @@ export default function AssetsActionsControl({
       type: 'swap',
       label: t('swap'),
       url: `${assetUrlBase}/swap`,
-      disabled: isActionsDisabled,
+      disabled: false,
       icon: <PiArrowsClockwise />,
       tooltipLabel: isActionsDisabled ? t('soon') : ''
     },
@@ -89,7 +88,7 @@ export default function AssetsActionsControl({
             userTokenRefetch={userTokenRefetch}
           />
         )}
-        {type === 'swap' && <AssetsSwap chainId={chainId} asset={asset} />}
+        {type === 'swap' && config.type === 'bitcoin' ? <AssetsActionBuyRunes chainId={chainId} asset={asset} /> : <AssetsSwap chainId={chainId} asset={asset} />}
         {type === 'send' && <AssetsSend chainId={chainId} asset={asset} />}
         {type === 'receive' && <AssetsReceive />}
       </div>

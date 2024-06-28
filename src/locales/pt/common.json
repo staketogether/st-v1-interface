@@ -202,6 +202,17 @@
     "messageTitleFinish": "na rede Goerli",
     "free": "gratuita"
   },
+  "actionBuyRunes": {
+    "averageBestPrice": "Melhor Preço Médio",
+    "networkTax": "Taxa de Rede",
+    "orders": {
+      "selectedOrders": "Ordens Selecionadas",
+      "price": "Preço",
+      "total": "Total",
+      "origin": "Origem"
+    },
+    "balance": "Saldo"
+  },
   "getFaucetErrorMessages": {
     "addressIsRequired": "Endereço é obrigatório",
     "passcodeIsRequired": "Código de acesso é obrigatório",
