@@ -40,7 +40,7 @@ export const ethRestaking: Staking = {
   symbolImage:
     'https://raw.githubusercontent.com/staketogether/st-v1-interface/faa3dcdbf60ea06f922c3c9dd1ed1d8f20fa1cbb/public/assets/stpRETHIcon.svg',
   logoImage: restakingIcon,
-  url: '/currency/optimism/product/staking/eth-restaking',
+  url: '/currency/optimistic/product/staking/eth-restaking',
   listed: true,
   isTestnet: false,
   enabled: true,

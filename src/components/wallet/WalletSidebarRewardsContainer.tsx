@@ -138,10 +138,6 @@ const { Container, ContainerList, Title, BalanceContainer, LinkIcon } = {
             font-size: ${({ theme }) => theme.font.size[12]};
             color: ${({ theme }) => theme.colorV2.gray[1]};
             opacity: 0.8;
-              
-            > svg {
-                margin-top: 2px;
-            }
           }
         }
       }
