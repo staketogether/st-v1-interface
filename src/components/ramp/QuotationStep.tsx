@@ -134,6 +134,7 @@ export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
   return (
     <Container>
       <BoxValuesContainer>
+        <AssetNetworkSwitch chainId={chainId} networks={asset?.networks ?? []} title='Rede de recebimento' onChange={onNetworkChange} />
         <InputContainer className={`${error ? 'error' : ''}`}>
           {asset?.isFanToken && <span>{t('v3.assetDetail.quantity')}</span>}
           {!asset?.isFanToken && <span>{t('v3.assetDetail.totalAmount')}</span>}
@@ -188,7 +189,6 @@ export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
             {!quoteIsValidating && asset?.isFanToken && <Input value={truncateDecimal(quote?.amountBrl ?? '0')} disabled placeholder='0' />}
           </div>
         </InputContainer>
-        <AssetNetworkSwitch chainId={chainId} networks={asset?.networks ?? []} title='Rede de recebimento' onChange={onNetworkChange} />
       </BoxValuesContainer>
       <Button
         onClick={handleNext}
