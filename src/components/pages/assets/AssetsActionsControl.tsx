@@ -52,7 +52,7 @@ export default function AssetsActionsControl({
       type: 'swap',
       label: t('swap'),
       url: `${assetUrlBase}/swap`,
-      disabled: false,
+      disabled: isActionsDisabled,
       icon: <PiArrowsClockwise />,
       tooltipLabel: isActionsDisabled ? t('soon') : ''
     },
