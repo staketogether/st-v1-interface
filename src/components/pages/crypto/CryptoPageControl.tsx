@@ -11,7 +11,7 @@ import Image from 'next/image'
 import CryptoAssetTableRow from './CryptoAssetTableRow'
 
 interface FilterType {
-  orderBy: 'market_cap' | 'price' | 'volume'
+  orderBy: 'market_cap' | 'price' | 'price_change_24h'
   orderDirection: 'desc' | 'asc'
   category: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoins' | null
   chainId: number
@@ -53,7 +53,7 @@ export default function CryptoPageControl() {
     }
   }, [observerTarget, initialLoading, loadMoreLoading, hasMoreItems, fetchMore, filter, AssetsList.length])
 
-  function handleFilter(orderBy: 'market_cap' | 'price' | 'volume', orderDirection: 'desc' | 'asc') {
+  function handleFilter(orderBy: 'market_cap' | 'price' | 'price_change_24h', orderDirection: 'desc' | 'asc') {
     setFilter({ ...filter, orderDirection, orderBy })
   }
 
@@ -199,12 +199,12 @@ export default function CryptoPageControl() {
             <span>{t('v3.crypto-table.change')}</span>
             <OrderByContainer>
               <UpIcon
-                className={`${filter.orderBy === 'volume' && filter.orderDirection === 'asc' && 'active'}`}
-                onClick={() => handleFilter('volume', 'asc')}
+                className={`${filter.orderBy === 'price_change_24h' && filter.orderDirection === 'asc' && 'active'}`}
+                onClick={() => handleFilter('price_change_24h', 'asc')}
               />
               <DownIcon
-                className={`${filter.orderBy === 'volume' && filter.orderDirection === 'desc' && 'active'}`}
-                onClick={() => handleFilter('volume', 'desc')}
+                className={`${filter.orderBy === 'price_change_24h' && filter.orderDirection === 'desc' && 'active'}`}
+                onClick={() => handleFilter('price_change_24h', 'desc')}
               />
             </OrderByContainer>
           </div>

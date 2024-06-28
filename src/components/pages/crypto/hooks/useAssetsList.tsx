@@ -8,7 +8,7 @@ interface useAssetsListProps {
   offset?: number
   chainId: number
   limit?: number
-  orderBy?: 'market_cap' | 'price' | 'volume'
+  orderBy?: 'market_cap' | 'price' | 'price_change_24h'
   orderDirection?: 'desc' | 'asc'
   category?: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoins' | null
 }
