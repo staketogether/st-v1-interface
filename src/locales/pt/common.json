@@ -293,7 +293,7 @@
       "exit": "Sair",
       "support": "Suporte",
       "analytics": "Analytics",
-      "staking": "Investimentos",
+      "staking": "DeFi",
       "assets": "Criptomoedas"
     },
     "sidebar": {
@@ -903,7 +903,7 @@
   "v3": {
     "pages": {
       "staking": {
-        "title": "Investimentos",
+        "title": "DeFi",
         "description": "Invista em Infraestrutura com Rendimentos Sustentáveis"
       },
       "crypto": {

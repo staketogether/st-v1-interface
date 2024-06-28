@@ -294,7 +294,7 @@
       "exit": "Exit",
       "support": "Support",
       "analytics": "Analytics",
-      "staking": "Investments",
+      "staking": "DeFi",
       "assets": "Cryptocurrencies"
     },
     "sidebar": {
@@ -876,7 +876,7 @@
   "v3": {
     "pages": {
       "staking": {
-        "title": "Staking",
+        "title": "DeFi",
         "description": "Invest in Infrastructure with Sustainable Yields"
       },
       "crypto": {
