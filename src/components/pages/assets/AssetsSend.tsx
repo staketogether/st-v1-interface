@@ -58,6 +58,7 @@ export function AssetsSend({ asset, chainId, userTokenRefetch }: { asset: Asset;
     isLoading: transferLoading,
     isSuccess: transferSuccess,
     sendTransfer,
+    prepareTransactionErrorMessage,
     prepareTransactionIsError,
     prepareTransactionIsSuccess,
     sendTransactionEstimatedGas
@@ -88,7 +89,7 @@ export function AssetsSend({ asset, chainId, userTokenRefetch }: { asset: Asset;
   const sendAmountBigNumber =
     asset?.type === 'native' ? ethers.parseEther(sendAmount || '0') : ethers.parseUnits(sendAmount, asset?.decimals)
   const insufficientMinSend = sendAmountBigNumber > erc20TokenBalance.rawBalance
-  const userCanPayForGas = sendTransactionEstimatedGas <= nativeTokenBalance.rawBalance
+  const userCanPayForGas = nativeTokenBalance.rawBalance > sendTransactionEstimatedGas
 
   const {
     register,
@@ -128,6 +129,9 @@ export function AssetsSend({ asset, chainId, userTokenRefetch }: { asset: Asset;
       return t('form.insufficientFundsPerGas')
     }
 
+    if (!prepareTransaction && prepareTransactionErrorMessage && prepareTransactionErrorMessage === 'insufficientGasBalance') {
+      return t('form.insufficientFundsPerGas')
+    }
     return t('next')
   }
 
@@ -147,7 +151,7 @@ export function AssetsSend({ asset, chainId, userTokenRefetch }: { asset: Asset;
     asset.type === 'native'
       ? insufficientMinSend || nativeTransactionLoading || (Number(sendAmount) <= 0 && !isWrongNetwork)
       : insufficientMinSend ||
-        !prepareTransaction ||
+        (!prepareTransaction && !!web3AuthUserInfo) ||
         prepareTransactionError ||
         (Number(sendAmount) <= 0 && !isWrongNetwork) ||
         (!userCanPayForGas && !!web3AuthUserInfo)
