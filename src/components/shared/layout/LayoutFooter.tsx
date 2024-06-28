@@ -24,9 +24,6 @@ export default function LayoutFooter() {
         <a href={`mailto:support@staketogether.org`} target='_blank'>
           {t('footer.support')}
         </a>
-        <a href={`/${currency as string}/${network as string}/project`} target='_blank'>
-          {t('footer.projects')}
-        </a>
         <a href={`${websiteUrl}`} target='_blank'>
           {t('footer.website')}
         </a>
