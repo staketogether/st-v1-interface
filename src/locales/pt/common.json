@@ -19,7 +19,7 @@
   "signUpNow": "Cadastre agora é totalmente gratis!",
   "privacyDeclare": "Declaro ter pelo menos 18 anos e aceito os termos de",
   "privacyPolicy": "Política de Privacidade",
-  "projects": "Projetos",
+  "projects": "Comunidades",
   "portfolio": "Portfólio",
   "stake": "Depositar",
   "next": "Avançar",
@@ -37,7 +37,7 @@
   "totalDelegated": "Total Delegado",
   "processing": "Processando...",
   "invested": "Investidos",
-  "investedOnProject": "Investido no Projeto",
+  "investedOnProject": "Investido na Comunidade",
   "staked": "Em Stake",
   "unstake": "Desfazer Stake",
   "members": "Membros",
@@ -63,8 +63,8 @@
   "fee": "Taxa",
   "delegated": "Delegado",
   "delegatedAmount": "Quantidade Delegada",
-  "searchPool": "Pesquisar Projetos",
-  "projectEmpty": "Projeto não encontrado",
+  "searchPool": "Pesquisar Comunidades",
+  "projectEmpty": "Comunidade não encontrada",
   "copyClipboard": "Copiar para Área de Transferência",
   "copyWalletAddress": "Copiar Endereço",
   "copiedToClipboard": "Endereço Copiado",
@@ -178,7 +178,7 @@
     "smartContract": "Contrato Inteligente",
     "audit": "Auditorias",
     "documentation": "Documentação",
-    "projects": "Projetos",
+    "projects": "Comunidades",
     "support": "Suporte",
     "contract": "Contrato"
   },
@@ -235,10 +235,10 @@
     "eligibilityCriteria": "Critérios de Elegibilidade",
     "learnMore": "Saiba Mais",
     "incentives": {
-      "pool": "Projetos",
-      "poolDescription": "50% dos Incentivos são destinados para os projetos na Stake Together",
+      "pool": "Comunidades",
+      "poolDescription": "50% dos Incentivos são destinados para os comunidades na Stake Together",
       "social": "Stake de Impacto Social",
-      "socialDescription": "10% dos Incentivos são destinados para fazer depósitos em projetos de impacto social",
+      "socialDescription": "10% dos Incentivos são destinados para fazer depósitos em comunidades de impacto social",
       "early": "Primeiros Stakers",
       "earlyDescription": "20% dos Incentivos gerados nos 3 primeiros meses são destinados para as pessoas que fizerem depósitos no primeiro mês",
       "gifts": "Presentes",
@@ -255,22 +255,22 @@
   "v2": {
     "pages": {
       "invest": {
-        "title": "Projetos",
-        "description": "Escolha um projeto, stake ether e ganhe recompensas de staking de ethereum juntos"
+        "title": "Comunidades",
+        "description": "Escolha um comunidade, stake ether e ganhe recompensas de staking de ethereum juntos"
       },
       "deposit": {
         "title": "Staking de Ethereum",
         "description": "Faça Stake de Ether e receba recompensas de staking",
-        "stakeTogetherPoolDescription": "Gostaria de apoiar um projeto especifico? Clique",
+        "stakeTogetherPoolDescription": "Gostaria de apoiar um comunidade especifico? Clique",
         "here": "aqui"
       },
       "incentives": {
         "title": "Incentivos",
-        "description": "Incentivos semanais em Ethereum em Stake (stpETH) são enviados através de airdrop perpétuo para usuários e projetos"
+        "description": "Incentivos semanais em Ethereum em Stake (stpETH) são enviados através de airdrop perpétuo para usuários e comunidades"
       },
       "gifts": {
-        "title": "Presentes dos Projetos",
-        "description": "Receba presentes em stpETH de seus projetos favoritos, desde um cafezinho, almoço grátis ou até viagens internacionais."
+        "title": "Presentes das Comunidades",
+        "description": "Receba presentes em stpETH de seus comunidades favoritos, desde um cafezinho, almoço grátis ou até viagens internacionais."
       },
       "analytics": {
         "title": "Analytics"
@@ -278,12 +278,12 @@
     },
     "meta": {
       "stake": {
-        "description": "Invista em Ethereum com o projeto projectName utilizando a  Stake Together e maximize seus lucros enquanto apoia seus projetos favoritos através da Blockchain"
+        "description": "Invista em Ethereum com o comunidade projectName utilizando a  Stake Together e maximize seus lucros enquanto apoia seus comunidades favoritos através da Blockchain"
       }
     },
     "header": {
       "stake": "Stake",
-      "projects": "Projetos",
+      "projects": "Comunidades",
       "pools": "Pools",
       "products": "Investir",
       "incentives": "Incentivos",
@@ -306,7 +306,7 @@
       }
     },
     "pools": {
-      "title": "Projetos",
+      "title": "Comunidades",
       "filter": {
         "all": "Todos",
         "education": "Educação",
@@ -320,7 +320,7 @@
         "gifts": "Presentes",
         "totalAccounts": "Contas",
         "validators": "Validadores DVT",
-        "totalProjects": "Projetos"
+        "totalProjects": "Comunidades"
       },
       "emptyList": "Nenhum Resultado Encontrado",
       "emptyButton": "Limpar",
@@ -330,7 +330,7 @@
         "type": "Categoria",
         "people": "Pessoas",
         "invested": "Investidos",
-        "rewards": "Recompensas no Projeto"
+        "rewards": "Recompensas na Comunidade"
       }
     },
     "stake": {
@@ -349,7 +349,7 @@
       "apy": "Rendimento anual",
       "apyTooltip": "Rendimento Percentual Anual representa o retorno do investimento em um ano para o depositante, levando em conta o auto reinvestimento e os juros compostos. (APY)",
       "tvl": "Valor total investido",
-      "tvlTooltip": "Valor total investido com o projeto refere-se à quantidade total de ETH depositado no projeto. Quanto mais ETH depositado, maiores os incentivos para o projeto. (TVL do Projeto)",
+      "tvlTooltip": "Valor total investido com o comunidade refere-se à quantidade total de ETH depositado no comunidade. Quanto mais ETH depositado, maiores os incentivos para o comunidade. (TVL do Comunidade)",
       "withdrawBlocked": "Atraso de Saque",
       "withdrawBlockedTooltip": "O atraso de saque é um mecanismo de segurança para evitar diluição de recompensas.",
       "rewards": "Recompensas geradas",
@@ -364,7 +364,7 @@
         "receiveTooltip": "Quando você deposita ETH, você recebe o token de staking liquido em troca.",
         "exchange": "Câmbio:",
         "exchangeTooltip": "Troca um token por outro",
-        "delegationTooltip": "Delegar parte das recompensas para um projeto",
+        "delegationTooltip": "Delegar parte das recompensas para um comunidade",
         "rewards": "Taxa de recompensas:",
         "rewardsTooltip": "Taxa que é descontada sobre as recompenas futuras de staking.",
         "operation": "Taxa de operação:",
@@ -431,7 +431,7 @@
       "notGift": "Você ainda não recebeu nenhum presente"
     },
     "stakeProfileEdit": {
-      "communityName": "Nome do projeto",
+      "communityName": "Nome da comunidade",
       "cover": "Cover",
       "image": "Image",
       "video": "Video",
@@ -443,7 +443,7 @@
       "lens": "Lens",
       "logo": "Logo",
       "telegram": "Telegram",
-      "wallet": "Carteira do Projeto",
+      "wallet": "Carteira da Comunidade",
       "category": "Categoria",
       "twitter": "Twitter",
       "youtube": "Canal do youtube",
@@ -466,22 +466,22 @@
       "claim": "Resgatar"
     },
     "createProject": {
-      "title": "Cadastrar Projeto",
+      "title": "Cadastrar Comunidade",
       "linksToAnalyze": "Links para Análise",
       "terms": "Estou de acordo com os",
       "termsAndConditions": "Termos de Cadastro",
       "send": "Enviar",
       "sent": "Enviado",
-      "seeMyProject": "Ver meu projeto",
-      "walletTooltip": "O cadastro do projeto ficará vinculado a carteira conectada",
-      "reapplyTitle": "Reaplicar Projeto",
+      "seeMyProject": "Ver minha comunidade",
+      "walletTooltip": "O cadastro da comunidade ficará vinculado a carteira conectada",
+      "reapplyTitle": "Reaplicar Comunidade",
       "form": {
-        "logo": "Logo do Projeto",
-        "wallet": "Carteira do Projeto",
-        "name": "Nome do Projeto",
+        "logo": "Logo da Comunidade",
+        "wallet": "Carteira da Comunidade",
+        "name": "Nome da Comunidade",
         "category": "Categoria",
         "email": "Email",
-        "about": "Apresente seu projeto para nossa equipe",
+        "about": "Apresente sua comunidade para nossa equipe",
         "site": "Site",
         "twitter": "X (Twitter)",
         "instagram": "Instagram",
@@ -489,9 +489,9 @@
         "discord": "Discord",
         "telegram": "Telegram",
         "upload": "Enviar",
-        "register": "Cadastrar Projeto",
-        "loadingMessage": "Enviando Cadastro do Projeto",
-        "reapplyLoadingMessage": "Reaplicando Projeto",
+        "register": "Cadastrar Comunidade",
+        "loadingMessage": "Enviando Cadastro da Comunidade",
+        "reapplyLoadingMessage": "Reaplicando Comunidade",
         "cover": "Cover",
         "video": "Video",
         "facebook": "Facebook",
@@ -506,7 +506,7 @@
       },
       "placeholder": {
         "email": "Insira seu email para contato",
-        "about": "Conte nós um pouco mais sobre seu projeto",
+        "about": "Conte nós um pouco mais sobre sua comunidade",
         "site": "https://www.seusite.com",
         "youtube": "@SeuCanal",
         "twitter": "Nome de usuário (e.g. @staketogether)",
@@ -516,9 +516,9 @@
         "discordName": "Insira o Nome do seu servidor Discord",
         "telegram": "https://t.me/ConviteDoSeuServer",
         "facebook": "Insira o URL da sua página do Facebook",
-        "description": "Insira uma descrição do seu projeto",
+        "description": "Insira uma descrição do sua comunidade",
         "contract": "Insira o endereço do seu contrato",
-        "video": "Insira o link do youtube para o vídeo do seu projeto"
+        "video": "Insira o link do youtube para o vídeo do sua comunidade"
       },
       "status": {
         "approved": "Aprovado",
@@ -545,25 +545,25 @@
         "birthDate": "Data de nascimento inválida"
       },
       "messages": {
-        "success": "Projeto cadastrado com sucesso",
-        "reapplySuccess": "Projeto reaplicado com sucesso",
-        "error": "Erro na criação do projeto"
+        "success": "Comunidade cadastrado com sucesso",
+        "reapplySuccess": "Comunidade reaplicado com sucesso",
+        "error": "Erro na criação do comunidade"
       },
       "successMessages": {
-        "title": "Projeto enviado com sucesso!",
-        "description": "O projeto está em análise, aguarde o retorno da nossa equipe"
+        "title": "Comunidade enviado com sucesso!",
+        "description": "A comunidade está em análise, aguarde o retorno da nossa equipe"
       }
     },
     "editProject": {
-      "title": "Editar Projeto",
+      "title": "Editar Comunidade",
       "messages": {
-        "success": "Projeto Atualizado com sucesso",
-        "loading": "Atualizando Projeto"
+        "success": "Comunidade Atualizada com sucesso",
+        "loading": "Atualizando Comunidade"
       },
       "formTabs": {
         "about": {
           "title": "Sobre",
-          "cover": "Capa do Projeto"
+          "cover": "Capa da Comunidade"
         },
         "links": {
           "title": "Links"
@@ -572,20 +572,20 @@
     },
     "resultModal": {
       "title": {
-        "approved": "Parabéns, seu projeto foi aprovado!",
-        "rejected": "Infelizmente seu projeto foi reprovado!"
+        "approved": "Parabéns, sua comunidade foi aprovado!",
+        "rejected": "Infelizmente sua comunidade foi reprovado!"
       },
-      "goToProjectPage": "Ir para página do projeto",
-      "reapplyProject": "Reaplicar Projeto"
+      "goToProjectPage": "Ir para página da comunidade",
+      "reapplyProject": "Reaplicar Comunidade"
     },
     "panelProject": {
       "sidebar": {
-        "title": "Aprovação de Projetos",
+        "title": "Aprovação de Comunidades",
         "analysis": "Em Análise",
         "approved": "Aprovados"
       },
       "modal": {
-        "title": "Aprovar Projeto",
+        "title": "Aprovar Comunidade",
         "approve": "Aprovar",
         "approveBd": "Aprovar no BD",
         "reject": "Rejeitar",
@@ -604,7 +604,7 @@
         "projectRemoved": "Projeto Removido com sucesso",
         "errorProjectRemove": "Erro ao remover projeto",
         "projectAddedSuccessfully": "Projeto adicionado com sucesso",
-        "errorAddProject": "Erro ao adicionar projeto"
+        "errorAddProject": "Erro ao adicionar comunidade"
       }
     },
     "university": {
@@ -614,9 +614,9 @@
     "updateDelegations": {
       "modalTitle": "Atualização de delegações",
       "availableForDistribution": "Valor disponivel para distribuição",
-      "availableForDistributionTooltip": "Distribuição de recompensa dos projetos",
+      "availableForDistributionTooltip": "Distribuição de recompensa dos comunidades",
       "labelButton": "Atualizar as Delegações",
-      "listPoolsModalTitle": "Selecionar Projetos",
+      "listPoolsModalTitle": "Selecionar Comunidades",
       "transactionMessages": {
         "transactionTitle": "Revisar Pedido de Update",
         "successful": "Delegações atualizadas com sucesso",
@@ -656,7 +656,7 @@
       "rewards": {
         "title": "Recompensas",
         "ethereumStaking": "Staking de Ethereum",
-        "projects": "Projetos",
+        "projects": "Comunidades",
         "incentives": "Incentivos"
       },
       "proofOfReserves": {
