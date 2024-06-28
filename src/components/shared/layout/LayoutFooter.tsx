@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router'
 import styled from 'styled-components'
 import { globalConfig } from '../../../config/global'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
@@ -8,9 +7,6 @@ export default function LayoutFooter() {
   const { websiteUrl } = globalConfig
 
   const { t } = useLocaleTranslation()
-
-  const { query } = useRouter()
-  const { currency, network } = query
 
   const commitHash = process.env.COMMIT_HASH ?? ''
   const shortCommitHash = commitHash.substring(0, 5)
@@ -23,9 +19,6 @@ export default function LayoutFooter() {
       <div>
         <a href={`mailto:support@staketogether.org`} target='_blank'>
           {t('footer.support')}
-        </a>
-        <a href={`/${currency as string}/${network as string}/project`} target='_blank'>
-          {t('footer.projects')}
         </a>
         <a href={`${websiteUrl}`} target='_blank'>
           {t('footer.website')}

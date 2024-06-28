@@ -19,7 +19,7 @@
   "signUpNow": "Sign up now, it's completely free!",
   "privacyDeclare": "I declare that I am at least 18 years old and accept the terms of the",
   "privacyPolicy": "Privacy Policy",
-  "projects": "Projects",
+  "projects": "Communities",
   "portfolio": "Portfolio",
   "stake": "Stake",
   "next": "Next",
@@ -79,7 +79,7 @@
   "activities": "Activities",
   "analytics": "Analytics",
   "activity": "Activity",
-  "historic": "Historic",
+  "historic": "Activities",
   "success": "Success",
   "viewOnExplorer": "View on Explorer",
   "try": "Try Again",
@@ -180,7 +180,7 @@
     "smartContract": "Smart Contract",
     "audit": "Audits",
     "documentation": "Docs",
-    "projects": "Projects",
+    "projects": "Communities",
     "support": "Support",
     "contract": "Contract"
   },
@@ -237,7 +237,7 @@
     "eligibilityCriteria": "Eligibility Criteria",
     "learnMore": "Learn More",
     "incentives": {
-      "pool": "Projects",
+      "pool": "Communities",
       "poolDescription": "50% of the Incentives are allocated for having a project in Stake Together",
       "social": "Social Impact Stake",
       "socialDescription": "10% of the Incentives are allocated for making deposits in social impact projects",
@@ -257,8 +257,8 @@
   "v2": {
     "pages": {
       "invest": {
-        "title": "Projects",
-        "description": "Choose a project, stake ether and earn ethereum staking rewards together"
+        "title": "Communities",
+        "description": "Choose a community, stake ether and earn ethereum staking rewards together"
       },
       "deposit": {
         "title": "Ethereum Staking",
@@ -287,7 +287,7 @@
       "stake": "Stake",
       "products": "Invest",
       "pools": "Pools",
-      "projects": "Projects",
+      "projects": "Communities",
       "incentives": "Incentives",
       "simulator": "Simulator",
       "gifts": "Gifts",
@@ -295,7 +295,7 @@
       "exit": "Exit",
       "support": "Support",
       "analytics": "Analytics",
-      "staking": "Investments",
+      "staking": "DeFi",
       "assets": "Cryptocurrencies"
     },
     "sidebar": {
@@ -308,7 +308,7 @@
       }
     },
     "pools": {
-      "title": "Projects",
+      "title": "Communities",
       "filter": {
         "all": "All",
         "education": "Education",
@@ -322,7 +322,7 @@
         "gifts": "Gifts",
         "totalAccounts": "Accounts",
         "validators": "DVT Validators",
-        "totalProjects": "Projects"
+        "totalProjects": "Communities"
       },
       "emptyList": "Results Not Found",
       "emptyButton": "Clean",
@@ -332,7 +332,7 @@
         "type": "Category",
         "people": "People",
         "invested": "Invested",
-        "rewards": "Rewards on Projects"
+        "rewards": "Rewards on Communities"
       }
     },
     "stake": {
@@ -594,7 +594,7 @@
       "availableForDistribution": "Amount available for distribution",
       "availableForDistributionTooltip": "Project reward's distribution",
       "labelButton": "Update Delegations",
-      "listPoolsModalTitle": "Select Projects",
+      "listPoolsModalTitle": "Select Communities",
       "transactionMessages": {
         "transactionTitle": "Review Update Request",
         "successful": "Delegations updated successfully",
@@ -634,7 +634,7 @@
       "rewards": {
         "title": "Rewards",
         "ethereumStaking": "Ethereum Staking",
-        "projects": "Projects",
+        "projects": "Communities",
         "incentives": "Incentives"
       },
       "proofOfReserves": {
@@ -877,7 +877,7 @@
   "v3": {
     "pages": {
       "staking": {
-        "title": "Staking",
+        "title": "DeFi",
         "description": "Invest in Infrastructure with Sustainable Yields"
       },
       "crypto": {
