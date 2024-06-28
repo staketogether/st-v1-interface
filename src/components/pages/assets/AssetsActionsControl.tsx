@@ -11,6 +11,7 @@ import { AssetsSend } from './AssetsSend'
 import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 import { Asset } from '@/types/Asset'
 import { chainConfigByChainId } from '@/config/chain'
+import AssetsActionBuyRunes from './AssetsActionBuyRunes'
 
 interface AssetsActionsControlProps {
   type: AssetActionType
