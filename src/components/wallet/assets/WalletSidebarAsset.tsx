@@ -9,25 +9,24 @@ import defaultErc20Icon from '@assets/assets/default-erc-20.svg'
 import Link from 'next/link'
 import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import { useRouter } from 'next/router'
+import { chainConfigByChainId } from '@/config/chain'
+import { stakingList } from '@/config/product/staking'
 
 export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
-  const configAsset = assetsList.find(
-    supportedAsset =>
-      supportedAsset.type !== 'bitcoin' && supportedAsset.contractAddress.toLowerCase() === asset?.contractAddress.toLowerCase()
-  )
+  const stakingAsset = stakingList.find(staking => staking.contracts.StakeTogether.toLowerCase() === asset.contractAddress.toLowerCase())
+  const config = chainConfigByChainId(asset.chainId)
   const { query } = useRouter()
   const { currency } = query as { currency: string }
   const fixedWalletBalance = asset.decimals >= 18 ? asset.balance : asset.balance + '0'.repeat(18 - asset.decimals)
   const formattedBalance = formatNumberByLocale(truncateWei(BigInt(fixedWalletBalance), 6))
 
-  const imageSrc = configAsset?.symbolImage ?? asset?.thumbnail ?? defaultErc20Icon
+  const imageSrc = stakingAsset?.symbolImage ?? asset?.imageUrl ?? asset.thumbnail ?? defaultErc20Icon
   const { usdToCurrency } = useFiatUsdConversion()
 
   return (
     <BalanceContainer
-      href={`${configAsset?.url.replace('currency', currency)} `}
+      href={`/${currency}/${config.name.toLowerCase()}/product/assets/${asset.contractAddress}`}
       key={asset.contractAddress}
-      className={`${!configAsset && 'disabled'}`}
     >
       <div>
         <div>
