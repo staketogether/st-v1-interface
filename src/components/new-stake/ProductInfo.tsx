@@ -37,8 +37,8 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
   const { address } = useAccount()
   const { points } = useAccountStPoints(address)
   const { elPoints } = useAccountElPoints(address)
-  const formatedPoints = truncateWei(BigInt(elPoints))
-  const formatedStPoints = truncateWei(BigInt(points))
+  const formattedPoints = truncateWei(BigInt(elPoints))
+  const formattedStPoints = truncateWei(BigInt(points))
 
   const { handleQuotePrice } = useCoinUsdToUserCurrency()
   const stakeTogetherContractAddress = product.contracts.StakeTogether
@@ -62,11 +62,13 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
     priceChangePercentage24h: 0,
     ref: '',
     type: 'erc20',
-    networks: [{
-      chainId,
-      contractAddress: product.contracts.StakeTogether,
-      name: product.asset.name,
-    }],
+    networks: [
+      {
+        chainId,
+        contractAddress: product.contracts.StakeTogether,
+        name: product.asset.name
+      }
+    ],
     symbol: product.symbol,
     imageUrl: product.symbolImage,
     name: product.asset.name,
@@ -127,7 +129,7 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               <Tooltip title={t('v2.ethereumStaking.eigenPointTooltip')}>
                 <TagPointsContainer>
                   Eigen
-                  <div>{formatedPoints}</div>
+                  <div>{formattedPoints}</div>
                 </TagPointsContainer>
               </Tooltip>
             )}
@@ -135,14 +137,18 @@ export default function ProductInfo({ product, assetData, chainId }: ProductInfo
               <Tooltip title={t('v2.ethereumStaking.togetherPoints')}>
                 <TagPointsContainer className='purple'>
                   Together
-                  <div>{formatedStPoints}</div>
+                  <div>{formattedStPoints}</div>
                 </TagPointsContainer>
               </Tooltip>
             )}
           </RewardsPointsContainer>
         </HeaderDescribeInfo>
       </header>
-      <PriceChart asset={formattedStakingAsset} assetId={product.asset.type === 'bitcoin' ? product.asset.symbol : product.asset.contractAddress} chainId={chainId}/>
+      <PriceChart
+        asset={formattedStakingAsset}
+        assetId={product.asset.type === 'bitcoin' ? product.asset.symbol : product.asset.contractAddress}
+        chainId={chainId}
+      />
       <ProductBodyContainer>
         <h2>{t('v2.ethereumStaking.statistics')}</h2>
         <StatisticContainer>

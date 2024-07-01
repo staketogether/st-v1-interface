@@ -10,7 +10,7 @@
   "deposited": "Deposited",
   "wallet": "Wallet",
   "connectWallet": "Connect Wallet",
-  "disclaimer": "Attention! Confirm that the asset you will receive is compatible with the Ethereum, Optimism, Arbitrum, Polygon and Chiliz networks. Assets incompatible with your address may be lost permanently.",
+  "disclaimer": "Attention! To move tokens on the network, it is necessary to have a balance in (symbol) to cover transaction fees. Attention! Check if the network of the destination address matches the network of the asset you are sending. Sending assets to addresses on different networks may result in the permanent loss of funds.",
   "compatibility": "Compatible with networks:",
   "tokens": "Tokens",
   "products": "Products",
@@ -101,6 +101,7 @@
   "tendencies": "Tendencies",
   "latestAdded": "Latest added",
   "mostVisited": "Most Visited",
+  "sendTransactionError": "Attention! To move tokens on the network, it is necessary to have a balance in the currency (symbol) to cover transaction fees.",
   "unlockTransaction": {
     "failTransaction": "Failed to perform Unlock",
     "success": "Unlocking Completed Successfully"

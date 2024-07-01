@@ -10,6 +10,7 @@ import PriceChart from '../../shared/PriceChart'
 import { Asset } from '@/types/Asset'
 import AssetPrice from '@/components/shared/AssetPrice'
 import AssetsStatistic from './AssetsStatistic'
+import { handleNetworksList } from '@/services/format'
 
 interface AssetsProductInfoProps {
   asset?: Asset
@@ -61,7 +62,7 @@ export default function AssetsProductInfo({ asset, assetId, chainId, assetIsLoad
               <SkeletonLoading width={120} height={16} />
             ) : (
               <NetworksIconsContainer>
-                {networks.map(network => (
+                {handleNetworksList(networks).map(network => (
                   <NetworkIcons network={network.name.toLocaleLowerCase()} size={16} key={network.chainId} />
                 ))}
               </NetworksIconsContainer>

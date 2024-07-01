@@ -1,7 +1,7 @@
 export interface AssetNetwork {
   name: string
   chainId: number
-  contractAddress: string
+  contractAddress: `0x${string}`
 }
 
 export interface Asset {
