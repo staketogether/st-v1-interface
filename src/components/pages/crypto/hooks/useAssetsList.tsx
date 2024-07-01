@@ -10,7 +10,7 @@ interface useAssetsListProps {
   limit?: number
   orderBy?: 'market_cap' | 'price' | 'price_change_24h'
   orderDirection?: 'desc' | 'asc'
-  category?: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoin' | null
+  category?: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoins' | null
 }
 
 export default function useAssetsList({

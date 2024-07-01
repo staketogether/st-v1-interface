@@ -13,7 +13,7 @@ import CryptoAssetTableRow from './CryptoAssetTableRow'
 interface FilterType {
   orderBy: 'market_cap' | 'price' | 'price_change_24h'
   orderDirection: 'desc' | 'asc'
-  category: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoin' | null
+  category: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoins' | null
   chainId: number
 }
 
@@ -57,7 +57,7 @@ export default function CryptoPageControl() {
     setFilter({ ...filter, orderDirection, orderBy })
   }
 
-  function handleCategoryFilter(category: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoin' | null) {
+  function handleCategoryFilter(category: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoins' | null) {
     setFilter({ ...filter, category })
   }
 
@@ -160,11 +160,11 @@ export default function CryptoPageControl() {
             className={`${filter.category === 'Decentralized Finance (DeFi)' && 'active'}`}
             onClick={() => handleCategoryFilter('Decentralized Finance (DeFi)')}
           >
-            <span>Defi</span>
+            <span>DeFi</span>
           </div>
           {filter.chainId !== 88888 && (
-            <div className={`${filter.category === 'Stablecoin' && 'active'}`} onClick={() => handleCategoryFilter('Stablecoin')}>
-              <span>Stablecoin</span>
+            <div className={`${filter.category === 'Stablecoins' && 'active'}`} onClick={() => handleCategoryFilter('Stablecoins')}>
+              <span>Stablecoins</span>
             </div>
           )}
           {filter.chainId === 88888 && (
