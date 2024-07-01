@@ -197,7 +197,7 @@ export default function CryptoPageControl() {
         )}
         <Select
           defaultValue={filter.chainId}
-          style={{ height: '40px', minWidth: '140px', width: '100%', outline: 'none', fontSize: '13px' }}
+          style={{ height: '40px', minWidth: '140px', width: isMobile ? '100%' : undefined, outline: 'none', fontSize: '13px' }}
           onChange={data => setFilter({ ...filter, chainId: data })}
           options={optionsList}
         />
