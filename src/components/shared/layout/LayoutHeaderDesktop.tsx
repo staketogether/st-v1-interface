@@ -53,11 +53,6 @@ export default function LayoutHeader() {
       </MenuContainer>
 
       <WalletContainer>
-        <ContainerCurrency>
-          <GlobeIcon />
-          <span>{locale === 'pt' ? 'PT' : 'EN'}</span>
-          <span>| {(currency as string).toUpperCase()}</span>
-        </ContainerCurrency>
         <Wallet
           evmWalletAddress={account}
           accountIsConnected={userWalletIsConnected}

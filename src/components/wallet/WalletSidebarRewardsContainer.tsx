@@ -7,6 +7,7 @@ import { stakingList } from '@/config/product/staking'
 import { chainConfigByChainId } from '@/config/chain'
 import { truncateTimestamp, truncateWei } from '@/services/truncate'
 import { useRouter } from 'next/router'
+import { PiLink } from 'react-icons/pi'
 import LottieAnimation from '@/components/shared/LottieAnimation'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 interface WalletSidebarAssetContainerProps {
@@ -46,7 +47,7 @@ export default function WalletSidebarRewardsContainer({ accountRewards, accountR
                   <span>
                     {truncateWei(reward.amount, 8)} {staking.symbol}
                   </span>
-                  <span>{truncateTimestamp(reward.timestamp, locale ?? 'en')}</span>
+                  <span><LinkIcon /> {truncateTimestamp(reward.timestamp, locale ?? 'en')}</span>
                 </div>
               </BalanceContainer>
             )
@@ -57,7 +58,7 @@ export default function WalletSidebarRewardsContainer({ accountRewards, accountR
   )
 }
 
-const { Container, ContainerList, Title, BalanceContainer } = {
+const { Container, ContainerList, Title, BalanceContainer, LinkIcon } = {
   Container: styled.div`
     width: 100%;
     display: flex;
@@ -145,5 +146,8 @@ const { Container, ContainerList, Title, BalanceContainer } = {
     &:hover {
       background-color: ${({ theme }) => theme.colorV2.foreground};
     }
+  `,
+  LinkIcon: styled(PiLink)`
+    font-size: 16px;
   `
 }

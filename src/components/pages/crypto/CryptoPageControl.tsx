@@ -11,7 +11,7 @@ import Image from 'next/image'
 import CryptoAssetTableRow from './CryptoAssetTableRow'
 
 interface FilterType {
-  orderBy: 'market_cap' | 'price' | 'volume'
+  orderBy: 'market_cap' | 'price' | 'price_change_24h'
   orderDirection: 'desc' | 'asc'
   category: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoins' | null
   chainId: number
@@ -21,7 +21,7 @@ export default function CryptoPageControl() {
   const [filter, setFilter] = useState<FilterType>({ orderBy: 'market_cap', orderDirection: 'desc', category: null, chainId: 10 })
   const { t } = useLocaleTranslation()
 
-  const { AssetsList, initialLoading, loadMoreLoading, fetchMore, hasMoreItems } = useAssetsList({
+  const { assetsList, initialLoading, loadMoreLoading, fetchMore, hasMoreItems } = useAssetsList({
     chainId: filter.chainId,
     orderBy: filter.orderBy,
     orderDirection: filter.orderDirection,
@@ -34,7 +34,7 @@ export default function CryptoPageControl() {
     const observer = new IntersectionObserver(
       entries => {
         if (entries[0].isIntersecting) {
-          fetchMore({ ...filter, chainId: 10, offset: AssetsList.length, limit: 10 })
+          fetchMore({ ...filter, chainId: 10, offset: assetsList.length, limit: 10 })
         }
       },
       { threshold: 1 }
@@ -51,9 +51,9 @@ export default function CryptoPageControl() {
         observer.unobserve(target)
       }
     }
-  }, [observerTarget, initialLoading, loadMoreLoading, hasMoreItems, fetchMore, filter, AssetsList.length])
+  }, [observerTarget, initialLoading, loadMoreLoading, hasMoreItems, fetchMore, filter, assetsList.length])
 
-  function handleFilter(orderBy: 'market_cap' | 'price' | 'volume', orderDirection: 'desc' | 'asc') {
+  function handleFilter(orderBy: 'market_cap' | 'price' | 'price_change_24h', orderDirection: 'desc' | 'asc') {
     setFilter({ ...filter, orderDirection, orderBy })
   }
 
@@ -172,7 +172,7 @@ export default function CryptoPageControl() {
         </CategoryContainer>
         <Select
           defaultValue={filter.chainId}
-          style={{ height: '40px', outline: 'none', fontSize: '13px' }}
+          style={{ height: '40px', outline: 'none', fontSize: '13px', width: '140px' }}
           onChange={data => setFilter({ ...filter, chainId: data })}
           options={optionsList}
         />
@@ -199,12 +199,12 @@ export default function CryptoPageControl() {
             <span>{t('v3.crypto-table.change')}</span>
             <OrderByContainer>
               <UpIcon
-                className={`${filter.orderBy === 'volume' && filter.orderDirection === 'asc' && 'active'}`}
-                onClick={() => handleFilter('volume', 'asc')}
+                className={`${filter.orderBy === 'price_change_24h' && filter.orderDirection === 'asc' && 'active'}`}
+                onClick={() => handleFilter('price_change_24h', 'asc')}
               />
               <DownIcon
-                className={`${filter.orderBy === 'volume' && filter.orderDirection === 'desc' && 'active'}`}
-                onClick={() => handleFilter('volume', 'desc')}
+                className={`${filter.orderBy === 'price_change_24h' && filter.orderDirection === 'desc' && 'active'}`}
+                onClick={() => handleFilter('price_change_24h', 'desc')}
               />
             </OrderByContainer>
           </div>
@@ -225,7 +225,7 @@ export default function CryptoPageControl() {
         </header>
         {initialLoading && <LottieAnimation animationData={loadingAnimation} height={70} loop />}
         {!initialLoading &&
-          AssetsList.map(asset => {
+          assetsList.map(asset => {
             return <CryptoAssetTableRow asset={asset} key={asset.ref} chainId={filter.chainId} />
           })}
         {loadMoreLoading && <LottieAnimation animationData={loadingAnimation} height={70} width={50} loop />}
