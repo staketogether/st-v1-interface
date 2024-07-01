@@ -26,7 +26,10 @@ export default function AssetBalanceCard({ asset, assetIsLoading, chainId, userT
   const { query, push } = useRouter()
   const { currency } = query as { currency: string }
   const isPossibleToInvest = stakingList.find(
-    staking => staking.asset.id === asset?.networks.find(network => network.chainId === chainId)?.contractAddress
+    staking => {
+      const stakingNetwork = asset?.networks.find(network => network.chainId === chainId)
+      return !!stakingNetwork && staking.contracts.StakeTogether === stakingNetwork.contractAddress
+    }
   )
 
   return (

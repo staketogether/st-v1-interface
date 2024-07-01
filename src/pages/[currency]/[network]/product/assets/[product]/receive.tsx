@@ -1,7 +1,7 @@
 import AssetsPageControl from '@/components/pages/assets/AssetsPageControl'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
-import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
+import { AllowedNetworks, handleEvmChainIdByNetwork } from '@/services/format'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
@@ -29,7 +29,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     product: string
   }
 
-  const chainId = handleChainIdByNetwork(network)
+  const chainId = handleEvmChainIdByNetwork(network)
 
   if (!chainId) {
     return {

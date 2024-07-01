@@ -2,7 +2,6 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { useForm } from 'react-hook-form'
 import { PiArrowLineRight, PiArrowRight, PiArrowsCounterClockwise, PiWallet } from 'react-icons/pi'
 import styled from 'styled-components'
-import { encodeFunctionData, erc20Abi } from 'viem'
 import Button from '../../shared/Button'
 import Input from '../../shared/inputs/Input'
 import AlertMessageComponent from '../../shared/AlertMessageComponent'
@@ -10,50 +9,87 @@ import AlertMessageComponent from '../../shared/AlertMessageComponent'
 import { ethers, isAddress, parseEther } from 'ethers'
 
 import AssetInput from './AssetsInput'
-import { useEffect, useState } from 'react'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
+import { useCallback, useEffect, useState } from 'react'
 import useBalanceOf from '@/hooks/contracts/useBalanceOf'
-import useAssetSendTransaction from '@/hooks/contracts/useSendTransaction'
+import useAssetSendTransaction from '@/components/pages/assets/hooks/useSendTransaction'
 import { notification } from 'antd'
 import { useRouter } from 'next/router'
 import { chainConfigByChainId } from '@/config/chain'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { useSwitchChain } from 'wagmi'
 import { capitalize } from '@/config/utils'
-import { Asset } from '@/types/Asset'
+import { Asset, AssetNetwork } from '@/types/Asset'
+import AssetNetworkSwitch from './AssetsNetworkSwitch'
+import useTransferTransaction from './hooks/useTransferTransaction'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
 
 interface AssetSendProps {
   walletTo: string
 }
 
-export function AssetsSend({ asset, chainId }: { asset?: Asset; chainId: number }) {
+export function AssetsSend({ asset, chainId, userTokenRefetch }: { asset: Asset; chainId: number; userTokenRefetch: () => void }) {
   const [sendAmount, setSendAmount] = useState<string>('0')
 
-  const { t } = useLocaleTranslation()
-  const { account, chainId: walletChainId } = useConnectedAccount()
-  const isWrongNetwork = chainId !== walletChainId
+  const { account, chainId: walletChainId, web3AuthUserInfo } = useConnectedAccount()
   const { name } = chainConfigByChainId(chainId)
-  const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
+  const { t } = useLocaleTranslation()
+  const router = useRouter()
 
-  const { isLoading, tokenBalance } = useBalanceOf({
+  const {
+    isLoading: erc20IsLoading,
+    tokenBalance: erc20TokenBalance,
+    refetch
+  } = useBalanceOf({
     chainId,
     decimals: asset?.decimals,
     type: asset?.type ?? 'erc20',
     contractAddress: asset?.networks.find(network => network.chainId === chainId)?.contractAddress,
     walletAddress: account
   })
-  const { reload } = useRouter()
-  const { sendTransaction, isLoading: transactionLoading, isSuccess: transactionSuccess } = useAssetSendTransaction({ chainId })
+
+  const { tokenBalance: nativeTokenBalance, refetch: nativeTokenRefetch } = useBalanceOf({
+    chainId,
+    decimals: asset?.decimals,
+    type: 'native'
+  })
+
+  const {
+    awaitWalletAction,
+    isLoading: transferLoading,
+    isSuccess: transferSuccess,
+    sendTransfer,
+    prepareTransactionErrorMessage,
+    prepareTransactionIsError,
+    prepareTransactionIsSuccess,
+    sendTransactionEstimatedGas
+  } = useTransferTransaction({ chainId, asset, sendAmountValue: sendAmount })
+  const { sendTransaction, isLoading: nativeTransactionLoading, isSuccess: nativeTransactionSuccess } = useAssetSendTransaction({ chainId })
+
+  const isLoadingTransaction = asset.type === 'native' ? nativeTransactionLoading : awaitWalletAction || transferLoading
+  const isSuccessTransaction = asset.type === 'native' ? nativeTransactionSuccess : transferSuccess
+  const prepareTransaction = asset.type === 'native' ? true : prepareTransactionIsSuccess
+  const prepareTransactionError = asset.type === 'native' ? false : prepareTransactionIsError
 
   useEffect(() => {
     function verifyTransaction() {
-      if (transactionSuccess) {
+      if (isSuccessTransaction) {
         notification.success({ message: t('genericTransactionSuccess') })
-        reload()
+        userTokenRefetch()
+        refetch()
+        nativeTokenRefetch()
       }
     }
     verifyTransaction()
-  }, [reload, transactionSuccess, t])
+  }, [isSuccessTransaction, userTokenRefetch, refetch, nativeTokenRefetch, t])
+
+  const isWrongNetwork = chainId !== walletChainId
+
+  const { setOpenSidebarConnectWallet, openSidebarConnectWallet } = useWalletSidebarConnectWallet()
+
+  const sendAmountBigNumber =
+    asset?.type === 'native' ? ethers.parseEther(sendAmount || '0') : ethers.parseUnits(sendAmount, asset?.decimals)
+  const insufficientMinSend = sendAmountBigNumber > erc20TokenBalance.rawBalance
+  const userCanPayForGas = nativeTokenBalance.rawBalance > sendTransactionEstimatedGas
 
   const {
     register,
@@ -75,6 +111,60 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset; chainId: number 
   }
 
   const { switchChain } = useSwitchChain()
+
+  function handleButtonName() {
+    if (!account) {
+      return t('connectWallet')
+    }
+
+    if (isWrongNetwork && !!account) {
+      return `${t('switch')} ${capitalize(name.toLowerCase().replaceAll('-', ' '))}`
+    }
+
+    if (insufficientMinSend) {
+      return t('form.insufficientFunds')
+    }
+
+    if (!userCanPayForGas) {
+      return t('form.insufficientFundsPerGas')
+    }
+
+    if (!prepareTransaction && prepareTransactionErrorMessage && prepareTransactionErrorMessage === 'insufficientGasBalance') {
+      return t('form.insufficientFundsPerGas')
+    }
+    return t('next')
+  }
+
+  function handleButtonIcon() {
+    if (!account) {
+      return <PiArrowLineRight />
+    }
+
+    if (isWrongNetwork && !!account) {
+      return <PiArrowsCounterClockwise />
+    }
+
+    return <PiArrowRight />
+  }
+
+  const isDisabled =
+    asset.type === 'native'
+      ? insufficientMinSend || nativeTransactionLoading || (Number(sendAmount) <= 0 && !isWrongNetwork)
+      : insufficientMinSend ||
+        (!prepareTransaction && !!web3AuthUserInfo) ||
+        prepareTransactionError ||
+        (Number(sendAmount) <= 0 && !isWrongNetwork) ||
+        (!userCanPayForGas && !!web3AuthUserInfo)
+
+  const onNetworkChange = useCallback(
+    (network: AssetNetwork) => {
+      router.query.network = network.name.toLowerCase()
+      router.query.product = network.contractAddress
+      router.push(router)
+    },
+    [router]
+  )
+
   const onSubmit = (data: AssetSendProps) => {
     if (!account) {
       setOpenSidebarConnectWallet(true)
@@ -98,49 +188,58 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset; chainId: number 
       })
       return
     }
+
     if (asset?.type === 'native') {
-      sendTransaction({ to, value: parseEther(sendAmount), chainId })
+      sendTransaction(
+        { to, value: parseEther(sendAmount), chainId },
+        {
+          onError: () => {
+            if (sendAmountBigNumber === erc20TokenBalance.rawBalance) {
+              notification.error({
+                message: t('form.insufficientFundsPerGas')
+              })
+              return
+            }
+            notification.error({
+              message: t('sendTransactionError')
+                .replace('network', name)
+                .replace('symbol', `${chainId === 137 ? 'MATIC' : 'ETH'}`)
+            })
+          }
+        }
+      )
       return
     }
-    const transferTxData = encodeFunctionData({
-      abi: erc20Abi,
-      args: [to, ethers.parseUnits(sendAmount, asset?.decimals)],
-      functionName: 'transfer'
-    })
-    sendTransaction({
-      to,
-      data: transferTxData
-    })
-  }
 
-  function handleButtonName() {
-    if (!account) {
-      return t('connectWallet')
+    if (!userCanPayForGas && !!web3AuthUserInfo) {
+      notification.error({
+        message: t('form.insufficientFundsPerGas')
+      })
+      return
     }
 
-    if (isWrongNetwork && !!account) {
-      return `${t('switch')} ${capitalize(name.toLowerCase().replaceAll('-', ' '))}`
-    }
-
-    return t('next')
-  }
-
-  function handleButtonIcon() {
-    if (!account) {
-      return <PiArrowLineRight />
-    }
-
-    if (isWrongNetwork && !!account) {
-      return <PiArrowsCounterClockwise />
-    }
-
-    return <PiArrowRight />
+    sendTransfer()
   }
 
   return (
     <FormContainer onSubmit={handleSubmit(onSubmit)} id='assetSendForm'>
+      <AssetNetworkSwitch chainId={chainId} networks={asset?.networks ?? []} title='Rede ' onChange={onNetworkChange} />
       {account && (
-        <div>
+        <>
+          <AssetInput
+            chainId={chainId}
+            ethAmountValue={sendAmount}
+            onChange={v => {
+              handleChange(v)
+            }}
+            onMaxFunction={() => setSendAmount(erc20TokenBalance.balance)}
+            asset={asset}
+            hasError={false}
+            background='white'
+            balance={erc20TokenBalance.balance}
+            balanceLoading={erc20IsLoading}
+            accountIsConnected={!!account}
+          />
           <Input
             title={t('sendAddress')}
             disabled={false}
@@ -153,45 +252,37 @@ export function AssetsSend({ asset, chainId }: { asset?: Asset; chainId: number 
             error={errors.walletTo?.message}
             placeholder={'0x'}
           />
-          <AssetInput
-            chainId={chainId}
-            ethAmountValue={sendAmount}
-            onChange={v => {
-              handleChange(v)
-            }}
-            onMaxFunction={() => setSendAmount(tokenBalance.balance)}
-            asset={asset}
-            hasError={false}
-            background='white'
-            balance={tokenBalance.balance}
-            balanceLoading={isLoading}
-            accountIsConnected={!!account}
-          />
-        </div>
+        </>
       )}
-      {account && <AlertMessageComponent message={t('disclaimer')} />}
+      {account && (
+        <AlertMessageComponent
+          message={t('disclaimer')
+            .replace('network', name)
+            .replace('symbol', `${chainId === 137 ? 'MATIC' : 'ETH'}`)}
+        />
+      )}
       {!account && (
         <ConnectWallet>
           <WalletIcon />
           <span>{t('connectYourWallet')}</span>
           <Button
             form='assetSendForm'
-            isLoading={transactionLoading || openSidebarConnectWallet}
+            isLoading={nativeTransactionLoading || openSidebarConnectWallet}
             type='submit'
             block
             label={handleButtonName()}
-            disabled={transactionLoading || openSidebarConnectWallet || !!(Number(sendAmount) <= 0 && !isWrongNetwork)}
+            disabled={nativeTransactionLoading || openSidebarConnectWallet}
           />
         </ConnectWallet>
       )}
       {account && (
         <Button
           form='assetSendForm'
-          isLoading={transactionLoading || openSidebarConnectWallet}
+          isLoading={isLoadingTransaction || openSidebarConnectWallet}
           type='submit'
           label={handleButtonName()}
           icon={handleButtonIcon()}
-          disabled={transactionLoading || openSidebarConnectWallet || !!(Number(sendAmount) <= 0 && !isWrongNetwork)}
+          disabled={isDisabled || isLoadingTransaction}
         />
       )}
     </FormContainer>
@@ -202,9 +293,7 @@ const { FormContainer, ConnectWallet, WalletIcon } = {
   FormContainer: styled.form`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.size[32]};
-    max-height: 450px;
-    max-width: 420px;
+    gap: ${({ theme }) => theme.size[16]};
   `,
   ConnectWallet: styled.div`
     width: 100%;

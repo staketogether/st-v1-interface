@@ -1,6 +1,7 @@
 import type { RcFile } from 'antd/es/upload/interface'
 import { ChainConfig, chainConfigs } from '@/config/chain'
 import humanFormat from 'human-format'
+import { AssetNetwork } from '@/types/Asset'
 
 export function formatNumberByLocale(num: string, lang?: string): string {
   if (Number(num) < 1) {
@@ -57,7 +58,18 @@ export function getVideoIdFromUrl(url?: string): string | null {
   }
 }
 
-export type AllowedNetworks = 'ethereum' | 'holesky' | 'bitcoin-mainnet ' | 'optimism-sepolia' | 'optimistic' | 'chiliz' | 'polygon' | 'arbitrum' | 'era'
+export type AllowedNetworks =
+  | 'ethereum'
+  // | 'bitcoin-mainnet '
+  | 'optimism-sepolia'
+  | 'optimistic'
+  | 'chiliz'
+  | 'polygon'
+  | 'arbitrum'
+  | 'zksync'
+  | 'sepolia'
+  | 'arbitrumSepolia'
+  | 'polygonMumbai'
 
 export const chainByMobulaName = (mobulaName: 'ethereum' | 'optimistic' | 'chiliz' | 'polygon' | 'arbitrum' | 'zksync'): ChainConfig => {
   const chainMobulaName = {
@@ -79,21 +91,25 @@ export const chainByMobulaName = (mobulaName: 'ethereum' | 'optimistic' | 'chili
   return chain
 }
 
-export const handleChainIdByNetwork = (network: AllowedNetworks) => {
+export function handleEvmChainIdByNetwork(
+  network: AllowedNetworks
+): 1 | 324 | 10 | 42161 | 137 | 88888 | 11155111 | 11155420 | 421614 | 80001 | 88882 | undefined {
   const chainIdByNetwork = {
-    'bitcoin-mainnet ': 500,
+    // 'bitcoin-mainnet ': 500,
     ethereum: 1,
-    holesky: 17000,
     'optimism-sepolia': 11155420,
     optimistic: 10,
     chiliz: 88888,
     'chiliz-spicy': 88882,
     polygon: 137,
     arbitrum: 42161,
-    era: 324
+    zksync: 324,
+    sepolia: 11155111,
+    arbitrumSepolia: 421614,
+    polygonMumbai: 80001
   }
 
-  return chainIdByNetwork[network] ?? undefined
+  return (chainIdByNetwork[network] as 1 | 324 | 10 | 42161 | 137 | 88888 | 11155111 | 11155420 | 421614 | 80001 | 88882) ?? undefined
 }
 
 export function toHumanFormat(value: number): string {
@@ -104,4 +120,13 @@ export function toHumanFormat(value: number): string {
   return humanFormat(Number(value), {
     separator: ''
   }).replace('G', 'B') // Necessary since the prefix for short scale is B, not G: https://en.wikipedia.org/wiki/Metric_prefix
+}
+
+export function handleNetworksList(networks: AssetNetwork[]) {
+  return networks.reduce<AssetNetwork[]>((acc, current) => {
+    if (!acc.some(item => item.chainId === current.chainId)) {
+      acc.push(current)
+    }
+    return acc
+  }, [])
 }

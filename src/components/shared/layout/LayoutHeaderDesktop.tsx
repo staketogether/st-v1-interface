@@ -3,7 +3,7 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiChartLine, PiCodesandboxLogo, PiCoinsLight, PiGlobe } from 'react-icons/pi'
+import { PiChartLine, PiCodesandboxLogo, PiCoinsLight } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -17,7 +17,7 @@ export default function LayoutHeader() {
 
   const userWalletIsConnected = accountIsConnected
 
-  const { query, pathname, locale } = useRouter()
+  const { query, pathname } = useRouter()
   const { currency, network } = query
 
   const basePath = `/[currency]`
