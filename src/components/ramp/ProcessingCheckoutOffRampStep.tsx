@@ -1,6 +1,5 @@
 import { offRampPixKeyVar, quoteVar } from '@/hooks/ramp/useRampControlModal'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
 import { useReactiveVar } from '@apollo/client'
 import { PiArrowsCounterClockwise, PiClockLight, PiCurrencyDollar } from 'react-icons/pi'
 import styled, { useTheme } from 'styled-components'
@@ -17,14 +16,16 @@ import { chainConfigByChainId } from '@/config/chain'
 import successAnimation from '@assets/animations/success-animation.json'
 import useAllowance from '@/hooks/contracts/useAllowance'
 import useApprove from '@/hooks/contracts/useApprove'
+import { Asset } from '@/types/Asset'
 interface ProcessingCheckoutStepProps {
-  asset: Asset
+  asset?: Asset
+  chainId: number
   type: 'buy' | 'sell' | 'swap'
   walletAddress: `0x${string}` | undefined
   userTokenRefetch: () => void
 }
 
-export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddress, userTokenRefetch }: ProcessingCheckoutStepProps) {
+export default function ProcessingCheckoutOffRampStep({ asset, chainId, type, walletAddress, userTokenRefetch }: ProcessingCheckoutStepProps) {
   const theme = useTheme()
   const { t } = useLocaleTranslation()
 
@@ -33,10 +34,10 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
   const { chain: walletChainId } = useAccount()
   const { web3AuthUserInfo } = useConnectedAccount()
   const { switchChain } = useSwitchChain()
-  const { name } = chainConfigByChainId(asset.chains[0])
+  const { name } = chainConfigByChainId(chainId)
 
   const address = walletAddress ?? '0x'
-  const isWrongNetwork = asset.chains[0] !== walletChainId?.id
+  const isWrongNetwork = chainId !== walletChainId?.id
 
   const {
     verifySellToken,
@@ -46,7 +47,8 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
     awaitTransactionSuccess,
     sendSellTokenTx
   } = useOffRampSell({
-    asset
+    asset,
+    chainId
   })
 
   useEffect(() => {
@@ -62,16 +64,16 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
         return
       }
       if (!verifySellTokenLoading) {
-        await verifySellToken({ walletAddress: address, pixKey: offRampPixKey, amount: sendAmountToken, tokenSymbol: asset.symbol })
+        await verifySellToken({ walletAddress: address, pixKey: offRampPixKey, amount: sendAmountToken, tokenSymbol: asset?.symbol })
       }
     }
     send()
-  }, [address, asset.chains, asset.symbol, sendAmountToken, offRampPixKey, verifySellToken, isWrongNetwork, verifySellTokenLoading])
+  }, [address, chainId, asset?.symbol, sendAmountToken, offRampPixKey, verifySellToken, isWrongNetwork, verifySellTokenLoading])
 
   const changeNetwork = () => {
     if (isWrongNetwork && switchChain) {
       switchChain({
-        chainId: asset.chains[0]
+        chainId
       })
       return
     }
@@ -91,9 +93,9 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
 
   useEffect(() => {
     if (isWrongNetwork) {
-      switchChain({ chainId: asset.chains[0] })
+      switchChain({ chainId })
     }
-  }, [isWrongNetwork, asset.chains, switchChain])
+  }, [isWrongNetwork, chainId, switchChain])
   const spenderAddress = paymentDetails?.bridge?.approvalAddress ?? '0x'
 
   const {
@@ -101,10 +103,10 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
     isLoading: allowanceIsLoading,
     refetch: allowanceRefetch
   } = useAllowance({
-    contractAddress: asset.contractAddress,
+    contractAddress: asset?.networks?.find(network => network.chainId === chainId)?.contractAddress,
     userAccountAddress: address,
     spenderAddress,
-    chainId: asset.chains[0]
+    chainId
   })
 
   const {
@@ -116,9 +118,9 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
   } = useApprove({
     accountAddress: address,
     spenderAddress,
-    chainId: asset.chains[0],
-    contractAddress: asset.contractAddress,
-    enabled: !!paymentDetails?.bridge?.approvalAddress && !allowanceData && asset.type === 'erc20'
+    chainId,
+    contractAddress: asset?.networks?.find(network => network.chainId === chainId)?.contractAddress,
+    enabled: !!paymentDetails?.bridge?.approvalAddress && !allowanceData && asset?.type === 'erc20'
   })
   const approveIsLoading = isLoading || awaitWalletAction
 
@@ -129,18 +131,18 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
   }, [approveIsSuccess, allowanceRefetch])
 
   const verifyUserIsApprovedAddress =
-    (paymentDetails?.bridge?.approvalAddress && allowanceData && allowanceData > 0) ?? asset.type === 'native'
+    (paymentDetails?.bridge?.approvalAddress && allowanceData && allowanceData > 0) ?? asset?.type === 'native'
 
   function verifyAllowanceLabel() {
     if (verifyUserIsApprovedAddress) {
-      return t('v2.ramp.offRamp.unlocked').replace('token', asset.symbol)
+      return t('v2.ramp.offRamp.unlocked').replace('token', `${asset?.symbol}`)
     }
 
     return (
       <Button
         small
         onClick={approve}
-        label={t('v2.ramp.offRamp.unlock').replace('token', asset.symbol)}
+        label={t('v2.ramp.offRamp.unlock').replace('token', `${asset?.symbol}`)}
         disabled={approveIsLoading || approvePrepareTransactionIsError || allowanceIsLoading}
         isLoading={approveIsLoading || allowanceIsLoading}
         icon={<PadlockIcon />}
@@ -173,7 +175,7 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
       <Button
         small
         onClick={() => sendAmountToken && sendSellTokenTx(sendAmountToken)}
-        label={t('v2.ramp.offRamp.sendToken').replace('token', asset.symbol)}
+        label={t('v2.ramp.offRamp.sendToken').replace('token', `${asset?.symbol}`)}
         disabled={!verifyUserIsApprovedAddress || !paymentDetails}
         isLoading={sendSellTokenLoading}
         icon={<SellTokenIcon />}
@@ -182,11 +184,11 @@ export default function ProcessingCheckoutOffRampStep({ asset, type, walletAddre
   }
 
   const steps =
-    asset.type === 'native'
+    asset?.type === 'native'
       ? [verifyNetworkWalletStep, sendTransactionStep]
       : [verifyNetworkWalletStep, verifyAllowanceStep, sendTransactionStep]
 
-  return <WrapProcessingStep asset={asset} validationSteps={steps} title={t('v2.ramp.processingPayment')} type={type} />
+  return <WrapProcessingStep asset={asset} chainId={chainId} validationSteps={steps} title={t('v2.ramp.processingPayment')} type={type} />
 }
 
 const { WrongNetworkIcon, PadlockIcon, SellTokenIcon } = {

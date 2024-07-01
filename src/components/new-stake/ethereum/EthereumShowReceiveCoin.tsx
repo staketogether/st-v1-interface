@@ -1,6 +1,6 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import SkeletonLoading from '@/components/shared/icons/SkeletonLoading'
-import TokensSymbolIcons from '@/components/asset/TokensSymbolIcons'
+import TokensSymbolIcons from '@/components/shared/TokensSymbolIcons'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { formatNumberByLocale } from '@/services/format'
 import { truncateWei } from '@/services/truncate'
@@ -56,9 +56,7 @@ export default function EthereumShowReceiveCoin({ amountValue, balance, balanceL
           )}
           <span>{type === 'deposit' ? staking.symbol : t('eth.symbol')}</span>
         </CoinActionContainer>
-        <input type='text' placeholder='0' value={amountValue} disabled
-          inputMode='decimal'
-        />
+        <input type='text' placeholder='0' value={amountValue} disabled inputMode='decimal' />
       </div>
     </InputContent>
   )

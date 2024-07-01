@@ -1,7 +1,6 @@
-import useAssetStatsChart from '@/hooks/useAssetStatsChart'
+import useAssetChart from '@/hooks/useAssetChart'
 import useCoinUsdToUserCurrency from '@/hooks/useCoinUsdToUserCurrency'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import { Grid } from 'antd'
 import { DateTime } from 'luxon'
@@ -9,16 +8,19 @@ import { useEffect, useState } from 'react'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import styled from 'styled-components'
 import LottieAnimation from './LottieAnimation'
+import { Asset } from '@/types/Asset'
 
 interface PriceChartProps {
-  asset: Asset
+  asset?: Asset
+  assetId: string
+  chainId: number
 }
 
 const { useBreakpoint } = Grid
 
 type PriceChartFilter = '1W' | '1M' | '3M' | '1Y'
 
-export default function PriceChart({ asset }: PriceChartProps) {
+export default function PriceChart({ assetId, chainId }: PriceChartProps) {
   const [activeFilter, setActiveFilter] = useState<PriceChartFilter>('1M')
   const [chartData, setChartData] = useState<{ timestamp: string; price: number }[]>([])
 
@@ -45,9 +47,9 @@ export default function PriceChart({ asset }: PriceChartProps) {
     return filters[activeFilter]
   }
 
-  const { assetStats, isLoading } = useAssetStatsChart({
-    chainId: asset.chains[0],
-    contractAddress: asset.contractAddress,
+  const { assetStats, isLoading } = useAssetChart({
+    chainId,
+    contractAddress: assetId,
     currency: 'usd',
     days: handleFilter().day,
     interval: handleFilter().interval,
@@ -75,7 +77,7 @@ export default function PriceChart({ asset }: PriceChartProps) {
       <Container>
         {isLoading ? (
           <LoadingChart>
-            <LottieAnimation animationData={loadingAnimation} height={48} loop />
+            <LottieAnimation animationData={loadingAnimation} height={58} width={58} loop />
           </LoadingChart>
         ) : (
           <FormattedResponsiveContainer width='100%' minWidth={350} height={287}>
@@ -132,7 +134,7 @@ const { Container, LoadingChart, FilterChartData, FormattedResponsiveContainer }
   `,
   LoadingChart: styled.div`
     width: 100%;
-    height: 287px;
+    min-height: 287px;
     display: flex;
     align-items: center;
     justify-content: center;

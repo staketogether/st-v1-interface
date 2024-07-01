@@ -3,7 +3,7 @@ import useConnectedAccount from '@/hooks/useConnectedAccount'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { PiChartLine, PiCodesandboxLogo, PiCoinsLight, PiGlobe } from 'react-icons/pi'
+import { PiChartLine, PiCodesandboxLogo, PiCoinsLight } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -12,9 +12,12 @@ import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
+
   const { account, accountIsConnected, chainId: walletChainId } = useConnectedAccount()
 
-  const { query, pathname, locale } = useRouter()
+  const userWalletIsConnected = accountIsConnected
+
+  const { query, pathname } = useRouter()
   const { currency, network } = query
 
   const basePath = `/[currency]`
@@ -50,18 +53,19 @@ export default function LayoutHeader() {
       </MenuContainer>
 
       <WalletContainer>
-        <ContainerCurrency>
-          <GlobeIcon />
-          <span>{locale === 'pt' ? 'PT' : 'EN'}</span>
-          <span>| {(currency as string).toUpperCase()}</span>
-        </ContainerCurrency>
-        <Wallet account={account} accountIsConnected={accountIsConnected} walletChainId={walletChainId} />
+        <Wallet
+          evmWalletAddress={account}
+          accountIsConnected={userWalletIsConnected}
+          walletChainId={walletChainId}
+          isBtcConnected={false}
+          bitcoinWalletAddress={undefined}
+        />
       </WalletContainer>
     </Container>
   )
 }
 
-const { Container, MenuContainer, WalletContainer, ContainerCurrency, Logo, Menu, MenuButton, GlobeIcon, CoinsIcon, ChartIcon, ProjectsIcon } = {
+const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, CoinsIcon, ChartIcon, ProjectsIcon } = {
   Container: styled.header`
     display: none;
     gap: ${({ theme }) => theme.size[32]};
@@ -103,20 +107,6 @@ const { Container, MenuContainer, WalletContainer, ContainerCurrency, Logo, Menu
     gap: ${({ theme }) => theme.size[16]};
     grid-template-columns: auto auto auto;
   `,
-  ContainerCurrency: styled.div`
-    display: flex;
-    align-items: center;
-    gap: 2px;
-
-    span {
-      color: ${({ theme }) => theme.color.gray[600]};
-      font-family: Montserrat;
-      font-size: ${({ theme }) => theme.font.size[14]};
-      font-weight: 500;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-  `,
   Menu: styled.nav`
     display: none;
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
@@ -156,10 +146,6 @@ const { Container, MenuContainer, WalletContainer, ContainerCurrency, Logo, Menu
   `,
   CoinsIcon: styled(PiCoinsLight)`
     font-size: ${props => props.theme.size[24]};
-  `,
-  GlobeIcon: styled(PiGlobe)`
-    font-size: ${props => props.theme.size[24]};
-    color: ${({ theme }) => theme.color.gray[500]};
   `,
   ChartIcon: styled(PiChartLine)`
     font-size: ${props => props.theme.size[24]};

@@ -5,9 +5,12 @@
   "addToWalletTooltip": "Adicionar o token a sua carteira",
   "save": "Salvar",
   "edit": "Editar",
+  "rescued": "Resgatado",
+  "exchanged": "Troca",
+  "deposited": "Depositado",
   "wallet": "Carteira",
   "connectWallet": "Conectar Carteira",
-  "disclaimer": "Atenção! Confirme se o ativo que você vai receber é compatível com as redes Ethereum, Optimism, Arbitrum, Polygon e Chiliz. Ativos incompatíveis com seu endereço podem ser perdidos permanentemente.",
+  "disclaimer": "Atenção! Para movimentar tokens na rede network, é necessário ter saldo em (symbol) para cobrir as taxas de transação. Atenção! Verifique se a rede do endereço de destino corresponde à rede do ativo que você está enviando. Enviar ativos para endereços de redes diferentes pode resultar na perda permanente dos fundos.",
   "compatibility": "Compatível com as redes:",
   "tokens": "Tokens",
   "products": "Produtos",
@@ -77,6 +80,7 @@
   "about": "Sobre",
   "analytics": "Análise",
   "activity": "Atividade",
+  "historic": "Histórico",
   "success": "Sucesso",
   "viewOnExplorer": "Ver no Explorer",
   "try": "Tentar novamente",
@@ -95,6 +99,10 @@
   "investments": "Investimentos",
   "genericTransactionSuccess": "Transação Realizada com Sucesso!",
   "sendAddress": "Endereço de Destino",
+  "tendencies": "Tendências",
+  "latestAdded": "Ultimas adicionadas",
+  "mostVisited": "Mais visitadas",
+  "sendTransactionError": "Atenção! Para movimentar tokens na rede network, é necessário ter saldo na moeda (symbol) para cobrir as taxas de transação",
   "unlockTransaction": {
     "failTransaction": "Falha ao realizar Desbloqueio",
     "success": "Desbloqueio Realizado com Sucesso"
@@ -286,7 +294,7 @@
       "exit": "Sair",
       "support": "Suporte",
       "analytics": "Analytics",
-      "staking": "Investimentos",
+      "staking": "DeFi",
       "assets": "Criptomoedas"
     },
     "sidebar": {
@@ -704,6 +712,7 @@
       "productNotAvailable": "Produto Indisponivel",
       "bitcoin": "Staking de Bitcoin",
       "chiliz": "Staking de Chiliz",
+      "btc-btc": "Bitcoin",
       "btc-op": "Bitcoin",
       "eth-mainnet": "Ethereum",
       "eth-op": "Ethereum",
@@ -817,6 +826,8 @@
         "unlocked": "token Desbloqueado",
         "sendToken": "Enviar token",
         "connectedNetwork": "Conectado em [network]",
+        "pixKey": "Qual chave pix você deseja usar para receber?",
+        "key": "Chave",
         "pixKeyLabel": {
           "phone": "Telefone",
           "random": "Aleatório"
@@ -893,12 +904,12 @@
   "v3": {
     "pages": {
       "staking": {
-        "title": "Investimentos",
+        "title": "DeFi",
         "description": "Invista em Infraestrutura com Rendimentos Sustentáveis"
       },
       "crypto": {
         "title": "Criptomoedas",
-        "description": "Invista nas Principais Criptomoedas do Mercado"
+        "description": "Compre, venda e troque criptomoedas de maneira segura e descentralizada"
       },
       "stable": {
         "title": "Stablecoins",
@@ -929,6 +940,12 @@
       "defi": "DeFi",
       "crypto": "Cripto"
     },
+    "crypto-table":{
+      "name": "Nome",
+      "price": "Preço",
+      "change": "Variação",
+      "marketCap": "Valor de Mercado"
+    },
     "assetDetail": {
       "quantity": "Quantidade",
       "totalAmount": "Valor Total"
@@ -944,6 +961,9 @@
         "name": "Ethereum"
       },
       "btc-op": {
+        "name": "Bitcoin"
+      },
+      "btc-btc": {
         "name": "Bitcoin"
       },
       "eth-staking": {

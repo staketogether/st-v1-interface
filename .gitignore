@@ -43,3 +43,6 @@ public/workbox-*
 
 
 public/sw.js.map
+
+# Sentry Config File
+.env.sentry-build-plugin

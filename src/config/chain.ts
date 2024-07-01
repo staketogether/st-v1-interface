@@ -1,5 +1,17 @@
 import { ethers } from 'ethers'
-import { arbitrum, arbitrumSepolia, chiliz, mainnet, optimism, optimismSepolia, polygon, polygonMumbai, sepolia, spicy, zkSync } from 'wagmi/chains'
+import {
+  arbitrum,
+  arbitrumSepolia,
+  chiliz,
+  mainnet,
+  optimism,
+  optimismSepolia,
+  polygon,
+  polygonMumbai,
+  sepolia,
+  spicy,
+  zkSync
+} from 'wagmi/chains'
 
 interface BlockExplorerConfig {
   baseUrl: string
@@ -8,6 +20,7 @@ interface BlockExplorerConfig {
 export interface ChainConfig {
   chainId: number
   name: string
+  type: 'bitcoin' | 'evm'
   provider: ethers.JsonRpcProvider
   blockExplorer: BlockExplorerConfig
   isTestnet: boolean
@@ -19,8 +32,23 @@ export interface ChainConfig {
 
 export const chainConfigs: ChainConfig[] = [
   {
+    type: 'bitcoin',
+    chainId: 500,
+    name: 'Bitcoin',
+    provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_BTC_MAINNET_URL),
+    isTestnet: false,
+    blockExplorer: {
+      baseUrl: 'https://btcscan.org'
+    },
+    transactionConfig: {
+      blockTimePerSeconds: 15,
+      confirmations: 2
+    }
+  },
+  {
     chainId: mainnet.id,
     name: 'Ethereum',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
@@ -33,7 +61,8 @@ export const chainConfigs: ChainConfig[] = [
   },
   {
     chainId: optimism.id,
-    name: 'Optimism',
+    name: 'Optimistic',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OP_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
@@ -47,6 +76,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: arbitrum.id,
     name: 'Arbitrum',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ARB_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
@@ -60,6 +90,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: polygon.id,
     name: 'Polygon',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_POL_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
@@ -73,6 +104,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: chiliz.id,
     name: 'Chiliz',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_CHZ_MAINNET_URL),
     isTestnet: false,
     blockExplorer: {
@@ -86,6 +118,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: sepolia.id,
     name: 'Sepolia',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ETH_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {
@@ -99,6 +132,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: optimismSepolia.id,
     name: 'OptimismSp',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_OP_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {
@@ -112,6 +146,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: arbitrumSepolia.id,
     name: 'Arbitrum Sepolia',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ARB_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {
@@ -125,6 +160,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: polygonMumbai.id,
     name: 'polygon-mumbai',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_POL_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {
@@ -138,6 +174,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: spicy.id,
     name: 'spicy',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_CHZ_TESTNET_URL),
     isTestnet: true,
     blockExplorer: {
@@ -151,6 +188,7 @@ export const chainConfigs: ChainConfig[] = [
   {
     chainId: zkSync.id,
     name: 'zksync',
+    type: 'evm',
     provider: new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_ZKSYNC_MAINNET_RPC_URL),
     isTestnet: false,
     blockExplorer: {
@@ -164,6 +202,7 @@ export const chainConfigs: ChainConfig[] = [
 ]
 
 export enum Chain {
+  BTC_MAINNET = 500,
   ETH_MAINNET = mainnet.id,
   OP_MAINNET = optimism.id,
   ARB_MAINNET = arbitrum.id,

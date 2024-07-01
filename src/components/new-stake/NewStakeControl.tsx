@@ -16,7 +16,7 @@ import NetworkIcons from '../shared/NetworkIcons'
 import ProductInfo from './ProductInfo'
 import { Staking } from '@/types/Staking'
 import { chainConfigByChainId } from '@/config/chain'
-import { AssetStats } from '@/types/AssetStats'
+import { Asset } from '@/types/Asset'
 import StakingBalanceCard from './StakingBalanceCard'
 import StakingDelegatePools from './StakingDelegatePools'
 import useErc20BalanceOf from '@/hooks/contracts/useErc20BalanceOf'
@@ -36,7 +36,7 @@ const EthereumFormControl = dynamic(() => import('./ethereum/EthereumFormControl
 interface NewStakeControlProps {
   type: 'deposit' | 'withdraw'
   staking: Staking
-  assetData: AssetStats
+  assetData: Asset
   chainId: number
 }
 
@@ -55,6 +55,8 @@ export default function NewStakeControl({ staking, type, assetData, chainId }: N
   const { query } = useRouter()
   const { currency } = query
   const updateStpBalance = useReactiveVar(updateStpBalanceVar)
+
+  const stakingAssetId = staking.asset.type === 'bitcoin' ? staking.asset.symbol : staking.asset.contractAddress
 
   const { chain: walletChainId, connector, address } = useAccount()
   const isWrongNetwork = chainId !== walletChainId?.id
@@ -116,7 +118,7 @@ export default function NewStakeControl({ staking, type, assetData, chainId }: N
           <ContainerPrice>
             <div>
               <span>{staking.symbol}</span>
-              <TokensShowValuePrice asset={staking.asset} />
+              <TokensShowValuePrice chainId={chainId} contractAddress={stakingAssetId} />
             </div>
             <Available>
               <span>{t('v2.ethereumStaking.networkAvailable')}</span>

@@ -1,43 +1,48 @@
 import AssetIcon from '@/components/shared/AssetIcon'
 import Button from '@/components/shared/Button'
-import { RampSteps, amountToQuoteVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
+import useQuoteRamp from '@/hooks/ramp/useQuote'
+import { RampSteps, amountToQuoteVar, quoteVar, rampStepControlVar } from '@/hooks/ramp/useRampControlModal'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
-import { Asset } from '@/types/Asset'
+import { Asset, AssetNetwork } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
 import brlBrla from '@assets/icons/brl-brla.svg'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { useCallback, useEffect, useState } from 'react'
 import { PiArrowRight } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
+import AssetNetworkSwitch from '../pages/assets/AssetsNetworkSwitch'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import useQuoteRamp from '@/hooks/ramp/useQuote'
 
 interface QuotationStepProps {
-  asset: Asset
+  asset?: Asset
+  chainId: number
 }
 
-export default function QuotationStep({ asset }: QuotationStepProps) {
+export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
+  const router = useRouter()
+
   const amountToQuote = useReactiveVar(amountToQuoteVar)
   const [value, setValue] = useState<string>(amountToQuote ?? '0')
   const debounceValue = useDebounce(value, 300)
-  const minDeposit = asset.ramp[0].minDeposit
+  const minDeposit = 10
 
   const { quote, isValidating: quoteIsValidating } = useQuoteRamp(
     'brl',
     debounceValue ? Number(debounceValue) : 0,
-    asset.ramp[0].bridge?.fromChainId ?? asset.ramp[0].chainId,
-    asset.type === 'fan-token',
+    asset?.bridge?.chainId ?? chainId,
+    asset?.isFanToken,
     ProviderType.brla,
     PaymentMethodType.pix,
-    asset.ramp[0].bridge?.toChainId.toString(),
-    asset.ramp[0].bridge?.toToken ?? asset.symbol,
+    asset?.bridge?.chainId ? chainId.toString() : undefined,
+    asset?.bridge?.contractAddress ?? asset?.symbol,
     true
   )
 
@@ -84,7 +89,7 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
     }
 
     if (errorMinValue) {
-      if (asset.type === 'fan-token') {
+      if (asset?.isFanToken) {
         return `${t('v2.stake.minTokenAmount')} ${minDeposit} ${asset.symbol}`
       }
 
@@ -107,35 +112,49 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
     })
   }, [quote])
 
-  useFacebookPixel(`onramp-quotation:${asset.id}`, quote?.amountToken !== undefined, {
-    amountFiat: Number(debounceValue),
-    amountToken: String(quote?.amountToken),
-    assetId: asset.id
-  })
+  useFacebookPixel(
+    `onramp-quotation:${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`,
+    quote?.amountToken !== undefined,
+    {
+      amountFiat: Number(debounceValue),
+      amountToken: String(quote?.amountToken),
+      assetId: `${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`
+    }
+  )
+
+  const onNetworkChange = useCallback(
+    (network: AssetNetwork) => {
+      router.query.network = network.name.toLowerCase()
+      router.query.product = network.contractAddress
+      router.push(router)
+    },
+    [router]
+  )
 
   return (
     <Container>
       <BoxValuesContainer>
+        <AssetNetworkSwitch chainId={chainId} networks={asset?.networks ?? []} title='Rede de recebimento' onChange={onNetworkChange} />
         <InputContainer className={`${error ? 'error' : ''}`}>
-          {asset.type === 'fan-token' && <span>{t('v3.assetDetail.quantity')}</span>}
-          {asset.type !== 'fan-token' && <span>{t('v3.assetDetail.totalAmount')}</span>}
+          {asset?.isFanToken && <span>{t('v3.assetDetail.quantity')}</span>}
+          {!asset?.isFanToken && <span>{t('v3.assetDetail.totalAmount')}</span>}
           <div>
-            {asset.type !== 'fan-token' && (
+            {!asset?.isFanToken && (
               <div>
                 <Image src={brlBrla} width={36} height={24} alt='BRL' />
                 <span>BRL</span>
               </div>
             )}
-            {asset.type === 'fan-token' && (
+            {asset?.isFanToken && (
               <div>
-                <AssetIcon marginRight='8px' image={asset.symbolImage} chain={asset.chains[0]} size={24} altName={asset.symbol} />
+                <AssetIcon marginRight='8px' image={asset.imageUrl} chain={chainId} size={24} altName={asset?.symbol} />
                 <span>{asset.symbol}</span>
               </div>
             )}
-            {asset.type !== 'fan-token' && (
+            {!asset?.isFanToken && (
               <Input type='number' onChange={({ target }) => handleChange(target.value)} value={value} min={0} placeholder='0' step={1} />
             )}
-            {asset.type === 'fan-token' && (
+            {asset?.isFanToken && (
               <Input
                 type='number'
                 onChange={({ target }) => handleChange(parseInt(target.value.toString(), 10).toString())}
@@ -148,28 +167,26 @@ export default function QuotationStep({ asset }: QuotationStepProps) {
           </div>
         </InputContainer>
         <InputContainer disabled>
-          {asset.type !== 'fan-token' && <span>{t('v3.assetDetail.quantity')}</span>}
-          {asset.type === 'fan-token' && <span>{t('v3.assetDetail.totalAmount')}</span>}
+          {!asset?.isFanToken && <span>{t('v3.assetDetail.quantity')}</span>}
+          {asset?.isFanToken && <span>{t('v3.assetDetail.totalAmount')}</span>}
           <div>
-            {asset.type !== 'fan-token' && (
+            {!asset?.isFanToken && (
               <div>
-                <AssetIcon marginRight='8px' image={asset.symbolImage} chain={asset.chains[0]} size={24} altName={asset.symbol} />
-                <span>{asset.symbol}</span>
+                <AssetIcon marginRight='8px' image={asset?.imageUrl} chain={chainId} size={24} altName={asset?.symbol} />
+                <span>{asset?.symbol}</span>
               </div>
             )}
-            {asset.type === 'fan-token' && (
+            {asset?.isFanToken && (
               <div>
                 <Image src={brlBrla} width={36} height={24} alt='BRL' />
                 <span>BRL</span>
               </div>
             )}
             {quoteIsValidating && <SkeletonLoading width={60} height={20} />}
-            {!quoteIsValidating && asset.type !== 'fan-token' && (
+            {!quoteIsValidating && !asset?.isFanToken && (
               <Input value={truncateDecimal(quote?.amountToken ?? '0')} disabled placeholder='0' />
             )}
-            {!quoteIsValidating && asset.type === 'fan-token' && (
-              <Input value={truncateDecimal(quote?.amountBrl ?? '0')} disabled placeholder='0' />
-            )}
+            {!quoteIsValidating && asset?.isFanToken && <Input value={truncateDecimal(quote?.amountBrl ?? '0')} disabled placeholder='0' />}
           </div>
         </InputContainer>
       </BoxValuesContainer>

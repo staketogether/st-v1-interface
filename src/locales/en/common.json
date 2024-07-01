@@ -5,9 +5,12 @@
   "addToWalletTooltip": "Add token to your wallet",
   "save": "Save",
   "edit": "Edit",
+  "rescued": "Rescued",
+  "exchanged": "Exchanged",
+  "deposited": "Deposited",
   "wallet": "Wallet",
   "connectWallet": "Connect Wallet",
-  "disclaimer": "Attention! Confirm that the asset you will receive is compatible with the Ethereum, Optimism, Arbitrum, Polygon and Chiliz networks. Assets incompatible with your address may be lost permanently.",
+  "disclaimer": "Attention! To move tokens on the network, it is necessary to have a balance in (symbol) to cover transaction fees. Attention! Check if the network of the destination address matches the network of the asset you are sending. Sending assets to addresses on different networks may result in the permanent loss of funds.",
   "compatibility": "Compatible with networks:",
   "tokens": "Tokens",
   "products": "Products",
@@ -76,6 +79,7 @@
   "activities": "Activities",
   "analytics": "Analytics",
   "activity": "Activity",
+  "historic": "Activities",
   "success": "Success",
   "viewOnExplorer": "View on Explorer",
   "try": "Try Again",
@@ -94,6 +98,10 @@
   "investments": "Investments",
   "genericTransactionSuccess": "Transaction Successful",
   "sendAddress": "Send Address",
+  "tendencies": "Tendencies",
+  "latestAdded": "Latest added",
+  "mostVisited": "Most Visited",
+  "sendTransactionError": "Attention! To move tokens on the network, it is necessary to have a balance in the currency (symbol) to cover transaction fees.",
   "unlockTransaction": {
     "failTransaction": "Failed to perform Unlock",
     "success": "Unlocking Completed Successfully"
@@ -287,7 +295,7 @@
       "exit": "Exit",
       "support": "Support",
       "analytics": "Analytics",
-      "staking": "Investments",
+      "staking": "DeFi",
       "assets": "Cryptocurrencies"
     },
     "sidebar": {
@@ -682,6 +690,7 @@
       "bitcoin": "Bitcoin Staking",
       "chiliz": "Chiliz Staking",
       "btc-op": "Bitcoin",
+      "btc-btc": "Bitcoin",
       "eth-mainnet": "Ethereum",
       "eth-op": "Ethereum",
       "eth-arb": "Ethereum",
@@ -790,7 +799,9 @@
         "unlocked": "token Unlocked",
         "sendToken": "Send token",
         "connectedNetwork": "Connected the [network]",
-        "pixKeyLabel": {
+        "pixKey": "Which pix key do you want to use to receive?",
+        "key": "Key",
+         "pixKeyLabel": {
           "phone": "Phone",
           "random": "Random"
         },
@@ -866,12 +877,12 @@
   "v3": {
     "pages": {
       "staking": {
-        "title": "Staking",
+        "title": "DeFi",
         "description": "Invest in Infrastructure with Sustainable Yields"
       },
       "crypto": {
         "title": "Crypto",
-        "description": "Invest in the Top Crypto in the Market"
+        "description": "Buy, sell, and trade cryptocurrencies securely and decentralized"
       },
       "stable": {
         "title": "Stablecoins",
@@ -902,6 +913,12 @@
       "defi": "DeFi",
       "crypto": "Crypto"
     },
+      "crypto-table":{
+      "name": "Name",
+      "price": "Price",
+      "change": "Change",
+      "marketCap": "Market Cap"
+    },
     "assetDetail": {
       "quantity": "Quantity",
       "totalAmount": "Total Amount"
@@ -917,6 +934,9 @@
         "name": "Ethereum"
       },
       "btc-op": {
+        "name": "Bitcoin"
+      },
+      "btc-btc": {
         "name": "Bitcoin"
       },
       "chz-staking": {

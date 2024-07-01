@@ -4,7 +4,6 @@ import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useQuoteOffRamp from '@/hooks/ramp/useQuoteOffRamp'
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import brlBrla from '@assets/icons/brl-brla.svg'
@@ -14,23 +13,24 @@ import { PiArrowDown, PiArrowRight } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
-import AssetInput from '../assets/AssetsInput'
+import AssetInput from '../pages/assets/AssetsInput'
 import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import AlertMessageComponent from '../shared/AlertMessageComponent'
 import { chainConfigByChainId } from '@/config/chain'
+import { Asset } from '@/types/Asset'
 
 interface QuotationOffRampStepProps {
-  asset: Asset
+  asset?: Asset
+  chainId: number
   userTokenBalance: TokenBalance
   userTokenIsLoading: boolean
 }
 
-export default function QuotationOffRampStep({ asset: asset, userTokenBalance, userTokenIsLoading }: QuotationOffRampStepProps) {
+export default function QuotationOffRampStep({ asset, chainId, userTokenBalance, userTokenIsLoading }: QuotationOffRampStepProps) {
   const [value, setValue] = useState<string>('0')
 
   const amountDebounceValue = useDebounce(value, 300)
-  const [chainId] = asset.chains
   const { t } = useLocaleTranslation()
 
   const { quote, isLoading } = useQuoteOffRamp({
@@ -39,7 +39,7 @@ export default function QuotationOffRampStep({ asset: asset, userTokenBalance, u
     provider: ProviderType.brla,
     paymentMethod: PaymentMethodType.pix,
     includeMarkup: true,
-    tokenSymbol: asset.symbol
+    tokenSymbol: asset?.symbol
   })
   useEffect(() => {
     if (!quote) {
@@ -99,13 +99,13 @@ export default function QuotationOffRampStep({ asset: asset, userTokenBalance, u
     return t('next')
   }
 
-  useFacebookPixel(`offramp-quotation:${asset.id}`, !!quote, {
+  useFacebookPixel(`offramp-quotation:${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`, !!quote, {
     amountToken: parseFloat(quote?.amountToken ?? '0'),
     amountFiat: parseFloat(quote?.amountBrl ?? '0'),
     method: 'PIX',
-    assetId: asset.id
+    assetId: `${asset?.networks.find(network => network.chainId === chainId)?.contractAddress}`
   })
-  const { name } = chainConfigByChainId(asset.chains[0])
+  const { name } = chainConfigByChainId(chainId)
   return (
     <Container>
       <BoxValuesContainer>
@@ -115,12 +115,13 @@ export default function QuotationOffRampStep({ asset: asset, userTokenBalance, u
             handleChange(v)
           }}
           onMaxFunction={() => setValue(userTokenBalance.balance)}
-          productAsset={asset}
+          asset={asset}
           hasError={false}
           inputMode='decimal'
           balance={userTokenBalance.balance}
           balanceLoading={userTokenIsLoading}
           accountIsConnected={!!userWalletAddress}
+          chainId={chainId}
         />
 
         <ArrowDown />

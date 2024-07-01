@@ -7,8 +7,8 @@ import { useRouter } from 'next/router'
 import { Staking } from '@/types/Staking'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import { truncateWei } from '@/services/truncate'
-import useStAccount from '../wallet/hooks/useStAccount'
 import useCoinConversion from '@/hooks/useCoinConversion'
+import useStAccount from '@/hooks/useStAccount'
 
 interface StakingBalanceCardProps {
   staking: Staking
@@ -32,12 +32,12 @@ export default function StakingBalanceCard({ staking, stpETHBalance, stpETHBalan
   const { priceConvertedValue: userLsdBalanceUsd, loading: lsdUsdLoading } = useCoinConversion(
     userLsdBalanceFormatted,
     staking.asset.chains[0],
-    staking.asset.contractAddress
+    staking.asset.type === 'bitcoin' ? 'btc' : staking.asset.contractAddress
   )
   const { priceConvertedValue: accountRewardsUsd, loading: rewardsUsdLoading } = useCoinConversion(
     accountTotalRewardsFormatted,
     staking.asset.chains[0],
-    staking.asset.contractAddress
+    staking.asset.type === 'bitcoin' ? 'btc' : staking.asset.contractAddress
   )
 
   return (

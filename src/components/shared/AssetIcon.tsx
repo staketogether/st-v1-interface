@@ -5,19 +5,29 @@ import ethereumIcon from '@assets/network/ethereum.svg'
 import optimismIcon from '@assets/network/optimist.svg'
 import polygonIcon from '@assets/network/polygon.svg'
 import zkIcon from '@assets/network/zk.png'
+import defaultIcon from '@assets/assets/default-erc-20.svg'
+import bitcoinIcon from '@assets/assets/bitcoin.svg'
 import Image, { StaticImageData } from 'next/image'
 import styled from 'styled-components'
+import { useState } from 'react'
 
 interface SymbolIconsProps {
-  altName: string
-  image: string | StaticImageData
+  altName?: string
+  image?: string | StaticImageData
   chain?: number
   size: number
   marginRight?: string | number
 }
 
 export default function AssetIcon({ altName, image, size, chain, marginRight }: SymbolIconsProps) {
+  const [src, setSrc] = useState(image ?? defaultIcon)
+
+  const handleError = () => {
+    setSrc(defaultIcon)
+  }
+
   const chainsIcon = {
+    [Chain.BTC_MAINNET]: bitcoinIcon,
     [Chain.ETH_MAINNET]: ethereumIcon,
     [Chain.OP_MAINNET]: optimismIcon,
     [Chain.ARB_MAINNET]: arbitrumIcon,
@@ -33,8 +43,8 @@ export default function AssetIcon({ altName, image, size, chain, marginRight }: 
 
   return (
     <Wrapper style={{ marginRight: marginRight ? marginRight : 'inherit' }} size={size}>
-      <Image src={image} width={size} height={size} alt={altName} />
-      {chain && (
+      <Image src={src} width={size} height={size} alt={`${altName}`} onError={handleError} />
+      {chain !== undefined && (
         <div>
           <Image
             src={chainsIcon[chain]}

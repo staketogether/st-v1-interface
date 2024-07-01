@@ -2,32 +2,48 @@ import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import useWalletSidebarConnectWallet from '@/hooks/useWalletSidebarConnectWallet'
 import { useEffect } from 'react'
 import WalletDisconnectedButton from './WalletConnectButton'
-import WalletConnectedButton from './WalletConnectedButton'
-import WalletSidebarConnected from './WalletSidebarConnected'
+import WalletEvmConnectedButton from './WalletEvmConnectedButton'
+import WalletSidebarEvmConnected from './WalletSidebarEvmConnected'
+import WalletBitcoinConnectedButton from './WalletBitcoinConnectedButton'
 
 interface WalletProps {
-  account: `0x${string}` | undefined
+  evmWalletAddress: `0x${string}` | undefined
+  bitcoinWalletAddress: string | undefined
   accountIsConnected: boolean
   walletChainId?: number
+  isBtcConnected: boolean
 }
 
-export default function Wallet({ account, accountIsConnected, walletChainId }: WalletProps) {
+export default function Wallet({ evmWalletAddress, bitcoinWalletAddress, accountIsConnected, walletChainId, isBtcConnected }: WalletProps) {
   const { registerConnectWallet } = useMixpanelAnalytics()
   const { setOpenSidebarConnectWallet } = useWalletSidebarConnectWallet()
 
   useEffect(() => {
-    if (accountIsConnected && account && walletChainId) {
+    if (accountIsConnected && evmWalletAddress && walletChainId) {
       setOpenSidebarConnectWallet(false)
-      registerConnectWallet(account, walletChainId)
+      registerConnectWallet(evmWalletAddress, walletChainId)
     }
-  }, [account, accountIsConnected, walletChainId, registerConnectWallet, setOpenSidebarConnectWallet])
+    if (accountIsConnected && bitcoinWalletAddress) {
+      setOpenSidebarConnectWallet(false)
+      registerConnectWallet(bitcoinWalletAddress, 0)
+    }
+  }, [evmWalletAddress, accountIsConnected, walletChainId, bitcoinWalletAddress, registerConnectWallet, setOpenSidebarConnectWallet])
+  if (accountIsConnected && evmWalletAddress && walletChainId && !bitcoinWalletAddress && !isBtcConnected) {
+    return (
+      <>
+        <WalletEvmConnectedButton address={evmWalletAddress} />
+        <WalletSidebarEvmConnected address={evmWalletAddress} walletChainId={walletChainId} />
+      </>
+    )
+  }
 
-  return accountIsConnected && account && walletChainId ? (
-    <>
-      <WalletConnectedButton address={account} />
-      <WalletSidebarConnected address={account} walletChainId={walletChainId} />
-    </>
-  ) : (
-    <WalletDisconnectedButton />
-  )
+  if (accountIsConnected && bitcoinWalletAddress && isBtcConnected) {
+    return (
+      <>
+        <WalletBitcoinConnectedButton address={bitcoinWalletAddress} />
+      </>
+    )
+  }
+
+  return <WalletDisconnectedButton />
 }

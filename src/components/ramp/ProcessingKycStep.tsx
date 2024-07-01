@@ -3,7 +3,6 @@ import { RampSteps, kycIdVar, kycLevelVar, qrCodeVar, quoteVar, rampStepControlV
 import useKycLevelInfo from '@/hooks/ramp/useKycLevelInfo'
 import useRampActivity from '@/hooks/ramp/useRampActivity'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Asset } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -12,13 +11,15 @@ import { PiCheckCircleFill, PiCircleLight, PiClockLight } from 'react-icons/pi'
 import { useTheme } from 'styled-components'
 import { useAccount } from 'wagmi'
 import WrapProcessingStep from './WrapProcessingStep'
+import { Asset } from '@/types/Asset'
 
 interface ProcessingKycStepProps {
-  product: Asset
+  asset?: Asset
+  chainId: number
   type: 'buy' | 'sell' | 'swap'
 }
 
-export default function ProcessingKycStep({ product, type }: ProcessingKycStepProps) {
+export default function ProcessingKycStep({ asset, chainId, type }: ProcessingKycStepProps) {
   const [rampData, setRampData] = useState<BuyRampRequest | undefined>(undefined)
 
   const timeToRedirect = 3000
@@ -48,40 +49,27 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
   const kycVerify = address && quote && (Number(kyc?.level) > 0 || activity?.status === 'success') && Number(kyc?.level) > 0
 
   useEffect(() => {
-    if (!kycVerify) {
+    if (kyc?.level === 0 || !quote || !address) {
       return
     }
 
     if (type === 'buy') {
-      const [ramp] = product.ramp
       setRampData({
-        chainIdToReceive: ramp.chainId,
+        chainIdToReceive: chainId,
         paymentMethod: PaymentMethodType.pix,
         fiatCurrencyCode: 'brl',
-        amount: product.type === 'fan-token' ? Number(quote.amountToken) : Number(quote.amountBrl),
+        amount: asset?.isFanToken ? Number(quote.amountToken) : Number(quote.amountBrl),
         accountAddress: address,
         receiverAddress: address,
-        tokenToReceive: product.symbol,
-        fixOutput: product.type === 'fan-token'
+        tokenToReceive: asset?.symbol,
+        fixOutput: asset?.isFanToken
       })
       return
     }
     if (type === 'sell') {
       rampStepControlVar(RampSteps.PixKeyStep)
     }
-  }, [
-    address,
-    isLoading,
-    kycActivity,
-    kycLevelInfo?.level,
-    kycVerify,
-    product.ramp,
-    product.symbol,
-    product.type,
-    quote?.amountBrl,
-    quote?.amountToken,
-    type
-  ])
+  }, [address, isLoading, kycActivity, kycLevelInfo?.level, kycVerify, asset?.symbol, quote?.amountBrl, quote?.amountToken, type, chainId, asset?.isFanToken, kyc?.level, quote])
 
   useEffect(() => {
     if (activity?.status === 'error' && isError) {
@@ -94,24 +82,26 @@ export default function ProcessingKycStep({ product, type }: ProcessingKycStepPr
       qrCodeVar(buyRampResponse)
       setTimeout(() => rampStepControlVar(RampSteps.Checkout), timeToRedirect)
     }
-  }, [activity?.status, activity?.type, buyRampResponse])
+  }, [activity?.status, activity?.type, kyc, buyRampResponse])
+
+
 
   const validationSteps = [
     {
-      icon: getIcon(kycActivityId ? 'process' : 'success'),
+      icon: getIcon(!activity && !kyc ? 'process' : 'success'),
       text: t('v2.ramp.processingRegistration'),
       subText: t('v2.ramp.kyc.processTime'),
-      disable: !kycActivityId
+      disable: !activity && !kyc
     },
     {
       icon:
-        activity?.status === 'success' && Number(kyc?.level) > 0
+        buyRampResponse?.brCode
           ? getIcon('success')
           : getIcon(Number(kyc?.level) > 0 ? 'process' : 'waiting'),
       text: type === 'buy' ? t('v2.ramp.generatingQRCode') : t('v2.ramp.validatingWithdrawal'),
-      disable: activity?.status !== 'success'
+      disable: !buyRampResponse?.brCode
     }
   ]
 
-  return <WrapProcessingStep asset={product} validationSteps={validationSteps} title={t('v2.ramp.processingRegistration')} type={type} />
+  return <WrapProcessingStep asset={asset} chainId={chainId} validationSteps={validationSteps} title={t('v2.ramp.processingRegistration')} type={type} />
 }

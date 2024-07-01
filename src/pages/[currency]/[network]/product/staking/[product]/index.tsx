@@ -2,17 +2,17 @@ import NewStakeControl from '@/components/new-stake/NewStakeControl'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
+import { AllowedNetworks, handleEvmChainIdByNetwork } from '@/services/format'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { Staking } from '@/types/Staking'
 import { stakingList } from '@/config/product/staking'
-import { AssetStats } from '@/types/AssetStats'
+import { Asset } from '@/types/Asset'
 
 export interface ProductProps {
   product: Staking
-  assetData: AssetStats
+  assetData: Asset
   chainId: number
 }
 
@@ -44,38 +44,12 @@ export default function Product({ product, assetData, chainId }: ProductProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = () => {
-  const networks = [
-    { network: 'optimism', chainId: 10 },
-    { network: 'ethereum', chainId: 1 }
-  ]
-
-  const currencies = ['usd', 'brl', 'eur']
-
-  const paths = networks
-    .map(network => {
-      return stakingList
-        .filter(staking => staking.listed && staking.enabled && staking.asset.chains.includes(network.chainId))
-        .map(product => {
-          return currencies.map(currency => {
-            return {
-              params: {
-                network: network.network,
-                currency,
-                type: 'staking',
-                product: product.id
-              }
-            }
-          })
-        })
-    })
-    .flat(2)
-
-  return { paths, fallback: 'blocking' }
+  return { paths: [], fallback: 'blocking' }
 }
 
-async function fetchProductAssetData(uri: string): Promise<AssetStats> {
+async function fetchProductAssetData(uri: string): Promise<Asset> {
   const { backendUrl } = globalConfig
-  const marketData = await axios.get<AssetStats>(`${backendUrl}/api/${uri}`)
+  const marketData = await axios.get<Asset>(`${backendUrl}/api/${uri}`)
   return marketData.data
 }
 
@@ -86,9 +60,9 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   }
   const productSelected = stakingList.find(item => item.id === product)
 
-  const chainId = handleChainIdByNetwork(network)
+  const chainId = handleEvmChainIdByNetwork(network)
 
-  if (!productSelected || !chainId) {
+  if (!productSelected || !chainId || productSelected.asset.type === 'bitcoin') {
     return {
       notFound: true
     }
