@@ -1,22 +1,23 @@
-import { offRampPixKeyVar, quoteVar } from '@/hooks/ramp/useRampControlModal'
-import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { useReactiveVar } from '@apollo/client'
-import { PiArrowsCounterClockwise, PiClockLight, PiCurrencyDollar } from 'react-icons/pi'
-import styled, { useTheme } from 'styled-components'
-import WrapProcessingStep from './WrapProcessingStep'
-import loadingAnimation from '@assets/animations/loading-animation.json'
-import LottieAnimation from '../shared/LottieAnimation'
-import { useEffect } from 'react'
-import { GiPadlockOpen } from 'react-icons/gi'
-import useOffRampSell from '@/hooks/ramp/useOffRampSell'
-import { useAccount, useSwitchChain } from 'wagmi'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
-import Button from '../shared/Button'
 import { chainConfigByChainId } from '@/config/chain'
-import successAnimation from '@assets/animations/success-animation.json'
 import useAllowance from '@/hooks/contracts/useAllowance'
 import useApprove from '@/hooks/contracts/useApprove'
+import useOffRampSell from '@/hooks/ramp/useOffRampSell'
+import { offRampPixKeyVar, quoteVar } from '@/hooks/ramp/useRampControlModal'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useLocaleTranslation from '@/hooks/useLocaleTranslation'
+import { CREATE_ACTIVITY_MUTATION_SELL, CreateActivitySellArgs, CreateActivitySellData } from '@/mutations/create_account_activity_sell.mutation'
 import { Asset } from '@/types/Asset'
+import { useMutation, useReactiveVar } from '@apollo/client'
+import loadingAnimation from '@assets/animations/loading-animation.json'
+import successAnimation from '@assets/animations/success-animation.json'
+import { useEffect } from 'react'
+import { GiPadlockOpen } from 'react-icons/gi'
+import { PiArrowsCounterClockwise, PiClockLight, PiCurrencyDollar } from 'react-icons/pi'
+import styled, { useTheme } from 'styled-components'
+import { useAccount, useSwitchChain } from 'wagmi'
+import Button from '../shared/Button'
+import LottieAnimation from '../shared/LottieAnimation'
+import WrapProcessingStep from './WrapProcessingStep'
 interface ProcessingCheckoutStepProps {
   asset?: Asset
   chainId: number
@@ -39,6 +40,7 @@ export default function ProcessingCheckoutOffRampStep({ asset, chainId, type, wa
   const address = walletAddress ?? '0x'
   const isWrongNetwork = chainId !== walletChainId?.id
 
+  const [mutation] = useMutation<CreateActivitySellData, CreateActivitySellArgs>(CREATE_ACTIVITY_MUTATION_SELL)
   const {
     verifySellToken,
     isLoading: verifySellTokenLoading,
@@ -48,8 +50,28 @@ export default function ProcessingCheckoutOffRampStep({ asset, chainId, type, wa
     sendSellTokenTx
   } = useOffRampSell({
     asset,
-    chainId
+    chainId,
+    successAction: (brlaId?: string) => {
+      if (walletAddress && quote && asset) {
+        mutation({
+          variables: {
+            accountAddress: walletAddress,
+            amount: quote?.amountToken.toString(),
+            amountFiat: quote?.amountBrl.toString(),
+            type: 'sellCrypto',
+            assetType: 'asset',
+            brlaId: brlaId ?? '',
+            token: asset?.name,
+            chainId
+
+          }
+        })
+      }
+
+    }
   })
+
+
 
   useEffect(() => {
     if (awaitTransactionSuccess) {

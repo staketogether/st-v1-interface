@@ -1,14 +1,14 @@
-import { globalConfig } from '@/config/global'
-import { PaymentDetails } from '@/types/offRampSell'
-import axios from 'axios'
-import { useCallback, useEffect, useState } from 'react'
-import { RampSteps, rampStepControlVar } from './useRampControlModal'
-import { ethers } from 'ethers'
-import { useSendTransaction, useWaitForTransactionReceipt as useWaitForTransaction } from 'wagmi'
 import { chainConfigByChainId } from '@/config/chain'
-import { notification } from 'antd'
-import useLocaleTranslation from '../useLocaleTranslation'
+import { globalConfig } from '@/config/global'
 import { Asset } from '@/types/Asset'
+import { PaymentDetails } from '@/types/offRampSell'
+import { notification } from 'antd'
+import axios from 'axios'
+import { ethers } from 'ethers'
+import { useCallback, useEffect, useState } from 'react'
+import { useSendTransaction, useWaitForTransactionReceipt as useWaitForTransaction } from 'wagmi'
+import useLocaleTranslation from '../useLocaleTranslation'
+import { RampSteps, rampStepControlVar } from './useRampControlModal'
 
 interface useOffRampSellRequest {
   walletAddress: `0x${string}`
@@ -17,7 +17,7 @@ interface useOffRampSellRequest {
   tokenSymbol?: string
 }
 
-export default function useOffRampSell({ asset, chainId }: { asset?: Asset, chainId: number }) {
+export default function useOffRampSell({ asset, chainId, successAction }: { asset?: Asset, chainId: number, successAction?: (brlaId?: string) => void }) {
   const [awaitWalletAction, setAwaitWalletAction] = useState(false)
   const [sendSellTokenLoading, setSendSellTokenLoading] = useState(false)
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(null)
@@ -79,6 +79,9 @@ export default function useOffRampSell({ asset, chainId }: { asset?: Asset, chai
           if (!tx) return
           setSendSellTokenLoading(true)
           sendTransaction(tx)
+          if (successAction) {
+            successAction(paymentDetails.id)
+          }
           return
         }
         if (paymentDetails?.paymentWalletAddress) {
@@ -86,12 +89,15 @@ export default function useOffRampSell({ asset, chainId }: { asset?: Asset, chai
             to: paymentDetails.paymentWalletAddress,
             value: ethers.parseEther(amount)
           })
+          if (successAction) {
+            successAction(paymentDetails.id)
+          }
         }
       } catch {
         setSendSellTokenLoading(false)
       }
     },
-    [paymentDetails, sendTransaction]
+    [paymentDetails, sendTransaction, successAction]
   )
 
   return {
