@@ -34,7 +34,7 @@ export default function CryptoAssetTableRow({ asset, chainId }: AssetCardProps) 
         <ImageContainer>
           <div>
             <AssetIcon image={asset.imageUrl} chain={network.chainId} size={24} altName={network.name} />
-            <span>{ isMobile ? asset.symbol : asset.name}</span>
+            <span>{isMobile ? asset.symbol : asset.name}</span>
           </div>
         </ImageContainer>
         <PriceContainer className='price'>{usdToCurrency(asset.currentPriceUsd).formatted}</PriceContainer>
@@ -51,7 +51,7 @@ export default function CryptoAssetTableRow({ asset, chainId }: AssetCardProps) 
 
   return (
     <CardContainer
-      href={ {
+      href={{
         pathname: `/[currency]/[network]/product/assets/[product]`,
         query: {
           currency,
@@ -67,10 +67,12 @@ export default function CryptoAssetTableRow({ asset, chainId }: AssetCardProps) 
         </div>
       </ImageContainer>
       <PriceContainer className='price'>{usdToCurrency(asset.currentPriceUsd).formatted}</PriceContainer>
-      {!isMobile && <PriceContainer className={asset.priceChangePercentage24h > 0 ? 'price-up' : 'price-down'}>
-        {`${signalPercentChange24h}${asset.priceChangePercentage24h.toFixed(2)}%`}
-      </PriceContainer>}
-      {!isMobile && <PriceContainer className="price">{toHumanFormat(usdToCurrency(asset.marketCap).raw)}</PriceContainer>}
+      {!isMobile && (
+        <PriceContainer className={asset.priceChangePercentage24h > 0 ? 'price-up' : 'price-down'}>
+          {`${signalPercentChange24h}${asset.priceChangePercentage24h.toFixed(2)}%`}
+        </PriceContainer>
+      )}
+      {!isMobile && <PriceContainer className='price'>{toHumanFormat(usdToCurrency(asset.marketCap).raw)}</PriceContainer>}
       {!isMobile && <Button label={t('buy')} small />}
     </CardContainer>
   )
@@ -78,35 +80,35 @@ export default function CryptoAssetTableRow({ asset, chainId }: AssetCardProps) 
 
 const { CardContainer, ImageContainer, UnlinkedCardContainer, PriceContainer } = {
   UnlinkedCardContainer: styled.a`
-      display: grid;
-      grid-template-columns: 3fr 1fr 1fr 2fr 1fr;
-      align-items: center;
-      width: 100%;
-      padding: 12px 16px;
-      gap: 0;
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 2fr 1fr;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px;
+    gap: 0;
 
-      border: 1px solid transparent;
-      transition:
-              border 0.3s ease,
-              color 0.3s ease;
+    border: 1px solid transparent;
+    transition:
+      border 0.3s ease,
+      color 0.3s ease;
 
-      border-bottom: 1px solid ${({ theme }) => theme.colorV2.background};
-      &:last-child {
-          border-bottom: none;
-          border-radius: 0 0 8px 8px;
+    border-bottom: 1px solid ${({ theme }) => theme.colorV2.background};
+    &:last-child {
+      border-bottom: none;
+      border-radius: 0 0 8px 8px;
+    }
+
+    &:hover {
+      border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
+
+      > div:first-child > div > span {
+        color: ${({ theme }) => theme.colorV2.purple[1]};
       }
+    }
 
-      &:hover {
-          border: 1px solid ${({ theme }) => theme.colorV2.purple[1]};
-
-          > div:first-child > div > span {
-              color: ${({ theme }) => theme.colorV2.purple[1]};
-          }
-      }
-
-      &.disabled {
-          opacity: 0.6;
-      }
+    &.disabled {
+      opacity: 0.6;
+    }
   `,
   CardContainer: styled(Link)`
     display: flex;
@@ -121,10 +123,10 @@ const { CardContainer, ImageContainer, UnlinkedCardContainer, PriceContainer } =
     transition:
       border 0.3s ease,
       color 0.3s ease;
-      
+
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
-        display: grid;
-        grid-template-columns: 3fr 1fr 1fr 2fr 1fr;
+      display: grid;
+      grid-template-columns: 3fr 1fr 1fr 2fr 1fr;
     }
 
     &:last-child {

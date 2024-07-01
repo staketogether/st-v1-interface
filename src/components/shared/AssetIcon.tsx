@@ -9,6 +9,7 @@ import defaultIcon from '@assets/assets/default-erc-20.svg'
 import bitcoinIcon from '@assets/assets/bitcoin.svg'
 import Image, { StaticImageData } from 'next/image'
 import styled from 'styled-components'
+import { useState } from 'react'
 
 interface SymbolIconsProps {
   altName?: string
@@ -19,6 +20,12 @@ interface SymbolIconsProps {
 }
 
 export default function AssetIcon({ altName, image, size, chain, marginRight }: SymbolIconsProps) {
+  const [src, setSrc] = useState(image ?? defaultIcon)
+
+  const handleError = () => {
+    setSrc(defaultIcon)
+  }
+
   const chainsIcon = {
     [Chain.BTC_MAINNET]: bitcoinIcon,
     [Chain.ETH_MAINNET]: ethereumIcon,
@@ -36,7 +43,7 @@ export default function AssetIcon({ altName, image, size, chain, marginRight }: 
 
   return (
     <Wrapper style={{ marginRight: marginRight ? marginRight : 'inherit' }} size={size}>
-      <Image src={image ?? defaultIcon} width={size} height={size} alt={`${altName}`} />
+      <Image src={src} width={size} height={size} alt={`${altName}`} onError={handleError} />
       {chain !== undefined && (
         <div>
           <Image

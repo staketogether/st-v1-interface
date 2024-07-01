@@ -9,10 +9,12 @@ import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import { useRouter } from 'next/router'
 import { chainConfigByChainId } from '@/config/chain'
 import { stakingList } from '@/config/product/staking'
+import useWalletSidebar from '@/hooks/useWalletSidebar'
 
 export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
   const stakingAsset = stakingList.find(staking => staking.contracts.StakeTogether.toLowerCase() === asset.contractAddress.toLowerCase())
   const config = chainConfigByChainId(asset.chainId)
+  const { setOpenSidebar } = useWalletSidebar()
   const { query } = useRouter()
   const { currency } = query as { currency: string }
   const fixedWalletBalance = asset.decimals >= 18 ? asset.balance : asset.balance + '0'.repeat(18 - asset.decimals)
@@ -25,6 +27,9 @@ export default function WalletSidebarAsset({ asset }: { asset: AccountAsset }) {
     <BalanceContainer
       href={`/${currency}/${config.name.toLowerCase()}/product/assets/${asset.contractAddress}`}
       key={asset.contractAddress}
+      onClick={() => {
+        setOpenSidebar(false)
+      }}
     >
       <div>
         <div>
