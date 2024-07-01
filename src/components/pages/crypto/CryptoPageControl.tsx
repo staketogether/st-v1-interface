@@ -157,7 +157,7 @@ export default function CryptoPageControl() {
         </HeaderContainerCard>
       )}
       <FilterTabContainer>
-        <CategoryContainer>
+        {!isMobile && <CategoryContainer>
           <div className={`${!filter.category && 'active'}`} onClick={() => handleCategoryFilter(null)}>
             <span>{t('v3.crypto-filter.all')}</span>
           </div>
@@ -168,19 +168,33 @@ export default function CryptoPageControl() {
             <span>DeFi</span>
           </div>
           {filter.chainId !== 88888 && (
-            <div className={`${filter.category === 'Stablecoins' && 'active'}`} onClick={() => handleCategoryFilter('Stablecoins')}>
+            <div className={`${filter.category === 'Stablecoins' && 'active'}`}
+                 onClick={() => handleCategoryFilter('Stablecoins')}>
               <span>Stablecoins</span>
             </div>
           )}
           {filter.chainId === 88888 && (
-            <div className={`${filter.category === 'Fan Token' && 'active'}`} onClick={() => handleCategoryFilter('Fan Token')}>
+            <div className={`${filter.category === 'Fan Token' && 'active'}`}
+                 onClick={() => handleCategoryFilter('Fan Token')}>
               <span>Fan Tokens</span>
             </div>
           )}
-        </CategoryContainer>
+        </CategoryContainer>}
+        {isMobile && <Select
+          defaultValue={filter.category}
+          style={{ height: '40px', minWidth: '140px', width: '100%', outline: 'none', fontSize: '13px' }}
+          onChange={data => setFilter({ ...filter, category: data })}
+          options={[
+            { value: null, key: 'all', label: t('v3.crypto-filter.all') },
+            { value: 'Decentralized Finance (DeFi)', key: 'defi', label: 'DeFi' },
+            { value: 'Stablecoins', key: 'stablecoins', label: 'Stablecoins' },
+            { value: 'Fan Token', key: 'fan-token', label: 'Fan Tokens' }
+          ]}
+        />}
+
         <Select
           defaultValue={filter.chainId}
-          style={{ height: '40px', minWidth: '140px', outline: 'none', fontSize: '13px' }}
+          style={{ height: '40px', minWidth: '140px', width: '100%', outline: 'none', fontSize: '13px' }}
           onChange={data => setFilter({ ...filter, chainId: data })}
           options={optionsList}
         />
@@ -369,9 +383,13 @@ const {
   `,
   FilterTabContainer: styled.div`
     display: flex;
-    gap: ${({ theme }) => theme.size[32]};
+    gap: ${({ theme }) => theme.size[8]};
     align-items: center;
     justify-content: space-between;
+      
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+      gap: ${({ theme }) => theme.size[32]};
+    }
   `,
   CategoryContainer: styled.div`
     display: flex;
