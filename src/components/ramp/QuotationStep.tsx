@@ -6,7 +6,7 @@ import { RampSteps, amountToQuoteVar, quoteVar, rampStepControlVar } from '@/hoo
 import { useFacebookPixel } from '@/hooks/useFacebookPixel'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateDecimal } from '@/services/truncate'
-import { Asset } from '@/types/Asset'
+import { Asset, AssetNetwork } from '@/types/Asset'
 import { PaymentMethodType } from '@/types/payment-method.type'
 import { ProviderType } from '@/types/provider.type'
 import { useReactiveVar } from '@apollo/client'
@@ -18,7 +18,7 @@ import { PiArrowRight } from 'react-icons/pi'
 import styled from 'styled-components'
 import { useDebounce } from 'usehooks-ts'
 import { useAccount } from 'wagmi'
-import AssetNetworkSwitch, { Network } from '../pages/assets/AssetsNetworkSwitch'
+import AssetNetworkSwitch from '../pages/assets/AssetsNetworkSwitch'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 
 interface QuotationStepProps {
@@ -123,7 +123,7 @@ export default function QuotationStep({ asset, chainId }: QuotationStepProps) {
   )
 
   const onNetworkChange = useCallback(
-    (network: Network) => {
+    (network: AssetNetwork) => {
       router.query.network = network.name.toLowerCase()
       router.query.product = network.contractAddress
       router.push(router)

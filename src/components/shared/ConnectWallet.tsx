@@ -9,8 +9,10 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
-import { useConnect } from 'wagmi'
 import NetworkIcons from './NetworkIcons'
+import { useConnect } from 'wagmi'
+import { useRouter } from 'next/router'
+import { AllowedNetworks, handleEvmChainIdByNetwork } from '@/services/format'
 
 interface ConnectWalletProps {
   useModal?: boolean
@@ -20,7 +22,7 @@ interface ConnectWalletProps {
 export default function ConnectWallet({ useModal: isCreateProject, hasBtcWallet }: ConnectWalletProps) {
   const [walletTypeConnect, setWalletTypeConnect] = useState<'evm' | 'btc'>('evm')
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
-
+  const { query } = useRouter()
   const { connect, connectors } = useConnect({
     config
   })
@@ -54,11 +56,13 @@ export default function ConnectWallet({ useModal: isCreateProject, hasBtcWallet 
     return web3Auth[index]
   }
 
+  const evmChainIdForWalletConnect = query.network ? handleEvmChainIdByNetwork(query.network as AllowedNetworks) : 10
+
   const handleConnectWallet = (connector: Connector) => {
     if (connector && connector.id === 'web3auth' && web3AuthInstance) {
       web3AuthInstance.init().then(() => web3AuthInstanceVar(web3AuthInstance))
     }
-    connect({ connector })
+    connect({ connector, chainId: evmChainIdForWalletConnect })
   }
 
   return (

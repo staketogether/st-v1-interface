@@ -2,7 +2,7 @@ import NewStakeControl from '@/components/new-stake/NewStakeControl'
 import LayoutTemplate from '@/components/shared/layout/LayoutTemplate'
 import { Metatags } from '@/components/shared/meta/Metatags'
 import { globalConfig } from '@/config/global'
-import { AllowedNetworks, handleChainIdByNetwork } from '@/services/format'
+import { AllowedNetworks, handleEvmChainIdByNetwork } from '@/services/format'
 import axios from 'axios'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
@@ -38,7 +38,7 @@ async function fetchProductAssetData(uri: string): Promise<Asset> {
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const { product, network } = params as { network: AllowedNetworks; currency: string; product: string }
 
-  const chainId = handleChainIdByNetwork(network)
+  const chainId = handleEvmChainIdByNetwork(network)
   const foundProduct = stakingList.find(item => item.id === product)
 
   if (!foundProduct || !chainId) {

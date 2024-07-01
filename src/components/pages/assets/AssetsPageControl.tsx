@@ -29,12 +29,12 @@ interface AssetsControlProps {
 
 const AssetsActionsControl = dynamic(() => import('./AssetsActionsControl'), {
   ssr: false,
+  suspense: true,
   loading: () => (
     <LoadingContainer>
       <LottieAnimation animationData={loadingAnimation} height={58} width={58} loop />
     </LoadingContainer>
-  ),
-  suspense: true
+  )
 })
 
 export default function AssetsPageControl({ assetId, chainId, type }: AssetsControlProps) {
@@ -139,14 +139,21 @@ export default function AssetsPageControl({ assetId, chainId, type }: AssetsCont
         <AssetsProductInfo asset={asset} assetId={assetId} chainId={chainId} assetIsLoading={assetIsLoading} />
         <ActionContainer>
           <ActionContainerControlCard>
-            <AssetsActionsControl
-              type={type}
-              asset={asset}
-              userTokenBalance={userTokenBalance}
-              userTokenIsLoading={userTokenIsLoading}
-              userTokenRefetch={userTokenRefetch}
-              chainId={chainId}
-            />
+            {assetIsLoading && (
+              <LoadingContainer>
+                <LottieAnimation animationData={loadingAnimation} height={58} width={58} loop />
+              </LoadingContainer>
+            )}
+            {asset && (
+              <AssetsActionsControl
+                type={type}
+                asset={asset}
+                userTokenBalance={userTokenBalance}
+                userTokenIsLoading={userTokenIsLoading}
+                userTokenRefetch={userTokenRefetch}
+                chainId={chainId}
+              />
+            )}
           </ActionContainerControlCard>
           {userWalletAddress && (
             <AssetBalanceCard
