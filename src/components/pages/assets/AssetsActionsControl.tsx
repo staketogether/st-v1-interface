@@ -11,6 +11,7 @@ import { AssetsSend } from './AssetsSend'
 import { TokenBalance } from '@/hooks/contracts/useBalanceOf'
 import { Asset } from '@/types/Asset'
 import { chainConfigByChainId } from '@/config/chain'
+import AssetsActionBuyRunes from './AssetsActionBuyRunes'
 
 interface AssetsActionsControlProps {
   type: AssetActionType
@@ -35,7 +36,6 @@ export default function AssetsActionsControl({
   const config = chainConfigByChainId(chainId)
 
   const assetUrlBase = `/${currency}/${network}/product/assets/${product}`
-
   const isActionsDisabled = config.type === 'bitcoin'
 
   const navActionsList = [
