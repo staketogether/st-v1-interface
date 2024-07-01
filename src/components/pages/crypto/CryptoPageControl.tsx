@@ -4,7 +4,7 @@ import { PiCaretDown, PiCaretUp } from 'react-icons/pi'
 import useAssetsList from './hooks/useAssetsList'
 import { useEffect, useRef, useState } from 'react'
 import NetworkIcon from '../../shared/NetworkIcon'
-import { Select } from 'antd'
+import { Grid, Select } from 'antd'
 import loadingAnimation from '@assets/animations/loading-animation.json'
 import LottieAnimation from '../../shared/LottieAnimation'
 import Image from 'next/image'
@@ -17,9 +17,14 @@ interface FilterType {
   chainId: number
 }
 
+const { useBreakpoint } = Grid
+
 export default function CryptoPageControl() {
   const [filter, setFilter] = useState<FilterType>({ orderBy: 'market_cap', orderDirection: 'desc', category: null, chainId: 10 })
   const { t } = useLocaleTranslation()
+
+  const { xs, sm, md, xl, xxl, lg } = useBreakpoint()
+  const isMobile = (xs ?? sm) && !md && !lg && !xl && !xxl
 
   const { assetsList, initialLoading, loadMoreLoading, fetchMore, hasMoreItems } = useAssetsList({
     chainId: filter.chainId,
@@ -198,7 +203,7 @@ export default function CryptoPageControl() {
               />
             </OrderByContainer>
           </div>
-          <div>
+          {!isMobile && <div>
             <span>{t('v3.crypto-table.change')}</span>
             <OrderByContainer>
               <UpIcon
@@ -210,8 +215,8 @@ export default function CryptoPageControl() {
                 onClick={() => handleFilter('price_change_24h', 'desc')}
               />
             </OrderByContainer>
-          </div>
-          <div>
+          </div>}
+          {!isMobile && <div>
             <span>{t('v3.crypto-table.marketCap')}</span>
             <OrderByContainer>
               <UpIcon
@@ -223,8 +228,8 @@ export default function CryptoPageControl() {
                 onClick={() => handleFilter('market_cap', 'desc')}
               />
             </OrderByContainer>
-          </div>
-          <div />
+          </div>}
+          {!isMobile && <div />}
         </header>
         {initialLoading && <LottieAnimation animationData={loadingAnimation} height={70} loop />}
         {!initialLoading &&
@@ -421,8 +426,8 @@ const {
     box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.2);
 
     > header {
-      display: grid;
-      grid-template-columns: 3fr 1fr 1fr 2fr 1fr;
+      display: flex;
+      justify-content: space-between;
       background: ${({ theme }) => theme.colorV2.white};
       border-radius: 8px 8px 0 0;
 
@@ -431,6 +436,11 @@ const {
 
       border-bottom: 1px solid ${({ theme }) => theme.colorV2.background};
 
+        @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 2fr 1fr;
+        }
+        
       > div {
         font-size: 13px;
         font-weight: 400;

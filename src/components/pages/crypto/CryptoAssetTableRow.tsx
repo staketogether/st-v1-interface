@@ -7,12 +7,14 @@ import useFiatUsdConversion from '@/hooks/useFiatUsdConversion'
 import { toHumanFormat } from '@/services/format'
 import Button from '../../shared/Button'
 import { useRouter } from 'next/router'
-import { Tooltip } from 'antd'
+import { Grid, Tooltip } from 'antd'
 
 interface AssetCardProps {
   asset: AssetData
   chainId: number
 }
+
+const { useBreakpoint } = Grid
 
 export default function CryptoAssetTableRow({ asset, chainId }: AssetCardProps) {
   const network = asset.networks.find(item => item.chainId === chainId) ?? asset.networks[0]
@@ -23,6 +25,8 @@ export default function CryptoAssetTableRow({ asset, chainId }: AssetCardProps) 
   const { usdToCurrency } = useFiatUsdConversion()
   const { t } = useLocaleTranslation()
   const isSimplified = !!process.env.NEXT_PUBLIC_SIMPLIFIED
+  const { xs, sm, md, xl, xxl, lg } = useBreakpoint()
+  const isMobile = (xs ?? sm) && !md && !lg && !xl && !xxl
 
   if (chainId === 500 && isSimplified) {
     return (
@@ -30,7 +34,7 @@ export default function CryptoAssetTableRow({ asset, chainId }: AssetCardProps) 
         <ImageContainer>
           <div>
             <AssetIcon image={asset.imageUrl} chain={network.chainId} size={24} altName={network.name} />
-            <span>{asset.name}</span>
+            <span>{ isMobile ? asset.symbol : asset.name}</span>
           </div>
         </ImageContainer>
         <PriceContainer className='price'>{usdToCurrency(asset.currentPriceUsd).formatted}</PriceContainer>
@@ -59,15 +63,15 @@ export default function CryptoAssetTableRow({ asset, chainId }: AssetCardProps) 
       <ImageContainer>
         <div>
           <AssetIcon image={asset.imageUrl} chain={network.chainId} size={24} altName={network.name} />
-          <span>{asset.name}</span>
+          <span>{isMobile ? asset.symbol : asset.name}</span>
         </div>
       </ImageContainer>
       <PriceContainer className='price'>{usdToCurrency(asset.currentPriceUsd).formatted}</PriceContainer>
-      <PriceContainer className={asset.priceChangePercentage24h > 0 ? 'price-up' : 'price-down'}>
+      {!isMobile && <PriceContainer className={asset.priceChangePercentage24h > 0 ? 'price-up' : 'price-down'}>
         {`${signalPercentChange24h}${asset.priceChangePercentage24h.toFixed(2)}%`}
-      </PriceContainer>
-      <PriceContainer className='price'>{toHumanFormat(usdToCurrency(asset.marketCap).raw)}</PriceContainer>
-      <Button label={t('buy')} small />
+      </PriceContainer>}
+      {!isMobile && <PriceContainer className="price">{toHumanFormat(usdToCurrency(asset.marketCap).raw)}</PriceContainer>}
+      {!isMobile && <Button label={t('buy')} small />}
     </CardContainer>
   )
 }
@@ -105,19 +109,24 @@ const { CardContainer, ImageContainer, UnlinkedCardContainer, PriceContainer } =
       }
   `,
   CardContainer: styled(Link)`
-    display: grid;
-    grid-template-columns: 3fr 1fr 1fr 2fr 1fr;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 12px 16px;
     gap: 0;
 
     border: 1px solid transparent;
+    border-bottom: 1px solid ${({ theme }) => theme.colorV2.background};
     transition:
       border 0.3s ease,
       color 0.3s ease;
+      
+    @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
+        display: grid;
+        grid-template-columns: 3fr 1fr 1fr 2fr 1fr;
+    }
 
-    border-bottom: 1px solid ${({ theme }) => theme.colorV2.background};
     &:last-child {
       border-bottom: none;
       border-radius: 0 0 8px 8px;
