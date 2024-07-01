@@ -92,6 +92,20 @@ export default function CryptoPageControl() {
     }
   })
 
+  function handleFilters(): { label: string; value: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoins' | null }[] {
+    if (filter.chainId === 88888) {
+      return [{ label: 'Fan Tokens', value: 'Fan Token' }]
+    }
+    if (filter.chainId === 500) {
+      return [{ label: 'DeFi', value: 'Decentralized Finance (DeFi)' }]
+    }
+    return [
+      { label: 'All', value: null },
+      { label: 'DeFi', value: 'Decentralized Finance (DeFi)' },
+      { label: 'Stablecoins', value: 'Stablecoins' }
+    ]
+  }
+
   return (
     <Container>
       <Title>
@@ -153,25 +167,15 @@ export default function CryptoPageControl() {
       )}
       <FilterTabContainer>
         <CategoryContainer>
-          <div className={`${!filter.category && 'active'}`} onClick={() => handleCategoryFilter(null)}>
-            <span>{t('v3.crypto-filter.all')}</span>
-          </div>
-          <div
-            className={`${filter.category === 'Decentralized Finance (DeFi)' && 'active'}`}
-            onClick={() => handleCategoryFilter('Decentralized Finance (DeFi)')}
-          >
-            <span>DeFi</span>
-          </div>
-          {filter.chainId !== 88888 && (
-            <div className={`${filter.category === 'Stablecoins' && 'active'}`} onClick={() => handleCategoryFilter('Stablecoins')}>
-              <span>Stablecoins</span>
+          {handleFilters().map(filterItem => (
+            <div
+              className={`${filterItem.value === filter.category && 'active'}`}
+              onClick={() => handleCategoryFilter(filterItem.value)}
+              key={filterItem.value}
+            >
+              <span>{filterItem.label}</span>
             </div>
-          )}
-          {filter.chainId === 88888 && (
-            <div className={`${filter.category === 'Fan Token' && 'active'}`} onClick={() => handleCategoryFilter('Fan Token')}>
-              <span>Fan Tokens</span>
-            </div>
-          )}
+          ))}
         </CategoryContainer>
         <Select
           defaultValue={filter.chainId}
