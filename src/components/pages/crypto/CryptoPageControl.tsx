@@ -171,7 +171,7 @@ export default function CryptoPageControl() {
         </HeaderContainerCard>
       )}
       <FilterTabContainer>
-        <CategoryContainer>
+        {!isMobile && <CategoryContainer>
           {handleFilters().map(filterItem => (
             <div
               className={`${filterItem.value === filter.category && 'active'}`}
@@ -181,7 +181,7 @@ export default function CryptoPageControl() {
               <span>{filterItem.label}</span>
             </div>
           ))}
-        </CategoryContainer>
+        </CategoryContainer>}
         {isMobile && (
           <Select
             defaultValue={filter.category}
