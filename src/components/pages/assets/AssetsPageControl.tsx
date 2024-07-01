@@ -55,7 +55,7 @@ export default function AssetsPageControl({ assetId, chainId, type }: AssetsCont
 
   const isWrongNetwork = chainId !== walletChainId?.id
   const { switchChain } = useSwitchChain()
-
+  console.log('as', asset?.networks)
   const {
     tokenBalance: userTokenBalance,
     isLoading: userTokenIsLoading,
