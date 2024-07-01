@@ -67,7 +67,7 @@ export default function AssetsActionBuyRunes({ asset, chainId }: AssetsActionRun
             <AssetOriginal>
             <span>{t('actionBuyRunes.balance')} 0.5 btc</span>
               <div>
-                <Image src={`	http://localhost:3000/_next/static/media/bitcoin.59eba954.svg`} width={32} height={32} alt='BRL' />
+                <Image src={`http://localhost:3000/_next/static/media/bitcoin.59eba954.svg`} width={32} height={32} alt='BRL' />
                 <span>BTC</span>
               </div>
             </AssetOriginal>
@@ -78,7 +78,7 @@ export default function AssetsActionBuyRunes({ asset, chainId }: AssetsActionRun
           <span>{t('v3.assetDetail.quantity')}</span>
           <div>
             <AssetConverted>
-              <Image src={`	http://localhost:3000/_next/static/media/bitcoin.59eba954.svg`} width={36} height={24} alt='BRL'/>
+              <Image src={`http://localhost:3000/_next/static/media/bitcoin.59eba954.svg`} width={36} height={24} alt='BRL'/>
               <span>DOG</span>
             </AssetConverted>
             <Input type='number' min={0} placeholder='0' step={1} disabled/>
@@ -94,7 +94,7 @@ export default function AssetsActionBuyRunes({ asset, chainId }: AssetsActionRun
             <span>{t('actionBuyRunes.orders.origin')}</span>
          </div>
           {filteredList.map((order, index) => (
-              <li key={index}>
+            <li key={index}>
                 <span>{order.quantity}</span>
                 <div>
                   <strong>{order.price}</strong>
@@ -105,7 +105,7 @@ export default function AssetsActionBuyRunes({ asset, chainId }: AssetsActionRun
                   <span>{order.totalBRL}</span>
               </div>
               <Image src={order.origin} width={20} height={20} alt={""} />
-              </li>
+            </li>
           ))}
         </ul>
       </SelectedOrder>
@@ -245,7 +245,6 @@ const { Container, InputContainer, Input, AssetOriginal, AssetConverted, Selecte
       font-size: ${({ theme }) => theme.font.size[13]};
       font-weight: 500;
     }
-
 
    ul {
       display: grid;
