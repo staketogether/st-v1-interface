@@ -63,6 +63,11 @@ export default function CryptoPageControl() {
   }
 
   function handleCategoryFilter(category: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoins' | null) {
+    if (filter.chainId === 88888 || filter.chainId === 500) {
+      setFilter({ ...filter, category: null })
+      return
+    }
+
     setFilter({ ...filter, category })
   }
 
@@ -98,16 +103,11 @@ export default function CryptoPageControl() {
   })
 
   function handleFilters(): { label: string; value: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoins' | null }[] {
-    if (filter.chainId === 88888) {
-      return [{ label: 'Fan Tokens', value: 'Fan Token' }]
-    }
-    if (filter.chainId === 500) {
-      return [{ label: 'DeFi', value: 'Decentralized Finance (DeFi)' }]
-    }
     return [
       { label: t('v3.crypto-filter.all'), value: null },
       { label: 'DeFi', value: 'Decentralized Finance (DeFi)' },
-      { label: 'Stablecoins', value: 'Stablecoins' }
+      { label: 'Stablecoins', value: 'Stablecoins' },
+      { label: 'Fan Tokens', value: 'Fan Token' }
     ]
   }
 
@@ -175,7 +175,7 @@ export default function CryptoPageControl() {
           <CategoryContainer>
             {handleFilters().map(filterItem => (
               <div
-                className={`${filterItem.value === filter.category && 'active'}`}
+                className={`${filterItem.value === filter.category && 'active'} ${filterItem.value !== null && (filter.chainId === 88888 || filter.chainId === 500) && 'disabled'}`}
                 onClick={() => handleCategoryFilter(filterItem.value)}
                 key={filterItem.value}
               >
@@ -191,16 +191,16 @@ export default function CryptoPageControl() {
             onChange={data => setFilter({ ...filter, category: data })}
             options={[
               { value: null, key: 'all', label: t('v3.crypto-filter.all') },
-              { value: 'Decentralized Finance (DeFi)', key: 'defi', label: 'DeFi' },
-              { value: 'Stablecoins', key: 'stablecoins', label: 'Stablecoins' },
-              { value: 'Fan Token', key: 'fan-token', label: 'Fan Tokens' }
+              { value: 'Decentralized Finance (DeFi)', key: 'defi', label: 'DeFi', disabled: filter.chainId === 500 || filter.chainId === 88888 },
+              { value: 'Stablecoins', key: 'stablecoins', label: 'Stablecoins', disabled: filter.chainId === 500 || filter.chainId === 88888 },
+              { value: 'Fan Token', key: 'fan-token', label: 'Fan Tokens', disabled: filter.chainId === 500 || filter.chainId === 88888 }
             ]}
           />
         )}
         <Select
           defaultValue={filter.chainId}
           style={{ height: '40px', minWidth: '140px', width: isMobile ? '100%' : undefined, outline: 'none', fontSize: '13px' }}
-          onChange={data => setFilter({ ...filter, chainId: data })}
+          onChange={data => setFilter({ ...filter, chainId: data, category: data === 88888 || data === 500 ? null : filter.category})}
           options={optionsList}
         />
       </FilterTabContainer>
@@ -416,6 +416,13 @@ const {
           opacity: 1;
         }
       }
+      &.disabled {
+        span {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+      }
+        
       span {
         font-size: 13px;
         font-weight: 500;
