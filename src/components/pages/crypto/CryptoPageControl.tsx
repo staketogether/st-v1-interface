@@ -397,6 +397,7 @@ const {
 
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       gap: ${({ theme }) => theme.size[32]};
+      justify-content: space-between;
     }
   `,
   CategoryContainer: styled.div`
