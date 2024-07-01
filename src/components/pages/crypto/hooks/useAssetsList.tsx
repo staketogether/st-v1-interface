@@ -8,9 +8,9 @@ interface useAssetsListProps {
   offset?: number
   chainId: number
   limit?: number
-  orderBy?: 'market_cap' | 'price' | 'volume'
+  orderBy?: 'market_cap' | 'price' | 'price_change_24h'
   orderDirection?: 'desc' | 'asc'
-  category?: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoins' | null
+  category?: 'Decentralized Finance (DeFi)' | 'Fan Token' | 'Stablecoin' | null
 }
 
 export default function useAssetsList({
@@ -64,7 +64,7 @@ export default function useAssetsList({
   )
 
   return {
-    AssetsList: data?.assets ?? [],
+    assetsList: data?.assets ?? [],
     hasMoreItems,
     initialLoading: loading,
     loadMoreLoading: loadingFetchMore,

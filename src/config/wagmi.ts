@@ -1,6 +1,18 @@
 import Web3AuthConnectorInstances from '@/config/web3Auth'
 import { createConfig, http } from 'wagmi'
-import { arbitrum, arbitrumSepolia, chiliz, mainnet, optimism, optimismSepolia, polygon, polygonMumbai, sepolia, spicy } from 'wagmi/chains'
+import {
+  arbitrum,
+  arbitrumSepolia,
+  chiliz,
+  mainnet,
+  optimism,
+  optimismSepolia,
+  polygon,
+  polygonMumbai,
+  sepolia,
+  spicy,
+  zkSync
+} from 'wagmi/chains'
 import { safe, walletConnect } from 'wagmi/connectors'
 
 const handleConnectors = () => {
@@ -16,7 +28,8 @@ const handleConnectors = () => {
         optimismSepolia,
         arbitrumSepolia,
         polygonMumbai,
-        spicy
+        spicy,
+        zkSync
       ]).connectors,
       safe(),
       walletConnect({ projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT!, showQrModal: true })
@@ -26,7 +39,7 @@ const handleConnectors = () => {
 }
 
 export const config = createConfig({
-  chains: [mainnet, optimism, arbitrum, polygon, chiliz, sepolia, optimismSepolia, arbitrumSepolia, polygonMumbai, spicy],
+  chains: [mainnet, optimism, arbitrum, polygon, chiliz, sepolia, optimismSepolia, arbitrumSepolia, polygonMumbai, spicy, zkSync],
   connectors: handleConnectors(),
   transports: {
     [mainnet.id]: http(process.env.NEXT_PUBLIC_RPC_ETH_MAINNET_URL),
@@ -38,6 +51,7 @@ export const config = createConfig({
     [optimismSepolia.id]: http(process.env.NEXT_PUBLIC_RPC_OP_TESTNET_URL),
     [arbitrumSepolia.id]: http(process.env.NEXT_PUBLIC_RPC_ARB_TESTNET_URL),
     [polygonMumbai.id]: http(process.env.NEXT_PUBLIC_RPC_POL_TESTNET_URL),
-    [spicy.id]: http(process.env.NEXT_PUBLIC_RPC_SPICY_MAINNET_URL)
+    [spicy.id]: http(process.env.NEXT_PUBLIC_RPC_SPICY_MAINNET_URL),
+    [zkSync.id]: http(process.env.NEXT_PUBLIC_RPC_ZKSYNC_MAINNET_RPC_URL)
   }
 })

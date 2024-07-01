@@ -15,7 +15,7 @@ import AssetsActionBuyRunes from './AssetsActionBuyRunes'
 
 interface AssetsActionsControlProps {
   type: AssetActionType
-  asset?: Asset
+  asset: Asset
   chainId: number
   userTokenBalance: TokenBalance
   userTokenIsLoading: boolean
@@ -88,8 +88,8 @@ export default function AssetsActionsControl({
             userTokenRefetch={userTokenRefetch}
           />
         )}
-        {type === 'swap' && config.type === 'bitcoin' ? <AssetsActionBuyRunes chainId={chainId} asset={asset} /> : <AssetsSwap chainId={chainId} asset={asset} />}
-        {type === 'send' && <AssetsSend chainId={chainId} asset={asset} />}
+        {type === 'swap' && <AssetsSwap chainId={chainId} asset={asset} />}
+        {type === 'send' && <AssetsSend chainId={chainId} asset={asset} userTokenRefetch={userTokenRefetch} />}
         {type === 'receive' && <AssetsReceive />}
       </div>
     </EthereumContainer>

@@ -80,12 +80,8 @@ export default function AssetInput({
       )}
       <div>
         <CoinActionContainer>
-          <AssetIcon
-            image={asset?.imageUrl ?? ethMainnet.symbolImage}
-            chain={chainId}
-            size={32}
-            altName={asset?.symbol}
-          />
+          <AssetIcon image={asset?.imageUrl ?? ethMainnet.symbolImage} chain={chainId} size={32} altName={asset?.symbol} />
+          {asset?.symbol}
           <span className='max' onClick={onMaxFunction}>
             MAX
           </span>

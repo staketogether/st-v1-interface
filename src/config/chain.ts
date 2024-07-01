@@ -1,5 +1,17 @@
 import { ethers } from 'ethers'
-import { arbitrum, arbitrumSepolia, chiliz, mainnet, optimism, optimismSepolia, polygon, polygonMumbai, sepolia, spicy, zkSync } from 'wagmi/chains'
+import {
+  arbitrum,
+  arbitrumSepolia,
+  chiliz,
+  mainnet,
+  optimism,
+  optimismSepolia,
+  polygon,
+  polygonMumbai,
+  sepolia,
+  spicy,
+  zkSync
+} from 'wagmi/chains'
 
 interface BlockExplorerConfig {
   baseUrl: string

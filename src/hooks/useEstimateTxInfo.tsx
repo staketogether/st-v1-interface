@@ -50,6 +50,7 @@ const useEstimateTxInfo = ({ chainId, account, contractAddress, abi, functionNam
         maxFeePerGas,
         maxPriorityFeePerGas
       })
+
       const estimatedCost = (estimatedGas * maxFeePerGas * 3n) / 2n
       return {
         estimatedGas: (estimatedGas * 3n) / 2n,
@@ -60,7 +61,8 @@ const useEstimateTxInfo = ({ chainId, account, contractAddress, abi, functionNam
         estimatedMaxPriorityFeePerGas: (maxPriorityFeePerGas * 3n) / 2n,
         error: false
       }
-    } catch {
+    } catch (error) {
+      console.log('error2', error)
       return {
         estimatedGas: 0n,
         estimatedCost: 0n,

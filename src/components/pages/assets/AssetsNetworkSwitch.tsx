@@ -1,23 +1,20 @@
 import { Select } from 'antd'
 import styled from 'styled-components'
 import NetworkIcon from '../../shared/NetworkIcon'
-
-export interface Network {
-  name: string
-  chainId: number
-  contractAddress?: string
-}
+import { AssetNetwork } from '@/types/Asset'
+import { handleNetworksList } from '@/services/format'
 
 interface AssetNetworkSwitchProps {
   title: string
-  networks: Network[]
+  networks: AssetNetwork[]
   chainId: number
-  onChange?: (data: Network) => void
+  onChange?: (data: AssetNetwork) => void
 }
 
 export default function AssetNetworkSwitch({ title, networks, onChange, chainId: currentChainId }: AssetNetworkSwitchProps) {
-  // const currentNetwork = networks.find(network => network.chainId === chainId)
-  const optionsList = networks.map(option => {
+  const uniqueBlockchains = handleNetworksList(networks)
+
+  const optionsList = uniqueBlockchains.map(option => {
     return {
       value: option.chainId,
       key: option.chainId,

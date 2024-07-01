@@ -10,7 +10,7 @@
   "deposited": "Depositado",
   "wallet": "Carteira",
   "connectWallet": "Conectar Carteira",
-  "disclaimer": "Atenção! Confirme se o ativo que você vai receber é compatível com as redes Ethereum, Optimism, Arbitrum, Polygon e Chiliz. Ativos incompatíveis com seu endereço podem ser perdidos permanentemente.",
+  "disclaimer": "Atenção! Para movimentar tokens na rede network, é necessário ter saldo em (symbol) para cobrir as taxas de transação. Atenção! Verifique se a rede do endereço de destino corresponde à rede do ativo que você está enviando. Enviar ativos para endereços de redes diferentes pode resultar na perda permanente dos fundos.",
   "compatibility": "Compatível com as redes:",
   "tokens": "Tokens",
   "products": "Produtos",
@@ -102,6 +102,7 @@
   "tendencies": "Tendências",
   "latestAdded": "Ultimas adicionadas",
   "mostVisited": "Mais visitadas",
+  "sendTransactionError": "Atenção! Para movimentar tokens na rede network, é necessário ter saldo na moeda (symbol) para cobrir as taxas de transação",
   "unlockTransaction": {
     "failTransaction": "Falha ao realizar Desbloqueio",
     "success": "Desbloqueio Realizado com Sucesso"
@@ -304,7 +305,7 @@
       "exit": "Sair",
       "support": "Suporte",
       "analytics": "Analytics",
-      "staking": "Investimentos",
+      "staking": "DeFi",
       "assets": "Criptomoedas"
     },
     "sidebar": {
@@ -914,7 +915,7 @@
   "v3": {
     "pages": {
       "staking": {
-        "title": "Investimentos",
+        "title": "DeFi",
         "description": "Invista em Infraestrutura com Rendimentos Sustentáveis"
       },
       "crypto": {
