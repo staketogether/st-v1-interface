@@ -105,7 +105,7 @@ export default function CryptoPageControl() {
       return [{ label: 'DeFi', value: 'Decentralized Finance (DeFi)' }]
     }
     return [
-      { label: 'All', value: null },
+      { label: t('v3.crypto-filter.all'), value: null },
       { label: 'DeFi', value: 'Decentralized Finance (DeFi)' },
       { label: 'Stablecoins', value: 'Stablecoins' }
     ]
@@ -171,17 +171,19 @@ export default function CryptoPageControl() {
         </HeaderContainerCard>
       )}
       <FilterTabContainer>
-        {!isMobile && <CategoryContainer>
-          {handleFilters().map(filterItem => (
-            <div
-              className={`${filterItem.value === filter.category && 'active'}`}
-              onClick={() => handleCategoryFilter(filterItem.value)}
-              key={filterItem.value}
-            >
-              <span>{filterItem.label}</span>
-            </div>
-          ))}
-        </CategoryContainer>}
+        {!isMobile && (
+          <CategoryContainer>
+            {handleFilters().map(filterItem => (
+              <div
+                className={`${filterItem.value === filter.category && 'active'}`}
+                onClick={() => handleCategoryFilter(filterItem.value)}
+                key={filterItem.value}
+              >
+                <span>{filterItem.label}</span>
+              </div>
+            ))}
+          </CategoryContainer>
+        )}
         {isMobile && (
           <Select
             defaultValue={filter.category}
@@ -392,7 +394,6 @@ const {
     display: flex;
     gap: ${({ theme }) => theme.size[8]};
     align-items: center;
-    justify-content: space-between;
 
     @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
       gap: ${({ theme }) => theme.size[32]};

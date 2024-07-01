@@ -381,6 +381,15 @@ const {
     display: flex;
     align-items: center;
     gap: ${({ theme }) => theme.size[8]};
+    width: 100%;
+    overflow-y: auto;
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   `,
   TabItem: styled.div`
     border-radius: 8px;
