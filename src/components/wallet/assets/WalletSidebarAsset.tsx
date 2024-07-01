@@ -1,7 +1,6 @@
 import { AccountAsset } from '@/types/AccountAsset'
 import AssetIcon from '@/components/shared/AssetIcon'
 import { formatNumberByLocale } from '@/services/format'
-import { assetsList } from '@/config/product/asset'
 import styled from 'styled-components'
 import { truncateWei } from '@/services/truncate'
 import defaultErc20Icon from '@assets/assets/default-erc-20.svg'
