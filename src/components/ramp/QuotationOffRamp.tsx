@@ -39,7 +39,7 @@ export default function QuotationOffRampStep({ asset, chainId, userTokenBalance,
     provider: ProviderType.brla,
     paymentMethod: PaymentMethodType.pix,
     includeMarkup: true,
-    tokenSymbol: asset?.symbol
+    contractAddress: asset?.networks.find(network => network.chainId === chainId)?.contractAddress
   })
   useEffect(() => {
     if (!quote) {
