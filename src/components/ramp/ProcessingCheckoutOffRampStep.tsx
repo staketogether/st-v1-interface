@@ -64,11 +64,11 @@ export default function ProcessingCheckoutOffRampStep({ asset, chainId, type, wa
         return
       }
       if (!verifySellTokenLoading) {
-        await verifySellToken({ walletAddress: address, pixKey: offRampPixKey, amount: sendAmountToken, tokenSymbol: asset?.symbol })
+        await verifySellToken({ walletAddress: address, pixKey: offRampPixKey, amount: sendAmountToken, contractAddress: asset?.networks.find(network => network.chainId === chainId)?.contractAddress })
       }
     }
     send()
-  }, [address, chainId, asset?.symbol, sendAmountToken, offRampPixKey, verifySellToken, isWrongNetwork, verifySellTokenLoading])
+  }, [address, chainId, sendAmountToken, offRampPixKey, verifySellToken, isWrongNetwork, verifySellTokenLoading, asset?.networks])
 
   const changeNetwork = () => {
     if (isWrongNetwork && switchChain) {

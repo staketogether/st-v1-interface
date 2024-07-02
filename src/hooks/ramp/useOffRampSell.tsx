@@ -10,11 +10,11 @@ import { notification } from 'antd'
 import useLocaleTranslation from '../useLocaleTranslation'
 import { Asset } from '@/types/Asset'
 
-interface useOffRampSellRequest {
+interface UseOffRampSellRequest {
   walletAddress: `0x${string}`
   pixKey: string
   amount: string
-  tokenSymbol?: string
+  contractAddress?: string
 }
 
 export default function useOffRampSell({ asset, chainId }: { asset?: Asset, chainId: number }) {
@@ -54,7 +54,7 @@ export default function useOffRampSell({ asset, chainId }: { asset?: Asset, chai
   }, [awaitTransactionErrorIsError, t, awaitWalletAction])
 
   const verifySellToken = useCallback(
-    async (requestBody: useOffRampSellRequest) => {
+    async (requestBody: UseOffRampSellRequest) => {
       setAwaitWalletAction(true)
       try {
         const rampProvider = asset?.symbol === 'BTC' ? 'transak' : 'brla'
